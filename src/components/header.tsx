@@ -1,4 +1,4 @@
-import { ThemeToggle } from './theme-toggle'
+import { SettingsDropdown } from './settings-dropdown'
 
 export const Header = () => {
   return (
@@ -11,7 +11,7 @@ export const Header = () => {
       </nav>
 
       <div className="flex gap-2">
-        <ThemeToggle />
+        <SettingsDropdown />
       </div>
     </header>
   )

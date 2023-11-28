@@ -19,7 +19,7 @@ import {
 } from './ui/dropdown-menu'
 import { SUPPORTED_LANGUAGES } from '../../locales'
 
-export const ThemeToggle = () => {
+export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
 
   return (
