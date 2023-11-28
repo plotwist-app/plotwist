@@ -1,17 +1,92 @@
 'use client'
 
 import { useTheme } from 'next-themes'
+import { Settings } from 'lucide-react'
+import ReactCountryFlag from 'react-country-flag'
+
 import { Button } from './ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from './ui/dropdown-menu'
+import { SUPPORTED_LANGUAGES } from '../../locales'
 
 export const ThemeToggle = () => {
   const { setTheme, theme } = useTheme()
 
   return (
-    <Button
-      variant="outline"
-      onClick={() => (theme === 'dark' ? setTheme('light') : setTheme('dark'))}
-    >
-      Theme
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          onClick={() =>
+            theme === 'dark' ? setTheme('light') : setTheme('dark')
+          }
+          size="icon"
+        >
+          <Settings width={16} height={16} />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="start">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Theme</DropdownMenuLabel>
+
+          <DropdownMenuItem
+            onClick={() => setTheme('light')}
+            className={theme === 'light' ? 'bg-muted' : 'cursor-pointer'}
+          >
+            🌞 Light
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => setTheme('dark')}
+            className={theme === 'dark' ? 'bg-muted' : 'cursor-pointer'}
+          >
+            🌚 Dark
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Language</DropdownMenuLabel>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>English</DropdownMenuSubTrigger>
+
+            <DropdownMenuSubContent>
+              {SUPPORTED_LANGUAGES.map((language) => (
+                <DropdownMenuItem
+                  key={language.value}
+                  disabled
+                  className={
+                    language.value === 'en-US'
+                      ? 'bg-muted space-x-2'
+                      : 'space-x-2'
+                  }
+                >
+                  <ReactCountryFlag
+                    countryCode={language.country}
+                    svg
+                    className="mr-2"
+                  />
+
+                  {language.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
