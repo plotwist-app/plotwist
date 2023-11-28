@@ -2,7 +2,7 @@ import { ThemeToggle } from './theme-toggle'
 
 export const Header = () => {
   return (
-    <header className="flex justify-between p-4">
+    <header className="flex justify-between">
       <nav>
         <div className="flex gap-1 items-end">
           <h1 className="text-3xl font-semibold">TMDB</h1>
@@ -10,7 +10,9 @@ export const Header = () => {
         </div>
       </nav>
 
-      <ThemeToggle />
+      <div className="flex gap-2">
+        <ThemeToggle />
+      </div>
     </header>
   )
 }

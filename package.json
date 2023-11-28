@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-i18next": "^13.5.0",
     "tailwind-merge": "^2.0.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tmdb-ts": "^1.5.1"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
