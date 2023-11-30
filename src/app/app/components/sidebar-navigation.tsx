@@ -16,6 +16,7 @@ import {
 } from './sidebar-navigation-item'
 import { Accordion } from '@/components/ui/accordion'
 import { SidebarSearch } from './sidebar-search'
+import { SidebarSearchProvider } from './sidebar-search-provider'
 
 const NAVIGATION: SidebarNavigationItemProps[] = [
   {
@@ -94,7 +95,9 @@ const NAVIGATION: SidebarNavigationItemProps[] = [
 export const SidebarNavigation = () => {
   return (
     <div className="space-y-4">
-      <SidebarSearch />
+      <SidebarSearchProvider>
+        <SidebarSearch />
+      </SidebarSearchProvider>
 
       <Accordion type="multiple">
         <nav className="flex flex-col space-y-2">
