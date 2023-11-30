@@ -10,7 +10,7 @@ export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="aspect-[2/3] w-full relative overflow-hidden rounded-sm">
+      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-sm">
         <Image
           fill
           className="object-cover"

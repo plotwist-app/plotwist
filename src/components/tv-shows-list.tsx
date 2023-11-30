@@ -16,13 +16,13 @@ export const TvShowsList = async ({ variant }: TvShowsListProps) => {
 
   return (
     <section className="space-y-4">
-      <div className="flex justify-between items-end">
-        <div className="flex gap-2 items-center">
-          <div className="h-3 w-3 bg-muted rounded-sm" />
+      <div className="flex items-end justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded-sm bg-muted" />
           <h2 className="text-2xl font-bold">{title[variant]}</h2>
         </div>
 
-        <span className="underline text-xs  cursor-pointer text-muted-foreground">
+        <span className="cursor-pointer text-xs  text-muted-foreground underline">
           Show all
         </span>
       </div>

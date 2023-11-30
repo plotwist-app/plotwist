@@ -4,9 +4,9 @@ export const Header = () => {
   return (
     <header className="flex justify-between">
       <nav>
-        <div className="flex gap-1 items-end">
+        <div className="flex items-end gap-1">
           <h1 className="text-3xl font-semibold">TMDB</h1>
-          <span className="text-xs mb-1">Front end</span>
+          <span className="mb-1 text-xs">Front end</span>
         </div>
       </nav>
 

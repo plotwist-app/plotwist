@@ -70,7 +70,7 @@ export const SettingsDropdown = () => {
                   disabled
                   className={
                     language.value === 'en-US'
-                      ? 'bg-muted space-x-2'
+                      ? 'space-x-2 bg-muted'
                       : 'space-x-2'
                   }
                 >

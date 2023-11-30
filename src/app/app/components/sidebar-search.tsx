@@ -5,9 +5,7 @@ import {
   Command,
   CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from '@/components/ui/command'
 import { TMDB } from '@/services/TMDB'

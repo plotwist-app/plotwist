@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <main className="max-w-article mx-auto p-4">
+    <main className="mx-auto max-w-article p-4">
       <Header />
 
-      <section className="h-[50vh] flex items-center">
-        <div className="flex  flex-col w-1/2">
-          <div className="w-1/4 bg-muted h-4 mb-4 rounded-sm" />
+      <section className="flex h-[50vh] items-center">
+        <div className="flex  w-1/2 flex-col">
+          <div className="mb-4 h-4 w-1/4 rounded-sm bg-muted" />
 
-          <h1 className="font-bold text-3xl">
+          <h1 className="text-3xl font-bold">
             Explore movies, TV shows e people!
           </h1>
 
