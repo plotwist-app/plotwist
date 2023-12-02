@@ -19,9 +19,6 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     revenue,
     budget,
     genres,
-    tagline,
-    release_date,
-    ...movie
   } = await TMDB.movies.details(id)
 
   const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
