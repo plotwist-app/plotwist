@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { Settings } from 'lucide-react'
+import { LogOut, Settings } from 'lucide-react'
 import ReactCountryFlag from 'react-country-flag'
 
 import { Button } from './ui/button'
@@ -85,6 +85,19 @@ export const SettingsDropdown = () => {
               ))}
             </DropdownMenuSubContent>
           </DropdownMenuSub>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Account</DropdownMenuLabel>
+
+          <DropdownMenuItem
+            onClick={() => setTheme('light')}
+            className="flex cursor-pointer gap-1 hover:bg-muted"
+          >
+            <LogOut width={18} height={18} /> Logout
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

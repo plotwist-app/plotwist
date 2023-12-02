@@ -12,7 +12,6 @@ import { TMDB } from '@/services/TMDB'
 import { useDebounce } from '@uidotdev/usehooks'
 
 import { Command as CommandIcon } from 'lucide-react'
-import Image from 'next/image'
 import React from 'react'
 import { useQuery } from 'react-query'
 import {
@@ -20,6 +19,10 @@ import {
   PersonWithMediaType,
   TVWithMediaType,
 } from 'tmdb-ts'
+import { SidebarSearchMovie } from './sidebar-search-movie'
+import { SidebarSearchTvShow } from './sidebar-search-tv-show'
+import { SidebarSearchPerson } from './sidebar-search-person'
+import { SidebarSearchGroup } from './sidebar-search-group'
 
 export const SidebarSearch = () => {
   const [open, setOpen] = React.useState(false)
@@ -65,10 +68,13 @@ export const SidebarSearch = () => {
     ) as PersonWithMediaType[],
   ]
 
-  const hasResults =
-    Boolean(movies?.length) ||
-    Boolean(tvShows?.length) ||
-    Boolean(people?.length)
+  const [hasMovies, hasTVShows, hasPeople] = [
+    Boolean(movies?.length),
+    Boolean(tvShows?.length),
+    Boolean(people?.length),
+  ]
+
+  const hasResults = hasMovies || hasTVShows || hasPeople
 
   return (
     <>
@@ -94,71 +100,30 @@ export const SidebarSearch = () => {
           <CommandList className=" p-4">
             {!hasResults && <CommandEmpty>No results found.</CommandEmpty>}
 
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <h4 className="text-sm font-bold text-muted-foreground">
-                  Movies
-                </h4>
+            <div className="space-y-8">
+              {hasMovies && (
+                <SidebarSearchGroup heading="Movies">
+                  {movies?.map((movie) => (
+                    <SidebarSearchMovie movie={movie} key={movie.id} />
+                  ))}
+                </SidebarSearchGroup>
+              )}
 
-                {movies?.map((movie) => (
-                  <div
-                    className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
-                    key={movie.id}
-                  >
-                    <span className="truncate whitespace-nowrap text-sm">
-                      {movie.title}
-                    </span>
+              {hasTVShows && (
+                <SidebarSearchGroup heading="TV Shows">
+                  {tvShows?.map((tvShow) => (
+                    <SidebarSearchTvShow tvShow={tvShow} key={tvShow.id} />
+                  ))}
+                </SidebarSearchGroup>
+              )}
 
-                    <span className="whitespace-nowrap text-xs text-muted-foreground">
-                      {movie.release_date}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-sm font-bold text-muted-foreground">
-                  TV Shows
-                </h4>
-
-                {tvShows?.map((tvShow) => (
-                  <div
-                    className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 hover:bg-muted"
-                    key={tvShow.id}
-                  >
-                    <span>{tvShow.name}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-sm font-bold text-muted-foreground">
-                  People
-                </h4>
-
-                {people?.map((person) => (
-                  <div
-                    key={person.id}
-                    className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
-                  >
-                    <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
-                      {person.profile_path ? (
-                        <Image
-                          fill
-                          className="object-cover"
-                          src={`https://image.tmdb.org/t/p/original/${person.profile_path}`}
-                          alt={person.name}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      ) : (
-                        person.name[0]
-                      )}
-                    </div>
-
-                    <span>{person.name}</span>
-                  </div>
-                ))}
-              </div>
+              {hasPeople && (
+                <SidebarSearchGroup heading="People">
+                  {people?.map((person) => (
+                    <SidebarSearchPerson person={person} key={person.id} />
+                  ))}
+                </SidebarSearchGroup>
+              )}
             </div>
           </CommandList>
         </Command>

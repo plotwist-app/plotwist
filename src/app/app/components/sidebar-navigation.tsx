@@ -17,6 +17,7 @@ import {
 import { Accordion } from '@/components/ui/accordion'
 import { SidebarSearch } from './sidebar-search'
 import { SidebarSearchProvider } from './sidebar-search-provider'
+import { SettingsDropdown } from '@/components/settings-dropdown'
 
 const NAVIGATION: SidebarNavigationItemProps[] = [
   {
