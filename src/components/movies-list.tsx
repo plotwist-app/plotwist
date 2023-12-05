@@ -22,7 +22,7 @@ export const MoviesList = async ({ variant }: MoviesListProps) => {
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-2">
           <div className="h-3 w-3 rounded-sm bg-muted" />
-          <h2 className="text-2xl font-bold">{title[variant]}</h2>
+          <h2 className="text-lg font-bold md:text-2xl">{title[variant]}</h2>
         </div>
 
         <span className="cursor-pointer text-xs  text-muted-foreground underline">
@@ -30,7 +30,7 @@ export const MoviesList = async ({ variant }: MoviesListProps) => {
         </span>
       </div>
 
-      <div className="grid grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
         {results.slice(0, 5).map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
