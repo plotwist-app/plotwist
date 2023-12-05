@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
 
       <section className="flex h-[75vh] items-center md:h-[50vh]">
-        <div className="flex  flex-col md:w-1/2">
+        <div className="flex flex-col md:w-1/2">
           <div className="mb-4 h-4 w-1/4 rounded-sm bg-muted" />
 
           <h1 className="text-3xl font-bold">
