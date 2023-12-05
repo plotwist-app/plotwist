@@ -49,6 +49,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : 'button'
 
+    const content = loading ? (
+      <span className="animate-spin">
+        <RotateCw size={16} />
+      </span>
+    ) : (
+      children
+    )
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -56,13 +64,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading}
         {...props}
       >
-        {loading && (
-          <span className="animate-spin">
-            <RotateCw size={16} />
-          </span>
-        )}
-
-        {!loading && children}
+        {content}
       </Comp>
     )
   },
