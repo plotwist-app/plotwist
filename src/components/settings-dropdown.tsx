@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes'
 import { LogOut, Settings } from 'lucide-react'
 import ReactCountryFlag from 'react-country-flag'
+import { usePathname } from 'next/navigation'
 
 import { Button } from './ui/button'
 import {
@@ -21,6 +22,7 @@ import { SUPPORTED_LANGUAGES } from '../../locales'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
+  const pathname = usePathname()
 
   return (
     <DropdownMenu>
@@ -87,18 +89,20 @@ export const SettingsDropdown = () => {
           </DropdownMenuSub>
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
+        {pathname.startsWith('/app') ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>Account</DropdownMenuLabel>
 
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Account</DropdownMenuLabel>
-
-          <DropdownMenuItem
-            onClick={() => setTheme('light')}
-            className="flex cursor-pointer gap-1 hover:bg-muted"
-          >
-            <LogOut width={18} height={18} /> Logout
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+              <DropdownMenuItem className="flex cursor-pointer gap-1 hover:bg-muted">
+                <LogOut width={16} height={16} /> Logout
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </>
+        ) : (
+          <></>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

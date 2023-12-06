@@ -3,14 +3,15 @@ import { MoviesList } from '@/components/movies-list'
 import { PeopleList } from '@/components/people-list'
 import { TvShowsList } from '@/components/tv-shows-list'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function Home() {
   return (
     <main className="mx-auto max-w-article p-4">
       <Header />
 
-      <section className="flex h-[50vh] items-center">
-        <div className="flex  w-1/2 flex-col">
+      <section className="flex h-[75vh] items-center md:h-[50vh]">
+        <div className="flex flex-col md:w-1/2">
           <div className="mb-4 h-4 w-1/4 rounded-sm bg-muted" />
 
           <h1 className="text-3xl font-bold">
@@ -24,7 +25,10 @@ export default function Home() {
           </p>
 
           <div className="mt-2 flex gap-2">
-            <Button variant="outline">Start now</Button>
+            <Button variant="outline" asChild>
+              <Link href="/login">Start now</Link>
+            </Button>
+
             <Button>Read more</Button>
           </div>
         </div>
