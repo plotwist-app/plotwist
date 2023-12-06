@@ -55,7 +55,7 @@ export const useAuth = () => {
         action: (
           <ToastAction
             altText="Try again"
-            onClick={() => signInWithCredentials(credentials)}
+            onClick={() => signUpWithCredentials({ username, ...credentials })}
           >
             Try again
           </ToastAction>
