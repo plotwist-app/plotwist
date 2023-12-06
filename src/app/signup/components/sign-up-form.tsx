@@ -27,10 +27,11 @@ import { useAuth } from '@/hooks/use-auth/use-auth'
 const formSchema = z.object({
   email: z.string().min(1, 'Required').email(),
   password: z.string().min(1, 'Required'),
+  username: z.string().min(1, 'Required'),
 })
 
-export const LoginForm = () => {
-  const { signInWithCredentials } = useAuth()
+export const SignUpForm = () => {
+  const { signUpWithCredentials } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,16 +39,32 @@ export const LoginForm = () => {
     defaultValues: {
       email: '',
       password: '',
+      username: '',
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await signInWithCredentials(values)
+    await signUpWithCredentials(values)
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="JohnDoe" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"
@@ -110,12 +127,8 @@ export const LoginForm = () => {
         />
 
         <div className="flex justify-end space-x-2">
-          <Button disabled variant="outline">
-            Recovery password
-          </Button>
-
           <Button type="submit" loading={form.formState.isSubmitting}>
-            Access
+            Submit
           </Button>
         </div>
       </form>

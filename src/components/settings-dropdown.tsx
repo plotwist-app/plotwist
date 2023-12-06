@@ -95,10 +95,7 @@ export const SettingsDropdown = () => {
             <DropdownMenuGroup>
               <DropdownMenuLabel>Account</DropdownMenuLabel>
 
-              <DropdownMenuItem
-                onClick={() => setTheme('light')}
-                className="flex cursor-pointer gap-1 hover:bg-muted"
-              >
+              <DropdownMenuItem className="flex cursor-pointer gap-1 hover:bg-muted">
                 <LogOut width={16} height={16} /> Logout
               </DropdownMenuItem>
             </DropdownMenuGroup>
