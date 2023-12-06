@@ -1,22 +1,32 @@
 import { supabase } from '@/services/supabase'
 import { Credentials } from './use-auth.types'
 import { toast } from '@/components/ui/use-toast'
+import { ToastAction } from '@/components/ui/toast'
 
 export const useAuth = () => {
   const signInWithCredentials = async (credentials: Credentials) => {
     const { error, data } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
-      return console.error(JSON.stringify(error))
+      toast({
+        variant: 'destructive',
+        title: error.name,
+        description: <span>{error.message}</span>,
+        action: (
+          <ToastAction
+            altText="Try again"
+            onClick={() => signInWithCredentials(credentials)}
+          >
+            Try again
+          </ToastAction>
+        ),
+      })
+
+      return
     }
 
     toast({
-      title: 'Supabase response:',
-      description: (
-        <pre className="mt-2 max-h-[50vh] w-[340px] overflow-y-auto rounded-md bg-zinc-900 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      description: 'Login successful. Welcome!',
     })
   }
 

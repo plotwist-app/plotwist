@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Lock } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -46,7 +46,7 @@ export const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/2 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -109,6 +109,10 @@ export const LoginForm = () => {
         />
 
         <div className="flex justify-end space-x-2">
+          <Button disabled variant="outline">
+            Recovery password
+          </Button>
+
           <Button type="submit" loading={form.formState.isSubmitting}>
             Access
           </Button>
