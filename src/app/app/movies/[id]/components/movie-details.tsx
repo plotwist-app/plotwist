@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { format } from 'date-fns'
 
 import { MovieDetailsTabs } from './movie-details-tabs'
+import { MovieCollection } from './movie-collection'
 
 type MovieBannerProps = {
   id: number
@@ -13,13 +14,14 @@ type MovieBannerProps = {
 
 export const MovieDetails = async ({ id }: MovieBannerProps) => {
   const {
-    poster_path: poster,
-    backdrop_path: backdrop,
     title,
     overview,
     homepage,
     genres,
+    poster_path: poster,
+    backdrop_path: backdrop,
     release_date: releaseDate,
+    belongs_to_collection: belongsToCollection,
   } = await TMDB.movies.details(id)
 
   const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
@@ -84,6 +86,10 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
             </div>
           </article>
         </main>
+
+        {belongsToCollection && (
+          <MovieCollection collectionId={belongsToCollection.id} />
+        )}
 
         <MovieDetailsTabs movieId={id} />
       </div>

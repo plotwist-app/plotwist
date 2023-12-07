@@ -23,7 +23,7 @@ export const MovieDetailsTabs = ({ movieId }: MovieDetailsTabsProps) => {
         <MovieCredits movieId={movieId} />
       </TabsContent>
 
-      <TabsContent value="images">
+      <TabsContent value="images" className="mt-4">
         <MovieImages movieId={movieId} />
       </TabsContent>
 
