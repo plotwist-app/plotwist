@@ -4,6 +4,9 @@ import { TMDB } from '@/services/TMDB'
 
 import { ExternalLink } from 'lucide-react'
 import Image from 'next/image'
+import { format } from 'date-fns'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { MovieCredits } from './movie-credits'
 
 type MovieBannerProps = {
   id: number
@@ -19,6 +22,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     revenue,
     budget,
     genres,
+    release_date: releaseDate,
   } = await TMDB.movies.details(id)
 
   const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
@@ -37,10 +41,10 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
         />
       </div>
 
-      <div className="mx-auto my-8 max-w-5xl p-4">
+      <div className="mx-auto my-8 max-w-5xl space-y-4 p-4">
         <main className="flex gap-4">
           <aside className="-mt-32 w-2/5 space-y-4">
-            <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-muted">
+            <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow">
               <Image
                 fill
                 className="object-cover"
@@ -50,10 +54,16 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
               />
             </div>
 
-            <Balance budget={budget} revenue={revenue} />
+            {/* <Balance budget={budget} revenue={revenue} /> */}
           </aside>
 
           <article className="flex w-3/4 flex-col gap-2">
+            <div>
+              <Badge variant="outline">
+                {format(new Date(releaseDate), 'PPP')}
+              </Badge>
+            </div>
+
             <div className="flex items-center gap-2">
               <h1 className="text-3xl font-bold">{title}</h1>
 
@@ -77,6 +87,35 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
             </div>
           </article>
         </main>
+
+        <Tabs defaultValue="credits" className="w-full">
+          <TabsList>
+            <TabsTrigger value="credits">Credits</TabsTrigger>
+            <TabsTrigger value="images">Images</TabsTrigger>
+            <TabsTrigger value="lists">Lists</TabsTrigger>
+            <TabsTrigger
+              value="recommendations
+"
+            >
+              Recommendations
+            </TabsTrigger>
+            <TabsTrigger
+              value="similar
+"
+            >
+              Similar
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="credits">
+            <MovieCredits movieId={id} />
+          </TabsContent>
+
+          <TabsContent value="images">Images</TabsContent>
+          <TabsContent value="lists">Lists</TabsContent>
+          <TabsContent value="recommendations">Recommendations</TabsContent>
+          <TabsContent value="similar">Similar</TabsContent>
+        </Tabs>
       </div>
     </div>
   )
