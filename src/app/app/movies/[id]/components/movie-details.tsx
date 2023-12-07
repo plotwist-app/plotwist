@@ -1,12 +1,11 @@
-import { Balance } from '@/components/balance'
 import { Badge } from '@/components/ui/badge'
 import { TMDB } from '@/services/TMDB'
 
 import { ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { format } from 'date-fns'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MovieCredits } from './movie-credits'
+
+import { MovieDetailsTabs } from './movie-details-tabs'
 
 type MovieBannerProps = {
   id: number
@@ -19,8 +18,6 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     title,
     overview,
     homepage,
-    revenue,
-    budget,
     genres,
     release_date: releaseDate,
   } = await TMDB.movies.details(id)
@@ -88,34 +85,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
           </article>
         </main>
 
-        <Tabs defaultValue="credits" className="w-full">
-          <TabsList>
-            <TabsTrigger value="credits">Credits</TabsTrigger>
-            <TabsTrigger value="images">Images</TabsTrigger>
-            <TabsTrigger value="lists">Lists</TabsTrigger>
-            <TabsTrigger
-              value="recommendations
-"
-            >
-              Recommendations
-            </TabsTrigger>
-            <TabsTrigger
-              value="similar
-"
-            >
-              Similar
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="credits">
-            <MovieCredits movieId={id} />
-          </TabsContent>
-
-          <TabsContent value="images">Images</TabsContent>
-          <TabsContent value="lists">Lists</TabsContent>
-          <TabsContent value="recommendations">Recommendations</TabsContent>
-          <TabsContent value="similar">Similar</TabsContent>
-        </Tabs>
+        <MovieDetailsTabs movieId={id} />
       </div>
     </div>
   )

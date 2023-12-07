@@ -1,28 +1,37 @@
 import Image from 'next/image'
-import { Movie } from 'tmdb-ts'
+import Link from 'next/link'
+import { Movie, Recommendation } from 'tmdb-ts'
 
 type MovieCardProps = {
-  movie: Movie
+  movie: Movie | Recommendation
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
-  const { title, poster_path: poster } = movie
+  const { title, backdrop_path: backdrop, overview, id } = movie
 
   return (
-    <div className="space-y-2">
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-sm">
-        <Image
-          fill
-          className="object-cover"
-          src={`https://image.tmdb.org/t/p/original/${poster}`}
-          alt={title}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+    <Link
+      href={`/app/movies/${id}`}
+      className="w-full cursor-pointer space-y-2"
+    >
+      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+        {backdrop ? (
+          <Image
+            fill
+            className="object-cover"
+            src={`https://image.tmdb.org/t/p/original/${backdrop}`}
+            alt={title}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <span></span>
+        )}
       </div>
 
       <div className="">
-        <span>{title}</span>
+        <span className="font-bold">{title}</span>
+        <p className="line-clamp-2 text-xs text-muted-foreground">{overview}</p>
       </div>
-    </div>
+    </Link>
   )
 }

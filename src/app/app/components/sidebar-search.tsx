@@ -1,5 +1,16 @@
 'use client'
 
+import { Command as CommandIcon } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { useQuery } from 'react-query'
+import {
+  MovieWithMediaType,
+  PersonWithMediaType,
+  TVWithMediaType,
+} from 'tmdb-ts'
+import { useDebounce } from '@uidotdev/usehooks'
+import { usePathname } from 'next/navigation'
+
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -9,16 +20,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { TMDB } from '@/services/TMDB'
-import { useDebounce } from '@uidotdev/usehooks'
 
-import { Command as CommandIcon } from 'lucide-react'
-import React from 'react'
-import { useQuery } from 'react-query'
-import {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TVWithMediaType,
-} from 'tmdb-ts'
 import { SidebarSearchMovie } from './sidebar-search-movie'
 import { SidebarSearchTvShow } from './sidebar-search-tv-show'
 import { SidebarSearchPerson } from './sidebar-search-person'
@@ -28,6 +30,7 @@ export const SidebarSearch = () => {
   const [open, setOpen] = React.useState(false)
   const [search, setSearch] = React.useState('')
   const debouncedSearch = useDebounce(search, 500)
+  const pathName = usePathname()
 
   const { data } = useQuery(
     ['search', debouncedSearch],
@@ -53,6 +56,10 @@ export const SidebarSearch = () => {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
+
+  useEffect(() => {
+    if (open) setOpen(false)
+  }, [pathName])
 
   const [movies, tvShows, people] = [
     data?.results.filter(
