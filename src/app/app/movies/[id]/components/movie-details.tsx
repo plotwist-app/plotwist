@@ -22,7 +22,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
   } = await TMDB.movies.details(id)
 
   const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
-  const posterURL = `https:image.tmdb.org/t/p/original/${poster}`
+  const posterURL = `https://image.tmdb.org/t/p/original/${poster}`
 
   return (
     <div>
