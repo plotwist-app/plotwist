@@ -30,8 +30,8 @@ export const MoviesList = async ({ variant }: MoviesListProps) => {
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-        {results.slice(0, 5).map((movie) => (
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
+        {results.slice(0, 6).map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}
       </div>

@@ -40,7 +40,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
         />
       </div>
 
-      <div className="mx-auto my-8 max-w-5xl space-y-4 p-4">
+      <div className="mx-auto my-8 max-w-5xl space-y-8 p-4">
         <main className="flex gap-4">
           <aside className="-mt-32 w-2/5 space-y-4">
             <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow">

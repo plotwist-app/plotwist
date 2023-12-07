@@ -13,7 +13,7 @@ export const MovieCollection = async ({
   const backdropURL = `https://image.tmdb.org/t/p/original/${collection.backdrop_path}`
 
   return (
-    <div className="relative h-[35vh] overflow-hidden rounded-md border p-8">
+    <div className="relative h-[40vh] overflow-hidden rounded-md border p-8">
       <div
         style={{
           backgroundImage: `url('${backdropURL}')`,
