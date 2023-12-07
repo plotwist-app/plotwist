@@ -36,12 +36,12 @@ export const MovieCollectionDialog = ({
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-h-[75vh] overflow-y-auto sm:max-w-[978px]">
-          <DialogHeader>
+          <DialogHeader className="text-start">
             <DialogTitle>{name}</DialogTitle>
             <DialogDescription>{overview}</DialogDescription>
           </DialogHeader>
 
-          <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+          <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
             {parts.map((movie) => (
               <MovieCard movie={movie} key={movie.id} />
             ))}
