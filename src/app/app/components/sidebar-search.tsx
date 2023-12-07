@@ -59,6 +59,7 @@ export const SidebarSearch = () => {
 
   useEffect(() => {
     if (open) setOpen(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName])
 
   const [movies, tvShows, people] = [

@@ -1,14 +1,3 @@
-import { MovieCard } from '@/components/movie-card'
-import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
 import { TMDB } from '@/services/TMDB'
 import { MovieCollectionDialog } from './movie-collection-dialog'
 
