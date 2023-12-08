@@ -1,12 +1,12 @@
-export type Language = 'en-US' | 'es-ES' | 'fr-FR' | 'de-DE' | 'it-IT' | 'pt-BR'
+export type Locale = 'en-US' | 'es-ES' | 'fr-FR' | 'de-DE' | 'it-IT' | 'pt-BR'
 
-export type SupportedLanguages = {
+export type SupportLocales = {
   label: string
-  value: Language
+  value: Locale
   country: string
 }
 
-export const SUPPORTED_LANGUAGES: Array<SupportedLanguages> = [
+export const SUPPORTED_LOCALES: Array<SupportLocales> = [
   { label: 'English', value: 'en-US', country: 'US' },
   { label: 'Español', value: 'es-ES', country: 'ES' },
   { label: 'Français', value: 'fr-FR', country: 'FR' },
