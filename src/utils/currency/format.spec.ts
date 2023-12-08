@@ -14,7 +14,7 @@ test.each([
   [1234.56, 'fr-FR', '1 234,56 €'],
   [987654, 'de-DE', '987.654 €'],
   [5678, 'it-IT', '5.678 €'],
-  // [12345.67, 'pt-BR', 'R$ 12.345,67'],
+  [12345.67, 'pt-BR', 'R$ 12.345,67'],
 ])(
   'formatCurrency should format the amount in the correct currency for the specified locale',
   (amount, locale, expected) => {
