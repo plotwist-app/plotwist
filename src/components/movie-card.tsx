@@ -15,6 +15,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     <Link
       href={`/app/movies/${id}`}
       className="w-full cursor-pointer space-y-2"
+      data-testid="movie-card"
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
         <Image
@@ -26,7 +27,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         />
       </div>
 
-      <div className="">
+      <div>
         <span className="font-bold">{title}</span>
         <p className="line-clamp-2 text-xs text-muted-foreground">{overview}</p>
       </div>

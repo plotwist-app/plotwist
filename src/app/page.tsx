@@ -1,6 +1,5 @@
 import { Header } from '@/components/header'
 import { MoviesList } from '@/components/movies-list'
-import { PeopleList } from '@/components/people-list'
 import { TvShowsList } from '@/components/tv-shows-list'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -37,7 +36,6 @@ export default function Home() {
       <div className="space-y-12">
         <MoviesList variant="topRated" />
         <TvShowsList variant="topRated" />
-        <PeopleList variant="popular" />
       </div>
     </main>
   )

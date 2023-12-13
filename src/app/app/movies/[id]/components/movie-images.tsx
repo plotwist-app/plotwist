@@ -1,13 +1,16 @@
 import { TMDB } from '@/services/TMDB'
 import Image from 'next/image'
+import { Image as ImageTMDB } from 'tmdb-ts'
 
 type MovieImagesProps = {
   movieId: number
 }
 
-export const MovieImages = async ({ movieId }: MovieImagesProps) => {
-  const { backdrops } = await TMDB.movies.images(movieId)
+type MovieImagesContentProps = {
+  backdrops: ImageTMDB[]
+}
 
+export const MovieImagesContent = ({ backdrops }: MovieImagesContentProps) => {
   return (
     <div className="grid grid-cols-3 gap-3">
       {backdrops.map((backdrop) => {
@@ -21,6 +24,7 @@ export const MovieImages = async ({ movieId }: MovieImagesProps) => {
             target="_blank"
             href={qualityURL}
             key={backdrop.file_path}
+            data-testid="movie-image"
           >
             <Image
               fill
@@ -34,4 +38,10 @@ export const MovieImages = async ({ movieId }: MovieImagesProps) => {
       })}
     </div>
   )
+}
+
+export const MovieImages = async ({ movieId }: MovieImagesProps) => {
+  const { backdrops } = await TMDB.movies.images(movieId)
+
+  return <MovieImagesContent backdrops={backdrops} />
 }
