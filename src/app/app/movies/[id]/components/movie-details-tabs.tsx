@@ -11,11 +11,8 @@ export const MovieDetailsTabs = ({ movieId }: MovieDetailsTabsProps) => {
     <Tabs defaultValue="credits" className="w-full">
       <TabsList>
         <TabsTrigger value="credits">Credits</TabsTrigger>
-
         <TabsTrigger value="images">Images</TabsTrigger>
-
         <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
-
         <TabsTrigger value="similar">Similar</TabsTrigger>
       </TabsList>
 

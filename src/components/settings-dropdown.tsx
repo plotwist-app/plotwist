@@ -18,7 +18,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from './ui/dropdown-menu'
-import { SUPPORTED_LANGUAGES } from '../../locales'
+import { SUPPORTED_LOCALES } from '../../locales'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
@@ -66,7 +66,7 @@ export const SettingsDropdown = () => {
             <DropdownMenuSubTrigger>English</DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
-              {SUPPORTED_LANGUAGES.map((language) => (
+              {SUPPORTED_LOCALES.map((language) => (
                 <DropdownMenuItem
                   key={language.value}
                   disabled

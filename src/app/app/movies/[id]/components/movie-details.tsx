@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 
 import { MovieDetailsTabs } from './movie-details-tabs'
 import { MovieCollection } from './movie-collection'
+import { MovieDetailsProvider } from './movie-details-providers'
 
 type MovieBannerProps = {
   id: number
@@ -40,10 +41,10 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
         />
       </div>
 
-      <div className="mx-auto my-8 max-w-5xl space-y-8 p-4">
+      <div className="mx-auto my-8 max-w-5xl space-y-12 p-4">
         <main className="flex gap-4">
-          <aside className="-mt-32 w-2/5 space-y-4">
-            <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow">
+          <aside className="-mt-32 w-2/5 space-y-2">
+            <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md border bg-muted shadow">
               <Image
                 fill
                 className="object-cover"
@@ -52,8 +53,6 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
-
-            {/* <Balance budget={budget} revenue={revenue} /> */}
           </aside>
 
           <article className="flex w-3/4 flex-col gap-2">
@@ -83,6 +82,8 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
                   </Badge>
                 )
               })}
+
+              <MovieDetailsProvider movieId={id} />
             </div>
           </article>
         </main>
