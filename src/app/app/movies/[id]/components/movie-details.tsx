@@ -8,6 +8,13 @@ import { format } from 'date-fns'
 import { MovieDetailsTabs } from './movie-details-tabs'
 import { MovieCollection } from './movie-collection'
 import { MovieDetailsProvider } from './movie-details-providers'
+import { formatCurrency } from '@/utils/currency/format'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 type MovieBannerProps = {
   id: number
@@ -23,6 +30,8 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     backdrop_path: backdrop,
     release_date: releaseDate,
     belongs_to_collection: belongsToCollection,
+    revenue,
+    budget,
   } = await TMDB.movies.details(id)
 
   const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
@@ -37,7 +46,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-          className="h-full w-full brightness-50"
+          className="h-full w-full border-b brightness-50"
         />
       </div>
 
@@ -74,7 +83,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
 
             <p className="text-sm text-muted-foreground">{overview}</p>
 
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {genres.map((genre) => {
                 return (
                   <Badge key={genre.id} variant="outline">
@@ -84,6 +93,30 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
               })}
 
               <MovieDetailsProvider movieId={id} />
+            </div>
+
+            <div className="flex flex-wrap gap-1">
+              {budget > 0 && (
+                <Badge variant="secondary">
+                  Budget: {formatCurrency(budget)}
+                </Badge>
+              )}
+
+              {revenue > 0 && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Badge variant="secondary">
+                        Revenue: {formatCurrency(revenue)}
+                      </Badge>
+                    </TooltipTrigger>
+
+                    <TooltipContent>
+                      {formatCurrency(revenue - budget)}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
             </div>
           </article>
         </main>

@@ -58,22 +58,22 @@ const NAVIGATION: SidebarNavigationItemProps[] = [
     items: [
       {
         label: 'Airing Today',
-        href: '/app/tv/airing-today',
+        href: '/app/tv-shows/airing-today',
         icon: Play,
       },
       {
         label: 'On the air',
-        href: '/app/movies/popular',
+        href: '/app/tv-shows/on-the-air',
         icon: Tv,
       },
       {
         label: 'Popular',
-        href: '/app/movies/top-rated',
+        href: '/app/tv-shows/popular',
         icon: Heart,
       },
       {
         label: 'Top Rated',
-        href: '/app/movies/upcoming',
+        href: '/app/tv-shows/top-rated',
         icon: Star,
       },
     ],
