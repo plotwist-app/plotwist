@@ -11,7 +11,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
-type Item = { label: string; href: string; icon: LucideIcon; items?: Item[] }
+export type Item = {
+  label: string
+  href: string
+  icon: LucideIcon
+  items?: Item[]
+}
 
 export type SidebarNavigationItemProps = Item & {
   items?: Item[]

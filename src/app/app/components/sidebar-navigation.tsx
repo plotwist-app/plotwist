@@ -18,7 +18,7 @@ import { Accordion } from '@/components/ui/accordion'
 import { SidebarSearch } from './sidebar-search'
 import { SidebarSearchProvider } from './sidebar-search-provider'
 
-const NAVIGATION: SidebarNavigationItemProps[] = [
+export const NAVIGATION: SidebarNavigationItemProps[] = [
   {
     label: 'Dashboard',
     href: '/app',
