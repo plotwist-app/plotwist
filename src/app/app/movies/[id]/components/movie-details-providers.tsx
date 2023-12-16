@@ -21,6 +21,8 @@ export const MovieDetailsProvider = async ({
 }: MovieDetailsProviderProps) => {
   const { results } = await TMDB.movies.watchProviders(movieId)
 
+  if (!results.US) return <></>
+
   const { buy, flatrate, rent } = results.US // TODO: CHANGE BY USER LOCALE
 
   return (

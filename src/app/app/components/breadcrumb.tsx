@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Item } from './sidebar-navigation-item'
+import { Separator } from '@/components/ui/separator'
 
 const FLAT_NAVIGATION = NAVIGATION.flatMap((nav) => [
   nav,
@@ -29,7 +30,7 @@ export const BreadCrumb = () => {
   const items = getFilteredItems(pathname)
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       {items.map((item, index) => {
         if (!item) return null
 
@@ -53,7 +54,7 @@ export const BreadCrumb = () => {
               {item.label}
             </Link>
 
-            {!isLast && <ChevronRight size={14} />}
+            {!isLast && <Separator className="h-5" orientation="vertical" />}
           </>
         )
       })}
