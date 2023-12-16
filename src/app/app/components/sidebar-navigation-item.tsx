@@ -40,20 +40,22 @@ export const SidebarNavigationItem = ({
 
   if (items)
     return (
-      <AccordionItem value={href} className="border-b-0">
-        <AccordionTrigger className="rounded-lg px-3 py-2">
-          <div className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
-            <Icon width={16} height={16} />
-            {label}
-          </div>
-        </AccordionTrigger>
+      <div>
+        <AccordionItem value={href} className="border-b-0">
+          <AccordionTrigger className="rounded-lg px-3 py-2">
+            <div className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+              <Icon width={16} height={16} />
+              {label}
+            </div>
+          </AccordionTrigger>
 
-        <AccordionContent className="ml-3 space-y-1 px-3 pb-0">
-          {items.map((item) => (
-            <SidebarNavigationItem {...item} key={item.label} />
-          ))}
-        </AccordionContent>
-      </AccordionItem>
+          <AccordionContent className="ml-3 space-y-1 px-3 pb-0">
+            {items.map((item) => (
+              <SidebarNavigationItem {...item} key={item.label} />
+            ))}
+          </AccordionContent>
+        </AccordionItem>
+      </div>
     )
 
   return (

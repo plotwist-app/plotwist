@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation'
 import { NAVIGATION } from './sidebar-navigation'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Item } from './sidebar-navigation-item'
 import { Separator } from '@/components/ui/separator'

@@ -6,6 +6,7 @@ import {
   Heart,
   Home,
   Play,
+  Sparkles,
   Star,
   Tv,
   User,
@@ -29,6 +30,11 @@ export const NAVIGATION: SidebarNavigationItemProps[] = [
     href: '/app/movies',
     icon: Clapperboard,
     items: [
+      {
+        label: 'Discover',
+        href: '/app/movies/discover',
+        icon: Sparkles,
+      },
       {
         label: 'Now playing',
         href: '/app/movies/now-playing',

@@ -12,7 +12,7 @@ const MovieListSkeleton = () => (
   </div>
 )
 
-type Variant = 'nowPlaying' | 'popular' | 'topRated' | 'upcoming'
+type Variant = 'nowPlaying' | 'popular' | 'topRated' | 'upcoming' | 'discover'
 
 type MovieListContentProps = {
   variant: Variant
@@ -23,12 +23,14 @@ const QUERY_KEY: Record<Variant, string> = {
   popular: 'popular',
   topRated: 'top-rated',
   upcoming: 'upcoming',
+  discover: 'discover',
 }
 
 const MovieListContent = ({ variant }: MovieListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
-    queryFn: () => TMDB.movies[variant](),
+    queryFn: () =>
+      variant === 'discover' ? TMDB.discover.movie() : TMDB.movies[variant](),
   })
 
   if (!data) return <MovieListSkeleton />
