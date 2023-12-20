@@ -3,7 +3,6 @@
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
-import { MovieListFilters } from './movie-list-filters'
 
 const MovieListSkeleton = () => (
   <div className="grid grid-cols-3 gap-x-4 gap-y-8">
@@ -28,10 +27,7 @@ const QUERY_KEY: Record<Variant, string> = {
   discover: 'discover',
 }
 
-const MovieListContent = ({
-  variant,
-  filters = false,
-}: MovieListContentProps) => {
+const MovieListContent = ({ variant }: MovieListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
     queryFn: () =>
