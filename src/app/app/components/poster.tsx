@@ -13,6 +13,7 @@ export const Poster = ({ url, alt }: PosterProps) => {
         className="object-cover"
         src={url}
         alt={alt}
+        loading="lazy"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
     </div>

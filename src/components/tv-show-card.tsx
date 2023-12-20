@@ -16,6 +16,7 @@ export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
           className="object-cover"
           src={`https://image.tmdb.org/t/p/original/${poster}`}
           alt={name}
+          loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
