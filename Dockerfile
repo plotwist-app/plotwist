@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:lts
 
 WORKDIR /app
 COPY package*.json ./
