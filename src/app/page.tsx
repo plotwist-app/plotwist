@@ -35,7 +35,6 @@ export default function Home() {
 
       <div className="space-y-12">
         <MoviesList variant="topRated" />
-        <TvShowsList variant="topRated" />
       </div>
     </main>
   )
