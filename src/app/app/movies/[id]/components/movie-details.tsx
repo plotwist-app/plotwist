@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { TMDB } from '@/services/TMDB'
 
 import { ExternalLink } from 'lucide-react'
-import Image from 'next/image'
+
 import { format } from 'date-fns'
 
 import { MovieDetailsTabs } from './movie-details-tabs'
@@ -15,6 +15,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { Banner } from '@/app/app/components/banner'
+import { Poster } from '@/app/app/components/poster'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type MovieBannerProps = {
   id: number
@@ -34,37 +37,17 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     budget,
   } = await TMDB.movies.details(id)
 
-  const backdropURL = `https://image.tmdb.org/t/p/original/${backdrop}`
-  const posterURL = `https://image.tmdb.org/t/p/original/${poster}`
-
   return (
     <div>
-      <div className={`h-[80vh] overflow-hidden`}>
-        <div
-          style={{
-            backgroundImage: `url('${backdropURL}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-          className="h-full w-full border-b brightness-50"
-        />
-      </div>
+      <Banner url={tmdbImage(backdrop)} />
 
-      <div className="mx-auto my-8 max-w-5xl space-y-12 p-4">
+      <div className="mx-auto my-8 max-w-4xl space-y-12 p-4">
         <main className="flex gap-4">
-          <aside className="-mt-32 w-2/5 space-y-2">
-            <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md border bg-muted shadow">
-              <Image
-                fill
-                className="object-cover"
-                src={posterURL}
-                alt={title}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
+          <aside className="-mt-32 w-1/3 space-y-2">
+            <Poster url={tmdbImage(poster ?? '')} alt={title} />
           </aside>
 
-          <article className="flex w-3/4 flex-col gap-2">
+          <article className="flex w-2/3 flex-col gap-2">
             <div>
               <Badge variant="outline">
                 {format(new Date(releaseDate), 'PPP')}

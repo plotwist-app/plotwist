@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
+import { MovieListFilters } from './movie-list-filters'
 
 const MovieListSkeleton = () => (
   <div className="grid grid-cols-3 gap-x-4 gap-y-8">
@@ -16,6 +17,7 @@ type Variant = 'nowPlaying' | 'popular' | 'topRated' | 'upcoming' | 'discover'
 
 type MovieListContentProps = {
   variant: Variant
+  filters?: boolean
 }
 
 const QUERY_KEY: Record<Variant, string> = {
@@ -26,7 +28,10 @@ const QUERY_KEY: Record<Variant, string> = {
   discover: 'discover',
 }
 
-const MovieListContent = ({ variant }: MovieListContentProps) => {
+const MovieListContent = ({
+  variant,
+  filters = false,
+}: MovieListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
     queryFn: () =>
@@ -36,8 +41,12 @@ const MovieListContent = ({ variant }: MovieListContentProps) => {
   if (!data) return <MovieListSkeleton />
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 gap-y-8">
-      {data?.results.map((movie) => <MovieCard movie={movie} key={movie.id} />)}
+    <div className="flex items-center justify-between">
+      <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+        {data?.results.map((movie) => (
+          <MovieCard movie={movie} key={movie.id} />
+        ))}
+      </div>
     </div>
   )
 }
