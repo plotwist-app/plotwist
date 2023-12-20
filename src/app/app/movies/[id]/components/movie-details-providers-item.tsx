@@ -17,6 +17,7 @@ export const MovieDetailsProviderItem = ({
         <Image
           className="aspect-square w-full"
           src={src}
+          loading="lazy"
           alt={item.provider_name}
           fill
         />

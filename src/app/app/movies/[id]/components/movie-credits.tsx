@@ -25,6 +25,7 @@ export const MovieCredits = async ({ movieId }: MovieCreditsProps) => {
                 <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-background/50">
                   {profilePath ? (
                     <Image
+                      loading="lazy"
                       src={profileURL}
                       alt={name}
                       fill
@@ -66,6 +67,7 @@ export const MovieCredits = async ({ movieId }: MovieCreditsProps) => {
                     <Image
                       src={profileURL}
                       alt={name}
+                      loading="lazy"
                       fill
                       className="object-cover"
                     />
