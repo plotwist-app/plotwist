@@ -35,6 +35,8 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
     belongs_to_collection: belongsToCollection,
     revenue,
     budget,
+    vote_average: voteAverage,
+    vote_count: voteCount,
   } = await TMDB.movies.details(id)
 
   return (
@@ -48,7 +50,19 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
           </aside>
 
           <article className="flex w-2/3 flex-col gap-2">
-            <div>
+            <div className="flex gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge>{voteAverage.toFixed(1)}</Badge>
+                  </TooltipTrigger>
+
+                  <TooltipContent>
+                    <p>{voteCount} votes</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
               <Badge variant="outline">
                 {format(new Date(releaseDate), 'PPP')}
               </Badge>
@@ -66,7 +80,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
 
             <p className="text-sm text-muted-foreground">{overview}</p>
 
-            <div className="flex flex-wrap gap-1">
+            <div className="mt-2 flex flex-wrap gap-1">
               {genres.map((genre) => {
                 return (
                   <Badge key={genre.id} variant="outline">
@@ -80,7 +94,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
 
             <div className="flex flex-wrap gap-1">
               {budget > 0 && (
-                <Badge variant="secondary">
+                <Badge variant="outline">
                   Budget: {formatCurrency(budget)}
                 </Badge>
               )}
@@ -89,7 +103,7 @@ export const MovieDetails = async ({ id }: MovieBannerProps) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Badge variant="secondary">
+                      <Badge variant="outline">
                         Revenue: {formatCurrency(revenue)}
                       </Badge>
                     </TooltipTrigger>
