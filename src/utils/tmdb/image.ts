@@ -1,2 +1,4 @@
-export const tmdbImage = (path: string, type = 'original') =>
-  `https://image.tmdb.org/t/p/${type}/${path}`
+export const tmdbImage = (
+  path: string,
+  type: 'original' | 'w500' = 'original',
+) => `https://image.tmdb.org/t/p/${type}/${path}`

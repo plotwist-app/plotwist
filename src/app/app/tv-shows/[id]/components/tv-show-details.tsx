@@ -31,7 +31,7 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           <div className="w-2/3"></div>
         </main>
 
-        <TvShowDetailsSeasons seasons={seasons} />
+        <TvShowDetailsSeasons seasons={seasons} tvShowID={id} />
       </div>
     </div>
   )

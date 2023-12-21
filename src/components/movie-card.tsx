@@ -2,13 +2,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Movie, Recommendation } from 'tmdb-ts'
 import { Skeleton } from './ui/skeleton'
+import { Badge } from './ui/badge'
+import { tmdbImage } from '@/utils/tmdb/image'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip'
 
 type MovieCardProps = {
   movie: Movie | Recommendation
 }
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
-  const { title, backdrop_path: backdrop, overview, id } = movie
+  const {
+    title,
+    backdrop_path: backdrop,
+    overview,
+    id,
+    vote_average: voteAverage,
+    vote_count: voteCount,
+  } = movie
 
   if (!backdrop) return <></>
 
@@ -22,14 +37,28 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         <Image
           fill
           className="object-cover"
-          src={`https://image.tmdb.org/t/p/original/${backdrop}`}
+          src={tmdbImage(backdrop, 'w500')}
           alt={title}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 
-      <div>
-        <span className="">{title}</span>
+      <div className="space-y-1">
+        <div className="flex items-start justify-between">
+          <span className="">{title}</span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Badge variant="outline">{voteAverage.toFixed(1)}</Badge>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>{voteCount} votes</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
         <p className="line-clamp-2 text-xs text-muted-foreground">{overview}</p>
       </div>
     </Link>
