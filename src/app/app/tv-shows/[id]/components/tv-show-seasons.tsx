@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { StarFilledIcon } from '@radix-ui/react-icons'
 import { format } from 'date-fns'
 import { Season as TmdbSeason } from 'tmdb-ts'
 import { TvShowSeasonDetails } from './tv-show-season-details'
@@ -18,17 +17,14 @@ type Season = TmdbSeason & {
   vote_average?: number
 }
 
-type TvShowDetailsSeasonsProps = {
+type TvShowSeasonsProps = {
   seasons: Season[]
   tvShowID: number
 }
 
-type TvShowDetailsSeasonProps = { season: Season; tvShowID: number }
+type TvShowSeasonProps = { season: Season; tvShowID: number }
 
-const TvShowDetailsSeason = ({
-  season,
-  tvShowID,
-}: TvShowDetailsSeasonProps) => {
+const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
   const {
     poster_path: poster,
     name,
@@ -81,18 +77,11 @@ const TvShowDetailsSeason = ({
   )
 }
 
-export const TvShowDetailsSeasons = ({
-  seasons,
-  tvShowID,
-}: TvShowDetailsSeasonsProps) => {
+export const TvShowSeasons = ({ seasons, tvShowID }: TvShowSeasonsProps) => {
   return (
     <div className="space-y-4">
       {seasons.map((season) => (
-        <TvShowDetailsSeason
-          season={season}
-          key={season.id}
-          tvShowID={tvShowID}
-        />
+        <TvShowSeason season={season} key={season.id} tvShowID={tvShowID} />
       ))}
     </div>
   )
