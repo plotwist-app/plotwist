@@ -1,6 +1,5 @@
 import { Header } from '@/components/header'
 import { MoviesList } from '@/components/movies-list'
-import { TvShowsList } from '@/components/tv-shows-list'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
