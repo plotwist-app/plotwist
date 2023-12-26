@@ -1,3 +1,4 @@
+import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -14,7 +15,7 @@ export const CreditCard = ({
   role,
   href,
 }: CreditCardProps) => {
-  const src = `https://image.tmdb.org/t/p/w500/${imagePath}`
+  const src = tmdbImage(imagePath, 'w500')
 
   return (
     <Link
