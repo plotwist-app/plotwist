@@ -1,29 +1,65 @@
+import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import { TopRatedTvShowResult } from 'tmdb-ts'
+import Link from 'next/link'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip'
+import { Badge } from './ui/badge'
+import { SimilarTvShow } from 'tmdb-ts'
 
 type TvShowCardProps = {
-  tvShow: TopRatedTvShowResult
+  tvShow: SimilarTvShow
 }
 
 export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
-  const { name, poster_path: poster } = tvShow
+  const {
+    name,
+    id,
+    backdrop_path: backdrop,
+    vote_average: voteAverage,
+    vote_count: voteCount,
+    overview,
+  } = tvShow
+
+  if (!backdrop) return <></>
 
   return (
-    <div className="space-y-2">
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-sm">
+    <Link
+      href={`/app/tv-shows/${id}`}
+      className="w-full cursor-pointer space-y-2"
+    >
+      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
         <Image
           fill
           className="object-cover"
-          src={`https://image.tmdb.org/t/p/original/${poster}`}
+          src={tmdbImage(backdrop, 'w500')}
           alt={name}
-          loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 
-      <div className="">
-        <span>{name}</span>
+      <div className="space-y-1">
+        <div className="flex items-start justify-between">
+          <span className="">{name}</span>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Badge variant="outline">{voteAverage.toFixed(1)}</Badge>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>{voteCount} votes</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        <p className="line-clamp-3 text-xs text-muted-foreground">{overview}</p>
       </div>
-    </div>
+    </Link>
   )
 }

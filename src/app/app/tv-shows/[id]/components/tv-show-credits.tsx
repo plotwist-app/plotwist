@@ -1,10 +1,10 @@
 import { CreditCard } from '@/components/credit-card'
 import { TMDB } from '@/services/TMDB'
 
-type MovieCreditsProps = { movieId: number }
+type TvShowCreditsProps = { tvShowID: number }
 
-export const MovieCredits = async ({ movieId }: MovieCreditsProps) => {
-  const { cast, crew } = await TMDB.movies.credits(movieId)
+export const TvShowCredits = async ({ tvShowID }: TvShowCreditsProps) => {
+  const { cast, crew } = await TMDB.tvShows.credits(tvShowID)
 
   return (
     <div className="space-y-8">
