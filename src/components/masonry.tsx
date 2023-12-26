@@ -26,14 +26,10 @@ export const Masonry = ({ images }: MasonryProps) => {
 
         return (
           <a
-            className={cn(
-              'relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow',
-              '',
-            )}
+            className="relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow"
             target="_blank"
             href={qualityURL}
             key={filePath}
-            data-testid="tv-show-image"
             style={{ aspectRatio }}
           >
             <Image

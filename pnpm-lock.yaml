@@ -95,9 +95,6 @@ dependencies:
   react-i18next:
     specifier: ^13.5.0
     version: 13.5.0(i18next@23.7.7)(react-dom@18.0.0)(react@18.0.0)
-  react-masonry:
-    specifier: ^1.0.7
-    version: 1.0.7
   react-masonry-css:
     specifier: ^1.0.16
     version: 1.0.16(react@18.0.0)
@@ -5630,12 +5627,6 @@ packages:
     resolution: {integrity: sha512-KSW0hR2VQmltt/qAa3eXOctQDyOu7+ZBevtKgpNDSzT7k5LA/0XntNa9z9HKCdz3QlxmJHglTZ18e4sX4V8zZQ==}
     peerDependencies:
       react: '>=16.0.0'
-    dependencies:
-      react: 18.0.0
-    dev: false
-
-  /react-masonry@1.0.7:
-    resolution: {integrity: sha512-cKhinTeygGtm+8y7YCTMKXNKtU0toJAcOBD4q7fv+JTc94bj93/xut3iZvjD60lZYek+WGM6en5w8P+63zHN9Q==}
     dependencies:
       react: 18.0.0
     dev: false
