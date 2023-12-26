@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { Image as ImageTMDB } from 'tmdb-ts'
 import ReactMasonryCss from 'react-masonry-css'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { cn } from '@/lib/utils'
 
 type MasonryProps = {
   images: ImageTMDB[]
