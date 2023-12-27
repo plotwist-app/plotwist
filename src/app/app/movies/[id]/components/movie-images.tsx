@@ -1,4 +1,4 @@
-import { Masonry } from '@/components/masonry'
+import { Masonry } from '@/app/app/components/masonry'
 import { TMDB } from '@/services/TMDB'
 
 type MovieImagesProps = {
