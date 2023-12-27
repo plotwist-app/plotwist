@@ -10,16 +10,42 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { TMDB } from '@/services/TMDB'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Play } from 'lucide-react'
-import { MovieDetailsProviderItem } from './movie-details-providers-item'
 
-type MovieDetailsProviderProps = { movieId: number }
+import Image from 'next/image'
+import { Buy, Rent } from 'tmdb-ts'
 
-export const MovieDetailsProvider = async ({
-  movieId,
-}: MovieDetailsProviderProps) => {
-  const { results } = await TMDB.movies.watchProviders(movieId)
+type WatchProviderItemProps = { item: Buy | Rent }
+
+export const WatchProviderItem = ({ item }: WatchProviderItemProps) => {
+  const src = tmdbImage(item.logo_path)
+
+  return (
+    <div className="flex items-center gap-2">
+      <div
+        className="relative aspect-square h-6 w-6 overflow-hidden rounded-lg"
+        key={item.provider_id}
+      >
+        <Image
+          className="aspect-square w-full"
+          src={src}
+          loading="lazy"
+          alt={item.provider_name}
+          fill
+        />
+      </div>
+
+      <span className="text-xs">{item.provider_name}</span>
+    </div>
+  )
+}
+
+type WatchProvidersProps = { id: number; variant: 'movies' | 'tvShows' }
+
+export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
+  const { results } = await TMDB[variant].watchProviders(id)
 
   if (!results.US) return <></>
 
@@ -44,7 +70,7 @@ export const MovieDetailsProvider = async ({
             <DropdownMenuSubContent>
               {flatrate.map((item) => (
                 <DropdownMenuItem key={item.provider_id}>
-                  <MovieDetailsProviderItem item={item} />
+                  <WatchProviderItem item={item} />
                 </DropdownMenuItem>
               ))}
             </DropdownMenuSubContent>
@@ -60,7 +86,7 @@ export const MovieDetailsProvider = async ({
             <DropdownMenuSubContent>
               {rent.map((item) => (
                 <DropdownMenuItem key={item.provider_id}>
-                  <MovieDetailsProviderItem item={item} />
+                  <WatchProviderItem item={item} />
                 </DropdownMenuItem>
               ))}
             </DropdownMenuSubContent>
@@ -76,7 +102,7 @@ export const MovieDetailsProvider = async ({
             <DropdownMenuSubContent>
               {buy.map((item) => (
                 <DropdownMenuItem key={item.provider_id}>
-                  <MovieDetailsProviderItem item={item} />
+                  <WatchProviderItem item={item} />
                 </DropdownMenuItem>
               ))}
             </DropdownMenuSubContent>
