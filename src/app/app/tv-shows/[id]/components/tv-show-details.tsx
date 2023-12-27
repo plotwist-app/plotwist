@@ -8,30 +8,26 @@ import { TvShowSeasons } from './tv-show-seasons'
 import { TvShowCredits } from './tv-show-credits'
 import { TvShowRelated } from './tv-show-related'
 import { TvShowImages } from './tv-show-images'
+import { TvShowDetailsInfo } from './tv-show-details-info'
 
 type TvShowsDetailsProps = {
   id: number
 }
 
 export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
-  const {
-    name,
-    backdrop_path: backdrop,
-    poster_path: poster,
-    seasons,
-  } = await TMDB.tvShows.details(id)
+  const tvShow = await TMDB.tvShows.details(id)
 
   return (
     <div>
-      <Banner url={tmdbImage(backdrop)} />
+      <Banner url={tmdbImage(tvShow.backdrop_path)} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-12 p-4">
         <main className="flex gap-4">
           <aside className="-mt-32 w-1/3 space-y-2">
-            <Poster url={tmdbImage(poster)} alt={name} />
+            <Poster url={tmdbImage(tvShow.poster_path)} alt={tvShow.name} />
           </aside>
 
-          <div className="w-2/3"></div>
+          <TvShowDetailsInfo tvShow={tvShow} />
         </main>
 
         <Tabs defaultValue="seasons" className="w-full">
@@ -50,7 +46,7 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           <TabsContent value="reviews" className="mt-4"></TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
-            <TvShowSeasons seasons={seasons} tvShowID={id} />
+            <TvShowSeasons seasons={tvShow.seasons} tvShowID={id} />
           </TabsContent>
 
           <TabsContent value="credits" className="mt-4">
