@@ -2,6 +2,7 @@ import { Banner } from '@/app/app/components/banner'
 import { Poster } from '@/app/app/components/poster'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TMDB } from '@/services/TMDB'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 import { TvShowSeasons } from './tv-show-seasons'
 import { TvShowCredits } from './tv-show-credits'
@@ -22,15 +23,12 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
 
   return (
     <div>
-      <Banner url={`https://image.tmdb.org/t/p/original/${backdrop}`} />
+      <Banner url={tmdbImage(backdrop)} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-12 p-4">
         <main className="flex gap-4">
           <aside className="-mt-32 w-1/3 space-y-2">
-            <Poster
-              url={`https://image.tmdb.org/t/p/original/${poster}`}
-              alt={name}
-            />
+            <Poster url={tmdbImage(poster)} alt={name} />
           </aside>
 
           <div className="w-2/3"></div>

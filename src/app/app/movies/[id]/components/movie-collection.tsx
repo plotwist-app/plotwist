@@ -1,5 +1,6 @@
 import { TMDB } from '@/services/TMDB'
 import { MovieCollectionDialog } from './movie-collection-dialog'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type MovieCollectionProps = {
   collectionId: number
@@ -9,8 +10,7 @@ export const MovieCollection = async ({
   collectionId,
 }: MovieCollectionProps) => {
   const collection = await TMDB.collections.details(collectionId)
-
-  const backdropURL = `https://image.tmdb.org/t/p/original/${collection.backdrop_path}`
+  const backdropURL = tmdbImage(collection.backdrop_path)
 
   return (
     <div className="relative h-[40vh] overflow-hidden rounded-md border p-8">
