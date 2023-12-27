@@ -41,7 +41,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-i18next": "^13.5.0",
-    "react-masonry": "^1.0.7",
+    "react-masonry-css": "^1.0.16",
     "react-query": "^3.39.3",
     "sharp": "^0.33.0",
     "tailwind-merge": "^2.0.0",
