@@ -10,7 +10,6 @@ type MasonryProps = {
 }
 
 export const Masonry = ({ images }: MasonryProps) => {
-  console.log({ images })
   return (
     <ReactMasonryCss
       className="flex space-x-4"
