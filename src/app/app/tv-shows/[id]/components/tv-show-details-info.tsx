@@ -1,5 +1,6 @@
 import { WatchProviders } from '@/app/app/components/watch-providers'
 import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 import {
   Tooltip,
   TooltipContent,
@@ -18,9 +19,8 @@ export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
   const {
     vote_count: voteCount,
     vote_average: voteAverage,
-    first_air_date: releaseDate,
+    first_air_date: firstAirDate,
     name,
-    homepage,
     overview,
     genres,
     id,
@@ -28,7 +28,25 @@ export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
 
   return (
     <article className="flex w-2/3 flex-col gap-2">
-      <div className="flex gap-1">
+      <span className="text-xs text-muted-foreground">
+        {format(new Date(firstAirDate), 'PPP')}
+      </span>
+
+      <h1 className="text-4xl font-bold">{name}</h1>
+
+      <div className="flex items-center gap-2">
+        <div className="flex items-center space-x-1">
+          {genres.map((genre) => {
+            return (
+              <Badge key={genre.id} variant="outline">
+                {genre.name}
+              </Badge>
+            )
+          })}
+        </div>
+
+        <Separator orientation="vertical" className="h-6" />
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -36,35 +54,15 @@ export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
             </TooltipTrigger>
 
             <TooltipContent>
-              <p>{voteCount ?? 0} votes</p>
+              <p>{voteCount} votes</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-
-        <Badge variant="outline">{format(new Date(releaseDate), 'PPP')}</Badge>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <h1 className="text-3xl font-bold">{name}</h1>
-
-        {homepage !== '' && (
-          <a target="_blank" href={homepage}>
-            <ExternalLink width={20} className="text-muted-foreground" />
-          </a>
-        )}
       </div>
 
       <p className="text-sm text-muted-foreground">{overview}</p>
 
-      <div className="mt-2 flex flex-wrap gap-1">
-        {genres.map((genre) => {
-          return (
-            <Badge key={genre.id} variant="outline">
-              {genre.name}
-            </Badge>
-          )
-        })}
-
+      <div>
         <WatchProviders id={id} variant="tvShows" />
       </div>
     </article>
