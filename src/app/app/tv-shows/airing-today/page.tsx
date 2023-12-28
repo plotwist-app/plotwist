@@ -1,4 +1,4 @@
-import { TvShowList } from '../../components/tv-shows-list'
+import { TvShowList } from '../../components/tv-show-list'
 
 const AiringTodayTvShowsPage = () => {
   return (

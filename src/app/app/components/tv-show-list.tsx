@@ -1,7 +1,7 @@
 'use client'
 
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-import { TvShowCard } from '@/components/tv-show-card'
+import { TvShowCard, TvShowCardSkeleton } from '@/components/tv-show-card'
 import { TMDB } from '@/services/TMDB'
 
 type Variant = 'airingToday' | 'onTheAir' | 'popular' | 'topRated'
@@ -17,11 +17,21 @@ const QUERY_KEY: Record<Variant, string> = {
   topRated: 'top-rated',
 }
 
+const TvShowListSkeleton = () => (
+  <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+    {Array.from({ length: 10 }).map((_, i) => (
+      <TvShowCardSkeleton key={i} />
+    ))}
+  </div>
+)
+
 const TvShowListContent = ({ variant }: TvShowListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
     queryFn: () => TMDB.tvShows[variant](),
   })
+
+  if (!data) return <TvShowListSkeleton />
 
   return (
     <div className="flex items-center justify-between">
