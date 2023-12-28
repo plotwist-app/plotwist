@@ -16,7 +16,6 @@ type Variant = 'nowPlaying' | 'popular' | 'topRated' | 'upcoming' | 'discover'
 
 type MovieListContentProps = {
   variant: Variant
-  filters?: boolean
 }
 
 const QUERY_KEY: Record<Variant, string> = {

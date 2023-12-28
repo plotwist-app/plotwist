@@ -15,7 +15,7 @@ const DiscoverMoviesPage = () => {
         <MovieListFilters />
       </div>
 
-      <MovieList variant="discover" filters />
+      <MovieList variant="discover" />
     </div>
   )
 }
