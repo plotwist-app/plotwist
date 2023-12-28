@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { TvShowCard, TvShowCardSkeleton } from '@/components/tv-show-card'
 import { TMDB } from '@/services/TMDB'
 
+const queryClient = new QueryClient()
+
 type Variant = 'airingToday' | 'onTheAir' | 'popular' | 'topRated'
 
 type TvShowListContentProps = {
@@ -43,8 +45,6 @@ const TvShowListContent = ({ variant }: TvShowListContentProps) => {
     </div>
   )
 }
-
-const queryClient = new QueryClient()
 
 export const TvShowList = (props: TvShowListContentProps) => (
   <QueryClientProvider client={queryClient}>

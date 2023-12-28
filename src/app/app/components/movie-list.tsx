@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
 
+const queryClient = new QueryClient()
+
 const MovieListSkeleton = () => (
   <div className="grid grid-cols-3 gap-x-4 gap-y-8">
     {Array.from({ length: 10 }).map((_, i) => (
@@ -45,8 +47,6 @@ const MovieListContent = ({ variant }: MovieListContentProps) => {
     </div>
   )
 }
-
-const queryClient = new QueryClient()
 
 export const MovieList = (props: MovieListContentProps) => (
   <QueryClientProvider client={queryClient}>
