@@ -31,6 +31,7 @@ export const TvShowEpisodeCard = ({ episode }: TvShowEpisodeCardProps) => {
           className="object-cover"
           loading="lazy"
           fill
+          sizes="100%"
         />
       </div>
 
