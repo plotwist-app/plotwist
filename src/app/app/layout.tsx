@@ -5,8 +5,6 @@ import { redirect } from 'next/navigation'
 import { Header } from './components/header'
 import { Sidebar } from './components/sidebar'
 
-export const dynamic = 'force-dynamic'
-
 export default async function AppLayout({
   children,
 }: {
