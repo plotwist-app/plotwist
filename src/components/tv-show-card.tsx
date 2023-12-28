@@ -9,6 +9,7 @@ import {
 } from './ui/tooltip'
 import { Badge } from './ui/badge'
 import { SimilarTvShow } from 'tmdb-ts'
+import { Skeleton } from './ui/skeleton'
 
 type TvShowCardProps = {
   tvShow: SimilarTvShow
@@ -61,5 +62,26 @@ export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
         <p className="line-clamp-3 text-xs text-muted-foreground">{overview}</p>
       </div>
     </Link>
+  )
+}
+
+export const TvShowCardSkeleton = () => {
+  return (
+    <div className="w-full cursor-pointer space-y-2">
+      <Skeleton className="aspect-video w-full rounded-md border shadow" />
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-1">
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-4 w-10" />
+        </div>
+
+        <div className="space-y-1">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-full" />
+        </div>
+      </div>
+    </div>
   )
 }

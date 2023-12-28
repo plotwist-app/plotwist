@@ -59,7 +59,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           </TooltipProvider>
         </div>
 
-        <p className="line-clamp-2 text-xs text-muted-foreground">{overview}</p>
+        <p className="line-clamp-3 text-xs text-muted-foreground">{overview}</p>
       </div>
     </Link>
   )
@@ -71,9 +71,13 @@ export const MovieCardSkeleton = () => {
       <Skeleton className="aspect-video w-full rounded-md border shadow" />
 
       <div className="space-y-2">
-        <Skeleton className="h-4 w-1/2" />
+        <div className="flex justify-between gap-1">
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-4 w-10" />
+        </div>
 
         <div className="space-y-1">
+          <Skeleton className="h-3 w-full" />
           <Skeleton className="h-3 w-full" />
           <Skeleton className="h-3 w-full" />
         </div>
