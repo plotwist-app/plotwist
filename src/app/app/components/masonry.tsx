@@ -36,6 +36,7 @@ export const Masonry = ({ images }: MasonryProps) => {
               src={previewURL}
               alt={filePath}
               loading="lazy"
+              sizes="100%"
             />
           </a>
         )

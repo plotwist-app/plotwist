@@ -34,6 +34,7 @@ export const WatchProviderItem = ({ item }: WatchProviderItemProps) => {
           loading="lazy"
           alt={item.provider_name}
           fill
+          sizes="100%"
         />
       </div>
 

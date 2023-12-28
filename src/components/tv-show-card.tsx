@@ -37,7 +37,7 @@ export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
           className="object-cover"
           src={tmdbImage(backdrop, 'w500')}
           alt={name}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="100%"
         />
       </div>
 

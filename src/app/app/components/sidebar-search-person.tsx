@@ -19,7 +19,7 @@ export const SidebarSearchPerson = ({ person }: SidebarSearchPersonProps) => {
             src={tmdbImage(person.profile_path)}
             alt={person.name}
             loading="lazy"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="100%"
           />
         ) : (
           person.name[0]
