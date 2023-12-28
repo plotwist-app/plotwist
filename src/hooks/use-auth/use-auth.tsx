@@ -1,10 +1,11 @@
-import { supabase } from '@/services/supabase'
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
 import { toast } from '@/components/ui/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 import { useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export const useAuth = () => {
+  const supabase = createClientComponentClient()
   const { push } = useRouter()
 
   const signInWithCredentials = async (credentials: SignInCredentials) => {
@@ -28,7 +29,7 @@ export const useAuth = () => {
       return
     }
 
-    await push('/app')
+    push('/app')
 
     toast({
       description: 'Login successful. Welcome! 🎉',
@@ -64,6 +65,8 @@ export const useAuth = () => {
 
       return
     }
+
+    push('/login')
 
     toast({
       description: 'Account created with successfully! 🎉',
