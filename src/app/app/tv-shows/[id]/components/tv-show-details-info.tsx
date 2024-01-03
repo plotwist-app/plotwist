@@ -8,7 +8,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { format } from 'date-fns'
-import { ExternalLink } from 'lucide-react'
 import { TvShowDetails } from 'tmdb-ts'
 
 type TvShowDetailsInfoProps = {
