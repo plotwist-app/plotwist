@@ -1,5 +1,5 @@
 import { TMDB } from '@/services/TMDB'
-import { TvShowEpisodeCard } from './tv-show-season-episode-card'
+import { TvShowSeasonDetailsContent } from './tv-show-season-details-content'
 
 type TvShowSeasonDetailsProps = {
   tvShowID: number
@@ -15,11 +15,5 @@ export const TvShowSeasonDetails = async ({
     seasonNumber,
   })
 
-  return (
-    <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
-      {episodes.map((episode) => (
-        <TvShowEpisodeCard episode={episode} key={episode.id} />
-      ))}
-    </div>
-  )
+  return <TvShowSeasonDetailsContent episodes={episodes} />
 }
