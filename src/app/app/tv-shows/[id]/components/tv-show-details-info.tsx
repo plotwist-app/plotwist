@@ -1,3 +1,4 @@
+import { AddToListButton } from '@/app/app/components/add-to-list-button'
 import { WatchProviders } from '@/app/app/components/watch-providers'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -15,27 +16,17 @@ type TvShowDetailsInfoProps = {
 }
 
 export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
-  const {
-    vote_count: voteCount,
-    vote_average: voteAverage,
-    first_air_date: firstAirDate,
-    name,
-    overview,
-    genres,
-    id,
-  } = tvShow
-
   return (
     <article className="flex w-2/3 flex-col gap-2">
       <span className="text-xs text-muted-foreground">
-        {format(new Date(firstAirDate), 'PPP')}
+        {format(new Date(tvShow.first_air_date), 'PPP')}
       </span>
 
-      <h1 className="text-4xl font-bold">{name}</h1>
+      <h1 className="text-4xl font-bold">{tvShow.name}</h1>
 
       <div className="flex items-center gap-2">
         <div className="flex items-center space-x-1">
-          {genres.map((genre) => {
+          {tvShow.genres.map((genre) => {
             return (
               <Badge key={genre.id} variant="outline">
                 {genre.name}
@@ -49,20 +40,22 @@ export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Badge>{voteAverage.toFixed(1)}</Badge>
+              <Badge>{tvShow.vote_average.toFixed(1)}</Badge>
             </TooltipTrigger>
 
             <TooltipContent>
-              <p>{voteCount} votes</p>
+              <p>{tvShow.vote_count} votes</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
 
-      <p className="text-sm text-muted-foreground">{overview}</p>
+      <p className="text-sm text-muted-foreground">{tvShow.overview}</p>
 
-      <div>
-        <WatchProviders id={id} variant="tvShows" />
+      <div className="space-x-1">
+        <WatchProviders id={tvShow.id} variant="tvShows" />
+
+        <AddToListButton item={tvShow} />
       </div>
     </article>
   )

@@ -15,7 +15,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -61,7 +60,10 @@ export const TvShowSeasonDetailsContent = ({
               <TableCell className="font-bold text-muted-foreground">
                 {index + 1}.
               </TableCell>
-              <TableCell className="font-medium">{episode.name}</TableCell>
+
+              <TableCell className="w-[200px] font-medium">
+                {episode.name}
+              </TableCell>
 
               <TableCell>
                 <p className="text-xs text-muted-foreground">
@@ -69,7 +71,7 @@ export const TvShowSeasonDetailsContent = ({
                 </p>
               </TableCell>
 
-              <TableCell>{episode.runtime} minutes</TableCell>
+              <TableCell>{episode.runtime}m</TableCell>
 
               <TableCell className="text-right">
                 <Badge variant="outline">

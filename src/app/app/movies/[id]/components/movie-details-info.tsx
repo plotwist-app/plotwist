@@ -10,6 +10,7 @@ import { MovieDetails } from 'tmdb-ts'
 
 import { Separator } from '@/components/ui/separator'
 import { WatchProviders } from '@/app/app/components/watch-providers'
+import { AddToListButton } from '@/app/app/components/add-to-list-button'
 
 type MovieDetailsInfoProps = {
   movie: MovieDetails
@@ -62,8 +63,9 @@ export const MovieDetailsInfo = ({ movie }: MovieDetailsInfoProps) => {
 
       <p className="text-sm text-muted-foreground">{overview}</p>
 
-      <div>
+      <div className="space-x-1">
         <WatchProviders id={id} variant="movies" />
+        <AddToListButton item={movie} />
       </div>
     </article>
   )

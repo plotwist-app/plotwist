@@ -1,23 +1,24 @@
 'use client'
 
 import { ReactNode, createContext, useContext } from 'react'
-import {
-  CreateNewListValues,
-  ListsContextProviderProps,
-  ListsContextType,
-} from './lists.types'
+import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import {
   QueryClient,
   QueryClientProvider,
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { List } from '@/types/lists'
+import {
+  addToList,
+  changeListItemStatus,
+  createList,
+  deleteList,
+  fetchLists,
+  removeToList,
+} from './lists.utils'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const LISTS_QUERY_CLIENT = new QueryClient()
-
 export const ListsContext = createContext<ListsContextType>(
   {} as ListsContextType,
 )
@@ -36,50 +37,48 @@ export const ListsContextProvider = ({
   children,
   userId,
 }: ListsContextProviderProps) => {
-  const supabase = createClientComponentClient()
-
   const { data } = useQuery({
     queryKey: LISTS_QUERY_KEY,
-    queryFn: async () =>
-      await supabase
-        .from('lists')
-        .select()
-        .eq('user_id', userId)
-        .returns<List[]>(),
+    queryFn: async () => await fetchLists(userId),
   })
-
-  const createList = async ({ userId, ...values }: CreateNewListValues) => {
-    const { error, data } = await supabase.from('lists').insert({
-      user_id: userId,
-      ...values,
-    })
-
-    if (error) throw new Error(error.message)
-
-    return data
-  }
 
   const handleCreateNewList = useMutation({
     mutationKey: LISTS_QUERY_KEY,
     mutationFn: createList,
   })
 
-  const deleteList = async (id: number) => {
-    const { error, data } = await supabase.from('lists').delete().eq('id', id)
-
-    if (error) throw new Error(error.message)
-
-    return data
-  }
-
   const handleDeleteList = useMutation({
     mutationKey: LISTS_QUERY_KEY,
     mutationFn: deleteList,
   })
 
+  const handleAddToList = useMutation({
+    mutationKey: LISTS_QUERY_KEY,
+    mutationFn: addToList,
+  })
+
+  const handleRemoveToList = useMutation({
+    mutationKey: LISTS_QUERY_KEY,
+    mutationFn: removeToList,
+  })
+
+  const handleChangeListItemStatus = useMutation({
+    mutationKey: LISTS_QUERY_KEY,
+    mutationFn: changeListItemStatus,
+  })
+
   return (
     <ListsContext.Provider
-      value={{ lists: data?.data || [], handleCreateNewList, handleDeleteList }}
+      value={{
+        lists: data?.data || [],
+        handleCreateNewList,
+        handleDeleteList,
+        handleAddToList,
+        handleRemoveToList,
+        handleChangeListItemStatus,
+
+        userId,
+      }}
     >
       {children}
     </ListsContext.Provider>

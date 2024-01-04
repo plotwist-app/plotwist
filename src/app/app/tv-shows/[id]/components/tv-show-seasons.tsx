@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { format } from 'date-fns'
 import { Season as TmdbSeason } from 'tmdb-ts'
 import { TvShowSeasonDetails } from './tv-show-season-details'
 
@@ -38,23 +37,23 @@ const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="group flex cursor-pointer space-x-4 rounded-md  bg-muted/75 p-4 ">
-          <div className="w-2/5">
+        <div className="group cursor-pointer space-y-2">
+          <div className="w-full">
             <Poster url={tmdbImage(poster)} alt={name} />
           </div>
 
-          <div className="w-3/5 space-y-2">
-            <div className="space-y-1">
-              <h6 className="underline-offset-1.5 text-lg font-bold group-hover:underline">
+          <div className="space-y-1">
+            <div className="flex justify-between space-x-2 space-y-0">
+              <h6 className="underline-offset-1.5 text-sm group-hover:underline">
                 {name}
               </h6>
 
-              <div className="flex flex-wrap gap-1">
-                <Badge>{voteAverage?.toFixed(1)}</Badge>
+              <div>
+                <Badge variant="outline">{voteAverage?.toFixed(1)}</Badge>
               </div>
             </div>
 
-            <p className="line-clamp-3 text-sm text-muted-foreground">
+            <p className="line-clamp-3 text-xs text-muted-foreground">
               {overview}
             </p>
           </div>
@@ -78,7 +77,7 @@ const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
 
 export const TvShowSeasons = ({ seasons, tvShowID }: TvShowSeasonsProps) => {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-4 gap-x-4 gap-y-8">
       {seasons.map((season) => (
         <TvShowSeason season={season} key={season.id} tvShowID={tvShowID} />
       ))}

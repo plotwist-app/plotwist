@@ -11,7 +11,9 @@ import {
   useLists,
 } from '@/context/lists/lists'
 import { List } from '@/types/lists'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { MoreVertical, Trash } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { toast } from 'sonner'
@@ -21,9 +23,22 @@ type ListCardProps = { list: List }
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
 
+  const firstBackdropPath = list.list_items[0]?.backdrop_path
+  const thumbnail = tmdbImage(firstBackdropPath)
+
   return (
     <Link href={`/app/lists/${list.id}`} className="space-y-2">
-      <div className="aspect-video w-full rounded-md border"></div>
+      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+        {firstBackdropPath && (
+          <Image
+            fill
+            className="object-cover"
+            src={thumbnail}
+            alt={list.name}
+            sizes="100%"
+          />
+        )}
+      </div>
 
       <div className="space-y-1">
         <div className="flex justify-between gap-1">
