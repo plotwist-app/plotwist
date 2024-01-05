@@ -28,8 +28,6 @@ const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
     poster_path: poster,
     name,
     overview,
-    episode_count: episodeCount,
-    air_date: airDate,
     vote_average: voteAverage,
     season_number: seasonNumber,
   } = season
