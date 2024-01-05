@@ -16,7 +16,7 @@ export type ListsContextType = {
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
 
-  userId: string // TODO: refactor
+  userId: string
 }
 
 export type ListsContextProviderProps = { children: ReactNode; userId: string }
