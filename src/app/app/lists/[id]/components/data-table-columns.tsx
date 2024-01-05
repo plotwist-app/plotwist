@@ -60,7 +60,7 @@ export const columns: ColumnDef<ListItem>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Badge variant="outline">
+        <Badge variant="outline" className="whitespace-nowrap">
           {row.getValue('type') === 'movie' ? 'Movie' : 'TV Show'}
         </Badge>
       )
@@ -112,7 +112,6 @@ export const columns: ColumnDef<ListItem>[] = [
       return <Status status={row.getValue('status')} />
     },
     filterFn: (row, id, value) => {
-      console.log({ value, id, includes: row.getValue(id) })
       return value.includes(row.getValue(id))
     },
   },

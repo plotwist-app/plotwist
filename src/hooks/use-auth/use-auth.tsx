@@ -1,8 +1,8 @@
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
-import { toast } from '@/components/ui/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { toast } from 'sonner'
 
 export const useAuth = () => {
   const supabase = createClientComponentClient()
@@ -12,28 +12,18 @@ export const useAuth = () => {
     const { error } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
-      toast({
-        variant: 'destructive',
-        title: error.name,
-        description: <span>{error.message}</span>,
-        action: (
-          <ToastAction
-            altText="Try again"
-            onClick={() => signInWithCredentials(credentials)}
-          >
-            Try again
-          </ToastAction>
-        ),
+      toast.error(error.message, {
+        action: {
+          label: 'Try again',
+          onClick: () => signInWithCredentials(credentials),
+        },
       })
 
       return
     }
 
     push('/app')
-
-    toast({
-      description: 'Login successful. Welcome! 🎉',
-    })
+    toast('Login successful. Welcome! 🎉')
   }
 
   const signUpWithCredentials = async ({

@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
+
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
 import './globals.css'
+import { AppContextProvider } from '@/context/app/app'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -20,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={spaceGrotesk.className}>
       <body className="bg-background antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
-        <Toaster />
+        <AppContextProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+          <Toaster />
+        </AppContextProvider>
       </body>
     </html>
   )
