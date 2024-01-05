@@ -44,7 +44,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       </div>
 
       <div className="space-y-1">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-1">
           <span className="">{title}</span>
 
           <TooltipProvider>
