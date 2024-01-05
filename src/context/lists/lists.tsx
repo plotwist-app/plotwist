@@ -9,12 +9,14 @@ import {
   useQuery,
 } from '@tanstack/react-query'
 import {
+  addCollectionToList,
   addToList,
   changeListCoverPath,
   changeListItemStatus,
   createList,
   deleteList,
   fetchLists,
+  removeCollectionToList,
   removeToList,
 } from './lists.utils'
 
@@ -43,8 +45,6 @@ export const ListsContextProvider = ({
     queryFn: async () => await fetchLists(userId),
   })
 
-  console.log({ data })
-
   const handleCreateNewList = useMutation({
     mutationKey: LISTS_QUERY_KEY,
     mutationFn: createList,
@@ -58,6 +58,16 @@ export const ListsContextProvider = ({
   const handleAddToList = useMutation({
     mutationKey: LISTS_QUERY_KEY,
     mutationFn: addToList,
+  })
+
+  const handleAddCollectionToList = useMutation({
+    mutationKey: LISTS_QUERY_KEY,
+    mutationFn: addCollectionToList,
+  })
+
+  const handleRemoveCollectionToList = useMutation({
+    mutationKey: LISTS_QUERY_KEY,
+    mutationFn: removeCollectionToList,
   })
 
   const handleRemoveToList = useMutation({
@@ -83,6 +93,8 @@ export const ListsContextProvider = ({
         handleCreateNewList,
         handleDeleteList,
         handleAddToList,
+        handleAddCollectionToList,
+        handleRemoveCollectionToList,
         handleRemoveToList,
         handleChangeListItemStatus,
         handleChangeListCoverPath,

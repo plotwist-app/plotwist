@@ -1,9 +1,9 @@
 import { ListItem } from '@/types/lists'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+import { Movie, MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 export const sanitizeListItem = (
   listId: number,
-  raw: MovieDetails | TvShowDetails,
+  raw: MovieDetails | Movie | TvShowDetails,
 ): Omit<ListItem, 'created_at' | 'id'> => {
   // tv shows has ".name" and movie has `.title`
   const isTvShow = 'name' in raw

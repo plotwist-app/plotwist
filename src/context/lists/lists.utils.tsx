@@ -1,9 +1,11 @@
 import { supabase } from '@/services/supabase'
 import {
-  AddToListValues,
+  AddCollectionToListParams,
+  AddToListParams,
   ChangeListCoverPathParams,
   ChangeListItemStatusParams,
-  CreateNewListValues,
+  CreateNewListParams,
+  RemoveCollectionToListParams,
 } from './lists.types'
 import { List } from '@/types/lists'
 
@@ -18,7 +20,7 @@ export const fetchLists = async (userId: string) =>
 export const createList = async ({
   userId,
   ...values
-}: CreateNewListValues) => {
+}: CreateNewListParams) => {
   const { error, data } = await supabase.from('lists').insert({
     user_id: userId,
     ...values,
@@ -35,10 +37,29 @@ export const deleteList = async (id: number) => {
   return data
 }
 
-export const addToList = async ({ item }: AddToListValues) => {
-  const { error, data } = await supabase.from('list_items').insert({
-    ...item,
-  })
+export const addToList = async ({ item }: AddToListParams) => {
+  const { error, data } = await supabase.from('list_items').insert(item)
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const addCollectionToList = async ({
+  items,
+}: AddCollectionToListParams) => {
+  const { error, data } = await supabase.from('list_items').insert(items)
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const removeCollectionToList = async ({
+  ids,
+}: RemoveCollectionToListParams) => {
+  const { error, data } = await supabase
+    .from('list_items')
+    .delete()
+    .in('id', ids)
 
   if (error) throw new Error(error.message)
   return data

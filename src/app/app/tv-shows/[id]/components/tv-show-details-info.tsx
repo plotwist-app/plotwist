@@ -1,4 +1,7 @@
-import { AddToListButton } from '@/app/app/components/add-to-list-button'
+import { format } from 'date-fns'
+import { TvShowDetails } from 'tmdb-ts'
+
+import { AddToListDropdown } from '@/app/app/components/add-to-list-dropdown'
 import { WatchProviders } from '@/app/app/components/watch-providers'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -8,8 +11,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { format } from 'date-fns'
-import { TvShowDetails } from 'tmdb-ts'
 
 type TvShowDetailsInfoProps = {
   tvShow: TvShowDetails
@@ -54,8 +55,7 @@ export const TvShowDetailsInfo = ({ tvShow }: TvShowDetailsInfoProps) => {
 
       <div className="space-x-1">
         <WatchProviders id={tvShow.id} variant="tvShows" />
-
-        <AddToListButton item={tvShow} />
+        <AddToListDropdown item={tvShow} />
       </div>
     </article>
   )

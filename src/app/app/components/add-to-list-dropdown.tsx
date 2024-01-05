@@ -22,11 +22,11 @@ import { List } from '@/types/lists'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
-type AddToListButtonProps = {
+type AddToListDropdownProps = {
   item: TvShowDetails | MovieDetails
 }
 
-export const AddToListButton = ({ item }: AddToListButtonProps) => {
+export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
   const { lists, handleAddToList, handleRemoveToList } = useLists()
   const { push } = useRouter()
 
