@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button'
 import { ListItem } from '@/types/lists'
 import { Grid as LucideGrid, Table as LucideTable } from 'lucide-react'
 import { useState } from 'react'
-import { ListItemsTable } from './list-items-table'
+
 import { ListItemsGrid } from './list-items-grid'
+import { DataTable } from './data-table'
+import { columns } from './data-table-columns'
 
 type ListItemsProps = {
   listItems: ListItem[]
@@ -17,7 +19,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
     grid: <ListItemsGrid listItems={listItems} />,
-    table: <ListItemsTable listItems={listItems} />,
+    table: <DataTable data={listItems} columns={columns} />,
   }
 
   return (

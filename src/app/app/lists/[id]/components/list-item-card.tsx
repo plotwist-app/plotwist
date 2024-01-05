@@ -2,8 +2,8 @@ import { ListItem } from '@/types/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ListItemOptions } from './list-item-options'
 import { Status } from './status'
+import { ListItemActions } from './list-item-actions'
 
 type ListItemCardProps = { listItem: ListItem }
 
@@ -44,7 +44,7 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
             {title}
           </Link>
 
-          <ListItemOptions listItem={listItem} />
+          <ListItemActions listItem={listItem} />
         </div>
 
         <p className="line-clamp-3 text-xs text-muted-foreground">{overview}</p>

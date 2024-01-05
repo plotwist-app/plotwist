@@ -22,9 +22,9 @@ import {
 } from '@/context/lists/lists'
 import { ListItem, ListItemStatus } from '@/types/lists'
 
-type ListItemOptionsProps = { listItem: ListItem }
+type ListItemActionsProps = { listItem: ListItem }
 
-export const ListItemOptions = ({ listItem }: ListItemOptionsProps) => {
+export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   const {
     handleChangeListItemStatus,
     handleChangeListCoverPath,
