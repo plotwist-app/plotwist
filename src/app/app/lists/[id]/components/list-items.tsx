@@ -6,6 +6,7 @@ import { ListItem } from '@/types/lists'
 import { Grid as LucideGrid, Table as LucideTable } from 'lucide-react'
 import { useState } from 'react'
 import { ListItemsTable } from './list-items-table'
+import { ListItemsGrid } from './list-items-grid'
 
 type ListItemsProps = {
   listItems: ListItem[]
@@ -15,13 +16,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
   const [layout, setLayout] = useState<'table' | 'grid'>('table')
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
-    grid: (
-      <div>
-        {listItems.map((item) => (
-          <div key={item.id}>{item.title}</div>
-        ))}
-      </div>
-    ),
+    grid: <ListItemsGrid listItems={listItems} />,
     table: <ListItemsTable listItems={listItems} />,
   }
 

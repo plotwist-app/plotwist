@@ -23,7 +23,7 @@ type ListCardProps = { list: List }
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
 
-  const firstBackdropPath = list.list_items[0]?.backdrop_path
+  const firstBackdropPath = list.cover_path ?? list.list_items[0]?.backdrop_path
   const thumbnail = tmdbImage(firstBackdropPath)
 
   return (

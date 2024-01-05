@@ -6,9 +6,11 @@ import Link from 'next/link'
 
 import { useQuery } from '@tanstack/react-query'
 import { ListItems } from './components/list-items'
+import { Skeleton } from '@/components/ui/skeleton'
+import { ListItemsTableSkeleton } from './components/list-items-table-skeleton'
 
 const ListPage = ({ params }: { params: { id: string } }) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [Number(params.id)],
     queryFn: async () => {
       const response = await supabase
@@ -21,6 +23,24 @@ const ListPage = ({ params }: { params: { id: string } }) => {
       return response
     },
   })
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
+        <div>
+          <Skeleton className="mb-2 h-6 w-1/3" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-20" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+
+        <ListItemsTableSkeleton />
+      </div>
+    )
+  }
 
   if (!data?.data) {
     return (

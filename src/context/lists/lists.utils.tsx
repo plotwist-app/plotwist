@@ -1,6 +1,7 @@
 import { supabase } from '@/services/supabase'
 import {
   AddToListValues,
+  ChangeListCoverPathParams,
   ChangeListItemStatusParams,
   CreateNewListValues,
 } from './lists.types'
@@ -11,6 +12,7 @@ export const fetchLists = async (userId: string) =>
     .from('lists')
     .select('*, list_items(*)')
     .eq('user_id', userId)
+    .order('id', { ascending: true })
     .returns<List[]>()
 
 export const createList = async ({
@@ -60,6 +62,19 @@ export const changeListItemStatus = async ({
     .from('list_items')
     .update({ status: newStatus })
     .eq('id', listItemId)
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const changeListCoverPath = async ({
+  listId,
+  newCoverPath,
+}: ChangeListCoverPathParams) => {
+  const { error, data } = await supabase
+    .from('lists')
+    .update({ cover_path: newCoverPath })
+    .eq('id', listId)
 
   if (error) throw new Error(error.message)
   return data

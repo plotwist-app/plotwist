@@ -1,17 +1,6 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { format } from 'date-fns'
+import Link from 'next/link'
+
 import {
   Table,
   TableBody,
@@ -20,43 +9,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
-import { ListItem, ListItemStatus } from '@/types/lists'
-import { format } from 'date-fns'
-import Link from 'next/link'
+
+import { ListItem } from '@/types/lists'
 import { Badge } from '@/components/ui/badge'
+
 import { Status } from './status'
-import { Button } from '@/components/ui/button'
-import { MoreHorizontal } from 'lucide-react'
-import { useCallback } from 'react'
-import { toast } from 'sonner'
+import { ListItemOptions } from './list-item-options'
 
 type ListItemsProps = {
   listItems: ListItem[]
 }
 
 export const ListItemsTable = ({ listItems }: ListItemsProps) => {
-  const { handleChangeListItemStatus, handleRemoveToList } = useLists()
-
-  const handleRemove = useCallback(
-    async (id: number, listId: number) => {
-      await handleRemoveToList.mutateAsync(id, {
-        onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
-            queryKey: [listId],
-          })
-
-          toast.success(`Removed successfully.`)
-        },
-      })
-    },
-    [handleRemoveToList],
-  )
-
   return (
     <Table>
       <TableHeader>
@@ -110,58 +74,7 @@ export const ListItemsTable = ({ listItems }: ListItemsProps) => {
             </TableCell>
 
             <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Button size="icon" variant="ghost">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-
-                    <DropdownMenuSubContent>
-                      <DropdownMenuRadioGroup
-                        value={item.status}
-                        onValueChange={async (status) => {
-                          await handleChangeListItemStatus.mutateAsync(
-                            {
-                              listItemId: item.id,
-                              newStatus: status as ListItemStatus,
-                            },
-                            {
-                              onSuccess: () => {
-                                LISTS_QUERY_CLIENT.invalidateQueries({
-                                  queryKey: [item.list_id],
-                                })
-                              },
-                            },
-                          )
-                        }}
-                      >
-                        {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
-                          <DropdownMenuRadioItem
-                            key={status}
-                            value={status}
-                            className="text-sm capitalize"
-                          >
-                            {status.toLowerCase()}
-                          </DropdownMenuRadioItem>
-                        ))}
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuSubContent>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem
-                      onClick={() => handleRemove(item.id, item.list_id)}
-                    >
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuSub>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <ListItemOptions listItem={item} />
             </TableCell>
           </TableRow>
         ))}

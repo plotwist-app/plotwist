@@ -5,6 +5,7 @@ export type List = {
   created_at: string
   user_id: string
   list_items: ListItem[]
+  cover_path?: string
 }
 
 export type ListItem = {

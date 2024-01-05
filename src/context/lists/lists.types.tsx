@@ -12,6 +12,7 @@ export type ListsContextType = {
   handleAddToList: HandleFn<AddToListValues>
   handleRemoveToList: HandleFn<number>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
+  handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
 
   userId: string // TODO: refactor
 }
@@ -31,4 +32,9 @@ export type AddToListValues = {
 export type ChangeListItemStatusParams = {
   listItemId: number
   newStatus: ListItemStatus
+}
+
+export type ChangeListCoverPathParams = {
+  listId: number
+  newCoverPath: string
 }
