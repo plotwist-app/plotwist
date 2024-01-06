@@ -52,7 +52,7 @@ export const useAuth = () => {
 
     push('/login')
 
-    toast.success('Account created with successfully! 🎉', {
+    toast.success('Account created successfully! 🎉', {
       action: {
         label: 'Access your account',
         onClick: () => push('/login'),
