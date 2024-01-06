@@ -17,8 +17,9 @@ export type ListItem = {
   poster_path?: string
   title: string
   tmdb_id: number
-  media_type: 'tv_show' | 'movie'
+  media_type: ListItemMediaType
   status: ListItemStatus
 }
 
+export type ListItemMediaType = 'tv_show' | 'movie'
 export type ListItemStatus = 'PENDING' | 'WATCHING' | 'WATCHED'
