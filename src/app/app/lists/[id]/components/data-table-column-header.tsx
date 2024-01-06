@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ElementType } from 'react'
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,6 +32,15 @@ export function DataTableColumnHeader<TData, TValue>({
     return <div className={cn(className)}>{title}</div>
   }
 
+  const sorted = column.getIsSorted()
+
+  const iconBySortedDirection: Record<'desc' | 'asc', ElementType> = {
+    asc: ArrowUpIcon,
+    desc: ArrowDownIcon,
+  }
+
+  const Icon = sorted ? iconBySortedDirection[sorted] : CaretSortIcon
+
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
@@ -42,13 +52,7 @@ export function DataTableColumnHeader<TData, TValue>({
           >
             <span>{title}</span>
 
-            {column.getIsSorted() === 'desc' ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            ) : (
-              <CaretSortIcon className="ml-2 h-4 w-4" />
-            )}
+            <Icon className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
 
