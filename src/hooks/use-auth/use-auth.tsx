@@ -40,17 +40,11 @@ export const useAuth = () => {
     })
 
     if (error) {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-        action: (
-          <ToastAction
-            altText="Try again"
-            onClick={() => signUpWithCredentials({ username, ...credentials })}
-          >
-            Try again
-          </ToastAction>
-        ),
+      toast.error(error.message, {
+        action: {
+          label: ' Try again',
+          onClick: () => signUpWithCredentials({ username, ...credentials }),
+        },
       })
 
       return
