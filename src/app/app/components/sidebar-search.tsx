@@ -2,7 +2,7 @@
 
 import { Command as CommandIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   MovieWithMediaType,
   PersonWithMediaType,
@@ -32,17 +32,14 @@ export const SidebarSearch = () => {
   const debouncedSearch = useDebounce(search, 500)
   const pathName = usePathname()
 
-  const { data } = useQuery(
-    ['search', debouncedSearch],
-    async () =>
+  const { data } = useQuery({
+    queryKey: ['search', debouncedSearch],
+    queryFn: async () =>
       await TMDB.search.multi({
         query: debouncedSearch,
       }),
-    {
-      keepPreviousData: true,
-      staleTime: 1000,
-    },
-  )
+    staleTime: 1000,
+  })
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {

@@ -1,8 +1,8 @@
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
-import { toast } from '@/components/ui/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { toast } from 'sonner'
 
 export const useAuth = () => {
   const supabase = createClientComponentClient()
@@ -12,28 +12,18 @@ export const useAuth = () => {
     const { error } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
-      toast({
-        variant: 'destructive',
-        title: error.name,
-        description: <span>{error.message}</span>,
-        action: (
-          <ToastAction
-            altText="Try again"
-            onClick={() => signInWithCredentials(credentials)}
-          >
-            Try again
-          </ToastAction>
-        ),
+      toast.error(error.message, {
+        action: {
+          label: 'Try again',
+          onClick: () => signInWithCredentials(credentials),
+        },
       })
 
       return
     }
 
     push('/app')
-
-    toast({
-      description: 'Login successful. Welcome! 🎉',
-    })
+    toast('Login successful. Welcome! 🎉')
   }
 
   const signUpWithCredentials = async ({
@@ -50,17 +40,11 @@ export const useAuth = () => {
     })
 
     if (error) {
-      toast({
-        variant: 'destructive',
-        description: error.message,
-        action: (
-          <ToastAction
-            altText="Try again"
-            onClick={() => signUpWithCredentials({ username, ...credentials })}
-          >
-            Try again
-          </ToastAction>
-        ),
+      toast.error(error.message, {
+        action: {
+          label: ' Try again',
+          onClick: () => signUpWithCredentials({ username, ...credentials }),
+        },
       })
 
       return
@@ -68,16 +52,11 @@ export const useAuth = () => {
 
     push('/login')
 
-    toast({
-      description: 'Account created with successfully! 🎉',
-      action: (
-        <ToastAction
-          altText="Access your account"
-          onClick={() => push('/login')}
-        >
-          Access now!
-        </ToastAction>
-      ),
+    toast.success('Account created successfully! 🎉', {
+      action: {
+        label: 'Access your account',
+        onClick: () => push('/login'),
+      },
     })
   }
 

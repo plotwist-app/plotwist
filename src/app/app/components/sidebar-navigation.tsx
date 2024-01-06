@@ -5,6 +5,7 @@ import {
   Clapperboard,
   Heart,
   Home,
+  List,
   Play,
   Sparkles,
   Star,
@@ -95,6 +96,11 @@ export const NAVIGATION: SidebarNavigationItemProps[] = [
         icon: Heart,
       },
     ],
+  },
+  {
+    label: 'Lists',
+    href: '/app/lists',
+    icon: List,
   },
 ]
 

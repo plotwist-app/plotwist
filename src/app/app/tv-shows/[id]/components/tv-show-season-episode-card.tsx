@@ -36,8 +36,9 @@ export const TvShowEpisodeCard = ({ episode }: TvShowEpisodeCardProps) => {
       </div>
 
       <div className="space-y-1">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-1">
           <span className="">{name}</span>
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

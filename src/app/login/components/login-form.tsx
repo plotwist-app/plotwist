@@ -110,10 +110,6 @@ export const LoginForm = () => {
         />
 
         <div className="flex justify-end space-x-2">
-          <Button disabled variant="outline">
-            Recovery password
-          </Button>
-
           <Button type="submit" loading={form.formState.isSubmitting}>
             Access
           </Button>

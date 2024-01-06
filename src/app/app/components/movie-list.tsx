@@ -1,6 +1,10 @@
 'use client'
 
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
 
