@@ -80,13 +80,6 @@ export function DataTable<TData extends ListItem, TValue>({
               })}
             </TableRow>
           ))}
-
-          {/* <TableRow>
-          <TableHead className="w-[400px]">Overview</TableHead>
-          <TableHead>Added at</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead></TableHead>
-        </TableRow> */}
         </TableHeader>
 
         <TableBody>

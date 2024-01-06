@@ -3,11 +3,11 @@
 import { supabase } from '@/services/supabase'
 import { List } from '@/types/lists'
 import Link from 'next/link'
-
 import { useQuery } from '@tanstack/react-query'
+
 import { ListItems } from './components/list-items'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ListItemsTableSkeleton } from './components/list-items-table-skeleton'
+import { DataTableSkeleton } from './components/data-table-skeleton'
 
 const ListPage = ({ params }: { params: { id: string } }) => {
   const { data, isLoading } = useQuery({
@@ -28,7 +28,7 @@ const ListPage = ({ params }: { params: { id: string } }) => {
     return (
       <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
         <div>
-          <Skeleton className="mb-2 h-6 w-1/3" />
+          <Skeleton className="mb-2 h-8 w-1/3" />
           <Skeleton className="h-4 w-1/4" />
         </div>
 
@@ -37,7 +37,7 @@ const ListPage = ({ params }: { params: { id: string } }) => {
           <Skeleton className="h-8 w-20" />
         </div>
 
-        <ListItemsTableSkeleton />
+        <DataTableSkeleton />
       </div>
     )
   }
