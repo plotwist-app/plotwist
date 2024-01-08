@@ -15,11 +15,9 @@ export type ListsContextType = {
   handleRemoveToList: HandleFn<number>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
-
-  userId: string
 }
 
-export type ListsContextProviderProps = { children: ReactNode; userId: string }
+export type ListsContextProviderProps = { children: ReactNode }
 
 export type CreateNewListParams = {
   name: string

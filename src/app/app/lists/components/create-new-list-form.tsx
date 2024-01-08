@@ -27,18 +27,16 @@ import { Button } from '@/components/ui/button'
 
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useAuth } from '@/context/auth/auth'
 
 const createNewListFormSchema = z.object({
   name: z.string().min(1, 'Required'),
   description: z.string().min(1, 'Required'),
 })
 
-type CreateNewListFormProps = {
-  userId: string
-}
-
-export const CreateNewListForm = ({ userId }: CreateNewListFormProps) => {
+export const CreateNewListForm = () => {
   const { handleCreateNewList } = useLists()
+  const { user } = useAuth()
   const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof createNewListFormSchema>>({
@@ -50,7 +48,7 @@ export const CreateNewListForm = ({ userId }: CreateNewListFormProps) => {
 
   async function onSubmit(values: z.infer<typeof createNewListFormSchema>) {
     await handleCreateNewList.mutateAsync(
-      { ...values, userId },
+      { ...values, userId: user.id },
       {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({

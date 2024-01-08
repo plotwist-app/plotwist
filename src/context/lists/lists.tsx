@@ -14,6 +14,7 @@ import {
   removeCollectionToList,
   removeToList,
 } from './lists.utils'
+import { useAuth } from '../auth/auth'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
@@ -22,50 +23,43 @@ export const ListsContext = createContext<ListsContextType>(
 
 export const ListsContextProvider = ({
   children,
-  userId,
 }: ListsContextProviderProps) => {
+  const { user } = useAuth()
+
   const { data } = useQuery({
     queryKey: LISTS_QUERY_KEY,
-    queryFn: async () => await fetchLists(userId),
+    queryFn: async () => await fetchLists(user.id),
   })
 
   const handleCreateNewList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: createList,
   })
 
   const handleDeleteList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: deleteList,
   })
 
   const handleAddToList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: addToList,
   })
 
   const handleAddCollectionToList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: addCollectionToList,
   })
 
   const handleRemoveCollectionToList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: removeCollectionToList,
   })
 
   const handleRemoveToList = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: removeToList,
   })
 
   const handleChangeListItemStatus = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: changeListItemStatus,
   })
 
   const handleChangeListCoverPath = useMutation({
-    mutationKey: LISTS_QUERY_KEY,
     mutationFn: changeListCoverPath,
   })
 
@@ -82,8 +76,6 @@ export const ListsContextProvider = ({
         handleRemoveToList,
         handleChangeListItemStatus,
         handleChangeListCoverPath,
-
-        userId,
       }}
     >
       {children}
