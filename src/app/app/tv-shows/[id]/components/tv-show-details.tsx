@@ -9,6 +9,7 @@ import { TvShowCredits } from './tv-show-credits'
 import { TvShowRelated } from './tv-show-related'
 import { TvShowImages } from './tv-show-images'
 import { TvShowDetailsInfo } from './tv-show-details-info'
+import { Reviews } from '@/app/app/components/reviews'
 
 type TvShowsDetailsProps = {
   id: number
@@ -32,9 +33,7 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
 
         <Tabs defaultValue="seasons" className="w-full">
           <TabsList>
-            <TabsTrigger value="reviews" disabled>
-              Reviews
-            </TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
 
             <TabsTrigger value="seasons">Seasons</TabsTrigger>
             <TabsTrigger value="credits">Credits</TabsTrigger>
@@ -43,7 +42,9 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
             <TabsTrigger value="similar">Similar</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="reviews" className="mt-4"></TabsContent>
+          <TabsContent value="reviews" className="mt-4">
+            <Reviews tmdbId={id} mediaType="TV_SHOW" />
+          </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
             <TvShowSeasons seasons={tvShow.seasons} tvShowID={id} />
