@@ -9,18 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
 import { Plus } from 'lucide-react'
 import { Movie } from 'tmdb-ts'
-import { List } from '@/types/lists'
+import { List } from '@/types/supabase/lists'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { sanitizeListItem } from '@/utils/list/list_item/sanitize'
 import { toast } from 'sonner'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>
@@ -55,7 +52,7 @@ export const AddCollectionToListDropdown = ({
         },
         {
           onSuccess: () => {
-            LISTS_QUERY_CLIENT.invalidateQueries({
+            APP_QUERY_CLIENT.invalidateQueries({
               queryKey: LISTS_QUERY_KEY,
             })
 
@@ -77,7 +74,7 @@ export const AddCollectionToListDropdown = ({
         { items: sanitizedItems },
         {
           onSuccess: () => {
-            LISTS_QUERY_CLIENT.invalidateQueries({
+            APP_QUERY_CLIENT.invalidateQueries({
               queryKey: LISTS_QUERY_KEY,
             })
 

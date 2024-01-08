@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { ListItemStatus } from '@/types/lists'
+import { ListItemStatus } from '@/types/supabase/lists'
 import { cva } from 'class-variance-authority'
 
 type StatusBadgeProps = { status: ListItemStatus }

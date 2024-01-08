@@ -15,12 +15,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
-import { ListItem, ListItemStatus } from '@/types/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 type ListItemActionsProps = { listItem: ListItem }
 
@@ -35,7 +32,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     async (id: number, listId: number) => {
       await handleRemoveToList.mutateAsync(id, {
         onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: [listId],
           })
 
@@ -55,7 +52,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
         },
         {
           onSuccess: () => {
-            LISTS_QUERY_CLIENT.invalidateQueries({
+            APP_QUERY_CLIENT.invalidateQueries({
               queryKey: [listItem.list_id],
             })
           },
@@ -73,11 +70,11 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
       },
       {
         onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: [listItem.list_id],
           })
 
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
           })
 

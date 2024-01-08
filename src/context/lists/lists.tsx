@@ -1,13 +1,8 @@
 'use client'
 
-import { ReactNode, createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 import { ListsContextProviderProps, ListsContextType } from './lists.types'
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   addCollectionToList,
   addToList,
@@ -21,19 +16,8 @@ import {
 } from './lists.utils'
 
 export const LISTS_QUERY_KEY = ['lists']
-export const LISTS_QUERY_CLIENT = new QueryClient()
 export const ListsContext = createContext<ListsContextType>(
   {} as ListsContextType,
-)
-
-export const ListsContextProviderWrapper = ({
-  children,
-}: {
-  children: ReactNode
-}) => (
-  <QueryClientProvider client={LISTS_QUERY_CLIENT}>
-    {children}
-  </QueryClientProvider>
 )
 
 export const ListsContextProvider = ({

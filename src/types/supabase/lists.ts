@@ -21,5 +21,5 @@ export type ListItem = {
   status: ListItemStatus
 }
 
-export type ListItemMediaType = 'tv_show' | 'movie'
+export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'
 export type ListItemStatus = 'PENDING' | 'WATCHING' | 'WATCHED'

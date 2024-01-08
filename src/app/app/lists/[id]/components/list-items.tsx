@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 import { Grid as LucideGrid, Table as LucideTable } from 'lucide-react'
 import { useState } from 'react'
 

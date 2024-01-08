@@ -1,7 +1,7 @@
 'use client'
 
 import { supabase } from '@/services/supabase'
-import { List } from '@/types/lists'
+import { List } from '@/types/supabase/lists'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 

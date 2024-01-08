@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemStatus } from '@/types/lists'
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { UseMutationResult } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 

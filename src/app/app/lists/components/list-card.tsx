@@ -5,12 +5,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
-import { List } from '@/types/lists'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { List } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MoreVertical, Trash } from 'lucide-react'
 import Image from 'next/image'
@@ -58,7 +55,7 @@ export const ListCard = ({ list }: ListCardProps) => {
 
                   handleDeleteList.mutate(list.id, {
                     onSuccess: () => {
-                      LISTS_QUERY_CLIENT.invalidateQueries({
+                      APP_QUERY_CLIENT.invalidateQueries({
                         queryKey: LISTS_QUERY_KEY,
                       })
 

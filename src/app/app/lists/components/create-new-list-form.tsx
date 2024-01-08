@@ -25,11 +25,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 const createNewListFormSchema = z.object({
   name: z.string().min(1, 'Required'),
@@ -56,7 +53,7 @@ export const CreateNewListForm = ({ userId }: CreateNewListFormProps) => {
       { ...values, userId },
       {
         onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
           })
 
