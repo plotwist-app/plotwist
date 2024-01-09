@@ -41,7 +41,7 @@ export const ReviewForm = ({ tmdbId, mediaType }: ReviewFormProps) => {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof reviewFormSchema>) {
+  const onSubmit = async (values: z.infer<typeof reviewFormSchema>) => {
     await handleCreateReview.mutateAsync(
       {
         ...values,
