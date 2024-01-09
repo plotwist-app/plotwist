@@ -25,9 +25,9 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useAuth } from '@/context/auth/auth'
+import { useAuth } from '@/context/auth'
 
 const createNewListFormSchema = z.object({
   name: z.string().min(1, 'Required'),

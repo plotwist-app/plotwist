@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation'
 
 import { Header } from './components/header'
 import { Sidebar } from './components/sidebar'
-import { ListsContextProvider } from '@/context/lists/lists'
-import { AuthContextProvider } from '@/context/auth/auth'
+import { ListsContextProvider } from '@/context/lists'
+import { AuthContextProvider } from '@/context/auth'
 
 export default async function AppLayout({
   children,

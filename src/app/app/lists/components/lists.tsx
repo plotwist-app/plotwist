@@ -1,6 +1,6 @@
 'use client'
 
-import { useLists } from '@/context/lists/lists'
+import { useLists } from '@/context/lists'
 import { ListCard } from './list-card'
 import { CreateNewListForm } from './create-new-list-form'
 

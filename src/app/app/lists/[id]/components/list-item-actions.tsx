@@ -15,7 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 

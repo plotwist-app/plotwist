@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { List } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MoreVertical, Trash } from 'lucide-react'

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { Plus } from 'lucide-react'
 import { Movie } from 'tmdb-ts'
 import { List } from '@/types/supabase/lists'

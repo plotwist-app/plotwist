@@ -14,7 +14,7 @@ import {
   removeCollectionToList,
   removeToList,
 } from './lists.utils'
-import { useAuth } from '../auth/auth'
+import { useAuth } from '../auth'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
