@@ -4,7 +4,6 @@ import { ReviewStars } from './review-stars'
 
 import { Review } from '@/types/supabase/reviews'
 import { ReviewItemActions } from './review-item-actions'
-import { ThumbsUpIcon } from 'lucide-react'
 
 type ReviewItemProps = { review: Review }
 
