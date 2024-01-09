@@ -25,23 +25,18 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useAuth } from '@/context/auth'
 
 const createNewListFormSchema = z.object({
   name: z.string().min(1, 'Required'),
   description: z.string().min(1, 'Required'),
 })
 
-type CreateNewListFormProps = {
-  userId: string
-}
-
-export const CreateNewListForm = ({ userId }: CreateNewListFormProps) => {
+export const CreateNewListForm = () => {
   const { handleCreateNewList } = useLists()
+  const { user } = useAuth()
   const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof createNewListFormSchema>>({
@@ -53,10 +48,10 @@ export const CreateNewListForm = ({ userId }: CreateNewListFormProps) => {
 
   async function onSubmit(values: z.infer<typeof createNewListFormSchema>) {
     await handleCreateNewList.mutateAsync(
-      { ...values, userId },
+      { ...values, userId: user.id },
       {
         onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
           })
 

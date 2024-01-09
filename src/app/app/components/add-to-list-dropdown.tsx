@@ -9,18 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  LISTS_QUERY_CLIENT,
-  LISTS_QUERY_KEY,
-  useLists,
-} from '@/context/lists/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { sanitizeListItem } from '@/utils/list/list_item/sanitize'
 import { Plus } from 'lucide-react'
 import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 import { toast } from 'sonner'
-import { List } from '@/types/lists'
+import { List } from '@/types/supabase/lists'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 type AddToListDropdownProps = {
   item: TvShowDetails | MovieDetails
@@ -34,7 +31,7 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
     async (id: number) => {
       await handleRemoveToList.mutateAsync(id, {
         onSuccess: () => {
-          LISTS_QUERY_CLIENT.invalidateQueries({
+          APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
           })
 
@@ -53,7 +50,7 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
         { item: sanitizedItem },
         {
           onSuccess: () => {
-            LISTS_QUERY_CLIENT.invalidateQueries({
+            APP_QUERY_CLIENT.invalidateQueries({
               queryKey: LISTS_QUERY_KEY,
             })
 

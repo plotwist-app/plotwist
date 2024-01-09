@@ -7,7 +7,7 @@ import {
   CreateNewListParams,
   RemoveCollectionToListParams,
 } from './lists.types'
-import { List } from '@/types/lists'
+import { List } from '@/types/supabase/lists'
 
 export const fetchLists = async (userId: string) =>
   await supabase

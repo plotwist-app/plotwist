@@ -1,4 +1,4 @@
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -37,7 +37,7 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
         <div className="flex items-start justify-between gap-1">
           <Link
             href={`/app/${
-              mediaType === 'tv_show' ? 'tv-shows' : 'movies'
+              mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
             }/${tmdbId}`}
             className="underline-offset-4 hover:underline"
           >

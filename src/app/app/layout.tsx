@@ -4,10 +4,8 @@ import { redirect } from 'next/navigation'
 
 import { Header } from './components/header'
 import { Sidebar } from './components/sidebar'
-import {
-  ListsContextProvider,
-  ListsContextProviderWrapper,
-} from '@/context/lists/lists'
+import { ListsContextProvider } from '@/context/lists'
+import { AuthContextProvider } from '@/context/auth'
 
 export default async function AppLayout({
   children,
@@ -25,8 +23,8 @@ export default async function AppLayout({
   }
 
   return (
-    <ListsContextProviderWrapper>
-      <ListsContextProvider userId={user.id}>
+    <AuthContextProvider user={user}>
+      <ListsContextProvider>
         <div className="grid grid-cols-[250px,1fr]">
           <Sidebar user={user} />
 
@@ -37,6 +35,6 @@ export default async function AppLayout({
           </main>
         </div>
       </ListsContextProvider>
-    </ListsContextProviderWrapper>
+    </AuthContextProvider>
   )
 }

@@ -1,5 +1,4 @@
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
-import { ToastAction } from '@/components/ui/toast'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { toast } from 'sonner'

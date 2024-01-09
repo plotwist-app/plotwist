@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 
 import { Badge } from '@/components/ui/badge'
 
@@ -41,7 +41,7 @@ export const columns: ColumnDef<ListItem>[] = [
       return (
         <Link
           href={`/app/${
-            mediaType === 'tv_show' ? 'tv-shows' : 'movies'
+            mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
           }/${tmdbId}`}
           className="underline-offset-4 hover:underline"
         >
@@ -61,7 +61,7 @@ export const columns: ColumnDef<ListItem>[] = [
     cell: ({ row }) => {
       return (
         <Badge variant="outline" className="whitespace-nowrap">
-          {row.getValue('type') === 'movie' ? 'Movie' : 'TV Show'}
+          {row.getValue('type') === 'MOVIE' ? 'Movie' : 'TV Show'}
         </Badge>
       )
     },

@@ -1,9 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Reviews } from '@/app/app/components/reviews'
 
 import { MovieCredits } from './movie-credits'
 import { MovieRelated } from './movie-related'
 import { MovieImages } from './movie-images'
-import { MovieReviews } from './movie-reviews'
 
 type MovieDetailsTabsProps = { movieId: number }
 
@@ -11,9 +11,7 @@ export const MovieDetailsTabs = ({ movieId }: MovieDetailsTabsProps) => {
   return (
     <Tabs defaultValue="credits" className="w-full">
       <TabsList>
-        <TabsTrigger value="reviews" disabled>
-          Reviews
-        </TabsTrigger>
+        <TabsTrigger value="reviews">Reviews</TabsTrigger>
         <TabsTrigger value="credits">Credits</TabsTrigger>
         <TabsTrigger value="images">Images</TabsTrigger>
         <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
@@ -21,7 +19,7 @@ export const MovieDetailsTabs = ({ movieId }: MovieDetailsTabsProps) => {
       </TabsList>
 
       <TabsContent value="reviews" className="mt-4">
-        <MovieReviews />
+        <Reviews tmdbId={movieId} mediaType="MOVIE" />
       </TabsContent>
 
       <TabsContent value="credits" className="mt-4">

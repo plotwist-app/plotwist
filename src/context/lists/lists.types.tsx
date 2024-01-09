@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemStatus } from '@/types/lists'
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { UseMutationResult } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
@@ -15,11 +15,9 @@ export type ListsContextType = {
   handleRemoveToList: HandleFn<number>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
-
-  userId: string
 }
 
-export type ListsContextProviderProps = { children: ReactNode; userId: string }
+export type ListsContextProviderProps = { children: ReactNode }
 
 export type CreateNewListParams = {
   name: string

@@ -22,7 +22,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData extends ListItem, TValue> {

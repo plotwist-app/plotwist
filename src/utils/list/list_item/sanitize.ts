@@ -1,4 +1,4 @@
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 import { Movie, MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 export const sanitizeListItem = (
@@ -20,7 +20,7 @@ export const sanitizeListItem = (
     poster_path: raw.poster_path,
     title,
     tmdb_id: raw.id,
-    media_type: isTvShow ? 'tv_show' : 'movie',
+    media_type: isTvShow ? 'TV_SHOW' : 'MOVIE',
 
     status: 'PENDING',
   }

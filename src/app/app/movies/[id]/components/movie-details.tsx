@@ -8,11 +8,11 @@ import { Poster } from '@/app/app/components/poster'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MovieDetailsInfo } from './movie-details-info'
 
-type MovieBannerProps = {
+type MovieDetailsProps = {
   id: number
 }
 
-export const MovieDetails = async ({ id }: MovieBannerProps) => {
+export const MovieDetails = async ({ id }: MovieDetailsProps) => {
   const movie = await TMDB.movies.details(id)
 
   return (

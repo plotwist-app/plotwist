@@ -1,4 +1,4 @@
-import { ListItem } from '@/types/lists'
+import { ListItem } from '@/types/supabase/lists'
 import { ListItemCard } from './list-item-card'
 
 type ListItemsGridProps = {

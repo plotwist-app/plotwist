@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
-import NextTopLoader from 'nextjs-toploader'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
