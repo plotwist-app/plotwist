@@ -11,17 +11,19 @@ import { ReviewItemSkeleton } from './review-item-skeleton'
 
 type ReviewsProps = { tmdbId: number; mediaType: MediaType }
 
+const fn = supabase
+.from('reviews_with_user')
+.select('*')
+.eq('tmdb_id', tmdbId)
+.order('id', { ascending: false })
+.eq('media_type', mediaType)
+.returns<Review[]>()
+
 export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
   const { data: response, isLoading } = useQuery({
     queryKey: [tmdbId, mediaType],
     queryFn: async () =>
-      supabase
-        .from('reviews_with_user')
-        .select('*')
-        .eq('tmdb_id', tmdbId)
-        .order('id', { ascending: false })
-        .eq('media_type', mediaType)
-        .returns<Review[]>(),
+      ,
   })
 
   if (isLoading) {

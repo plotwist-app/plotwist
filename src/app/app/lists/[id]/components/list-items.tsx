@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 
 import { ListItem } from '@/types/supabase/lists'
-import { Grid as LucideGrid, Table as LucideTable } from 'lucide-react'
+import { Grid, Table } from 'lucide-react'
 import { useState } from 'react'
 
 import { ListItemsGrid } from './list-items-grid'
@@ -29,7 +29,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
           variant={layout === 'table' ? 'default' : 'outline'}
           onClick={() => setLayout('table')}
         >
-          <LucideTable className="mr-2 h-4 w-4" />
+          <Table className="mr-2 h-4 w-4" />
           Table
         </Button>
 
@@ -37,7 +37,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
           variant={layout === 'grid' ? 'default' : 'outline'}
           onClick={() => setLayout('grid')}
         >
-          <LucideGrid className="mr-2 h-4 w-4" />
+          <Grid className="mr-2 h-4 w-4" />
           Grid
         </Button>
       </div>
