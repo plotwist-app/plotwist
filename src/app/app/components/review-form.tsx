@@ -16,21 +16,18 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 
 import { useReviews } from '@/hooks/use-reviews/use-reviews'
-import { MediaType } from '@/types/supabase/media-type'
 
 import { ReviewStars } from './review-stars'
+import { ReviewsProps } from './reviews'
 
-type ReviewFormProps = {
-  tmdbId: number
-  mediaType: MediaType
-}
+type ReviewFormProps = ReviewsProps
 
 const reviewFormSchema = z.object({
   review: z.string().min(1, 'Review is required.'),
   rating: z.number().min(0, 'Required').max(5, 'Max value of rating is 5'),
 })
 
-export const ReviewForm = ({ tmdbId, mediaType }: ReviewFormProps) => {
+export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
   const { handleCreateReview } = useReviews()
   const { user } = useAuth()
 
@@ -47,13 +44,14 @@ export const ReviewForm = ({ tmdbId, mediaType }: ReviewFormProps) => {
       {
         ...values,
         mediaType,
-        tmdbId,
         userId: user.id,
+        tmdbItem,
       },
+
       {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [tmdbId, mediaType],
+            queryKey: [tmdbItem.id, mediaType],
           })
 
           form.reset()

@@ -1,17 +1,23 @@
 import { supabase } from '@/services/supabase'
 import { CreateReviewValues, LikeReviewValues } from './use-reviews.types'
+import { sanitizeTmdbItem } from '@/utils/tmdb/review/sanitize-tmdb-item'
 
 export const createReview = async ({
   userId,
   mediaType,
-  tmdbId,
-  ...values
+  rating,
+  review,
+  tmdbItem,
 }: CreateReviewValues) => {
+  const tmdbItemValues = sanitizeTmdbItem(tmdbItem)
+
   const { error, data } = await supabase.from('reviews').insert({
-    ...values,
-    tmdb_id: tmdbId,
+    rating,
+    review,
     media_type: mediaType,
     user_id: userId,
+
+    ...tmdbItemValues,
   })
 
   if (error) throw new Error(error.message)

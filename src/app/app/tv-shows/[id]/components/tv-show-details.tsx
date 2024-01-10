@@ -43,7 +43,7 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           </TabsList>
 
           <TabsContent value="reviews" className="mt-4">
-            <Reviews tmdbId={id} mediaType="TV_SHOW" />
+            <Reviews tmdbItem={tvShow} mediaType="TV_SHOW" />
           </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
