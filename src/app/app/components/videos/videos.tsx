@@ -30,8 +30,6 @@ const Video = ({ video }: VideoProps) => {
 export const Videos = async ({ tmdbId, variant }: VideosProps) => {
   const { results } = await TMDB[variant].videos(tmdbId)
 
-  console.log({ results })
-
   return (
     <div className="grid grid-cols-2 gap-4">
       {results.map((video) => (
