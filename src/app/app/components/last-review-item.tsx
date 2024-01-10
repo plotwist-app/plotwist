@@ -3,6 +3,8 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import { ReviewStars } from './review-stars'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useMemo } from 'react'
+import Link from 'next/link'
 
 type LastReviewItemProps = { review: Review }
 
@@ -10,6 +12,8 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
   const {
     tmdb_poster_path: poster,
     tmdb_title: title,
+    tmdb_id: tmdbId,
+    media_type: mediaType,
     review: content,
     rating,
     user_info: {
@@ -18,16 +22,22 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
   } = review
   const usernameInitial = username[0].toUpperCase()
 
+  const href = useMemo(() => {
+    if (mediaType === 'MOVIE') return `/app/movies/${tmdbId}`
+
+    return `/app/tv-shows/${tmdbId}`
+  }, [mediaType, tmdbId])
+
   return (
     <div className="flex space-x-4">
-      <div className="w-1/6">
+      <Link href={href} className="w-1/6">
         <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
           {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
         </figure>
-      </div>
+      </Link>
 
       <div className="w-5/6 space-y-2">
-        <h5 className="text-xl">{title}</h5>
+        <h5 className="text-lg">{title}</h5>
 
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
