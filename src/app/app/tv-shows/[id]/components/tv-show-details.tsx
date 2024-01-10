@@ -31,10 +31,9 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           <TvShowDetailsInfo tvShow={tvShow} />
         </main>
 
-        <Tabs defaultValue="seasons" className="w-full">
+        <Tabs defaultValue="reviews" className="w-full">
           <TabsList>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
-
             <TabsTrigger value="seasons">Seasons</TabsTrigger>
             <TabsTrigger value="credits">Credits</TabsTrigger>
             <TabsTrigger value="images">Images</TabsTrigger>

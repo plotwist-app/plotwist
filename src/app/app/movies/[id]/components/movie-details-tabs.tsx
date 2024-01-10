@@ -10,7 +10,7 @@ type MovieDetailsTabsProps = { movie: MovieDetails }
 
 export const MovieDetailsTabs = ({ movie }: MovieDetailsTabsProps) => {
   return (
-    <Tabs defaultValue="credits" className="w-full">
+    <Tabs defaultValue="reviews" className="w-full">
       <TabsList>
         <TabsTrigger value="reviews">Reviews</TabsTrigger>
         <TabsTrigger value="credits">Credits</TabsTrigger>
