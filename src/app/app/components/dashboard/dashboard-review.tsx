@@ -1,14 +1,20 @@
 import { Review } from '@/types/supabase/reviews'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import { ReviewStars } from './review-stars'
+
 import { Skeleton } from '@/components/ui/skeleton'
-import { useMemo } from 'react'
 import Link from 'next/link'
+import { ReviewStars } from '../review-stars'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
-type LastReviewItemProps = { review: Review }
+type DashboardReviewProps = { review: Review }
 
-export const LastReviewItem = ({ review }: LastReviewItemProps) => {
+export const DashboardReview = ({ review }: DashboardReviewProps) => {
   const {
     tmdb_poster_path: poster,
     tmdb_title: title,
@@ -16,17 +22,16 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
     media_type: mediaType,
     review: content,
     rating,
+    review_likes: likes,
     user_info: {
       raw_user_meta_data: { username },
     },
   } = review
+
   const usernameInitial = username[0].toUpperCase()
 
-  const href = useMemo(() => {
-    if (mediaType === 'MOVIE') return `/app/movies/${tmdbId}`
-
-    return `/app/tv-shows/${tmdbId}`
-  }, [mediaType, tmdbId])
+  const href =
+    mediaType === 'MOVIE' ? `/app/movies/${tmdbId}` : `/app/tv-shows/${tmdbId}`
 
   return (
     <div className="flex space-x-4">
@@ -41,7 +46,7 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
 
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border">
+            <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs">
               {usernameInitial}
             </div>
             <span className="text-sm text-muted-foreground">{username}</span>
@@ -49,6 +54,16 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
             <span className="h-1 w-1 rounded-full bg-muted" />
 
             <ReviewStars rating={rating} />
+
+            {likes?.length && (
+              <>
+                <span className="h-1 w-1 rounded-full bg-muted" />
+
+                <div className="rounded-full border bg-muted px-3 py-1 text-xs">
+                  ❤ {likes.length}
+                </div>
+              </>
+            )}
           </div>
 
           <p className="text-muted-foreground">{content}</p>
@@ -58,7 +73,7 @@ export const LastReviewItem = ({ review }: LastReviewItemProps) => {
   )
 }
 
-export const LastReviewItemSkeleton = () => {
+export const DashboardReviewSkeleton = () => {
   return (
     <div className="flex space-x-4">
       <div className="w-1/6">

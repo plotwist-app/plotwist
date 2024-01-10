@@ -3,16 +3,17 @@
 import { supabase } from '@/services/supabase'
 import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
-import { LastReviewItem, LastReviewItemSkeleton } from './last-review-item'
 
-export const LastReviews = () => {
+import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
+
+export const DashboardPopularReviews = () => {
   const { data: response, isLoading } = useQuery({
-    queryKey: ['last-reviews'],
+    queryKey: ['dashboard-popular-reviews'],
     queryFn: async () =>
       await supabase
-        .from('reviews_with_user')
+        .from('reviews_with_user_and_like_count')
         .select()
-        .order('id', { ascending: false })
+        .order('review_likes_count', { ascending: false })
         .limit(3)
         .returns<Review[]>(),
   })
@@ -20,11 +21,11 @@ export const LastReviews = () => {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Last reviews</h3>
+        <h3 className="text-lg font-semibold">Popular reviews</h3>
 
         <div className="space-y-8">
           {Array.from({ length: 5 }).map((_, index) => (
-            <LastReviewItemSkeleton key={index} />
+            <DashboardReviewSkeleton key={index} />
           ))}
         </div>
       </div>
@@ -33,13 +34,15 @@ export const LastReviews = () => {
 
   if (!response?.data) return <></>
 
+  const reviews = response.data
+
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Last reviews</h3>
+      <h3 className="text-lg font-semibold">Popular reviews</h3>
 
       <div className="space-y-8">
-        {response.data.map((review) => (
-          <LastReviewItem key={review.id} review={review} />
+        {reviews.map((review) => (
+          <DashboardReview key={review.id} review={review} />
         ))}
       </div>
     </div>

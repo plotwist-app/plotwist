@@ -1,10 +1,13 @@
 import { TMDB } from '@/services/TMDB'
 
-import { LastReviews } from './components/last-reviews'
 import { MovieCard } from '@/components/movie-card'
 import { TvShowCard } from '@/components/tv-show-card'
 import { Separator } from '@/components/ui/separator'
-import { LastReview } from './components/last-review'
+
+import {
+  DashboardUserLastReview,
+  DashboardPopularReviews,
+} from './components/dashboard'
 
 const AppPage = async () => {
   const popularMovies = await TMDB.movies.popular()
@@ -19,11 +22,11 @@ const AppPage = async () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr,300px] space-x-8">
+      <div className="grid grid-cols-[1fr,325px] space-x-8">
         <div className="space-y-8">
-          <LastReview />
+          <DashboardUserLastReview />
           <Separator className="bg-muted/75" />
-          <LastReviews />
+          <DashboardPopularReviews />
         </div>
 
         <div className="space-y-16">
