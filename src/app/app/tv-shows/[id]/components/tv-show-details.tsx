@@ -7,9 +7,11 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { TvShowSeasons } from './tv-show-seasons'
 import { TvShowCredits } from './tv-show-credits'
 import { TvShowRelated } from './tv-show-related'
-import { TvShowImages } from './tv-show-images'
 import { TvShowDetailsInfo } from './tv-show-details-info'
+
 import { Reviews } from '@/app/app/components/reviews'
+import { Videos } from '@/app/app/components/videos'
+import { Images } from '@/app/app/components/images'
 
 type TvShowsDetailsProps = {
   id: number
@@ -36,9 +38,10 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="seasons">Seasons</TabsTrigger>
             <TabsTrigger value="credits">Credits</TabsTrigger>
-            <TabsTrigger value="images">Images</TabsTrigger>
             <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
             <TabsTrigger value="similar">Similar</TabsTrigger>
+            <TabsTrigger value="images">Images</TabsTrigger>
+            <TabsTrigger value="videos">Videos</TabsTrigger>
           </TabsList>
 
           <TabsContent value="reviews" className="mt-4">
@@ -53,16 +56,20 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
             <TvShowCredits tvShowID={id} />
           </TabsContent>
 
-          <TabsContent value="images" className="mt-4">
-            <TvShowImages tvShowID={id} />
-          </TabsContent>
-
           <TabsContent value="recommendations" className="mt-4">
             <TvShowRelated tvShowID={id} variant="recommendations" />
           </TabsContent>
 
           <TabsContent value="similar" className="mt-4">
             <TvShowRelated tvShowID={id} variant="similar" />
+          </TabsContent>
+
+          <TabsContent value="images" className="mt-4">
+            <Images tmdbId={id} variant="tvShows" />
+          </TabsContent>
+
+          <TabsContent value="videos" className="mt-4">
+            <Videos tmdbId={id} variant="tvShows" />
           </TabsContent>
         </Tabs>
       </div>

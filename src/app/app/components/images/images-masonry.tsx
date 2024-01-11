@@ -5,11 +5,11 @@ import { Image as ImageTMDB } from 'tmdb-ts'
 import ReactMasonryCss from 'react-masonry-css'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-type MasonryProps = {
+type ImagesMasonryProps = {
   images: ImageTMDB[]
 }
 
-export const Masonry = ({ images }: MasonryProps) => {
+export const ImagesMasonry = ({ images }: ImagesMasonryProps) => {
   return (
     <ReactMasonryCss
       className="flex space-x-4"
