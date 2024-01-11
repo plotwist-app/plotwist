@@ -3,11 +3,16 @@ import { MediaType } from './media-type'
 export type Review = {
   created_at: string
   id: number
-  media_type: MediaType
+
   rating: number
   review: string
-  tmdb_id: number
   user_id: string
+  media_type: MediaType
+  tmdb_id: number
+  tmdb_title: string
+  tmdb_overview: string
+  tmdb_poster_path?: string
+
   user_info: UserInfo
   review_likes?: ReviewLike[]
 }

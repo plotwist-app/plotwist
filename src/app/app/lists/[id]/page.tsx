@@ -8,9 +8,14 @@ import { useQuery } from '@tanstack/react-query'
 import { ListItems } from './components/list-items'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTableSkeleton } from './components/data-table-skeleton'
+import { useAuth } from '@/context/auth'
+import { useRouter } from 'next/navigation'
 
 const ListPage = ({ params }: { params: { id: string } }) => {
-  const { data, isLoading } = useQuery({
+  const { user } = useAuth()
+  const { push } = useRouter()
+
+  const { data: response, isLoading } = useQuery({
     queryKey: [Number(params.id)],
     queryFn: async () => {
       const response = await supabase
@@ -42,7 +47,7 @@ const ListPage = ({ params }: { params: { id: string } }) => {
     )
   }
 
-  if (!data?.data) {
+  if (!response?.data) {
     return (
       <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
         <div className="flex items-center justify-between">
@@ -61,7 +66,10 @@ const ListPage = ({ params }: { params: { id: string } }) => {
     )
   }
 
-  const list = data.data
+  const list = response.data
+
+  // TODO: REVER ISSO
+  if (user.id !== list.user_id) push('/app/lists')
 
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">

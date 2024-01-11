@@ -1,11 +1,13 @@
 import { MediaType } from '@/types/supabase/media-type'
+import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 export type CreateReviewValues = {
-  review: string
   rating: number
+  review: string
   userId: string
-  tmdbId: number
   mediaType: MediaType
+
+  tmdbItem: TvShowDetails | MovieDetails
 }
 
 export type LikeReviewValues = {

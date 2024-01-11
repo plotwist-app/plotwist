@@ -1,3 +1,5 @@
+'use client'
+
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 

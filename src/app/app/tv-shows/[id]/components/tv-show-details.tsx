@@ -31,10 +31,9 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           <TvShowDetailsInfo tvShow={tvShow} />
         </main>
 
-        <Tabs defaultValue="seasons" className="w-full">
+        <Tabs defaultValue="reviews" className="w-full">
           <TabsList>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
-
             <TabsTrigger value="seasons">Seasons</TabsTrigger>
             <TabsTrigger value="credits">Credits</TabsTrigger>
             <TabsTrigger value="images">Images</TabsTrigger>
@@ -43,7 +42,7 @@ export const TvShowsDetails = async ({ id }: TvShowsDetailsProps) => {
           </TabsList>
 
           <TabsContent value="reviews" className="mt-4">
-            <Reviews tmdbId={id} mediaType="TV_SHOW" />
+            <Reviews tmdbItem={tvShow} mediaType="TV_SHOW" />
           </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
