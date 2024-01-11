@@ -53,10 +53,19 @@ export const ReviewItemActions = ({
   )
   const isUserLiked = Boolean(userLike)
 
-  const invalidateQuery = () =>
-    APP_QUERY_CLIENT.invalidateQueries({
-      queryKey: [tmdbId, mediaType],
-    })
+  const invalidateQuery = () => {
+    const queries = [
+      ['dashboard-user-last-review'],
+      ['dashboard-popular-reviews'],
+      [tmdbId, mediaType],
+    ]
+
+    queries.map((queryKey) =>
+      APP_QUERY_CLIENT.invalidateQueries({
+        queryKey,
+      }),
+    )
+  }
 
   return (
     <div className="flex items-center space-x-2">

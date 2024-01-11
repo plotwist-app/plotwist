@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { sanitizeListItem } from '@/utils/list/list_item/sanitize'
 import { Plus } from 'lucide-react'
 import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 import { toast } from 'sonner'
@@ -18,6 +17,7 @@ import { List } from '@/types/supabase/lists'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
 type AddToListDropdownProps = {
   item: TvShowDetails | MovieDetails

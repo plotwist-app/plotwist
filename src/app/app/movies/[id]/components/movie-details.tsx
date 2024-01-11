@@ -35,7 +35,7 @@ export const MovieDetails = async ({ id }: MovieDetailsProps) => {
           <MovieCollection collectionId={movie.belongs_to_collection.id} />
         )}
 
-        <MovieDetailsTabs movieId={id} />
+        <MovieDetailsTabs movie={movie} />
       </div>
     </div>
   )

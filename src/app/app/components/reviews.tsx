@@ -8,17 +8,21 @@ import { useQuery } from '@tanstack/react-query'
 import { ReviewItem } from './review-item'
 import { ReviewForm } from './review-form'
 import { ReviewItemSkeleton } from './review-item-skeleton'
+import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 
-type ReviewsProps = { tmdbId: number; mediaType: MediaType }
+export type ReviewsProps = {
+  tmdbItem: TvShowDetails | MovieDetails
+  mediaType: MediaType
+}
 
-export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
+export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { data: response, isLoading } = useQuery({
-    queryKey: [tmdbId, mediaType],
+    queryKey: [tmdbItem.id, mediaType],
     queryFn: async () =>
       supabase
         .from('reviews_with_user')
         .select('*')
-        .eq('tmdb_id', tmdbId)
+        .eq('tmdb_id', tmdbItem.id)
         .order('id', { ascending: false })
         .eq('media_type', mediaType)
         .returns<Review[]>(),
@@ -42,7 +46,7 @@ export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
         <ReviewItem key={review.id} review={review} />
       ))}
 
-      <ReviewForm mediaType={mediaType} tmdbId={tmdbId} />
+      <ReviewForm mediaType={mediaType} tmdbItem={tmdbItem} />
     </section>
   )
 }

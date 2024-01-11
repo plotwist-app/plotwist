@@ -15,9 +15,9 @@ import { Movie } from 'tmdb-ts'
 import { List } from '@/types/supabase/lists'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { sanitizeListItem } from '@/utils/list/list_item/sanitize'
 import { toast } from 'sonner'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>
