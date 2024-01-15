@@ -1,11 +1,10 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { NAVIGATION } from './sidebar-navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { Item } from './sidebar-navigation-item'
 import { Separator } from '@/components/ui/separator'
+import { Item, NAVIGATION } from './sidebar'
 
 const FLAT_NAVIGATION = NAVIGATION.flatMap((nav) => [
   nav,

@@ -12,13 +12,14 @@ import {
   Tv,
   User,
 } from 'lucide-react'
+
+import { Accordion } from '@/components/ui/accordion'
 import {
   SidebarNavigationItem,
   SidebarNavigationItemProps,
-} from './sidebar-navigation-item'
-import { Accordion } from '@/components/ui/accordion'
-import { SidebarSearch } from './sidebar-search'
-import { SidebarSearchProvider } from './sidebar-search-provider'
+  SidebarSearch,
+  SidebarSearchProvider,
+} from '.'
 
 export const NAVIGATION: SidebarNavigationItemProps[] = [
   {

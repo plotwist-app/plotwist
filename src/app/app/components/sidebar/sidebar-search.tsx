@@ -19,6 +19,7 @@ import {
   CommandInput,
   CommandList,
 } from '@/components/ui/command'
+
 import { TMDB } from '@/services/TMDB'
 
 import { SidebarSearchMovie } from './sidebar-search-movie'

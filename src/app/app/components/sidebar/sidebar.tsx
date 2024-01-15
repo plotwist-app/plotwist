@@ -1,5 +1,6 @@
 import { SettingsDropdown } from '@/components/settings-dropdown'
-import { SidebarNavigation } from './sidebar-navigation'
+import { SidebarNavigation } from '.'
+
 import { User } from '@supabase/supabase-js'
 
 type SidebarProps = {
