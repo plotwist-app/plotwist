@@ -29,7 +29,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 
   return (
     <Link
-      href={`/app/movies/${id}`}
+      href={`/en-US/app/movies/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid="movie-card"
     >

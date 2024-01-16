@@ -1,6 +1,7 @@
 'use client'
 
-import { AddCollectionToListDropdown } from '@/app/app/components/add-collection-to-list-button'
+import { AddCollectionToListDropdown } from '../../../components/add-collection-to-list-button'
+
 import { MovieCard } from '@/components/movie-card'
 import { Button } from '@/components/ui/button'
 import {

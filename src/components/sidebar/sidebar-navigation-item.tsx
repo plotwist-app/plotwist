@@ -8,7 +8,7 @@ import {
 import { cn } from '@/lib/utils'
 import { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
 export type Item = {
@@ -29,6 +29,7 @@ export const SidebarNavigationItem = ({
   items,
 }: SidebarNavigationItemProps) => {
   const path = usePathname()
+  const { lang } = useParams<{ lang: string }>()
 
   const isActive = useMemo(() => {
     if (href === '/app') {
@@ -60,7 +61,7 @@ export const SidebarNavigationItem = ({
 
   return (
     <Link
-      href={href}
+      href={`/${lang}${href}`}
       className={cn(
         'flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm',
         isActive

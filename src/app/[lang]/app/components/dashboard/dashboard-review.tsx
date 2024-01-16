@@ -1,16 +1,11 @@
-import { Review } from '@/types/supabase/reviews'
-import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Skeleton } from '@/components/ui/skeleton'
-import Link from 'next/link'
-import { ReviewStars } from '../review-stars'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { ReviewStars } from '@/components/reviews'
+
+import { Review } from '@/types/supabase/reviews'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type DashboardReviewProps = { review: Review }
 

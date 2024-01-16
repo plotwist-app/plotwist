@@ -9,8 +9,8 @@ import { format } from 'date-fns'
 import { MovieDetails } from 'tmdb-ts'
 
 import { Separator } from '@/components/ui/separator'
-import { WatchProviders } from '@/app/app/components/watch-providers'
-import { AddToListDropdown } from '@/app/app/components/add-to-list-dropdown'
+import { WatchProviders } from '../../../components/watch-providers'
+import { AddToListDropdown } from '../../../components/add-to-list-dropdown'
 
 type MovieDetailsInfoProps = {
   movie: MovieDetails

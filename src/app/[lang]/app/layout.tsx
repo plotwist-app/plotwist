@@ -3,9 +3,10 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { Header } from './components/header'
-import { Sidebar } from './components/sidebar'
+
 import { ListsContextProvider } from '@/context/lists'
 import { AuthContextProvider } from '@/context/auth'
+import { Sidebar } from '@/components/sidebar'
 
 export default async function AppLayout({
   children,
@@ -19,7 +20,7 @@ export default async function AppLayout({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    redirect('/en-US/login')
   }
 
   return (

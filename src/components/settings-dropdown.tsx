@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes'
 import { LogOut, Settings } from 'lucide-react'
 import ReactCountryFlag from 'react-country-flag'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from './ui/button'
 import {
@@ -18,11 +18,26 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from './ui/dropdown-menu'
+
+import { Locale } from '@/types/locales'
 import { SUPPORTED_LOCALES } from '../../locales'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
   const pathname = usePathname()
+  const { replace } = useRouter()
+
+  const currentLocale = pathname.split('/')[1]
+
+  const handleRedirectLocaleChange = (locale: Locale) => {
+    const paramsArray = pathname.split('/')
+    const newParamsArray = paramsArray.map((param, index) =>
+      index === 1 ? locale : param,
+    )
+
+    const newPathname = newParamsArray.join('/')
+    replace(newPathname)
+  }
 
   return (
     <DropdownMenu>
@@ -66,23 +81,22 @@ export const SettingsDropdown = () => {
             <DropdownMenuSubTrigger>English</DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
-              {SUPPORTED_LOCALES.map((language) => (
+              {SUPPORTED_LOCALES.map(({ value, country, label, enabled }) => (
                 <DropdownMenuItem
-                  key={language.value}
-                  disabled
+                  key={value}
                   className={
-                    language.value === 'en-US'
-                      ? 'space-x-2 bg-muted'
-                      : 'space-x-2'
+                    value === currentLocale ? 'space-x-2 bg-muted' : 'space-x-2'
                   }
+                  disabled={!enabled}
+                  onClick={() => handleRedirectLocaleChange(value)}
                 >
                   <ReactCountryFlag
-                    countryCode={language.country}
+                    countryCode={country}
                     svg
                     className="mr-2"
                   />
 
-                  {language.label}
+                  {label}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuSubContent>

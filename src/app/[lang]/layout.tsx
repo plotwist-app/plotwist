@@ -4,7 +4,7 @@ import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
-import './globals.css'
+import '../globals.css'
 import { AppContextProvider } from '@/context/app/app'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })

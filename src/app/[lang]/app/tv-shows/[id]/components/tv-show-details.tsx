@@ -1,5 +1,3 @@
-import { Banner } from '@/app/app/components/banner'
-import { Poster } from '@/app/app/components/poster'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TMDB } from '@/services/TMDB'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -9,9 +7,9 @@ import { TvShowCredits } from './tv-show-credits'
 import { TvShowRelated } from './tv-show-related'
 import { TvShowDetailsInfo } from './tv-show-details-info'
 
-import { Reviews } from '@/app/app/components/reviews'
-import { Videos } from '@/app/app/components/videos'
-import { Images } from '@/app/app/components/images'
+import { Banner } from '@/components/banner'
+import { Poster } from '@/components/poster'
+import { Reviews } from '@/components/reviews'
 
 type TvShowsDetailsProps = {
   id: number

@@ -1,19 +1,22 @@
-import { TMDB } from '@/services/TMDB'
-
 import { MovieDetailsTabs } from './movie-details-tabs'
 import { MovieCollection } from './movie-collection'
 
-import { Banner } from '@/app/app/components/banner'
-import { Poster } from '@/app/app/components/poster'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MovieDetailsInfo } from './movie-details-info'
 
+import { tmdb } from '@/services/tmdb2'
+import { Locale } from '@/types/locales'
+
+import { Banner } from '@/components/banner'
+import { Poster } from '@/components/poster'
+
 type MovieDetailsProps = {
   id: number
+  locale: Locale
 }
 
-export const MovieDetails = async ({ id }: MovieDetailsProps) => {
-  const movie = await TMDB.movies.details(id)
+export const MovieDetails = async ({ id, locale }: MovieDetailsProps) => {
+  const movie = await tmdb.movies.details(id, locale)
 
   return (
     <div>

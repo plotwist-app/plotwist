@@ -1,11 +1,13 @@
+import { MovieDetails } from 'tmdb-ts'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Videos } from '@/app/app/components/videos'
-import { Images } from '@/app/app/components/images'
-import { Reviews } from '@/app/app/components/reviews'
 
 import { MovieCredits } from './movie-credits'
 import { MovieRelated } from './movie-related'
-import { MovieDetails } from 'tmdb-ts'
+
+import { Reviews } from '@/components/reviews'
+import { Images } from '@/components/images'
+import { Videos } from '@/components/videos'
 
 type MovieDetailsTabsProps = { movie: MovieDetails }
 

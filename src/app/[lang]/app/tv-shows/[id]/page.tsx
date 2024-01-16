@@ -1,6 +1,8 @@
 import { TvShowsDetails } from './components/tv-show-details'
 
-const TvShowPage = ({ params }: { params: { id: string } }) => {
+export type TvShowPageParams = { id: string; lang: Locale }
+
+const TvShowPage = ({ params }: { params: TvShowPageParams }) => {
   return <TvShowsDetails id={Number(params.id)} />
 }
 
