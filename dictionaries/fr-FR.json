@@ -1,0 +1,15 @@
+{
+  "home": {
+    "title": "Explorez des films, des émissions de télévision et des personnes !",
+    "description": "TMDB est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
+    "start": "Commencez maintenant",
+    "read_more": "En savoir plus"
+  },
+  "movies_list": {
+    "now_playing": "Films à l'affiche",
+    "popular": "Films populaires",
+    "top_rated": "Films les mieux notés",
+    "upcoming": "Prochaines sorties",
+    "show_all": "Tout afficher"
+  }
+}

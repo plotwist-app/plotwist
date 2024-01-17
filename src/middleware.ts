@@ -3,12 +3,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
-import { locales } from '../locales'
+import { languages as appLanguages } from '../languages'
 
 const headers = { 'accept-language': 'en-US,en;q=0.5' }
 const languages = new Negotiator({ headers }).languages()
 const defaultLocale = 'en-US'
-match(languages, locales, defaultLocale)
+match(languages, appLanguages, defaultLocale)
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
@@ -18,6 +18,4 @@ export async function middleware(req: NextRequest) {
   return res
 }
 
-export const config = {
-  matcher: ['/app'],
-}
+export const config = {}

@@ -18,21 +18,20 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from './ui/dropdown-menu'
-
-import { Locale } from '@/types/locales'
-import { SUPPORTED_LOCALES } from '../../locales'
+import { SUPPORTED_LANGUAGES } from '../../languages'
+import { Language } from '@/types/languages'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
   const pathname = usePathname()
   const { replace } = useRouter()
 
-  const currentLocale = pathname.split('/')[1]
+  const currentLanguage = pathname.split('/')[1]
 
-  const handleRedirectLocaleChange = (locale: Locale) => {
+  const handleRedirectLanguageChange = (language: Language) => {
     const paramsArray = pathname.split('/')
     const newParamsArray = paramsArray.map((param, index) =>
-      index === 1 ? locale : param,
+      index === 1 ? language : param,
     )
 
     const newPathname = newParamsArray.join('/')
@@ -81,14 +80,16 @@ export const SettingsDropdown = () => {
             <DropdownMenuSubTrigger>English</DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
-              {SUPPORTED_LOCALES.map(({ value, country, label, enabled }) => (
+              {SUPPORTED_LANGUAGES.map(({ value, country, label, enabled }) => (
                 <DropdownMenuItem
                   key={value}
                   className={
-                    value === currentLocale ? 'space-x-2 bg-muted' : 'space-x-2'
+                    value === currentLanguage
+                      ? 'space-x-2 bg-muted'
+                      : 'space-x-2'
                   }
                   disabled={!enabled}
-                  onClick={() => handleRedirectLocaleChange(value)}
+                  onClick={() => handleRedirectLanguageChange(value)}
                 >
                   <ReactCountryFlag
                     countryCode={country}

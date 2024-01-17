@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import * as Movies from './movies'
+import { movieDetails, moviesList } from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
 
@@ -13,6 +13,7 @@ export const tmdbClient = axios.create({
 
 export const tmdb = {
   movies: {
-    details: Movies.details,
+    details: movieDetails,
+    lists: moviesList,
   },
 }

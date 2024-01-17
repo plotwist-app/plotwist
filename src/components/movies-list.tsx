@@ -1,20 +1,24 @@
-import { TMDB } from '@/services/TMDB'
+import { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictorionaries'
+import { tmdb } from '@/services/tmdb2'
+import { MoviesListType } from '@/services/tmdb2/requests'
 import { MovieCard } from './movie-card'
 
-type Variant = 'popular' | 'nowPlaying' | 'topRated' | 'upcoming'
-
 type MoviesListProps = {
-  variant: Variant
+  list: MoviesListType
+  lang: Language
 }
 
-export const MoviesList = async ({ variant }: MoviesListProps) => {
-  const { results } = await TMDB.movies[variant]()
+export const MoviesList = async ({ list, lang }: MoviesListProps) => {
+  const { results } = await tmdb.movies.lists(list, lang)
 
-  const title: Record<Variant, string> = {
-    nowPlaying: 'Now playing movies',
-    popular: 'Popular movies',
-    topRated: 'Top rated movies',
-    upcoming: 'Up coming movies',
+  const dictionary = await getDictionary(lang)
+
+  const title: Record<MoviesListType, string> = {
+    now_playing: dictionary.movies_list.now_playing,
+    popular: dictionary.movies_list.popular,
+    top_rated: dictionary.movies_list.top_rated,
+    upcoming: dictionary.movies_list.upcoming,
   }
 
   return (
@@ -22,11 +26,11 @@ export const MoviesList = async ({ variant }: MoviesListProps) => {
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-2">
           <div className="h-3 w-3 rounded-sm bg-muted" />
-          <h2 className="text-lg font-bold md:text-2xl">{title[variant]}</h2>
+          <h2 className="text-lg font-bold md:text-2xl">{title[list]}</h2>
         </div>
 
         <span className="cursor-pointer text-xs  text-muted-foreground underline">
-          Show all
+          {dictionary.movies_list.show_all}
         </span>
       </div>
 

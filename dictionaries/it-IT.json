@@ -1,0 +1,15 @@
+{
+  "home": {
+    "title": "Esplora film, programmi TV e persone!",
+    "description": "TMDB è per gli appassionati di cinema che amano esplorare milioni di film e serie TV, con informazioni come sinossi, cast, budget e molto altro.",
+    "start": "Inizia ora",
+    "read_more": "Leggi di più"
+  },
+  "movies_list": {
+    "now_playing": "Film in sala",
+    "popular": "Film popolari",
+    "top_rated": "Film più votati",
+    "upcoming": "Prossime uscite",
+    "show_all": "Mostra tutto"
+  }
+}
