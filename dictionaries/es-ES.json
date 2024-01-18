@@ -33,5 +33,11 @@
     "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
     "try_again": "Intentar de nuevo"
+  },
+  "app_page": {
+    "dashboard_title": "Panel de Control",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Películas Populares",
+    "popular_tv_shows_title": "Programas de TV Populares"
   }
 }

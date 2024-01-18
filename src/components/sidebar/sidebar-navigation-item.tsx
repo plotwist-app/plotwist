@@ -32,12 +32,12 @@ export const SidebarNavigationItem = ({
   const { lang } = useParams<{ lang: string }>()
 
   const isActive = useMemo(() => {
-    if (href === '/app') {
-      return path === '/app'
+    if (href === `${lang}/app`) {
+      return path === `${lang}/app`
     }
 
     return path.includes(href)
-  }, [href, path])
+  }, [href, lang, path])
 
   if (items)
     return (

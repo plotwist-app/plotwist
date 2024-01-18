@@ -34,4 +34,10 @@ export type Dictionary = {
     invalid_login_credentials: string
     try_again: string
   }
+  app_page: {
+    dashboard_title: string
+    dashboard_description: string
+    popular_movies_title: string
+    popular_tv_shows_title: string
+  }
 }

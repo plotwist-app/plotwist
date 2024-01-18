@@ -33,5 +33,11 @@
     "login_success": "Anmeldung erfolgreich. Willkommen! 🎉",
     "invalid_login_credentials": "Ungültige Anmeldeinformationen",
     "try_again": "Erneut versuchen"
+  },
+  "app_page": {
+    "dashboard_title": "Dashboard",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Beliebte Filme",
+    "popular_tv_shows_title": "Beliebte Fernsehsendungen"
   }
 }

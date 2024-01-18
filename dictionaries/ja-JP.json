@@ -33,5 +33,11 @@
     "login_success": "ログイン成功。ようこそ！🎉",
     "invalid_login_credentials": "ログイン情報が無効です",
     "try_again": "再試行"
+  },
+  "app_page": {
+    "dashboard_title": "ダッシュボード",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "人気の映画",
+    "popular_tv_shows_title": "人気のテレビ番組"
   }
 }

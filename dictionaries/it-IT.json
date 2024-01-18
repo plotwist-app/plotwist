@@ -33,5 +33,11 @@
     "login_success": "Accesso effettuato con successo. Benvenuto! 🎉",
     "invalid_login_credentials": "Credenziali di accesso non valide",
     "try_again": "Riprova"
+  },
+  "app_page": {
+    "dashboard_title": "Cruscotto",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Film Popolari",
+    "popular_tv_shows_title": "Programmi TV Popolari"
   }
 }

@@ -33,5 +33,11 @@
     "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
+  },
+  "app_page": {
+    "dashboard_title": "Dashboard",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Filmes Populares",
+    "popular_tv_shows_title": "Programas de TV Populares"
   }
 }

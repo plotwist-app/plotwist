@@ -33,5 +33,11 @@
     "login_success": "Login successful. Welcome! 🎉",
     "invalid_login_credentials": "Invalid login credentials",
     "try_again": "Try again"    
+  },
+  "app_page": {
+    "dashboard_title": "Dashboard",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Popular movies",
+    "popular_tv_shows_title": "Popular TV Shows"
   }
 }

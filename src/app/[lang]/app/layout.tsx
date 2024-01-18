@@ -31,7 +31,6 @@ export default async function AppLayout({
 
           <main className="max-h-screen w-full overflow-y-scroll">
             <Header />
-
             {children}
           </main>
         </div>

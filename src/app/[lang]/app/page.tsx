@@ -1,24 +1,35 @@
-import { TMDB } from '@/services/TMDB'
-
 import { MovieCard } from '@/components/movie-card'
-import { TvShowCard } from '@/components/tv-show-card'
 import { Separator } from '@/components/ui/separator'
 
 import {
   DashboardUserLastReview,
   DashboardPopularReviews,
 } from './components/dashboard'
+import { PageParams } from '@/types/languages'
+import { tmdb } from '@/services/tmdb2'
+import { getDictionary } from '@/utils/dictionaries'
+import { TMDB } from '@/services/TMDB'
+import { TvShowCard } from '@/components/tv-show-card'
 
-const AppPage = async () => {
-  const popularMovies = await TMDB.movies.popular()
-  const popularTvShows = await TMDB.tvShows.popular()
+const AppPage = async ({ params: { lang } }: PageParams) => {
+  const dictionary = await getDictionary(lang)
+
+  const popularMovies = await tmdb.movies.lists('popular', lang)
+  const popularTvShows = await tmdb.tvShows.lists('popular', lang)
+
+  console.log({ teste: popularTvShows.results[0] })
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">description about dashboard</p>
+          <h1 className="text-2xl font-bold">
+            {dictionary.app_page.dashboard_title}
+          </h1>
+
+          <p className="text-muted-foreground">
+            {dictionary.app_page.dashboard_description}
+          </p>
         </div>
       </div>
 
@@ -31,7 +42,9 @@ const AppPage = async () => {
 
         <div className="space-y-16">
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Popular movies</h4>
+            <h4 className="text-lg font-semibold">
+              {dictionary.app_page.popular_movies_title}
+            </h4>
 
             <div className="flex flex-col space-y-8">
               {popularMovies.results.slice(0, 2).map((movie) => (
@@ -41,7 +54,9 @@ const AppPage = async () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Popular TV Shows</h4>
+            <h4 className="text-lg font-semibold">
+              {dictionary.app_page.popular_tv_shows_title}
+            </h4>
 
             <div className="flex flex-col space-y-8">
               {popularTvShows.results.slice(0, 2).map((tvShow) => (
