@@ -21,14 +21,12 @@ export default async function Home({ params: { lang } }: PageParams) {
             <Button variant="outline" asChild>
               <Link href={`/${lang}/login`}>{dictionary.home.start}</Link>
             </Button>
-
-            <Button disabled>{dictionary.home.read_more}</Button>
           </div>
         </div>
       </section>
 
       <div className="space-y-12">
-        <MoviesList list="top_rated" lang={lang} />
+        <MoviesList list="top_rated" language={lang} />
       </div>
     </main>
   )

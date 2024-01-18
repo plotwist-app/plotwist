@@ -1,23 +1,21 @@
 import { MovieCard } from '@/components/movie-card'
 import { Separator } from '@/components/ui/separator'
+import { TvShowCard } from '@/components/tv-show-card'
 
 import {
   DashboardUserLastReview,
   DashboardPopularReviews,
 } from './components/dashboard'
+
 import { PageParams } from '@/types/languages'
 import { tmdb } from '@/services/tmdb2'
 import { getDictionary } from '@/utils/dictionaries'
-import { TMDB } from '@/services/TMDB'
-import { TvShowCard } from '@/components/tv-show-card'
 
 const AppPage = async ({ params: { lang } }: PageParams) => {
   const dictionary = await getDictionary(lang)
 
   const popularMovies = await tmdb.movies.lists('popular', lang)
   const popularTvShows = await tmdb.tvShows.lists('popular', lang)
-
-  console.log({ teste: popularTvShows.results[0] })
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-6">
@@ -48,7 +46,7 @@ const AppPage = async ({ params: { lang } }: PageParams) => {
 
             <div className="flex flex-col space-y-8">
               {popularMovies.results.slice(0, 2).map((movie) => (
-                <MovieCard movie={movie} key={movie.id} />
+                <MovieCard movie={movie} key={movie.id} language={lang} />
               ))}
             </div>
           </div>

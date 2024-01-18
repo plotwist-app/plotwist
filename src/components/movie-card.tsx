@@ -10,12 +10,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
+import { Language } from '@/types/languages'
 
 type MovieCardProps = {
   movie: Movie | Recommendation
+  language: Language
 }
 
-export const MovieCard = ({ movie }: MovieCardProps) => {
+export const MovieCard = ({ movie, language }: MovieCardProps) => {
   const {
     title,
     backdrop_path: backdrop,
@@ -29,7 +31,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 
   return (
     <Link
-      href={`/en-US/app/movies/${id}`}
+      href={`/${language}/app/movies/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid="movie-card"
     >
@@ -43,7 +45,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         />
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         <div className="flex items-start justify-between gap-1">
           <span className="">{title}</span>
 

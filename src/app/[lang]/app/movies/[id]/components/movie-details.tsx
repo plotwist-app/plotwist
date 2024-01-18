@@ -3,7 +3,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { tmdb } from '@/services/tmdb2'
 
 import { MovieCredits } from './movie-credits'
-import { MovieRelated } from './movie-related'
 import { MovieCollection } from './movie-collection'
 import { MovieDetailsInfo } from './movie-details-info'
 
@@ -17,6 +16,7 @@ import { Poster } from '@/components/poster'
 
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { MovieRelated } from './movie-related'
 
 type MovieDetailsProps = {
   id: number
@@ -68,11 +68,19 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="recommendations" className="mt-4">
-            <MovieRelated movieId={movie.id} variant="recommendations" />
+            <MovieRelated
+              movieId={movie.id}
+              variant="recommendations"
+              language={language}
+            />
           </TabsContent>
 
           <TabsContent value="similar" className="mt-4">
-            <MovieRelated movieId={movie.id} variant="similar" />
+            <MovieRelated
+              movieId={movie.id}
+              variant="similar"
+              language={language}
+            />
           </TabsContent>
 
           <TabsContent value="images" className="mt-4">

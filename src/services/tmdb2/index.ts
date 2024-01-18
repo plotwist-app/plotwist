@@ -1,6 +1,11 @@
 import axios from 'axios'
 
-import { movieDetails, moviesList, tvShowsLists } from './requests'
+import {
+  movieDetails,
+  movieRelated,
+  moviesList,
+  tvShowsLists,
+} from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
 
@@ -15,6 +20,7 @@ export const tmdb = {
   movies: {
     details: movieDetails,
     lists: moviesList,
+    related: movieRelated,
   },
   tvShows: {
     lists: tvShowsLists,

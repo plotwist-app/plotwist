@@ -1,26 +1,27 @@
 import { MovieCard } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
-import { Recommendation } from 'tmdb-ts'
+import { tmdb } from '@/services/tmdb2'
+import { MovieRelatedType } from '@/services/tmdb2/requests/movie-related'
+import { Language } from '@/types/languages'
 
 type MovieRelatedProps = {
   movieId: number
-  variant: 'recommendations' | 'similar'
+  variant: MovieRelatedType
+  language: Language
 }
 
-type MovieRelatedContentProps = {
-  results: Recommendation[]
-}
+export const MovieRelated = async ({
+  movieId,
+  variant,
+  language,
+}: MovieRelatedProps) => {
+  const { results } = await tmdb.movies.related(movieId, variant, language)
 
-export const MovieRelatedContent = ({ results }: MovieRelatedContentProps) => (
-  <div className="grid grid-cols-3 gap-x-4 gap-y-8">
-    {results.map((movie) => (
-      <MovieCard movie={movie} key={movie.id} />
-    ))}
-  </div>
-)
-
-export const MovieRelated = async ({ movieId, variant }: MovieRelatedProps) => {
-  const { results } = await TMDB.movies[variant](movieId)
-
-  return <MovieRelatedContent results={results} />
+  return (
+    <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      {results.map((movie) => (
+        <MovieCard movie={movie} key={movie.id} language={language} />
+      ))}
+    </div>
+  )
 }

@@ -2,8 +2,7 @@
   "home": {
     "title": "¡Explora películas, programas de TV y personas!",
     "description": "TMDB es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
-    "start": "Comienza ahora",
-    "read_more": "Leer más"
+    "start": "Comienza ahora"
   },
   "movies_list": {
     "now_playing": "Películas en cartelera",

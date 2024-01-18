@@ -2,8 +2,7 @@
   "home": {
     "title": "Entdecken Sie Filme, Fernsehsendungen und Personen!",
     "description": "TMDB ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
-    "start": "Jetzt starten",
-    "read_more": "Mehr erfahren"
+    "start": "Jetzt starten"
   },
   "movies_list": {
     "now_playing": "Aktuelle Kinofilme",

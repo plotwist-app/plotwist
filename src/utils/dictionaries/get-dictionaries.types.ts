@@ -3,7 +3,6 @@ export type Dictionary = {
     title: string
     description: string
     start: string
-    read_more: string
   }
   movies_list: {
     now_playing: string

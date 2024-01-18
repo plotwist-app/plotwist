@@ -2,8 +2,7 @@
   "home": {
     "title": "Explore movies, TV shows, and people!",
     "description": "TMDB is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
-    "start": "Start now",
-    "read_more": "Read more"
+    "start": "Start now"
   },
   "movies_list": {
     "now_playing": "Now playing movies",
