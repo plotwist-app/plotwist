@@ -49,7 +49,7 @@ export const MovieCollectionDialog = ({
 
           <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
             {parts.map((movie) => (
-              <MovieCard movie={movie} key={movie.id} />
+              <MovieCard movie={movie} key={movie.id} language="en-US" />
             ))}
           </div>
         </DialogContent>

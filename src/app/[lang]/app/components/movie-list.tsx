@@ -1,14 +1,8 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { TMDB } from '@/services/TMDB'
-
-const queryClient = new QueryClient()
 
 const MovieListSkeleton = () => (
   <div className="grid grid-cols-3 gap-x-4 gap-y-8">
@@ -32,7 +26,7 @@ const QUERY_KEY: Record<Variant, string> = {
   discover: 'discover',
 }
 
-const MovieListContent = ({ variant }: MovieListContentProps) => {
+export const MovieList = ({ variant }: MovieListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
     queryFn: () =>
@@ -45,15 +39,9 @@ const MovieListContent = ({ variant }: MovieListContentProps) => {
     <div className="flex items-center justify-between">
       <div className="grid grid-cols-3 gap-x-4 gap-y-8">
         {data?.results.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} />
+          <MovieCard movie={movie} key={movie.id} language="en-US" />
         ))}
       </div>
     </div>
   )
 }
-
-export const MovieList = (props: MovieListContentProps) => (
-  <QueryClientProvider client={queryClient}>
-    <MovieListContent {...props} />
-  </QueryClientProvider>
-)
