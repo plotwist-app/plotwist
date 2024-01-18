@@ -1,17 +1,15 @@
 'use client'
 
-import { useMemo } from 'react'
-import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
-
-import { LucideIcon } from 'lucide-react'
-
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
+import { LucideIcon } from 'lucide-react'
+import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
+import { useMemo } from 'react'
 
 export type Item = {
   label: string
@@ -20,16 +18,16 @@ export type Item = {
   items?: Item[]
 }
 
-export type SidebarNavigationItemProps = Item & {
+export type SidebarItemProps = Item & {
   items?: Item[]
 }
 
-export const SidebarNavigationItem = ({
+export const SidebarItem = ({
   href,
   icon: Icon,
   label,
   items,
-}: SidebarNavigationItemProps) => {
+}: SidebarItemProps) => {
   const path = usePathname()
   const { lang } = useParams<{ lang: string }>()
 
@@ -54,7 +52,7 @@ export const SidebarNavigationItem = ({
 
           <AccordionContent className="ml-3 space-y-1 px-3 pb-0">
             {items.map((item) => (
-              <SidebarNavigationItem {...item} key={item.label} />
+              <SidebarItem {...item} key={item.label} />
             ))}
           </AccordionContent>
         </AccordionItem>

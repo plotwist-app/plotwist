@@ -5,6 +5,7 @@ import {
   movieRelated,
   moviesList,
   tvShowsLists,
+  search,
 } from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
@@ -25,4 +26,5 @@ export const tmdb = {
   tvShows: {
     lists: tvShowsLists,
   },
+  search,
 }

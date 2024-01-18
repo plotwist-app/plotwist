@@ -6,6 +6,8 @@ import { Toaster } from '@/components/ui/sonner'
 
 import '../globals.css'
 import { AppContextProvider } from '@/context/app/app'
+import { LanguageContextProvider } from '@/context/language'
+import { Language } from '@/types/languages'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -19,14 +21,16 @@ export default function RootLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { lang: string }
+  params: { lang: Language }
 }) {
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
       <body className="bg-background antialiased">
         <AppContextProvider>
-          <ThemeProvider>{children}</ThemeProvider>
-          <Toaster />
+          <LanguageContextProvider language={params.lang}>
+            <ThemeProvider>{children}</ThemeProvider>
+            <Toaster />
+          </LanguageContextProvider>
         </AppContextProvider>
       </body>
     </html>

@@ -12,13 +12,14 @@ import {
   Tv,
   User,
 } from 'lucide-react'
+
 import {
   SidebarNavigationItem,
   SidebarNavigationItemProps,
 } from './sidebar-navigation-item'
-import { Accordion } from '@/components/ui/accordion'
 import { SidebarSearch } from './sidebar-search'
-import { SidebarSearchProvider } from './sidebar-search-provider'
+
+import { Accordion } from '@/components/ui/accordion'
 
 export const NAVIGATION: SidebarNavigationItemProps[] = [
   {
@@ -107,9 +108,7 @@ export const NAVIGATION: SidebarNavigationItemProps[] = [
 export const SidebarNavigation = () => {
   return (
     <div className="space-y-4">
-      <SidebarSearchProvider>
-        <SidebarSearch />
-      </SidebarSearchProvider>
+      <SidebarSearch />
 
       <Accordion type="multiple">
         <nav className="flex flex-col space-y-2">
