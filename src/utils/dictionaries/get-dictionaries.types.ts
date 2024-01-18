@@ -40,4 +40,12 @@ export type Dictionary = {
     popular_movies_title: string
     popular_tv_shows_title: string
   }
+  tabs: {
+    reviews: string
+    credits: string
+    recommendations: string
+    similar: string
+    images: string
+    videos: string
+  }
 }

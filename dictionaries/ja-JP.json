@@ -39,5 +39,13 @@
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "人気の映画",
     "popular_tv_shows_title": "人気のテレビ番組"
+  },
+  "tabs": {
+    "reviews": "レビュー",
+    "credits": "クレジット",
+    "recommendations": "推薦",
+    "similar": "類似",
+    "images": "画像",
+    "videos": "ビデオ"
   }
 }

@@ -39,5 +39,13 @@
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Beliebte Filme",
     "popular_tv_shows_title": "Beliebte Fernsehsendungen"
+  },
+  "tabs": {
+    "reviews": "Bewertungen",
+    "credits": "Credits",
+    "recommendations": "Empfehlungen",
+    "similar": "Ähnliche",
+    "images": "Bilder",
+    "videos": "Videos"
   }
 }
