@@ -1,8 +1,6 @@
 import { format } from 'date-fns'
 import { TvShowDetails } from 'tmdb-ts'
 
-import { AddToListDropdown } from '@/app/app/components/add-to-list-dropdown'
-import { WatchProviders } from '@/app/app/components/watch-providers'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -11,6 +9,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { WatchProviders } from '../../../components/watch-providers'
+import { AddToListDropdown } from '../../../components/add-to-list-dropdown'
 
 type TvShowDetailsInfoProps = {
   tvShow: TvShowDetails

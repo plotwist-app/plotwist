@@ -1,4 +1,3 @@
-import { Poster } from '@/app/app/components/poster'
 import { Badge } from '@/components/ui/badge'
 import {
   Dialog,
@@ -11,6 +10,7 @@ import {
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Season as TmdbSeason } from 'tmdb-ts'
 import { TvShowSeasonDetails } from './tv-show-season-details'
+import { Poster } from '@/components/poster'
 
 type Season = TmdbSeason & {
   vote_average?: number

@@ -10,6 +10,8 @@ import { TvShowDetailsInfo } from './tv-show-details-info'
 import { Banner } from '@/components/banner'
 import { Poster } from '@/components/poster'
 import { Reviews } from '@/components/reviews'
+import { Images } from '@/components/images'
+import { Videos } from '@/components/videos'
 
 type TvShowsDetailsProps = {
   id: number
