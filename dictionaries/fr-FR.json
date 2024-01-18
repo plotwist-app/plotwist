@@ -34,6 +34,28 @@
     "invalid_login_credentials": "Identifiants de connexion invalides",
     "try_again": "Réessayer"
   },
+  "sign_up_page": {
+    "title": "Créer un compte",
+    "description": "Faites partie de la communauté cinématographique, où vous pouvez rencontrer et discuter de milliers de films et de séries TV !",
+    "already_have_account": "Vous avez déjà un compte ? Accédez en cliquant",
+    "here_link": "ici"
+  },
+  "sign_up_form": {
+    "username_label": "Nom d'utilisateur",
+    "email_label": "E-mail",
+    "password_label": "Mot de passe",
+    "show_password": "Afficher le mot de passe",
+    "hide_password": "Cacher le mot de passe",
+    "submit_button": "Soumettre",
+    "username_required": "Veuillez entrer votre nom d'utilisateur.",
+    "email_required": "Veuillez entrer votre adresse e-mail.",
+    "email_invalid": "Veuillez entrer une adresse e-mail valide.",
+    "password_required": "Veuillez entrer votre mot de passe.",
+    "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
+    "sign_up_success": "Inscription réussie. Bienvenue ! 🎉",
+    "invalid_sign_up_credentials": "Identifiants d'inscription invalides",
+    "try_again": "Réessayer"
+  },
   "app_page": {
     "dashboard_title": "Tableau de Bord",
     "dashboard_description": "dashboard_description",

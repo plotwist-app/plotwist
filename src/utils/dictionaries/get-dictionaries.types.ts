@@ -34,6 +34,28 @@ export type Dictionary = {
     invalid_login_credentials: string
     try_again: string
   }
+  sign_up_page: {
+    title: string
+    description: string
+    already_have_account: string
+    here_link: string
+  }
+  sign_up_form: {
+    username_label: string
+    email_label: string
+    password_label: string
+    show_password: string
+    hide_password: string
+    submit_button: string
+    username_required: string
+    email_required: string
+    email_invalid: string
+    password_required: string
+    password_length: string
+    sign_up_success: string
+    invalid_sign_up_credentials: string
+    try_again: string
+  }
   app_page: {
     dashboard_title: string
     dashboard_description: string

@@ -34,6 +34,30 @@
     "invalid_login_credentials": "Invalid login credentials",
     "try_again": "Try again"    
   },
+  "sign_up_page": {
+    "title": "Create an account",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "already_have_account": "Already have an account? Access by clicking",
+    "here_link": "here"
+  },
+  "sign_up_form": {
+    "username_label": "Username",
+    "email_label": "E-mail",
+    "password_label": "Password",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "submit_button": "Submit",
+    
+    "username_required": "Please enter your username.",
+    "email_required": "Please enter your e-mail address.",
+    "email_invalid": "Please enter a valid e-mail address.",
+    "password_required": "Please enter your password.",
+    "password_length": "Your password must be at least 8 characters long.",
+    
+    "sign_up_success": "Registration successful. Welcome! 🎉",
+    "invalid_sign_up_credentials": "Invalid sign up credentials",
+    "try_again": "Try again"
+  },
   "app_page": {
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",

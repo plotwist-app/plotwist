@@ -34,6 +34,28 @@
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
   },
+  "sign_up_page": {
+    "title": "Criar uma conta",
+    "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
+    "already_have_account": "Já tem uma conta? Acesse clicando",
+    "here_link": "aqui"
+  },
+  "sign_up_form": {
+    "username_label": "Nome de usuário",
+    "email_label": "E-mail",
+    "password_label": "Senha",
+    "show_password": "Mostrar senha",
+    "hide_password": "Ocultar senha",
+    "submit_button": "Enviar",
+    "username_required": "Por favor, insira seu nome de usuário.",
+    "email_required": "Por favor, insira seu endereço de e-mail.",
+    "email_invalid": "Por favor, insira um endereço de e-mail válido.",
+    "password_required": "Por favor, insira sua senha.",
+    "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
+    "sign_up_success": "Cadastro bem-sucedido. Bem-vindo! 🎉",
+    "invalid_sign_up_credentials": "Credenciais de cadastro inválidas",
+    "try_again": "Tente novamente"
+  },
   "app_page": {
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",

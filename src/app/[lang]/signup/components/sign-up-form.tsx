@@ -23,19 +23,18 @@ import {
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth/use-auth'
+import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 
-const formSchema = z.object({
-  email: z.string().min(1, 'Required').email(),
-  password: z.string().min(1, 'Required'),
-  username: z.string().min(1, 'Required'),
-})
+type SignUpFormProps = { dictionary: Dictionary }
 
-export const SignUpForm = () => {
-  const { signUpWithCredentials } = useAuth()
+export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
+  const { signUpWithCredentials } = useAuth(dictionary)
+
   const [showPassword, setShowPassword] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpFormSchema(dictionary)),
     defaultValues: {
       email: '',
       password: '',
@@ -43,7 +42,7 @@ export const SignUpForm = () => {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: SignUpFormValues) {
     await signUpWithCredentials(values)
   }
 
@@ -55,7 +54,8 @@ export const SignUpForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>{dictionary.sign_up_form.username_label}</FormLabel>
+
               <FormControl>
                 <Input placeholder="JohnDoe" {...field} />
               </FormControl>
@@ -70,7 +70,8 @@ export const SignUpForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>E-mail</FormLabel>
+              <FormLabel>{dictionary.sign_up_form.email_label}</FormLabel>
+
               <FormControl>
                 <Input placeholder="email@domain.com" {...field} />
               </FormControl>
@@ -85,7 +86,8 @@ export const SignUpForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{dictionary.sign_up_form.password_label}</FormLabel>
+
               <FormControl>
                 <div className="flex space-x-2">
                   <Input
@@ -113,7 +115,9 @@ export const SignUpForm = () => {
 
                       <TooltipContent>
                         <p>
-                          {showPassword ? 'Hide password' : 'Show password'}
+                          {showPassword
+                            ? dictionary.sign_up_form.hide_password
+                            : dictionary.sign_up_form.show_password}
                         </p>
                       </TooltipContent>
                     </Tooltip>
@@ -128,7 +132,7 @@ export const SignUpForm = () => {
 
         <div className="flex justify-end space-x-2">
           <Button type="submit" loading={form.formState.isSubmitting}>
-            Submit
+            {dictionary.sign_up_form.submit_button}
           </Button>
         </div>
       </form>

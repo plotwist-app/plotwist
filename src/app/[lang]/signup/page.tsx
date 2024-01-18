@@ -1,33 +1,35 @@
 import Link from 'next/link'
 import { SignUpForm } from './components/sign-up-form'
+import { PageParams } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 
-const SignUpPage = () => {
+const SignUpPage = async ({ params: { lang } }: PageParams) => {
+  const dictionary = await getDictionary(lang)
+
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="hidden h-full bg-muted lg:block lg:w-1/2" />
 
       <div className="flex w-full flex-col items-center justify-center p-4 lg:w-1/2">
         <div className="w-full max-w-[450px] space-y-4">
-          <div className="w-full">
-            <h1 className="text-2xl font-bold">Create an account</h1>
-
-            <p className="">
-              Be part of the cinema community, where you can meet and discuss
-              thousands of movies and TV series!
-            </p>
+          <div className="w-full space-y-2">
+            <h1 className="text-2xl font-bold">
+              {dictionary.sign_up_page.title}
+            </h1>
+            <p className="">{dictionary.sign_up_page.description}</p>
 
             <div className="mt-2 flex space-x-1">
               <div className="rounded-xs w-1 bg-muted-foreground" />
               <p className="text-sm text-muted-foreground">
-                Already have an account? Access by clicking{' '}
+                {dictionary.sign_up_page.already_have_account}{' '}
                 <Link href="/login" className="underline">
-                  here
+                  {dictionary.sign_up_page.here_link}
                 </Link>
               </p>
             </div>
           </div>
 
-          <SignUpForm />
+          <SignUpForm dictionary={dictionary} />
         </div>
       </div>
     </div>
