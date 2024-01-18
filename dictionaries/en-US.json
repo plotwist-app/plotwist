@@ -11,5 +11,27 @@
     "top_rated": "Top rated movies",
     "upcoming": "Upcoming movies",
     "show_all": "Show all"
+  }, 
+  "login_page": {
+    "title": "Login",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "no_account": "Don't have an account? Register by clicking",
+    "no_account_link": "here"
+  },
+  "login_form": {
+    "email_label": "E-mail",
+    "password_label": "Password",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "access_button": "Access",
+    
+    "email_required": "Please enter your e-mail address.",
+    "email_invalid": "Please enter a valid e-mail address.",
+    "password_required": "Please enter your password.",
+    "password_length": "Your password must be at least 8 characters long.",
+
+    "login_success": "Login successful. Welcome! 🎉",
+    "invalid_login_credentials": "Invalid login credentials",
+    "try_again": "Try again"    
   }
 }

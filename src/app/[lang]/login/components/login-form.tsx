@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,24 +23,27 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth/use-auth'
 
-const formSchema = z.object({
-  email: z.string().min(1, 'Required').email(),
-  password: z.string().min(1, 'Required'),
-})
+import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+import { LoginFormValues, loginFormSchema } from './login-form.schema'
 
-export const LoginForm = () => {
-  const { signInWithCredentials } = useAuth()
+type LoginFormProps = {
+  dictionary: Dictionary
+}
+
+export const LoginForm = ({ dictionary }: LoginFormProps) => {
+  const { signInWithCredentials } = useAuth(dictionary)
+
   const [showPassword, setShowPassword] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginFormSchema(dictionary)),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: LoginFormValues) {
     await signInWithCredentials(values)
   }
 
@@ -53,7 +55,8 @@ export const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>E-mail</FormLabel>
+              <FormLabel>{dictionary.login_form.email_label}</FormLabel>
+
               <FormControl>
                 <Input placeholder="email@domain.com" {...field} />
               </FormControl>
@@ -68,7 +71,8 @@ export const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{dictionary.login_form.password_label}</FormLabel>
+
               <FormControl>
                 <div className="flex space-x-2">
                   <Input
@@ -96,7 +100,9 @@ export const LoginForm = () => {
 
                       <TooltipContent>
                         <p>
-                          {showPassword ? 'Hide password' : 'Show password'}
+                          {showPassword
+                            ? dictionary.login_form.hide_password
+                            : dictionary.login_form.show_password}
                         </p>
                       </TooltipContent>
                     </Tooltip>
@@ -111,7 +117,7 @@ export const LoginForm = () => {
 
         <div className="flex justify-end space-x-2">
           <Button type="submit" loading={form.formState.isSubmitting}>
-            Access
+            {dictionary.login_form.access_button}
           </Button>
         </div>
       </form>

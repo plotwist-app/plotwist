@@ -11,5 +11,27 @@
     "top_rated": "Films les mieux notés",
     "upcoming": "Prochaines sorties",
     "show_all": "Tout afficher"
+  },
+  "login_page": {
+    "title": "Connexion",
+    "description": "Faites partie de la communauté cinématographique, où vous pouvez rencontrer et discuter de milliers de films et de séries TV !",
+    "no_account": "Vous n'avez pas de compte ? Inscrivez-vous en cliquant",
+    "no_account_link": "ici"
+  },
+  "login_form": {
+    "email_label": "E-mail",
+    "password_label": "Mot de passe",
+    "show_password": "Afficher le mot de passe",
+    "hide_password": "Cacher le mot de passe",
+    "access_button": "Accéder",
+
+    "email_required": "Veuillez entrer votre adresse e-mail.",
+    "email_invalid": "Veuillez entrer une adresse e-mail valide.",
+    "password_required": "Veuillez entrer votre mot de passe.",
+    "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
+
+    "login_success": "Connexion réussie. Bienvenue ! 🎉",
+    "invalid_login_credentials": "Identifiants de connexion invalides",
+    "try_again": "Réessayer"
   }
 }

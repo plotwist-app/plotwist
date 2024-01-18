@@ -1,33 +1,37 @@
 import Link from 'next/link'
 import { LoginForm } from './components/login-form'
+import { PageParams } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 
-const LoginPage = () => {
+const LoginPage = async ({ params: { lang } }: PageParams) => {
+  const dictionary = await getDictionary(lang)
+
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="hidden h-full bg-muted lg:block lg:w-1/2" />
 
       <div className="flex w-full flex-col items-center justify-center p-4 lg:w-1/2">
         <div className="w-full max-w-[450px] space-y-4">
-          <div className="w-full">
-            <h1 className="text-2xl font-bold">Login</h1>
+          <div className="w-full space-y-2">
+            <h1 className="text-2xl font-bold">
+              {dictionary.login_page.title}
+            </h1>
 
-            <p className="">
-              Be part of the cinema community, where you can meet and discuss
-              thousands of movies and TV series!
-            </p>
+            <p>{dictionary.login_page.description}</p>
 
-            <div className="mt-2 flex space-x-1">
+            <div className="mt-2 flex space-x-2">
               <div className="rounded-xs w-1 bg-muted-foreground" />
               <p className="text-sm text-muted-foreground">
-                Don&apos;t have an account? Register by clicking{' '}
-                <Link href="/signup" className="underline">
-                  here
+                {dictionary.login_page.no_account}{' '}
+                <Link href={`/${lang}/signup`} className="underline">
+                  {dictionary.login_page.no_account_link}
                 </Link>
+                .
               </p>
             </div>
           </div>
 
-          <LoginForm />
+          <LoginForm dictionary={dictionary} />
         </div>
       </div>
     </div>

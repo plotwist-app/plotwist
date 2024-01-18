@@ -1,19 +1,25 @@
-import { SignInCredentials, SignUpCredentials } from './use-auth.types'
+'use client'
+
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { toast } from 'sonner'
 
-export const useAuth = () => {
+import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+
+import { SignInCredentials, SignUpCredentials } from './use-auth.types'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+export const useAuth = (dictionary: Dictionary) => {
   const supabase = createClientComponentClient()
+
   const { push } = useRouter()
 
   const signInWithCredentials = async (credentials: SignInCredentials) => {
-    const { error } = await supabase.auth.signInWithPassword(credentials)
+    const { error, data } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
-      toast.error(error.message, {
+      toast.error(dictionary.login_form.invalid_login_credentials, {
         action: {
-          label: 'Try again',
+          label: dictionary.login_form.try_again,
           onClick: () => signInWithCredentials(credentials),
         },
       })
@@ -21,8 +27,10 @@ export const useAuth = () => {
       return
     }
 
-    push('/app')
-    toast('Login successful. Welcome! 🎉')
+    if (data) {
+      push('app')
+      toast.success(dictionary.login_form.login_success)
+    }
   }
 
   const signUpWithCredentials = async ({

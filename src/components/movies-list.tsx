@@ -1,5 +1,5 @@
 import { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictorionaries'
+import { getDictionary } from '@/utils/dictionaries'
 import { tmdb } from '@/services/tmdb2'
 import { MoviesListType } from '@/services/tmdb2/requests'
 import { MovieCard } from './movie-card'

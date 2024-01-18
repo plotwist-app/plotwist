@@ -11,5 +11,27 @@
     "top_rated": "トップレートの映画",
     "upcoming": "公開予定の映画",
     "show_all": "すべて表示"
+  },
+  "login_page": {
+    "title": "ログイン",
+    "description": "映画やTVシリーズの何千もの作品について話し合える映画コミュニティの一員になろう！",
+    "no_account": "アカウントをお持ちではありませんか？クリックして登録",
+    "no_account_link": "こちら"
+  },
+  "login_form": {
+    "email_label": "メールアドレス",
+    "password_label": "パスワード",
+    "show_password": "パスワードを表示",
+    "hide_password": "パスワードを隠す",
+    "access_button": "アクセス",
+
+    "email_required": "メールアドレスを入力してください。",
+    "email_invalid": "有効なメールアドレスを入力してください。",
+    "password_required": "パスワードを入力してください。",
+    "password_length": "パスワードは8文字以上でなければなりません。",
+
+    "login_success": "ログイン成功。ようこそ！🎉",
+    "invalid_login_credentials": "ログイン情報が無効です",
+    "try_again": "再試行"
   }
 }

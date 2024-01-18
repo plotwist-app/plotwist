@@ -11,5 +11,27 @@
     "top_rated": "Filmes mais bem avaliados",
     "upcoming": "Próximos lançamentos",
     "show_all": "Mostrar todos"
+  },
+  "login_page": {
+    "title": "Login",
+    "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
+    "no_account": "Não tem uma conta? Cadastre-se clicando",
+    "no_account_link": "aqui"
+  },
+  "login_form": {
+    "email_label": "E-mail",
+    "password_label": "Senha",
+    "show_password": "Mostrar senha",
+    "hide_password": "Ocultar senha",
+    "access_button": "Acessar",
+
+    "email_required": "Por favor, insira seu endereço de e-mail.",
+    "email_invalid": "Por favor, insira um endereço de e-mail válido.",
+    "password_required": "Por favor, insira sua senha.",
+    "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
+
+    "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
+    "invalid_login_credentials": "Credenciais de login inválidas",
+    "try_again": "Tente novamente"
   }
 }
