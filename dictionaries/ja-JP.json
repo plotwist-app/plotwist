@@ -68,5 +68,19 @@
     "similar": "類似",
     "images": "画像",
     "videos": "ビデオ"
+  },
+  "navigation": {
+    "dashboard": "ダッシュボード",
+    "movies": "映画",
+    "discover": "発見",
+    "now_playing": "上映中",
+    "popular": "人気",
+    "top_rated": "最高評価",
+    "upcoming": "公開予定",
+    "tv_shows": "テレビ番組",
+    "airing_today": "今日放送",
+    "on_the_air": "放送中",
+    "people": "人物",
+    "lists": "リスト"
   }
 }

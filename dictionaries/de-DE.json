@@ -68,5 +68,19 @@
     "similar": "Ähnliche",
     "images": "Bilder",
     "videos": "Videos"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "movies": "Filme",
+    "discover": "Entdecken",
+    "now_playing": "Jetzt im Kino",
+    "popular": "Beliebt",
+    "top_rated": "Top bewertet",
+    "upcoming": "Bevorstehend",
+    "tv_shows": "Fernsehsendungen",
+    "airing_today": "Heute ausgestrahlt",
+    "on_the_air": "Im Fernsehen",
+    "people": "Personen",
+    "lists": "Listen"
   }
 }

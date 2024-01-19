@@ -68,5 +68,19 @@
     "similar": "Similaires",
     "images": "Images",
     "videos": "Vidéos"
+  },
+  "navigation": {
+    "dashboard": "Tableau de Bord",
+    "movies": "Films",
+    "discover": "Découvrir",
+    "now_playing": "À l'affiche",
+    "popular": "Populaires",
+    "top_rated": "Les mieux notés",
+    "upcoming": "À venir",
+    "tv_shows": "Séries TV",
+    "airing_today": "Diffusées aujourd'hui",
+    "on_the_air": "À l'antenne",
+    "people": "Personnes",
+    "lists": "Listes"
   }
 }

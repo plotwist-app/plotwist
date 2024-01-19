@@ -68,5 +68,19 @@
     "similar": "Simili",
     "images": "Immagini",
     "videos": "Video"
+  },
+  "navigation": {
+    "dashboard": "Cruscotto",
+    "movies": "Film",
+    "discover": "Scoprire",
+    "now_playing": "In sala",
+    "popular": "Popolari",
+    "top_rated": "Più votati",
+    "upcoming": "In arrivo",
+    "tv_shows": "Programmi TV",
+    "airing_today": "In onda oggi",
+    "on_the_air": "In onda",
+    "people": "Persone",
+    "lists": "Liste"
   }
 }

@@ -5,7 +5,7 @@ import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 import { languages as appLanguages } from '../languages'
 
-const headers = { 'accept-language': 'en-US,en;q=0.5' }
+const headers = { 'accept-language': 'en-US' }
 const languages = new Negotiator({ headers }).languages()
 const defaultLocale = 'en-US'
 match(languages, appLanguages, defaultLocale)

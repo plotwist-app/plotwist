@@ -69,4 +69,18 @@ export type Dictionary = {
     images: string
     videos: string
   }
+  navigation: {
+    dashboard: string
+    movies: string
+    discover: string
+    now_playing: string
+    popular: string
+    top_rated: string
+    upcoming: string
+    tv_shows: string
+    airing_today: string
+    on_the_air: string
+    people: string
+    lists: string
+  }
 }

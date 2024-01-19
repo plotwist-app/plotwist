@@ -20,7 +20,5 @@ export const tvShowsLists = async (
     },
   })
 
-  console.log({ data })
-
   return data
 }

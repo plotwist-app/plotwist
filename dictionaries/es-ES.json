@@ -68,5 +68,19 @@
     "similar": "Similares",
     "images": "Imágenes",
     "videos": "Videos"
+  },
+  "navigation": {
+    "dashboard": "Panel de Control",
+    "movies": "Películas",
+    "discover": "Descubrir",
+    "now_playing": "En cartelera",
+    "popular": "Populares",
+    "top_rated": "Mejor valoradas",
+    "upcoming": "Próximas",
+    "tv_shows": "Programas de TV",
+    "airing_today": "Transmitiendo Hoy",
+    "on_the_air": "Al Aire",
+    "people": "Personas",
+    "lists": "Listas"
   }
 }

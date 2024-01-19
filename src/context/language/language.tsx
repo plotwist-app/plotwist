@@ -2,24 +2,28 @@
 
 import { ReactNode, createContext, useContext } from 'react'
 import { Language } from '@/types/languages'
+import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 
 type LanguageContextProviderProps = {
   children: ReactNode
   language: Language
+  dictionary: Dictionary
 }
 
-type LanguageContextType = {
-  language: Language
-}
+type LanguageContextType = Pick<
+  LanguageContextProviderProps,
+  'dictionary' | 'language'
+>
 
 export const languageContext = createContext({} as LanguageContextType)
 
 export const LanguageContextProvider = ({
   children,
   language,
+  dictionary,
 }: LanguageContextProviderProps) => {
   return (
-    <languageContext.Provider value={{ language }}>
+    <languageContext.Provider value={{ language, dictionary }}>
       {children}
     </languageContext.Provider>
   )

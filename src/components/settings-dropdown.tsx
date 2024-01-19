@@ -38,6 +38,10 @@ export const SettingsDropdown = () => {
     replace(newPathname)
   }
 
+  const currentLanguageOption = SUPPORTED_LANGUAGES.find(
+    (lang) => lang.value === currentLanguage,
+  )
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -77,7 +81,16 @@ export const SettingsDropdown = () => {
           <DropdownMenuLabel>Language</DropdownMenuLabel>
 
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>English</DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger>
+              {currentLanguageOption && (
+                <ReactCountryFlag
+                  countryCode={currentLanguageOption.country}
+                  svg
+                  className="mr-2"
+                />
+              )}
+              {currentLanguageOption?.label}
+            </DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
               {SUPPORTED_LANGUAGES.map(({ value, country, label, enabled }) => (
