@@ -14,10 +14,10 @@ import { Language } from '@/types/languages'
 
 type MovieCardProps = {
   movie: Movie | Recommendation
-  language: Language
+  language?: Language
 }
 
-export const MovieCard = ({ movie, language }: MovieCardProps) => {
+export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
   const {
     title,
     backdrop_path: backdrop,

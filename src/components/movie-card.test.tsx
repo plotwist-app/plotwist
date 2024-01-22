@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { MovieCard } from './movie-card'
 
 import { movie } from '@/mocks/tmdb/movie/movie'
+import { languages } from '../../languages'
 
 describe('movie-card', () => {
   afterEach(() => cleanup())
@@ -33,5 +34,23 @@ describe('movie-card', () => {
 
     const movieCardElement = screen.queryByTestId('movie-card')
     expect(movieCardElement).not.toBeTruthy()
+  })
+
+  it('should use en-US as default language if none is provided', () => {
+    render(<MovieCard movie={movie} />)
+
+    const element = screen.getByTestId('movie-card')
+    expect(element.getAttribute('href')).includes('en-US')
+  })
+
+  it('should correctly handle all provided languages', () => {
+    languages.forEach((language) => {
+      render(<MovieCard movie={movie} language={language} />)
+
+      const element = screen.getByTestId('movie-card')
+      expect(element.getAttribute('href')).includes(language)
+
+      cleanup()
+    })
   })
 })
