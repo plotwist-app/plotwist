@@ -1,5 +1,4 @@
 import { MovieCard } from '@/components/movie-card'
-import { TMDB } from '@/services/TMDB'
 import { tmdb } from '@/services/tmdb2'
 import { MovieRelatedType } from '@/services/tmdb2/requests/movie-related'
 import { Language } from '@/types/languages'
