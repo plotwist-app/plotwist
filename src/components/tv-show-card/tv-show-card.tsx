@@ -1,21 +1,27 @@
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip'
-import { Badge } from './ui/badge'
-import { SimilarTvShow } from 'tmdb-ts'
-import { Skeleton } from './ui/skeleton'
+} from '../ui/tooltip'
+import { Badge } from '../ui/badge'
+import { Skeleton } from '../ui/skeleton'
+
+import { Language } from '@/types/languages'
+import { TvShow } from '@/services/tmdb2/types'
 
 type TvShowCardProps = {
-  tvShow: SimilarTvShow
+  tvShow: TvShow
+  language?: Language
 }
 
-export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
+export const TEST_ID = 'tv-show-card'
+
+export const TvShowCard = ({ tvShow, language = 'en-US' }: TvShowCardProps) => {
   const {
     name,
     id,
@@ -29,8 +35,9 @@ export const TvShowCard = ({ tvShow }: TvShowCardProps) => {
 
   return (
     <Link
-      href={`/app/tv-shows/${id}`}
+      href={`/${language}/app/tv-shows/${id}`}
       className="w-full cursor-pointer space-y-2"
+      data-testId={TEST_ID}
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
         <Image

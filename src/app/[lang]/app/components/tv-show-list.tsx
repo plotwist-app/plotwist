@@ -31,13 +31,15 @@ const TvShowListSkeleton = () => (
   </div>
 )
 
-const TvShowListContent = ({ variant }: TvShowListContentProps) => {
+export const TvShowList = ({ variant }: TvShowListContentProps) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEY[variant]],
     queryFn: () => TMDB.tvShows[variant](),
   })
 
   if (!data) return <TvShowListSkeleton />
+
+  console.log({ data })
 
   return (
     <div className="flex items-center justify-between">
@@ -49,9 +51,3 @@ const TvShowListContent = ({ variant }: TvShowListContentProps) => {
     </div>
   )
 }
-
-export const TvShowList = (props: TvShowListContentProps) => (
-  <QueryClientProvider client={queryClient}>
-    <TvShowListContent {...props} />
-  </QueryClientProvider>
-)

@@ -1,16 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Movie, Recommendation } from 'tmdb-ts'
-import { Skeleton } from './ui/skeleton'
-import { Badge } from './ui/badge'
+
+import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip'
-import { Language } from '@/types/languages'
+} from '../ui/tooltip'
+import { Badge } from '../ui/badge'
+import { Skeleton } from '../ui/skeleton'
 
 type MovieCardProps = {
   movie: Movie | Recommendation

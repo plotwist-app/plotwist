@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
-import { MovieCard } from './movie-card'
 
 import { movie } from '@/mocks/tmdb/movie/movie'
-import { languages } from '../../languages'
+import { languages } from '../../../languages'
+import { MovieCard, MovieCardSkeleton } from '.'
 
 describe('movie-card', () => {
   afterEach(() => cleanup())
@@ -11,17 +11,10 @@ describe('movie-card', () => {
   it('should be able renders component correctly', () => {
     render(<MovieCard movie={movie} />)
 
-    const movieCardElement = screen.getByTestId('movie-card')
-    expect(movieCardElement).toBeTruthy()
-
-    const titleElement = screen.getByText(movie.title)
-    expect(titleElement).toBeTruthy()
-
-    const overviewElement = screen.getByText(movie.overview)
-    expect(overviewElement).toBeTruthy()
-
-    const backdropImage = screen.getByAltText(movie.title)
-    expect(backdropImage).toBeTruthy()
+    expect(screen.getByTestId('movie-card')).toBeTruthy()
+    expect(screen.getByText(movie.title)).toBeTruthy()
+    expect(screen.getByText(movie.overview)).toBeTruthy()
+    expect(screen.getByAltText(movie.title)).toBeTruthy()
   })
 
   it('should not be able to render the component when the backdrop is undefined', () => {
@@ -52,5 +45,9 @@ describe('movie-card', () => {
 
       cleanup()
     })
+  })
+
+  it('should be able to render skeleton', () => {
+    render(<MovieCardSkeleton />)
   })
 })
