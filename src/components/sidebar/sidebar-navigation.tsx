@@ -3,9 +3,9 @@
 import { useLanguage } from '@/context/language'
 import { buildLanguageNavigation } from './sidebar-navigation-data'
 import { SidebarNavigationItem } from './sidebar-navigation-item'
-import { SidebarSearch } from './sidebar-search'
 
 import { Accordion } from '@/components/ui/accordion'
+import { SidebarSearch } from '.'
 
 export const SidebarNavigation = () => {
   const { dictionary } = useLanguage()

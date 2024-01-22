@@ -82,5 +82,13 @@
     "on_the_air": "In onda",
     "people": "Persone",
     "lists": "Liste"
+  },
+  "sidebar_search": {
+    "placeholder": "Cerca film, programmi TV o persone",
+    "search_everything": "Cerca tutto",
+    "no_results": "Nessun risultato trovato.",
+    "movies": "Film",
+    "tv_shows": "Programmi TV",
+    "people": "Persone"
   }
 }

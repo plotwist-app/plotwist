@@ -82,5 +82,13 @@
     "on_the_air": "No ar",
     "people": "Pessoas",
     "lists": "Listas"
+  },
+  "sidebar_search": {
+    "placeholder": "Procure por filmes, séries ou pessoas",
+    "search_everything": "Procure por tudo",
+    "no_results": "Nenhum resultado encontrado.",
+    "movies": "Filmes",
+    "tv_shows": "Séries de TV",
+    "people": "Pessoas"
   }
 }

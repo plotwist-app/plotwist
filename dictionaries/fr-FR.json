@@ -82,5 +82,13 @@
     "on_the_air": "À l'antenne",
     "people": "Personnes",
     "lists": "Listes"
+  },
+  "sidebar_search": {
+    "placeholder": "Recherchez des films, des émissions de télévision ou des personnes",
+    "search_everything": "Rechercher tout",
+    "no_results": "Aucun résultat trouvé.",
+    "movies": "Films",
+    "tv_shows": "Séries TV",
+    "people": "Personnes"
   }
 }

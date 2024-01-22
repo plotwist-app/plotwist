@@ -85,5 +85,13 @@
     "on_the_air": "On the air",
     "people": "People",
     "lists": "Lists"
+  },
+  "sidebar_search": {
+    "placeholder":"Search for movies, TV shows, or people",
+    "search_everything": "Search everything",
+    "no_results": "No results found.",
+    "movies": "Movies",
+    "tv_shows": "TV Shows",
+    "people": "People"
   }
 }

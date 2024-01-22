@@ -83,4 +83,12 @@ export type Dictionary = {
     people: string
     lists: string
   }
+  sidebar_search: {
+    placeholder: string
+    search_everything: string
+    no_results: string
+    movies: string
+    tv_shows: string
+    people: string
+  }
 }

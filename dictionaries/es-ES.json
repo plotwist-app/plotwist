@@ -82,5 +82,13 @@
     "on_the_air": "Al Aire",
     "people": "Personas",
     "lists": "Listas"
+  },
+  "sidebar_search": {
+    "placeholder": "Busca películas, programas de TV o personas",
+    "search_everything": "Buscar todo",
+    "no_results": "No se encontraron resultados.",
+    "movies": "Películas",
+    "tv_shows": "Programas de TV",
+    "people": "Personas"
   }
 }

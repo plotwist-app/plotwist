@@ -82,5 +82,13 @@
     "on_the_air": "放送中",
     "people": "人物",
     "lists": "リスト"
+  },
+  "sidebar_search": {
+    "placeholder": "映画、テレビ番組、または人物を探す",
+    "search_everything": "すべてを検索",
+    "no_results": "結果が見つかりませんでした。",
+    "movies": "映画",
+    "tv_shows": "テレビ番組",
+    "people": "人物"
   }
 }

@@ -82,5 +82,13 @@
     "on_the_air": "Im Fernsehen",
     "people": "Personen",
     "lists": "Listen"
+  },
+  "sidebar_search": {
+    "placeholder": "Suchen Sie nach Filmen, Fernsehshows oder Personen",
+    "search_everything": "Alles durchsuchen",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "movies": "Filme",
+    "tv_shows": "Fernsehsendungen",
+    "people": "Personen"
   }
 }
