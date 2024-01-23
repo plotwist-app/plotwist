@@ -115,5 +115,22 @@
     "success": "レビューが正常に作成されました。",
     "publish": "公開する",
     "placeholder": "どう思いますか？"
+  },
+  "review_item_actions": {
+    "like": "いいね",
+    "reply": "返信",
+    "delete": "削除",
+    "delete_success": "レビューが正常に削除されました。"
+  },
+  "movie_collection": {
+    "part_of": "の一部",
+    "see_collection": "コレクションを見る"
+  },
+  "collection_list_dropdown": {
+    "add_collection_to_list": "リストにコレクションを追加",
+    "my_lists": "マイリスト",
+    "collection_removed_successfully": "コレクションが正常に削除されました。",
+    "collection_added_successfully": "コレクションが正常に追加されました。",
+    "view_list": "リストを見る"
   }
 }

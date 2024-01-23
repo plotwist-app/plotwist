@@ -2,10 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Skeleton } from '@/components/ui/skeleton'
-import { ReviewStars } from '@/components/reviews'
 
 import { Review } from '@/types/supabase/reviews'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { ReviewStars } from '@/components/reviews/review-stars'
 
 type DashboardReviewProps = { review: Review }
 

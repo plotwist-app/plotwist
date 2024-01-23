@@ -98,7 +98,10 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
         </main>
 
         {movie.belongs_to_collection && (
-          <MovieCollection collectionId={movie.belongs_to_collection.id} />
+          <MovieCollection
+            collectionId={movie.belongs_to_collection.id}
+            language={language}
+          />
         )}
 
         <Tabs defaultValue="reviews" className="w-full">

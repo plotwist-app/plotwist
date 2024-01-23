@@ -1,5 +1,10 @@
 'use client'
 
+import { useCallback } from 'react'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { Plus } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -9,15 +14,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { Plus } from 'lucide-react'
-import { Movie } from 'tmdb-ts'
-import { List } from '@/types/supabase/lists'
-import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
+
+import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
+
+import { List } from '@/types/supabase/lists'
+import { Movie } from '@/services/tmdb2/types'
+import { useLanguage } from '@/context/language'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>
@@ -43,6 +48,7 @@ export const CollectionListDropdown = ({
   const { lists, handleAddCollectionToList, handleRemoveCollectionToList } =
     useLists()
   const { push } = useRouter()
+  const { dictionary, language } = useLanguage()
 
   const handleRemove = useCallback(
     async (ids: number[]) => {
@@ -56,12 +62,15 @@ export const CollectionListDropdown = ({
               queryKey: LISTS_QUERY_KEY,
             })
 
-            toast.success(`Collection removed successfully.`)
+            toast.success(
+              dictionary.collection_list_dropdown
+                .collection_removed_successfully,
+            )
           },
         },
       )
     },
-    [handleRemoveCollectionToList],
+    [dictionary, handleRemoveCollectionToList],
   )
 
   const handleAdd = useCallback(
@@ -78,17 +87,20 @@ export const CollectionListDropdown = ({
               queryKey: LISTS_QUERY_KEY,
             })
 
-            toast.success(`Collection added successfully.`, {
-              action: {
-                label: 'View list',
-                onClick: () => push(`/app/lists/${list.id}`),
+            toast.success(
+              dictionary.collection_list_dropdown.collection_added_successfully,
+              {
+                action: {
+                  label: dictionary.collection_list_dropdown.view_list,
+                  onClick: () => push(`/${language}/app/lists/${list.id}`),
+                },
               },
-            })
+            )
           },
         },
       )
     },
-    [handleAddCollectionToList, items, push],
+    [handleAddCollectionToList, items, push, dictionary, language],
   )
 
   return (
@@ -96,12 +108,16 @@ export const CollectionListDropdown = ({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
           <Plus className="mr-2" size={12} />
-          Add collection to list
+
+          {dictionary.collection_list_dropdown.add_collection_to_list}
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My lists</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {dictionary.collection_list_dropdown.my_lists}
+        </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
 
         {lists.map((list) => {

@@ -115,5 +115,22 @@
     "success": "Avis créé avec succès.",
     "publish": "Publier",
     "placeholder": "Qu'en pensez-vous ?"
+  },
+  "review_item_actions": {
+    "like": "Aimer",
+    "reply": "Répondre",
+    "delete": "Supprimer",
+    "delete_success": "Avis supprimé avec succès."
+  },
+  "movie_collection": {
+    "part_of": "Partie de",
+    "see_collection": "Voir la collection"
+  },
+  "collection_list_dropdown": {
+    "add_collection_to_list": "Ajouter la collection à la liste",
+    "my_lists": "Mes listes",
+    "collection_removed_successfully": "Collection supprimée avec succès.",
+    "collection_added_successfully": "Collection ajoutée avec succès.",
+    "view_list": "Voir la liste"
   }
 }

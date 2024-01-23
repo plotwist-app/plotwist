@@ -117,4 +117,21 @@ export type Dictionary = {
     publish: string
     placeholder: string
   }
+  review_item_actions: {
+    like: string
+    reply: string
+    delete: string
+    delete_success: string
+  }
+  movie_collection: {
+    part_of: string
+    see_collection: string
+  }
+  collection_list_dropdown: {
+    add_collection_to_list: string
+    my_lists: string
+    collection_removed_successfully: string
+    collection_added_successfully: string
+    view_list: string
+  }
 }

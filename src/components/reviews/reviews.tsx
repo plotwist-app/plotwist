@@ -1,11 +1,11 @@
 'use client'
 
+import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+
 import { supabase } from '@/services/supabase'
 import { MediaType } from '@/types/supabase/media-type'
 import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
-
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 import { ReviewForm } from './review-form'
 import { ReviewItem, ReviewItemSkeleton } from './review-item'

@@ -118,5 +118,22 @@
     "success": "Review created successfully.",
     "publish": "Publish",
     "placeholder": "What you think about?"
+  },
+  "review_item_actions": {
+    "like": "Like",
+    "reply": "Reply",
+    "delete": "Delete",
+    "delete_success": "Review deleted successfully."
+  },
+  "movie_collection": {
+    "part_of": "Part of",
+    "see_collection": "See collection"
+  },
+  "collection_list_dropdown": {
+    "add_collection_to_list": "Add collection to list",
+    "my_lists": "My lists",
+    "collection_removed_successfully": "Collection removed successfully.",
+    "collection_added_successfully": "Collection added successfully.",
+    "view_list": "View list"
   }
 }

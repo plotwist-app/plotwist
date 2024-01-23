@@ -1,3 +1,5 @@
+'use client'
+
 import { ComponentProps } from 'react'
 import { toast } from 'sonner'
 
@@ -8,6 +10,7 @@ import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { cn } from '@/lib/utils'
 
 import { Review } from '@/types/supabase/reviews'
+import { useLanguage } from '@/context/language'
 
 type ReviewItemActionsProps = {
   review: Review
@@ -49,6 +52,7 @@ export const ReviewItemActions = ({
   const { user } = useAuth()
   const { handleDeleteReview, handleLikeReview, handleRemoveLike } =
     useReviews()
+  const { dictionary } = useLanguage()
 
   const isUserOwner = user.id === userId
   const userLike = reviewLikes?.find(
@@ -104,12 +108,14 @@ export const ReviewItemActions = ({
           )
         }}
       >
-        Like
+        {dictionary.review_item_actions.like}
       </ReviewItemAction>
 
       <span className="h-1 w-1 rounded-full bg-muted-foreground" />
 
-      <ReviewItemAction disabled>Reply</ReviewItemAction>
+      <ReviewItemAction disabled>
+        {dictionary.review_item_actions.reply}
+      </ReviewItemAction>
 
       {isUserOwner && (
         <>
@@ -122,7 +128,7 @@ export const ReviewItemActions = ({
                 onSuccess: () => {
                   invalidateQuery()
 
-                  toast.success('Review deleted successfully.')
+                  toast.success(dictionary.review_item_actions.delete_success)
                 },
                 onError: (error) => {
                   toast.error(error.message)
@@ -130,7 +136,7 @@ export const ReviewItemActions = ({
               })
             }
           >
-            Delete
+            {dictionary.review_item_actions.delete}
           </ReviewItemAction>
         </>
       )}
