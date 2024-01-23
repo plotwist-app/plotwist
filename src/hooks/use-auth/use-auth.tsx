@@ -1,19 +1,17 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Language } from '@/types/languages'
 
 export const useAuth = (dictionary: Dictionary) => {
   const supabase = createClientComponentClient()
 
   const { push } = useRouter()
-  const lang = useParams<{ lang: Language }>()
 
   const signInWithCredentials = async (credentials: SignInCredentials) => {
     const { error, data } = await supabase.auth.signInWithPassword(credentials)

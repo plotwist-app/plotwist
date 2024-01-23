@@ -1,14 +1,8 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TvShowCard, TvShowCardSkeleton } from '@/components/tv-show-card'
 import { TMDB } from '@/services/TMDB'
-
-const queryClient = new QueryClient()
 
 type Variant = 'airingToday' | 'onTheAir' | 'popular' | 'topRated'
 
@@ -38,8 +32,6 @@ export const TvShowList = ({ variant }: TvShowListContentProps) => {
   })
 
   if (!data) return <TvShowListSkeleton />
-
-  console.log({ data })
 
   return (
     <div className="flex items-center justify-between">

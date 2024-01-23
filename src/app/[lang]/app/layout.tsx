@@ -2,8 +2,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { Header } from './components/header'
-
 import { ListsContextProvider } from '@/context/lists'
 import { AuthContextProvider } from '@/context/auth'
 import { Sidebar } from '@/components/sidebar'
@@ -30,7 +28,6 @@ export default async function AppLayout({
           <Sidebar user={user} />
 
           <main className="max-h-screen w-full overflow-y-scroll">
-            <Header />
             {children}
           </main>
         </div>
