@@ -106,4 +106,8 @@ export type Dictionary = {
     added_successfully: string
     view_list: string
   }
+  credits: {
+    cast: string
+    crew: string
+  }
 }

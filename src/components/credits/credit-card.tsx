@@ -38,9 +38,7 @@ export const CreditCard = ({
 
       <div className="flex flex-col space-y-0 py-2">
         <span className="text-sm">{name}</span>
-        <span className="text-xs text-muted-foreground">
-          as {role || 'Unknown'}
-        </span>
+        <span className="text-xs text-muted-foreground">{role}</span>
       </div>
     </Link>
   )

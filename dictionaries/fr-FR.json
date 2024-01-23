@@ -104,5 +104,9 @@
     "removed_successfully": "Supprimé avec succès.",
     "added_successfully": "Ajouté avec succès.",
     "view_list": "Voir la liste"
+  },
+  "credits": {
+    "cast": "Distribution",
+    "crew": "Équipe"
   }
 }

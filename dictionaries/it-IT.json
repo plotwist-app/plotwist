@@ -104,5 +104,9 @@
     "removed_successfully": "Rimosso con successo.",
     "added_successfully": "Aggiunto con successo.",
     "view_list": "Visualizza lista"
+  },
+  "credits": {
+    "cast": "Cast",
+    "crew": "Equipaggio"
   }
 }

@@ -107,5 +107,9 @@
     "removed_successfully": "Removed successfully.",
     "added_successfully": "Added successfully.",
     "view_list": "View list"
+  },
+  "credits": {
+    "cast": "Cast",
+    "crew": "Crew"
   }
 }
