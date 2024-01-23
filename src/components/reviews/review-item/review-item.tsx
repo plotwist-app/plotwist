@@ -1,9 +1,8 @@
 'use client'
 
-import { ReviewStars } from './review-stars'
-import { ReviewItemActions } from './review-item-actions'
-
 import { Review } from '@/types/supabase/reviews'
+import { ReviewItemActions } from '.'
+import { ReviewStars } from '../review-stars'
 
 type ReviewItemProps = { review: Review }
 

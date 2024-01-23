@@ -110,4 +110,11 @@ export type Dictionary = {
     cast: string
     crew: string
   }
+  review_form: {
+    required: string
+    rating_max: string
+    success: string
+    publish: string
+    placeholder: string
+  }
 }

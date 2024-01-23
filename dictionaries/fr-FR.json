@@ -108,5 +108,12 @@
   "credits": {
     "cast": "Distribution",
     "crew": "Équipe"
+  },
+  "review_form": {
+    "required": "Un avis est requis.",
+    "rating_max": "La valeur maximale de la note est de 5",
+    "success": "Avis créé avec succès.",
+    "publish": "Publier",
+    "placeholder": "Qu'en pensez-vous ?"
   }
 }

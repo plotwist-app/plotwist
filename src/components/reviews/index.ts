@@ -1,6 +1,1 @@
-export * from './review-form'
-export * from './review-item-actions'
-export * from './review-item-skeleton'
-export * from './review-item'
-export * from './review-stars'
 export * from './reviews'

@@ -108,5 +108,12 @@
   "credits": {
     "cast": "Elenco",
     "crew": "Equipe"
-  } 
+  },
+  "review_form": {
+    "required": "Avaliação é necessária.",
+    "rating_max": "O valor máximo da classificação é 5",
+    "success": "Avaliação criada com sucesso.",
+    "publish": "Publicar",
+    "placeholder": "O que você acha?"
+  }
 }

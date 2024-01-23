@@ -5,10 +5,10 @@ import { MediaType } from '@/types/supabase/media-type'
 import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
 
-import { ReviewItem } from './review-item'
-import { ReviewForm } from './review-form'
-import { ReviewItemSkeleton } from './review-item-skeleton'
 import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+
+import { ReviewForm } from './review-form'
+import { ReviewItem, ReviewItemSkeleton } from './review-item'
 
 export type ReviewsProps = {
   tmdbItem: TvShowDetails | MovieDetails

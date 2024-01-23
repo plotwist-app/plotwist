@@ -37,7 +37,7 @@ export const TvShowCard = ({ tvShow, language = 'en-US' }: TvShowCardProps) => {
     <Link
       href={`/${language}/app/tv-shows/${id}`}
       className="w-full cursor-pointer space-y-2"
-      data-testId={TEST_ID}
+      data-testid={TEST_ID}
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
         <Image

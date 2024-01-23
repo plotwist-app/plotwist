@@ -108,5 +108,12 @@
   "credits": {
     "cast": "キャスト",
     "crew": "クルー"
+  },
+  "review_form": {
+    "required": "レビューが必要です。",
+    "rating_max": "評価の最大値は5です",
+    "success": "レビューが正常に作成されました。",
+    "publish": "公開する",
+    "placeholder": "どう思いますか？"
   }
 }

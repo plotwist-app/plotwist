@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { ReviewStars } from './review-stars'
+import { ReviewStars } from '../review-stars'
 
 export const ReviewItemSkeleton = () => {
   return (

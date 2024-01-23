@@ -14,34 +14,43 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
 
 import { useReviews } from '@/hooks/use-reviews/use-reviews'
+import { Dictionary } from '@/utils/dictionaries'
 
-import { ReviewStars } from './review-stars'
-import { ReviewsProps } from './reviews'
+import { ReviewsProps } from '..'
+import { ReviewStars } from '../review-stars'
 
-type ReviewFormProps = ReviewsProps
+export const reviewFormSchema = (dictionary: Dictionary) =>
+  z.object({
+    review: z.string().min(1, dictionary.review_form.required),
 
-const reviewFormSchema = z.object({
-  review: z.string().min(1, 'Review is required.'),
-  rating: z.number().min(0, 'Required').max(5, 'Max value of rating is 5'),
-})
+    rating: z
+      .number()
+      .min(0, 'Required')
+      .max(5, dictionary.review_form.rating_max),
+  })
 
-export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
+export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
+
+export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { handleCreateReview } = useReviews()
   const { user } = useAuth()
+  const { dictionary } = useLanguage()
 
-  const form = useForm<z.infer<typeof reviewFormSchema>>({
-    resolver: zodResolver(reviewFormSchema),
+  const form = useForm<ReviewFormValues>({
+    resolver: zodResolver(reviewFormSchema(dictionary)),
     defaultValues: {
       review: '',
       rating: 0,
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof reviewFormSchema>) => {
+  const onSubmit = async (values: ReviewFormValues) => {
     await handleCreateReview.mutateAsync(
       {
         ...values,
@@ -55,10 +64,8 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: [tmdbItem.id, mediaType],
           })
-
           form.reset()
-
-          toast.success('Review created successfully.')
+          toast.success(dictionary.review_form.success)
         },
       },
     )
@@ -81,9 +88,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-muted-foreground">{username}</span>
-
               <span className="h-1 w-1 rounded-full bg-muted" />
-
               <FormField
                 control={form.control}
                 name="rating"
@@ -99,7 +104,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
                 type="submit"
                 loading={form.formState.isSubmitting}
               >
-                Publish
+                {dictionary.review_form.publish}
               </Button>
             </div>
           </div>
@@ -110,7 +115,10 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea placeholder="What you think about?" {...field} />
+                  <Textarea
+                    placeholder={dictionary.review_form.placeholder}
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />

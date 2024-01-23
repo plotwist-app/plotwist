@@ -40,7 +40,7 @@ export const ReviewStars = ({ onChange, rating }: ReviewStarsProps) => {
             key={index}
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
-            onClick={() => onChange(starIndex)} // Set the rating on click
+            onClick={() => onChange(starIndex)}
             className={`${
               isFilled && filledClass
             } cursor-pointer transition-colors duration-100 ease-in-out ${hoverClass}`}

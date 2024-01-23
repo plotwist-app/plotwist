@@ -108,5 +108,12 @@
   "credits": {
     "cast": "Besetzung",
     "crew": "Crew"
+  },
+  "review_form": {
+    "required": "Eine Bewertung ist erforderlich.",
+    "rating_max": "Der maximale Wert der Bewertung ist 5",
+    "success": "Bewertung erfolgreich erstellt.",
+    "publish": "Veröffentlichen",
+    "placeholder": "Was denken Sie?"
   }
 }

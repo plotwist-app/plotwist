@@ -111,5 +111,12 @@
   "credits": {
     "cast": "Cast",
     "crew": "Crew"
+  },
+  "review_form": {
+    "required": "Review is required.",
+    "rating_max": "Max value of rating is 5",
+    "success": "Review created successfully.",
+    "publish": "Publish",
+    "placeholder": "What you think about?"
   }
 }

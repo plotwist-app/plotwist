@@ -108,5 +108,12 @@
   "credits": {
     "cast": "Reparto",
     "crew": "Equipo"
+  },
+  "review_form": {
+    "required": "Se requiere una reseña.",
+    "rating_max": "El valor máximo de la calificación es 5",
+    "success": "Reseña creada con éxito.",
+    "publish": "Publicar",
+    "placeholder": "¿Qué piensas?"
   }
 }
