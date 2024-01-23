@@ -7,6 +7,7 @@ import {
   tvShowsLists,
   search,
   watchProviders,
+  credits,
 } from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
@@ -29,4 +30,5 @@ export const tmdb = {
   },
   watchProviders,
   search,
+  credits,
 }

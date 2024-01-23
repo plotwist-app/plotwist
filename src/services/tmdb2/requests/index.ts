@@ -1,3 +1,4 @@
+export * from './credits'
 export * from './movie-details'
 export * from './movie-related'
 export * from './movies-lists'

@@ -1,3 +1,4 @@
+export * from './credits'
 export * from './movie'
 export * from './movie-details'
 export * from './tv-show'

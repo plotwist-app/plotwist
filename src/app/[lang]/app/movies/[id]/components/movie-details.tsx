@@ -2,16 +2,7 @@ import { format } from 'date-fns'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { MovieCredits } from './movie-credits'
-import { MovieCollection } from './movie-collection'
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-
-import { Reviews } from '@/components/reviews'
-import { Videos } from '@/components/videos'
-import { Images } from '@/components/images'
-import { Banner } from '@/components/banner'
-import { Poster } from '@/components/poster'
 import { Separator } from '@/components/ui/separator'
 import {
   Tooltip,
@@ -21,15 +12,24 @@ import {
 } from '@/components/ui/tooltip'
 import { Badge } from '@/components/ui/badge'
 
+import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import { Images } from '@/components/images'
+import { Banner } from '@/components/banner'
+import { Poster } from '@/components/poster'
+
+import { WatchProviders } from '@/components/watch-providers'
+import { ListsDropdown } from '@/components/lists'
+import { Credits } from '@/components/credits'
+
 import { MovieRelated } from './movie-related'
+import { MovieCollection } from './movie-collection'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { locale } from '@/utils/date/locale'
 import { tmdb } from '@/services/tmdb2'
 
 import { Language } from '@/types/languages'
-import { WatchProviders } from '@/components/watch-providers'
-import { ListsDropdown } from '@/components/lists'
 
 type MovieDetailsProps = {
   id: number
@@ -38,7 +38,7 @@ type MovieDetailsProps = {
 
 export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
   const movie = await tmdb.movies.details(id, language)
-  const { tabs } = await getDictionary(language)
+  const dictionary = await getDictionary(language)
 
   return (
     <div>
@@ -103,14 +103,14 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
         <Tabs defaultValue="reviews" className="w-full">
           <TabsList>
-            <TabsTrigger value="reviews">{tabs.reviews}</TabsTrigger>
-            <TabsTrigger value="credits">{tabs.credits}</TabsTrigger>
+            <TabsTrigger value="reviews">{dictionary.tabs.reviews}</TabsTrigger>
+            <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
             <TabsTrigger value="recommendations">
-              {tabs.recommendations}
+              {dictionary.tabs.recommendations}
             </TabsTrigger>
-            <TabsTrigger value="similar">{tabs.similar}</TabsTrigger>
-            <TabsTrigger value="images">{tabs.images}</TabsTrigger>
-            <TabsTrigger value="videos">{tabs.videos}</TabsTrigger>
+            <TabsTrigger value="similar">{dictionary.tabs.similar}</TabsTrigger>
+            <TabsTrigger value="images">{dictionary.tabs.images}</TabsTrigger>
+            <TabsTrigger value="videos">{dictionary.tabs.videos}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="reviews" className="mt-4">
@@ -118,7 +118,7 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="credits" className="mt-4">
-            <MovieCredits movieId={movie.id} />
+            <Credits variant="movie" id={movie.id} dictionary={dictionary} />
           </TabsContent>
 
           <TabsContent value="recommendations" className="mt-4">

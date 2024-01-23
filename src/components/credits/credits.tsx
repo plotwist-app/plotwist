@@ -1,10 +1,15 @@
-import { CreditCard } from '@/components/credit-card'
-import { TMDB } from '@/services/TMDB'
+import { tmdb } from '@/services/tmdb2'
+import { CreditCard } from './credit-card'
+import { getDictionary, Dictionary } from '@/utils/dictionaries'
 
-type MovieCreditsProps = { movieId: number }
+type CreditsProps = {
+  variant: 'movie' | 'tv'
+  id: number
+  dictionary: Dictionary
+}
 
-export const MovieCredits = async ({ movieId }: MovieCreditsProps) => {
-  const { cast, crew } = await TMDB.movies.credits(movieId)
+export const Credits = async ({ variant, id, dictionary }: CreditsProps) => {
+  const { cast, crew } = await tmdb.credits(variant, id)
 
   return (
     <div className="space-y-8">

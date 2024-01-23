@@ -68,6 +68,8 @@ export type Dictionary = {
     similar: string
     images: string
     videos: string
+
+    seasons: string
   }
   navigation: {
     dashboard: string
