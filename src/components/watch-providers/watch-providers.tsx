@@ -9,7 +9,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { TMDB } from '@/services/TMDB'
+import { tmdb } from '@/services/tmdb2'
+import { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Play } from 'lucide-react'
@@ -43,10 +45,19 @@ export const WatchProviderItem = ({ item }: WatchProviderItemProps) => {
   )
 }
 
-type WatchProvidersProps = { id: number; variant: 'movies' | 'tvShows' }
+type WatchProvidersProps = {
+  id: number
+  variant: 'movie' | 'tv'
+  language: Language
+}
 
-export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
-  const { results } = await TMDB[variant].watchProviders(id)
+export const WatchProviders = async ({
+  id,
+  variant,
+  language,
+}: WatchProvidersProps) => {
+  const { results } = await tmdb.watchProviders(variant, id)
+  const dictionary = await getDictionary(language)
 
   if (!results.US) return <></>
 
@@ -57,7 +68,8 @@ export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
       <DropdownMenuTrigger asChild>
         <Badge variant="outline" className="cursor-pointer">
           <Play className="mr-1.5" size={12} />
-          Watch Providers
+
+          {dictionary.watch_providers.label}
         </Badge>
       </DropdownMenuTrigger>
 
@@ -65,7 +77,7 @@ export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
         {flatrate && (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="text-xs">
-              Stream
+              {dictionary.watch_providers.stream}
             </DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
@@ -81,7 +93,7 @@ export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
         {rent && (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="text-xs">
-              Rent
+              {dictionary.watch_providers.rent}
             </DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>
@@ -97,7 +109,7 @@ export const WatchProviders = async ({ id, variant }: WatchProvidersProps) => {
         {buy && (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="text-xs">
-              Buy
+              {dictionary.watch_providers.buy}
             </DropdownMenuSubTrigger>
 
             <DropdownMenuSubContent>

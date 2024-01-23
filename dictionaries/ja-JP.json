@@ -90,5 +90,18 @@
     "movies": "映画",
     "tv_shows": "テレビ番組",
     "people": "人物"
+  },
+  "watch_providers": {
+    "label": "視聴プロバイダー",
+    "stream": "ストリーム",
+    "rent": "レンタル",
+    "buy": "購入"
+  },
+  "lists_dropdown": {
+    "add_to_list": "リストに追加",
+    "my_lists": "マイリスト",
+    "removed_successfully": "正常に削除されました。",
+    "added_successfully": "正常に追加されました。",
+    "view_list": "リストを見る"
   }
 }

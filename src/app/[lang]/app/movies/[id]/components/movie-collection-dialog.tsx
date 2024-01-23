@@ -1,6 +1,6 @@
 'use client'
 
-import { AddCollectionToListDropdown } from '../../../components/add-collection-to-list-button'
+import { CollectionListDropdown } from '@/components/lists/collection-list-button'
 
 import { MovieCard } from '@/components/movie-card'
 import { Button } from '@/components/ui/button'
@@ -43,7 +43,7 @@ export const MovieCollectionDialog = ({
             <DialogDescription>{overview}</DialogDescription>
 
             <div className="mt-2">
-              <AddCollectionToListDropdown items={parts} />
+              <CollectionListDropdown items={parts} />
             </div>
           </DialogHeader>
 

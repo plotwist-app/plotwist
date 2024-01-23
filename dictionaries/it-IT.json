@@ -90,5 +90,18 @@
     "movies": "Film",
     "tv_shows": "Programmi TV",
     "people": "Persone"
+  },
+  "watch_providers": {
+    "label": "Fornitori di visione",
+    "stream": "Trasmettere",
+    "rent": "Noleggiare",
+    "buy": "Comprare"
+  },
+  "lists_dropdown": {
+    "add_to_list": "Aggiungi alla lista",
+    "my_lists": "Le mie liste",
+    "removed_successfully": "Rimosso con successo.",
+    "added_successfully": "Aggiunto con successo.",
+    "view_list": "Visualizza lista"
   }
 }

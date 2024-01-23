@@ -93,5 +93,18 @@
     "movies": "Movies",
     "tv_shows": "TV Shows",
     "people": "People"
+  },
+  "watch_providers": {
+    "label": "Watch Providers",
+    "stream": "Stream",
+    "rent": "Rent",
+    "buy": "Buy"
+  },
+  "lists_dropdown": {
+    "add_to_list": "Add to list",
+    "my_lists": "My lists",
+    "removed_successfully": "Removed successfully.",
+    "added_successfully": "Added successfully.",
+    "view_list": "View list"
   }
 }

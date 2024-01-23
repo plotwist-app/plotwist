@@ -1,5 +1,11 @@
 'use client'
 
+import { useCallback } from 'react'
+import { toast } from 'sonner'
+import { Plus } from 'lucide-react'
+import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+import { useRouter } from 'next/navigation'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -9,23 +15,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { Plus } from 'lucide-react'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
-import { toast } from 'sonner'
-import { List } from '@/types/supabase/lists'
-import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useLanguage } from '@/context/language'
+
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
-type AddToListDropdownProps = {
+import { List } from '@/types/supabase/lists'
+
+type ListsDropdownProps = {
   item: TvShowDetails | MovieDetails
 }
 
-export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
+export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveToList } = useLists()
   const { push } = useRouter()
+  const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(
     async (id: number) => {
@@ -35,11 +41,11 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
             queryKey: LISTS_QUERY_KEY,
           })
 
-          toast.success(`Removed successfully.`)
+          toast.success(dictionary.lists_dropdown.removed_successfully)
         },
       })
     },
-    [handleRemoveToList],
+    [dictionary.lists_dropdown.removed_successfully, handleRemoveToList],
   )
 
   const handleAdd = useCallback(
@@ -54,9 +60,9 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
               queryKey: LISTS_QUERY_KEY,
             })
 
-            toast.success(`Added successfully.`, {
+            toast.success(dictionary.lists_dropdown.added_successfully, {
               action: {
-                label: 'View list',
+                label: dictionary.lists_dropdown.view_list,
                 onClick: () => push(`/app/lists/${list.id}`),
               },
             })
@@ -64,7 +70,7 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
         },
       )
     },
-    [handleAddToList, item, push],
+    [dictionary, handleAddToList, item, push],
   )
 
   return (
@@ -72,12 +78,15 @@ export const AddToListDropdown = ({ item }: AddToListDropdownProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
           <Plus className="mr-2" size={12} />
-          Add to list
+
+          {dictionary.lists_dropdown.add_to_list}
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My lists</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {dictionary.lists_dropdown.my_lists}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         {lists.map((list) => {

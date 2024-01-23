@@ -11,6 +11,17 @@ const defaultLocale = 'en-US'
 match(languages, appLanguages, defaultLocale)
 
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl
+
+  const pathnameHasLocale = appLanguages.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  )
+
+  if (!pathnameHasLocale) {
+    req.nextUrl.pathname = `/${defaultLocale}${pathname}`
+    return NextResponse.redirect(req.nextUrl)
+  }
+
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
   await supabase.auth.getSession()
@@ -19,5 +30,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

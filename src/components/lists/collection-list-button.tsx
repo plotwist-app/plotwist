@@ -33,13 +33,13 @@ const getIncludedItemIds = (list: List, items: Movie[]) => {
     .map((listItem) => listItem.id)
 }
 
-type AddCollectionToListDropdownProps = {
+type CollectionListDropdownProps = {
   items: Movie[]
 }
 
-export const AddCollectionToListDropdown = ({
+export const CollectionListDropdown = ({
   items,
-}: AddCollectionToListDropdownProps) => {
+}: CollectionListDropdownProps) => {
   const { lists, handleAddCollectionToList, handleRemoveCollectionToList } =
     useLists()
   const { push } = useRouter()

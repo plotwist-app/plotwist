@@ -90,5 +90,18 @@
     "movies": "Filmes",
     "tv_shows": "Séries de TV",
     "people": "Pessoas"
+  },
+  "watch_providers": {
+    "label": "Onde assistir",
+    "stream": "Assinatura",
+    "rent": "Alugar",
+    "buy": "Comprar"
+  },
+  "lists_dropdown": {
+    "add_to_list": "Adicionar à lista",
+    "my_lists": "Minhas listas",
+    "removed_successfully": "Removido com sucesso.",
+    "added_successfully": "Adicionado com sucesso.",
+    "view_list": "Ver lista"
   }
 }

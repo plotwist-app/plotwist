@@ -22,14 +22,14 @@ import {
 import { Badge } from '@/components/ui/badge'
 
 import { MovieRelated } from './movie-related'
-import { WatchProviders } from '../../../components/watch-providers'
-import { AddToListDropdown } from '../../../components/add-to-list-dropdown'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { locale } from '@/utils/date/locale'
 import { tmdb } from '@/services/tmdb2'
 
 import { Language } from '@/types/languages'
+import { WatchProviders } from '@/components/watch-providers'
+import { ListsDropdown } from '@/components/lists'
 
 type MovieDetailsProps = {
   id: number
@@ -91,8 +91,8 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
             <p className="text-sm text-muted-foreground">{movie.overview}</p>
 
             <div className="space-x-1">
-              <WatchProviders id={id} variant="movies" />
-              <AddToListDropdown item={movie} />
+              <WatchProviders id={id} variant="movie" language={language} />
+              <ListsDropdown item={movie} />
             </div>
           </article>
         </main>

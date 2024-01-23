@@ -91,4 +91,17 @@ export type Dictionary = {
     tv_shows: string
     people: string
   }
+  watch_providers: {
+    label: string
+    stream: string
+    rent: string
+    buy: string
+  }
+  lists_dropdown: {
+    add_to_list: string
+    my_lists: string
+    removed_successfully: string
+    added_successfully: string
+    view_list: string
+  }
 }
