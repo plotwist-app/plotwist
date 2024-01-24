@@ -18,6 +18,7 @@ import {
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useLanguage } from '@/context/language'
 
 type ListItemActionsProps = { listItem: ListItem }
 
@@ -28,6 +29,8 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     handleRemoveToList,
   } = useLists()
 
+  const { dictionary } = useLanguage()
+
   const handleRemove = useCallback(
     async (id: number, listId: number) => {
       await handleRemoveToList.mutateAsync(id, {
@@ -36,11 +39,11 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
             queryKey: [listId],
           })
 
-          toast.success(`Removed successfully.`)
+          toast.success(dictionary.list_item_actions.removed_successfully)
         },
       })
     },
-    [handleRemoveToList],
+    [dictionary, handleRemoveToList],
   )
 
   const handleChangeStatus = useCallback(
@@ -78,11 +81,16 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
             queryKey: LISTS_QUERY_KEY,
           })
 
-          toast.success(`Cover changed successfully.`)
+          toast.success(dictionary.list_item_actions.cover_changed_successfully)
         },
       },
     )
-  }, [handleChangeListCoverPath, listItem.backdrop_path, listItem.list_id])
+  }, [
+    dictionary,
+    handleChangeListCoverPath,
+    listItem.backdrop_path,
+    listItem.list_id,
+  ])
 
   return (
     <DropdownMenu>
@@ -94,11 +102,13 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
 
       <DropdownMenuContent>
         <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
-          Use as cover
+          {dictionary.list_item_actions.use_as_cover}
         </DropdownMenuItem>
 
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>
+            {dictionary.list_item_actions.status}
+          </DropdownMenuSubTrigger>
 
           <DropdownMenuSubContent>
             <DropdownMenuRadioGroup
@@ -113,7 +123,11 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
                   value={status}
                   className="text-sm capitalize"
                 >
-                  {status.toLowerCase()}
+                  {
+                    dictionary.statuses[
+                      status.toLowerCase() as 'pending' | 'watching' | 'watched'
+                    ]
+                  }
                 </DropdownMenuRadioItem>
               ))}
             </DropdownMenuRadioGroup>
@@ -124,7 +138,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
           <DropdownMenuItem
             onClick={() => handleRemove(listItem.id, listItem.list_id)}
           >
-            Delete
+            {dictionary.list_item_actions.delete}
           </DropdownMenuItem>
         </DropdownMenuSub>
       </DropdownMenuContent>

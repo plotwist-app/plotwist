@@ -162,5 +162,38 @@
     "description_required": "リストの説明が必要です。",
     "submit": "提出する",
     "list_created_success": "リストが正常に作成されました！"
+  },
+  "list_page": {
+    "list_not_found": "リストが見つかりませんでした。",
+    "see_your_lists_or_create_new": "リストを見るか、ここをクリックして新しいリストを作成する",
+    "here": "ここ"
+  },
+  "list_items": {
+    "table": "テーブル",
+    "grid": "グリッド"
+  },
+  "data_table": {
+    "title": "タイトル",
+    "type": "タイプ",
+    "overview": "概要",
+    "added_at": "追加日",
+    "status": "ステータス"
+  },
+  "data_table_column_header": {
+    "asc": "昇順",
+    "desc": "降順",
+    "hide": "非表示"
+  },
+  "statuses": {
+    "pending": "保留中",
+    "watching": "視聴中",
+    "watched": "視聴済み"
+  },
+  "list_item_actions": {
+    "use_as_cover": "カバーとして使用",
+    "status": "ステータス",
+    "delete": "削除",
+    "removed_successfully": "正常に削除されました。",
+    "cover_changed_successfully": "カバーが正常に変更されました。"
   }
 }

@@ -162,5 +162,38 @@
     "description_required": "Se requiere una descripción de la lista.",
     "submit": "Enviar",
     "list_created_success": "¡Lista creada con éxito!"
+  },
+  "list_page": {
+    "list_not_found": "Lista no encontrada.",
+    "see_your_lists_or_create_new": "Consulta tus listas o crea una nueva haciendo clic",
+    "here": "aquí"
+  },
+  "list_items": {
+    "table": "Tabla",
+    "grid": "Cuadrícula"
+  },
+  "data_table": {
+    "title": "Título",
+    "type": "Tipo",
+    "overview": "Resumen",
+    "added_at": "Agregado en",
+    "status": "Estado"
+  },
+  "data_table_column_header": {
+    "asc": "Asc",
+    "desc": "Desc",
+    "hide": "Ocultar"
+  },
+  "statuses": {
+    "pending": "Pendiente",
+    "watching": "Viendo",
+    "watched": "Visto"
+  },
+  "list_item_actions": {
+    "use_as_cover": "Usar como portada",
+    "status": "Estado",
+    "delete": "Eliminar",
+    "removed_successfully": "Eliminado con éxito.",
+    "cover_changed_successfully": "Portada cambiada con éxito."
   }
 }

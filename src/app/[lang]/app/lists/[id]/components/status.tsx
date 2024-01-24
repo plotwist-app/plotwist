@@ -1,4 +1,7 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
+import { useLanguage } from '@/context/language'
 import { ListItemStatus } from '@/types/supabase/lists'
 import { cva } from 'class-variance-authority'
 
@@ -23,9 +26,13 @@ const badge = cva(
 )
 
 export const Status = ({ status }: StatusBadgeProps) => {
+  const { dictionary } = useLanguage()
+
+  const lowerStatus = status.toLowerCase() as 'pending' | 'watching' | 'watched'
+
   return (
     <Badge variant="outline" className={badge({ status })}>
-      {status.toLowerCase()}
+      {dictionary.statuses[lowerStatus]}
     </Badge>
   )
 }

@@ -164,5 +164,38 @@
     "description_required": "Description of list is required.",
     "submit": "Submit",
     "list_created_success": "List created successfully!"
+  },
+  "list_page": {
+    "list_not_found": "List not found.",
+    "see_your_lists_or_create_new": "See your lists or create new clicking",
+    "here": "here"
+  },
+  "list_items": {
+    "table": "Table",
+    "grid": "Grid"
+  },
+  "data_table": {
+    "title": "Title",
+    "type": "Type",
+    "overview": "Overview",
+    "added_at": "Added at",
+    "status": "Status"
+  },
+  "data_table_column_header": {
+    "asc": "Asc",
+    "desc": "Desc",
+    "hide": "Hide"
+  },
+  "statuses": {
+    "pending": "Pending",
+    "watching": "Watching",
+    "watched": "Watched"
+  },
+  "list_item_actions": {
+    "use_as_cover": "Use as cover",
+    "status": "Status",
+    "delete": "Delete",
+    "removed_successfully": "Removed successfully.",
+    "cover_changed_successfully": "Cover changed successfully."
   }
 }

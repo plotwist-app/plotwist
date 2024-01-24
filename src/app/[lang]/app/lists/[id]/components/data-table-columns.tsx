@@ -11,8 +11,16 @@ import { Badge } from '@/components/ui/badge'
 import { Status } from './status'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { ListItemActions } from './list-item-actions'
+import { Dictionary } from '@/utils/dictionaries'
+import { Language } from '@/types/languages'
+import { locale } from '@/utils/date/locale'
 
-export const columns: ColumnDef<ListItem>[] = [
+type Columns = (
+  dictionary: Dictionary,
+  language: Language,
+) => ColumnDef<ListItem>[]
+
+export const columns: Columns = (dictionary, language) => [
   {
     accessorKey: 'index',
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
@@ -31,7 +39,7 @@ export const columns: ColumnDef<ListItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Title"
+        title={dictionary.data_table.title}
         className="w-[200px]"
       />
     ),
@@ -56,7 +64,10 @@ export const columns: ColumnDef<ListItem>[] = [
     id: 'type',
     accessorKey: 'media_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type" />
+      <DataTableColumnHeader
+        column={column}
+        title={dictionary.data_table.type}
+      />
     ),
     cell: ({ row }) => {
       return (
@@ -67,33 +78,20 @@ export const columns: ColumnDef<ListItem>[] = [
     },
   },
   {
-    id: 'overview',
-    accessorKey: 'overview',
+    id: 'Added at',
+    accessorKey: 'created_at',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Overview"
-        className="w-[250px]"
+        title={dictionary.data_table.added_at}
       />
     ),
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-2  text-xs text-muted-foreground">
-          {row.getValue('overview')}
-        </p>
-      )
-    },
-  },
-  {
-    id: 'Added at',
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Added at" />
-    ),
-    cell: ({ row }) => {
-      return (
         <p className="whitespace-nowrap text-xs">
-          {format(new Date(row.getValue('Added at')), 'PPP')}
+          {format(new Date(row.getValue('Added at')), 'PPP', {
+            locale: locale[language],
+          })}
         </p>
       )
     },
@@ -104,7 +102,7 @@ export const columns: ColumnDef<ListItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Status"
+        title={dictionary.data_table.status}
         className="w-[30px]"
       />
     ),

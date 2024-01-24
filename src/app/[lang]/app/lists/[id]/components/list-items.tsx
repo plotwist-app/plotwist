@@ -1,10 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-
 import { ListItem } from '@/types/supabase/lists'
 import { Grid, Table } from 'lucide-react'
 import { useState } from 'react'
+
+import { useLanguage } from '@/context/language'
+import { Button } from '@/components/ui/button'
 
 import { ListItemsGrid } from './list-items-grid'
 import { DataTable } from './data-table'
@@ -16,10 +17,13 @@ type ListItemsProps = {
 
 export const ListItems = ({ listItems }: ListItemsProps) => {
   const [layout, setLayout] = useState<'table' | 'grid'>('table')
+  const { dictionary, language } = useLanguage()
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
+    table: (
+      <DataTable data={listItems} columns={columns(dictionary, language)} />
+    ),
     grid: <ListItemsGrid listItems={listItems} />,
-    table: <DataTable data={listItems} columns={columns} />,
   }
 
   return (
@@ -30,7 +34,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
           onClick={() => setLayout('table')}
         >
           <Table className="mr-2 h-4 w-4" />
-          Table
+          {dictionary.list_items.table}
         </Button>
 
         <Button
@@ -38,7 +42,7 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
           onClick={() => setLayout('grid')}
         >
           <Grid className="mr-2 h-4 w-4" />
-          Grid
+          {dictionary.list_items.grid}
         </Button>
       </div>
 

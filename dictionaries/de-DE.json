@@ -162,5 +162,38 @@
     "description_required": "Eine Beschreibung der Liste ist erforderlich.",
     "submit": "Einreichen",
     "list_created_success": "Liste erfolgreich erstellt!"
+  },
+  "list_page": {
+    "list_not_found": "Liste nicht gefunden.",
+    "see_your_lists_or_create_new": "Sieh dir deine Listen an oder erstelle eine neue, indem du klickst",
+    "here": "hier"
+  },
+  "list_items": {
+    "table": "Tabelle",
+    "grid": "Raster"
+  },
+  "data_table": {
+    "title": "Titel",
+    "type": "Typ",
+    "overview": "Übersicht",
+    "added_at": "Hinzugefügt am",
+    "status": "Status"
+  },
+  "data_table_column_header": {
+    "asc": "Aufst",
+    "desc": "Abst",
+    "hide": "Verbergen"
+  },
+  "statuses": {
+    "pending": "Ausstehend",
+    "watching": "Ansehen",
+    "watched": "Gesehen"
+  },
+  "list_item_actions": {
+    "use_as_cover": "Als Cover verwenden",
+    "status": "Status",
+    "delete": "Löschen",
+    "removed_successfully": "Erfolgreich entfernt.",
+    "cover_changed_successfully": "Cover erfolgreich geändert."
   }
 }

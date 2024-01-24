@@ -1,5 +1,5 @@
 type BannerProps = {
-  url: string
+  url?: string
 }
 
 export const Banner = ({ url }: BannerProps) => {

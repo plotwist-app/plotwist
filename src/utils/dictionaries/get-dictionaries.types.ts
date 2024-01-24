@@ -164,4 +164,37 @@ export type Dictionary = {
     submit: string
     list_created_success: string
   }
+  list_page: {
+    list_not_found: string
+    see_your_lists_or_create_new: string
+    here: string
+  }
+  list_items: {
+    table: string
+    grid: string
+  }
+  data_table: {
+    title: string
+    type: string
+    overview: string
+    added_at: string
+    status: string
+  }
+  data_table_column_header: {
+    asc: string
+    desc: string
+    hide: string
+  }
+  statuses: {
+    pending: string
+    watching: string
+    watched: string
+  }
+  list_item_actions: {
+    use_as_cover: string
+    status: string
+    delete: string
+    removed_successfully: string
+    cover_changed_successfully: string
+  }
 }
