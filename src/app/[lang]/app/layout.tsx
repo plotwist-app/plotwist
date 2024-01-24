@@ -1,22 +1,19 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { ListsContextProvider } from '@/context/lists'
 import { AuthContextProvider } from '@/context/auth'
 import { Sidebar } from '@/components/sidebar'
 import { PageParams } from '@/types/languages'
+import { getUserService } from '@/services/api/users/get-user'
 
 type AppLayoutProps = {
   children: React.ReactNode
 } & PageParams
 
 export default async function AppLayout({ children, params }: AppLayoutProps) {
-  const supabase = createServerComponentClient({ cookies })
-
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await getUserService()
 
   if (!user) {
     redirect(`/${params.lang}/login`)

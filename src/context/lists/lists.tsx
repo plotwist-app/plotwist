@@ -3,18 +3,17 @@
 import { createContext, useContext } from 'react'
 import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import {
-  addCollectionToList,
-  addToList,
-  changeListCoverPath,
-  changeListItemStatus,
-  createList,
-  deleteList,
-  fetchLists,
-  removeCollectionToList,
-  removeToList,
-} from './lists.utils'
 import { useAuth } from '../auth'
+
+import { changeListCoverPath } from '@/services/api/lists/change-list-cover-path'
+import { changeListItemStatus } from '@/services/api/lists/change-list-item-status'
+import { removeFromList } from '@/services/api/lists/remove-from-list'
+import { removeCollectionFromList } from '@/services/api/lists/remove-colletion-from-list'
+import { addCollectionToList } from '@/services/api/lists/add-collection-to-list'
+import { addToList } from '@/services/api/lists/add-to-list'
+import { createList } from '@/services/api/lists/create-list'
+import { deleteList } from '@/services/api/lists/delete-list'
+import { fetchLists } from '@/services/api/lists/fetch-lists'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
@@ -47,12 +46,12 @@ export const ListsContextProvider = ({
     mutationFn: addCollectionToList,
   })
 
-  const handleRemoveCollectionToList = useMutation({
-    mutationFn: removeCollectionToList,
+  const handleRemoveCollectionFromList = useMutation({
+    mutationFn: removeCollectionFromList,
   })
 
-  const handleRemoveToList = useMutation({
-    mutationFn: removeToList,
+  const handleRemoveFromList = useMutation({
+    mutationFn: removeFromList,
   })
 
   const handleChangeListItemStatus = useMutation({
@@ -72,8 +71,8 @@ export const ListsContextProvider = ({
         handleDeleteList,
         handleAddToList,
         handleAddCollectionToList,
-        handleRemoveCollectionToList,
-        handleRemoveToList,
+        handleRemoveCollectionFromList,
+        handleRemoveFromList,
         handleChangeListItemStatus,
         handleChangeListCoverPath,
       }}

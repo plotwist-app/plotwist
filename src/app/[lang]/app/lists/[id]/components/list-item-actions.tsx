@@ -25,12 +25,12 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   const {
     handleChangeListItemStatus,
     handleChangeListCoverPath,
-    handleRemoveToList,
+    handleRemoveFromList,
   } = useLists()
 
   const handleRemove = useCallback(
     async (id: number, listId: number) => {
-      await handleRemoveToList.mutateAsync(id, {
+      await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: [listId],
@@ -40,7 +40,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
         },
       })
     },
-    [handleRemoveToList],
+    [handleRemoveFromList],
   )
 
   const handleChangeStatus = useCallback(

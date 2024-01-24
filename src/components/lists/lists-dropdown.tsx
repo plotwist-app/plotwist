@@ -29,13 +29,13 @@ type ListsDropdownProps = {
 }
 
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {
-  const { lists, handleAddToList, handleRemoveToList } = useLists()
+  const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
   const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(
     async (id: number) => {
-      await handleRemoveToList.mutateAsync(id, {
+      await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
@@ -45,7 +45,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       })
     },
-    [dictionary.lists_dropdown.removed_successfully, handleRemoveToList],
+    [dictionary.lists_dropdown.removed_successfully, handleRemoveFromList],
   )
 
   const handleAdd = useCallback(
