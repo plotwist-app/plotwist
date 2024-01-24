@@ -5,11 +5,11 @@ import { redirect } from 'next/navigation'
 import { ListsContextProvider } from '@/context/lists'
 import { AuthContextProvider } from '@/context/auth'
 import { Sidebar } from '@/components/sidebar'
-import { PageParams } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 
 type AppLayoutProps = {
   children: React.ReactNode
-} & PageParams
+} & PageProps
 
 export default async function AppLayout({ children, params }: AppLayoutProps) {
   const supabase = createServerComponentClient({ cookies })

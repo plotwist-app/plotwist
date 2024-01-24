@@ -2,19 +2,15 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { TvShowCard, TvShowCardSkeleton } from '@/components/tv-show-card'
-import { TMDB } from '@/services/TMDB'
+import { TvShowsListType } from '@/services/tmdb2/requests/tv-series/list'
+import { tmdb } from '@/services/tmdb2'
+import { Language } from '@/types/languages'
 
-type Variant = 'airingToday' | 'onTheAir' | 'popular' | 'topRated'
+type Variant = TvShowsListType
 
 type TvShowListContentProps = {
   variant: Variant
-}
-
-const QUERY_KEY: Record<Variant, string> = {
-  airingToday: 'airing-today',
-  onTheAir: 'on-the-air',
-  popular: 'popular',
-  topRated: 'top-rated',
+  language: Language
 }
 
 const TvShowListSkeleton = () => (
@@ -25,10 +21,10 @@ const TvShowListSkeleton = () => (
   </div>
 )
 
-export const TvShowList = ({ variant }: TvShowListContentProps) => {
+export const TvShowList = ({ variant, language }: TvShowListContentProps) => {
   const { data } = useQuery({
-    queryKey: [QUERY_KEY[variant]],
-    queryFn: () => TMDB.tvShows[variant](),
+    queryKey: [variant],
+    queryFn: () => tmdb.tvSeries.list(variant, language),
   })
 
   if (!data) return <TvShowListSkeleton />
@@ -37,7 +33,7 @@ export const TvShowList = ({ variant }: TvShowListContentProps) => {
     <div className="flex items-center justify-between">
       <div className="grid grid-cols-3 gap-x-4 gap-y-8">
         {data?.results.map((tvShow) => (
-          <TvShowCard tvShow={tvShow} key={tvShow.id} />
+          <TvShowCard tvShow={tvShow} key={tvShow.id} language={language} />
         ))}
       </div>
     </div>

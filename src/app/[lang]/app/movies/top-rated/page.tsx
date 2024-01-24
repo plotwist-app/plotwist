@@ -1,6 +1,7 @@
+import { PageProps } from '@/types/languages'
 import { MovieList } from '../../components/movie-list'
 
-const TopRatedMoviesPage = () => {
+const TopRatedMoviesPage = ({ params }: PageProps) => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div>
@@ -8,7 +9,7 @@ const TopRatedMoviesPage = () => {
         <p className="text-muted-foreground">Movies ordered by rating.</p>
       </div>
 
-      <MovieList variant="topRated" />
+      <MovieList variant="top_rated" language={params.lang} />
     </div>
   )
 }

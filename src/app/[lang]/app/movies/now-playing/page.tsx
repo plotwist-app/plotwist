@@ -10,7 +10,7 @@ const NowPlayingMoviesPage = () => {
         </p>
       </div>
 
-      <MovieList variant="nowPlaying" />
+      <MovieList variant="now_playing" />
     </div>
   )
 }

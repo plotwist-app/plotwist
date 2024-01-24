@@ -1,6 +1,7 @@
+import { PageProps } from '@/types/languages'
 import { TvShowList } from '../../components/tv-show-list'
 
-const TopRatedTvShowsPage = () => {
+const TopRatedTvShowsPage = ({ params }: PageProps) => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div className="flex items-center justify-between">
@@ -10,7 +11,7 @@ const TopRatedTvShowsPage = () => {
         </div>
       </div>
 
-      <TvShowList variant="topRated" />
+      <TvShowList variant="top_rated" language={params.lang} />
     </div>
   )
 }

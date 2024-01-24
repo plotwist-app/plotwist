@@ -7,7 +7,7 @@ export type Language =
   | 'pt-BR'
   | 'ja-JP'
 
-export type PageParams = {
+export type PageProps = {
   params: {
     lang: Language
   }
