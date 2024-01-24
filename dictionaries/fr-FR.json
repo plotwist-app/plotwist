@@ -143,5 +143,24 @@
   },
   "auth": {
     "logout_success": "Déconnexion réussie. À la prochaine ✌"
+  },
+  "lists_page": {
+    "title": "Listes",
+    "description": "Créez des listes de visionnage pour gérer vos films et émissions de télévision."
+  },
+  "list_card": {
+    "delete": "Supprimer",
+    "delete_success": "Liste supprimée avec succès."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Créer une nouvelle liste",
+    "name": "Nom",
+    "name_placeholder": "Ma Liste",
+    "name_required": "Le nom de la liste est requis.",
+    "description": "Description",
+    "description_placeholder": "Films et émissions de télévision que je prévois de regarder.",
+    "description_required": "La description de la liste est requise.",
+    "submit": "Soumettre",
+    "list_created_success": "Liste créée avec succès !"
   }
 }

@@ -143,5 +143,24 @@
   },
   "auth": {
     "logout_success": "Disconnessione avvenuta con successo. Alla prossima ✌"
+  },
+  "lists_page": {
+    "title": "Liste",
+    "description": "Crea liste di visione per gestire i tuoi film e programmi TV."
+  },
+  "list_card": {
+    "delete": "Eliminare",
+    "delete_success": "Lista eliminata con successo."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Crea nuova lista",
+    "name": "Nome",
+    "name_placeholder": "La Mia Lista",
+    "name_required": "Il nome della lista è richiesto.",
+    "description": "Descrizione",
+    "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
+    "description_required": "È richiesta una descrizione della lista.",
+    "submit": "Invia",
+    "list_created_success": "Lista creata con successo!"
   }
 }

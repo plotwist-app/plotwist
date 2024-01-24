@@ -143,5 +143,24 @@
   },
   "auth": {
     "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
+  },
+  "lists_page": {
+    "title": "Listas",
+    "description": "Crea listas de seguimiento para gestionar tus películas y programas de televisión."
+  },
+  "list_card": {
+    "delete": "Eliminar",
+    "delete_success": "Lista eliminada con éxito."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Crear nueva lista",
+    "name": "Nombre",
+    "name_placeholder": "Mi Lista",
+    "name_required": "Se requiere el nombre de la lista.",
+    "description": "Descripción",
+    "description_placeholder": "Películas y programas de TV que planeo ver.",
+    "description_required": "Se requiere una descripción de la lista.",
+    "submit": "Enviar",
+    "list_created_success": "¡Lista creada con éxito!"
   }
 }

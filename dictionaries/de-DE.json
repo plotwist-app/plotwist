@@ -143,5 +143,24 @@
   },
   "auth": {
     "logout_success": "Erfolgreich abgemeldet. Bis zum nächsten Mal ✌"
+  },
+  "lists_page": {
+    "title": "Listen",
+    "description": "Erstellen Sie Watchlisten, um Ihre Filme und Fernsehsendungen zu verwalten."
+  },
+  "list_card": {
+    "delete": "Löschen",
+    "delete_success": "Liste erfolgreich gelöscht."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Neue Liste erstellen",
+    "name": "Name",
+    "name_placeholder": "Meine Liste",
+    "name_required": "Der Name der Liste ist erforderlich.",
+    "description": "Beschreibung",
+    "description_placeholder": "Filme und Fernsehshows, die ich planen zu sehen.",
+    "description_required": "Eine Beschreibung der Liste ist erforderlich.",
+    "submit": "Einreichen",
+    "list_created_success": "Liste erfolgreich erstellt!"
   }
 }

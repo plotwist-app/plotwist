@@ -1,14 +1,17 @@
+import { PageProps } from '@/types/languages'
 import { Lists } from './components/lists'
+import { getDictionary } from '@/utils/dictionaries'
 
-const ListsPage = () => {
+const ListsPage = async ({ params }: PageProps) => {
+  const dictionary = await getDictionary(params.lang)
+
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Lists</h1>
-
+          <h1 className="text-2xl font-bold">{dictionary.lists_page.title}</h1>
           <p className="text-muted-foreground">
-            Create watch-lists to manage your movies and tv shows.
+            {dictionary.lists_page.description}
           </p>
         </div>
       </div>

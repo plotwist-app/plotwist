@@ -145,6 +145,24 @@
   },
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"
+  },
+  "lists_page": {
+    "title": "Lists",
+    "description": "Create watch-lists to manage your movies and tv shows."
+  },
+  "list_card": {
+    "delete": "Delete",
+    "delete_success": "List deleted successfully."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Create new list",
+    "name": "Name",
+    "name_placeholder": "My List",
+    "name_required": "Name of list is required.",
+    "description": "Description",
+    "description_placeholder": "Movies and TV shows I plan to watch.",
+    "description_required": "Description of list is required.",
+    "submit": "Submit",
+    "list_created_success": "List created successfully!"
   }
-  
 }

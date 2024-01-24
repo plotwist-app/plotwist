@@ -13,7 +13,7 @@ export const Lists = () => {
         <ListCard key={list.id} list={list} />
       ))}
 
-      {lists.length < 3 && <CreateNewListForm />}
+      {lists.length < 1 && <CreateNewListForm />}
     </div>
   )
 }

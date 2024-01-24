@@ -142,5 +142,25 @@
     "logout": "Sair"
   },
   "auth": {
-    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"  }
+    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"  
+  },
+  "lists_page": {
+    "title": "Listas",
+    "description": "Crie listas para gerenciar seus filmes e séries."
+  },
+  "list_card": {
+    "delete": "Deletar",
+    "delete_success": "Lista deletada com sucesso."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Criar nova lista",
+    "name": "Nome",
+    "name_placeholder": "Minha Lista",
+    "name_required": "O nome da lista é necessário.",
+    "description": "Descrição",
+    "description_placeholder": "Filmes e programas de TV que planejo assistir.",
+    "description_required": "A descrição da lista é necessária.",
+    "submit": "Enviar",
+    "list_created_success": "Lista criada com sucesso!"
+  }
 }

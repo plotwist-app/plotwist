@@ -145,4 +145,23 @@ export type Dictionary = {
   auth: {
     logout_success: string
   }
+  lists_page: {
+    title: string
+    description: string
+  }
+  list_card: {
+    delete: string
+    delete_success: string
+  }
+  create_new_list_form: {
+    create_new_list: string
+    name: string
+    name_placeholder: string
+    name_required: string
+    description: string
+    description_placeholder: string
+    description_required: string
+    submit: string
+    list_created_success: string
+  }
 }

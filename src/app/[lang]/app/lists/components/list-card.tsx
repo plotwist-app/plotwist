@@ -1,7 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { MoreVertical, Trash } from 'lucide-react'
+import { MoreVertical, Share, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,17 +18,19 @@ import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
+import { useLanguage } from '@/context/language'
 
 type ListCardProps = { list: List }
 
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
+  const { language, dictionary } = useLanguage()
 
   const firstBackdropPath = list.cover_path ?? list.list_items[0]?.backdrop_path
   const thumbnail = tmdbImage(firstBackdropPath)
 
   return (
-    <Link href={`/app/lists/${list.id}`} className="space-y-2">
+    <Link href={`/${language}/app/lists/${list.id}`} className="space-y-2">
       <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
         {firstBackdropPath && (
           <Image
@@ -61,7 +65,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                         queryKey: LISTS_QUERY_KEY,
                       })
 
-                      toast.success('List deleted successfully.')
+                      toast.success(dictionary.list_card.delete_success)
                     },
                     onError: (error) => {
                       toast.error(error.message)
@@ -70,7 +74,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                 }}
               >
                 <Trash size={12} className="mr-2" />
-                Delete
+                {dictionary.list_card.delete}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -28,25 +27,27 @@ import { Button } from '@/components/ui/button'
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
-
-const createNewListFormSchema = z.object({
-  name: z.string().min(1, 'Required'),
-  description: z.string().min(1, 'Required'),
-})
+import {
+  CreateNewListFormValues,
+  createNewListFormSchema,
+} from './create-new-list-form-schema'
+import { useLanguage } from '@/context/language'
 
 export const CreateNewListForm = () => {
   const { handleCreateNewList } = useLists()
   const { user } = useAuth()
+  const { dictionary } = useLanguage()
+
   const [open, setOpen] = useState(false)
 
-  const form = useForm<z.infer<typeof createNewListFormSchema>>({
-    resolver: zodResolver(createNewListFormSchema),
+  const form = useForm<CreateNewListFormValues>({
+    resolver: zodResolver(createNewListFormSchema(dictionary)),
     defaultValues: {
       name: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof createNewListFormSchema>) {
+  async function onSubmit(values: CreateNewListFormValues) {
     await handleCreateNewList.mutateAsync(
       { ...values, userId: user.id },
       {
@@ -60,7 +61,8 @@ export const CreateNewListForm = () => {
             description: '',
             name: '',
           })
-          toast.success('List created successfully!')
+
+          toast.success(dictionary.create_new_list_form.list_created_success)
         },
         onError: (error) => {
           toast.error(error.message)
@@ -73,13 +75,15 @@ export const CreateNewListForm = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button className="aspect-video rounded-md border border-dashed">
-          Create new list
+          {dictionary.create_new_list_form.create_new_list}
         </button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create new list</DialogTitle>
+          <DialogTitle>
+            {dictionary.create_new_list_form.create_new_list}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -92,9 +96,14 @@ export const CreateNewListForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{dictionary.create_new_list_form.name}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Watchlist" {...field} />
+                    <Input
+                      placeholder={
+                        dictionary.create_new_list_form.name_placeholder
+                      }
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -107,12 +116,16 @@ export const CreateNewListForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>
+                    {dictionary.create_new_list_form.description}
+                  </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Movies and TV shows I plan to watch."
                       className="resize-none"
                       rows={3}
+                      placeholder={
+                        dictionary.create_new_list_form.description_placeholder
+                      }
                       {...field}
                     />
                   </FormControl>
@@ -124,7 +137,7 @@ export const CreateNewListForm = () => {
 
             <div className="flex justify-end space-x-2">
               <Button type="submit" loading={form.formState.isSubmitting}>
-                Submit
+                {dictionary.create_new_list_form.submit}
               </Button>
             </div>
           </form>
