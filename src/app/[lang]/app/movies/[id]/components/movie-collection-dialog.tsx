@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+
 import { useLanguage } from '@/context/language'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }

@@ -1,4 +1,3 @@
-import { TMDB } from '@/services/TMDB'
 import { MovieCollectionDialog } from './movie-collection-dialog'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Language } from '@/types/languages'

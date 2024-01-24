@@ -29,6 +29,7 @@ import { Language } from '@/types/languages'
 import { TMDB } from '@/services/TMDB'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
+import { tmdb } from '@/services/tmdb2'
 
 type TvShowsDetailsProps = {
   id: number
@@ -36,7 +37,7 @@ type TvShowsDetailsProps = {
 }
 
 export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
-  const tvShow = await TMDB.tvShows.details(id)
+  const tvShow = await tmdb.tvSeries.details(id, language)
   const dictionary = await getDictionary(language)
 
   return (

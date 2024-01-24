@@ -1,6 +1,6 @@
 import { Language } from '@/types/languages'
-import { tmdbClient } from '..'
-import { ListResponse, TvShow } from '../types'
+import { ListResponse, TvShow } from '../../types'
+import { tmdbClient } from '../..'
 
 export type TvShowsListsType =
   | 'airing_today'
@@ -10,10 +10,7 @@ export type TvShowsListsType =
 
 export type TvShowsListsResponse = ListResponse<TvShow>
 
-export const tvShowsLists = async (
-  list: TvShowsListsType,
-  language: Language,
-) => {
+export const lists = async (list: TvShowsListsType, language: Language) => {
   const { data } = await tmdbClient.get<TvShowsListsResponse>(`/tv/${list}`, {
     params: {
       language,
