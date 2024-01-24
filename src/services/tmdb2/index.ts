@@ -6,6 +6,7 @@ import {
   credits,
   movies,
   tvSeries,
+  tvSeasons,
   collections,
 } from './requests'
 
@@ -22,6 +23,8 @@ export const tmdb = {
   movies,
 
   tvSeries,
+  tvSeasons,
+
   watchProviders,
   search,
   credits,
