@@ -2,7 +2,7 @@ import { CreateNewListParams } from '@/context/lists'
 import { supabase } from '@/services/supabase'
 import { List } from '@/types/supabase/lists'
 
-export const fetchLists = async (userId: string) =>
+export const fetchListsService = async (userId: string) =>
   await supabase
     .from('lists')
     .select('*, list_items(*)')
@@ -10,7 +10,7 @@ export const fetchLists = async (userId: string) =>
     .order('id', { ascending: true })
     .returns<List[]>()
 
-export const createList = async ({
+export const createListService = async ({
   userId,
   ...values
 }: CreateNewListParams) => {

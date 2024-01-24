@@ -1,7 +1,7 @@
 import { ChangeListItemStatusParams } from '@/context/lists'
 import { supabase } from '@/services/supabase'
 
-export const changeListItemStatus = async ({
+export const changeListItemStatusService = async ({
   listItemId,
   newStatus,
 }: ChangeListItemStatusParams) => {

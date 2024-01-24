@@ -1,7 +1,7 @@
 import { CreateNewListParams } from '@/context/lists'
 import { supabase } from '@/services/supabase'
 
-export const createList = async ({
+export const createListService = async ({
   userId,
   ...values
 }: CreateNewListParams) => {

@@ -1,8 +1,8 @@
 import { supabase } from '@/services/supabase'
 
-export const removeFromListService = async (id: number) => {
+export const removeLikeService = async (id: number) => {
   const { error, data } = await supabase
-    .from('list_items')
+    .from('review_likes')
     .delete()
     .eq('id', id)
 

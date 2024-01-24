@@ -1,7 +1,7 @@
 import { RemoveCollectionFromListParams } from '@/context/lists'
 import { supabase } from '@/services/supabase'
 
-export const removeCollectionFromList = async ({
+export const removeCollectionFromListService = async ({
   ids,
 }: RemoveCollectionFromListParams) => {
   const { error, data } = await supabase

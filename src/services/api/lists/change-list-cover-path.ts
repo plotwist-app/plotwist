@@ -1,7 +1,7 @@
 import { ChangeListCoverPathParams } from '@/context/lists'
 import { supabase } from '@/services/supabase'
 
-export const changeListCoverPath = async ({
+export const changeListCoverPathService = async ({
   listId,
   newCoverPath,
 }: ChangeListCoverPathParams) => {
