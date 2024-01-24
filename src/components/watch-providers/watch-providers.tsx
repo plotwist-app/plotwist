@@ -59,9 +59,17 @@ export const WatchProviders = async ({
   const { results } = await tmdb.watchProviders(variant, id)
   const dictionary = await getDictionary(language)
 
-  if (!results.US) return <></>
+  const resultsByLanguage = {
+    'de-DE': results.DE,
+    'en-US': results.US,
+    'es-ES': results.ES,
+    'fr-FR': results.FR,
+    'it-IT': results.IT,
+    'ja-JP': results.JP,
+    'pt-BR': results.BR,
+  }
 
-  const { buy, flatrate, rent } = results.US // TODO: CHANGE BY USER LOCALE
+  const { buy, flatrate, rent } = resultsByLanguage[language]
 
   return (
     <DropdownMenu>
