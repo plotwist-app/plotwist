@@ -1,11 +1,11 @@
 import { MovieCard } from '@/components/movie-card'
 import { tmdb } from '@/services/tmdb2'
-import { MovieRelatedType } from '@/services/tmdb2/requests/movie-related'
+import { RelatedType } from '@/services/tmdb2/requests/movies/related'
 import { Language } from '@/types/languages'
 
 type MovieRelatedProps = {
   movieId: number
-  variant: MovieRelatedType
+  variant: RelatedType
   language: Language
 }
 

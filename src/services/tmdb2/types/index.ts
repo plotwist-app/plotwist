@@ -1,7 +1,5 @@
 export * from './credits'
 export * from './movie'
-export * from './movie-details'
 export * from './tv-show'
 export * from './list-response'
 export * from './with_media_type'
-export * from './collections'

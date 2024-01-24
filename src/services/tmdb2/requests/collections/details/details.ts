@@ -1,8 +1,8 @@
+import { tmdbClient } from '@/services/tmdb2'
 import { Language } from '@/types/languages'
-import { tmdbClient } from '..'
-import { DetailedCollection } from '../types'
+import { DetailedCollection } from './details.types'
 
-const details = async (id: number, language: Language) => {
+export const details = async (id: number, language: Language) => {
   const { data } = await tmdbClient.get<DetailedCollection>(
     `/collection/${id}`,
     {
@@ -13,8 +13,4 @@ const details = async (id: number, language: Language) => {
   )
 
   return data
-}
-
-export const collections = {
-  details,
 }

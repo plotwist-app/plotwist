@@ -1,4 +1,4 @@
-import { Movie } from '.'
+import { Movie } from '@/services/tmdb2/types'
 
 export interface Collection {
   id: number

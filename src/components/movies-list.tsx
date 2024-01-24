@@ -1,20 +1,20 @@
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdb } from '@/services/tmdb2'
-import { MoviesListType } from '@/services/tmdb2/requests'
 import { MovieCard } from './movie-card'
+import { MovieListType } from '@/services/tmdb2/requests/movies/list'
 
 type MoviesListProps = {
-  list: MoviesListType
+  list: MovieListType
   language: Language
 }
 
 export const MoviesList = async ({ list, language }: MoviesListProps) => {
-  const { results } = await tmdb.movies.lists(list, language)
+  const { results } = await tmdb.movies.list(list, language)
 
   const dictionary = await getDictionary(language)
 
-  const title: Record<MoviesListType, string> = {
+  const title: Record<MovieListType, string> = {
     now_playing: dictionary.movies_list.now_playing,
     popular: dictionary.movies_list.popular,
     top_rated: dictionary.movies_list.top_rated,

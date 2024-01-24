@@ -1,4 +1,4 @@
 import { details } from './details'
-import { lists } from './lists'
+import { list } from './list'
 
-export const tvSeries = { details, lists }
+export const tvSeries = { details, list }

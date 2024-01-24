@@ -23,13 +23,13 @@ import { Credits } from '@/components/credits'
 import { TvShowSeasons } from './tv-show-seasons'
 import { TvShowRelated } from './tv-show-related'
 
-import { tmdbImage } from '@/utils/tmdb/image'
+import { tmdb } from '@/services/tmdb2'
 
-import { Language } from '@/types/languages'
-import { TMDB } from '@/services/TMDB'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
-import { tmdb } from '@/services/tmdb2'
+
+import { Language } from '@/types/languages'
 
 type TvShowsDetailsProps = {
   id: number

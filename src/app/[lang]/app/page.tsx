@@ -14,8 +14,8 @@ import { getDictionary } from '@/utils/dictionaries'
 const AppPage = async ({ params: { lang } }: PageParams) => {
   const dictionary = await getDictionary(lang)
 
-  const popularMovies = await tmdb.movies.lists('popular', lang)
-  const popularTvShows = await tmdb.tvSeries.lists('popular', lang)
+  const popularMovies = await tmdb.movies.list('popular', lang)
+  const popularTvShows = await tmdb.tvSeries.list('popular', lang)
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-6">

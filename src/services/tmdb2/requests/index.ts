@@ -1,7 +1,8 @@
 export * from './credits'
-export * from './movie-details'
-export * from './movie-related'
-export * from './movies-lists'
+
 export * from './search'
-export * from './tv-series'
 export * from './watch-providers'
+
+export * from './tv-series'
+export * from './movies'
+export * from './collections'
