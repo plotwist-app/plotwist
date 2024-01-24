@@ -1,19 +1,19 @@
-import { TMDB } from '@/services/TMDB'
+import { Language } from '@/types/languages'
 import { TvShowSeasonDetailsContent } from './tv-show-season-details-content'
+import { tmdb } from '@/services/tmdb2'
 
 type TvShowSeasonDetailsProps = {
-  tvShowID: number
+  id: number
   seasonNumber: number
+  language: Language
 }
 
 export const TvShowSeasonDetails = async ({
-  tvShowID,
+  id,
   seasonNumber,
+  language,
 }: TvShowSeasonDetailsProps) => {
-  const { episodes } = await TMDB.tvSeasons.details({
-    tvShowID,
-    seasonNumber,
-  })
+  const { episodes } = await tmdb.tvSeasons.details(id, seasonNumber, language)
 
   return <TvShowSeasonDetailsContent episodes={episodes} />
 }

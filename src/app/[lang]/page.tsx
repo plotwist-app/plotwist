@@ -1,11 +1,11 @@
 import { Header } from '@/components/header'
 import { MoviesList } from '@/components/movies-list'
 import { Button } from '@/components/ui/button'
-import { PageParams } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import Link from 'next/link'
 
-export default async function Home({ params: { lang } }: PageParams) {
+export default async function Home({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)
 
   return (

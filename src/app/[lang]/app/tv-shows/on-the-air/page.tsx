@@ -1,6 +1,7 @@
+import { PageProps } from '@/types/languages'
 import { TvShowList } from '../../components/tv-show-list'
 
-const OnTheAirTvShowsPage = () => {
+const OnTheAirTvShowsPage = ({ params }: PageProps) => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div className="flex items-center justify-between">
@@ -12,7 +13,7 @@ const OnTheAirTvShowsPage = () => {
         </div>
       </div>
 
-      <TvShowList variant="onTheAir" />
+      <TvShowList variant="on_the_air" language={params.lang} />
     </div>
   )
 }

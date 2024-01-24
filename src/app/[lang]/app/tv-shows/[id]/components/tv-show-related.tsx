@@ -1,29 +1,25 @@
 import { TvShowCard } from '@/components/tv-show-card'
-import { TMDB } from '@/services/TMDB'
-import { SimilarTvShow } from 'tmdb-ts'
+import { tmdb } from '@/services/tmdb2'
+import { Language } from '@/types/languages'
 
 type TvShowRelatedProps = {
-  tvShowID: number
+  id: number
   variant: 'similar' | 'recommendations'
+  language: Language
 }
-
-type TvShowRelatedContent = {
-  results: Array<SimilarTvShow>
-}
-
-const TvShowRelatedContent = ({ results }: TvShowRelatedContent) => (
-  <div className="grid grid-cols-3 gap-x-4 gap-y-8">
-    {results.map((tvShow) => (
-      <TvShowCard tvShow={tvShow} key={tvShow.id} />
-    ))}
-  </div>
-)
 
 export const TvShowRelated = async ({
-  tvShowID,
+  id,
   variant,
+  language,
 }: TvShowRelatedProps) => {
-  const { results } = await TMDB.tvShows[variant](tvShowID)
+  const { results } = await tmdb.tvSeries.related(id, variant, language)
 
-  return <TvShowRelatedContent results={results as SimilarTvShow[]} />
+  return (
+    <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      {results.map((tvShow) => (
+        <TvShowCard tvShow={tvShow} key={tvShow.id} />
+      ))}
+    </div>
+  )
 }

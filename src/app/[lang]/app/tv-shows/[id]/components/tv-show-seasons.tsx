@@ -11,6 +11,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Season as TmdbSeason } from 'tmdb-ts'
 import { TvShowSeasonDetails } from './tv-show-season-details'
 import { Poster } from '@/components/poster'
+import { Language } from '@/types/languages'
 
 type Season = TmdbSeason & {
   vote_average?: number
@@ -18,12 +19,13 @@ type Season = TmdbSeason & {
 
 type TvShowSeasonsProps = {
   seasons: Season[]
-  tvShowID: number
+  id: number
+  language: Language
 }
 
-type TvShowSeasonProps = { season: Season; tvShowID: number }
+type TvShowSeasonProps = { season: Season; id: number; language: Language }
 
-const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
+const TvShowSeason = ({ season, id, language }: TvShowSeasonProps) => {
   const {
     poster_path: poster,
     name,
@@ -67,17 +69,30 @@ const TvShowSeason = ({ season, tvShowID }: TvShowSeasonProps) => {
           <DialogDescription>{overview}</DialogDescription>
         </DialogHeader>
 
-        <TvShowSeasonDetails seasonNumber={seasonNumber} tvShowID={tvShowID} />
+        <TvShowSeasonDetails
+          seasonNumber={seasonNumber}
+          id={id}
+          language={language}
+        />
       </DialogContent>
     </Dialog>
   )
 }
 
-export const TvShowSeasons = ({ seasons, tvShowID }: TvShowSeasonsProps) => {
+export const TvShowSeasons = ({
+  seasons,
+  id,
+  language,
+}: TvShowSeasonsProps) => {
   return (
     <div className="grid grid-cols-4 gap-x-4 gap-y-8">
       {seasons.map((season) => (
-        <TvShowSeason season={season} key={season.id} tvShowID={tvShowID} />
+        <TvShowSeason
+          season={season}
+          key={season.id}
+          id={id}
+          language={language}
+        />
       ))}
     </div>
   )

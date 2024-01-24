@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { LoginForm } from './components/login-form'
-import { PageParams } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
-const LoginPage = async ({ params: { lang } }: PageParams) => {
+const LoginPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (

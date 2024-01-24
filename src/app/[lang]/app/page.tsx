@@ -7,11 +7,11 @@ import {
   DashboardPopularReviews,
 } from './components/dashboard'
 
-import { PageParams } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb2'
 import { getDictionary } from '@/utils/dictionaries'
 
-const AppPage = async ({ params: { lang } }: PageParams) => {
+const AppPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   const popularMovies = await tmdb.movies.list('popular', lang)

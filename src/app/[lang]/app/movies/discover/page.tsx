@@ -1,7 +1,8 @@
+import { PageProps } from '@/types/languages'
 import { MovieList } from '../../components/movie-list'
 import { MovieListFilters } from '../../components/movie-list-filters'
 
-const DiscoverMoviesPage = () => {
+const DiscoverMoviesPage = ({ params }: PageProps) => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div className="flex items-center justify-between">
@@ -15,7 +16,7 @@ const DiscoverMoviesPage = () => {
         <MovieListFilters />
       </div>
 
-      <MovieList variant="discover" />
+      <MovieList variant="discover" language={params.lang} />
     </div>
   )
 }

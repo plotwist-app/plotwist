@@ -1,6 +1,7 @@
+import { PageProps } from '@/types/languages'
 import { MovieList } from '../../components/movie-list'
 
-const NowPlayingMoviesPage = () => {
+const NowPlayingMoviesPage = ({ params }: PageProps) => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div>
@@ -10,7 +11,7 @@ const NowPlayingMoviesPage = () => {
         </p>
       </div>
 
-      <MovieList variant="nowPlaying" />
+      <MovieList variant="now_playing" language={params.lang} />
     </div>
   )
 }

@@ -112,7 +112,11 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
-            <TvShowSeasons seasons={tvShow.seasons} tvShowID={id} />
+            <TvShowSeasons
+              seasons={tvShow.seasons}
+              id={id}
+              language={language}
+            />
           </TabsContent>
 
           <TabsContent value="credits" className="mt-4">
@@ -120,11 +124,15 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="recommendations" className="mt-4">
-            <TvShowRelated tvShowID={id} variant="recommendations" />
+            <TvShowRelated
+              id={id}
+              variant="recommendations"
+              language={language}
+            />
           </TabsContent>
 
           <TabsContent value="similar" className="mt-4">
-            <TvShowRelated tvShowID={id} variant="similar" />
+            <TvShowRelated id={id} variant="similar" language={language} />
           </TabsContent>
 
           <TabsContent value="images" className="mt-4">
