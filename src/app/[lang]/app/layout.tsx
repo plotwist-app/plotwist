@@ -5,12 +5,13 @@ import { redirect } from 'next/navigation'
 import { ListsContextProvider } from '@/context/lists'
 import { AuthContextProvider } from '@/context/auth'
 import { Sidebar } from '@/components/sidebar'
+import { PageParams } from '@/types/languages'
 
-export default async function AppLayout({
-  children,
-}: {
+type AppLayoutProps = {
   children: React.ReactNode
-}) {
+} & PageParams
+
+export default async function AppLayout({ children, params }: AppLayoutProps) {
   const supabase = createServerComponentClient({ cookies })
 
   const {
@@ -18,7 +19,7 @@ export default async function AppLayout({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/en-US/login')
+    redirect(`/${params.lang}/login`)
   }
 
   return (
