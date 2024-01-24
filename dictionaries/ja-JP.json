@@ -132,5 +132,16 @@
     "collection_removed_successfully": "コレクションが正常に削除されました。",
     "collection_added_successfully": "コレクションが正常に追加されました。",
     "view_list": "リストを見る"
+  },
+  "settings_dropdown": {
+    "theme": "テーマ",
+    "light": "🌞 ライト",
+    "dark": "🌚 ダーク",
+    "language": "言語",
+    "account": "アカウント",
+    "logout": "ログアウト"
+  },
+  "auth": {
+    "logout_success": "ログアウト成功しました。また次回 ✌"
   }
 }

@@ -132,5 +132,15 @@
     "collection_removed_successfully": "Coleção removida com sucesso.",
     "collection_added_successfully": "Coleção adicionada com sucesso.",
     "view_list": "Ver lista"
-  }
+  },
+  "settings_dropdown": {
+    "theme": "Tema",
+    "light": "🌞 Claro",
+    "dark": "🌚 Escuro",
+    "language": "Idioma",
+    "account": "Conta",
+    "logout": "Sair"
+  },
+  "auth": {
+    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"  }
 }

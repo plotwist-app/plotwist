@@ -4,7 +4,6 @@
     "description": "TMDB is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
     "start": "Start now"
   },
-
   "movies_list": {
     "now_playing": "Now playing movies",
     "popular": "Popular movies",
@@ -135,5 +134,17 @@
     "collection_removed_successfully": "Collection removed successfully.",
     "collection_added_successfully": "Collection added successfully.",
     "view_list": "View list"
+  },
+  "settings_dropdown": {
+    "theme": "Theme",
+    "light": "🌞 Light",
+    "dark": "🌚 Dark",
+    "language": "Language",
+    "account": "Account",
+    "logout": "Logout"
+  },
+  "auth": {
+    "logout_success": "Successfully logged out. See you next time ✌"
   }
+  
 }

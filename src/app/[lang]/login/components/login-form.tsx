@@ -31,7 +31,7 @@ type LoginFormProps = {
 }
 
 export const LoginForm = ({ dictionary }: LoginFormProps) => {
-  const { signInWithCredentials } = useAuth(dictionary)
+  const { signInWithCredentials } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
 

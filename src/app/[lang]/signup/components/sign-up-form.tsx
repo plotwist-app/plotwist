@@ -28,7 +28,7 @@ import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 type SignUpFormProps = { dictionary: Dictionary }
 
 export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
-  const { signUpWithCredentials } = useAuth(dictionary)
+  const { signUpWithCredentials } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
 

@@ -1,3 +1,8 @@
+import Image from 'next/image'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import { MoreVertical, Trash } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -5,15 +10,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { List } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { MoreVertical, Trash } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
 
-import { toast } from 'sonner'
+import { List } from '@/types/supabase/lists'
 
 type ListCardProps = { list: List }
 

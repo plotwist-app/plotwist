@@ -134,4 +134,15 @@ export type Dictionary = {
     collection_added_successfully: string
     view_list: string
   }
+  settings_dropdown: {
+    theme: string
+    light: string
+    dark: string
+    language: string
+    account: string
+    logout: string
+  }
+  auth: {
+    logout_success: string
+  }
 }

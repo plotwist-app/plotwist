@@ -3,14 +3,14 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
-
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useLanguage } from '@/context/language'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
-export const useAuth = (dictionary: Dictionary) => {
+export const useAuth = () => {
+  const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
-
   const { push } = useRouter()
 
   const signInWithCredentials = async (credentials: SignInCredentials) => {
@@ -49,7 +49,7 @@ export const useAuth = (dictionary: Dictionary) => {
     if (error) {
       toast.error(error.message, {
         action: {
-          label: ' Try again',
+          label: dictionary.login_form.try_again,
           onClick: () => signUpWithCredentials({ username, ...credentials }),
         },
       })
@@ -61,5 +61,23 @@ export const useAuth = (dictionary: Dictionary) => {
     await signInWithCredentials(credentials)
   }
 
-  return { signInWithCredentials, signUpWithCredentials }
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut()
+
+    if (error) {
+      toast.error(error.message, {
+        action: {
+          label: dictionary.sign_up_form.try_again,
+          onClick: () => logout(),
+        },
+      })
+
+      return
+    }
+
+    push(`/${language}`)
+    toast.success(dictionary.auth.logout_success)
+  }
+
+  return { signInWithCredentials, signUpWithCredentials, logout }
 }
