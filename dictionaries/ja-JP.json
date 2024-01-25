@@ -1,43 +1,41 @@
 {
   "home": {
-    "title": "映画、テレビ番組、人物を探索しよう！",
-    "description": "TMDBは、シノプシス、キャスト、予算などの情報を含む数百万の映画やシリーズを探索したい映画ファンのためのものです。",
-    "start": "今すぐ始める"
+    "title": "映画、テレビ番組、そして人物を探求する！",
+    "description": "TMDBは、あらすじ、キャスト、予算、その他の情報を含む何百万もの映画やシリーズを探索したい映画ファンを対象としている。",
+    "start": "始めようか？"
   },
   "movies_list": {
     "now_playing": "上映中の映画",
     "popular": "人気の映画",
-    "top_rated": "トップレートの映画",
+    "top_rated": "最高評価作品",
     "upcoming": "公開予定の映画",
     "show_all": "すべて表示"
   },
   "login_page": {
     "title": "ログイン",
-    "description": "映画やTVシリーズの何千もの作品について話し合える映画コミュニティの一員になろう！",
-    "no_account": "アカウントをお持ちではありませんか？クリックして登録",
-    "no_account_link": "こちら"
+    "description": "何千もの映画やテレビシリーズについてディスカッションできる映画コミュニティに参加しよう！",
+    "no_account": "アカウントをお持ちでない方は クリックして登録",
+    "no_account_link": "ここをクリック"
   },
   "login_form": {
-    "email_label": "メールアドレス",
+    "email_label": "電子メールアドレス",
     "password_label": "パスワード",
     "show_password": "パスワードを表示",
     "hide_password": "パスワードを隠す",
     "access_button": "アクセス",
-
     "email_required": "メールアドレスを入力してください。",
-    "email_invalid": "有効なメールアドレスを入力してください。",
+    "email_invalid": "有効なEメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",
     "password_length": "パスワードは8文字以上でなければなりません。",
-
-    "login_success": "ログイン成功。ようこそ！🎉",
-    "invalid_login_credentials": "ログイン情報が無効です",
-    "try_again": "再試行"
+    "login_success": "ログインに成功しました。おかえりなさい！🎉",
+    "invalid_login_credentials": "ログイン情報が無効です。",
+    "try_again": "もう一度試す"
   },
   "sign_up_page": {
-    "title": "アカウントを作成する",
-    "description": "映画やTVシリーズの何千もの作品について話し合える映画コミュニティの一員になろう！",
-    "already_have_account": "すでにアカウントをお持ちですか？クリックしてアクセス",
-    "here_link": "こちら"
+    "title": "アカウントを作成",
+    "description": "何千もの映画やテレビシリーズについてディスカッションできる映画コミュニティの一員になろう。",
+    "already_have_account": "アカウントをお持ちですか？クリックしてログインしてください。",
+    "here_link": "ここをクリック"
   },
   "sign_up_form": {
     "username_label": "ユーザー名",
