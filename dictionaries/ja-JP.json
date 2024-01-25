@@ -54,14 +54,14 @@
     "try_again": "再試行"
   },
   "app_page": {
-    "dashboard_title": "ダッシュボード",
-    "dashboard_description": "dashboard_description",
-    "popular_movies_title": "人気の映画",
-    "popular_tv_shows_title": "人気のテレビ番組"
+    "dashboard_title": "コントロールパネル",
+    "dashboard_description": "ダッシュボードの説明",
+    "popular_movies_title": "人気映画",
+    "popular_tv_shows_title": "人気テレビ番組"
   },
   "tabs": {
-    "reviews": "レビュー",
-    "credits": "クレジット",
+    "reviews": "復習",
+    "credits": "著作権",
     "recommendations": "推薦",
     "similar": "類似",
     "images": "画像",
@@ -83,9 +83,9 @@
     "lists": "リスト"
   },
   "sidebar_search": {
-    "placeholder": "映画、テレビ番組、または人物を探す",
+    "placeholder": "映画、テレビ番組、人物を探す",
     "search_everything": "すべてを検索",
-    "no_results": "結果が見つかりませんでした。",
+    "no_results": "結果は見つからなかった。",
     "movies": "映画",
     "tv_shows": "テレビ番組",
     "people": "人物"
@@ -98,9 +98,9 @@
   },
   "lists_dropdown": {
     "add_to_list": "リストに追加",
-    "my_lists": "マイリスト",
-    "removed_successfully": "正常に削除されました。",
-    "added_successfully": "正常に追加されました。",
+    "my_lists": "僕のリスト",
+    "removed_successfully": "排除に成功。",
+    "added_successfully": "追加に成功。",
     "view_list": "リストを見る"
   },
   "credits": {
@@ -108,11 +108,11 @@
     "crew": "クルー"
   },
   "review_form": {
-    "required": "レビューが必要です。",
-    "rating_max": "評価の最大値は5です",
-    "success": "レビューが正常に作成されました。",
+    "required": "見直しが必要だ。",
+    "rating_max": "最高評価は5点。",
+    "success": "レビューの作成に成功。",
     "publish": "公開する",
-    "placeholder": "どう思いますか？"
+    "placeholder": "どうだった？"
   },
   "review_item_actions": {
     "like": "いいね",
@@ -191,7 +191,7 @@
     "use_as_cover": "カバーとして使用",
     "status": "ステータス",
     "delete": "削除",
-    "removed_successfully": "正常に削除されました。",
-    "cover_changed_successfully": "カバーが正常に変更されました。"
+    "removed_successfully": "排除に成功。",
+    "cover_changed_successfully": "カバーは無事に交換された。"
   }
 }
