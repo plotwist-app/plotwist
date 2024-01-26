@@ -6,7 +6,6 @@ import { toast } from 'sonner'
 import { SignInCredentials, SignUpCredentials } from './use-auth.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useLanguage } from '@/context/language'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 export const useAuth = () => {
   const { dictionary, language } = useLanguage()

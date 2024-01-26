@@ -5,8 +5,13 @@ import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
 
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
+import { useLanguage } from '@/context/language'
+
+const MAX_REVIEWS = 5
 
 export const DashboardPopularReviews = () => {
+  const { language } = useLanguage()
+
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-popular-reviews'],
     queryFn: async () =>
@@ -14,7 +19,7 @@ export const DashboardPopularReviews = () => {
         .from('reviews_with_user_and_like_count')
         .select()
         .order('review_likes_count', { ascending: false })
-        .limit(3)
+        .limit(MAX_REVIEWS)
         .returns<Review[]>(),
   })
 
@@ -24,7 +29,7 @@ export const DashboardPopularReviews = () => {
         <h3 className="text-lg font-semibold">Popular reviews</h3>
 
         <div className="space-y-8">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
             <DashboardReviewSkeleton key={index} />
           ))}
         </div>
@@ -42,7 +47,11 @@ export const DashboardPopularReviews = () => {
 
       <div className="space-y-8">
         {reviews.map((review) => (
-          <DashboardReview key={review.id} review={review} />
+          <DashboardReview
+            key={review.id}
+            review={review}
+            language={language}
+          />
         ))}
       </div>
     </div>

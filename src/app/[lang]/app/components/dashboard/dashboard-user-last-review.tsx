@@ -6,9 +6,11 @@ import { useQuery } from '@tanstack/react-query'
 import { Review } from '@/types/supabase/reviews'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import Link from 'next/link'
+import { useLanguage } from '@/context/language'
 
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
+  const { language } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-user-last-review'],
@@ -26,7 +28,6 @@ export const DashboardUserLastReview = () => {
     return (
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Your last review</h3>
-
         <DashboardReviewSkeleton />
       </div>
     )
@@ -41,7 +42,7 @@ export const DashboardUserLastReview = () => {
       <h3 className="text-lg font-semibold">Your last review</h3>
 
       {lastReview ? (
-        <DashboardReview review={lastReview} />
+        <DashboardReview review={lastReview} language={language} />
       ) : (
         <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
           <p>You haven&apos;t reviewed any movies or TV shows.</p>

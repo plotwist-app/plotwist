@@ -22,6 +22,7 @@ type Columns = (
 
 export const columns: Columns = (dictionary, language) => [
   {
+    id: dictionary.data_table_columns.index,
     accessorKey: 'index',
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
@@ -35,6 +36,7 @@ export const columns: Columns = (dictionary, language) => [
     enableHiding: false,
   },
   {
+    id: dictionary.data_table_columns.title,
     accessorKey: 'title',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -46,13 +48,12 @@ export const columns: Columns = (dictionary, language) => [
     cell: ({ row }) => {
       const { media_type: mediaType, tmdb_id: tmdbId, title } = row.original
 
+      const href = `${language}/app/${
+        mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
+      }/${tmdbId}`
+
       return (
-        <Link
-          href={`/app/${
-            mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
-          }/${tmdbId}`}
-          className="underline-offset-4 hover:underline"
-        >
+        <Link href={href} className="underline-offset-4 hover:underline">
           {title}
         </Link>
       )
@@ -61,7 +62,7 @@ export const columns: Columns = (dictionary, language) => [
     enableHiding: false,
   },
   {
-    id: 'type',
+    id: dictionary.data_table_columns.type,
     accessorKey: 'media_type',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -70,15 +71,20 @@ export const columns: Columns = (dictionary, language) => [
       />
     ),
     cell: ({ row }) => {
+      const columnId = dictionary.data_table_columns.title
+
+      const movie = dictionary.data_table_columns.movie
+      const tvShow = dictionary.data_table_columns.tv_show
+
       return (
         <Badge variant="outline" className="whitespace-nowrap">
-          {row.getValue('type') === 'MOVIE' ? 'Movie' : 'TV Show'}
+          {row.getValue(columnId) === 'MOVIE' ? movie : tvShow}
         </Badge>
       )
     },
   },
   {
-    id: 'Added at',
+    id: dictionary.data_table_columns.added_at,
     accessorKey: 'created_at',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -87,9 +93,11 @@ export const columns: Columns = (dictionary, language) => [
       />
     ),
     cell: ({ row }) => {
+      const columnId = dictionary.data_table_columns.added_at
+
       return (
         <p className="whitespace-nowrap text-xs">
-          {format(new Date(row.getValue('Added at')), 'PPP', {
+          {format(new Date(row.getValue(columnId)), 'PPP', {
             locale: locale[language],
           })}
         </p>
@@ -97,7 +105,7 @@ export const columns: Columns = (dictionary, language) => [
     },
   },
   {
-    id: 'status',
+    id: dictionary.data_table_columns.status,
     accessorKey: 'status',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -107,7 +115,9 @@ export const columns: Columns = (dictionary, language) => [
       />
     ),
     cell: ({ row }) => {
-      return <Status status={row.getValue('status')} />
+      const columnId = dictionary.data_table_columns.status
+
+      return <Status status={row.getValue(columnId)} />
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))

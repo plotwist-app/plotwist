@@ -1,6 +1,6 @@
 import { tmdbClient } from '@/services/tmdb2'
 import { Language } from '@/types/languages'
-import { SeasonDetails } from 'tmdb-ts'
+import { SeasonDetails } from '.'
 
 export const details = async (
   seriesId: number,

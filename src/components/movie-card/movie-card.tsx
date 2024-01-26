@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Movie, Recommendation } from 'tmdb-ts'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -13,8 +12,10 @@ import {
 import { Badge } from '../ui/badge'
 import { Skeleton } from '../ui/skeleton'
 
+import { Movie } from '@/services/tmdb2/types'
+
 type MovieCardProps = {
-  movie: Movie | Recommendation
+  movie: Movie
   language?: Language
 }
 

@@ -3,18 +3,17 @@
 import { createContext, useContext } from 'react'
 import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import {
-  addCollectionToList,
-  addToList,
-  changeListCoverPath,
-  changeListItemStatus,
-  createList,
-  deleteList,
-  fetchLists,
-  removeCollectionToList,
-  removeToList,
-} from './lists.utils'
 import { useAuth } from '../auth'
+
+import { changeListCoverPathService } from '@/services/api/lists/change-list-cover-path'
+import { changeListItemStatusService } from '@/services/api/lists/change-list-item-status'
+import { removeFromListService } from '@/services/api/lists/remove-from-list'
+import { removeCollectionFromListService } from '@/services/api/lists/remove-colletion-from-list'
+import { addCollectionToListService } from '@/services/api/lists/add-collection-to-list'
+import { addToListService } from '@/services/api/lists/add-to-list'
+import { createListService } from '@/services/api/lists/create-list'
+import { deleteListService } from '@/services/api/lists/delete-list'
+import { fetchListsService } from '@/services/api/lists/fetch-lists'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
@@ -28,39 +27,39 @@ export const ListsContextProvider = ({
 
   const { data } = useQuery({
     queryKey: LISTS_QUERY_KEY,
-    queryFn: async () => await fetchLists(user.id),
+    queryFn: async () => await fetchListsService(user.id),
   })
 
   const handleCreateNewList = useMutation({
-    mutationFn: createList,
+    mutationFn: createListService,
   })
 
   const handleDeleteList = useMutation({
-    mutationFn: deleteList,
+    mutationFn: deleteListService,
   })
 
   const handleAddToList = useMutation({
-    mutationFn: addToList,
+    mutationFn: addToListService,
   })
 
   const handleAddCollectionToList = useMutation({
-    mutationFn: addCollectionToList,
+    mutationFn: addCollectionToListService,
   })
 
-  const handleRemoveCollectionToList = useMutation({
-    mutationFn: removeCollectionToList,
+  const handleRemoveCollectionFromList = useMutation({
+    mutationFn: removeCollectionFromListService,
   })
 
-  const handleRemoveToList = useMutation({
-    mutationFn: removeToList,
+  const handleRemoveFromList = useMutation({
+    mutationFn: removeFromListService,
   })
 
   const handleChangeListItemStatus = useMutation({
-    mutationFn: changeListItemStatus,
+    mutationFn: changeListItemStatusService,
   })
 
   const handleChangeListCoverPath = useMutation({
-    mutationFn: changeListCoverPath,
+    mutationFn: changeListCoverPathService,
   })
 
   return (
@@ -72,8 +71,8 @@ export const ListsContextProvider = ({
         handleDeleteList,
         handleAddToList,
         handleAddCollectionToList,
-        handleRemoveCollectionToList,
-        handleRemoveToList,
+        handleRemoveCollectionFromList,
+        handleRemoveFromList,
         handleChangeListItemStatus,
         handleChangeListCoverPath,
       }}

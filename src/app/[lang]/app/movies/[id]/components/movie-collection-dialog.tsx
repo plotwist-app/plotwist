@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { DetailedCollection } from 'tmdb-ts'
 import { usePathname } from 'next/navigation'
 
 import { CollectionListDropdown } from '@/components/lists/collection-list-button'
@@ -16,6 +15,8 @@ import {
 } from '@/components/ui/dialog'
 
 import { useLanguage } from '@/context/language'
+
+import { DetailedCollection } from '@/services/tmdb2/requests/collections/details'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }
 

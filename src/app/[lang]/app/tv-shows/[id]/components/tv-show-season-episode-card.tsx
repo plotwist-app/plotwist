@@ -5,9 +5,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { Episode } from '@/services/tmdb2/requests/tv-seasons/details'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import { Episode } from 'tmdb-ts'
 
 type TvShowEpisodeCardProps = {
   episode: Episode

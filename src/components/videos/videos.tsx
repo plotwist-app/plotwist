@@ -1,9 +1,9 @@
-import { TMDB } from '@/services/TMDB'
-import { Video } from 'tmdb-ts'
+import { tmdb } from '@/services/tmdb2'
+import { Video } from '@/services/tmdb2/requests'
 
 type VideosProps = {
   tmdbId: number
-  variant: 'tvShows' | 'movies'
+  variant: 'tv' | 'movie'
 }
 
 type VideoProps = {
@@ -28,7 +28,7 @@ const Video = ({ video }: VideoProps) => {
 }
 
 export const Videos = async ({ tmdbId, variant }: VideosProps) => {
-  const { results } = await TMDB[variant].videos(tmdbId)
+  const { results } = await tmdb.videos(variant, tmdbId)
 
   return (
     <div className="grid grid-cols-2 gap-4">

@@ -3,7 +3,7 @@
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
@@ -24,18 +24,21 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
 import { List } from '@/types/supabase/lists'
 
+import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
+import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
+
 type ListsDropdownProps = {
-  item: TvShowDetails | MovieDetails
+  item: MovieDetails | TvSeriesDetails
 }
 
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {
-  const { lists, handleAddToList, handleRemoveToList } = useLists()
+  const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
   const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(
     async (id: number) => {
-      await handleRemoveToList.mutateAsync(id, {
+      await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
@@ -45,7 +48,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       })
     },
-    [dictionary.lists_dropdown.removed_successfully, handleRemoveToList],
+    [dictionary.lists_dropdown.removed_successfully, handleRemoveFromList],
   )
 
   const handleAdd = useCallback(

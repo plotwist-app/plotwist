@@ -184,6 +184,24 @@
     "desc": "Disc",
     "hide": "Nascondi"
   },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "Filtra elementi...",
+    "reset": "Reimposta"
+  },
+  "data_table_columns": {
+    "index": "Indice",
+    "title": "Titolo",
+    "type": "Tipo",
+    "added_at": "Aggiunto il",
+    "status": "Stato",
+    "actions": "Azioni",
+    "movie": "Film",
+    "tv_show": "Serie TV"
+  },
+  "data_table_view_options": {
+    "view": "Visualizza",
+    "toggle_columns": "Alterna colonne"
+  },
   "statuses": {
     "pending": "In sospeso",
     "watching": "Guardando",

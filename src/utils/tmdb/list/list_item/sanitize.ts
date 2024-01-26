@@ -1,15 +1,18 @@
+import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
+import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
+import { Movie } from '@/services/tmdb2/types'
 import { ListItem } from '@/types/supabase/lists'
-import { Movie, MovieDetails, TvShowDetails } from 'tmdb-ts'
+
+type Raw = MovieDetails | TvSeriesDetails | Movie
 
 export const sanitizeListItem = (
   listId: number,
-  raw: MovieDetails | Movie | TvShowDetails,
+  raw: Raw,
 ): Omit<ListItem, 'created_at' | 'id'> => {
-  // tv shows has ".name" and movie has `.title`
   const isTvShow = 'name' in raw
 
   const title = isTvShow
-    ? (raw as TvShowDetails).name
+    ? (raw as TvSeriesDetails).name
     : (raw as MovieDetails).title
 
   return {

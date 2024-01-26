@@ -8,6 +8,8 @@ import {
   tvSeries,
   tvSeasons,
   collections,
+  images,
+  videos,
 } from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
@@ -21,12 +23,12 @@ export const tmdbClient = axios.create({
 
 export const tmdb = {
   movies,
-
   tvSeries,
   tvSeasons,
-
+  images,
   watchProviders,
   search,
   credits,
   collections,
+  videos,
 }

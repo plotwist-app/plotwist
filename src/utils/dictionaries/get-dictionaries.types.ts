@@ -185,6 +185,24 @@ export type Dictionary = {
     desc: string
     hide: string
   }
+  data_table_toolbar: {
+    filter_items_placeholder: string
+    reset: string
+  }
+  data_table_columns: {
+    index: string
+    title: string
+    type: string
+    added_at: string
+    status: string
+    actions: string
+    movie: string
+    tv_show: string
+  }
+  data_table_view_options: {
+    view: string
+    toggle_columns: string
+  }
   statuses: {
     pending: string
     watching: string

@@ -186,6 +186,24 @@
     "desc": "Desc",
     "hide": "Hide"
   },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "Filter items...",
+    "reset": "Reset"
+  },
+  "data_table_columns": {
+    "index": "Index",
+    "title": "Title",
+    "type": "Type",
+    "added_at": "Added at",
+    "status": "Status",
+    "actions": "Actions",
+    "movie": "Movie",
+    "tv_show": "TV Show"
+  },
+  "data_table_view_options": {
+    "view": "View",
+    "toggle_columns": "Toggle columns"
+  },
   "statuses": {
     "pending": "Pending",
     "watching": "Watching",

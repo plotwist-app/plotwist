@@ -182,6 +182,24 @@
     "desc": "降順",
     "hide": "非表示"
   },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "アイテムをフィルター...",
+    "reset": "リセット"
+  },
+  "data_table_columns": {
+    "index": "インデックス",
+    "title": "タイトル",
+    "type": "タイプ",
+    "added_at": "追加日",
+    "status": "ステータス",
+    "actions": "アクション",
+    "movie": "映画",
+    "tv_show": "テレビ番組"
+  },
+  "data_table_view_options": {
+    "view": "表示",
+    "toggle_columns": "列の切り替え"
+  },
   "statuses": {
     "pending": "保留中",
     "watching": "視聴中",

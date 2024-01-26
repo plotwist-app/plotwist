@@ -23,22 +23,22 @@ export function DataTableToolbar<TData>({
 
   const isFiltered = table.getState().columnFilters.length > 0
 
+  const titleColumn = table.getColumn(dictionary.data_table_columns.title)
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter items..."
-          value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('title')?.setFilterValue(event.target.value)
-          }
+          placeholder={dictionary.data_table_toolbar.filter_items_placeholder}
+          value={(titleColumn?.getFilterValue() as string) ?? ''}
+          onChange={(event) => titleColumn?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
 
-        {table.getColumn('status') && (
+        {table.getColumn(dictionary.data_table_columns.status) && (
           <DataTableFacetedFilter
-            column={table.getColumn('status')}
-            title="Status"
+            column={table.getColumn(dictionary.data_table_columns.status)}
+            title={dictionary.data_table_columns.status}
             options={statuses(dictionary)}
           />
         )}
@@ -49,7 +49,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
             className="h-8 px-2 lg:px-3"
           >
-            Reset
+            {dictionary.data_table_toolbar.reset}
             <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
         )}

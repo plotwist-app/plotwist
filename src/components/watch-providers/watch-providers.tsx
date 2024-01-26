@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { tmdb } from '@/services/tmdb2'
+import { Buy, Rent } from '@/services/tmdb2/types/watch-providers'
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -17,7 +18,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Play } from 'lucide-react'
 
 import Image from 'next/image'
-import { Buy, Rent } from 'tmdb-ts'
 
 type WatchProviderItemProps = { item: Buy | Rent }
 
@@ -69,7 +69,8 @@ export const WatchProviders = async ({
     'pt-BR': results.BR,
   }
 
-  const { buy, flatrate, rent } = resultsByLanguage[language]
+  const { buy, flatrate, rent } =
+    resultsByLanguage[language] ?? resultsByLanguage['en-US']
 
   return (
     <DropdownMenu>
