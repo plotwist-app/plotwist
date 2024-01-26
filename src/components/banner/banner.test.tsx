@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { Banner } from './banner'
+import { Banner } from '.'
 
 const url = 'https://example.com/banner-image.jpg'
 

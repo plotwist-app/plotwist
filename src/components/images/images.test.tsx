@@ -3,7 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { Images, ImagesProps } from '.'
 
 const PROPS: ImagesProps = {
-  tmdbId: 767,
+  tmdbId: 673, // Harry Potter and the Prisoner of Azkaban
   variant: 'movie',
 }
 

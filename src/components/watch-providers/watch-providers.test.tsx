@@ -3,13 +3,17 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { WatchProviderItem, WatchProviders, WatchProvidersProps } from '.'
 
 const PROPS: WatchProvidersProps = {
-  id: 767,
+  id: 673, // Harry Potter and the Prisoner of Azkaban
   variant: 'movie',
   language: 'en-US',
 }
 
 describe('WatchProviders', () => {
   afterEach(() => cleanup())
+
+  it('should be', () => {
+    expect(1).toBe(1)
+  })
 
   it('should be able to render WatchProviders dropdown server component', async () => {
     render(await WatchProviders(PROPS))

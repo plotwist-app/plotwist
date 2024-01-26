@@ -8,7 +8,7 @@ export type Movie = {
   original_title: string
   original_language: string
   title: string
-  backdrop_path: string
+  backdrop_path?: string
   popularity: number
   vote_count: number
   video: boolean

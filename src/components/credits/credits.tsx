@@ -19,15 +19,23 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
         <h5 className="text-xl font-bold">{dictionary.credits.cast}</h5>
 
         <div className="grid grid-cols-6 gap-4">
-          {cast.map(({ profile_path: profilePath, name, id, character }) => (
-            <CreditCard
-              key={id}
-              imagePath={profilePath}
-              name={name}
-              role={character}
-              href={`/app/people/${id}`}
-            />
-          ))}
+          {cast.map(
+            ({
+              profile_path: profilePath,
+              name,
+              id,
+              character,
+              credit_id: creditId,
+            }) => (
+              <CreditCard
+                key={creditId}
+                imagePath={profilePath}
+                name={name}
+                role={character}
+                href={`/app/people/${id}`}
+              />
+            ),
+          )}
         </div>
       </section>
 
@@ -35,15 +43,23 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
         <h5 className="text-xl font-bold">{dictionary.credits.crew}</h5>
 
         <div className="grid grid-cols-6 gap-4">
-          {crew.map(({ profile_path: profilePath, name, id, department }) => (
-            <CreditCard
-              key={id}
-              imagePath={profilePath}
-              name={name}
-              role={department}
-              href={`/app/people/${id}`}
-            />
-          ))}
+          {crew.map(
+            ({
+              profile_path: profilePath,
+              name,
+              id,
+              department,
+              credit_id: creditId,
+            }) => (
+              <CreditCard
+                key={creditId}
+                imagePath={profilePath}
+                name={name}
+                role={department}
+                href={`/app/people/${id}`}
+              />
+            ),
+          )}
         </div>
       </section>
     </div>

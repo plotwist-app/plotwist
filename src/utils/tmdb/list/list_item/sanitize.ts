@@ -17,14 +17,12 @@ export const sanitizeListItem = (
 
   return {
     list_id: listId,
-
-    backdrop_path: raw.backdrop_path,
+    backdrop_path: raw.backdrop_path ?? '',
     overview: raw.overview,
     poster_path: raw.poster_path,
     title,
     tmdb_id: raw.id,
     media_type: isTvShow ? 'TV_SHOW' : 'MOVIE',
-
     status: 'PENDING',
   }
 }
