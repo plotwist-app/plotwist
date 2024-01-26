@@ -1,0 +1,219 @@
+{
+  "home": {
+    "title": "Explore movies, TV shows, and people!",
+    "description": "TMDB is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
+    "start": "Start now"
+  },
+  "movies_list": {
+    "now_playing": "Now playing movies",
+    "popular": "Popular movies",
+    "top_rated": "Top rated movies",
+    "upcoming": "Upcoming movies",
+    "show_all": "Show all"
+  }, 
+  "login_page": {
+    "title": "Login",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "no_account": "Don't have an account? Register by clicking",
+    "no_account_link": "here"
+  },
+  "login_form": {
+    "email_label": "E-mail",
+    "password_label": "Password",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "access_button": "Access",
+    
+    "email_required": "Please enter your e-mail address.",
+    "email_invalid": "Please enter a valid e-mail address.",
+    "password_required": "Please enter your password.",
+    "password_length": "Your password must be at least 8 characters long.",
+
+    "login_success": "Login successful. Welcome! 🎉",
+    "invalid_login_credentials": "Invalid login credentials",
+    "try_again": "Try again"    
+  },
+  "sign_up_page": {
+    "title": "Create an account",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "already_have_account": "Already have an account? Access by clicking",
+    "here_link": "here"
+  },
+  "sign_up_form": {
+    "username_label": "Username",
+    "email_label": "E-mail",
+    "password_label": "Password",
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "submit_button": "Submit",
+    
+    "username_required": "Please enter your username.",
+    "email_required": "Please enter your e-mail address.",
+    "email_invalid": "Please enter a valid e-mail address.",
+    "password_required": "Please enter your password.",
+    "password_length": "Your password must be at least 8 characters long.",
+    
+    "sign_up_success": "Registration successful. Welcome! 🎉",
+    "invalid_sign_up_credentials": "Invalid sign up credentials",
+    "try_again": "Try again"
+  },
+  "app_page": {
+    "dashboard_title": "Dashboard",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Popular movies",
+    "popular_tv_shows_title": "Popular TV Shows"
+  },
+  "tabs": {
+    "reviews": "Reviews",
+    "credits": "Credits",
+    "recommendations": "Recommendations",
+    "similar": "Similar",
+    "images": "Images",
+    "videos": "Videos",
+    "seasons": "Seasons"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "movies": "Movies",
+    "discover": "Discover",
+    "now_playing": "Now playing",
+    "popular": "Popular",
+    "top_rated": "Top rated",
+    "upcoming": "Upcoming",
+    "tv_shows": "TV Shows",
+    "airing_today": "Airing Today",
+    "on_the_air": "On the air",
+    "people": "People",
+    "lists": "Lists"
+  },
+  "sidebar_search": {
+    "placeholder":"Search for movies, TV shows, or people",
+    "search_everything": "Search everything",
+    "no_results": "No results found.",
+    "movies": "Movies",
+    "tv_shows": "TV Shows",
+    "people": "People"
+  },
+  "watch_providers": {
+    "label": "Watch Providers",
+    "stream": "Stream",
+    "rent": "Rent",
+    "buy": "Buy"
+  },
+  "lists_dropdown": {
+    "add_to_list": "Add to list",
+    "my_lists": "My lists",
+    "removed_successfully": "Removed successfully.",
+    "added_successfully": "Added successfully.",
+    "view_list": "View list"
+  },
+  "credits": {
+    "cast": "Cast",
+    "crew": "Crew"
+  },
+  "review_form": {
+    "required": "Review is required.",
+    "rating_max": "Max value of rating is 5",
+    "success": "Review created successfully.",
+    "publish": "Publish",
+    "placeholder": "What you think about?"
+  },
+  "review_item_actions": {
+    "like": "Like",
+    "reply": "Reply",
+    "delete": "Delete",
+    "delete_success": "Review deleted successfully."
+  },
+  "movie_collection": {
+    "part_of": "Part of",
+    "see_collection": "See collection"
+  },
+  "collection_list_dropdown": {
+    "add_collection_to_list": "Add collection to list",
+    "my_lists": "My lists",
+    "collection_removed_successfully": "Collection removed successfully.",
+    "collection_added_successfully": "Collection added successfully.",
+    "view_list": "View list"
+  },
+  "settings_dropdown": {
+    "theme": "Theme",
+    "light": "🌞 Light",
+    "dark": "🌚 Dark",
+    "language": "Language",
+    "account": "Account",
+    "logout": "Logout"
+  },
+  "auth": {
+    "logout_success": "Successfully logged out. See you next time ✌"
+  },
+  "lists_page": {
+    "title": "Lists",
+    "description": "Create watch-lists to manage your movies and tv shows."
+  },
+  "list_card": {
+    "delete": "Delete",
+    "delete_success": "List deleted successfully."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Create new list",
+    "name": "Name",
+    "name_placeholder": "My List",
+    "name_required": "Name of list is required.",
+    "description": "Description",
+    "description_placeholder": "Movies and TV shows I plan to watch.",
+    "description_required": "Description of list is required.",
+    "submit": "Submit",
+    "list_created_success": "List created successfully!"
+  },
+  "list_page": {
+    "list_not_found": "List not found.",
+    "see_your_lists_or_create_new": "See your lists or create new clicking",
+    "here": "here"
+  },
+  "list_items": {
+    "table": "Table",
+    "grid": "Grid"
+  },
+  "data_table": {
+    "title": "Title",
+    "type": "Type",
+    "overview": "Overview",
+    "added_at": "Added at",
+    "status": "Status"
+  },
+  "data_table_column_header": {
+    "asc": "Asc",
+    "desc": "Desc",
+    "hide": "Hide"
+  },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "Filter items...",
+    "reset": "Reset"
+  },
+  "data_table_columns": {
+    "index": "Index",
+    "title": "Title",
+    "type": "Type",
+    "added_at": "Added at",
+    "status": "Status",
+    "actions": "Actions",
+    "movie": "Movie",
+    "tv_show": "TV Show"
+  },
+  "data_table_view_options": {
+    "view": "View",
+    "toggle_columns": "Toggle columns"
+  },
+  "statuses": {
+    "pending": "Pending",
+    "watching": "Watching",
+    "watched": "Watched"
+  },
+  "list_item_actions": {
+    "use_as_cover": "Use as cover",
+    "status": "Status",
+    "delete": "Delete",
+    "removed_successfully": "Removed successfully.",
+    "cover_changed_successfully": "Cover changed successfully."
+  }
+}

@@ -1,12 +1,27 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 
-/**
- * Any Server Component route that uses a Supabase client must be added to this
- * middleware's `matcher` array. Without this, the Server Component may try to make a
- * request to Supabase with an expired `access_token`.
- */
+import { match } from '@formatjs/intl-localematcher'
+import Negotiator from 'negotiator'
+import { languages as appLanguages } from '../languages'
+
+const headers = { 'accept-language': 'en-US' }
+const languages = new Negotiator({ headers }).languages()
+const defaultLocale = 'en-US'
+match(languages, appLanguages, defaultLocale)
+
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl
+
+  const pathnameHasLocale = appLanguages.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  )
+
+  if (!pathnameHasLocale) {
+    req.nextUrl.pathname = `/${defaultLocale}${pathname}`
+    return NextResponse.redirect(req.nextUrl)
+  }
+
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
   await supabase.auth.getSession()
@@ -15,5 +30,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/app'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

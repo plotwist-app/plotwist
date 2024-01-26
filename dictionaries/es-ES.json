@@ -1,0 +1,217 @@
+{
+  "home": {
+    "title": "¡Explora películas, programas de TV y personas!",
+    "description": "TMDB es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
+    "start": "Comienza ahora"
+  },
+  "movies_list": {
+    "now_playing": "Películas en cartelera",
+    "popular": "Películas populares",
+    "top_rated": "Películas mejor valoradas",
+    "upcoming": "Próximos estrenos",
+    "show_all": "Mostrar todo"
+  },
+  "login_page": {
+    "title": "Iniciar sesión",
+    "description": "¡Sé parte de la comunidad cinematográfica, donde puedes conocer y discutir miles de películas y series de TV!",
+    "no_account": "¿No tienes una cuenta? Regístrate haciendo clic",
+    "no_account_link": "aquí"  
+  },
+  "login_form": {
+    "email_label": "Correo electrónico",
+    "password_label": "Contraseña",
+    "show_password": "Mostrar contraseña",
+    "hide_password": "Ocultar contraseña",
+    "access_button": "Acceder",
+    
+    "email_required": "Por favor, introduce tu dirección de correo electrónico.",
+    "email_invalid": "Por favor, introduce una dirección de correo electrónico válida.",
+    "password_required": "Por favor, introduce tu contraseña.",
+    "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
+
+    "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
+    "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
+    "try_again": "Intentar de nuevo"
+  },
+  "sign_up_page": {
+    "title": "Crear una cuenta",
+    "description": "¡Sé parte de la comunidad de cine, donde puedes conocer y discutir miles de películas y series de TV!",
+    "already_have_account": "¿Ya tienes una cuenta? Accede haciendo clic",
+    "here_link": "aquí"
+  },
+  "sign_up_form": {
+    "username_label": "Nombre de usuario",
+    "email_label": "Correo electrónico",
+    "password_label": "Contraseña",
+    "show_password": "Mostrar contraseña",
+    "hide_password": "Ocultar contraseña",
+    "submit_button": "Enviar",
+    "username_required": "Por favor, introduce tu nombre de usuario.",
+    "email_required": "Por favor, introduce tu correo electrónico.",
+    "email_invalid": "Por favor, introduce un correo electrónico válido.",
+    "password_required": "Por favor, introduce tu contraseña.",
+    "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
+    "sign_up_success": "Registro exitoso. ¡Bienvenido! 🎉",
+    "invalid_sign_up_credentials": "Credenciales de registro inválidas",
+    "try_again": "Intentar de nuevo"
+  },
+  "app_page": {
+    "dashboard_title": "Panel de Control",
+    "dashboard_description": "dashboard_description",
+    "popular_movies_title": "Películas Populares",
+    "popular_tv_shows_title": "Programas de TV Populares"
+  },
+  "tabs": {
+    "reviews": "Reseñas",
+    "credits": "Créditos",
+    "recommendations": "Recomendaciones",
+    "similar": "Similares",
+    "images": "Imágenes",
+    "videos": "Videos",
+    "seasons": "Temporadas"
+  },
+  "navigation": {
+    "dashboard": "Panel de Control",
+    "movies": "Películas",
+    "discover": "Descubrir",
+    "now_playing": "En cartelera",
+    "popular": "Populares",
+    "top_rated": "Mejor valoradas",
+    "upcoming": "Próximas",
+    "tv_shows": "Programas de TV",
+    "airing_today": "Transmitiendo Hoy",
+    "on_the_air": "Al Aire",
+    "people": "Personas",
+    "lists": "Listas"
+  },
+  "sidebar_search": {
+    "placeholder": "Busca películas, programas de TV o personas",
+    "search_everything": "Buscar todo",
+    "no_results": "No se encontraron resultados.",
+    "movies": "Películas",
+    "tv_shows": "Programas de TV",
+    "people": "Personas"
+  },
+  "watch_providers": {
+    "label": "Proveedores de visualización",
+    "stream": "Transmitir",
+    "rent": "Alquilar",
+    "buy": "Comprar"
+  },
+  "lists_dropdown": {
+    "add_to_list": "Añadir a la lista",
+    "my_lists": "Mis listas",
+    "removed_successfully": "Eliminado con éxito.",
+    "added_successfully": "Añadido con éxito.",
+    "view_list": "Ver lista"
+  },
+  "credits": {
+    "cast": "Reparto",
+    "crew": "Equipo"
+  },
+  "review_form": {
+    "required": "Se requiere una reseña.",
+    "rating_max": "El valor máximo de la calificación es 5",
+    "success": "Reseña creada con éxito.",
+    "publish": "Publicar",
+    "placeholder": "¿Qué piensas?"
+  },
+  "review_item_actions": {
+    "like": "Me gusta",
+    "reply": "Responder",
+    "delete": "Eliminar",
+    "delete_success": "Reseña eliminada con éxito."
+  },
+  "movie_collection": {
+    "part_of": "Parte de",
+    "see_collection": "Ver colección"
+  },
+  "collection_list_dropdown": {
+    "add_collection_to_list": "Añadir colección a la lista",
+    "my_lists": "Mis listas",
+    "collection_removed_successfully": "Colección eliminada con éxito.",
+    "collection_added_successfully": "Colección añadida con éxito.",
+    "view_list": "Ver lista"
+  },
+  "settings_dropdown": {
+    "theme": "Tema",
+    "light": "🌞 Claro",
+    "dark": "🌚 Oscuro",
+    "language": "Idioma",
+    "account": "Cuenta",
+    "logout": "Cerrar sesión"
+  },
+  "auth": {
+    "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
+  },
+  "lists_page": {
+    "title": "Listas",
+    "description": "Crea listas de seguimiento para gestionar tus películas y programas de televisión."
+  },
+  "list_card": {
+    "delete": "Eliminar",
+    "delete_success": "Lista eliminada con éxito."
+  },
+  "create_new_list_form": {
+    "create_new_list": "Crear nueva lista",
+    "name": "Nombre",
+    "name_placeholder": "Mi Lista",
+    "name_required": "Se requiere el nombre de la lista.",
+    "description": "Descripción",
+    "description_placeholder": "Películas y programas de TV que planeo ver.",
+    "description_required": "Se requiere una descripción de la lista.",
+    "submit": "Enviar",
+    "list_created_success": "¡Lista creada con éxito!"
+  },
+  "list_page": {
+    "list_not_found": "Lista no encontrada.",
+    "see_your_lists_or_create_new": "Consulta tus listas o crea una nueva haciendo clic",
+    "here": "aquí"
+  },
+  "list_items": {
+    "table": "Tabla",
+    "grid": "Cuadrícula"
+  },
+  "data_table": {
+    "title": "Título",
+    "type": "Tipo",
+    "overview": "Resumen",
+    "added_at": "Agregado en",
+    "status": "Estado"
+  },
+  "data_table_column_header": {
+    "asc": "Asc",
+    "desc": "Desc",
+    "hide": "Ocultar"
+  },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "Filtrar elementos...",
+    "reset": "Restablecer"
+  },
+  "data_table_columns": {
+    "index": "Índice",
+    "title": "Título",
+    "type": "Tipo",
+    "added_at": "Añadido el",
+    "status": "Estado",
+    "actions": "Acciones",
+    "movie": "Película",
+    "tv_show": "Serie"
+  },
+  "data_table_view_options": {
+    "view": "Ver",
+    "toggle_columns": "Alternar columnas"
+  },
+  "statuses": {
+    "pending": "Pendiente",
+    "watching": "Viendo",
+    "watched": "Visto"
+  },
+  "list_item_actions": {
+    "use_as_cover": "Usar como portada",
+    "status": "Estado",
+    "delete": "Eliminar",
+    "removed_successfully": "Eliminado con éxito.",
+    "cover_changed_successfully": "Portada cambiada con éxito."
+  }
+}

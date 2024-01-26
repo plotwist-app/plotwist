@@ -1,12 +1,15 @@
-import { Locale } from '../../../locales'
+import { Language } from '@/types/languages'
 
-export const formatCurrency = (amount: number, locale: Locale = 'en-US') => {
+export const formatCurrency = (
+  amount: number,
+  language: Language = 'en-US',
+) => {
   const commonOptions = {
     style: 'currency',
     minimumFractionDigits: 0,
   }
 
-  const amountByLocale: Record<Locale, string> = {
+  const amountByLanguage: Record<Language, string> = {
     'en-US': amount.toLocaleString('en-US', {
       ...commonOptions,
       currency: 'USD',
@@ -31,7 +34,11 @@ export const formatCurrency = (amount: number, locale: Locale = 'en-US') => {
       ...commonOptions,
       currency: 'BRL',
     }),
+    'ja-JP': amount.toLocaleString('ja-JP', {
+      ...commonOptions,
+      currency: 'JPY',
+    }),
   }
 
-  return amountByLocale[locale]
+  return amountByLanguage[language]
 }

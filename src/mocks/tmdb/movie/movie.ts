@@ -1,6 +1,5 @@
-import { Movie } from 'tmdb-ts'
+import { Movie } from '@/services/tmdb2/types'
 
-// Movie: Fight Club
 export const movie: Movie = {
   adult: false,
   backdrop_path: '/hZkgoQYus5vegHoetLkCJzb17zJ.jpg',

@@ -11,6 +11,7 @@
     "test:ui": "vitest --coverage.enabled=true --ui"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.5.2",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -30,14 +31,14 @@
     "@tanstack/react-query": "^5.15.0",
     "@tanstack/react-table": "^8.11.3",
     "@uidotdev/usehooks": "^2.4.1",
+    "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "debounce": "^2.0.0",
     "lucide-react": "^0.293.0",
+    "negotiator": "^0.6.3",
     "next": "14.0.3",
-    "next-intl": "^3.1.4",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.6.4",
     "nprogress": "^0.2.0",
@@ -57,6 +58,7 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@testing-library/react": "^14.1.2",
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^20",
     "@types/nprogress": "^0.2.3",
     "@types/react": "^18.2.39",

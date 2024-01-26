@@ -1,19 +1,24 @@
-import { SignInCredentials, SignUpCredentials } from './use-auth.types'
+'use client'
+
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { toast } from 'sonner'
 
+import { SignInCredentials, SignUpCredentials } from './use-auth.types'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useLanguage } from '@/context/language'
+
 export const useAuth = () => {
+  const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
   const { push } = useRouter()
 
   const signInWithCredentials = async (credentials: SignInCredentials) => {
-    const { error } = await supabase.auth.signInWithPassword(credentials)
+    const { error, data } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
-      toast.error(error.message, {
+      toast.error(dictionary.login_form.invalid_login_credentials, {
         action: {
-          label: 'Try again',
+          label: dictionary.login_form.try_again,
           onClick: () => signInWithCredentials(credentials),
         },
       })
@@ -21,8 +26,10 @@ export const useAuth = () => {
       return
     }
 
-    push('/app')
-    toast('Login successful. Welcome! 🎉')
+    if (data) {
+      push('app')
+      toast.success(dictionary.login_form.login_success)
+    }
   }
 
   const signUpWithCredentials = async ({
@@ -41,7 +48,7 @@ export const useAuth = () => {
     if (error) {
       toast.error(error.message, {
         action: {
-          label: ' Try again',
+          label: dictionary.login_form.try_again,
           onClick: () => signUpWithCredentials({ username, ...credentials }),
         },
       })
@@ -49,15 +56,27 @@ export const useAuth = () => {
       return
     }
 
-    push('/login')
-
-    toast.success('Account created successfully! 🎉', {
-      action: {
-        label: 'Access your account',
-        onClick: () => push('/login'),
-      },
-    })
+    toast.success(dictionary.sign_up_form.sign_up_success)
+    await signInWithCredentials(credentials)
   }
 
-  return { signInWithCredentials, signUpWithCredentials }
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut()
+
+    if (error) {
+      toast.error(error.message, {
+        action: {
+          label: dictionary.sign_up_form.try_again,
+          onClick: () => logout(),
+        },
+      })
+
+      return
+    }
+
+    push(`/${language}`)
+    toast.success(dictionary.auth.logout_success)
+  }
+
+  return { signInWithCredentials, signUpWithCredentials, logout }
 }
