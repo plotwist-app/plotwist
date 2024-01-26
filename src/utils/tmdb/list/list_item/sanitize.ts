@@ -1,8 +1,9 @@
 import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
+import { Movie } from '@/services/tmdb2/types'
 import { ListItem } from '@/types/supabase/lists'
 
-type Raw = MovieDetails | TvSeriesDetails
+type Raw = MovieDetails | TvSeriesDetails | Movie
 
 export const sanitizeListItem = (
   listId: number,

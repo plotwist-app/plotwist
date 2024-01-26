@@ -140,7 +140,7 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="videos" className="mt-4">
-            <Videos tmdbId={id} variant="tvShows" />
+            <Videos tmdbId={id} variant="tv" />
           </TabsContent>
         </Tabs>
       </div>

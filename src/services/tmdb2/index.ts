@@ -9,6 +9,7 @@ import {
   tvSeasons,
   collections,
   images,
+  videos,
 } from './requests'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY ?? ''
@@ -29,4 +30,5 @@ export const tmdb = {
   search,
   credits,
   collections,
+  videos,
 }
