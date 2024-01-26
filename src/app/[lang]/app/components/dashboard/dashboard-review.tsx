@@ -6,10 +6,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Review } from '@/types/supabase/reviews'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReviewStars } from '@/components/reviews/review-stars'
+import { Language } from '@/types/languages'
 
-type DashboardReviewProps = { review: Review }
+type DashboardReviewProps = { review: Review; language: Language }
 
-export const DashboardReview = ({ review }: DashboardReviewProps) => {
+export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
   const {
     tmdb_poster_path: poster,
     tmdb_title: title,
@@ -26,7 +27,9 @@ export const DashboardReview = ({ review }: DashboardReviewProps) => {
   const usernameInitial = username[0].toUpperCase()
 
   const href =
-    mediaType === 'MOVIE' ? `/app/movies/${tmdbId}` : `/app/tv-shows/${tmdbId}`
+    mediaType === 'MOVIE'
+      ? `/${language}/app/movies/${tmdbId}`
+      : `/${language}/app/tv-shows/${tmdbId}`
 
   return (
     <div className="flex space-x-4">
