@@ -10,11 +10,6 @@ import { tmdb } from '@/services/tmdb2'
 import { useLanguage } from '@/context/language'
 
 import { Command as CommandIcon } from 'lucide-react'
-import {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TVWithMediaType,
-} from 'tmdb-ts'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -30,6 +25,11 @@ import {
   SidebarSearchTvShow,
   SidebarSearchGroup,
 } from '.'
+import {
+  MovieWithMediaType,
+  PersonWithMediaType,
+  TvShowWithMediaType,
+} from '@/services/tmdb2/types'
 
 export const SidebarSearch = () => {
   const [open, setOpen] = useState(false)
@@ -70,7 +70,7 @@ export const SidebarSearch = () => {
 
     data?.results.filter(
       (result) => result.media_type === 'tv',
-    ) as TVWithMediaType[],
+    ) as TvShowWithMediaType[],
 
     data?.results.filter(
       (result) => result.media_type === 'person',

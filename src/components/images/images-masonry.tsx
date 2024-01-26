@@ -1,12 +1,13 @@
 'use client'
 
-import Image from 'next/image'
-import { Image as ImageTMDB } from 'tmdb-ts'
+import NextImage from 'next/image'
+
 import ReactMasonryCss from 'react-masonry-css'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Image } from '@/services/tmdb2/requests'
 
 type ImagesMasonryProps = {
-  images: ImageTMDB[]
+  images: Image[]
 }
 
 export const ImagesMasonry = ({ images }: ImagesMasonryProps) => {
@@ -30,7 +31,7 @@ export const ImagesMasonry = ({ images }: ImagesMasonryProps) => {
             key={filePath}
             style={{ aspectRatio }}
           >
-            <Image
+            <NextImage
               fill
               className="object-cover"
               src={previewURL}

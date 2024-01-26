@@ -1,4 +1,4 @@
-import { Images } from 'tmdb-ts'
+import { Images } from '@/services/tmdb2/requests'
 
 // Movie: Fight Club
 export const images: Images = {

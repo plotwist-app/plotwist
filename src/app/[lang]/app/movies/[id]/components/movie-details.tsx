@@ -141,7 +141,7 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
           </TabsContent>
 
           <TabsContent value="images" className="mt-4">
-            <Images tmdbId={movie.id} variant="movies" />
+            <Images tmdbId={movie.id} variant="movie" />
           </TabsContent>
 
           <TabsContent value="videos" className="mt-4">

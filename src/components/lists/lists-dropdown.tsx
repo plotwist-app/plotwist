@@ -3,7 +3,7 @@
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
+
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
@@ -24,8 +24,11 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
 import { List } from '@/types/supabase/lists'
 
+import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
+import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
+
 type ListsDropdownProps = {
-  item: TvShowDetails | MovieDetails
+  item: MovieDetails | TvSeriesDetails
 }
 
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {

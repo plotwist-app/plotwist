@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Episode } from 'tmdb-ts'
+
 import { Grid, Table as LucideTable } from 'lucide-react'
 
 import {
@@ -22,6 +22,8 @@ import {
 
 import { TvShowEpisodeCard } from './tv-show-season-episode-card'
 import { Badge } from '@/components/ui/badge'
+
+import { Episode } from '@/services/tmdb2/requests/tv-seasons/details'
 
 type TvShowSeasonDetailsContentProps = {
   episodes: Episode[]
