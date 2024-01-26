@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Table,
   TableBody,
@@ -8,14 +10,16 @@ import {
 } from '@/components/ui/table'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { useLanguage } from '@/context/language'
 
 export const DataTableSkeleton = () => {
+  const { dictionary } = useLanguage()
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-1 items-center space-x-2">
           <Skeleton className="h-8 w-[150px] lg:w-[250px]" />
-
           <Skeleton className="h-8 w-[88px]" />
         </div>
 
@@ -26,11 +30,12 @@ export const DataTableSkeleton = () => {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[1ch]"></TableHead>
-            <TableHead className="w-[200px]">Title</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead className="w-[400px]">Overview</TableHead>
-            <TableHead>Added at</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className="w-[400px]">
+              {dictionary.data_table_columns.title}
+            </TableHead>
+            <TableHead>{dictionary.data_table_columns.type}</TableHead>
+            <TableHead>{dictionary.data_table_columns.added_at}</TableHead>
+            <TableHead>{dictionary.data_table_columns.status}</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>

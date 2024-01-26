@@ -69,7 +69,8 @@ export const WatchProviders = async ({
     'pt-BR': results.BR,
   }
 
-  const { buy, flatrate, rent } = resultsByLanguage[language]
+  const { buy, flatrate, rent } =
+    resultsByLanguage[language] ?? resultsByLanguage['en-US']
 
   return (
     <DropdownMenu>

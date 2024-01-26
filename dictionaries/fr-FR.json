@@ -184,6 +184,24 @@
     "desc": "Desc",
     "hide": "Cacher"
   },
+  "data_table_toolbar": {
+    "filter_items_placeholder": "Filtrer les éléments...",
+    "reset": "Réinitialiser"
+  },
+  "data_table_columns": {
+    "index": "Indice",
+    "title": "Titre",
+    "type": "Type",
+    "added_at": "Ajouté le",
+    "status": "Statut",
+    "actions": "Actions",
+    "movie": "Film",
+    "tv_show": "Série TV"
+  },
+  "data_table_view_options": {
+    "view": "Voir",
+    "toggle_columns": "Basculer les colonnes"
+  },
   "statuses": {
     "pending": "En attente",
     "watching": "En cours de visionnage",
