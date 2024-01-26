@@ -11,8 +11,8 @@ export type ListsContextType = {
   handleDeleteList: HandleFn<number>
   handleAddToList: HandleFn<AddToListParams>
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
-  handleRemoveCollectionToList: HandleFn<RemoveCollectionToListParams>
-  handleRemoveToList: HandleFn<number>
+  handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>
+  handleRemoveFromList: HandleFn<number>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
 }
@@ -33,7 +33,7 @@ export type AddCollectionToListParams = {
   items: Array<Omit<ListItem, 'id' | 'created_at'>>
 }
 
-export type RemoveCollectionToListParams = {
+export type RemoveCollectionFromListParams = {
   ids: number[]
 }
 

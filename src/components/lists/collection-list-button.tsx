@@ -45,14 +45,14 @@ type CollectionListDropdownProps = {
 export const CollectionListDropdown = ({
   items,
 }: CollectionListDropdownProps) => {
-  const { lists, handleAddCollectionToList, handleRemoveCollectionToList } =
+  const { lists, handleAddCollectionToList, handleRemoveCollectionFromList } =
     useLists()
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
 
   const handleRemove = useCallback(
     async (ids: number[]) => {
-      await handleRemoveCollectionToList.mutateAsync(
+      await handleRemoveCollectionFromList.mutateAsync(
         {
           ids,
         },
@@ -70,7 +70,7 @@ export const CollectionListDropdown = ({
         },
       )
     },
-    [dictionary, handleRemoveCollectionToList],
+    [dictionary, handleRemoveCollectionFromList],
   )
 
   const handleAdd = useCallback(
