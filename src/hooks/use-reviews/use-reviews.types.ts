@@ -1,5 +1,6 @@
+import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
+import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
 import { MediaType } from '@/types/supabase/media-type'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 export type CreateReviewValues = {
   rating: number
@@ -7,7 +8,7 @@ export type CreateReviewValues = {
   userId: string
   mediaType: MediaType
 
-  tmdbItem: TvShowDetails | MovieDetails
+  tmdbItem: MovieDetails | TvSeriesDetails
 }
 
 export type LikeReviewValues = {

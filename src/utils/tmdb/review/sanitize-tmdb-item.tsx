@@ -1,8 +1,9 @@
+import { MovieDetails } from '@/services/tmdb2/requests/movies/details'
+import { TvSeriesDetails } from '@/services/tmdb2/requests/tv-series/details'
 import { Review } from '@/types/supabase/reviews'
-import { MovieDetails, TvShowDetails } from 'tmdb-ts'
 
 export const sanitizeTmdbItem = (
-  tmdbItem: MovieDetails | TvShowDetails,
+  tmdbItem: MovieDetails | TvSeriesDetails,
 ): Pick<
   Review,
   'tmdb_id' | 'tmdb_overview' | 'tmdb_poster_path' | 'tmdb_title'
@@ -10,7 +11,7 @@ export const sanitizeTmdbItem = (
   const isTvShow = 'name' in tmdbItem
 
   const title = isTvShow
-    ? (tmdbItem as TvShowDetails).name
+    ? (tmdbItem as TvSeriesDetails).name
     : (tmdbItem as MovieDetails).title
 
   return {

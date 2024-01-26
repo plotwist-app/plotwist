@@ -53,13 +53,15 @@ export interface LastEpisodeToAir {
   vote_average: number
   vote_count: number
 }
+
 export interface Network {
   name: string
   id: number
   logo_path: string
   origin_country: string
 }
-export interface Season {
+
+export type Season = {
   air_date: string
   episode_count: number
   id: number
@@ -67,6 +69,7 @@ export interface Season {
   overview: string
   poster_path: string
   season_number: number
+  vote_average: number
 }
 
 export interface TvSeriesDetails {

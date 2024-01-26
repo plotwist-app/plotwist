@@ -8,14 +8,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Season as TmdbSeason } from 'tmdb-ts'
+
 import { TvShowSeasonDetails } from './tv-show-season-details'
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'
-
-type Season = TmdbSeason & {
-  vote_average?: number
-}
+import { Season } from '@/services/tmdb2/requests/tv-series/details'
 
 type TvShowSeasonsProps = {
   seasons: Season[]

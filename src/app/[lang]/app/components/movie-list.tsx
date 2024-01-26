@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
-import { TMDB } from '@/services/TMDB'
 import { Language } from '@/types/languages'
 import { tmdb } from '@/services/tmdb2'
 import { MovieListType } from '@/services/tmdb2/requests/movies/list'
@@ -27,7 +26,7 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
     queryKey: [variant],
     queryFn: () =>
       variant === 'discover'
-        ? TMDB.discover.movie()
+        ? tmdb.movies.discover()
         : tmdb.movies.list(variant, language),
   })
 
