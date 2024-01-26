@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Episode } from '@/services/tmdb2/requests/tv-seasons/details'
+import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 

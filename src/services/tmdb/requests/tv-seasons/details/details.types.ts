@@ -1,4 +1,4 @@
-import { Crew } from '@/services/tmdb2/types'
+import { Crew } from '@/services/tmdb/types'
 
 export interface GuestStar {
   credit_id: string

@@ -27,7 +27,7 @@ import { MovieCollection } from './movie-collection'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { locale } from '@/utils/date/locale'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 
 import { Language } from '@/types/languages'
 

@@ -1,5 +1,5 @@
-import { tmdb } from '@/services/tmdb2'
-import { Video } from '@/services/tmdb2/requests'
+import { tmdb } from '@/services/tmdb'
+import { Video } from '@/services/tmdb/requests'
 
 export type VideosProps = {
   tmdbId: number

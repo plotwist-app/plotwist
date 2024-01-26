@@ -1,8 +1,8 @@
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 import { MovieCard } from './movie-card'
-import { MovieListType } from '@/services/tmdb2/requests/movies/list'
+import { MovieListType } from '@/services/tmdb/requests/movies/list'
 
 type MoviesListProps = {
   list: MovieListType

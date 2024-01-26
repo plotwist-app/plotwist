@@ -23,7 +23,7 @@ import {
 import { TvShowEpisodeCard } from './tv-show-season-episode-card'
 import { Badge } from '@/components/ui/badge'
 
-import { Episode } from '@/services/tmdb2/requests/tv-seasons/details'
+import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 
 type TvShowSeasonDetailsContentProps = {
   episodes: Episode[]

@@ -1,4 +1,4 @@
-import { tmdbClient } from '@/services/tmdb2'
+import { tmdbClient } from '@/services/tmdb'
 import { Language } from '@/types/languages'
 import { TvShowsListType, TvShowsListResponse } from '.'
 

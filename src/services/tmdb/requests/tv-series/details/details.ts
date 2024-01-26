@@ -1,9 +1,9 @@
-import { tmdbClient } from '@/services/tmdb2'
+import { tmdbClient } from '@/services/tmdb'
 import { Language } from '@/types/languages'
-import { MovieDetails } from '.'
+import { TvSeriesDetails } from './details.types'
 
 export const details = async (id: number, language: Language) => {
-  const { data } = await tmdbClient.get<MovieDetails>(`/movie/${id}`, {
+  const { data } = await tmdbClient.get<TvSeriesDetails>(`/tv/${id}`, {
     params: {
       language,
     },

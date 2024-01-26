@@ -2,7 +2,7 @@ import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvShowWithMediaType,
-} from '@/services/tmdb2/types'
+} from '@/services/tmdb/types'
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'

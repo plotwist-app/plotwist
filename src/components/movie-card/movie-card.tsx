@@ -12,7 +12,7 @@ import {
 import { Badge } from '../ui/badge'
 import { Skeleton } from '../ui/skeleton'
 
-import { Movie } from '@/services/tmdb2/types'
+import { Movie } from '@/services/tmdb/types'
 
 type MovieCardProps = {
   movie: Movie

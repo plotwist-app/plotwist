@@ -1,5 +1,5 @@
 import { ImagesMasonry } from './images-masonry'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 
 export type ImagesProps = {
   tmdbId: number

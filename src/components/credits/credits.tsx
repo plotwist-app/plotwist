@@ -1,4 +1,4 @@
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 import { CreditCard } from './credit-card'
 import { getDictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'

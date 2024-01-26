@@ -1,7 +1,7 @@
 import { Language } from '@/types/languages'
 
-import { tmdbClient } from '@/services/tmdb2'
-import { ListResponse, Movie } from '@/services/tmdb2/types'
+import { tmdbClient } from '@/services/tmdb'
+import { ListResponse, Movie } from '@/services/tmdb/types'
 
 export type RelatedType = 'recommendations' | 'similar'
 export type RelatedResponse = ListResponse<Movie>
