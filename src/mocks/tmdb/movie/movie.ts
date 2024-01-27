@@ -1,4 +1,4 @@
-import { Movie } from '@/services/tmdb2/types'
+import { Movie } from '@/services/tmdb/types'
 
 export const movie: Movie = {
   adult: false,

@@ -1,5 +1,5 @@
 import { TvShowCard } from '@/components/tv-show-card'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 import { Language } from '@/types/languages'
 
 type TvShowRelatedProps = {

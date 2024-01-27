@@ -5,7 +5,7 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
 
 import { useQuery } from '@tanstack/react-query'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 
 import { useLanguage } from '@/context/language'
 
@@ -29,7 +29,7 @@ import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvShowWithMediaType,
-} from '@/services/tmdb2/types'
+} from '@/services/tmdb/types'
 
 export const SidebarSearch = () => {
   const [open, setOpen] = useState(false)

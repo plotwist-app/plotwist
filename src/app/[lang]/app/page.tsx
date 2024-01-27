@@ -8,7 +8,7 @@ import {
 } from './components/dashboard'
 
 import { PageProps } from '@/types/languages'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 
 const AppPage = async ({ params: { lang } }: PageProps) => {

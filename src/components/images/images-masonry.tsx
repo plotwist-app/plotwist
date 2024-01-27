@@ -4,7 +4,7 @@ import NextImage from 'next/image'
 
 import ReactMasonryCss from 'react-masonry-css'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Image } from '@/services/tmdb2/requests'
+import { Image } from '@/services/tmdb/requests'
 
 type ImagesMasonryProps = {
   images: Image[]
@@ -18,6 +18,7 @@ export const ImagesMasonry = ({ images }: ImagesMasonryProps) => {
         default: 3,
         1080: 2,
       }}
+      data-testid="images-masonry"
     >
       {images.map(({ file_path: filePath, aspect_ratio: aspectRatio }) => {
         const previewURL = tmdbImage(filePath, 'w500')

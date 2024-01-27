@@ -1,6 +1,6 @@
 import { MovieCard } from '@/components/movie-card'
-import { tmdb } from '@/services/tmdb2'
-import { RelatedType } from '@/services/tmdb2/requests/movies/related'
+import { tmdb } from '@/services/tmdb'
+import { RelatedType } from '@/services/tmdb/requests/movies/related'
 import { Language } from '@/types/languages'
 
 type MovieRelatedProps = {

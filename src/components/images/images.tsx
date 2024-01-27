@@ -1,7 +1,7 @@
 import { ImagesMasonry } from './images-masonry'
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 
-type ImagesProps = {
+export type ImagesProps = {
   tmdbId: number
   variant: 'tv' | 'movie'
 }

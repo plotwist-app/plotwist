@@ -23,7 +23,7 @@ import { Credits } from '@/components/credits'
 import { TvShowSeasons } from './tv-show-seasons'
 import { TvShowRelated } from './tv-show-related'
 
-import { tmdb } from '@/services/tmdb2'
+import { tmdb } from '@/services/tmdb'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { locale } from '@/utils/date/locale'
