@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 
-import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
 import '../globals.css'
@@ -34,7 +33,7 @@ export default async function RootLayout({
             language={params.lang}
             dictionary={dictionary}
           >
-            <ThemeProvider>{children}</ThemeProvider>
+            {children}
             <Toaster />
           </LanguageContextProvider>
         </AppContextProvider>

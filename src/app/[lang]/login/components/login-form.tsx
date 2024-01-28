@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth/use-auth'
+import { useAuth } from '@/hooks/use-auth'
 
 import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
@@ -89,6 +89,7 @@ export const LoginForm = ({ dictionary }: LoginFormProps) => {
                           variant="outline"
                           onClick={() => setShowPassword((prev) => !prev)}
                           type="button"
+                          data-testId="toggle-password"
                         >
                           {showPassword ? (
                             <Eye size={16} />
