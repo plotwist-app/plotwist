@@ -20,17 +20,17 @@ import {
 import { ElementType } from 'react'
 import { useLanguage } from '@/context/language'
 
-interface DataTableColumnHeaderProps<TData, TValue>
+interface TableColumnHeaderProps<T, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>
+  column: Column<T, TValue>
   title: string
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function TableColumnHeader<T, TValue>({
   column,
   title,
   className,
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: TableColumnHeaderProps<T, TValue>) {
   const { dictionary } = useLanguage()
 
   if (!column.getCanSort()) {

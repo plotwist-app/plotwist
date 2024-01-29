@@ -7,9 +7,10 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ListItem } from '@/types/supabase/lists'
 
 import { Badge } from '@/components/ui/badge'
+import { TableColumnHeader } from '@/components/table'
 
 import { Status } from './status'
-import { DataTableColumnHeader } from './data-table-column-header'
+
 import { ListItemActions } from './list-item-actions'
 import { Dictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
@@ -24,7 +25,7 @@ export const columns: Columns = (dictionary, language) => [
   {
     id: dictionary.data_table_columns.index,
     accessorKey: 'index',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
+    header: ({ column }) => <TableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
       return (
         <span className="select-none font-bold text-muted-foreground">
@@ -39,7 +40,7 @@ export const columns: Columns = (dictionary, language) => [
     id: dictionary.data_table_columns.title,
     accessorKey: 'title',
     header: ({ column }) => (
-      <DataTableColumnHeader
+      <TableColumnHeader
         column={column}
         title={dictionary.data_table.title}
         className="w-[200px]"
@@ -65,10 +66,7 @@ export const columns: Columns = (dictionary, language) => [
     id: dictionary.data_table_columns.type,
     accessorKey: 'media_type',
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title={dictionary.data_table.type}
-      />
+      <TableColumnHeader column={column} title={dictionary.data_table.type} />
     ),
     cell: ({ row }) => {
       const columnId = dictionary.data_table_columns.type
@@ -87,7 +85,7 @@ export const columns: Columns = (dictionary, language) => [
     id: dictionary.data_table_columns.added_at,
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader
+      <TableColumnHeader
         column={column}
         title={dictionary.data_table.added_at}
       />
@@ -108,7 +106,7 @@ export const columns: Columns = (dictionary, language) => [
     id: dictionary.data_table_columns.status,
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader
+      <TableColumnHeader
         column={column}
         title={dictionary.data_table.status}
         className="w-[30px]"
@@ -127,7 +125,7 @@ export const columns: Columns = (dictionary, language) => [
     id: 'options',
     accessorKey: '',
     header: ({ column }) => (
-      <DataTableColumnHeader
+      <TableColumnHeader
         column={column}
         title=""
         className="flex justify-end"

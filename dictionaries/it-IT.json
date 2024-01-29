@@ -215,5 +215,11 @@
     "delete": "Elimina",
     "removed_successfully": "Rimosso con successo.",
     "cover_changed_successfully": "Copertina cambiata con successo."
+  },
+  "credits_columns": {
+    "year": "Jahr",
+    "title": "Titel",
+    "role": "Rolle",
+    "rating": "Bewertung"
   }
 }

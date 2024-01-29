@@ -217,5 +217,11 @@
     "delete": "Delete",
     "removed_successfully": "Removed successfully.",
     "cover_changed_successfully": "Cover changed successfully."
+  },
+  "credits_columns": {
+    "year": "Year",
+    "title": "Title",
+    "role": "Role",
+    "rating": "Rating"
   }
 }

@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/command'
 import { useLanguage } from '@/context/language'
 
-interface DataTableFacetedFilterProps<TData, TValue> {
-  column?: Column<TData, TValue>
+interface TableFacetedFilterProps<T, TValue> {
+  column?: Column<T, TValue>
   title?: string
   options: {
     label: string
@@ -32,11 +32,11 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[]
 }
 
-export function DataTableFacetedFilter<TData, TValue>({
+export function TableFacetedFilter<T, TValue>({
   column,
   title,
   options,
-}: DataTableFacetedFilterProps<TData, TValue>) {
+}: TableFacetedFilterProps<T, TValue>) {
   const { dictionary } = useLanguage()
 
   const facets = column?.getFacetedUniqueValues()

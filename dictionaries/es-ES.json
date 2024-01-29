@@ -215,5 +215,11 @@
     "delete": "Eliminar",
     "removed_successfully": "Eliminado con éxito.",
     "cover_changed_successfully": "Portada cambiada con éxito."
+  },
+  "credits_columns": {
+    "year": "Año",
+    "title": "Título",
+    "role": "Rol",
+    "rating": "Calificación"
   }
 }

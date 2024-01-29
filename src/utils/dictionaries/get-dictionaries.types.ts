@@ -217,4 +217,10 @@ export type Dictionary = {
     removed_successfully: string
     cover_changed_successfully: string
   }
+  credits_columns: {
+    year: 'Ano'
+    title: 'Título'
+    role: 'Papel'
+    rating: 'Avaliação'
+  }
 }

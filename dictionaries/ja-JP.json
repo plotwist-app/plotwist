@@ -215,5 +215,11 @@
     "delete": "削除",
     "removed_successfully": "正常に削除されました。",
     "cover_changed_successfully": "カバーが正常に変更されました。"
+  },
+  "credits_columns": {
+    "year": "年",
+    "title": "タイトル",
+    "role": "役割",
+    "rating": "評価"
   }
 }

@@ -215,5 +215,11 @@
     "delete": "Deletar",
     "removed_successfully": "Removido com sucesso.",
     "cover_changed_successfully": "Capa alterada com sucesso."
+  },
+  "credits_columns": {
+    "year": "Ano",
+    "title": "Título",
+    "role": "Papel",
+    "rating": "Avaliação"
   }
 }

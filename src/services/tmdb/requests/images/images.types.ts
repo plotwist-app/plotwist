@@ -13,4 +13,5 @@ export type Images = {
   backdrops: Image[]
   logos: Image[]
   posters: Image[]
+  profiles: Image[]
 }

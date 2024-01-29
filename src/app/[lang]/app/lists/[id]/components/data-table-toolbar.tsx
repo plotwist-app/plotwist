@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button'
 
 import { statuses } from './data'
 
-import { DataTableFacetedFilter } from './data-table-faceted-filter'
-import { DataTableViewOptions } from './data-table-view-options'
 import { useLanguage } from '@/context/language'
+import { TableFacetedFilter } from '@/components/table'
+import { TableViewOptions } from '@/components/table/table-view-options'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
         />
 
         {table.getColumn(dictionary.data_table_columns.status) && (
-          <DataTableFacetedFilter
+          <TableFacetedFilter
             column={table.getColumn(dictionary.data_table_columns.status)}
             title={dictionary.data_table_columns.status}
             options={statuses(dictionary)}
@@ -55,7 +55,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
 
-      <DataTableViewOptions table={table} />
+      <TableViewOptions table={table} />
     </div>
   )
 }
