@@ -177,7 +177,9 @@
     "type": "Tipo",
     "overview": "Panoramica",
     "added_at": "Aggiunto il",
-    "status": "Stato"
+    "status": "Stato",
+    "no_results": "Nessun risultato trovato.",
+    "clear_filters": "Cancella filtri"
   },
   "data_table_column_header": {
     "asc": "Asc",

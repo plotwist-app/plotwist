@@ -179,7 +179,9 @@
     "type": "Type",
     "overview": "Overview",
     "added_at": "Added at",
-    "status": "Status"
+    "status": "Status",
+    "no_results": "No results found.",
+    "clear_filters": "Clear filters"
   },
   "data_table_column_header": {
     "asc": "Asc",

@@ -177,7 +177,9 @@
     "type": "タイプ",
     "overview": "概要",
     "added_at": "追加日",
-    "status": "ステータス"
+    "status": "ステータス",
+    "no_results": "結果が見つかりませんでした。",
+    "clear_filters": "フィルターをクリア"
   },
   "data_table_column_header": {
     "asc": "昇順",

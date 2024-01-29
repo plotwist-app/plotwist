@@ -179,6 +179,8 @@ export type Dictionary = {
     overview: string
     added_at: string
     status: string
+    no_results: string
+    clear_filters: string
   }
   data_table_column_header: {
     asc: string

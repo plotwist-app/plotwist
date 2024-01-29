@@ -71,7 +71,7 @@ export const columns: Columns = (dictionary, language) => [
       />
     ),
     cell: ({ row }) => {
-      const columnId = dictionary.data_table_columns.title
+      const columnId = dictionary.data_table_columns.type
 
       const movie = dictionary.data_table_columns.movie
       const tvShow = dictionary.data_table_columns.tv_show

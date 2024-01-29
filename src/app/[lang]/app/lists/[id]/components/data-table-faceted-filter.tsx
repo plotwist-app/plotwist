@@ -20,6 +20,7 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
+import { useLanguage } from '@/context/language'
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
@@ -36,6 +37,8 @@ export function DataTableFacetedFilter<TData, TValue>({
   title,
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
+  const { dictionary } = useLanguage()
+
   const facets = column?.getFacetedUniqueValues()
   const selectedValues = new Set(column?.getFilterValue() as string[])
 
@@ -88,7 +91,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{dictionary.data_table.no_results}</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
@@ -139,7 +142,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     onSelect={() => column?.setFilterValue(undefined)}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    {dictionary.data_table.clear_filters}
                   </CommandItem>
                 </CommandGroup>
               </>

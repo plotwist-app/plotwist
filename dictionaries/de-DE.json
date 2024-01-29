@@ -177,7 +177,9 @@
     "type": "Typ",
     "overview": "Übersicht",
     "added_at": "Hinzugefügt am",
-    "status": "Status"
+    "status": "Status",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "clear_filters": "Filter löschen"
   },
   "data_table_column_header": {
     "asc": "Aufst",

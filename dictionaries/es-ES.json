@@ -177,7 +177,9 @@
     "type": "Tipo",
     "overview": "Resumen",
     "added_at": "Agregado en",
-    "status": "Estado"
+    "status": "Estado",
+    "no_results": "No se encontraron resultados.",
+    "clear_filters": "Limpiar filtros"
   },
   "data_table_column_header": {
     "asc": "Asc",
