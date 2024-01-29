@@ -218,9 +218,9 @@ export type Dictionary = {
     cover_changed_successfully: string
   }
   credits_columns: {
-    year: 'Ano'
-    title: 'Título'
-    role: 'Papel'
-    rating: 'Avaliação'
+    year: string
+    title: string
+    role: string
+    rating: string
   }
 }
