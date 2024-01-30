@@ -21,7 +21,7 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { List } from '@/types/supabase/lists'
-import { Movie } from '@/services/tmdb2/types'
+import { Movie } from '@/services/tmdb/types'
 import { useLanguage } from '@/context/language'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {

@@ -1,7 +1,7 @@
-import { tmdb } from '@/services/tmdb2'
-import { Video } from '@/services/tmdb2/requests'
+import { tmdb } from '@/services/tmdb'
+import { Video } from '@/services/tmdb/requests'
 
-type VideosProps = {
+export type VideosProps = {
   tmdbId: number
   variant: 'tv' | 'movie'
 }
@@ -31,7 +31,7 @@ export const Videos = async ({ tmdbId, variant }: VideosProps) => {
   const { results } = await tmdb.videos(variant, tmdbId)
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4" data-testid="videos">
       {results.map((video) => (
         <Video key={video.id} video={video} />
       ))}

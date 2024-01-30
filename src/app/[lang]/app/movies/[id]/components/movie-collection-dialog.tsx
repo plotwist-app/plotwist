@@ -16,7 +16,7 @@ import {
 
 import { useLanguage } from '@/context/language'
 
-import { DetailedCollection } from '@/services/tmdb2/requests/collections/details'
+import { DetailedCollection } from '@/services/tmdb/requests/collections/details'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }
 

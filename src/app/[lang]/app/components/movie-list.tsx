@@ -3,8 +3,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 import { Language } from '@/types/languages'
-import { tmdb } from '@/services/tmdb2'
-import { MovieListType } from '@/services/tmdb2/requests/movies/list'
+import { tmdb } from '@/services/tmdb'
+import { MovieListType } from '@/services/tmdb/requests/movies/list'
 
 const MovieListSkeleton = () => (
   <div className="grid grid-cols-3 gap-x-4 gap-y-8">

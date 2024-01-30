@@ -2,8 +2,8 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { TvShowCard, TvShowCardSkeleton } from '@/components/tv-show-card'
-import { TvShowsListType } from '@/services/tmdb2/requests/tv-series/list'
-import { tmdb } from '@/services/tmdb2'
+import { TvShowsListType } from '@/services/tmdb/requests/tv-series/list'
+import { tmdb } from '@/services/tmdb'
 import { Language } from '@/types/languages'
 
 type Variant = TvShowsListType

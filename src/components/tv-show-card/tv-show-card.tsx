@@ -12,7 +12,7 @@ import { Badge } from '../ui/badge'
 import { Skeleton } from '../ui/skeleton'
 
 import { Language } from '@/types/languages'
-import { TvShow } from '@/services/tmdb2/types'
+import { TvShow } from '@/services/tmdb/types'
 
 type TvShowCardProps = {
   tvShow: TvShow

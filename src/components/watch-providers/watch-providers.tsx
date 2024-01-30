@@ -1,3 +1,7 @@
+import { Play } from 'lucide-react'
+
+import Image from 'next/image'
+
 import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
@@ -9,15 +13,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { tmdb } from '@/services/tmdb2'
-import { Buy, Rent } from '@/services/tmdb2/types/watch-providers'
-import { Language } from '@/types/languages'
+import { tmdb } from '@/services/tmdb'
+import { Buy, Rent } from '@/services/tmdb/types/watch-providers'
+
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { Play } from 'lucide-react'
-
-import Image from 'next/image'
+import { Language } from '@/types/languages'
+import { DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
 
 type WatchProviderItemProps = { item: Buy | Rent }
 
@@ -45,16 +48,17 @@ export const WatchProviderItem = ({ item }: WatchProviderItemProps) => {
   )
 }
 
-type WatchProvidersProps = {
+export type WatchProvidersProps = {
   id: number
   variant: 'movie' | 'tv'
   language: Language
-}
+} & DropdownMenuProps
 
 export const WatchProviders = async ({
   id,
   variant,
   language,
+  ...dropdownMenuProps
 }: WatchProvidersProps) => {
   const { results } = await tmdb.watchProviders(variant, id)
   const dictionary = await getDictionary(language)
@@ -69,12 +73,16 @@ export const WatchProviders = async ({
     'pt-BR': results.BR,
   }
 
-  const { buy, flatrate, rent } =
+  const watchProvider =
     resultsByLanguage[language] ?? resultsByLanguage['en-US']
 
+  if (!watchProvider) return <></>
+
+  const { buy, flatrate, rent } = watchProvider
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu {...dropdownMenuProps}>
+      <DropdownMenuTrigger asChild data-testid="watch-providers-trigger">
         <Badge variant="outline" className="cursor-pointer">
           <Play className="mr-1.5" size={12} />
 
@@ -82,10 +90,10 @@ export const WatchProviders = async ({
         </Badge>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent>
+      <DropdownMenuContent data-testid="watch-providers-content">
         {flatrate && (
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="text-xs">
+            <DropdownMenuSubTrigger className="text-xs" data-testid="flat-rate">
               {dictionary.watch_providers.stream}
             </DropdownMenuSubTrigger>
 

@@ -12,7 +12,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { TvShowSeasonDetails } from './tv-show-season-details'
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'
-import { Season } from '@/services/tmdb2/requests/tv-series/details'
+import { Season } from '@/services/tmdb/requests/tv-series/details'
 
 type TvShowSeasonsProps = {
   seasons: Season[]
