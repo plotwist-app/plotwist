@@ -221,5 +221,27 @@
     "title": "Título",
     "role": "Rol",
     "rating": "Calificación"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Descubrir",
+      "description": "Encuentra películas usando más de 30 filtros y opciones de orden."
+    },
+    "now_playing": {
+      "title": "En Cines",
+      "description": "Películas que actualmente están en cines."
+    },
+    "popular": {
+      "title": "Populares",
+      "description": "Películas ordenadas por popularidad."
+    },
+    "top_rated": {
+      "title": "Más Valoradas",
+      "description": "Películas ordenadas por calificación."
+    },
+    "upcoming": {
+      "title": "Próximos Estrenos",
+      "description": "Películas que se estrenarán pronto."
+    }
   }
 }

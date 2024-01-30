@@ -223,5 +223,27 @@
     "title": "Title",
     "role": "Role",
     "rating": "Rating"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Discover",
+      "description": "Find movies using over 30 filters and sort options."
+    },
+    "now_playing": {
+      "title": "Now Playing",
+      "description": "Movies that are currently in theatres."
+    },
+    "popular": {
+      "title": "Popular",
+      "description": "Movies ordered by popularity."
+    },
+    "top_rated": {
+      "title": "Top Rated",
+      "description": "Movies ordered by rating."
+    },
+    "upcoming": {
+      "title": "Upcoming",
+      "description": "Movies that are being released soon."
+    }
   }
 }

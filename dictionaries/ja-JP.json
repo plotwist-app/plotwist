@@ -219,5 +219,27 @@
     "title": "タイトル",
     "role": "役割",
     "rating": "評価"   
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "発見",
+      "description": "30以上のフィルターとソートオプションを使用して映画を見つける。"
+    },
+    "now_playing": {
+      "title": "上映中",
+      "description": "現在劇場にある映画。"
+    },
+    "popular": {
+      "title": "人気",
+      "description": "人気順に並べ替えられた映画。"
+    },
+    "top_rated": {
+      "title": "高評価",
+      "description": "評価順に並べ替えられた映画。"
+    },
+    "upcoming": {
+      "title": "公開予定",
+      "description": "近日公開の映画。"
+    }
   }
 }

@@ -223,4 +223,26 @@ export type Dictionary = {
     role: string
     rating: string
   }
+  movie_pages: {
+    discover: {
+      title: string
+      description: string
+    }
+    now_playing: {
+      title: string
+      description: string
+    }
+    popular: {
+      title: string
+      description: string
+    }
+    top_rated: {
+      title: string
+      description: string
+    }
+    upcoming: {
+      title: string
+      description: string
+    }
+  }
 }

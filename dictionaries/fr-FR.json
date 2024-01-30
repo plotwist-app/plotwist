@@ -221,5 +221,27 @@
     "title": "Titre",
     "role": "Rôle",
     "rating": "Évaluation"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Découvrir",
+      "description": "Trouvez des films en utilisant plus de 30 filtres et options de tri."
+    },
+    "now_playing": {
+      "title": "À l'affiche",
+      "description": "Films actuellement en salles."
+    },
+    "popular": {
+      "title": "Populaires",
+      "description": "Films classés par popularité."
+    },
+    "top_rated": {
+      "title": "Les mieux notés",
+      "description": "Films classés par évaluation."
+    },
+    "upcoming": {
+      "title": "Prochainement",
+      "description": "Films à paraître bientôt."
+    }
   }
 }
