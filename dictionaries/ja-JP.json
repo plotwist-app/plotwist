@@ -1,47 +1,45 @@
 {
   "home": {
-    "title": "映画、テレビ番組、人物を探索しよう！",
-    "description": "TMDBは、シノプシス、キャスト、予算などの情報を含む数百万の映画やシリーズを探索したい映画ファンのためのものです。",
-    "start": "今すぐ始める"
+    "title": "映画、テレビ番組、そして人物を探求する！",
+    "description": "TMDBは映画やシリーズのあらすじ、キャスト、予算などの詳細情報を提供する、映画愛好家のための探索プラットフォームです。",
+    "start": "始めようか？"
   },
   "movies_list": {
     "now_playing": "上映中の映画",
     "popular": "人気の映画",
-    "top_rated": "トップレートの映画",
+    "top_rated": "最高評価作品",
     "upcoming": "公開予定の映画",
     "show_all": "すべて表示"
   },
   "login_page": {
     "title": "ログイン",
-    "description": "映画やTVシリーズの何千もの作品について話し合える映画コミュニティの一員になろう！",
-    "no_account": "アカウントをお持ちではありませんか？クリックして登録",
-    "no_account_link": "こちら"
+    "description": "数千の映画やテレビシリーズについて話し合えるコミュニティに参加しましょう！",
+    "no_account": "アカウントをまだお持ちでない方は、こちらをクリックして登録してください。",
+    "no_account_link": "ここをクリック"
   },
   "login_form": {
-    "email_label": "メールアドレス",
+    "email_label": "Eメールアドレス",
     "password_label": "パスワード",
     "show_password": "パスワードを表示",
     "hide_password": "パスワードを隠す",
     "access_button": "アクセス",
-
     "email_required": "メールアドレスを入力してください。",
-    "email_invalid": "有効なメールアドレスを入力してください。",
+    "email_invalid": "有効なEメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",
-    "password_length": "パスワードは8文字以上でなければなりません。",
-
-    "login_success": "ログイン成功。ようこそ！🎉",
-    "invalid_login_credentials": "ログイン情報が無効です",
-    "try_again": "再試行"
+    "password_length": "パスワードは最低8文字必要です。",
+    "login_success": "ログイン成功！お帰りなさい！",
+    "invalid_login_credentials": "無効なログイン情報です。",
+    "try_again": "もう一度試す"
   },
   "sign_up_page": {
-    "title": "アカウントを作成する",
-    "description": "映画やTVシリーズの何千もの作品について話し合える映画コミュニティの一員になろう！",
-    "already_have_account": "すでにアカウントをお持ちですか？クリックしてアクセス",
-    "here_link": "こちら"
+    "title": "アカウントを作成",
+    "description": "数千の映画やテレビシリーズについてのディスカッションができるコミュニティへようこそ。",
+    "already_have_account": "既にアカウントをお持ちですか？こちらをクリックしてログインしてください。",
+    "here_link": "ここをクリック"
   },
   "sign_up_form": {
     "username_label": "ユーザー名",
-    "email_label": "Eメール",
+    "email_label": "Eメールアドレス",
     "password_label": "パスワード",
     "show_password": "パスワードを表示",
     "hide_password": "パスワードを隠す",
@@ -50,21 +48,21 @@
     "email_required": "メールアドレスを入力してください。",
     "email_invalid": "有効なメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",
-    "password_length": "パスワードは8文字以上でなければなりません。",
-    "sign_up_success": "登録成功。ようこそ！🎉",
-    "invalid_sign_up_credentials": "無効な登録情報",
+    "password_length": "パスワードは最低8文字です",
+    "sign_up_success": "登録完了。ようこそ！",
+    "invalid_sign_up_credentials": "登録情報が無効です。",
     "try_again": "再試行"
   },
   "app_page": {
-    "dashboard_title": "ダッシュボード",
-    "dashboard_description": "dashboard_description",
-    "popular_movies_title": "人気の映画",
-    "popular_tv_shows_title": "人気のテレビ番組"
+    "dashboard_title": "コントロールパネル",
+    "dashboard_description": "ダッシュボードの説明",
+    "popular_movies_title": "人気映画",
+    "popular_tv_shows_title": "人気テレビ番組"
   },
   "tabs": {
     "reviews": "レビュー",
     "credits": "クレジット",
-    "recommendations": "推薦",
+    "recommendations": "おすすめ",
     "similar": "類似",
     "images": "画像",
     "videos": "ビデオ",
@@ -85,9 +83,9 @@
     "lists": "リスト"
   },
   "sidebar_search": {
-    "placeholder": "映画、テレビ番組、または人物を探す",
+    "placeholder": "映画、テレビ番組、人物を探す",
     "search_everything": "すべてを検索",
-    "no_results": "結果が見つかりませんでした。",
+    "no_results": "結果は見つからなかった。",
     "movies": "映画",
     "tv_shows": "テレビ番組",
     "people": "人物"
@@ -100,9 +98,9 @@
   },
   "lists_dropdown": {
     "add_to_list": "リストに追加",
-    "my_lists": "マイリスト",
-    "removed_successfully": "正常に削除されました。",
-    "added_successfully": "正常に追加されました。",
+    "my_lists": "僕のリスト",
+    "removed_successfully": "排除に成功。",
+    "added_successfully": "追加に成功。",
     "view_list": "リストを見る"
   },
   "credits": {
@@ -111,10 +109,10 @@
   },
   "review_form": {
     "required": "レビューが必要です。",
-    "rating_max": "評価の最大値は5です",
-    "success": "レビューが正常に作成されました。",
+    "rating_max": "最高評価は5点です。",
+    "success": "レビューが投稿されました。",
     "publish": "公開する",
-    "placeholder": "どう思いますか？"
+    "placeholder": "感想をお聞かせください？"
   },
   "review_item_actions": {
     "like": "いいね",
@@ -211,7 +209,7 @@
     "use_as_cover": "カバーとして使用",
     "status": "ステータス",
     "delete": "削除",
-    "removed_successfully": "正常に削除されました。",
-    "cover_changed_successfully": "カバーが正常に変更されました。"
+    "removed_successfully": "排除に成功。",
+    "cover_changed_successfully": "カバーは無事に交換された。"
   }
 }
