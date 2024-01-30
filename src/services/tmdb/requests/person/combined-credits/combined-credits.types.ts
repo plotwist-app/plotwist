@@ -25,7 +25,9 @@ export type Credit = {
   date: string
   media_type: MediaType
   role: string
-  rating: number
+  vote_average: number
+  vote_count: number
+  backdrop_path?: string
 }
 
 export type CombinedCredits = {

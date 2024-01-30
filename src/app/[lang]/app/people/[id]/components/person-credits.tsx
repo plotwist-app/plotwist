@@ -16,7 +16,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
     queryFn: () => tmdb.person.combinedCredits(personId, language),
   })
 
-  if (!data) return <>deu merda negao</>
+  if (!data) return <></>
 
   return (
     <div className="space-y-8" data-testid="credits">

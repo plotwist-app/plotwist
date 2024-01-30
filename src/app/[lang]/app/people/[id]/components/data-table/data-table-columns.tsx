@@ -89,7 +89,7 @@ export const columns: Columns = (dictionary, language) => [
   },
   {
     id: dictionary.credits_columns.rating,
-    accessorKey: 'rating',
+    accessorKey: 'vote_average',
     header: ({ column }) => (
       <TableColumnHeader
         column={column}
@@ -97,9 +97,9 @@ export const columns: Columns = (dictionary, language) => [
       />
     ),
     cell: ({ row }) => {
-      const { rating } = row.original
-
-      return <Badge variant="outline">{rating.toFixed(1)}</Badge>
+      return (
+        <Badge variant="outline">{row.original.vote_average.toFixed(1)}</Badge>
+      )
     },
     enableSorting: true,
     enableHiding: false,

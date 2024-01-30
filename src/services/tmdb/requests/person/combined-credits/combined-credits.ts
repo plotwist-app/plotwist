@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { tmdbClient } from '@/services/tmdb'
 import { Language } from '@/types/languages'
 import {
@@ -16,16 +17,20 @@ const formatCredit = (credit: RawCredit): Credit => {
       id,
       name,
       character,
-      vote_average: rating,
+      vote_average,
+      vote_count,
+      backdrop_path,
     } = credit as RawMovieTvShowCredit
 
     return {
       date,
       id,
-      rating,
       title: name,
       media_type: 'tv',
       role: character,
+      vote_average,
+      vote_count,
+      backdrop_path,
     }
   }
 
@@ -34,16 +39,21 @@ const formatCredit = (credit: RawCredit): Credit => {
     id,
     character,
     release_date: date,
-    vote_average: rating,
+    vote_average,
+    vote_count,
+    backdrop_path,
   } = credit as RawMovieCredit
 
   return {
     title,
     id,
     date,
-    rating,
+
     media_type: 'movie',
     role: character,
+    vote_count,
+    vote_average,
+    backdrop_path,
   }
 }
 

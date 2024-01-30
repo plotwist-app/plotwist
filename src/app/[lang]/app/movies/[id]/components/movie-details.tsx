@@ -54,12 +54,13 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
           </aside>
 
           <article className="flex w-2/3 flex-col gap-2">
-            <span className="text-xs text-muted-foreground">
-              {format(new Date(movie.release_date), 'PPP', {
-                locale: locale[language],
-              })}
-            </span>
-
+            {movie.release_date && (
+              <span className="text-xs text-muted-foreground">
+                {format(new Date(movie.release_date), 'PPP', {
+                  locale: locale[language],
+                })}
+              </span>
+            )}
             <h1 className="text-4xl font-bold">{movie.title}</h1>
 
             <div className="flex items-center gap-2">
