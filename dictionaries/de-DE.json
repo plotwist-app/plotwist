@@ -243,5 +243,23 @@
       "title": "Demnächst",
       "description": "Filme, die bald erscheinen."
     }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "Heute Ausgestrahlt",
+      "description": "Fernsehserien, die heute ausgestrahlt werden."
+    },
+    "on_the_air": {
+      "title": "Aktuell Ausgestrahlt",
+      "description": "Fernsehserien, die in den nächsten 7 Tagen ausgestrahlt werden."
+    },
+    "popular": {
+      "title": "Beliebt",
+      "description": "Fernsehserien, sortiert nach Beliebtheit."
+    },
+    "top_rated": {
+      "title": "Am besten bewertet",
+      "description": "Fernsehserien, sortiert nach Bewertung."
+    }
   }
 }

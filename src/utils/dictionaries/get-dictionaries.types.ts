@@ -245,4 +245,22 @@ export type Dictionary = {
       description: string
     }
   }
+  tv_show_pages: {
+    airing_today: {
+      title: string
+      description: string
+    }
+    on_the_air: {
+      title: string
+      description: string
+    }
+    popular: {
+      title: string
+      description: string
+    }
+    top_rated: {
+      title: string
+      description: string
+    }
+  }
 }

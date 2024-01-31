@@ -245,5 +245,23 @@
       "title": "Upcoming",
       "description": "Movies that are being released soon."
     }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "Airing Today",
+      "description": "TV shows airing today."
+    },
+    "on_the_air": {
+      "title": "On the Air",
+      "description": "TV shows that air in the next 7 days."
+    },
+    "popular": {
+      "title": "Popular",
+      "description": "TV shows ordered by popularity."
+    },
+    "top_rated": {
+      "title": "Top Rated",
+      "description": "TV shows ordered by rating."
+    }
   }
 }

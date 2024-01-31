@@ -243,5 +243,23 @@
       "title": "Prossimamente",
       "description": "Film in uscita a breve."
     }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "In Onda Oggi",
+      "description": "Serie TV in onda oggi."
+    },
+    "on_the_air": {
+      "title": "In Onda",
+      "description": "Serie TV che andranno in onda nei prossimi 7 giorni."
+    },
+    "popular": {
+      "title": "Popolari",
+      "description": "Serie TV ordinate per popolarità."
+    },
+    "top_rated": {
+      "title": "Più votate",
+      "description": "Serie TV ordinate per valutazione."
+    }
   }
 }

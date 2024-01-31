@@ -243,5 +243,23 @@
       "title": "Próximos Estrenos",
       "description": "Películas que se estrenarán pronto."
     }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "En Emisión Hoy",
+      "description": "Series de TV que se emiten hoy."
+    },
+    "on_the_air": {
+      "title": "En Emisión",
+      "description": "Series de TV que se emitirán en los próximos 7 días."
+    },
+    "popular": {
+      "title": "Populares",
+      "description": "Series de TV ordenadas por popularidad."
+    },
+    "top_rated": {
+      "title": "Más valoradas",
+      "description": "Series de TV ordenadas por calificación."
+    }
   }
 }
