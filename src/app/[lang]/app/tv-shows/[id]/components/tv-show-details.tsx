@@ -51,11 +51,13 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
           </aside>
 
           <article className="flex w-2/3 flex-col gap-2">
-            <span className="text-xs text-muted-foreground">
-              {format(new Date(tvShow.first_air_date), 'PPP', {
-                locale: locale[language],
-              })}
-            </span>
+            {tvShow.first_air_date && (
+              <span className="text-xs text-muted-foreground">
+                {format(new Date(tvShow.first_air_date), 'PPP', {
+                  locale: locale[language],
+                })}
+              </span>
+            )}
 
             <h1 className="text-4xl font-bold">{tvShow.name}</h1>
 

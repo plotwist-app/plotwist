@@ -179,6 +179,8 @@ export type Dictionary = {
     overview: string
     added_at: string
     status: string
+    no_results: string
+    clear_filters: string
   }
   data_table_column_header: {
     asc: string
@@ -214,5 +216,51 @@ export type Dictionary = {
     delete: string
     removed_successfully: string
     cover_changed_successfully: string
+  }
+  credits_columns: {
+    year: string
+    title: string
+    role: string
+    rating: string
+  }
+  movie_pages: {
+    discover: {
+      title: string
+      description: string
+    }
+    now_playing: {
+      title: string
+      description: string
+    }
+    popular: {
+      title: string
+      description: string
+    }
+    top_rated: {
+      title: string
+      description: string
+    }
+    upcoming: {
+      title: string
+      description: string
+    }
+  }
+  tv_show_pages: {
+    airing_today: {
+      title: string
+      description: string
+    }
+    on_the_air: {
+      title: string
+      description: string
+    }
+    popular: {
+      title: string
+      description: string
+    }
+    top_rated: {
+      title: string
+      description: string
+    }
   }
 }

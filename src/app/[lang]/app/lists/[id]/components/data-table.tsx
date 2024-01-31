@@ -27,6 +27,7 @@ import {
 
 import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'
+import { useLanguage } from '@/context/language'
 
 interface DataTableProps<TData extends ListItem, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -37,6 +38,8 @@ export function DataTable<TData extends ListItem, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { dictionary } = useLanguage()
+
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -102,7 +105,7 @@ export function DataTable<TData extends ListItem, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                {dictionary.data_table.no_results}
               </TableCell>
             </TableRow>
           )}

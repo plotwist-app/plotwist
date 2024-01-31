@@ -1,4 +1,4 @@
-import { SettingsDropdown } from './settings-dropdown'
+import { SettingsDropdown } from '../settings-dropdown'
 
 export const Header = () => {
   return (

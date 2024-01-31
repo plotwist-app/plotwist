@@ -1,7 +1,9 @@
 import { Movie, TvShow } from '.'
 import { Person } from './person'
 
-export type WithMediaType<T, K> = T & {
+export type MediaType = 'tv' | 'movie' | 'person'
+
+export type WithMediaType<T, K extends MediaType> = T & {
   media_type: K
 }
 

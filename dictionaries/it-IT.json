@@ -177,7 +177,9 @@
     "type": "Tipo",
     "overview": "Panoramica",
     "added_at": "Aggiunto il",
-    "status": "Stato"
+    "status": "Stato",
+    "no_results": "Nessun risultato trovato.",
+    "clear_filters": "Cancella filtri"
   },
   "data_table_column_header": {
     "asc": "Asc",
@@ -213,5 +215,51 @@
     "delete": "Elimina",
     "removed_successfully": "Rimosso con successo.",
     "cover_changed_successfully": "Copertina cambiata con successo."
+  },
+  "credits_columns": {
+    "year": "Jahr",
+    "title": "Titel",
+    "role": "Rolle",
+    "rating": "Bewertung"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Scopri",
+      "description": "Trova film utilizzando oltre 30 filtri e opzioni di ordinamento."
+    },
+    "now_playing": {
+      "title": "In Sala",
+      "description": "Film attualmente al cinema."
+    },
+    "popular": {
+      "title": "Popolari",
+      "description": "Film ordinati per popolarità."
+    },
+    "top_rated": {
+      "title": "Più Votati",
+      "description": "Film ordinati per valutazione."
+    },
+    "upcoming": {
+      "title": "Prossimamente",
+      "description": "Film in uscita a breve."
+    }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "In Onda Oggi",
+      "description": "Serie TV in onda oggi."
+    },
+    "on_the_air": {
+      "title": "In Onda",
+      "description": "Serie TV che andranno in onda nei prossimi 7 giorni."
+    },
+    "popular": {
+      "title": "Popolari",
+      "description": "Serie TV ordinate per popolarità."
+    },
+    "top_rated": {
+      "title": "Più votate",
+      "description": "Serie TV ordinate per valutazione."
+    }
   }
 }

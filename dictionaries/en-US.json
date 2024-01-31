@@ -179,7 +179,9 @@
     "type": "Type",
     "overview": "Overview",
     "added_at": "Added at",
-    "status": "Status"
+    "status": "Status",
+    "no_results": "No results found.",
+    "clear_filters": "Clear filters"
   },
   "data_table_column_header": {
     "asc": "Asc",
@@ -215,5 +217,51 @@
     "delete": "Delete",
     "removed_successfully": "Removed successfully.",
     "cover_changed_successfully": "Cover changed successfully."
+  },
+  "credits_columns": {
+    "year": "Year",
+    "title": "Title",
+    "role": "Role",
+    "rating": "Rating"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Discover",
+      "description": "Find movies using over 30 filters and sort options."
+    },
+    "now_playing": {
+      "title": "Now Playing",
+      "description": "Movies that are currently in theatres."
+    },
+    "popular": {
+      "title": "Popular",
+      "description": "Movies ordered by popularity."
+    },
+    "top_rated": {
+      "title": "Top Rated",
+      "description": "Movies ordered by rating."
+    },
+    "upcoming": {
+      "title": "Upcoming",
+      "description": "Movies that are being released soon."
+    }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "Airing Today",
+      "description": "TV shows airing today."
+    },
+    "on_the_air": {
+      "title": "On the Air",
+      "description": "TV shows that air in the next 7 days."
+    },
+    "popular": {
+      "title": "Popular",
+      "description": "TV shows ordered by popularity."
+    },
+    "top_rated": {
+      "title": "Top Rated",
+      "description": "TV shows ordered by rating."
+    }
   }
 }

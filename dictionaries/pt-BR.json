@@ -177,7 +177,9 @@
     "type": "Tipo",
     "overview": "Visão geral",
     "added_at": "Adicionado em",
-    "status": "Status"
+    "status": "Status",
+    "no_results": "Nenhum resultado encontrado.",
+    "clear_filters": "Limpar filtros"
   },
   "data_table_column_header": {
     "asc": "Asc",
@@ -213,5 +215,51 @@
     "delete": "Deletar",
     "removed_successfully": "Removido com sucesso.",
     "cover_changed_successfully": "Capa alterada com sucesso."
+  },
+  "credits_columns": {
+    "year": "Ano",
+    "title": "Título",
+    "role": "Papel",
+    "rating": "Avaliação"
+  },
+  "movie_pages": {
+    "discover": {
+      "title": "Descubra",
+      "description": "Encontre filmes usando mais de 30 filtros e opções de ordenação."
+    },
+    "now_playing": {
+      "title": "Em exibição",
+      "description": "Filmes que estão atualmente nos cinemas."
+    },
+    "popular": {
+      "title": "Populares",
+      "description": "Filmes ordenados por popularidade."
+    },
+    "top_rated": {
+      "title": "Mais bem avaliados",
+      "description": "Filmes ordenados por avaliação."
+    },
+    "upcoming": {
+      "title": "Próximos lançamentos",
+      "description": "Filmes que serão lançados em breve."
+    }
+  },
+  "tv_show_pages": {
+    "airing_today": {
+      "title": "Transmitindo hoje",
+      "description": "Séries de TV transmitidas hoje."
+    },
+    "on_the_air": {
+      "title": "No ar",
+      "description": "Séries de TV que serão transmitidas nos próximos 7 dias."
+    },
+    "popular": {
+      "title": "Populares",
+      "description": "Séries de TV ordenadas por popularidade."
+    },
+    "top_rated": {
+      "title": "Mais bem avaliadas",
+      "description": "Séries de TV ordenadas por avaliação."
+    }
   }
 }

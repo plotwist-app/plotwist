@@ -14,13 +14,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useLanguage } from '@/context/language'
 
-interface DataTableViewOptionsProps<TData> {
-  table: Table<TData>
+interface TableViewOptionsProps<T> {
+  table: Table<T>
 }
 
-export function DataTableViewOptions<TData>({
-  table,
-}: DataTableViewOptionsProps<TData>) {
+export function TableViewOptions<T>({ table }: TableViewOptionsProps<T>) {
   const { dictionary } = useLanguage()
 
   return (
