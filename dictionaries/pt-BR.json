@@ -261,5 +261,15 @@
       "title": "Mais bem avaliadas",
       "description": "Séries de TV ordenadas por avaliação."
     }
+  },
+  "dashboard": {
+    "user_last_review": {
+      "title": "Sua última avaliação",
+      "no_review_message": "Você ainda não avaliou nenhum filme ou série de TV.",
+      "no_review_action": "Clique para ver os filmes ou séries de TV mais bem avaliados."
+    },
+    "popular_reviews": {
+      "title": "Avaliações populares"
+    }
   }
 }

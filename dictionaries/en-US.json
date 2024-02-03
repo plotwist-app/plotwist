@@ -263,5 +263,15 @@
       "title": "Top Rated",
       "description": "TV shows ordered by rating."
     }
+  },
+  "dashboard": {
+    "user_last_review": {
+      "title": "Your last review",
+      "no_review_message": "You haven't reviewed any movies or TV shows.",
+      "no_review_action": "Click to see top rated Movies or TV Shows."
+    },
+    "popular_reviews": {
+      "title": "Popular reviews"
+    }
   }
 }

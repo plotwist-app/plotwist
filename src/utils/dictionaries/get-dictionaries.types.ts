@@ -263,4 +263,14 @@ export type Dictionary = {
       description: string
     }
   }
+  dashboard: {
+    user_last_review: {
+      title: string
+      no_review_message: string
+      no_review_action: string
+    }
+    popular_reviews: {
+      title: string
+    }
+  }
 }

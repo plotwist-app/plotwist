@@ -259,5 +259,15 @@
       "title": "高評価",
       "description": "評価順に並べられたテレビ番組。"
     }
+  },
+  "dashboard": {
+    "user_last_review": {
+      "title": "あなたの最後のレビュー",
+      "no_review_message": "まだ映画やテレビ番組のレビューをしていません。",
+      "no_review_action": "トップレートの映画やテレビ番組を見るにはここをクリックしてください。"
+    },
+    "popular_reviews": {
+      "title": "人気のレビュー"
+    }
   }
 }
