@@ -261,5 +261,15 @@
       "title": "Più votate",
       "description": "Serie TV ordinate per valutazione."
     }
+  },
+  "dashboard": {
+    "user_last_review": {
+      "title": "La tua ultima recensione",
+      "no_review_message": "Non hai recensito ancora nessun film o serie TV.",
+      "no_review_action": "Clicca per vedere i film o le serie TV con il voto più alto."
+    },
+    "popular_reviews": {
+      "title": "Recensioni popolari"
+    }
   }
 }

@@ -10,7 +10,7 @@ import { useLanguage } from '@/context/language'
 const MAX_REVIEWS = 5
 
 export const DashboardPopularReviews = () => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-popular-reviews'],
@@ -26,7 +26,9 @@ export const DashboardPopularReviews = () => {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Popular reviews</h3>
+        <h3 className="text-lg font-semibold">
+          {dictionary.dashboard.popular_reviews.title}
+        </h3>
 
         <div className="space-y-8">
           {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
@@ -43,7 +45,9 @@ export const DashboardPopularReviews = () => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Popular reviews</h3>
+      <h3 className="text-lg font-semibold">
+        {dictionary.dashboard.popular_reviews.title}
+      </h3>
 
       <div className="space-y-8">
         {reviews.map((review) => (

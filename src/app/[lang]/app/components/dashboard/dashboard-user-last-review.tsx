@@ -10,7 +10,7 @@ import { useLanguage } from '@/context/language'
 
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-user-last-review'],
@@ -27,7 +27,9 @@ export const DashboardUserLastReview = () => {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Your last review</h3>
+        <h3 className="text-lg font-semibold">
+          {dictionary.dashboard.user_last_review.title}
+        </h3>
         <DashboardReviewSkeleton />
       </div>
     )
@@ -39,25 +41,22 @@ export const DashboardUserLastReview = () => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Your last review</h3>
+      <h3 className="text-lg font-semibold">
+        {dictionary.dashboard.user_last_review.title}
+      </h3>
 
       {lastReview ? (
         <DashboardReview review={lastReview} language={language} />
       ) : (
         <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
-          <p>You haven&apos;t reviewed any movies or TV shows.</p>
+          <p>{dictionary.dashboard.user_last_review.no_review_message}</p>
 
-          <p className="text-sm text-muted-foreground">
-            Click to see top rated{' '}
-            <Link className="hover:underline" href="/app/movies/top-rated">
-              Movies
-            </Link>{' '}
-            or{' '}
-            <Link className="hover:underline" href="/app/tv-shows/top-rated">
-              TV Shows
-            </Link>{' '}
-            .
-          </p>
+          <Link
+            href={`/${language}/app/movies/top-rated`}
+            className="text-sm text-muted-foreground"
+          >
+            {dictionary.dashboard.user_last_review.no_review_action}
+          </Link>
         </div>
       )}
     </div>

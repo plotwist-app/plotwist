@@ -261,5 +261,15 @@
       "title": "Am besten bewertet",
       "description": "Fernsehserien, sortiert nach Bewertung."
     }
+  },
+  "dashboard": {
+    "user_last_review": {
+      "title": "Deine letzte Bewertung",
+      "no_review_message": "Du hast noch keine Filme oder TV-Serien bewertet.",
+      "no_review_action": "Klicke hier, um die am besten bewerteten Filme oder TV-Serien zu sehen."
+    },
+    "popular_reviews": {
+      "title": "Beliebte Bewertungen"
+    }
   }
 }
