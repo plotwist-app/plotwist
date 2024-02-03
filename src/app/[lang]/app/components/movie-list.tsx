@@ -26,7 +26,7 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
     queryKey: [variant],
     queryFn: () =>
       variant === 'discover'
-        ? tmdb.movies.discover()
+        ? tmdb.movies.discover(language)
         : tmdb.movies.list(variant, language),
   })
 
