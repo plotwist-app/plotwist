@@ -103,7 +103,7 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
         </main>
 
         <Tabs defaultValue="reviews" className="w-full">
-          <div className="md:m-none p-none scrollbar-hide -mx-4 max-w-[100vw] overflow-x-scroll px-4">
+          <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
             <TabsList>
               <TabsTrigger value="reviews">
                 {dictionary.tabs.reviews}
