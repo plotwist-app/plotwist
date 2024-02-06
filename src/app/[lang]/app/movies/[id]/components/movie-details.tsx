@@ -64,22 +64,24 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
             <h1 className="text-lg font-bold md:text-4xl">{movie.title}</h1>
 
-            <div className="flex flex-wrap items-center gap-2 ">
-              <div className="flex items-center space-x-1">
-                {movie.genres.map((genre) => {
-                  return (
-                    <Badge
-                      key={genre.id}
-                      variant="outline"
-                      className="whitespace-nowrap"
-                    >
-                      {genre.name}
-                    </Badge>
-                  )
-                })}
-              </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {movie.genres.length > 0 && (
+                <>
+                  {movie.genres.map((genre) => {
+                    return (
+                      <Badge
+                        key={genre.id}
+                        variant="outline"
+                        className="whitespace-nowrap"
+                      >
+                        {genre.name}
+                      </Badge>
+                    )
+                  })}
 
-              <Separator orientation="vertical" className="h-6" />
+                  <Separator orientation="vertical" className="h-6" />
+                </>
+              )}
 
               <TooltipProvider>
                 <Tooltip>

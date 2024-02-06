@@ -78,11 +78,11 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
 export const DashboardReviewSkeleton = () => {
   return (
     <div className="flex space-x-4">
-      <div className="w-1/6">
+      <div className="w-2/6 md:w-1/6">
         <Skeleton className="aspect-[2/3] rounded-md border shadow" />
       </div>
 
-      <div className="w-5/6 space-y-2">
+      <div className="w-4/6 space-y-2 md:w-5/6">
         <Skeleton className="h-[2em] w-[10ch]" />
 
         <div className="space-y-2">

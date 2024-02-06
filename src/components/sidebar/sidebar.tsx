@@ -1,9 +1,8 @@
 import { SettingsDropdown } from '@/components/settings-dropdown'
 import { SidebarNavigation } from './sidebar-navigation'
 import { User } from '@supabase/supabase-js'
-import { Button } from '../ui/button'
-import { Menu } from 'lucide-react'
-import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
+
+import { SidebarDrawer } from './sidebar-drawer'
 
 type SidebarProps = {
   user: User | null
@@ -30,22 +29,12 @@ export const Sidebar = ({ user }: SidebarProps) => {
       </div>
     </>
   )
+
   return (
     <>
       <div className="flex items-center justify-between border-b p-4 lg:hidden">
         <h1 className="text-xl font-semibold">[TMDB]</h1>
-
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button size="icon" variant="outline">
-              <Menu />
-            </Button>
-          </DrawerTrigger>
-
-          <DrawerContent>
-            <div className="flex flex-col gap-4 p-4">{content}</div>
-          </DrawerContent>
-        </Drawer>
+        <SidebarDrawer>{content}</SidebarDrawer>
       </div>
 
       <aside className="hidden h-screen flex-col justify-between border-r p-4 lg:flex">

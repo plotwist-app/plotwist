@@ -33,7 +33,9 @@ import {
 } from './create-new-list-form-schema'
 import { useLanguage } from '@/context/language'
 
-export const CreateNewListForm = () => {
+type CreateNewListFormProps = { trigger: JSX.Element }
+
+export const CreateNewListForm = ({ trigger }: CreateNewListFormProps) => {
   const { handleCreateNewList } = useLists()
   const { user } = useAuth()
   const { dictionary } = useLanguage()
@@ -73,11 +75,7 @@ export const CreateNewListForm = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button className="aspect-video rounded-md border border-dashed">
-          {dictionary.create_new_list_form.create_new_list}
-        </button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
 
       <DialogContent>
         <DialogHeader>

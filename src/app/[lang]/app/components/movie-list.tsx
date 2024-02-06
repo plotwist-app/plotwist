@@ -7,7 +7,7 @@ import { tmdb } from '@/services/tmdb'
 import { MovieListType } from '@/services/tmdb/requests/movies/list'
 
 const MovieListSkeleton = () => (
-  <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+  <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
     {Array.from({ length: 10 }).map((_, i) => (
       <MovieCardSkeleton key={i} />
     ))}

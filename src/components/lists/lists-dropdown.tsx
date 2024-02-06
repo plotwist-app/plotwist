@@ -26,6 +26,7 @@ import { List } from '@/types/supabase/lists'
 
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
+import { CreateNewListForm } from '@/app/[lang]/app/lists/components/create-new-list-form'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -81,7 +82,6 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
           <Plus className="mr-2" size={12} />
-
           {dictionary.lists_dropdown.add_to_list}
         </Button>
       </DropdownMenuTrigger>
@@ -92,24 +92,34 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {lists.map((list) => {
-          const itemIncluded = list.list_items.find(
-            ({ tmdb_id: tmdbId }) => tmdbId === item.id,
-          )
+        {lists.length > 0 ? (
+          lists.map((list) => {
+            const itemIncluded = list.list_items.find(
+              ({ tmdb_id: tmdbId }) => tmdbId === item.id,
+            )
 
-          return (
-            <DropdownMenuCheckboxItem
-              className="cursor-pointer"
-              key={list.id}
-              checked={Boolean(itemIncluded)}
-              onClick={() =>
-                itemIncluded ? handleRemove(itemIncluded.id) : handleAdd(list)
-              }
-            >
-              {list.name}
-            </DropdownMenuCheckboxItem>
-          )
-        })}
+            return (
+              <DropdownMenuCheckboxItem
+                className="cursor-pointer"
+                key={list.id}
+                checked={Boolean(itemIncluded)}
+                onClick={() =>
+                  itemIncluded ? handleRemove(itemIncluded.id) : handleAdd(list)
+                }
+              >
+                {list.name}
+              </DropdownMenuCheckboxItem>
+            )
+          })
+        ) : (
+          <CreateNewListForm
+            trigger={
+              <div className="flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm">
+                Create new list
+              </div>
+            }
+          />
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -61,20 +61,18 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
 
             <h1 className="text-4xl font-bold">{tvShow.name}</h1>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center space-x-1">
-                {tvShow.genres.map((genre) => {
-                  return (
-                    <Badge
-                      key={genre.id}
-                      variant="outline"
-                      className="whitespace-nowrap"
-                    >
-                      {genre.name}
-                    </Badge>
-                  )
-                })}
-              </div>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {tvShow.genres.map((genre) => {
+                return (
+                  <Badge
+                    key={genre.id}
+                    variant="outline"
+                    className="whitespace-nowrap"
+                  >
+                    {genre.name}
+                  </Badge>
+                )
+              })}
 
               <Separator orientation="vertical" className="h-6" />
 

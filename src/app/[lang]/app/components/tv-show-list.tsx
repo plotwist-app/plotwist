@@ -14,7 +14,7 @@ type TvShowListContentProps = {
 }
 
 const TvShowListSkeleton = () => (
-  <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+  <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
     {Array.from({ length: 10 }).map((_, i) => (
       <TvShowCardSkeleton key={i} />
     ))}
@@ -31,7 +31,7 @@ export const TvShowList = ({ variant, language }: TvShowListContentProps) => {
 
   return (
     <div className="flex items-center justify-between">
-      <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
         {data?.results.map((tvShow) => (
           <TvShowCard tvShow={tvShow} key={tvShow.id} language={language} />
         ))}
