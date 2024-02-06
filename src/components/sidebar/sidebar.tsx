@@ -3,16 +3,7 @@ import { SidebarNavigation } from './sidebar-navigation'
 import { User } from '@supabase/supabase-js'
 import { Button } from '../ui/button'
 import { Menu } from 'lucide-react'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '../ui/drawer'
+import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
 
 type SidebarProps = {
   user: User | null
