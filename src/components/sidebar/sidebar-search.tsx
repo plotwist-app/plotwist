@@ -24,6 +24,7 @@ import {
   SidebarSearchPerson,
   SidebarSearchTvShow,
   SidebarSearchGroup,
+  SidebarSearchSkeleton,
 } from '.'
 import {
   MovieWithMediaType,
@@ -39,7 +40,7 @@ export const SidebarSearch = () => {
 
   const { language, dictionary } = useLanguage()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['search', debouncedSearch],
     queryFn: async () => await tmdb.search.multi(debouncedSearch, language),
     staleTime: 1000,
@@ -108,6 +109,24 @@ export const SidebarSearch = () => {
           />
 
           <CommandList className="p-4">
+            {isLoading && (
+              <div className="space-y-8">
+                <SidebarSearchGroup heading={dictionary.sidebar_search.movies}>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <SidebarSearchSkeleton key={index} />
+                  ))}
+                </SidebarSearchGroup>
+
+                <SidebarSearchGroup
+                  heading={dictionary.sidebar_search.tv_shows}
+                >
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <SidebarSearchSkeleton key={index} />
+                  ))}
+                </SidebarSearchGroup>
+              </div>
+            )}
+
             {!hasResults && (
               <CommandEmpty>
                 {dictionary.sidebar_search.no_results}
