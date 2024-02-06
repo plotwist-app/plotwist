@@ -34,7 +34,7 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
 
   return (
     <div className="flex items-center justify-between">
-      <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
         {data?.results.map((movie) => (
           <MovieCard movie={movie} key={movie.id} language={language} />
         ))}

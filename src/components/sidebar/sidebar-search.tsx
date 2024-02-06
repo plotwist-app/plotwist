@@ -107,7 +107,7 @@ export const SidebarSearch = () => {
             value={search}
           />
 
-          <CommandList className=" p-4">
+          <CommandList className="p-4">
             {!hasResults && (
               <CommandEmpty>
                 {dictionary.sidebar_search.no_results}

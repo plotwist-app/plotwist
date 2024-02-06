@@ -18,7 +18,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
       <section className="space-y-2">
         <h5 className="text-xl font-bold">{dictionary.credits.cast}</h5>
 
-        <div className="grid grid-cols-6 gap-4">
+        <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
           {cast.map(
             ({
               profile_path: profilePath,
@@ -42,7 +42,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
       <section className="space-y-2">
         <h5 className="text-xl font-bold">{dictionary.credits.crew}</h5>
 
-        <div className="grid grid-cols-6 gap-4">
+        <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
           {crew.map(
             ({
               profile_path: profilePath,

@@ -17,7 +17,7 @@ export const MovieRelated = async ({
   const { results } = await tmdb.movies.related(movieId, variant, language)
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
       {results.map((movie) => (
         <MovieCard movie={movie} key={movie.id} language={language} />
       ))}

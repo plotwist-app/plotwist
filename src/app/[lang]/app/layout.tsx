@@ -22,7 +22,7 @@ export default async function AppLayout({ children, params }: AppLayoutProps) {
   return (
     <AuthContextProvider user={user}>
       <ListsContextProvider>
-        <div className="grid grid-cols-[250px,1fr]">
+        <div className="grid-col-1 grid lg:grid-cols-[250px,1fr]">
           <Sidebar user={user} />
 
           <main className="max-h-screen w-full overflow-y-scroll">

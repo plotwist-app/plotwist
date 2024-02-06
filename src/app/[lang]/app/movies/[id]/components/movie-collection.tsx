@@ -18,7 +18,7 @@ export const MovieCollection = async ({
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="relative h-[40vh] overflow-hidden rounded-md border p-8">
+    <div className="relative h-[40vh] overflow-hidden rounded-md border p-6 md:p-8">
       <div
         style={{
           backgroundImage: `url('${backdropURL}')`,
@@ -30,11 +30,11 @@ export const MovieCollection = async ({
 
       <div className="flex h-full flex-col justify-end space-y-4">
         <div className="flex flex-col">
-          <span className="text-sm text-white">
+          <span className="text-xs text-white md:text-sm">
             {dictionary.movie_collection.part_of}
           </span>
 
-          <span className="text-3xl font-bold text-white">
+          <span className="text-lg font-bold text-white md:text-2xl">
             {collection.name}
           </span>
         </div>

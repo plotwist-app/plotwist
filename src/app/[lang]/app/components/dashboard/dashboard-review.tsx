@@ -33,38 +33,42 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
 
   return (
     <div className="flex space-x-4">
-      <Link href={href} className="w-1/6">
+      <Link href={href} className="w-2/6 md:w-1/6">
         <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
           {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
         </figure>
       </Link>
 
-      <div className="w-5/6 space-y-2">
+      <div className="w-4/6 space-y-2 md:w-5/6">
         <h5 className="text-lg">{title}</h5>
 
         <div className="space-y-2">
-          <div className="flex items-center space-x-2">
-            <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs">
-              {usernameInitial}
+          <div className="flex flex-col gap-2 md:flex-row md:items-center">
+            <div className="flex items-center gap-x-2">
+              <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs">
+                {usernameInitial}
+              </div>
+              <span className="text-sm text-muted-foreground">{username}</span>
             </div>
-            <span className="text-sm text-muted-foreground">{username}</span>
 
-            <span className="h-1 w-1 rounded-full bg-muted" />
+            <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
 
-            <ReviewStars rating={rating} />
+            <div className="flex items-center gap-x-2">
+              <ReviewStars rating={rating} />
 
-            {likes?.length && (
-              <>
-                <span className="h-1 w-1 rounded-full bg-muted" />
+              {likes?.length && (
+                <>
+                  <span className="h-1 w-1 rounded-full bg-muted" />
 
-                <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                  ❤ {likes.length}
-                </div>
-              </>
-            )}
+                  <div className="rounded-full border bg-muted px-3 py-1 text-xs">
+                    ❤ {likes.length}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
-          <p className="text-muted-foreground">{content}</p>
+          <p className="break-all text-muted-foreground">{content}</p>
         </div>
       </div>
     </div>

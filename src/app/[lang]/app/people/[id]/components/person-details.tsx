@@ -28,13 +28,13 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
     <div>
       <Banner url={tmdbImage(mostPopularCredit.backdrop_path ?? '')} />
 
-      <div className="mx-auto my-8 max-w-4xl space-y-12 p-4">
-        <main className="flex gap-4">
-          <aside className="-mt-32 w-1/3 space-y-2">
+      <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12">
+        <main className="flex flex-col gap-4 md:flex-row">
+          <aside className="-mt-24 w-full space-y-2 md:-mt-32 md:w-1/3">
             <Poster alt={person.name} url={tmdbImage(person.profile_path)} />
           </aside>
 
-          <article className="flex w-2/3 flex-col gap-2">
+          <article className="flex w-full flex-col gap-2 md:w-2/3">
             <span className="text-xs text-muted-foreground">
               {format(new Date(person.birthday), 'PPP', {
                 locale: locale[language],
@@ -55,7 +55,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
               <Badge>{(person.popularity / 10).toFixed(1)}</Badge>
             </div>
 
-            <p className="line-clamp-5 text-xs text-muted-foreground">
+            <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
               {person.biography}
             </p>
           </article>
