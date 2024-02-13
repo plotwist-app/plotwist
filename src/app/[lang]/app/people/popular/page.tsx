@@ -3,8 +3,6 @@ import { getDictionary } from '@/utils/dictionaries'
 import { PeopleList } from '../../components/people-list'
 
 const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
-  const dictionary = await getDictionary(lang)
-
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div>
