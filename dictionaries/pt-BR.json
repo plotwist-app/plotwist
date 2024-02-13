@@ -23,12 +23,10 @@
     "show_password": "Mostrar senha",
     "hide_password": "Ocultar senha",
     "access_button": "Acessar",
-
     "email_required": "Por favor, insira seu endereço de e-mail.",
     "email_invalid": "Por favor, insira um endereço de e-mail válido.",
     "password_required": "Por favor, insira sua senha.",
     "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
-
     "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
@@ -116,6 +114,10 @@
     "publish": "Publicar",
     "placeholder": "O que você acha?"
   },
+  "review_reply": {
+    "reply": "Responder",
+    "placeholder": "Adicione uma resposta..."
+  },
   "review_item_actions": {
     "like": "Curtir",
     "reply": "Responder",
@@ -142,7 +144,7 @@
     "logout": "Sair"
   },
   "auth": {
-    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"  
+    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"
   },
   "lists_page": {
     "title": "Listas",

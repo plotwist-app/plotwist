@@ -15,6 +15,8 @@ export type Review = {
 
   user_info: UserInfo
   review_likes?: ReviewLike[]
+
+  review_replies: ReviewReply[] | null
 }
 
 type UserInfo = {
@@ -28,4 +30,11 @@ type ReviewLike = {
   id: number
   user_id: string
   created_at: string
+}
+
+export type ReviewReply = {
+  created_at: Date
+  id: string
+  reply: string
+  user_id: string
 }

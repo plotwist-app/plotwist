@@ -22,7 +22,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
     queryKey: [tmdbItem.id, mediaType],
     queryFn: async () =>
       supabase
-        .from('reviews_with_user')
+        .from('reviews_with_user_like_and_replies')
         .select('*')
         .eq('tmdb_id', tmdbItem.id)
         .order('id', { ascending: false })

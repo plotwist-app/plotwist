@@ -10,9 +10,7 @@ export const sanitizeTmdbItem = (
 > => {
   const isTvShow = 'name' in tmdbItem
 
-  const title = isTvShow
-    ? (tmdbItem as TvSeriesDetails).name
-    : (tmdbItem as MovieDetails).title
+  const title = isTvShow ? tmdbItem.name : tmdbItem.title
 
   return {
     tmdb_id: tmdbItem.id,

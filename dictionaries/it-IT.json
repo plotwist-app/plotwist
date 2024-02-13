@@ -23,12 +23,10 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "access_button": "Accedi",
-
     "email_required": "Per favore, inserisci il tuo indirizzo email.",
     "email_invalid": "Per favore, inserisci un indirizzo email valido.",
     "password_required": "Per favore, inserisci la tua password.",
     "password_length": "La tua password deve essere lunga almeno 8 caratteri.",
-
     "login_success": "Accesso effettuato con successo. Benvenuto! 🎉",
     "invalid_login_credentials": "Credenziali di accesso non valide",
     "try_again": "Riprova"
@@ -115,6 +113,10 @@
     "success": "Recensione creata con successo.",
     "publish": "Pubblica",
     "placeholder": "Cosa ne pensi?"
+  },
+  "review_reply": {
+    "reply": "Rispondi",
+    "placeholder": "Aggiungi una risposta..."
   },
   "review_item_actions": {
     "like": "Mi piace",

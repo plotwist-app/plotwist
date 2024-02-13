@@ -14,10 +14,12 @@ import { useLanguage } from '@/context/language'
 
 type ReviewItemActionsProps = {
   review: Review
+  openReplyForm: boolean
+  setOpenReplyForm: (param: boolean) => void
 }
 
 type ReviewItemActionProps = {
-  disabled: boolean
+  disabled?: boolean
   active?: boolean
 } & ComponentProps<'div'>
 
@@ -41,6 +43,8 @@ const ReviewItemAction = ({
 }
 
 export const ReviewItemActions = ({
+  openReplyForm,
+  setOpenReplyForm,
   review: {
     user_id: userId,
     id,
@@ -75,71 +79,75 @@ export const ReviewItemActions = ({
   }
 
   return (
-    <div className="flex items-center space-x-2">
-      <ReviewItemAction
-        active={isUserLiked}
-        disabled={
-          isUserLiked ? handleRemoveLike.isPending : handleLikeReview.isPending
-        }
-        onClick={() => {
-          if (isUserLiked && userLike?.id) {
-            handleRemoveLike.mutateAsync(userLike.id, {
-              onSuccess: () => {
-                invalidateQuery()
-              },
-            })
-
-            return
+    <div>
+      <div className="flex items-center space-x-2">
+        <ReviewItemAction
+          active={isUserLiked}
+          disabled={
+            isUserLiked
+              ? handleRemoveLike.isPending
+              : handleLikeReview.isPending
           }
-
-          handleLikeReview.mutateAsync(
-            {
-              reviewId: id,
-              userId: user.id,
-            },
-            {
-              onSuccess: () => {
-                invalidateQuery()
-              },
-              onError: (error) => {
-                toast.error(error.message)
-              },
-            },
-          )
-        }}
-      >
-        {dictionary.review_item_actions.like}
-      </ReviewItemAction>
-
-      <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-
-      <ReviewItemAction disabled>
-        {dictionary.review_item_actions.reply}
-      </ReviewItemAction>
-
-      {isUserOwner && (
-        <>
-          <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-
-          <ReviewItemAction
-            disabled={handleDeleteReview.isPending}
-            onClick={() =>
-              handleDeleteReview.mutateAsync(id, {
+          onClick={() => {
+            if (isUserLiked && userLike?.id) {
+              handleRemoveLike.mutateAsync(userLike.id, {
                 onSuccess: () => {
                   invalidateQuery()
+                },
+              })
 
-                  toast.success(dictionary.review_item_actions.delete_success)
+              return
+            }
+
+            handleLikeReview.mutateAsync(
+              {
+                reviewId: id,
+                userId: user.id,
+              },
+              {
+                onSuccess: () => {
+                  invalidateQuery()
                 },
                 onError: (error) => {
                   toast.error(error.message)
                 },
-              })
-            }
-          >
-            {dictionary.review_item_actions.delete}
-          </ReviewItemAction>
-        </>
-      )}
+              },
+            )
+          }}
+        >
+          {dictionary.review_item_actions.like}
+        </ReviewItemAction>
+
+        <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+
+        <ReviewItemAction onClick={() => setOpenReplyForm(!openReplyForm)}>
+          {dictionary.review_item_actions.reply}
+        </ReviewItemAction>
+
+        {isUserOwner && (
+          <>
+            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+
+            <ReviewItemAction
+              disabled={handleDeleteReview.isPending}
+              onClick={() =>
+                handleDeleteReview.mutateAsync(id, {
+                  onSuccess: () => {
+                    invalidateQuery()
+
+                    toast.success(dictionary.review_item_actions.delete_success)
+                  },
+                  onError: (error) => {
+                    toast.error(error.message)
+                  },
+                })
+              }
+            >
+              {dictionary.review_item_actions.delete}
+            </ReviewItemAction>
+          </>
+        )}
+      </div>
     </div>
   )
 }

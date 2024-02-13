@@ -15,7 +15,7 @@
     "title": "Iniciar sesión",
     "description": "¡Sé parte de la comunidad cinematográfica, donde puedes conocer y discutir miles de películas y series de TV!",
     "no_account": "¿No tienes una cuenta? Regístrate haciendo clic",
-    "no_account_link": "aquí"  
+    "no_account_link": "aquí"
   },
   "login_form": {
     "email_label": "Correo electrónico",
@@ -23,12 +23,10 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "access_button": "Acceder",
-    
     "email_required": "Por favor, introduce tu dirección de correo electrónico.",
     "email_invalid": "Por favor, introduce una dirección de correo electrónico válida.",
     "password_required": "Por favor, introduce tu contraseña.",
     "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
-
     "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
     "try_again": "Intentar de nuevo"
@@ -115,6 +113,10 @@
     "success": "Reseña creada con éxito.",
     "publish": "Publicar",
     "placeholder": "¿Qué piensas?"
+  },
+  "review_reply": {
+    "reply": "Responder",
+    "placeholder": "Agregar una respuesta..."
   },
   "review_item_actions": {
     "like": "Me gusta",

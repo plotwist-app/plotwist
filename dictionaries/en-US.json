@@ -10,7 +10,7 @@
     "top_rated": "Top rated movies",
     "upcoming": "Upcoming movies",
     "show_all": "Show all"
-  }, 
+  },
   "login_page": {
     "title": "Login",
     "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
@@ -23,15 +23,13 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "access_button": "Access",
-    
     "email_required": "Please enter your e-mail address.",
     "email_invalid": "Please enter a valid e-mail address.",
     "password_required": "Please enter your password.",
     "password_length": "Your password must be at least 8 characters long.",
-
     "login_success": "Login successful. Welcome! 🎉",
     "invalid_login_credentials": "Invalid login credentials",
-    "try_again": "Try again"    
+    "try_again": "Try again"
   },
   "sign_up_page": {
     "title": "Create an account",
@@ -46,13 +44,11 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "submit_button": "Submit",
-    
     "username_required": "Please enter your username.",
     "email_required": "Please enter your e-mail address.",
     "email_invalid": "Please enter a valid e-mail address.",
     "password_required": "Please enter your password.",
     "password_length": "Your password must be at least 8 characters long.",
-    
     "sign_up_success": "Registration successful. Welcome! 🎉",
     "invalid_sign_up_credentials": "Invalid sign up credentials",
     "try_again": "Try again"
@@ -87,7 +83,7 @@
     "lists": "Lists"
   },
   "sidebar_search": {
-    "placeholder":"Search for movies, TV shows, or people",
+    "placeholder": "Search for movies, TV shows, or people",
     "search_everything": "Search everything",
     "no_results": "No results found.",
     "movies": "Movies",
@@ -117,6 +113,10 @@
     "success": "Review created successfully.",
     "publish": "Publish",
     "placeholder": "What you think about?"
+  },
+  "review_reply": {
+    "reply": "Reply",
+    "placeholder": "Add a reply..."
   },
   "review_item_actions": {
     "like": "Like",

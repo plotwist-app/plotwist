@@ -114,6 +114,10 @@
     "publish": "公開する",
     "placeholder": "感想をお聞かせください？"
   },
+  "review_reply": {
+    "reply": "返信",
+    "placeholder": "返信を追加する..."
+  },
   "review_item_actions": {
     "like": "いいね",
     "reply": "返信",
@@ -218,7 +222,7 @@
     "year": "年",
     "title": "タイトル",
     "role": "役割",
-    "rating": "評価"   
+    "rating": "評価"
   },
   "movie_pages": {
     "discover": {

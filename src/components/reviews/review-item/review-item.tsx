@@ -3,6 +3,9 @@
 import { Review } from '@/types/supabase/reviews'
 import { ReviewItemActions } from '.'
 import { ReviewStars } from '../review-stars'
+import { Replies } from '@/components/reviews/review-reply/review-reply'
+import { useState } from 'react'
+import { ReviewReplyForm } from '@/components/reviews/review-reply-form/review-reply-form'
 
 type ReviewItemProps = { review: Review }
 
@@ -13,7 +16,10 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     },
     review: content,
     rating,
+    review_replies: replies,
   } = review
+
+  const [openReplyForm, setOpenReplyForm] = useState<boolean>(false)
 
   const usernameInitial = username[0].toUpperCase()
 
@@ -40,7 +46,24 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
           )}
         </div>
 
-        <ReviewItemActions review={review} />
+        <ReviewItemActions
+          review={review}
+          openReplyForm={openReplyForm}
+          setOpenReplyForm={setOpenReplyForm}
+        />
+
+        <Replies
+          replies={replies}
+          usernameInitial={usernameInitial}
+          username={username}
+        />
+
+        {openReplyForm && (
+          <ReviewReplyForm
+            reviewId={review.id}
+            onOpenReplyForm={setOpenReplyForm}
+          />
+        )}
       </div>
     </div>
   )

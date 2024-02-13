@@ -117,6 +117,10 @@ export type Dictionary = {
     publish: string
     placeholder: string
   }
+  review_reply: {
+    reply: string
+    placeholder: string
+  }
   review_item_actions: {
     like: string
     reply: string
