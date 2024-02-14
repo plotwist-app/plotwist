@@ -3,7 +3,6 @@
 import { useFormContext } from 'react-hook-form'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
 import { MultiSelect, MultiSelectOption } from '@/components/multi-select'
 import {
