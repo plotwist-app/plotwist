@@ -20,7 +20,7 @@ const ListPage = ({ params }: { params: { id: string } }) => {
   const { dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [Number(params.id)],
+    queryKey: [params.id],
     queryFn: async () => {
       const response = await supabase
         .from('lists')

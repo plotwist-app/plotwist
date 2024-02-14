@@ -1,5 +1,5 @@
 export type List = {
-  id: number
+  id: string
   name: string
   description: string
   created_at: string
@@ -11,8 +11,8 @@ export type List = {
 export type ListItem = {
   backdrop_path: string
   created_at: string
-  id: number
-  list_id: number
+  id: string
+  list_id: string
   overview: string
   poster_path?: string
   title: string
