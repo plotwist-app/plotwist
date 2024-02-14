@@ -68,10 +68,25 @@ export const MoviesListFilters = () => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const methods = useForm<MoviesListFiltersFormValues>({
-    defaultValues: {
+  const getDefaultValues = () => {
+    const startDate = searchParams.get('release_date.gte')
+    const endDate = searchParams.get('release_date.lte')
+
+    return {
       genres: searchParams.get('genres')?.split(',').map(Number),
-    },
+
+      with_original_language:
+        searchParams.get('with_original_language') ?? undefined,
+
+      release_date: {
+        gte: startDate ? new Date(startDate) : undefined,
+        lte: endDate ? new Date(endDate) : undefined,
+      },
+    }
+  }
+
+  const methods = useForm<MoviesListFiltersFormValues>({
+    defaultValues: getDefaultValues(),
   })
 
   const [open, setOpen] = useState(false)

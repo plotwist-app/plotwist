@@ -1,0 +1,68 @@
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { tmdb } from '@/services/tmdb'
+import { useQuery } from '@tanstack/react-query'
+import { useFormContext } from 'react-hook-form'
+import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
+
+export const LanguageField = () => {
+  const { data } = useQuery({
+    queryKey: ['languages'],
+    queryFn: () => tmdb.languages(),
+  })
+
+  const { control } = useFormContext<MoviesListFiltersFormValues>()
+
+  const options = data?.map((language) => ({
+    value: language.iso_639_1,
+    label: language.name !== '' ? language.name : language.english_name,
+  }))
+
+  return (
+    <FormField
+      control={control}
+      name="with_original_language"
+      render={({ field: { onChange, value } }) => (
+        <FormItem>
+          <FormLabel>Language</FormLabel>
+
+          <FormControl>
+            <Select onValueChange={onChange} value={value}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a language" />
+              </SelectTrigger>
+
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Language</SelectLabel>
+
+                  {options?.map((option) => (
+                    <SelectItem value={option.value} key={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}

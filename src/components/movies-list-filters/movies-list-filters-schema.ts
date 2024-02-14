@@ -6,6 +6,7 @@ export const moviesListFiltersSchema = z.object({
     lte: z.date().optional(),
   }),
   genres: z.array(z.number()),
+  with_original_language: z.string().optional(),
 })
 
 export type MoviesListFiltersFormValues = z.infer<

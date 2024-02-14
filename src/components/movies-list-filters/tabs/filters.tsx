@@ -1,27 +1,12 @@
-import { GenresField } from './fields/genres'
-import { ReleaseDateField } from './fields/release-date'
+import { LanguageField, ReleaseDateField } from './fields'
 
 export const Filters = () => {
   return (
     <div className="space-y-4">
-      <GenresField />
       <ReleaseDateField />
+      <LanguageField />
 
-      {/* <FormField
-        control={control}
-        name="language"
-        render={() => (
-          <FormItem>
-            <FormLabel>Idioma</FormLabel>
-            <FormControl></FormControl>
-            <FormDescription>
-              Filtra os resultados pelo idioma original.
-            </FormDescription>
-
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {/* 
 
       <FormField
         control={control}
