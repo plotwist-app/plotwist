@@ -8,11 +8,11 @@ export type ListsContextType = {
   lists: List[]
 
   handleCreateNewList: HandleFn<CreateNewListParams>
-  handleDeleteList: HandleFn<number>
+  handleDeleteList: HandleFn<string>
   handleAddToList: HandleFn<AddToListParams>
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
   handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>
-  handleRemoveFromList: HandleFn<number>
+  handleRemoveFromList: HandleFn<string>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
 }
@@ -34,15 +34,15 @@ export type AddCollectionToListParams = {
 }
 
 export type RemoveCollectionFromListParams = {
-  ids: number[]
+  ids: string[]
 }
 
 export type ChangeListItemStatusParams = {
-  listItemId: number
+  listItemId: string
   newStatus: ListItemStatus
 }
 
 export type ChangeListCoverPathParams = {
-  listId: number
+  listId: string
   newCoverPath: string
 }

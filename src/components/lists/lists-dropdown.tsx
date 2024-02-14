@@ -38,7 +38,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(
-    async (id: number) => {
+    async (id: string) => {
       await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
