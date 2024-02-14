@@ -11,6 +11,7 @@ import {
   images,
   videos,
   person,
+  genres,
 } from './requests'
 
 const TMDB_API_KEY =
@@ -34,4 +35,5 @@ export const tmdb = {
   collections,
   videos,
   person,
+  genres,
 }

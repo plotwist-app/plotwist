@@ -32,7 +32,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(
-    async (id: number, listId: number) => {
+    async (id: string, listId: string) => {
       await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
@@ -71,6 +71,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
         listId: listItem.list_id,
         newCoverPath: listItem.backdrop_path,
       },
+
       {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({

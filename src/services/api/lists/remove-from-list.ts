@@ -1,6 +1,6 @@
 import { supabase } from '@/services/supabase'
 
-export const removeFromListService = async (id: number) => {
+export const removeFromListService = async (id: string) => {
   const { error, data } = await supabase
     .from('list_items')
     .delete()
