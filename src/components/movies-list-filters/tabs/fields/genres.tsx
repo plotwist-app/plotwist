@@ -16,12 +16,12 @@ import {
 
 import { useLanguage } from '@/context/language'
 import { tmdb } from '@/services/tmdb'
+import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
 
 export const GenresField = () => {
-  const [selectedGenres, setSelectedGenres] = useState<MultiSelectOption[]>([])
-
   const { language } = useLanguage()
-  const { control, setValue } = useFormContext()
+  const { control, setValue, watch } =
+    useFormContext<MoviesListFiltersFormValues>()
 
   const { data } = useQuery({
     queryKey: ['genres'],
@@ -37,6 +37,10 @@ export const GenresField = () => {
           }))
         : [],
     [data],
+  )
+
+  const [selectedGenres, setSelectedGenres] = useState<MultiSelectOption[]>(
+    genresOptions.filter((genre) => watch('genres').includes(genre.value)),
   )
 
   useEffect(() => {

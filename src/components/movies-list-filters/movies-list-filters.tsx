@@ -1,7 +1,7 @@
 'use client'
 
 import { FormProvider, useForm } from 'react-hook-form'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Filters } from './tabs'
 import { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import { formatDateToURL } from '@/utils/date/format-date-to-url'
+import { useState } from 'react'
 
 const formatValueForQueryString = (
   key: string,
@@ -42,7 +43,7 @@ const buildQueryStringFromValues = (
   Object.entries(values).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
       if (Array.isArray(value)) {
-        if (value.length > 0) return parts.push(`${key}=${value.join(';')}`)
+        if (value.length > 0) return parts.push(`${key}=${value.join(',')}`)
       }
 
       Object.entries(value).forEach(([subKey, subValue]) => {
@@ -65,18 +66,27 @@ const buildQueryStringFromValues = (
 export const MoviesListFilters = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
-  const methods = useForm<MoviesListFiltersFormValues>()
+  const searchParams = useSearchParams()
+
+  const methods = useForm<MoviesListFiltersFormValues>({
+    defaultValues: {
+      genres: searchParams.get('genres')?.split(',').map(Number),
+    },
+  })
+
+  const [open, setOpen] = useState(false)
 
   const onSubmit = (values: MoviesListFiltersFormValues) => {
     const queryString = buildQueryStringFromValues(values)
 
     replace(`${pathname}?${queryString}`)
+    setOpen(false)
   }
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
               <SlidersHorizontal size={16} />
