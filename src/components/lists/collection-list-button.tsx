@@ -51,7 +51,7 @@ export const CollectionListDropdown = ({
   const { dictionary, language } = useLanguage()
 
   const handleRemove = useCallback(
-    async (ids: number[]) => {
+    async (ids: string[]) => {
       await handleRemoveCollectionFromList.mutateAsync(
         {
           ids,

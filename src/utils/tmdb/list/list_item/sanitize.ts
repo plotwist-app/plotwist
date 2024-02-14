@@ -6,7 +6,7 @@ import { ListItem } from '@/types/supabase/lists'
 type Raw = MovieDetails | TvSeriesDetails | Movie
 
 export const sanitizeListItem = (
-  listId: number,
+  listId: string,
   raw: Raw,
 ): Omit<ListItem, 'created_at' | 'id'> => {
   const isTvShow = 'name' in raw
