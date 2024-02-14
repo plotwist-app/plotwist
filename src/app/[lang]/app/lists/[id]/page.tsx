@@ -26,7 +26,7 @@ const ListPage = ({ params }: { params: { id: string } }) => {
         .from('lists')
         .select('*, list_items(*, id)')
         .eq('id', params.id)
-        .order('id', { referencedTable: 'list_items' })
+        .order('created_at', { referencedTable: 'list_items' })
         .single<List>()
 
       return response
