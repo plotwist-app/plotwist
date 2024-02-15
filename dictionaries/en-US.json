@@ -227,7 +227,7 @@
   "movie_pages": {
     "discover": {
       "title": "Discover",
-      "description": "Find movies using over 30 filters and sort options."
+      "description": "Find movies using filters and sort options."
     },
     "now_playing": {
       "title": "Now Playing",
@@ -300,6 +300,22 @@
       "from_placeholder": "18/11/2002",
       "to_placeholder": "18/11/2003",
       "select_date": "Select a date"
+    },
+    "sort_by": {
+      "label": "Sort by",
+      "placeholder": "Sort by",
+      "options": {
+        "popularity.desc": "Highest Popularity",
+        "popularity.asc": "Lowest Popularity",
+        "revenue.desc": "Highest Revenue",
+        "revenue.asc": "Lowest Revenue",
+        "primary_release_date.desc": "Most Recent",
+        "primary_release_date.asc": "Least Recent",
+        "vote_average.desc": "Highest Rated",
+        "vote_average.asc": "Lowest Rated",
+        "vote_count.desc": "Most Voted",
+        "vote_count.asc": "Least Voted"
+      }
     },
     "no_results": "No results."
   }

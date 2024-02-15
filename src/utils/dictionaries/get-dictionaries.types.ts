@@ -300,6 +300,22 @@ export type Dictionary = {
       to_placeholder: string
       select_date: string
     }
+    sort_by: {
+      label: string
+      placeholder: string
+      options: {
+        'popularity.desc': string
+        'popularity.asc': string
+        'revenue.desc': string
+        'revenue.asc': string
+        'primary_release_date.desc': string
+        'primary_release_date.asc': string
+        'vote_average.desc': string
+        'vote_average.asc': string
+        'vote_count.desc': string
+        'vote_count.asc': string
+      }
+    }
     no_results: string
   }
 }

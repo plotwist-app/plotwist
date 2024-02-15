@@ -299,6 +299,22 @@
       "to_placeholder": "18/11/2003",
       "select_date": "Selecciona una fecha"
     },
+    "sort_by": {
+      "label": "Ordenar por",
+      "placeholder": "Ordenar por",
+      "options": {
+        "popularity.desc": "Más popular",
+        "popularity.asc": "Menos popular",
+        "revenue.desc": "Mayor recaudación",
+        "revenue.asc": "Menor recaudación",
+        "primary_release_date.desc": "Más reciente",
+        "primary_release_date.asc": "Menos reciente",
+        "vote_average.desc": "Mejor valoradas",
+        "vote_average.asc": "Peor valoradas",
+        "vote_count.desc": "Más votadas",
+        "vote_count.asc": "Menos votadas"
+      }
+    },
     "no_results": "No hay resultados."
   }
 }

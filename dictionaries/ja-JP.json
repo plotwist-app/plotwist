@@ -281,7 +281,6 @@
       "close": "閉じる",
       "save_changes": "変更を保存"
     },
-    "no_results": "結果なし。",
     "genres_field": {
       "label": "ジャンル",
       "placeholder": "ジャンルを選択",
@@ -297,6 +296,23 @@
       "from_placeholder": "開始日を選択",
       "to_placeholder": "終了日を選択",
       "select_date": "日付を選択"
-    }
+    },
+    "sort_by": {
+      "label": "並び替え",
+      "placeholder": "並び替え",
+      "options": {
+        "popularity.desc": "人気度が高い",
+        "popularity.asc": "人気度が低い",
+        "revenue.desc": "収益が高い",
+        "revenue.asc": "収益が低い",
+        "primary_release_date.desc": "最新",
+        "primary_release_date.asc": "最も古い",
+        "vote_average.desc": "評価が高い",
+        "vote_average.asc": "評価が低い",
+        "vote_count.desc": "投票数が多い",
+        "vote_count.asc": "投票数が少ない"
+      }
+    },
+    "no_results": "結果なし。"
   }
 }
