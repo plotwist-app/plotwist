@@ -89,7 +89,15 @@ export const SortBy = () => {
                   {options.map((option) => {
                     return (
                       <SelectItem value={option.value} key={option.value}>
-                        {option.label}
+                        <div className="flex items-center gap-1">
+                          {option.value.endsWith('asc') ? (
+                            <ChevronDown width={16} height={16} />
+                          ) : (
+                            <ChevronUp width={16} height={16} />
+                          )}
+
+                          {option.label}
+                        </div>
                       </SelectItem>
                     )
                   })}
