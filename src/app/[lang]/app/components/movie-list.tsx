@@ -41,9 +41,10 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
   const startDate = searchParams.get('release_date.gte')
   const endDate = searchParams.get('release_date.lte')
   const originaLanguage = searchParams.get('with_original_language')
+  const sortBy = searchParams.get('sort_by')
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: [variant, genres, startDate, endDate, originaLanguage],
+    queryKey: [variant, genres, startDate, endDate, originaLanguage, sortBy],
     queryFn: ({ pageParam }) =>
       variant === 'discover'
         ? tmdb.movies.discover({
@@ -52,6 +53,7 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
               'release_date.gte': startDate,
               'release_date.lte': endDate,
               with_original_language: originaLanguage,
+              sort_by: sortBy,
             },
             language,
             page: pageParam,

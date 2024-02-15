@@ -18,8 +18,11 @@ import { tmdb } from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
+import { useLanguage } from '@/context/language'
 
 export const LanguageField = () => {
+  const { dictionary } = useLanguage()
+
   const { data } = useQuery({
     queryKey: ['languages'],
     queryFn: () => tmdb.languages(),
@@ -38,17 +41,25 @@ export const LanguageField = () => {
       name="with_original_language"
       render={({ field: { onChange, value } }) => (
         <FormItem>
-          <FormLabel>Language</FormLabel>
+          <FormLabel>
+            {dictionary.movies_list_filters.language_field.label}
+          </FormLabel>
 
           <FormControl>
             <Select onValueChange={onChange} value={value}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a language" />
+                <SelectValue
+                  placeholder={
+                    dictionary.movies_list_filters.language_field.placeholder
+                  }
+                />
               </SelectTrigger>
 
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Language</SelectLabel>
+                  <SelectLabel>
+                    {dictionary.movies_list_filters.language_field.label}
+                  </SelectLabel>
 
                   {options?.map((option) => (
                     <SelectItem value={option.value} key={option.value}>

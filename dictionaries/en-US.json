@@ -273,5 +273,34 @@
     "popular_reviews": {
       "title": "Popular reviews"
     }
+  },
+  "movies_list_filters": {
+    "title": "Discover Movies",
+    "tabs": {
+      "filters": "Filters",
+      "order": "Sort",
+      "watch_providers": "Where to Watch"
+    },
+    "actions": {
+      "close": "Close",
+      "save_changes": "Save Changes"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Select a genre",
+      "no_genre_message": "You haven't selected any genres."
+    },
+    "language_field": {
+      "label": "Language",
+      "placeholder": "Select a language"
+    },
+    "release_date_field": {
+      "from_label": "From",
+      "to_label": "To",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Select a date"
+    },
+    "no_results": "No results."
   }
 }

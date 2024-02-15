@@ -29,9 +29,7 @@ type CustomDropdownProps = DropdownProps &
 
 const CustomDropdown = (props: CustomDropdownProps) => {
   const { caption, name, children, selected, onSelect } = props
-
   const selectedDate = selected as Date
-
   const { goToDate, currentMonth } = useNavigation()
 
   const handleValueChange = (value: string) => {

@@ -20,8 +20,11 @@ import {
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
 
 export const ReleaseDateField = () => {
+  const { dictionary, language } = useLanguage()
   const { control, watch } = useFormContext<MoviesListFiltersFormValues>()
 
   const startDate = watch('release_date.gte')
@@ -34,7 +37,9 @@ export const ReleaseDateField = () => {
         name="release_date.gte"
         render={({ field: { onChange, value } }) => (
           <FormItem>
-            <FormLabel>De</FormLabel>
+            <FormLabel>
+              {dictionary.movies_list_filters.release_date_field.from_label}
+            </FormLabel>
 
             <FormControl>
               <Popover>
@@ -52,10 +57,20 @@ export const ReleaseDateField = () => {
                           locale: ptBR,
                         })
                       ) : (
-                        <p className="text-muted-foreground">Select a date</p>
+                        <p className="text-muted-foreground">
+                          {
+                            dictionary.movies_list_filters.release_date_field
+                              .from_placeholder
+                          }
+                        </p>
                       )}
 
-                      <span className="sr-only">Open popover date</span>
+                      <span className="sr-only">
+                        {
+                          dictionary.movies_list_filters.release_date_field
+                            .from_placeholder
+                        }
+                      </span>
                     </Button>
                   </div>
                 </PopoverTrigger>
@@ -70,6 +85,7 @@ export const ReleaseDateField = () => {
                     toYear={endDate ? endDate.getFullYear() : 2030}
                     disabled={endDate && { after: new Date(endDate) }}
                     initialFocus
+                    locale={locale[language]}
                   />
                 </PopoverContent>
               </Popover>
@@ -85,7 +101,9 @@ export const ReleaseDateField = () => {
         name="release_date.lte"
         render={({ field: { onChange, value } }) => (
           <FormItem>
-            <FormLabel>Até</FormLabel>
+            <FormLabel>
+              {dictionary.movies_list_filters.release_date_field.to_label}
+            </FormLabel>
 
             <FormControl>
               <Popover>
@@ -103,10 +121,20 @@ export const ReleaseDateField = () => {
                           locale: ptBR,
                         })
                       ) : (
-                        <p className="text-muted-foreground">Select a date</p>
+                        <p className="text-muted-foreground">
+                          {
+                            dictionary.movies_list_filters.release_date_field
+                              .to_placeholder
+                          }
+                        </p>
                       )}
 
-                      <span className="sr-only">Open popover date</span>
+                      <span className="sr-only">
+                        {
+                          dictionary.movies_list_filters.release_date_field
+                            .to_placeholder
+                        }
+                      </span>
                     </Button>
                   </div>
                 </PopoverTrigger>

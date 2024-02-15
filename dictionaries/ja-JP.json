@@ -269,5 +269,34 @@
     "popular_reviews": {
       "title": "人気のレビュー"
     }
+  },
+  "movies_list_filters": {
+    "title": "映画を発見",
+    "tabs": {
+      "filters": "フィルター",
+      "order": "並べ替え",
+      "watch_providers": "視聴方法"
+    },
+    "actions": {
+      "close": "閉じる",
+      "save_changes": "変更を保存"
+    },
+    "no_results": "結果なし。",
+    "genres_field": {
+      "label": "ジャンル",
+      "placeholder": "ジャンルを選択",
+      "no_genre_message": "ジャンルが選択されていません。"
+    },
+    "language_field": {
+      "label": "言語",
+      "placeholder": "言語を選択"
+    },
+    "release_date_field": {
+      "from_label": "開始日",
+      "to_label": "終了日",
+      "from_placeholder": "開始日を選択",
+      "to_placeholder": "終了日を選択",
+      "select_date": "日付を選択"
+    }
   }
 }

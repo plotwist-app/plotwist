@@ -7,6 +7,7 @@ type DiscoverFilters = {
   'release_date.gte': string | null
   'release_date.lte': string | null
   with_original_language: string | null
+  sort_by: string | null
 }
 
 type DiscoverOptions = {

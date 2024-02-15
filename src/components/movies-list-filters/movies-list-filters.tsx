@@ -1,6 +1,7 @@
 'use client'
 
 import { FormProvider, useForm } from 'react-hook-form'
+import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 
@@ -17,10 +18,10 @@ import {
 } from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { Filters } from './tabs'
+import { Filters, SortBy } from './tabs'
 import { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import { formatDateToURL } from '@/utils/date/format-date-to-url'
-import { useState } from 'react'
+import { useLanguage } from '@/context/language'
 
 const formatValueForQueryString = (
   key: string,
@@ -67,6 +68,7 @@ export const MoviesListFilters = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { dictionary } = useLanguage()
 
   const getDefaultValues = () => {
     const startDate = searchParams.get('release_date.gte')
@@ -74,14 +76,13 @@ export const MoviesListFilters = () => {
 
     return {
       genres: searchParams.get('genres')?.split(',').map(Number),
-
       with_original_language:
         searchParams.get('with_original_language') ?? undefined,
-
       release_date: {
         gte: startDate ? new Date(startDate) : undefined,
         lte: endDate ? new Date(endDate) : undefined,
       },
+      sort_by: searchParams.get('sort_by') ?? undefined,
     }
   }
 
@@ -110,16 +111,22 @@ export const MoviesListFilters = () => {
 
           <SheetContent className="space-y-4">
             <SheetHeader>
-              <SheetTitle>Discover movies</SheetTitle>
+              <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
             </SheetHeader>
 
             <div>
               <Tabs defaultValue="filters">
                 <TabsList>
-                  <TabsTrigger value="filters">Filtros</TabsTrigger>
-                  <TabsTrigger value="order">Ordenar</TabsTrigger>
+                  <TabsTrigger value="filters">
+                    {dictionary.movies_list_filters.tabs.filters}
+                  </TabsTrigger>
+
+                  <TabsTrigger value="sort-by">
+                    {dictionary.movies_list_filters.tabs.order}
+                  </TabsTrigger>
+
                   <TabsTrigger value="watch-providers">
-                    Onde assistir
+                    {dictionary.movies_list_filters.tabs.watch_providers}
                   </TabsTrigger>
                 </TabsList>
 
@@ -127,20 +134,25 @@ export const MoviesListFilters = () => {
                   <Filters />
                 </TabsContent>
 
-                <TabsContent value="order">Ordenar</TabsContent>
-                <TabsContent value="watch-providers">Onde assistir</TabsContent>
+                <TabsContent value="sort-by">
+                  <SortBy />
+                </TabsContent>
+
+                <TabsContent value="watch-providers">
+                  {dictionary.movies_list_filters.tabs.watch_providers}
+                </TabsContent>
               </Tabs>
             </div>
 
             <SheetFooter>
               <SheetClose asChild>
                 <Button type="submit" variant="outline">
-                  Close
+                  {dictionary.movies_list_filters.actions.close}
                 </Button>
               </SheetClose>
 
               <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
-                Save changes
+                {dictionary.movies_list_filters.actions.save_changes}
               </Button>
             </SheetFooter>
           </SheetContent>

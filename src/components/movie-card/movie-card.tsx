@@ -30,8 +30,6 @@ export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
     vote_count: voteCount,
   } = movie
 
-  if (!backdrop) return <></>
-
   return (
     <Link
       href={`/${language}/app/movies/${id}`}
@@ -39,13 +37,15 @@ export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
       data-testid="movie-card"
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
-        <Image
-          fill
-          className="object-cover"
-          src={tmdbImage(backdrop, 'w500')}
-          alt={title}
-          sizes="100%"
-        />
+        {backdrop && (
+          <Image
+            fill
+            className="object-cover"
+            src={tmdbImage(backdrop, 'w500')}
+            alt={title}
+            sizes="100%"
+          />
+        )}
       </div>
 
       <div className="space-y-1.5">
@@ -55,7 +55,9 @@ export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Badge variant="outline">{voteAverage.toFixed(1)}</Badge>
+                <Badge variant="outline">
+                  {voteAverage ? voteAverage.toFixed(1) : '?'}
+                </Badge>
               </TooltipTrigger>
 
               <TooltipContent>

@@ -271,5 +271,34 @@
     "popular_reviews": {
       "title": "Critiques populaires"
     }
+  },
+  "movies_list_filters": {
+    "title": "Découvrir les Films",
+    "tabs": {
+      "filters": "Filtres",
+      "order": "Trier",
+      "watch_providers": "Où Regarder"
+    },
+    "actions": {
+      "close": "Fermer",
+      "save_changes": "Enregistrer les Modifications"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Sélectionnez un genre",
+      "no_genre_message": "Vous n'avez sélectionné aucun genre."
+    },
+    "language_field": {
+      "label": "Langue",
+      "placeholder": "Sélectionnez une langue"
+    },
+    "release_date_field": {
+      "from_label": "De",
+      "to_label": "À",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Sélectionnez une date"
+    },
+    "no_results": "Aucun résultat."
   }
 }

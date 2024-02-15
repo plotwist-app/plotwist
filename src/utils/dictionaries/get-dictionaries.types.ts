@@ -273,4 +273,33 @@ export type Dictionary = {
       title: string
     }
   }
+  movies_list_filters: {
+    title: string
+    tabs: {
+      filters: string
+      order: string
+      watch_providers: string
+    }
+    actions: {
+      close: string
+      save_changes: string
+    }
+    genres_field: {
+      label: string
+      placeholder: string
+      no_genre_message: string
+    }
+    language_field: {
+      label: string
+      placeholder: string
+    }
+    release_date_field: {
+      from_label: string
+      to_label: string
+      from_placeholder: string
+      to_placeholder: string
+      select_date: string
+    }
+    no_results: string
+  }
 }

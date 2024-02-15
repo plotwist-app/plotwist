@@ -271,5 +271,34 @@
     "popular_reviews": {
       "title": "Avaliações populares"
     }
+  },
+  "movies_list_filters": {
+    "title": "Descubra Filmes",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar",
+      "watch_providers": "Onde Assistir"
+    },
+    "actions": {
+      "close": "Fechar",
+      "save_changes": "Salvar Alterações"
+    },
+    "genres_field": {
+      "label": "Gêneros",
+      "placeholder": "Selecione um gênero",
+      "no_genre_message": "Você não selecionou nenhum gênero."
+    },
+    "language_field": {
+      "label": "Idioma",
+      "placeholder": "Selecione um idioma"
+    },
+    "release_date_field": {
+      "from_label": "De",
+      "to_label": "Até",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Selecione uma data"
+    },
+    "no_results": "Sem resultados."
   }
 }
