@@ -225,7 +225,7 @@
   "movie_pages": {
     "discover": {
       "title": "Descubra",
-      "description": "Encontre filmes usando mais de 30 filtros e opções de ordenação."
+      "description": "Encontre filmes usando filtros e opções de ordenação."
     },
     "now_playing": {
       "title": "Em exibição",

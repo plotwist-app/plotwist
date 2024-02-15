@@ -160,7 +160,7 @@ export const GenresField = () => {
 
               <div className="relative mt-2">
                 {open && selectableGenres.length > 0 ? (
-                  <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+                  <div className="absolute top-0 z-10 max-h-[200px] w-full overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in md:max-h-none">
                     <CommandGroup className="h-full overflow-auto">
                       {selectableGenres.map((option) => {
                         return (

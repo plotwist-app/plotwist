@@ -17,80 +17,36 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useLanguage } from '@/context/language'
 
 import { Filters, SortBy } from './tabs'
 import { MoviesListFiltersFormValues } from './movies-list-filters-schema'
-import { formatDateToURL } from '@/utils/date/format-date-to-url'
-import { useLanguage } from '@/context/language'
-
-const formatValueForQueryString = (
-  key: string,
-  value: Date | string,
-): string => {
-  if (value instanceof Date) {
-    return `${encodeURIComponent(key)}=${encodeURIComponent(
-      formatDateToURL(value),
-    )}`
-  }
-
-  return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-}
-
-const buildQueryStringFromValues = (
-  values: MoviesListFiltersFormValues,
-): string => {
-  const parts: string[] = []
-
-  Object.entries(values).forEach(([key, value]) => {
-    if (typeof value === 'object' && value !== null) {
-      if (Array.isArray(value)) {
-        if (value.length > 0) return parts.push(`${key}=${value.join(',')}`)
-      }
-
-      Object.entries(value).forEach(([subKey, subValue]) => {
-        if (subValue) {
-          parts.push(formatValueForQueryString(`${key}.${subKey}`, subValue))
-        }
-      })
-
-      return
-    }
-
-    if (value) {
-      parts.push(formatValueForQueryString(key, value))
-    }
-  })
-
-  return parts.join('&')
-}
+import {
+  buildQueryStringFromValues,
+  getDefaultValues,
+} from './movies-list-filters.utils'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '../ui/drawer'
 
 export const MoviesListFilters = () => {
+  const [open, setOpen] = useState(false)
+
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { dictionary } = useLanguage()
-
-  const getDefaultValues = () => {
-    const startDate = searchParams.get('release_date.gte')
-    const endDate = searchParams.get('release_date.lte')
-
-    return {
-      genres: searchParams.get('genres')?.split(',').map(Number),
-      with_original_language:
-        searchParams.get('with_original_language') ?? undefined,
-      release_date: {
-        gte: startDate ? new Date(startDate) : undefined,
-        lte: endDate ? new Date(endDate) : undefined,
-      },
-      sort_by: searchParams.get('sort_by') ?? undefined,
-    }
-  }
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const methods = useForm<MoviesListFiltersFormValues>({
-    defaultValues: getDefaultValues(),
+    defaultValues: getDefaultValues(searchParams),
   })
-
-  const [open, setOpen] = useState(false)
 
   const onSubmit = (values: MoviesListFiltersFormValues) => {
     const queryString = buildQueryStringFromValues(values)
@@ -99,20 +55,84 @@ export const MoviesListFilters = () => {
     setOpen(false)
   }
 
+  if (isDesktop) {
+    return (
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon">
+                <SlidersHorizontal size={16} />
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent className="space-y-4">
+              <SheetHeader>
+                <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
+              </SheetHeader>
+
+              <div>
+                <Tabs defaultValue="filters">
+                  <TabsList>
+                    <TabsTrigger value="filters">
+                      {dictionary.movies_list_filters.tabs.filters}
+                    </TabsTrigger>
+
+                    <TabsTrigger value="sort-by">
+                      {dictionary.movies_list_filters.tabs.order}
+                    </TabsTrigger>
+
+                    <TabsTrigger value="watch-providers">
+                      {dictionary.movies_list_filters.tabs.watch_providers}
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="filters">
+                    <Filters />
+                  </TabsContent>
+
+                  <TabsContent value="sort-by">
+                    <SortBy />
+                  </TabsContent>
+
+                  <TabsContent value="watch-providers">
+                    {dictionary.movies_list_filters.tabs.watch_providers}
+                  </TabsContent>
+                </Tabs>
+              </div>
+
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button type="submit" variant="outline">
+                    {dictionary.movies_list_filters.actions.close}
+                  </Button>
+                </SheetClose>
+
+                <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
+                  {dictionary.movies_list_filters.actions.save_changes}
+                </Button>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </form>
+      </FormProvider>
+    )
+  }
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerTrigger asChild>
             <Button variant="outline" size="icon">
               <SlidersHorizontal size={16} />
             </Button>
-          </SheetTrigger>
+          </DrawerTrigger>
 
-          <SheetContent className="space-y-4">
-            <SheetHeader>
+          <DrawerContent className="space-y-2 px-4">
+            <DrawerHeader>
               <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
-            </SheetHeader>
+            </DrawerHeader>
 
             <div>
               <Tabs defaultValue="filters">
@@ -144,19 +164,19 @@ export const MoviesListFilters = () => {
               </Tabs>
             </div>
 
-            <SheetFooter>
-              <SheetClose asChild>
+            <DrawerFooter className="flex-row justify-end px-0">
+              <DrawerClose asChild>
                 <Button type="submit" variant="outline">
                   {dictionary.movies_list_filters.actions.close}
                 </Button>
-              </SheetClose>
+              </DrawerClose>
 
               <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
                 {dictionary.movies_list_filters.actions.save_changes}
               </Button>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </form>
     </FormProvider>
   )
