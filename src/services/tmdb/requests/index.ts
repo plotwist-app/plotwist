@@ -1,7 +1,6 @@
 export * from './credits'
 
 export * from './search'
-export * from './watch-providers'
 
 export * from './tv-series'
 export * from './tv-seasons'
@@ -12,3 +11,4 @@ export * from './person'
 export * from './videos'
 export * from './genres'
 export * from './languages'
+export * from './watch-providers'

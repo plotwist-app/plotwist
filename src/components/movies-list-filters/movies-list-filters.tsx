@@ -34,6 +34,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from '../ui/drawer'
+import { WatchProviders } from './tabs/watch-providers'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -96,7 +97,7 @@ export const MoviesListFilters = () => {
                   </TabsContent>
 
                   <TabsContent value="watch-providers">
-                    {dictionary.movies_list_filters.tabs.watch_providers}
+                    <WatchProviders />
                   </TabsContent>
                 </Tabs>
               </div>

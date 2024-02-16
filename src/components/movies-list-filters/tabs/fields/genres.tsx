@@ -10,7 +10,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
 
 import { useLanguage } from '@/context/language'
@@ -186,8 +185,6 @@ export const GenresField = () => {
               </div>
             </Command>
           </FormControl>
-
-          <FormMessage />
         </FormItem>
       )}
     />

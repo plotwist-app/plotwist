@@ -1,5 +1,5 @@
-import { tmdbClient } from '..'
-import { WatchProviders } from '../types/watch-providers'
+import { tmdbClient } from '../..'
+import { WatchProviders } from '../../types/watch-providers'
 
 type Type = 'movie' | 'tv'
 

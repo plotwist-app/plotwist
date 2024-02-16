@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import {
   search,
-  watchProviders,
+  movieProviders,
   credits,
   movies,
   tvSeries,
@@ -30,7 +30,9 @@ export const tmdb = {
   tvSeries,
   tvSeasons,
   images,
-  watchProviders,
+  watchProviders: {
+    movieProviders,
+  },
   search,
   credits,
   collections,
