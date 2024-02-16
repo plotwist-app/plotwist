@@ -60,7 +60,7 @@ export const WatchProviders = async ({
   language,
   ...dropdownMenuProps
 }: WatchProvidersProps) => {
-  const { results } = await tmdb.watchProviders(variant, id)
+  const { results } = await tmdb.watchProviders.itemWatchProviders(variant, id)
   const dictionary = await getDictionary(language)
 
   const resultsByLanguage = {

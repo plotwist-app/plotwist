@@ -198,14 +198,6 @@ export const WatchProviders = () => {
                       return (
                         <div
                           className="flex cursor-pointer items-center gap-2 px-4"
-                          onMouseDown={(event) => {
-                            event.preventDefault()
-                            event.stopPropagation()
-                          }}
-                          onClick={() => {
-                            setInputValue('')
-                            handleSelect(data[index])
-                          }}
                           style={style}
                         >
                           <div className="relative h-5 w-5 overflow-hidden rounded-md">
