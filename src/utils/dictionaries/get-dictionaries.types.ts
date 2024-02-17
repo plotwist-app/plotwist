@@ -316,6 +316,16 @@ export type Dictionary = {
         'vote_count.asc': string
       }
     }
+    watch_providers_field: {
+      label: string
+      placeholder: string
+      clear_filters: string
+      no_results: string
+    }
+    watch_region_field: {
+      label: string
+      placeholder: string
+    }
     no_results: string
   }
 }

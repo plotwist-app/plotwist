@@ -19,6 +19,7 @@ import {
 
 import { useLanguage } from '@/context/language'
 import { tmdb } from '@/services/tmdb'
+import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 
 type RegionOption = {
   label: string
@@ -26,8 +27,15 @@ type RegionOption = {
 }
 
 export const WatchRegion = () => {
-  const { language } = useLanguage()
-  const { control } = useFormContext()
+  const {
+    language,
+    dictionary: {
+      movies_list_filters: {
+        watch_region_field: { label, placeholder },
+      },
+    },
+  } = useLanguage()
+  const { control } = useFormContext<MoviesListFiltersFormValues>()
 
   const { data: regions } = useQuery({
     queryKey: ['available-regions'],
@@ -54,12 +62,12 @@ export const WatchRegion = () => {
       name="watch_region"
       render={({ field: { value } }) => (
         <FormItem>
-          <FormLabel>Region</FormLabel>
+          <FormLabel>{label}</FormLabel>
 
           <FormControl>
             <Select disabled value={value}>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Select a region" />
+              <SelectTrigger>
+                <SelectValue placeholder={placeholder} />
               </SelectTrigger>
 
               <SelectContent>

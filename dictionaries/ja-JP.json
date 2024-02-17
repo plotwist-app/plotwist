@@ -313,6 +313,16 @@
         "vote_count.asc": "投票数が少ない"
       }
     },
+    "watch_providers_field": {
+      "label": "配信プロバイダー",
+      "placeholder": "プロバイダーでフィルター",
+      "clear_filters": "フィルターをクリア",
+      "no_results": "結果が見つかりませんでした。"
+    },
+    "watch_region_field": {
+      "label": "地域",
+      "placeholder": "地域を選択"
+    },
     "no_results": "結果なし。"
   }
 }

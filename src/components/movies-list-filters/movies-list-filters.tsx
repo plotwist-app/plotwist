@@ -148,7 +148,7 @@ export const MoviesListFilters = () => {
                     {dictionary.movies_list_filters.tabs.order}
                   </TabsTrigger>
 
-                  <TabsTrigger value="watch-providers">
+                  <TabsTrigger value="where-to-watch">
                     {dictionary.movies_list_filters.tabs.watch_providers}
                   </TabsTrigger>
                 </TabsList>
@@ -161,8 +161,8 @@ export const MoviesListFilters = () => {
                   <SortBy />
                 </TabsContent>
 
-                <TabsContent value="watch-providers">
-                  {dictionary.movies_list_filters.tabs.watch_providers}
+                <TabsContent value="where-to-watch">
+                  <WhereToWatch />
                 </TabsContent>
               </Tabs>
             </div>

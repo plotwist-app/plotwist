@@ -42,7 +42,7 @@ type Option = {
 }
 
 export const WatchProvidersField = () => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { control, setValue, watch } =
@@ -134,7 +134,9 @@ export const WatchProvidersField = () => {
       name="with_watch_providers"
       render={() => (
         <FormItem>
-          <FormLabel>Watch providers</FormLabel>
+          <FormLabel>
+            {dictionary.movies_list_filters.watch_providers_field.label}
+          </FormLabel>
 
           <FormControl>
             <Popover modal>
@@ -191,7 +193,10 @@ export const WatchProvidersField = () => {
                   ) : (
                     <>
                       <Eye className="mr-2 h-4 w-4" />
-                      Filter by watch providers
+                      {
+                        dictionary.movies_list_filters.watch_providers_field
+                          .placeholder
+                      }
                     </>
                   )}
                 </Button>
@@ -200,12 +205,20 @@ export const WatchProvidersField = () => {
               <PopoverContent className="max-h-none p-0" align="start">
                 <Command onKeyDown={handleKeyDown}>
                   <CommandInput
-                    placeholder="Search watch provider"
+                    placeholder={
+                      dictionary.movies_list_filters.watch_providers_field
+                        .placeholder
+                    }
                     ref={inputRef}
                   />
 
                   <ScrollArea className="h-[300px] overflow-auto">
-                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandEmpty>
+                      {
+                        dictionary.movies_list_filters.watch_providers_field
+                          .no_results
+                      }
+                    </CommandEmpty>
 
                     <CommandGroup>
                       {selectableWatchProviders.map(
@@ -244,7 +257,10 @@ export const WatchProvidersField = () => {
                           onSelect={() => setValue('with_watch_providers', [])}
                           className="justify-center text-center"
                         >
-                          Clear filters
+                          {
+                            dictionary.movies_list_filters.watch_providers_field
+                              .clear_filters
+                          }
                         </CommandItem>
                       </CommandGroup>
                     </>

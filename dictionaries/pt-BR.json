@@ -315,6 +315,16 @@
         "vote_count.asc": "Menos votado"
       }
     },
+    "watch_providers_field": {
+      "label": "Provedores de serviço",
+      "placeholder": "Filtrar por provedores",
+      "clear_filters": "Limpar filtros",
+      "no_results": "Nenhum resultado encontrado."
+    },
+    "watch_region_field": {
+      "label": "Região",
+      "placeholder": "Selecione uma região"
+    },
     "no_results": "Sem resultados."
   }
 }

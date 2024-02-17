@@ -317,6 +317,16 @@
         "vote_count.asc": "Least Voted"
       }
     },
+    "watch_providers_field": {
+      "label": "Watch providers",
+      "placeholder": "Filter by watch providers",
+      "clear_filters": "Clear filters",
+      "no_results": "No results found."
+    },
+    "watch_region_field": {
+      "label": "Region",
+      "placeholder": "Select a region"
+    },
     "no_results": "No results."
   }
 }
