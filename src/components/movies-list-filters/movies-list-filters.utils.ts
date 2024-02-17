@@ -63,5 +63,14 @@ export const getDefaultValues = (searchParams: ReadonlyURLSearchParams) => {
       lte: endDate ? new Date(endDate) : undefined,
     },
     sort_by: searchParams.get('sort_by') ?? undefined,
+
+    vote_average: {
+      gte: searchParams.get('vote_average.gte') ?? 0,
+      lte: searchParams.get('vote_average.lte') ?? 10,
+    },
+
+    vote_count: {
+      gte: searchParams.get('vote_count.gte') ?? 0,
+    },
   }
 }

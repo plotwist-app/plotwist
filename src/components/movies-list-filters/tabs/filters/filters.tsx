@@ -1,4 +1,10 @@
-import { GenresField, LanguageField, ReleaseDateField } from './(fields)'
+import {
+  GenresField,
+  LanguageField,
+  ReleaseDateField,
+  VoteAverageField,
+  VoteCountField,
+} from './(fields)'
 
 export const Filters = () => {
   return (
@@ -6,6 +12,8 @@ export const Filters = () => {
       <GenresField />
       <ReleaseDateField />
       <LanguageField />
+      <VoteAverageField />
+      <VoteCountField />
     </div>
   )
 }

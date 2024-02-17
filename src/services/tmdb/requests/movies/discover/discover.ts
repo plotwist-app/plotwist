@@ -9,7 +9,10 @@ type DiscoverFilters = Record<
   | 'with_original_language'
   | 'sort_by'
   | 'with_watch_providers'
-  | 'watch_region',
+  | 'watch_region'
+  | 'vote_average.gte'
+  | 'vote_average.lte'
+  | 'vote_count.gte',
   string | null
 >
 

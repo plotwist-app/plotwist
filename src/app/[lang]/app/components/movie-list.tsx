@@ -45,6 +45,11 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
   const withWatchProviders = searchParams.get('with_watch_providers')
   const watchRegion = searchParams.get('watch_region')
 
+  const voteAverageStart = searchParams.get('vote_average.gte')
+  const voteAverageEnd = searchParams.get('vote_average.lte')
+
+  const voteCountStart = searchParams.get('vote_count.gte')
+
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: [
       variant,
@@ -55,6 +60,8 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
       sortBy,
       withWatchProviders,
       watchRegion,
+      voteAverageStart,
+      voteAverageEnd,
     ],
 
     queryFn: ({ pageParam }) =>
@@ -68,6 +75,9 @@ export const MovieList = ({ variant, language }: MovieListContentProps) => {
               sort_by: sortBy,
               with_watch_providers: withWatchProviders,
               watch_region: watchRegion,
+              'vote_average.gte': voteAverageStart,
+              'vote_average.lte': voteAverageEnd,
+              'vote_count.gte': voteCountStart,
             },
             language,
             page: pageParam,
