@@ -271,5 +271,60 @@
     "popular_reviews": {
       "title": "Critiques populaires"
     }
+  },
+  "movies_list_filters": {
+    "title": "Découvrir les Films",
+    "tabs": {
+      "filters": "Filtres",
+      "order": "Trier",
+      "watch_providers": "Où Regarder"
+    },
+    "actions": {
+      "close": "Fermer",
+      "save_changes": "Enregistrer les Modifications"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Sélectionnez un genre",
+      "no_genre_message": "Vous n'avez sélectionné aucun genre."
+    },
+    "language_field": {
+      "label": "Langue",
+      "placeholder": "Sélectionnez une langue"
+    },
+    "release_date_field": {
+      "from_label": "De",
+      "to_label": "À",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Sélectionnez une date"
+    },
+    "sort_by": {
+      "label": "Trier par",
+      "placeholder": "Trier par",
+      "options": {
+        "popularity.desc": "Plus populaire",
+        "popularity.asc": "Moins populaire",
+        "revenue.desc": "Plus haut revenu",
+        "revenue.asc": "Plus bas revenu",
+        "primary_release_date.desc": "Plus récent",
+        "primary_release_date.asc": "Moins récent",
+        "vote_average.desc": "Mieux noté",
+        "vote_average.asc": "Moins bien noté",
+        "vote_count.desc": "Le plus voté",
+        "vote_count.asc": "Le moins voté"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Fournisseurs",
+      "placeholder": "Filtrer par fournisseurs",
+      "clear_filters": "Effacer les filtres",
+      "no_results": "Aucun résultat trouvé."
+    },
+    "watch_region_field": {
+      "label": "Région",
+      "placeholder": "Sélectionnez une région"
+    },
+    "no_results": "Aucun résultat."
   }
 }

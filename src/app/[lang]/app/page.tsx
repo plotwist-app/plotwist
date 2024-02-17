@@ -14,7 +14,12 @@ import { getDictionary } from '@/utils/dictionaries'
 const AppPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
-  const popularMovies = await tmdb.movies.list('popular', lang)
+  const popularMovies = await tmdb.movies.list({
+    language: lang,
+    list: 'popular',
+    page: 1,
+  })
+
   const popularTvShows = await tmdb.tvSeries.list('popular', lang)
 
   return (

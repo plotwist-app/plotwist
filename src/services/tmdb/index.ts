@@ -2,7 +2,9 @@ import axios from 'axios'
 
 import {
   search,
-  watchProviders,
+  movieProviders,
+  itemWatchProviders,
+  availableRegions,
   credits,
   movies,
   tvSeries,
@@ -12,6 +14,7 @@ import {
   videos,
   person,
   genres,
+  languages,
 } from './requests'
 
 const TMDB_API_KEY =
@@ -29,11 +32,16 @@ export const tmdb = {
   tvSeries,
   tvSeasons,
   images,
-  watchProviders,
   search,
   credits,
   collections,
   videos,
   person,
   genres,
+  languages,
+  watchProviders: {
+    movieProviders,
+    itemWatchProviders,
+    availableRegions,
+  },
 }

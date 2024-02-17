@@ -13,7 +13,11 @@ type MoviesListProps = {
 }
 
 export const MoviesList = async ({ list, language }: MoviesListProps) => {
-  const { results } = await tmdb.movies.list(list, language)
+  const { results } = await tmdb.movies.list({
+    list,
+    language,
+    page: 1,
+  })
 
   const dictionary = await getDictionary(language)
 
