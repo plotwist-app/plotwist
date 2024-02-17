@@ -1,4 +1,4 @@
-import { GenresField, LanguageField, ReleaseDateField } from './fields'
+import { GenresField, LanguageField, ReleaseDateField } from './(fields)'
 
 export const Filters = () => {
   return (

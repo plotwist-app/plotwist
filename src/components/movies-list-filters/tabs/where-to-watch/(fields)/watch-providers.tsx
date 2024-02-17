@@ -33,7 +33,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-import { MoviesListFiltersFormValues } from '..'
+import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 
 type Option = {
   value: number
@@ -41,31 +41,33 @@ type Option = {
   logo: string
 }
 
-export const WatchProviders = () => {
+export const WatchProvidersField = () => {
   const { language } = useLanguage()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { control, setValue, watch } =
     useFormContext<MoviesListFiltersFormValues>()
+  const watchRegion = watch('watch_region')
 
-  const { data } = useQuery({
-    queryKey: ['watch-providers'],
+  const { data: watchProviders } = useQuery({
+    queryKey: ['watch-providers', watchRegion],
     queryFn: async () =>
       await tmdb.watchProviders.movieProviders({
         language,
+        watch_region: watchRegion,
       }),
   })
 
   const watchProvidersOptions: Option[] = useMemo(
     () =>
-      data
-        ? data.map((watchProvider) => ({
+      watchProviders
+        ? watchProviders.map((watchProvider) => ({
             label: watchProvider.provider_name,
             value: watchProvider.provider_id,
             logo: watchProvider.logo_path,
           }))
         : [],
-    [data],
+    [watchProviders],
   )
 
   const handleUnselect = useCallback(
@@ -141,6 +143,7 @@ export const WatchProviders = () => {
                   variant="outline"
                   className="min-h-8 h-auto w-full justify-start border-dashed py-2 hover:bg-background"
                   size="sm"
+                  disabled={!watch('watch_region')}
                 >
                   {selectedWatchProviders.length > 0 ? (
                     <div className="flex flex-wrap gap-1">

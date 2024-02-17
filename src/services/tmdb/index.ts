@@ -4,6 +4,7 @@ import {
   search,
   movieProviders,
   itemWatchProviders,
+  availableRegions,
   credits,
   movies,
   tvSeries,
@@ -31,10 +32,6 @@ export const tmdb = {
   tvSeries,
   tvSeasons,
   images,
-  watchProviders: {
-    movieProviders,
-    itemWatchProviders,
-  },
   search,
   credits,
   collections,
@@ -42,4 +39,9 @@ export const tmdb = {
   person,
   genres,
   languages,
+  watchProviders: {
+    movieProviders,
+    itemWatchProviders,
+    availableRegions,
+  },
 }

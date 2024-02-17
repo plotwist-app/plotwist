@@ -47,10 +47,17 @@ export const getDefaultValues = (searchParams: ReadonlyURLSearchParams) => {
   const startDate = searchParams.get('release_date.gte')
   const endDate = searchParams.get('release_date.lte')
 
+  const watchProviders = searchParams
+    .get('with_watch_providers')
+    ?.split(',')
+    .map(Number)
+
   return {
     genres: searchParams.get('genres')?.split(',').map(Number),
     with_original_language:
       searchParams.get('with_original_language') ?? undefined,
+    watch_region: searchParams.get('watch_region') ?? undefined,
+    with_watch_providers: watchProviders ?? undefined,
     release_date: {
       gte: startDate ? new Date(startDate) : undefined,
       lte: endDate ? new Date(endDate) : undefined,

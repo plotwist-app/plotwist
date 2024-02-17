@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/popover'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
+import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 import { useLanguage } from '@/context/language'
 import { locale } from '@/utils/date/locale'
 

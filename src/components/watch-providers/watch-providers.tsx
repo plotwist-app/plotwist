@@ -76,6 +76,8 @@ export const WatchProviders = async ({
   const watchProvider =
     resultsByLanguage[language] ?? resultsByLanguage['en-US']
 
+  console.log({ watchProvider })
+
   if (!watchProvider) return <></>
 
   const { buy, flatrate, rent } = watchProvider

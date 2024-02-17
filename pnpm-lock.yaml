@@ -128,9 +128,6 @@ dependencies:
   react-masonry-css:
     specifier: ^1.0.16
     version: 1.0.16(react@18.0.0)
-  react-virtualized-auto-sizer:
-    specifier: ^1.0.22
-    version: 1.0.22(react-dom@18.0.0)(react@18.0.0)
   react-window:
     specifier: ^1.8.10
     version: 1.8.10(react-dom@18.0.0)(react@18.0.0)
@@ -6111,16 +6108,6 @@ packages:
       invariant: 2.2.4
       react: 18.0.0
       tslib: 2.6.2
-    dev: false
-
-  /react-virtualized-auto-sizer@1.0.22(react-dom@18.0.0)(react@18.0.0):
-    resolution: {integrity: sha512-2CGT/4rZ6jvVkKqzJGnZlyQxj4rWPKAwZR80vMlmpYToN18xaB0yIODOoBltWZLbSgpHBpIk0Ae1nrVO9hVClA==}
-    peerDependencies:
-      react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
-      react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.0.0
-      react-dom: 18.0.0(react@18.0.0)
     dev: false
 
   /react-window@1.8.10(react-dom@18.0.0)(react@18.0.0):

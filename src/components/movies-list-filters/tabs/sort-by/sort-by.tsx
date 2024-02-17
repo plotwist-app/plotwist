@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/select'
 import { useLanguage } from '@/context/language'
 
-import { MoviesListFiltersFormValues } from '..'
+import { MoviesListFiltersFormValues } from '../..'
 
 const options = [
   'popularity.desc',

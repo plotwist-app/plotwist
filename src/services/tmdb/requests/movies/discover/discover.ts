@@ -2,13 +2,16 @@ import { tmdbClient } from '@/services/tmdb'
 import { ListResponse, Movie } from '@/services/tmdb/types'
 import { Language } from '@/types/languages'
 
-type DiscoverFilters = {
-  with_genres: string | null
-  'release_date.gte': string | null
-  'release_date.lte': string | null
-  with_original_language: string | null
-  sort_by: string | null
-}
+type DiscoverFilters = Record<
+  | 'with_genres'
+  | 'release_date.gte'
+  | 'release_date.lte'
+  | 'with_original_language'
+  | 'sort_by'
+  | 'with_watch_providers'
+  | 'watch_region',
+  string | null
+>
 
 type DiscoverOptions = {
   language: Language

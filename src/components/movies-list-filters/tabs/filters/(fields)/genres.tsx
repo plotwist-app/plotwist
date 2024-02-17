@@ -14,7 +14,7 @@ import {
 
 import { useLanguage } from '@/context/language'
 import { tmdb } from '@/services/tmdb'
-import { MoviesListFiltersFormValues } from '../../movies-list-filters-schema'
+import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Badge } from '@/components/ui/badge'
 import { X } from 'lucide-react'

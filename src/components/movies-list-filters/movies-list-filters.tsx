@@ -19,7 +19,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useLanguage } from '@/context/language'
 
-import { Filters, SortBy } from './tabs'
+import { Filters, SortBy, WhereToWatch } from './tabs'
 import { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import {
   buildQueryStringFromValues,
@@ -34,7 +34,6 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from '../ui/drawer'
-import { WatchProviders } from './tabs/watch-providers'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -42,11 +41,14 @@ export const MoviesListFilters = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const methods = useForm<MoviesListFiltersFormValues>({
-    defaultValues: getDefaultValues(searchParams),
+    defaultValues: {
+      ...getDefaultValues(searchParams),
+      watch_region: language.split('-')[1],
+    },
   })
 
   const onSubmit = (values: MoviesListFiltersFormValues) => {
@@ -83,7 +85,7 @@ export const MoviesListFilters = () => {
                       {dictionary.movies_list_filters.tabs.order}
                     </TabsTrigger>
 
-                    <TabsTrigger value="watch-providers">
+                    <TabsTrigger value="where-to-watch">
                       {dictionary.movies_list_filters.tabs.watch_providers}
                     </TabsTrigger>
                   </TabsList>
@@ -96,8 +98,8 @@ export const MoviesListFilters = () => {
                     <SortBy />
                   </TabsContent>
 
-                  <TabsContent value="watch-providers">
-                    <WatchProviders />
+                  <TabsContent value="where-to-watch">
+                    <WhereToWatch />
                   </TabsContent>
                 </Tabs>
               </div>

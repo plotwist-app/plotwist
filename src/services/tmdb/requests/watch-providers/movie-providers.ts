@@ -3,6 +3,7 @@ import { tmdbClient } from '../..'
 
 type MovieProvidersQueryParams = {
   language: Language
+  watch_region?: string
 }
 
 type MovieProvider = {
