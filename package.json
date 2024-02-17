@@ -68,8 +68,6 @@
     "@types/nprogress": "^0.2.3",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18",
-    "@types/react-infinite-scroller": "^1.2.5",
-    "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-istanbul": "^1.0.2",
     "@vitest/coverage-v8": "^1.0.2",
