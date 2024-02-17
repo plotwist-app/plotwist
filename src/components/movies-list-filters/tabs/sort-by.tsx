@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form'
-import { ChevronDown, ChevronUp, MoveDown, MoveUp } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import {
   FormControl,
@@ -16,8 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { MoviesListFiltersFormValues } from '..'
 import { useLanguage } from '@/context/language'
+
+import { MoviesListFiltersFormValues } from '..'
 
 const options = [
   'popularity.desc',
