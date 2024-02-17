@@ -1,32 +1,39 @@
 'use client'
 
+import { KeyboardEvent, useCallback, useMemo, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import { Eye, X } from 'lucide-react'
+
 import { useLanguage } from '@/context/language'
 import { tmdb } from '@/services/tmdb'
-import { useQuery } from '@tanstack/react-query'
-import { Command as CommandPrimitive } from 'cmdk'
-import { FixedSizeList as List } from 'react-window'
-import { useFormContext } from 'react-hook-form'
 
-import {
-  CSSProperties,
-  KeyboardEvent,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { MoviesListFiltersFormValues } from '..'
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from '@/components/ui/form'
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandSeparator,
+} from '@/components/ui/command'
 import { Badge } from '@/components/ui/badge'
-import { X } from 'lucide-react'
-import Image from 'next/image'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
+
 import { tmdbImage } from '@/utils/tmdb/image'
+import { MoviesListFiltersFormValues } from '..'
 
 type Option = {
   value: number
@@ -34,13 +41,9 @@ type Option = {
   logo: string
 }
 
-type RowProps = { index: number; data: Option[]; style: CSSProperties }
-
 export const WatchProviders = () => {
   const { language } = useLanguage()
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputValue, setInputValue] = useState('')
-  const [open, setOpen] = useState(true)
 
   const { control, setValue, watch } =
     useFormContext<MoviesListFiltersFormValues>()
@@ -109,7 +112,7 @@ export const WatchProviders = () => {
         }
       }
     },
-    [setValue, watch],
+    [setValue, watch, inputRef],
   )
 
   const selectedWatchProviders = watchProvidersOptions.filter(
@@ -132,90 +135,120 @@ export const WatchProviders = () => {
           <FormLabel>Watch providers</FormLabel>
 
           <FormControl>
-            <Command
-              className="overflow-visible bg-transparent"
-              onKeyDown={handleKeyDown}
-            >
-              <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                <div className="flex flex-wrap gap-1">
-                  {selectedWatchProviders.map((selectedWatchProvider) => (
-                    <Badge
-                      key={selectedWatchProvider.value}
-                      variant="secondary"
-                      className="gap-1"
-                    >
-                      <div className="relative h-5 w-5 overflow-hidden rounded-md">
-                        <Image
-                          src={tmdbImage(selectedWatchProvider.logo)}
-                          alt={selectedWatchProvider.label}
-                          fill
-                        />
-                      </div>
+            <Popover modal>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="min-h-8 h-auto w-full justify-start border-dashed py-2 hover:bg-background"
+                  size="sm"
+                >
+                  {selectedWatchProviders.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {selectedWatchProviders.map((selectedWatchProvider) => {
+                        return (
+                          <Badge
+                            key={selectedWatchProvider.value}
+                            variant="secondary"
+                            className="gap-1"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            <div className="relative h-5 w-5 overflow-hidden rounded-md">
+                              <Image
+                                src={tmdbImage(selectedWatchProvider.logo)}
+                                alt={selectedWatchProvider.label}
+                                fill
+                                quality={25}
+                              />
+                            </div>
 
-                      {selectedWatchProvider.label}
+                            {selectedWatchProvider.label}
 
-                      <button
-                        className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            handleUnselect(selectedWatchProvider)
-                          }
-                        }}
-                        onMouseDown={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                        }}
-                        onClick={() => handleUnselect(selectedWatchProvider)}
-                      >
-                        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                      </button>
-                    </Badge>
-                  ))}
-                </div>
+                            <button
+                              className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  handleUnselect(selectedWatchProvider)
+                                }
+                              }}
+                              onMouseDown={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                handleUnselect(selectedWatchProvider)
+                              }}
+                            >
+                              <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                            </button>
+                          </Badge>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <>
+                      <Eye className="mr-2 h-4 w-4" />
+                      Filter by watch providers
+                    </>
+                  )}
+                </Button>
+              </PopoverTrigger>
 
-                <CommandPrimitive.Input
-                  ref={inputRef}
-                  value={inputValue}
-                  onValueChange={setInputValue}
-                  onBlur={() => setOpen(false)}
-                  onFocus={() => setOpen(true)}
-                  placeholder="watch provider"
-                  className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
-                />
-              </div>
+              <PopoverContent className="max-h-none p-0" align="start">
+                <Command onKeyDown={handleKeyDown}>
+                  <CommandInput
+                    placeholder="Search watch provider"
+                    ref={inputRef}
+                  />
 
-              <div className="relative mt-2">
-                {open && selectableWatchProviders.length > 0 ? (
-                  <List
-                    width="100%"
-                    height={300}
-                    itemSize={35}
-                    itemCount={selectableWatchProviders.length}
-                    itemData={selectableWatchProviders}
-                    className="absolute top-0 z-10 w-full overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in md:max-h-none"
-                  >
-                    {({ index, style, data }: RowProps) => {
-                      return (
-                        <div
-                          className="flex cursor-pointer items-center gap-2 px-4"
-                          style={style}
+                  <ScrollArea className="h-[300px] overflow-auto">
+                    <CommandEmpty>No results found.</CommandEmpty>
+
+                    <CommandGroup>
+                      {selectableWatchProviders.map(
+                        (selectableWatchProvider) => {
+                          return (
+                            <CommandItem
+                              key={selectableWatchProvider.value}
+                              className="flex cursor-pointer gap-2"
+                              onSelect={() =>
+                                handleSelect(selectableWatchProvider)
+                              }
+                            >
+                              <div className="relative h-5 w-5 overflow-hidden rounded-md">
+                                <Image
+                                  src={tmdbImage(selectableWatchProvider.logo)}
+                                  alt={selectableWatchProvider.label}
+                                  fill
+                                  quality={25}
+                                />
+                              </div>
+
+                              {selectableWatchProvider.label}
+                            </CommandItem>
+                          )
+                        },
+                      )}
+                    </CommandGroup>
+                  </ScrollArea>
+
+                  {selectedWatchProviders.length > 0 && (
+                    <>
+                      <CommandSeparator />
+
+                      <CommandGroup>
+                        <CommandItem
+                          onSelect={() => setValue('with_watch_providers', [])}
+                          className="justify-center text-center"
                         >
-                          <div className="relative h-5 w-5 overflow-hidden rounded-md">
-                            <Image
-                              src={tmdbImage(data[index].logo)}
-                              alt={data[index].label}
-                              fill
-                            />
-                          </div>
-
-                          <div>{data[index].label}</div>
-                        </div>
-                      )
-                    }}
-                  </List>
-                ) : null}
-              </div>
-            </Command>
+                          Clear filters
+                        </CommandItem>
+                      </CommandGroup>
+                    </>
+                  )}
+                </Command>
+              </PopoverContent>
+            </Popover>
           </FormControl>
         </FormItem>
       )}
