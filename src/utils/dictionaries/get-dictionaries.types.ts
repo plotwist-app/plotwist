@@ -326,6 +326,12 @@ export type Dictionary = {
       label: string
       placeholder: string
     }
+    vote_average_field: {
+      label: string
+    }
+    vote_count_field: {
+      label: string
+    }
     no_results: string
   }
 }

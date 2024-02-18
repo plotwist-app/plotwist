@@ -1,14 +1,23 @@
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import { Slider } from '@/components/ui/slider'
+import { useLanguage } from '@/context/language'
 import { useFormContext } from 'react-hook-form'
 
 export const VoteCountField = () => {
+  const {
+    dictionary: {
+      movies_list_filters: {
+        vote_count_field: { label },
+      },
+    },
+  } = useLanguage()
+
   const { setValue, watch } = useFormContext<MoviesListFiltersFormValues>()
 
   return (
     <FormItem>
-      <FormLabel>Votos mínimos</FormLabel>
+      <FormLabel>{label}</FormLabel>
 
       <FormControl>
         <div className="space-y-2">

@@ -44,33 +44,42 @@ export const buildQueryStringFromValues = (
 }
 
 export const getDefaultValues = (searchParams: ReadonlyURLSearchParams) => {
-  const startDate = searchParams.get('release_date.gte')
-  const endDate = searchParams.get('release_date.lte')
+  const parseList = (param: string): number[] | undefined => {
+    const value = searchParams.get(param)
+    return value ? value.split(',').map(Number) : undefined
+  }
 
-  const watchProviders = searchParams
-    .get('with_watch_providers')
-    ?.split(',')
-    .map(Number)
+  const getDate = (param: string): Date | undefined => {
+    const value = searchParams.get(param)
+    return value ? new Date(value) : undefined
+  }
+
+  const getNumberOrDefault = (param: string, defaultValue: number): number => {
+    const value = searchParams.get(param)
+    return value ? Number(value) : defaultValue
+  }
+
+  const getString = (param: string): string | undefined => {
+    const value = searchParams.get(param)
+    return value || undefined
+  }
 
   return {
-    genres: searchParams.get('genres')?.split(',').map(Number),
-    with_original_language:
-      searchParams.get('with_original_language') ?? undefined,
-    watch_region: searchParams.get('watch_region') ?? undefined,
-    with_watch_providers: watchProviders ?? undefined,
+    genres: parseList('genres'),
+    with_watch_providers: parseList('with_watch_providers'),
+    with_original_language: getString('with_original_language'),
+    watch_region: getString('watch_region'),
     release_date: {
-      gte: startDate ? new Date(startDate) : undefined,
-      lte: endDate ? new Date(endDate) : undefined,
+      gte: getDate('release_date.gte'),
+      lte: getDate('release_date.lte'),
     },
-    sort_by: searchParams.get('sort_by') ?? undefined,
-
+    sort_by: getString('sort_by'),
     vote_average: {
-      gte: searchParams.get('vote_average.gte') ?? 0,
-      lte: searchParams.get('vote_average.lte') ?? 10,
+      gte: getNumberOrDefault('vote_average.gte', 0),
+      lte: getNumberOrDefault('vote_average.lte', 10),
     },
-
     vote_count: {
-      gte: searchParams.get('vote_count.gte') ?? 0,
+      gte: getNumberOrDefault('vote_count.gte', 0),
     },
   }
 }

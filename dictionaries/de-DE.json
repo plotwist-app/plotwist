@@ -325,6 +325,12 @@
       "label": "Region",
       "placeholder": "Region auswählen"
     },
+    "vote_average_field": {
+      "label": "Durchschnittliche Bewertung"
+    },
+    "vote_count_field": {
+      "label": "Minimale Stimmenanzahl"
+    },    
     "no_results": "Keine Ergebnisse."
   }
 }

@@ -323,6 +323,12 @@
       "label": "地域",
       "placeholder": "地域を選択"
     },
+    "vote_average_field": {
+      "label": "平均スコア"
+    },
+    "vote_count_field": {
+      "label": "最小投票数"
+    },
     "no_results": "結果なし。"
   }
 }

@@ -325,6 +325,12 @@
       "label": "Regione",
       "placeholder": "Seleziona una regione"
     },
+    "vote_average_field": {
+      "label": "Voto medio"
+    },
+    "vote_count_field": {
+      "label": "Voti minimi"
+    },
     "no_results": "Nessun risultato."
   }
 }

@@ -327,6 +327,12 @@
       "label": "Region",
       "placeholder": "Select a region"
     },
+    "vote_average_field": {
+      "label": "Average Score"
+    },
+    "vote_count_field": {
+      "label": "Minimum Votes"
+    },
     "no_results": "No results."
   }
 }
