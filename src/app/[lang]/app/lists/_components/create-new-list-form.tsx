@@ -27,11 +27,12 @@ import { Button } from '@/components/ui/button'
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
+
 import {
   CreateNewListFormValues,
   createNewListFormSchema,
 } from './create-new-list-form-schema'
-import { useLanguage } from '@/context/language'
 
 type CreateNewListFormProps = { trigger: JSX.Element }
 

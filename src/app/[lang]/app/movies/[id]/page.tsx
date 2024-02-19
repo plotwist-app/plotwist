@@ -1,5 +1,5 @@
 import { Language } from '@/types/languages'
-import { MovieDetails } from './components/movie-details'
+import { MovieDetails } from './_components/movie-details'
 
 export type MovieParams = { id: string; lang: Language }
 

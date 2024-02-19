@@ -26,7 +26,7 @@ import { List } from '@/types/supabase/lists'
 
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { CreateNewListForm } from '@/app/[lang]/app/lists/components/create-new-list-form'
+import { CreateNewListForm } from '@/app/[lang]/app/lists/_components/create-new-list-form'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails

@@ -1,9 +1,10 @@
 'use client'
 
 import { useLists } from '@/context/lists'
+import { useLanguage } from '@/context/language'
+
 import { ListCard } from './list-card'
 import { CreateNewListForm } from './create-new-list-form'
-import { useLanguage } from '@/context/language'
 
 export const Lists = () => {
   const { lists } = useLists()

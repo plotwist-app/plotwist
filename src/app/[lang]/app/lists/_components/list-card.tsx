@@ -15,10 +15,11 @@ import {
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLanguage } from '@/context/language'
+
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
-import { useLanguage } from '@/context/language'
 
 type ListCardProps = { list: List }
 

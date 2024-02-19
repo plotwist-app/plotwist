@@ -1,5 +1,5 @@
 import { PageProps } from '@/types/languages'
-import { Lists } from './components/lists'
+import { Lists } from './_components/lists'
 import { getDictionary } from '@/utils/dictionaries'
 
 const ListsPage = async ({ params }: PageProps) => {
