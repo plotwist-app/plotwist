@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import { Grid, Table as LucideTable } from 'lucide-react'
 
 import {
@@ -19,9 +18,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Badge } from '@/components/ui/badge'
 
 import { TvShowEpisodeCard } from './tv-show-season-episode-card'
-import { Badge } from '@/components/ui/badge'
 
 import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 

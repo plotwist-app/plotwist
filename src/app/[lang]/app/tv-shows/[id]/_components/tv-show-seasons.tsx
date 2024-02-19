@@ -9,10 +9,11 @@ import {
 } from '@/components/ui/dialog'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { TvShowSeasonDetails } from './tv-show-season-details'
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'
 import { Season } from '@/services/tmdb/requests/tv-series/details'
+
+import { TvShowSeasonDetails } from './tv-show-season-details'
 
 type TvShowSeasonsProps = {
   seasons: Season[]

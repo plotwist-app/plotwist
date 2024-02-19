@@ -1,6 +1,6 @@
 import { TvShowList } from '@/components/tv-shows-list'
-import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { PageProps } from '@/types/languages'
 
 const AiringTodayTvShowsPage = async ({ params: { lang } }: PageProps) => {
   const {
