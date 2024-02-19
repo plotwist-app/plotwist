@@ -1,5 +1,5 @@
+import { PeopleList } from '@/components/people-list'
 import { PageProps } from '@/types/languages'
-import { PeopleList } from '../../components/people-list'
 
 const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
   return (

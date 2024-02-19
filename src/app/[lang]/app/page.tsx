@@ -2,10 +2,8 @@ import { MovieCard } from '@/components/movie-card'
 import { Separator } from '@/components/ui/separator'
 import { TvShowCard } from '@/components/tv-show-card'
 
-import {
-  DashboardUserLastReview,
-  DashboardPopularReviews,
-} from './components/dashboard'
+import { DashboardUserLastReview } from './_components/dashboard-user-last-review'
+import { DashboardPopularReviews } from './_components/dashboard-popular-reviews'
 
 import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'

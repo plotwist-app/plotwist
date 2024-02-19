@@ -1,7 +1,7 @@
 import { PageProps } from '@/types/languages'
-import { MovieList } from '../../components/movie-list'
 import { getDictionary } from '@/utils/dictionaries'
 import { MoviesListFilters } from '@/components/movies-list-filters'
+import { MovieList } from '@/components/movie-list'
 
 const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)

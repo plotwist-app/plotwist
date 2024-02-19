@@ -1,5 +1,4 @@
 import { Header } from '@/components/header'
-import { MoviesList } from '@/components/movies-list'
 import { Button } from '@/components/ui/button'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -24,10 +23,6 @@ export default async function Home({ params: { lang } }: PageProps) {
           </div>
         </div>
       </section>
-
-      <div className="space-y-12">
-        <MoviesList list="top_rated" language={lang} />
-      </div>
     </main>
   )
 }

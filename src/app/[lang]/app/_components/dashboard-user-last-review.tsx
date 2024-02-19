@@ -4,9 +4,10 @@ import { useAuth } from '@/context/auth'
 import { supabase } from '@/services/supabase'
 import { useQuery } from '@tanstack/react-query'
 import { Review } from '@/types/supabase/reviews'
-import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
+
 import Link from 'next/link'
 import { useLanguage } from '@/context/language'
+import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SignUpForm } from './components/sign-up-form'
+import { SignUpForm } from './_components/sign-up-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
