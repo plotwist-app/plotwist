@@ -153,6 +153,7 @@ export const ReleaseDateField = () => {
                       }
                     }
                     initialFocus
+                    locale={locale[language]}
                   />
                 </PopoverContent>
               </Popover>
