@@ -1,7 +1,6 @@
 import { PeopleList } from '@/components/people-list'
-import { PageProps } from '@/types/languages'
 
-const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
+const PopularPeoplePage = async () => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div>
@@ -12,7 +11,7 @@ const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
         </p>
       </div>
 
-      <PeopleList language={lang} />
+      <PeopleList />
     </div>
   )
 }

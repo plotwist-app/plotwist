@@ -1,4 +1,5 @@
 import { ListResponse } from '@/services/tmdb/types'
+import { Language } from '@/types/languages'
 
 export type KnownFor = {
   adult: boolean
@@ -35,3 +36,7 @@ export type Person = {
 }
 
 export type PopularPeopleResponse = ListResponse<Person>
+export type PopularPeopleQueryParams = {
+  language: Language
+  page: number
+}
