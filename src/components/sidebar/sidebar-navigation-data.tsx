@@ -11,7 +11,8 @@ import {
   User,
 } from 'lucide-react'
 import { SidebarNavigationItemProps } from '.'
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+
+import { Dictionary } from '@/utils/dictionaries'
 
 type buildLanguageNavigation = (
   dictionary: Dictionary,

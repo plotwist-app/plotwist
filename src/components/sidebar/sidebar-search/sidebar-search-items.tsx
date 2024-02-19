@@ -7,7 +7,7 @@ import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '../../ui/skeleton'
 
 type SidebarSearchItemProps<T> = { language: Language; item: T }
 

@@ -1,10 +1,11 @@
 'use client'
 
-import { Menu } from 'lucide-react'
-import { Button } from '../ui/button'
-import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { Menu } from 'lucide-react'
+
+import { Button } from '../ui/button'
+import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
 
 type SidebarDrawerProps = { children: JSX.Element }
 

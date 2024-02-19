@@ -25,7 +25,7 @@ import {
   SidebarSearchTvShow,
   SidebarSearchGroup,
   SidebarSearchSkeleton,
-} from '.'
+} from '..'
 import {
   MovieWithMediaType,
   PersonWithMediaType,
