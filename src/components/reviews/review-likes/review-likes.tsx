@@ -1,15 +1,19 @@
+import { useAuth } from '@/context/auth'
 import { supabase } from '@/services/supabase'
 import { useQuery } from '@tanstack/react-query'
 
 export function ReviewLikes({ reviewId }: { reviewId: string }) {
+  const { user } = useAuth()
+
   const { data } = useQuery({
     queryKey: ['likes', reviewId],
     queryFn: async () =>
       supabase
         .from('likes')
-        .select('count', { count: 'exact', head: true })
+        .select('user_id', { count: 'exact' })
         .eq('entity_type', 'REVIEW')
-        .eq('review_id', reviewId),
+        .eq('review_id', reviewId)
+        .eq('user_id', user.id),
   })
 
   if (!data) {

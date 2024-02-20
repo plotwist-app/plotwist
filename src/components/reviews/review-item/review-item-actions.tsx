@@ -59,16 +59,20 @@ export const ReviewItemActions = ({
     queryFn: async () =>
       supabase
         .from('likes')
-        .select('*', { count: 'exact' })
+        .select('user_id', { count: 'exact' })
         .eq('entity_type', 'REVIEW')
         .eq('review_id', id)
         .eq('user_id', user.id),
   })
 
+  console.log(likes)
+
   const isUserOwner = user.id === userId
 
   const userLike = likes?.data?.find((like) => like.user_id === user.id)
   const isUserLiked = Boolean(userLike)
+
+  console.log(userLike, isUserLiked)
 
   const invalidateQuery = () => {
     const queries = [
@@ -96,7 +100,7 @@ export const ReviewItemActions = ({
               : handleLikeReview.isPending
           }
           onClick={() => {
-            if (isUserLiked && userLike?.id) {
+            if (isUserLiked) {
               handleRemoveLike.mutateAsync(
                 {
                   reviewId: id,

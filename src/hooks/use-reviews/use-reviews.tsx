@@ -34,7 +34,7 @@ export const useReviews = () => {
 
   const handleLikeReview = useMutation({
     mutationFn: likeReviewService,
-    onMutate: async ({ reviewId }) => {
+    onMutate: async ({ reviewId, userId }) => {
       await queryClient.cancelQueries({ queryKey: ['likes', reviewId] })
 
       const previousLikeReview = queryClient.getQueryData(['likes', reviewId])
@@ -42,7 +42,11 @@ export const useReviews = () => {
       queryClient.setQueryData(
         ['likes', reviewId],
         (likeReview: LikeResponse) => {
-          const newLikeReview = { ...likeReview, count: likeReview.count + 1 }
+          const newLikeReview = {
+            ...likeReview,
+            data: [{ user_id: userId }],
+            count: likeReview.count + 1,
+          }
 
           return newLikeReview
         },
@@ -54,6 +58,26 @@ export const useReviews = () => {
 
   const handleRemoveLike = useMutation({
     mutationFn: removeLikeService,
+    onMutate: async ({ reviewId }) => {
+      await queryClient.cancelQueries({ queryKey: ['likes', reviewId] })
+
+      const previousLikeReview = queryClient.getQueryData(['likes', reviewId])
+
+      queryClient.setQueryData(
+        ['likes', reviewId],
+        (likeReview: LikeResponse) => {
+          const newLikeReview = {
+            ...likeReview,
+            data: [],
+            count: likeReview.count - 1,
+          }
+
+          return newLikeReview
+        },
+      )
+
+      return { previousLikeReview }
+    },
   })
 
   return {
