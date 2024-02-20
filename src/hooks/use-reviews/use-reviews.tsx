@@ -52,7 +52,13 @@ export const useReviews = () => {
         },
       )
 
-      return { previousLikeReview }
+      return { previousLikeReview, reviewId }
+    },
+    onError: (_err, _newTodo, context) => {
+      queryClient.setQueryData(
+        ['likes', context?.reviewId],
+        context?.previousLikeReview,
+      )
     },
   })
 
@@ -76,7 +82,13 @@ export const useReviews = () => {
         },
       )
 
-      return { previousLikeReview }
+      return { previousLikeReview, reviewId }
+    },
+    onError: (_err, _newTodo, context) => {
+      queryClient.setQueryData(
+        ['likes', context?.reviewId],
+        context?.previousLikeReview,
+      )
     },
   })
 

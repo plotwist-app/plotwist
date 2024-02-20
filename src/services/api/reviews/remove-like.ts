@@ -4,14 +4,18 @@ import { supabase } from '@/services/supabase'
 export const removeLikeService = async (values: LikeReviewValues) => {
   const { reviewId, userId } = values
 
-  const { error, data } = await supabase
-    .from('likes')
-    .delete()
-    .eq('entity_type', 'REVIEW')
-    .eq('review_id', reviewId)
-    .eq('user_id', userId)
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
-  if (error) throw new Error(error.message)
+  throw new Error('')
 
-  return data
+  // const { error, data } = await supabase
+  //   .from('likes')
+  //   .delete()
+  //   .eq('entity_type', 'REVIEW')
+  //   .eq('review_id', reviewId)
+  //   .eq('user_id', userId)
+
+  // if (error) throw new Error(error.message)
+
+  // return data
 }
