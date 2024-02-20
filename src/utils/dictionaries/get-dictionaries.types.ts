@@ -4,10 +4,10 @@ export type Dictionary = {
     string
   > & {
     statistics: {
-      movies: Record<'value' | 'label', 'string'>
-      tv: Record<'value' | 'label', 'string'>
-      people: Record<'value' | 'label', 'string'>
-      users: Record<'label', 'string'>
+      movies: Record<'value' | 'label', string>
+      tv: Record<'value' | 'label', string>
+      people: Record<'value' | 'label', string>
+      users: Record<'label', string>
     }
   }
   movies_list: Record<
