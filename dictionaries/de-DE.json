@@ -2,7 +2,25 @@
   "home": {
     "title": "Entdecken Sie Filme, Fernsehsendungen und Personen!",
     "description": "TMDB ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
-    "start": "Jetzt starten"
+    "primary_button": "Jetzt starten",
+    "secondary_button": "Konto erstellen",
+    "statistics": {
+      "movies": {
+        "value": "+771k",
+        "label": "Filme mit Besetzungsinformationen."
+      },
+      "tv": {
+        "value": "+134k",
+        "label": "Fernsehshows und Staffeln."
+      },
+      "people": {
+        "value": "+2.5M",
+        "label": "Schauspieler und Karrieregeschichte."
+      },
+      "users": {
+        "label": "Registrierte Benutzer."
+      }
+    }
   },
   "movies_list": {
     "now_playing": "Aktuelle Kinofilme",

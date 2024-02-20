@@ -2,7 +2,25 @@
   "home": {
     "title": "映画、テレビ番組、そして人物を探求する！",
     "description": "TMDBは映画やシリーズのあらすじ、キャスト、予算などの詳細情報を提供する、映画愛好家のための探索プラットフォームです。",
-    "start": "始めようか？"
+    "primary_button": "始めようか？",
+    "secondary_button": "アカウント作成",
+    "statistics": {
+      "movies": {
+        "value": "+771k",
+        "label": "キャスト情報のある映画。"
+      },
+      "tv": {
+        "value": "+134k",
+        "label": "テレビ番組とシーズン。"
+      },
+      "people": {
+        "value": "+2.5M",
+        "label": "俳優とキャリア履歴。"
+      },
+      "users": {
+        "label": "登録ユーザー。"
+      }
+    }
   },
   "movies_list": {
     "now_playing": "上映中の映画",

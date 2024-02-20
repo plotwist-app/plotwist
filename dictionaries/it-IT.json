@@ -2,7 +2,25 @@
   "home": {
     "title": "Esplora film, programmi TV e persone!",
     "description": "TMDB è per gli appassionati di cinema che amano esplorare milioni di film e serie TV, con informazioni come sinossi, cast, budget e molto altro.",
-    "start": "Inizia ora"
+    "primary_button": "Inizia ora",
+    "secondary_button": "Creare un account",
+    "statistics": {
+      "movies": {
+        "value": "+771k",
+        "label": "Film con informazioni sul cast."
+      },
+      "tv": {
+        "value": "+134k",
+        "label": "Serie TV e stagioni."
+      },
+      "people": {
+        "value": "+2.5M",
+        "label": "Attori e storia della carriera."
+      },
+      "users": {
+        "label": "Utenti registrati."
+      }
+    }
   },
   "movies_list": {
     "now_playing": "Film in sala",

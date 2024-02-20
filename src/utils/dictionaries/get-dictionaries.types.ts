@@ -1,16 +1,19 @@
 export type Dictionary = {
-  home: {
-    title: string
-    description: string
-    start: string
+  home: Record<
+    'title' | 'description' | 'primary_button' | 'secondary_button',
+    string
+  > & {
+    statistics: {
+      movies: Record<'value' | 'label', 'string'>
+      tv: Record<'value' | 'label', 'string'>
+      people: Record<'value' | 'label', 'string'>
+      users: Record<'label', 'string'>
+    }
   }
-  movies_list: {
-    now_playing: string
-    popular: string
-    top_rated: string
-    upcoming: string
-    show_all: string
-  }
+  movies_list: Record<
+    'now_playing' | 'popular' | 'top_rated' | 'upcoming' | 'show_all',
+    string
+  >
   login_page: {
     title: string
     description: string
