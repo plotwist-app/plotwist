@@ -6,30 +6,32 @@ import { toast } from 'sonner'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { cn } from '@/lib/utils'
 
-import { Review } from '@/types/supabase/reviews'
+import { ReviewReply } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/services/supabase'
+import { useReplies } from '@/hooks/use-replies/use-replies'
+
+import { MediaType } from '@/types/supabase/media-type'
+import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
+import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+
+type TmdbItem = TvSeriesDetails | MovieDetails
 
 type ReviewItemActionsProps = {
-  review: Review
-  openReplyForm: boolean
-  setOpenReplyForm: (param: boolean) => void
+  reply: ReviewReply
+  tmdbItem: TmdbItem
+  mediaType: MediaType
 }
 
-type ReviewItemActionProps = {
+type ReplyActionProps = {
   disabled?: boolean
   active?: boolean
 } & ComponentProps<'div'>
 
-const ReviewItemAction = ({
-  disabled,
-  active,
-  ...props
-}: ReviewItemActionProps) => {
+const ReplyAction = ({ disabled, active, ...props }: ReplyActionProps) => {
   return (
     <span
       className={cn(
@@ -44,25 +46,24 @@ const ReviewItemAction = ({
   )
 }
 
-export const ReviewItemActions = ({
-  openReplyForm,
-  setOpenReplyForm,
-  review: { user_id: userId, id, tmdb_id: tmdbId, media_type: mediaType },
+export const ReviewReplyActions = ({
+  reply: { id, user_id: userId },
+  mediaType,
+  tmdbItem,
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
-  const { handleDeleteReview, handleLikeReview, handleRemoveLike } =
-    useReviews()
+  const { handleDeleteReply, handleLikeReply, handleRemoveLikeReply } =
+    useReplies()
   const { dictionary } = useLanguage()
 
   const { data: likes } = useQuery({
-    queryKey: ['likes', id],
+    queryKey: [id],
     queryFn: async () =>
       supabase
         .from('likes')
         .select('*', { count: 'exact' })
-        .eq('entity_type', 'REVIEW')
-        .eq('review_id', id)
-        .eq('user_id', user.id),
+        .eq('entity_type', 'REPLY')
+        .eq('review_reply_id', id),
   })
 
   const isUserOwner = user.id === userId
@@ -71,12 +72,7 @@ export const ReviewItemActions = ({
   const isUserLiked = Boolean(userLike)
 
   const invalidateQuery = () => {
-    const queries = [
-      ['dashboard-user-last-review'],
-      ['dashboard-popular-reviews'],
-      ['likes', id],
-      [tmdbId, mediaType],
-    ]
+    const queries = [[tmdbItem.id, mediaType], [id]]
 
     queries.map((queryKey) =>
       APP_QUERY_CLIENT.invalidateQueries({
@@ -87,36 +83,32 @@ export const ReviewItemActions = ({
 
   return (
     <div>
-      <div className="flex items-center space-x-2">
-        <ReviewItemAction
+      <div className="flex items-center gap-2">
+        {/* Like Button */}
+        <ReplyAction
           active={isUserLiked}
           disabled={
             isUserLiked
-              ? handleRemoveLike.isPending
-              : handleLikeReview.isPending
+              ? handleRemoveLikeReply.isPending
+              : handleLikeReply.isPending
           }
           onClick={() => {
             if (isUserLiked && userLike?.id) {
-              handleRemoveLike.mutateAsync(
-                {
-                  reviewId: id,
-                  userId: user.id,
-                },
+              handleRemoveLikeReply.mutateAsync(
+                { replyId: id, userId },
                 {
                   onSuccess: () => {
                     invalidateQuery()
                   },
-                  onError: (error) => {
-                    toast.error(error.message)
-                  },
                 },
               )
+
               return
             }
 
-            handleLikeReview.mutateAsync(
+            handleLikeReply.mutateAsync(
               {
-                reviewId: id,
+                replyId: id,
                 userId: user.id,
               },
               {
@@ -131,35 +123,35 @@ export const ReviewItemActions = ({
           }}
         >
           {dictionary.review_item_actions.like}
-        </ReviewItemAction>
+        </ReplyAction>
 
-        <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-
-        <ReviewItemAction onClick={() => setOpenReplyForm(!openReplyForm)}>
-          {dictionary.review_item_actions.reply}
-        </ReviewItemAction>
-
+        {/* Delete Button */}
         {isUserOwner && (
           <>
             <span className="h-1 w-1 rounded-full bg-muted-foreground" />
 
-            <ReviewItemAction
-              disabled={handleDeleteReview.isPending}
+            <ReplyAction
+              disabled={handleDeleteReply.isPending}
               onClick={() =>
-                handleDeleteReview.mutateAsync(id, {
-                  onSuccess: () => {
-                    invalidateQuery()
+                handleDeleteReply.mutateAsync(
+                  { replyId: id },
+                  {
+                    onSuccess: () => {
+                      invalidateQuery()
 
-                    toast.success(dictionary.review_item_actions.delete_success)
+                      toast.success(
+                        dictionary.review_item_actions.delete_success,
+                      )
+                    },
+                    onError: (error) => {
+                      toast.error(error.message)
+                    },
                   },
-                  onError: (error) => {
-                    toast.error(error.message)
-                  },
-                })
+                )
               }
             >
               {dictionary.review_item_actions.delete}
-            </ReviewItemAction>
+            </ReplyAction>
           </>
         )}
       </div>

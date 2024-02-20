@@ -22,47 +22,65 @@ import { Dictionary } from '@/utils/dictionaries'
 
 import { useReplies } from '@/hooks/use-replies/use-replies'
 
-export const reviewFormSchema = (dictionary: Dictionary) =>
+import { MediaType } from '@/types/supabase/media-type'
+import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
+import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+
+type TmdbItem = TvSeriesDetails | MovieDetails
+
+export const replyFormSchema = (dictionary: Dictionary) =>
   z.object({
     reply: z.string().min(1, dictionary.review_form.required),
   })
 
-export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
+export type ReplyFormValues = z.infer<ReturnType<typeof replyFormSchema>>
 
 interface ReviewReplyFormProps {
-  reviewId: number
+  reviewId: string
   onOpenReplyForm: (param: boolean) => void
+  onOpenReplies: (param: boolean) => void
+  tmdbItem: TmdbItem
+  mediaType: MediaType
 }
 
 export const ReviewReplyForm = ({
   reviewId,
   onOpenReplyForm,
+  onOpenReplies,
+  tmdbItem: { id: tmdbId },
+  mediaType,
 }: ReviewReplyFormProps) => {
   const { handleCreateReply } = useReplies()
 
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
-  const form = useForm<ReviewFormValues>({
-    resolver: zodResolver(reviewFormSchema(dictionary)),
+  const form = useForm<ReplyFormValues>({
+    resolver: zodResolver(replyFormSchema(dictionary)),
     defaultValues: {
       reply: '',
     },
   })
 
-  const onSubmit = async (values: ReviewFormValues) => {
+  const onSubmit = async (values: ReplyFormValues) => {
     await handleCreateReply.mutateAsync(
       {
         userId: user.id,
         reply: values.reply,
         reviewId,
       },
-
       {
         onSuccess: () => {
           form.reset()
           toast.success(dictionary.review_form.success)
+
           onOpenReplyForm(false)
+          onOpenReplies(true)
+
+          APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: [tmdbId, mediaType],
+          })
         },
       },
     )

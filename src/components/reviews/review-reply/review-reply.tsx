@@ -1,23 +1,36 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
 import { Review } from '@/types/supabase/reviews'
-import { useState } from 'react'
 
-interface RepliesProps {
+import { MediaType } from '@/types/supabase/media-type'
+import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
+import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+import {
+  ReviewReplyActions,
+  ReviewReplyLikes,
+} from '@/components/reviews/review-reply'
+
+type TmdbItem = TvSeriesDetails | MovieDetails
+
+interface ReviewReplyProps {
   usernameInitial: string
   username: string
   replies: Review['review_replies']
+  openReplies: boolean
+  setOpenReplies: (param: boolean) => void
+  tmdbItem: TmdbItem
+  mediaType: MediaType
 }
 
-export const Replies = ({
+export const ReviewReply = ({
   usernameInitial,
   username,
   replies,
-}: RepliesProps) => {
-  const [openReplies, setOpenReplies] = useState(false)
-  const { dictionary } = useLanguage()
-
+  openReplies,
+  setOpenReplies,
+  tmdbItem,
+  mediaType,
+}: ReviewReplyProps) => {
   if (!replies) return <></>
 
   return (
@@ -50,10 +63,14 @@ export const Replies = ({
                 <div className="relative space-y-1 rounded-md border p-4 shadow">
                   <p className="text-sm">{reply.reply}</p>
 
-                  {/* <div className="absolute -bottom-2 right-2 rounded-full border bg-muted px-3 py-1 text-xs">
-                    ❤ 2
-                  </div> */}
+                  <ReviewReplyLikes replyId={reply.id} />
                 </div>
+
+                <ReviewReplyActions
+                  reply={reply}
+                  tmdbItem={tmdbItem}
+                  mediaType={mediaType}
+                />
               </div>
             </li>
           ))}

@@ -12,6 +12,6 @@ export type CreateReviewValues = {
 }
 
 export type LikeReviewValues = {
-  reviewId: number
+  reviewId: string
   userId: string
 }

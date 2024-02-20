@@ -3,13 +3,28 @@
 import { Review } from '@/types/supabase/reviews'
 import { ReviewItemActions } from '.'
 import { ReviewStars } from '../review-stars'
-import { Replies } from '@/components/reviews/review-reply/review-reply'
 import { useState } from 'react'
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form/review-reply-form'
+import { ReviewLikes } from '@/components/reviews/review-likes'
 
-type ReviewItemProps = { review: Review }
+import { MediaType } from '@/types/supabase/media-type'
+import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
+import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+import { ReviewReply } from '@/components/reviews/review-reply'
 
-export const ReviewItem = ({ review }: ReviewItemProps) => {
+type TmdbItem = TvSeriesDetails | MovieDetails
+
+type ReviewItemProps = {
+  review: Review
+  tmdbItem: TmdbItem
+  mediaType: MediaType
+}
+
+export const ReviewItem = ({
+  review,
+  tmdbItem,
+  mediaType,
+}: ReviewItemProps) => {
   const {
     user_info: {
       raw_user_meta_data: { username },
@@ -19,7 +34,8 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     review_replies: replies,
   } = review
 
-  const [openReplyForm, setOpenReplyForm] = useState<boolean>(false)
+  const [openReplyForm, setOpenReplyForm] = useState(false)
+  const [openReplies, setOpenReplies] = useState(false)
 
   const usernameInitial = username[0].toUpperCase()
 
@@ -39,11 +55,7 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
         <div className="relative space-y-1 rounded-md border p-4 shadow">
           <p className="text-sm">{content}</p>
 
-          {review.review_likes?.length && (
-            <div className="absolute -bottom-2 right-2 rounded-full border bg-muted px-3 py-1 text-xs">
-              ❤ {review.review_likes.length}
-            </div>
-          )}
+          <ReviewLikes reviewId={review.id} />
         </div>
 
         <ReviewItemActions
@@ -52,16 +64,23 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
           setOpenReplyForm={setOpenReplyForm}
         />
 
-        <Replies
+        <ReviewReply
           replies={replies}
           usernameInitial={usernameInitial}
           username={username}
+          openReplies={openReplies}
+          setOpenReplies={setOpenReplies}
+          tmdbItem={tmdbItem}
+          mediaType={mediaType}
         />
 
         {openReplyForm && (
           <ReviewReplyForm
             reviewId={review.id}
             onOpenReplyForm={setOpenReplyForm}
+            onOpenReplies={setOpenReplies}
+            tmdbItem={tmdbItem}
+            mediaType={mediaType}
           />
         )}
       </div>

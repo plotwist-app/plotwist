@@ -1,5 +1,14 @@
 export type CreateReplyValues = {
   reply: string
   userId: string
-  reviewId: number
+  reviewId: string
+}
+
+export type DeleteReplyValues = {
+  replyId: string
+}
+
+export type LikeReplyValues = {
+  replyId: string
+  userId: string
 }

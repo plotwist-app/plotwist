@@ -22,7 +22,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
     queryKey: [tmdbItem.id, mediaType],
     queryFn: async () =>
       supabase
-        .from('reviews_with_user_like_and_replies')
+        .from('reviews_with_replies')
         .select('*')
         .eq('tmdb_id', tmdbItem.id)
         .order('id', { ascending: false })
@@ -45,7 +45,12 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
   return (
     <section className="space-y-8">
       {response.data.map((review) => (
-        <ReviewItem key={review.id} review={review} />
+        <ReviewItem
+          key={review.id}
+          review={review}
+          tmdbItem={tmdbItem}
+          mediaType={mediaType}
+        />
       ))}
 
       <ReviewForm mediaType={mediaType} tmdbItem={tmdbItem} />
