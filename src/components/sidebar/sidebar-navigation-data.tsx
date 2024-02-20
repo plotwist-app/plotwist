@@ -64,6 +64,11 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     icon: Tv,
     items: [
       {
+        label: dictionary.navigation.discover,
+        href: '/app/tv-shows/discover',
+        icon: Sparkles,
+      },
+      {
         label: dictionary.navigation.airing_today,
         href: '/app/tv-shows/airing-today',
         icon: Play,

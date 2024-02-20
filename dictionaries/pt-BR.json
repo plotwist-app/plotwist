@@ -350,5 +350,66 @@
       "label": "Votos mínimos"
     },
     "no_results": "Sem resultados."
+  },
+  "tv_shows_list_filters": {
+    "title": "Descubra séries",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar",
+      "watch_providers": "Onde Assistir"
+    },
+    "actions": {
+      "close": "Fechar",
+      "save_changes": "Salvar Alterações"
+    },
+    "genres_field": {
+      "label": "Gêneros",
+      "placeholder": "Selecione um gênero",
+      "no_genre_message": "Você não selecionou nenhum gênero."
+    },
+    "language_field": {
+      "label": "Idioma",
+      "placeholder": "Selecione um idioma"
+    },
+    "air_date": {
+      "from_label": "De",
+      "to_label": "Até",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Selecione uma data"
+    },
+    "sort_by": {
+      "label": "Ordenar por",
+      "placeholder": "Ordenar por",
+      "options": {
+        "popularity.desc": "Mais popular",
+        "popularity.asc": "Menos popular",
+        "revenue.desc": "Maior receita",
+        "revenue.asc": "Menor receita",
+        "air_date.desc": "Mais recente",
+        "air_date.asc": "Menos recente",
+        "vote_average.desc": "Melhor avaliado",
+        "vote_average.asc": "Pior avaliado",
+        "vote_count.desc": "Mais votado",
+        "vote_count.asc": "Menos votado"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Provedores de serviço",
+      "placeholder": "Filtrar por provedores",
+      "clear_filters": "Limpar filtros",
+      "no_results": "Nenhum resultado encontrado."
+    },
+    "watch_region_field": {
+      "label": "Região",
+      "placeholder": "Selecione uma região"
+    },
+    "vote_average_field": {
+      "label": "Pontuação média"
+    },
+    "vote_count_field": {
+      "label": "Votos mínimos"
+    },
+    "no_results": "Sem resultados."
   }
 }

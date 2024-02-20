@@ -5,6 +5,7 @@ import {
   movieProviders,
   itemWatchProviders,
   availableRegions,
+  tvProviders,
   credits,
   movies,
   tvSeries,
@@ -43,5 +44,6 @@ export const tmdb = {
     movieProviders,
     itemWatchProviders,
     availableRegions,
+    tvProviders,
   },
 }

@@ -337,4 +337,65 @@ export type Dictionary = {
     }
     no_results: string
   }
+  tv_shows_list_filters: {
+    title: string
+    tabs: {
+      filters: string
+      order: string
+      watch_providers: string
+    }
+    actions: {
+      close: string
+      save_changes: string
+    }
+    genres_field: {
+      label: string
+      placeholder: string
+      no_genre_message: string
+    }
+    language_field: {
+      label: string
+      placeholder: string
+    }
+    air_date: {
+      from_label: string
+      to_label: string
+      from_placeholder: string
+      to_placeholder: string
+      select_date: string
+    }
+    sort_by: {
+      label: string
+      placeholder: string
+      options: {
+        'popularity.desc': string
+        'popularity.asc': string
+        'revenue.desc': string
+        'revenue.asc': string
+        'air_date.desc': string
+        'air_date.asc': string
+        'vote_average.desc': string
+        'vote_average.asc': string
+        'vote_count.desc': string
+        'vote_count.asc': string
+      }
+    }
+    watch_providers_field: {
+      label: string
+      placeholder: string
+      clear_filters: string
+      no_results: string
+    }
+    watch_region_field: {
+      label: string
+      placeholder: string
+    }
+    vote_average_field: {
+      label: string
+    }
+    vote_count_field: {
+      label: string
+    }
+    no_results: string
+  }
 }

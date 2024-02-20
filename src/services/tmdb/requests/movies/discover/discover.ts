@@ -2,7 +2,7 @@ import { tmdbClient } from '@/services/tmdb'
 import { ListResponse, Movie } from '@/services/tmdb/types'
 import { Language } from '@/types/languages'
 
-type DiscoverFilters = Record<
+export type DiscoverMovieFilters = Record<
   | 'with_genres'
   | 'release_date.gte'
   | 'release_date.lte'
@@ -19,7 +19,7 @@ type DiscoverFilters = Record<
 type DiscoverOptions = {
   language: Language
   page: number
-  filters: DiscoverFilters
+  filters: DiscoverMovieFilters
 }
 
 export const discover = async (options: DiscoverOptions) => {

@@ -18,7 +18,11 @@ const AppPage = async ({ params: { lang } }: PageProps) => {
     page: 1,
   })
 
-  const popularTvShows = await tmdb.tvSeries.list('popular', lang)
+  const popularTvShows = await tmdb.tvSeries.list({
+    language: lang,
+    list: 'popular',
+    page: 1,
+  })
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-6">

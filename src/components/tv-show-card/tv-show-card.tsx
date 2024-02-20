@@ -13,6 +13,7 @@ import { Skeleton } from '../ui/skeleton'
 
 import { Language } from '@/types/languages'
 import { TvShow } from '@/services/tmdb/types'
+import { forwardRef } from 'react'
 
 type TvShowCardProps = {
   tvShow: TvShow
@@ -72,9 +73,9 @@ export const TvShowCard = ({ tvShow, language = 'en-US' }: TvShowCardProps) => {
   )
 }
 
-export const TvShowCardSkeleton = () => {
+export const TvShowCardSkeleton = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div className="w-full cursor-pointer space-y-2">
+    <div className="w-full cursor-pointer space-y-2" ref={ref}>
       <Skeleton className="aspect-video w-full rounded-md border shadow" />
 
       <div className="space-y-2">
@@ -91,4 +92,5 @@ export const TvShowCardSkeleton = () => {
       </div>
     </div>
   )
-}
+})
+TvShowCardSkeleton.displayName = 'TvShowCardSkeleton'
