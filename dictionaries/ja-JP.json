@@ -6,19 +6,23 @@
     "secondary_button": "アカウント作成",
     "statistics": {
       "movies": {
-        "value": "+771k",
-        "label": "キャスト情報のある映画。"
+        "value": 988788,
+        "label": "映画"
       },
       "tv": {
-        "value": "+134k",
-        "label": "テレビ番組とシーズン。"
+        "value": 167204,
+        "label": "テレビ番組"
+      },
+      "episodes": {
+        "value": 4419904,
+        "label": "エピソード"
       },
       "people": {
-        "value": "+2.5M",
-        "label": "俳優とキャリア履歴。"
+        "value": 3369005,
+        "label": "俳優"
       },
       "users": {
-        "label": "登録ユーザー。"
+        "label": "ユーザー"
       }
     }
   },

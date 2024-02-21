@@ -13,6 +13,15 @@ import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/context/language'
 import { Banner } from '@/components/banner'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Button } from '@/components/ui/button'
+import { Pencil } from 'lucide-react'
+import { ListForm } from '../_components/list-form'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 const ListPage = ({ params }: { params: { id: string } }) => {
   const { user } = useAuth()
@@ -88,7 +97,19 @@ const ListPage = ({ params }: { params: { id: string } }) => {
       <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">{list.name}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold">{list.name}</h1>
+
+              <ListForm
+                trigger={
+                  <Button size="icon" variant="outline" className="h-6 w-6">
+                    <Pencil className="h-3 w-3" />
+                  </Button>
+                }
+                list={list}
+              />
+            </div>
+
             <p className="text-muted-foreground">{list.description}</p>
           </div>
         </div>

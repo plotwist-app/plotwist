@@ -6,19 +6,23 @@
     "secondary_button": "Creare un account",
     "statistics": {
       "movies": {
-        "value": "+771k",
-        "label": "Film con informazioni sul cast."
+        "value": 988788,
+        "label": "Film"
       },
       "tv": {
-        "value": "+134k",
-        "label": "Serie TV e stagioni."
+        "value": 167204,
+        "label": "Serie TV"
+      },
+      "episodes": {
+        "value": 4419904,
+        "label": "Episodi"
       },
       "people": {
-        "value": "+2.5M",
-        "label": "Attori e storia della carriera."
+        "value": 3369005,
+        "label": "Attori"
       },
       "users": {
-        "label": "Utenti registrati."
+        "label": "Utenti"
       }
     }
   },

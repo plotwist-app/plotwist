@@ -4,9 +4,22 @@ export type Dictionary = {
     string
   > & {
     statistics: {
-      movies: Record<'value' | 'label', string>
-      tv: Record<'value' | 'label', string>
-      people: Record<'value' | 'label', string>
+      movies: {
+        value: number
+        label: string
+      }
+      tv: {
+        value: number
+        label: string
+      }
+      people: {
+        value: number
+        label: string
+      }
+      episodes: {
+        value: number
+        label: string
+      }
       users: Record<'label', string>
     }
   }

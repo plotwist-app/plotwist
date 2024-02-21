@@ -26,7 +26,7 @@ import { List } from '@/types/supabase/lists'
 
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { CreateNewListForm } from '@/app/[lang]/app/lists/_components/create-new-list-form'
+import { ListForm } from '@/app/[lang]/app/lists/_components/list-form'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -112,7 +112,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
             )
           })
         ) : (
-          <CreateNewListForm
+          <ListForm
             trigger={
               <div className="flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm">
                 Create new list

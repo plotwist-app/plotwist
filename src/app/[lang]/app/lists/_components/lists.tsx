@@ -4,7 +4,7 @@ import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 
 import { ListCard } from './list-card'
-import { CreateNewListForm } from './create-new-list-form'
+import { ListForm } from './list-form'
 
 export const Lists = () => {
   const { lists } = useLists()
@@ -17,7 +17,7 @@ export const Lists = () => {
       ))}
 
       {lists.length < 1 && (
-        <CreateNewListForm
+        <ListForm
           trigger={
             <button className="aspect-video rounded-md border border-dashed">
               {dictionary.create_new_list_form.create_new_list}

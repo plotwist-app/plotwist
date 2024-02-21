@@ -29,28 +29,27 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
-import {
-  CreateNewListFormValues,
-  createNewListFormSchema,
-} from './create-new-list-form-schema'
+import { ListFormValues, listFormSchema } from './list-form-schema'
+import { List } from '@/types/supabase/lists'
 
-type CreateNewListFormProps = { trigger: JSX.Element }
+type ListFormProps = { trigger: JSX.Element; list?: List }
 
-export const CreateNewListForm = ({ trigger }: CreateNewListFormProps) => {
+export const ListForm = ({ trigger, list }: ListFormProps) => {
   const { handleCreateNewList } = useLists()
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
   const [open, setOpen] = useState(false)
 
-  const form = useForm<CreateNewListFormValues>({
-    resolver: zodResolver(createNewListFormSchema(dictionary)),
+  const form = useForm<ListFormValues>({
+    resolver: zodResolver(listFormSchema(dictionary)),
     defaultValues: {
-      name: '',
+      name: list?.name ?? '',
+      description: list?.description ?? '',
     },
   })
 
-  async function onSubmit(values: CreateNewListFormValues) {
+  async function onSubmit(values: ListFormValues) {
     await handleCreateNewList.mutateAsync(
       { ...values, userId: user.id },
       {
