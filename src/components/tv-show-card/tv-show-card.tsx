@@ -51,7 +51,7 @@ export const TvShowCard = ({ tvShow, language = 'en-US' }: TvShowCardProps) => {
       </div>
 
       <div className="space-y-1">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-2">
           <span className="">{name}</span>
 
           <TooltipProvider>

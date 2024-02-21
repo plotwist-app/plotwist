@@ -278,6 +278,10 @@
     "top_rated": {
       "title": "Mais bem avaliadas",
       "description": "Séries de TV ordenadas por avaliação."
+    },
+    "discover": {
+      "title": "Discover",
+      "description": "Find TV shows using filters and sort options."
     }
   },
   "dashboard": {
@@ -384,8 +388,6 @@
       "options": {
         "popularity.desc": "Mais popular",
         "popularity.asc": "Menos popular",
-        "revenue.desc": "Maior receita",
-        "revenue.asc": "Menor receita",
         "air_date.desc": "Mais recente",
         "air_date.asc": "Menos recente",
         "vote_average.desc": "Melhor avaliado",

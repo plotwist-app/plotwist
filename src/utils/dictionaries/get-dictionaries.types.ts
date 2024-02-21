@@ -265,6 +265,10 @@ export type Dictionary = {
       title: string
       description: string
     }
+    discover: {
+      title: string
+      description: string
+    }
   }
   dashboard: {
     user_last_review: {

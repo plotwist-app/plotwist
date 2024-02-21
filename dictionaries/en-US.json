@@ -280,6 +280,10 @@
     "top_rated": {
       "title": "Top Rated",
       "description": "TV shows ordered by rating."
+    },
+    "discover": {
+      "title": "Discover",
+      "description": "Find TV shows using filters and sort options."
     }
   },
   "dashboard": {
@@ -338,6 +342,65 @@
     "watch_providers_field": {
       "label": "Watch providers",
       "placeholder": "Filter by watch providers",
+      "clear_filters": "Clear filters",
+      "no_results": "No results found."
+    },
+    "watch_region_field": {
+      "label": "Region",
+      "placeholder": "Select a region"
+    },
+    "vote_average_field": {
+      "label": "Average Score"
+    },
+    "vote_count_field": {
+      "label": "Minimum Votes"
+    },
+    "no_results": "No results."
+  },
+  "tv_shows_list_filters": {
+    "title": "Discover TV Shows",
+    "tabs": {
+      "filters": "Filters",
+      "order": "Order",
+      "watch_providers": "Where to Watch"
+    },
+    "actions": {
+      "close": "Close",
+      "save_changes": "Save Changes"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Select a genre",
+      "no_genre_message": "No genre selected."
+    },
+    "language_field": {
+      "label": "Language",
+      "placeholder": "Select a language"
+    },
+    "air_date": {
+      "from_label": "From",
+      "to_label": "To",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Select a date"
+    },
+    "sort_by": {
+      "label": "Sort by",
+      "placeholder": "Sort by",
+      "options": {
+        "popularity.desc": "Most Popular",
+        "popularity.asc": "Least Popular",
+        "air_date.desc": "Newest",
+        "air_date.asc": "Oldest",
+        "vote_average.desc": "Highest Rated",
+        "vote_average.asc": "Lowest Rated",
+        "vote_count.desc": "Most Voted",
+        "vote_count.asc": "Least Voted"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Watch Providers",
+      "placeholder": "Filter by provider",
       "clear_filters": "Clear filters",
       "no_results": "No results found."
     },

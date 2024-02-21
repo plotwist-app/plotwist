@@ -276,6 +276,10 @@
     "top_rated": {
       "title": "高評価",
       "description": "評価順に並べられたテレビ番組。"
+    },
+    "discover": {
+      "title": "発見",
+      "description": "フィルターや並べ替えオプションを使用してテレビ番組を探す。"
     }
   },
   "dashboard": {
@@ -348,5 +352,64 @@
       "label": "最小投票数"
     },
     "no_results": "結果なし。"
+  },
+  "tv_shows_list_filters": {
+    "title": "TV番組を発見する",
+    "tabs": {
+      "filters": "フィルター",
+      "order": "並び替え",
+      "watch_providers": "視聴プロバイダー"
+    },
+    "actions": {
+      "close": "閉じる",
+      "save_changes": "変更を保存"
+    },
+    "genres_field": {
+      "label": "ジャンル",
+      "placeholder": "ジャンルを選択",
+      "no_genre_message": "ジャンルが選択されていません。"
+    },
+    "language_field": {
+      "label": "言語",
+      "placeholder": "言語を選択"
+    },
+    "air_date": {
+      "from_label": "開始日",
+      "to_label": "終了日",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "日付を選択"
+    },
+    "sort_by": {
+      "label": "並び替え基準",
+      "placeholder": "並び替え基準",
+      "options": {
+        "popularity.desc": "人気が高い順",
+        "popularity.asc": "人気が低い順",
+        "air_date.desc": "放送日が新しい順",
+        "air_date.asc": "放送日が古い順",
+        "vote_average.desc": "評価が高い順",
+        "vote_average.asc": "評価が低い順",
+        "vote_count.desc": "投票数が多い順",
+        "vote_count.asc": "投票数が少ない順"
+      }
+    },
+    "watch_providers_field": {
+      "label": "視聴可能なプロバイダー",
+      "placeholder": "プロバイダーでフィルター",
+      "clear_filters": "フィルターをクリア",
+      "no_results": "結果が見つかりません。"
+    },
+    "watch_region_field": {
+      "label": "リージョン",
+      "placeholder": "リージョンを選択"
+    },
+    "vote_average_field": {
+      "label": "平均評価"
+    },
+    "vote_count_field": {
+      "label": "最低投票数"
+    },
+    "no_results": "結果がありません。"
   }
 }

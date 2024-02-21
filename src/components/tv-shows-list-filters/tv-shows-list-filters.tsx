@@ -72,18 +72,20 @@ export const TvShowsListFilters = () => {
 
             <SheetContent className="space-y-4">
               <SheetHeader>
-                <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
+                <SheetTitle>
+                  {dictionary.tv_shows_list_filters.title}
+                </SheetTitle>
               </SheetHeader>
 
               <div>
                 <Tabs defaultValue="filters">
                   <TabsList>
                     <TabsTrigger value="filters">
-                      {dictionary.movies_list_filters.tabs.filters}
+                      {dictionary.tv_shows_list_filters.tabs.filters}
                     </TabsTrigger>
 
                     <TabsTrigger value="sort-by">
-                      {dictionary.movies_list_filters.tabs.order}
+                      {dictionary.tv_shows_list_filters.tabs.order}
                     </TabsTrigger>
 
                     <TabsTrigger value="where-to-watch">

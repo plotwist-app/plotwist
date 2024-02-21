@@ -278,6 +278,10 @@
     "top_rated": {
       "title": "Les mieux notées",
       "description": "Séries TV classées par évaluation."
+    },
+    "discover": {
+      "title": "Découvrir",
+      "description": "Trouvez des séries télévisées en utilisant des filtres et des options de tri."
     }
   },
   "dashboard": {
@@ -348,6 +352,65 @@
     },
     "vote_count_field": {
       "label": "Votes minimum"
+    },
+    "no_results": "Aucun résultat."
+  },
+  "tv_shows_list_filters": {
+    "title": "Découvrir des séries",
+    "tabs": {
+      "filters": "Filtres",
+      "order": "Trier",
+      "watch_providers": "Où regarder"
+    },
+    "actions": {
+      "close": "Fermer",
+      "save_changes": "Enregistrer les modifications"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Sélectionnez un genre",
+      "no_genre_message": "Aucun genre sélectionné."
+    },
+    "language_field": {
+      "label": "Langue",
+      "placeholder": "Sélectionnez une langue"
+    },
+    "air_date": {
+      "from_label": "De",
+      "to_label": "À",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Sélectionnez une date"
+    },
+    "sort_by": {
+      "label": "Trier par",
+      "placeholder": "Trier par",
+      "options": {
+        "popularity.desc": "Plus populaire",
+        "popularity.asc": "Moins populaire",
+        "air_date.desc": "Plus récent",
+        "air_date.asc": "Moins récent",
+        "vote_average.desc": "Mieux noté",
+        "vote_average.asc": "Moins bien noté",
+        "vote_count.desc": "Plus voté",
+        "vote_count.asc": "Moins voté"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Fournisseurs",
+      "placeholder": "Filtrer par fournisseurs",
+      "clear_filters": "Effacer les filtres",
+      "no_results": "Aucun résultat trouvé."
+    },
+    "watch_region_field": {
+      "label": "Région",
+      "placeholder": "Sélectionnez une région"
+    },
+    "vote_average_field": {
+      "label": "Note moyenne"
+    },
+    "vote_count_field": {
+      "label": "Votes minimums"
     },
     "no_results": "Aucun résultat."
   }

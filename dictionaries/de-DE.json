@@ -278,6 +278,10 @@
     "top_rated": {
       "title": "Am besten bewertet",
       "description": "Fernsehserien, sortiert nach Bewertung."
+    },
+    "discover": {
+      "title": "Entdecken",
+      "description": "Finde Serien mit Filtern und Sortieroptionen."
     }
   },
   "dashboard": {
@@ -349,6 +353,65 @@
     "vote_count_field": {
       "label": "Minimale Stimmenanzahl"
     },    
+    "no_results": "Keine Ergebnisse."
+  },
+  "tv_shows_list_filters": {
+    "title": "Serien entdecken",
+    "tabs": {
+      "filters": "Filter",
+      "order": "Sortieren",
+      "watch_providers": "Anbieter"
+    },
+    "actions": {
+      "close": "Schließen",
+      "save_changes": "Änderungen speichern"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Wähle ein Genre",
+      "no_genre_message": "Kein Genre ausgewählt."
+    },
+    "language_field": {
+      "label": "Sprache",
+      "placeholder": "Sprache auswählen"
+    },
+    "air_date": {
+      "from_label": "Von",
+      "to_label": "Bis",
+      "from_placeholder": "18.11.2002",
+      "to_placeholder": "18.11.2003",
+      "select_date": "Datum auswählen"
+    },
+    "sort_by": {
+      "label": "Sortieren nach",
+      "placeholder": "Sortieren nach",
+      "options": {
+        "popularity.desc": "Am beliebtesten",
+        "popularity.asc": "Weniger beliebt",
+        "air_date.desc": "Neueste",
+        "air_date.asc": "Älteste",
+        "vote_average.desc": "Bestbewertet",
+        "vote_average.asc": "Schlechtest bewertet",
+        "vote_count.desc": "Meistbewertet",
+        "vote_count.asc": "Wenigstbewertet"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Anbieter",
+      "placeholder": "Nach Anbietern filtern",
+      "clear_filters": "Filter löschen",
+      "no_results": "Keine Ergebnisse gefunden."
+    },
+    "watch_region_field": {
+      "label": "Region",
+      "placeholder": "Region auswählen"
+    },
+    "vote_average_field": {
+      "label": "Durchschnittliche Bewertung"
+    },
+    "vote_count_field": {
+      "label": "Mindeststimmen"
+    },
     "no_results": "Keine Ergebnisse."
   }
 }

@@ -19,11 +19,9 @@ import {
 import { useLanguage } from '@/context/language'
 import { TvShowsListFiltersFormValues } from '../..'
 
-const options = [
+const selectOptions = [
   'popularity.desc',
   'popularity.asc',
-  'revenue.desc',
-  'revenue.asc',
   'air_date.desc',
   'air_date.asc',
   'vote_average.desc',
@@ -36,6 +34,9 @@ export const SortBy = () => {
   const { control } = useFormContext<TvShowsListFiltersFormValues>()
   const { dictionary } = useLanguage()
 
+  const { label, placeholder, options } =
+    dictionary.tv_shows_list_filters.sort_by
+
   return (
     <FormField
       control={control}
@@ -43,26 +44,20 @@ export const SortBy = () => {
       render={({ field: { value, onChange } }) => {
         return (
           <FormItem>
-            <FormLabel>
-              {dictionary.movies_list_filters.sort_by.label}
-            </FormLabel>
+            <FormLabel>{label}</FormLabel>
 
             <FormControl>
               <Select
                 onValueChange={onChange}
                 value={value}
-                defaultValue={options[0]}
+                defaultValue={selectOptions[0]}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue
-                    placeholder={
-                      dictionary.movies_list_filters.sort_by.placeholder
-                    }
-                  />
+                  <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
 
                 <SelectContent>
-                  {options.map((option) => {
+                  {selectOptions.map((option) => {
                     return (
                       <SelectItem value={option} key={option}>
                         <div className="flex items-center gap-1">
@@ -71,7 +66,8 @@ export const SortBy = () => {
                           ) : (
                             <ChevronUp width={16} height={16} />
                           )}
-                          a
+
+                          {options[option]}
                         </div>
                       </SelectItem>
                     )

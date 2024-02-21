@@ -33,7 +33,7 @@ export const LanguageField = () => {
 
   const options = data?.map((language) => ({
     value: language.iso_639_1,
-    label: language.name !== '' ? language.name : language.english_name,
+    label: language.english_name,
   }))
 
   return (
