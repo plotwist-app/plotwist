@@ -34,15 +34,23 @@ import { Language } from '@/types/languages'
 type MovieDetailsProps = {
   id: number
   language: Language
+  embed?: boolean
 }
 
-export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
+export const MovieDetails = async ({
+  id,
+  language,
+  embed,
+}: MovieDetailsProps) => {
   const movie = await tmdb.movies.details(id, language)
   const dictionary = await getDictionary(language)
 
   return (
     <div>
-      <Banner url={tmdbImage(movie.backdrop_path)} />
+      <Banner
+        url={tmdbImage(movie.backdrop_path)}
+        className={embed ? 'max-h-[20vh] md:max-h-[60vh]' : undefined}
+      />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12">
         <main className="flex flex-col gap-4 md:flex-row">

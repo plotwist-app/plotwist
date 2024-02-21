@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -27,6 +27,7 @@ import { List } from '@/types/supabase/lists'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { ListForm } from '@/app/[lang]/app/lists/_components/list-form'
+import { cn } from '@/lib/utils'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -36,6 +37,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
   const { dictionary } = useLanguage()
+  const pathname = usePathname()
 
   const handleRemove = useCallback(
     async (id: string) => {
@@ -77,6 +79,8 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
     [dictionary, handleAddToList, item, push],
   )
 
+  const isHomePage = !pathname.includes('/app')
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -114,7 +118,12 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         ) : (
           <ListForm
             trigger={
-              <div className="flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm">
+              <div
+                className={cn(
+                  'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm',
+                  isHomePage && 'cursor-not-allowed opacity-50',
+                )}
+              >
                 Create new list
               </div>
             }

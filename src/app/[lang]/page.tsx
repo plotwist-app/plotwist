@@ -71,8 +71,10 @@ export default async function Home({ params: { lang } }: PageProps) {
         </div>
 
         <section className="space-y-8 p-4">
-          <div className="mx-auto aspect-[16/9] w-full max-w-[1440px] overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none">
-            <MoviePage params={{ id: movieIdByLanguage[lang], lang }} />
+          <div className="mx-auto aspect-[9/16] w-full max-w-[1440px] overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
+            <MoviePage
+              params={{ id: movieIdByLanguage[lang], lang, embed: true }}
+            />
           </div>
 
           <div className="mx-auto grid max-w-article grid-cols-1 items-center gap-8 md:grid-cols-5">
