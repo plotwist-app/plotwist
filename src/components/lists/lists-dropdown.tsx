@@ -121,7 +121,8 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
               <div
                 className={cn(
                   'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm',
-                  isHomePage && 'cursor-not-allowed opacity-50',
+                  isHomePage &&
+                    'pointer-events-none cursor-not-allowed opacity-50',
                 )}
               >
                 Create new list
