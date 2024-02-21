@@ -61,7 +61,7 @@ export default async function Home({ params: { lang } }: PageProps) {
                 <Button variant="outline" asChild>
                   {user ? (
                     <Link href={`/${lang}/app`}>
-                      <Avatar className="mr-2 h-4 w-4 border text-xs">
+                      <Avatar className="mr-2 h-6 w-6 border text-[10px]">
                         <AvatarFallback>{initial}</AvatarFallback>
                       </Avatar>
                       {primaryButton}
