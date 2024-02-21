@@ -4,11 +4,11 @@ import { Header } from '@/components/header'
 import { Button } from '@/components/ui/button'
 import { getUserService } from '@/services/api/users/get-user'
 import { supabase } from '@/services/supabase'
-import { PageProps } from '@/types/languages'
+import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { CounterSection } from './_components/count-section'
-import Image from 'next/image'
 import { Pattern } from '@/components/pattern'
+import MoviePage from '@/app/[lang]/app/movies/[id]/page'
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
@@ -29,6 +29,16 @@ export default async function Home({ params: { lang } }: PageProps) {
     .from('user_count')
     .select()
     .single<{ user_count: number }>()
+
+  const movieIdByLanguage: Record<Language, string> = {
+    'en-US': '27205',
+    'es-ES': '1417',
+    'fr-FR': '194',
+    'de-DE': '582',
+    'it-IT': '637',
+    'pt-BR': '598',
+    'ja-JP': '129',
+  }
 
   return (
     <>
@@ -61,22 +71,8 @@ export default async function Home({ params: { lang } }: PageProps) {
         </div>
 
         <section className="space-y-8 p-4">
-          <div className="relative mx-auto aspect-[1920/953] w-full max-w-[1440px] overflow-hidden rounded-md border bg-muted shadow-lg dark:shadow-none">
-            <Image
-              src={`/images/movie-${lang}.jpg`}
-              alt=""
-              fill
-              className="pointer-events-none object-contain dark:hidden"
-              quality={100}
-            />
-
-            <Image
-              src={`/images/movie-${lang}-dark.jpg`}
-              alt=""
-              fill
-              className="pointer-events-none hidden object-contain dark:block"
-              quality={100}
-            />
+          <div className="mx-auto aspect-[16/9] w-full max-w-[1440px] overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none">
+            <MoviePage params={{ id: movieIdByLanguage[lang], lang }} />
           </div>
 
           <div className="mx-auto grid max-w-article grid-cols-1 items-center gap-8 md:grid-cols-5">

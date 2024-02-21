@@ -92,7 +92,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {lists.length > 0 ? (
+        {lists?.length > 0 ? (
           lists.map((list) => {
             const itemIncluded = list.list_items.find(
               ({ tmdb_id: tmdbId }) => tmdbId === item.id,
