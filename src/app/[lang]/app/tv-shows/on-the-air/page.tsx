@@ -1,4 +1,4 @@
-import { TvShowList } from '@/components/tv-shows-list'
+import { TvShowsList } from '@/components/tv-shows-list'
 import { getDictionary } from '@/utils/dictionaries'
 import { PageProps } from '@/types/languages'
 
@@ -18,7 +18,7 @@ const OnTheAirTvShowsPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <TvShowList variant="on_the_air" language={lang} />
+      <TvShowsList variant="on_the_air" />
     </div>
   )
 }

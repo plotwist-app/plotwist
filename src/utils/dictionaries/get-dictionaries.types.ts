@@ -374,8 +374,6 @@ export type Dictionary = {
       options: {
         'popularity.desc': string
         'popularity.asc': string
-        'revenue.desc': string
-        'revenue.asc': string
         'air_date.desc': string
         'air_date.asc': string
         'vote_average.desc': string

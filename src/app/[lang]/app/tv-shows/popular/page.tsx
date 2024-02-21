@@ -1,6 +1,6 @@
-import { TvShowList } from '@/components/tv-shows-list'
 import { getDictionary } from '@/utils/dictionaries'
 import { PageProps } from '@/types/languages'
+import { TvShowsList } from '@/components/tv-shows-list'
 
 const PopularTvShowsPage = async ({ params: { lang } }: PageProps) => {
   const {
@@ -18,7 +18,7 @@ const PopularTvShowsPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <TvShowList variant="popular" language={lang} />
+      <TvShowsList variant="popular" />
     </div>
   )
 }
