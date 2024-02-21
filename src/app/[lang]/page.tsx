@@ -10,6 +10,12 @@ import { CounterSection } from './_components/count-section'
 import { Pattern } from '@/components/pattern'
 import MoviePage from '@/app/[lang]/app/movies/[id]/page'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
@@ -61,9 +67,18 @@ export default async function Home({ params: { lang } }: PageProps) {
                 <Button variant="outline" asChild>
                   {user ? (
                     <Link href={`/${lang}/app`}>
-                      <Avatar className="mr-2 h-6 w-6 border text-[10px]">
-                        <AvatarFallback>{initial}</AvatarFallback>
-                      </Avatar>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Avatar className="mr-2 h-6 w-6 border text-[10px]">
+                              <AvatarFallback>{initial}</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+
+                          <TooltipContent>{username}</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+
                       {primaryButton}
                     </Link>
                   ) : (

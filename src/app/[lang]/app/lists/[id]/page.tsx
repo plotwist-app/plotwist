@@ -16,12 +16,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { ListForm } from '../_components/list-form'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 
 const ListPage = ({ params }: { params: { id: string } }) => {
   const { user } = useAuth()
