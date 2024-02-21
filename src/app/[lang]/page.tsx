@@ -9,6 +9,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { CounterSection } from './_components/count-section'
 import { Pattern } from '@/components/pattern'
 import MoviePage from '@/app/[lang]/app/movies/[id]/page'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
@@ -40,6 +41,9 @@ export default async function Home({ params: { lang } }: PageProps) {
     'ja-JP': '129',
   }
 
+  const username: string = user?.user_metadata.username
+  const initial = username ? username[0].toUpperCase() : undefined
+
   return (
     <>
       <Pattern variant="checkered" />
@@ -56,7 +60,12 @@ export default async function Home({ params: { lang } }: PageProps) {
               <div className="mt-2 flex gap-2">
                 <Button variant="outline" asChild>
                   {user ? (
-                    <Link href={`/${lang}/app`}>{primaryButton}</Link>
+                    <Link href={`/${lang}/app`}>
+                      <Avatar className="mr-2 h-4 w-4 border text-xs">
+                        <AvatarFallback>{initial}</AvatarFallback>
+                      </Avatar>
+                      {primaryButton}
+                    </Link>
                   ) : (
                     <Link href={`/${lang}/login`}>{primaryButton}</Link>
                   )}
