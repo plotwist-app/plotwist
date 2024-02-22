@@ -6,6 +6,7 @@ const nextConfig = {
         hostname: 'image.tmdb.org',
       },
     ],
+    unoptimized: true,
   },
 }
 
