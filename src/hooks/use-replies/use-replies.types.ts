@@ -7,8 +7,3 @@ export type CreateReplyValues = {
 export type DeleteReplyValues = {
   replyId: string
 }
-
-export type LikeReplyValues = {
-  replyId: string
-  userId: string
-}

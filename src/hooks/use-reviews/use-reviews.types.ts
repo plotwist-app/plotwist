@@ -10,8 +10,3 @@ export type CreateReviewValues = {
 
   tmdbItem: MovieDetails | TvSeriesDetails
 }
-
-export type LikeReviewValues = {
-  reviewId: string
-  userId: string
-}

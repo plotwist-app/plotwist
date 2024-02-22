@@ -9,6 +9,7 @@ import {
   ReviewReplyActions,
   ReviewReplyLikes,
 } from '@/components/reviews/review-reply'
+import { useLanguage } from '@/context/language'
 
 type TmdbItem = TvSeriesDetails | MovieDetails
 
@@ -31,6 +32,8 @@ export const ReviewReply = ({
   tmdbItem,
   mediaType,
 }: ReviewReplyProps) => {
+  const { dictionary } = useLanguage()
+
   if (!replies) return <></>
 
   return (
@@ -42,7 +45,9 @@ export const ReviewReply = ({
       >
         <div className="mr-4 w-6 border" />
 
-        {!openReplies ? `View replies (${replies.length})` : 'Hide replies'}
+        {!openReplies
+          ? `${dictionary.review_reply.open_replies} (${replies.length})`
+          : `${dictionary.review_reply.hide_replies}`}
       </button>
 
       {openReplies && (

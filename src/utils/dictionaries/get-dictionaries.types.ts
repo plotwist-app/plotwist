@@ -120,6 +120,8 @@ export type Dictionary = {
   review_reply: {
     reply: string
     placeholder: string
+    open_replies: string
+    hide_replies: string
   }
   review_item_actions: {
     like: string

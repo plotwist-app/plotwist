@@ -116,7 +116,9 @@
   },
   "review_reply": {
     "reply": "Répondre",
-    "placeholder": "Ajouter une réponse..."
+    "placeholder": "Ajouter une réponse...",
+    "open_replies": "Voir les réponses",
+    "hide_replies": "Cacher les réponses"
   },
   "review_item_actions": {
     "like": "Aimer",

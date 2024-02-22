@@ -116,7 +116,9 @@
   },
   "review_reply": {
     "reply": "返信",
-    "placeholder": "返信を追加する..."
+    "placeholder": "返信を追加する...",
+    "open_replies": "返信を見る",
+    "hide_replies": "返信を隠す"
   },
   "review_item_actions": {
     "like": "いいね",

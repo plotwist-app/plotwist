@@ -17,6 +17,7 @@ import { useReplies } from '@/hooks/use-replies/use-replies'
 import { MediaType } from '@/types/supabase/media-type'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+import { useLike } from '@/hooks/use-like/use-like'
 
 type TmdbItem = TvSeriesDetails | MovieDetails
 
@@ -52,18 +53,19 @@ export const ReviewReplyActions = ({
   tmdbItem,
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
-  const { handleDeleteReply, handleLikeReply, handleRemoveLikeReply } =
-    useReplies()
+  const { handleDeleteReply } = useReplies()
+  const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
 
   const { data: likes } = useQuery({
-    queryKey: [id],
+    queryKey: ['likes', id],
     queryFn: async () =>
       supabase
         .from('likes')
-        .select('*', { count: 'exact' })
+        .select('user_id')
         .eq('entity_type', 'REPLY')
-        .eq('review_reply_id', id),
+        .eq('review_reply_id', id)
+        .eq('user_id', user.id),
   })
 
   const isUserOwner = user.id === userId
@@ -84,18 +86,15 @@ export const ReviewReplyActions = ({
   return (
     <div>
       <div className="flex items-center gap-2">
-        {/* Like Button */}
         <ReplyAction
           active={isUserLiked}
           disabled={
-            isUserLiked
-              ? handleRemoveLikeReply.isPending
-              : handleLikeReply.isPending
+            isUserLiked ? handleRemoveLike.isPending : handleLike.isPending
           }
           onClick={() => {
-            if (isUserLiked && userLike?.id) {
-              handleRemoveLikeReply.mutateAsync(
-                { replyId: id, userId },
+            if (isUserLiked) {
+              handleRemoveLike.mutateAsync(
+                { replyId: id, userId, entityType: 'REPLY' },
                 {
                   onSuccess: () => {
                     invalidateQuery()
@@ -106,10 +105,11 @@ export const ReviewReplyActions = ({
               return
             }
 
-            handleLikeReply.mutateAsync(
+            handleLike.mutateAsync(
               {
                 replyId: id,
                 userId: user.id,
+                entityType: 'REPLY',
               },
               {
                 onSuccess: () => {
@@ -125,7 +125,6 @@ export const ReviewReplyActions = ({
           {dictionary.review_item_actions.like}
         </ReplyAction>
 
-        {/* Delete Button */}
         {isUserOwner && (
           <>
             <span className="h-1 w-1 rounded-full bg-muted-foreground" />

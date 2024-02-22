@@ -75,8 +75,8 @@ export const ReviewReplyForm = ({
           form.reset()
           toast.success(dictionary.review_form.success)
 
-          onOpenReplyForm(false)
           onOpenReplies(true)
+          onOpenReplyForm(false)
 
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: [tmdbId, mediaType],

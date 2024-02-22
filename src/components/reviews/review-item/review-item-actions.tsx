@@ -13,6 +13,7 @@ import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/services/supabase'
+import { useLike } from '@/hooks/use-like/use-like'
 
 type ReviewItemActionsProps = {
   review: Review
@@ -50,8 +51,8 @@ export const ReviewItemActions = ({
   review: { user_id: userId, id, tmdb_id: tmdbId, media_type: mediaType },
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
-  const { handleDeleteReview, handleLikeReview, handleRemoveLike } =
-    useReviews()
+  const { handleDeleteReview } = useReviews()
+  const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
 
   const { data: likes } = useQuery({
@@ -59,11 +60,13 @@ export const ReviewItemActions = ({
     queryFn: async () =>
       supabase
         .from('likes')
-        .select('user_id', { count: 'exact' })
+        .select('user_id')
         .eq('entity_type', 'REVIEW')
         .eq('review_id', id)
         .eq('user_id', user.id),
   })
+
+  console.log(likes)
 
   const isUserOwner = user.id === userId
 
@@ -91,9 +94,7 @@ export const ReviewItemActions = ({
         <ReviewItemAction
           active={isUserLiked}
           disabled={
-            isUserLiked
-              ? handleRemoveLike.isPending
-              : handleLikeReview.isPending
+            isUserLiked ? handleRemoveLike.isPending : handleLike.isPending
           }
           onClick={() => {
             if (isUserLiked) {
@@ -101,6 +102,7 @@ export const ReviewItemActions = ({
                 {
                   reviewId: id,
                   userId: user.id,
+                  entityType: 'REVIEW',
                 },
                 {
                   onSuccess: () => {
@@ -114,10 +116,11 @@ export const ReviewItemActions = ({
               return
             }
 
-            handleLikeReview.mutateAsync(
+            handleLike.mutateAsync(
               {
                 reviewId: id,
                 userId: user.id,
+                entityType: 'REVIEW',
               },
               {
                 onSuccess: () => {
