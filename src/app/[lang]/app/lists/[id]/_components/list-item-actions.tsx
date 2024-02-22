@@ -19,7 +19,7 @@ import { useLists } from '@/context/lists'
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { listPageQueryKey } from '../page'
+import { listPageQueryKey } from '@/utils/list'
 
 type ListItemActionsProps = { listItem: ListItem }
 

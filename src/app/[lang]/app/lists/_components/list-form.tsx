@@ -32,7 +32,7 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
-import { listPageQueryKey } from '../[id]/page'
+import { listPageQueryKey } from '@/utils/list'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 

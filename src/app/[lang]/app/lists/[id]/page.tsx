@@ -16,12 +16,11 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { ListForm } from '../_components/list-form'
+import { listPageQueryKey } from '@/utils/list'
 
 type ListPageProps = {
   params: { id: string }
 }
-
-export const listPageQueryKey = (id: string) => ['list', id]
 
 const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
