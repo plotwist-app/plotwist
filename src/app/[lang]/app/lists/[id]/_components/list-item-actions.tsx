@@ -15,10 +15,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { useLists } from '@/context/lists'
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
+import { listPageQueryKey } from '../page'
 
 type ListItemActionsProps = { listItem: ListItem }
 
@@ -35,9 +36,22 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     async (id: string, listId: string) => {
       await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [listId],
-          })
+          APP_QUERY_CLIENT.setQueryData(
+            listPageQueryKey(listId),
+            (query: { data: List }) => {
+              const newListItems = query.data.list_items.filter(
+                (item) => item.id !== id,
+              )
+
+              return {
+                ...query,
+                data: {
+                  ...query.data,
+                  list_items: newListItems,
+                },
+              }
+            },
+          )
 
           toast.success(dictionary.list_item_actions.removed_successfully)
         },
@@ -47,45 +61,71 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   )
 
   const handleChangeStatus = useCallback(
-    async (status: ListItemStatus) => {
-      await handleChangeListItemStatus.mutateAsync(
-        {
-          listItemId: listItem.id,
-          newStatus: status,
+    async (status: ListItemStatus, listId: string) => {
+      const variables = {
+        listItemId: listItem.id,
+        newStatus: status,
+      }
+
+      await handleChangeListItemStatus.mutateAsync(variables, {
+        onSuccess: () => {
+          APP_QUERY_CLIENT.setQueryData(
+            listPageQueryKey(listId),
+            (query: { data: List }) => {
+              const newListItems = query.data.list_items.map((item) => {
+                if (item.id === variables.listItemId) {
+                  return {
+                    ...item,
+                    status: variables.newStatus,
+                  }
+                }
+
+                return item
+              })
+
+              const newQuery = {
+                ...query,
+                data: {
+                  ...query.data,
+                  list_items: newListItems,
+                },
+              }
+
+              return newQuery
+            },
+          )
         },
-        {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: [listItem.list_id],
-            })
-          },
-        },
-      )
+      })
     },
-    [handleChangeListItemStatus, listItem.id, listItem.list_id],
+    [handleChangeListItemStatus, listItem],
   )
 
   const handleChangeBackdrop = useCallback(async () => {
-    await handleChangeListCoverPath.mutateAsync(
-      {
-        listId: listItem.list_id,
-        newCoverPath: listItem.backdrop_path,
+    const variables = {
+      listId: listItem.list_id,
+      newCoverPath: listItem.backdrop_path,
+    }
+
+    await handleChangeListCoverPath.mutateAsync(variables, {
+      onSuccess: () => {
+        APP_QUERY_CLIENT.setQueryData(
+          listPageQueryKey(listItem.list_id),
+          (query: { data: List }) => {
+            const newQuery = {
+              ...query,
+              data: {
+                ...query.data,
+                cover_path: variables.newCoverPath,
+              },
+            }
+
+            return newQuery
+          },
+        )
+
+        toast.success(dictionary.list_item_actions.cover_changed_successfully)
       },
-
-      {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [listItem.list_id],
-          })
-
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: LISTS_QUERY_KEY,
-          })
-
-          toast.success(dictionary.list_item_actions.cover_changed_successfully)
-        },
-      },
-    )
+    })
   }, [
     dictionary,
     handleChangeListCoverPath,
@@ -115,7 +155,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
             <DropdownMenuRadioGroup
               value={listItem.status}
               onValueChange={(status) =>
-                handleChangeStatus(status as ListItemStatus)
+                handleChangeStatus(status as ListItemStatus, listItem.list_id)
               }
             >
               {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (

@@ -5,15 +5,18 @@ import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useAuth } from '../auth'
 
-import { changeListCoverPathService } from '@/services/api/lists/change-list-cover-path'
-import { changeListItemStatusService } from '@/services/api/lists/change-list-item-status'
-import { removeFromListService } from '@/services/api/lists/remove-from-list'
-import { removeCollectionFromListService } from '@/services/api/lists/remove-colletion-from-list'
-import { addCollectionToListService } from '@/services/api/lists/add-collection-to-list'
-import { addToListService } from '@/services/api/lists/add-to-list'
-import { createListService } from '@/services/api/lists/create-list'
-import { deleteListService } from '@/services/api/lists/delete-list'
-import { fetchListsService } from '@/services/api/lists/fetch-lists'
+import {
+  changeListCoverPathService,
+  changeListItemStatusService,
+  removeFromListService,
+  removeCollectionFromListService,
+  addCollectionToListService,
+  addToListService,
+  createListService,
+  deleteListService,
+  fetchListsService,
+} from '@/services/api/lists'
+import { editListService } from '@/services/api/lists/edit-list'
 
 export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
@@ -32,6 +35,10 @@ export const ListsContextProvider = ({
 
   const handleCreateNewList = useMutation({
     mutationFn: createListService,
+  })
+
+  const handleEditList = useMutation({
+    mutationFn: editListService,
   })
 
   const handleDeleteList = useMutation({
@@ -70,6 +77,8 @@ export const ListsContextProvider = ({
         handleCreateNewList,
         handleDeleteList,
         handleAddToList,
+        handleEditList,
+
         handleAddCollectionToList,
         handleRemoveCollectionFromList,
         handleRemoveFromList,

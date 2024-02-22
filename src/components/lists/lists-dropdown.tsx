@@ -36,7 +36,18 @@ type ListsDropdownProps = {
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
-  const { dictionary } = useLanguage()
+  const {
+    dictionary: {
+      lists_dropdown: {
+        removed_successfully: removedSuccessfully,
+        added_successfully: addedSuccessfully,
+        view_list: viewList,
+        add_to_list: addToList,
+        my_lists: myLists,
+      },
+      create_new_list_form: { create_new_list: createNewList },
+    },
+  } = useLanguage()
   const pathname = usePathname()
 
   const handleRemove = useCallback(
@@ -47,11 +58,11 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
             queryKey: LISTS_QUERY_KEY,
           })
 
-          toast.success(dictionary.lists_dropdown.removed_successfully)
+          toast.success(removedSuccessfully)
         },
       })
     },
-    [dictionary.lists_dropdown.removed_successfully, handleRemoveFromList],
+    [removedSuccessfully, handleRemoveFromList],
   )
 
   const handleAdd = useCallback(
@@ -66,9 +77,9 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
               queryKey: LISTS_QUERY_KEY,
             })
 
-            toast.success(dictionary.lists_dropdown.added_successfully, {
+            toast.success(addedSuccessfully, {
               action: {
-                label: dictionary.lists_dropdown.view_list,
+                label: viewList,
                 onClick: () => push(`/app/lists/${list.id}`),
               },
             })
@@ -76,7 +87,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       )
     },
-    [dictionary, handleAddToList, item, push],
+    [addedSuccessfully, handleAddToList, item, push, viewList],
   )
 
   const isHomePage = !pathname.includes('/app')
@@ -86,14 +97,12 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
           <Plus className="mr-2" size={12} />
-          {dictionary.lists_dropdown.add_to_list}
+          {addToList}
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>
-          {dictionary.lists_dropdown.my_lists}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         {lists?.length > 0 ? (
@@ -125,7 +134,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
                     'pointer-events-none cursor-not-allowed opacity-50',
                 )}
               >
-                Create new list
+                {createNewList}
               </div>
             }
           />

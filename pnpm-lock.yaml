@@ -10,7 +10,7 @@ dependencies:
     version: 0.5.2
   '@hookform/resolvers':
     specifier: ^3.3.2
-    version: 3.3.2(react-hook-form@7.48.2)
+    version: 3.3.2(react-hook-form@7.50.1)
   '@radix-ui/react-accordion':
     specifier: ^1.1.2
     version: 1.1.2(@types/react-dom@18.0.0)(@types/react@18.2.39)(react-dom@18.0.0)(react@18.0.0)
@@ -69,8 +69,8 @@ dependencies:
     specifier: ^2.39.0
     version: 2.39.0
   '@tanstack/react-query':
-    specifier: ^5.15.0
-    version: 5.15.0(react@18.0.0)
+    specifier: ^5.22.2
+    version: 5.22.2(react@18.0.0)
   '@tanstack/react-table':
     specifier: ^8.11.3
     version: 8.11.3(react-dom@18.0.0)(react@18.0.0)
@@ -126,8 +126,8 @@ dependencies:
     specifier: ^18
     version: 18.0.0(react@18.0.0)
   react-hook-form:
-    specifier: ^7.48.2
-    version: 7.48.2(react@18.0.0)
+    specifier: ^7.50.1
+    version: 7.50.1(react@18.0.0)
   react-i18next:
     specifier: ^13.5.0
     version: 13.5.0(i18next@23.9.0)(react-dom@18.0.0)(react@18.0.0)
@@ -745,12 +745,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
+  /@hookform/resolvers@3.3.2(react-hook-form@7.50.1):
     resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.48.2(react@18.0.0)
+      react-hook-form: 7.50.1(react@18.0.0)
     dev: false
 
   /@humanwhocodes/config-array@0.6.0:
@@ -2523,16 +2523,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@tanstack/query-core@5.14.2:
-    resolution: {integrity: sha512-QmoJvC72sSWs3hgGis8JdmlDvqLfYGWUK4UG6OR9Q6t28JMN9m2FDwKPqoSJ9YVocELCSjMt/FGjEiLfk8000Q==}
+  /@tanstack/query-core@5.22.2:
+    resolution: {integrity: sha512-z3PwKFUFACMUqe1eyesCIKg3Jv1mysSrYfrEW5ww5DCDUD4zlpTKBvUDaEjsfZzL3ULrFLDM9yVUxI/fega1Qg==}
     dev: false
 
-  /@tanstack/react-query@5.15.0(react@18.0.0):
-    resolution: {integrity: sha512-hWLuZ2Hg9HzmHJ3VtWzhvK+sTxPz+rIIujYUxzapPoU9PPXe7NCm8k8EaKpm+Sc65FM7Dljfk/Ov9yYMhwg9vw==}
+  /@tanstack/react-query@5.22.2(react@18.0.0):
+    resolution: {integrity: sha512-TaxJDRzJ8/NWRT4lY2jguKCrNI6MRN+67dELzPjNUlvqzTxGANlMp68l7aC7hG8Bd1uHNxHl7ihv7MT50i/43A==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.14.2
+      '@tanstack/query-core': 5.22.2
       react: 18.0.0
     dev: false
 
@@ -6068,8 +6068,8 @@ packages:
       react: 18.0.0
       scheduler: 0.21.0
 
-  /react-hook-form@7.48.2(react@18.0.0):
-    resolution: {integrity: sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==}
+  /react-hook-form@7.50.1(react@18.0.0):
+    resolution: {integrity: sha512-3PCY82oE0WgeOgUtIr3nYNNtNvqtJ7BZjsbxh6TnYNbXButaD5WpjOmTjdxZfheuHKR68qfeFnEDVYoSSFPMTQ==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18

@@ -20,6 +20,7 @@ export const TvShowEpisodeCard = ({ episode }: TvShowEpisodeCardProps) => {
     overview,
     vote_average: voteAverage,
     vote_count: voteCount,
+    episode_number: episodeNumber,
   } = episode
 
   return (
@@ -37,7 +38,9 @@ export const TvShowEpisodeCard = ({ episode }: TvShowEpisodeCardProps) => {
 
       <div className="space-y-1">
         <div className="flex items-start justify-between gap-1">
-          <span className="">{name}</span>
+          <span className="text-md">
+            <b className="text-sm">{episodeNumber}</b>. {name}
+          </span>
 
           <TooltipProvider>
             <Tooltip>

@@ -17,18 +17,24 @@ import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { ListForm } from '../_components/list-form'
 
-const ListPage = ({ params }: { params: { id: string } }) => {
+type ListPageProps = {
+  params: { id: string }
+}
+
+export const listPageQueryKey = (id: string) => ['list', id]
+
+const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
   const { push } = useRouter()
   const { dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [params.id],
+    queryKey: listPageQueryKey(id),
     queryFn: async () => {
       const response = await supabase
         .from('lists')
         .select('*, list_items(*, id)')
-        .eq('id', params.id)
+        .eq('id', id)
         .order('created_at', { referencedTable: 'list_items' })
         .single<List>()
 

@@ -25,17 +25,19 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+
+import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
-import { List } from '@/types/supabase/lists'
+import { listPageQueryKey } from '../[id]/page'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
-  const { handleCreateNewList } = useLists()
+  const { handleCreateNewList, handleEditList } = useLists()
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
@@ -50,6 +52,63 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   })
 
   async function onSubmit(values: ListFormValues) {
+    if (list) {
+      const { name, description } = values
+
+      const variables = {
+        name,
+        description,
+        id: list.id,
+      }
+
+      return await handleEditList.mutateAsync(variables, {
+        onSuccess: () => {
+          APP_QUERY_CLIENT.setQueryData(
+            listPageQueryKey(variables.id),
+            (query: { data: List }) => {
+              const { data } = query
+
+              return {
+                ...query,
+                data: {
+                  ...data,
+                  name: variables.name,
+                  description: variables.description,
+                },
+              }
+            },
+          )
+
+          APP_QUERY_CLIENT.setQueryData(
+            LISTS_QUERY_KEY,
+            (query: { data: List[] }) => {
+              const { data } = query
+
+              const newData = data.map((list) => {
+                if (list.id === variables.id) {
+                  return {
+                    ...list,
+                    name: variables.name,
+                    description: variables.description,
+                  }
+                }
+
+                return list
+              })
+
+              return { ...query, data: newData }
+            },
+          )
+
+          setOpen(false)
+          toast.success('Lista editada com sucesso.')
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      })
+    }
+
     await handleCreateNewList.mutateAsync(
       { ...values, userId: user.id },
       {
@@ -80,7 +139,9 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {dictionary.create_new_list_form.create_new_list}
+            {list
+              ? 'Editar lista'
+              : dictionary.create_new_list_form.create_new_list}
           </DialogTitle>
         </DialogHeader>
 

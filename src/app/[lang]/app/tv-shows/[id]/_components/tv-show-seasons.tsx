@@ -58,7 +58,7 @@ const TvShowSeason = ({ season, id, language }: TvShowSeasonProps) => {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="max-h-[75vh] overflow-y-auto sm:max-w-[978px]">
+      <DialogContent className="max-h-[75vh] overflow-y-auto sm:max-w-[1080px]">
         <DialogHeader className="text-start">
           <div className="flex items-center gap-4">
             <DialogTitle>{name}</DialogTitle>
