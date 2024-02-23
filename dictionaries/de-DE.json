@@ -172,7 +172,9 @@
   },
   "list_card": {
     "delete": "Löschen",
-    "delete_success": "Liste erfolgreich gelöscht."
+    "delete_success": "Liste erfolgreich gelöscht.",
+    "dialog_title": "Sind Sie sich absolut sicher?",
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden. Diese Liste wird für immer verschwinden."
   },
   "create_new_list_form": {
     "create_new_list": "Neue Liste erstellen",

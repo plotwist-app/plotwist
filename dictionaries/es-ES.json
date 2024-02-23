@@ -172,7 +172,9 @@
   },
   "list_card": {
     "delete": "Eliminar",
-    "delete_success": "Lista eliminada con éxito."
+    "delete_success": "Lista eliminada con éxito.",
+    "dialog_title": "¿Está completamente seguro?",
+    "dialog_description": "Esta acción no se puede deshacer. Esta lista desaparecerá para siempre."
   },
   "create_new_list_form": {
     "create_new_list": "Crear nueva lista",

@@ -172,7 +172,9 @@
   },
   "list_card": {
     "delete": "Supprimer",
-    "delete_success": "Liste supprimée avec succès."
+    "delete_success": "Liste supprimée avec succès.",
+    "dialog_title": "Êtes-vous absolument sûr?",
+    "dialog_description": "Cette action est irréversible. Cette liste disparaîtra à jamais."
   },
   "create_new_list_form": {
     "create_new_list": "Créer une nouvelle liste",
