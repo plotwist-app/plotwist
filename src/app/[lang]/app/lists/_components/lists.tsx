@@ -6,6 +6,8 @@ import { useLanguage } from '@/context/language'
 import { ListCard } from './list-card'
 import { ListForm } from './list-form'
 
+const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 10 : 1
+
 export const Lists = () => {
   const { lists } = useLists()
   const { dictionary } = useLanguage()
@@ -16,7 +18,7 @@ export const Lists = () => {
         <ListCard key={list.id} list={list} />
       ))}
 
-      {lists.length < 1 && (
+      {lists.length < LISTS_LIMIT && (
         <ListForm
           trigger={
             <button className="aspect-video rounded-md border border-dashed">

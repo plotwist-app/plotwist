@@ -15,7 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useLists } from '@/context/lists'
+import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
@@ -120,6 +120,24 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
             }
 
             return newQuery
+          },
+        )
+
+        APP_QUERY_CLIENT.setQueryData(
+          LISTS_QUERY_KEY,
+          (query: { data: List[] }) => {
+            const newData = query.data.map((list) => {
+              if (list.id === variables.listId) {
+                return {
+                  ...list,
+                  cover_path: variables.newCoverPath,
+                }
+              }
+
+              return list
+            })
+
+            return { ...query, data: newData }
           },
         )
 
