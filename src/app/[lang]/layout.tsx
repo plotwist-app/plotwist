@@ -27,9 +27,12 @@ export default async function RootLayout({
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
       <head>
+        <title>TMDB</title>
+
         <meta name="description" content={dictionary.home.description} />
         <meta name="title" content={dictionary.home.title} />
         <meta name="keywords" content={dictionary.home.keywords} />
+        <meta name="theme-color" content="#FFF" />
       </head>
 
       <body className="bg-background antialiased">
