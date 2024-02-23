@@ -181,7 +181,6 @@
     "name_required": "Il nome della lista è richiesto.",
     "description": "Descrizione",
     "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
-    "description_required": "È richiesta una descrizione della lista.",
     "submit": "Invia",
     "list_created_success": "Lista creata con successo!"
   },

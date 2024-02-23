@@ -183,7 +183,6 @@
     "name_required": "Name of list is required.",
     "description": "Description",
     "description_placeholder": "Movies and TV shows I plan to watch.",
-    "description_required": "Description of list is required.",
     "submit": "Submit",
     "list_created_success": "List created successfully!"
   },
