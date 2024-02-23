@@ -172,7 +172,10 @@
   },
   "list_card": {
     "delete": "Eliminare",
-    "delete_success": "Lista eliminata con successo."
+    "delete_success": "Lista eliminata con successo.",
+    "dialog_title": "Sei assolutamente sicuro?",
+    "dialog_description": "Questa azione non può essere annullata. Questa lista sparirà per sempre.",
+    "dialog_close": "Chiudi"
   },
   "list_form": {
     "create_new_list": "Crea nuova lista",
