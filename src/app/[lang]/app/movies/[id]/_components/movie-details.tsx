@@ -49,7 +49,7 @@ export const MovieDetails = async ({
     <div>
       <Banner
         url={tmdbImage(movie.backdrop_path)}
-        className={embed ? 'max-h-[20vh] md:max-h-[60vh]' : undefined}
+        className={embed ? 'max-h-[20vh] md:max-h-[50vh]' : undefined}
       />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12">

@@ -55,7 +55,7 @@ export default async function Home({ params: { lang } }: PageProps) {
       <Pattern variant="checkered" />
 
       <main className="">
-        <div className="mx-auto max-w-article p-4">
+        <div className="mx-auto max-w-4xl p-4">
           <Header />
 
           <section className="flex h-[75vh] items-center md:h-[50vh]">
@@ -95,13 +95,13 @@ export default async function Home({ params: { lang } }: PageProps) {
         </div>
 
         <section className="space-y-8 p-4">
-          <div className="mx-auto aspect-[9/16] w-full max-w-[1440px] overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
+          <div className="mx-auto aspect-[9/16] w-full max-w-article overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
             <MoviePage
               params={{ id: movieIdByLanguage[lang], lang, embed: true }}
             />
           </div>
 
-          <div className="mx-auto grid max-w-article grid-cols-1 items-center gap-8 md:grid-cols-5">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-5">
             <CounterSection
               label={statistics.movies.label}
               value={statistics.movies.value}
