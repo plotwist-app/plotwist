@@ -18,37 +18,39 @@ export type ReviewsProps = {
 }
 
 export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
-  const { data: response, isLoading } = useQuery({
-    queryKey: [tmdbItem.id, mediaType],
-    queryFn: async () =>
-      supabase
-        .from('reviews_with_user')
-        .select('*')
-        .eq('tmdb_id', tmdbItem.id)
-        .order('id', { ascending: false })
-        .eq('media_type', mediaType)
-        .returns<Review[]>(),
-  })
+  return <div>work in progress.</div>
 
-  if (isLoading) {
-    return (
-      <section className="space-y-8">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <ReviewItemSkeleton key={index} />
-        ))}
-      </section>
-    )
-  }
+  // const { data: response, isLoading } = useQuery({
+  //   queryKey: [tmdbItem.id, mediaType],
+  //   queryFn: async () =>
+  //     supabase
+  //       .from('reviews_with_user')
+  //       .select('*')
+  //       .eq('tmdb_id', tmdbItem.id)
+  //       .order('id', { ascending: false })
+  //       .eq('media_type', mediaType)
+  //       .returns<Review[]>(),
+  // })
 
-  if (!response?.data) return <></>
+  // if (isLoading) {
+  //   return (
+  //     <section className="space-y-8">
+  //       {Array.from({ length: 5 }).map((_, index) => (
+  //         <ReviewItemSkeleton key={index} />
+  //       ))}
+  //     </section>
+  //   )
+  // }
 
-  return (
-    <section className="space-y-8">
-      {response.data.map((review) => (
-        <ReviewItem key={review.id} review={review} />
-      ))}
+  // if (!response?.data) return <></>
 
-      <ReviewForm mediaType={mediaType} tmdbItem={tmdbItem} />
-    </section>
-  )
+  // return (
+  //   <section className="space-y-8">
+  //     {response.data.map((review) => (
+  //       <ReviewItem key={review.id} review={review} />
+  //     ))}
+
+  //     <ReviewForm mediaType={mediaType} tmdbItem={tmdbItem} />
+  //   </section>
+  // )
 }

@@ -10,54 +10,56 @@ import { useLanguage } from '@/context/language'
 const MAX_REVIEWS = 5
 
 export const DashboardPopularReviews = () => {
-  const { language, dictionary } = useLanguage()
+  return <div>work in progress.</div>
 
-  const { data: response, isLoading } = useQuery({
-    queryKey: ['dashboard-popular-reviews'],
-    queryFn: async () =>
-      await supabase
-        .from('reviews_with_user_and_like_count')
-        .select()
-        .order('review_likes_count', { ascending: false })
-        .limit(MAX_REVIEWS)
-        .returns<Review[]>(),
-  })
+  // const { language, dictionary } = useLanguage()
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">
-          {dictionary.dashboard.popular_reviews.title}
-        </h3>
+  // const { data: response, isLoading } = useQuery({
+  //   queryKey: ['dashboard-popular-reviews'],
+  //   queryFn: async () =>
+  //     await supabase
+  //       .from('reviews_with_user_and_like_count')
+  //       .select()
+  //       .order('review_likes_count', { ascending: false })
+  //       .limit(MAX_REVIEWS)
+  //       .returns<Review[]>(),
+  // })
 
-        <div className="space-y-8">
-          {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
-            <DashboardReviewSkeleton key={index} />
-          ))}
-        </div>
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="space-y-4">
+  //       <h3 className="text-lg font-semibold">
+  //         {dictionary.dashboard.popular_reviews.title}
+  //       </h3>
 
-  if (!response?.data) return <></>
+  //       <div className="space-y-8">
+  //         {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
+  //           <DashboardReviewSkeleton key={index} />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
-  const reviews = response.data
+  // if (!response?.data) return <></>
 
-  return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">
-        {dictionary.dashboard.popular_reviews.title}
-      </h3>
+  // const reviews = response.data
 
-      <div className="space-y-8">
-        {reviews.map((review) => (
-          <DashboardReview
-            key={review.id}
-            review={review}
-            language={language}
-          />
-        ))}
-      </div>
-    </div>
-  )
+  // return (
+  //   <div className="space-y-4">
+  //     <h3 className="text-lg font-semibold">
+  //       {dictionary.dashboard.popular_reviews.title}
+  //     </h3>
+
+  //     <div className="space-y-8">
+  //       {reviews.map((review) => (
+  //         <DashboardReview
+  //           key={review.id}
+  //           review={review}
+  //           language={language}
+  //         />
+  //       ))}
+  //     </div>
+  //   </div>
+  // )
 }

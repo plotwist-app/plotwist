@@ -10,56 +10,58 @@ import { useLanguage } from '@/context/language'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 
 export const DashboardUserLastReview = () => {
-  const { user } = useAuth()
-  const { language, dictionary } = useLanguage()
+  return <div>work in progress.</div>
 
-  const { data: response, isLoading } = useQuery({
-    queryKey: ['dashboard-user-last-review'],
-    queryFn: async () =>
-      await supabase
-        .from('reviews_with_user')
-        .select()
-        .order('id', { ascending: false })
-        .eq('user_id', user.id)
-        .limit(1)
-        .returns<Review[]>(),
-  })
+  // const { user } = useAuth()
+  // const { language, dictionary } = useLanguage()
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">
-          {dictionary.dashboard.user_last_review.title}
-        </h3>
-        <DashboardReviewSkeleton />
-      </div>
-    )
-  }
+  // const { data: response, isLoading } = useQuery({
+  //   queryKey: ['dashboard-user-last-review'],
+  //   queryFn: async () =>
+  //     await supabase
+  //       .from('reviews_with_user')
+  //       .select()
+  //       .order('id', { ascending: false })
+  //       .eq('user_id', user.id)
+  //       .limit(1)
+  //       .returns<Review[]>(),
+  // })
 
-  if (!response?.data) return <></>
+  // if (isLoading) {
+  //   return (
+  //     <div className="space-y-4">
+  //       <h3 className="text-lg font-semibold">
+  //         {dictionary.dashboard.user_last_review.title}
+  //       </h3>
+  //       <DashboardReviewSkeleton />
+  //     </div>
+  //   )
+  // }
 
-  const lastReview = response.data[0]
+  // if (!response?.data) return <></>
 
-  return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">
-        {dictionary.dashboard.user_last_review.title}
-      </h3>
+  // const lastReview = response.data[0]
 
-      {lastReview ? (
-        <DashboardReview review={lastReview} language={language} />
-      ) : (
-        <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
-          <p>{dictionary.dashboard.user_last_review.no_review_message}</p>
+  // return (
+  //   <div className="space-y-4">
+  //     <h3 className="text-lg font-semibold">
+  //       {dictionary.dashboard.user_last_review.title}
+  //     </h3>
 
-          <Link
-            href={`/${language}/app/movies/top-rated`}
-            className="text-sm text-muted-foreground"
-          >
-            {dictionary.dashboard.user_last_review.no_review_action}
-          </Link>
-        </div>
-      )}
-    </div>
-  )
+  //     {lastReview ? (
+  //       <DashboardReview review={lastReview} language={language} />
+  //     ) : (
+  //       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
+  //         <p>{dictionary.dashboard.user_last_review.no_review_message}</p>
+
+  //         <Link
+  //           href={`/${language}/app/movies/top-rated`}
+  //           className="text-sm text-muted-foreground"
+  //         >
+  //           {dictionary.dashboard.user_last_review.no_review_action}
+  //         </Link>
+  //       </div>
+  //     )}
+  //   </div>
+  // )
 }

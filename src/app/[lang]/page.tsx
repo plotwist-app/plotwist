@@ -17,6 +17,16 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
+export const homeMovies: Record<Language, string> = {
+  'en-US': '27205',
+  'es-ES': '1417',
+  'fr-FR': '194',
+  'de-DE': '582',
+  'it-IT': '637',
+  'pt-BR': '598',
+  'ja-JP': '129',
+}
+
 export default async function Home({ params: { lang } }: PageProps) {
   const {
     home: {
@@ -36,16 +46,6 @@ export default async function Home({ params: { lang } }: PageProps) {
     .from('user_count')
     .select()
     .single<{ user_count: number }>()
-
-  const movieIdByLanguage: Record<Language, string> = {
-    'en-US': '27205',
-    'es-ES': '1417',
-    'fr-FR': '194',
-    'de-DE': '582',
-    'it-IT': '637',
-    'pt-BR': '598',
-    'ja-JP': '129',
-  }
 
   const username: string = user?.user_metadata.username
   const initial = username ? username[0].toUpperCase() : undefined
@@ -96,9 +96,7 @@ export default async function Home({ params: { lang } }: PageProps) {
 
         <section className="space-y-8 p-4">
           <div className="mx-auto aspect-[9/16] w-full max-w-article overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
-            {/* <MoviePage
-              params={{ id: movieIdByLanguage[lang], lang, embed: true }}
-            /> */}
+            <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
           </div>
 
           <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-5">
