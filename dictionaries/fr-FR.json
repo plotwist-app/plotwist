@@ -181,7 +181,6 @@
     "name_required": "Le nom de la liste est requis.",
     "description": "Description",
     "description_placeholder": "Films et émissions de télévision que je prévois de regarder.",
-    "description_required": "La description de la liste est requise.",
     "submit": "Soumettre",
     "list_created_success": "Liste créée avec succès !"
   },

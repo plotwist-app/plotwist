@@ -176,7 +176,6 @@ export type Dictionary = {
     name_required: string
     description: string
     description_placeholder: string
-    description_required: string
     submit: string
     list_created_success: string
   }
