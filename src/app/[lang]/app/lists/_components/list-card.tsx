@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -30,7 +31,6 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
-import { useState } from 'react'
 
 type ListCardProps = { list: List }
 
@@ -85,6 +85,7 @@ export const ListCard = ({ list }: ListCardProps) => {
           </p>
         </div>
       </div>
+
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader className="gap-1">
@@ -124,20 +125,3 @@ export const ListCard = ({ list }: ListCardProps) => {
     </>
   )
 }
-
-// onClick={(e) => {
-//   e.preventDefault()
-
-//   handleDeleteList.mutate(list.id, {
-//     onSuccess: () => {
-//       APP_QUERY_CLIENT.invalidateQueries({
-//         queryKey: LISTS_QUERY_KEY,
-//       })
-
-//       toast.success(dictionary.list_card.delete_success)
-//     },
-//     onError: (error) => {
-//       toast.error(error.message)
-//     },
-//   })
-// }}
