@@ -174,7 +174,7 @@
     "delete": "Deletar",
     "delete_success": "Lista deletada com sucesso."
   },
-  "create_new_list_form": {
+  "list_form": {
     "create_new_list": "Criar nova lista",
     "name": "Nome",
     "name_placeholder": "Minha Lista",
@@ -182,7 +182,10 @@
     "description": "Descrição",
     "description_placeholder": "Filmes e programas de TV que planejo assistir.",
     "submit": "Enviar",
-    "list_created_success": "Lista criada com sucesso!"
+    "list_created_success": "Lista criada com sucesso!",
+
+    "edit_list": "Editar lista",
+    "list_edited_success": "Lista editada com sucesso."
   },
   "list_page": {
     "list_not_found": "Lista não encontrada.",

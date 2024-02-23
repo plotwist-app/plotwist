@@ -169,7 +169,7 @@ export type Dictionary = {
     delete: string
     delete_success: string
   }
-  create_new_list_form: {
+  list_form: {
     create_new_list: string
     name: string
     name_placeholder: string
@@ -178,6 +178,9 @@ export type Dictionary = {
     description_placeholder: string
     submit: string
     list_created_success: string
+
+    edit_list: string
+    list_edited_success: string
   }
   list_page: {
     list_not_found: string

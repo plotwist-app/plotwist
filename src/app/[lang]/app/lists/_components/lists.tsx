@@ -22,7 +22,7 @@ export const Lists = () => {
         <ListForm
           trigger={
             <button className="aspect-video rounded-md border border-dashed">
-              {dictionary.create_new_list_form.create_new_list}
+              {dictionary.list_form.create_new_list}
             </button>
           }
         />

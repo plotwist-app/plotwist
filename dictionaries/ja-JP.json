@@ -172,7 +172,7 @@
     "delete": "削除",
     "delete_success": "リストが正常に削除されました。"
   },
-  "create_new_list_form": {
+  "list_form": {
     "create_new_list": "新しいリストを作成",
     "name": "名前",
     "name_placeholder": "マイリスト",
@@ -180,7 +180,10 @@
     "description": "説明",
     "description_placeholder": "視聴予定の映画やテレビ番組。",
     "submit": "提出する",
-    "list_created_success": "リストが正常に作成されました！"
+    "list_created_success": "リストが正常に作成されました！",
+    
+    "edit_list": "リストを編集",
+    "list_edited_success": "リストが正常に編集されました。"
   },
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",

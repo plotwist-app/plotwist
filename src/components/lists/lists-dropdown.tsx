@@ -45,7 +45,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         add_to_list: addToList,
         my_lists: myLists,
       },
-      create_new_list_form: { create_new_list: createNewList },
+      list_form: { create_new_list: createNewList },
     },
   } = useLanguage()
   const pathname = usePathname()

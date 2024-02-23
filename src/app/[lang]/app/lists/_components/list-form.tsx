@@ -123,7 +123,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             name: '',
           })
 
-          toast.success(dictionary.create_new_list_form.list_created_success)
+          toast.success(dictionary.list_form.list_created_success)
         },
         onError: (error) => {
           toast.error(error.message)
@@ -139,9 +139,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {list
-              ? 'Editar lista'
-              : dictionary.create_new_list_form.create_new_list}
+            {list ? 'Editar lista' : dictionary.list_form.create_new_list}
           </DialogTitle>
         </DialogHeader>
 
@@ -155,12 +153,10 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{dictionary.create_new_list_form.name}</FormLabel>
+                  <FormLabel>{dictionary.list_form.name}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={
-                        dictionary.create_new_list_form.name_placeholder
-                      }
+                      placeholder={dictionary.list_form.name_placeholder}
                       {...field}
                     />
                   </FormControl>
@@ -175,16 +171,12 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    {dictionary.create_new_list_form.description}
-                  </FormLabel>
+                  <FormLabel>{dictionary.list_form.description}</FormLabel>
                   <FormControl>
                     <Textarea
                       className="resize-none"
                       rows={3}
-                      placeholder={
-                        dictionary.create_new_list_form.description_placeholder
-                      }
+                      placeholder={dictionary.list_form.description_placeholder}
                       {...field}
                     />
                   </FormControl>
@@ -196,7 +188,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
 
             <div className="flex justify-end space-x-2">
               <Button type="submit" loading={form.formState.isSubmitting}>
-                {dictionary.create_new_list_form.submit}
+                {dictionary.list_form.submit}
               </Button>
             </div>
           </form>
