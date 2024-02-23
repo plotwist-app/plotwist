@@ -101,7 +101,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           )
 
           setOpen(false)
-          toast.success('Lista editada com sucesso.')
+          toast.success(dictionary.list_form.list_edited_success)
         },
         onError: (error) => {
           toast.error(error.message)
@@ -139,7 +139,9 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {list ? 'Editar lista' : dictionary.list_form.create_new_list}
+            {list
+              ? dictionary.list_form.edit_list
+              : dictionary.list_form.create_new_list}
           </DialogTitle>
         </DialogHeader>
 
