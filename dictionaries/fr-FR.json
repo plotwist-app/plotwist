@@ -174,7 +174,8 @@
     "delete": "Supprimer",
     "delete_success": "Liste supprimée avec succès.",
     "dialog_title": "Êtes-vous absolument sûr?",
-    "dialog_description": "Cette action est irréversible. Cette liste disparaîtra à jamais."
+    "dialog_description": "Cette action est irréversible. Cette liste disparaîtra à jamais.",
+    "dialog_close": "Fermer"
   },
   "create_new_list_form": {
     "create_new_list": "Créer une nouvelle liste",

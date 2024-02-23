@@ -170,6 +170,7 @@ export type Dictionary = {
     delete_success: string
     dialog_title: string
     dialog_description: string
+    dialog_close: string
   }
   create_new_list_form: {
     create_new_list: string

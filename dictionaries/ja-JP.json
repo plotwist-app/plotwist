@@ -172,7 +172,8 @@
     "delete": "削除",
     "delete_success": "リストが正常に削除されました。",
     "dialog_title": "本当によろしいですか？",
-    "dialog_description": "この操作は取り消すことができません。このリストは永遠に消えます。"
+    "dialog_description": "この操作は取り消すことができません。このリストは永遠に消えます。",
+    "dialog_close": "閉じる"
   },
   "create_new_list_form": {
     "create_new_list": "新しいリストを作成",

@@ -174,7 +174,8 @@
     "delete": "Deletar",
     "delete_success": "Lista deletada com sucesso.",
     "dialog_title": "Tem certeza absoluta?",
-    "dialog_description": "Esta ação não pode ser anulada. Esta lista deixará de existir para sempre."
+    "dialog_description": "Esta ação não pode ser anulada. Esta lista deixará de existir para sempre.",
+    "dialog_close": "Fechar"
   },
   "create_new_list_form": {
     "create_new_list": "Criar nova lista",

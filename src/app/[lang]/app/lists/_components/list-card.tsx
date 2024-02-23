@@ -103,7 +103,7 @@ export const ListCard = ({ list }: ListCardProps) => {
           <DialogFooter className="sm:flex-end">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                Close
+                {dictionary.list_card.dialog_close}
               </Button>
             </DialogClose>
             <Button
