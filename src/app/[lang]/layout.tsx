@@ -42,7 +42,7 @@ export default async function RootLayout({
             dictionary={dictionary}
           >
             {children}
-            <Toaster closeButton />
+            <Toaster />
           </LanguageContextProvider>
         </AppContextProvider>
       </body>
