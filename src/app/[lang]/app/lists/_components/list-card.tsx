@@ -39,36 +39,29 @@ export const ListCard = ({ list }: ListCardProps) => {
   const { language, dictionary } = useLanguage()
   const [open, setOpen] = useState(false)
 
-  const firstBackdropPath = list.cover_path ?? list.list_items[0]?.backdrop_path
-  const thumbnail = tmdbImage(firstBackdropPath)
+  const href = `/${language}/app/lists/${list.id}`
 
   return (
     <>
       <div className="space-y-2">
-        <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
-          {firstBackdropPath && (
-            <Link
-              href={`/${language}/app/lists/${list.id}`}
-              className="space-y-2"
-            >
+        <Link href={href}>
+          <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+            {list.cover_path && (
               <Image
                 fill
                 className="object-cover"
-                src={thumbnail}
+                src={tmdbImage(list.cover_path)}
                 alt={list.name}
                 sizes="100%"
               />
-            </Link>
-          )}
-        </div>
+            )}
+          </div>
+        </Link>
 
         <div className="space-y-1">
           <div className="flex justify-between gap-1">
-            <Link
-              href={`/${language}/app/lists/${list.id}`}
-              className="space-y-2"
-            >
-              <span>{list.name}</span>
+            <Link href={href} className="hover:underline">
+              {list.name}
             </Link>
 
             <DropdownMenu>
