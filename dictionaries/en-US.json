@@ -174,7 +174,10 @@
   },
   "list_card": {
     "delete": "Delete",
-    "delete_success": "List deleted successfully."
+    "delete_success": "List deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone. This preset will no longer be accessible by you or others you've shared it with.",
+    "dialog_close": "Close"
   },
   "list_form": {
     "create_new_list": "Create new list",

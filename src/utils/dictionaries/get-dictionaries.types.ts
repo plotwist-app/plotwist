@@ -168,6 +168,9 @@ export type Dictionary = {
   list_card: {
     delete: string
     delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
   }
   list_form: {
     create_new_list: string
