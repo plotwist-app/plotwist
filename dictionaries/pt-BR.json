@@ -2,6 +2,7 @@
   "home": {
     "title": "Explore filmes, programas de TV e pessoas!",
     "description": "O TMDB é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
+    "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "primary_button": "Entrar",
     "secondary_button": "Criar conta",
     "statistics": {
@@ -45,12 +46,10 @@
     "show_password": "Mostrar senha",
     "hide_password": "Ocultar senha",
     "access_button": "Acessar",
-
     "email_required": "Por favor, insira seu endereço de e-mail.",
     "email_invalid": "Por favor, insira um endereço de e-mail válido.",
     "password_required": "Por favor, insira sua senha.",
     "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
-
     "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
@@ -164,7 +163,7 @@
     "logout": "Sair"
   },
   "auth": {
-    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"  
+    "logout_success": "Logout realizado com sucesso. Até a próxima ✌"
   },
   "lists_page": {
     "title": "Listas",
@@ -186,7 +185,6 @@
     "description_placeholder": "Filmes e programas de TV que planejo assistir.",
     "submit": "Enviar",
     "list_created_success": "Lista criada com sucesso!",
-
     "edit_list": "Editar lista",
     "list_edited_success": "Lista editada com sucesso."
   },

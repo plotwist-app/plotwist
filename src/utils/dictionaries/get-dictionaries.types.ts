@@ -1,6 +1,10 @@
 export type Dictionary = {
   home: Record<
-    'title' | 'description' | 'primary_button' | 'secondary_button',
+    | 'title'
+    | 'description'
+    | 'keywords'
+    | 'primary_button'
+    | 'secondary_button',
     string
   > & {
     statistics: {
