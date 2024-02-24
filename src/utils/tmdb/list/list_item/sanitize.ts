@@ -24,5 +24,6 @@ export const sanitizeListItem = (
     tmdb_id: raw.id,
     media_type: isTvShow ? 'TV_SHOW' : 'MOVIE',
     status: 'PENDING',
+    rating: null,
   }
 }

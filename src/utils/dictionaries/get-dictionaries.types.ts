@@ -225,6 +225,7 @@ export type Dictionary = {
     actions: string
     movie: string
     tv_show: string
+    rating: string
   }
   data_table_view_options: {
     view: string

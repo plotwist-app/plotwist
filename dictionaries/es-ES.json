@@ -226,7 +226,8 @@
     "status": "Estado",
     "actions": "Acciones",
     "movie": "Película",
-    "tv_show": "Serie"
+    "tv_show": "Serie",
+    "rating": "Calificación"
   },
   "data_table_view_options": {
     "view": "Ver",
