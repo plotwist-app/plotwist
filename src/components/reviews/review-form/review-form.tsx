@@ -71,6 +71,8 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     )
   }
 
+  if (!user) return <></>
+
   const username = user.user_metadata.username
   const usernameInitial = username[0].toUpperCase()
 

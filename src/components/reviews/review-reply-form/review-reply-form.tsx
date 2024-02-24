@@ -86,28 +86,39 @@ export const ReviewReplyForm = ({
     )
   }
 
+  if (!user) return <></>
+
+  const username = user.user_metadata.username
+  const usernameInitial = username[0].toUpperCase()
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col items-start gap-2 pt-3"
       >
-        <FormField
-          control={form.control}
-          name="reply"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormControl>
-                <Textarea
-                  placeholder={dictionary.review_reply.placeholder}
-                  {...field}
-                />
-              </FormControl>
+        <div className="flex w-full gap-2">
+          <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
+            {usernameInitial}
+          </div>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="reply"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <Textarea
+                    placeholder={dictionary.review_reply.placeholder}
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <Button
           className="self-end"
