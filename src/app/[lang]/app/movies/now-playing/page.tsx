@@ -1,5 +1,5 @@
+import { MovieList } from '@/components/movie-list'
 import { PageProps } from '@/types/languages'
-import { MovieList } from '../../components/movie-list'
 import { getDictionary } from '@/utils/dictionaries'
 
 const NowPlayingMoviesPage = async ({ params: { lang } }: PageProps) => {

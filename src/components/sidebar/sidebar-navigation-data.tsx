@@ -11,7 +11,8 @@ import {
   User,
 } from 'lucide-react'
 import { SidebarNavigationItemProps } from '.'
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+
+import { Dictionary } from '@/utils/dictionaries'
 
 type buildLanguageNavigation = (
   dictionary: Dictionary,
@@ -62,6 +63,11 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     href: '/app/tv-shows',
     icon: Tv,
     items: [
+      {
+        label: dictionary.navigation.discover,
+        href: '/app/tv-shows/discover',
+        icon: Sparkles,
+      },
       {
         label: dictionary.navigation.airing_today,
         href: '/app/tv-shows/airing-today',

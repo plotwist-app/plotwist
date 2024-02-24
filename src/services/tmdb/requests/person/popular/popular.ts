@@ -1,13 +1,15 @@
 import { tmdbClient } from '@/services/tmdb'
-import { Language } from '@/types/languages'
-import { PopularPeopleResponse } from './popular.types'
+import {
+  PopularPeopleResponse,
+  PopularPeopleQueryParams,
+} from './popular.types'
 
-export const popular = async (language: Language) => {
+export const popular = async (queryParams: PopularPeopleQueryParams) => {
   const { data } = await tmdbClient.get<PopularPeopleResponse>(
     '/person/popular',
     {
       params: {
-        language,
+        ...queryParams,
       },
     },
   )

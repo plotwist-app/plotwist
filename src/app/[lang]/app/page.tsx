@@ -2,10 +2,8 @@ import { MovieCard } from '@/components/movie-card'
 import { Separator } from '@/components/ui/separator'
 import { TvShowCard } from '@/components/tv-show-card'
 
-import {
-  DashboardUserLastReview,
-  DashboardPopularReviews,
-} from './components/dashboard'
+import { DashboardUserLastReview } from './_components/dashboard-user-last-review'
+import { DashboardPopularReviews } from './_components/dashboard-popular-reviews'
 
 import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
@@ -14,8 +12,17 @@ import { getDictionary } from '@/utils/dictionaries'
 const AppPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
-  const popularMovies = await tmdb.movies.list('popular', lang)
-  const popularTvShows = await tmdb.tvSeries.list('popular', lang)
+  const popularMovies = await tmdb.movies.list({
+    language: lang,
+    list: 'popular',
+    page: 1,
+  })
+
+  const popularTvShows = await tmdb.tvSeries.list({
+    language: lang,
+    list: 'popular',
+    page: 1,
+  })
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-6">

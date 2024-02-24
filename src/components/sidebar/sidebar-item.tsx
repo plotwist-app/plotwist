@@ -1,15 +1,16 @@
 'use client'
 
+import { useMemo } from 'react'
+import { LucideIcon } from 'lucide-react'
+import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
+
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
-import { LucideIcon } from 'lucide-react'
-import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
-import { useMemo } from 'react'
 
 export type Item = {
   label: string

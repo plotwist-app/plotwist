@@ -1,16 +1,36 @@
 export type Dictionary = {
-  home: {
-    title: string
-    description: string
-    start: string
+  home: Record<
+    | 'title'
+    | 'description'
+    | 'keywords'
+    | 'primary_button'
+    | 'secondary_button',
+    string
+  > & {
+    statistics: {
+      movies: {
+        value: number
+        label: string
+      }
+      tv: {
+        value: number
+        label: string
+      }
+      people: {
+        value: number
+        label: string
+      }
+      episodes: {
+        value: number
+        label: string
+      }
+      users: Record<'label', string>
+    }
   }
-  movies_list: {
-    now_playing: string
-    popular: string
-    top_rated: string
-    upcoming: string
-    show_all: string
-  }
+  movies_list: Record<
+    'now_playing' | 'popular' | 'top_rated' | 'upcoming' | 'show_all',
+    string
+  >
   login_page: {
     title: string
     description: string
@@ -158,17 +178,22 @@ export type Dictionary = {
   list_card: {
     delete: string
     delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
   }
-  create_new_list_form: {
+  list_form: {
     create_new_list: string
     name: string
     name_placeholder: string
     name_required: string
     description: string
     description_placeholder: string
-    description_required: string
     submit: string
     list_created_success: string
+
+    edit_list: string
+    list_edited_success: string
   }
   list_page: {
     list_not_found: string
@@ -206,6 +231,7 @@ export type Dictionary = {
     actions: string
     movie: string
     tv_show: string
+    rating: string
   }
   data_table_view_options: {
     view: string
@@ -268,6 +294,10 @@ export type Dictionary = {
       title: string
       description: string
     }
+    discover: {
+      title: string
+      description: string
+    }
   }
   dashboard: {
     user_last_review: {
@@ -278,5 +308,125 @@ export type Dictionary = {
     popular_reviews: {
       title: string
     }
+  }
+  movies_list_filters: {
+    title: string
+    tabs: {
+      filters: string
+      order: string
+      watch_providers: string
+    }
+    actions: {
+      close: string
+      save_changes: string
+    }
+    genres_field: {
+      label: string
+      placeholder: string
+      no_genre_message: string
+    }
+    language_field: {
+      label: string
+      placeholder: string
+    }
+    release_date_field: {
+      from_label: string
+      to_label: string
+      from_placeholder: string
+      to_placeholder: string
+      select_date: string
+    }
+    sort_by: {
+      label: string
+      placeholder: string
+      options: {
+        'popularity.desc': string
+        'popularity.asc': string
+        'revenue.desc': string
+        'revenue.asc': string
+        'primary_release_date.desc': string
+        'primary_release_date.asc': string
+        'vote_average.desc': string
+        'vote_average.asc': string
+        'vote_count.desc': string
+        'vote_count.asc': string
+      }
+    }
+    watch_providers_field: {
+      label: string
+      placeholder: string
+      clear_filters: string
+      no_results: string
+    }
+    watch_region_field: {
+      label: string
+      placeholder: string
+    }
+    vote_average_field: {
+      label: string
+    }
+    vote_count_field: {
+      label: string
+    }
+    no_results: string
+  }
+  tv_shows_list_filters: {
+    title: string
+    tabs: {
+      filters: string
+      order: string
+      watch_providers: string
+    }
+    actions: {
+      close: string
+      save_changes: string
+    }
+    genres_field: {
+      label: string
+      placeholder: string
+      no_genre_message: string
+    }
+    language_field: {
+      label: string
+      placeholder: string
+    }
+    air_date: {
+      from_label: string
+      to_label: string
+      from_placeholder: string
+      to_placeholder: string
+      select_date: string
+    }
+    sort_by: {
+      label: string
+      placeholder: string
+      options: {
+        'popularity.desc': string
+        'popularity.asc': string
+        'air_date.desc': string
+        'air_date.asc': string
+        'vote_average.desc': string
+        'vote_average.asc': string
+        'vote_count.desc': string
+        'vote_count.asc': string
+      }
+    }
+    watch_providers_field: {
+      label: string
+      placeholder: string
+      clear_filters: string
+      no_results: string
+    }
+    watch_region_field: {
+      label: string
+      placeholder: string
+    }
+    vote_average_field: {
+      label: string
+    }
+    vote_count_field: {
+      label: string
+    }
+    no_results: string
   }
 }

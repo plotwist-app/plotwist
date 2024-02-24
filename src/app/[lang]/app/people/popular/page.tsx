@@ -1,10 +1,6 @@
-import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { PeopleList } from '../../components/people-list'
+import { PeopleList } from '@/components/people-list'
 
-const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
-  const dictionary = await getDictionary(lang)
-
+const PopularPeoplePage = async () => {
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
       <div>
@@ -15,7 +11,7 @@ const PopularPeoplePage = async ({ params: { lang } }: PageProps) => {
         </p>
       </div>
 
-      <PeopleList language={lang} />
+      <PeopleList />
     </div>
   )
 }

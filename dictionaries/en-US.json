@@ -2,7 +2,30 @@
   "home": {
     "title": "Explore movies, TV shows, and people!",
     "description": "TMDB is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
-    "start": "Start now"
+    "keywords": "Cinema, movies, series, animes, doramas, famous actors, series episodes, cinema users, discover new movies, movie reviews, movie recommendations, cinema releases, popular movies, popular series, highly rated movies, movies in theaters, cinema community, movie lists, discussions about movies",
+    "primary_button": "Access now",
+    "secondary_button": "Create account",
+    "statistics": {
+      "movies": {
+        "value": 988788,
+        "label": "Movies"
+      },
+      "tv": {
+        "value": 167204,
+        "label": "TV Shows"
+      },
+      "episodes": {
+        "value": 4419904,
+        "label": "Episodes"
+      },
+      "people": {
+        "value": 3369005,
+        "label": "Actors"
+      },
+      "users": {
+        "label": "Users"
+      }
+    }
   },
   "movies_list": {
     "now_playing": "Now playing movies",
@@ -154,18 +177,23 @@
   },
   "list_card": {
     "delete": "Delete",
-    "delete_success": "List deleted successfully."
+    "delete_success": "List deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone. This preset will no longer be accessible by you or others you've shared it with.",
+    "dialog_close": "Close"
   },
-  "create_new_list_form": {
+  "list_form": {
     "create_new_list": "Create new list",
     "name": "Name",
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
     "description_placeholder": "Movies and TV shows I plan to watch.",
-    "description_required": "Description of list is required.",
     "submit": "Submit",
-    "list_created_success": "List created successfully!"
+    "list_created_success": "List created successfully!",
+    
+    "edit_list": "Edit List",
+    "list_edited_success": "List edited successfully."
   },
   "list_page": {
     "list_not_found": "List not found.",
@@ -202,7 +230,8 @@
     "status": "Status",
     "actions": "Actions",
     "movie": "Movie",
-    "tv_show": "TV Show"
+    "tv_show": "TV Show",
+    "rating": "Rating"
   },
   "data_table_view_options": {
     "view": "View",
@@ -229,7 +258,7 @@
   "movie_pages": {
     "discover": {
       "title": "Discover",
-      "description": "Find movies using over 30 filters and sort options."
+      "description": "Find movies using filters and sort options."
     },
     "now_playing": {
       "title": "Now Playing",
@@ -264,6 +293,10 @@
     "top_rated": {
       "title": "Top Rated",
       "description": "TV shows ordered by rating."
+    },
+    "discover": {
+      "title": "Discover",
+      "description": "Find TV shows using filters and sort options."
     }
   },
   "dashboard": {
@@ -275,5 +308,125 @@
     "popular_reviews": {
       "title": "Popular reviews"
     }
+  },
+  "movies_list_filters": {
+    "title": "Discover Movies",
+    "tabs": {
+      "filters": "Filters",
+      "order": "Sort",
+      "watch_providers": "Where to Watch"
+    },
+    "actions": {
+      "close": "Close",
+      "save_changes": "Save Changes"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Select a genre",
+      "no_genre_message": "You haven't selected any genres."
+    },
+    "language_field": {
+      "label": "Language",
+      "placeholder": "Select a language"
+    },
+    "release_date_field": {
+      "from_label": "From",
+      "to_label": "To",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Select a date"
+    },
+    "sort_by": {
+      "label": "Sort by",
+      "placeholder": "Sort by",
+      "options": {
+        "popularity.desc": "Highest Popularity",
+        "popularity.asc": "Lowest Popularity",
+        "revenue.desc": "Highest Revenue",
+        "revenue.asc": "Lowest Revenue",
+        "primary_release_date.desc": "Most Recent",
+        "primary_release_date.asc": "Least Recent",
+        "vote_average.desc": "Highest Rated",
+        "vote_average.asc": "Lowest Rated",
+        "vote_count.desc": "Most Voted",
+        "vote_count.asc": "Least Voted"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Watch providers",
+      "placeholder": "Filter by watch providers",
+      "clear_filters": "Clear filters",
+      "no_results": "No results found."
+    },
+    "watch_region_field": {
+      "label": "Region",
+      "placeholder": "Select a region"
+    },
+    "vote_average_field": {
+      "label": "Average Score"
+    },
+    "vote_count_field": {
+      "label": "Minimum Votes"
+    },
+    "no_results": "No results."
+  },
+  "tv_shows_list_filters": {
+    "title": "Discover TV Shows",
+    "tabs": {
+      "filters": "Filters",
+      "order": "Order",
+      "watch_providers": "Where to Watch"
+    },
+    "actions": {
+      "close": "Close",
+      "save_changes": "Save Changes"
+    },
+    "genres_field": {
+      "label": "Genres",
+      "placeholder": "Select a genre",
+      "no_genre_message": "No genre selected."
+    },
+    "language_field": {
+      "label": "Language",
+      "placeholder": "Select a language"
+    },
+    "air_date": {
+      "from_label": "From",
+      "to_label": "To",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Select a date"
+    },
+    "sort_by": {
+      "label": "Sort by",
+      "placeholder": "Sort by",
+      "options": {
+        "popularity.desc": "Most Popular",
+        "popularity.asc": "Least Popular",
+        "air_date.desc": "Newest",
+        "air_date.asc": "Oldest",
+        "vote_average.desc": "Highest Rated",
+        "vote_average.asc": "Lowest Rated",
+        "vote_count.desc": "Most Voted",
+        "vote_count.asc": "Least Voted"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Watch Providers",
+      "placeholder": "Filter by provider",
+      "clear_filters": "Clear filters",
+      "no_results": "No results found."
+    },
+    "watch_region_field": {
+      "label": "Region",
+      "placeholder": "Select a region"
+    },
+    "vote_average_field": {
+      "label": "Average Score"
+    },
+    "vote_count_field": {
+      "label": "Minimum Votes"
+    },
+    "no_results": "No results."
   }
 }

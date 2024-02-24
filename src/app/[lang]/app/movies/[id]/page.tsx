@@ -1,10 +1,19 @@
 import { Language } from '@/types/languages'
-import { MovieDetails } from './components/movie-details'
+import { MovieDetails } from './_components/movie-details'
+import { homeMovies } from '@/app/[lang]/page'
 
-export type MovieParams = { id: string; lang: Language }
+type MoviePageProps = {
+  params: { id: string; lang: Language; embed?: boolean }
+}
 
-const MoviePage = ({ params: { id, lang } }: { params: MovieParams }) => {
-  return <MovieDetails id={Number(id)} language={lang} />
+export async function generateStaticParams() {
+  return Object.values(homeMovies).map((id) => ({ id }))
+}
+
+const MoviePage = ({ params }: MoviePageProps) => {
+  const { id, lang, embed } = params
+
+  return <MovieDetails id={Number(id)} language={lang} embed={embed} />
 }
 
 export default MoviePage

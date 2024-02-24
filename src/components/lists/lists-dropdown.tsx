@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -26,7 +26,8 @@ import { List } from '@/types/supabase/lists'
 
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { CreateNewListForm } from '@/app/[lang]/app/lists/components/create-new-list-form'
+import { ListForm } from '@/app/[lang]/app/lists/_components/list-form'
+import { cn } from '@/lib/utils'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -35,21 +36,33 @@ type ListsDropdownProps = {
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
-  const { dictionary } = useLanguage()
+  const {
+    dictionary: {
+      lists_dropdown: {
+        removed_successfully: removedSuccessfully,
+        added_successfully: addedSuccessfully,
+        view_list: viewList,
+        add_to_list: addToList,
+        my_lists: myLists,
+      },
+      list_form: { create_new_list: createNewList },
+    },
+  } = useLanguage()
+  const pathname = usePathname()
 
   const handleRemove = useCallback(
-    async (id: number) => {
+    async (id: string) => {
       await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: LISTS_QUERY_KEY,
           })
 
-          toast.success(dictionary.lists_dropdown.removed_successfully)
+          toast.success(removedSuccessfully)
         },
       })
     },
-    [dictionary.lists_dropdown.removed_successfully, handleRemoveFromList],
+    [removedSuccessfully, handleRemoveFromList],
   )
 
   const handleAdd = useCallback(
@@ -64,9 +77,9 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
               queryKey: LISTS_QUERY_KEY,
             })
 
-            toast.success(dictionary.lists_dropdown.added_successfully, {
+            toast.success(addedSuccessfully, {
               action: {
-                label: dictionary.lists_dropdown.view_list,
+                label: viewList,
                 onClick: () => push(`/app/lists/${list.id}`),
               },
             })
@@ -74,25 +87,25 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       )
     },
-    [dictionary, handleAddToList, item, push],
+    [addedSuccessfully, handleAddToList, item, push, viewList],
   )
+
+  const isHomePage = !pathname.includes('/app')
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
           <Plus className="mr-2" size={12} />
-          {dictionary.lists_dropdown.add_to_list}
+          {addToList}
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>
-          {dictionary.lists_dropdown.my_lists}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {lists.length > 0 ? (
+        {lists?.length > 0 ? (
           lists.map((list) => {
             const itemIncluded = list.list_items.find(
               ({ tmdb_id: tmdbId }) => tmdbId === item.id,
@@ -112,10 +125,16 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
             )
           })
         ) : (
-          <CreateNewListForm
+          <ListForm
             trigger={
-              <div className="flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm">
-                Create new list
+              <div
+                className={cn(
+                  'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm',
+                  isHomePage &&
+                    'pointer-events-none cursor-not-allowed opacity-50',
+                )}
+              >
+                {createNewList}
               </div>
             }
           />

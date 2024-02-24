@@ -1,5 +1,5 @@
 import { Language } from '@/types/languages'
-import { TvShowsDetails } from './components/tv-show-details'
+import { TvShowsDetails } from './_components/tv-show-details'
 
 export type TvShowPageProps = { id: string; lang: Language }
 

@@ -2,7 +2,30 @@
   "home": {
     "title": "映画、テレビ番組、そして人物を探求する！",
     "description": "TMDBは映画やシリーズのあらすじ、キャスト、予算などの詳細情報を提供する、映画愛好家のための探索プラットフォームです。",
-    "start": "始めようか？"
+    "keywords": "映画, フィルム, シリーズ, アニメ, ドラマ, 有名な俳優, シリーズのエピソード, 映画ユーザー, 新しい映画を発見, 映画の評価, 映画のおすすめ, 映画の新作, 人気の映画, 人気のシリーズ, 評価の高い映画, 上映中の映画, 映画コミュニティ, 映画リスト, 映画についての議論",
+    "primary_button": "始めようか？",
+    "secondary_button": "アカウント作成",
+    "statistics": {
+      "movies": {
+        "value": 988788,
+        "label": "映画"
+      },
+      "tv": {
+        "value": 167204,
+        "label": "テレビ番組"
+      },
+      "episodes": {
+        "value": 4419904,
+        "label": "エピソード"
+      },
+      "people": {
+        "value": 3369005,
+        "label": "俳優"
+      },
+      "users": {
+        "label": "ユーザー"
+      }
+    }
   },
   "movies_list": {
     "now_playing": "上映中の映画",
@@ -154,18 +177,23 @@
   },
   "list_card": {
     "delete": "削除",
-    "delete_success": "リストが正常に削除されました。"
+    "delete_success": "リストが正常に削除されました。",
+    "dialog_title": "本当によろしいですか？",
+    "dialog_description": "この操作は取り消すことができません。このリストは永遠に消えます。",
+    "dialog_close": "閉じる"
   },
-  "create_new_list_form": {
+  "list_form": {
     "create_new_list": "新しいリストを作成",
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
     "description": "説明",
     "description_placeholder": "視聴予定の映画やテレビ番組。",
-    "description_required": "リストの説明が必要です。",
     "submit": "提出する",
-    "list_created_success": "リストが正常に作成されました！"
+    "list_created_success": "リストが正常に作成されました！",
+    
+    "edit_list": "リストを編集",
+    "list_edited_success": "リストが正常に編集されました。"
   },
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
@@ -202,7 +230,8 @@
     "status": "ステータス",
     "actions": "アクション",
     "movie": "映画",
-    "tv_show": "テレビ番組"
+    "tv_show": "テレビ番組",
+    "rating": "評価"
   },
   "data_table_view_options": {
     "view": "表示",
@@ -264,6 +293,10 @@
     "top_rated": {
       "title": "高評価",
       "description": "評価順に並べられたテレビ番組。"
+    },
+    "discover": {
+      "title": "発見",
+      "description": "フィルターや並べ替えオプションを使用してテレビ番組を探す。"
     }
   },
   "dashboard": {
@@ -275,5 +308,125 @@
     "popular_reviews": {
       "title": "人気のレビュー"
     }
+  },
+  "movies_list_filters": {
+    "title": "映画を発見",
+    "tabs": {
+      "filters": "フィルター",
+      "order": "並べ替え",
+      "watch_providers": "視聴方法"
+    },
+    "actions": {
+      "close": "閉じる",
+      "save_changes": "変更を保存"
+    },
+    "genres_field": {
+      "label": "ジャンル",
+      "placeholder": "ジャンルを選択",
+      "no_genre_message": "ジャンルが選択されていません。"
+    },
+    "language_field": {
+      "label": "言語",
+      "placeholder": "言語を選択"
+    },
+    "release_date_field": {
+      "from_label": "開始日",
+      "to_label": "終了日",
+      "from_placeholder": "開始日を選択",
+      "to_placeholder": "終了日を選択",
+      "select_date": "日付を選択"
+    },
+    "sort_by": {
+      "label": "並び替え",
+      "placeholder": "並び替え",
+      "options": {
+        "popularity.desc": "人気度が高い",
+        "popularity.asc": "人気度が低い",
+        "revenue.desc": "収益が高い",
+        "revenue.asc": "収益が低い",
+        "primary_release_date.desc": "最新",
+        "primary_release_date.asc": "最も古い",
+        "vote_average.desc": "評価が高い",
+        "vote_average.asc": "評価が低い",
+        "vote_count.desc": "投票数が多い",
+        "vote_count.asc": "投票数が少ない"
+      }
+    },
+    "watch_providers_field": {
+      "label": "配信プロバイダー",
+      "placeholder": "プロバイダーでフィルター",
+      "clear_filters": "フィルターをクリア",
+      "no_results": "結果が見つかりませんでした。"
+    },
+    "watch_region_field": {
+      "label": "地域",
+      "placeholder": "地域を選択"
+    },
+    "vote_average_field": {
+      "label": "平均スコア"
+    },
+    "vote_count_field": {
+      "label": "最小投票数"
+    },
+    "no_results": "結果なし。"
+  },
+  "tv_shows_list_filters": {
+    "title": "TV番組を発見する",
+    "tabs": {
+      "filters": "フィルター",
+      "order": "並び替え",
+      "watch_providers": "視聴プロバイダー"
+    },
+    "actions": {
+      "close": "閉じる",
+      "save_changes": "変更を保存"
+    },
+    "genres_field": {
+      "label": "ジャンル",
+      "placeholder": "ジャンルを選択",
+      "no_genre_message": "ジャンルが選択されていません。"
+    },
+    "language_field": {
+      "label": "言語",
+      "placeholder": "言語を選択"
+    },
+    "air_date": {
+      "from_label": "開始日",
+      "to_label": "終了日",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "日付を選択"
+    },
+    "sort_by": {
+      "label": "並び替え基準",
+      "placeholder": "並び替え基準",
+      "options": {
+        "popularity.desc": "人気が高い順",
+        "popularity.asc": "人気が低い順",
+        "air_date.desc": "放送日が新しい順",
+        "air_date.asc": "放送日が古い順",
+        "vote_average.desc": "評価が高い順",
+        "vote_average.asc": "評価が低い順",
+        "vote_count.desc": "投票数が多い順",
+        "vote_count.asc": "投票数が少ない順"
+      }
+    },
+    "watch_providers_field": {
+      "label": "視聴可能なプロバイダー",
+      "placeholder": "プロバイダーでフィルター",
+      "clear_filters": "フィルターをクリア",
+      "no_results": "結果が見つかりません。"
+    },
+    "watch_region_field": {
+      "label": "リージョン",
+      "placeholder": "リージョンを選択"
+    },
+    "vote_average_field": {
+      "label": "平均評価"
+    },
+    "vote_count_field": {
+      "label": "最低投票数"
+    },
+    "no_results": "結果がありません。"
   }
 }

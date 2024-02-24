@@ -2,7 +2,30 @@
   "home": {
     "title": "¡Explora películas, programas de TV y personas!",
     "description": "TMDB es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
-    "start": "Comienza ahora"
+    "keywords": "Cine, películas, series, animes, doramas, actores famosos, episodios de series, usuarios de cine, descubrir nuevas películas, críticas de películas, recomendaciones de películas, estrenos de cine, películas populares, series populares, películas bien valoradas, películas en exhibición, comunidad de cine, listas de películas, discusiones sobre películas",
+    "primary_button": "Comienza ahora",
+    "secondary_button": "Crear cuenta",
+    "statistics": {
+      "movies": {
+        "value": 988788,
+        "label": "Películas"
+      },
+      "tv": {
+        "value": 167204,
+        "label": "Series de TV"
+      },
+      "episodes": {
+        "value": 4419904,
+        "label": "Episodios"
+      },
+      "people": {
+        "value": 3369005,
+        "label": "Actores"
+      },
+      "users": {
+        "label": "Usuarios"
+      }
+    }
   },
   "movies_list": {
     "now_playing": "Películas en cartelera",
@@ -154,18 +177,23 @@
   },
   "list_card": {
     "delete": "Eliminar",
-    "delete_success": "Lista eliminada con éxito."
+    "delete_success": "Lista eliminada con éxito.",
+    "dialog_title": "¿Está completamente seguro?",
+    "dialog_description": "Esta acción no se puede deshacer. Esta lista desaparecerá para siempre.",
+    "dialog_close": "Cerrar"
   },
-  "create_new_list_form": {
+  "list_form": {
     "create_new_list": "Crear nueva lista",
     "name": "Nombre",
     "name_placeholder": "Mi Lista",
     "name_required": "Se requiere el nombre de la lista.",
     "description": "Descripción",
     "description_placeholder": "Películas y programas de TV que planeo ver.",
-    "description_required": "Se requiere una descripción de la lista.",
     "submit": "Enviar",
-    "list_created_success": "¡Lista creada con éxito!"
+    "list_created_success": "¡Lista creada con éxito!",
+
+    "edit_list": "Editar lista",
+    "list_edited_success": "Lista editada con éxito."
   },
   "list_page": {
     "list_not_found": "Lista no encontrada.",
@@ -202,7 +230,8 @@
     "status": "Estado",
     "actions": "Acciones",
     "movie": "Película",
-    "tv_show": "Serie"
+    "tv_show": "Serie",
+    "rating": "Calificación"
   },
   "data_table_view_options": {
     "view": "Ver",
@@ -264,6 +293,10 @@
     "top_rated": {
       "title": "Más valoradas",
       "description": "Series de TV ordenadas por calificación."
+    },
+    "discover": {
+      "title": "Descubrir",
+      "description": "Encuentra series de televisión usando filtros y opciones de ordenación."
     }
   },
   "dashboard": {
@@ -275,5 +308,125 @@
     "popular_reviews": {
       "title": "Reseñas populares"
     }
+  },
+  "movies_list_filters": {
+    "title": "Descubrir Películas",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar",
+      "watch_providers": "Dónde Ver"
+    },
+    "actions": {
+      "close": "Cerrar",
+      "save_changes": "Guardar Cambios"
+    },
+    "genres_field": {
+      "label": "Géneros",
+      "placeholder": "Selecciona un género",
+      "no_genre_message": "No has seleccionado ningún género."
+    },
+    "language_field": {
+      "label": "Idioma",
+      "placeholder": "Selecciona un idioma"
+    },
+    "release_date_field": {
+      "from_label": "Desde",
+      "to_label": "Hasta",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Selecciona una fecha"
+    },
+    "sort_by": {
+      "label": "Ordenar por",
+      "placeholder": "Ordenar por",
+      "options": {
+        "popularity.desc": "Más popular",
+        "popularity.asc": "Menos popular",
+        "revenue.desc": "Mayor recaudación",
+        "revenue.asc": "Menor recaudación",
+        "primary_release_date.desc": "Más reciente",
+        "primary_release_date.asc": "Menos reciente",
+        "vote_average.desc": "Mejor valoradas",
+        "vote_average.asc": "Peor valoradas",
+        "vote_count.desc": "Más votadas",
+        "vote_count.asc": "Menos votadas"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Proveedores",
+      "placeholder": "Filtrar por proveedores",
+      "clear_filters": "Limpiar filtros",
+      "no_results": "No se encontraron resultados."
+    },
+    "watch_region_field": {
+      "label": "Región",
+      "placeholder": "Selecciona una región"
+    },
+    "vote_average_field": {
+      "label": "Puntuación media"
+    },
+    "vote_count_field": {
+      "label": "Votos mínimos"
+    },
+    "no_results": "No hay resultados."
+  },
+  "tv_shows_list_filters": {
+    "title": "Descubrir series",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar",
+      "watch_providers": "Dónde ver"
+    },
+    "actions": {
+      "close": "Cerrar",
+      "save_changes": "Guardar cambios"
+    },
+    "genres_field": {
+      "label": "Géneros",
+      "placeholder": "Selecciona un género",
+      "no_genre_message": "No se ha seleccionado ningún género."
+    },
+    "language_field": {
+      "label": "Idioma",
+      "placeholder": "Selecciona un idioma"
+    },
+    "air_date": {
+      "from_label": "Desde",
+      "to_label": "Hasta",
+      "from_placeholder": "18/11/2002",
+      "to_placeholder": "18/11/2003",
+      "select_date": "Selecciona una fecha"
+    },
+    "sort_by": {
+      "label": "Ordenar por",
+      "placeholder": "Ordenar por",
+      "options": {
+        "popularity.desc": "Más popular",
+        "popularity.asc": "Menos popular",
+        "air_date.desc": "Más reciente",
+        "air_date.asc": "Menos reciente",
+        "vote_average.desc": "Mejor valoradas",
+        "vote_average.asc": "Peor valoradas",
+        "vote_count.desc": "Más votadas",
+        "vote_count.asc": "Menos votadas"
+      }
+    },
+    "watch_providers_field": {
+      "label": "Proveedores de servicio",
+      "placeholder": "Filtrar por proveedores",
+      "clear_filters": "Limpiar filtros",
+      "no_results": "No se encontraron resultados."
+    },
+    "watch_region_field": {
+      "label": "Región",
+      "placeholder": "Selecciona una región"
+    },
+    "vote_average_field": {
+      "label": "Puntuación media"
+    },
+    "vote_count_field": {
+      "label": "Votos mínimos"
+    },
+    "no_results": "Sin resultados."
   }
 }

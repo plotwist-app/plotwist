@@ -1,6 +1,6 @@
-import { PageProps } from '@/types/languages'
-import { TvShowList } from '../../components/tv-show-list'
 import { getDictionary } from '@/utils/dictionaries'
+import { PageProps } from '@/types/languages'
+import { TvShowsList } from '@/components/tv-shows-list'
 
 const TopRatedTvShowsPage = async ({ params: { lang } }: PageProps) => {
   const {
@@ -18,7 +18,7 @@ const TopRatedTvShowsPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <TvShowList variant="top_rated" language={lang} />
+      <TvShowsList variant="top_rated" />
     </div>
   )
 }

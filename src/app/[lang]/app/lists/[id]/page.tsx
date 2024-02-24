@@ -5,28 +5,36 @@ import { List } from '@/types/supabase/lists'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 
-import { ListItems } from './components/list-items'
+import { ListItems } from './_components/list-items'
 import { Skeleton } from '@/components/ui/skeleton'
-import { DataTableSkeleton } from './components/data-table-skeleton'
+import { DataTableSkeleton } from './_components/data-table-skeleton'
 import { useAuth } from '@/context/auth'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/context/language'
 import { Banner } from '@/components/banner'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Button } from '@/components/ui/button'
+import { Pencil } from 'lucide-react'
+import { ListForm } from '../_components/list-form'
+import { listPageQueryKey } from '@/utils/list'
 
-const ListPage = ({ params }: { params: { id: string } }) => {
+type ListPageProps = {
+  params: { id: string }
+}
+
+const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
   const { push } = useRouter()
   const { dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [Number(params.id)],
+    queryKey: listPageQueryKey(id),
     queryFn: async () => {
       const response = await supabase
         .from('lists')
         .select('*, list_items(*, id)')
-        .eq('id', params.id)
-        .order('id', { referencedTable: 'list_items' })
+        .eq('id', id)
+        .order('created_at', { referencedTable: 'list_items' })
         .single<List>()
 
       return response
@@ -88,7 +96,19 @@ const ListPage = ({ params }: { params: { id: string } }) => {
       <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">{list.name}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold">{list.name}</h1>
+
+              <ListForm
+                trigger={
+                  <Button size="icon" variant="outline" className="h-6 w-6">
+                    <Pencil className="h-3 w-3" />
+                  </Button>
+                }
+                list={list}
+              />
+            </div>
+
             <p className="text-muted-foreground">{list.description}</p>
           </div>
         </div>

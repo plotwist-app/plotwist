@@ -1,3 +1,5 @@
+import { ChangeListItemRatingParams } from '@/services/api/lists'
+import { EditListServiceValues } from '@/services/api/lists/edit-list'
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { UseMutationResult } from '@tanstack/react-query'
 import { ReactNode } from 'react'
@@ -8,13 +10,16 @@ export type ListsContextType = {
   lists: List[]
 
   handleCreateNewList: HandleFn<CreateNewListParams>
-  handleDeleteList: HandleFn<number>
+  handleDeleteList: HandleFn<string>
   handleAddToList: HandleFn<AddToListParams>
+  handleEditList: HandleFn<EditListServiceValues>
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
   handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>
-  handleRemoveFromList: HandleFn<number>
+  handleRemoveFromList: HandleFn<string>
   handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
+
+  handleChangeListRating: HandleFn<ChangeListItemRatingParams>
 }
 
 export type ListsContextProviderProps = { children: ReactNode }
@@ -34,15 +39,15 @@ export type AddCollectionToListParams = {
 }
 
 export type RemoveCollectionFromListParams = {
-  ids: number[]
+  ids: string[]
 }
 
 export type ChangeListItemStatusParams = {
-  listItemId: number
+  listItemId: string
   newStatus: ListItemStatus
 }
 
 export type ChangeListCoverPathParams = {
-  listId: number
+  listId: string
   newCoverPath: string
 }

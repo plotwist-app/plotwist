@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LoginForm } from './components/login-form'
+import { LoginForm } from './_components/login-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
