@@ -24,7 +24,13 @@ export const homeMovies: Record<Language, string> = {
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
-    home: { title, description, secondary_button: secondaryButton, statistics },
+    home: {
+      title,
+      description,
+      secondary_button: secondaryButton,
+      primary_button: primaryButton,
+      statistics,
+    },
   } = await getDictionary(lang)
 
   return (
@@ -41,7 +47,7 @@ export default async function Home({ params: { lang } }: PageProps) {
               <p className=" leading-6 text-muted-foreground">{description}</p>
 
               <div className="mt-2 flex gap-2">
-                <HomeButton />
+                <HomeButton language={lang} primaryButton={primaryButton} />
 
                 <Button asChild>
                   <Link href={`/${lang}/signup`}>{secondaryButton}</Link>

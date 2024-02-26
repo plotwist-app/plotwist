@@ -1,5 +1,3 @@
-'use client'
-
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,20 +6,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useAuth } from '@/context/auth'
-import { useLanguage } from '@/context/language'
 import { getUserService } from '@/services/api/users/get-user'
-import { useQuery } from '@tanstack/react-query'
+import { Language } from '@/types/languages'
+
 import Link from 'next/link'
 
-export const HomeButton = () => {
+type HomeButtonProps = {
+  primaryButton: string
+  language: Language
+}
+
+export const HomeButton = async ({
+  primaryButton,
+  language,
+}: HomeButtonProps) => {
   const {
-    dictionary: {
-      home: { primary_button: primaryButton },
-    },
-    language,
-  } = useLanguage()
-  const { user } = useAuth()
+    data: { user },
+  } = await getUserService()
 
   if (!user)
     return (

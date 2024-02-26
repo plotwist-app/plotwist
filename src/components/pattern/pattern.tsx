@@ -5,7 +5,7 @@ const Checkered = () => (
     height="100"
     viewBox="0 0 100 100"
   >
-    <g fill-rule="evenodd">
+    <g fillRule="evenodd">
       <g className="fill-muted-foreground">
         <path
           opacity=".5"
