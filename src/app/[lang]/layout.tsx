@@ -24,6 +24,9 @@ export default async function RootLayout({
 }) {
   const dictionary = await getDictionary(params.lang)
 
+  // public/images/movie-pt-BR.jpg
+  const image = `/images/home/movie-${params.lang}.jpg`
+
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
       <head>
@@ -42,11 +45,7 @@ export default async function RootLayout({
 
         <meta property="og:title" content={dictionary.home.title} />
         <meta property="og:description" content={dictionary.home.description} />
-        <meta
-          property="og:image"
-          // public/images/movie-pt-BR.jpg
-          content={`/images/home/movie-${params.lang}.jpg`}
-        />
+        <meta property="og:image" content={image} />
         {/* <meta property="og:url" content="https://google.com" /> */}
 
         <meta name="twitter:title" content={dictionary.home.title} />
@@ -54,10 +53,8 @@ export default async function RootLayout({
           name="twitter:description"
           content={dictionary.home.description}
         />
-        <meta
-          name="twitter:image"
-          content={`/images/home/movie-${params.lang}.jpg`}
-        />
+        <meta name="twitter:image" content={image} />
+        <meta name="twitter:card" content={image} />
       </head>
 
       <body className="bg-background antialiased">
