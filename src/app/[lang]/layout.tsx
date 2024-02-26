@@ -57,7 +57,7 @@ export default async function RootLayout({
           content={dictionary.home.description}
         />
         <meta name="twitter:image" content={image} />
-        <meta name="twitter:card" content={image} />
+        <meta name="twitter:card" content="summary_large_image" />
       </head>
 
       <body className="bg-background antialiased">
