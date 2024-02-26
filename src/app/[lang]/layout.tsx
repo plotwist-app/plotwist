@@ -44,7 +44,7 @@ export default async function RootLayout({
         <meta name="author" content="@lui7henrique" />
 
         <meta property="og:title" content={dictionary.home.title} />
-        <meta property="og:site_name" content={dictionary.home.title} />
+        <meta property="og:site_name" content="TMDB" />
         <meta property="og:description" content={dictionary.home.description} />
         <meta property="og:image" content={image} />
         <meta property="og:image:width" content="1280" />
