@@ -29,15 +29,15 @@ export default async function RootLayout({
       <head>
         <title>TMDB</title>
 
-        <meta name="description" content={dictionary.home.description} />
-        <meta name="title" content={dictionary.home.title} />
-        <meta name="keywords" content={dictionary.home.keywords} />
-        <meta name="theme-color" content="#FFF" />
-
         <link
           rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2295%22>🎬</text></svg>"
         />
+
+        <meta name="description" content={dictionary.home.description} />
+        <meta name="title" content={dictionary.home.title} />
+        <meta name="keywords" content={dictionary.home.keywords} />
+        <meta name="theme-color" content="#FFFFFF" />
       </head>
 
       <body className="bg-background antialiased">

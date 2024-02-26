@@ -29,7 +29,6 @@ export const homeMovies: Record<Language, string> = {
 }
 
 export default async function Home({ params: { lang } }: PageProps) {
-  console.time('getDictionary')
   const {
     home: {
       title,
@@ -39,13 +38,10 @@ export default async function Home({ params: { lang } }: PageProps) {
       statistics,
     },
   } = await getDictionary(lang)
-  console.timeEnd('getDictionary')
 
-  console.time('getUserService')
   const {
     data: { user },
   } = await getUserService()
-  console.timeEnd('getUserService')
 
   const username: string = user?.user_metadata.username
   const initial = username ? username[0].toUpperCase() : undefined
