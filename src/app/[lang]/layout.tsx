@@ -1,5 +1,4 @@
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
-
 import { Toaster } from '@/components/ui/sonner'
 
 import '../globals.css'
@@ -8,6 +7,7 @@ import { LanguageContextProvider } from '@/context/language'
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { APP_URL } from '../../../constants'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -25,7 +25,7 @@ export default async function RootLayout({
   const dictionary = await getDictionary(params.lang)
 
   // public/images/movie-pt-BR.jpg
-  const image = `/images/home/movie-${params.lang}.jpg`
+  const image = `${APP_URL}/images/home/movie-${params.lang}.jpg`
 
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
@@ -50,7 +50,7 @@ export default async function RootLayout({
         <meta property="og:image:width" content="1280" />
         <meta property="og:image:height" content="720" />
         <meta property="og:image:alt" content={dictionary.home.title} />
-        {/* <meta property="og:url" content="https://google.com" /> */}
+        <meta property="og:url" content={APP_URL} />
 
         <meta name="twitter:title" content={dictionary.home.title} />
         <meta
