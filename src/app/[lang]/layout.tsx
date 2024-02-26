@@ -46,6 +46,9 @@ export default async function RootLayout({
         <meta property="og:title" content={dictionary.home.title} />
         <meta property="og:description" content={dictionary.home.description} />
         <meta property="og:image" content={image} />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="720" />
+        <meta property="og:image:alt" content={dictionary.home.title} />
         {/* <meta property="og:url" content="https://google.com" /> */}
 
         <meta name="twitter:title" content={dictionary.home.title} />
