@@ -50,7 +50,9 @@ export default async function Home({ params: { lang } }: PageProps) {
                 <HomeButton language={lang} primaryButton={primaryButton} />
 
                 <Button asChild>
-                  <Link href={`/${lang}/signup`}>{secondaryButton}</Link>
+                  <Link href={`/${lang}/signup`} prefetch={false}>
+                    {secondaryButton}
+                  </Link>
                 </Button>
               </div>
             </div>

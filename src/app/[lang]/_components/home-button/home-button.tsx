@@ -27,7 +27,9 @@ export const HomeButton = async ({
   if (!user)
     return (
       <Button asChild variant="outline">
-        <Link href={`/${language}/login`}>{primaryButton}</Link>
+        <Link href={`/${language}/login`} prefetch={false}>
+          {primaryButton}
+        </Link>
       </Button>
     )
 
@@ -36,7 +38,7 @@ export const HomeButton = async ({
 
   return (
     <Button variant="outline" asChild>
-      <Link href={`/${language}/app`}>
+      <Link href={`/${language}/app`} prefetch={false}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
