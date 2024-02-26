@@ -38,6 +38,26 @@ export default async function RootLayout({
         <meta name="title" content={dictionary.home.title} />
         <meta name="keywords" content={dictionary.home.keywords} />
         <meta name="theme-color" content="#FFFFFF" />
+        <meta name="author" content="@lui7henrique" />
+
+        <meta property="og:title" content={dictionary.home.title} />
+        <meta property="og:description" content={dictionary.home.description} />
+        <meta
+          property="og:image"
+          // public/images/movie-pt-BR.jpg
+          content={`/images/home/movie-${params.lang}.jpg`}
+        />
+        {/* <meta property="og:url" content="https://google.com" /> */}
+
+        <meta name="twitter:title" content={dictionary.home.title} />
+        <meta
+          name="twitter:description"
+          content={dictionary.home.description}
+        />
+        <meta
+          name="twitter:image"
+          content={`/images/home/movie-${params.lang}.jpg`}
+        />
       </head>
 
       <body className="bg-background antialiased">
