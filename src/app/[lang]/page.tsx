@@ -47,8 +47,6 @@ export default async function Home({ params: { lang } }: PageProps) {
   } = await getUserService()
   console.timeEnd('getUserService')
 
-  console.time('supabaseQuery')
-
   const username: string = user?.user_metadata.username
   const initial = username ? username[0].toUpperCase() : undefined
 
