@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { HomeButton } from './_components/home-button'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -29,26 +30,13 @@ export const homeMovies: Record<Language, string> = {
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
-    home: {
-      title,
-      description,
-      primary_button: primaryButton,
-      secondary_button: secondaryButton,
-      statistics,
-    },
+    home: { title, description, secondary_button: secondaryButton, statistics },
   } = await getDictionary(lang)
-
-  const {
-    data: { user },
-  } = await getUserService()
 
   const { data } = await supabase
     .from('user_count')
     .select()
     .single<{ user_count: number }>()
-
-  const username: string = user?.user_metadata.username
-  const initial = username ? username[0].toUpperCase() : undefined
 
   return (
     <>
@@ -64,28 +52,7 @@ export default async function Home({ params: { lang } }: PageProps) {
               <p className=" leading-6 text-muted-foreground">{description}</p>
 
               <div className="mt-2 flex gap-2">
-                <Button variant="outline" asChild>
-                  {user ? (
-                    <Link href={`/${lang}/app`}>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Avatar className="mr-2 h-6 w-6 border text-[10px]">
-                              <AvatarFallback>{initial}</AvatarFallback>
-                            </Avatar>
-                          </TooltipTrigger>
-
-                          <TooltipContent>{username}</TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-
-                      {primaryButton}
-                    </Link>
-                  ) : (
-                    <Link href={`/${lang}/login`}>{primaryButton}</Link>
-                  )}
-                </Button>
-
+                <HomeButton />
                 <Button asChild>
                   <Link href={`/${lang}/signup`}>{secondaryButton}</Link>
                 </Button>
