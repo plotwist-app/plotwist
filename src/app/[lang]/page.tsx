@@ -13,6 +13,7 @@ import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Slider } from '@/components/ui/slider'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -39,7 +40,7 @@ export default async function Home({ params: { lang } }: PageProps) {
     <>
       <Pattern variant="checkered" />
 
-      <main className="">
+      <main className="space-y-16">
         <div className="mx-auto max-w-4xl p-4">
           <Header />
 
@@ -98,6 +99,54 @@ export default async function Home({ params: { lang } }: PageProps) {
             />
 
             <UserCount />
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-article space-y-4">
+          <div className="flex flex-col items-center space-y-2">
+            <h2 className="text-2xl font-bold">[TMDB] Features</h2>
+
+            <p className="w-2/3 text-center text-muted-foreground">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo iste
+              sunt alias ipsum minima aspernatur excepturi cum perferendis
+              dolorum nostrum, consequatur ullam! Veniam enim neque sint
+              adipisci labore ratione quidem.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 aspect-[16/9] rounded-md border"></div>
+            <div className="col-span-1 rounded-md border"></div>
+
+            <div className="col-span-1 rounded-md border"></div>
+            <div className="col-span-2 aspect-[16/9] rounded-md border"></div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-article space-y-4">
+          <div className="mx-auto flex w-2/3 flex-col items-center space-y-2">
+            <h2 className="text-2xl font-bold">Start your journey today</h2>
+
+            <p className="text-center text-muted-foreground">
+              Start creating realtime design experiences for free. Upgrade for
+              extra features and collaboration with your team.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-1 aspect-square rounded-md border"></div>
+            <div className="col-span-1 aspect-square rounded-md border"></div>
+            <div className="col-span-1 aspect-square rounded-md border"></div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-article space-y-4">
+          <div className="flex flex-col gap-2">
+            <div className="h-12 rounded-md border"></div>
+            <div className="h-12 rounded-md border"></div>
+            <div className="h-12 rounded-md border"></div>
+            <div className="h-12 rounded-md border"></div>
+            <div className="h-12 rounded-md border"></div>
           </div>
         </section>
       </main>
