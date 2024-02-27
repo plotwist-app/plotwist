@@ -38,7 +38,7 @@ export const CounterSection = ({
       <p className="text-xs text-muted-foreground">{label}</p>
 
       {divider && (
-        <div className="h-[2px] w-1/2 translate-y-4 border-b border-dashed" />
+        <div className="h-[2px] w-1/2 translate-y-4 border-b border-dashed md:hidden" />
       )}
     </div>
   )
