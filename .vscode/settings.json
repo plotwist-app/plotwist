@@ -1,4 +1,10 @@
 {
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.format.enable": false,
   "cSpell.words": [
     "hookform",
     "supabase",
