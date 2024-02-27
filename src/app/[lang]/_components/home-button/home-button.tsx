@@ -20,7 +20,6 @@ export const HomeButton = async ({
   primaryButton,
   language,
 }: HomeButtonProps) => {
-  console.time('getUserService')
   const {
     data: { user },
   } = await getUserService()
