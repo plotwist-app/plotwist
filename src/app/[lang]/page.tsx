@@ -11,6 +11,7 @@ import MoviePage from '@/app/[lang]/app/movies/[id]/page'
 
 import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
+import { Suspense } from 'react'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -47,7 +48,17 @@ export default async function Home({ params: { lang } }: PageProps) {
               <p className=" leading-6 text-muted-foreground">{description}</p>
 
               <div className="mt-2 flex gap-2">
-                <HomeButton language={lang} primaryButton={primaryButton} />
+                <Suspense
+                  fallback={
+                    <Button asChild variant="outline">
+                      <Link href={`/${lang}/login`} prefetch={false}>
+                        {primaryButton}
+                      </Link>
+                    </Button>
+                  }
+                >
+                  <HomeButton language={lang} primaryButton={primaryButton} />
+                </Suspense>
 
                 <Button asChild>
                   <Link href={`/${lang}/signup`} prefetch={false}>
