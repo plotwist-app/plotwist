@@ -73,9 +73,7 @@ export default async function Home({ params: { lang } }: PageProps) {
 
         <section className="space-y-8 p-4">
           <div className="mx-auto aspect-[9/16] w-full max-w-article overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-              <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
-            </Suspense>
+            <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
           </div>
 
           <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-5">
