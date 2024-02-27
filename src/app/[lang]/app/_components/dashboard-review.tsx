@@ -8,9 +8,17 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { Language } from '@/types/languages'
 
-type DashboardReviewProps = { review: Review; language: Language }
+type DashboardReviewProps = {
+  review: Review
+  language: Language
+  username: string
+}
 
-export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
+export const DashboardReview = ({
+  review,
+  language,
+  username,
+}: DashboardReviewProps) => {
   const {
     tmdb_poster_path: poster,
     tmdb_title: title,
@@ -18,10 +26,6 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
     media_type: mediaType,
     review: content,
     rating,
-    review_likes: likes,
-    user_info: {
-      raw_user_meta_data: { username },
-    },
   } = review
 
   const usernameInitial = username[0].toUpperCase()
@@ -56,12 +60,12 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {likes?.length && (
+              {[1, 2, 3].length && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
                   <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                    ❤ {likes.length}
+                    ❤ {[1, 2, 3].length}
                   </div>
                 </>
               )}
