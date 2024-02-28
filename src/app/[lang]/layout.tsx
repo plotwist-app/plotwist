@@ -34,8 +34,7 @@ export default async function RootLayout({
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
       <head>
-        <title>TMDB</title>
-
+        <title>[TMDB]</title>
         <link rel="icon" href="favicon.svg" />
 
         <meta name="description" content={dictionary.home.description} />
@@ -45,7 +44,7 @@ export default async function RootLayout({
         <meta name="author" content="@lui7henrique" />
 
         <meta property="og:title" content={dictionary.home.title} />
-        <meta property="og:site_name" content="TMDB" />
+        <meta property="og:site_name" content="[TMDB]" />
         <meta property="og:description" content={dictionary.home.description} />
         <meta property="og:image" content={image} />
         <meta property="og:image:width" content="1280" />
