@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import * as React from 'react'
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/select'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSelect: any
 }
 

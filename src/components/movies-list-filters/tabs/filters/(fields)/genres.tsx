@@ -95,8 +95,8 @@ export const GenresField = () => {
     [setValue, watch],
   )
 
-  const selectedGenres = genresOptions.filter(
-    (genreOption) => watch('genres')?.includes(genreOption.value),
+  const selectedGenres = genresOptions.filter((genreOption) =>
+    watch('genres')?.includes(genreOption.value),
   )
 
   const selectableGenres = genresOptions.filter(

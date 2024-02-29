@@ -117,8 +117,8 @@ export const WatchProvidersField = () => {
     [setValue, watch, inputRef],
   )
 
-  const selectedWatchProviders = watchProvidersOptions.filter(
-    (genreOption) => watch('with_watch_providers')?.includes(genreOption.value),
+  const selectedWatchProviders = watchProvidersOptions.filter((genreOption) =>
+    watch('with_watch_providers')?.includes(genreOption.value),
   )
 
   const selectableWatchProviders = watchProvidersOptions.filter(
@@ -143,7 +143,7 @@ export const WatchProvidersField = () => {
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  className="min-h-8 h-auto w-full justify-start border-dashed py-2 hover:bg-background"
+                  className="h-auto min-h-8 w-full justify-start border-dashed py-2 hover:bg-background"
                   size="sm"
                   disabled={!watch('watch_region')}
                 >
