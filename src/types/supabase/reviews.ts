@@ -1,5 +1,9 @@
 import { MediaType } from './media-type'
 
+type Like = {
+  id: string
+}
+
 export type Review = {
   created_at: string
   id: string
@@ -14,6 +18,8 @@ export type Review = {
   tmdb_poster_path?: string
 
   user_info: UserInfo
+
+  likes?: Like[]
 
   review_replies: ReviewReply[] | null
 }

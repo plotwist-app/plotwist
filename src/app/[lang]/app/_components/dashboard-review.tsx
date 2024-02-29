@@ -25,6 +25,7 @@ export const DashboardReview = ({
     tmdb_id: tmdbId,
     media_type: mediaType,
     review: content,
+    likes,
     rating,
   } = review
 
@@ -60,12 +61,12 @@ export const DashboardReview = ({
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {[1, 2, 3].length && (
+              {likes && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
                   <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                    ❤ {[1, 2, 3].length}
+                    ❤ {likes.length}
                   </div>
                 </>
               )}
