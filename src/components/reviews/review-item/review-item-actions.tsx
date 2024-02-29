@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentProps } from 'react'
+import { ComponentProps, useState } from 'react'
 import { toast } from 'sonner'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
@@ -14,6 +14,17 @@ import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/services/supabase'
 import { useLike } from '@/hooks/use-like/use-like'
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 type ReviewItemActionsProps = {
   review: Review
@@ -54,6 +65,8 @@ export const ReviewItemActions = ({
   const { handleDeleteReview } = useReviews()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
+
+  const [openModal, setOpenModal] = useState(false)
 
   const { data: likes } = useQuery({
     queryKey: ['likes', id],
@@ -146,6 +159,30 @@ export const ReviewItemActions = ({
 
             <ReviewItemAction
               disabled={handleDeleteReview.isPending}
+              onClick={() => setOpenModal(true)}
+            >
+              {dictionary.review_item_actions.delete}
+            </ReviewItemAction>
+          </>
+        )}
+      </div>
+
+      <Dialog onOpenChange={setOpenModal} open={openModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="gap-1">
+            <DialogTitle>{dictionary.list_card.dialog_title}</DialogTitle>
+            <DialogDescription>
+              {dictionary.list_card.dialog_description}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:flex-end">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                {dictionary.list_card.dialog_close}
+              </Button>
+            </DialogClose>
+            <Button
+              variant="destructive"
               onClick={() =>
                 handleDeleteReview.mutateAsync(id, {
                   onSuccess: () => {
@@ -159,11 +196,11 @@ export const ReviewItemActions = ({
                 })
               }
             >
-              {dictionary.review_item_actions.delete}
-            </ReviewItemAction>
-          </>
-        )}
-      </div>
+              {dictionary.list_card.delete}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
