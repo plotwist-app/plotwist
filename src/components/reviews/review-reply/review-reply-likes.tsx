@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 export function ReviewReplyLikes({ replyId }: { replyId: string }) {
   const { data } = useQuery({
-    queryKey: ['likes-reply', replyId],
+    queryKey: ['likes', replyId],
     queryFn: async () =>
       supabase
         .from('likes')
