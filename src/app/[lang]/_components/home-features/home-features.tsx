@@ -5,11 +5,12 @@ import {
   ListChecks,
   LucideIcon,
   MessageSquare,
-  Globe,
+  Globe as GlobeLucide,
   Users,
 } from 'lucide-react'
 import Image from 'next/image'
 import { ComponentProps, PropsWithChildren } from 'react'
+import { Globe } from '../globe'
 
 type HomeFeatureProps = {
   icon: LucideIcon
@@ -43,7 +44,7 @@ const HomeFeature = ({
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
-      <div className="pointer-events-none relative flex h-full w-full select-none items-center justify-center overflow-hidden rounded-lg border bg-muted text-muted-foreground shadow">
+      <div className="pointer-events-none relative flex h-full w-full select-none items-center justify-center overflow-hidden rounded-lg border text-muted-foreground shadow">
         {children}
       </div>
     </li>
@@ -110,11 +111,13 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
           </HomeFeature>
 
           <HomeFeature
-            icon={Globe}
+            icon={GlobeLucide}
             title={multiLangSupport.title}
             description={multiLangSupport.description}
             className="col-span-1"
-          />
+          >
+            <Globe />
+          </HomeFeature>
 
           <HomeFeature
             icon={Users}
