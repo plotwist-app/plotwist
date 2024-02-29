@@ -11,17 +11,19 @@ type HomePricesProps = {
 
 export const HomePrices = ({ language }: HomePricesProps) => {
   return (
-    <section className="mx-auto max-w-article space-y-8 py-16">
-      <div className="mx-auto flex w-2/3 flex-col items-center space-y-2">
-        <h2 className="text-2xl font-bold">Start your journey today</h2>
+    <section className="mx-auto max-w-article space-y-8 p-4 py-16">
+      <div className="mx-auto flex w-full flex-col items-center space-y-2 lg:w-2/3">
+        <h2 className="text-center text-2xl font-bold">
+          Start your journey today
+        </h2>
 
-        <p className="text-center text-muted-foreground">
+        <p className="lg:text-md text-center text-sm text-muted-foreground">
           Start creating realtime design experiences for free. Upgrade for extra
           features and collaboration with your team.
         </p>
       </div>
 
-      <ol className="grid grid-cols-3 gap-4">
+      <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
         <HomePrice.Root>
           <HomePrice.Content>
             <HomePrice.Header>
@@ -67,7 +69,7 @@ export const HomePrices = ({ language }: HomePricesProps) => {
             </HomePrice.Benefits>
           </HomePrice.Content>
 
-          <Badge className="absolute top-0 -translate-y-3">Recommended</Badge>
+          <Badge className="absolute top-0 -translate-y-2">Recommended</Badge>
 
           <Button>Subscribe</Button>
         </HomePrice.Root>
