@@ -30,4 +30,7 @@ export type ReviewReply = {
   id: string
   reply: string
   user_id: string
+  raw_user_meta_data: {
+    username: string
+  }
 }

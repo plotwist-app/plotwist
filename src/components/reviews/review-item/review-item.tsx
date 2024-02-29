@@ -66,8 +66,6 @@ export const ReviewItem = ({
 
         <ReviewReply
           replies={replies}
-          usernameInitial={usernameInitial}
-          username={username}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
           tmdbItem={tmdbItem}

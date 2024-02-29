@@ -14,8 +14,6 @@ import { useLanguage } from '@/context/language'
 type TmdbItem = TvSeriesDetails | MovieDetails
 
 interface ReviewReplyProps {
-  usernameInitial: string
-  username: string
   replies: Review['review_replies']
   openReplies: boolean
   setOpenReplies: (param: boolean) => void
@@ -24,8 +22,6 @@ interface ReviewReplyProps {
 }
 
 export const ReviewReply = ({
-  usernameInitial,
-  username,
   replies,
   openReplies,
   setOpenReplies,
@@ -33,8 +29,6 @@ export const ReviewReply = ({
   mediaType,
 }: ReviewReplyProps) => {
   const { dictionary } = useLanguage()
-
-  console.log(replies)
 
   if (!replies) return <></>
 
@@ -54,33 +48,38 @@ export const ReviewReply = ({
 
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
-          {replies.map((reply) => (
-            <li key={reply.id} className="flex items-start space-x-4">
-              <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
-                {usernameInitial}
-              </div>
+          {replies.map((reply) => {
+            const username = reply.raw_user_meta_data?.username
+            const usernameInitial = username[0].toUpperCase()
 
-              <div className="flex w-full flex-col space-y-2">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-muted-foreground">
-                    {username}
-                  </span>
+            return (
+              <li key={reply.id} className="flex items-start space-x-4">
+                <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
+                  {usernameInitial}
                 </div>
 
-                <div className="relative space-y-1 rounded-md border p-4 shadow">
-                  <p className="text-sm">{reply.reply}</p>
+                <div className="flex w-full flex-col space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-muted-foreground">
+                      {username}
+                    </span>
+                  </div>
 
-                  <ReviewReplyLikes replyId={reply.id} />
+                  <div className="relative space-y-1 rounded-md border p-4 shadow">
+                    <p className="text-sm">{reply.reply}</p>
+
+                    <ReviewReplyLikes replyId={reply.id} />
+                  </div>
+
+                  <ReviewReplyActions
+                    reply={reply}
+                    tmdbItem={tmdbItem}
+                    mediaType={mediaType}
+                  />
                 </div>
-
-                <ReviewReplyActions
-                  reply={reply}
-                  tmdbItem={tmdbItem}
-                  mediaType={mediaType}
-                />
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ul>
       )}
     </div>
