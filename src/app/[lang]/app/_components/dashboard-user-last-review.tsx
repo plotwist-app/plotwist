@@ -9,6 +9,14 @@ import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 
+type Like = {
+  id: string
+}
+
+interface UserLastReview extends Review {
+  likes: Like[]
+}
+
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
   const { language, dictionary } = useLanguage()
@@ -38,7 +46,8 @@ export const DashboardUserLastReview = () => {
 
   if (!response?.data) return <></>
 
-  const lastReview = response.data as Review
+  const lastReview = response.data as UserLastReview
+  const likesCount = lastReview.likes?.length
 
   return (
     <div className="space-y-4">
@@ -51,6 +60,7 @@ export const DashboardUserLastReview = () => {
           review={lastReview}
           username={user.user_metadata.username}
           language={language}
+          likes={likesCount ?? 0}
         />
       ) : (
         <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">

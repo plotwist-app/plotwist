@@ -12,8 +12,6 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
         .eq('review_id', reviewId),
   })
 
-  console.log(data)
-
   if (!data) {
     return (
       <div className="absolute -bottom-2 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted" />

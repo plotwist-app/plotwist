@@ -66,8 +66,6 @@ export const ReviewItemActions = ({
         .eq('user_id', user.id),
   })
 
-  console.log(likes)
-
   const isUserOwner = user.id === userId
 
   const userLike = likes?.data?.find((like) => like.user_id === user.id)

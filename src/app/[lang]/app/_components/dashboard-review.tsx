@@ -12,12 +12,14 @@ type DashboardReviewProps = {
   review: Review
   language: Language
   username: string
+  likes: number
 }
 
 export const DashboardReview = ({
   review,
   language,
   username,
+  likes,
 }: DashboardReviewProps) => {
   const {
     tmdb_poster_path: poster,
@@ -25,7 +27,6 @@ export const DashboardReview = ({
     tmdb_id: tmdbId,
     media_type: mediaType,
     review: content,
-    likes,
     rating,
   } = review
 
@@ -61,12 +62,12 @@ export const DashboardReview = ({
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {likes && (
+              {likes > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
                   <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                    ❤ {likes.length}
+                    ❤ {likes}
                   </div>
                 </>
               )}

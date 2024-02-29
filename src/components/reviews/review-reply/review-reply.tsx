@@ -34,6 +34,8 @@ export const ReviewReply = ({
 }: ReviewReplyProps) => {
   const { dictionary } = useLanguage()
 
+  console.log(replies)
+
   if (!replies) return <></>
 
   return (
