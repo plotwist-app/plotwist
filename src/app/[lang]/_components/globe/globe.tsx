@@ -58,7 +58,7 @@ export const Globe = () => {
           { location: [-15.827, -47.922], size: 0.07 },
           { location: [35.6895, 139.6917], size: 0.07 },
         ],
-        opacity: 0.7,
+        opacity: 0.8,
         onRender: (state) => {
           state.phi = phi
           phi += 0.01
