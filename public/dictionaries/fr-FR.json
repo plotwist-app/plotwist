@@ -235,7 +235,7 @@
   },
   "statuses": {
     "pending": "En attente",
-    "watching": "En cours de visionnage",
+    "watching": "Visionnage",
     "watched": "Vu"
   },
   "list_item_actions": {
