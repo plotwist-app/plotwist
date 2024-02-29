@@ -13,6 +13,7 @@ import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
 import { Suspense } from 'react'
 import { HomeFeatures } from './_components/home-features/home-features'
+import { HomePrices } from './_components/home-prices'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -103,25 +104,9 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <HomeFeatures language={lang} dictionary={dictionary} />
+        <HomePrices />
 
-        <section className="mx-auto max-w-article space-y-4">
-          <div className="mx-auto flex w-2/3 flex-col items-center space-y-2">
-            <h2 className="text-2xl font-bold">Start your journey today</h2>
-
-            <p className="text-center text-muted-foreground">
-              Start creating realtime design experiences for free. Upgrade for
-              extra features and collaboration with your team.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 aspect-square rounded-md border"></div>
-            <div className="col-span-1 aspect-square rounded-md border"></div>
-            <div className="col-span-1 aspect-square rounded-md border"></div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-article space-y-4">
+        {/* <section className="mx-auto max-w-article space-y-4">
           <div className="flex flex-col gap-2">
             <div className="h-12 rounded-md border"></div>
             <div className="h-12 rounded-md border"></div>
@@ -129,7 +114,7 @@ export default async function Home({ params: { lang } }: PageProps) {
             <div className="h-12 rounded-md border"></div>
             <div className="h-12 rounded-md border"></div>
           </div>
-        </section>
+        </section> */}
       </main>
     </>
   )
