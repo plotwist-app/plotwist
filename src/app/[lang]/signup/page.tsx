@@ -18,8 +18,9 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
             </h1>
             <p className="">{dictionary.sign_up_page.description}</p>
 
-            <div className="mt-2 flex space-x-1">
+            <div className="mt-2 flex space-x-2">
               <div className="rounded-xs w-1 bg-muted-foreground" />
+
               <p className="text-sm text-muted-foreground">
                 {dictionary.sign_up_page.already_have_account}{' '}
                 <Link href="/login" className="underline">

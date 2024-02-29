@@ -41,7 +41,7 @@ export default async function Home({ params: { lang } }: PageProps) {
     <>
       <Pattern variant="checkered" />
 
-      <main className="space-y-16">
+      <main className="">
         <div className="mx-auto max-w-4xl p-4">
           <Header />
 
@@ -73,7 +73,7 @@ export default async function Home({ params: { lang } }: PageProps) {
           </section>
         </div>
 
-        <section className="space-y-8 p-4">
+        <section className="space-y-8 p-4 py-16">
           <div className="mx-auto aspect-[9/16] w-full max-w-article overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
             <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
           </div>
@@ -104,7 +104,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <HomeFeatures language={lang} dictionary={dictionary} />
-        <HomePrices />
+        <HomePrices language={lang} />
 
         {/* <section className="mx-auto max-w-article space-y-4">
           <div className="flex flex-col gap-2">
