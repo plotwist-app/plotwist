@@ -1,10 +1,17 @@
 import { Badge } from '@/components/ui/badge'
 import { HomePrice } from './home-price'
-import { Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import Link from 'next/link'
+import { Language } from '@/types/languages'
 
-export const HomePrices = () => {
+type HomePricesProps = {
+  language: Language
+}
+
+export const HomePrices = ({ language }: HomePricesProps) => {
   return (
-    <section className="mx-auto max-w-article space-y-8">
+    <section className="mx-auto max-w-article space-y-8 py-16">
       <div className="mx-auto flex w-2/3 flex-col items-center space-y-2">
         <h2 className="text-2xl font-bold">Start your journey today</h2>
 
@@ -16,51 +23,83 @@ export const HomePrices = () => {
 
       <ol className="grid grid-cols-3 gap-4">
         <HomePrice.Root>
-          <HomePrice.Header>
-            <HomePrice.Label>Free</HomePrice.Label>
-            <HomePrice.Value>$0/month</HomePrice.Value>
-            <HomePrice.Description>
-              Explore about movies and build your personal watch-list.
-            </HomePrice.Description>
-          </HomePrice.Header>
+          <HomePrice.Content>
+            <HomePrice.Header>
+              <HomePrice.Label>Free</HomePrice.Label>
+              <HomePrice.Value>$0/month</HomePrice.Value>
+              <HomePrice.Description>
+                Explore about movies and build your personal watch-list.
+              </HomePrice.Description>
+            </HomePrice.Header>
 
-          <HomePrice.Benefits>
-            <li className="flex">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted p-1">
-                <Check className="w-3" />
-              </div>
-            </li>
-          </HomePrice.Benefits>
+            <HomePrice.Benefits>
+              <HomePrice.Benefit>Full access to the platform</HomePrice.Benefit>
+              <HomePrice.Benefit>Unlimited reviews</HomePrice.Benefit>
+              <HomePrice.Benefit>One personal list</HomePrice.Benefit>
+            </HomePrice.Benefits>
+          </HomePrice.Content>
+
+          <Button asChild>
+            <Link href={`/${language}/signup`}>Start now!</Link>
+          </Button>
         </HomePrice.Root>
 
         <HomePrice.Root className="relative">
-          <HomePrice.Header>
-            <HomePrice.Label>Member</HomePrice.Label>
-            <HomePrice.Value>
-              $5/month <Badge variant="outline">Recommended</Badge>
-            </HomePrice.Value>
+          <HomePrice.Content>
+            <HomePrice.Header>
+              <HomePrice.Label>Member</HomePrice.Label>
 
-            <HomePrice.Description>
-              Everything in Free plain, plus higher limits, custom settings and
-              no third-party ads.
-            </HomePrice.Description>
-          </HomePrice.Header>
+              <HomePrice.Value>$5/month</HomePrice.Value>
 
-          <HomePrice.Benefits></HomePrice.Benefits>
+              <HomePrice.Description>
+                Everything in Free plain, plus higher limits, custom settings
+                and no third-party ads.
+              </HomePrice.Description>
+            </HomePrice.Header>
+
+            <HomePrice.Benefits>
+              <HomePrice.Benefit>Removal of third-party ads</HomePrice.Benefit>
+              <HomePrice.Benefit>Personal recommendations</HomePrice.Benefit>
+              <HomePrice.Benefit>
+                Clone your own or other members’ lists
+              </HomePrice.Benefit>
+              <HomePrice.Benefit>Change your username </HomePrice.Benefit>
+            </HomePrice.Benefits>
+          </HomePrice.Content>
+
+          <Badge className="absolute top-0 -translate-y-3">Recommended</Badge>
+
+          <Button>Subscribe</Button>
         </HomePrice.Root>
 
         <HomePrice.Root>
-          <HomePrice.Header>
-            <HomePrice.Label>Patreon</HomePrice.Label>
-            <HomePrice.Value>$10/month</HomePrice.Value>
+          <HomePrice.Content>
+            <HomePrice.Header>
+              <HomePrice.Label>Patreon</HomePrice.Label>
+              <HomePrice.Value>$10/month</HomePrice.Value>
 
-            <HomePrice.Description>
-              Everything in Member plus no more limits and early-access to
-              features.
-            </HomePrice.Description>
-          </HomePrice.Header>
+              <HomePrice.Description>
+                Everything in Member plus no more limits and early-access to
+                features.
+              </HomePrice.Description>
+            </HomePrice.Header>
 
-          <HomePrice.Benefits></HomePrice.Benefits>
+            <HomePrice.Benefits>
+              <HomePrice.Benefit>
+                <Skeleton className="h-[2ex] w-[20ch]" />
+              </HomePrice.Benefit>
+
+              <HomePrice.Benefit>
+                <Skeleton className="h-[2ex] w-[20ch]" />
+              </HomePrice.Benefit>
+
+              <HomePrice.Benefit>
+                <Skeleton className="h-[2ex] w-[20ch]" />
+              </HomePrice.Benefit>
+            </HomePrice.Benefits>
+          </HomePrice.Content>
+
+          <Button disabled>Coming soon</Button>
         </HomePrice.Root>
       </ol>
     </section>
