@@ -25,6 +25,26 @@
       "users": {
         "label": "Utilisateurs"
       }
+    },
+    "features": {
+      "section_title": "[TMDB] Fonctionnalités",
+      "section_description": "TMDB est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
+      "lists": {
+        "title": "Listes",
+        "description": "Créez et gérez l'état de vos films, séries et animes dans un bel endroit."
+      },
+      "reviews": {
+        "title": "Critiques",
+        "description": "Rédigez des critiques sur ce que vous regardez et faites connaître votre avis au monde entier."
+      },
+      "multi_lang_support": {
+        "title": "Support Multilingue",
+        "description": "Nous prenons en charge différentes langues pour rassembler différents pays."
+      },
+      "communities": {
+        "title": "Communautés",
+        "description": "Créez ou participez à des communautés de niche spécifiques."
+      }
     }
   },
   "movies_list": {

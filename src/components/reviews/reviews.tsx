@@ -1,12 +1,6 @@
 'use client'
 
-import { supabase } from '@/services/supabase'
 import { MediaType } from '@/types/supabase/media-type'
-import { Review } from '@/types/supabase/reviews'
-import { useQuery } from '@tanstack/react-query'
-
-import { ReviewForm } from './review-form'
-import { ReviewItem, ReviewItemSkeleton } from './review-item'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 

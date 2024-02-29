@@ -26,6 +26,26 @@ export type Dictionary = {
       }
       users: Record<'label', string>
     }
+    features: {
+      section_title: string
+      section_description: string
+      lists: {
+        title: string
+        description: string
+      }
+      reviews: {
+        title: string
+        description: string
+      }
+      multi_lang_support: {
+        title: string
+        description: string
+      }
+      communities: {
+        title: string
+        description: string
+      }
+    }
   }
   movies_list: Record<
     'now_playing' | 'popular' | 'top_rated' | 'upcoming' | 'show_all',

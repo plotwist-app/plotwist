@@ -25,6 +25,26 @@
       "users": {
         "label": "Benutzer"
       }
+    },
+    "features": {
+      "section_title": "[TMDB] Funktionen",
+      "section_description": "TMDB ist für Kinofans, die Millionen von Filmen und Serien mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr erkunden möchten.",
+      "lists": {
+        "title": "Listen",
+        "description": "Erstellen und verwalten Sie den Status Ihrer Filme, Serien und Animes an einem schönen Ort."
+      },
+      "reviews": {
+        "title": "Bewertungen",
+        "description": "Schreiben Sie Bewertungen zu dem, was Sie sehen, und lassen Sie die Welt Ihre Meinung wissen."
+      },
+      "multi_lang_support": {
+        "title": "Mehrsprachige Unterstützung",
+        "description": "Wir unterstützen verschiedene Sprachen, um unterschiedliche Länder zu erreichen."
+      },
+      "communities": {
+        "title": "Gemeinschaften",
+        "description": "Erstellen oder beteiligen Sie sich an spezifischen Nischengemeinschaften."
+      }
     }
   },
   "movies_list": {

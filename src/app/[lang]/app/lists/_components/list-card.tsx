@@ -21,7 +21,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'

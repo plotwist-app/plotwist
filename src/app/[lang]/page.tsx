@@ -12,9 +12,6 @@ import MoviePage from '@/app/[lang]/app/movies/[id]/page'
 import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
 import { Suspense } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Slider } from '@/components/ui/slider'
-import { List, ListChecks } from 'lucide-react'
 import { HomeFeatures } from './_components/home-features/home-features'
 
 export const homeMovies: Record<Language, string> = {
@@ -28,6 +25,7 @@ export const homeMovies: Record<Language, string> = {
 }
 
 export default async function Home({ params: { lang } }: PageProps) {
+  const dictionary = await getDictionary(lang)
   const {
     home: {
       title,
@@ -36,7 +34,7 @@ export default async function Home({ params: { lang } }: PageProps) {
       primary_button: primaryButton,
       statistics,
     },
-  } = await getDictionary(lang)
+  } = dictionary
 
   return (
     <>
@@ -104,7 +102,7 @@ export default async function Home({ params: { lang } }: PageProps) {
           </div>
         </section>
 
-        <HomeFeatures language={lang} />
+        <HomeFeatures language={lang} dictionary={dictionary} />
 
         <section className="mx-auto max-w-article space-y-4">
           <div className="mx-auto flex w-2/3 flex-col items-center space-y-2">
