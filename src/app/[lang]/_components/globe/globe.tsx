@@ -2,11 +2,35 @@
 
 import createGlobe from 'cobe'
 import { useTheme } from 'next-themes'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const Globe = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const { theme } = useTheme()
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const updateDimensions = () => {
+      setDimensions({
+        width: canvas.width,
+        height: canvas.height,
+      })
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions()
+    })
+
+    resizeObserver.observe(canvas)
+    updateDimensions()
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
 
   useEffect(() => {
     let phi = 0
@@ -14,8 +38,8 @@ export const Globe = () => {
     if (canvasRef.current) {
       const globe = createGlobe(canvasRef.current, {
         devicePixelRatio: 2,
-        width: canvasRef.current.width,
-        height: canvasRef.current.height,
+        width: dimensions.width,
+        height: dimensions.height,
         phi: 0,
         theta: 0,
         dark: theme === 'dark' ? 1 : 0,
@@ -34,7 +58,7 @@ export const Globe = () => {
           { location: [-15.827, -47.922], size: 0.07 },
           { location: [35.6895, 139.6917], size: 0.07 },
         ],
-        opacity: 0.8,
+        opacity: 0.7,
         onRender: (state) => {
           state.phi = phi
           phi += 0.01
@@ -45,7 +69,7 @@ export const Globe = () => {
         globe.destroy()
       }
     }
-  }, [theme])
+  }, [theme, canvasRef, dimensions])
 
   return (
     <canvas
