@@ -10,6 +10,7 @@ import {
   ReviewReplyLikes,
 } from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
+import { timeFromNow } from '@/utils/date/time-from-now'
 
 type TmdbItem = TvSeriesDetails | MovieDetails
 
@@ -28,7 +29,7 @@ export const ReviewReply = ({
   tmdbItem,
   mediaType,
 }: ReviewReplyProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
 
   if (!replies) return <></>
 
@@ -62,6 +63,14 @@ export const ReviewReply = ({
                   <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">
                       {username}
+                    </span>
+
+                    <span className="h-1 w-1 rounded-full bg-muted" />
+                    <span className="text-xs text-muted-foreground underline-offset-1 ">
+                      {timeFromNow({
+                        date: new Date(reply.created_at),
+                        language,
+                      })}
                     </span>
                   </div>
 

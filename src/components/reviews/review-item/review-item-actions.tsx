@@ -40,6 +40,7 @@ type ReviewItemActionProps = {
 const ReviewItemAction = ({
   disabled,
   active,
+  className,
   ...props
 }: ReviewItemActionProps) => {
   return (
@@ -48,6 +49,7 @@ const ReviewItemAction = ({
         'cursor-pointer text-xs text-muted-foreground underline-offset-1 hover:underline',
         disabled && 'pointer-events-none animate-pulse opacity-50',
         active && 'font-bold text-foreground',
+        className,
       )}
       {...props}
     >
