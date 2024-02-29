@@ -137,6 +137,9 @@
     "publish": "Publish",
     "placeholder": "What you think about?"
   },
+  "review_reply_form": {
+    "success": "Reply created successfully."
+  },
   "review_reply": {
     "reply": "Reply",
     "placeholder": "Add a reply...",
@@ -147,7 +150,18 @@
     "like": "Like",
     "reply": "Reply",
     "delete": "Delete",
-    "delete_success": "Review deleted successfully."
+    "delete_success": "Review deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone.",
+    "dialog_close": "Close"
+  },
+  "review_reply_actions": {
+    "like": "Like",
+    "delete": "Delete",
+    "delete_success": "Reply deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone.",
+    "dialog_close": "Close"
   },
   "movie_collection": {
     "part_of": "Part of",
@@ -191,7 +205,6 @@
     "description_placeholder": "Movies and TV shows I plan to watch.",
     "submit": "Submit",
     "list_created_success": "List created successfully!",
-    
     "edit_list": "Edit List",
     "list_edited_success": "List edited successfully."
   },

@@ -137,6 +137,9 @@
     "publish": "Publicar",
     "placeholder": "¿Qué piensas?"
   },
+  "review_reply_form": {
+    "success": "Respuesta creada con éxito."
+  },
   "review_reply": {
     "reply": "Responder",
     "placeholder": "Agregar una respuesta...",
@@ -147,7 +150,18 @@
     "like": "Me gusta",
     "reply": "Responder",
     "delete": "Eliminar",
-    "delete_success": "Reseña eliminada con éxito."
+    "delete_success": "Reseña eliminada con éxito.",
+    "dialog_title": "¿Está completamente seguro?",
+    "dialog_description": "Esta acción no se puede deshacer.",
+    "dialog_close": "Cerrar"
+  },
+  "review_reply_actions": {
+    "like": "Me gusta",
+    "delete": "Eliminar",
+    "delete_success": "Respuesta eliminada con éxito.",
+    "dialog_title": "¿Está completamente seguro?",
+    "dialog_description": "Esta acción no se puede deshacer.",
+    "dialog_close": "Cerrar"
   },
   "movie_collection": {
     "part_of": "Parte de",
@@ -191,7 +205,6 @@
     "description_placeholder": "Películas y programas de TV que planeo ver.",
     "submit": "Enviar",
     "list_created_success": "¡Lista creada con éxito!",
-
     "edit_list": "Editar lista",
     "list_edited_success": "Lista editada con éxito."
   },

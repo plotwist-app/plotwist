@@ -134,7 +134,7 @@ export const ReviewReplyActions = ({
             )
           }}
         >
-          {dictionary.review_item_actions.like}
+          {dictionary.review_reply_actions.like}
         </ReplyAction>
 
         {isUserOwner && (
@@ -145,7 +145,7 @@ export const ReviewReplyActions = ({
               disabled={handleDeleteReply.isPending}
               onClick={() => setOpenModal(true)}
             >
-              {dictionary.review_item_actions.delete}
+              {dictionary.review_reply_actions.delete}
             </ReplyAction>
           </>
         )}
@@ -154,15 +154,17 @@ export const ReviewReplyActions = ({
       <Dialog onOpenChange={setOpenModal} open={openModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader className="gap-1">
-            <DialogTitle>{dictionary.list_card.dialog_title}</DialogTitle>
+            <DialogTitle>
+              {dictionary.review_reply_actions.dialog_title}
+            </DialogTitle>
             <DialogDescription>
-              {dictionary.list_card.dialog_description}
+              {dictionary.review_reply_actions.dialog_description}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:flex-end">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                {dictionary.list_card.dialog_close}
+                {dictionary.review_reply_actions.dialog_close}
               </Button>
             </DialogClose>
             <Button
@@ -175,7 +177,7 @@ export const ReviewReplyActions = ({
                       invalidateQuery()
 
                       toast.success(
-                        dictionary.review_item_actions.delete_success,
+                        dictionary.review_reply_actions.delete_success,
                       )
                     },
                     onError: (error) => {
@@ -185,7 +187,7 @@ export const ReviewReplyActions = ({
                 )
               }
             >
-              {dictionary.list_card.delete}
+              {dictionary.review_reply_actions.delete}
             </Button>
           </DialogFooter>
         </DialogContent>

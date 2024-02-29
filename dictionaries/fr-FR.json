@@ -137,6 +137,9 @@
     "publish": "Publier",
     "placeholder": "Qu'en pensez-vous ?"
   },
+  "review_reply_form": {
+    "success": "Réponse créée avec succès."
+  },
   "review_reply": {
     "reply": "Répondre",
     "placeholder": "Ajouter une réponse...",
@@ -147,7 +150,18 @@
     "like": "Aimer",
     "reply": "Répondre",
     "delete": "Supprimer",
-    "delete_success": "Avis supprimé avec succès."
+    "delete_success": "Avis supprimé avec succès.",
+    "dialog_title": "Êtes-vous absolument sûr ?",
+    "dialog_description": "Cette action ne peut pas être annulée.",
+    "dialog_close": "Fermer"
+  },
+  "review_reply_actions": {
+    "like": "Aimer",
+    "delete": "Supprimer",
+    "delete_success": "Réponse supprimée avec succès.",
+    "dialog_title": "Êtes-vous absolument sûr ?",
+    "dialog_description": "Cette action ne peut pas être annulée.",
+    "dialog_close": "Fermer"
   },
   "movie_collection": {
     "part_of": "Partie de",
@@ -191,7 +205,6 @@
     "description_placeholder": "Films et émissions de télévision que je prévois de regarder.",
     "submit": "Soumettre",
     "list_created_success": "Liste créée avec succès !",
-
     "edit_list": "Modifier la liste",
     "list_edited_success": "Liste modifiée avec succès."
   },

@@ -137,6 +137,9 @@
     "publish": "Veröffentlichen",
     "placeholder": "Was denken Sie?"
   },
+  "review_reply_form": {
+    "success": "Antwort erfolgreich erstellt."
+  },
   "review_reply": {
     "reply": "Antwort",
     "placeholder": "Eine Antwort hinzufügen...",
@@ -147,7 +150,18 @@
     "like": "Gefällt mir",
     "reply": "Antworten",
     "delete": "Löschen",
-    "delete_success": "Bewertung erfolgreich gelöscht."
+    "delete_success": "Bewertung erfolgreich gelöscht.",
+    "dialog_title": "Sind Sie sich absolut sicher?",
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "dialog_close": "Schließen"
+  },
+  "review_reply_actions": {
+    "like": "Gefällt mir",
+    "delete": "Löschen",
+    "delete_success": "Antwort erfolgreich gelöscht.",
+    "dialog_title": "Sind Sie sich absolut sicher?",
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "dialog_close": "Schließen"
   },
   "movie_collection": {
     "part_of": "Teil von",
@@ -191,7 +205,6 @@
     "description_placeholder": "Filme und Fernsehshows, die ich planen zu sehen.",
     "submit": "Einreichen",
     "list_created_success": "Liste erfolgreich erstellt!",
-
     "edit_list": "Liste bearbeiten",
     "list_edited_success": "Liste erfolgreich bearbeitet."
   },
@@ -357,7 +370,7 @@
       "placeholder": "Filtern nach Anbietern",
       "clear_filters": "Filter löschen",
       "no_results": "Keine Ergebnisse gefunden."
-    },  
+    },
     "watch_region_field": {
       "label": "Region",
       "placeholder": "Region auswählen"
@@ -367,7 +380,7 @@
     },
     "vote_count_field": {
       "label": "Minimale Stimmenanzahl"
-    },    
+    },
     "no_results": "Keine Ergebnisse."
   },
   "tv_shows_list_filters": {

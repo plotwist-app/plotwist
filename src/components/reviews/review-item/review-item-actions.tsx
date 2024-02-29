@@ -172,15 +172,17 @@ export const ReviewItemActions = ({
       <Dialog onOpenChange={setOpenModal} open={openModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader className="gap-1">
-            <DialogTitle>{dictionary.list_card.dialog_title}</DialogTitle>
+            <DialogTitle>
+              {dictionary.review_item_actions.dialog_title}
+            </DialogTitle>
             <DialogDescription>
-              {dictionary.list_card.dialog_description}
+              {dictionary.review_item_actions.dialog_description}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:flex-end">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                {dictionary.list_card.dialog_close}
+                {dictionary.review_item_actions.dialog_close}
               </Button>
             </DialogClose>
             <Button
@@ -198,7 +200,7 @@ export const ReviewItemActions = ({
                 })
               }
             >
-              {dictionary.list_card.delete}
+              {dictionary.review_item_actions.delete}
             </Button>
           </DialogFooter>
         </DialogContent>

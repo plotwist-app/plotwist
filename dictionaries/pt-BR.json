@@ -137,6 +137,9 @@
     "publish": "Publicar",
     "placeholder": "O que você acha?"
   },
+  "review_reply_form": {
+    "success": "Resposta criada com sucesso."
+  },
   "review_reply": {
     "reply": "Responder",
     "placeholder": "Adicione uma resposta...",
@@ -147,7 +150,18 @@
     "like": "Curtir",
     "reply": "Responder",
     "delete": "Apagar",
-    "delete_success": "Avaliação deletada com sucesso."
+    "delete_success": "Avaliação deletada com sucesso.",
+    "dialog_title": "Você tem certeza absoluta?",
+    "dialog_description": "Esta ação não pode ser desfeita.",
+    "dialog_close": "Fechar"
+  },
+  "review_reply_actions": {
+    "like": "Curtir",
+    "delete": "Apagar",
+    "delete_success": "Resposta excluída com sucesso.",
+    "dialog_title": "Você tem certeza absoluta?",
+    "dialog_description": "Esta ação não pode ser desfeita.",
+    "dialog_close": "Fechar"
   },
   "movie_collection": {
     "part_of": "Parte de",

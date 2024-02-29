@@ -73,7 +73,7 @@ export const ReviewReplyForm = ({
       {
         onSuccess: () => {
           form.reset()
-          toast.success(dictionary.review_form.success)
+          toast.success(dictionary.review_reply_form.success)
 
           onOpenReplies(true)
           onOpenReplyForm(false)

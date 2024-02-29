@@ -137,6 +137,9 @@ export type Dictionary = {
     publish: string
     placeholder: string
   }
+  review_reply_form: {
+    success: string
+  }
   review_reply: {
     reply: string
     placeholder: string
@@ -148,6 +151,17 @@ export type Dictionary = {
     reply: string
     delete: string
     delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
+  }
+  review_reply_actions: {
+    like: string
+    delete: string
+    delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
   }
   movie_collection: {
     part_of: string

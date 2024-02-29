@@ -137,6 +137,9 @@
     "publish": "公開する",
     "placeholder": "感想をお聞かせください？"
   },
+  "review_reply_form": {
+    "success": "返信が正常に作成されました。"
+  },
   "review_reply": {
     "reply": "返信",
     "placeholder": "返信を追加する...",
@@ -147,7 +150,18 @@
     "like": "いいね",
     "reply": "返信",
     "delete": "削除",
-    "delete_success": "レビューが正常に削除されました。"
+    "delete_success": "レビューが正常に削除されました。",
+    "dialog_title": "本当によろしいですか？",
+    "dialog_description": "この操作は取り消しできません。",
+    "dialog_close": "閉じる"
+  },
+  "review_reply_actions": {
+    "like": "いいね",
+    "delete": "削除",
+    "delete_success": "返信が正常に削除されました。",
+    "dialog_title": "本当によろしいですか？",
+    "dialog_description": "この操作は取り消しできません。",
+    "dialog_close": "閉じる"
   },
   "movie_collection": {
     "part_of": "の一部",
@@ -191,7 +205,6 @@
     "description_placeholder": "視聴予定の映画やテレビ番組。",
     "submit": "提出する",
     "list_created_success": "リストが正常に作成されました！",
-    
     "edit_list": "リストを編集",
     "list_edited_success": "リストが正常に編集されました。"
   },

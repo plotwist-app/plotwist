@@ -137,6 +137,9 @@
     "publish": "Pubblica",
     "placeholder": "Cosa ne pensi?"
   },
+  "review_reply_form": {
+    "success": "Risposta creata con successo."
+  },
   "review_reply": {
     "reply": "Rispondi",
     "placeholder": "Aggiungi una risposta...",
@@ -147,7 +150,18 @@
     "like": "Mi piace",
     "reply": "Rispondere",
     "delete": "Eliminare",
-    "delete_success": "Recensione eliminata con successo."
+    "delete_success": "Recensione eliminata con successo.",
+    "dialog_title": "Sei assolutamente sicuro?",
+    "dialog_description": "Questa azione non può essere annullata.",
+    "dialog_close": "Chiudi"
+  },
+  "review_reply_actions": {
+    "like": "Mi piace",
+    "delete": "Eliminare",
+    "delete_success": "Risposta eliminata con successo.",
+    "dialog_title": "Sei assolutamente sicuro?",
+    "dialog_description": "Questa azione non può essere annullata.",
+    "dialog_close": "Chiudi"
   },
   "movie_collection": {
     "part_of": "Parte di",
@@ -191,7 +205,6 @@
     "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
     "submit": "Invia",
     "list_created_success": "Lista creata con successo!",
-    
     "edit_list": "Modifica elenco",
     "list_edited_success": "Elenco modificato con successo."
   },
