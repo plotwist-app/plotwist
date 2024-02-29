@@ -25,6 +25,26 @@
       "users": {
         "label": "ユーザー"
       }
+    },
+    "features": {
+      "section_title": "[TMDB] 機能",
+      "section_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iste sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum nostrum, consequatur ullam! Veniam enim neque sint adipisci labore ratione quidem.",
+      "lists": {
+        "title": "リスト",
+        "description": "映画、シリーズ、アニメのステータスを美しい一か所で作成し、管理します。"
+      },
+      "reviews": {
+        "title": "レビュー",
+        "description": "視聴中の作品についてレビューを書き、あなたの意見を世界に伝えましょう。"
+      },
+      "multi_lang_support": {
+        "title": "多言語サポート",
+        "description": "さまざまな国々を巻き込むために、さまざまな言語をサポートしています。"
+      },
+      "communities": {
+        "title": "コミュニティ",
+        "description": "特定のニッチなコミュニティを作成するか、参加します。"
+      }
     }
   },
   "movies_list": {

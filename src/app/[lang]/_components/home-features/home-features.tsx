@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils'
 import { Language } from '@/types/languages'
+import { Dictionary } from '@/utils/dictionaries'
 import {
   ListChecks,
   LucideIcon,
   MessageSquare,
   Globe,
-  Share,
   Users,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -43,39 +43,48 @@ const HomeFeature = ({
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
-      <div className="relative flex h-full w-full select-none items-center justify-center overflow-hidden rounded-lg border bg-muted text-muted-foreground shadow">
+      <div className="pointer-events-none relative flex h-full w-full select-none items-center justify-center overflow-hidden rounded-lg border bg-muted text-muted-foreground shadow">
         {children}
       </div>
     </li>
   )
 }
 
-type HomeFeaturesProps = { language: Language }
+type HomeFeaturesProps = { language: Language; dictionary: Dictionary }
 
-export const HomeFeatures = ({ language }: HomeFeaturesProps) => {
+export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
+  const {
+    home: {
+      features: {
+        section_title: title,
+        section_description: description,
+        lists,
+        communities,
+        multi_lang_support: multiLangSupport,
+        reviews,
+      },
+    },
+  } = dictionary
+
   return (
     <section className="border-y bg-muted/10 py-16">
       <div className="mx-auto max-w-article space-y-8">
         <div className="flex flex-col items-center space-y-2">
-          <h2 className="text-2xl font-bold">[TMDB] Features</h2>
-
+          <h2 className="text-2xl font-bold">{title}</h2>
           <p className="w-2/3 text-center text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo iste
-            sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum
-            nostrum, consequatur ullam! Veniam enim neque sint adipisci labore
-            ratione quidem.
+            {description}
           </p>
         </div>
 
         <ul className="grid grid-cols-3 gap-4">
           <HomeFeature
-            title="Lists"
-            description="Create and manage status of your movies, series and animes in one beautiful place."
+            title={lists.title}
+            description={lists.description}
             className="col-span-2 aspect-[16/9]"
             icon={ListChecks}
           >
             <Image
-              alt="Lists"
+              alt={lists.title}
               fill
               className="hidden object-cover dark:block"
               quality={100}
@@ -83,7 +92,7 @@ export const HomeFeatures = ({ language }: HomeFeaturesProps) => {
             />
 
             <Image
-              alt="Lists"
+              alt={lists.title}
               fill
               className="block object-cover dark:hidden"
               quality={100}
@@ -93,27 +102,27 @@ export const HomeFeatures = ({ language }: HomeFeaturesProps) => {
 
           <HomeFeature
             icon={MessageSquare}
-            title="Reviews"
-            description="Write reviews about what you're watching and let the world know your opinion."
-            className="col-span-1 "
+            title={reviews.title}
+            description={reviews.description}
+            className="col-span-1"
           >
-            <span className="animate-pulse">Work in progress.</span>
+            <span className="animate-pulse">Work in progress...</span>
           </HomeFeature>
 
           <HomeFeature
             icon={Globe}
-            title="Multi-lang support"
-            description="We support different languages to bring different countries."
-            className="col-span-1 "
+            title={multiLangSupport.title}
+            description={multiLangSupport.description}
+            className="col-span-1"
           />
 
           <HomeFeature
             icon={Users}
-            title="Communities"
-            description="Create or participate in specific niche communities."
+            title={communities.title}
+            description={communities.description}
             className="col-span-2 aspect-[16/9]"
           >
-            <span className="animate-pulse">Work in progress.</span>
+            <span className="animate-pulse">Work in progress...</span>
           </HomeFeature>
         </ul>
       </div>

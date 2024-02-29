@@ -25,6 +25,26 @@
       "users": {
         "label": "Users"
       }
+    },
+    "features": {
+      "section_title": "[TMDB] Features",
+      "section_description": "TMDB is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
+      "lists": {
+        "title": "Lists",
+        "description": "Create and manage the status of your movies, series, and animes in one beautiful place."
+      },
+      "reviews": {
+        "title": "Reviews",
+        "description": "Write reviews about what you're watching and let the world know your opinion."
+      },
+      "multi_lang_support": {
+        "title": "Multi-language Support",
+        "description": "We support different languages to bring together different countries."
+      },
+      "communities": {
+        "title": "Communities",
+        "description": "Create or participate in specific niche communities."
+      }
     }
   },
   "movies_list": {

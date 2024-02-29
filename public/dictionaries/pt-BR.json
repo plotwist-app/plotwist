@@ -25,6 +25,26 @@
       "users": {
         "label": "Usuários"
       }
+    },
+    "features": {
+      "section_title": "Principais funcionalidades",
+      "section_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iste sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum nostrum, consequatur ullam! Veniam enim neque sint adipisci labore ratione quidem.",
+      "lists": {
+        "title": "Listas",
+        "description": "Crie e gerencie o status dos seus filmes, séries e animes em um único lugar incrível."
+      },
+      "reviews": {
+        "title": "Avaliações",
+        "description": "Escreva avaliações sobre o que você está assistindo e deixe o mundo conhecer sua opinião."
+      },
+      "multi_lang_support": {
+        "title": "Suporte multilíngue",
+        "description": "Nós oferecemos suporte a diferentes idiomas para alcançar diferentes países."
+      },
+      "communities": {
+        "title": "Comunidades",
+        "description": "Crie ou participe de comunidades de nicho específicas."
+      }
     }
   },
   "movies_list": {

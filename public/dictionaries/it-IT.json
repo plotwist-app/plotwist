@@ -25,6 +25,26 @@
       "users": {
         "label": "Utenti"
       }
+    },
+    "features": {
+      "section_title": "[TMDB] Funzionalità",
+      "section_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iste sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum nostrum, consequatur ullam! Veniam enim neque sint adipisci labore ratione quidem.",
+      "lists": {
+        "title": "Liste",
+        "description": "Crea e gestisci lo stato dei tuoi film, serie e anime in un unico posto bellissimo."
+      },
+      "reviews": {
+        "title": "Recensioni",
+        "description": "Scrivi recensioni su ciò che stai guardando e fai sapere al mondo la tua opinione."
+      },
+      "multi_lang_support": {
+        "title": "Supporto multilingua",
+        "description": "Supportiamo diverse lingue per coinvolgere diversi paesi."
+      },
+      "communities": {
+        "title": "Comunità",
+        "description": "Crea o partecipa a comunità di nicchia specifiche."
+      }
     }
   },
   "movies_list": {
