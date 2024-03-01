@@ -3,6 +3,14 @@
 import { MediaType } from '@/types/supabase/media-type'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+import { supabase } from '@/services/supabase'
+import { useQuery } from '@tanstack/react-query'
+import { Review } from '@/types/supabase/reviews'
+import {
+  ReviewItem,
+  ReviewItemSkeleton,
+} from '@/components/reviews/review-item'
+import { ReviewForm } from '@/components/reviews/review-form'
 
 type TmdbItem = TvSeriesDetails | MovieDetails
 
