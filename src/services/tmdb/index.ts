@@ -16,6 +16,7 @@ import {
   person,
   genres,
   languages,
+  keywords,
 } from './requests'
 
 const TMDB_API_KEY =
@@ -46,4 +47,5 @@ export const tmdb = {
     availableRegions,
     tvProviders,
   },
+  keywords,
 }
