@@ -37,11 +37,7 @@ export async function generateMetadata({
 }
 
 const TvShowPage = ({ params }: TvShowPageProps) => {
-  return (
-    <>
-      <TvShowsDetails id={Number(params.id)} language={params.lang} />
-    </>
-  )
+  return <TvShowsDetails id={Number(params.id)} language={params.lang} />
 }
 
 export default TvShowPage

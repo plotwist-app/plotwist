@@ -14,6 +14,8 @@ import { HomeButton } from './_components/home-button'
 import { Suspense } from 'react'
 import { HomeFeatures } from './_components/home-features/home-features'
 import { HomePrices } from './_components/home-prices'
+import { Metadata } from 'next'
+import { APP_URL } from '../../../constants'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -23,6 +25,47 @@ export const homeMovies: Record<Language, string> = {
   'it-IT': '637',
   'pt-BR': '598',
   'ja-JP': '129',
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    home: { title, description, keywords },
+  } = await getDictionary(params.lang)
+
+  const image = `${APP_URL}/images/home/movie-${params.lang}.jpg`
+
+  return {
+    title,
+    description,
+    keywords,
+    authors: [
+      {
+        name: 'lui7henrique',
+      },
+    ],
+    openGraph: {
+      title,
+      description,
+      siteName: '[TMDB]',
+      url: APP_URL,
+      images: [
+        {
+          url: image,
+          width: 1280,
+          height: 720,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      title,
+      description,
+      card: 'summary_large_image',
+      creator: '@lui7henrique',
+    },
+  }
 }
 
 export default async function Home({ params: { lang } }: PageProps) {
