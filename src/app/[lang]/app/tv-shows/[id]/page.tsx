@@ -13,14 +13,13 @@ export async function generateMetadata({
 
   const keywords = await tmdb.keywords({
     id: Number(params.id),
-    language: params.lang,
     type: 'tv',
   })
 
   return {
     title: tvShow.name,
     description: tvShow.overview,
-    keywords: keywords.map((keyword) => keyword.name).join(','),
+    keywords: keywords?.map((keyword) => keyword.name).join(','),
     openGraph: {
       images: [tmdbImage(tvShow.backdrop_path)],
       title: tvShow.name,
