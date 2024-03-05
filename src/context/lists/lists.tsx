@@ -31,7 +31,7 @@ export const ListsContextProvider = ({
 
   const { data } = useQuery({
     queryKey: LISTS_QUERY_KEY,
-    queryFn: async () => await fetchListsService(user.id),
+    queryFn: async () => (user ? await fetchListsService(user.id) : null),
   })
 
   const handleCreateNewList = useMutation({

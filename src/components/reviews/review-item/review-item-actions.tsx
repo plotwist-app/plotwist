@@ -78,12 +78,11 @@ export const ReviewItemActions = ({
         .select('user_id')
         .eq('entity_type', 'REVIEW')
         .eq('review_id', id)
-        .eq('user_id', user.id),
+        .eq('user_id', user?.id),
   })
 
-  const isUserOwner = user.id === userId
-
-  const userLike = likes?.data?.find((like) => like.user_id === user.id)
+  const isUserOwner = user?.id === userId
+  const userLike = likes?.data?.find((like) => like.user_id === user?.id)
   const isUserLiked = Boolean(userLike)
 
   const invalidateQuery = () => {
@@ -110,6 +109,8 @@ export const ReviewItemActions = ({
             isUserLiked ? handleRemoveLike.isPending : handleLike.isPending
           }
           onClick={() => {
+            if (!user) return
+
             if (isUserLiked) {
               handleRemoveLike.mutateAsync(
                 {

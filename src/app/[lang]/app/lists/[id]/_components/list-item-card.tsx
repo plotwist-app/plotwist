@@ -9,7 +9,7 @@ type ListItemCardProps = { listItem: ListItem }
 
 export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   const {
-    backdrop_path: backdrop,
+    poster_path: poster,
     title,
     overview,
     tmdb_id: tmdbId,
@@ -18,37 +18,27 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   } = listItem
 
   return (
-    <div className="w-full space-y-2">
-      <div className="flex">
-        <Status status={status} />
-      </div>
-
-      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+    <Link
+      href={`/app/${mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'}/${tmdbId}`}
+      className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-background/50 shadow"
+    >
+      {poster && (
         <Image
           fill
-          className="object-cover"
-          src={tmdbImage(backdrop, 'w500')}
+          className="z-10 object-cover brightness-50 dark:brightness-[50%]"
+          src={tmdbImage(poster, 'w500')}
           alt={title}
           sizes="100%"
         />
+      )}
+
+      <div className="absolute right-2 top-2 z-20 flex gap-1">
+        <ListItemActions listItem={listItem} />
       </div>
 
-      <div className="space-y-1">
-        <div className="flex items-start justify-between gap-1">
-          <Link
-            href={`/app/${
-              mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
-            }/${tmdbId}`}
-            className="underline-offset-4 hover:underline"
-          >
-            {title}
-          </Link>
-
-          <ListItemActions listItem={listItem} />
-        </div>
-
-        <p className="line-clamp-3 text-xs text-muted-foreground">{overview}</p>
+      <div className="absolute bottom-2 left-2 z-20 flex gap-1">
+        <Status status={status} />
       </div>
-    </div>
+    </Link>
   )
 }

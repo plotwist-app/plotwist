@@ -51,6 +51,8 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   })
 
   const onSubmit = async (values: ReviewFormValues) => {
+    if (!user) return
+
     await handleCreateReview.mutateAsync(
       {
         ...values,

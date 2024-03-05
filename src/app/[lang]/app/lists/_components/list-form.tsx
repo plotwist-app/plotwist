@@ -28,11 +28,11 @@ import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { listPageQueryKey } from '@/utils/list'
 
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
-import { listPageQueryKey } from '@/utils/list'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -52,6 +52,8 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   })
 
   async function onSubmit(values: ListFormValues) {
+    if (!user) return
+
     if (list) {
       const { name, description } = values
 

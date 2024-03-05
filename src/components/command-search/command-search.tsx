@@ -20,19 +20,19 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import {
-  SidebarSearchMovie,
-  SidebarSearchPerson,
-  SidebarSearchTvShow,
-  SidebarSearchGroup,
-  SidebarSearchSkeleton,
-} from '..'
+  CommandSearchMovie,
+  CommandSearchPerson,
+  CommandSearchTvShow,
+  CommandSearchGroup,
+  CommandSearchSkeleton,
+} from '../command-search'
 import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvShowWithMediaType,
 } from '@/services/tmdb/types'
 
-export const SidebarSearch = () => {
+export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
@@ -90,7 +90,7 @@ export const SidebarSearch = () => {
     <>
       <Button
         variant="outline"
-        className="flex w-full justify-between pr-2 text-sm text-muted-foreground"
+        className="flex w-full justify-between gap-2 pr-2 text-sm text-muted-foreground"
         onClick={() => setOpen(true)}
       >
         {dictionary.sidebar_search.search_everything}
@@ -111,19 +111,19 @@ export const SidebarSearch = () => {
           <CommandList className="p-4">
             {isLoading && (
               <div className="space-y-8">
-                <SidebarSearchGroup heading={dictionary.sidebar_search.movies}>
+                <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <SidebarSearchSkeleton key={index} />
+                    <CommandSearchSkeleton key={index} />
                   ))}
-                </SidebarSearchGroup>
+                </CommandSearchGroup>
 
-                <SidebarSearchGroup
+                <CommandSearchGroup
                   heading={dictionary.sidebar_search.tv_shows}
                 >
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <SidebarSearchSkeleton key={index} />
+                    <CommandSearchSkeleton key={index} />
                   ))}
-                </SidebarSearchGroup>
+                </CommandSearchGroup>
               </div>
             )}
 
@@ -135,41 +135,41 @@ export const SidebarSearch = () => {
 
             <div className="space-y-8">
               {hasMovies && (
-                <SidebarSearchGroup heading={dictionary.sidebar_search.movies}>
+                <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
                   {movies?.map((movie) => (
-                    <SidebarSearchMovie
+                    <CommandSearchMovie
                       item={movie}
                       language={language}
                       key={movie.id}
                     />
                   ))}
-                </SidebarSearchGroup>
+                </CommandSearchGroup>
               )}
 
               {hasTVShows && (
-                <SidebarSearchGroup
+                <CommandSearchGroup
                   heading={dictionary.sidebar_search.tv_shows}
                 >
                   {tvShows?.map((tvShow) => (
-                    <SidebarSearchTvShow
+                    <CommandSearchTvShow
                       item={tvShow}
                       language={language}
                       key={tvShow.id}
                     />
                   ))}
-                </SidebarSearchGroup>
+                </CommandSearchGroup>
               )}
 
               {hasPeople && (
-                <SidebarSearchGroup heading={dictionary.sidebar_search.people}>
+                <CommandSearchGroup heading={dictionary.sidebar_search.people}>
                   {people?.map((person) => (
-                    <SidebarSearchPerson
+                    <CommandSearchPerson
                       item={person}
                       language={language}
                       key={person.id}
                     />
                   ))}
-                </SidebarSearchGroup>
+                </CommandSearchGroup>
               )}
             </div>
           </CommandList>
