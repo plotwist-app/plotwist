@@ -7,7 +7,7 @@ const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="mx-auto max-w-6xl space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div>
           <h1 className="text-2xl font-bold">

@@ -48,8 +48,9 @@ export default async function RootLayout({
           >
             <AuthContextProvider initialUser={user}>
               <ListsContextProvider>{children}</ListsContextProvider>
+
+              <Toaster />
             </AuthContextProvider>
-            <Toaster />
           </LanguageContextProvider>
         </AppWrapper>
       </body>

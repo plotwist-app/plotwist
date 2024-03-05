@@ -25,7 +25,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-6xl">
       <Banner url={tmdbImage(mostPopularCredit.backdrop_path ?? '')} />
 
       <div className="my-8 space-y-8 p-4 md:space-y-12">

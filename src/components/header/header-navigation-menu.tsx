@@ -1,6 +1,8 @@
 'use client'
 
 import { useLanguage } from '@/context/language'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,21 +13,25 @@ import {
 } from '../ui/navigation-menu'
 import { buildLanguageNavigation } from '../sidebar/sidebar-navigation-data'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
 
 export const HeaderNavigationMenu = () => {
   const { dictionary, language } = useLanguage()
   const items = buildLanguageNavigation(dictionary)
+  const pathname = usePathname()
 
   return (
     <NavigationMenu>
       <NavigationMenuList>
         {items.map(({ label, items, icon: Icon, href }) => {
           const hasItems = Boolean(items?.length)
+          const isActive = pathname.includes(href)
 
           return (
             <NavigationMenuItem key={label}>
-              <NavigationMenuTrigger className="gap-2 p-2" arrow={hasItems}>
+              <NavigationMenuTrigger
+                className={cn('gap-2 p-2 py-2', isActive && 'bg-muted')}
+                arrow={hasItems}
+              >
                 {hasItems ? (
                   <>
                     <Icon width={12} height={12} />

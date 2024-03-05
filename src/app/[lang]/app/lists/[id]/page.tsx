@@ -43,7 +43,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-5xl space-y-4">
+      <div className="mx-auto max-w-6xl space-y-4">
         <div className="aspect-video w-full overflow-hidden rounded-lg">
           <Skeleton className="h-full w-full" />
         </div>
@@ -65,7 +65,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   if (!response?.data) {
     return (
-      <div className="mx-auto max-w-5xl space-y-4">
+      <div className="mx-auto max-w-6xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">
@@ -90,7 +90,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (user?.id !== list.user_id) push('/app/lists')
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="mx-auto max-w-6xl space-y-4">
       <Banner url={tmdbImage(list.cover_path ?? '')} />
 
       <div className="flex items-center justify-between">

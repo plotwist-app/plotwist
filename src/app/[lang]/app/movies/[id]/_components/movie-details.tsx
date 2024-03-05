@@ -46,7 +46,7 @@ export const MovieDetails = async ({
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-6xl">
       <Banner
         url={tmdbImage(movie.backdrop_path)}
         className={embed ? 'max-h-[20vh] md:max-h-[50vh]' : undefined}

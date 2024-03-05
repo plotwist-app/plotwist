@@ -42,7 +42,7 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-6xl">
       <Banner url={tmdbImage(tvShow.backdrop_path)} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 md:space-y-12">

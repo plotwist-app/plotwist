@@ -10,7 +10,7 @@ const TopRatedTvShowsPage = async ({ params: { lang } }: PageProps) => {
   } = await getDictionary(lang)
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4 p-4">
+    <div className="mx-auto max-w-6xl space-y-4 p-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{title}</h1>

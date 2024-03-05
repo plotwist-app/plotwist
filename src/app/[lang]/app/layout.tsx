@@ -7,9 +7,11 @@ type AppLayoutProps = {
 
 export default async function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="flex flex-col space-y-8 p-4">
-      <div className="mx-auto w-full max-w-5xl">
-        <Header />
+    <div className="flex flex-col space-y-8">
+      <div className="w-full border-b p-4">
+        <div className="mx-auto w-full max-w-6xl">
+          <Header />
+        </div>
       </div>
 
       <main className="w-full">{children}</main>
