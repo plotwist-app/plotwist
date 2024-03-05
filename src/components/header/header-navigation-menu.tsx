@@ -11,52 +11,51 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '../ui/navigation-menu'
-import { buildLanguageNavigation } from '../sidebar/sidebar-navigation-data'
+
 import { cn } from '@/lib/utils'
+import { buildLanguageNavigation } from './header-navigation-data'
 
 export const HeaderNavigationMenu = () => {
   const { dictionary, language } = useLanguage()
   const items = buildLanguageNavigation(dictionary)
   const pathname = usePathname()
 
+  const getIsActive = (href: string) => {
+    const normalizedPath = pathname.replace(`/${language}`, '')
+
+    if (href === '/app') {
+      return normalizedPath === '/app'
+    }
+
+    return normalizedPath.includes(href)
+  }
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
         {items.map(({ label, items, icon: Icon, href }) => {
           const hasItems = Boolean(items?.length)
-          const isActive = pathname.includes(href)
 
-          return (
-            <NavigationMenuItem key={label}>
-              <NavigationMenuTrigger
-                className={cn('gap-2 p-2 py-2', isActive && 'bg-muted')}
-                arrow={hasItems}
-              >
-                {hasItems ? (
-                  <>
-                    <Icon width={12} height={12} />
-                    {label}
-                  </>
-                ) : (
-                  <Link
-                    href={`/${language}${href}`}
-                    className="flex items-center gap-2"
-                  >
-                    <Icon width={12} height={12} />
-                    {label}
-                  </Link>
-                )}
-              </NavigationMenuTrigger>
+          if (hasItems)
+            return (
+              <NavigationMenuItem key={label}>
+                <NavigationMenuTrigger
+                  className={cn('gap-2', getIsActive(href) && 'bg-muted')}
+                  arrow={hasItems}
+                >
+                  <Icon width={12} height={12} />
+                  {label}
+                </NavigationMenuTrigger>
 
-              {hasItems && (
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                    {items?.map(({ href, icon: Icon, label }) => (
+                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[600px] lg:grid-cols-2">
+                    {items?.map(({ href, icon: Icon, label, description }) => (
                       <li key={label}>
                         <NavigationMenuLink asChild>
                           <Link
                             className={cn(
                               'block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+                              getIsActive(href) && 'bg-muted',
                             )}
                             href={`/${language}${href}`}
                           >
@@ -67,8 +66,8 @@ export const HeaderNavigationMenu = () => {
                               </div>
                             </div>
 
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              {label}
+                            <p className="line-clamp-3 text-xs leading-snug text-muted-foreground">
+                              {description}
                             </p>
                           </Link>
                         </NavigationMenuLink>
@@ -76,7 +75,23 @@ export const HeaderNavigationMenu = () => {
                     ))}
                   </ul>
                 </NavigationMenuContent>
-              )}
+              </NavigationMenuItem>
+            )
+
+          return (
+            <NavigationMenuItem key={label}>
+              <NavigationMenuTrigger
+                className={cn('gap-2', getIsActive(href) && 'bg-muted')}
+                arrow={false}
+              >
+                <Link
+                  href={`/${language}${href}`}
+                  className="flex items-center gap-2"
+                >
+                  <Icon width={12} height={12} />
+                  {label}
+                </Link>
+              </NavigationMenuTrigger>
             </NavigationMenuItem>
           )
         })}

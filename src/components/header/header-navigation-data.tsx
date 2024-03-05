@@ -4,25 +4,31 @@ import {
   Heart,
   Home,
   List,
+  LucideIcon,
   Play,
   Sparkles,
   Star,
   Tv,
   User,
 } from 'lucide-react'
-import { SidebarNavigationItemProps } from '.'
 
 import { Dictionary } from '@/utils/dictionaries'
 
-type buildLanguageNavigation = (
-  dictionary: Dictionary,
-) => SidebarNavigationItemProps[]
+type NavigationItem = {
+  label: string
+  href: string
+  icon: LucideIcon
+  description?: string
+  items?: NavigationItem[]
+}
+
+type buildLanguageNavigation = (dictionary: Dictionary) => NavigationItem[]
 
 export const buildLanguageNavigation: buildLanguageNavigation = (
   dictionary,
 ) => [
   {
-    label: dictionary.navigation.dashboard,
+    label: dictionary.navigation.home,
     href: '/app',
     icon: Home,
   },
@@ -33,26 +39,31 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     items: [
       {
         label: dictionary.navigation.discover,
+        description: dictionary.navigation.discover_description,
         href: '/app/movies/discover',
         icon: Sparkles,
       },
       {
         label: dictionary.navigation.now_playing,
+        description: dictionary.navigation.now_playing_description,
         href: '/app/movies/now-playing',
         icon: Play,
       },
       {
         label: dictionary.navigation.popular,
+        description: dictionary.navigation.popular_description,
         href: '/app/movies/popular',
         icon: Heart,
       },
       {
         label: dictionary.navigation.top_rated,
+        description: dictionary.navigation.top_rated_description,
         href: '/app/movies/top-rated',
         icon: Star,
       },
       {
         label: dictionary.navigation.upcoming,
+        description: dictionary.navigation.upcoming_description,
         href: '/app/movies/upcoming',
         icon: Calendar,
       },
@@ -65,26 +76,31 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     items: [
       {
         label: dictionary.navigation.discover,
+        description: dictionary.navigation.discover_description,
         href: '/app/tv-shows/discover',
         icon: Sparkles,
       },
       {
         label: dictionary.navigation.airing_today,
+        description: dictionary.navigation.airing_today_description,
         href: '/app/tv-shows/airing-today',
         icon: Play,
       },
       {
         label: dictionary.navigation.on_the_air,
+        description: dictionary.navigation.on_the_air_description,
         href: '/app/tv-shows/on-the-air',
         icon: Tv,
       },
       {
         label: dictionary.navigation.popular,
+        description: dictionary.navigation.popular_description,
         href: '/app/tv-shows/popular',
         icon: Heart,
       },
       {
         label: dictionary.navigation.top_rated,
+        description: dictionary.navigation.top_rated_description,
         href: '/app/tv-shows/top-rated',
         icon: Star,
       },
@@ -94,13 +110,6 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     label: dictionary.navigation.people,
     href: '/app/people',
     icon: User,
-    items: [
-      {
-        label: dictionary.navigation.popular,
-        href: '/app/people/popular',
-        icon: Heart,
-      },
-    ],
   },
   {
     label: dictionary.navigation.lists,
