@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/context/auth'
 import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 

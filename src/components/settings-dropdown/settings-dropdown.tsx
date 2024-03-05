@@ -21,16 +21,14 @@ import {
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Language } from '@/types/languages'
 import { useLanguage } from '@/context/language'
-import { useAuth as useAuthContext } from '@/context/auth'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/context/auth'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
   const pathname = usePathname()
   const { replace } = useRouter()
   const { dictionary } = useLanguage()
-  const { user } = useAuthContext()
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
 
   const currentLanguage = pathname.split('/')[1]
 

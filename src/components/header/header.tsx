@@ -7,13 +7,11 @@ export const Header = () => {
     <header className="flex justify-between">
       <div className="flex items-center gap-4">
         <h1 className="text-xl font-semibold">[TMDB]</h1>
-
         <HeaderNavigationMenu />
       </div>
 
       <div className="flex gap-2">
         <CommandSearch />
-
         <div>
           <SettingsDropdown />
         </div>

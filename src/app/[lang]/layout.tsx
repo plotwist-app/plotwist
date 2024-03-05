@@ -46,7 +46,7 @@ export default async function RootLayout({
             language={params.lang}
             dictionary={dictionary}
           >
-            <AuthContextProvider user={user}>
+            <AuthContextProvider initialUser={user}>
               <ListsContextProvider>{children}</ListsContextProvider>
             </AuthContextProvider>
             <Toaster />
