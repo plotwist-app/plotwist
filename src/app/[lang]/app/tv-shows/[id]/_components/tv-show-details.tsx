@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { NextSeo } from 'next-seo'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -30,6 +31,7 @@ import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { Language } from '@/types/languages'
+import { APP_URL } from '../../../../../../../constants'
 
 type TvShowsDetailsProps = {
   id: number
@@ -42,6 +44,30 @@ export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
 
   return (
     <>
+      <NextSeo
+        title={tvShow.name}
+        description={tvShow.overview}
+        canonical={`${APP_URL}/app/${language}/tv-shows/${id}`}
+        openGraph={{
+          url: `${APP_URL}/app/${language}/tv-shows/${id}`,
+          title: tvShow.name,
+          description: tvShow.overview,
+          images: [
+            {
+              url: tmdbImage(tvShow.backdrop_path),
+              width: 1280,
+              height: 720,
+              alt: tvShow.name,
+              type: 'image/jpeg',
+            },
+          ],
+          siteName: '[TMDB]',
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+        }}
+      />
+
       <div>
         <Banner url={tmdbImage(tvShow.backdrop_path)} />
 
