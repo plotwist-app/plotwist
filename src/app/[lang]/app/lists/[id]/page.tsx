@@ -43,29 +43,29 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   if (isLoading) {
     return (
-      <>
-        <div className={`h-[80vh] border bg-muted/5`} />
-
-        <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
-          <div>
-            <Skeleton className="mb-2 h-8 w-1/3" />
-            <Skeleton className="h-4 w-1/4" />
-          </div>
-
-          <div className="flex gap-2">
-            <Skeleton className="h-8 w-20" />
-            <Skeleton className="h-8 w-20" />
-          </div>
-
-          <DataTableSkeleton />
+      <div className="mx-auto max-w-5xl space-y-4">
+        <div className="aspect-video w-full overflow-hidden rounded-lg">
+          <Skeleton className="h-full w-full" />
         </div>
-      </>
+
+        <div>
+          <Skeleton className="mb-2 h-8 w-1/3" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-20" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+
+        <DataTableSkeleton />
+      </div>
     )
   }
 
   if (!response?.data) {
     return (
-      <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
+      <div className="mx-auto max-w-5xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">
@@ -87,35 +87,33 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   const list = response.data
 
   // TODO: REVER ISSO
-  if (user.id !== list.user_id) push('/app/lists')
+  if (user?.id !== list.user_id) push('/app/lists')
 
   return (
-    <>
+    <div className="mx-auto max-w-5xl space-y-4">
       <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-      <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">{list.name}</h1>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold">{list.name}</h1>
 
-              <ListForm
-                trigger={
-                  <Button size="icon" variant="outline" className="h-6 w-6">
-                    <Pencil className="h-3 w-3" />
-                  </Button>
-                }
-                list={list}
-              />
-            </div>
-
-            <p className="text-muted-foreground">{list.description}</p>
+            <ListForm
+              trigger={
+                <Button size="icon" variant="outline" className="h-6 w-6">
+                  <Pencil className="h-3 w-3" />
+                </Button>
+              }
+              list={list}
+            />
           </div>
-        </div>
 
-        <ListItems listItems={list.list_items} />
+          <p className="text-muted-foreground">{list.description}</p>
+        </div>
       </div>
-    </>
+
+      <ListItems listItems={list.list_items} />
+    </div>
   )
 }
 

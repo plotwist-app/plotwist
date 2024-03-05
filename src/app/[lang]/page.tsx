@@ -16,6 +16,7 @@ import { HomeFeatures } from './_components/home-features/home-features'
 import { HomePrices } from './_components/home-prices'
 import { Metadata } from 'next'
 import { APP_URL } from '../../../constants'
+import { SettingsDropdown } from '@/components/settings-dropdown'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -86,7 +87,18 @@ export default async function Home({ params: { lang } }: PageProps) {
 
       <main className="">
         <div className="mx-auto max-w-4xl p-4">
-          <Header />
+          <header className="flex justify-between">
+            <nav>
+              <div className="flex items-end gap-1">
+                <h1 className="text-3xl font-semibold">[TMDB]</h1>
+                <span className="mb-1 text-xs">Front end</span>
+              </div>
+            </nav>
+
+            <div className="flex gap-2">
+              <SettingsDropdown />
+            </div>
+          </header>
 
           <section className="flex h-[75vh] items-center md:h-[50vh]">
             <div className="mx-auto flex w-4/5 flex-col items-center justify-center space-y-4 text-center">

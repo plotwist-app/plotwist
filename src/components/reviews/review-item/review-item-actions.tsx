@@ -54,9 +54,9 @@ export const ReviewItemActions = ({
     useReviews()
   const { dictionary } = useLanguage()
 
-  const isUserOwner = user.id === userId
+  const isUserOwner = user?.id === userId
   const userLike = reviewLikes?.find(
-    (reviewLike) => reviewLike.user_id === user.id,
+    (reviewLike) => reviewLike.user_id === user?.id,
   )
   const isUserLiked = Boolean(userLike)
 
@@ -82,6 +82,8 @@ export const ReviewItemActions = ({
           isUserLiked ? handleRemoveLike.isPending : handleLikeReview.isPending
         }
         onClick={() => {
+          if (!user) return
+
           if (isUserLiked && userLike?.id) {
             handleRemoveLike.mutateAsync(userLike.id, {
               onSuccess: () => {

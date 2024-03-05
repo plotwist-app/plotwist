@@ -9,6 +9,9 @@ import { AppWrapper } from '@/context/app'
 
 import '../globals.css'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { AuthContextProvider } from '@/context/auth'
+import { ListsContextProvider } from '@/context/lists'
+import { getUserService } from '@/services/api/users/get-user'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -26,6 +29,9 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   const dictionary = await getDictionary(params.lang)
+  const {
+    data: { user },
+  } = await getUserService()
 
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
@@ -40,7 +46,9 @@ export default async function RootLayout({
             language={params.lang}
             dictionary={dictionary}
           >
-            {children}
+            <AuthContextProvider user={user}>
+              <ListsContextProvider>{children}</ListsContextProvider>
+            </AuthContextProvider>
             <Toaster />
           </LanguageContextProvider>
         </AppWrapper>

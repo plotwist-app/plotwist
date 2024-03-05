@@ -7,14 +7,14 @@ import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Skeleton } from '../../ui/skeleton'
+import { Skeleton } from '../ui/skeleton'
 
-type SidebarSearchItemProps<T> = { language: Language; item: T }
+type CommandSearchItemProps<T> = { language: Language; item: T }
 
-export const SidebarSearchMovie = ({
+export const CommandSearchMovie = ({
   item,
   language,
-}: SidebarSearchItemProps<MovieWithMediaType>) => {
+}: CommandSearchItemProps<MovieWithMediaType>) => {
   return (
     <Link
       href={`/${language}/app/movies/${item.id}`}
@@ -29,10 +29,10 @@ export const SidebarSearchMovie = ({
   )
 }
 
-export const SidebarSearchTvShow = ({
+export const CommandSearchTvShow = ({
   item,
   language,
-}: SidebarSearchItemProps<TvShowWithMediaType>) => {
+}: CommandSearchItemProps<TvShowWithMediaType>) => {
   return (
     <Link
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
@@ -47,10 +47,10 @@ export const SidebarSearchTvShow = ({
   )
 }
 
-export const SidebarSearchPerson = ({
+export const CommandSearchPerson = ({
   item,
   language,
-}: SidebarSearchItemProps<PersonWithMediaType>) => {
+}: CommandSearchItemProps<PersonWithMediaType>) => {
   return (
     <Link
       className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
@@ -76,7 +76,7 @@ export const SidebarSearchPerson = ({
   )
 }
 
-export const SidebarSearchSkeleton = () => (
+export const CommandSearchSkeleton = () => (
   <div className="flex items-center justify-between gap-4 rounded-sm px-2 py-1">
     <Skeleton className="h-[2ex] w-[20ch]" />
     <Skeleton className="h-[2ex] w-[4ch]" />
