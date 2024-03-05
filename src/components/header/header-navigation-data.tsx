@@ -108,7 +108,7 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
   },
   {
     label: dictionary.navigation.people,
-    href: '/app/people',
+    href: '/app/people/popular',
     icon: User,
   },
   {

@@ -66,12 +66,10 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "access_button": "Accedi",
-
     "email_required": "Per favore, inserisci il tuo indirizzo email.",
     "email_invalid": "Per favore, inserisci un indirizzo email valido.",
     "password_required": "Per favore, inserisci la tua password.",
     "password_length": "La tua password deve essere lunga almeno 8 caratteri.",
-
     "login_success": "Accesso effettuato con successo. Benvenuto! 🎉",
     "invalid_login_credentials": "Credenziali di accesso non valide",
     "try_again": "Riprova"
@@ -114,18 +112,27 @@
     "seasons": "Stagioni"
   },
   "navigation": {
-    "home": "Casa",
+    "home": "Inizio",
     "movies": "Film",
     "discover": "Scoprire",
-    "now_playing": "In sala",
+    "discover_description": "Pronto per qualcosa di nuovo? Lasciati sorprendere da film e serie che amerai.",
+    "now_playing": "In Sala",
+    "now_playing_description": "Rimani aggiornato sui film che stanno brillando sul grande schermo ora.",
     "popular": "Popolari",
-    "top_rated": "Più votati",
-    "upcoming": "In arrivo",
-    "tv_shows": "Programmi TV",
-    "airing_today": "In onda oggi",
-    "on_the_air": "In onda",
+    "popular_description": "Guarda cosa sta spopolando! Questi sono i film e le serie che tutti stanno guardando e di cui tutti stanno parlando.",
+    "top_rated": "Più Votati",
+    "top_rated_description": "La crème de la crème. Scopri i film e le serie che hanno conquistato i cuori e le menti del pubblico e della critica.",
+    "upcoming": "In Arrivo",
+    "upcoming_description": "Anticipa e resta informato sui prossimi successi che invaderanno presto gli schermi.",
+    "tv_shows": "Serie TV",
+    "tv_shows_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
+    "airing_today": "In Onda Oggi",
+    "airing_today_description": "Non perdere il ritmo! Scopri quali serie hanno episodi freschi di giornata oggi.",
+    "on_the_air": "In Onda",
+    "on_the_air_description": "Sintonizzati qui per non perdere gli episodi attuali delle serie più hot del momento.",
     "people": "Persone",
-    "lists": "Liste"
+    "lists": "Liste",
+    "lists_description": "Le tue scelte, i tuoi interessi. Crea e condividi liste dei tuoi film e serie preferiti con la comunità."
   },
   "sidebar_search": {
     "placeholder": "Cerca film, programmi TV o persone",
@@ -207,7 +214,6 @@
     "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
     "submit": "Invia",
     "list_created_success": "Lista creata con successo!",
-    
     "edit_list": "Modifica elenco",
     "list_edited_success": "Elenco modificato con successo."
   },

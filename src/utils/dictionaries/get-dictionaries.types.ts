@@ -131,7 +131,6 @@ export type Dictionary = {
     on_the_air: string
     on_the_air_description: string
     people: string
-    people_description: string
     lists: string
     lists_description: string
   }
