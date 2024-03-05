@@ -9,20 +9,20 @@ type SidebarProps = {
 }
 
 export const Sidebar = ({ user }: SidebarProps) => {
-  const username: string = user?.user_metadata.username
-  const initial = username[0].toUpperCase()
-
   const content = (
     <>
       <SidebarNavigation />
 
       <div className="flex  items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-            {initial}
-          </div>
-
-          <span className="text-sm">{username}</span>
+          {user && (
+            <>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                {user.user_metadata?.username?.toUpperCase()}
+              </div>
+              <span className="text-sm">{user.user_metadata?.username}</span>
+            </>
+          )}
         </div>
 
         <SettingsDropdown />
