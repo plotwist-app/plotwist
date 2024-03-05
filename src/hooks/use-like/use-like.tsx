@@ -19,106 +19,84 @@ export interface Like {
   user_id: string
 }
 
+interface OptimisticLikeProps {
+  reviewId?: string
+  replyId?: string
+  entityType: 'REVIEW' | 'REPLY'
+  userId: string
+}
+
 export const useLike = () => {
   const queryClient = useQueryClient()
 
-  const handleLike = useMutation({
-    mutationFn: likeService,
-    onMutate: async ({ reviewId, replyId, entityType, userId }) => {
-      if (entityType === 'REVIEW') {
-        await queryClient.cancelQueries({ queryKey: ['likes', reviewId] })
+  async function OptimisticAddLike({
+    reviewId,
+    replyId,
+    entityType,
+    userId,
+  }: OptimisticLikeProps) {
+    const id = entityType === 'REVIEW' ? reviewId : replyId
 
-        const previousLikeReview = queryClient.getQueryData(['likes', reviewId])
+    await queryClient.cancelQueries({ queryKey: ['likes', id] })
 
-        queryClient.setQueryData(
-          ['likes', reviewId],
-          (likeReview: LikeResponse) => {
-            const newLikeReview = {
-              ...likeReview,
-              data: [{ user_id: userId }],
-              count: likeReview.count + 1,
-            }
+    const previousLikeReview = queryClient.getQueryData(['likes', id])
 
-            return newLikeReview
-          },
-        )
-
-        return { previousLikeReview, reviewId }
+    queryClient.setQueryData(['likes', id], (likeReview: LikeResponse) => {
+      const newLikeReview = {
+        ...likeReview,
+        data: [{ user_id: userId }],
+        count: likeReview.count + 1,
       }
 
-      await queryClient.cancelQueries({ queryKey: ['likes', replyId] })
+      return newLikeReview
+    })
 
-      const previousLikeReview = queryClient.getQueryData(['likes', replyId])
+    return { previousLikeReview, id }
+  }
 
-      queryClient.setQueryData(
-        ['likes', replyId],
-        (likeReview: LikeResponse) => {
-          const newLikeReview = {
-            ...likeReview,
-            data: [{ user_id: userId }],
-            count: likeReview.count + 1,
-          }
-
-          return newLikeReview
-        },
-      )
-
-      return { previousLikeReview, replyId }
-    },
+  const handleLike = useMutation({
+    mutationFn: likeService,
+    onMutate: async ({ reviewId, replyId, entityType, userId }) =>
+      OptimisticAddLike({ reviewId, replyId, entityType, userId }),
     onError: (_err, _newTodo, context) => {
       queryClient.setQueryData(
-        ['likes', context?.reviewId ?? context?.replyId],
+        ['likes', context?.id],
         context?.previousLikeReview,
       )
     },
   })
 
-  const handleRemoveLike = useMutation({
-    mutationFn: removeLikeService,
-    onMutate: async ({ reviewId, replyId, entityType }) => {
-      if (entityType === 'REVIEW') {
-        await queryClient.cancelQueries({ queryKey: ['likes', reviewId] })
+  async function OptimisticRemoveLike({
+    reviewId,
+    replyId,
+    entityType,
+  }: Omit<OptimisticLikeProps, 'userId'>) {
+    const id = entityType === 'REVIEW' ? reviewId : replyId
 
-        const previousLikeReview = queryClient.getQueryData(['likes', reviewId])
+    await queryClient.cancelQueries({ queryKey: ['likes', id] })
 
-        queryClient.setQueryData(
-          ['likes', reviewId],
-          (likeReview: LikeResponse) => {
-            const newLikeReview = {
-              ...likeReview,
-              data: [],
-              count: likeReview.count - 1,
-            }
+    const previousLikeReview = queryClient.getQueryData(['likes', id])
 
-            return newLikeReview
-          },
-        )
-
-        return { previousLikeReview, reviewId }
+    queryClient.setQueryData(['likes', id], (likeReview: LikeResponse) => {
+      const newLikeReview = {
+        ...likeReview,
+        data: [],
+        count: likeReview.count - 1,
       }
 
-      await queryClient.cancelQueries({ queryKey: ['likes', replyId] })
+      return newLikeReview
+    })
 
-      const previousLikeReview = queryClient.getQueryData(['likes', replyId])
+    return { previousLikeReview, id }
+  }
 
-      queryClient.setQueryData(
-        ['likes', replyId],
-        (likeReview: LikeResponse) => {
-          const newLikeReview = {
-            ...likeReview,
-            data: [],
-            count: likeReview.count - 1,
-          }
-
-          return newLikeReview
-        },
-      )
-
-      return { previousLikeReview, replyId }
-    },
+  const handleRemoveLike = useMutation({
+    mutationFn: removeLikeService,
+    onMutate: async ({ reviewId, replyId, entityType }) =>
+      OptimisticRemoveLike({ reviewId, replyId, entityType }),
     onError: (_err, _newTodo, context) => {
       queryClient.setQueryData(
-        ['likes', context?.reviewId],
+        ['likes', context?.id],
         context?.previousLikeReview,
       )
     },
