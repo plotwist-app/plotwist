@@ -7,7 +7,7 @@ const HomePriceRoot = ({ className, ...props }: HomePriceRootProps) => {
   return (
     <li
       className={cn(
-        'col-span-1 flex flex-col justify-between gap-8 rounded-md border bg-background bg-gradient-to-b  from-transparent to-muted/30 px-4 py-6',
+        'col-span-1 flex flex-col justify-between gap-8 rounded-md border bg-background bg-gradient-to-b from-transparent to-muted/30 px-4 py-6',
         className,
       )}
       {...props}
