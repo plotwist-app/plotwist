@@ -1,13 +1,13 @@
 'use client'
 
 import { useAuth } from '@/context/auth'
-import { supabase } from '@/services/supabase'
 import { useQuery } from '@tanstack/react-query'
 import { Review } from '@/types/supabase/reviews'
 
 import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
+import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
 
 type Like = {
   id: string
@@ -23,14 +23,7 @@ export const DashboardUserLastReview = () => {
 
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-user-last-review'],
-    queryFn: async () =>
-      await supabase
-        .from('reviews')
-        .select(`*, likes(id)`)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single(),
+    queryFn: async () => getUserLastReviewService(user.id),
   })
 
   if (isLoading) {
@@ -44,9 +37,9 @@ export const DashboardUserLastReview = () => {
     )
   }
 
-  if (!response?.data) return <></>
+  if (!response) return <></>
 
-  const lastReview = response.data as UserLastReview
+  const lastReview = response as UserLastReview
   const likesCount = lastReview.likes?.length
 
   return (

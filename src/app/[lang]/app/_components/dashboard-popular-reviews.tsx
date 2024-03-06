@@ -1,29 +1,19 @@
 'use client'
 
-import { supabase } from '@/services/supabase'
-import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
 
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { useLanguage } from '@/context/language'
+import { getPopularReviewsService } from '@/services/api/reviews/get-popular-reviews'
 
 const MAX_REVIEWS = 5
-
-interface ReviewOrderedByLikes extends Review {
-  likes_count: number
-}
 
 export const DashboardPopularReviews = () => {
   const { language, dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
     queryKey: ['dashboard-popular-reviews'],
-    queryFn: async () =>
-      await supabase
-        .from('reviews_ordered_by_likes')
-        .select()
-        .limit(5)
-        .returns<ReviewOrderedByLikes[]>(),
+    queryFn: async () => getPopularReviewsService(),
   })
 
   if (isLoading) {
@@ -42,9 +32,9 @@ export const DashboardPopularReviews = () => {
     )
   }
 
-  if (!response?.data) return <></>
+  if (!response) return <></>
 
-  const reviews = response.data
+  const reviews = response
 
   return (
     <div className="space-y-4">

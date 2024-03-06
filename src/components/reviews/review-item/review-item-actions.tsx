@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
-import { supabase } from '@/services/supabase'
 import { useLike } from '@/hooks/use-like/use-like'
 
 import {
@@ -25,6 +24,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 type ReviewItemActionsProps = {
   review: Review
@@ -73,12 +73,7 @@ export const ReviewItemActions = ({
   const { data: likes } = useQuery({
     queryKey: ['likes', id],
     queryFn: async () =>
-      supabase
-        .from('likes')
-        .select('user_id')
-        .eq('entity_type', 'REVIEW')
-        .eq('review_id', id)
-        .eq('user_id', user.id),
+      getLikeByUserService({ userId: user.id, entityType: 'REVIEW', id }),
   })
 
   const isUserOwner = user.id === userId
