@@ -36,10 +36,6 @@ export const HeaderNavigationDrawerItem = ({
   const isActive = useMemo(() => {
     const normalizedPath = path.replace(`/${lang}`, '')
 
-    if (href === '/app') {
-      return normalizedPath === '/app'
-    }
-
     return normalizedPath.includes(href)
   }, [href, lang, path])
 

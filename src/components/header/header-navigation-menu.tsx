@@ -23,10 +23,6 @@ export const HeaderNavigationMenu = () => {
   const getIsActive = (href: string) => {
     const normalizedPath = pathname.replace(`/${language}`, '')
 
-    if (href === '/app') {
-      return normalizedPath === '/app'
-    }
-
     return normalizedPath.includes(href)
   }
 

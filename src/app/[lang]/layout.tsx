@@ -12,6 +12,7 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { AuthContextProvider } from '@/context/auth'
 import { ListsContextProvider } from '@/context/lists'
 import { getUserService } from '@/services/api/users/get-user'
+import { Header } from '@/components/header'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -47,8 +48,17 @@ export default async function RootLayout({
             dictionary={dictionary}
           >
             <AuthContextProvider initialUser={user}>
-              <ListsContextProvider>{children}</ListsContextProvider>
+              <ListsContextProvider>
+                <div className="flex flex-col space-y-8">
+                  <div className="w-full border-b bg-background p-4">
+                    <div className="mx-auto w-full max-w-6xl">
+                      <Header />
+                    </div>
+                  </div>
 
+                  <main className="w-full">{children}</main>
+                </div>
+              </ListsContextProvider>
               <Toaster />
             </AuthContextProvider>
           </LanguageContextProvider>

@@ -59,7 +59,7 @@ export const columns: Columns = (dictionary, language) => [
     cell: ({ row }) => {
       const { media_type: mediaType, tmdb_id: tmdbId, title } = row.original
 
-      const href = `/${language}/app/${
+      const href = `/${language}/${
         mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
       }/${tmdbId}`
 

@@ -53,9 +53,7 @@ export const columns: Columns = (dictionary, language) => [
     cell: ({ row }) => {
       const { media_type: type, id, title } = row.original
 
-      const href = `/${language}/app/${
-        type === 'tv' ? 'tv-shows' : 'movies'
-      }/${id}`
+      const href = `/${language}/${type === 'tv' ? 'tv-shows' : 'movies'}/${id}`
 
       return (
         <Link href={href} className="underline-offset-4 hover:underline">

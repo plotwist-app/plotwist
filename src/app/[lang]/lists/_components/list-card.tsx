@@ -39,7 +39,7 @@ export const ListCard = ({ list }: ListCardProps) => {
   const { language, dictionary } = useLanguage()
   const [open, setOpen] = useState(false)
 
-  const href = `/${language}/app/lists/${list.id}`
+  const href = `/${language}/lists/${list.id}`
 
   return (
     <>

@@ -15,7 +15,7 @@ export const PersonCard = ({ person, language }: PersonCardProps) => {
 
   return (
     <Link
-      href={`/${language}/app/people/${id}`}
+      href={`/${language}/people/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid="movie-card"
     >

@@ -2,14 +2,11 @@ import { MovieCard } from '@/components/movie-card'
 import { Separator } from '@/components/ui/separator'
 import { TvShowCard } from '@/components/tv-show-card'
 
-import { DashboardUserLastReview } from './_components/dashboard-user-last-review'
-import { DashboardPopularReviews } from './_components/dashboard-popular-reviews'
-
 import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 
-const AppPage = async ({ params: { lang } }: PageProps) => {
+const HomePage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   const popularMovies = await tmdb.movies.list({
@@ -40,9 +37,7 @@ const AppPage = async ({ params: { lang } }: PageProps) => {
 
       <div className="grid grid-cols-1 gap-8 space-y-4 lg:grid-cols-[1fr,325px]">
         <div className="space-y-8">
-          <DashboardUserLastReview />
           <Separator className="bg-muted/75" />
-          <DashboardPopularReviews />
         </div>
 
         <div className="ml-0 space-y-16">
@@ -75,4 +70,4 @@ const AppPage = async ({ params: { lang } }: PageProps) => {
   )
 }
 
-export default AppPage
+export default HomePage

@@ -74,7 +74,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
             <p className="text-muted-foreground">
               {dictionary.list_page.see_your_lists_or_create_new}{' '}
-              <Link href="/app/lists" className="underline">
+              <Link href="/lists" className="underline">
                 {dictionary.list_page.here}
               </Link>
             </p>
@@ -87,7 +87,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   const list = response.data
 
   // TODO: REVER ISSO
-  if (user?.id !== list.user_id) push('/app/lists')
+  if (user?.id !== list.user_id) push('/lists')
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 pb-4">

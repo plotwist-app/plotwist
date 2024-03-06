@@ -28,8 +28,8 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
 
   const href =
     mediaType === 'MOVIE'
-      ? `/${language}/app/movies/${tmdbId}`
-      : `/${language}/app/tv-shows/${tmdbId}`
+      ? `/${language}/movies/${tmdbId}`
+      : `/${language}/tv-shows/${tmdbId}`
 
   return (
     <div className="flex space-x-4">
