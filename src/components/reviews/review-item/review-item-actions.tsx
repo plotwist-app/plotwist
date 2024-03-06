@@ -73,12 +73,12 @@ export const ReviewItemActions = ({
   const { data: likes } = useQuery({
     queryKey: ['likes', id],
     queryFn: async () =>
-      getLikeByUserService({ userId: user.id, entityType: 'REVIEW', id }),
+      getLikeByUserService({ userId: user?.id, entityType: 'REVIEW', id }),
   })
 
-  const isUserOwner = user.id === userId
+  const isUserOwner = user?.id === userId
 
-  const userLike = likes?.data?.find((like) => like.user_id === user.id)
+  const userLike = likes?.data?.find((like) => like.user_id === user?.id)
   const isUserLiked = Boolean(userLike)
 
   const invalidateQuery = () => {
@@ -95,6 +95,8 @@ export const ReviewItemActions = ({
       }),
     )
   }
+
+  if (!user) return null
 
   return (
     <div>

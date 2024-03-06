@@ -22,7 +22,12 @@ export const AppWrapper = ({ children }: AppWrapperProps) => {
   }, [pathname, router])
 
   return (
-    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <QueryClientProvider client={APP_QUERY_CLIENT}>
         <NextTopLoader color="#ccc" showSpinner={false} />
         {children}

@@ -51,6 +51,8 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   })
 
   const onSubmit = async (values: ReviewFormValues) => {
+    if (!user) return
+
     await handleCreateReview.mutateAsync(
       {
         ...values,
@@ -73,7 +75,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
   if (!user) return <></>
 
-  const username = user.user_metadata.username
+  const username = user?.user_metadata.username
   const usernameInitial = username[0].toUpperCase()
 
   return (

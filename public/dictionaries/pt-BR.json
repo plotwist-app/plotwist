@@ -112,18 +112,27 @@
     "seasons": "Temporadas"
   },
   "navigation": {
-    "dashboard": "Início",
+    "home": "Início",
     "movies": "Filmes",
     "discover": "Descobrir",
+    "discover_description": "Pronto para algo novo? Deixe-nos surpreendê-lo com filmes e séries que você vai adorar.",
     "now_playing": "Em exibição",
+    "now_playing_description": "Fique por dentro dos filmes que estão brilhando nas telonas agora.",
     "popular": "Populares",
+    "popular_description": "Veja o que está bombando! Estes são os filmes e séries que todo mundo está assistindo e comentando.",
     "top_rated": "Bem avaliados",
+    "top_rated_description": "A crème de la crème. Descubra os filmes e séries que conquistaram os corações e as mentes do público e da crítica.",
     "upcoming": "Lançamentos",
+    "upcoming_description": "Antecipe-se e fique por dentro dos próximos sucessos que vão invadir as telas em breve.",
     "tv_shows": "Séries",
+    "tv_shows_description": "Séries que vão te prender. Explore novas histórias, personagens inesquecíveis e suas próximas maratonas.",
     "airing_today": "Exibindo hoje",
+    "airing_today_description": "Não perca o ritmo! Veja quais séries têm episódios fresquinhos saindo do forno hoje.",
     "on_the_air": "No ar",
-    "people": "Pessoas",
-    "lists": "Listas"
+    "on_the_air_description": "Sintonize aqui para não perder os episódios atuais das séries mais quentes do momento.",
+    "people": "Pessoas",  
+    "lists": "Listas",
+    "lists_description": "Suas seleções, seus interesses. Crie e compartilhe listas dos seus filmes e séries preferidos com a comunidade."
   },
   "sidebar_search": {
     "placeholder": "Procure por filmes, séries ou pessoas",

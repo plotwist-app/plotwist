@@ -9,7 +9,10 @@ import { AppWrapper } from '@/context/app'
 
 import '../globals.css'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { APP_URL } from '../../../constants'
+import { AuthContextProvider } from '@/context/auth'
+import { ListsContextProvider } from '@/context/lists'
+import { getUserService } from '@/services/api/users/get-user'
+import { Header } from '@/components/header'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -27,39 +30,15 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   const dictionary = await getDictionary(params.lang)
-
-  // public/images/movie-pt-BR.jpg
-  const image = `${APP_URL}/images/home/movie-${params.lang}.jpg`
+  const {
+    data: { user },
+  } = await getUserService()
 
   return (
     <html lang={params.lang} className={spaceGrotesk.className}>
       <head>
-        <title>[TMDB]</title>
         <link rel="icon" href="favicon.svg" />
-
-        <meta name="description" content={dictionary.home.description} />
-        <meta name="title" content={dictionary.home.title} />
-        <meta name="keywords" content={dictionary.home.keywords} />
         <meta name="theme-color" content="#FFFFFF" />
-        <meta name="author" content="@lui7henrique" />
-
-        <meta property="og:title" content={dictionary.home.title} />
-        <meta property="og:site_name" content="[TMDB]" />
-        <meta property="og:description" content={dictionary.home.description} />
-        <meta property="og:image" content={image} />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="720" />
-        <meta property="og:image:alt" content={dictionary.home.title} />
-        <meta property="og:url" content={APP_URL} />
-
-        <meta name="twitter:title" content={dictionary.home.title} />
-        <meta
-          name="twitter:description"
-          content={dictionary.home.description}
-        />
-        <meta name="twitter:image" content={image} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@lui7henrique" />
       </head>
 
       <body className="bg-background antialiased">
@@ -68,8 +47,20 @@ export default async function RootLayout({
             language={params.lang}
             dictionary={dictionary}
           >
-            {children}
-            <Toaster />
+            <AuthContextProvider initialUser={user}>
+              <ListsContextProvider>
+                <div className="flex flex-col space-y-8">
+                  <div className="w-full border-b bg-background p-4">
+                    <div className="mx-auto w-full max-w-6xl">
+                      <Header />
+                    </div>
+                  </div>
+
+                  <main className="w-full">{children}</main>
+                </div>
+              </ListsContextProvider>
+              <Toaster />
+            </AuthContextProvider>
           </LanguageContextProvider>
         </AppWrapper>
       </body>

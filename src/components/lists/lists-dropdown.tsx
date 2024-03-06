@@ -19,6 +19,7 @@ import {
 import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
+import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
@@ -26,7 +27,6 @@ import { List } from '@/types/supabase/lists'
 
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { ListForm } from '@/app/[lang]/app/lists/_components/list-form'
 import { cn } from '@/lib/utils'
 
 type ListsDropdownProps = {
@@ -80,7 +80,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
             toast.success(addedSuccessfully, {
               action: {
                 label: viewList,
-                onClick: () => push(`/app/lists/${list.id}`),
+                onClick: () => push(`/lists/${list.id}`),
               },
             })
           },
@@ -90,7 +90,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
     [addedSuccessfully, handleAddToList, item, push, viewList],
   )
 
-  const isHomePage = !pathname.includes('/app')
+  const isHomePage = !pathname.includes('/home')
 
   return (
     <DropdownMenu>

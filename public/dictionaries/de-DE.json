@@ -112,18 +112,27 @@
     "seasons": "Staffeln"
   },
   "navigation": {
-    "dashboard": "Dashboard",
+    "home": "Start",
     "movies": "Filme",
     "discover": "Entdecken",
+    "discover_description": "Bereit für etwas Neues? Lassen Sie sich von uns mit Filmen und Serien überraschen, die Sie lieben werden.",
     "now_playing": "Jetzt im Kino",
+    "now_playing_description": "Bleiben Sie auf dem Laufenden über die Filme, die gerade die Kinoleinwände erobern.",
     "popular": "Beliebt",
-    "top_rated": "Top bewertet",
-    "upcoming": "Bevorstehend",
-    "tv_shows": "Fernsehsendungen",
+    "popular_description": "Sehen Sie, was angesagt ist! Dies sind die Filme und Serien, über die alle sprechen und die alle sehen.",
+    "top_rated": "Bestbewertet",
+    "top_rated_description": "Die Crème de la Crème. Entdecken Sie die Filme und Serien, die die Herzen und Köpfe des Publikums und der Kritiker erobert haben.",
+    "upcoming": "Demnächst",
+    "upcoming_description": "Seien Sie einen Schritt voraus und bleiben Sie informiert über die nächsten großen Hits, die bald auf den Bildschirmen erscheinen werden.",
+    "tv_shows": "Serien",
+    "tv_shows_description": "Fesselnde Serien. Entdecken Sie neue Geschichten, unvergessliche Charaktere und Ihre nächsten Serienmarathons.",
     "airing_today": "Heute ausgestrahlt",
-    "on_the_air": "Im Fernsehen",
+    "airing_today_description": "Verpassen Sie nicht den Takt! Sehen Sie, welche Serien heute frische Episoden haben.",
+    "on_the_air": "Auf Sendung",
+    "on_the_air_description": "Schalten Sie hier ein, um keine aktuellen Episoden der heißesten Serien des Moments zu verpassen.",
     "people": "Personen",
-    "lists": "Listen"
+    "lists": "Listen",
+    "lists_description": "Ihre Auswahl, Ihre Interessen. Erstellen und teilen Sie Listen Ihrer Lieblingsfilme und -serien mit der Community."
   },
   "sidebar_search": {
     "placeholder": "Suchen Sie nach Filmen, Fernsehshows oder Personen",

@@ -3,7 +3,7 @@ import { supabase } from '@/services/supabase'
 interface GetLikeByUser {
   id: string
   entityType: 'REPLY' | 'REVIEW'
-  userId: string
+  userId?: string
 }
 
 export const getLikeByUserService = async ({

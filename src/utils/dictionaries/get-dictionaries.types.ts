@@ -112,18 +112,27 @@ export type Dictionary = {
     seasons: string
   }
   navigation: {
-    dashboard: string
+    home: string
     movies: string
     discover: string
+    discover_description: string
     now_playing: string
+    now_playing_description: string
     popular: string
+    popular_description: string
     top_rated: string
+    top_rated_description: string
     upcoming: string
+    upcoming_description: string
     tv_shows: string
+    tv_shows_description: string
     airing_today: string
+    airing_today_description: string
     on_the_air: string
+    on_the_air_description: string
     people: string
     lists: string
+    lists_description: string
   }
   sidebar_search: {
     placeholder: string

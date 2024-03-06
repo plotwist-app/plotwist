@@ -8,6 +8,7 @@ type HandleFn<T> = UseMutationResult<null, Error, T, unknown>
 
 export type ListsContextType = {
   lists: List[]
+  isLoading: boolean
 
   handleCreateNewList: HandleFn<CreateNewListParams>
   handleDeleteList: HandleFn<string>

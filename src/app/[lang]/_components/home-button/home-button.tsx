@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -6,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { getUserService } from '@/services/api/users/get-user'
+import { useAuth } from '@/context/auth'
 import { Language } from '@/types/languages'
 
 import Link from 'next/link'
@@ -16,13 +18,8 @@ type HomeButtonProps = {
   language: Language
 }
 
-export const HomeButton = async ({
-  primaryButton,
-  language,
-}: HomeButtonProps) => {
-  const {
-    data: { user },
-  } = await getUserService()
+export const HomeButton = ({ primaryButton, language }: HomeButtonProps) => {
+  const { user } = useAuth()
 
   if (!user)
     return (
@@ -38,7 +35,7 @@ export const HomeButton = async ({
 
   return (
     <Button variant="outline" asChild>
-      <Link href={`/${language}/app`} prefetch={false}>
+      <Link href={`/${language}/home`} prefetch={false}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

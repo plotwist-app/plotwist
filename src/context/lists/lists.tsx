@@ -29,9 +29,9 @@ export const ListsContextProvider = ({
 }: ListsContextProviderProps) => {
   const { user } = useAuth()
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: LISTS_QUERY_KEY,
-    queryFn: async () => await fetchListsService(user.id),
+    queryFn: async () => (user ? await fetchListsService(user.id) : null),
   })
 
   const handleCreateNewList = useMutation({
@@ -77,7 +77,8 @@ export const ListsContextProvider = ({
   return (
     <ListsContext.Provider
       value={{
-        lists: data?.data || [],
+        lists: data?.data ?? [],
+        isLoading,
 
         handleCreateNewList,
         handleDeleteList,

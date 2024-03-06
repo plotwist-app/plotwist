@@ -112,18 +112,27 @@
     "seasons": "Seasons"
   },
   "navigation": {
-    "dashboard": "Dashboard",
+    "home": "Home",
     "movies": "Movies",
     "discover": "Discover",
-    "now_playing": "Now playing",
+    "discover_description": "Ready for something new? Let us surprise you with movies and shows you'll love.",
+    "now_playing": "Now Playing",
+    "now_playing_description": "Stay up-to-date with the movies shining on the big screens right now.",
     "popular": "Popular",
-    "top_rated": "Top rated",
+    "popular_description": "See what's trending! These are the movies and shows everyone is watching and talking about.",
+    "top_rated": "Top Rated",
+    "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
+    "upcoming_description": "Get ahead of the game and stay informed about the next big hits set to invade screens soon.",
     "tv_shows": "TV Shows",
+    "tv_shows_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
-    "on_the_air": "On the air",
+    "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
+    "on_the_air": "On the Air",
+    "on_the_air_description": "Tune in here to not miss out on current episodes of the hottest series right now.",
     "people": "People",
-    "lists": "Lists"
+    "lists": "Lists",
+    "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community."
   },
   "sidebar_search": {
     "placeholder": "Search for movies, TV shows, or people",

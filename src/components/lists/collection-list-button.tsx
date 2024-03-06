@@ -92,7 +92,7 @@ export const CollectionListDropdown = ({
               {
                 action: {
                   label: dictionary.collection_list_dropdown.view_list,
-                  onClick: () => push(`/${language}/app/lists/${list.id}`),
+                  onClick: () => push(`/${language}/lists/${list.id}`),
                 },
               },
             )

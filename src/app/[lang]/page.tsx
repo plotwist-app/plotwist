@@ -7,13 +7,15 @@ import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { CounterSection } from './_components/count-section'
 import { Pattern } from '@/components/pattern'
-import MoviePage from '@/app/[lang]/app/movies/[id]/page'
 
 import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
 import { Suspense } from 'react'
 import { HomeFeatures } from './_components/home-features/home-features'
 import { HomePrices } from './_components/home-prices'
+import { Metadata } from 'next'
+import { APP_URL } from '../../../constants'
+import MoviePage from './movies/[id]/page'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -23,6 +25,47 @@ export const homeMovies: Record<Language, string> = {
   'it-IT': '637',
   'pt-BR': '598',
   'ja-JP': '129',
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    home: { title, description, keywords },
+  } = await getDictionary(params.lang)
+
+  const image = `${APP_URL}/images/home/movie-${params.lang}.jpg`
+
+  return {
+    title,
+    description,
+    keywords,
+    authors: [
+      {
+        name: 'lui7henrique',
+      },
+    ],
+    openGraph: {
+      title,
+      description,
+      siteName: '[TMDB]',
+      url: APP_URL,
+      images: [
+        {
+          url: image,
+          width: 1280,
+          height: 720,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      title,
+      description,
+      card: 'summary_large_image',
+      creator: '@lui7henrique',
+    },
+  }
 }
 
 export default async function Home({ params: { lang } }: PageProps) {
@@ -43,8 +86,6 @@ export default async function Home({ params: { lang } }: PageProps) {
 
       <main className="">
         <div className="mx-auto max-w-4xl p-4">
-          <Header />
-
           <section className="flex h-[75vh] items-center md:h-[50vh]">
             <div className="mx-auto flex w-4/5 flex-col items-center justify-center space-y-4 text-center">
               <h1 className="text-5xl font-bold">{title}</h1>
@@ -74,7 +115,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </div>
 
         <section className="space-y-8 p-4 py-16">
-          <div className="mx-auto aspect-[9/16] w-full max-w-article overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
+          <div className="mx-auto aspect-[9/16] w-full max-w-6xl overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
             <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
           </div>
 

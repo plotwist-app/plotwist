@@ -21,10 +21,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth'
 
 import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
+import { useAuth } from '@/context/auth'
 
 type LoginFormProps = {
   dictionary: Dictionary
@@ -32,7 +32,6 @@ type LoginFormProps = {
 
 export const LoginForm = ({ dictionary }: LoginFormProps) => {
   const { signInWithCredentials } = useAuth()
-
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormValues>({
