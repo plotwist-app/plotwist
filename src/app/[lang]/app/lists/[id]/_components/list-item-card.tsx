@@ -11,7 +11,6 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   const {
     poster_path: poster,
     title,
-    overview,
     tmdb_id: tmdbId,
     media_type: mediaType,
     status,
