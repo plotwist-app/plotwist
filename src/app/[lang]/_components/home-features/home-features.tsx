@@ -77,11 +77,11 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
           </p>
         </div>
 
-        <ul className="grid grid-cols-3 gap-4">
+        <ul className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-3 lg:p-0">
           <HomeFeature
             title={lists.title}
             description={lists.description}
-            className="col-span-2 aspect-[16/9]"
+            className="col-span-1 aspect-[16/9] lg:col-span-2"
             icon={ListChecks}
           >
             <Image
@@ -123,7 +123,7 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
             icon={Users}
             title={communities.title}
             description={communities.description}
-            className="col-span-2 aspect-[16/9]"
+            className="col-span-1  aspect-[16/9] lg:col-span-2"
           >
             <span className="animate-pulse">Work in progress...</span>
           </HomeFeature>

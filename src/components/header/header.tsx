@@ -5,16 +5,14 @@ import { CommandSearch } from '../command-search'
 import { SettingsDropdown } from '../settings-dropdown'
 import { HeaderNavigationMenu } from './header-navigation-menu'
 import { useLanguage } from '@/context/language'
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { HeaderNavigationDrawer } from './haeder-navigation-drawer'
 
 export const Header = () => {
   const { language } = useLanguage()
-  const isDesktop = useMediaQuery('(min-width: 1080px)')
 
-  if (isDesktop) {
-    return (
-      <header className="flex justify-between">
+  return (
+    <>
+      <header className="hidden justify-between lg:flex">
         <div className="flex items-center gap-4">
           <Link href={`/${language}/`}>
             <h1 className="text-xl font-semibold">[TMDB]</h1>
@@ -30,16 +28,14 @@ export const Header = () => {
           </div>
         </div>
       </header>
-    )
-  }
 
-  return (
-    <header className="flex w-full justify-between">
-      <Link href={`/${language}/`}>
-        <h1 className="text-xl font-semibold">[TMDB]</h1>
-      </Link>
+      <header className="flex w-full justify-between lg:hidden">
+        <Link href={`/${language}/`}>
+          <h1 className="text-xl font-semibold">[TMDB]</h1>
+        </Link>
 
-      <HeaderNavigationDrawer />
-    </header>
+        <HeaderNavigationDrawer />
+      </header>
+    </>
   )
 }
