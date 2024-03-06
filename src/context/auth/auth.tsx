@@ -21,7 +21,7 @@ export const AuthContextProvider = ({
   initialUser,
 }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(initialUser)
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
   const { push } = useRouter()
 
@@ -40,7 +40,7 @@ export const AuthContextProvider = ({
     }
 
     if (data) {
-      push('app')
+      push(`/${language}/home`)
       setUser(data.user)
       toast.success(dictionary.login_form.login_success)
     }

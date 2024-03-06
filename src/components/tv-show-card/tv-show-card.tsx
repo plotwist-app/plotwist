@@ -36,7 +36,7 @@ export const TvShowCard = ({ tvShow, language = 'en-US' }: TvShowCardProps) => {
 
   return (
     <Link
-      href={`/${language}/app/tv-shows/${id}`}
+      href={`/${language}/tv-shows/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid={TEST_ID}
     >
