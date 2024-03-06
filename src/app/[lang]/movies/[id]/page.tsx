@@ -31,6 +31,7 @@ export async function generateMetadata({
       images: [tmdbImage(tvShow.backdrop_path)],
       title: tvShow.title,
       description: tvShow.overview,
+      siteName: '[TMDB]',
     },
     twitter: {
       title: tvShow.title,
