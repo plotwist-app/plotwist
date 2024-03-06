@@ -2,6 +2,30 @@ import { TvShowsList } from '@/components/tv-shows-list'
 import { TvShowsListFilters } from '@/components/tv-shows-list-filters/tv-shows-list-filters'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    tv_show_pages: {
+      discover: { title, description },
+    },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const DiscoverTvShowsPage = async ({ params: { lang } }: PageProps) => {
   const {

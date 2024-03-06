@@ -1,6 +1,30 @@
 import { getDictionary } from '@/utils/dictionaries'
 import { PageProps } from '@/types/languages'
 import { TvShowsList } from '@/components/tv-shows-list'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    tv_show_pages: {
+      airing_today: { title, description },
+    },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const AiringTodayTvShowsPage = async ({ params: { lang } }: PageProps) => {
   const {
