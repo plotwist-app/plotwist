@@ -3,6 +3,28 @@ import { LoginForm } from './_components/login-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    login_page: { title, description },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const LoginPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
