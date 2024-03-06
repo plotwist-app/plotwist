@@ -90,7 +90,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (user?.id !== list.user_id) push('/app/lists')
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <div className="mx-auto max-w-6xl space-y-4 pb-4">
       <Banner url={tmdbImage(list.cover_path ?? '')} />
 
       <div className="flex items-center justify-between">

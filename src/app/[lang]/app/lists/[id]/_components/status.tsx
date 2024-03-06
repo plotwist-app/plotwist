@@ -8,7 +8,7 @@ import { cva } from 'class-variance-authority'
 type StatusBadgeProps = { status: ListItemStatus }
 
 const badge = cva(
-  'flex justify-center items-center gap-1 py-1 text-xs capitalize shadow border-none font-normal w-20',
+  'flex justify-center items-center gap-1 py-1 text-[12px] capitalize shadow border-none font-normal w-20',
   {
     variants: {
       status: {

@@ -3,14 +3,23 @@
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 
-import { ListCard } from './list-card'
+import { ListCard, ListCardSkeleton } from './list-card'
 import { ListForm } from './list-form'
 
 const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 10 : 1
 
 export const Lists = () => {
-  const { lists } = useLists()
+  const { lists, isLoading } = useLists()
   const { dictionary } = useLanguage()
+
+  if (isLoading)
+    return (
+      <div className="grid-cols:1 grid gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <ListCardSkeleton key={index} />
+        ))}
+      </div>
+    )
 
   return (
     <div className="grid-cols:1 grid gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">

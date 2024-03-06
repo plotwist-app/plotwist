@@ -8,19 +8,10 @@ import { ListItemActions } from './list-item-actions'
 type ListItemCardProps = { listItem: ListItem }
 
 export const ListItemCard = ({ listItem }: ListItemCardProps) => {
-  const {
-    poster_path: poster,
-    title,
-    tmdb_id: tmdbId,
-    media_type: mediaType,
-    status,
-  } = listItem
+  const { poster_path: poster, title, status } = listItem
 
   return (
-    <Link
-      href={`/app/${mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'}/${tmdbId}`}
-      className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-background/50 shadow"
-    >
+    <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-background/50 shadow">
       {poster && (
         <Image
           fill
@@ -38,6 +29,6 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
       <div className="absolute bottom-2 left-2 z-20 flex gap-1">
         <Status status={status} />
       </div>
-    </Link>
+    </div>
   )
 }

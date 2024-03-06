@@ -30,6 +30,7 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ListCardProps = { list: List }
 
@@ -121,6 +122,30 @@ export const ListCard = ({ list }: ListCardProps) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </>
+  )
+}
+
+export const ListCardSkeleton = () => {
+  return (
+    <>
+      <div className="space-y-2">
+        <div className="aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+          <Skeleton className="h-full w-full" />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between gap-1">
+            <Skeleton className="h-[2ex] w-[20ch]" />
+          </div>
+
+          <div className="space-y-1">
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+          </div>
+        </div>
+      </div>
     </>
   )
 }
