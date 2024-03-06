@@ -1,6 +1,30 @@
 import { MovieList } from '@/components/movie-list'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    movie_pages: {
+      upcoming: { title, description },
+    },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const UpcomingMoviesPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
