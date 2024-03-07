@@ -5,6 +5,29 @@ import { TvShowCard } from '@/components/tv-show-card'
 import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    app_page: { dashboard_title: title, dashboard_description: description },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: '[TMDB]',
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const HomePage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)

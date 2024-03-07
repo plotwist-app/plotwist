@@ -90,30 +90,37 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (user?.id !== list.user_id) push('/lists')
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 pb-4">
-      <Banner url={tmdbImage(list.cover_path ?? '')} />
+    <>
+      <head>
+        <title>{list.name}</title>
+        <meta name="description" content={list.description} />
+      </head>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold">{list.name}</h1>
+      <div className="mx-auto max-w-6xl space-y-4 pb-4">
+        <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-            <ListForm
-              trigger={
-                <Button size="icon" variant="outline" className="h-6 w-6">
-                  <Pencil className="h-3 w-3" />
-                </Button>
-              }
-              list={list}
-            />
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold">{list.name}</h1>
+
+              <ListForm
+                trigger={
+                  <Button size="icon" variant="outline" className="h-6 w-6">
+                    <Pencil className="h-3 w-3" />
+                  </Button>
+                }
+                list={list}
+              />
+            </div>
+
+            <p className="text-muted-foreground">{list.description}</p>
           </div>
-
-          <p className="text-muted-foreground">{list.description}</p>
         </div>
-      </div>
 
-      <ListItems listItems={list.list_items} />
-    </div>
+        <ListItems listItems={list.list_items} />
+      </div>
+    </>
   )
 }
 

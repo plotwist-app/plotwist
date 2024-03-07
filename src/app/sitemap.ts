@@ -1,4 +1,3 @@
-import { MetadataRoute } from 'next'
 import { SUPPORTED_LANGUAGES } from '../../languages'
 import { APP_URL } from '../../constants'
 
