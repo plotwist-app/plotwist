@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: SUPPORTED_LANGUAGES.map((language) =>
-        APP_ROUTES.map((route) => `/${language}${route}`),
+        APP_ROUTES.map((route) => `/${language.value}${route}`),
       ).flatMap((route) => route),
     },
     sitemap: `${APP_URL}/sitemap.xml`,
