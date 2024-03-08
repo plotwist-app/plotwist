@@ -37,7 +37,6 @@ export const CommandSearch = () => {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
   const pathName = usePathname()
-
   const { language, dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({

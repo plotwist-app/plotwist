@@ -33,7 +33,7 @@ export default async function RootLayout({
       <LanguageContextProvider language={params.lang} dictionary={dictionary}>
         <AuthContextProvider initialUser={user}>
           <ListsContextProvider>
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-4">
               <div className="w-full border-b bg-background p-4">
                 <div className="mx-auto w-full max-w-6xl">
                   <Header />

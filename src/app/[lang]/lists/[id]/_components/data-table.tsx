@@ -29,6 +29,7 @@ import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'
 import { useLanguage } from '@/context/language'
 import { Plus } from 'lucide-react'
+import { ListCommand } from './list-command'
 
 interface DataTableProps<TData extends ListItem, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -113,9 +114,7 @@ export function DataTable<TData extends ListItem, TValue>({
         </TableBody>
       </Table>
 
-      <div className="flex w-full cursor-pointer items-center justify-center rounded-md border border-dashed p-2">
-        <Plus size={16} />
-      </div>
+      <ListCommand variant="button" />
     </section>
   )
 }

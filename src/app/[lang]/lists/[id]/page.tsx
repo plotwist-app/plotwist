@@ -43,7 +43,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-6xl space-y-4">
+      <div className="mx-auto max-w-6xl space-y-4 px-4 pb-8 lg:p-0">
         <div className="aspect-video w-full overflow-hidden rounded-lg">
           <Skeleton className="h-full w-full" />
         </div>
@@ -96,7 +96,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <meta name="description" content={list.description} />
       </head>
 
-      <div className="mx-auto max-w-6xl space-y-4 pb-4">
+      <div className="mx-auto max-w-6xl space-y-4 px-4 pb-8 lg:p-0">
         <Banner url={tmdbImage(list.cover_path ?? '')} />
 
         <div className="flex items-center justify-between">
