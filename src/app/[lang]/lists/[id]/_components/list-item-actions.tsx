@@ -154,8 +154,8 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button size="icon" variant="ghost" className="h-6 w-6">
-          <MoreVertical className="h-4 w-4" />
+        <Button size="icon" variant="outline" className="h-6 w-6">
+          <MoreVertical className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
 

@@ -10,23 +10,25 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   const { poster_path: poster, title, status } = listItem
 
   return (
-    <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md bg-background/50 shadow">
-      {poster && (
-        <Image
-          fill
-          className="z-10 object-cover brightness-50 dark:brightness-[50%]"
-          src={tmdbImage(poster, 'w500')}
-          alt={title}
-          sizes="100%"
-        />
-      )}
-
-      <div className="absolute right-2 top-2 z-20 flex gap-1">
-        <ListItemActions listItem={listItem} />
+    <div className="space-y-2">
+      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md border bg-background/50 shadow">
+        {poster && (
+          <Image
+            fill
+            className="z-10 object-cover"
+            src={tmdbImage(poster, 'w500')}
+            alt={title}
+            sizes="100%"
+          />
+        )}
       </div>
 
-      <div className="absolute bottom-2 left-2 z-20 flex gap-1">
-        <Status status={status} />
+      <div className="flex justify-between">
+        <div className="z-20 flex gap-1">
+          <Status status={status} />
+        </div>
+
+        <ListItemActions listItem={listItem} />
       </div>
     </div>
   )
