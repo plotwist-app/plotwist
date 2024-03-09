@@ -466,8 +466,8 @@
     "remove_from_list": "Remove from list",
     "add_to_list": "Add to list",
     "view_details": "View details",
-    "movie_added_success": "Filme adicionado com sucesso.",
-    "movie_removed_success": "Filme removido com sucesso.",
+    "movie_added_success": "Movie successfully added.",
+    "movie_removed_success": "Movie successfully removed.",
     "year_prefix": "•"
   }
 }
