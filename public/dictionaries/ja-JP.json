@@ -450,5 +450,19 @@
       "label": "最低投票数"
     },
     "no_results": "結果がありません。"
+  },
+  "list_command": {
+    "search_placeholder": "何でも検索...",
+    "no_results": "結果が見つかりませんでした。",
+    "tv_series_label": "TVシリーズ",
+    "tv_added_success": "TVシリーズを成功裏に追加しました。",
+    "tv_removed_success": "TVシリーズを成功裏に削除しました。",
+    "movies_label": "映画",
+    "remove_from_list": "リストから削除",
+    "add_to_list": "リストに追加",
+    "view_details": "詳細を見る",
+    "movie_added_success": "映画を成功裏に追加しました。",
+    "movie_removed_success": "映画を成功裏に削除しました。"
   }
+
 }

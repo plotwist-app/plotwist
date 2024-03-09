@@ -13,7 +13,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
         <ListItemCard key={item.id} listItem={item} />
       ))}
 
-      <ListCommand variant="poster" />
+      <ListCommand variant="poster" listItems={listItems} />
     </div>
   )
 }

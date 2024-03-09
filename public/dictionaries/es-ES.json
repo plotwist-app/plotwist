@@ -453,5 +453,18 @@
       "label": "Votos mínimos"
     },
     "no_results": "Sin resultados."
+  },
+  "list_command": {
+    "search_placeholder": "Buscar cualquier cosa...",
+    "no_results": "No se encontraron resultados.",
+    "tv_series_label": "Series de TV",
+    "tv_added_success": "Serie de TV añadida con éxito.",
+    "tv_removed_success": "Serie de TV eliminada con éxito.",
+    "movies_label": "Películas",
+    "remove_from_list": "Eliminar de la lista",
+    "add_to_list": "Añadir a la lista",
+    "view_details": "Ver detalles",
+    "movie_added_success": "Película añadida con éxito.",
+    "movie_removed_success": "Película eliminada con éxito."
   }
 }

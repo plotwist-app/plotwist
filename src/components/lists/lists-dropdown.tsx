@@ -47,6 +47,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       },
       list_form: { create_new_list: createNewList },
     },
+    language,
   } = useLanguage()
   const pathname = usePathname()
 
@@ -80,14 +81,14 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
             toast.success(addedSuccessfully, {
               action: {
                 label: viewList,
-                onClick: () => push(`/lists/${list.id}`),
+                onClick: () => push(`/${language}/lists/${list.id}`),
               },
             })
           },
         },
       )
     },
-    [addedSuccessfully, handleAddToList, item, push, viewList],
+    [addedSuccessfully, handleAddToList, item, language, push, viewList],
   )
 
   const isHomePage = !pathname.includes('/home')

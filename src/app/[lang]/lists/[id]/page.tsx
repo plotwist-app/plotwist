@@ -96,7 +96,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <meta name="description" content={list.description} />
       </head>
 
-      <div className="mx-auto max-w-6xl space-y-4 px-4 pb-8 lg:p-0">
+      <div className="mx-auto max-w-6xl space-y-4 px-4 pb-8 lg:px-0">
         <Banner url={tmdbImage(list.cover_path ?? '')} />
 
         <div className="flex items-center justify-between">

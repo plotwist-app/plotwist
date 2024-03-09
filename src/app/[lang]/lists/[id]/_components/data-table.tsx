@@ -28,7 +28,6 @@ import {
 import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'
 import { useLanguage } from '@/context/language'
-import { Plus } from 'lucide-react'
 import { ListCommand } from './list-command'
 
 interface DataTableProps<TData extends ListItem, TValue> {
@@ -114,7 +113,7 @@ export function DataTable<TData extends ListItem, TValue>({
         </TableBody>
       </Table>
 
-      <ListCommand variant="button" />
+      <ListCommand variant="button" listItems={data} />
     </section>
   )
 }

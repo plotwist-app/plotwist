@@ -452,4 +452,17 @@ export type Dictionary = {
     }
     no_results: string
   }
+  list_command: {
+    search_placeholder: string
+    no_results: string
+    tv_series_label: string
+    tv_added_success: string
+    tv_removed_success: string
+    movies_label: string
+    remove_from_list: string
+    add_to_list: string
+    view_details: string
+    movie_added_success: string
+    movie_removed_success: string
+  }
 }

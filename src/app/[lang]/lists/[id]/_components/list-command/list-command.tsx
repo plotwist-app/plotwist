@@ -1,42 +1,36 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useQuery } from '@tanstack/react-query'
-import { ExternalLink, Plus, PlusCircle } from 'lucide-react'
+import { Plus } from 'lucide-react'
 
 import {
   Command,
   CommandDialog,
-  CommandEmpty,
   CommandInput,
   CommandList,
 } from '@/components/ui/command'
 import { Separator } from '@/components/ui/separator'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 import { useLanguage } from '@/context/language'
+
 import { tmdb } from '@/services/tmdb'
 import { MovieWithMediaType, TvShowWithMediaType } from '@/services/tmdb/types'
-import Link from 'next/link'
-import { ListCommandItem } from './list-command-item'
-import { ListCommandGroup } from './list-command-group'
+
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import Image from 'next/image'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
-import { Badge } from '@/components/ui/badge'
+  ListCommandMovies,
+  ListCommandMoviesSkeleton,
+} from './list-command-movies'
+import { ListCommandTv, ListCommandTvSkeleton } from './list-command-tv'
+import { ListItem } from '@/types/supabase/lists'
 
 type ListCommandVariant = 'poster' | 'button'
-type ListCommandProps = { variant: ListCommandVariant }
+type ListCommandProps = { variant: ListCommandVariant; listItems: ListItem[] }
 
-export const ListCommand = ({ variant }: ListCommandProps) => {
+export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['search', debouncedSearch],
@@ -95,138 +89,34 @@ export const ListCommand = ({ variant }: ListCommandProps) => {
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>
           <CommandInput
-            placeholder="Search for anything..."
+            placeholder={dictionary.list_command.search_placeholder}
             onValueChange={setSearch}
             value={search}
           />
 
           <CommandList>
-            {isLoading && <p>loading...</p>}
-
             <div className="space-y-0">
+              {isLoading && (
+                <>
+                  <ListCommandMoviesSkeleton />
+                  <ListCommandTvSkeleton />
+                </>
+              )}
+
               {hasMovies && (
-                <ListCommandGroup.Root>
-                  <ListCommandGroup.Label>Movies</ListCommandGroup.Label>
-
-                  <ListCommandGroup.Items>
-                    {movies.map((movie) => (
-                      <HoverCard key={movie.id} openDelay={0} closeDelay={0}>
-                        <ListCommandItem.Root>
-                          <HoverCardTrigger>
-                            <ListCommandItem.Label>
-                              {movie.title}
-
-                              {movie.release_date !== '' && (
-                                <ListCommandItem.Year>
-                                  • {new Date(movie.release_date).getFullYear()}
-                                </ListCommandItem.Year>
-                              )}
-                            </ListCommandItem.Label>
-                          </HoverCardTrigger>
-
-                          <ListCommandItem.Dropdown>
-                            <DropdownMenuItem>
-                              <PlusCircle size={14} className="mr-1" />
-                              Add to list
-                            </DropdownMenuItem>
-
-                            <DropdownMenuItem asChild>
-                              <Link href="/movies">
-                                <ExternalLink size={14} className="mr-1" />
-                                View details
-                              </Link>
-                            </DropdownMenuItem>
-                          </ListCommandItem.Dropdown>
-                        </ListCommandItem.Root>
-
-                        <HoverCardPortal>
-                          <HoverCardContent
-                            className="w-[320px] overflow-hidden rounded-lg p-0"
-                            side="top"
-                            align="start"
-                          >
-                            <ListCommandItem.Banner>
-                              {movie.backdrop_path && (
-                                <Image
-                                  src={tmdbImage(movie.backdrop_path)}
-                                  alt={movie.title}
-                                  fill
-                                />
-                              )}
-                            </ListCommandItem.Banner>
-
-                            <ListCommandItem.Information>
-                              <ListCommandItem.Poster>
-                                {movie.poster_path && (
-                                  <Image
-                                    src={tmdbImage(movie.poster_path, 'w500')}
-                                    alt={movie.title}
-                                    fill
-                                    objectFit="cover"
-                                  />
-                                )}
-                              </ListCommandItem.Poster>
-
-                              <ListCommandItem.Summary>
-                                <ListCommandItem.Title>
-                                  {movie.title}
-                                </ListCommandItem.Title>
-
-                                <ListCommandItem.Overview>
-                                  {movie.overview}
-                                </ListCommandItem.Overview>
-                              </ListCommandItem.Summary>
-                            </ListCommandItem.Information>
-                          </HoverCardContent>
-                        </HoverCardPortal>
-                      </HoverCard>
-                    ))}
-                  </ListCommandGroup.Items>
-                </ListCommandGroup.Root>
+                <ListCommandMovies movies={movies} listItems={listItems} />
               )}
 
               {hasTv && hasMovies && <Separator />}
 
-              {hasTv && (
-                <ListCommandGroup.Root>
-                  <ListCommandGroup.Label>TV Series</ListCommandGroup.Label>
-
-                  <ListCommandGroup.Items>
-                    {tv.map((movie) => (
-                      <ListCommandItem.Root key={movie.id}>
-                        <ListCommandItem.Label>
-                          {movie.name}
-
-                          <ListCommandItem.Year>
-                            •{' '}
-                            {movie.first_air_date !== '' &&
-                              new Date(movie.first_air_date).getFullYear()}
-                          </ListCommandItem.Year>
-                        </ListCommandItem.Label>
-
-                        <ListCommandItem.Dropdown>
-                          <DropdownMenuItem>
-                            <PlusCircle size={14} className="mr-1" />
-                            Add to list
-                          </DropdownMenuItem>
-
-                          <DropdownMenuItem asChild>
-                            <Link href="/movies">
-                              <ExternalLink size={14} className="mr-1" />
-                              View details
-                            </Link>
-                          </DropdownMenuItem>
-                        </ListCommandItem.Dropdown>
-                      </ListCommandItem.Root>
-                    ))}
-                  </ListCommandGroup.Items>
-                </ListCommandGroup.Root>
-              )}
-
-              {(!hasMovies || !hasTv) && (
-                <CommandEmpty>vazio carai</CommandEmpty>
-              )}
+              {hasTv && <ListCommandTv tv={tv} listItems={listItems} />}
             </div>
+
+            {!hasMovies && !hasTv && (
+              <p className="p-8 text-center">
+                {dictionary.list_command.no_results}
+              </p>
+            )}
           </CommandList>
         </Command>
       </CommandDialog>

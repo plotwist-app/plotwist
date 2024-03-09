@@ -17,11 +17,16 @@ const Root = (props: PropsWithChildren) => {
 }
 
 const Label = (props: PropsWithChildren) => {
-  return <span className="text-sm font-normal" {...props} />
+  return <span className="flex items-center text-sm font-normal" {...props} />
 }
 
 const Year = (props: PropsWithChildren) => {
-  return <span className="ml-1 text-xs text-muted-foreground" {...props} />
+  return (
+    <span
+      className="ml-1 flex items-center gap-1 text-xs text-muted-foreground"
+      {...props}
+    />
+  )
 }
 
 const Dropdown = ({ children }: PropsWithChildren) => {

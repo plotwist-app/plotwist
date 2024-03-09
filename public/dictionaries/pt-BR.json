@@ -130,7 +130,7 @@
     "airing_today_description": "Não perca o ritmo! Veja quais séries têm episódios fresquinhos saindo do forno hoje.",
     "on_the_air": "No ar",
     "on_the_air_description": "Sintonize aqui para não perder os episódios atuais das séries mais quentes do momento.",
-    "people": "Pessoas",  
+    "people": "Pessoas",
     "lists": "Listas",
     "lists_description": "Suas seleções, seus interesses. Crie e compartilhe listas dos seus filmes e séries preferidos com a comunidade."
   },
@@ -450,5 +450,18 @@
       "label": "Votos mínimos"
     },
     "no_results": "Sem resultados."
+  },
+  "list_command": {
+    "search_placeholder": "Pesquise qualquer coisa...",
+    "no_results": "Nenhum resultado encontrado.",
+    "tv_series_label": "Séries",
+    "tv_added_success": "Série adicionada com sucesso.",
+    "tv_removed_success": "Série removida com sucesso.",
+    "movies_label": "Filmes",
+    "remove_from_list": "Remover da lista",
+    "add_to_list": "Adicionar à lista",
+    "view_details": "Ver detalhes",
+    "movie_added_success": "Filme adicionado com sucesso.",
+    "movie_removed_success": "Filme removido com sucesso."
   }
 }
