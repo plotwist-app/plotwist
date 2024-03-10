@@ -6,6 +6,7 @@ import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
+import { Container } from '../_components/container'
 
 export async function generateMetadata({
   params,
@@ -45,7 +46,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
   })
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8">
+    <Container>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">
@@ -89,7 +90,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
 
