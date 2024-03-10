@@ -3,6 +3,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { MoviesListFilters } from '@/components/movies-list-filters'
 import { MovieList } from '@/components/movie-list'
 import { Metadata } from 'next'
+import { Container } from '../../_components/container'
 
 export async function generateMetadata({
   params,
@@ -32,7 +33,7 @@ const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <Container>
       <div className="flex items-center justify-between gap-2">
         <div>
           <h1 className="text-2xl font-bold">
@@ -48,7 +49,7 @@ const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
       </div>
 
       <MovieList variant="discover" language={lang} />
-    </div>
+    </Container>
   )
 }
 

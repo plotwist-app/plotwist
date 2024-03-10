@@ -2,6 +2,7 @@ import { PageProps } from '@/types/languages'
 import { Lists } from './_components/lists'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
+import { Container } from '../_components/container'
 
 export async function generateMetadata({
   params,
@@ -31,7 +32,7 @@ const ListsPage = async ({ params }: PageProps) => {
   } = await getDictionary(params.lang)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <Container>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{title}</h1>
@@ -40,7 +41,7 @@ const ListsPage = async ({ params }: PageProps) => {
       </div>
 
       <Lists />
-    </div>
+    </Container>
   )
 }
 

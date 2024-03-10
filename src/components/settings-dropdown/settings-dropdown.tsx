@@ -49,13 +49,7 @@ export const SettingsDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          onClick={() =>
-            theme === 'dark' ? setTheme('light') : setTheme('dark')
-          }
-          size="icon"
-        >
+        <Button variant="outline" size="icon">
           <Settings width={16} height={16} />
         </Button>
       </DropdownMenuTrigger>

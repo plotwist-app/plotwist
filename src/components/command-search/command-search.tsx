@@ -89,7 +89,7 @@ export const CommandSearch = () => {
     <>
       <Button
         variant="outline"
-        className="flex w-full justify-between gap-2 pr-2 text-sm text-muted-foreground"
+        className="flex w-full flex-1 justify-between gap-2 pr-2 text-sm text-muted-foreground"
         onClick={() => setOpen(true)}
       >
         {dictionary.sidebar_search.search_everything}

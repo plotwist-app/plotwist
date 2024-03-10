@@ -11,6 +11,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { format } from 'date-fns'
 import { PersonCredits } from './person-credits'
+import { Container } from '@/app/[lang]/_components/container'
 
 type PersonDetailsProps = { id: number; language: Language }
 
@@ -25,7 +26,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <Container>
       <Banner url={tmdbImage(mostPopularCredit.backdrop_path ?? '')} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12 ">
@@ -76,6 +77,6 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </Container>
   )
 }

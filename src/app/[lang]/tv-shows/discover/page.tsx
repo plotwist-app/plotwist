@@ -3,6 +3,7 @@ import { TvShowsListFilters } from '@/components/tv-shows-list-filters/tv-shows-
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
+import { Container } from '../../_components/container'
 
 export async function generateMetadata({
   params,
@@ -36,7 +37,7 @@ const DiscoverTvShowsPage = async ({ params: { lang } }: PageProps) => {
   } = await getDictionary(lang)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <Container>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{title}</h1>
@@ -47,7 +48,7 @@ const DiscoverTvShowsPage = async ({ params: { lang } }: PageProps) => {
       </div>
 
       <TvShowsList variant="discover" />
-    </div>
+    </Container>
   )
 }
 

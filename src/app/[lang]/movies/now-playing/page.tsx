@@ -2,6 +2,7 @@ import { MovieList } from '@/components/movie-list'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
+import { Container } from '../../_components/container'
 
 export async function generateMetadata({
   params,
@@ -31,7 +32,7 @@ const NowPlayingMoviesPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <Container>
       <div>
         <h1 className="text-2xl font-bold">
           {dictionary.movie_pages.now_playing.title}
@@ -43,7 +44,7 @@ const NowPlayingMoviesPage = async ({ params: { lang } }: PageProps) => {
       </div>
 
       <MovieList variant="now_playing" language={lang} />
-    </div>
+    </Container>
   )
 }
 

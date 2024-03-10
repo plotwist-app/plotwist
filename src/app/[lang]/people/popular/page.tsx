@@ -1,8 +1,9 @@
 import { PeopleList } from '@/components/people-list'
+import { Container } from '../../_components/container'
 
 const PopularPeoplePage = async () => {
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <Container>
       <div>
         <h1 className="text-2xl font-bold">Popular people</h1>
 
@@ -12,7 +13,7 @@ const PopularPeoplePage = async () => {
       </div>
 
       <PeopleList />
-    </div>
+    </Container>
   )
 }
 
