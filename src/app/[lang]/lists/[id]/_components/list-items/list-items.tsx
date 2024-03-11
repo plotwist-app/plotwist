@@ -8,8 +8,8 @@ import { useLanguage } from '@/context/language'
 import { Button } from '@/components/ui/button'
 
 import { ListItemsGrid } from './list-items-grid'
-import { DataTable } from './data-table'
-import { columns } from './data-table-columns'
+import { DataTable, columns } from '../data-table'
+import { useListMode } from '@/context/list-mode'
 
 type ListItemsProps = {
   listItems: ListItem[]
@@ -18,10 +18,14 @@ type ListItemsProps = {
 export const ListItems = ({ listItems }: ListItemsProps) => {
   const [layout, setLayout] = useState<'table' | 'grid'>('table')
   const { dictionary, language } = useLanguage()
+  const { mode } = useListMode()
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
     table: (
-      <DataTable data={listItems} columns={columns(dictionary, language)} />
+      <DataTable
+        data={listItems}
+        columns={columns(dictionary, language, mode)}
+      />
     ),
     grid: <ListItemsGrid listItems={listItems} />,
   }

@@ -28,7 +28,8 @@ import {
 import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'
 import { useLanguage } from '@/context/language'
-import { ListCommand } from './list-command'
+import { ListCommand } from '../list-command'
+import { useListMode } from '@/context/list-mode'
 
 interface DataTableProps<TData extends ListItem, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -40,6 +41,7 @@ export function DataTable<TData extends ListItem, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const { dictionary } = useLanguage()
+  const { mode } = useListMode()
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -113,7 +115,7 @@ export function DataTable<TData extends ListItem, TValue>({
         </TableBody>
       </Table>
 
-      <ListCommand variant="button" listItems={data} />
+      {mode === 'EDIT' && <ListCommand variant="button" listItems={data} />}
     </section>
   )
 }

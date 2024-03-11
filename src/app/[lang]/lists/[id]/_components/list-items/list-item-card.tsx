@@ -1,8 +1,8 @@
 import { ListItem } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import { Status } from './status'
 import { ListItemActions } from './list-item-actions'
+import { Status } from '../status'
 
 type ListItemCardProps = { listItem: ListItem }
 

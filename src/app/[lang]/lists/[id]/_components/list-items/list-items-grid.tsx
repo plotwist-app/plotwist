@@ -1,19 +1,24 @@
 import { ListItem } from '@/types/supabase/lists'
 import { ListItemCard } from './list-item-card'
-import { ListCommand } from './list-command'
+import { ListCommand } from '../list-command'
+import { useListMode } from '@/context/list-mode'
 
 type ListItemsGridProps = {
   listItems: ListItem[]
 }
 
 export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
+  const { mode } = useListMode()
+
   return (
     <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
       {listItems.map((item) => (
         <ListItemCard key={item.id} listItem={item} />
       ))}
 
-      <ListCommand variant="poster" listItems={listItems} />
+      {mode === 'EDIT' && (
+        <ListCommand variant="poster" listItems={listItems} />
+      )}
     </div>
   )
 }
