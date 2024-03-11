@@ -1,22 +1,26 @@
 'use client'
 
-import { supabase } from '@/services/supabase'
-import { List } from '@/types/supabase/lists'
+import { useMemo } from 'react'
 import Link from 'next/link'
+import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
-import { ListItems } from './_components/list-items'
 import { Skeleton } from '@/components/ui/skeleton'
-import { DataTableSkeleton } from './_components/data-table-skeleton'
-import { useAuth } from '@/context/auth'
-import { useRouter } from 'next/navigation'
-import { useLanguage } from '@/context/language'
-import { Banner } from '@/components/banner'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@/components/ui/button'
-import { Pencil } from 'lucide-react'
+import { Banner } from '@/components/banner'
+
+import { ListItems } from './_components/list-items'
+import { DataTableSkeleton } from './_components/data-table'
 import { ListForm } from '../_components/list-form'
+
+import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
+
+import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
+import { supabase } from '@/services/supabase'
+import { List } from '@/types/supabase/lists'
+import { ListModeContextProvider } from '@/context/list-mode'
 
 type ListPageProps = {
   params: { id: string }
@@ -24,7 +28,6 @@ type ListPageProps = {
 
 const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
-  const { push } = useRouter()
   const { dictionary } = useLanguage()
 
   const { data: response, isLoading } = useQuery({
@@ -40,6 +43,15 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
       return response
     },
   })
+
+  const listMode = useMemo(() => {
+    if (!user || !response?.data) return 'SHOW'
+
+    const isOwner = user.id === response.data.user_id
+    if (isOwner) return 'EDIT'
+
+    return 'SHOW'
+  }, [response, user])
 
   if (isLoading) {
     return (
@@ -86,9 +98,6 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   const list = response.data
 
-  // TODO: REVER ISSO
-  if (user?.id !== list.user_id) push('/lists')
-
   return (
     <>
       <head>
@@ -96,30 +105,34 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <meta name="description" content={list.description} />
       </head>
 
-      <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
-        <Banner url={tmdbImage(list.cover_path ?? '')} />
+      <ListModeContextProvider mode={listMode}>
+        <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
+          <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">{list.name}</h1>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold">{list.name}</h1>
 
-              <ListForm
-                trigger={
-                  <Button size="icon" variant="outline" className="h-6 w-6">
-                    <Pencil className="h-3 w-3" />
-                  </Button>
-                }
-                list={list}
-              />
+                {listMode === 'EDIT' && (
+                  <ListForm
+                    trigger={
+                      <Button size="icon" variant="outline" className="h-6 w-6">
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                    }
+                    list={list}
+                  />
+                )}
+              </div>
+
+              <p className="text-muted-foreground">{list.description}</p>
             </div>
-
-            <p className="text-muted-foreground">{list.description}</p>
           </div>
-        </div>
 
-        <ListItems listItems={list.list_items} />
-      </div>
+          <ListItems listItems={list.list_items} />
+        </div>
+      </ListModeContextProvider>
     </>
   )
 }
