@@ -207,6 +207,7 @@
   },
   "list_form": {
     "create_new_list": "Crea nuova lista",
+    "tooltip_no_account": "Sembra che tu non abbia ancora un account. Clicca qui per unirti alla piattaforma.",
     "name": "Nome",
     "name_placeholder": "La Mia Lista",
     "name_required": "Il nome della lista è richiesto.",

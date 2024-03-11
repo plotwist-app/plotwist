@@ -209,6 +209,7 @@
   },
   "list_form": {
     "create_new_list": "Neue Liste erstellen",
+    "tooltip_no_account": "Es scheint, dass Sie noch kein Konto haben. Klicken Sie hier, um Teil der Plattform zu werden.",
     "name": "Name",
     "name_placeholder": "Meine Liste",
     "name_required": "Der Name der Liste ist erforderlich.",

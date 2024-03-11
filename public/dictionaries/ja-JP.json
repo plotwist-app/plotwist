@@ -207,6 +207,7 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
+    "tooltip_no_account": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",

@@ -207,6 +207,7 @@ export type Dictionary = {
   }
   list_form: {
     create_new_list: string
+    tooltip_no_account: string
     name: string
     name_placeholder: string
     name_required: string
