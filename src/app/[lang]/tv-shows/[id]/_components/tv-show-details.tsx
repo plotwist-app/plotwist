@@ -30,18 +30,24 @@ import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { Language } from '@/types/languages'
+import { cn } from '@/lib/utils'
 
 type TvShowsDetailsProps = {
   id: number
   language: Language
+  embed?: boolean
 }
 
-export const TvShowsDetails = async ({ id, language }: TvShowsDetailsProps) => {
+export const TvShowsDetails = async ({
+  id,
+  language,
+  embed = false,
+}: TvShowsDetailsProps) => {
   const tvShow = await tmdb.tvSeries.details(id, language)
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className={cn('mx-auto max-w-6xl md:pt-4', embed && 'pt-0')}>
       <Banner url={tmdbImage(tvShow.backdrop_path)} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 px-4 md:space-y-12 md:px-0">

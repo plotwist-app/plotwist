@@ -30,6 +30,7 @@ import { locale } from '@/utils/date/locale'
 import { tmdb } from '@/services/tmdb'
 
 import { Language } from '@/types/languages'
+import { cn } from '@/lib/utils'
 
 type MovieDetailsProps = {
   id: number
@@ -46,7 +47,7 @@ export const MovieDetails = async ({
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className={cn('mx-auto max-w-6xl md:pt-4', embed && 'pt-0')}>
       <Banner
         url={tmdbImage(movie.backdrop_path)}
         className={embed ? 'max-h-[20vh] md:max-h-[50vh]' : undefined}
