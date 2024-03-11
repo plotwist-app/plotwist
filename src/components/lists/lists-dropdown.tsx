@@ -28,6 +28,7 @@ import { List } from '@/types/supabase/lists'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/context/auth'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -36,6 +37,7 @@ type ListsDropdownProps = {
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
+  const { user } = useAuth()
   const {
     dictionary: {
       lists_dropdown: {
@@ -91,8 +93,6 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
     [addedSuccessfully, handleAddToList, item, language, push, viewList],
   )
 
-  const isHomePage = !pathname.includes('/home')
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -131,8 +131,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
               <div
                 className={cn(
                   'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm',
-                  isHomePage &&
-                    'pointer-events-none cursor-not-allowed opacity-50',
+                  !user && 'pointer-events-none cursor-not-allowed opacity-50',
                 )}
               >
                 {createNewList}

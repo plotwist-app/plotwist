@@ -15,6 +15,8 @@ import { HomePrices } from './_components/home-prices'
 import { Metadata } from 'next'
 import { APP_URL } from '../../../constants'
 import MoviePage from './movies/[id]/page'
+import { Skeleton } from '@/components/ui/skeleton'
+import { MovieDetails } from './movies/[id]/_components/movie-details'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -115,7 +117,13 @@ export default async function Home({ params: { lang } }: PageProps) {
 
         <section className="space-y-8 p-4 py-16">
           <div className="mx-auto aspect-[9/16] w-full max-w-6xl overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
-            <MoviePage params={{ id: homeMovies[lang], lang, embed: true }} />
+            <Suspense fallback={<Skeleton className="h-full w-full" />}>
+              <MovieDetails
+                id={Number(homeMovies[lang])}
+                language={lang}
+                embed
+              />
+            </Suspense>
           </div>
 
           <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-5">
