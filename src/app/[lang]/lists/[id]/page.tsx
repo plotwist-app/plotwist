@@ -21,6 +21,7 @@ import { useLanguage } from '@/context/language'
 import { supabase } from '@/services/supabase'
 import { List } from '@/types/supabase/lists'
 import { ListModeContextProvider } from '@/context/list-mode'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 type ListPageProps = {
   params: { id: string }
@@ -107,6 +108,12 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
       <ListModeContextProvider mode={listMode}>
         <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
+          <div className="flex">
+            <Avatar>
+              <AvatarFallback>Luiz Henrique</AvatarFallback>
+            </Avatar>
+          </div>
+
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
           <div className="flex items-center justify-between">

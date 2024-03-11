@@ -209,7 +209,7 @@
   },
   "list_form": {
     "create_new_list": "Créer une nouvelle liste",
-    "tooltip_no_account": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme.",
+    
     "name": "Nom",
     "name_placeholder": "Ma Liste",
     "name_required": "Le nom de la liste est requis.",
@@ -467,5 +467,6 @@
     "view_details": "Voir les détails",
     "movie_added_success": "Film ajouté avec succès.",
     "movie_removed_success": "Film retiré avec succès."
-  }
+  },
+  "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme."
 }

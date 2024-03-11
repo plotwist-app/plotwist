@@ -207,7 +207,6 @@
   },
   "list_form": {
     "create_new_list": "Criar nova lista",
-    "tooltip_no_account": "Parece que você ainda não tem uma conta. Clique aqui para fazer parte da plataforma.",
     "name": "Nome",
     "name_placeholder": "Minha Lista",
     "name_required": "O nome da lista é necessário.",
@@ -464,5 +463,6 @@
     "view_details": "Ver detalhes",
     "movie_added_success": "Filme adicionado com sucesso.",
     "movie_removed_success": "Filme removido com sucesso."
-  }
+  },
+  "no_account_tooltip": "Parece que você ainda não tem uma conta. Clique aqui para fazer parte da plataforma."
 }

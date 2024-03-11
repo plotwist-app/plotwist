@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,6 +29,7 @@ import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth'
+import { NoAccountTooltip } from '../no-account-tooltip'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSeriesDetails
@@ -51,7 +52,6 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
     },
     language,
   } = useLanguage()
-  const pathname = usePathname()
 
   const handleRemove = useCallback(
     async (id: string) => {
@@ -106,7 +106,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {lists?.length > 0 ? (
+        {lists?.length > 0 &&
           lists.map((list) => {
             const itemIncluded = list.list_items.find(
               ({ tmdb_id: tmdbId }) => tmdbId === item.id,
@@ -124,20 +124,30 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
                 {list.name}
               </DropdownMenuCheckboxItem>
             )
-          })
-        ) : (
+          })}
+
+        {user ? (
           <ListForm
             trigger={
               <div
-                className={cn(
-                  'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm',
-                  !user && 'pointer-events-none cursor-not-allowed opacity-50',
-                )}
+                className={
+                  'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm'
+                }
               >
                 {createNewList}
               </div>
             }
           />
+        ) : (
+          <NoAccountTooltip>
+            <div
+              className={cn(
+                'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-2 text-sm opacity-50',
+              )}
+            >
+              {createNewList}
+            </div>
+          </NoAccountTooltip>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

@@ -207,7 +207,6 @@ export type Dictionary = {
   }
   list_form: {
     create_new_list: string
-    tooltip_no_account: string
     name: string
     name_placeholder: string
     name_required: string
@@ -466,4 +465,5 @@ export type Dictionary = {
     movie_added_success: string
     movie_removed_success: string
   }
+  no_account_tooltip: string
 }

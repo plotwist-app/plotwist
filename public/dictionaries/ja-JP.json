@@ -207,7 +207,7 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
-    "tooltip_no_account": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
+
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
@@ -464,6 +464,6 @@
     "view_details": "詳細を見る",
     "movie_added_success": "映画を成功裏に追加しました。",
     "movie_removed_success": "映画を成功裏に削除しました。"
-  }
-
+  },
+  "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。"
 }
