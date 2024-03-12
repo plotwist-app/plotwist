@@ -317,8 +317,8 @@
       "description": "Séries de TV ordenadas por avaliação."
     },
     "discover": {
-      "title": "Discover",
-      "description": "Find TV shows using filters and sort options."
+      "title": "Descubra",
+      "description": "Descubra séries de tv utilizando filtros avançados."
     }
   },
   "dashboard": {

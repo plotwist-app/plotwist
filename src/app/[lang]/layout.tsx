@@ -11,6 +11,7 @@ import { ListsContextProvider } from '@/context/lists'
 import { getUserService } from '@/services/api/users/get-user'
 import { Header } from '@/components/header'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { Footer } from '@/components/footer'
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
@@ -41,6 +42,8 @@ export default async function RootLayout({
               </div>
 
               <main className="w-full">{children}</main>
+
+              <Footer language={params.lang} />
             </div>
           </ListsContextProvider>
           <Toaster />
