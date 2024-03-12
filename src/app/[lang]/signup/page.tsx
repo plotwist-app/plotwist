@@ -2,15 +2,39 @@ import Link from 'next/link'
 import { SignUpForm } from './_components/sign-up-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Pattern } from '@/components/pattern'
+import { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const {
+    sign_up_page: { title, description },
+  } = await getDictionary(params.lang)
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: '[TMDB]',
+    },
+    twitter: {
+      title,
+      description,
+    },
+  }
+}
 
 const SignUpPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
-      <div className="hidden h-full bg-muted lg:block lg:w-1/2" />
+    <>
+      <Pattern variant="checkered" />
 
-      <div className="flex w-full flex-col items-center justify-center p-4 lg:w-1/2">
+      <div className="bg flex h-[calc(100vh-70px)] w-full flex-col items-center justify-center p-4 lg:p-0">
         <div className="w-full max-w-[450px] space-y-4">
           <div className="w-full space-y-2">
             <h1 className="text-2xl font-bold">
@@ -33,7 +57,7 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
           <SignUpForm dictionary={dictionary} />
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

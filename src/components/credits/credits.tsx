@@ -32,7 +32,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 imagePath={profilePath}
                 name={name}
                 role={character}
-                href={`/${language}/app/people/${id}`}
+                href={`/${language}/people/${id}`}
               />
             ),
           )}
@@ -56,7 +56,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 imagePath={profilePath}
                 name={name}
                 role={department}
-                href={`/${language}/app/people/${id}`}
+                href={`/${language}/people/${id}`}
               />
             ),
           )}

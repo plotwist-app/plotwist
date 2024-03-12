@@ -104,9 +104,6 @@ dependencies:
   next:
     specifier: 14.1.0
     version: 14.1.0(@babel/core@7.23.5)(react-dom@18.0.0)(react@18.0.0)
-  next-seo:
-    specifier: ^6.5.0
-    version: 6.5.0(next@14.1.0)(react-dom@18.0.0)(react@18.0.0)
   next-themes:
     specifier: ^0.2.1
     version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -5328,18 +5325,6 @@ packages:
   /negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
-    dev: false
-
-  /next-seo@6.5.0(next@14.1.0)(react-dom@18.0.0)(react@18.0.0):
-    resolution: {integrity: sha512-MfzUeWTN/x/rsKp/1n0213eojO97lIl0unxqbeCY+6pAucViHDA8GSLRRcXpgjsSmBxfCFdfpu7LXbt4ANQoNQ==}
-    peerDependencies:
-      next: ^8.1.1-canary.54 || >=9.0.0
-      react: '>=16.0.0'
-      react-dom: '>=16.0.0'
-    dependencies:
-      next: 14.1.0(@babel/core@7.23.5)(react-dom@18.0.0)(react@18.0.0)
-      react: 18.0.0
-      react-dom: 18.0.0(react@18.0.0)
     dev: false
 
   /next-themes@0.2.1(next@14.1.0)(react-dom@18.0.0)(react@18.0.0):

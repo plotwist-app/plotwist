@@ -2,7 +2,7 @@
 
 import { ReactNode, createContext, useContext } from 'react'
 import { Language } from '@/types/languages'
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+import { Dictionary } from '@/utils/dictionaries'
 
 type LanguageContextProviderProps = {
   children: ReactNode

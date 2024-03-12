@@ -112,18 +112,27 @@
     "seasons": "Saisons"
   },
   "navigation": {
-    "home": "Alternativas",
+    "home": "Accueil",
     "movies": "Films",
     "discover": "Découvrir",
+    "discover_description": "Prêt pour quelque chose de nouveau ? Laissez-nous vous surprendre avec des films et des séries que vous allez adorer.",
     "now_playing": "À l'affiche",
+    "now_playing_description": "Restez à jour avec les films qui brillent sur les grands écrans en ce moment.",
     "popular": "Populaires",
-    "top_rated": "Les mieux notés",
-    "upcoming": "À venir",
+    "popular_description": "Voyez ce qui est tendance ! Ce sont les films et les séries que tout le monde regarde et dont tout le monde parle.",
+    "top_rated": "Mieux Notés",
+    "top_rated_description": "La crème de la crème. Découvrez les films et les séries qui ont conquis le cœur et l'esprit du public et des critiques.",
+    "upcoming": "Prochainement",
+    "upcoming_description": "Prenez une longueur d'avance et restez informé des prochains grands succès qui envahiront bientôt les écrans.",
     "tv_shows": "Séries TV",
-    "airing_today": "Diffusées aujourd'hui",
-    "on_the_air": "À l'antenne",
+    "tv_shows_description": "Séries dignes de binge-watching. Explorez de nouvelles histoires, des personnages inoubliables et vos prochains visionnages intensifs.",
+    "airing_today": "Diffusé Aujourd'hui",
+    "airing_today_description": "Ne ratez pas le coche ! Voyez quelles séries diffusent des épisodes frais aujourd'hui.",
+    "on_the_air": "À l'Antenne",
+    "on_the_air_description": "Accordez-vous ici pour ne pas manquer les épisodes actuels des séries les plus chaudes du moment.",
     "people": "Personnes",
-    "lists": "Listes"
+    "lists": "Listes",
+    "lists_description": "Vos choix, vos intérêts. Créez et partagez des listes de vos films et séries préférés avec la communauté."
   },
   "sidebar_search": {
     "placeholder": "Recherchez des films, des émissions de télévision ou des personnes",
@@ -218,6 +227,7 @@
   },
   "list_form": {
     "create_new_list": "Créer une nouvelle liste",
+    
     "name": "Nom",
     "name_placeholder": "Ma Liste",
     "name_required": "Le nom de la liste est requis.",
@@ -461,5 +471,22 @@
       "label": "Votes minimums"
     },
     "no_results": "Aucun résultat."
+  },
+  "list_command": {
+    "search_placeholder": "Rechercher n'importe quoi...",
+    "no_results": "Aucun résultat trouvé.",
+    "tv_series_label": "Séries TV",
+    "tv_added_success": "Série TV ajoutée avec succès.",
+    "tv_removed_success": "Série TV retirée avec succès.",
+    "movies_label": "Films",
+    "remove_from_list": "Retirer de la liste",
+    "add_to_list": "Ajouter à la liste",
+    "view_details": "Voir les détails",
+    "movie_added_success": "Film ajouté avec succès.",
+    "movie_removed_success": "Film retiré avec succès."
+  },
+  "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme.",
+  "user_resume": {
+    "by": "par"
   }
 }

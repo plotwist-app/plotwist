@@ -112,18 +112,27 @@
     "seasons": "Staffeln"
   },
   "navigation": {
-    "home": "Startseite",
+    "home": "Start",
     "movies": "Filme",
     "discover": "Entdecken",
+    "discover_description": "Bereit für etwas Neues? Lassen Sie sich von uns mit Filmen und Serien überraschen, die Sie lieben werden.",
     "now_playing": "Jetzt im Kino",
+    "now_playing_description": "Bleiben Sie auf dem Laufenden über die Filme, die gerade die Kinoleinwände erobern.",
     "popular": "Beliebt",
-    "top_rated": "Top bewertet",
-    "upcoming": "Bevorstehend",
-    "tv_shows": "Fernsehsendungen",
+    "popular_description": "Sehen Sie, was angesagt ist! Dies sind die Filme und Serien, über die alle sprechen und die alle sehen.",
+    "top_rated": "Bestbewertet",
+    "top_rated_description": "Die Crème de la Crème. Entdecken Sie die Filme und Serien, die die Herzen und Köpfe des Publikums und der Kritiker erobert haben.",
+    "upcoming": "Demnächst",
+    "upcoming_description": "Seien Sie einen Schritt voraus und bleiben Sie informiert über die nächsten großen Hits, die bald auf den Bildschirmen erscheinen werden.",
+    "tv_shows": "Serien",
+    "tv_shows_description": "Fesselnde Serien. Entdecken Sie neue Geschichten, unvergessliche Charaktere und Ihre nächsten Serienmarathons.",
     "airing_today": "Heute ausgestrahlt",
-    "on_the_air": "Im Fernsehen",
+    "airing_today_description": "Verpassen Sie nicht den Takt! Sehen Sie, welche Serien heute frische Episoden haben.",
+    "on_the_air": "Auf Sendung",
+    "on_the_air_description": "Schalten Sie hier ein, um keine aktuellen Episoden der heißesten Serien des Moments zu verpassen.",
     "people": "Personen",
-    "lists": "Listen"
+    "lists": "Listen",
+    "lists_description": "Ihre Auswahl, Ihre Interessen. Erstellen und teilen Sie Listen Ihrer Lieblingsfilme und -serien mit der Community."
   },
   "sidebar_search": {
     "placeholder": "Suchen Sie nach Filmen, Fernsehshows oder Personen",
@@ -218,6 +227,7 @@
   },
   "list_form": {
     "create_new_list": "Neue Liste erstellen",
+    
     "name": "Name",
     "name_placeholder": "Meine Liste",
     "name_required": "Der Name der Liste ist erforderlich.",
@@ -461,5 +471,22 @@
       "label": "Mindeststimmen"
     },
     "no_results": "Keine Ergebnisse."
+  },
+  "list_command": {
+    "search_placeholder": "Suche nach allem...",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "tv_series_label": "TV-Serien",
+    "tv_added_success": "Serie erfolgreich hinzugefügt.",
+    "tv_removed_success": "Serie erfolgreich entfernt.",
+    "movies_label": "Filme",
+    "remove_from_list": "Von der Liste entfernen",
+    "add_to_list": "Zur Liste hinzufügen",
+    "view_details": "Details anzeigen",
+    "movie_added_success": "Film erfolgreich hinzugefügt.",
+    "movie_removed_success": "Film erfolgreich entfernt."
+  },
+  "no_account_tooltip": "Es scheint, dass Sie noch kein Konto haben. Klicken Sie hier, um Teil der Plattform zu werden.",
+  "user_resume": {
+    "by": "von"
   }
 }

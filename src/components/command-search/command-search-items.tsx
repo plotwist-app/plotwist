@@ -17,7 +17,7 @@ export const CommandSearchMovie = ({
 }: CommandSearchItemProps<MovieWithMediaType>) => {
   return (
     <Link
-      href={`/${language}/app/movies/${item.id}`}
+      href={`/${language}/movies/${item.id}`}
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
     >
       <span className="text-md truncate whitespace-nowrap">{item.title}</span>
@@ -36,7 +36,7 @@ export const CommandSearchTvShow = ({
   return (
     <Link
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
-      href={`/${language}/app/tv-shows/${item.id}`}
+      href={`/${language}/tv-shows/${item.id}`}
     >
       <span className="text-md truncate whitespace-nowrap">{item.name}</span>
 
@@ -54,7 +54,7 @@ export const CommandSearchPerson = ({
   return (
     <Link
       className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
-      href={`/${language}/app/people/${item.id}`}
+      href={`/${language}/people/${item.id}`}
     >
       <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
         {item.profile_path ? (

@@ -131,7 +131,6 @@ export type Dictionary = {
     on_the_air: string
     on_the_air_description: string
     people: string
-    people_description: string
     lists: string
     lists_description: string
   }
@@ -472,5 +471,22 @@ export type Dictionary = {
       label: string
     }
     no_results: string
+  }
+  list_command: {
+    search_placeholder: string
+    no_results: string
+    tv_series_label: string
+    tv_added_success: string
+    tv_removed_success: string
+    movies_label: string
+    remove_from_list: string
+    add_to_list: string
+    view_details: string
+    movie_added_success: string
+    movie_removed_success: string
+  }
+  no_account_tooltip: string
+  user_resume: {
+    by: string
   }
 }

@@ -1,4 +1,3 @@
-import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
 
 import { LanguageContextProvider } from '@/context/language'
@@ -7,19 +6,15 @@ import { getDictionary } from '@/utils/dictionaries'
 
 import { AppWrapper } from '@/context/app'
 
-import '../globals.css'
-import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { AuthContextProvider } from '@/context/auth'
 import { ListsContextProvider } from '@/context/lists'
 import { getUserService } from '@/services/api/users/get-user'
-
-const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
+import { Header } from '@/components/header'
+import { SUPPORTED_LANGUAGES } from '../../../languages'
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
 }
-
-export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
   children,
@@ -34,26 +29,23 @@ export default async function RootLayout({
   } = await getUserService()
 
   return (
-    <html lang={params.lang} className={spaceGrotesk.className}>
-      <head>
-        <link rel="icon" href="favicon.svg" />
-        <meta name="theme-color" content="#FFFFFF" />
-      </head>
+    <AppWrapper>
+      <LanguageContextProvider language={params.lang} dictionary={dictionary}>
+        <AuthContextProvider initialUser={user}>
+          <ListsContextProvider>
+            <div className="flex flex-col">
+              <div className="w-full border-b bg-background p-4">
+                <div className="mx-auto w-full max-w-6xl">
+                  <Header />
+                </div>
+              </div>
 
-      <body className="bg-background antialiased">
-        <AppWrapper>
-          <LanguageContextProvider
-            language={params.lang}
-            dictionary={dictionary}
-          >
-            <AuthContextProvider initialUser={user}>
-              <ListsContextProvider>{children}</ListsContextProvider>
-
-              <Toaster />
-            </AuthContextProvider>
-          </LanguageContextProvider>
-        </AppWrapper>
-      </body>
-    </html>
+              <main className="w-full">{children}</main>
+            </div>
+          </ListsContextProvider>
+          <Toaster />
+        </AuthContextProvider>
+      </LanguageContextProvider>
+    </AppWrapper>
   )
 }

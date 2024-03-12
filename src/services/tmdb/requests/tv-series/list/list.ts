@@ -1,9 +1,9 @@
 import { tmdbClient } from '@/services/tmdb'
 import { Language } from '@/types/languages'
-import { TvShowsListType, TvShowsListResponse } from '.'
+import { TvSeriesListType, TvSeriesListResponse } from '.'
 
 type ListQueryParams = {
-  list: TvShowsListType
+  list: TvSeriesListType
   language: Language
   page: number
 }
@@ -11,7 +11,7 @@ type ListQueryParams = {
 export const list = async (params: ListQueryParams) => {
   const { list, language, page } = params
 
-  const { data } = await tmdbClient.get<TvShowsListResponse>(`/tv/${list}`, {
+  const { data } = await tmdbClient.get<TvSeriesListResponse>(`/tv/${list}`, {
     params: {
       language,
       page,

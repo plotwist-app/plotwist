@@ -115,15 +115,24 @@
     "home": "ホーム",
     "movies": "映画",
     "discover": "発見",
+    "discover_description": "新しい何かに準備はできていますか？お好きになる映画やシリーズであなたを驚かせましょう。",
     "now_playing": "上映中",
+    "now_playing_description": "今、スクリーンで輝いている映画の最新情報を入手してください。",
     "popular": "人気",
-    "top_rated": "最高評価",
+    "popular_description": "何が流行っているか見てみましょう！これらは、皆が観て、話している映画やシリーズです。",
+    "top_rated": "高評価",
+    "top_rated_description": "最高のもの。観客と批評家の心と心をつかんだ映画やシリーズを発見してください。",
     "upcoming": "公開予定",
+    "upcoming_description": "先を行き、まもなくスクリーンに登場する次のヒット作について情報を入手してください。",
     "tv_shows": "テレビ番組",
+    "tv_shows_description": "あなたを引き込むシリーズ。新しい物語、忘れられないキャラクター、そしてあなたの次のマラソンを探索してください。",
     "airing_today": "今日放送",
+    "airing_today_description": "リズムを逃さないでください！今日、新鮮なエピソードが放送されるシリーズを見てください。",
     "on_the_air": "放送中",
-    "people": "人物",
-    "lists": "リスト"
+    "on_the_air_description": "今の最もホットなシリーズの現在のエピソードを逃さないように、ここにチューニングしてください。",
+    "people": "人々",
+    "lists": "リスト",
+    "lists_description": "あなたの選択、あなたの興味。コミュニティとあなたのお気に入りの映画やシリーズのリストを作成して共有してください。"
   },
   "sidebar_search": {
     "placeholder": "映画、テレビ番組、人物を探す",
@@ -218,6 +227,7 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
+
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
@@ -461,5 +471,22 @@
       "label": "最低投票数"
     },
     "no_results": "結果がありません。"
-  }
+  },
+  "list_command": {
+    "search_placeholder": "何でも検索...",
+    "no_results": "結果が見つかりませんでした。",
+    "tv_series_label": "TVシリーズ",
+    "tv_added_success": "TVシリーズを成功裏に追加しました。",
+    "tv_removed_success": "TVシリーズを成功裏に削除しました。",
+    "movies_label": "映画",
+    "remove_from_list": "リストから削除",
+    "add_to_list": "リストに追加",
+    "view_details": "詳細を見る",
+    "movie_added_success": "映画を成功裏に追加しました。",
+    "movie_removed_success": "映画を成功裏に削除しました。"
+  },
+  "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
+  "user_resume": {
+    "by": "著"
+  }  
 }

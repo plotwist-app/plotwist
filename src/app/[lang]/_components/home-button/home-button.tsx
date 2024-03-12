@@ -35,7 +35,7 @@ export const HomeButton = ({ primaryButton, language }: HomeButtonProps) => {
 
   return (
     <Button variant="outline" asChild>
-      <Link href={`/${language}/app`} prefetch={false}>
+      <Link href={`/${language}/home`} prefetch={false}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

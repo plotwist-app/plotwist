@@ -1,4 +1,4 @@
-export type TvShow = {
+export type TvSerie = {
   poster_path: string
   popularity: number
   id: number
