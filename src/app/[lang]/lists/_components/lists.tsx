@@ -6,21 +6,14 @@ import { useLanguage } from '@/context/language'
 import { ListCard, ListCardSkeleton } from './list-card'
 import { ListForm } from './list-form'
 import { useAuth } from '@/context/auth'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { TooltipPortal } from '@radix-ui/react-tooltip'
-import Link from 'next/link'
+
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
 
 const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 10 : 1
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useAuth()
 
   if (!user) {
