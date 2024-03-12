@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "Explore filmes, programas de TV e pessoas!",
+    "title": "Explore filmes, séries e atores!",
     "description": "O [TMDB] é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "primary_button": "Entrar",
@@ -100,7 +100,7 @@
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Filmes Populares",
-    "popular_tv_series_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Séries Populares"
   },
   "tabs": {
     "reviews": "Avaliações",
@@ -211,7 +211,7 @@
     "name_placeholder": "Minha Lista",
     "name_required": "O nome da lista é necessário.",
     "description": "Descrição",
-    "description_placeholder": "Filmes e programas de TV que planejo assistir.",
+    "description_placeholder": "Filmes e séries que planejo assistir.",
     "submit": "Enviar",
     "list_created_success": "Lista criada com sucesso!",
     "edit_list": "Editar lista",
