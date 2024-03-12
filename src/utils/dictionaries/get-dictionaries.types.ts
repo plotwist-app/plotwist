@@ -469,4 +469,13 @@ export type Dictionary = {
   user_resume: {
     by: string
   }
+  tv_serie_season_details: {
+    episode_number: string
+    name: string
+    overview: string
+    runtime: string
+    vote: string
+    grid_layout_tooltip: string
+    table_layout_tooltip: string
+  }
 }

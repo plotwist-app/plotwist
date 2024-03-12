@@ -471,5 +471,14 @@
   "no_account_tooltip": "Es scheint, dass Sie noch kein Konto haben. Klicken Sie hier, um Teil der Plattform zu werden.",
   "user_resume": {
     "by": "von"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Folge",
+    "name": "Name",
+    "overview": "Übersicht",
+    "runtime": "Laufzeit",
+    "vote": "Bewertung",
+    "grid_layout_tooltip": "Rasterlayout",
+    "table_layout_tooltip": "Tabellenlayout"
   }
 }

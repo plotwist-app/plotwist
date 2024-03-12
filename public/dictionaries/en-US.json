@@ -474,5 +474,14 @@
   "no_account_tooltip": "It looks like you don't have an account yet. Click here to join the platform.",
   "user_resume": {
     "by": "by"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episode",
+    "name": "Name",
+    "overview": "Overview",
+    "runtime": "Runtime",
+    "vote": "Vote",
+    "grid_layout_tooltip": "Grid layout",
+    "table_layout_tooltip": "Table layout"
   }
 }

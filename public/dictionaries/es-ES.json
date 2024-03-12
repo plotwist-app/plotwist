@@ -471,5 +471,14 @@
   "no_account_tooltip": "Parece que aún no tienes una cuenta. Haz clic aquí para unirte a la plataforma.",
   "user_resume": {
     "by": "por"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episodio",
+    "name": "Nombre",
+    "overview": "Resumen",
+    "runtime": "Duración",
+    "vote": "Voto",
+    "grid_layout_tooltip": "Diseño de cuadrícula",
+    "table_layout_tooltip": "Diseño de tabla"
   }
 }

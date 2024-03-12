@@ -207,7 +207,6 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
-
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
@@ -468,5 +467,14 @@
   "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
   "user_resume": {
     "by": "著"
-  }  
+  },
+  "tv_serie_season_details": {
+    "episode_number": "エピソード",
+    "name": "名前",
+    "overview": "概要",
+    "runtime": "実行時間",
+    "vote": "投票",
+    "grid_layout_tooltip": "グリッドレイアウト",
+    "table_layout_tooltip": "テーブルレイアウト"
+  }
 }

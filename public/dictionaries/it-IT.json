@@ -207,7 +207,6 @@
   },
   "list_form": {
     "create_new_list": "Crea nuova lista",
-    
     "name": "Nome",
     "name_placeholder": "La Mia Lista",
     "name_required": "Il nome della lista è richiesto.",
@@ -457,7 +456,7 @@
     "no_results": "Nessun risultato trovato.",
     "tv_series_label": "Serie TV",
     "tv_added_success": "Serie TV aggiunta con successo.",
-    "tv_removed_success": "Serie TV rimossa con successo.",  
+    "tv_removed_success": "Serie TV rimossa con successo.",
     "movies_label": "Film",
     "remove_from_list": "Rimuovi dalla lista",
     "add_to_list": "Aggiungi alla lista",
@@ -468,5 +467,14 @@
   "no_account_tooltip": "Sembra che tu non abbia ancora un account. Clicca qui per unirti alla piattaforma.",
   "user_resume": {
     "by": "da"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episodio",
+    "name": "Nome",
+    "overview": "Panoramica",
+    "runtime": "Durata",
+    "vote": "Voto",
+    "grid_layout_tooltip": "Layout a griglia",
+    "table_layout_tooltip": "Layout tabellare"
   }
 }

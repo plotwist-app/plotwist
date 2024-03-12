@@ -93,21 +93,25 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
     [addedSuccessfully, handleAddToList, item, language, push, viewList],
   )
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
-          <Plus className="mr-2" size={12} />
-          {addToList}
-        </Button>
-      </DropdownMenuTrigger>
+  const Content = () => {
+    if (!user) {
+      return (
+        <NoAccountTooltip>
+          <div
+            className={cn(
+              'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-2 text-sm opacity-50',
+            )}
+          >
+            {createNewList}
+          </div>
+        </NoAccountTooltip>
+      )
+    }
 
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-
-        {lists?.length > 0 &&
-          lists.map((list) => {
+    if (lists?.length > 0) {
+      return (
+        <>
+          {lists.map((list) => {
             const itemIncluded = list.list_items.find(
               ({ tmdb_id: tmdbId }) => tmdbId === item.id,
             )
@@ -125,30 +129,39 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
               </DropdownMenuCheckboxItem>
             )
           })}
+        </>
+      )
+    }
 
-        {user ? (
-          <ListForm
-            trigger={
-              <div
-                className={
-                  'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm'
-                }
-              >
-                {createNewList}
-              </div>
+    return (
+      <ListForm
+        trigger={
+          <div
+            className={
+              'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2 text-sm'
             }
-          />
-        ) : (
-          <NoAccountTooltip>
-            <div
-              className={cn(
-                'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-2 text-sm opacity-50',
-              )}
-            >
-              {createNewList}
-            </div>
-          </NoAccountTooltip>
-        )}
+          >
+            {createNewList}
+          </div>
+        }
+      />
+    )
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
+          <Plus className="mr-2" size={12} />
+          {addToList}
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+
+        <Content />
       </DropdownMenuContent>
     </DropdownMenu>
   )

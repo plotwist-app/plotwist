@@ -19,10 +19,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
+import { useLanguage } from '@/context/language'
+import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'
-
-import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 
 type TvSerieSeasonDetailsContentProps = {
   episodes: Episode[]
@@ -34,6 +34,18 @@ export const TvSerieSeasonDetailsContent = ({
   episodes,
 }: TvSerieSeasonDetailsContentProps) => {
   const [layout, setLayout] = useState<Layout>('grid')
+  const {
+    dictionary: {
+      tv_serie_season_details: {
+        grid_layout_tooltip: grid,
+        table_layout_tooltip: table,
+        name,
+        overview,
+        runtime,
+        vote,
+      },
+    },
+  } = useLanguage()
 
   const contentByLayout: Record<Layout, JSX.Element> = {
     grid: (
@@ -43,15 +55,16 @@ export const TvSerieSeasonDetailsContent = ({
         ))}
       </div>
     ),
+
     table: (
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[1ch]"></TableHead>
-            <TableHead className="w-[200px]">Name</TableHead>
-            <TableHead className="w-[400px]">Overview</TableHead>
-            <TableHead>Runtine</TableHead>
-            <TableHead className="text-right">Vote</TableHead>
+            <TableHead className="w-[200px]">{name}</TableHead>
+            <TableHead className="w-[400px]">{overview}</TableHead>
+            <TableHead>{runtime}</TableHead>
+            <TableHead className="text-right">{vote}</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -102,7 +115,7 @@ export const TvSerieSeasonDetailsContent = ({
               </Button>
             </TooltipTrigger>
 
-            <TooltipContent>Grid layout</TooltipContent>
+            <TooltipContent>{grid}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
 
@@ -119,7 +132,7 @@ export const TvSerieSeasonDetailsContent = ({
               </Button>
             </TooltipTrigger>
 
-            <TooltipContent>Table layout</TooltipContent>
+            <TooltipContent>{table}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>

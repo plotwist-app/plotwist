@@ -66,12 +66,10 @@
     "show_password": "Afficher le mot de passe",
     "hide_password": "Cacher le mot de passe",
     "access_button": "Accéder",
-
     "email_required": "Veuillez entrer votre adresse e-mail.",
     "email_invalid": "Veuillez entrer une adresse e-mail valide.",
     "password_required": "Veuillez entrer votre mot de passe.",
     "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
-
     "login_success": "Connexion réussie. Bienvenue ! 🎉",
     "invalid_login_credentials": "Identifiants de connexion invalides",
     "try_again": "Réessayer"
@@ -209,7 +207,6 @@
   },
   "list_form": {
     "create_new_list": "Créer une nouvelle liste",
-    
     "name": "Nom",
     "name_placeholder": "Ma Liste",
     "name_required": "Le nom de la liste est requis.",
@@ -217,7 +214,6 @@
     "description_placeholder": "Films et émissions de télévision que je prévois de regarder.",
     "submit": "Soumettre",
     "list_created_success": "Liste créée avec succès !",
-
     "edit_list": "Modifier la liste",
     "list_edited_success": "Liste modifiée avec succès."
   },
@@ -471,5 +467,14 @@
   "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme.",
   "user_resume": {
     "by": "par"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Épisode",
+    "name": "Nom",
+    "overview": "Aperçu",
+    "runtime": "Durée",
+    "vote": "Vote",
+    "grid_layout_tooltip": "Disposition en grille",
+    "table_layout_tooltip": "Disposition en tableau"
   }
 }
