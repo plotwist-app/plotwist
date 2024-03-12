@@ -1,9 +1,9 @@
-import { ListResponse, TvShow } from '@/services/tmdb/types'
+import { ListResponse, TvSerie } from '@/services/tmdb/types'
 
-export type TvShowsListType =
+export type TvSeriesListType =
   | 'airing_today'
   | 'on_the_air'
   | 'popular'
   | 'top_rated'
 
-export type TvShowsListResponse = ListResponse<TvShow>
+export type TvSeriesListResponse = ListResponse<TvSerie>
