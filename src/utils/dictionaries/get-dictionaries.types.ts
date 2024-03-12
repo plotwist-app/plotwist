@@ -478,4 +478,8 @@ export type Dictionary = {
     grid_layout_tooltip: string
     table_layout_tooltip: string
   }
+  popular_people: {
+    title: string
+    description: string
+  }
 }

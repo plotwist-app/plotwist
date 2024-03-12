@@ -483,5 +483,9 @@
     "vote": "Vote",
     "grid_layout_tooltip": "Grid layout",
     "table_layout_tooltip": "Table layout"
+  },
+  "popular_people": {
+    "title": "Popular People",
+    "description": "Get a list of people ordered by popularity."
   }
 }

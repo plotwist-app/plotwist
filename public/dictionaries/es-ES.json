@@ -480,5 +480,9 @@
     "vote": "Voto",
     "grid_layout_tooltip": "Diseño de cuadrícula",
     "table_layout_tooltip": "Diseño de tabla"
+  },
+  "popular_people": {
+    "title": "Personas populares",
+    "description": "Obtén una lista de personas ordenadas por popularidad."
   }
 }

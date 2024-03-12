@@ -480,5 +480,9 @@
     "vote": "Bewertung",
     "grid_layout_tooltip": "Rasterlayout",
     "table_layout_tooltip": "Tabellenlayout"
+  },
+  "popular_people": {
+    "title": "Beliebte Personen",
+    "description": "Holen Sie sich eine Liste der Personen, sortiert nach Beliebtheit."
   }
 }

@@ -476,5 +476,9 @@
     "vote": "投票",
     "grid_layout_tooltip": "グリッドレイアウト",
     "table_layout_tooltip": "テーブルレイアウト"
+  },
+  "popular_people": {
+    "title": "人気のある人々",
+    "description": "人気順に並べられた人々のリストを取得します。"
   }
 }

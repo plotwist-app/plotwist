@@ -476,5 +476,9 @@
     "vote": "Voto",
     "grid_layout_tooltip": "Layout a griglia",
     "table_layout_tooltip": "Layout tabellare"
+  },
+  "popular_people": {
+    "title": "Persone popolari",
+    "description": "Ottieni un elenco di persone ordinato per popolarità."
   }
 }
