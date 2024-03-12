@@ -17,6 +17,7 @@ import { HomePrices } from './_components/home-prices'
 import { APP_URL } from '../../../constants'
 
 import { MovieDetails } from './movies/[id]/_components/movie-details'
+import { Footer } from '@/components/footer'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -153,16 +154,7 @@ export default async function Home({ params: { lang } }: PageProps) {
 
         <HomeFeatures language={lang} dictionary={dictionary} />
         <HomePrices language={lang} />
-
-        {/* <section className="mx-auto max-w-article space-y-4">
-          <div className="flex flex-col gap-2">
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-          </div>
-        </section> */}
+        <Footer language={lang} />
       </main>
     </>
   )

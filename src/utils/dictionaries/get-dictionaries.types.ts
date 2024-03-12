@@ -482,4 +482,9 @@ export type Dictionary = {
     title: string
     description: string
   }
+  changelog: {
+    title: string
+    description: string
+    subscribe: string
+  }
 }

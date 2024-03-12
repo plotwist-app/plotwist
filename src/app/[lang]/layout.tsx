@@ -42,8 +42,6 @@ export default async function RootLayout({
               </div>
 
               <main className="w-full">{children}</main>
-
-              <Footer language={params.lang} />
             </div>
           </ListsContextProvider>
           <Toaster />

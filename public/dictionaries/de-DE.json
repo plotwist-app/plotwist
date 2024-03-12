@@ -484,5 +484,10 @@
   "popular_people": {
     "title": "Beliebte Personen",
     "description": "Holen Sie sich eine Liste der Personen, sortiert nach Beliebtheit."
+  },
+  "changelog": {
+    "title": "Änderungsprotokoll",
+    "description": "Neue Updates und Verbesserungen bei [TMDB].",
+    "subscribe": "Abonnieren Sie Updates!"
   }
 }

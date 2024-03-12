@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 
 import { movie } from '@/mocks/tmdb/movie/movie'
-import { languages } from '../../../languages'
+import { languages } from '../../../../languages'
 import { MovieCard, MovieCardSkeleton } from '.'
 
 describe('movie-card', () => {

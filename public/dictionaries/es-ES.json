@@ -484,5 +484,10 @@
   "popular_people": {
     "title": "Personas populares",
     "description": "Obtén una lista de personas ordenadas por popularidad."
+  },
+  "changelog": {
+    "title": "Registro de cambios",
+    "description": "Nuevas actualizaciones y mejoras en [TMDB].",
+    "subscribe": "¡Suscríbete a las actualizaciones!"
   }
 }

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withMDX = require('@next/mdx')()
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -8,6 +11,7 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
+  pageExtensions: ['mdx', 'ts', 'tsx'],
 }
 
-module.exports = nextConfig
+module.exports = withMDX(nextConfig)

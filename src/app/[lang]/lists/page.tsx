@@ -1,8 +1,10 @@
-import { PageProps } from '@/types/languages'
-import { Lists } from './_components/lists'
-import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
+
+import { Lists } from './_components/lists'
 import { Container } from '../_components/container'
+
+import { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 
 export async function generateMetadata({
   params,

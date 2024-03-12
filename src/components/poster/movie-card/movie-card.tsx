@@ -8,9 +8,9 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
-import { Badge } from '../ui/badge'
-import { Skeleton } from '../ui/skeleton'
+} from '../../ui/tooltip'
+import { Badge } from '../../ui/badge'
+import { Skeleton } from '../../ui/skeleton'
 
 import { Movie } from '@/services/tmdb/types'
 import { forwardRef } from 'react'
