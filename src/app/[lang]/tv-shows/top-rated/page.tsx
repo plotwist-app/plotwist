@@ -1,6 +1,6 @@
 import { getDictionary } from '@/utils/dictionaries'
 import { PageProps } from '@/types/languages'
-import { TvShowsList } from '@/components/tv-shows-list'
+import { TvSeriesList } from '@/components/tv-series-list'
 import { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
@@ -28,7 +28,7 @@ export async function generateMetadata({
   }
 }
 
-const TopRatedTvShowsPage = async ({ params: { lang } }: PageProps) => {
+const TopRatedTvSeriesPage = async ({ params: { lang } }: PageProps) => {
   const {
     tv_show_pages: {
       top_rated: { title, description },
@@ -44,9 +44,9 @@ const TopRatedTvShowsPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <TvShowsList variant="top_rated" />
+      <TvSeriesList variant="top_rated" />
     </Container>
   )
 }
 
-export default TopRatedTvShowsPage
+export default TopRatedTvSeriesPage

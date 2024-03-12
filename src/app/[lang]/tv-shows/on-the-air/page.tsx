@@ -1,4 +1,4 @@
-import { TvShowsList } from '@/components/tv-shows-list'
+import { TvSeriesList } from '@/components/tv-series-list'
 import { getDictionary } from '@/utils/dictionaries'
 import { PageProps } from '@/types/languages'
 import { Metadata } from 'next'
@@ -28,7 +28,7 @@ export async function generateMetadata({
   }
 }
 
-const OnTheAirTvShowsPage = async ({ params: { lang } }: PageProps) => {
+const OnTheAirTvSeriesPage = async ({ params: { lang } }: PageProps) => {
   const {
     tv_show_pages: {
       on_the_air: { title, description },
@@ -44,9 +44,9 @@ const OnTheAirTvShowsPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <TvShowsList variant="on_the_air" />
+      <TvSeriesList variant="on_the_air" />
     </Container>
   )
 }
 
-export default OnTheAirTvShowsPage
+export default OnTheAirTvSeriesPage

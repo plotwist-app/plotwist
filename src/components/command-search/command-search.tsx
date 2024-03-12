@@ -63,7 +63,7 @@ export const CommandSearch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName])
 
-  const [movies, tvShows, people] = [
+  const [movies, tvSeries, people] = [
     data?.results.filter(
       (result) => result.media_type === 'movie',
     ) as MovieWithMediaType[],
@@ -77,13 +77,13 @@ export const CommandSearch = () => {
     ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTVShows, hasPeople] = [
+  const [hasMovies, hasTvSeries, hasPeople] = [
     Boolean(movies?.length),
-    Boolean(tvShows?.length),
+    Boolean(tvSeries?.length),
     Boolean(people?.length),
   ]
 
-  const hasResults = hasMovies || hasTVShows || hasPeople
+  const hasResults = hasMovies || hasTvSeries || hasPeople
 
   return (
     <>
@@ -145,11 +145,11 @@ export const CommandSearch = () => {
                 </CommandSearchGroup>
               )}
 
-              {hasTVShows && (
+              {hasTvSeries && (
                 <CommandSearchGroup
                   heading={dictionary.sidebar_search.tv_shows}
                 >
-                  {tvShows?.map((tvShow) => (
+                  {tvSeries?.map((tvShow) => (
                     <CommandSearchTvShow
                       item={tvShow}
                       language={language}
