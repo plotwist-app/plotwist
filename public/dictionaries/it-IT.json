@@ -465,5 +465,8 @@
     "movie_added_success": "Film aggiunto con successo.",
     "movie_removed_success": "Film rimosso con successo."
   },
-  "no_account_tooltip": "Sembra che tu non abbia ancora un account. Clicca qui per unirti alla piattaforma."
+  "no_account_tooltip": "Sembra che tu non abbia ancora un account. Clicca qui per unirti alla piattaforma.",
+  "user_resume": {
+    "by": "da"
+  }
 }

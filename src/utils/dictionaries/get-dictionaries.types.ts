@@ -466,4 +466,7 @@ export type Dictionary = {
     movie_removed_success: string
   }
   no_account_tooltip: string
+  user_resume: {
+    by: string
+  }
 }

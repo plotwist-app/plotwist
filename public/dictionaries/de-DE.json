@@ -468,5 +468,8 @@
     "movie_added_success": "Film erfolgreich hinzugefügt.",
     "movie_removed_success": "Film erfolgreich entfernt."
   },
-  "no_account_tooltip": "Es scheint, dass Sie noch kein Konto haben. Klicken Sie hier, um Teil der Plattform zu werden."
+  "no_account_tooltip": "Es scheint, dass Sie noch kein Konto haben. Klicken Sie hier, um Teil der Plattform zu werden.",
+  "user_resume": {
+    "by": "von"
+  }
 }

@@ -21,7 +21,7 @@ import { useLanguage } from '@/context/language'
 import { supabase } from '@/services/supabase'
 import { List } from '@/types/supabase/lists'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { UserResume } from './_components/user-resume'
 
 type ListPageProps = {
   params: { id: string }
@@ -45,7 +45,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
     },
   })
 
-  const listMode = useMemo(() => {
+  const mode = useMemo(() => {
     if (!user || !response?.data) return 'SHOW'
 
     const isOwner = user.id === response.data.user_id
@@ -62,8 +62,17 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         </div>
 
         <div>
-          <Skeleton className="mb-2 h-8 w-1/3" />
-          <Skeleton className="h-4 w-1/4" />
+          <div className="flex items-start gap-2">
+            <Skeleton className="mb-2 h-8 w-[20ch]" />
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              by
+              <Skeleton className="h-7 w-7 rounded-full" />
+              <Skeleton className="h-[2ex] w-[11ch]" />
+            </div>
+          </div>
+
+          <Skeleton className="h-[1.5ex] w-[30ch]" />
         </div>
 
         <div className="flex gap-2">
@@ -106,22 +115,17 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <meta name="description" content={list.description} />
       </head>
 
-      <ListModeContextProvider mode={listMode}>
+      <ListModeContextProvider mode={mode}>
         <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
-          <div className="flex">
-            <Avatar>
-              <AvatarFallback>Luiz Henrique</AvatarFallback>
-            </Avatar>
-          </div>
-
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="space-y-4">
+            <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-bold">{list.name}</h1>
+                {mode === 'SHOW' && <UserResume userId={list.user_id} />}
 
-                {listMode === 'EDIT' && (
+                {mode === 'EDIT' && (
                   <ListForm
                     trigger={
                       <Button size="icon" variant="outline" className="h-6 w-6">
@@ -133,7 +137,9 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                 )}
               </div>
 
-              <p className="text-muted-foreground">{list.description}</p>
+              <p className="text-sm text-muted-foreground">
+                {list.description}
+              </p>
             </div>
           </div>
 

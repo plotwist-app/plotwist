@@ -465,5 +465,8 @@
     "movie_added_success": "映画を成功裏に追加しました。",
     "movie_removed_success": "映画を成功裏に削除しました。"
   },
-  "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。"
+  "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
+  "user_resume": {
+    "by": "著"
+  }  
 }

@@ -468,5 +468,8 @@
     "movie_added_success": "Film ajouté avec succès.",
     "movie_removed_success": "Film retiré avec succès."
   },
-  "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme."
+  "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme.",
+  "user_resume": {
+    "by": "par"
+  }
 }
