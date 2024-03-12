@@ -71,37 +71,37 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
   },
   {
     label: dictionary.navigation.tv_shows,
-    href: '/tv-shows',
+    href: '/tv-series',
     icon: Tv,
     items: [
       {
         label: dictionary.navigation.discover,
         description: dictionary.navigation.discover_description,
-        href: '/tv-shows/discover',
+        href: '/tv-series/discover',
         icon: Sparkles,
       },
       {
         label: dictionary.navigation.airing_today,
         description: dictionary.navigation.airing_today_description,
-        href: '/tv-shows/airing-today',
+        href: '/tv-series/airing-today',
         icon: Play,
       },
       {
         label: dictionary.navigation.on_the_air,
         description: dictionary.navigation.on_the_air_description,
-        href: '/tv-shows/on-the-air',
+        href: '/tv-series/on-the-air',
         icon: Tv,
       },
       {
         label: dictionary.navigation.popular,
         description: dictionary.navigation.popular_description,
-        href: '/tv-shows/popular',
+        href: '/tv-series/popular',
         icon: Heart,
       },
       {
         label: dictionary.navigation.top_rated,
         description: dictionary.navigation.top_rated_description,
-        href: '/tv-shows/top-rated',
+        href: '/tv-series/top-rated',
         icon: Star,
       },
     ],

@@ -8,9 +8,9 @@ export const sanitizeTmdbItem = (
   Review,
   'tmdb_id' | 'tmdb_overview' | 'tmdb_poster_path' | 'tmdb_title'
 > => {
-  const isTvShow = 'name' in tmdbItem
+  const isTvSerie = 'name' in tmdbItem
 
-  const title = isTvShow
+  const title = isTvSerie
     ? (tmdbItem as TvSeriesDetails).name
     : (tmdbItem as MovieDetails).title
 

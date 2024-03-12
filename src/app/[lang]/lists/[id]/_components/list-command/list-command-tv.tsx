@@ -1,4 +1,4 @@
-import { TvShowWithMediaType } from '@/services/tmdb/types'
+import { TvSerieWithMediaType } from '@/services/tmdb/types'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
@@ -24,7 +24,7 @@ import { listPageQueryKey } from '@/utils/list'
 import { toast } from 'sonner'
 
 type ListCommandTvProps = {
-  tv: TvShowWithMediaType[]
+  tv: TvSerieWithMediaType[]
   listItems: ListItem[]
 }
 
@@ -41,7 +41,7 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
   )
 
   const handleAdd = useCallback(
-    async (tvSerie: TvShowWithMediaType) => {
+    async (tvSerie: TvSerieWithMediaType) => {
       const sanitizedItem = sanitizeListItem(listId, tvSerie)
 
       await handleAddToList.mutateAsync(

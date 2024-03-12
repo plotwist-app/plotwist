@@ -39,7 +39,7 @@ export const TvSerieCard = ({
 
   return (
     <Link
-      href={`/${language}/tv-shows/${id}`}
+      href={`/${language}/tv-series/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid={TEST_ID}
     >

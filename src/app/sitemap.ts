@@ -12,11 +12,11 @@ export const APP_ROUTES = [
   '/movies/popular',
   '/movies/top-rated',
   '/people/popular',
-  '/tv-shows/airing-today',
-  '/tv-shows/discover',
-  '/tv-shows/on-the-air',
-  '/tv-shows/popular',
-  '/tv-shows/top-rated',
+  '/tv-series/airing-today',
+  '/tv-series/discover',
+  '/tv-series/on-the-air',
+  '/tv-series/popular',
+  '/tv-series/top-rated',
 ]
 
 export default function sitemap() {

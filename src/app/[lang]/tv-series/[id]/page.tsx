@@ -1,5 +1,5 @@
 import { Language } from '@/types/languages'
-import { TvSerieDetails } from './_components/tv-show-details'
+import { TvSerieDetails } from './_components/tv-serie-details'
 import { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'

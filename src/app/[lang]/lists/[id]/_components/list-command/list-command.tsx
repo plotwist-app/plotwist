@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator'
 import { useLanguage } from '@/context/language'
 
 import { tmdb } from '@/services/tmdb'
-import { MovieWithMediaType, TvShowWithMediaType } from '@/services/tmdb/types'
+import { MovieWithMediaType, TvSerieWithMediaType } from '@/services/tmdb/types'
 
 import {
   ListCommandMovies,
@@ -73,9 +73,10 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
       movies: results.filter(
         (result) => result.media_type === 'movie',
       ) as MovieWithMediaType[],
+
       tv: results.filter(
         (result) => result.media_type === 'tv',
-      ) as TvShowWithMediaType[],
+      ) as TvSerieWithMediaType[],
     }
   }, [data])
 

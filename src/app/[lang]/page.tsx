@@ -14,7 +14,6 @@ import { HomeFeatures } from './_components/home-features/home-features'
 import { HomePrices } from './_components/home-prices'
 import { Metadata } from 'next'
 import { APP_URL } from '../../../constants'
-import MoviePage from './movies/[id]/page'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MovieDetails } from './movies/[id]/_components/movie-details'
 

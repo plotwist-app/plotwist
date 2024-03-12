@@ -16,7 +16,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: MoviePageProps): Promise<Metadata> {
-  const tvShow = await tmdb.movies.details(Number(params.id), params.lang)
+  const {
+    title,
+    overview,
+    backdrop_path: backdrop,
+  } = await tmdb.movies.details(Number(params.id), params.lang)
 
   const keywords = await tmdb.keywords({
     id: Number(params.id),
@@ -24,19 +28,19 @@ export async function generateMetadata({
   })
 
   return {
-    title: tvShow.title,
-    description: tvShow.overview,
+    title,
+    description: overview,
     keywords: keywords?.map((keyword) => keyword.name).join(','),
     openGraph: {
-      images: [tmdbImage(tvShow.backdrop_path)],
-      title: tvShow.title,
-      description: tvShow.overview,
+      images: [tmdbImage(backdrop)],
+      title,
+      description: overview,
       siteName: '[TMDB]',
     },
     twitter: {
-      title: tvShow.title,
-      description: tvShow.overview,
-      images: tmdbImage(tvShow.backdrop_path),
+      title,
+      description: overview,
+      images: tmdbImage(backdrop),
       card: 'summary_large_image',
       creator: '@lui7henrique',
     },

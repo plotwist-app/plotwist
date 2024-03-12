@@ -1,18 +1,18 @@
 import {
   MediaType,
   MovieWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
 } from '@/services/tmdb/types'
 
 export type RawMovieCredit = MovieWithMediaType & {
   character: string
 }
 
-export type RawMovieTvShowCredit = TvShowWithMediaType & {
+export type RawTvSerieCredit = TvSerieWithMediaType & {
   character: string
 }
 
-export type RawCredit = RawMovieCredit | RawMovieTvShowCredit
+export type RawCredit = RawMovieCredit | RawTvSerieCredit
 
 export type CombinedCreditsResponse = {
   cast: Array<RawCredit>

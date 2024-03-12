@@ -7,11 +7,11 @@ import {
   Credit,
   RawCredit,
   RawMovieCredit,
-  RawMovieTvShowCredit,
+  RawTvSerieCredit,
 } from './combined-credits.types'
 
 const formatCredit = (credit: RawCredit): Credit => {
-  if ((credit as RawMovieTvShowCredit).name) {
+  if ((credit as RawTvSerieCredit).name) {
     const {
       first_air_date: date,
       id,
@@ -20,7 +20,7 @@ const formatCredit = (credit: RawCredit): Credit => {
       vote_average,
       vote_count,
       backdrop_path,
-    } = credit as RawMovieTvShowCredit
+    } = credit as RawTvSerieCredit
 
     return {
       date,

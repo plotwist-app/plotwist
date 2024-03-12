@@ -22,14 +22,15 @@ import {
 import {
   CommandSearchMovie,
   CommandSearchPerson,
-  CommandSearchTvShow,
   CommandSearchGroup,
   CommandSearchSkeleton,
+  CommandSearchTvSerie,
 } from '../command-search'
+
 import {
   MovieWithMediaType,
   PersonWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
 } from '@/services/tmdb/types'
 
 export const CommandSearch = () => {
@@ -70,7 +71,7 @@ export const CommandSearch = () => {
 
     data?.results.filter(
       (result) => result.media_type === 'tv',
-    ) as TvShowWithMediaType[],
+    ) as TvSerieWithMediaType[],
 
     data?.results.filter(
       (result) => result.media_type === 'person',
@@ -149,11 +150,11 @@ export const CommandSearch = () => {
                 <CommandSearchGroup
                   heading={dictionary.sidebar_search.tv_shows}
                 >
-                  {tvSeries?.map((tvShow) => (
-                    <CommandSearchTvShow
-                      item={tvShow}
+                  {tvSeries?.map((tvSerie) => (
+                    <CommandSearchTvSerie
+                      item={tvSerie}
                       language={language}
-                      key={tvShow.id}
+                      key={tvSerie.id}
                     />
                   ))}
                 </CommandSearchGroup>
