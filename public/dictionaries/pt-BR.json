@@ -100,7 +100,7 @@
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Filmes Populares",
-    "popular_tv_shows_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Programas de TV Populares"
   },
   "tabs": {
     "reviews": "Avaliações",
@@ -124,8 +124,8 @@
     "top_rated_description": "A crème de la crème. Descubra os filmes e séries que conquistaram os corações e as mentes do público e da crítica.",
     "upcoming": "Lançamentos",
     "upcoming_description": "Antecipe-se e fique por dentro dos próximos sucessos que vão invadir as telas em breve.",
-    "tv_shows": "Séries",
-    "tv_shows_description": "Séries que vão te prender. Explore novas histórias, personagens inesquecíveis e suas próximas maratonas.",
+    "tv_series": "Séries",
+    "tv_series_description": "Séries que vão te prender. Explore novas histórias, personagens inesquecíveis e suas próximas maratonas.",
     "airing_today": "Exibindo hoje",
     "airing_today_description": "Não perca o ritmo! Veja quais séries têm episódios fresquinhos saindo do forno hoje.",
     "on_the_air": "No ar",
@@ -139,7 +139,7 @@
     "search_everything": "Procure por tudo",
     "no_results": "Nenhum resultado encontrado.",
     "movies": "Filmes",
-    "tv_shows": "Séries de TV",
+    "tv_series": "Séries de TV",
     "people": "Pessoas"
   },
   "watch_providers": {
@@ -252,7 +252,7 @@
     "status": "Status",
     "actions": "Ações",
     "movie": "Filme",
-    "tv_show": "Série",
+    "tv_serie": "Série",
     "rating": "Avaliação"
   },
   "data_table_view_options": {
@@ -299,7 +299,7 @@
       "description": "Filmes que serão lançados em breve."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "Transmitindo hoje",
       "description": "Séries de TV transmitidas hoje."
@@ -392,7 +392,7 @@
     },
     "no_results": "Sem resultados."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Descubra séries",
     "tabs": {
       "filters": "Filtros",

@@ -100,7 +100,7 @@
     "dashboard_title": "Cruscotto",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Film Popolari",
-    "popular_tv_shows_title": "Programmi TV Popolari"
+    "popular_tv_series_title": "Programmi TV Popolari"
   },
   "tabs": {
     "reviews": "Recensioni",
@@ -124,8 +124,8 @@
     "top_rated_description": "La crème de la crème. Scopri i film e le serie che hanno conquistato i cuori e le menti del pubblico e della critica.",
     "upcoming": "In Arrivo",
     "upcoming_description": "Anticipa e resta informato sui prossimi successi che invaderanno presto gli schermi.",
-    "tv_shows": "Serie TV",
-    "tv_shows_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
+    "tv_series": "Serie TV",
+    "tv_series_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
     "airing_today": "In Onda Oggi",
     "airing_today_description": "Non perdere il ritmo! Scopri quali serie hanno episodi freschi di giornata oggi.",
     "on_the_air": "In Onda",
@@ -139,7 +139,7 @@
     "search_everything": "Cerca tutto",
     "no_results": "Nessun risultato trovato.",
     "movies": "Film",
-    "tv_shows": "Programmi TV",
+    "tv_series": "Programmi TV",
     "people": "Persone"
   },
   "watch_providers": {
@@ -253,7 +253,7 @@
     "status": "Stato",
     "actions": "Azioni",
     "movie": "Film",
-    "tv_show": "Serie TV",
+    "tv_serie": "Serie TV",
     "rating": "Valutazione"
   },
   "data_table_view_options": {
@@ -300,7 +300,7 @@
       "description": "Film in uscita a breve."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "In Onda Oggi",
       "description": "Serie TV in onda oggi."
@@ -393,7 +393,7 @@
     },
     "no_results": "Nessun risultato."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Scopri le serie TV",
     "tabs": {
       "filters": "Filtri",

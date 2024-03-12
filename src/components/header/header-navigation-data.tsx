@@ -70,7 +70,7 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     ],
   },
   {
-    label: dictionary.navigation.tv_shows,
+    label: dictionary.navigation.tv_series,
     href: '/tv-series',
     icon: Tv,
     items: [

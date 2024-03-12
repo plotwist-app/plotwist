@@ -99,7 +99,7 @@ export type Dictionary = {
     dashboard_title: string
     dashboard_description: string
     popular_movies_title: string
-    popular_tv_shows_title: string
+    popular_tv_series_title: string
   }
   tabs: {
     reviews: string
@@ -124,8 +124,8 @@ export type Dictionary = {
     top_rated_description: string
     upcoming: string
     upcoming_description: string
-    tv_shows: string
-    tv_shows_description: string
+    tv_series: string
+    tv_series_description: string
     airing_today: string
     airing_today_description: string
     on_the_air: string
@@ -139,7 +139,7 @@ export type Dictionary = {
     search_everything: string
     no_results: string
     movies: string
-    tv_shows: string
+    tv_series: string
     people: string
   }
   watch_providers: {
@@ -253,7 +253,7 @@ export type Dictionary = {
     status: string
     actions: string
     movie: string
-    tv_show: string
+    tv_serie: string
     rating: string
   }
   data_table_view_options: {
@@ -300,7 +300,7 @@ export type Dictionary = {
       description: string
     }
   }
-  tv_show_pages: {
+  tv_serie_pages: {
     airing_today: {
       title: string
       description: string
@@ -393,7 +393,7 @@ export type Dictionary = {
     }
     no_results: string
   }
-  tv_shows_list_filters: {
+  tv_series_list_filters: {
     title: string
     tabs: {
       filters: string

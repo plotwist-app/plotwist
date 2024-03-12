@@ -8,7 +8,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const {
-    tv_show_pages: {
+    tv_serie_pages: {
       on_the_air: { title, description },
     },
   } = await getDictionary(params.lang)
@@ -30,7 +30,7 @@ export async function generateMetadata({
 
 const OnTheAirTvSeriesPage = async ({ params: { lang } }: PageProps) => {
   const {
-    tv_show_pages: {
+    tv_serie_pages: {
       on_the_air: { title, description },
     },
   } = await getDictionary(lang)

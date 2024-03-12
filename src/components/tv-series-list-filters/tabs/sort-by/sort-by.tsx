@@ -35,7 +35,7 @@ export const SortBy = () => {
   const { dictionary } = useLanguage()
 
   const { label, placeholder, options } =
-    dictionary.tv_shows_list_filters.sort_by
+    dictionary.tv_series_list_filters.sort_by
 
   return (
     <FormField

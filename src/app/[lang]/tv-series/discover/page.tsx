@@ -9,7 +9,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const {
-    tv_show_pages: {
+    tv_serie_pages: {
       discover: { title, description },
     },
   } = await getDictionary(params.lang)
@@ -31,7 +31,7 @@ export async function generateMetadata({
 
 const DiscoverTvSeriesPage = async ({ params: { lang } }: PageProps) => {
   const {
-    tv_show_pages: {
+    tv_serie_pages: {
       discover: { title, description },
     },
   } = await getDictionary(lang)

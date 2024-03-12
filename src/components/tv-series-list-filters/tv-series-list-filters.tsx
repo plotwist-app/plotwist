@@ -74,7 +74,7 @@ export const TvSeriesListFilters = () => {
             <SheetContent className="space-y-4">
               <SheetHeader>
                 <SheetTitle>
-                  {dictionary.tv_shows_list_filters.title}
+                  {dictionary.tv_series_list_filters.title}
                 </SheetTitle>
               </SheetHeader>
 
@@ -82,11 +82,11 @@ export const TvSeriesListFilters = () => {
                 <Tabs defaultValue="filters">
                   <TabsList>
                     <TabsTrigger value="filters">
-                      {dictionary.tv_shows_list_filters.tabs.filters}
+                      {dictionary.tv_series_list_filters.tabs.filters}
                     </TabsTrigger>
 
                     <TabsTrigger value="sort-by">
-                      {dictionary.tv_shows_list_filters.tabs.order}
+                      {dictionary.tv_series_list_filters.tabs.order}
                     </TabsTrigger>
 
                     <TabsTrigger value="where-to-watch">

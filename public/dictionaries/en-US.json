@@ -104,7 +104,7 @@
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Popular movies",
-    "popular_tv_shows_title": "Popular TV Shows"
+    "popular_tv_series_title": "Popular TV Shows"
   },
   "tabs": {
     "reviews": "Reviews",
@@ -128,8 +128,8 @@
     "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
     "upcoming_description": "Get ahead of the game and stay informed about the next big hits set to invade screens soon.",
-    "tv_shows": "TV Shows",
-    "tv_shows_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
+    "tv_series": "TV Shows",
+    "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
     "on_the_air": "On the Air",
@@ -143,7 +143,7 @@
     "search_everything": "Search everything",
     "no_results": "No results found.",
     "movies": "Movies",
-    "tv_shows": "TV Shows",
+    "tv_series": "TV Shows",
     "people": "People"
   },
   "watch_providers": {
@@ -258,7 +258,7 @@
     "status": "Status",
     "actions": "Actions",
     "movie": "Movie",
-    "tv_show": "TV Show",
+    "tv_serie": "TV Show",
     "rating": "Rating"
   },
   "data_table_view_options": {
@@ -305,7 +305,7 @@
       "description": "Movies that are being released soon."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "Airing Today",
       "description": "TV shows airing today."
@@ -398,7 +398,7 @@
     },
     "no_results": "No results."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Discover TV Shows",
     "tabs": {
       "filters": "Filters",

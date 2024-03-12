@@ -82,7 +82,7 @@ export const columns: Columns = (dictionary, language, mode) => {
         const columnId = dictionary.data_table_columns.type
 
         const movie = dictionary.data_table_columns.movie
-        const tvSerie = dictionary.data_table_columns.tv_show
+        const tvSerie = dictionary.data_table_columns.tv_serie
 
         return (
           <Badge variant="outline" className="whitespace-nowrap">

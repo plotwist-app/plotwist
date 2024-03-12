@@ -118,7 +118,7 @@ export const CommandSearch = () => {
                 </CommandSearchGroup>
 
                 <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_shows}
+                  heading={dictionary.sidebar_search.tv_series}
                 >
                   {Array.from({ length: 5 }).map((_, index) => (
                     <CommandSearchSkeleton key={index} />
@@ -148,7 +148,7 @@ export const CommandSearch = () => {
 
               {hasTvSeries && (
                 <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_shows}
+                  heading={dictionary.sidebar_search.tv_series}
                 >
                   {tvSeries?.map((tvSerie) => (
                     <CommandSearchTvSerie
