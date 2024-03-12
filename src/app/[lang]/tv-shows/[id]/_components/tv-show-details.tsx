@@ -20,7 +20,7 @@ import { WatchProviders } from '@/components/watch-providers'
 import { ListsDropdown } from '@/components/lists'
 import { Credits } from '@/components/credits'
 
-import { TvShowSeasons } from './tv-show-seasons'
+import { TvSerieSeasons } from './tv-show-seasons'
 import { TvShowRelated } from './tv-show-related'
 
 import { tmdb } from '@/services/tmdb'
@@ -32,17 +32,17 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
 
-type TvShowsDetailsProps = {
+type TvSerieDetailsProps = {
   id: number
   language: Language
   embed?: boolean
 }
 
-export const TvShowsDetails = async ({
+export const TvSerieDetails = async ({
   id,
   language,
   embed = false,
-}: TvShowsDetailsProps) => {
+}: TvSerieDetailsProps) => {
   const tvShow = await tmdb.tvSeries.details(id, language)
   const dictionary = await getDictionary(language)
 
@@ -134,7 +134,7 @@ export const TvShowsDetails = async ({
           </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
-            <TvShowSeasons
+            <TvSerieSeasons
               seasons={tvShow.seasons}
               id={id}
               language={language}

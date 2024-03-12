@@ -15,15 +15,14 @@ import { Season } from '@/services/tmdb/requests/tv-series/details'
 
 import { TvShowSeasonDetails } from './tv-show-season-details'
 
-type TvShowSeasonsProps = {
+type TvSerieSeasonsProps = {
   seasons: Season[]
   id: number
   language: Language
 }
 
-type TvShowSeasonProps = { season: Season; id: number; language: Language }
-
-const TvShowSeason = ({ season, id, language }: TvShowSeasonProps) => {
+type TvSrieSeasonProps = { season: Season; id: number; language: Language }
+const TvSerieSeason = ({ season, id, language }: TvSrieSeasonProps) => {
   const {
     poster_path: poster,
     name,
@@ -77,15 +76,15 @@ const TvShowSeason = ({ season, id, language }: TvShowSeasonProps) => {
   )
 }
 
-export const TvShowSeasons = ({
+export const TvSerieSeasons = ({
   seasons,
   id,
   language,
-}: TvShowSeasonsProps) => {
+}: TvSerieSeasonsProps) => {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
       {seasons.map((season) => (
-        <TvShowSeason
+        <TvSerieSeason
           season={season}
           key={season.id}
           id={id}

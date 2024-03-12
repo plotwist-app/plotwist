@@ -39,7 +39,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
     page: 1,
   })
 
-  const popularTvShows = await tmdb.tvSeries.list({
+  const popularTvSeries = await tmdb.tvSeries.list({
     language: lang,
     list: 'popular',
     page: 1,
@@ -83,7 +83,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </h4>
 
             <div className="flex flex-col space-y-8">
-              {popularTvShows.results.slice(0, 2).map((tvShow) => (
+              {popularTvSeries.results.slice(0, 2).map((tvShow) => (
                 <TvShowCard tvShow={tvShow} key={tvShow.id} />
               ))}
             </div>
