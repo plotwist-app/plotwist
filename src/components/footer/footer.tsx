@@ -57,6 +57,7 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             <Link
               href="https://www.themoviedb.org/"
               className="text-xs text-muted-foreground"
+              target="blank"
             >
               {provided}
             </Link>
