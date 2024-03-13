@@ -1,7 +1,7 @@
 import {
   MovieWithMediaType,
   PersonWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
 } from '@/services/tmdb/types'
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -29,14 +29,14 @@ export const CommandSearchMovie = ({
   )
 }
 
-export const CommandSearchTvShow = ({
+export const CommandSearchTvSerie = ({
   item,
   language,
-}: CommandSearchItemProps<TvShowWithMediaType>) => {
+}: CommandSearchItemProps<TvSerieWithMediaType>) => {
   return (
     <Link
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
-      href={`/${language}/tv-shows/${item.id}`}
+      href={`/${language}/tv-series/${item.id}`}
     >
       <span className="text-md truncate whitespace-nowrap">{item.name}</span>
 

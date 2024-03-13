@@ -100,7 +100,7 @@
     "dashboard_title": "Cruscotto",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Film Popolari",
-    "popular_tv_shows_title": "Programmi TV Popolari"
+    "popular_tv_series_title": "Programmi TV Popolari"
   },
   "tabs": {
     "reviews": "Recensioni",
@@ -124,8 +124,8 @@
     "top_rated_description": "La crème de la crème. Scopri i film e le serie che hanno conquistato i cuori e le menti del pubblico e della critica.",
     "upcoming": "In Arrivo",
     "upcoming_description": "Anticipa e resta informato sui prossimi successi che invaderanno presto gli schermi.",
-    "tv_shows": "Serie TV",
-    "tv_shows_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
+    "tv_series": "Serie TV",
+    "tv_series_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
     "airing_today": "In Onda Oggi",
     "airing_today_description": "Non perdere il ritmo! Scopri quali serie hanno episodi freschi di giornata oggi.",
     "on_the_air": "In Onda",
@@ -139,7 +139,7 @@
     "search_everything": "Cerca tutto",
     "no_results": "Nessun risultato trovato.",
     "movies": "Film",
-    "tv_shows": "Programmi TV",
+    "tv_series": "Programmi TV",
     "people": "Persone"
   },
   "watch_providers": {
@@ -227,7 +227,6 @@
   },
   "list_form": {
     "create_new_list": "Crea nuova lista",
-    
     "name": "Nome",
     "name_placeholder": "La Mia Lista",
     "name_required": "Il nome della lista è richiesto.",
@@ -273,7 +272,7 @@
     "status": "Stato",
     "actions": "Azioni",
     "movie": "Film",
-    "tv_show": "Serie TV",
+    "tv_serie": "Serie TV",
     "rating": "Valutazione"
   },
   "data_table_view_options": {
@@ -320,7 +319,7 @@
       "description": "Film in uscita a breve."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "In Onda Oggi",
       "description": "Serie TV in onda oggi."
@@ -413,7 +412,7 @@
     },
     "no_results": "Nessun risultato."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Scopri le serie TV",
     "tabs": {
       "filters": "Filtri",
@@ -477,7 +476,7 @@
     "no_results": "Nessun risultato trovato.",
     "tv_series_label": "Serie TV",
     "tv_added_success": "Serie TV aggiunta con successo.",
-    "tv_removed_success": "Serie TV rimossa con successo.",  
+    "tv_removed_success": "Serie TV rimossa con successo.",
     "movies_label": "Film",
     "remove_from_list": "Rimuovi dalla lista",
     "add_to_list": "Aggiungi alla lista",
@@ -488,5 +487,42 @@
   "no_account_tooltip": "Sembra che tu non abbia ancora un account. Clicca qui per unirti alla piattaforma.",
   "user_resume": {
     "by": "da"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episodio",
+    "name": "Nome",
+    "overview": "Panoramica",
+    "runtime": "Durata",
+    "vote": "Voto",
+    "grid_layout_tooltip": "Layout a griglia",
+    "table_layout_tooltip": "Layout tabellare"
+  },
+  "popular_people": {
+    "title": "Persone popolari",
+    "description": "Ottieni un elenco di persone ordinato per popolarità."
+  },
+  "changelog": {
+    "title": "Registro delle modifiche",
+    "description": "Nuovi aggiornamenti e miglioramenti a [TMDB].",
+    "subscribe": "Iscriviti agli aggiornamenti!"
+  },
+  "footer": {
+    "status": "Stato: Tutti i sistemi funzionano",
+    "rights": "© Status 451. Tutti i diritti riservati.",
+    "data_provided_by": "Dati forniti da TMDB.",
+    "sections": {
+      "product": "Prodotto",
+      "company": "Azienda",
+      "developers": "Sviluppatori",
+      "features": "Caratteristiche",
+      "pricing": "Prezzi",
+      "changelog": "Registro delle modifiche",
+      "download": "Scarica",
+      "about_us": "Chi siamo",
+      "careers": "Carriere",
+      "brand": "Marchio",
+      "status": "Stato",
+      "github": "GitHub"
+    }
   }
 }

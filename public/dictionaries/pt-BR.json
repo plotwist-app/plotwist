@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "Explore filmes, programas de TV e pessoas!",
+    "title": "Explore filmes, séries e atores!",
     "description": "O [TMDB] é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "primary_button": "Entrar",
@@ -100,7 +100,7 @@
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Filmes Populares",
-    "popular_tv_shows_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Séries Populares"
   },
   "tabs": {
     "reviews": "Avaliações",
@@ -124,8 +124,8 @@
     "top_rated_description": "A crème de la crème. Descubra os filmes e séries que conquistaram os corações e as mentes do público e da crítica.",
     "upcoming": "Lançamentos",
     "upcoming_description": "Antecipe-se e fique por dentro dos próximos sucessos que vão invadir as telas em breve.",
-    "tv_shows": "Séries",
-    "tv_shows_description": "Séries que vão te prender. Explore novas histórias, personagens inesquecíveis e suas próximas maratonas.",
+    "tv_series": "Séries",
+    "tv_series_description": "Séries que vão te prender. Explore novas histórias, personagens inesquecíveis e suas próximas maratonas.",
     "airing_today": "Exibindo hoje",
     "airing_today_description": "Não perca o ritmo! Veja quais séries têm episódios fresquinhos saindo do forno hoje.",
     "on_the_air": "No ar",
@@ -139,7 +139,7 @@
     "search_everything": "Procure por tudo",
     "no_results": "Nenhum resultado encontrado.",
     "movies": "Filmes",
-    "tv_shows": "Séries de TV",
+    "tv_series": "Séries de TV",
     "people": "Pessoas"
   },
   "watch_providers": {
@@ -231,7 +231,7 @@
     "name_placeholder": "Minha Lista",
     "name_required": "O nome da lista é necessário.",
     "description": "Descrição",
-    "description_placeholder": "Filmes e programas de TV que planejo assistir.",
+    "description_placeholder": "Filmes e séries que planejo assistir.",
     "submit": "Enviar",
     "list_created_success": "Lista criada com sucesso!",
     "edit_list": "Editar lista",
@@ -272,7 +272,7 @@
     "status": "Status",
     "actions": "Ações",
     "movie": "Filme",
-    "tv_show": "Série",
+    "tv_serie": "Série",
     "rating": "Avaliação"
   },
   "data_table_view_options": {
@@ -319,7 +319,7 @@
       "description": "Filmes que serão lançados em breve."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "Transmitindo hoje",
       "description": "Séries de TV transmitidas hoje."
@@ -337,8 +337,8 @@
       "description": "Séries de TV ordenadas por avaliação."
     },
     "discover": {
-      "title": "Discover",
-      "description": "Find TV shows using filters and sort options."
+      "title": "Descubra",
+      "description": "Descubra séries de tv utilizando filtros avançados."
     }
   },
   "dashboard": {
@@ -412,7 +412,7 @@
     },
     "no_results": "Sem resultados."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Descubra séries",
     "tabs": {
       "filters": "Filtros",
@@ -487,5 +487,42 @@
   "no_account_tooltip": "Parece que você ainda não tem uma conta. Clique aqui para fazer parte da plataforma.",
   "user_resume": {
     "by": "por"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episódio",
+    "name": "Nome",
+    "overview": "Sinopse",
+    "runtime": "Duração",
+    "vote": "Votação",
+    "grid_layout_tooltip": "Grade",
+    "table_layout_tooltip": "Tabela"
+  },
+  "popular_people": {
+    "title": "Pessoas populares",
+    "description": "Obtenha uma lista de pessoas ordenadas por popularidade."
+  },
+  "changelog": {
+    "title": "Registro de mudanças",
+    "description": "Novas atualizações e melhorias no [TMDB].",
+    "subscribe": "Inscreva-se para receber atualizações!"
+  },
+  "footer": {
+    "status": "Status: Todos os sistemas operacionais",
+    "rights": "© Status 451. Todos os direitos reservados.",
+    "data_provided_by": "Dados fornecidos pela TMDB.",
+    "sections": {
+      "product": "Produto",
+      "company": "Empresa",
+      "developers": "Desenvolvedores",
+      "features": "Recursos",
+      "pricing": "Preços",
+      "changelog": "Registro de alterações",
+      "download": "Baixar",
+      "about_us": "Sobre nós",
+      "careers": "Carreiras",
+      "brand": "Marca",
+      "status": "Status",
+      "github": "GitHub"
+    }
   }
 }

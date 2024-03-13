@@ -29,7 +29,11 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   return (
-    <html lang={params.lang} className={spaceGrotesk.className}>
+    <html
+      lang={params.lang}
+      className={spaceGrotesk.className}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="icon" href="favicon.svg" />
         <meta name="theme-color" content="#FFFFFF" />

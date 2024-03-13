@@ -22,14 +22,15 @@ import {
 import {
   CommandSearchMovie,
   CommandSearchPerson,
-  CommandSearchTvShow,
   CommandSearchGroup,
   CommandSearchSkeleton,
+  CommandSearchTvSerie,
 } from '../command-search'
+
 import {
   MovieWithMediaType,
   PersonWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
 } from '@/services/tmdb/types'
 
 export const CommandSearch = () => {
@@ -63,27 +64,27 @@ export const CommandSearch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName])
 
-  const [movies, tvShows, people] = [
+  const [movies, tvSeries, people] = [
     data?.results.filter(
       (result) => result.media_type === 'movie',
     ) as MovieWithMediaType[],
 
     data?.results.filter(
       (result) => result.media_type === 'tv',
-    ) as TvShowWithMediaType[],
+    ) as TvSerieWithMediaType[],
 
     data?.results.filter(
       (result) => result.media_type === 'person',
     ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTVShows, hasPeople] = [
+  const [hasMovies, hasTvSeries, hasPeople] = [
     Boolean(movies?.length),
-    Boolean(tvShows?.length),
+    Boolean(tvSeries?.length),
     Boolean(people?.length),
   ]
 
-  const hasResults = hasMovies || hasTVShows || hasPeople
+  const hasResults = hasMovies || hasTvSeries || hasPeople
 
   return (
     <>
@@ -117,7 +118,7 @@ export const CommandSearch = () => {
                 </CommandSearchGroup>
 
                 <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_shows}
+                  heading={dictionary.sidebar_search.tv_series}
                 >
                   {Array.from({ length: 5 }).map((_, index) => (
                     <CommandSearchSkeleton key={index} />
@@ -145,15 +146,15 @@ export const CommandSearch = () => {
                 </CommandSearchGroup>
               )}
 
-              {hasTVShows && (
+              {hasTvSeries && (
                 <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_shows}
+                  heading={dictionary.sidebar_search.tv_series}
                 >
-                  {tvShows?.map((tvShow) => (
-                    <CommandSearchTvShow
-                      item={tvShow}
+                  {tvSeries?.map((tvSerie) => (
+                    <CommandSearchTvSerie
+                      item={tvSerie}
                       language={language}
-                      key={tvShow.id}
+                      key={tvSerie.id}
                     />
                   ))}
                 </CommandSearchGroup>

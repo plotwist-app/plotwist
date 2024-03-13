@@ -1,22 +1,23 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { Metadata } from 'next'
 
 import { Button } from '@/components/ui/button'
+import { Pattern } from '@/components/pattern'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { CounterSection } from './_components/count-section'
-import { Pattern } from '@/components/pattern'
 
+import { CounterSection } from './_components/count-section'
 import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
-import { Suspense } from 'react'
-import { HomeFeatures } from './_components/home-features/home-features'
+import { HomeFeatures } from './_components/home-features'
 import { HomePrices } from './_components/home-prices'
-import { Metadata } from 'next'
 import { APP_URL } from '../../../constants'
-import MoviePage from './movies/[id]/page'
-import { Skeleton } from '@/components/ui/skeleton'
+
 import { MovieDetails } from './movies/[id]/_components/movie-details'
+import { Footer } from '@/components/footer'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -126,7 +127,7 @@ export default async function Home({ params: { lang } }: PageProps) {
             </Suspense>
           </div>
 
-          <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-5">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-5">
             <CounterSection
               label={statistics.movies.label}
               value={statistics.movies.value}
@@ -153,16 +154,7 @@ export default async function Home({ params: { lang } }: PageProps) {
 
         <HomeFeatures language={lang} dictionary={dictionary} />
         <HomePrices language={lang} />
-
-        {/* <section className="mx-auto max-w-article space-y-4">
-          <div className="flex flex-col gap-2">
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-            <div className="h-12 rounded-md border"></div>
-          </div>
-        </section> */}
+        <Footer language={lang} dictionary={dictionary} />
       </main>
     </>
   )

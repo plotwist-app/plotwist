@@ -1,6 +1,6 @@
-import { MovieCard } from '@/components/movie-card'
+import { MovieCard } from '@/components/poster/movie-card'
 import { Separator } from '@/components/ui/separator'
-import { TvShowCard } from '@/components/tv-show-card'
+import { TvSerieCard } from '@/components/tv-serie-card'
 
 import { PageProps } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
@@ -79,12 +79,12 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
 
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">
-              {dictionary.app_page.popular_tv_shows_title}
+              {dictionary.app_page.popular_tv_series_title}
             </h4>
 
             <div className="flex flex-col space-y-8">
-              {popularTvSeries.results.slice(0, 2).map((tvShow) => (
-                <TvShowCard tvShow={tvShow} key={tvShow.id} />
+              {popularTvSeries.results.slice(0, 2).map((tvSerie) => (
+                <TvSerieCard tvSerie={tvSerie} key={tvSerie.id} />
               ))}
             </div>
           </div>

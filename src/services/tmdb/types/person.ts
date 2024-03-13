@@ -1,6 +1,6 @@
-import { MovieWithMediaType, TvShowWithMediaType } from '.'
+import { MovieWithMediaType, TvSerieWithMediaType } from '.'
 
-export type KnownFor = MovieWithMediaType | TvShowWithMediaType
+export type KnownFor = MovieWithMediaType | TvSerieWithMediaType
 
 export type Person = {
   id: number

@@ -100,7 +100,7 @@
     "dashboard_title": "コントロールパネル",
     "dashboard_description": "ダッシュボードの説明",
     "popular_movies_title": "人気映画",
-    "popular_tv_shows_title": "人気テレビ番組"
+    "popular_tv_series_title": "人気テレビ番組"
   },
   "tabs": {
     "reviews": "レビュー",
@@ -124,8 +124,8 @@
     "top_rated_description": "最高のもの。観客と批評家の心と心をつかんだ映画やシリーズを発見してください。",
     "upcoming": "公開予定",
     "upcoming_description": "先を行き、まもなくスクリーンに登場する次のヒット作について情報を入手してください。",
-    "tv_shows": "テレビ番組",
-    "tv_shows_description": "あなたを引き込むシリーズ。新しい物語、忘れられないキャラクター、そしてあなたの次のマラソンを探索してください。",
+    "tv_series": "テレビ番組",
+    "tv_series_description": "あなたを引き込むシリーズ。新しい物語、忘れられないキャラクター、そしてあなたの次のマラソンを探索してください。",
     "airing_today": "今日放送",
     "airing_today_description": "リズムを逃さないでください！今日、新鮮なエピソードが放送されるシリーズを見てください。",
     "on_the_air": "放送中",
@@ -139,7 +139,7 @@
     "search_everything": "すべてを検索",
     "no_results": "結果は見つからなかった。",
     "movies": "映画",
-    "tv_shows": "テレビ番組",
+    "tv_series": "テレビ番組",
     "people": "人物"
   },
   "watch_providers": {
@@ -227,7 +227,6 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
-
     "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
@@ -273,7 +272,7 @@
     "status": "ステータス",
     "actions": "アクション",
     "movie": "映画",
-    "tv_show": "テレビ番組",
+    "tv_serie": "テレビ番組",
     "rating": "評価"
   },
   "data_table_view_options": {
@@ -320,7 +319,7 @@
       "description": "近日公開の映画。"
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "今日放送",
       "description": "今日放送されるテレビ番組。"
@@ -413,7 +412,7 @@
     },
     "no_results": "結果なし。"
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "TV番組を発見する",
     "tabs": {
       "filters": "フィルター",
@@ -488,5 +487,42 @@
   "no_account_tooltip": "アカウントを持っていないようです。こちらをクリックしてプラットフォームに参加してください。",
   "user_resume": {
     "by": "著"
-  }  
+  },
+  "tv_serie_season_details": {
+    "episode_number": "エピソード",
+    "name": "名前",
+    "overview": "概要",
+    "runtime": "実行時間",
+    "vote": "投票",
+    "grid_layout_tooltip": "グリッドレイアウト",
+    "table_layout_tooltip": "テーブルレイアウト"
+  },
+  "popular_people": {
+    "title": "人気のある人々",
+    "description": "人気順に並べられた人々のリストを取得します。"
+  },
+  "changelog": {
+    "title": "変更ログ",
+    "description": "[TMDB]への新しいアップデートと改善。",
+    "subscribe": "アップデートを購読する！"
+  },
+  "footer": {
+    "status": "ステータス：すべてのシステムが正常に動作しています",
+    "rights": "© Status 451. すべての権利を保有。",
+    "data_provided_by": "TMDBによって提供されたデータ。",
+    "sections": {
+      "product": "製品",
+      "company": "会社",
+      "developers": "開発者",
+      "features": "特徴",
+      "pricing": "価格設定",
+      "changelog": "変更履歴",
+      "download": "ダウンロード",
+      "about_us": "私たちについて",
+      "careers": "キャリア",
+      "brand": "ブランド",
+      "status": "ステータス",
+      "github": "GitHub"
+    }
+  }
 }

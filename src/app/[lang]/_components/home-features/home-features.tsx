@@ -68,8 +68,8 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
   } = dictionary
 
   return (
-    <section className="border-y bg-muted/10 py-16">
-      <div className="mx-auto max-w-article space-y-8">
+    <section className="border-y bg-muted/10 py-16" id="features">
+      <div className="mx-auto max-w-6xl space-y-8">
         <div className="flex flex-col items-center space-y-2">
           <h2 className="text-2xl font-bold">{title}</h2>
           <p className="w-2/3 text-center text-muted-foreground">

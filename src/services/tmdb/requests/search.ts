@@ -3,12 +3,12 @@ import { tmdbClient } from '..'
 import {
   ListResponse,
   MovieWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
   PersonWithMediaType,
 } from '../types'
 
 type MultiResponse = ListResponse<
-  MovieWithMediaType | TvShowWithMediaType | PersonWithMediaType
+  MovieWithMediaType | TvSerieWithMediaType | PersonWithMediaType
 >
 
 const multi = async (query: string, language: Language) => {

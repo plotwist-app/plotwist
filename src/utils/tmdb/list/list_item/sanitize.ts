@@ -3,7 +3,7 @@ import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import {
   Movie,
   MovieWithMediaType,
-  TvShowWithMediaType,
+  TvSerieWithMediaType,
 } from '@/services/tmdb/types'
 import { ListItem } from '@/types/supabase/lists'
 
@@ -12,15 +12,15 @@ type Raw =
   | TvSeriesDetails
   | Movie
   | MovieWithMediaType
-  | TvShowWithMediaType
+  | TvSerieWithMediaType
 
 export const sanitizeListItem = (
   listId: string,
   raw: Raw,
 ): Omit<ListItem, 'created_at' | 'id'> => {
-  const isTvShow = 'name' in raw
+  const isTvSerie = 'name' in raw
 
-  const title = isTvShow
+  const title = isTvSerie
     ? (raw as TvSeriesDetails).name
     : (raw as MovieDetails).title
 
@@ -31,7 +31,7 @@ export const sanitizeListItem = (
     poster_path: raw.poster_path,
     title,
     tmdb_id: raw.id,
-    media_type: isTvShow ? 'TV_SHOW' : 'MOVIE',
+    media_type: isTvSerie ? 'TV_SHOW' : 'MOVIE',
     status: 'PENDING',
     rating: null,
   }

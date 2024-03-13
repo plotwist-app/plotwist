@@ -1,10 +1,10 @@
 import { Language } from '@/types/languages'
 
 import { tmdbClient } from '@/services/tmdb'
-import { ListResponse, TvShow } from '@/services/tmdb/types'
+import { ListResponse, TvSerie } from '@/services/tmdb/types'
 
 export type RelatedType = 'recommendations' | 'similar'
-export type RelatedResponse = ListResponse<TvShow>
+export type RelatedResponse = ListResponse<TvSerie>
 
 export const related = async (
   id: number,

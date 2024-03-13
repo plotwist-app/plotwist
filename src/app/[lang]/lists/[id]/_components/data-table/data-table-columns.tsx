@@ -60,7 +60,7 @@ export const columns: Columns = (dictionary, language, mode) => {
         const { media_type: mediaType, tmdb_id: tmdbId, title } = row.original
 
         const href = `/${language}/${
-          mediaType === 'TV_SHOW' ? 'tv-shows' : 'movies'
+          mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'
         }/${tmdbId}`
 
         return (
@@ -82,11 +82,11 @@ export const columns: Columns = (dictionary, language, mode) => {
         const columnId = dictionary.data_table_columns.type
 
         const movie = dictionary.data_table_columns.movie
-        const tvShow = dictionary.data_table_columns.tv_show
+        const tvSerie = dictionary.data_table_columns.tv_serie
 
         return (
           <Badge variant="outline" className="whitespace-nowrap">
-            {row.getValue(columnId) === 'MOVIE' ? movie : tvShow}
+            {row.getValue(columnId) === 'MOVIE' ? movie : tvSerie}
           </Badge>
         )
       },

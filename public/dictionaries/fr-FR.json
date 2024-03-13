@@ -100,7 +100,7 @@
     "dashboard_title": "Tableau de Bord",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Films Populaires",
-    "popular_tv_shows_title": "Émissions de TV Populaires"
+    "popular_tv_series_title": "Émissions de TV Populaires"
   },
   "tabs": {
     "reviews": "Critiques",
@@ -124,8 +124,8 @@
     "top_rated_description": "La crème de la crème. Découvrez les films et les séries qui ont conquis le cœur et l'esprit du public et des critiques.",
     "upcoming": "Prochainement",
     "upcoming_description": "Prenez une longueur d'avance et restez informé des prochains grands succès qui envahiront bientôt les écrans.",
-    "tv_shows": "Séries TV",
-    "tv_shows_description": "Séries dignes de binge-watching. Explorez de nouvelles histoires, des personnages inoubliables et vos prochains visionnages intensifs.",
+    "tv_series": "Séries TV",
+    "tv_series_description": "Séries dignes de binge-watching. Explorez de nouvelles histoires, des personnages inoubliables et vos prochains visionnages intensifs.",
     "airing_today": "Diffusé Aujourd'hui",
     "airing_today_description": "Ne ratez pas le coche ! Voyez quelles séries diffusent des épisodes frais aujourd'hui.",
     "on_the_air": "À l'Antenne",
@@ -139,7 +139,7 @@
     "search_everything": "Rechercher tout",
     "no_results": "Aucun résultat trouvé.",
     "movies": "Films",
-    "tv_shows": "Séries TV",
+    "tv_series": "Séries TV",
     "people": "Personnes"
   },
   "watch_providers": {
@@ -227,7 +227,6 @@
   },
   "list_form": {
     "create_new_list": "Créer une nouvelle liste",
-    
     "name": "Nom",
     "name_placeholder": "Ma Liste",
     "name_required": "Le nom de la liste est requis.",
@@ -273,7 +272,7 @@
     "status": "Statut",
     "actions": "Actions",
     "movie": "Film",
-    "tv_show": "Série TV",
+    "tv_serie": "Série TV",
     "rating": "Évaluation"
   },
   "data_table_view_options": {
@@ -320,7 +319,7 @@
       "description": "Films à paraître bientôt."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "Diffusées Aujourd'hui",
       "description": "Séries TV diffusées aujourd'hui."
@@ -413,7 +412,7 @@
     },
     "no_results": "Aucun résultat."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Découvrir des séries",
     "tabs": {
       "filters": "Filtres",
@@ -488,5 +487,42 @@
   "no_account_tooltip": "Il semble que vous n'ayez pas encore de compte. Cliquez ici pour rejoindre la plateforme.",
   "user_resume": {
     "by": "par"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Épisode",
+    "name": "Nom",
+    "overview": "Aperçu",
+    "runtime": "Durée",
+    "vote": "Vote",
+    "grid_layout_tooltip": "Disposition en grille",
+    "table_layout_tooltip": "Disposition en tableau"
+  },
+  "popular_people": {
+    "title": "Personnes populaires",
+    "description": "Obtenez une liste de personnes classées par popularité."
+  },
+  "changelog": {
+    "title": "Journal des modifications",
+    "description": "Nouvelles mises à jour et améliorations de [TMDB].",
+    "subscribe": "Abonnez-vous aux mises à jour !"
+  },
+  "footer": {
+    "status": "Statut : Tous les systèmes fonctionnent",
+    "rights": "© Status 451. Tous droits réservés.",
+    "data_provided_by": "Données fournies par TMDB.",
+    "sections": {
+      "product": "Produit",
+      "company": "Société",
+      "developers": "Développeurs",
+      "features": "Fonctionnalités",
+      "pricing": "Tarification",
+      "changelog": "Journal des modifications",
+      "download": "Télécharger",
+      "about_us": "À propos de nous",
+      "careers": "Carrières",
+      "brand": "Marque",
+      "status": "Statut",
+      "github": "GitHub"
+    }
   }
 }

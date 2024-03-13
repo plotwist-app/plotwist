@@ -100,7 +100,7 @@
     "dashboard_title": "Panel de Control",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Películas Populares",
-    "popular_tv_shows_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Programas de TV Populares"
   },
   "tabs": {
     "reviews": "Reseñas",
@@ -124,8 +124,8 @@
     "top_rated_description": "La crème de la crème. Descubre las películas y series que han conquistado los corazones y las mentes del público y de la crítica.",
     "upcoming": "Próximamente",
     "upcoming_description": "Adelántate al juego y mantente informado sobre los próximos grandes éxitos que invadirán las pantallas pronto.",
-    "tv_shows": "Series de Televisión",
-    "tv_shows_description": "Series dignas de maratón. Explora nuevas historias, personajes inolvidables y tus próximas maratones.",
+    "tv_series": "Series de Televisión",
+    "tv_series_description": "Series dignas de maratón. Explora nuevas historias, personajes inolvidables y tus próximas maratones.",
     "airing_today": "Emisión Hoy",
     "airing_today_description": "¡No te pierdas nada! Mira qué series tienen episodios frescos saliendo del horno hoy.",
     "on_the_air": "En Emisión",
@@ -139,7 +139,7 @@
     "search_everything": "Buscar todo",
     "no_results": "No se encontraron resultados.",
     "movies": "Películas",
-    "tv_shows": "Programas de TV",
+    "tv_series": "Programas de TV",
     "people": "Personas"
   },
   "watch_providers": {
@@ -273,7 +273,7 @@
     "status": "Estado",
     "actions": "Acciones",
     "movie": "Película",
-    "tv_show": "Serie",
+    "tv_serie": "Serie",
     "rating": "Calificación"
   },
   "data_table_view_options": {
@@ -320,7 +320,7 @@
       "description": "Películas que se estrenarán pronto."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "En Emisión Hoy",
       "description": "Series de TV que se emiten hoy."
@@ -413,7 +413,7 @@
     },
     "no_results": "No hay resultados."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Descubrir series",
     "tabs": {
       "filters": "Filtros",
@@ -488,5 +488,42 @@
   "no_account_tooltip": "Parece que aún no tienes una cuenta. Haz clic aquí para unirte a la plataforma.",
   "user_resume": {
     "by": "por"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episodio",
+    "name": "Nombre",
+    "overview": "Resumen",
+    "runtime": "Duración",
+    "vote": "Voto",
+    "grid_layout_tooltip": "Diseño de cuadrícula",
+    "table_layout_tooltip": "Diseño de tabla"
+  },
+  "popular_people": {
+    "title": "Personas populares",
+    "description": "Obtén una lista de personas ordenadas por popularidad."
+  },
+  "changelog": {
+    "title": "Registro de cambios",
+    "description": "Nuevas actualizaciones y mejoras en [TMDB].",
+    "subscribe": "¡Suscríbete a las actualizaciones!"
+  },
+  "footer": {
+    "status": "Estado: Todos los sistemas funcionan",
+    "rights": "© Status 451. Todos los derechos reservados.",
+    "data_provided_by": "Datos proporcionados por TMDB.",
+    "sections": {
+      "product": "Producto",
+      "company": "Empresa",
+      "developers": "Desarrolladores",
+      "features": "Características",
+      "pricing": "Precios",
+      "changelog": "Registro de cambios",
+      "download": "Descargar",
+      "about_us": "Sobre nosotros",
+      "careers": "Carreras",
+      "brand": "Marca",
+      "status": "Estado",
+      "github": "GitHub"
+    }
   }
 }

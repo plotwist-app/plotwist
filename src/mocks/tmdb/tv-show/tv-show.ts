@@ -1,4 +1,4 @@
-export const mockTvShow = {
+export const mockTvSerie = {
   adult: false,
   backdrop_path: '/9faGSFi5jam6pDWGNd0p8JcJgXQ.jpg',
   genre_ids: [18, 80],

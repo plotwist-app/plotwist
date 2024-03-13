@@ -100,7 +100,7 @@
     "dashboard_title": "Dashboard",
     "dashboard_description": "dashboard_description",
     "popular_movies_title": "Popular movies",
-    "popular_tv_shows_title": "Popular TV Shows"
+    "popular_tv_series_title": "Popular TV Shows"
   },
   "tabs": {
     "reviews": "Reviews",
@@ -124,8 +124,8 @@
     "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
     "upcoming_description": "Get ahead of the game and stay informed about the next big hits set to invade screens soon.",
-    "tv_shows": "TV Shows",
-    "tv_shows_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
+    "tv_series": "TV Shows",
+    "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
     "on_the_air": "On the Air",
@@ -139,7 +139,7 @@
     "search_everything": "Search everything",
     "no_results": "No results found.",
     "movies": "Movies",
-    "tv_shows": "TV Shows",
+    "tv_series": "TV Shows",
     "people": "People"
   },
   "watch_providers": {
@@ -273,7 +273,7 @@
     "status": "Status",
     "actions": "Actions",
     "movie": "Movie",
-    "tv_show": "TV Show",
+    "tv_serie": "TV Show",
     "rating": "Rating"
   },
   "data_table_view_options": {
@@ -320,7 +320,7 @@
       "description": "Movies that are being released soon."
     }
   },
-  "tv_show_pages": {
+  "tv_serie_pages": {
     "airing_today": {
       "title": "Airing Today",
       "description": "TV shows airing today."
@@ -413,7 +413,7 @@
     },
     "no_results": "No results."
   },
-  "tv_shows_list_filters": {
+  "tv_series_list_filters": {
     "title": "Discover TV Shows",
     "tabs": {
       "filters": "Filters",
@@ -489,5 +489,42 @@
   "no_account_tooltip": "It looks like you don't have an account yet. Click here to join the platform.",
   "user_resume": {
     "by": "by"
+  },
+  "tv_serie_season_details": {
+    "episode_number": "Episode",
+    "name": "Name",
+    "overview": "Overview",
+    "runtime": "Runtime",
+    "vote": "Vote",
+    "grid_layout_tooltip": "Grid layout",
+    "table_layout_tooltip": "Table layout"
+  },
+  "popular_people": {
+    "title": "Popular People",
+    "description": "Get a list of people ordered by popularity."
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "New updates and improvements to [TMDB].",
+    "subscribe": "Subscribe to updates!"
+  },
+  "footer": {
+    "status": "Status: All systems working",
+    "rights": "© Status 451. All rights reserved.",
+    "data_provided_by": "Data provided by TMDB.",
+    "sections": {
+      "product": "Product",
+      "company": "Company",
+      "developers": "Developers",
+      "features": "Features",
+      "pricing": "Pricing",
+      "changelog": "Changelog",
+      "download": "Download",
+      "about_us": "About us",
+      "careers": "Careers",
+      "brand": "Brand",
+      "status": "Status",
+      "github": "GitHub"
+    }
   }
 }
