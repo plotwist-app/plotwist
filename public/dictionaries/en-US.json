@@ -492,5 +492,24 @@
     "title": "Changelog",
     "description": "New updates and improvements to [TMDB].",
     "subscribe": "Subscribe to updates!"
+  },
+  "footer": {
+    "status": "Status: All systems working",
+    "rights": "© Status 451. All rights reserved.",
+    "data_provided_by": "Data provided by TMDB.",
+    "sections": {
+      "product": "Product",
+      "company": "Company",
+      "developers": "Developers",
+      "features": "Features",
+      "pricing": "Pricing",
+      "changelog": "Changelog",
+      "download": "Download",
+      "about_us": "About us",
+      "careers": "Careers",
+      "brand": "Brand",
+      "status": "Status",
+      "github": "GitHub"
+    }
   }
 }

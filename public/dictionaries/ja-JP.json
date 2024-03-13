@@ -485,5 +485,24 @@
     "title": "変更ログ",
     "description": "[TMDB]への新しいアップデートと改善。",
     "subscribe": "アップデートを購読する！"
+  },
+  "footer": {
+    "status": "ステータス：すべてのシステムが正常に動作しています",
+    "rights": "© Status 451. すべての権利を保有。",
+    "data_provided_by": "TMDBによって提供されたデータ。",
+    "sections": {
+      "product": "製品",
+      "company": "会社",
+      "developers": "開発者",
+      "features": "特徴",
+      "pricing": "価格設定",
+      "changelog": "変更履歴",
+      "download": "ダウンロード",
+      "about_us": "私たちについて",
+      "careers": "キャリア",
+      "brand": "ブランド",
+      "status": "ステータス",
+      "github": "GitHub"
+    }
   }
 }

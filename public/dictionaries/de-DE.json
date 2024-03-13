@@ -489,5 +489,24 @@
     "title": "Änderungsprotokoll",
     "description": "Neue Updates und Verbesserungen bei [TMDB].",
     "subscribe": "Abonnieren Sie Updates!"
+  },
+  "footer": {
+    "status": "Status: Alle Systeme funktionieren",
+    "rights": "© Status 451. Alle Rechte vorbehalten.",
+    "data_provided_by": "Daten bereitgestellt von TMDB.",
+    "sections": {
+      "product": "Produkt",
+      "company": "Unternehmen",
+      "developers": "Entwickler",
+      "features": "Funktionen",
+      "pricing": "Preisgestaltung",
+      "changelog": "Änderungsprotokoll",
+      "download": "Herunterladen",
+      "about_us": "Über uns",
+      "careers": "Karriere",
+      "brand": "Marke",
+      "status": "Status",
+      "github": "GitHub"
+    }
   }
 }

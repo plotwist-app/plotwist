@@ -485,5 +485,24 @@
     "title": "Journal des modifications",
     "description": "Nouvelles mises à jour et améliorations de [TMDB].",
     "subscribe": "Abonnez-vous aux mises à jour !"
+  },
+  "footer": {
+    "status": "Statut : Tous les systèmes fonctionnent",
+    "rights": "© Status 451. Tous droits réservés.",
+    "data_provided_by": "Données fournies par TMDB.",
+    "sections": {
+      "product": "Produit",
+      "company": "Société",
+      "developers": "Développeurs",
+      "features": "Fonctionnalités",
+      "pricing": "Tarification",
+      "changelog": "Journal des modifications",
+      "download": "Télécharger",
+      "about_us": "À propos de nous",
+      "careers": "Carrières",
+      "brand": "Marque",
+      "status": "Statut",
+      "github": "GitHub"
+    }
   }
 }

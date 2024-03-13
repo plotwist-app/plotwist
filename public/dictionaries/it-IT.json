@@ -485,5 +485,24 @@
     "title": "Registro delle modifiche",
     "description": "Nuovi aggiornamenti e miglioramenti a [TMDB].",
     "subscribe": "Iscriviti agli aggiornamenti!"
+  },
+  "footer": {
+    "status": "Stato: Tutti i sistemi funzionano",
+    "rights": "© Status 451. Tutti i diritti riservati.",
+    "data_provided_by": "Dati forniti da TMDB.",
+    "sections": {
+      "product": "Prodotto",
+      "company": "Azienda",
+      "developers": "Sviluppatori",
+      "features": "Caratteristiche",
+      "pricing": "Prezzi",
+      "changelog": "Registro delle modifiche",
+      "download": "Scarica",
+      "about_us": "Chi siamo",
+      "careers": "Carriere",
+      "brand": "Marchio",
+      "status": "Stato",
+      "github": "GitHub"
+    }
   }
 }

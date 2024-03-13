@@ -487,4 +487,23 @@ export type Dictionary = {
     description: string
     subscribe: string
   }
+  footer: {
+    status: string
+    rights: string
+    data_provided_by: string
+    sections: {
+      product: string
+      company: string
+      developers: string
+      features: string
+      pricing: string
+      changelog: string
+      download: string
+      about_us: string
+      careers: string
+      brand: string
+      status: string
+      github: string
+    }
+  }
 }
