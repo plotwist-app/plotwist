@@ -22,7 +22,6 @@ export const useTvSeriesListQuery = (variant: TvSeriesListVariant) => {
     'vote_average.gte': searchParams.get('vote_average.gte'),
     'vote_average.lte': searchParams.get('vote_average.lte'),
     'vote_count.gte': searchParams.get('vote_count.gte'),
-    with_keywords: searchParams.get('with_keywords'),
   }
 
   const getQueryFn = (page: number) => {

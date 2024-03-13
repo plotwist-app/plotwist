@@ -1,2 +1,3 @@
 import { test } from '@playwright/test'
-import { APP_URL } from '../constants'
+
+test('Login form submission', async ({ page }) => {})
