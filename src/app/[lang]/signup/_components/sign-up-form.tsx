@@ -56,7 +56,7 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
               <FormLabel>{dictionary.sign_up_form.username_label}</FormLabel>
 
               <FormControl>
-                <Input placeholder="JohnDoe" {...field} />
+                <Input placeholder="JohnDoe" autoComplete="off" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -72,7 +72,11 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
               <FormLabel>{dictionary.sign_up_form.email_label}</FormLabel>
 
               <FormControl>
-                <Input placeholder="email@domain.com" {...field} />
+                <Input
+                  placeholder="email@domain.com"
+                  autoComplete="off"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -91,6 +95,7 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
                 <div className="flex space-x-2">
                   <Input
                     placeholder="*********"
+                    autoComplete="off"
                     type={showPassword ? 'text' : 'password'}
                     {...field}
                   />

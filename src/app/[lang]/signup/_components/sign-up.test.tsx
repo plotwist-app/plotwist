@@ -1,8 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { SignUpForm } from './sign-up-form'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import dictionary from '../../../../../dictionaries/en-US.json'
-import { useAuth } from '@/hooks/use-auth'
+import { getDictionary } from '@/utils/dictionaries'
+import { useAuth } from '@/context/auth'
 
 const USERNAME_PLACEHOLDER = 'JohnDoe'
 const EMAIL_PLACEHOLDER = 'email@domain.com'
@@ -10,6 +10,7 @@ const PASSWORD_PLACEHOLDER = '*********'
 
 describe('SignUpForm', () => {
   beforeAll(async () => {
+    const dictionary = await getDictionary('en-US')
     render(<SignUpForm dictionary={dictionary} />)
   })
 
@@ -39,6 +40,7 @@ describe('SignUpForm', () => {
 
   it('should call signUpWithCredentials on form submission', async () => {
     const { signUpWithCredentials } = useAuth()
+    const dictionary = await getDictionary('en-US')
 
     const email = screen.getByPlaceholderText(EMAIL_PLACEHOLDER)
     const password = screen.getByPlaceholderText(PASSWORD_PLACEHOLDER)
