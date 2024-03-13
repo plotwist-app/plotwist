@@ -8,10 +8,10 @@ import { Dictionary } from '@/utils/dictionaries'
 const Section = {
   Root: (props: PropsWithChildren) => <div className="space-y-1" {...props} />,
   Label: (props: PropsWithChildren) => (
-    <h4 className="text-sm font-semibold" {...props} />
+    <h4 className="text-md font-semibold" {...props} />
   ),
   List: (props: PropsWithChildren) => (
-    <ul className="space-y-1 text-xs" {...props} />
+    <ul className="space-y-1 text-sm leading-7" {...props} />
   ),
   Item: ({
     disabled,
