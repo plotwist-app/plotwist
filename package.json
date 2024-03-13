@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test:ui": "vitest --coverage.enabled=true --ui"
+    "test:ui": "vitest --coverage.enabled=true --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.2",
@@ -69,6 +71,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.42.1",
     "@rocketseat/eslint-config": "^2.1.0",
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/react": "^14.1.2",
