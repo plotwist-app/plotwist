@@ -11,7 +11,10 @@ type HomePricesProps = {
 
 export const HomePrices = ({ language }: HomePricesProps) => {
   return (
-    <section className="mx-auto max-w-6xl space-y-8 py-16" id="pricing">
+    <section
+      className="mx-auto max-w-6xl space-y-8 px-4 py-16 lg:px-0"
+      id="pricing"
+    >
       <div className="mx-auto flex w-full flex-col items-center space-y-2 lg:w-2/3">
         <h2 className="text-center text-2xl font-bold">
           Start your journey today

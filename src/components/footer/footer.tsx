@@ -31,7 +31,7 @@ type FooterProps = { language: Language }
 export const Footer = ({ language }: FooterProps) => {
   return (
     <footer className="px-4">
-      <div className="mx-auto grid max-w-6xl grid-cols-3 gap-4 border-t py-12">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 border-t py-12 lg:grid-cols-3 lg:gap-4">
         <div className="col-span-2 flex flex-col justify-between space-y-2">
           <div className="space-y-1">
             <div className="flex items-center gap-4">
@@ -65,7 +65,7 @@ export const Footer = ({ language }: FooterProps) => {
           </div>
         </div>
 
-        <div className="col-span-1 grid grid-cols-2">
+        <div className="col-span-1 grid grid-cols-2 gap-4">
           <Section.Root>
             <Section.Label>Product</Section.Label>
 
