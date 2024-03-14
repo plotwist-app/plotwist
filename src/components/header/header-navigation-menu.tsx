@@ -10,6 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '../ui/navigation-menu'
 
 import { cn } from '@/lib/utils'
@@ -75,19 +76,20 @@ export const HeaderNavigationMenu = () => {
             )
 
           return (
-            <NavigationMenuItem key={label}>
-              <NavigationMenuTrigger
-                className={cn('gap-2', getIsActive(href) && 'bg-muted')}
-                arrow={false}
+            <NavigationMenuItem
+              key={label}
+              className={cn(
+                navigationMenuTriggerStyle(),
+                getIsActive(href) && 'bg-muted',
+              )}
+            >
+              <Link
+                href={`/${language}${href}`}
+                className="flex items-center gap-2"
               >
-                <Link
-                  href={`/${language}${href}`}
-                  className="flex items-center gap-2"
-                >
-                  <Icon width={12} height={12} />
-                  {label}
-                </Link>
-              </NavigationMenuTrigger>
+                <Icon width={12} height={12} />
+                {label}
+              </Link>
             </NavigationMenuItem>
           )
         })}
