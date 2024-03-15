@@ -39,7 +39,7 @@ export async function generateMetadata({
       images: [tmdbImage(backdrop)],
       title: name,
       description: overview,
-      siteName: '[PlotTwist]',
+      siteName: 'Plotwist',
     },
     twitter: {
       title: name,

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps) {
     openGraph: {
       title,
       description,
-      siteName: '[PlotTwist]',
+      siteName: 'Plotwist',
     },
     twitter: {
       title,

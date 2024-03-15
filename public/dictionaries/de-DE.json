@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Entdecken Sie Filme, Fernsehsendungen und Personen!",
-    "description": "[PlotTwist] ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
+    "description": "Plotwist ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
     "keywords": "Kino, Filme, Serien, Animes, Doramas, berühmte Schauspieler, Serienepisoden, Kinobesucher, neue Filme entdecken, Filmkritiken, Filmempfehlungen, Kinostarts, beliebte Filme, beliebte Serien, hoch bewertete Filme, Filme im Kino, Filmgemeinschaft, Filmlisten, Diskussionen über Filme",
     "primary_button": "Jetzt starten",
     "secondary_button": "Konto erstellen",
@@ -27,7 +27,7 @@
       }
     },
     "features": {
-      "section_title": "[PlotTwist] Funktionen",
+      "section_title": "Plotwist Funktionen",
       "section_description": "TMDB ist für Kinofans, die Millionen von Filmen und Serien mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr erkunden möchten.",
       "lists": {
         "title": "Listen",
@@ -487,7 +487,7 @@
   },
   "changelog": {
     "title": "Änderungsprotokoll",
-    "description": "Neue Updates und Verbesserungen bei [PlotTwist].",
+    "description": "Neue Updates und Verbesserungen bei Plotwist.",
     "subscribe": "Abonnieren Sie Updates!"
   },
   "footer": {

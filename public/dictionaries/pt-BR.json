@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Explore filmes, séries e atores!",
-    "description": "O [PlotTwist] é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
+    "description": "O Plotwist é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "primary_button": "Entrar",
     "secondary_button": "Criar conta",
@@ -483,7 +483,7 @@
   },
   "changelog": {
     "title": "Registro de mudanças",
-    "description": "Novas atualizações e melhorias no [PlotTwist].",
+    "description": "Novas atualizações e melhorias no Plotwist.",
     "subscribe": "Inscreva-se para receber atualizações!"
   },
   "footer": {
