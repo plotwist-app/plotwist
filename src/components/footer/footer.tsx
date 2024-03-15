@@ -40,7 +40,7 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
         <div className="col-span-2 flex flex-col justify-between space-y-2">
           <div className="space-y-1">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-bold">[TMDB]</h2>
+              <h2 className="text-2xl font-bold">[PlotTwist]</h2>
 
               <div>
                 <Badge variant="outline">

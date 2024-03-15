@@ -41,7 +41,7 @@ export async function generateMetadata({
       images: [tmdbImage(backdrop)],
       title,
       description: overview,
-      siteName: '[TMDB]',
+      siteName: '[PlotTwist]',
     },
     twitter: {
       title,

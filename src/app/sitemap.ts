@@ -1,6 +1,7 @@
 import { SUPPORTED_LANGUAGES } from '../../languages'
 import { APP_URL } from '../../constants'
 import { getMoviesPagesIds } from '@/utils/seo/get-movies-pages-ids'
+import { getTvSeriesPagesIds } from '@/utils/seo/get-tv-series-pages-ids'
 
 export const APP_ROUTES = [
   '/',
@@ -32,6 +33,17 @@ export default async function sitemap() {
     }),
   )
 
+  const tvSeriesRoutes = await Promise.all(
+    SUPPORTED_LANGUAGES.map(async (language) => {
+      const tvSeriesIds = await getTvSeriesPagesIds(language.value)
+
+      return tvSeriesIds.map((id) => ({
+        url: `${APP_URL}/${language.value}/tv-series/${id}`,
+        lastModified: new Date().toISOString(),
+      }))
+    }),
+  )
+
   const staticRoutes = SUPPORTED_LANGUAGES.flatMap((language) =>
     APP_ROUTES.map((route) => ({
       url: `${APP_URL}/${language.value}${route}`,
@@ -39,5 +51,9 @@ export default async function sitemap() {
     })),
   )
 
-  return [...staticRoutes, ...movieRoutes.flatMap((routes) => routes)]
+  return [
+    ...staticRoutes,
+    ...movieRoutes.flatMap((routes) => routes),
+    ...tvSeriesRoutes.flatMap((routes) => routes),
+  ]
 }

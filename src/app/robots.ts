@@ -1,15 +1,17 @@
 import { MetadataRoute } from 'next'
-import { SUPPORTED_LANGUAGES } from '../../languages'
-import { APP_ROUTES } from './sitemap'
+import sitemap from './sitemap'
 import { APP_URL } from '../../constants'
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const sitemapItems = await sitemap()
+  const allow = sitemapItems.map((sitemapItem) => sitemapItem.url)
+
+  console.log({ allow })
+
   return {
     rules: {
       userAgent: '*',
-      allow: SUPPORTED_LANGUAGES.map((language) =>
-        APP_ROUTES.map((route) => `/${language.value}${route}`),
-      ).flatMap((route) => route),
+      allow,
     },
     sitemap: `${APP_URL}/sitemap.xml`,
   }

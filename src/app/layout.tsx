@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: {
-    template: '[TMDB] • %s',
-    default: '[TMDB]',
+    template: '[PlotTwist] • %s',
+    default: '[PlotTwist]',
   },
   icons: {
     icon: '/favicon.svg',

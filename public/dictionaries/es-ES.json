@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "¡Explora películas, programas de TV y personas!",
-    "description": "[TMDB] es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
+    "description": "[PlotTwist] es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
     "keywords": "Cine, películas, series, animes, doramas, actores famosos, episodios de series, usuarios de cine, descubrir nuevas películas, críticas de películas, recomendaciones de películas, estrenos de cine, películas populares, series populares, películas bien valoradas, películas en exhibición, comunidad de cine, listas de películas, discusiones sobre películas",
     "primary_button": "Comienza ahora",
     "secondary_button": "Crear cuenta",
@@ -27,7 +27,7 @@
       }
     },
     "features": {
-      "section_title": "[TMDB] Características",
+      "section_title": "[PlotTwist] Características",
       "section_description": "TMDB es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
       "lists": {
         "title": "Listas",
@@ -487,7 +487,7 @@
   },
   "changelog": {
     "title": "Registro de cambios",
-    "description": "Nuevas actualizaciones y mejoras en [TMDB].",
+    "description": "Nuevas actualizaciones y mejoras en [PlotTwist].",
     "subscribe": "¡Suscríbete a las actualizaciones!"
   },
   "footer": {

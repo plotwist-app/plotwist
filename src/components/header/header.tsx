@@ -15,7 +15,7 @@ export const Header = () => {
       <header className="hidden justify-between lg:flex">
         <div className="flex items-center gap-4">
           <Link href={`/${language}/`}>
-            <h1 className="text-xl font-semibold">[TMDB]</h1>
+            <h1 className="text-xl font-semibold">[PlotTwist]</h1>
           </Link>
 
           <HeaderNavigationMenu />
@@ -31,7 +31,7 @@ export const Header = () => {
 
       <header className="flex w-full justify-between lg:hidden">
         <Link href={`/${language}/`}>
-          <h1 className="text-xl font-semibold">[TMDB]</h1>
+          <h1 className="text-xl font-semibold">[PlotTwist]</h1>
         </Link>
 
         <HeaderNavigationDrawer />
