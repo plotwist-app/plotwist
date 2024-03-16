@@ -1,9 +1,10 @@
+import { Metadata } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { Language } from '@/types/languages'
+import { GTag } from '@/components/gtag'
 
 import './globals.css'
 import { SUPPORTED_LANGUAGES } from '../../languages'
-import { Metadata } from 'next'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 export async function generateStaticParams() {
@@ -36,7 +37,8 @@ export default async function RootLayout({
     >
       <head>
         <link rel="icon" href="favicon.svg" />
-        <meta name="theme-color" content="#FFFFFF" />
+        <meta name="theme-color" content="#09090b" />
+        <GTag />
       </head>
 
       <body className="bg-background antialiased">{children}</body>
