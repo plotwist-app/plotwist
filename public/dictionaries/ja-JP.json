@@ -97,10 +97,10 @@
     "try_again": "再試行"
   },
   "app_page": {
-    "dashboard_title": "コントロールパネル",
-    "dashboard_description": "ダッシュボードの説明",
-    "popular_movies_title": "人気映画",
-    "popular_tv_series_title": "人気テレビ番組"
+    "dashboard_title": "ダッシュボード",
+    "dashboard_description": "あなたの活動とトレンドの概要。",
+    "popular_movies_title": "人気の映画",
+    "popular_tv_series_title": "人気のテレビ番組"
   },
   "tabs": {
     "reviews": "レビュー",

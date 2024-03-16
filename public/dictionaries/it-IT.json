@@ -98,9 +98,9 @@
   },
   "app_page": {
     "dashboard_title": "Cruscotto",
-    "dashboard_description": "dashboard_description",
+    "dashboard_description": "Panoramica delle tue attività e delle tendenze.",
     "popular_movies_title": "Film Popolari",
-    "popular_tv_series_title": "Programmi TV Popolari"
+    "popular_tv_series_title": "Serie TV Popolari"
   },
   "tabs": {
     "reviews": "Recensioni",

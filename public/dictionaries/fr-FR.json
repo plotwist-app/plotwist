@@ -97,10 +97,10 @@
     "try_again": "Réessayer"
   },
   "app_page": {
-    "dashboard_title": "Tableau de Bord",
-    "dashboard_description": "dashboard_description",
+    "dashboard_title": "Tableau de bord",
+    "dashboard_description": "Vue d'ensemble de vos activités et tendances.",
     "popular_movies_title": "Films Populaires",
-    "popular_tv_series_title": "Émissions de TV Populaires"
+    "popular_tv_series_title": "Séries Populaires"
   },
   "tabs": {
     "reviews": "Critiques",

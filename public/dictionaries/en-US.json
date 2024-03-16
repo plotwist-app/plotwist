@@ -102,8 +102,8 @@
   },
   "app_page": {
     "dashboard_title": "Dashboard",
-    "dashboard_description": "dashboard_description",
-    "popular_movies_title": "Popular movies",
+    "dashboard_description": "Overview of your activities and trends.",
+    "popular_movies_title": "Popular Movies",
     "popular_tv_series_title": "Popular TV Shows"
   },
   "tabs": {

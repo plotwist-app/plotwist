@@ -99,10 +99,10 @@
     "try_again": "Intentar de nuevo"
   },
   "app_page": {
-    "dashboard_title": "Panel de Control",
-    "dashboard_description": "dashboard_description",
+    "dashboard_title": "Tablero",
+    "dashboard_description": "Resumen de tus actividades y tendencias.",
     "popular_movies_title": "Películas Populares",
-    "popular_tv_series_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Series Populares"
   },
   "tabs": {
     "reviews": "Reseñas",

@@ -100,9 +100,9 @@
   },
   "app_page": {
     "dashboard_title": "Dashboard",
-    "dashboard_description": "dashboard_description",
+    "dashboard_description": "Übersicht über deine Aktivitäten und Trends.",
     "popular_movies_title": "Beliebte Filme",
-    "popular_tv_series_title": "Beliebte Fernsehsendungen"
+    "popular_tv_series_title": "Beliebte Serien"
   },
   "tabs": {
     "reviews": "Bewertungen",
