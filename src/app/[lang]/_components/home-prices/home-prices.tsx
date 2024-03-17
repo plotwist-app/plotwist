@@ -68,13 +68,12 @@ export const HomePrices = ({ language }: HomePricesProps) => {
               <HomePrice.Benefit>
                 Clone your own or other members’ lists
               </HomePrice.Benefit>
-              <HomePrice.Benefit>Change your username </HomePrice.Benefit>
+              <HomePrice.Benefit>Change your username</HomePrice.Benefit>
             </HomePrice.Benefits>
           </HomePrice.Content>
 
           <Badge className="absolute top-0 -translate-y-2">Recommended</Badge>
-
-          <Button>Subscribe</Button>
+          <Button disabled>Subscribe</Button>
         </HomePrice.Root>
 
         <HomePrice.Root>

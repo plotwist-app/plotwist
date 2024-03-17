@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Explorez des films, des émissions de télévision et des personnes !",
-    "description": "[TMDB] est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
+    "description": "Plotwist est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
     "keywords": "Cinéma, films, séries, animes, doramas, acteurs célèbres, épisodes de séries, utilisateurs de cinéma, découvrir de nouveaux films, critiques de films, recommandations de films, sorties cinéma, films populaires, séries populaires, films bien notés, films à l'affiche, communauté cinématographique, listes de films, discussions sur les films",
     "primary_button": "Commencez maintenant",
     "secondary_button": "Créer un compte",
@@ -27,7 +27,7 @@
       }
     },
     "features": {
-      "section_title": "[TMDB] Fonctionnalités",
+      "section_title": "Plotwist Fonctionnalités",
       "section_description": "TMDB est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
       "lists": {
         "title": "Listes",
@@ -97,10 +97,10 @@
     "try_again": "Réessayer"
   },
   "app_page": {
-    "dashboard_title": "Tableau de Bord",
-    "dashboard_description": "dashboard_description",
+    "dashboard_title": "Tableau de bord",
+    "dashboard_description": "Vue d'ensemble de vos activités et tendances.",
     "popular_movies_title": "Films Populaires",
-    "popular_tv_series_title": "Émissions de TV Populaires"
+    "popular_tv_series_title": "Séries Populaires"
   },
   "tabs": {
     "reviews": "Critiques",
@@ -503,7 +503,7 @@
   },
   "changelog": {
     "title": "Journal des modifications",
-    "description": "Nouvelles mises à jour et améliorations de [TMDB].",
+    "description": "Nouvelles mises à jour et améliorations de Plotwist.",
     "subscribe": "Abonnez-vous aux mises à jour !"
   },
   "footer": {

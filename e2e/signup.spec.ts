@@ -3,7 +3,9 @@ import { faker } from '@faker-js/faker'
 import { APP_URL } from '../constants'
 import { getDictionary } from '@/utils/dictionaries'
 
-test('Signup form submission', async ({ page }) => {
+test('should be able to submit sign up form and redirect to home page', async ({
+  page,
+}) => {
   const {
     sign_up_form: { sign_up_success: signUpSuccess },
     login_form: { login_success: loginSuccess },
@@ -14,8 +16,8 @@ test('Signup form submission', async ({ page }) => {
   await page.type('input[name="username"]', faker.person.firstName())
   await page.type('input[name="email"]', faker.internet.email())
   await page.type('input[name="password"]', faker.internet.password())
-  await page.click('button[type="submit"]')
 
+  await page.click('button[type="submit"]')
   await page.waitForResponse(
     (resp) => resp.url().includes('/signup') && resp.status() === 200,
   )
@@ -26,7 +28,6 @@ test('Signup form submission', async ({ page }) => {
     (resp) => resp.url().includes('/token') && resp.status() === 200,
   )
   expect(tokenResponse.ok()).toBeTruthy()
-
   expect(page.getByText(loginSuccess)).toBeVisible()
 
   await page.waitForURL('**/home')

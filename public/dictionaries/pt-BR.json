@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Explore filmes, séries e atores!",
-    "description": "O [TMDB] é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
+    "description": "O Plotwist é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "primary_button": "Entrar",
     "secondary_button": "Criar conta",
@@ -97,8 +97,8 @@
     "try_again": "Tente novamente"
   },
   "app_page": {
-    "dashboard_title": "Dashboard",
-    "dashboard_description": "dashboard_description",
+    "dashboard_title": "Início",
+    "dashboard_description": "Visão geral de suas atividades e tendências.",
     "popular_movies_title": "Filmes Populares",
     "popular_tv_series_title": "Séries Populares"
   },
@@ -503,7 +503,7 @@
   },
   "changelog": {
     "title": "Registro de mudanças",
-    "description": "Novas atualizações e melhorias no [TMDB].",
+    "description": "Novas atualizações e melhorias no Plotwist.",
     "subscribe": "Inscreva-se para receber atualizações!"
   },
   "footer": {

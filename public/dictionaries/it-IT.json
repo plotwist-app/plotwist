@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Esplora film, programmi TV e persone!",
-    "description": "[TMDB] è per gli appassionati di cinema che amano esplorare milioni di film e serie TV, con informazioni come sinossi, cast, budget e molto altro.",
+    "description": "Plotwist è per gli appassionati di cinema che amano esplorare milioni di film e serie TV, con informazioni come sinossi, cast, budget e molto altro.",
     "keywords": "Cinema, film, serie, anime, dorame, attori famosi, episodi di serie, utenti del cinema, scoprire nuovi film, recensioni di film, consigli sui film, uscite cinematografiche, film popolari, serie popolari, film ben valutati, film in proiezione, comunità cinematografica, liste di film, discussioni sui film",
     "primary_button": "Inizia ora",
     "secondary_button": "Creare un account",
@@ -27,7 +27,7 @@
       }
     },
     "features": {
-      "section_title": "[TMDB] Funzionalità",
+      "section_title": "Plotwist Funzionalità",
       "section_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iste sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum nostrum, consequatur ullam! Veniam enim neque sint adipisci labore ratione quidem.",
       "lists": {
         "title": "Liste",
@@ -98,9 +98,9 @@
   },
   "app_page": {
     "dashboard_title": "Cruscotto",
-    "dashboard_description": "dashboard_description",
+    "dashboard_description": "Panoramica delle tue attività e delle tendenze.",
     "popular_movies_title": "Film Popolari",
-    "popular_tv_series_title": "Programmi TV Popolari"
+    "popular_tv_series_title": "Serie TV Popolari"
   },
   "tabs": {
     "reviews": "Recensioni",
@@ -503,7 +503,7 @@
   },
   "changelog": {
     "title": "Registro delle modifiche",
-    "description": "Nuovi aggiornamenti e miglioramenti a [TMDB].",
+    "description": "Nuovi aggiornamenti e miglioramenti a Plotwist.",
     "subscribe": "Iscriviti agli aggiornamenti!"
   },
   "footer": {

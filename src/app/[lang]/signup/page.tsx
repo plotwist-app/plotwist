@@ -18,7 +18,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: '[TMDB]',
+      siteName: 'Plotwist',
     },
     twitter: {
       title,

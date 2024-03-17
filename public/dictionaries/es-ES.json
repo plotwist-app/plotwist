@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "¡Explora películas, programas de TV y personas!",
-    "description": "[TMDB] es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
+    "description": "Plotwist es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
     "keywords": "Cine, películas, series, animes, doramas, actores famosos, episodios de series, usuarios de cine, descubrir nuevas películas, críticas de películas, recomendaciones de películas, estrenos de cine, películas populares, series populares, películas bien valoradas, películas en exhibición, comunidad de cine, listas de películas, discusiones sobre películas",
     "primary_button": "Comienza ahora",
     "secondary_button": "Crear cuenta",
@@ -27,7 +27,7 @@
       }
     },
     "features": {
-      "section_title": "[TMDB] Características",
+      "section_title": "Plotwist Características",
       "section_description": "TMDB es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
       "lists": {
         "title": "Listas",
@@ -97,10 +97,10 @@
     "try_again": "Intentar de nuevo"
   },
   "app_page": {
-    "dashboard_title": "Panel de Control",
-    "dashboard_description": "dashboard_description",
+    "dashboard_title": "Tablero",
+    "dashboard_description": "Resumen de tus actividades y tendencias.",
     "popular_movies_title": "Películas Populares",
-    "popular_tv_series_title": "Programas de TV Populares"
+    "popular_tv_series_title": "Series Populares"
   },
   "tabs": {
     "reviews": "Reseñas",
@@ -504,7 +504,7 @@
   },
   "changelog": {
     "title": "Registro de cambios",
-    "description": "Nuevas actualizaciones y mejoras en [TMDB].",
+    "description": "Nuevas actualizaciones y mejoras en Plotwist.",
     "subscribe": "¡Suscríbete a las actualizaciones!"
   },
   "footer": {

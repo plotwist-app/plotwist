@@ -1,10 +1,21 @@
-import { Language } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 import { TvSerieDetails } from './_components/tv-serie-details'
 import { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { getTvSeriesPagesIds } from '@/utils/seo/get-tv-series-pages-ids'
 
-export type TvSeriePageProps = { params: { id: string; lang: Language } }
+export type TvSeriePageProps = PageProps & {
+  params: { id: string }
+}
+
+export async function generateStaticParams({
+  params: { lang },
+}: TvSeriePageProps) {
+  const tvSeriesIds = await getTvSeriesPagesIds(lang)
+
+  return tvSeriesIds.map((id) => ({ id }))
+}
 
 export async function generateMetadata({
   params,
@@ -28,7 +39,7 @@ export async function generateMetadata({
       images: [tmdbImage(backdrop)],
       title: name,
       description: overview,
-      siteName: '[TMDB]',
+      siteName: 'Plotwist',
     },
     twitter: {
       title: name,

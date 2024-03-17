@@ -47,6 +47,7 @@
     "cmdk": "^0.2.0",
     "cobe": "^0.6.3",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.293.0",
     "negotiator": "^0.6.3",
     "next": "14.1.0",

@@ -9,7 +9,7 @@ import { useAuth } from '@/context/auth'
 
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
 
-const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 10 : 1
+const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 100 : 1
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
