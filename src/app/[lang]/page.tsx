@@ -43,11 +43,11 @@ export async function generateMetadata({
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(
     (acc, lang) => {
       if (lang.enabled) {
-        acc[lang.value] = `${APP_URL}/${lang.value}`
+        acc[lang.hreflang] = `${APP_URL}/${lang.value}`
       }
       return acc
     },
-    {} as Record<Language, string>,
+    {} as Record<string, string>,
   )
 
   return {
