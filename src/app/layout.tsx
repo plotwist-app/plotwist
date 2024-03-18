@@ -4,13 +4,8 @@ import { Language } from '@/types/languages'
 import { GTag } from '@/components/gtag'
 
 import './globals.css'
-import { SUPPORTED_LANGUAGES } from '../../languages'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
-export async function generateStaticParams() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
-}
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: {

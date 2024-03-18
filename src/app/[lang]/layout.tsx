@@ -15,6 +15,7 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
 }
+export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
   children,
@@ -24,6 +25,7 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   const dictionary = await getDictionary(params.lang)
+
   const {
     data: { user },
   } = await getUserService()
