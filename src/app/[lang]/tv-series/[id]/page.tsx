@@ -1,9 +1,11 @@
-import { PageProps } from '@/types/languages'
+import { Language, PageProps } from '@/types/languages'
 import { TvSerieDetails } from './_components/tv-serie-details'
 import { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getTvSeriesPagesIds } from '@/utils/seo/get-tv-series-pages-ids'
+import { APP_URL } from '../../../../../constants'
+import { SUPPORTED_LANGUAGES } from '../../../../../languages'
 
 export type TvSeriePageProps = PageProps & {
   params: { id: string }
@@ -18,18 +20,29 @@ export async function generateStaticParams({
 }
 
 export async function generateMetadata({
-  params,
+  params: { id, lang },
 }: TvSeriePageProps): Promise<Metadata> {
   const {
     name,
     overview,
     backdrop_path: backdrop,
-  } = await tmdb.tvSeries.details(Number(params.id), params.lang)
+  } = await tmdb.tvSeries.details(Number(id), lang)
 
   const keywords = await tmdb.keywords({
-    id: Number(params.id),
+    id: Number(id),
     type: 'tv',
   })
+
+  const canonicalUrl = `${APP_URL}/${lang}/tv-series/${id}`
+  const languageAlternates = SUPPORTED_LANGUAGES.reduce(
+    (acc, lang) => {
+      if (lang.enabled) {
+        acc[lang.value] = `${APP_URL}/${lang.value}/tv-series/${id}`
+      }
+      return acc
+    },
+    {} as Record<Language, string>,
+  )
 
   return {
     title: name,
@@ -47,6 +60,10 @@ export async function generateMetadata({
       images: tmdbImage(backdrop),
       card: 'summary_large_image',
       creator: '@lui7henrique',
+    },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: languageAlternates,
     },
   }
 }
