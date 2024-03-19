@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/dialog'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -106,7 +106,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                 handleDeleteList.mutate(list.id, {
                   onSuccess: () => {
                     APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: LISTS_QUERY_KEY,
+                      queryKey: ['lists', list.user_id],
                     })
 
                     toast.success(dictionary.list_card.delete_success)

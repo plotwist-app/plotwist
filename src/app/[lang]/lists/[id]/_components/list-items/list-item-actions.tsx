@@ -15,11 +15,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLists } from '@/context/lists'
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { listPageQueryKey } from '@/utils/list'
+import { useAuth } from '@/context/auth'
 
 type ListItemActionsProps = { listItem: ListItem }
 
@@ -29,6 +30,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     handleChangeListCoverPath,
     handleRemoveFromList,
   } = useLists()
+  const { user } = useAuth()
 
   const { dictionary } = useLanguage()
 
@@ -101,6 +103,8 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   )
 
   const handleChangeBackdrop = useCallback(async () => {
+    if (!user) return
+
     const variables = {
       listId: listItem.list_id,
       newCoverPath: listItem.backdrop_path,
@@ -124,7 +128,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
         )
 
         APP_QUERY_CLIENT.setQueryData(
-          LISTS_QUERY_KEY,
+          ['lists', user.id],
           (query: { data: List[] }) => {
             const newData = query.data.map((list) => {
               if (list.id === variables.listId) {
@@ -144,12 +148,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
         toast.success(dictionary.list_item_actions.cover_changed_successfully)
       },
     })
-  }, [
-    dictionary,
-    handleChangeListCoverPath,
-    listItem.backdrop_path,
-    listItem.list_id,
-  ])
+  }, [dictionary, handleChangeListCoverPath, listItem, user])
 
   return (
     <DropdownMenu>

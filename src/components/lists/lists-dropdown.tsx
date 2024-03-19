@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
@@ -55,21 +55,25 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
 
   const handleRemove = useCallback(
     async (id: string) => {
+      if (!user) return
+
       await handleRemoveFromList.mutateAsync(id, {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: LISTS_QUERY_KEY,
+            queryKey: ['lists', user.id],
           })
 
           toast.success(removedSuccessfully)
         },
       })
     },
-    [removedSuccessfully, handleRemoveFromList],
+    [removedSuccessfully, handleRemoveFromList, user],
   )
 
   const handleAdd = useCallback(
     async (list: List) => {
+      if (!user) return
+
       const sanitizedItem = sanitizeListItem(list.id, item)
 
       await handleAddToList.mutateAsync(
@@ -77,7 +81,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: LISTS_QUERY_KEY,
+              queryKey: ['lists', user.id],
             })
 
             toast.success(addedSuccessfully, {
@@ -90,7 +94,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       )
     },
-    [addedSuccessfully, handleAddToList, item, language, push, viewList],
+    [addedSuccessfully, handleAddToList, item, language, push, viewList, user],
   )
 
   const Content = () => {

@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
@@ -23,6 +23,7 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 import { List } from '@/types/supabase/lists'
 import { Movie } from '@/services/tmdb/types'
 import { useLanguage } from '@/context/language'
+import { useAuth } from '@/context/auth'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>
@@ -49,9 +50,12 @@ export const CollectionListDropdown = ({
     useLists()
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
+  const { user } = useAuth()
 
   const handleRemove = useCallback(
     async (ids: string[]) => {
+      if (!user) return
+
       await handleRemoveCollectionFromList.mutateAsync(
         {
           ids,
@@ -59,7 +63,7 @@ export const CollectionListDropdown = ({
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: LISTS_QUERY_KEY,
+              queryKey: ['lists', user.id],
             })
 
             toast.success(
@@ -70,11 +74,13 @@ export const CollectionListDropdown = ({
         },
       )
     },
-    [dictionary, handleRemoveCollectionFromList],
+    [dictionary, handleRemoveCollectionFromList, user],
   )
 
   const handleAdd = useCallback(
     async (list: List) => {
+      if (!user) return
+
       const sanitizedItems = items.map((item) =>
         sanitizeListItem(list.id, item),
       )
@@ -84,7 +90,7 @@ export const CollectionListDropdown = ({
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: LISTS_QUERY_KEY,
+              queryKey: ['lists', user.id],
             })
 
             toast.success(
@@ -100,7 +106,7 @@ export const CollectionListDropdown = ({
         },
       )
     },
-    [handleAddCollectionToList, items, push, dictionary, language],
+    [handleAddCollectionToList, items, push, dictionary, language, user],
   )
 
   return (
