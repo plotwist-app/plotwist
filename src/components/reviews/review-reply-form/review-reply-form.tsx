@@ -125,6 +125,7 @@ export const ReviewReplyForm = ({
           variant="outline"
           type="submit"
           loading={form.formState.isSubmitting}
+          size="sm"
         >
           {dictionary.review_reply.reply}
         </Button>

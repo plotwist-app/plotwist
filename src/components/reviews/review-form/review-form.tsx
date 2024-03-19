@@ -121,6 +121,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
                 variant="outline"
                 type="submit"
                 loading={form.formState.isSubmitting}
+                size="sm"
               >
                 {dictionary.review_form.publish}
               </Button>

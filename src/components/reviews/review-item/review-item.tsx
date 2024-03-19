@@ -4,7 +4,7 @@ import { Review } from '@/types/supabase/reviews'
 import { ReviewItemActions } from '.'
 import { ReviewStars } from '../review-stars'
 import { useState } from 'react'
-import { ReviewReplyForm } from '@/components/reviews/review-reply-form/review-reply-form'
+import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import { ReviewLikes } from '@/components/reviews/review-likes'
 
 import { MediaType } from '@/types/supabase/media-type'
@@ -49,6 +49,11 @@ export const ReviewItem = ({
   const [openReplies, setOpenReplies] = useState(false)
 
   const usernameInitial = username[0].toUpperCase()
+  const time = `${formatDistanceToNow(new Date(createdAt), {
+    locale: locale[language],
+  })} ${ago}`
+
+  console.log({ time })
 
   return (
     <div className="flex items-start space-x-4">
@@ -61,19 +66,15 @@ export const ReviewItem = ({
           <span className="text-sm text-muted-foreground">{username}</span>
           <span className="h-1 w-1 rounded-full bg-muted" />
           <ReviewStars rating={rating} />
-          <span className="h-1 w-1 rounded-full bg-muted" />
+          <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
 
-          <span className="text-xs text-muted-foreground underline-offset-1 ">
-            {formatDistanceToNow(new Date(createdAt), {
-              locale: locale[language],
-            })}{' '}
-            {ago}
+          <span className="hidden text-xs text-muted-foreground underline-offset-1 md:block">
+            {time}
           </span>
         </div>
 
         <div className="relative space-y-1 rounded-md border p-4 shadow">
           <p className="text-sm">{content}</p>
-
           <ReviewLikes reviewId={review.id} />
         </div>
 
