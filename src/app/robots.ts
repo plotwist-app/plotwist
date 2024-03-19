@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next'
 import { APP_URL } from '../../constants'
-import { SUPPORTED_LANGUAGES } from '../../languages'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   return {
@@ -8,10 +7,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: SUPPORTED_LANGUAGES.map(
-      (supportedLanguage) =>
-        `${APP_URL}/${supportedLanguage.value}/sitemap.xml`,
-    ),
+    sitemap: `${APP_URL}/sitemap.xml`,
     host: APP_URL,
   }
 }
