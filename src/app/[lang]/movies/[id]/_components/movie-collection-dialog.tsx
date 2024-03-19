@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 
 import { CollectionListDropdown } from '@/components/lists/collection-list-button'
 
-import { MovieCard } from '@/components/poster/movie-card'
+import { MovieCard } from '@/components/movie-card'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

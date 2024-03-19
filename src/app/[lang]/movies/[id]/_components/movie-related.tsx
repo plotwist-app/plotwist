@@ -1,4 +1,4 @@
-import { MovieCard } from '@/components/poster/movie-card'
+import { MovieCard } from '@/components/movie-card'
 import { tmdb } from '@/services/tmdb'
 import { RelatedType } from '@/services/tmdb/requests/movies/related'
 import { Language } from '@/types/languages'

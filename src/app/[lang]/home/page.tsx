@@ -1,4 +1,4 @@
-import { MovieCard } from '@/components/poster/movie-card'
+import { MovieCard } from '@/components/movie-card'
 import { Separator } from '@/components/ui/separator'
 import { TvSerieCard } from '@/components/tv-serie-card'
 

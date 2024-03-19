@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { MovieCardSkeleton } from '@/components/poster/movie-card'
+import { MovieCardSkeleton } from '@/components/movie-card'
 
 export const MovieListSkeleton = forwardRef<HTMLDivElement>((_, ref) => (
   <div
