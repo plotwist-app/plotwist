@@ -181,6 +181,9 @@
     "open_replies": "Antworten anzeigen",
     "hide_replies": "Antworten verbergen"
   },
+  "review_item": {
+    "ago": "vor"
+  },
   "review_item_actions": {
     "like": "Gefällt mir",
     "reply": "Antworten",

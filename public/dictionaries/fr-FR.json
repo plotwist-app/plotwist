@@ -179,6 +179,9 @@
     "open_replies": "Voir les réponses",
     "hide_replies": "Cacher les réponses"
   },
+  "review_item": {
+    "ago": "il y a"
+  },
   "review_item_actions": {
     "like": "Aimer",
     "reply": "Répondre",

@@ -179,6 +179,9 @@
     "open_replies": "返信を見る",
     "hide_replies": "返信を隠す"
   },
+  "review_item": {
+    "ago": "前"
+  },
   "review_item_actions": {
     "like": "いいね",
     "reply": "返信",

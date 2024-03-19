@@ -183,6 +183,9 @@
     "open_replies": "View replies",
     "hide_replies": "Hide replies"
   },
+  "review_item": {
+    "ago": "ago"
+  },
   "review_item_actions": {
     "like": "Like",
     "reply": "Reply",
@@ -539,5 +542,5 @@
       "status": "Status",
       "github": "GitHub"
     }
-  }
+  }  
 }

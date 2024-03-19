@@ -179,6 +179,9 @@ export type Dictionary = {
     open_replies: string
     hide_replies: string
   }
+  review_item: {
+    ago: string
+  }
   review_item_actions: {
     like: string
     reply: string

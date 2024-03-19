@@ -38,7 +38,12 @@ export const ReviewItem = ({
     created_at: createdAt,
   } = review
 
-  const { language } = useLanguage()
+  const {
+    language,
+    dictionary: {
+      review_item: { ago },
+    },
+  } = useLanguage()
 
   const [openReplyForm, setOpenReplyForm] = useState(false)
   const [openReplies, setOpenReplies] = useState(false)
@@ -62,7 +67,7 @@ export const ReviewItem = ({
             {formatDistanceToNow(new Date(createdAt), {
               locale: locale[language],
             })}{' '}
-            atrás
+            {ago}
           </span>
         </div>
 
