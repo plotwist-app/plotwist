@@ -2,7 +2,7 @@ import { supabase } from '@/services/supabase'
 import { List } from '@/types/supabase/lists'
 
 export const fetchListsService = async (userId?: string) => {
-  if (!userId) return []
+  if (!userId) return undefined
 
   return await supabase
     .from('lists')
