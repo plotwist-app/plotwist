@@ -164,13 +164,37 @@
     "rating_max": "最高評価は5点です。",
     "success": "レビューが投稿されました。",
     "publish": "公開する",
-    "placeholder": "感想をお聞かせください？"
+    "placeholder": "感想をお聞かせください？",
+    "login": "ログイン",
+    "register": "登録",
+    "or": "または",
+    "make_first_review": "して、最初のレビューを書きましょう！"
+  },
+  "review_reply_form": {
+    "success": "返信が正常に作成されました。"
+  },
+  "review_reply": {
+    "reply": "返信",
+    "placeholder": "返信を追加する...",
+    "open_replies": "返信を見る",
+    "hide_replies": "返信を隠す"
   },
   "review_item_actions": {
     "like": "いいね",
     "reply": "返信",
     "delete": "削除",
-    "delete_success": "レビューが正常に削除されました。"
+    "delete_success": "レビューが正常に削除されました。",
+    "dialog_title": "本当によろしいですか？",
+    "dialog_description": "この操作は取り消しできません。",
+    "dialog_close": "閉じる"
+  },
+  "review_reply_actions": {
+    "like": "いいね",
+    "delete": "削除",
+    "delete_success": "返信が正常に削除されました。",
+    "dialog_title": "本当によろしいですか？",
+    "dialog_description": "この操作は取り消しできません。",
+    "dialog_close": "閉じる"
   },
   "movie_collection": {
     "part_of": "の一部",
@@ -325,7 +349,11 @@
     "user_last_review": {
       "title": "あなたの最後のレビュー",
       "no_review_message": "まだ映画やテレビ番組のレビューをしていません。",
-      "no_review_action": "トップレートの映画やテレビ番組を見るにはここをクリックしてください。"
+      "no_review_action": "トップレートの映画やテレビ番組を見るにはここをクリックしてください。",
+      "login": "ログイン",
+      "register": "登録",
+      "or": "または",
+      "make_first_review": "して、最初のレビューを書きましょう！"
     },
     "popular_reviews": {
       "title": "人気のレビュー"

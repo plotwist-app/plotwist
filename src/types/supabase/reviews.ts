@@ -2,7 +2,7 @@ import { MediaType } from './media-type'
 
 export type Review = {
   created_at: string
-  id: number
+  id: string
 
   rating: number
   review: string
@@ -14,7 +14,8 @@ export type Review = {
   tmdb_poster_path?: string
 
   user_info: UserInfo
-  review_likes?: ReviewLike[]
+
+  review_replies: ReviewReply[] | null
 }
 
 type UserInfo = {
@@ -24,8 +25,12 @@ type UserInfo = {
   }
 }
 
-type ReviewLike = {
-  id: number
+export type ReviewReply = {
+  created_at: Date
+  id: string
+  reply: string
   user_id: string
-  created_at: string
+  raw_user_meta_data: {
+    username: string
+  }
 }

@@ -166,13 +166,37 @@
     "rating_max": "Der maximale Wert der Bewertung ist 5",
     "success": "Bewertung erfolgreich erstellt.",
     "publish": "Veröffentlichen",
-    "placeholder": "Was denken Sie?"
+    "placeholder": "Was denken Sie?",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "or": "oder",
+    "make_first_review": "um deine erste Bewertung zu verfassen!"
+  },
+  "review_reply_form": {
+    "success": "Antwort erfolgreich erstellt."
+  },
+  "review_reply": {
+    "reply": "Antwort",
+    "placeholder": "Eine Antwort hinzufügen...",
+    "open_replies": "Antworten anzeigen",
+    "hide_replies": "Antworten verbergen"
   },
   "review_item_actions": {
     "like": "Gefällt mir",
     "reply": "Antworten",
     "delete": "Löschen",
-    "delete_success": "Bewertung erfolgreich gelöscht."
+    "delete_success": "Bewertung erfolgreich gelöscht.",
+    "dialog_title": "Sind Sie sich absolut sicher?",
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "dialog_close": "Schließen"
+  },
+  "review_reply_actions": {
+    "like": "Gefällt mir",
+    "delete": "Löschen",
+    "delete_success": "Antwort erfolgreich gelöscht.",
+    "dialog_title": "Sind Sie sich absolut sicher?",
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "dialog_close": "Schließen"
   },
   "movie_collection": {
     "part_of": "Teil von",
@@ -329,7 +353,11 @@
     "user_last_review": {
       "title": "Deine letzte Bewertung",
       "no_review_message": "Du hast noch keine Filme oder TV-Serien bewertet.",
-      "no_review_action": "Klicke hier, um die am besten bewerteten Filme oder TV-Serien zu sehen."
+      "no_review_action": "Klicke hier, um die am besten bewerteten Filme oder TV-Serien zu sehen.",
+      "login": "Anmelden",
+      "register": "Registrieren",
+      "or": "oder",
+      "make_first_review": "um deine erste Bewertung zu verfassen!"
     },
     "popular_reviews": {
       "title": "Beliebte Bewertungen"

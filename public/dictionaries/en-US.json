@@ -168,13 +168,37 @@
     "rating_max": "Max value of rating is 5",
     "success": "Review created successfully.",
     "publish": "Publish",
-    "placeholder": "What you think about?"
+    "placeholder": "What you think about?",
+    "login": "Login",
+    "register": "Register",
+    "or": "or",
+    "make_first_review": "to make your first review!"
+  },
+  "review_reply_form": {
+    "success": "Reply created successfully."
+  },
+  "review_reply": {
+    "reply": "Reply",
+    "placeholder": "Add a reply...",
+    "open_replies": "View replies",
+    "hide_replies": "Hide replies"
   },
   "review_item_actions": {
     "like": "Like",
     "reply": "Reply",
     "delete": "Delete",
-    "delete_success": "Review deleted successfully."
+    "delete_success": "Review deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone.",
+    "dialog_close": "Close"
+  },
+  "review_reply_actions": {
+    "like": "Like",
+    "delete": "Delete",
+    "delete_success": "Reply deleted successfully.",
+    "dialog_title": "Are you absolutely sure?",
+    "dialog_description": "This action cannot be undone.",
+    "dialog_close": "Close"
   },
   "movie_collection": {
     "part_of": "Part of",
@@ -331,7 +355,11 @@
     "user_last_review": {
       "title": "Your last review",
       "no_review_message": "You haven't reviewed any movies or TV shows.",
-      "no_review_action": "Click to see top rated Movies or TV Shows."
+      "no_review_action": "Click to see top rated Movies or TV Shows.",
+      "login": "Login",
+      "register": "Register",
+      "or": "or",
+      "make_first_review": "to make your first review!"
     },
     "popular_reviews": {
       "title": "Popular reviews"

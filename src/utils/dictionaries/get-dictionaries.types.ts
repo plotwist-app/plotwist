@@ -165,12 +165,36 @@ export type Dictionary = {
     success: string
     publish: string
     placeholder: string
+    login: string
+    register: string
+    or: string
+    make_first_review: string
+  }
+  review_reply_form: {
+    success: string
+  }
+  review_reply: {
+    reply: string
+    placeholder: string
+    open_replies: string
+    hide_replies: string
   }
   review_item_actions: {
     like: string
     reply: string
     delete: string
     delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
+  }
+  review_reply_actions: {
+    like: string
+    delete: string
+    delete_success: string
+    dialog_title: string
+    dialog_description: string
+    dialog_close: string
   }
   movie_collection: {
     part_of: string
@@ -327,6 +351,10 @@ export type Dictionary = {
       title: string
       no_review_message: string
       no_review_action: string
+      login: string
+      register: string
+      or: string
+      make_first_review: string
     }
     popular_reviews: {
       title: string

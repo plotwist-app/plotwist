@@ -24,6 +24,7 @@ import { Dictionary } from '@/utils/dictionaries'
 
 import { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
+import Link from 'next/link'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -50,9 +51,24 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     },
   })
 
-  const onSubmit = async (values: ReviewFormValues) => {
-    if (!user) return
+  if (!user) {
+    return (
+      <div className="relative ml-[56px] space-y-1 rounded-md border p-4 shadow">
+        <p className="text-sm">
+          <Link href="/login" className="text-muted-foreground underline">
+            {dictionary.dashboard.user_last_review.login}
+          </Link>{' '}
+          {dictionary.dashboard.user_last_review.or}{' '}
+          <Link href="/signup" className="text-muted-foreground underline">
+            {dictionary.dashboard.user_last_review.register}
+          </Link>{' '}
+          {dictionary.dashboard.user_last_review.make_first_review}
+        </p>
+      </div>
+    )
+  }
 
+  const onSubmit = async (values: ReviewFormValues) => {
     await handleCreateReview.mutateAsync(
       {
         ...values,
