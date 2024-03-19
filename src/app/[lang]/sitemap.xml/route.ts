@@ -1,3 +1,6 @@
+import { Language } from '@/types/languages'
+import { getMoviesPagesIds } from '@/utils/seo/get-movies-pages-ids'
+import { getTvSeriesPagesIds } from '@/utils/seo/get-tv-series-pages-ids'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export const dynamic = 'force-dynamic'
@@ -23,19 +26,40 @@ const APP_ROUTES = [
 export async function GET(request: Request) {
   const url = new URL(request.url)
   const pathSegments = url.pathname.split('/').filter(Boolean)
-  const lang = pathSegments[0]
+  const language = pathSegments[0] as Language
+
+  const [movieIds, tvSeriesIds] = await Promise.all([
+    getMoviesPagesIds(language),
+    getTvSeriesPagesIds(language),
+  ])
 
   const sitemapStream = new SitemapStream({
-    hostname: `https://${url.host}/${lang}`,
+    hostname: `https://${url.host}/${language}`,
   })
 
   const xmlPromise = streamToPromise(sitemapStream)
 
   APP_ROUTES.forEach((route) => {
     sitemapStream.write({
-      url: `${lang}${route}`,
+      url: `${language}${route}`,
       changefreq: 'daily',
       priority: 0.7,
+    })
+  })
+
+  movieIds.forEach((id) => {
+    sitemapStream.write({
+      url: `/${language}/movies/${id}`,
+      changefreq: 'weekly',
+      lastmodISO: new Date().toISOString(),
+    })
+  })
+
+  tvSeriesIds.forEach((id) => {
+    sitemapStream.write({
+      url: `/${language}/tv-series/${id}`,
+      changefreq: 'weekly',
+      lastmodISO: new Date().toISOString(),
     })
   })
 
