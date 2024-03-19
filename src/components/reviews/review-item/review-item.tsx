@@ -11,8 +11,9 @@ import { MediaType } from '@/types/supabase/media-type'
 import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { MovieDetails } from '@/services/tmdb/requests/movies/details'
 import { ReviewReply } from '@/components/reviews/review-reply'
-import { timeFromNow } from '@/utils/date/time-from-now'
 import { useLanguage } from '@/context/language'
+import { formatDistanceToNow } from 'date-fns'
+import { locale } from '@/utils/date/locale'
 
 type TmdbItem = TvSeriesDetails | MovieDetails
 
@@ -56,8 +57,12 @@ export const ReviewItem = ({
           <span className="h-1 w-1 rounded-full bg-muted" />
           <ReviewStars rating={rating} />
           <span className="h-1 w-1 rounded-full bg-muted" />
+
           <span className="text-xs text-muted-foreground underline-offset-1 ">
-            {timeFromNow({ date: new Date(createdAt), language })}
+            {formatDistanceToNow(new Date(createdAt), {
+              locale: locale[language],
+            })}{' '}
+            atrás
           </span>
         </div>
 

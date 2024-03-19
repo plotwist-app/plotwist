@@ -12,7 +12,7 @@ export const getReviewsService = async ({ id, mediaType }: GetReview) => {
     .from('reviews_with_replies')
     .select('*')
     .eq('tmdb_id', id)
-    .order('id', { ascending: false })
+    .order('created_at', { ascending: true })
     .eq('media_type', mediaType)
     .returns<Review[]>()
 

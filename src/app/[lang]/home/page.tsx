@@ -61,15 +61,14 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 space-y-4 lg:grid-cols-[1fr,325px]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,325px]">
         <div className="space-y-8">
-          <Separator className="bg-muted/75" />
-
           <DashboardUserLastReview />
+          <Separator className="bg-muted/75" />
           <DashboardPopularReviews />
         </div>
 
-        <div className="ml-0 space-y-16">
+        <div className="mt-0 space-y-16">
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">
               {dictionary.app_page.popular_movies_title}

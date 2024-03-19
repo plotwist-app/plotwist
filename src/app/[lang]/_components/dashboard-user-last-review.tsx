@@ -28,16 +28,18 @@ export const DashboardUserLastReview = () => {
 
   if (!user) {
     return (
-      <span className="text-md block space-y-2">
-        <Link href="/login" className="text-muted-foreground underline">
-          {dictionary.dashboard.user_last_review.login}
-        </Link>{' '}
-        {dictionary.dashboard.user_last_review.or}{' '}
-        <Link href="/signup" className="text-muted-foreground underline">
-          {dictionary.dashboard.user_last_review.register}
-        </Link>{' '}
-        {dictionary.dashboard.user_last_review.make_first_review}
-      </span>
+      <div className="flex items-center justify-center rounded-lg border border-dashed p-16">
+        <span className="text-md block space-y-2 text-muted-foreground">
+          <Link href="/login" className="text-foreground underline">
+            {dictionary.dashboard.user_last_review.login}
+          </Link>{' '}
+          {dictionary.dashboard.user_last_review.or}{' '}
+          <Link href="/signup" className="text-foreground underline">
+            {dictionary.dashboard.user_last_review.register}
+          </Link>{' '}
+          {dictionary.dashboard.user_last_review.make_first_review}
+        </span>
+      </div>
     )
   }
 
