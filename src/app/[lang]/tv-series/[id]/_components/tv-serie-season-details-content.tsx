@@ -37,13 +37,15 @@ export const TvSerieSeasonDetailsContent = ({
   const {
     dictionary: {
       tv_serie_season_details: {
-        grid_layout_tooltip: grid,
-        table_layout_tooltip: table,
         name,
         overview,
         runtime,
         vote,
       },
+      grid_or_table_layout: {
+        grid_layout_tooltip: grid,
+        table_layout_tooltip: table,
+      }
     },
   } = useLanguage()
 

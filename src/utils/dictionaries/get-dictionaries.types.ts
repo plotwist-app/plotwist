@@ -475,8 +475,6 @@ export type Dictionary = {
     overview: string
     runtime: string
     vote: string
-    grid_layout_tooltip: string
-    table_layout_tooltip: string
   }
   popular_people: {
     title: string
@@ -505,5 +503,13 @@ export type Dictionary = {
       status: string
       github: string
     }
+  },
+  text_actions: {
+    expand: string
+    contract: string
+  }
+  grid_or_table_layout: {
+    grid_layout_tooltip: string
+    table_layout_tooltip: string
   }
 }

@@ -12,6 +12,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { format } from 'date-fns'
 import { PersonCredits } from './person-credits'
 import { Container } from '@/app/[lang]/_components/container'
+import { PersonBiography } from './person-biography'
 
 type PersonDetailsProps = { id: number; language: Language }
 
@@ -56,9 +57,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
               <Badge>{(person.popularity / 10).toFixed(1)}</Badge>
             </div>
 
-            <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
-              {person.biography}
-            </p>
+            <PersonBiography personBiography={person.biography} />
           </article>
         </main>
 
