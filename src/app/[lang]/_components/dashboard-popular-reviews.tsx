@@ -6,12 +6,12 @@ import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { useLanguage } from '@/context/language'
 import { getPopularReviewsService } from '@/services/api/reviews/get-popular-reviews'
 
-const MAX_REVIEWS = 5
+const MAX_SKELETONS_REVIEWS = 5
 
 export const DashboardPopularReviews = () => {
   const { language, dictionary } = useLanguage()
 
-  const { data: response, isLoading } = useQuery({
+  const { data: reviews, isLoading } = useQuery({
     queryKey: ['dashboard-popular-reviews'],
     queryFn: async () => getPopularReviewsService(),
   })
@@ -24,7 +24,7 @@ export const DashboardPopularReviews = () => {
         </h3>
 
         <div className="space-y-8">
-          {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
+          {Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
             <DashboardReviewSkeleton key={index} />
           ))}
         </div>
@@ -32,9 +32,7 @@ export const DashboardPopularReviews = () => {
     )
   }
 
-  if (!response) return <></>
-
-  const reviews = response
+  if (!reviews) return null
 
   return (
     <div className="space-y-4">
