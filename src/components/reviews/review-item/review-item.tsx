@@ -53,8 +53,6 @@ export const ReviewItem = ({
     locale: locale[language],
   })} ${ago}`
 
-  console.log({ time })
-
   return (
     <div className="flex items-start space-x-4">
       <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
