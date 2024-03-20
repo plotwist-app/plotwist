@@ -477,9 +477,7 @@
     "name": "Name",
     "overview": "Übersicht",
     "runtime": "Laufzeit",
-    "vote": "Bewertung",
-    "grid_layout_tooltip": "Rasterlayout",
-    "table_layout_tooltip": "Tabellenlayout"
+    "vote": "Bewertung" 
   },
   "popular_people": {
     "title": "Beliebte Personen",
@@ -508,5 +506,13 @@
       "status": "Status",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "urs",
+    "contract": "arnold"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Rasterlayout",
+    "table_layout_tooltip": "Tabellenlayout"
   }
 }

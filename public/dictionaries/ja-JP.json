@@ -473,9 +473,7 @@
     "name": "名前",
     "overview": "概要",
     "runtime": "実行時間",
-    "vote": "投票",
-    "grid_layout_tooltip": "グリッドレイアウト",
-    "table_layout_tooltip": "テーブルレイアウト"
+    "vote": "投票" 
   },
   "popular_people": {
     "title": "人気のある人々",
@@ -504,5 +502,13 @@
       "status": "ステータス",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "sushi",
+    "contract": "sashimi"
+  }, 
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "グリッドレイアウト",
+    "table_layout_tooltip": "テーブルレイアウト"
   }
 }

@@ -477,9 +477,7 @@
     "name": "Nombre",
     "overview": "Resumen",
     "runtime": "Duración",
-    "vote": "Voto",
-    "grid_layout_tooltip": "Diseño de cuadrícula",
-    "table_layout_tooltip": "Diseño de tabla"
+    "vote": "Voto" 
   },
   "popular_people": {
     "title": "Personas populares",
@@ -508,5 +506,13 @@
       "status": "Estado",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "la casa",
+    "contract": "de papel"
+  }, 
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Diseño de cuadrícula",
+    "table_layout_tooltip": "Diseño de tabla"
   }
 }

@@ -473,9 +473,7 @@
     "name": "Nome",
     "overview": "Panoramica",
     "runtime": "Durata",
-    "vote": "Voto",
-    "grid_layout_tooltip": "Layout a griglia",
-    "table_layout_tooltip": "Layout tabellare"
+    "vote": "Voto"
   },
   "popular_people": {
     "title": "Persone popolari",
@@ -504,5 +502,13 @@
       "status": "Stato",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "macarrao",
+    "contract": "pizza"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Layout a griglia",
+    "table_layout_tooltip": "Layout tabellare"
   }
 }

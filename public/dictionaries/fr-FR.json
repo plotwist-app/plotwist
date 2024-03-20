@@ -473,9 +473,7 @@
     "name": "Nom",
     "overview": "Aperçu",
     "runtime": "Durée",
-    "vote": "Vote",
-    "grid_layout_tooltip": "Disposition en grille",
-    "table_layout_tooltip": "Disposition en tableau"
+    "vote": "Vote" 
   },
   "popular_people": {
     "title": "Personnes populaires",
@@ -504,5 +502,13 @@
       "status": "Statut",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "petit",
+    "contract": "gateu"
+  }, 
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Disposition en grille",
+    "table_layout_tooltip": "Disposition en tableau"
   }
 }

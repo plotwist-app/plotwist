@@ -473,9 +473,7 @@
     "name": "Nome",
     "overview": "Sinopse",
     "runtime": "Duração",
-    "vote": "Votação",
-    "grid_layout_tooltip": "Grade",
-    "table_layout_tooltip": "Tabela"
+    "vote": "Votação"
   },
   "popular_people": {
     "title": "Pessoas populares",
@@ -504,5 +502,13 @@
       "status": "Status",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "Ver mais",
+    "contract": "Ver menos"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Grade",
+    "table_layout_tooltip": "Tabela"
   }
 }

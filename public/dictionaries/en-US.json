@@ -480,9 +480,7 @@
     "name": "Name",
     "overview": "Overview",
     "runtime": "Runtime",
-    "vote": "Vote",
-    "grid_layout_tooltip": "Grid layout",
-    "table_layout_tooltip": "Table layout"
+    "vote": "Vote" 
   },
   "popular_people": {
     "title": "Popular People",
@@ -511,5 +509,13 @@
       "status": "Status",
       "github": "GitHub"
     }
+  },
+  "text_actions": {
+    "expand": "obama",
+    "contract": "cocacola"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Grid layout",
+    "table_layout_tooltip": "Table layout"
   }
 }
