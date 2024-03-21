@@ -170,13 +170,40 @@
     "rating_max": "Il valore massimo della valutazione è 5",
     "success": "Recensione creata con successo.",
     "publish": "Pubblica",
-    "placeholder": "Cosa ne pensi?"
+    "placeholder": "Cosa ne pensi?",
+    "login": "Accedi",
+    "register": "Registrati",
+    "or": "o",
+    "make_first_review": "per lasciare la tua prima recensione!"
+  },
+  "review_reply_form": {
+    "success": "Risposta creata con successo."
+  },
+  "review_reply": {
+    "reply": "Rispondi",
+    "placeholder": "Aggiungi una risposta...",
+    "open_replies": "Visualizza risposte",
+    "hide_replies": "Nascondi risposte"
+  },
+  "review_item": {
+    "ago": "fa"
   },
   "review_item_actions": {
     "like": "Mi piace",
     "reply": "Rispondere",
     "delete": "Eliminare",
-    "delete_success": "Recensione eliminata con successo."
+    "delete_success": "Recensione eliminata con successo.",
+    "dialog_title": "Sei assolutamente sicuro?",
+    "dialog_description": "Questa azione non può essere annullata.",
+    "dialog_close": "Chiudi"
+  },
+  "review_reply_actions": {
+    "like": "Mi piace",
+    "delete": "Eliminare",
+    "delete_success": "Risposta eliminata con successo.",
+    "dialog_title": "Sei assolutamente sicuro?",
+    "dialog_description": "Questa azione non può essere annullata.",
+    "dialog_close": "Chiudi"
   },
   "movie_collection": {
     "part_of": "Parte di",
@@ -331,7 +358,11 @@
     "user_last_review": {
       "title": "La tua ultima recensione",
       "no_review_message": "Non hai recensito ancora nessun film o serie TV.",
-      "no_review_action": "Clicca per vedere i film o le serie TV con il voto più alto."
+      "no_review_action": "Clicca per vedere i film o le serie TV con il voto più alto.",
+      "login": "Accedi",
+      "register": "Registrati",
+      "or": "o",
+      "make_first_review": "per lasciare la tua prima recensione!"
     },
     "popular_reviews": {
       "title": "Recensioni popolari"

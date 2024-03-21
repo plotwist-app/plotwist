@@ -170,13 +170,40 @@
     "rating_max": "La valeur maximale de la note est de 5",
     "success": "Avis créé avec succès.",
     "publish": "Publier",
-    "placeholder": "Qu'en pensez-vous ?"
+    "placeholder": "Qu'en pensez-vous ?",
+    "login": "Connexion",
+    "register": "Inscription",
+    "or": "ou",
+    "make_first_review": "pour faire votre première critique !"
+  },
+  "review_reply_form": {
+    "success": "Réponse créée avec succès."
+  },
+  "review_reply": {
+    "reply": "Répondre",
+    "placeholder": "Ajouter une réponse...",
+    "open_replies": "Voir les réponses",
+    "hide_replies": "Cacher les réponses"
+  },
+  "review_item": {
+    "ago": "il y a"
   },
   "review_item_actions": {
     "like": "Aimer",
     "reply": "Répondre",
     "delete": "Supprimer",
-    "delete_success": "Avis supprimé avec succès."
+    "delete_success": "Avis supprimé avec succès.",
+    "dialog_title": "Êtes-vous absolument sûr ?",
+    "dialog_description": "Cette action ne peut pas être annulée.",
+    "dialog_close": "Fermer"
+  },
+  "review_reply_actions": {
+    "like": "Aimer",
+    "delete": "Supprimer",
+    "delete_success": "Réponse supprimée avec succès.",
+    "dialog_title": "Êtes-vous absolument sûr ?",
+    "dialog_description": "Cette action ne peut pas être annulée.",
+    "dialog_close": "Fermer"
   },
   "movie_collection": {
     "part_of": "Partie de",
@@ -331,7 +358,11 @@
     "user_last_review": {
       "title": "Votre dernière critique",
       "no_review_message": "Vous n'avez critiqué aucun film ou série TV.",
-      "no_review_action": "Cliquez pour voir les films ou séries TV les mieux notés."
+      "no_review_action": "Cliquez pour voir les films ou séries TV les mieux notés.",
+      "login": "Connexion",
+      "register": "Inscription",
+      "or": "ou",
+      "make_first_review": "pour faire votre première critique !"
     },
     "popular_reviews": {
       "title": "Critiques populaires"

@@ -115,7 +115,7 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                 )}
 
                 <DropdownMenuItem asChild>
-                  <Link href={`/${language}/tv-show/${tvSerie.id}`}>
+                  <Link href={`/${language}/tv-series/${tvSerie.id}`}>
                     <ExternalLink size={14} className="mr-1" />
                     View details
                   </Link>
