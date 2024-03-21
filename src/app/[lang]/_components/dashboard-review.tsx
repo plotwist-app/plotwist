@@ -68,7 +68,7 @@ export const DashboardReview = ({ review, language }: DashboardReviewProps) => {
             </div>
           </div>
 
-          <p className="break-all text-muted-foreground">{content}</p>
+          <p className="break-words text-muted-foreground">{content}</p>
         </div>
       </div>
     </div>
