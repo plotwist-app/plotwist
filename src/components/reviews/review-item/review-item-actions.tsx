@@ -81,6 +81,10 @@ export const ReviewItemActions = ({
   const userLike = likes?.data?.find((like) => like.user_id === user?.id)
   const isUserLiked = Boolean(userLike)
 
+  const isLikeDisabled = isUserLiked
+    ? handleRemoveLike.isPending
+    : handleLike.isPending
+
   const invalidateQuery = () => {
     const queries = [
       ['dashboard-user-last-review'],
@@ -98,49 +102,72 @@ export const ReviewItemActions = ({
 
   if (!user) return null
 
+  function handleLikeClick() {
+    if (!user) return
+
+    handleLike.mutate(
+      {
+        reviewId: id,
+        userId: user.id,
+        entityType: 'REVIEW',
+      },
+      {
+        onSuccess: () => {
+          invalidateQuery()
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      },
+    )
+  }
+
+  function handleDeleteLikeClick() {
+    if (!user) return
+
+    handleRemoveLike.mutate(
+      {
+        reviewId: id,
+        userId: user.id,
+        entityType: 'REVIEW',
+      },
+      {
+        onSuccess: () => {
+          invalidateQuery()
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      },
+    )
+  }
+
+  function handleDeleteReviewClick() {
+    handleDeleteReview.mutate(id, {
+      onSuccess: () => {
+        invalidateQuery()
+
+        toast.success(dictionary.review_item_actions.delete_success)
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    })
+  }
+
   return (
     <div>
       <div className="flex items-center space-x-2">
         <ReviewItemAction
           active={isUserLiked}
-          disabled={
-            isUserLiked ? handleRemoveLike.isPending : handleLike.isPending
-          }
+          disabled={isLikeDisabled}
           onClick={() => {
             if (isUserLiked) {
-              handleRemoveLike.mutateAsync(
-                {
-                  reviewId: id,
-                  userId: user.id,
-                  entityType: 'REVIEW',
-                },
-                {
-                  onSuccess: () => {
-                    invalidateQuery()
-                  },
-                  onError: (error) => {
-                    toast.error(error.message)
-                  },
-                },
-              )
+              handleDeleteLikeClick()
               return
             }
 
-            handleLike.mutateAsync(
-              {
-                reviewId: id,
-                userId: user.id,
-                entityType: 'REVIEW',
-              },
-              {
-                onSuccess: () => {
-                  invalidateQuery()
-                },
-                onError: (error) => {
-                  toast.error(error.message)
-                },
-              },
-            )
+            handleLikeClick()
           }}
         >
           {dictionary.review_item_actions.like}
@@ -184,18 +211,7 @@ export const ReviewItemActions = ({
             </DialogClose>
             <Button
               variant="destructive"
-              onClick={() =>
-                handleDeleteReview.mutateAsync(id, {
-                  onSuccess: () => {
-                    invalidateQuery()
-
-                    toast.success(dictionary.review_item_actions.delete_success)
-                  },
-                  onError: (error) => {
-                    toast.error(error.message)
-                  },
-                })
-              }
+              onClick={() => handleDeleteReviewClick()}
             >
               {dictionary.review_item_actions.delete}
             </Button>
