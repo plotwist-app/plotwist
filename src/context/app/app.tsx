@@ -24,8 +24,7 @@ export const AppWrapper = ({ children }: AppWrapperProps) => {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
       disableTransitionOnChange
     >
       <QueryClientProvider client={APP_QUERY_CLIENT}>
