@@ -59,7 +59,7 @@ export const ReviewItem = ({
         {usernameInitial}
       </div>
 
-      <div className="flex w-full flex-col space-y-2">
+      <div className="flex max-w-[calc(100%-56px)] flex-1 flex-col space-y-2">
         <div className="flex items-center space-x-2">
           <span className="text-sm text-muted-foreground">{username}</span>
           <span className="h-1 w-1 rounded-full bg-muted" />
@@ -72,7 +72,7 @@ export const ReviewItem = ({
         </div>
 
         <div className="relative space-y-1 rounded-md border p-4 shadow">
-          <p className="text-sm">{content}</p>
+          <p className="break-words text-sm/6">{content}</p>
           <ReviewLikes reviewId={review.id} />
         </div>
 

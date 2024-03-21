@@ -10,7 +10,7 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
 
   if (!likes?.data) {
     return (
-      <div className="absolute -bottom-2 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted" />
+      <div className="absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted" />
     )
   }
 
@@ -19,10 +19,10 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
   return (
     <div
       className={
-        'absolute -bottom-2 right-2 rounded-full border bg-muted px-3 py-1 text-xs'
+        'absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs'
       }
     >
-      ❤ {likes.count}
+      ❤ <span className="ml-1">{likes.count}</span>
     </div>
   )
 }
