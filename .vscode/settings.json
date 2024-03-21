@@ -6,7 +6,9 @@
   },
   "typescript.format.enable": false,
   "cSpell.words": [
+    "animes",
     "hookform",
+    "Serie",
     "supabase",
     "tanstack",
     "tmdb"

@@ -298,6 +298,12 @@ export type Dictionary = {
     role: string
     rating: string
   }
+  animes_page: {
+    title: string
+    description: string
+    button_tv_series: string
+    button_movies: string
+  }
   movie_pages: {
     discover: {
       title: string

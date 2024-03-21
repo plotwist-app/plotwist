@@ -54,6 +54,12 @@
     "upcoming": "Upcoming movies",
     "show_all": "Show all"
   },
+  "animes_page": {
+    "title": "Animes",
+    "description": "Find your favorite animes",
+    "button_tv_series": "TV Series",
+    "button_movies": "Movies"
+  },
   "login_page": {
     "title": "Login",
     "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
@@ -227,7 +233,6 @@
   },
   "list_form": {
     "create_new_list": "Create new list",
-    
     "name": "Name",
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",

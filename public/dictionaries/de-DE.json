@@ -54,6 +54,12 @@
     "upcoming": "Kommende Filme",
     "show_all": "Alle anzeigen"
   },
+  "animes_page": {
+    "title": "Animes",
+    "description": "Finde deine Lieblingsanimes",
+    "button_tv_series": "Serien",
+    "button_movies": "Filme"
+  },
   "login_page": {
     "title": "Anmelden",
     "description": "Sei Teil der Kinogemeinschaft, wo du Tausende von Filmen und Fernsehserien treffen und diskutieren kannst!",
@@ -227,7 +233,6 @@
   },
   "list_form": {
     "create_new_list": "Neue Liste erstellen",
-    
     "name": "Name",
     "name_placeholder": "Meine Liste",
     "name_required": "Der Name der Liste ist erforderlich.",
