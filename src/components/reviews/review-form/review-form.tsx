@@ -53,17 +53,21 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
   if (!user) {
     return (
-      <div className="relative ml-[56px] space-y-1 rounded-md border p-4 shadow">
-        <p className="text-sm">
-          <Link href="/login" className="text-muted-foreground underline">
-            {dictionary.dashboard.user_last_review.login}
-          </Link>{' '}
-          {dictionary.dashboard.user_last_review.or}{' '}
-          <Link href="/signup" className="text-muted-foreground underline">
-            {dictionary.dashboard.user_last_review.register}
-          </Link>{' '}
-          {dictionary.dashboard.user_last_review.make_first_review}
-        </p>
+      <div className="flex items-start space-x-4">
+        <div className="aspect-square h-10 w-10 rounded-full border bg-muted" />
+
+        <div className="relative flex-1 space-y-1 rounded-md border border-dashed p-4 shadow">
+          <p className="text-sm">
+            <Link href="/login" className="text-muted-foreground underline">
+              {dictionary.dashboard.user_last_review.login}
+            </Link>{' '}
+            {dictionary.dashboard.user_last_review.or}{' '}
+            <Link href="/signup" className="text-muted-foreground underline">
+              {dictionary.dashboard.user_last_review.register}
+            </Link>{' '}
+            {dictionary.dashboard.user_last_review.make_first_review}
+          </p>
+        </div>
       </div>
     )
   }
