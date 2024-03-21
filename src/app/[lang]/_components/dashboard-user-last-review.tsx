@@ -2,20 +2,11 @@
 
 import { useAuth } from '@/context/auth'
 import { useQuery } from '@tanstack/react-query'
-import { Review } from '@/types/supabase/reviews'
 
 import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
-
-type Like = {
-  id: string
-}
-
-interface UserLastReview extends Review {
-  likes: Like[]
-}
 
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
@@ -43,7 +34,7 @@ export const DashboardUserLastReview = () => {
     )
   }
 
-  if (user && isLoading) {
+  if (isLoading) {
     return (
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">
@@ -69,7 +60,7 @@ export const DashboardUserLastReview = () => {
     )
   }
 
-  const lastReview = response as UserLastReview
+  const lastReview = response
   const likesCount = lastReview.likes?.length
 
   return (
