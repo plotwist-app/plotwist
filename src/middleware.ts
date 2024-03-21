@@ -1,4 +1,3 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { match } from '@formatjs/intl-localematcher'
@@ -22,11 +21,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(req.nextUrl)
   }
 
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
-
-  await supabase.auth.getSession()
-  return res
+  return NextResponse.next()
 }
 
 export const config = {

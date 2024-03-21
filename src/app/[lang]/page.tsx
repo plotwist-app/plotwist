@@ -18,6 +18,7 @@ import { APP_URL } from '../../../constants'
 
 import { MovieDetails } from './movies/[id]/_components/movie-details'
 import { Footer } from '@/components/footer'
+import { SUPPORTED_LANGUAGES } from '../../../languages'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -30,13 +31,24 @@ export const homeMovies: Record<Language, string> = {
 }
 
 export async function generateMetadata({
-  params,
+  params: { lang },
 }: PageProps): Promise<Metadata> {
   const {
     home: { title, description, keywords },
-  } = await getDictionary(params.lang)
+  } = await getDictionary(lang)
 
-  const image = `${APP_URL}/images/home/movie-${params.lang}.jpg`
+  const image = `${APP_URL}/images/home/movie-${lang}.jpg`
+  const canonicalUrl = `${APP_URL}/${lang}`
+
+  const languageAlternates = SUPPORTED_LANGUAGES.reduce(
+    (acc, lang) => {
+      if (lang.enabled) {
+        acc[lang.hreflang] = `${APP_URL}/${lang.value}`
+      }
+      return acc
+    },
+    {} as Record<string, string>,
+  )
 
   return {
     title,
@@ -66,6 +78,10 @@ export async function generateMetadata({
       description,
       card: 'summary_large_image',
       creator: '@lui7henrique',
+    },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: languageAlternates,
     },
   }
 }

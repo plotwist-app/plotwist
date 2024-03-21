@@ -19,7 +19,6 @@ import {
   editListService,
 } from '@/services/api/lists'
 
-export const LISTS_QUERY_KEY = ['lists']
 export const ListsContext = createContext<ListsContextType>(
   {} as ListsContextType,
 )
@@ -30,8 +29,8 @@ export const ListsContextProvider = ({
   const { user } = useAuth()
 
   const { data, isLoading } = useQuery({
-    queryKey: LISTS_QUERY_KEY,
-    queryFn: async () => await fetchListsService(user!.id),
+    queryKey: ['lists', user?.id],
+    queryFn: async () => await fetchListsService(user?.id),
   })
 
   const handleCreateNewList = useMutation({

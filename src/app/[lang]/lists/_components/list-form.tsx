@@ -24,7 +24,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-import { LISTS_QUERY_KEY, useLists } from '@/context/lists'
+import { useLists } from '@/context/lists'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
@@ -82,7 +82,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           )
 
           APP_QUERY_CLIENT.setQueryData(
-            LISTS_QUERY_KEY,
+            ['lists', user.id],
             (query: { data: List[] }) => {
               const { data } = query
 
@@ -116,7 +116,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       {
         onSuccess: () => {
           APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: LISTS_QUERY_KEY,
+            queryKey: ['lists', user.id],
           })
 
           setOpen(false)
