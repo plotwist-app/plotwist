@@ -35,7 +35,7 @@ export const DashboardReview = ({
   const href =
     mediaType === 'MOVIE'
       ? `/${language}/movies/${tmdbId}`
-      : `/${language}/tv-shows/${tmdbId}`
+      : `/${language}/tv-series/${tmdbId}`
 
   return (
     <div className="flex space-x-4">
