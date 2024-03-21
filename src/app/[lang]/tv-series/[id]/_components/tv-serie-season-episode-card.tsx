@@ -14,6 +14,8 @@ type TvSerieEpisodeCardProps = {
 }
 
 export const TvSerieEpisodeCard = ({ episode }: TvSerieEpisodeCardProps) => {
+  console.log(episode)
+
   const {
     name,
     still_path: path,
@@ -25,6 +27,7 @@ export const TvSerieEpisodeCard = ({ episode }: TvSerieEpisodeCardProps) => {
 
   return (
     <div className="space-y-2">
+      <h1 className="text-white">Aqui</h1>
       <div className="relative aspect-video w-full overflow-hidden rounded-md border">
         <Image
           src={tmdbImage(path, 'w500')}
