@@ -1,65 +1,56 @@
 'use client'
 
-import { supabase } from '@/services/supabase'
-import { Review } from '@/types/supabase/reviews'
 import { useQuery } from '@tanstack/react-query'
 
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { useLanguage } from '@/context/language'
+import { getPopularReviewsService } from '@/services/api/reviews/get-popular-reviews'
 
-const MAX_REVIEWS = 5
+const MAX_SKELETONS_REVIEWS = 5
 
 export const DashboardPopularReviews = () => {
-  return <div>work in progress.</div>
+  const { language, dictionary } = useLanguage()
 
-  // const { language, dictionary } = useLanguage()
+  const { data: reviews, isLoading } = useQuery({
+    queryKey: ['dashboard-popular-reviews'],
+    queryFn: async () => getPopularReviewsService(),
+  })
 
-  // const { data: response, isLoading } = useQuery({
-  //   queryKey: ['dashboard-popular-reviews'],
-  //   queryFn: async () =>
-  //     await supabase
-  //       .from('reviews_with_user_and_like_count')
-  //       .select()
-  //       .order('review_likes_count', { ascending: false })
-  //       .limit(MAX_REVIEWS)
-  //       .returns<Review[]>(),
-  // })
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">
+          {dictionary.dashboard.popular_reviews.title}
+        </h3>
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="space-y-4">
-  //       <h3 className="text-lg font-semibold">
-  //         {dictionary.dashboard.popular_reviews.title}
-  //       </h3>
+        <div className="space-y-8">
+          {Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
+            <DashboardReviewSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 
-  //       <div className="space-y-8">
-  //         {Array.from({ length: MAX_REVIEWS }).map((_, index) => (
-  //           <DashboardReviewSkeleton key={index} />
-  //         ))}
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  if (!reviews) return null
 
-  // if (!response?.data) return <></>
+  return (
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">
+        {dictionary.dashboard.popular_reviews.title}
+      </h3>
 
-  // const reviews = response.data
-
-  // return (
-  //   <div className="space-y-4">
-  //     <h3 className="text-lg font-semibold">
-  //       {dictionary.dashboard.popular_reviews.title}
-  //     </h3>
-
-  //     <div className="space-y-8">
-  //       {reviews.map((review) => (
-  //         <DashboardReview
-  //           key={review.id}
-  //           review={review}
-  //           language={language}
-  //         />
-  //       ))}
-  //     </div>
-  //   </div>
-  // )
+      <div className="space-y-8">
+        {reviews.map((review) => (
+          <DashboardReview
+            username={review.user_info.raw_user_meta_data.username}
+            key={review.id}
+            review={review}
+            likes={review.likes_count ?? 0}
+            language={language}
+          />
+        ))}
+      </div>
+    </div>
+  )
 }

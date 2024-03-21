@@ -170,13 +170,40 @@
     "rating_max": "O valor máximo da classificação é 5",
     "success": "Avaliação criada com sucesso.",
     "publish": "Publicar",
-    "placeholder": "O que você acha?"
+    "placeholder": "O que você acha?",
+    "login": "Faça login",
+    "register": "Cadastre-se",
+    "or": "ou",
+    "make_first_review": "para fazer sua primeira avaliação!"
+  },
+  "review_reply_form": {
+    "success": "Resposta criada com sucesso."
+  },
+  "review_reply": {
+    "reply": "Responder",
+    "placeholder": "Adicione uma resposta...",
+    "open_replies": "Ver respostas",
+    "hide_replies": "Ocultar respostas"
+  },
+  "review_item": {
+    "ago": "atrás"
   },
   "review_item_actions": {
     "like": "Curtir",
     "reply": "Responder",
     "delete": "Apagar",
-    "delete_success": "Avaliação deletada com sucesso."
+    "delete_success": "Avaliação deletada com sucesso.",
+    "dialog_title": "Você tem certeza absoluta?",
+    "dialog_description": "Esta ação não pode ser desfeita.",
+    "dialog_close": "Fechar"
+  },
+  "review_reply_actions": {
+    "like": "Curtir",
+    "delete": "Apagar",
+    "delete_success": "Resposta excluída com sucesso.",
+    "dialog_title": "Você tem certeza absoluta?",
+    "dialog_description": "Esta ação não pode ser desfeita.",
+    "dialog_close": "Fechar"
   },
   "movie_collection": {
     "part_of": "Parte de",
@@ -331,7 +358,11 @@
     "user_last_review": {
       "title": "Sua última avaliação",
       "no_review_message": "Você ainda não avaliou nenhum filme ou série de TV.",
-      "no_review_action": "Clique para ver os filmes ou séries de TV mais bem avaliados."
+      "no_review_action": "Clique para ver os filmes ou séries de TV mais bem avaliados.",
+      "login": "Faça login",
+      "register": "Cadastre-se",
+      "or": "ou",
+      "make_first_review": "para fazer sua primeira avaliação!"
     },
     "popular_reviews": {
       "title": "Avaliações populares"
