@@ -493,7 +493,7 @@
     "subscribe": "アップデートを購読する！"
   },
   "footer": {
-    "status": "ステータス：すべてのシステムが正常に動作しています",
+    "status": "ステータス：オペレーション",
     "rights": "© Status 451. すべての権利を保有。",
     "data_provided_by": "TMDBによって提供されたデータ。",
     "sections": {
