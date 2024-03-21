@@ -54,6 +54,12 @@
     "upcoming": "公開予定の映画",
     "show_all": "すべて表示"
   },
+  "animes_page": {
+    "title": "アニメ",
+    "description": "お気に入りのアニメを見つけよう",
+    "button_tv_series": "TVシリーズ",
+    "button_movies": "映画"
+  },
   "login_page": {
     "title": "ログイン",
     "description": "数千の映画やテレビシリーズについて話し合えるコミュニティに参加しましょう！",

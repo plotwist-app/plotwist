@@ -2,18 +2,21 @@ import { tmdbClient } from '@/services/tmdb'
 import { ListResponse, Movie } from '@/services/tmdb/types'
 import { Language } from '@/types/languages'
 
-export type DiscoverMovieFilters = Record<
-  | 'with_genres'
-  | 'release_date.gte'
-  | 'release_date.lte'
-  | 'with_original_language'
-  | 'sort_by'
-  | 'with_watch_providers'
-  | 'watch_region'
-  | 'vote_average.gte'
-  | 'vote_average.lte'
-  | 'vote_count.gte',
-  string | null
+export type DiscoverMovieFilters = Partial<
+  Record<
+    | 'with_genres'
+    | 'release_date.gte'
+    | 'release_date.lte'
+    | 'with_original_language'
+    | 'sort_by'
+    | 'with_watch_providers'
+    | 'with_keywords'
+    | 'watch_region'
+    | 'vote_average.gte'
+    | 'vote_average.lte'
+    | 'vote_count.gte',
+    string | null
+  >
 >
 
 type DiscoverOptions = {

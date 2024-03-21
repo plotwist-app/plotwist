@@ -3,6 +3,7 @@ import {
   Clapperboard,
   Heart,
   Home,
+  JapaneseYen,
   List,
   LucideIcon,
   Play,
@@ -105,6 +106,11 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
         icon: Star,
       },
     ],
+  },
+  {
+    label: 'Animes',
+    href: '/animes',
+    icon: JapaneseYen,
   },
   {
     label: dictionary.navigation.people,
