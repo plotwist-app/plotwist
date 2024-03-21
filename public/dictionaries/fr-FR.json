@@ -54,6 +54,12 @@
     "upcoming": "Prochaines sorties",
     "show_all": "Tout afficher"
   },
+  "animes_page": {
+    "title": "Animes",
+    "description": "Trouvez vos animes préférés",
+    "button_tv_series": "Séries TV",
+    "button_movies": "Films"
+  },
   "login_page": {
     "title": "Connexion",
     "description": "Faites partie de la communauté cinématographique, où vous pouvez rencontrer et discuter de milliers de films et de séries TV !",
