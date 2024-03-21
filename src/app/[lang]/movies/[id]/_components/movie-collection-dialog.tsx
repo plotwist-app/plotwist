@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 
 import { CollectionListDropdown } from '@/components/lists/collection-list-button'
 
-import { MovieCard } from '@/components/poster/movie-card'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
 import { useLanguage } from '@/context/language'
 
 import { DetailedCollection } from '@/services/tmdb/requests/collections/details'
+import { MovieCard } from '@/components/movie-card'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }
 

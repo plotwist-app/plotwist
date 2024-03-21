@@ -1,19 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { forwardRef } from 'react'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
+
+import { Movie } from '@/services/tmdb/types'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../../ui/tooltip'
-import { Badge } from '../../ui/badge'
-import { Skeleton } from '../../ui/skeleton'
-
-import { Movie } from '@/services/tmdb/types'
-import { forwardRef } from 'react'
+} from '../ui/tooltip'
+import { Badge } from '../ui/badge'
+import { Skeleton } from '../ui/skeleton'
 
 type MovieCardProps = {
   movie: Movie

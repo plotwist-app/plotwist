@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 
-import { MovieCard, MovieCardSkeleton } from '@/components/poster/movie-card'
+import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
 
 import { MovieListSkeleton } from './movie-list-skeleton'
 import { useMovieListQuery } from './use-movie-list-query'
