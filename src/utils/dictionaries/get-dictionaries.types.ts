@@ -514,7 +514,8 @@ export type Dictionary = {
   }
   person_page: {
     credit_list: {
-      show_more: string
+      show_all: string
+      show_less: string
     }
   }
 }

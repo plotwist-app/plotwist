@@ -12,8 +12,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, Grid, Table as LucideTable } from 'lucide-react'
-import { MouseEventHandler, useCallback, useEffect, useState } from 'react'
+import { ChevronDown, ChevronUp, Grid, Table as LucideTable } from 'lucide-react'
+import { useState } from 'react'
 import {
   PersonCreditsMovieCard,
   PersonCreditsMovieCardSkeleton,
@@ -24,29 +24,6 @@ import { Separator } from '@/components/ui/separator'
 
 type PersonCreditsProps = { personId: number }
 type Layout = 'grid' | 'table'
-
-function useCreditsList(initialItems: Credit[] = [], initialMaxListLength = 6) {
-  const [list, setList] = useState({
-    items: initialItems,
-    maxListLength: initialMaxListLength,
-  })
-
-  const updateListItems = useCallback((newItems: Credit[]) => {
-    setList((prevState) => ({
-      ...prevState,
-      items: newItems,
-    }))
-  }, [])
-
-  const incrementMaxListLength = useCallback(() => {
-    setList((prevState) => ({
-      ...prevState,
-      maxListLength: prevState.maxListLength + 6,
-    }))
-  }, [])
-
-  return [list, updateListItems, incrementMaxListLength] as const
-}
 
 const PersonCreditsSkeleton = () => (
   <div className="flex flex-col items-center gap-4">
@@ -63,47 +40,44 @@ const PersonCreditsSkeleton = () => (
 export const PersonCredits = ({ personId }: PersonCreditsProps) => {
   const [castLayout, setCastLayout] = useState<Layout>('grid')
   const [crewLayout, setCrewLayout] = useState<Layout>('table')
+  const [isListExpanded, setIsListExpanded] = useState(false)
   const { dictionary, language } = useLanguage()
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading  } = useQuery({
     queryKey: [personId],
     queryFn: () => tmdb.person.combinedCredits(personId, language),
   })
 
-  const [crewsList, updateCrewsList, incrementCrewsMaxLength] = useCreditsList()
-  const [castList, updateCastList, incrementCastMaxLength] = useCreditsList()
-
-  useEffect(() => {
-    if (data) {
-      updateCrewsList(data.crew)
-      updateCastList(data.cast)
-    }
-  }, [data, updateCrewsList, updateCastList])
-
   if (isLoading) return <PersonCreditsSkeleton />
   if (!data) return <></>
+
 
   const renderContentByLayout = ({
     layout,
     list,
-    incrementFunction,
   }: {
     layout: Layout
-    list: { items: Credit[]; maxListLength: number }
-    incrementFunction: MouseEventHandler<HTMLButtonElement> | undefined
+    list: Credit[]
   }) => {
     return layout === 'grid' ? (
       <div className="flex flex-col items-end gap-4">
         <div className="mt-2 grid w-full grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
-          {list.items.slice(0, list.maxListLength).map((item: Credit) => (
+          {list.slice(0, isListExpanded ? list.length : 6).map((item: Credit) => (
             <>
               <PersonCreditsMovieCard credit={item} key={item.id} />
             </>
           ))}
         </div>
-        {list.items.length > list.maxListLength && (
-          <Button size="sm" variant="outline" onClick={incrementFunction}>
-            {dictionary.person_page.credit_list.show_more}
+        {isListExpanded && (
+          <Button size="sm" variant="outline" onClick={() => setIsListExpanded(false)}>
+            {dictionary.person_page.credit_list.show_less}
+
+            <ChevronUp className="ml-1" size={12} />
+          </Button>
+        )}
+        {!isListExpanded && (
+          <Button size="sm" variant="outline" onClick={() => setIsListExpanded(true)}>
+            {dictionary.person_page.credit_list.show_all}
 
             <ChevronDown className="ml-1" size={12} />
           </Button>
@@ -111,7 +85,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
       </div>
     ) : (
       <>
-        <DataTable columns={columns(dictionary, language)} data={list.items} />
+        <DataTable columns={columns(dictionary, language)} data={list} />
       </>
     )
   }
@@ -165,8 +139,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
 
         {renderContentByLayout({
           layout: castLayout,
-          list: castList,
-          incrementFunction: incrementCastMaxLength,
+          list: data.cast,
         })}
       </section>
 
@@ -218,8 +191,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
 
         {renderContentByLayout({
           layout: crewLayout,
-          list: crewsList,
-          incrementFunction: incrementCrewsMaxLength,
+          list: data.crew,
         })}
       </section>
     </div>
