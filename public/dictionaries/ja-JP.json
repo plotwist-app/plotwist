@@ -513,7 +513,8 @@
   },
   "person_page": {
     "credit_list": {
-      "show_more": "すべて表示"
+      "show_all": "すべて表示",
+      "show_less": "表示を減らす"
     }
   }
 }

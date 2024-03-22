@@ -513,7 +513,8 @@
   },
   "person_page": {
     "credit_list": {
-      "show_more": "Tout afficher"
+      "show_all": "Tout afficher",
+      "show_less": "Afficher moins"
     }
   }
 }

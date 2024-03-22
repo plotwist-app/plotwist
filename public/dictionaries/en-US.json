@@ -520,7 +520,8 @@
   },
   "person_page": {
     "credit_list": {
-      "show_more": "Show all"
+      "show_all": "Show all",
+      "show_less": "Show less"
     }
   }
 }

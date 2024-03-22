@@ -517,7 +517,8 @@
   },
   "person_page": {
     "credit_list": {
-      "show_more": "Mostrar todo"
+      "show_all": "Mostrar todo",
+      "show_less": "Mostrar menos"
     }
   }
 }
