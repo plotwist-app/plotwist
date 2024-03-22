@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Tooltip,
   TooltipContent,
@@ -7,7 +8,9 @@ import {
 } from '@/components/ui/tooltip'
 import { Credit } from '@/services/tmdb/requests/person/combined-credits'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Calendar } from 'lucide-react'
 import Image from 'next/image'
+import { forwardRef } from 'react'
 
 type PersonCreditsMovieCardProps = {
   credit: Credit
@@ -20,7 +23,8 @@ export const PersonCreditsMovieCard = ({ credit }: PersonCreditsMovieCardProps) 
     role,
     title,
     vote_average,
-    vote_count
+    vote_count,
+    date
   } = credit
 
   return (
@@ -42,7 +46,8 @@ export const PersonCreditsMovieCard = ({ credit }: PersonCreditsMovieCardProps) 
             {title}
           </span>
 
-          <div className='flex flex-end items-center'>
+          <div className='flex flex-end items-center gap-2'>
+            {/* TODO: this could be mapped to translate e.g. movie -> Filme */}
             <Badge variant="outline">{media_type}</Badge>
 
             {/* // FIX: tooltip not working when hovering */}
@@ -60,8 +65,34 @@ export const PersonCreditsMovieCard = ({ credit }: PersonCreditsMovieCardProps) 
           </div>
         </div>
 
-        <p className="text-xs text-muted-foreground">{role}</p>
+        <p className="text-xs text-muted-foreground">
+          {date && (
+            <div className='flex items-center justify-between gap-1'>
+              {role}
+              <div className='flex items-center gap-1'>
+                <Calendar className='h-3 w-3' />
+                {date.slice(0,4)}
+              </div>
+            </div>
+          )}
+        </p>
       </div>
     </div>
   )
 }
+
+export const PersonCreditsMovieCardSkeleton = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <div className="w-full cursor-pointer space-y-2" ref={ref}>
+      <Skeleton className="aspect-video w-full rounded-md shadow" />
+
+      <div className="space-y-2">
+        <Skeleton className="h-[2ex] w-[10ch]" />
+
+        <div className="space-y-1">
+          <Skeleton className="h-[1.2ex] w-full" />
+        </div>
+      </div>
+    </div>
+  )
+})

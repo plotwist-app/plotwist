@@ -9,8 +9,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Button } from '@/components/ui/button'
 import { Grid, Table as LucideTable } from 'lucide-react'
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react'
-import { PersonCreditsMovieCard } from './person-credits-movie-card'
+import { PersonCreditsMovieCard, PersonCreditsMovieCardSkeleton } from './person-credits-movie-card'
 import { Credit } from '@/services/tmdb/requests/person/combined-credits'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type PersonCreditsProps = { personId: number }
 type Layout = 'grid' | 'table'
@@ -38,6 +39,16 @@ function useCreditsList(initialItems: Credit[] = [], initialMaxListLength: numbe
   return [list, updateListItems, incrementMaxListLength] as const;
 }
 
+const PersonCreditsSkeleton = () => (
+  <div className="flex flex-col items-center gap-4">
+    <Skeleton className="h-[4ex] w-[8ch] self-start" />
+    <Skeleton className="h-[2ex] w-[8ch] self-start" />
+    <div className="w-full mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
+      {[1,2,3,4,5,6].map(() => <PersonCreditsMovieCardSkeleton />)}
+    </div>
+  </div>
+)
+
 export const PersonCredits = ({ personId }: PersonCreditsProps) => {
   const [castLayout, setCastLayout] = useState<Layout>('grid');
   const [crewLayout, setCrewLayout] = useState<Layout>('table');
@@ -59,26 +70,25 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
   }, [data, updateCrewsList, updateCastList]);
 
 
-  // TODO: add skeleton loading but able to toggle layout
-  if (isLoading) return <p>Skeleton Loading...</p>;
+  if (isLoading) return <PersonCreditsSkeleton />;
   if (!data) return <></>;
 
-  // Reusable function to render the content by layout
   const renderContentByLayout = (
-    {layout, list, incrementFunction, section}: {layout: Layout, list: {items: Credit[], maxListLength: number}, incrementFunction: MouseEventHandler<HTMLButtonElement> | undefined, section: 'cast' | 'crew' } 
+    {layout, list, incrementFunction}: {layout: Layout, list: {items: Credit[], maxListLength: number}, incrementFunction: MouseEventHandler<HTMLButtonElement> | undefined} 
   ) => {
     return layout === 'grid' ? (
       <div className="flex flex-col items-center gap-4">
         <div className="w-full mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
           {list.items.slice(0, list.maxListLength).map((item: Credit) => (
-            <PersonCreditsMovieCard
-              credit={item}
-              key={item.id}
-            />
+            <>
+              <PersonCreditsMovieCard
+                credit={item}
+                key={item.id}
+              />
+            </>
           ))}
         </div>
         {list.items.length > list.maxListLength && (
-          // TODO: add this text to dictionary
           <Button size="lg" onClick={incrementFunction}>Mostrar mais</Button>
         )}
       </div>
@@ -133,13 +143,11 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
           layout: castLayout,
           list: castList,
           incrementFunction: incrementCastMaxLength,
-          section: 'cast'
         })}
       </section>
 
       <section className="space-y-2">
         <div className="flex space-x-2">
-         {/* TODO: create a component for toggle grid or table layout */} 
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -181,7 +189,6 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
           layout: crewLayout,
           list: crewsList,
           incrementFunction: incrementCrewsMaxLength,
-          section: 'crew'
         })}
       </section>
     </div>
