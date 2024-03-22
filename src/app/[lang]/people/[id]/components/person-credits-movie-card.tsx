@@ -47,10 +47,8 @@ export const PersonCreditsMovieCard = ({ credit }: PersonCreditsMovieCardProps) 
           </span>
 
           <div className='flex flex-end items-center gap-2'>
-            {/* TODO: this could be mapped to translate e.g. movie -> Filme */}
             <Badge variant="outline">{media_type}</Badge>
 
-            {/* // FIX: tooltip not working when hovering */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

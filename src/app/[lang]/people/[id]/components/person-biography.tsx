@@ -27,7 +27,6 @@ export const PersonBiography = ({ personBiography }: PersonBiographyProps) => {
             onClick={() => 
               setIsBiographyExpanded((state: boolean) => !state)
             }>
-            {/* TODO: translate and add the actual word to contract and expand */}
             {isBiographyExpanded ? dictionary.text_actions.contract: dictionary.text_actions.expand}
           </Button>
         </>
