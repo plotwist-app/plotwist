@@ -21,16 +21,21 @@ export const PersonBiography = ({ personBiography }: PersonBiographyProps) => {
     <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
       {isBiographyTooLong ? (
         <>
-          {isBiographyExpanded ? personBiography : trimTextToMaxWords(personBiography)}
+          {isBiographyExpanded
+            ? personBiography
+            : trimTextToMaxWords(personBiography)}
           <Button
             variant="link"
-            onClick={() => 
-              setIsBiographyExpanded((state: boolean) => !state)
-            }>
-            {isBiographyExpanded ? dictionary.text_actions.contract: dictionary.text_actions.expand}
+            onClick={() => setIsBiographyExpanded((state: boolean) => !state)}
+          >
+            {isBiographyExpanded
+              ? dictionary.text_actions.contract
+              : dictionary.text_actions.expand}
           </Button>
         </>
-      ): personBiography}
+      ) : (
+        personBiography
+      )}
     </p>
   )
 }

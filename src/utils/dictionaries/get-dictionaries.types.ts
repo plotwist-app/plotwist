@@ -503,7 +503,7 @@ export type Dictionary = {
       status: string
       github: string
     }
-  },
+  }
   text_actions: {
     expand: string
     contract: string

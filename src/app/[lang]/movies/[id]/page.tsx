@@ -5,7 +5,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { getMoviesPagesIds } from '@/utils/seo/get-movies-pages-ids'
 
 import { MovieDetails } from './_components/movie-details'
-import { Language, PageProps } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'

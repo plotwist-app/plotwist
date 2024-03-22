@@ -36,16 +36,11 @@ export const TvSerieSeasonDetailsContent = ({
   const [layout, setLayout] = useState<Layout>('grid')
   const {
     dictionary: {
-      tv_serie_season_details: {
-        name,
-        overview,
-        runtime,
-        vote,
-      },
+      tv_serie_season_details: { name, overview, runtime, vote },
       grid_or_table_layout: {
         grid_layout_tooltip: grid,
         table_layout_tooltip: table,
-      }
+      },
     },
   } = useLanguage()
 
