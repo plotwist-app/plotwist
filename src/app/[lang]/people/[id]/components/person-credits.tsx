@@ -12,7 +12,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
-import { Grid, Table as LucideTable } from 'lucide-react'
+import { ChevronDown, Grid, Table as LucideTable } from 'lucide-react'
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react'
 import {
   PersonCreditsMovieCard,
@@ -20,6 +20,7 @@ import {
 } from './person-credits-movie-card'
 import { Credit } from '@/services/tmdb/requests/person/combined-credits'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Separator } from '@/components/ui/separator'
 
 type PersonCreditsProps = { personId: number }
 type Layout = 'grid' | 'table'
@@ -92,7 +93,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
     incrementFunction: MouseEventHandler<HTMLButtonElement> | undefined
   }) => {
     return layout === 'grid' ? (
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-end gap-4">
         <div className="mt-2 grid w-full grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
           {list.items.slice(0, list.maxListLength).map((item: Credit) => (
             <>
@@ -101,8 +102,10 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
           ))}
         </div>
         {list.items.length > list.maxListLength && (
-          <Button size="lg" onClick={incrementFunction}>
+          <Button size="sm" variant="outline" onClick={incrementFunction}>
             {dictionary.person_page.credit_list.show_more}
+
+            <ChevronDown className="ml-1" size={12} />
           </Button>
         )}
       </div>
@@ -116,47 +119,50 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
   return (
     <div className="space-y-8" data-testid="credits">
       <section className="space-y-2">
-        <div className="flex space-x-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  className="h-8 w-8"
-                  size="icon"
-                  variant={castLayout === 'grid' ? 'default' : 'outline'}
-                  onClick={() => setCastLayout('grid')}
-                >
-                  <Grid size={18} />
-                </Button>
-              </TooltipTrigger>
+        <div className="flex items-center justify-between">
+          <h5 className="text-xl font-bold">{dictionary.credits.cast}</h5>
 
-              <TooltipContent>
-                {dictionary.grid_or_table_layout.grid_layout_tooltip}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <div className="flex space-x-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    className="h-8 w-8"
+                    size="icon"
+                    variant={castLayout === 'grid' ? 'default' : 'outline'}
+                    onClick={() => setCastLayout('grid')}
+                  >
+                    <Grid size={18} />
+                  </Button>
+                </TooltipTrigger>
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  className="h-8 w-8"
-                  size="icon"
-                  variant={castLayout === 'table' ? 'default' : 'outline'}
-                  onClick={() => setCastLayout('table')}
-                >
-                  <LucideTable size={18} />
-                </Button>
-              </TooltipTrigger>
+                <TooltipContent>
+                  {dictionary.grid_or_table_layout.grid_layout_tooltip}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-              <TooltipContent>
-                {dictionary.grid_or_table_layout.table_layout_tooltip}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    className="h-8 w-8"
+                    size="icon"
+                    variant={castLayout === 'table' ? 'default' : 'outline'}
+                    onClick={() => setCastLayout('table')}
+                  >
+                    <LucideTable size={18} />
+                  </Button>
+                </TooltipTrigger>
+
+                <TooltipContent>
+                  {dictionary.grid_or_table_layout.table_layout_tooltip}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
 
-        <h5 className="text-xl font-bold">{dictionary.credits.cast}</h5>
         {renderContentByLayout({
           layout: castLayout,
           list: castList,
@@ -164,48 +170,51 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
         })}
       </section>
 
+      <Separator />
+
       <section className="space-y-2">
-        <div className="flex space-x-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  className="h-8 w-8"
-                  size="icon"
-                  variant={crewLayout === 'grid' ? 'default' : 'outline'}
-                  onClick={() => setCrewLayout('grid')}
-                >
-                  <Grid size={18} />
-                </Button>
-              </TooltipTrigger>
+        <div className="flex items-center justify-between">
+          <h5 className="text-xl font-bold">{dictionary.credits.crew}</h5>
+          <div className="flex space-x-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    className="h-8 w-8"
+                    size="icon"
+                    variant={crewLayout === 'grid' ? 'default' : 'outline'}
+                    onClick={() => setCrewLayout('grid')}
+                  >
+                    <Grid size={18} />
+                  </Button>
+                </TooltipTrigger>
 
-              <TooltipContent>
-                {dictionary.grid_or_table_layout.grid_layout_tooltip}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                <TooltipContent>
+                  {dictionary.grid_or_table_layout.grid_layout_tooltip}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  className="h-8 w-8"
-                  size="icon"
-                  variant={crewLayout === 'table' ? 'default' : 'outline'}
-                  onClick={() => setCrewLayout('table')}
-                >
-                  <LucideTable size={18} />
-                </Button>
-              </TooltipTrigger>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    className="h-8 w-8"
+                    size="icon"
+                    variant={crewLayout === 'table' ? 'default' : 'outline'}
+                    onClick={() => setCrewLayout('table')}
+                  >
+                    <LucideTable size={18} />
+                  </Button>
+                </TooltipTrigger>
 
-              <TooltipContent>
-                {dictionary.grid_or_table_layout.table_layout_tooltip}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                <TooltipContent>
+                  {dictionary.grid_or_table_layout.table_layout_tooltip}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
-
-        <h5 className="text-xl font-bold">{dictionary.credits.crew}</h5>
 
         {renderContentByLayout({
           layout: crewLayout,

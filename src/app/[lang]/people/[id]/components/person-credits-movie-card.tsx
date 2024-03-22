@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/tooltip'
 import { Credit } from '@/services/tmdb/requests/person/combined-credits'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Calendar } from 'lucide-react'
+import { Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
 
 type PersonCreditsMovieCardProps = {
@@ -30,24 +30,28 @@ export const PersonCreditsMovieCard = ({
 
   return (
     <div className="space-y-2">
-      <div className="relative aspect-video w-full overflow-hidden rounded-md border">
-        <Image
-          src={tmdbImage(backdropPath || '', 'w500')}
-          alt={title}
-          className="object-cover"
-          loading="lazy"
-          fill
-          sizes="100%"
-        />
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border">
+        {/* <Badge className="absolute left-2 top-2 z-20">{mediaType}</Badge> */}
+
+        {backdropPath ? (
+          <Image
+            src={tmdbImage(backdropPath || '', 'w500')}
+            alt={title}
+            className="object-cover"
+            loading="lazy"
+            fill
+            sizes="100%"
+          />
+        ) : (
+          <ImageIcon className="text-muted" />
+        )}
       </div>
 
       <div className="space-y-1">
         <div className="flex items-start justify-between gap-1">
-          <span className="text-md">{title}</span>
+          <span className="text-sm">{title}</span>
 
           <div className="flex-end flex items-center gap-2">
-            <Badge variant="outline">{mediaType}</Badge>
-
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -63,15 +67,8 @@ export const PersonCreditsMovieCard = ({
         </div>
 
         <p className="text-xs text-muted-foreground">
-          {date && (
-            <div className="flex items-center justify-between gap-1">
-              {role}
-              <div className="flex items-center gap-1">
-                <Calendar className="h-3 w-3" />
-                {date.slice(0, 4)}
-              </div>
-            </div>
-          )}
+          {role}
+          {date && `, ${date.slice(0, 4)}`}
         </p>
       </div>
     </div>

@@ -68,8 +68,13 @@ export const combinedCredits = async (personId: number, language: Language) => {
   )
 
   const formattedResponse: CombinedCredits = {
-    cast: data.cast.map((credit) => formatCredit(credit)),
-    crew: data.cast.map((credit) => formatCredit(credit)),
+    cast: data.cast
+      .map((credit) => formatCredit(credit))
+      .sort((creditA, creditB) => creditB.vote_count - creditA.vote_count),
+
+    crew: data.cast
+      .map((credit) => formatCredit(credit))
+      .sort((creditA, creditB) => creditB.vote_count - creditA.vote_count),
   }
 
   return formattedResponse
