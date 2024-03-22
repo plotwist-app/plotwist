@@ -512,4 +512,9 @@ export type Dictionary = {
     grid_layout_tooltip: string
     table_layout_tooltip: string
   }
+  person_page: {
+    credit_list: {
+      show_more: string
+    }
+  }
 }

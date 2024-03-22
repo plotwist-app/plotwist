@@ -514,5 +514,10 @@
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Rasterlayout",
     "table_layout_tooltip": "Tabellenlayout"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_more": "Alles anzeigen"
+    }
   }
 }

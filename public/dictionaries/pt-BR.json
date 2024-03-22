@@ -510,5 +510,10 @@
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Grade",
     "table_layout_tooltip": "Tabela"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_more": "Mostrar tudo"
+    }
   }
 }

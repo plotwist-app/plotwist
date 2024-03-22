@@ -102,7 +102,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
         </div>
         {list.items.length > list.maxListLength && (
           <Button size="lg" onClick={incrementFunction}>
-            Mostrar mais
+            {dictionary.person_page.credit_list.show_more}
           </Button>
         )}
       </div>

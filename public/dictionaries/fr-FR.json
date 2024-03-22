@@ -510,5 +510,10 @@
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Disposition en grille",
     "table_layout_tooltip": "Disposition en tableau"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_more": "Tout afficher"
+    }
   }
 }
