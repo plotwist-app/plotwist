@@ -511,8 +511,8 @@
     }
   },
   "text_actions": {
-    "expand": "obama",
-    "contract": "cocacola"
+    "expand": "See more",
+    "contract": "See less"
   },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Grid layout",

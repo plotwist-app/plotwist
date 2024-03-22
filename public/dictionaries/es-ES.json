@@ -508,9 +508,9 @@
     }
   },
   "text_actions": {
-    "expand": "la casa",
-    "contract": "de papel"
-  }, 
+    "expand": "Ver más",
+    "contract": "Ver menos"
+  },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Diseño de cuadrícula",
     "table_layout_tooltip": "Diseño de tabla"

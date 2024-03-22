@@ -504,8 +504,8 @@
     }
   },
   "text_actions": {
-    "expand": "macarrao",
-    "contract": "pizza"
+    "expand": "Mostra di più",
+    "contract": "Mostra di meno"
   },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Layout a griglia",

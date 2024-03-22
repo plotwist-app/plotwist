@@ -504,9 +504,9 @@
     }
   },
   "text_actions": {
-    "expand": "petit",
-    "contract": "gateu"
-  }, 
+    "expand": "Voir plus",
+    "contract": "Voir moins"
+  },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Disposition en grille",
     "table_layout_tooltip": "Disposition en tableau"

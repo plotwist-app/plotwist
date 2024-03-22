@@ -504,9 +504,9 @@
     }
   },
   "text_actions": {
-    "expand": "sushi",
-    "contract": "sashimi"
-  }, 
+    "expand": "もっと見る",
+    "contract": "閉じる"
+  },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "グリッドレイアウト",
     "table_layout_tooltip": "テーブルレイアウト"

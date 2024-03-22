@@ -508,8 +508,8 @@
     }
   },
   "text_actions": {
-    "expand": "urs",
-    "contract": "arnold"
+    "expand": "Mehr anzeigen",
+    "contract": "Weniger anzeigen"
   },
   "grid_or_table_layout": {
     "grid_layout_tooltip": "Rasterlayout",
