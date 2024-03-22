@@ -21,8 +21,8 @@ type TvSerieSeasonsProps = {
   language: Language
 }
 
-type TvSrieSeasonProps = { season: Season; id: number; language: Language }
-const TvSerieSeason = ({ season, id, language }: TvSrieSeasonProps) => {
+type TvSerieSeasonProps = { season: Season; id: number; language: Language }
+const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
   const {
     poster_path: poster,
     name,

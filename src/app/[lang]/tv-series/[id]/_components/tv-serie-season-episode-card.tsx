@@ -1,3 +1,6 @@
+import Image from 'next/image'
+import { Image as ImageIcon } from 'lucide-react'
+
 import { Badge } from '@/components/ui/badge'
 import {
   Tooltip,
@@ -7,7 +10,6 @@ import {
 } from '@/components/ui/tooltip'
 import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 import { tmdbImage } from '@/utils/tmdb/image'
-import Image from 'next/image'
 
 type TvSerieEpisodeCardProps = {
   episode: Episode
@@ -25,15 +27,19 @@ export const TvSerieEpisodeCard = ({ episode }: TvSerieEpisodeCardProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="relative aspect-video w-full overflow-hidden rounded-md border">
-        <Image
-          src={tmdbImage(path, 'w500')}
-          alt={name}
-          className="object-cover"
-          loading="lazy"
-          fill
-          sizes="100%"
-        />
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border">
+        {path ? (
+          <Image
+            src={tmdbImage(path, 'w500')}
+            alt={name}
+            className="object-cover"
+            loading="lazy"
+            fill
+            sizes="100%"
+          />
+        ) : (
+          <ImageIcon className="text-muted" />
+        )}
       </div>
 
       <div className="space-y-1">
