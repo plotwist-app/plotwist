@@ -1,6 +1,7 @@
-import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import Link from 'next/link'
+import { forwardRef } from 'react'
+import { Image as ImageIcon } from 'lucide-react'
 
 import {
   Tooltip,
@@ -13,7 +14,7 @@ import { Skeleton } from '../ui/skeleton'
 
 import { Language } from '@/types/languages'
 import { TvSerie } from '@/services/tmdb/types'
-import { forwardRef } from 'react'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type TvSerieCardProps = {
   tvSerie: TvSerie
@@ -35,22 +36,24 @@ export const TvSerieCard = ({
     overview,
   } = tvSerie
 
-  if (!backdrop) return <></>
-
   return (
     <Link
       href={`/${language}/tv-series/${id}`}
       className="w-full cursor-pointer space-y-2"
       data-testid={TEST_ID}
     >
-      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
-        <Image
-          fill
-          className="object-cover"
-          src={tmdbImage(backdrop, 'w500')}
-          alt={name}
-          sizes="100%"
-        />
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 shadow">
+        {backdrop ? (
+          <Image
+            fill
+            className="object-cover"
+            src={tmdbImage(backdrop, 'w500')}
+            alt={name}
+            sizes="100%"
+          />
+        ) : (
+          <ImageIcon className="text-muted" />
+        )}
       </div>
 
       <div className="space-y-1">

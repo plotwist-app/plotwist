@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { forwardRef } from 'react'
+import { Image as ImageIcon } from 'lucide-react'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
+import {} from './'
 
 import { Movie } from '@/services/tmdb/types'
 
@@ -37,8 +39,8 @@ export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
       className="w-full cursor-pointer space-y-2"
       data-testid="movie-card"
     >
-      <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
-        {backdrop && (
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 shadow">
+        {backdrop ? (
           <Image
             fill
             className="object-cover"
@@ -46,6 +48,8 @@ export const MovieCard = ({ movie, language = 'en-US' }: MovieCardProps) => {
             alt={title}
             sizes="100%"
           />
+        ) : (
+          <ImageIcon className="text-muted" />
         )}
       </div>
 
