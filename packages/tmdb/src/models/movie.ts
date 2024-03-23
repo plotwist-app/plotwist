@@ -1,4 +1,4 @@
-import { WithMediaType } from "../utils/with_media_type"
+import { WithMediaType } from '../utils/with_media_type'
 
 export type ProductionCountry = {
   iso_3166_1: string

@@ -1,6 +1,6 @@
-import { WithMediaType } from "../utils/with_media_type"
-import { MovieWithMediaType } from "./movie"
-import { TvSerieWithMediaType } from "./tv-series"
+import { WithMediaType } from '../utils/with_media_type'
+import { MovieWithMediaType } from './movie'
+import { TvSerieWithMediaType } from './tv-series'
 
 export type KnownFor = MovieWithMediaType | TvSerieWithMediaType
 

@@ -1,7 +1,12 @@
-import axios from "axios"
-import { axiosClient } from ".."
+import axios from 'axios'
+
+import { axiosClient } from '..'
 import { Language } from '../models/language'
-import { GetAvailableRegionsResponse, GetWatchProvidersResponse, WatchProviders,  } from '../models/watch-providers'
+import {
+  GetAvailableRegionsResponse,
+  GetWatchProvidersResponse,
+  WatchProviders,
+} from '../models/watch-providers'
 
 /*
 |-----------------------------------------------------------------------------
@@ -19,7 +24,10 @@ type WatchProvidersQueryParams = {
   watch_region?: string
 }
 
-export const watchProviders = async (type: "tv" | "movie", params: WatchProvidersQueryParams) => {
+export const watchProviders = async (
+  type: 'tv' | 'movie',
+  params: WatchProvidersQueryParams,
+) => {
   const { data } = await axiosClient.get<GetWatchProvidersResponse>(
     `/watch/providers/${type}`,
     {
@@ -55,7 +63,6 @@ export const availableRegions = async (params: AvailableRegionsQueryParams) => {
   return data.results
 }
 
-
 /*
 |-----------------------------------------------------------------------------
 | Item watch providers
@@ -67,12 +74,10 @@ export const availableRegions = async (params: AvailableRegionsQueryParams) => {
 |-----------------------------------------------------------------------------
 */
 
-export const itemWatchProviders = async (type: "tv" | "movie", id: number) => {
+export const itemWatchProviders = async (type: 'tv' | 'movie', id: number) => {
   const { data } = await axiosClient.get<WatchProviders>(
     `/${type}/${id}/watch/providers`,
   )
 
   return data
 }
-
-

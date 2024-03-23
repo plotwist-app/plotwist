@@ -1,4 +1,4 @@
-export type Language = "en-US" | "pt-BR"
+export type Language = 'en-US' | 'pt-BR'
 
 export type GetLanguagesResponse = Array<{
   english_name: string

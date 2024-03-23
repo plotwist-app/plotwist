@@ -1,4 +1,4 @@
-import { Crew } from "./credits"
+import { Crew } from './credits'
 
 export type GuestStar = {
   credit_id: string

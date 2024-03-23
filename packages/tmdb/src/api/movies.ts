@@ -1,7 +1,17 @@
-import { axiosClient } from ".."
-import { Language } from "../models/language"
-import { Movie, MovieDetails } from "../models/movie"
+import { axiosClient } from '..'
+import { Language } from '../models/language'
+import { Movie, MovieDetails } from '../models/movie'
 import { ListResponse } from '../utils/list-response'
+
+/*
+|-----------------------------------------------------------------------------
+| Details
+| 
+| References:
+| https://developer.themoviedb.org/reference/movie-details
+| 
+|-----------------------------------------------------------------------------
+*/
 
 const details = async (id: number, language: Language) => {
   const { data } = await axiosClient.get<MovieDetails>(`/movie/${id}`, {
@@ -85,12 +95,15 @@ type ListOptions = {
 const list = async (options: ListOptions) => {
   const { list, page = 1, language } = options
 
-  const { data } = await axiosClient.get<ListResponse<Movie>>(`/movie/${list}`, {
-    params: {
-      language,
-      page,
+  const { data } = await axiosClient.get<ListResponse<Movie>>(
+    `/movie/${list}`,
+    {
+      params: {
+        language,
+        page,
+      },
     },
-  })
+  )
 
   return data
 }
@@ -109,11 +122,7 @@ const list = async (options: ListOptions) => {
 type RelatedType = 'recommendations' | 'similar'
 type RelatedResponse = ListResponse<Movie>
 
-const related = async (
-  id: number,
-  type: RelatedType,
-  language: Language,
-) => {
+const related = async (id: number, type: RelatedType, language: Language) => {
   const { data } = await axiosClient.get<RelatedResponse>(
     `/movie/${id}/${type}`,
 
@@ -127,4 +136,4 @@ const related = async (
   return data
 }
 
-export const movie = { details, discover, related, list }
+export const movies = { details, discover, related, list }

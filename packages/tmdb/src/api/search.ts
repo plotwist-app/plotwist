@@ -7,12 +7,12 @@ import { PersonWithMediaType } from '../models/person'
 
 import { ListResponse } from '../utils/list-response'
 
-type MultiResponse = ListResponse<
-  MovieWithMediaType | TvSerieWithMediaType | PersonWithMediaType
->
-
 const multi = async (query: string, language: Language) => {
-  const { data } = await axiosClient.get<MultiResponse>('/search/multi', {
+  const { data } = await axiosClient.get<
+    ListResponse<
+      MovieWithMediaType | TvSerieWithMediaType | PersonWithMediaType
+    >
+  >('/search/multi', {
     params: {
       query,
       language,

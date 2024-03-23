@@ -1,6 +1,6 @@
-import { axiosClient } from ".."
-import { Language } from "../models/language"
-import { SeasonDetails } from "../models/season"
+import { axiosClient } from '..'
+import { Language } from '../models/language'
+import { SeasonDetails } from '../models/season'
 
 const details = async (
   seriesId: number,

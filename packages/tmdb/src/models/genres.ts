@@ -3,6 +3,6 @@ type Genre = {
   name: string
 }
 
-type GetGenresResponse = {
+export type GetGenresResponse = {
   genres: Genre[]
 }

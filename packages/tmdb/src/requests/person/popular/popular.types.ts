@@ -36,6 +36,7 @@ export type Person = {
 }
 
 export type PopularPeopleResponse = ListResponse<Person>
+
 export type PopularPeopleQueryParams = {
   language: Language
   page: number
