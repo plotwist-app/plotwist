@@ -4,15 +4,17 @@
   "scripts": {
     "build": "turbo build",
     "build:typescript": "turbo build --filter=@plotwist/typescript-config",
-    "dev": "turbo dev",
+    "build:supabase": "turbo build --filter=@plotwist/supabase",
+    "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@plotwist/eslint-config": "workspace:*",
     "@plotwist/typescript-config": "workspace:*",
+    "dotenv-cli": "^7.4.1",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "^1.12.5"
   },
   "packageManager": "pnpm@8.9.0",
   "engines": {

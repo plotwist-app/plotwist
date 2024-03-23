@@ -19,5 +19,7 @@ const dictionaries: Record<Language, () => Promise<Dictionary>> = {
 }
 
 export const getDictionary = (lang: Language) => {
-  return dictionaries[lang]()
+  const langFn = dictionaries[lang]
+
+  return langFn ? langFn() : dictionaries['en-US']()
 }

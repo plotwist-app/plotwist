@@ -2,8 +2,8 @@
 
 import { useLanguage } from '@/context/language'
 import { CounterSection } from '../count-section'
-import { supabase } from '@/services/supabase'
 import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/services/supabase'
 
 export const UserCount = () => {
   const {
