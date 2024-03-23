@@ -1,6 +1,7 @@
+import { env } from '@/env.mjs'
 import Script from 'next/script'
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
+const GA_MEASUREMENT_ID = env.NEXT_PUBLIC_MEASUREMENT_ID
 
 export const GTag = () => {
   return (

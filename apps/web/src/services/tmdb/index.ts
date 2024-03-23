@@ -18,9 +18,9 @@ import {
   languages,
   keywords,
 } from './requests'
+import { env } from '@/env.mjs'
 
-const TMDB_API_KEY =
-  process.env.NEXT_PUBLIC_TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY
+const TMDB_API_KEY = env.NEXT_PUBLIC_TMDB_API_KEY
 
 export const tmdbClient = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
