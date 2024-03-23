@@ -31,7 +31,7 @@ export const HomeButton = ({ primaryButton, language }: HomeButtonProps) => {
     )
 
   const username: string = user.user_metadata.username
-  const initial = username[0].toUpperCase()
+  const initial = username[0]?.toUpperCase()
 
   return (
     <Button variant="outline" asChild>

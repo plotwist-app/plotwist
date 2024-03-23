@@ -7,6 +7,7 @@ import { tmdb } from '@plotwist/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
 import { Container } from '../_components/container'
+
 import { DashboardUserLastReview } from '@/app/[lang]/_components/dashboard-user-last-review'
 import { DashboardPopularReviews } from '@/app/[lang]/_components/dashboard-popular-reviews'
 
@@ -41,7 +42,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
     page: 1,
   })
 
-  const popularTvSeries = await tmdb.tvSeries.list({
+  const popularTvSeries = await tmdb.tv.list({
     language: lang,
     list: 'popular',
     page: 1,

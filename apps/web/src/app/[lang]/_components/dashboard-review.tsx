@@ -30,7 +30,7 @@ export const DashboardReview = ({
     rating,
   } = review
 
-  const usernameInitial = username[0].toUpperCase()
+  const usernameInitial = username[0]?.toUpperCase()
 
   const href =
     mediaType === 'MOVIE'

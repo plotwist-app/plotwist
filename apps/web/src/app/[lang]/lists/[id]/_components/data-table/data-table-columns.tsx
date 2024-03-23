@@ -171,7 +171,7 @@ export const columns: Columns = (dictionary, language, mode) => {
                       handleChangeListRating.mutate(
                         {
                           listItemId: id,
-                          rating: value[0],
+                          rating: value[0]!,
                         },
 
                         {
