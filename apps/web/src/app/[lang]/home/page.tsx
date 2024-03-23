@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator'
 import { TvSerieCard } from '@/components/tv-serie-card'
 
 import { PageProps } from '@/types/languages'
-import { tmdb } from '@/services/tmdb'
+import { tmdb } from '@plotwist/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
 import { Container } from '../_components/container'

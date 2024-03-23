@@ -13,7 +13,7 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@plotwist/supabase": "workspace:*",
+    "@plotwist/tmdb": "workspace:*",
     "@formatjs/intl-localematcher": "^0.5.2",
     "@hookform/resolvers": "^3.3.2",
     "@mdx-js/loader": "^3.0.1",

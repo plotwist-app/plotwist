@@ -12,6 +12,7 @@ const nextConfig = {
     unoptimized: true,
   },
   pageExtensions: ['mdx', 'ts', 'tsx'],
+  transpilePackages: ["@plotwist/tmdb"]
 }
 
 module.exports = withMDX(nextConfig)
