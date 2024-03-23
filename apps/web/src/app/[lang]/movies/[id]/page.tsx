@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
+import { tmdb } from '@plotwist/tmdb'
 
-import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getMoviesPagesIds } from '@/utils/seo/get-movies-pages-ids'
 
 import { MovieDetails } from './_components/movie-details'
-import { Language, PageProps } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
@@ -31,10 +31,7 @@ export async function generateMetadata({
     backdrop_path: backdrop,
   } = await tmdb.movies.details(Number(id), lang)
 
-  const keywords = await tmdb.keywords({
-    id: Number(id),
-    type: 'movie',
-  })
+  const keywords = await tmdb.keywords('movie', Number(id))
 
   const canonicalUrl = `${APP_URL}/${lang}/movies/${id}`
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(

@@ -1,6 +1,5 @@
 import { format } from 'date-fns'
-
-import { tmdbImage } from '@/utils/tmdb/image'
+import { tmdb } from '@plotwist/tmdb'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
@@ -27,7 +26,7 @@ import { MovieCollection } from './movie-collection'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { locale } from '@/utils/date/locale'
-import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'

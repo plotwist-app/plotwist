@@ -1,9 +1,11 @@
-import { MovieCollectionDialog } from './movie-collection-dialog'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { tmdb } from '@/services/tmdb'
+import { tmdb } from '@plotwist/tmdb'
 
+import { MovieCollectionDialog } from './movie-collection-dialog'
+
+import { tmdbImage } from '@/utils/tmdb/image'
+import { getDictionary } from '@/utils/dictionaries'
+
+import { Language } from '@/types/languages'
 type MovieCollectionProps = {
   collectionId: number
   language: Language

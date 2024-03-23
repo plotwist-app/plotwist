@@ -1,6 +1,7 @@
+import { tmdb } from '@plotwist/tmdb'
+
 import { Language } from '@/types/languages'
 import { TvSerieSeasonDetailsContent } from './tv-serie-season-details-content'
-import { tmdb } from '@/services/tmdb'
 
 type TvSerieSeasonDetailsProps = {
   id: number

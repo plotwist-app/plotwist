@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { forwardRef } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
+import { TvSerie } from '@plotwist/tmdb'
 
 import {
   Tooltip,
@@ -13,7 +14,7 @@ import { Badge } from '../ui/badge'
 import { Skeleton } from '../ui/skeleton'
 
 import { Language } from '@/types/languages'
-import { TvSerie } from '@/services/tmdb/types'
+
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type TvSerieCardProps = {

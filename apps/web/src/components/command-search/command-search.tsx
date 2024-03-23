@@ -5,7 +5,6 @@ import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
 
 import { useQuery } from '@tanstack/react-query'
-import { tmdb } from '@/services/tmdb'
 
 import { useLanguage } from '@/context/language'
 
@@ -26,12 +25,12 @@ import {
   CommandSearchSkeleton,
   CommandSearchTvSerie,
 } from '../command-search'
-
 import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvSerieWithMediaType,
-} from '@/services/tmdb/types'
+  tmdb,
+} from '@plotwist/tmdb'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)

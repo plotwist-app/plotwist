@@ -41,3 +41,6 @@ export const tmdb = {
   watchProviders,
   person,
 }
+
+export * from './models'
+export * from './api'

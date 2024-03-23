@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -23,11 +24,10 @@ import { Dictionary } from '@/utils/dictionaries'
 import { useReplies } from '@/hooks/use-replies/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 
-type TmdbItem = TvSeriesDetails | MovieDetails
+type TmdbItem = TvSerieDetails | MovieDetails
 
 export const replyFormSchema = (dictionary: Dictionary) =>
   z.object({

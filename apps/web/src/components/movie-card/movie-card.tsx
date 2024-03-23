@@ -2,12 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { forwardRef } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
+import { Movie } from '@plotwist/tmdb'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-import {} from './'
-
-import { Movie } from '@/services/tmdb/types'
 
 import {
   Tooltip,

@@ -1,4 +1,3 @@
-import { Person } from '@/services/tmdb/requests/person/popular'
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'

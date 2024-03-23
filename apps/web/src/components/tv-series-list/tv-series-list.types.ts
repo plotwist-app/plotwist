@@ -1,7 +1,6 @@
-import { TvSeriesListType } from '@/services/tmdb/requests/tv-series/list'
+import { TvSeriesListType } from '@plotwist/tmdb'
 
 export type TvSeriesListVariant = TvSeriesListType | 'discover'
-
 export type TvSeriesListProps = {
   variant: TvSeriesListVariant
 }

@@ -1,21 +1,23 @@
 'use client'
 
-import { Review } from '@/types/supabase/reviews'
-import { ReviewItemActions } from '.'
-import { ReviewStars } from '../review-stars'
 import { useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import { ReviewLikes } from '@/components/reviews/review-likes'
+import { ReviewReply } from '@/components/reviews/review-reply'
+
+import { ReviewItemActions } from '.'
+import { ReviewStars } from '../review-stars'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
-import { ReviewReply } from '@/components/reviews/review-reply'
-import { useLanguage } from '@/context/language'
-import { formatDistanceToNow } from 'date-fns'
-import { locale } from '@/utils/date/locale'
+import { Review } from '@/types/supabase/reviews'
 
-type TmdbItem = TvSeriesDetails | MovieDetails
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+
+type TmdbItem = TvSerieDetails | MovieDetails
 
 type ReviewItemProps = {
   review: Review

@@ -1,6 +1,5 @@
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { MediaType } from '@/types/supabase/media-type'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 export type CreateReviewValues = {
   rating: number
@@ -8,5 +7,5 @@ export type CreateReviewValues = {
   userId: string
   mediaType: MediaType
 
-  tmdbItem: MovieDetails | TvSeriesDetails
+  tmdbItem: MovieDetails | TvSerieDetails
 }

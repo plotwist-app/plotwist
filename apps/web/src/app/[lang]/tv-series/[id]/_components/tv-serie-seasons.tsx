@@ -1,3 +1,5 @@
+import { Season } from '@plotwist/tmdb'
+
 import { Badge } from '@/components/ui/badge'
 import {
   Dialog,
@@ -11,7 +13,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'
-import { Season } from '@/services/tmdb/requests/tv-series/details'
 
 import { TvSerieSeasonDetails } from './tv-serie-season-details'
 

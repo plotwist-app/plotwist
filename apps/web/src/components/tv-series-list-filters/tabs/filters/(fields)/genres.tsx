@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form'
 import { KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Command as CommandPrimitive } from 'cmdk'
+import { X } from 'lucide-react'
 
 import {
   FormControl,
@@ -13,12 +14,11 @@ import {
 } from '@/components/ui/form'
 
 import { useLanguage } from '@/context/language'
-import { tmdb } from '@/services/tmdb'
 
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Badge } from '@/components/ui/badge'
-import { X } from 'lucide-react'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { tmdb } from '@plotwist/tmdb'
 
 type Option = {
   value: number
@@ -96,8 +96,8 @@ export const GenresField = () => {
     [setValue, watch],
   )
 
-  const selectedGenres = genresOptions.filter(
-    (genreOption) => watch('genres')?.includes(genreOption.value),
+  const selectedGenres = genresOptions.filter((genreOption) =>
+    watch('genres')?.includes(genreOption.value),
   )
 
   const selectableGenres = genresOptions.filter(

@@ -23,14 +23,13 @@ import { Credits } from '@/components/credits'
 import { TvSerieSeasons } from './tv-serie-seasons'
 import { TvSerieRelated } from './tv-serie-related'
 
-import { tmdb } from '@/services/tmdb'
-
 import { tmdbImage } from '@/utils/tmdb/image'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
+import { tmdb } from '@plotwist/tmdb'
 
 type TvSerieDetailsProps = {
   id: number
@@ -43,7 +42,7 @@ export const TvSerieDetails = async ({
   language,
   embed = false,
 }: TvSerieDetailsProps) => {
-  const tvSerie = await tmdb.tvSeries.details(id, language)
+  const tvSerie = await tmdb.tv.details(id, language)
   const dictionary = await getDictionary(language)
 
   return (

@@ -1,6 +1,6 @@
 import { TvSerieCard } from '@/components/tv-serie-card'
-import { tmdb } from '@/services/tmdb'
 import { Language } from '@/types/languages'
+import { tmdb } from '@plotwist/tmdb'
 
 type TvSerieRelatedProps = {
   id: number

@@ -1,11 +1,11 @@
-import { tmdbClient } from '@/services/tmdb'
+import { axiosClient } from '../../..'
 import {
   PopularPeopleResponse,
   PopularPeopleQueryParams,
 } from './popular.types'
 
 export const popular = async (queryParams: PopularPeopleQueryParams) => {
-  const { data } = await tmdbClient.get<PopularPeopleResponse>(
+  const { data } = await axiosClient.get<PopularPeopleResponse>(
     '/person/popular',
     {
       params: {

@@ -2,11 +2,13 @@ import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvSerieWithMediaType,
-} from '@/services/tmdb/types'
-import { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
+} from '@plotwist/tmdb'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { Language } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
+
 import { Skeleton } from '../ui/skeleton'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }

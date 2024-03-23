@@ -1,10 +1,12 @@
 'use client'
 
-import { tmdb } from '@/services/tmdb'
+import { tmdb } from '@plotwist/tmdb'
+import { useQuery } from '@tanstack/react-query'
+
+import { useLanguage } from '@/context/language'
+
 import { DataTable } from './data-table'
 import { columns } from './data-table/data-table-columns'
-import { useQuery } from '@tanstack/react-query'
-import { useLanguage } from '@/context/language'
 
 type PersonCreditsProps = { personId: number }
 
@@ -15,8 +17,6 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
     queryKey: [personId],
     queryFn: () => tmdb.person.combinedCredits(personId, language),
   })
-
-  console.log({ data })
 
   if (!data) return <></>
 

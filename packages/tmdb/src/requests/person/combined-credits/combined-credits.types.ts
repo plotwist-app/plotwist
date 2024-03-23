@@ -1,8 +1,5 @@
-import {
-  MediaType,
-  MovieWithMediaType,
-  TvSerieWithMediaType,
-} from '@/services/tmdb/types'
+import { MovieWithMediaType, TvSerieWithMediaType } from '../../..'
+import { MediaType } from '../../../utils/with_media_type'
 
 export type RawMovieCredit = MovieWithMediaType & {
   character: string

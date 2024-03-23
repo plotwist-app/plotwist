@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/select'
 
 import { useLanguage } from '@/context/language'
-import { tmdb } from '@/services/tmdb'
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
+import { tmdb } from '@plotwist/tmdb'
 
 type RegionOption = {
   label: string

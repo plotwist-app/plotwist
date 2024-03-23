@@ -1,6 +1,6 @@
-import { Play } from 'lucide-react'
-
 import Image from 'next/image'
+import { Play } from 'lucide-react'
+import { Buy, Rent, tmdb } from '@plotwist/tmdb'
 
 import { Badge } from '@/components/ui/badge'
 import {
@@ -12,9 +12,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-
-import { tmdb } from '@/services/tmdb'
-import { Buy, Rent } from '@/services/tmdb/types/watch-providers'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'

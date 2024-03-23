@@ -20,9 +20,9 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { useLanguage } from '@/context/language'
-import { Episode } from '@/services/tmdb/requests/tv-seasons/details'
 
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'
+import { Episode } from '@plotwist/tmdb'
 
 type TvSerieSeasonDetailsContentProps = {
   episodes: Episode[]

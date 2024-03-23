@@ -21,9 +21,9 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { List } from '@/types/supabase/lists'
-import { Movie } from '@/services/tmdb/types'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
+import { Movie } from '@plotwist/tmdb'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>

@@ -1,15 +1,16 @@
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import {
+  MovieDetails,
+  TvSerieDetails,
   Movie,
   MovieWithMediaType,
   TvSerieWithMediaType,
-} from '@/services/tmdb/types'
+} from '@plotwist/tmdb'
+
 import { ListItem } from '@/types/supabase/lists'
 
 type Raw =
   | MovieDetails
-  | TvSeriesDetails
+  | TvSerieDetails
   | Movie
   | MovieWithMediaType
   | TvSerieWithMediaType
@@ -21,7 +22,7 @@ export const sanitizeListItem = (
   const isTvSerie = 'name' in raw
 
   const title = isTvSerie
-    ? (raw as TvSeriesDetails).name
+    ? (raw as TvSerieDetails).name
     : (raw as MovieDetails).title
 
   return {

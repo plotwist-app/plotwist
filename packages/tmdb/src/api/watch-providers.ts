@@ -24,7 +24,7 @@ type WatchProvidersQueryParams = {
   watch_region?: string
 }
 
-export const watchProviders = async (
+const list = async (
   type: 'tv' | 'movie',
   params: WatchProvidersQueryParams,
 ) => {
@@ -52,7 +52,7 @@ type AvailableRegionsQueryParams = {
   language: Language
 }
 
-export const availableRegions = async (params: AvailableRegionsQueryParams) => {
+const regions = async (params: AvailableRegionsQueryParams) => {
   const { data } = await axios.get<GetAvailableRegionsResponse>(
     '/watch/providers/regions',
     {
@@ -74,10 +74,12 @@ export const availableRegions = async (params: AvailableRegionsQueryParams) => {
 |-----------------------------------------------------------------------------
 */
 
-export const itemWatchProviders = async (type: 'tv' | 'movie', id: number) => {
+const item = async (type: 'tv' | 'movie', id: number) => {
   const { data } = await axiosClient.get<WatchProviders>(
     `/${type}/${id}/watch/providers`,
   )
 
   return data
 }
+
+export const watchProviders = { list, item, regions }

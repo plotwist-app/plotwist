@@ -1,5 +1,6 @@
+import { tmdb } from '@plotwist/tmdb'
+
 import { homeMovies } from '@/app/[lang]/page'
-import { tmdb } from '@/services/tmdb'
 import { Language } from '@/types/languages'
 
 export const getMoviesPagesIds = async (language: Language) => {

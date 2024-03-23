@@ -86,8 +86,9 @@ const discover = async (options: DiscoverOptions) => {
 |-----------------------------------------------------------------------------
 */
 
+type MovieListType = 'popular' | 'now_playing' | 'top_rated' | 'upcoming'
 type ListOptions = {
-  list: 'popular' | 'now_playing' | 'top_rated' | 'upcoming'
+  list: MovieListType
   language: Language
   page: number
 }
@@ -119,10 +120,14 @@ const list = async (options: ListOptions) => {
 |-----------------------------------------------------------------------------
 */
 
-type RelatedType = 'recommendations' | 'similar'
+type MovieRelatedType = 'recommendations' | 'similar'
 type RelatedResponse = ListResponse<Movie>
 
-const related = async (id: number, type: RelatedType, language: Language) => {
+const related = async (
+  id: number,
+  type: MovieRelatedType,
+  language: Language,
+) => {
   const { data } = await axiosClient.get<RelatedResponse>(
     `/movie/${id}/${type}`,
 
@@ -137,3 +142,4 @@ const related = async (id: number, type: RelatedType, language: Language) => {
 }
 
 export const movies = { details, discover, related, list }
+export { type DiscoverMovieFilters, type MovieListType, type MovieRelatedType }

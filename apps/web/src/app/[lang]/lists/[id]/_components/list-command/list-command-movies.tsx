@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink, PlusCircle, MinusCircle } from 'lucide-react'
 
-import { MovieWithMediaType } from '@/services/tmdb/types'
+import { MovieWithMediaType } from '@plotwist/tmdb'
 
 import {
   HoverCard,

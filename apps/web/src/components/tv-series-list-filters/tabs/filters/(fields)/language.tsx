@@ -14,12 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { tmdb } from '@/services/tmdb'
+
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { tmdb } from '@plotwist/tmdb'
 
 export const LanguageField = () => {
   const { dictionary } = useLanguage()

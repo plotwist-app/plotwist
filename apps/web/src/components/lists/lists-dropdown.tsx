@@ -25,14 +25,13 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 
 import { List } from '@/types/supabase/lists'
 
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth'
 import { NoAccountTooltip } from '../no-account-tooltip'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 type ListsDropdownProps = {
-  item: MovieDetails | TvSeriesDetails
+  item: MovieDetails | TvSerieDetails
 }
 
 export const ListsDropdown = ({ item }: ListsDropdownProps) => {

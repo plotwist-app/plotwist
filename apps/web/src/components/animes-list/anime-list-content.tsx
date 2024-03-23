@@ -5,12 +5,12 @@ import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { TvSerieCard } from '../tv-serie-card'
-import { Movie, TvSerie } from '@/services/tmdb/types'
 import { MovieCard, MovieCardSkeleton } from '../movie-card'
 import { MovieListSkeleton } from '../movie-list/movie-list-skeleton'
-import { tmdb } from '@/services/tmdb'
+
 import { AnimeListMode } from '.'
 import { useLanguage } from '@/context/language'
+import { tmdb } from '@plotwist/tmdb'
 
 type AnimeListContentProps = { mode: AnimeListMode }
 
@@ -25,7 +25,7 @@ export const AnimeListContent = ({ mode }: AnimeListContentProps) => {
     queryKey: ['animes', mode],
     queryFn: async ({ pageParam }) => {
       if (mode === 'TV_SERIES') {
-        return await tmdb.tvSeries.discover({
+        return await tmdb.tv.discover({
           language,
           page: pageParam,
           filters: { with_keywords: '210024', sort_by: 'vote_count.desc' },

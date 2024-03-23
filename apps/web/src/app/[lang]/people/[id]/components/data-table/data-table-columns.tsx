@@ -4,12 +4,10 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Dictionary } from '@/utils/dictionaries'
-
 import { TableColumnHeader } from '@/components/table'
 import { Badge } from '@/components/ui/badge'
 
-import { Credit } from '@/services/tmdb/requests/person/combined-credits'
+import { Dictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
 
 type Columns = (

@@ -1,5 +1,4 @@
-import { tmdb } from '@/services/tmdb'
-import { Video } from '@/services/tmdb/requests'
+import { Video, tmdb } from '@plotwist/tmdb'
 
 export type VideosProps = {
   tmdbId: number

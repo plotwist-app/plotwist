@@ -1,17 +1,20 @@
+import { format } from 'date-fns'
+
 import { Banner } from '@/components/banner'
 import { Images } from '@/components/images'
 import { Poster } from '@/components/poster'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { tmdb } from '@/services/tmdb'
-import { Language } from '@/types/languages'
+
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { format } from 'date-fns'
+
 import { PersonCredits } from './person-credits'
 import { Container } from '@/app/[lang]/_components/container'
+import { Language } from '@/types/languages'
+import { tmdb } from '@plotwist/tmdb'
 
 type PersonDetailsProps = { id: number; language: Language }
 

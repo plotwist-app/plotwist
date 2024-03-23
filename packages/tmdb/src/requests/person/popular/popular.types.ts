@@ -1,5 +1,5 @@
-import { ListResponse } from '@/services/tmdb/types'
-import { Language } from '@/types/languages'
+import { Language } from '../../..'
+import { ListResponse } from '../../../utils/list-response'
 
 export type KnownFor = {
   adult: boolean

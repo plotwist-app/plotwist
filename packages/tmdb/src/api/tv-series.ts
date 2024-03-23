@@ -86,8 +86,10 @@ export const discover = async (options: DiscoverTvSeriesOptions) => {
 |-----------------------------------------------------------------------------
 */
 
+type TvSeriesListType = 'airing_today' | 'on_the_air' | 'popular' | 'top_rated'
+
 type ListQueryParams = {
-  list: 'airing_today' | 'on_the_air' | 'popular' | 'top_rated'
+  list: TvSeriesListType
   language: Language
   page: number
 }
@@ -135,3 +137,4 @@ const related = async (
 }
 
 export const tv = { details, discover, list, related }
+export { type TvSeriesListType }

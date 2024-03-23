@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { DetailedCollection } from '@plotwist/tmdb'
 
 import { CollectionListDropdown } from '@/components/lists/collection-list-button'
 
@@ -12,11 +13,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { MovieCard } from '@/components/movie-card'
 
 import { useLanguage } from '@/context/language'
-
-import { DetailedCollection } from '@/services/tmdb/requests/collections/details'
-import { MovieCard } from '@/components/movie-card'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }
 

@@ -1,4 +1,5 @@
-import { tmdb } from '@/services/tmdb'
+import { tmdb } from '@plotwist/tmdb'
+
 import { Language } from '@/types/languages'
 
 export const getTvSeriesPagesIds = async (language: Language) => {
@@ -11,7 +12,7 @@ export const getTvSeriesPagesIds = async (language: Language) => {
 
   const tvSeriesLists = await Promise.all(
     tvSeriesListTypes.map((listType) =>
-      tmdb.tvSeries.list({ language, list: listType, page: 1 }),
+      tmdb.tv.list({ language, list: listType, page: 1 }),
     ),
   )
 

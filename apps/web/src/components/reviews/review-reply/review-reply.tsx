@@ -1,10 +1,11 @@
 'use client'
 
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+
 import { Review } from '@/types/supabase/reviews'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+
 import {
   ReviewReplyActions,
   ReviewReplyLikes,
@@ -12,7 +13,7 @@ import {
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
 
-type TmdbItem = TvSeriesDetails | MovieDetails
+type TmdbItem = TvSerieDetails | MovieDetails
 
 interface ReviewReplyProps {
   replies: Review['review_replies']

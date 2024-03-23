@@ -1,27 +1,33 @@
-import { TvSerieWithMediaType } from '@/services/tmdb/types'
-import { ListCommandGroup } from './list-command-group'
-import { ListCommandItem } from './list-command-item'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { ExternalLink, MinusCircle, PlusCircle } from 'lucide-react'
+import { toast } from 'sonner'
 import Link from 'next/link'
-import { useLanguage } from '@/context/language'
-import { Skeleton } from '@/components/ui/skeleton'
+import { ExternalLink, MinusCircle, PlusCircle } from 'lucide-react'
+import { useCallback } from 'react'
+import Image from 'next/image'
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
+import { useParams } from 'next/navigation'
+
+import { TvSerieWithMediaType } from '@plotwist/tmdb'
+
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
-import Image from 'next/image'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { ListItem } from '@/types/supabase/lists'
-import { useCallback } from 'react'
-import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
+import { Skeleton } from '@/components/ui/skeleton'
+
+import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
-import { useParams } from 'next/navigation'
 import { APP_QUERY_CLIENT } from '@/context/app'
+
+import { tmdbImage } from '@/utils/tmdb/image'
+import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 import { listPageQueryKey } from '@/utils/list'
-import { toast } from 'sonner'
+
+import { ListCommandGroup } from './list-command-group'
+import { ListCommandItem } from './list-command-item'
+
+import { ListItem } from '@/types/supabase/lists'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]

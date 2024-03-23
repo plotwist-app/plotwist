@@ -2,6 +2,7 @@
 
 import { ComponentProps, useState } from 'react'
 import { toast } from 'sonner'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
@@ -14,8 +15,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useReplies } from '@/hooks/use-replies/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { TvSeriesDetails } from '@/services/tmdb/requests/tv-series/details'
-import { MovieDetails } from '@/services/tmdb/requests/movies/details'
+
 import { useLike } from '@/hooks/use-like/use-like'
 import {
   Dialog,
@@ -29,7 +29,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
-type TmdbItem = TvSeriesDetails | MovieDetails
+type TmdbItem = TvSerieDetails | MovieDetails
 
 type ReviewItemActionsProps = {
   reply: ReviewReply

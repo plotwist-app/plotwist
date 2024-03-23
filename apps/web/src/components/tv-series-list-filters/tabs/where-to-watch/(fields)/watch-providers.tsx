@@ -5,9 +5,9 @@ import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Eye, X } from 'lucide-react'
+import { tmdb } from '@plotwist/tmdb'
 
 import { useLanguage } from '@/context/language'
-import { tmdb } from '@/services/tmdb'
 
 import {
   FormControl,
@@ -52,7 +52,7 @@ export const WatchProvidersField = () => {
   const { data: watchProviders } = useQuery({
     queryKey: ['watch-providers', watchRegion],
     queryFn: async () =>
-      await tmdb.watchProviders.tvProviders({
+      await tmdb.watchProviders.list('tv', {
         language,
         watch_region: watchRegion,
       }),
@@ -117,8 +117,8 @@ export const WatchProvidersField = () => {
     [setValue, watch, inputRef],
   )
 
-  const selectedWatchProviders = watchProvidersOptions.filter(
-    (genreOption) => watch('with_watch_providers')?.includes(genreOption.value),
+  const selectedWatchProviders = watchProvidersOptions.filter((genreOption) =>
+    watch('with_watch_providers')?.includes(genreOption.value),
   )
 
   const selectableWatchProviders = watchProvidersOptions.filter(
@@ -143,7 +143,7 @@ export const WatchProvidersField = () => {
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  className="min-h-8 h-auto w-full justify-start border-dashed py-2 hover:bg-background"
+                  className="h-auto min-h-8 w-full justify-start border-dashed py-2 hover:bg-background"
                   size="sm"
                   disabled={!watch('watch_region')}
                 >

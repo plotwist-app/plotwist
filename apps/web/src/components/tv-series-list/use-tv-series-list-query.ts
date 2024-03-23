@@ -1,8 +1,8 @@
 import { useLanguage } from '@/context/language'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { tmdb } from '@plotwist/tmdb'
 import { useSearchParams } from 'next/navigation'
-import { DiscoverTvSeriesFilters } from '@/services/tmdb/requests/tv-series/discover'
-import { tmdb } from '@/services/tmdb'
+
 import { TvSeriesListVariant } from './tv-series-list.types'
 
 const INITIAL_PAGE = 1

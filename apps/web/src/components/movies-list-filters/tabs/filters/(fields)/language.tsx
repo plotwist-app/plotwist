@@ -1,3 +1,7 @@
+import { tmdb } from '@plotwist/tmdb'
+import { useFormContext } from 'react-hook-form'
+import { useQuery } from '@tanstack/react-query'
+
 import {
   FormControl,
   FormField,
@@ -14,9 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { tmdb } from '@/services/tmdb'
-import { useQuery } from '@tanstack/react-query'
-import { useFormContext } from 'react-hook-form'
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 import { useLanguage } from '@/context/language'
 

@@ -1,5 +1,5 @@
+import { tmdb } from '@plotwist/tmdb'
 import { ImagesMasonry } from './images-masonry'
-import { tmdb } from '@/services/tmdb'
 
 export type ImagesProps = {
   tmdbId: number

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { tmdbClient } from '@/services/tmdb'
-import { Language } from '@/types/languages'
+
+import { Language, axiosClient } from '../../..'
 import {
   CombinedCredits,
   CombinedCreditsResponse,
@@ -58,7 +58,7 @@ const formatCredit = (credit: RawCredit): Credit => {
 }
 
 export const combinedCredits = async (personId: number, language: Language) => {
-  const { data } = await tmdbClient.get<CombinedCreditsResponse>(
+  const { data } = await axiosClient.get<CombinedCreditsResponse>(
     `/person/${personId}/combined_credits`,
     {
       params: {
