@@ -1,6 +1,6 @@
 import { Movie } from "./movie"
 
-export interface Collection {
+export type Collection = {
   id: number
   backdrop_path: string
   name: string
@@ -11,6 +11,6 @@ export interface Collection {
   overview: string
 }
 
-export interface DetailedCollection extends Collection {
+export type DetailedCollection = Collection & {
   parts: Movie[]
 }

@@ -1,6 +1,6 @@
-import { Crew } from '@/services/tmdb/types'
+import { Crew } from "./credits"
 
-export interface GuestStar {
+export type GuestStar = {
   credit_id: string
   order: number
   character: string
@@ -14,7 +14,7 @@ export interface GuestStar {
   profile_path: string | null
 }
 
-export interface Episode {
+export type Episode = {
   air_date: string
   episode_number: number
   crew: Crew[]
@@ -31,7 +31,7 @@ export interface Episode {
   show_id: number
 }
 
-export interface SeasonDetails {
+export type SeasonDetails = {
   air_date: string
   episodes: Episode[]
   name: string

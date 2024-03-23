@@ -1,16 +1,16 @@
-export interface Flatrate {
+export type Flatrate = {
   display_priority: number
   logo_path: string
   provider_id: number
   provider_name: string
 }
-export interface Rent {
+export type Rent = {
   display_priority: number
   logo_path: string
   provider_id: number
   provider_name: string
 }
-export interface Buy {
+export type Buy = {
   display_priority: number
   logo_path: string
   provider_id: number
@@ -76,7 +76,7 @@ export type WatchLocale = {
   [key in CountryCode]: WatchLocaleItem
 }
 
-export interface WatchProviders {
+export type WatchProviders = {
   id: number
   results: WatchLocale
 }

@@ -1,33 +1,34 @@
-export interface Genre {
+export type Genre = {
   id: number
   name: string
 }
 
-export interface ProductionCompany {
+export type ProductionCompany = {
   id: number
   logo_path: string
   name: string
   origin_country: string
 }
-export interface ProductionCountry {
+
+export type ProductionCountry = {
   iso_3166_1: string
   name: string
 }
 
-export interface SpokenLanguage {
+export type SpokenLanguage = {
   english_name: string
   iso_639_1: string
   name: string
 }
 
-export interface CreatedBy {
+export type CreatedBy = {
   id: number
   credit_id: string
   name: string
   gender: number
   profile_path: string
 }
-export interface NextEpisodeToAir {
+export type NextEpisodeToAir = {
   id: number
   name: string
   overview: string
@@ -41,7 +42,8 @@ export interface NextEpisodeToAir {
   show_id: number
   still_path: string
 }
-export interface LastEpisodeToAir {
+
+export type LastEpisodeToAir = {
   air_date: string
   episode_number: number
   id: number
@@ -54,7 +56,7 @@ export interface LastEpisodeToAir {
   vote_count: number
 }
 
-export interface Network {
+export type Network = {
   name: string
   id: number
   logo_path: string
@@ -72,7 +74,7 @@ export type Season = {
   vote_average: number
 }
 
-export interface TvSeriesDetails {
+export type TvSeriesDetails = {
   backdrop_path: string
   created_by: CreatedBy[]
   episode_run_time: number[]

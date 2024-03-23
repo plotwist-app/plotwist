@@ -1,4 +1,4 @@
-export interface Cast {
+export type Cast = {
   adult: boolean
   gender: number
   id: number
@@ -12,7 +12,8 @@ export interface Cast {
   credit_id: string
   order: number
 }
-export interface Crew {
+
+export type Crew = {
   adult: boolean
   gender: number
   id: number
@@ -26,7 +27,7 @@ export interface Crew {
   job: string
 }
 
-export interface Credits {
+export type Credits = {
   id: number
   cast: Cast[]
   crew: Crew[]

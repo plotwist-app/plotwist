@@ -1,23 +1,8 @@
 import { axiosClient } from ".."
+import { GetKeywordsResponse } from "../models/keywords"
 
-type KeywordsOptions = {
-  type: 'tv' | 'movie'
-  id: number
-}
-
-type Keyword = {
-  name: string
-  id: number
-}
-
-type KeywordsResponse = {
-  id: number
-  results?: Array<Keyword>
-  keywords?: Array<Keyword>
-}
-
-export const keywords = async ({ id, type }: KeywordsOptions) => {
-  const { data } = await axiosClient.get<KeywordsResponse>(
+export const keywords = async (type: "tv" | "movie", id: number) => {
+  const { data } = await axiosClient.get<GetKeywordsResponse>(
     `/${type}/${id}/keywords`,
   )
 

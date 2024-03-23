@@ -2,7 +2,6 @@ import { axiosClient } from '..'
 import { Credits } from '../models/credits'
 import { Language } from '../models/language'
 
-
 export const credits = async (
   variant: 'movie' | 'tv',
   id: number,
