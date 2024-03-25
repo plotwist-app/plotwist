@@ -1,6 +1,0 @@
-{
-  "extends": ["@rocketseat/eslint-config/next", "next/core-web-vitals"],
-  "rules": {
-    "no-use-before-define": "off"
-  }
-}
