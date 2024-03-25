@@ -1,6 +1,8 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDotEnv": [".env.local"],
+  "globalDotEnv": [
+    ".env.local"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": [
@@ -18,12 +20,7 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "env": [
-        "NEXT_PUBLIC_TMDB_API_KEY",
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY"
-      ]
+      "persistent": true
     }
   }
 }

@@ -2,9 +2,8 @@
   "name": "plotwist",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "dotenv -- turbo build",
     "build:typescript": "turbo build --filter=@plotwist/typescript-config",
-    "build:supabase": "turbo build --filter=@plotwist/supabase",
     "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
