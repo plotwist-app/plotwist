@@ -1,6 +1,6 @@
 import { useLanguage } from '@/context/language'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { tmdb } from '@plotwist/tmdb'
+import { DiscoverTvSeriesFilters, tmdb } from '@plotwist/tmdb'
 import { useSearchParams } from 'next/navigation'
 
 import { TvSeriesListVariant } from './tv-series-list.types'
@@ -26,14 +26,14 @@ export const useTvSeriesListQuery = (variant: TvSeriesListVariant) => {
 
   const getQueryFn = (page: number) => {
     if (variant === 'discover') {
-      return tmdb.tvSeries.discover({
+      return tmdb.tv.discover({
         language,
         page,
         filters,
       })
     }
 
-    return tmdb.tvSeries.list({
+    return tmdb.tv.list({
       language,
       list: variant,
       page,

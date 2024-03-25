@@ -13,7 +13,7 @@ export const TvSerieRelated = async ({
   variant,
   language,
 }: TvSerieRelatedProps) => {
-  const { results } = await tmdb.tvSeries.related(id, variant, language)
+  const { results } = await tmdb.tv.related(id, variant, language)
 
   return (
     <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">

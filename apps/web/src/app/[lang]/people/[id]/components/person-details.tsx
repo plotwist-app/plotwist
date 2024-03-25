@@ -20,8 +20,8 @@ type PersonDetailsProps = { id: number; language: Language }
 
 export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
   const person = await tmdb.person.details(id, language)
-
   const credits = await tmdb.person.combinedCredits(id, language)
+
   const mostPopularCredit = [...credits.cast, ...credits.crew]
     .sort((first, second) => first.vote_count - second.vote_count)
     .reverse()[0]
@@ -30,7 +30,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
 
   return (
     <Container>
-      <Banner url={tmdbImage(mostPopularCredit.backdrop_path ?? '')} />
+      <Banner url={tmdbImage(mostPopularCredit?.backdrop_path ?? '')} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12 ">
         <main className="flex flex-col gap-4 md:flex-row">

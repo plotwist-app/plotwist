@@ -1,5 +1,5 @@
-import { MovieWithMediaType, TvSerieWithMediaType } from '../../..'
-import { MediaType } from '../../../utils/with_media_type'
+import { MovieWithMediaType, TvSerieWithMediaType } from '.'
+import { MediaType } from '../utils/with_media_type'
 
 export type RawMovieCredit = MovieWithMediaType & {
   character: string
@@ -16,7 +16,7 @@ export type CombinedCreditsResponse = {
   crew: Array<RawCredit>
 }
 
-export type Credit = {
+export type CombinedCredit = {
   id: number
   title: string
   date: string
@@ -28,6 +28,6 @@ export type Credit = {
 }
 
 export type CombinedCredits = {
-  cast: Array<Credit>
-  crew: Array<Credit>
+  cast: Array<CombinedCredit>
+  crew: Array<CombinedCredit>
 }

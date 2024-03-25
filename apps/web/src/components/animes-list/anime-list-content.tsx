@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { Movie, TvSerie, tmdb } from '@plotwist/tmdb'
 
 import { TvSerieCard } from '../tv-serie-card'
 import { MovieCard, MovieCardSkeleton } from '../movie-card'
@@ -10,7 +11,6 @@ import { MovieListSkeleton } from '../movie-list/movie-list-skeleton'
 
 import { AnimeListMode } from '.'
 import { useLanguage } from '@/context/language'
-import { tmdb } from '@plotwist/tmdb'
 
 type AnimeListContentProps = { mode: AnimeListMode }
 

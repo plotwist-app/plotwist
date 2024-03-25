@@ -14,7 +14,7 @@ export const TvSerieSeasonDetails = async ({
   seasonNumber,
   language,
 }: TvSerieSeasonDetailsProps) => {
-  const { episodes } = await tmdb.tvSeasons.details(id, seasonNumber, language)
+  const { episodes } = await tmdb.season.details(id, seasonNumber, language)
 
   return <TvSerieSeasonDetailsContent episodes={episodes} />
 }

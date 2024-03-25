@@ -3,6 +3,7 @@
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
+import { CombinedCredit } from '@plotwist/tmdb'
 
 import { TableColumnHeader } from '@/components/table'
 import { Badge } from '@/components/ui/badge'
@@ -13,7 +14,7 @@ import { Language } from '@/types/languages'
 type Columns = (
   dictionary: Dictionary,
   language: Language,
-) => ColumnDef<Credit>[]
+) => ColumnDef<CombinedCredit>[]
 
 export const columns: Columns = (dictionary, language) => [
   {

@@ -137,4 +137,4 @@ const related = async (
 }
 
 export const tv = { details, discover, list, related }
-export { type TvSeriesListType }
+export { type TvSeriesListType, type DiscoverTvSeriesFilters }

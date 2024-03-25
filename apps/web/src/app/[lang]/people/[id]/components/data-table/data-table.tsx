@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { CombinedCredit } from '@plotwist/tmdb'
 
 import {
   ColumnDef,
@@ -26,14 +27,13 @@ import {
 } from '@/components/ui/table'
 
 import { useLanguage } from '@/context/language'
-import { Credit } from '@/services/tmdb/requests/person/combined-credits'
 
-interface DataTableProps<TData extends Credit, TValue> {
+interface DataTableProps<TData extends CombinedCredit, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function DataTable<TData extends Credit, TValue>({
+export function DataTable<TData extends CombinedCredit, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

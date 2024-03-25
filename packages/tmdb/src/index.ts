@@ -12,10 +12,8 @@ import {
   tv,
   videos,
   watchProviders,
+  person,
 } from './api'
-
-// TODO: change directory (requests -> api)
-import { person } from './requests/person'
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
