@@ -7,6 +7,14 @@
     "build": {
       "dependsOn": [
         "^build"
+      ]
+    },
+    "web#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "NEXT_PUBLIC_MEASUREMENT_ID"
       ],
       "outputs": [
         ".next/**",
@@ -22,5 +30,13 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalEnv": [
+    "NEXT_PUBLIC_TMDB_API_KEY",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+  ],
+  "globalDependencies": [
+    "tsconfig.json"
+  ]
 }
