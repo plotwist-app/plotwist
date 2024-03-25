@@ -40,7 +40,7 @@ export const WatchRegion = () => {
   const { data: regions } = useQuery({
     queryKey: ['available-regions'],
     queryFn: async () =>
-      await tmdb.watchProviders.availableRegions({
+      await tmdb.watchProviders.regions({
         language,
       }),
   })

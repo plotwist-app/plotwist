@@ -1,4 +1,9 @@
-export const formatCombinedCredit = (credit: RawCredit): Credit => {
+/* eslint-disable camelcase */
+import { CombinedCredit, RawMovieCredit, RawTvSerieCredit } from '..'
+
+export const formatCombinedCredit = (
+  credit: RawMovieCredit | RawTvSerieCredit,
+): CombinedCredit => {
   if ((credit as RawTvSerieCredit).name) {
     const {
       first_air_date: date,

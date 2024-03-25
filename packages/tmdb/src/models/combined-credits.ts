@@ -9,11 +9,11 @@ export type RawTvSerieCredit = TvSerieWithMediaType & {
   character: string
 }
 
-export type RawCredit = RawMovieCredit | RawTvSerieCredit
+export type RawCombinedCredit = RawMovieCredit | RawTvSerieCredit
 
 export type CombinedCreditsResponse = {
-  cast: Array<RawCredit>
-  crew: Array<RawCredit>
+  cast: Array<RawCombinedCredit>
+  crew: Array<RawCombinedCredit>
 }
 
 export type CombinedCredit = {
