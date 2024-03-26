@@ -10,13 +10,16 @@ import { CombinedCredit as Credit } from '@plotwist/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type PersonCreditsMovieCardProps = {
   credit: Credit
+  href: string
 }
 
 export const PersonCreditsMovieCard = ({
   credit,
+  href
 }: PersonCreditsMovieCardProps) => {
   const {
     backdrop_path: backdropPath,
@@ -24,24 +27,26 @@ export const PersonCreditsMovieCard = ({
     title,
     vote_average: voteAverage,
     vote_count: voteCount,
-    date,
+    date
   } = credit
 
   return (
     <div className="space-y-2">
       <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border">
-        {backdropPath ? (
-          <Image
-            src={tmdbImage(backdropPath || '', 'w500')}
-            alt={title}
-            className="object-cover"
-            loading="lazy"
-            fill
-            sizes="100%"
-          />
-        ) : (
-          <ImageIcon className="text-muted" />
-        )}
+        <Link href={href}>
+          {backdropPath ? (
+            <Image
+              src={tmdbImage(backdropPath || '', 'w500')}
+              alt={title}
+              className="object-cover"
+              loading="lazy"
+              fill
+              sizes="100%"
+            />
+          ) : (
+            <ImageIcon className="text-muted" />
+          )}
+        </Link>
       </div>
 
       <div className="space-y-1">

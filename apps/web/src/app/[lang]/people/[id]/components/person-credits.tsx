@@ -71,7 +71,13 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
             .slice(0, isListExpanded ? list.length : 6)
             .map((item: Credit) => (
               <>
-                <PersonCreditsMovieCard credit={item} key={item.id} />
+                <PersonCreditsMovieCard
+                  href={`/${language}/${item.media_type === 'tv' ? 'tv-series' : 'movies'
+                    }/${item.id}`
+                  }
+                  credit={item}
+                  key={item.id}
+                />
               </>
             ))}
         </div>
