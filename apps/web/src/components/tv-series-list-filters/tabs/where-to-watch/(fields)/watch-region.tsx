@@ -1,3 +1,5 @@
+'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import ReactCountryFlag from 'react-country-flag'

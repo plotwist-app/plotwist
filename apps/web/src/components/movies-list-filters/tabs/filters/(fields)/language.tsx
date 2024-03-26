@@ -1,3 +1,5 @@
+'use client'
+
 import { tmdb } from '@plotwist/tmdb'
 import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'

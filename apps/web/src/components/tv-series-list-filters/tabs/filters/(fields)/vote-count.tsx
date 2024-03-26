@@ -1,5 +1,6 @@
-import { useFormContext } from 'react-hook-form'
+'use client'
 
+import { useFormContext } from 'react-hook-form'
 import { FormControl, FormItem, FormLabel, Slider } from '@plotwist/ui'
 
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'

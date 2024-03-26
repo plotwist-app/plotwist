@@ -1,3 +1,5 @@
+'use client'
+
 import { useFormContext } from 'react-hook-form'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 

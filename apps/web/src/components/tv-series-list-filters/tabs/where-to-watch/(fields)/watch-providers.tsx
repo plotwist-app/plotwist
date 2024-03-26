@@ -5,10 +5,8 @@ import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Eye, X } from 'lucide-react'
+
 import { tmdb } from '@plotwist/tmdb'
-
-import { useLanguage } from '@/context/language'
-
 import {
   FormControl,
   FormField,
@@ -27,6 +25,8 @@ import {
   ScrollArea,
   Button,
 } from '@plotwist/ui'
+
+import { useLanguage } from '@/context/language'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
