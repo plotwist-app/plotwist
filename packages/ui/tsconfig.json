@@ -1,8 +1,5 @@
 {
   "extends": "@plotwist/typescript-config/react-library.json",
-  "compilerOptions": {
-    "moduleResolution": "NodeNext",
-  },
-  "include": ["src"],
+  "include": ["."],
   "exclude": ["node_modules"]
 }

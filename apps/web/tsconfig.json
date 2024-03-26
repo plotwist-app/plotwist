@@ -13,14 +13,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "next.config.js",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.mjs",
-    "**/*.js",    
-  ],
+  "include": [".", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

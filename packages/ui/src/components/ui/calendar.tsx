@@ -1,19 +1,18 @@
 'use client'
 
 import * as React from 'react'
-
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { DayPicker, DropdownProps, useNavigation } from 'react-day-picker'
 import {
   Select,
   SelectContent,
   SelectGroup,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from './select'
-import { SelectItem } from '@radix-ui/react-select'
 import { cn } from '../../lib/utils'
 import { buttonVariants } from './button'
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   onSelect: any
