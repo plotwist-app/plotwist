@@ -5,8 +5,8 @@ import { LogOut, Settings } from 'lucide-react'
 import ReactCountryFlag from 'react-country-flag'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { Button } from '../ui/button'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -17,7 +17,8 @@ import {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-} from '../ui/dropdown-menu'
+} from '@plotwist/ui'
+
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Language } from '@/types/languages'
 import { useLanguage } from '@/context/language'

@@ -8,17 +8,16 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Button } from '@/components/ui/button'
-import {
+  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
+  Badge,
+} from '@plotwist/ui'
+
 import { useLanguage } from '@/context/language'
 
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'

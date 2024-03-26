@@ -1,16 +1,16 @@
+import Image from 'next/image'
+import Link from 'next/link'
+import { forwardRef } from 'react'
+
+import { Skeleton } from '@plotwist/ui'
 import {
   MovieWithMediaType,
   Person,
   TvSerieWithMediaType,
 } from '@plotwist/tmdb'
-import Image from 'next/image'
-import Link from 'next/link'
-import { forwardRef } from 'react'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-
-import { Skeleton } from '../ui/skeleton'
 
 type PersonCardProps = { person: Person; language: Language }
 

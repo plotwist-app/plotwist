@@ -5,22 +5,21 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Input } from '@/components/ui/input'
+  Input,
+} from '@plotwist/ui'
+
 import { useAuth } from '@/context/auth'
 import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'

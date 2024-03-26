@@ -6,34 +6,29 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Eye, X } from 'lucide-react'
 
-import { useLanguage } from '@/context/language'
-
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
-import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandSeparator,
-} from '@/components/ui/command'
-import { Badge } from '@/components/ui/badge'
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
+  Badge,
+  ScrollArea,
+  Button,
+} from '@plotwist/ui'
+import { tmdb } from '@plotwist/tmdb'
 
+import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
-import { tmdb } from '@plotwist/tmdb'
 
 type Option = {
   value: number

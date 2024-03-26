@@ -4,28 +4,27 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
-import { Button } from '@/components/ui/button'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import {
+  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+  Textarea,
+} from '@plotwist/ui'
 
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 import { Dictionary } from '@/utils/dictionaries'
 
 import { useReplies } from '@/hooks/use-replies/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
-
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 

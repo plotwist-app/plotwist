@@ -2,10 +2,9 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 
-import { Button } from '@plotwist/ui'
+import { Button, Skeleton } from '@plotwist/ui'
 
 import { Pattern } from '@/components/pattern'
-import { Skeleton } from '@/components/ui/skeleton'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'

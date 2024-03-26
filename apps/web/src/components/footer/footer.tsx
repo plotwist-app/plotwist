@@ -1,8 +1,9 @@
+import Link from 'next/link'
+
+import { Badge } from '@plotwist/ui'
 import { cn } from '@/lib/utils'
 import { Language } from '@/types/languages'
-import Link from 'next/link'
 import { ComponentProps, PropsWithChildren } from 'react'
-import { Badge } from '../ui/badge'
 import { Dictionary } from '@/utils/dictionaries'
 
 const Section = {

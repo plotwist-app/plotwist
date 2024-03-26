@@ -1,6 +1,7 @@
 'use client'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui'
+
 import { formatNumber } from '@/utils/number/format-number'
 import CountUp from 'react-countup'
 

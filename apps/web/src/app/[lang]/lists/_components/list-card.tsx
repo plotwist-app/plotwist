@@ -6,14 +6,12 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { MoreVertical, Trash } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -21,7 +19,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+  Skeleton,
+} from '@plotwist/ui'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
@@ -30,7 +29,6 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
-import { Skeleton } from '@/components/ui/skeleton'
 
 type ListCardProps = { list: List }
 

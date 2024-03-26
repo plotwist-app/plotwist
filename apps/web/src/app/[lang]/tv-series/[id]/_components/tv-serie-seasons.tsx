@@ -1,14 +1,14 @@
 import { Season } from '@plotwist/tmdb'
-
-import { Badge } from '@/components/ui/badge'
 import {
+  Badge,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui'
+
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Poster } from '@/components/poster'

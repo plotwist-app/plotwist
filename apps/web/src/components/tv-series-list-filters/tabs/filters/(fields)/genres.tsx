@@ -11,14 +11,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
+  Command,
+  CommandGroup,
+  CommandItem,
+  Badge,
+} from '@plotwist/ui'
+import { tmdb } from '@plotwist/tmdb'
 
 import { useLanguage } from '@/context/language'
 
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
-import { Badge } from '@/components/ui/badge'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
-import { tmdb } from '@plotwist/tmdb'
 
 type Option = {
   value: number

@@ -3,14 +3,10 @@
 import { useMemo } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
-
 import { LucideIcon } from 'lucide-react'
 
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
+import { AccordionContent, AccordionItem, AccordionTrigger } from '@plotwist/ui'
+
 import { cn } from '@/lib/utils'
 
 export type Item = {

@@ -3,20 +3,19 @@
 import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import {
+  Button,
+  Calendar,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '@plotwist/ui'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

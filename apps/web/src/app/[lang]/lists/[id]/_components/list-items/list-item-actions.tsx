@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { MoreVertical } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -14,13 +14,16 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui'
+
 import { useLists } from '@/context/lists'
-import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { listPageQueryKey } from '@/utils/list'
 import { useAuth } from '@/context/auth'
+
+import { listPageQueryKey } from '@/utils/list'
+
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 
 type ListItemActionsProps = { listItem: ListItem }
 

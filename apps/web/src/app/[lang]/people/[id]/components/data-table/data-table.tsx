@@ -2,6 +2,14 @@
 
 import { useState } from 'react'
 import { CombinedCredit } from '@plotwist/tmdb'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@plotwist/ui'
 
 import {
   ColumnDef,
@@ -16,15 +24,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 
 import { useLanguage } from '@/context/language'
 

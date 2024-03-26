@@ -2,21 +2,9 @@
 
 import { ComponentProps, useState } from 'react'
 import { toast } from 'sonner'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
-
-import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useAuth } from '@/context/auth'
-
-import { cn } from '@/lib/utils'
-
-import { ReviewReply } from '@/types/supabase/reviews'
-import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
-import { useReplies } from '@/hooks/use-replies/use-replies'
 
-import { MediaType } from '@/types/supabase/media-type'
-
-import { useLike } from '@/hooks/use-like/use-like'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import {
   Dialog,
   DialogClose,
@@ -25,8 +13,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+  Button,
+} from '@plotwist/ui'
+
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useAuth } from '@/context/auth'
+
+import { cn } from '@/lib/utils'
+
+import { useLanguage } from '@/context/language'
+import { useReplies } from '@/hooks/use-replies/use-replies'
+import { useLike } from '@/hooks/use-like/use-like'
+
+import { ReviewReply } from '@/types/supabase/reviews'
+import { MediaType } from '@/types/supabase/media-type'
+
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 type TmdbItem = TvSerieDetails | MovieDetails

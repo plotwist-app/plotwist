@@ -2,19 +2,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { forwardRef } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
+
 import { Movie } from '@plotwist/tmdb'
-
-import { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
-import { Badge } from '../ui/badge'
-import { Skeleton } from '../ui/skeleton'
+  Badge,
+  Skeleton,
+} from '@plotwist/ui'
+
+import { Language } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type MovieCardProps = {
   movie: Movie

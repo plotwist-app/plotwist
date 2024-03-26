@@ -1,8 +1,9 @@
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Skeleton } from '@/components/ui/skeleton'
+import { useQuery } from '@tanstack/react-query'
+
+import { Avatar, AvatarFallback, Skeleton } from '@plotwist/ui'
+
 import { useLanguage } from '@/context/language'
 import { supabase } from '@/services/supabase'
-import { useQuery } from '@tanstack/react-query'
 
 type UserResumeProps = {
   userId: string

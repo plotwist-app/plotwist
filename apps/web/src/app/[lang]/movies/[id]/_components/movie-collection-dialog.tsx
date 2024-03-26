@@ -2,17 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+
 import { DetailedCollection } from '@plotwist/tmdb'
-
-import { CollectionListDropdown } from '@/components/lists/collection-list-button'
-
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui'
+
+import { CollectionListDropdown } from '@/components/lists/collection-list-button'
+
 import { MovieCard } from '@/components/movie-card'
 
 import { useLanguage } from '@/context/language'

@@ -1,15 +1,17 @@
 'use client'
 
 import { PropsWithChildren } from 'react'
+import Link from 'next/link'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
+} from '@plotwist/ui'
+
 import { useLanguage } from '@/context/language'
 import { TooltipPortal } from '@radix-ui/react-tooltip'
-import Link from 'next/link'
 
 export const NoAccountTooltip = ({ children }: PropsWithChildren) => {
   const { dictionary, language } = useLanguage()

@@ -4,9 +4,8 @@ import { useMemo } from 'react'
 import Link from 'next/link'
 import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
+import { Button, Skeleton } from '@plotwist/ui'
 
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
 import { Banner } from '@/components/banner'
 
 import { ListItems } from './_components/list-items'

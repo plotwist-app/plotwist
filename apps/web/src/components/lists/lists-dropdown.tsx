@@ -3,18 +3,18 @@
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-
 import { useRouter } from 'next/navigation'
 
-import { Button } from '@/components/ui/button'
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui'
 
 import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
@@ -28,7 +28,6 @@ import { List } from '@/types/supabase/lists'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails

@@ -5,15 +5,17 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Movie } from '@plotwist/tmdb'
+
 import {
+  Button,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui'
 
 import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
@@ -23,7 +25,6 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 import { List } from '@/types/supabase/lists'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
-import { Movie } from '@plotwist/tmdb'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>

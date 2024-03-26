@@ -1,18 +1,8 @@
 'use client'
 
 import { ComponentProps, useState } from 'react'
-import { toast } from 'sonner'
-
-import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useAuth } from '@/context/auth'
-
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
-import { cn } from '@/lib/utils'
-
-import { Review } from '@/types/supabase/reviews'
-import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
-import { useLike } from '@/hooks/use-like/use-like'
+import { toast } from 'sonner'
 
 import {
   Dialog,
@@ -22,8 +12,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+  Button,
+} from '@plotwist/ui'
+
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useAuth } from '@/context/auth'
+
+import { useReviews } from '@/hooks/use-reviews/use-reviews'
+import { cn } from '@/lib/utils'
+
+import { Review } from '@/types/supabase/reviews'
+import { useLanguage } from '@/context/language'
+import { useLike } from '@/hooks/use-like/use-like'
+
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 type ReviewItemActionsProps = {

@@ -3,6 +3,7 @@
 import { useLanguage } from '@/context/language'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,7 +12,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '../ui/navigation-menu'
+} from '@plotwist/ui'
 
 import { cn } from '@/lib/utils'
 import { buildLanguageNavigation } from './header-navigation-data'

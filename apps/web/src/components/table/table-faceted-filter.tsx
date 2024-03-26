@@ -7,11 +7,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
-import {
+  Button,
+  Separator,
+  Badge,
   Command,
   CommandEmpty,
   CommandGroup,
@@ -19,7 +17,8 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
+} from '@plotwist/ui'
+
 import { useLanguage } from '@/context/language'
 
 interface TableFacetedFilterProps<T, TValue> {

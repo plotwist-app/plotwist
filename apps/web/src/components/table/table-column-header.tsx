@@ -7,17 +7,19 @@ import {
   EyeNoneIcon,
 } from '@radix-ui/react-icons'
 import { Column } from '@tanstack/react-table'
+import { ElementType } from 'react'
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ElementType } from 'react'
+} from '@plotwist/ui'
+
+import { cn } from '@/lib/utils'
+
 import { useLanguage } from '@/context/language'
 
 interface TableColumnHeaderProps<T, TValue>

@@ -3,21 +3,28 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
-
 import { useQuery } from '@tanstack/react-query'
 
-import { useLanguage } from '@/context/language'
-
-import { Command as CommandIcon } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
 import {
+  MovieWithMediaType,
+  PersonWithMediaType,
+  TvSerieWithMediaType,
+  tmdb,
+} from '@plotwist/tmdb'
+
+import {
+  Button,
   Command,
   CommandDialog,
   CommandEmpty,
   CommandInput,
   CommandList,
-} from '@/components/ui/command'
+} from '@plotwist/ui'
+
+import { useLanguage } from '@/context/language'
+
+import { Command as CommandIcon } from 'lucide-react'
+
 import {
   CommandSearchMovie,
   CommandSearchPerson,
@@ -25,12 +32,6 @@ import {
   CommandSearchSkeleton,
   CommandSearchTvSerie,
 } from '../command-search'
-import {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TvSerieWithMediaType,
-  tmdb,
-} from '@plotwist/tmdb'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)

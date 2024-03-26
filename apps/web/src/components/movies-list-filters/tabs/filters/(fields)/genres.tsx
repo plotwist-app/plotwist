@@ -5,20 +5,22 @@ import { KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Command as CommandPrimitive } from 'cmdk'
 import { X } from 'lucide-react'
+import { tmdb } from '@plotwist/tmdb'
 
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
+  Command,
+  CommandGroup,
+  CommandItem,
+  Badge,
+} from '@plotwist/ui'
 
 import { useLanguage } from '@/context/language'
 
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
-import { Badge } from '@/components/ui/badge'
-import { tmdb } from '@plotwist/tmdb'
 
 type Option = {
   value: number

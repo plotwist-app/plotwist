@@ -1,8 +1,9 @@
-import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
-import { Slider } from '@/components/ui/slider'
-import { useLanguage } from '@/context/language'
 import { useFormContext } from 'react-hook-form'
+
+import { FormControl, FormItem, FormLabel, Slider } from '@plotwist/ui'
+
+import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { useLanguage } from '@/context/language'
 
 export const VoteCountField = () => {
   const {

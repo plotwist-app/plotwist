@@ -2,16 +2,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { forwardRef } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
-import { TvSerie } from '@plotwist/tmdb'
 
+import { TvSerie } from '@plotwist/tmdb'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
-import { Badge } from '../ui/badge'
-import { Skeleton } from '../ui/skeleton'
+  Badge,
+  Skeleton,
+} from '@plotwist/ui'
 
 import { Language } from '@/types/languages'
 

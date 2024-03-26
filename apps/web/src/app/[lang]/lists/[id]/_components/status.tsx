@@ -1,9 +1,10 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui'
+import { cva } from 'class-variance-authority'
+
 import { useLanguage } from '@/context/language'
 import { ListItemStatus } from '@/types/supabase/lists'
-import { cva } from 'class-variance-authority'
 
 type StatusBadgeProps = { status: ListItemStatus }
 

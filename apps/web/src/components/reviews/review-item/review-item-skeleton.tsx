@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui'
 import { ReviewStars } from '../review-stars'
 
 export const ReviewItemSkeleton = () => {

@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { Badge } from '@plotwist/ui'
 
 import { useLanguage } from '@/context/language'
-
-import { Badge } from '../ui/badge'
 import { AnimeListContent } from './anime-list-content'
 
 export type AnimeListMode = 'TV_SERIES' | 'MOVIES'

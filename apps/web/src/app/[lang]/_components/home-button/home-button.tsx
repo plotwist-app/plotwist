@@ -1,15 +1,16 @@
 'use client'
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import { useAuth } from '@/context/auth'
+import { Language } from '@/types/languages'
 import {
+  Avatar,
+  AvatarFallback,
+  Button,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { useAuth } from '@/context/auth'
-import { Language } from '@/types/languages'
+} from '@plotwist/ui'
 
 import Link from 'next/link'
 

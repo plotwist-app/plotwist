@@ -23,7 +23,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from '@plotwist/ui'
 
 import { ListItem } from '@/types/supabase/lists'
 import { DataTableToolbar } from './data-table-toolbar'

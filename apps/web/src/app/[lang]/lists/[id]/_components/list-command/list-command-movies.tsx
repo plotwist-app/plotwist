@@ -1,18 +1,20 @@
 'use client'
 
+import { useCallback } from 'react'
+import { toast } from 'sonner'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { ExternalLink, PlusCircle, MinusCircle } from 'lucide-react'
 
 import { MovieWithMediaType } from '@plotwist/tmdb'
-
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Skeleton } from '@/components/ui/skeleton'
+  DropdownMenuItem,
+  Skeleton,
+} from '@plotwist/ui'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
@@ -22,10 +24,7 @@ import { ListCommandItem } from './list-command-item'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { useLists } from '@/context/lists'
 import { ListItem } from '@/types/supabase/lists'
-import { useCallback } from 'react'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
-import { useParams } from 'next/navigation'
-import { toast } from 'sonner'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { listPageQueryKey } from '@/utils/list'
 

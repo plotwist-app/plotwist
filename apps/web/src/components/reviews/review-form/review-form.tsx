@@ -4,16 +4,17 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+  Textarea,
+} from '@plotwist/ui'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
@@ -24,7 +25,6 @@ import { Dictionary } from '@/utils/dictionaries'
 
 import { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
-import Link from 'next/link'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({

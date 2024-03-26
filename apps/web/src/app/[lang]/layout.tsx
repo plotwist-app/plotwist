@@ -1,4 +1,4 @@
-import { Toaster } from '@/components/ui/sonner'
+import { Toaster } from '@plotwist/ui'
 
 import { LanguageContextProvider } from '@/context/language'
 import { Language } from '@/types/languages'

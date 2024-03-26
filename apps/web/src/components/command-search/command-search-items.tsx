@@ -1,15 +1,15 @@
+import Image from 'next/image'
+import Link from 'next/link'
+
 import {
   MovieWithMediaType,
   PersonWithMediaType,
   TvSerieWithMediaType,
 } from '@plotwist/tmdb'
-import Image from 'next/image'
-import Link from 'next/link'
+import { Skeleton } from '@plotwist/ui'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-
-import { Skeleton } from '../ui/skeleton'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }
 

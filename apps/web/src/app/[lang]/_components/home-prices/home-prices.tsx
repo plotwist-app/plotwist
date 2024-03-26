@@ -1,9 +1,8 @@
-import { Badge } from '@/components/ui/badge'
 import { HomePrice } from './home-price'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+
 import Link from 'next/link'
 import { Language } from '@/types/languages'
+import { Badge, Button, Skeleton } from '@plotwist/ui'
 
 type HomePricesProps = {
   language: Language

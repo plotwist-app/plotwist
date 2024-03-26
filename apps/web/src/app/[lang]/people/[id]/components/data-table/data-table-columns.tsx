@@ -3,10 +3,11 @@
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
+
 import { CombinedCredit } from '@plotwist/tmdb'
+import { Badge } from '@plotwist/ui'
 
 import { TableColumnHeader } from '@/components/table'
-import { Badge } from '@/components/ui/badge'
 
 import { Dictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'

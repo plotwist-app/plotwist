@@ -7,9 +7,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+  Skeleton,
+} from '@plotwist/ui'
 
-import { Skeleton } from '@/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 
 export const DataTableSkeleton = () => {

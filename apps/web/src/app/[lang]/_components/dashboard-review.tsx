@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui'
 
 import { Review } from '@/types/supabase/reviews'
 import { tmdbImage } from '@/utils/tmdb/image'

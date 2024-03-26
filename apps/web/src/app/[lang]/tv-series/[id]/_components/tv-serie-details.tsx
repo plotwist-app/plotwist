@@ -1,14 +1,17 @@
 import { format } from 'date-fns'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Badge,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
+} from '@plotwist/ui'
 
 import { Banner } from '@/components/banner'
 import { Poster } from '@/components/poster'
