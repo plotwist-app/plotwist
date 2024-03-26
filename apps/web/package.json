@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@plotwist/tmdb": "workspace:*",
+    "@plotwist/ui": "workspace:*",
     "@formatjs/intl-localematcher": "^0.5.2",
     "@hookform/resolvers": "^3.3.2",
     "@mdx-js/loader": "^3.0.1",
@@ -96,5 +97,7 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5.3.2",
     "vitest": "^1.2.2"
-  }
-}
+  },
+  "bundledDependencies": [
+    "ui"
+  ]}

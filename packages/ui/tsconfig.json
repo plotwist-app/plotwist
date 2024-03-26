@@ -1,0 +1,12 @@
+{
+  "extends": "@plotwist/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@ui/*": ["./src/*"]
+    },
+    "moduleResolution": "NodeNext",
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
