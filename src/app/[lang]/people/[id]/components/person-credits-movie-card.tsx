@@ -20,7 +20,6 @@ export const PersonCreditsMovieCard = ({
 }: PersonCreditsMovieCardProps) => {
   const {
     backdrop_path: backdropPath,
-    media_type: mediaType,
     role,
     title,
     vote_average: voteAverage,
@@ -31,8 +30,6 @@ export const PersonCreditsMovieCard = ({
   return (
     <div className="space-y-2">
       <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border">
-        {/* <Badge className="absolute left-2 top-2 z-20">{mediaType}</Badge> */}
-
         {backdropPath ? (
           <Image
             src={tmdbImage(backdropPath || '', 'w500')}

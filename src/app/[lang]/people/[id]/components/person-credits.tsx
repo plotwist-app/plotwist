@@ -12,7 +12,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Grid, Table as LucideTable } from 'lucide-react'
+import {
+  ChevronDown,
+  ChevronUp,
+  Grid,
+  Table as LucideTable,
+} from 'lucide-react'
 import { useState } from 'react'
 import {
   PersonCreditsMovieCard,
@@ -43,14 +48,13 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
   const [isListExpanded, setIsListExpanded] = useState(false)
   const { dictionary, language } = useLanguage()
 
-  const { data, isLoading  } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [personId],
     queryFn: () => tmdb.person.combinedCredits(personId, language),
   })
 
   if (isLoading) return <PersonCreditsSkeleton />
   if (!data) return <></>
-
 
   const renderContentByLayout = ({
     layout,
@@ -62,21 +66,31 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
     return layout === 'grid' ? (
       <div className="flex flex-col items-end gap-4">
         <div className="mt-2 grid w-full grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
-          {list.slice(0, isListExpanded ? list.length : 6).map((item: Credit) => (
-            <>
-              <PersonCreditsMovieCard credit={item} key={item.id} />
-            </>
-          ))}
+          {list
+            .slice(0, isListExpanded ? list.length : 6)
+            .map((item: Credit) => (
+              <>
+                <PersonCreditsMovieCard credit={item} key={item.id} />
+              </>
+            ))}
         </div>
         {isListExpanded && (
-          <Button size="sm" variant="outline" onClick={() => setIsListExpanded(false)}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setIsListExpanded(false)}
+          >
             {dictionary.person_page.credit_list.show_less}
 
             <ChevronUp className="ml-1" size={12} />
           </Button>
         )}
         {!isListExpanded && (
-          <Button size="sm" variant="outline" onClick={() => setIsListExpanded(true)}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setIsListExpanded(true)}
+          >
             {dictionary.person_page.credit_list.show_all}
 
             <ChevronDown className="ml-1" size={12} />
@@ -172,7 +186,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
               <Tooltip>
                 <TooltipTrigger>
                   <Button
-                    className="h-8 w-8"
+                    className="h-8-w-8"
                     size="icon"
                     variant={crewLayout === 'table' ? 'default' : 'outline'}
                     onClick={() => setCrewLayout('table')}
