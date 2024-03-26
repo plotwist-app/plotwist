@@ -2,10 +2,10 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 
-// import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui'
+
 import { Pattern } from '@/components/pattern'
 import { Skeleton } from '@/components/ui/skeleton'
-import {} from '@plotwist/ui'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -102,7 +102,6 @@ export default async function Home({ params: { lang } }: PageProps) {
   return (
     <>
       <Pattern variant="checkered" />
-      <Drawer />
 
       <main className="">
         <div className="mx-auto max-w-4xl p-4">

@@ -2,10 +2,10 @@
 
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Accordion } from '@plotwist/ui'
 import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
 import { Button } from '../ui/button'
 import { Menu } from 'lucide-react'
-import { Accordion } from '../ui/accordion'
 import { buildLanguageNavigation } from './header-navigation-data'
 import { useLanguage } from '@/context/language'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
