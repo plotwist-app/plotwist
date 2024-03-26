@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
+import '@plotwist/ui/globals.css'
+
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { Language } from '@/types/languages'
 import { GTag } from '@/components/gtag'
-
-import '@plotwist/ui/globals.css'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
