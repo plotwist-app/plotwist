@@ -126,7 +126,7 @@ export const MovieDetails = async ({
         )}
 
         <Tabs defaultValue="reviews" className="w-full">
-          <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
+          <div className="md:m-none p-none no-scrollbar -mx-4 max-w-[100vw] overflow-x-scroll px-4">
             <TabsList>
               <TabsTrigger value="reviews">
                 {dictionary.tabs.reviews}
