@@ -12,6 +12,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { PersonCredits } from './person-credits'
+import { PersonBiography } from './person-biography'
 import { Container } from '@/app/[lang]/_components/container'
 import { Language } from '@/types/languages'
 import { tmdb } from '@plotwist/tmdb'
@@ -32,7 +33,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
     <Container>
       <Banner url={tmdbImage(mostPopularCredit?.backdrop_path ?? '')} />
 
-      <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12 ">
+      <div className="mx-auto my-8 max-w-4xl space-y-8 px-4 md:space-y-12 md:px-0 ">
         <main className="flex flex-col gap-4 md:flex-row">
           <aside className="-mt-24 w-full space-y-2 md:-mt-32 md:w-1/3">
             <Poster alt={person.name} url={tmdbImage(person.profile_path)} />
@@ -59,9 +60,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
               <Badge>{(person.popularity / 10).toFixed(1)}</Badge>
             </div>
 
-            <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
-              {person.biography}
-            </p>
+            <PersonBiography personBiography={person.biography} />
           </article>
         </main>
 

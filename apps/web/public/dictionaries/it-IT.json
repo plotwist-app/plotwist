@@ -510,9 +510,7 @@
     "name": "Nome",
     "overview": "Panoramica",
     "runtime": "Durata",
-    "vote": "Voto",
-    "grid_layout_tooltip": "Layout a griglia",
-    "table_layout_tooltip": "Layout tabellare"
+    "vote": "Voto"
   },
   "popular_people": {
     "title": "Persone popolari",
@@ -540,6 +538,20 @@
       "brand": "Marchio",
       "status": "Stato",
       "github": "GitHub"
+    }
+  },
+  "text_actions": {
+    "expand": "Mostra di più",
+    "contract": "Mostra di meno"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Layout a griglia",
+    "table_layout_tooltip": "Layout tabellare"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_all": "Mostra tutto",
+      "show_less": "Mostra meno"
     }
   }
 }

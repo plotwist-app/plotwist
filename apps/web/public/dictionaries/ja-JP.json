@@ -510,9 +510,7 @@
     "name": "名前",
     "overview": "概要",
     "runtime": "実行時間",
-    "vote": "投票",
-    "grid_layout_tooltip": "グリッドレイアウト",
-    "table_layout_tooltip": "テーブルレイアウト"
+    "vote": "投票" 
   },
   "popular_people": {
     "title": "人気のある人々",
@@ -540,6 +538,20 @@
       "brand": "ブランド",
       "status": "ステータス",
       "github": "GitHub"
+    }
+  },
+  "text_actions": {
+    "expand": "もっと見る",
+    "contract": "閉じる"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "グリッドレイアウト",
+    "table_layout_tooltip": "テーブルレイアウト"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_all": "すべて表示",
+      "show_less": "表示を減らす"
     }
   }
 }

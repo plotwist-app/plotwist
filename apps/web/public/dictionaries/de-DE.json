@@ -514,9 +514,7 @@
     "name": "Name",
     "overview": "Übersicht",
     "runtime": "Laufzeit",
-    "vote": "Bewertung",
-    "grid_layout_tooltip": "Rasterlayout",
-    "table_layout_tooltip": "Tabellenlayout"
+    "vote": "Bewertung" 
   },
   "popular_people": {
     "title": "Beliebte Personen",
@@ -544,6 +542,20 @@
       "brand": "Marke",
       "status": "Status",
       "github": "GitHub"
+    }
+  },
+  "text_actions": {
+    "expand": "Mehr anzeigen",
+    "contract": "Weniger anzeigen"
+  },
+  "grid_or_table_layout": {
+    "grid_layout_tooltip": "Rasterlayout",
+    "table_layout_tooltip": "Tabellenlayout"
+  },
+  "person_page": {
+    "credit_list": {
+      "show_all": "Alles anzeigen",
+      "show_less": "Weniger anzeigen"
     }
   }
 }
