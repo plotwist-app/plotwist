@@ -9,6 +9,5 @@ Open-source easy management and reviews about movies, series and animes.
 - Next.js
 - TailwindCSS
 - shadcn
-- PNPM
-- `TurboRepo`
+- pnpm
 - Supabase
