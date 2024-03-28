@@ -16,28 +16,30 @@ export const Header = () => {
       href={`/${language}/`}
       className="flex items-center gap-2 text-foreground"
     >
-      <Image
-        src="/logo-black.svg"
-        alt="Logo"
-        width={24}
-        height={24}
-        className="dark:hidden"
-      />
+      <div className="">
+        <Image
+          src="/logo-black.svg"
+          alt="Logo"
+          width={24}
+          height={24}
+          className="dark:hidden"
+        />
 
-      <Image
-        src="/logo-white.svg"
-        alt="Logo"
-        width={24}
-        height={24}
-        className="hidden dark:block"
-      />
+        <Image
+          src="/logo-white.svg"
+          alt="Logo"
+          width={24}
+          height={24}
+          className="hidden dark:block"
+        />
+      </div>
     </Link>
   )
 
   return (
     <>
       <header className="hidden justify-between lg:flex">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {logo}
           <HeaderNavigationMenu />
         </div>
