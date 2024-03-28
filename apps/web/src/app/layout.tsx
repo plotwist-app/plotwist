@@ -31,7 +31,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href="favicon.svg" />
+        <link rel="icon" href="/logo-white.svg" />
         <meta name="theme-color" content="#09090b" />
         <GTag />
       </head>

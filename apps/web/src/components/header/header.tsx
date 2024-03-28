@@ -5,19 +5,40 @@ import { CommandSearch } from '../command-search'
 import { SettingsDropdown } from '../settings-dropdown'
 import { HeaderNavigationMenu } from './header-navigation-menu'
 import { useLanguage } from '@/context/language'
-import { HeaderNavigationDrawer } from './haeder-navigation-drawer'
+import { HeaderNavigationDrawer } from './header-navigation-drawer'
+import Image from 'next/image'
 
 export const Header = () => {
   const { language } = useLanguage()
+
+  const logo = (
+    <Link
+      href={`/${language}/`}
+      className="flex items-center gap-2 text-foreground"
+    >
+      <Image
+        src="/logo-black.svg"
+        alt="Logo"
+        width={24}
+        height={24}
+        className="dark:hidden"
+      />
+
+      <Image
+        src="/logo-white.svg"
+        alt="Logo"
+        width={24}
+        height={24}
+        className="hidden dark:block"
+      />
+    </Link>
+  )
 
   return (
     <>
       <header className="hidden justify-between lg:flex">
         <div className="flex items-center gap-4">
-          <Link href={`/${language}/`}>
-            <h1 className="text-xl font-semibold">Plotwist</h1>
-          </Link>
-
+          {logo}
           <HeaderNavigationMenu />
         </div>
 
@@ -30,9 +51,7 @@ export const Header = () => {
       </header>
 
       <header className="flex w-full justify-between lg:hidden">
-        <Link href={`/${language}/`}>
-          <h1 className="text-xl font-semibold">Plotwist</h1>
-        </Link>
+        {logo}
 
         <HeaderNavigationDrawer />
       </header>
