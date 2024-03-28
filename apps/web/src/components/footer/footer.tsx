@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ComponentProps, PropsWithChildren } from 'react'
 import { Badge } from '../ui/badge'
 import { Dictionary } from '@/utils/dictionaries'
+import { Logo } from '../logo'
 
 const Section = {
   Root: (props: PropsWithChildren) => <div className="space-y-1" {...props} />,
@@ -40,7 +41,10 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
         <div className="col-span-2 flex flex-col justify-between space-y-2">
           <div className="space-y-1">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-bold">Plotwist</h2>
+              <div className="flex items-center gap-2">
+                <Logo />
+                <h2 className="text-2xl font-bold">Plotwist</h2>
+              </div>
 
               <div>
                 <Badge variant="outline">
