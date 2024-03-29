@@ -1,40 +1,48 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/language'
-import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import { useMemo, useRef, useState } from 'react'
 
 type PersonBiographyProps = { personBiography: string }
 
-const MAX_WORDS = 92
-
 export const PersonBiography = ({ personBiography }: PersonBiographyProps) => {
-  const [isBiographyExpanded, setIsBiographyExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const bioRef = useRef<HTMLParagraphElement>(null)
+
   const { dictionary } = useLanguage()
 
-  const isBiographyTooLong = personBiography.split(' ').length > MAX_WORDS
-  const trimTextToMaxWords = (text: string) => {
-    return text.split(' ').slice(0, MAX_WORDS).join(' ') + '...'
-  }
+  const showMore = useMemo(() => {
+    const bioElement = bioRef.current
+
+    if (bioElement) {
+      const isOverflowing = bioElement.scrollHeight > bioElement.clientHeight
+      return isOverflowing
+    }
+    return false
+  }, [])
 
   return (
-    <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
-      {isBiographyTooLong ? (
-        <>
-          {isBiographyExpanded
-            ? personBiography
-            : trimTextToMaxWords(personBiography)}
-          <Button
-            variant="link"
-            onClick={() => setIsBiographyExpanded((state: boolean) => !state)}
-          >
-            {isBiographyExpanded
-              ? dictionary.text_actions.contract
-              : dictionary.text_actions.expand}
-          </Button>
-        </>
-      ) : (
-        personBiography
+    <p>
+      <p
+        ref={bioRef}
+        className={cn(
+          'text-xs leading-5 text-muted-foreground md:text-sm md:leading-6',
+          isExpanded ? 'line-clamp-none' : 'line-clamp-5',
+        )}
+      >
+        {personBiography}
+      </p>
+
+      {showMore && (
+        <span
+          className="cursor-pointer text-xs hover:underline"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded
+            ? dictionary.text_actions.contract
+            : dictionary.text_actions.expand}
+        </span>
       )}
     </p>
   )
