@@ -11,7 +11,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
   const { mode } = useListMode()
 
   return (
-    <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+    <div className="grid grid-cols-3 gap-4 md:grid-cols-4">
       {listItems.map((item) => (
         <ListItemCard key={item.id} listItem={item} />
       ))}

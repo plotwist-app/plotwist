@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import Link from 'next/link'
-import { Pencil } from 'lucide-react'
+import { Pencil, RotateCw } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
 import { Skeleton } from '@/components/ui/skeleton'
@@ -19,9 +19,9 @@ import { listPageQueryKey } from '@/utils/list'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { supabase } from '@/services/supabase'
-import { List } from '@/types/supabase/lists'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { UserResume } from './_components/user-resume'
+import { List } from '@/types/supabase/lists'
 
 type ListPageProps = {
   params: { id: string }
@@ -119,31 +119,89 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-          <div className="space-y-4">
-            <div className="flex flex-col space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold">{list.name}</h1>
-                {mode === 'SHOW' && <UserResume userId={list.user_id} />}
+          <div className="grid grid-cols-3 gap-16">
+            <div className="col-span-2 space-y-4">
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl font-bold">{list.name}</h1>
+                  {mode === 'SHOW' && <UserResume userId={list.user_id} />}
 
-                {mode === 'EDIT' && (
-                  <ListForm
-                    trigger={
-                      <Button size="icon" variant="outline" className="h-6 w-6">
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                    }
-                    list={list}
-                  />
-                )}
+                  {mode === 'EDIT' && (
+                    <ListForm
+                      trigger={
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="h-6 w-6"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                      }
+                      list={list}
+                    />
+                  )}
+                </div>
+
+                <p className="text-sm text-muted-foreground">
+                  {list.description}
+                </p>
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                {list.description}
-              </p>
+              <ListItems listItems={list.list_items} />
+            </div>
+
+            <div className="col-span-1 space-y-8">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <h2 className="text-md font-semibold">
+                      Movie recommendations
+                    </h2>
+
+                    <p className="text-xs text-muted-foreground">
+                      • Based on your list
+                    </p>
+                  </div>
+
+                  <Button variant="outline" size="sm">
+                    <RotateCw className="mr-1" size={12} />
+                    Reload
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <h2 className="text-md font-semibold">
+                      Series recommendations
+                    </h2>
+
+                    <p className="text-xs text-muted-foreground">
+                      • Based on your list
+                    </p>
+                  </div>
+
+                  <Button variant="outline" size="sm">
+                    <RotateCw className="mr-1" size={12} />
+                    Reload
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
+                </div>
+              </div>
             </div>
           </div>
-
-          <ListItems listItems={list.list_items} />
         </div>
       </ListModeContextProvider>
     </>

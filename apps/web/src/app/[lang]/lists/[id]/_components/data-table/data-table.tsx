@@ -43,7 +43,10 @@ export function DataTable<TData extends ListItem, TValue>({
   const { dictionary } = useLanguage()
   const { mode } = useListMode()
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    [dictionary.data_table_columns.type]: false,
+    [dictionary.data_table_columns.added_at]: false,
+  })
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 

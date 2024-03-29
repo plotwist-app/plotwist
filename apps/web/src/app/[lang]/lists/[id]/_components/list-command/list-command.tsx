@@ -41,7 +41,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
     () => ({
       button: (
         <div
-          className="flex w-full cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
+          className="flex w-full cursor-pointer items-center justify-center rounded-md border border-dashed p-4"
           onClick={() => setOpen(true)}
         >
           <Plus size={16} />
