@@ -28,6 +28,7 @@ import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { listPageQueryKey } from '@/utils/list'
+import { ItemHoverCard } from '@/components/item-hover-card/item-hover-card'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -140,7 +141,7 @@ export const ListCommandMovies = ({
                 side="top"
                 align="start"
               >
-                <ListCommandItem.Banner>
+                <ItemHoverCard.Banner>
                   {movie.backdrop_path && (
                     <Image
                       src={tmdbImage(movie.backdrop_path)}
@@ -148,10 +149,10 @@ export const ListCommandMovies = ({
                       fill
                     />
                   )}
-                </ListCommandItem.Banner>
+                </ItemHoverCard.Banner>
 
-                <ListCommandItem.Information>
-                  <ListCommandItem.Poster>
+                <ItemHoverCard.Information>
+                  <ItemHoverCard.Poster>
                     {movie.poster_path && (
                       <Image
                         src={tmdbImage(movie.poster_path, 'w500')}
@@ -160,16 +161,16 @@ export const ListCommandMovies = ({
                         objectFit="cover"
                       />
                     )}
-                  </ListCommandItem.Poster>
+                  </ItemHoverCard.Poster>
 
-                  <ListCommandItem.Summary>
-                    <ListCommandItem.Title>{movie.title}</ListCommandItem.Title>
+                  <ItemHoverCard.Summary>
+                    <ItemHoverCard.Title>{movie.title}</ItemHoverCard.Title>
 
-                    <ListCommandItem.Overview>
+                    <ItemHoverCard.Overview>
                       {movie.overview}
-                    </ListCommandItem.Overview>
-                  </ListCommandItem.Summary>
-                </ListCommandItem.Information>
+                    </ItemHoverCard.Overview>
+                  </ItemHoverCard.Summary>
+                </ItemHoverCard.Information>
               </HoverCardContent>
             </HoverCardPortal>
           </HoverCard>
