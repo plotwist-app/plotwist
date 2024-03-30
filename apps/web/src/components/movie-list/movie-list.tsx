@@ -26,8 +26,6 @@ export const MovieList = ({ variant, language }: MovieListProps) => {
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
 
-  console.log({ data, flatData })
-
   return (
     <>
       <div className="flex items-center justify-between">
