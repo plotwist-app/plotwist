@@ -30,7 +30,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <Container>
+    <div className="mx-auto max-w-6xl md:pt-4">
       <Banner url={tmdbImage(mostPopularCredit?.backdrop_path ?? '')} />
 
       <div className="mx-auto my-8 max-w-4xl space-y-8 px-4 md:space-y-12 md:px-0 ">
@@ -48,7 +48,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
               {person.place_of_birth && `. ${person.place_of_birth}`}
             </span>
 
-            <h1 className="text-4xl font-bold">{person.name}</h1>
+            <h1 className="text-2xl font-bold md:text-4xl">{person.name}</h1>
 
             <div className="flex items-center gap-2">
               <div className="flex items-center space-x-1">
@@ -79,6 +79,6 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
           </TabsContent>
         </Tabs>
       </div>
-    </Container>
+    </div>
   )
 }
