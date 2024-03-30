@@ -46,7 +46,7 @@ export const HeaderNavigationMenu = () => {
                   {label}
                 </NavigationMenuTrigger>
 
-                <NavigationMenuContent className="flex gap-4 p-4 md:w-[400px] lg:w-[600px]">
+                <NavigationMenuContent className="flex gap-4 p-4 md:w-[500px] lg:w-[700px]">
                   {href === '/movies' && (
                     <HeaderPopularMovie language={language} />
                   )}

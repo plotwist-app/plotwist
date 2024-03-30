@@ -22,7 +22,7 @@ export const CommandSearchMovie = ({
       href={`/${language}/movies/${item.id}`}
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
     >
-      <span className="text-md truncate whitespace-nowrap">{item.title}</span>
+      <span className="truncate whitespace-nowrap text-sm">{item.title}</span>
 
       <span className="whitespace-nowrap text-xs text-muted-foreground">
         {item.release_date !== '' && new Date(item.release_date).getFullYear()}
@@ -40,7 +40,7 @@ export const CommandSearchTvSerie = ({
       className="flex cursor-pointer items-center justify-between gap-4 rounded-sm px-2 py-1 hover:bg-muted"
       href={`/${language}/tv-series/${item.id}`}
     >
-      <span className="text-md truncate whitespace-nowrap">{item.name}</span>
+      <span className="truncate whitespace-nowrap text-sm">{item.name}</span>
 
       <span className="whitespace-nowrap text-xs text-muted-foreground">
         {item.first_air_date && new Date(item.first_air_date).getFullYear()}

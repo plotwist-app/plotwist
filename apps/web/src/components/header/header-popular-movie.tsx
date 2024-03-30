@@ -6,13 +6,14 @@ import { tmdb } from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Skeleton } from '../ui/skeleton'
 
 type HeaderPopularMovieProps = {
   language: Language
 }
 
 export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['popular', language],
     queryFn: async () =>
       await tmdb.movies.list({
@@ -22,7 +23,10 @@ export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
       }),
   })
 
-  if (!data) return null
+  if (!data || isLoading)
+    return (
+      <Skeleton className="aspect-[2/3] w-1/3 overflow-hidden rounded-md border shadow" />
+    )
 
   const movie = data.results[0]
 

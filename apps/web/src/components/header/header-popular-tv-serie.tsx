@@ -6,6 +6,7 @@ import { tmdb } from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Skeleton } from '../ui/skeleton'
 
 type HeaderPopularTvSerieProps = {
   language: Language
@@ -14,7 +15,7 @@ type HeaderPopularTvSerieProps = {
 export const HeaderPopularTvSerie = ({
   language,
 }: HeaderPopularTvSerieProps) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['popular', language],
     queryFn: async () =>
       await tmdb.tv.list({
@@ -24,7 +25,10 @@ export const HeaderPopularTvSerie = ({
       }),
   })
 
-  if (!data) return null
+  if (!data || isLoading)
+    return (
+      <Skeleton className="aspect-[2/3] w-1/3 overflow-hidden rounded-md border shadow" />
+    )
 
   const tvSerie = data.results[0]
 
