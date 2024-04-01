@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { axiosClient } from '..'
 import { Language } from '../models/language'
 import {
@@ -53,12 +51,14 @@ type AvailableRegionsQueryParams = {
 }
 
 const regions = async (params: AvailableRegionsQueryParams) => {
-  const { data } = await axios.get<GetAvailableRegionsResponse>(
+  const { data } = await axiosClient.get<GetAvailableRegionsResponse>(
     '/watch/providers/regions',
     {
       params,
     },
   )
+
+  console.log({ data })
 
   return data.results
 }
