@@ -16,7 +16,7 @@ export const HeaderPopularTvSerie = ({
   language,
 }: HeaderPopularTvSerieProps) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['popular', language],
+    queryKey: ['popular-tv', language],
     queryFn: async () =>
       await tmdb.tv.list({
         language,

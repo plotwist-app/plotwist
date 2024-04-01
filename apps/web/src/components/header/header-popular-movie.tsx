@@ -14,7 +14,7 @@ type HeaderPopularMovieProps = {
 
 export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['popular', language],
+    queryKey: ['popular-movie', language],
     queryFn: async () =>
       await tmdb.movies.list({
         language,
