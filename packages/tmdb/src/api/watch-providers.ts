@@ -58,8 +58,6 @@ const regions = async (params: AvailableRegionsQueryParams) => {
     },
   )
 
-  console.log({ data })
-
   return data.results
 }
 

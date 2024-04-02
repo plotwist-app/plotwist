@@ -1,15 +1,22 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
 import { HomePrice } from './home-price'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import { Language } from '@/types/languages'
+import { useState } from 'react'
 
 type HomePricesProps = {
   language: Language
 }
 
 export const HomePrices = ({ language }: HomePricesProps) => {
+  const [subscriptionMode, setSubscriptionMode] = useState<
+    'monthly' | 'yearly'
+  >('monthly')
+
   return (
     <section
       className="mx-auto max-w-6xl space-y-8 px-4 py-16 lg:px-0"
@@ -21,91 +28,119 @@ export const HomePrices = ({ language }: HomePricesProps) => {
         </h2>
 
         <p className="lg:text-md text-center text-sm text-muted-foreground">
-          Start creating realtime design experiences for free. Upgrade for extra
-          features and collaboration with your team.
+          Embrace the world of movies and TV shows like never before. Start your
+          Plotwist journey today and become a part of a growing community of
+          cinema enthusiasts!
         </p>
       </div>
 
-      <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
-        <HomePrice.Root>
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Free</HomePrice.Label>
-              <HomePrice.Value>$0/month</HomePrice.Value>
-              <HomePrice.Description>
-                Explore about movies and build your personal watch-list.
-              </HomePrice.Description>
-            </HomePrice.Header>
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex gap-2">
+          <Badge
+            variant={subscriptionMode === 'monthly' ? 'default' : 'outline'}
+            className="cursor-pointer"
+            onClick={() => setSubscriptionMode('monthly')}
+          >
+            Monthly
+          </Badge>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>Full access to the platform</HomePrice.Benefit>
-              <HomePrice.Benefit>Unlimited reviews</HomePrice.Benefit>
-              <HomePrice.Benefit>One personal list</HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+          <Badge
+            variant={subscriptionMode === 'yearly' ? 'default' : 'outline'}
+            className="cursor-pointer"
+            onClick={() => setSubscriptionMode('yearly')}
+          >
+            Yearly
+          </Badge>
+        </div>
 
-          <Button asChild>
-            <Link href={`/${language}/signup`}>Start now!</Link>
-          </Button>
-        </HomePrice.Root>
+        <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
+          <HomePrice.Root>
+            <HomePrice.Content>
+              <HomePrice.Header>
+                <HomePrice.Label>Free</HomePrice.Label>
+                <HomePrice.Value>R$0/month</HomePrice.Value>
+                <HomePrice.Description>
+                  Explore about movies and build your personal watch-list.
+                </HomePrice.Description>
+              </HomePrice.Header>
 
-        <HomePrice.Root className="relative">
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Member</HomePrice.Label>
+              <HomePrice.Benefits>
+                <HomePrice.Benefit>
+                  Full access to the platform
+                </HomePrice.Benefit>
+                <HomePrice.Benefit>Unlimited reviews</HomePrice.Benefit>
+                <HomePrice.Benefit>One personal list</HomePrice.Benefit>
+              </HomePrice.Benefits>
+            </HomePrice.Content>
 
-              <HomePrice.Value>$5/month</HomePrice.Value>
+            <Button asChild>
+              <Link href={`/${language}/signup`}>Start now!</Link>
+            </Button>
+          </HomePrice.Root>
 
-              <HomePrice.Description>
-                Everything in Free plain, plus higher limits, custom settings
-                and no third-party ads.
-              </HomePrice.Description>
-            </HomePrice.Header>
+          <form
+            action={`/api/checkout_sessions?locale=${language.split('-')[0]}`}
+            method="POST"
+          >
+            <HomePrice.Root>
+              <HomePrice.Content>
+                <HomePrice.Header>
+                  <HomePrice.Label>Member</HomePrice.Label>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>Removal of third-party ads</HomePrice.Benefit>
-              <HomePrice.Benefit>Personal recommendations</HomePrice.Benefit>
-              <HomePrice.Benefit>
-                Clone your own or other members’ lists
-              </HomePrice.Benefit>
-              <HomePrice.Benefit>Change your username</HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+                  <HomePrice.Value className="flex items-center gap-2">
+                    $3/month <Badge variant="outline">Recommended</Badge>
+                  </HomePrice.Value>
 
-          <Badge className="absolute top-0 -translate-y-2">Recommended</Badge>
-          <Button disabled>Subscribe</Button>
-        </HomePrice.Root>
+                  <HomePrice.Description>
+                    Everything in Free plain, plus higher limits, custom
+                    settings and no third-party ads.
+                  </HomePrice.Description>
+                </HomePrice.Header>
 
-        <HomePrice.Root>
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Patreon</HomePrice.Label>
-              <HomePrice.Value>$10/month</HomePrice.Value>
+                <HomePrice.Benefits>
+                  <HomePrice.Benefit>Unlimited lists</HomePrice.Benefit>
+                  <HomePrice.Benefit>
+                    Personal recommendations based in personal taste
+                  </HomePrice.Benefit>
+                  <HomePrice.Benefit>
+                    Clone your own or other members’ lists
+                  </HomePrice.Benefit>
+                  <HomePrice.Benefit>Change your username</HomePrice.Benefit>
+                </HomePrice.Benefits>
+              </HomePrice.Content>
 
-              <HomePrice.Description>
-                Everything in Member plus no more limits and early-access to
-                features.
-              </HomePrice.Description>
-            </HomePrice.Header>
+              <Button>Subscribe</Button>
+            </HomePrice.Root>
+          </form>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
+          <HomePrice.Root>
+            <HomePrice.Content>
+              <HomePrice.Header>
+                <HomePrice.Label>Patreon</HomePrice.Label>
+                <HomePrice.Value>$10/month</HomePrice.Value>
 
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
+                <Skeleton className="h-[2ex] w-full" />
+              </HomePrice.Header>
 
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+              <HomePrice.Benefits>
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
 
-          <Button disabled>Coming soon</Button>
-        </HomePrice.Root>
-      </ol>
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+              </HomePrice.Benefits>
+            </HomePrice.Content>
+
+            <Button disabled>Coming soon</Button>
+          </HomePrice.Root>
+        </ol>
+      </div>
     </section>
   )
 }
