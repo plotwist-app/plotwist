@@ -129,9 +129,14 @@ export const HomePrices = () => {
                 </HomePrice.Value>
 
                 <Skeleton className="h-[2ex] w-full" />
+                <Skeleton className="h-[2ex] w-full" />
               </HomePrice.Header>
 
               <HomePrice.Benefits>
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+
                 <HomePrice.Benefit>
                   <Skeleton className="h-[2ex] w-[20ch]" />
                 </HomePrice.Benefit>
