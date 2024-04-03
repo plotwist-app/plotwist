@@ -169,7 +169,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <HomeFeatures language={lang} dictionary={dictionary} />
-        <HomePrices language={lang} />
+        <HomePrices />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>

@@ -5,14 +5,12 @@ import { HomePrice } from './home-price'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
-import { Language } from '@/types/languages'
 import { useState } from 'react'
+import { useLanguage } from '@/context/language'
 
-type HomePricesProps = {
-  language: Language
-}
+export const HomePrices = () => {
+  const { language, dictionary } = useLanguage()
 
-export const HomePrices = ({ language }: HomePricesProps) => {
   const [subscriptionMode, setSubscriptionMode] = useState<
     'monthly' | 'yearly'
   >('monthly')
@@ -24,24 +22,22 @@ export const HomePrices = ({ language }: HomePricesProps) => {
     >
       <div className="mx-auto flex w-full flex-col items-center space-y-2 lg:w-2/3">
         <h2 className="text-center text-2xl font-bold">
-          Start your journey today
+          {dictionary.home_prices.title}
         </h2>
 
         <p className="lg:text-md text-center text-sm text-muted-foreground">
-          Embrace the world of movies and TV shows like never before. Start your
-          Plotwist journey today and become a part of a growing community of
-          cinema enthusiasts!
+          {dictionary.home_prices.description}
         </p>
       </div>
 
       <div className="flex flex-col items-center gap-4">
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <Badge
             variant={subscriptionMode === 'monthly' ? 'default' : 'outline'}
             className="cursor-pointer"
             onClick={() => setSubscriptionMode('monthly')}
           >
-            Monthly
+            {dictionary.home_prices.monthly}
           </Badge>
 
           <Badge
@@ -49,7 +45,7 @@ export const HomePrices = ({ language }: HomePricesProps) => {
             className="cursor-pointer"
             onClick={() => setSubscriptionMode('yearly')}
           >
-            Yearly
+            {dictionary.home_prices.yearly}
           </Badge>
         </div>
 
@@ -57,24 +53,30 @@ export const HomePrices = ({ language }: HomePricesProps) => {
           <HomePrice.Root>
             <HomePrice.Content>
               <HomePrice.Header>
-                <HomePrice.Label>Free</HomePrice.Label>
-                <HomePrice.Value>R$0/month</HomePrice.Value>
+                <HomePrice.Label>
+                  {dictionary.home_prices.free_plan.title}
+                </HomePrice.Label>
+
+                <HomePrice.Value>
+                  {dictionary.home_prices.free_plan.price}
+                </HomePrice.Value>
+
                 <HomePrice.Description>
-                  Explore about movies and build your personal watch-list.
+                  {dictionary.home_prices.free_plan.description}
                 </HomePrice.Description>
               </HomePrice.Header>
 
               <HomePrice.Benefits>
-                <HomePrice.Benefit>
-                  Full access to the platform
-                </HomePrice.Benefit>
-                <HomePrice.Benefit>Unlimited reviews</HomePrice.Benefit>
-                <HomePrice.Benefit>One personal list</HomePrice.Benefit>
+                {dictionary.home_prices.free_plan.benefits.map((benefit) => (
+                  <HomePrice.Benefit key={benefit}>{benefit}</HomePrice.Benefit>
+                ))}
               </HomePrice.Benefits>
             </HomePrice.Content>
 
             <Button asChild>
-              <Link href={`/${language}/signup`}>Start now!</Link>
+              <Link href={`/${language}/signup`}>
+                {dictionary.home_prices.free_plan.start_now}
+              </Link>
             </Button>
           </HomePrice.Root>
 
@@ -85,39 +87,46 @@ export const HomePrices = ({ language }: HomePricesProps) => {
             <HomePrice.Root>
               <HomePrice.Content>
                 <HomePrice.Header>
-                  <HomePrice.Label>Member</HomePrice.Label>
+                  <HomePrice.Label>
+                    {dictionary.home_prices.member_plan.title}
+                  </HomePrice.Label>
 
                   <HomePrice.Value className="flex items-center gap-2">
-                    $3/month <Badge variant="outline">Recommended</Badge>
+                    {dictionary.home_prices.member_plan.price}
+                    <Badge variant="outline">
+                      {dictionary.home_prices.member_plan.recommended}
+                    </Badge>
                   </HomePrice.Value>
 
                   <HomePrice.Description>
-                    Everything in Free plain, plus higher limits, custom
-                    settings and no third-party ads.
+                    {dictionary.home_prices.member_plan.description}
                   </HomePrice.Description>
                 </HomePrice.Header>
 
                 <HomePrice.Benefits>
-                  <HomePrice.Benefit>Unlimited lists</HomePrice.Benefit>
-                  <HomePrice.Benefit>
-                    Personal recommendations based in personal taste
-                  </HomePrice.Benefit>
-                  <HomePrice.Benefit>
-                    Clone your own or other members’ lists
-                  </HomePrice.Benefit>
-                  <HomePrice.Benefit>Change your username</HomePrice.Benefit>
+                  {dictionary.home_prices.member_plan.benefits.map(
+                    (benefit) => (
+                      <HomePrice.Benefit key={benefit}>
+                        {benefit}
+                      </HomePrice.Benefit>
+                    ),
+                  )}
                 </HomePrice.Benefits>
               </HomePrice.Content>
 
-              <Button>Subscribe</Button>
+              <Button>{dictionary.home_prices.member_plan.subscribe}</Button>
             </HomePrice.Root>
           </form>
 
           <HomePrice.Root>
             <HomePrice.Content>
               <HomePrice.Header>
-                <HomePrice.Label>Patreon</HomePrice.Label>
-                <HomePrice.Value>$10/month</HomePrice.Value>
+                <HomePrice.Label>
+                  {dictionary.home_prices.patreon_plan.title}
+                </HomePrice.Label>
+                <HomePrice.Value>
+                  {dictionary.home_prices.patreon_plan.price}
+                </HomePrice.Value>
 
                 <Skeleton className="h-[2ex] w-full" />
               </HomePrice.Header>
@@ -137,7 +146,9 @@ export const HomePrices = ({ language }: HomePricesProps) => {
               </HomePrice.Benefits>
             </HomePrice.Content>
 
-            <Button disabled>Coming soon</Button>
+            <Button disabled>
+              {dictionary.home_prices.patreon_plan.coming_soon}
+            </Button>
           </HomePrice.Root>
         </ol>
       </div>
