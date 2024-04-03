@@ -42,8 +42,8 @@ export const HomePrices = () => {
 
           <Badge
             variant={subscriptionMode === 'yearly' ? 'default' : 'outline'}
-            className="cursor-pointer"
-            onClick={() => setSubscriptionMode('yearly')}
+            className="cursor-not-allowed opacity-50"
+            // onClick={() => setSubscriptionMode('yearly')}
           >
             {dictionary.home_prices.yearly}
           </Badge>
