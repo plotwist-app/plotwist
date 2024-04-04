@@ -7,13 +7,25 @@ import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useLanguage } from '@/context/language'
+import { useAuth } from '@/context/auth'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 export const HomePrices = () => {
   const { language, dictionary } = useLanguage()
+  const { user } = useAuth()
 
   const [subscriptionMode, setSubscriptionMode] = useState<
     'monthly' | 'yearly'
   >('monthly')
+
+  const username: string = user?.user_metadata.username
+  const initial = username ? username[0].toUpperCase() : ''
 
   return (
     <section
@@ -114,7 +126,29 @@ export const HomePrices = () => {
                 </HomePrice.Benefits>
               </HomePrice.Content>
 
-              <Button>{dictionary.home_prices.member_plan.subscribe}</Button>
+              {user ? (
+                <Button type="submit">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                          <AvatarFallback className="bg-foreground">
+                            {initial}
+                          </AvatarFallback>
+                        </Avatar>
+                      </TooltipTrigger>
+
+                      <TooltipContent>{username}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  {dictionary.home_prices.member_plan.subscribe}
+                </Button>
+              ) : (
+                <Button asChild type="button">
+                  <Link href={`/${language}/login`}>Login</Link>
+                </Button>
+              )}
             </HomePrice.Root>
           </form>
 

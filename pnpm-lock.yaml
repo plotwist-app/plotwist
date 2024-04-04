@@ -140,6 +140,9 @@ importers:
       lucide-react:
         specifier: ^0.293.0
         version: 0.293.0(react@18.2.0)
+      micro-cors:
+        specifier: ^0.1.1
+        version: 0.1.1
       negotiator:
         specifier: ^0.6.3
         version: 0.6.3
@@ -225,6 +228,9 @@ importers:
       '@testing-library/react':
         specifier: ^14.1.2
         version: 14.2.2(react-dom@18.2.0)(react@18.2.0)
+      '@types/micro-cors':
+        specifier: ^0.1.5
+        version: 0.1.5
       '@types/negotiator':
         specifier: ^0.6.3
         version: 0.6.3
@@ -4405,6 +4411,18 @@ packages:
     resolution: {integrity: sha512-H9VZ9YqE+H28FQVchC83RCs5xQ2J7mAAv6qdDEaWmXEVl3OpdH+xfrSUzQ1lp7U7oSTRZ0RvW08ASPJsYBi7Cw==}
     dev: false
 
+  /@types/micro-cors@0.1.5:
+    resolution: {integrity: sha512-BTHpXEz+yC/7/Jv2BfDFbGtgnwdKUDVX2PY+Cd2k4Jx9+uUfVooAxhlGEy6p0Uvm0+yM5FgSyc1n2tdVHyCDbw==}
+    dependencies:
+      '@types/micro': 7.3.7
+    dev: true
+
+  /@types/micro@7.3.7:
+    resolution: {integrity: sha512-MFsX7eCj0Tg3TtphOQvANNvNtFpya+s/rYOCdV6o+DFjOQPFi2EVRbBALjbbgZTXUaJP1Q281MJiJOD40d0UxQ==}
+    dependencies:
+      '@types/node': 20.11.30
+    dev: true
+
   /@types/ms@0.7.34:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
     dev: false
@@ -8525,6 +8543,11 @@ packages:
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
+
+  /micro-cors@0.1.1:
+    resolution: {integrity: sha512-6WqIahA5sbQR1Gjexp1VuWGFDKbZZleJb/gy1khNGk18a6iN1FdTcr3Q8twaxkV5H94RjxIBjirYbWCehpMBFw==}
+    engines: {node: '>=6'}
+    dev: false
 
   /micromark-core-commonmark@2.0.0:
     resolution: {integrity: sha512-jThOz/pVmAYUtkroV3D5c1osFXAMv9e0ypGDOIZuCeAe91/sD6BoE2Sjzt30yuXtwOYUmySOhMas/PVyh02itA==}
