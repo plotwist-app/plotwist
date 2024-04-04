@@ -1,8 +1,8 @@
-import { User } from '@supabase/supabase-js'
+import { Profile } from '@/types/supabase'
 import { ReactNode } from 'react'
 
 export type AuthContext = {
-  user: User | null
+  user: Profile | null
   signInWithCredentials: (credentials: SignInCredentials) => Promise<void>
   signUpWithCredentials: ({
     username,
@@ -13,7 +13,7 @@ export type AuthContext = {
 
 export type AuthContextProviderProps = {
   children: ReactNode
-  initialUser: User | null
+  initialUser: Profile | null
 }
 
 export type SignInCredentials = {

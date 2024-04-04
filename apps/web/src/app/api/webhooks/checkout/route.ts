@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server'
 
 import { env } from '@/env.mjs'
 import { stripe } from '@/services/stripe'
+import { supabase } from '@/services/supabase'
+import { Profile } from '@/types/supabase'
 
 Cors({
   allowMethods: ['POST', 'HEAD'],
@@ -23,7 +25,25 @@ export async function POST(req: Request) {
     )
 
     if (event.type === 'checkout.session.completed') {
-      return NextResponse.json({ result: event, ok: true })
+      const email = event.data.object.customer_email
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select()
+        .eq('email', email)
+        .single<Profile>()
+
+      if (profile) {
+        await supabase.from('subscriptions').insert({
+          type: 'MEMBER',
+          user_id: profile.id,
+        })
+
+        return NextResponse.json({ result: event, ok: true })
+      }
     }
-  } catch {}
+
+    return NextResponse.json({ result: null, ok: true })
+  } catch (error) {
+    return NextResponse.json({ error, ok: false })
+  }
 }

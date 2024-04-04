@@ -13,6 +13,7 @@ import { User } from '@supabase/supabase-js'
 
 import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Profile } from '@/types/supabase'
 
 export const authContext = createContext({} as AuthContext)
 
@@ -20,7 +21,7 @@ export const AuthContextProvider = ({
   children,
   initialUser,
 }: AuthContextProviderProps) => {
-  const [user, setUser] = useState<User | null>(initialUser)
+  const [user, setUser] = useState<Profile | null>(initialUser)
   const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
   const { push } = useRouter()

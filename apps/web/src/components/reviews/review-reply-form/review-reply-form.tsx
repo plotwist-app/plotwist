@@ -88,7 +88,7 @@ export const ReviewReplyForm = ({
     )
   }
 
-  const username = user.user_metadata.username
+  const username = user.username
   const usernameInitial = username[0].toUpperCase()
 
   return (

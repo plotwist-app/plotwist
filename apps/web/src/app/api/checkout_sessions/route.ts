@@ -4,6 +4,8 @@ import { Stripe } from 'stripe'
 
 export async function POST(req: NextRequest) {
   const url = new URL(req.url)
+
+  const email = url.searchParams.get('email')
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
@@ -27,7 +29,7 @@ export async function POST(req: NextRequest) {
     return price.currency === 'usd'
   })
 
-  if (stripe && prices) {
+  if (stripe && prices && email) {
     try {
       const session = await stripe.checkout.sessions.create({
         line_items: [
@@ -40,6 +42,7 @@ export async function POST(req: NextRequest) {
         success_url: 'http://localhost:3000/thank-you',
         cancel_url: 'http://localhost:3000/fk-you',
         locale,
+        customer_email: email,
       })
 
       if (session.url) {

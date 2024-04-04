@@ -24,7 +24,7 @@ export const HomePrices = () => {
     'monthly' | 'yearly'
   >('monthly')
 
-  const username: string = user?.user_metadata.username
+  const username = user?.username
   const initial = username ? username[0].toUpperCase() : ''
 
   return (
@@ -92,10 +92,61 @@ export const HomePrices = () => {
             </Button>
           </HomePrice.Root>
 
-          <form
-            action={`/api/checkout_sessions?locale=${language.split('-')[0]}`}
-            method="POST"
-          >
+          {user ? (
+            <form
+              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}`}
+              method="POST"
+            >
+              <HomePrice.Root>
+                <HomePrice.Content>
+                  <HomePrice.Header>
+                    <HomePrice.Label>
+                      {dictionary.home_prices.member_plan.title}
+                    </HomePrice.Label>
+
+                    <HomePrice.Value className="flex items-center gap-2">
+                      {dictionary.home_prices.member_plan.price}
+                      <Badge variant="outline">
+                        {dictionary.home_prices.member_plan.recommended}
+                      </Badge>
+                    </HomePrice.Value>
+
+                    <HomePrice.Description>
+                      {dictionary.home_prices.member_plan.description}
+                    </HomePrice.Description>
+                  </HomePrice.Header>
+
+                  <HomePrice.Benefits>
+                    {dictionary.home_prices.member_plan.benefits.map(
+                      (benefit) => (
+                        <HomePrice.Benefit key={benefit}>
+                          {benefit}
+                        </HomePrice.Benefit>
+                      ),
+                    )}
+                  </HomePrice.Benefits>
+                </HomePrice.Content>
+
+                <Button type="submit">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                          <AvatarFallback className="bg-foreground">
+                            {initial}
+                          </AvatarFallback>
+                        </Avatar>
+                      </TooltipTrigger>
+
+                      <TooltipContent>{username}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  {dictionary.home_prices.member_plan.subscribe}
+                </Button>
+              </HomePrice.Root>
+            </form>
+          ) : (
             <HomePrice.Root>
               <HomePrice.Content>
                 <HomePrice.Header>
@@ -126,31 +177,11 @@ export const HomePrices = () => {
                 </HomePrice.Benefits>
               </HomePrice.Content>
 
-              {user ? (
-                <Button type="submit">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                          <AvatarFallback className="bg-foreground">
-                            {initial}
-                          </AvatarFallback>
-                        </Avatar>
-                      </TooltipTrigger>
-
-                      <TooltipContent>{username}</TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  {dictionary.home_prices.member_plan.subscribe}
-                </Button>
-              ) : (
-                <Button asChild type="button">
-                  <Link href={`/${language}/login`}>Login</Link>
-                </Button>
-              )}
+              <Button asChild type="button">
+                <Link href={`/${language}/login`}>Login</Link>
+              </Button>
             </HomePrice.Root>
-          </form>
+          )}
 
           <HomePrice.Root>
             <HomePrice.Content>
