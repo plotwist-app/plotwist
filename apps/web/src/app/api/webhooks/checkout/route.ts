@@ -15,7 +15,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.text()
     const signature = headers().get('stripe-signature')
-
     if (!signature) return
 
     const event = stripe.webhooks.constructEvent(
@@ -37,6 +36,11 @@ export async function POST(req: Request) {
           type: 'MEMBER',
           user_id: profile.id,
         })
+
+        await supabase
+          .from('profiles')
+          .update({ subscription_type: 'MEMBER' })
+          .eq('id', profile.id)
 
         return NextResponse.json({ result: event, ok: true })
       }
