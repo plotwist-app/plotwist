@@ -8,6 +8,7 @@ import {
   SignUpCredentials,
 } from './auth.types'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
