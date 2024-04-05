@@ -8,13 +8,20 @@ import { ListForm } from './list-form'
 import { useAuth } from '@/context/auth'
 
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
-
-const LISTS_LIMIT = process.env.NODE_ENV === 'development' ? 100 : 1
+import { useMemo } from 'react'
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
   const { dictionary } = useLanguage()
   const { user } = useAuth()
+
+  const listsAmountLimit = useMemo(() => {
+    if (process.env.NODE_ENV === 'development' || user) {
+      return Infinity
+    }
+
+    return 1
+  }, [user])
 
   if (!user) {
     return (
@@ -43,7 +50,7 @@ export const Lists = () => {
         <ListCard key={list.id} list={list} />
       ))}
 
-      {lists.length < LISTS_LIMIT && (
+      {lists.length < listsAmountLimit && (
         <ListForm
           trigger={
             <button className="aspect-video rounded-md border border-dashed">

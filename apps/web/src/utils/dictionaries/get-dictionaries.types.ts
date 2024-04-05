@@ -47,6 +47,33 @@ export type Dictionary = {
       }
     }
   }
+  home_prices: {
+    title: string
+    description: string
+    monthly: string
+    yearly: string
+    free_plan: {
+      title: string
+      price: string
+      description: string
+      benefits: string[]
+      start_now: string
+    }
+    member_plan: {
+      title: string
+      price: string
+      recommended: string
+      description: string
+      benefits: string[]
+      subscribe: string
+    }
+    patreon_plan: {
+      title: string
+      price: string
+      description: string
+      coming_soon: string
+    }
+  }
   movies_list: Record<
     'now_playing' | 'popular' | 'top_rated' | 'upcoming' | 'show_all',
     string
