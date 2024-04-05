@@ -39,8 +39,8 @@ export async function POST(req: NextRequest) {
           },
         ],
         mode: 'subscription',
-        success_url: 'http://localhost:3000/thank-you',
-        cancel_url: 'http://localhost:3000/fk-you',
+        success_url: `${url.origin}/thank-you`,
+        cancel_url: `${url.origin}/fk-you`,
         locale,
         customer_email: email,
       })
