@@ -9,8 +9,12 @@ export async function POST(req: NextRequest) {
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
+  // TODO: REFATORAR ISSO
   const prices = await stripe.prices.list({
-    product: 'prod_Pqs2HScixDThzJ',
+    product:
+      process.env.NODE_ENV === 'development'
+        ? 'prod_Pqs2HScixDThzJ'
+        : 'prod_PrlSkiekCRFLto',
   })
 
   const priceByLocale = prices.data.find((price) => {
@@ -40,7 +44,7 @@ export async function POST(req: NextRequest) {
         ],
         mode: 'subscription',
         success_url: `${url.origin}/thank-you`,
-        cancel_url: `${url.origin}/fk-you`,
+        cancel_url: `${url.origin}/`,
         locale,
         customer_email: email,
       })
