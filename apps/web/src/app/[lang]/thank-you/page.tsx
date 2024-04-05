@@ -28,15 +28,16 @@ export default async function Home({ params: { lang } }: PageProps) {
             <Check size={48} />
           </div>
 
-          <div className="space-y-2 text-center">
-            <h1 className="text-2xl font-bold lg:text-4xl">{title}</h1>
+          <div className="text-center">
+            <h1 className="mb-3 text-2xl font-bold lg:text-4xl">{title}</h1>
+
             <span className="lg:text-md text-sm text-muted-foreground">
               {subtitle}
             </span>
           </div>
         </div>
 
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-6">
           <h2 className="text-center text-sm text-muted-foreground">
             {description}
           </h2>
