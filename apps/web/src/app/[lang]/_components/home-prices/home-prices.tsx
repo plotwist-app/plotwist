@@ -127,7 +127,7 @@ export const HomePrices = () => {
                   </HomePrice.Benefits>
                 </HomePrice.Content>
 
-                <Button type="submit" disabled>
+                <Button type="submit">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
