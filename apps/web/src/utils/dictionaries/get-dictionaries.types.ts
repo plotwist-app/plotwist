@@ -582,4 +582,25 @@ export type Dictionary = {
       show_less: string
     }
   }
+  thank_you: {
+    title: string
+    subtitle: string
+    description: string
+    feature1: {
+      title: string
+      description: string
+    }
+    feature2: {
+      title: string
+      description: string
+    }
+    feature3: {
+      title: string
+      description: string
+    }
+    feature4: {
+      title: string
+      description: string
+    }
+  }
 }

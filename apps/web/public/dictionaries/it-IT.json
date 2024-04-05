@@ -589,5 +589,26 @@
       "show_all": "Mostra tutto",
       "show_less": "Mostra meno"
     }
+  },
+  "thank_you": {
+    "title": "Grazie per il tuo sostegno!",
+    "subtitle": "Ora fai parte del piano membri!",
+    "description": "Con grandi poteri arrivano grandi responsabilità:",
+    "feature1": {
+      "title": "Liste Senza Fine",
+      "description": "Dì addio alle limitazioni! Crea e mantieni quante più liste desideri, per organizzare le tue maratone di serie, pianificare serate cinematografiche e molto altro."
+    },
+    "feature2": {
+      "title": "Raccomandazioni Personalizzate",
+      "description": "Scopri nuovi titoli che si adattano perfettamente al tuo gusto unico, grazie al nostro sistema intelligente di raccomandazioni personalizzate."
+    },
+    "feature3": {
+      "title": "Clona e Conquista",
+      "description": "Lasciati ispirare dalle liste di altri membri o crea versioni personalizzate delle tue liste con la facilità di un clic."
+    },
+    "feature4": {
+      "title": "Il Tuo Nome, La Tua Identità",
+      "description": "Senti il bisogno di un cambiamento? Aggiorna il tuo nome utente quando vuoi, mantenendo la tua identità digitale allineata con il tuo io cinefilo."
+    }
   }
 }
