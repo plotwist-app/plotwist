@@ -2,7 +2,6 @@ import Cors from 'micro-cors'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-import { env } from '@/env.mjs'
 import { stripe } from '@/services/stripe'
 import { supabase } from '@/services/supabase'
 import { Profile } from '@/types/supabase'
@@ -20,7 +19,7 @@ export async function POST(req: Request) {
     const event = stripe.webhooks.constructEvent(
       body,
       signature,
-      env.STRIPE_WEBHOOK_SECRET,
+      process.env.STRIPE_WEBHOOK_SECRET!,
     )
 
     if (event.type === 'checkout.session.completed') {

@@ -3,10 +3,7 @@ import { z } from 'zod'
 
 export const env = createEnv({
   shared: {},
-  server: {
-    STRIPE_SECRET_KEY: z.string(),
-    STRIPE_WEBHOOK_SECRET: z.string(),
-  },
+  server: {},
   client: {
     // Client-side variables (accessible from the browser)
     NEXT_PUBLIC_TMDB_API_KEY: z.string(),
@@ -23,7 +20,5 @@ export const env = createEnv({
     NEXT_PUBLIC_MEASUREMENT_ID: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   },
 })
