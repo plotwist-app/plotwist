@@ -23,9 +23,8 @@ export const Header = () => {
         </div>
       </header>
 
-      <header className="flex w-full justify-between lg:hidden">
+      <header className="flex w-full items-center justify-between lg:hidden">
         <Logo />
-
         <HeaderNavigationDrawer />
       </header>
     </>

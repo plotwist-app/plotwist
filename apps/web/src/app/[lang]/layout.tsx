@@ -25,10 +25,7 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   const dictionary = await getDictionary(params.lang)
-
-  const {
-    data: { user },
-  } = await getUserService()
+  const user = await getUserService()
 
   return (
     <AppWrapper>

@@ -15,6 +15,8 @@ import {
 
 import { cn } from '@/lib/utils'
 import { buildLanguageNavigation } from './header-navigation-data'
+import { HeaderPopularMovie } from './header-popular-movie'
+import { HeaderPopularTvSerie } from './header-popular-tv-serie'
 
 export const HeaderNavigationMenu = () => {
   const { dictionary, language } = useLanguage()
@@ -44,8 +46,16 @@ export const HeaderNavigationMenu = () => {
                   {label}
                 </NavigationMenuTrigger>
 
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[600px] lg:grid-cols-2">
+                <NavigationMenuContent className="flex gap-4 p-4 md:w-[500px] lg:w-[700px]">
+                  {href === '/movies' && (
+                    <HeaderPopularMovie language={language} />
+                  )}
+
+                  {href === '/tv-series' && (
+                    <HeaderPopularTvSerie language={language} />
+                  )}
+
+                  <ul className="grid w-2/3 gap-3 lg:grid-cols-2">
                     {items?.map(({ href, icon: Icon, label, description }) => (
                       <li key={label}>
                         <NavigationMenuLink asChild>

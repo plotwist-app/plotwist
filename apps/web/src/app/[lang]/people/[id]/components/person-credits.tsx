@@ -72,9 +72,9 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
             .map((item: Credit) => (
               <>
                 <PersonCreditsMovieCard
-                  href={`/${language}/${item.media_type === 'tv' ? 'tv-series' : 'movies'
-                    }/${item.id}`
-                  }
+                  href={`/${language}/${
+                    item.media_type === 'tv' ? 'tv-series' : 'movies'
+                  }/${item.id}`}
                   credit={item}
                   key={item.id}
                 />

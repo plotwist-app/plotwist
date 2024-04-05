@@ -47,6 +47,42 @@
       }
     }
   },
+  "home_prices": {
+    "title": "今日からあなたの旅を始めましょう",
+    "description": "これまでにない映画やテレビ番組の世界を発見しましょう。今日からPlotwistの旅を始めて、成長する映画ファンのコミュニティの一員になりましょう！",
+    "monthly": "月額",
+    "yearly": "年間",
+    "free_plan": {
+      "title": "無料",
+      "price": "0円/月",
+      "description": "映画を探索して個人的なウォッチリストを作成しましょう。",
+      "benefits": [
+        "プラットフォームへの完全アクセス",
+        "無制限の評価",
+        "個人のリスト"
+      ],
+      "start_now": "今すぐ始める"
+    },
+    "member_plan": {
+      "title": "メンバー",
+      "price": "100円/月",
+      "recommended": "おすすめ",
+      "description": "無料プランの全てに、より高い限度とカスタム設定をプラス。",
+      "benefits": [
+        "無制限のリスト",
+        "個人の好みに基づく個人的な推薦",
+        "自分のリストや他のメンバーのリストを複製",
+        "ユーザー名の変更"
+      ],
+      "subscribe": "登録する"
+    },
+    "patreon_plan": {
+      "title": "Patreon",
+      "price": "1000円/月",
+      "description": "近日公開",
+      "coming_soon": "近日公開"
+    }
+  },
   "movies_list": {
     "now_playing": "上映中の映画",
     "popular": "人気の映画",

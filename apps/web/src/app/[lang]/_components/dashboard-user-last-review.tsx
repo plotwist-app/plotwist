@@ -72,7 +72,7 @@ export const DashboardUserLastReview = () => {
 
       <DashboardReview
         review={lastReview}
-        username={user?.user_metadata.username}
+        username={user.username}
         language={language}
         likes={likesCount ?? 0}
       />

@@ -108,7 +108,7 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     ],
   },
   {
-    label: 'Animes',
+    label: dictionary.animes_page.title,
     href: '/animes',
     icon: JapaneseYen,
   },

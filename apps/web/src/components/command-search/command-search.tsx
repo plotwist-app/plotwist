@@ -31,6 +31,7 @@ import {
   TvSerieWithMediaType,
   tmdb,
 } from '@plotwist/tmdb'
+import { Separator } from '../ui/separator'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -107,7 +108,7 @@ export const CommandSearch = () => {
             value={search}
           />
 
-          <CommandList className="p-4">
+          <CommandList className="">
             {isLoading && (
               <div className="space-y-8">
                 <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
@@ -132,7 +133,7 @@ export const CommandSearch = () => {
               </CommandEmpty>
             )}
 
-            <div className="space-y-8">
+            <div className="">
               {hasMovies && (
                 <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
                   {movies?.map((movie) => (
@@ -144,6 +145,8 @@ export const CommandSearch = () => {
                   ))}
                 </CommandSearchGroup>
               )}
+
+              {hasMovies && hasTvSeries && <Separator />}
 
               {hasTvSeries && (
                 <CommandSearchGroup
@@ -158,6 +161,8 @@ export const CommandSearch = () => {
                   ))}
                 </CommandSearchGroup>
               )}
+
+              {hasTvSeries && hasPeople && <Separator />}
 
               {hasPeople && (
                 <CommandSearchGroup heading={dictionary.sidebar_search.people}>

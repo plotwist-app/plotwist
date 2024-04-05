@@ -47,6 +47,42 @@
       }
     }
   },
+  "home_prices": {
+    "title": "Commencez votre voyage aujourd'hui",
+    "description": "Découvrez le monde des films et des séries comme jamais auparavant. Commencez votre voyage Plotwist aujourd'hui et rejoignez une communauté grandissante d'amateurs de cinéma!",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "free_plan": {
+      "title": "Gratuit",
+      "price": "0 €/mois",
+      "description": "Explorez des films et créez votre liste de surveillance personnelle.",
+      "benefits": [
+        "Accès complet à la plateforme",
+        "Évaluations illimitées",
+        "Une liste personnelle"
+      ],
+      "start_now": "Commencez maintenant!"
+    },
+    "member_plan": {
+      "title": "Membre",
+      "price": "3 €/mois",
+      "recommended": "Recommandé",
+      "description": "Tout dans le plan gratuit plus des limites plus élevées et des paramètres personnalisés.",
+      "benefits": [
+        "Listes illimitées",
+        "Recommandations personnelles basées sur les goûts personnels",
+        "Cloner vos propres listes ou celles d'autres membres",
+        "Changer de nom d'utilisateur"
+      ],
+      "subscribe": "S'abonner"
+    },
+    "patreon_plan": {
+      "title": "Patreon",
+      "price": "10 €/mois",
+      "description": "Bientôt disponible",
+      "coming_soon": "Prochainement"
+    }
+  },
   "movies_list": {
     "now_playing": "Films à l'affiche",
     "popular": "Films populaires",

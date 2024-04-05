@@ -1,15 +1,32 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
 import { HomePrice } from './home-price'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
-import { Language } from '@/types/languages'
+import { useState } from 'react'
+import { useLanguage } from '@/context/language'
+import { useAuth } from '@/context/auth'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
-type HomePricesProps = {
-  language: Language
-}
+export const HomePrices = () => {
+  const { language, dictionary } = useLanguage()
+  const { user } = useAuth()
 
-export const HomePrices = ({ language }: HomePricesProps) => {
+  const [subscriptionMode, setSubscriptionMode] = useState<
+    'monthly' | 'yearly'
+  >('monthly')
+
+  const username = user?.username
+  const initial = username ? username[0].toUpperCase() : ''
+
   return (
     <section
       className="mx-auto max-w-6xl space-y-8 px-4 py-16 lg:px-0"
@@ -17,95 +34,194 @@ export const HomePrices = ({ language }: HomePricesProps) => {
     >
       <div className="mx-auto flex w-full flex-col items-center space-y-2 lg:w-2/3">
         <h2 className="text-center text-2xl font-bold">
-          Start your journey today
+          {dictionary.home_prices.title}
         </h2>
 
         <p className="lg:text-md text-center text-sm text-muted-foreground">
-          Start creating realtime design experiences for free. Upgrade for extra
-          features and collaboration with your team.
+          {dictionary.home_prices.description}
         </p>
       </div>
 
-      <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
-        <HomePrice.Root>
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Free</HomePrice.Label>
-              <HomePrice.Value>$0/month</HomePrice.Value>
-              <HomePrice.Description>
-                Explore about movies and build your personal watch-list.
-              </HomePrice.Description>
-            </HomePrice.Header>
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex gap-1">
+          <Badge
+            variant={subscriptionMode === 'monthly' ? 'default' : 'outline'}
+            className="cursor-pointer"
+            onClick={() => setSubscriptionMode('monthly')}
+          >
+            {dictionary.home_prices.monthly}
+          </Badge>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>Full access to the platform</HomePrice.Benefit>
-              <HomePrice.Benefit>Unlimited reviews</HomePrice.Benefit>
-              <HomePrice.Benefit>One personal list</HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+          <Badge
+            variant={subscriptionMode === 'yearly' ? 'default' : 'outline'}
+            className="cursor-not-allowed opacity-50"
+            // onClick={() => setSubscriptionMode('yearly')}
+          >
+            {dictionary.home_prices.yearly}
+          </Badge>
+        </div>
 
-          <Button asChild>
-            <Link href={`/${language}/signup`}>Start now!</Link>
-          </Button>
-        </HomePrice.Root>
+        <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
+          <HomePrice.Root>
+            <HomePrice.Content>
+              <HomePrice.Header>
+                <HomePrice.Label>
+                  {dictionary.home_prices.free_plan.title}
+                </HomePrice.Label>
 
-        <HomePrice.Root className="relative">
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Member</HomePrice.Label>
+                <HomePrice.Value>
+                  {dictionary.home_prices.free_plan.price}
+                </HomePrice.Value>
 
-              <HomePrice.Value>$5/month</HomePrice.Value>
+                <HomePrice.Description>
+                  {dictionary.home_prices.free_plan.description}
+                </HomePrice.Description>
+              </HomePrice.Header>
 
-              <HomePrice.Description>
-                Everything in Free plain, plus higher limits, custom settings
-                and no third-party ads.
-              </HomePrice.Description>
-            </HomePrice.Header>
+              <HomePrice.Benefits>
+                {dictionary.home_prices.free_plan.benefits.map((benefit) => (
+                  <HomePrice.Benefit key={benefit}>{benefit}</HomePrice.Benefit>
+                ))}
+              </HomePrice.Benefits>
+            </HomePrice.Content>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>Removal of third-party ads</HomePrice.Benefit>
-              <HomePrice.Benefit>Personal recommendations</HomePrice.Benefit>
-              <HomePrice.Benefit>
-                Clone your own or other members’ lists
-              </HomePrice.Benefit>
-              <HomePrice.Benefit>Change your username</HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+            <Button asChild>
+              <Link href={`/${language}/signup`}>
+                {dictionary.home_prices.free_plan.start_now}
+              </Link>
+            </Button>
+          </HomePrice.Root>
 
-          <Badge className="absolute top-0 -translate-y-2">Recommended</Badge>
-          <Button disabled>Subscribe</Button>
-        </HomePrice.Root>
+          {user ? (
+            <form
+              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}`}
+              method="POST"
+            >
+              <HomePrice.Root>
+                <HomePrice.Content>
+                  <HomePrice.Header>
+                    <HomePrice.Label>
+                      {dictionary.home_prices.member_plan.title}
+                    </HomePrice.Label>
 
-        <HomePrice.Root>
-          <HomePrice.Content>
-            <HomePrice.Header>
-              <HomePrice.Label>Patreon</HomePrice.Label>
-              <HomePrice.Value>$10/month</HomePrice.Value>
+                    <HomePrice.Value className="flex items-center gap-2">
+                      {dictionary.home_prices.member_plan.price}
+                      <Badge variant="outline">
+                        {dictionary.home_prices.member_plan.recommended}
+                      </Badge>
+                    </HomePrice.Value>
 
-              <HomePrice.Description>
-                Everything in Member plus no more limits and early-access to
-                features.
-              </HomePrice.Description>
-            </HomePrice.Header>
+                    <HomePrice.Description>
+                      {dictionary.home_prices.member_plan.description}
+                    </HomePrice.Description>
+                  </HomePrice.Header>
 
-            <HomePrice.Benefits>
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
+                  <HomePrice.Benefits>
+                    {dictionary.home_prices.member_plan.benefits.map(
+                      (benefit) => (
+                        <HomePrice.Benefit key={benefit}>
+                          {benefit}
+                        </HomePrice.Benefit>
+                      ),
+                    )}
+                  </HomePrice.Benefits>
+                </HomePrice.Content>
 
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
+                <Button type="submit">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                          <AvatarFallback className="bg-foreground">
+                            {initial}
+                          </AvatarFallback>
+                        </Avatar>
+                      </TooltipTrigger>
 
-              <HomePrice.Benefit>
-                <Skeleton className="h-[2ex] w-[20ch]" />
-              </HomePrice.Benefit>
-            </HomePrice.Benefits>
-          </HomePrice.Content>
+                      <TooltipContent>{username}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
 
-          <Button disabled>Coming soon</Button>
-        </HomePrice.Root>
-      </ol>
+                  {dictionary.home_prices.member_plan.subscribe}
+                </Button>
+              </HomePrice.Root>
+            </form>
+          ) : (
+            <HomePrice.Root>
+              <HomePrice.Content>
+                <HomePrice.Header>
+                  <HomePrice.Label>
+                    {dictionary.home_prices.member_plan.title}
+                  </HomePrice.Label>
+
+                  <HomePrice.Value className="flex items-center gap-2">
+                    {dictionary.home_prices.member_plan.price}
+                    <Badge variant="outline">
+                      {dictionary.home_prices.member_plan.recommended}
+                    </Badge>
+                  </HomePrice.Value>
+
+                  <HomePrice.Description>
+                    {dictionary.home_prices.member_plan.description}
+                  </HomePrice.Description>
+                </HomePrice.Header>
+
+                <HomePrice.Benefits>
+                  {dictionary.home_prices.member_plan.benefits.map(
+                    (benefit) => (
+                      <HomePrice.Benefit key={benefit}>
+                        {benefit}
+                      </HomePrice.Benefit>
+                    ),
+                  )}
+                </HomePrice.Benefits>
+              </HomePrice.Content>
+
+              <Button asChild type="button">
+                <Link href={`/${language}/login`}>Login</Link>
+              </Button>
+            </HomePrice.Root>
+          )}
+
+          <HomePrice.Root>
+            <HomePrice.Content>
+              <HomePrice.Header>
+                <HomePrice.Label>
+                  {dictionary.home_prices.patreon_plan.title}
+                </HomePrice.Label>
+                <HomePrice.Value>
+                  {dictionary.home_prices.patreon_plan.price}
+                </HomePrice.Value>
+
+                <Skeleton className="h-[2ex] w-full" />
+                <Skeleton className="h-[2ex] w-full" />
+              </HomePrice.Header>
+
+              <HomePrice.Benefits>
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+
+                <HomePrice.Benefit>
+                  <Skeleton className="h-[2ex] w-[20ch]" />
+                </HomePrice.Benefit>
+              </HomePrice.Benefits>
+            </HomePrice.Content>
+
+            <Button disabled>
+              {dictionary.home_prices.patreon_plan.coming_soon}
+            </Button>
+          </HomePrice.Root>
+        </ol>
+      </div>
     </section>
   )
 }

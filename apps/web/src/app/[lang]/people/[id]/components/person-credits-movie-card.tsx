@@ -19,7 +19,7 @@ type PersonCreditsMovieCardProps = {
 
 export const PersonCreditsMovieCard = ({
   credit,
-  href
+  href,
 }: PersonCreditsMovieCardProps) => {
   const {
     backdrop_path: backdropPath,
@@ -27,7 +27,7 @@ export const PersonCreditsMovieCard = ({
     title,
     vote_average: voteAverage,
     vote_count: voteCount,
-    date
+    date,
   } = credit
 
   return (
@@ -57,7 +57,7 @@ export const PersonCreditsMovieCard = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge>{voteAverage.toFixed(1)}</Badge>
+                  <Badge variant="outline">{voteAverage.toFixed(1)}</Badge>
                 </TooltipTrigger>
 
                 <TooltipContent>

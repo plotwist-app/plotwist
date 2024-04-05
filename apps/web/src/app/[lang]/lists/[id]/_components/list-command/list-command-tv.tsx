@@ -28,6 +28,7 @@ import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 
 import { ListItem } from '@/types/supabase/lists'
+import { ItemHoverCard } from '@/components/item-hover-card/item-hover-card'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]
@@ -135,7 +136,7 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                 side="top"
                 align="start"
               >
-                <ListCommandItem.Banner>
+                <ItemHoverCard.Banner>
                   {tvSerie.backdrop_path && (
                     <Image
                       src={tmdbImage(tvSerie.backdrop_path)}
@@ -143,10 +144,10 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                       fill
                     />
                   )}
-                </ListCommandItem.Banner>
+                </ItemHoverCard.Banner>
 
-                <ListCommandItem.Information>
-                  <ListCommandItem.Poster>
+                <ItemHoverCard.Information>
+                  <ItemHoverCard.Poster>
                     {tvSerie.poster_path && (
                       <Image
                         src={tmdbImage(tvSerie.poster_path, 'w500')}
@@ -155,18 +156,16 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                         objectFit="cover"
                       />
                     )}
-                  </ListCommandItem.Poster>
+                  </ItemHoverCard.Poster>
 
-                  <ListCommandItem.Summary>
-                    <ListCommandItem.Title>
-                      {tvSerie.name}
-                    </ListCommandItem.Title>
+                  <ItemHoverCard.Summary>
+                    <ItemHoverCard.Title>{tvSerie.name}</ItemHoverCard.Title>
 
-                    <ListCommandItem.Overview>
+                    <ItemHoverCard.Overview>
                       {tvSerie.overview}
-                    </ListCommandItem.Overview>
-                  </ListCommandItem.Summary>
-                </ListCommandItem.Information>
+                    </ItemHoverCard.Overview>
+                  </ItemHoverCard.Summary>
+                </ItemHoverCard.Information>
               </HoverCardContent>
             </HoverCardPortal>
           </HoverCard>
