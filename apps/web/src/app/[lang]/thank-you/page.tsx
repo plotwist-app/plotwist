@@ -43,7 +43,7 @@ export default async function Home({ params: { lang } }: PageProps) {
           </h2>
 
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <li className="space-y-6 rounded-lg border bg-background p-4 shadow">
+            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
               <List />
 
               <div>
@@ -54,7 +54,7 @@ export default async function Home({ params: { lang } }: PageProps) {
               </div>
             </li>
 
-            <li className="space-y-6 rounded-lg border bg-background p-4 shadow">
+            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
               <Play />
 
               <div>
@@ -65,7 +65,7 @@ export default async function Home({ params: { lang } }: PageProps) {
               </div>
             </li>
 
-            <li className="space-y-6 rounded-lg border bg-background p-4 shadow">
+            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
               <Copy />
 
               <div>
@@ -76,7 +76,7 @@ export default async function Home({ params: { lang } }: PageProps) {
               </div>
             </li>
 
-            <li className="space-y-6 rounded-lg border bg-background p-4 shadow">
+            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
               <User />
 
               <div>
