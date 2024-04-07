@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import Link from 'next/link'
-import { Pencil, RotateCw } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
 import { Skeleton } from '@/components/ui/skeleton'
@@ -12,16 +12,16 @@ import { Banner } from '@/components/banner'
 import { ListItems } from './_components/list-items'
 import { DataTableSkeleton } from './_components/data-table'
 import { ListForm } from '../_components/list-form'
+import { ListRecommendations } from './_components/list-recommendations'
+import { UserResume } from './_components/user-resume'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
-import { supabase } from '@/services/supabase'
+import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { UserResume } from './_components/user-resume'
-import { List } from '@/types/supabase/lists'
+import { fetchList } from '@/services/api/lists'
 
 type ListPageProps = {
   params: { id: string }
@@ -33,16 +33,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   const { data: response, isLoading } = useQuery({
     queryKey: listPageQueryKey(id),
-    queryFn: async () => {
-      const response = await supabase
-        .from('lists')
-        .select('*, list_items(*, id)')
-        .eq('id', id)
-        .order('created_at', { referencedTable: 'list_items' })
-        .single<List>()
-
-      return response
-    },
+    queryFn: async () => await fetchList(id),
   })
 
   const mode = useMemo(() => {
@@ -123,7 +114,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
             <div className="col-span-2 space-y-4">
               <div className="flex flex-col space-y-1">
                 <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-bold">{list.name}</h1>
+                  <h1 className="text-xl font-bold">{list.name}</h1>
                   {mode === 'SHOW' && <UserResume userId={list.user_id} />}
 
                   {mode === 'EDIT' && (
@@ -150,57 +141,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            <div className="col-span-1 space-y-8">
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between gap-2">
-                  <div>
-                    <h2 className="text-md font-semibold">
-                      Movie recommendations
-                    </h2>
-
-                    <p className="text-xs text-muted-foreground">
-                      • Based on your list
-                    </p>
-                  </div>
-
-                  <Button variant="outline" size="sm">
-                    <RotateCw className="mr-1" size={12} />
-                    Reload
-                  </Button>
-                </div>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between gap-2">
-                  <div>
-                    <h2 className="text-md font-semibold">
-                      Series recommendations
-                    </h2>
-
-                    <p className="text-xs text-muted-foreground">
-                      • Based on your list
-                    </p>
-                  </div>
-
-                  <Button variant="outline" size="sm">
-                    <RotateCw className="mr-1" size={12} />
-                    Reload
-                  </Button>
-                </div>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                  <div className="aspect-[2/3] rounded-sm border bg-muted" />
-                </div>
-              </div>
-            </div>
+            <ListRecommendations id={list.id} />
           </div>
         </div>
       </ListModeContextProvider>
