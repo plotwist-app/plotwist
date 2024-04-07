@@ -50,7 +50,6 @@ export async function GET(
       })
     }
   } catch {
-    // É uma boa prática retornar alguma resposta no catch para lidar com erros.
     return new Response(JSON.stringify({ error: 'An error occurred' }), {
       status: 500,
     })
