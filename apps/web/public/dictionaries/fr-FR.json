@@ -589,5 +589,26 @@
       "show_all": "Tout afficher",
       "show_less": "Afficher moins"
     }
+  },
+  "thank_you": {
+    "title": "Merci pour votre soutien !",
+    "subtitle": "Vous faites désormais partie du plan des membres !",
+    "description": "Avec de grands pouvoirs viennent de grandes responsabilités :",
+    "feature1": {
+      "title": "Listes Infinies",
+      "description": "Dites adieu aux limitations ! Créez et maintenez autant de listes que vous le souhaitez, pour organiser vos séances de binge-watching, planifier des soirées cinéma et bien plus encore."
+    },
+    "feature2": {
+      "title": "Recommandations Sur Mesure",
+      "description": "Découvrez de nouveaux titres qui correspondent parfaitement à votre goût unique, grâce à notre système intelligent de recommandations personnalisées."
+    },
+    "feature3": {
+      "title": "Cloner et Conquérir",
+      "description": "Laissez-vous inspirer par les listes d'autres membres ou créez des versions personnalisées de vos propres listes en un clic."
+    },
+    "feature4": {
+      "title": "Votre Nom, Votre Identité",
+      "description": "Vous sentez-vous le besoin de changer ? Mettez à jour votre nom d'utilisateur quand vous le souhaitez, en gardant votre identité numérique alignée avec votre moi cinéphile."
+    }
   }
 }

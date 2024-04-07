@@ -127,7 +127,12 @@ export const HomePrices = () => {
                   </HomePrice.Benefits>
                 </HomePrice.Content>
 
-                <Button type="submit">
+                <Button
+                  type={
+                    user.subscription_type === 'MEMBER' ? 'button' : 'submit'
+                  }
+                  disabled={user.subscription_type !== 'FREE'}
+                >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>

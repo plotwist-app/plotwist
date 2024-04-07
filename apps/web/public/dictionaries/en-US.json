@@ -596,5 +596,26 @@
       "show_all": "Show all",
       "show_less": "Show less"
     }
+  },
+  "thank_you": {
+    "title": "Thank you for your support!",
+    "subtitle": "You're now part of the members' plan!",
+    "description": "With great powers come great responsibilities:",
+    "feature1": {
+      "title": "Endless Lists",
+      "description": "Say goodbye to limitations! Create and maintain as many lists as you'd like, to organize your binge-watching sessions, plan movie nights, and much more."
+    },
+    "feature2": {
+      "title": "Tailored Recommendations",
+      "description": "Discover new titles that perfectly match your unique taste, thanks to our smart system for personalized recommendations."
+    },
+    "feature3": {
+      "title": "Clone and Conquer",
+      "description": "Get inspired by other members' lists or create personalized versions of your own lists with the ease of a click."
+    },
+    "feature4": {
+      "title": "Your Name, Your Identity",
+      "description": "Feeling the need for a change? Update your username whenever you wish, keeping your digital identity aligned with your cinephile self."
+    }
   }
 }
