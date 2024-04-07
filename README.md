@@ -7,10 +7,9 @@ Open-source easy management and reviews about movies, series and animes.
 [Discord](https://discord.gg/5rQ4wbZm) • [Website](https://plotwist.app/en-US)
 
 # App Architecture
-- Typescript
-- React.js
-- Next.js
-- TailwindCSS
-- shadcn
-- pnpm
-- Supabase
+- Framework: [Next.js](https://nextjs.org/)
+- Styling: [TailwindCSS](https://tailwindcss.com/)
+- UI Components: [shadcn](https://ui.shadcn.com/)
+- Database: [Supabase](https://supabase.com/)
+- Payments [Stripe](https://stripe.com/br)
+
