@@ -1,4 +1,7 @@
 import { fetchList } from '@/services/api/lists'
+import { Language } from '@/types/languages'
+import { List } from '@/types/supabase/lists'
+import { getRandomItems } from '@/utils/array'
 import { tmdb } from '@plotwist/tmdb'
 import Cors from 'micro-cors'
 
@@ -6,11 +9,29 @@ Cors({
   allowMethods: ['GET'],
 })
 
-function shuffleArray(array: unknown[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j], array[i]]
+const generateMovieRecommendations = async (list: List, language: Language) => {
+  const { list_items: items } = list
+
+  const randomMovie = items[Math.floor(Math.random() * items.length)]
+  const recommendations = await tmdb.movies.related(
+    randomMovie.tmdb_id,
+    'recommendations',
+    language,
+  )
+
+  const filteredRecommendations = recommendations.results.filter(
+    (recommendation) => {
+      const ids = items.map((item) => item.tmdb_id)
+
+      return !ids.includes(recommendation.id)
+    },
+  )
+
+  if (filteredRecommendations.length < 3) {
+    return filteredRecommendations
   }
+
+  return getRandomItems(filteredRecommendations, 3)
 }
 
 export async function GET(
@@ -19,36 +40,34 @@ export async function GET(
 ) {
   const { id } = params
 
+  const url = new URL(request.url)
+  const language = url.searchParams.get('language') as Language
+
   try {
     const { data } = await fetchList(id)
 
-    if (data) {
-      const randomListItem =
-        data.list_items[Math.floor(Math.random() * data.list_items.length)]
-
-      const movieRelated = await tmdb.movies.related(
-        randomListItem.tmdb_id,
-        'recommendations',
-        'en-US',
-      )
-
-      shuffleArray(movieRelated.results)
-
-      const uniqueRecommendedMovies = movieRelated.results.filter(
-        (recommendedMovie) =>
-          !data.list_items.some(
-            (listItem) => listItem.tmdb_id === recommendedMovie.id,
-          ),
-      )
-
-      const topUniqueRecommendedMovies = uniqueRecommendedMovies.slice(0, 3)
-
-      const newRecommendations = topUniqueRecommendedMovies
-
-      return new Response(JSON.stringify({ movie: newRecommendations }), {
-        status: 200,
+    if (!data || data.list_items.length === 0) {
+      const topRatedMovies = await tmdb.movies.list({
+        list: 'top_rated',
+        language,
+        page: 1,
       })
+
+      return new Response(
+        JSON.stringify({ movies: getRandomItems(topRatedMovies.results, 3) }),
+        {
+          status: 200,
+        },
+      )
     }
+
+    const [movies] = await Promise.all([
+      generateMovieRecommendations(data, language),
+    ])
+
+    return new Response(JSON.stringify({ movies }), {
+      status: 200,
+    })
   } catch {
     return new Response(JSON.stringify({ error: 'An error occurred' }), {
       status: 500,

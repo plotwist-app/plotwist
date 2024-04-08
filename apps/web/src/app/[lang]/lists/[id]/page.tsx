@@ -107,7 +107,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
       </head>
 
       <ListModeContextProvider mode={mode}>
-        <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
+        <div className="mx-auto  max-w-6xl space-y-4 px-4 py-4 lg:px-0">
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
           <div className="grid grid-cols-3 gap-16">
@@ -141,7 +141,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            <ListRecommendations id={list.id} />
+            <ListRecommendations list={list} />
           </div>
         </div>
       </ListModeContextProvider>
