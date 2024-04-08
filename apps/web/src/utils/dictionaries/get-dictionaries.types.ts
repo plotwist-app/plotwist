@@ -59,7 +59,7 @@ export type Dictionary = {
       benefits: string[]
       start_now: string
     }
-    member_plan: {
+    pro_plan: {
       title: string
       price: string
       recommended: string

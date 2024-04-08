@@ -63,8 +63,8 @@
       ],
       "start_now": "¡Empieza ahora!"
     },
-    "member_plan": {
-      "title": "Miembro",
+    "pro_plan": {
+      "title": "Pro",
       "price": "3 €/mes",
       "recommended": "Recomendado",
       "description": "Todo en el plan gratuito más límites más altos y configuraciones personalizadas.",

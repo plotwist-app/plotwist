@@ -63,8 +63,8 @@
       ],
       "start_now": "今すぐ始める"
     },
-    "member_plan": {
-      "title": "メンバー",
+    "pro_plan": {
+      "title": "商売人",
       "price": "100円/月",
       "recommended": "おすすめ",
       "description": "無料プランの全てに、より高い限度とカスタム設定をプラス。",

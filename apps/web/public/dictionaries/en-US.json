@@ -63,8 +63,8 @@
       ],
       "start_now": "Start Now!"
     },
-    "member_plan": {
-      "title": "Member",
+    "pro_plan": {
+      "title": "Pro",
       "price": "$3/month",
       "recommended": "Recommended",
       "description": "Everything in the free plan plus higher limits and custom settings.",
@@ -599,7 +599,7 @@
   },
   "thank_you": {
     "title": "Thank you for your support!",
-    "subtitle": "You're now part of the members' plan!",
+    "subtitle": "You're now part of the pros' plan!",
     "description": "With great powers come great responsibilities:",
     "feature1": {
       "title": "Endless Lists",

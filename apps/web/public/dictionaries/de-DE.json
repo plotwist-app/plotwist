@@ -63,8 +63,8 @@
       ],
       "start_now": "Jetzt starten!"
     },
-    "member_plan": {
-      "title": "Mitglied",
+    "pro_plan": {
+      "title": "Profi",
       "price": "3 €/Monat",
       "recommended": "Empfohlen",
       "description": "Alles im kostenlosen Tarif plus höhere Grenzen und benutzerdefinierte Einstellungen.",

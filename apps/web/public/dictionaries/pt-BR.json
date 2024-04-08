@@ -63,15 +63,15 @@
       ],
       "start_now": "Comece agora!"
     },
-    "member_plan": {
-      "title": "Membro",
+    "pro_plan": {
+      "title": "Pro",
       "price": "R$3/mês",
       "recommended": "Recomendado",
       "description": "Tudo no plano gratuito, porém com limites mais altos e recomendações personalizadas.",
       "benefits": [
         "Listas ilimitadas",
         "Recomendações pessoais baseadas no seu gosto",
-        "Clonar suas listas ou de outros membros",
+        "Clonar suas listas ou de outros pros",
         "Mudar nome de usuário"
       ],
       "subscribe": "Assine"
@@ -592,7 +592,7 @@
   },
   "thank_you": {
     "title": "Obrigado pelo seu apoio!",
-    "subtitle": "Agora você faz parte do plano de membros!",
+    "subtitle": "Agora você faz parte do plano de pros!",
     "description": "Com grandes poderes vêm grandes responsabilidades:",
     "feature1": {
       "title": "Listas Ilimitadas",

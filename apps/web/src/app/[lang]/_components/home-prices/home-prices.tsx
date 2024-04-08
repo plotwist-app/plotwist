@@ -101,36 +101,32 @@ export const HomePrices = () => {
                 <HomePrice.Content>
                   <HomePrice.Header>
                     <HomePrice.Label>
-                      {dictionary.home_prices.member_plan.title}
+                      {dictionary.home_prices.pro_plan.title}
                     </HomePrice.Label>
 
                     <HomePrice.Value className="flex items-center gap-2">
-                      {dictionary.home_prices.member_plan.price}
+                      {dictionary.home_prices.pro_plan.price}
                       <Badge variant="outline">
-                        {dictionary.home_prices.member_plan.recommended}
+                        {dictionary.home_prices.pro_plan.recommended}
                       </Badge>
                     </HomePrice.Value>
 
                     <HomePrice.Description>
-                      {dictionary.home_prices.member_plan.description}
+                      {dictionary.home_prices.pro_plan.description}
                     </HomePrice.Description>
                   </HomePrice.Header>
 
                   <HomePrice.Benefits>
-                    {dictionary.home_prices.member_plan.benefits.map(
-                      (benefit) => (
-                        <HomePrice.Benefit key={benefit}>
-                          {benefit}
-                        </HomePrice.Benefit>
-                      ),
-                    )}
+                    {dictionary.home_prices.pro_plan.benefits.map((benefit) => (
+                      <HomePrice.Benefit key={benefit}>
+                        {benefit}
+                      </HomePrice.Benefit>
+                    ))}
                   </HomePrice.Benefits>
                 </HomePrice.Content>
 
                 <Button
-                  type={
-                    user.subscription_type === 'MEMBER' ? 'button' : 'submit'
-                  }
+                  type={user.subscription_type === 'PRO' ? 'button' : 'submit'}
                   disabled={user.subscription_type !== 'FREE'}
                 >
                   <TooltipProvider>
@@ -147,7 +143,7 @@ export const HomePrices = () => {
                     </Tooltip>
                   </TooltipProvider>
 
-                  {dictionary.home_prices.member_plan.subscribe}
+                  {dictionary.home_prices.pro_plan.subscribe}
                 </Button>
               </HomePrice.Root>
             </form>
@@ -156,29 +152,27 @@ export const HomePrices = () => {
               <HomePrice.Content>
                 <HomePrice.Header>
                   <HomePrice.Label>
-                    {dictionary.home_prices.member_plan.title}
+                    {dictionary.home_prices.pro_plan.title}
                   </HomePrice.Label>
 
                   <HomePrice.Value className="flex items-center gap-2">
-                    {dictionary.home_prices.member_plan.price}
+                    {dictionary.home_prices.pro_plan.price}
                     <Badge variant="outline">
-                      {dictionary.home_prices.member_plan.recommended}
+                      {dictionary.home_prices.pro_plan.recommended}
                     </Badge>
                   </HomePrice.Value>
 
                   <HomePrice.Description>
-                    {dictionary.home_prices.member_plan.description}
+                    {dictionary.home_prices.pro_plan.description}
                   </HomePrice.Description>
                 </HomePrice.Header>
 
                 <HomePrice.Benefits>
-                  {dictionary.home_prices.member_plan.benefits.map(
-                    (benefit) => (
-                      <HomePrice.Benefit key={benefit}>
-                        {benefit}
-                      </HomePrice.Benefit>
-                    ),
-                  )}
+                  {dictionary.home_prices.pro_plan.benefits.map((benefit) => (
+                    <HomePrice.Benefit key={benefit}>
+                      {benefit}
+                    </HomePrice.Benefit>
+                  ))}
                 </HomePrice.Benefits>
               </HomePrice.Content>
 
