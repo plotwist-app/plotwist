@@ -42,12 +42,14 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
 
     if (!userHasPermission) {
       return (
-        <div className="pointer-events-none relative grid grid-cols-3 gap-2">
+        <div className="relative select-none">
           <ListRecommendationsBlock />
 
-          {data[type].map((item) => (
-            <ListRecommendation item={item} key={item.id} list={list} />
-          ))}
+          <div className="pointer-events-none grid grid-cols-3 gap-2">
+            {data[type].map((item) => (
+              <ListRecommendation item={item} key={item.id} list={list} />
+            ))}
+          </div>
         </div>
       )
     }

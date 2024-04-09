@@ -33,7 +33,7 @@ export const Pricing = () => {
       id="pricing"
     >
       <div className="mx-auto flex w-full flex-col items-center space-y-2 lg:w-2/3">
-        <h2 className="text-center text-2xl font-bold">
+        <h2 className="text-center text-5xl font-bold">
           {dictionary.home_prices.title}
         </h2>
 
