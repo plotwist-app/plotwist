@@ -8,13 +8,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
 
-import { Command as CommandIcon } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandDialog,
-  CommandEmpty,
   CommandInput,
   CommandList,
 } from '@/components/ui/command'
@@ -31,7 +28,7 @@ import {
   TvSerieWithMediaType,
   tmdb,
 } from '@plotwist/tmdb'
-import { Separator } from '../ui/separator'
+import { CommandSearchIcon } from './command-search-icon'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -48,7 +45,7 @@ export const CommandSearch = () => {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
 
         setOpen((open) => !open)
@@ -95,9 +92,7 @@ export const CommandSearch = () => {
       >
         {dictionary.sidebar_search.search_everything}
 
-        <div className="flex items-center gap-1 rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
-          <CommandIcon size={12} />K
-        </div>
+        <CommandSearchIcon />
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -127,55 +122,55 @@ export const CommandSearch = () => {
               </div>
             )}
 
-            {!hasResults && (
-              <CommandEmpty>
-                {dictionary.sidebar_search.no_results}
-              </CommandEmpty>
+            {hasResults ? (
+              <div className="">
+                {hasMovies && (
+                  <CommandSearchGroup
+                    heading={dictionary.sidebar_search.movies}
+                  >
+                    {movies?.map((movie) => (
+                      <CommandSearchMovie
+                        item={movie}
+                        language={language}
+                        key={movie.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
+
+                {hasTvSeries && (
+                  <CommandSearchGroup
+                    heading={dictionary.sidebar_search.tv_series}
+                  >
+                    {tvSeries?.map((tvSerie) => (
+                      <CommandSearchTvSerie
+                        item={tvSerie}
+                        language={language}
+                        key={tvSerie.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
+
+                {hasPeople && (
+                  <CommandSearchGroup
+                    heading={dictionary.sidebar_search.people}
+                  >
+                    {people?.map((person) => (
+                      <CommandSearchPerson
+                        item={person}
+                        language={language}
+                        key={person.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
+              </div>
+            ) : (
+              <p className="p-8 text-center">
+                {dictionary.list_command.no_results}
+              </p>
             )}
-
-            <div className="">
-              {hasMovies && (
-                <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
-                  {movies?.map((movie) => (
-                    <CommandSearchMovie
-                      item={movie}
-                      language={language}
-                      key={movie.id}
-                    />
-                  ))}
-                </CommandSearchGroup>
-              )}
-
-              {hasMovies && hasTvSeries && <Separator />}
-
-              {hasTvSeries && (
-                <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_series}
-                >
-                  {tvSeries?.map((tvSerie) => (
-                    <CommandSearchTvSerie
-                      item={tvSerie}
-                      language={language}
-                      key={tvSerie.id}
-                    />
-                  ))}
-                </CommandSearchGroup>
-              )}
-
-              {hasTvSeries && hasPeople && <Separator />}
-
-              {hasPeople && (
-                <CommandSearchGroup heading={dictionary.sidebar_search.people}>
-                  {people?.map((person) => (
-                    <CommandSearchPerson
-                      item={person}
-                      language={language}
-                      key={person.id}
-                    />
-                  ))}
-                </CommandSearchGroup>
-              )}
-            </div>
           </CommandList>
         </Command>
       </CommandDialog>
