@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'
@@ -37,7 +36,7 @@ const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
       <DialogTrigger asChild>
         <div className="group cursor-pointer space-y-2">
           <div className="w-full">
-            <Poster url={tmdbImage(poster)} alt={name} />
+            <Poster url={poster} alt={name} />
           </div>
 
           <div className="space-y-1">

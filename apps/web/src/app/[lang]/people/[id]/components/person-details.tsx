@@ -13,7 +13,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { PersonCredits } from './person-credits'
 import { PersonBiography } from './person-biography'
-import { Container } from '@/app/[lang]/_components/container'
 import { Language } from '@/types/languages'
 import { tmdb } from '@plotwist/tmdb'
 
@@ -36,7 +35,7 @@ export const PersonDetails = async ({ id, language }: PersonDetailsProps) => {
       <div className="mx-auto my-8 max-w-4xl space-y-8 px-4 md:space-y-12 md:px-0 ">
         <main className="flex flex-col gap-4 md:flex-row">
           <aside className="-mt-24 w-full space-y-2 md:-mt-32 md:w-1/3">
-            <Poster alt={person.name} url={tmdbImage(person.profile_path)} />
+            <Poster alt={person.name} url={person.profile_path} />
           </aside>
 
           <article className="flex w-full flex-col gap-2 md:w-2/3">

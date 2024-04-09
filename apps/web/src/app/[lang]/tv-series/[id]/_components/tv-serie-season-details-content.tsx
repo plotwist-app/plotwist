@@ -34,6 +34,7 @@ export const TvSerieSeasonDetailsContent = ({
   episodes,
 }: TvSerieSeasonDetailsContentProps) => {
   const [layout, setLayout] = useState<Layout>('grid')
+
   const {
     dictionary: {
       tv_serie_season_details: { name, overview, runtime, vote },
