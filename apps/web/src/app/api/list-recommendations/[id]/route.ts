@@ -12,7 +12,18 @@ Cors({
 const generateMovieRecommendations = async (list: List, language: Language) => {
   const { list_items: items } = list
 
-  const randomMovie = items[Math.floor(Math.random() * items.length)]
+  const movies = items.filter((item) => item.media_type === 'MOVIE')
+  if (movies.length === 0) {
+    const topRatedMovies = await tmdb.movies.list({
+      list: 'top_rated',
+      language,
+      page: 1,
+    })
+
+    return getRandomItems(topRatedMovies.results, 3)
+  }
+
+  const randomMovie = movies[Math.floor(Math.random() * movies.length)]
   const recommendations = await tmdb.movies.related(
     randomMovie.tmdb_id,
     'recommendations',
@@ -23,6 +34,42 @@ const generateMovieRecommendations = async (list: List, language: Language) => {
     (recommendation) => {
       const ids = items.map((item) => item.tmdb_id)
 
+      return !ids.includes(recommendation.id)
+    },
+  )
+
+  if (filteredRecommendations.length < 3) {
+    return filteredRecommendations
+  }
+
+  return getRandomItems(filteredRecommendations, 3)
+}
+
+const generateTVRecommendations = async (list: List, language: Language) => {
+  const { list_items: items } = list
+
+  const tvSeries = items.filter((item) => item.media_type === 'TV_SHOW')
+
+  if (tvSeries.length === 0) {
+    const topRatedTvSeries = await tmdb.tv.list({
+      list: 'top_rated',
+      language,
+      page: 1,
+    })
+
+    return getRandomItems(topRatedTvSeries.results, 3)
+  }
+
+  const randomTvSeries = tvSeries[Math.floor(Math.random() * tvSeries.length)]
+  const recommendations = await tmdb.tv.related(
+    randomTvSeries.tmdb_id,
+    'recommendations',
+    language,
+  )
+
+  const filteredRecommendations = recommendations.results.filter(
+    (recommendation) => {
+      const ids = items.map((item) => item.tmdb_id)
       return !ids.includes(recommendation.id)
     },
   )
@@ -46,26 +93,18 @@ export async function GET(
   try {
     const { data } = await fetchList(id)
 
-    if (!data || data.list_items.length === 0) {
-      const topRatedMovies = await tmdb.movies.list({
-        list: 'top_rated',
-        language,
-        page: 1,
+    if (!data) {
+      return new Response(JSON.stringify({ error: 'List not found' }), {
+        status: 404,
       })
-
-      return new Response(
-        JSON.stringify({ movies: getRandomItems(topRatedMovies.results, 3) }),
-        {
-          status: 200,
-        },
-      )
     }
 
-    const [movies] = await Promise.all([
+    const [movies, tv] = await Promise.all([
       generateMovieRecommendations(data, language),
+      generateTVRecommendations(data, language),
     ])
 
-    return new Response(JSON.stringify({ movies }), {
+    return new Response(JSON.stringify({ movies, tv }), {
       status: 200,
     })
   } catch {

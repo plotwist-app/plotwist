@@ -7,7 +7,7 @@ import { useLanguage } from '@/context/language'
 import { listRecommendations } from '@/services/api'
 import { useQuery } from '@tanstack/react-query'
 import { RotateCw } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { ListRecommendation } from './list-recommendation'
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
@@ -19,8 +19,9 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
   const { language } = useLanguage()
   const { user } = useAuth()
 
+  const [type, setType] = useState<'movies' | 'tv'>('movies')
   const { data, refetch, isLoading, isFetching } = useQuery({
-    queryKey: ['list-recommendations', list],
+    queryKey: ['list-recommendations', list.id],
     queryFn: async () => await listRecommendations(list.id, language),
     refetchOnWindowFocus: false,
   })
@@ -31,7 +32,8 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
     if (isLoading || !data || isFetching)
       return (
         <div className="relative grid grid-cols-3 gap-2">
-          <ListRecommendationsBlock />
+          {!userHasPermission && <ListRecommendationsBlock />}
+
           <Skeleton className="aspect-poster w-full" />
           <Skeleton className="aspect-poster w-full" />
           <Skeleton className="aspect-poster w-full" />
@@ -42,8 +44,8 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
       return (
         <div className="pointer-events-none relative grid grid-cols-3 gap-2">
           <ListRecommendationsBlock />
-          {data.movies.map((movie) => (
-            <ListRecommendation movie={movie} key={movie.id} list={list} />
+          {data[type].map((item) => (
+            <ListRecommendation item={item} key={item.id} list={list} />
           ))}
         </div>
       )
@@ -51,12 +53,12 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
 
     return (
       <div className="grid grid-cols-3 gap-2">
-        {data.movies.map((movie) => (
-          <ListRecommendation movie={movie} key={movie.id} list={list} />
+        {data[type].map((item) => (
+          <ListRecommendation item={item} key={item.id} list={list} />
         ))}
       </div>
     )
-  }, [userHasPermission, isLoading, data, isFetching, list])
+  }, [isLoading, data, isFetching, userHasPermission, type, list])
 
   return (
     <div className="col-span-1 space-y-8">
@@ -82,8 +84,19 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
 
         <div className="space-y-2">
           <div className="flex gap-2">
-            <Badge className="cursor-pointer">Movie</Badge>
-            <Badge className="cursor-not-allowed opacity-50" variant="outline">
+            <Badge
+              className="cursor-pointer"
+              onClick={() => setType('movies')}
+              variant={type === 'movies' ? 'default' : 'outline'}
+            >
+              Movie
+            </Badge>
+
+            <Badge
+              className="cursor-pointer"
+              variant={type === 'tv' ? 'default' : 'outline'}
+              onClick={() => setType('tv')}
+            >
               Series
             </Badge>
           </div>

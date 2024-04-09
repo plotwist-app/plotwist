@@ -4,16 +4,18 @@ import {
   Movie,
   MovieWithMediaType,
   TvSerieWithMediaType,
+  TvSerie,
 } from '@plotwist/tmdb'
 
 import { ListItem } from '@/types/supabase/lists'
 
 type Raw =
   | MovieDetails
-  | TvSerieDetails
   | Movie
   | MovieWithMediaType
+  | TvSerieDetails
   | TvSerieWithMediaType
+  | TvSerie
 
 export const sanitizeListItem = (
   listId: string,

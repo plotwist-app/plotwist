@@ -22,6 +22,7 @@ import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
+import { cn } from '@/lib/utils'
 
 type ListPageProps = {
   params: { id: string }
@@ -111,7 +112,13 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
           <div className="grid grid-cols-1 gap-y-8 p-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
-            <div className="col-span-2 space-y-4">
+            <div
+              className={cn(
+                mode === 'EDIT'
+                  ? 'col-span-2 space-y-4'
+                  : 'col-span-3 space-y-4',
+              )}
+            >
               <div className="flex flex-col space-y-1">
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl font-bold">{list.name}</h1>
@@ -141,7 +148,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            <ListRecommendations list={list} />
+            {mode === 'EDIT' && <ListRecommendations list={list} />}
           </div>
         </div>
       </ListModeContextProvider>

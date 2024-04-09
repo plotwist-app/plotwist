@@ -21,27 +21,24 @@ import { useLists } from '@/context/lists'
 
 import { cn } from '@/lib/utils'
 import { List } from '@/types/supabase/lists'
-import { Movie } from '@plotwist/tmdb'
+import { Movie, TvSerie } from '@plotwist/tmdb'
 
 import { listPageQueryKey } from '@/utils/list'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 type ListRecommendationProps = {
-  movie: Movie
+  item: Movie | TvSerie
   list: List
 }
 
-export const ListRecommendation = ({
-  movie,
-  list,
-}: ListRecommendationProps) => {
+export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
   const { language } = useLanguage()
   const { handleAddToList } = useLists()
   const [openDropdown, setOpenDropdown] = useState(false)
 
   const handleAdd = useCallback(async () => {
-    const sanitizedItem = sanitizeListItem(list.id, movie)
+    const sanitizedItem = sanitizeListItem(list.id, item)
 
     handleAddToList.mutate(
       { item: sanitizedItem },
@@ -55,11 +52,11 @@ export const ListRecommendation = ({
         },
       },
     )
-  }, [handleAddToList, list, movie])
+  }, [handleAddToList, list, item])
 
   const includesInList = useMemo(() => {
-    return list.list_items.some((listItem) => listItem.tmdb_id === movie.id)
-  }, [list, movie.id])
+    return list.list_items.some((listItem) => listItem.tmdb_id === item.id)
+  }, [list, item.id])
 
   if (includesInList) {
     return (
@@ -90,7 +87,7 @@ export const ListRecommendation = ({
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
-                <Link href={`/${language}/movies/${movie.id}`}>
+                <Link href={`/${language}/movies/${item.id}`}>
                   <ExternalLink size={14} className="mr-1" />
                   View details
                 </Link>
@@ -100,7 +97,7 @@ export const ListRecommendation = ({
         </div>
       </div>
 
-      <Image src={tmdbImage(movie.poster_path)} fill alt={movie.title} />
+      <Image src={tmdbImage(item.poster_path)} fill alt={item.overview} />
     </div>
   )
 }

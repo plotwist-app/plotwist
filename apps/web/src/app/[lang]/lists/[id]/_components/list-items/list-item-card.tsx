@@ -3,11 +3,13 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import { ListItemActions } from './list-item-actions'
 import { Status } from '../status'
+import { useListMode } from '@/context/list-mode'
 
 type ListItemCardProps = { listItem: ListItem }
 
 export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   const { poster_path: poster, title, status } = listItem
+  const { mode } = useListMode()
 
   return (
     <div className="group space-y-2">
@@ -28,9 +30,11 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
           <Status status={status} />
         </div>
 
-        <div className="absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100">
-          <ListItemActions listItem={listItem} />
-        </div>
+        {mode === 'EDIT' && (
+          <div className="absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100">
+            <ListItemActions listItem={listItem} />
+          </div>
+        )}
       </div>
     </div>
   )
