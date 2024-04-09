@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: 'Plotwist',
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: '/logo-white.svg',
   },
 }
 
