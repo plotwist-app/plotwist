@@ -1,20 +1,14 @@
 'use client'
 
 import { MDXProvider } from '@mdx-js/react'
-import ChangelogEntry from '../../data/2024-03-12.mdx'
+
 import { format } from 'date-fns'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { locale } from '@/utils/date/locale'
+import { changelogData } from '../../data'
 
 const components = {}
-
-const items = [
-  {
-    date: '2023-03-18',
-    item: <ChangelogEntry />,
-  },
-]
 
 export const MdxSupport = () => {
   const { language } = useLanguage()
@@ -22,7 +16,7 @@ export const MdxSupport = () => {
   return (
     <MDXProvider components={components}>
       <div className="space-y-16">
-        {items.map((item) => {
+        {changelogData.map((item) => {
           return (
             <div
               className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 lg:grid-cols-3 xl:px-0"
