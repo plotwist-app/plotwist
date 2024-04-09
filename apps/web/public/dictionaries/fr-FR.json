@@ -393,8 +393,8 @@
   "dashboard": {
     "user_last_review": {
       "title": "Votre dernière critique",
-      "no_review_message": "Vous n'avez critiqué aucun film ou série TV.",
-      "no_review_action": "Cliquez pour voir les films ou séries TV les mieux notés.",
+      "no_review_message": "On dirait que vous n'avez écrit aucun avis ! 😿",
+      "no_review_action": "Cliquez ici pour voir les films les mieux notés.",
       "login": "Connexion",
       "register": "Inscription",
       "or": "ou",
@@ -546,7 +546,7 @@
     "name": "Nom",
     "overview": "Aperçu",
     "runtime": "Durée",
-    "vote": "Vote" 
+    "vote": "Vote"
   },
   "popular_people": {
     "title": "Personnes populaires",

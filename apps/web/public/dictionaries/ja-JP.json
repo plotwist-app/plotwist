@@ -393,8 +393,8 @@
   "dashboard": {
     "user_last_review": {
       "title": "あなたの最後のレビュー",
-      "no_review_message": "まだ映画やテレビ番組のレビューをしていません。",
-      "no_review_action": "トップレートの映画やテレビ番組を見るにはここをクリックしてください。",
+      "no_review_message": "レビューを書いていないようです！😿",
+      "no_review_action": "ここをクリックして、最も評価の高い映画を見る。",
       "login": "ログイン",
       "register": "登録",
       "or": "または",
@@ -546,7 +546,7 @@
     "name": "名前",
     "overview": "概要",
     "runtime": "実行時間",
-    "vote": "投票" 
+    "vote": "投票"
   },
   "popular_people": {
     "title": "人気のある人々",

@@ -393,8 +393,8 @@
   "dashboard": {
     "user_last_review": {
       "title": "Deine letzte Bewertung",
-      "no_review_message": "Du hast noch keine Filme oder TV-Serien bewertet.",
-      "no_review_action": "Klicke hier, um die am besten bewerteten Filme oder TV-Serien zu sehen.",
+      "no_review_message": "Sieht so aus, als hättest du keine Bewertung geschrieben! 😿",
+      "no_review_action": "Klicke hier, um die am besten bewerteten Filme zu sehen.",
       "login": "Anmelden",
       "register": "Registrieren",
       "or": "oder",
