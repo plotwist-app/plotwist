@@ -33,13 +33,13 @@ export async function POST(req: Request) {
 
       if (profile) {
         await supabase.from('subscriptions').insert({
-          type: 'MEMBER',
+          type: 'PRO',
           user_id: profile.id,
         })
 
         await supabase
           .from('profiles')
-          .update({ subscription_type: 'MEMBER' })
+          .update({ subscription_type: 'PRO' })
           .eq('id', profile.id)
 
         return NextResponse.json({ result: event, ok: true })

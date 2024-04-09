@@ -212,7 +212,7 @@ export const WatchProvidersField = () => {
                     ref={inputRef}
                   />
 
-                  <ScrollArea className="h-[300px] overflow-auto">
+                  <ScrollArea className="max-h-[300px] overflow-auto">
                     <CommandEmpty>
                       {
                         dictionary.movies_list_filters.watch_providers_field

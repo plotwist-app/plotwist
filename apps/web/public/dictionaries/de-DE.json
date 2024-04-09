@@ -63,8 +63,8 @@
       ],
       "start_now": "Jetzt starten!"
     },
-    "member_plan": {
-      "title": "Mitglied",
+    "pro_plan": {
+      "title": "Profi",
       "price": "3 €/Monat",
       "recommended": "Empfohlen",
       "description": "Alles im kostenlosen Tarif plus höhere Grenzen und benutzerdefinierte Einstellungen.",
@@ -610,5 +610,17 @@
       "title": "Dein Name, deine Identität",
       "description": "Brauchst du eine Veränderung? Aktualisiere deinen Benutzernamen, wann immer du möchtest, um deine digitale Identität mit deinem cineastischen Ich in Einklang zu bringen."
     }
+  },
+  "list_recommendations": {
+    "title": "Empfehlungen",
+    "movies": "Filme",
+    "series": "Serien",
+    "block": {
+      "first_line": "Werde",
+      "second_line": "für exklusive Empfehlungen."
+    },
+    "added_successfully": "Empfehlung erfolgreich hinzugefügt.",
+    "add_to_list": "Zur Liste hinzufügen",
+    "view_details": "Details ansehen"
   }
 }

@@ -59,7 +59,7 @@ export type Dictionary = {
       benefits: string[]
       start_now: string
     }
-    member_plan: {
+    pro_plan: {
       title: string
       price: string
       recommended: string
@@ -602,5 +602,17 @@ export type Dictionary = {
       title: string
       description: string
     }
+  }
+  list_recommendations: {
+    title: string
+    movies: string
+    series: string
+    block: {
+      first_line: string
+      second_line: string
+    }
+    added_successfully: string
+    add_to_list: string
+    view_details: string
   }
 }

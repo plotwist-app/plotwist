@@ -63,8 +63,8 @@
       ],
       "start_now": "Commencez maintenant!"
     },
-    "member_plan": {
-      "title": "Membre",
+    "pro_plan": {
+      "title": "Pro",
       "price": "3 €/mois",
       "recommended": "Recommandé",
       "description": "Tout dans le plan gratuit plus des limites plus élevées et des paramètres personnalisés.",
@@ -610,5 +610,17 @@
       "title": "Votre Nom, Votre Identité",
       "description": "Vous sentez-vous le besoin de changer ? Mettez à jour votre nom d'utilisateur quand vous le souhaitez, en gardant votre identité numérique alignée avec votre moi cinéphile."
     }
+  },
+  "list_recommendations": {
+    "title": "Recommandations",
+    "movies": "Films",
+    "series": "Séries",
+    "block": {
+      "first_line": "Devenez",
+      "second_line": "pour des recommandations exclusives."
+    },
+    "added_successfully": "Suggestion ajoutée avec succès.",
+    "add_to_list": "Ajouter à la liste",
+    "view_details": "Voir les détails"
   }
 }

@@ -22,7 +22,8 @@ const Section = {
     <li
       className={cn(
         className,
-        disabled && 'cursor-not-allowed select-none text-muted-foreground',
+        disabled &&
+          'white-sp cursor-not-allowed select-none text-muted-foreground',
       )}
       {...props}
     />
@@ -37,8 +38,8 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
 
   return (
     <footer className="px-4">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 border-t py-12 lg:grid-cols-3 lg:gap-4">
-        <div className="col-span-2 flex flex-col justify-between space-y-2">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 border-t py-12 lg:grid-cols-5 lg:gap-4">
+        <div className="col-span-3 flex flex-col justify-between space-y-2">
           <div className="space-y-1">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
@@ -68,7 +69,7 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
           </div>
         </div>
 
-        <div className="col-span-1 grid grid-cols-3 gap-4">
+        <div className="col-span-2 grid grid-cols-3 gap-4">
           <Section.Root>
             <Section.Label>{sections.product}</Section.Label>
 

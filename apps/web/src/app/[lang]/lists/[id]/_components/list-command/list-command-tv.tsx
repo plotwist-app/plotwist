@@ -112,19 +112,19 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                 {isItemIncluded(tvSerie.id) ? (
                   <DropdownMenuItem onClick={() => handleRemove(tvSerie.id)}>
                     <MinusCircle size={14} className="mr-1" />
-                    Remove from list
+                    {dictionary.list_command.remove_from_list}
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem onClick={() => handleAdd(tvSerie)}>
                     <PlusCircle size={14} className="mr-1" />
-                    Add to list
+                    {dictionary.list_command.add_to_list}
                   </DropdownMenuItem>
                 )}
 
                 <DropdownMenuItem asChild>
                   <Link href={`/${language}/tv-series/${tvSerie.id}`}>
                     <ExternalLink size={14} className="mr-1" />
-                    View details
+                    {dictionary.list_command.view_details}
                   </Link>
                 </DropdownMenuItem>
               </ListCommandItem.Dropdown>

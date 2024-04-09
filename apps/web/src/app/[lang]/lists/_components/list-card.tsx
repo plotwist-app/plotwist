@@ -100,6 +100,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                 {dictionary.list_card.dialog_close}
               </Button>
             </DialogClose>
+
             <Button
               variant="destructive"
               onClick={() => {

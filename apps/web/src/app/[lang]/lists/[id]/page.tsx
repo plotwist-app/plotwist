@@ -12,16 +12,17 @@ import { Banner } from '@/components/banner'
 import { ListItems } from './_components/list-items'
 import { DataTableSkeleton } from './_components/data-table'
 import { ListForm } from '../_components/list-form'
+import { ListRecommendations } from './_components/list-recommendations'
+import { UserResume } from './_components/user-resume'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
-import { supabase } from '@/services/supabase'
-import { List } from '@/types/supabase/lists'
+import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { UserResume } from './_components/user-resume'
+import { fetchList } from '@/services/api/lists'
+import { cn } from '@/lib/utils'
 
 type ListPageProps = {
   params: { id: string }
@@ -33,16 +34,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   const { data: response, isLoading } = useQuery({
     queryKey: listPageQueryKey(id),
-    queryFn: async () => {
-      const response = await supabase
-        .from('lists')
-        .select('*, list_items(*, id)')
-        .eq('id', id)
-        .order('created_at', { referencedTable: 'list_items' })
-        .single<List>()
-
-      return response
-    },
+    queryFn: async () => await fetchList(id),
   })
 
   const mode = useMemo(() => {
@@ -116,34 +108,48 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
       </head>
 
       <ListModeContextProvider mode={mode}>
-        <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
+        <div className="mx-auto max-w-6xl space-y-4 p-0 lg:py-4">
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-          <div className="space-y-4">
-            <div className="flex flex-col space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold">{list.name}</h1>
-                {mode === 'SHOW' && <UserResume userId={list.user_id} />}
+          <div className="grid grid-cols-1 gap-y-8 p-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
+            <div
+              className={cn(
+                mode === 'EDIT'
+                  ? 'col-span-2 space-y-4'
+                  : 'col-span-3 space-y-4',
+              )}
+            >
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl font-bold">{list.name}</h1>
+                  {mode === 'SHOW' && <UserResume userId={list.user_id} />}
 
-                {mode === 'EDIT' && (
-                  <ListForm
-                    trigger={
-                      <Button size="icon" variant="outline" className="h-6 w-6">
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                    }
-                    list={list}
-                  />
-                )}
+                  {mode === 'EDIT' && (
+                    <ListForm
+                      trigger={
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="h-6 w-6"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                      }
+                      list={list}
+                    />
+                  )}
+                </div>
+
+                <p className="text-sm text-muted-foreground">
+                  {list.description}
+                </p>
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                {list.description}
-              </p>
+              <ListItems listItems={list.list_items} />
             </div>
-          </div>
 
-          <ListItems listItems={list.list_items} />
+            {mode === 'EDIT' && <ListRecommendations list={list} />}
+          </div>
         </div>
       </ListModeContextProvider>
     </>
