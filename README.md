@@ -12,5 +12,5 @@ Open-source easy management and reviews about movies, series and animes.
 - Styling: [TailwindCSS](https://tailwindcss.com/)
 - UI Components: [shadcn](https://ui.shadcn.com/)
 - Database: [Supabase](https://supabase.com/)
-- Payments [Stripe](https://stripe.com/br)
+- Payments: [Stripe](https://stripe.com/br)
 
