@@ -16,7 +16,7 @@ import { ListRecommendationsBlock } from './list-recommendations-block'
 
 type ListRecommendationsProps = { list: List }
 export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const { user } = useAuth()
 
   const [type, setType] = useState<'movies' | 'tv'>('movies')
@@ -44,6 +44,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
       return (
         <div className="pointer-events-none relative grid grid-cols-3 gap-2">
           <ListRecommendationsBlock />
+
           {data[type].map((item) => (
             <ListRecommendation item={item} key={item.id} list={list} />
           ))}
@@ -65,7 +66,8 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
           <h2 className="text-md flex gap-1 font-semibold">
-            Suggestions
+            {dictionary.list_recommendations.title}
+
             <div>
               <ProBadge />
             </div>
@@ -89,7 +91,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
               onClick={() => setType('movies')}
               variant={type === 'movies' ? 'default' : 'outline'}
             >
-              Movie
+              {dictionary.list_recommendations.movies}
             </Badge>
 
             <Badge
@@ -97,7 +99,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
               variant={type === 'tv' ? 'default' : 'outline'}
               onClick={() => setType('tv')}
             >
-              Series
+              {dictionary.list_recommendations.series}
             </Badge>
           </div>
 

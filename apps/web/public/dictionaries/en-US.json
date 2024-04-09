@@ -617,5 +617,17 @@
       "title": "Your Name, Your Identity",
       "description": "Feeling the need for a change? Update your username whenever you wish, keeping your digital identity aligned with your cinephile self."
     }
+  },
+  "list_recommendations": {
+    "title": "Recommendations",
+    "movies": "Movies",
+    "series": "Series",
+    "block": {
+      "first_line": "Become",
+      "second_line": "for exclusive recommendations."
+    },
+    "added_successfully": "Suggestion added successfully.",
+    "add_to_list": "Add to list",
+    "view_details": "View details"
   }
 }

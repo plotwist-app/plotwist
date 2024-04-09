@@ -603,4 +603,16 @@ export type Dictionary = {
       description: string
     }
   }
+  list_recommendations: {
+    title: string
+    movies: string
+    series: string
+    block: {
+      first_line: string
+      second_line: string
+    }
+    added_successfully: string
+    add_to_list: string
+    view_details: string
+  }
 }

@@ -33,7 +33,7 @@ type ListRecommendationProps = {
 }
 
 export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const { handleAddToList } = useLists()
   const [openDropdown, setOpenDropdown] = useState(false)
 
@@ -48,11 +48,11 @@ export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
             queryKey: listPageQueryKey(list.id),
           })
 
-          toast.success('added successfully')
+          toast.success(dictionary.list_recommendations.added_successfully)
         },
       },
     )
-  }, [handleAddToList, list, item])
+  }, [handleAddToList, list, item, dictionary])
 
   const includesInList = useMemo(() => {
     return list.list_items.some((listItem) => listItem.tmdb_id === item.id)
@@ -65,7 +65,7 @@ export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
   }
 
   return (
-    <div className="group relative aspect-poster w-full cursor-pointer overflow-hidden rounded-md border">
+    <div className="group relative aspect-poster w-full overflow-hidden rounded-md border">
       <div
         className={cn(
           'absolute z-20 h-full w-full bg-black/80 opacity-0 transition group-hover:opacity-100',
@@ -83,13 +83,13 @@ export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleAdd()}>
                 <PlusCircle size={14} className="mr-1" />
-                Add to list
+                {dictionary.list_recommendations.add_to_list}
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
                 <Link href={`/${language}/movies/${item.id}`}>
                   <ExternalLink size={14} className="mr-1" />
-                  View details
+                  {dictionary.list_recommendations.view_details}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

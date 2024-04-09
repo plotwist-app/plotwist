@@ -610,5 +610,17 @@
       "title": "あなたの名前、あなたのアイデンティティ",
       "description": "変化が必要ですか？ いつでもユーザーネームを更新して、あなたのデジタルアイデンティティを映画ファンのあなたと一致させてください。"
     }
+  },
+  "list_recommendations": {
+    "title": "おすすめ",
+    "movies": "映画",
+    "series": "シリーズ",
+    "block": {
+      "first_line": "になる",
+      "second_line": "独占的なおすすめのために。"
+    },
+    "added_successfully": "おすすめが正常に追加されました。",
+    "add_to_list": "リストに追加",
+    "view_details": "詳細を見る"
   }
 }

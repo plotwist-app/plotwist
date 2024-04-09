@@ -610,5 +610,17 @@
       "title": "Seu Nome, Sua Identidade",
       "description": "Sentindo a necessidade de mudança? Atualize seu nome de usuário quando quiser, mantendo sua identidade digital alinhada com seu eu cinéfilo."
     }
+  },
+  "list_recommendations": {
+    "title": "Sugestões",
+    "movies": "Filmes",
+    "series": "Séries",
+    "block": {
+      "first_line": "Torne-se",
+      "second_line": "para sugestões exclusivas."
+    },
+    "added_successfully": "Sugestão adicionada com sucesso.",
+    "add_to_list": "Adicionar à lista",
+    "view_details": "Ver detalhes"
   }
 }
