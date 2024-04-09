@@ -31,7 +31,6 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     handleRemoveFromList,
   } = useLists()
   const { user } = useAuth()
-
   const { dictionary } = useLanguage()
 
   const handleRemove = useCallback(

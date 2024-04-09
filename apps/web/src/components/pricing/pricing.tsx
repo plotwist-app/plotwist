@@ -1,7 +1,7 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
-import { HomePrice } from './home-price'
+import { Price } from './price'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/tooltip'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
-export const HomePrices = () => {
+export const Pricing = () => {
   const { language, dictionary } = useLanguage()
   const { user } = useAuth()
 
@@ -62,68 +62,66 @@ export const HomePrices = () => {
         </div>
 
         <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
-          <HomePrice.Root>
-            <HomePrice.Content>
-              <HomePrice.Header>
-                <HomePrice.Label>
+          <Price.Root>
+            <Price.Content>
+              <Price.Header>
+                <Price.Label>
                   {dictionary.home_prices.free_plan.title}
-                </HomePrice.Label>
+                </Price.Label>
 
-                <HomePrice.Value>
+                <Price.Value>
                   {dictionary.home_prices.free_plan.price}
-                </HomePrice.Value>
+                </Price.Value>
 
-                <HomePrice.Description>
+                <Price.Description>
                   {dictionary.home_prices.free_plan.description}
-                </HomePrice.Description>
-              </HomePrice.Header>
+                </Price.Description>
+              </Price.Header>
 
-              <HomePrice.Benefits>
+              <Price.Benefits>
                 {dictionary.home_prices.free_plan.benefits.map((benefit) => (
-                  <HomePrice.Benefit key={benefit}>{benefit}</HomePrice.Benefit>
+                  <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
                 ))}
-              </HomePrice.Benefits>
-            </HomePrice.Content>
+              </Price.Benefits>
+            </Price.Content>
 
             <Button asChild>
               <Link href={`/${language}/signup`}>
                 {dictionary.home_prices.free_plan.start_now}
               </Link>
             </Button>
-          </HomePrice.Root>
+          </Price.Root>
 
           {user ? (
             <form
               action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}`}
               method="POST"
             >
-              <HomePrice.Root>
-                <HomePrice.Content>
-                  <HomePrice.Header>
-                    <HomePrice.Label>
+              <Price.Root>
+                <Price.Content>
+                  <Price.Header>
+                    <Price.Label>
                       {dictionary.home_prices.pro_plan.title}
-                    </HomePrice.Label>
+                    </Price.Label>
 
-                    <HomePrice.Value className="flex items-center gap-2">
+                    <Price.Value className="flex items-center gap-2">
                       {dictionary.home_prices.pro_plan.price}
                       <Badge variant="outline">
                         {dictionary.home_prices.pro_plan.recommended}
                       </Badge>
-                    </HomePrice.Value>
+                    </Price.Value>
 
-                    <HomePrice.Description>
+                    <Price.Description>
                       {dictionary.home_prices.pro_plan.description}
-                    </HomePrice.Description>
-                  </HomePrice.Header>
+                    </Price.Description>
+                  </Price.Header>
 
-                  <HomePrice.Benefits>
+                  <Price.Benefits>
                     {dictionary.home_prices.pro_plan.benefits.map((benefit) => (
-                      <HomePrice.Benefit key={benefit}>
-                        {benefit}
-                      </HomePrice.Benefit>
+                      <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
                     ))}
-                  </HomePrice.Benefits>
-                </HomePrice.Content>
+                  </Price.Benefits>
+                </Price.Content>
 
                 <Button
                   type={user.subscription_type === 'PRO' ? 'button' : 'submit'}
@@ -145,80 +143,78 @@ export const HomePrices = () => {
 
                   {dictionary.home_prices.pro_plan.subscribe}
                 </Button>
-              </HomePrice.Root>
+              </Price.Root>
             </form>
           ) : (
-            <HomePrice.Root>
-              <HomePrice.Content>
-                <HomePrice.Header>
-                  <HomePrice.Label>
+            <Price.Root>
+              <Price.Content>
+                <Price.Header>
+                  <Price.Label>
                     {dictionary.home_prices.pro_plan.title}
-                  </HomePrice.Label>
+                  </Price.Label>
 
-                  <HomePrice.Value className="flex items-center gap-2">
+                  <Price.Value className="flex items-center gap-2">
                     {dictionary.home_prices.pro_plan.price}
                     <Badge variant="outline">
                       {dictionary.home_prices.pro_plan.recommended}
                     </Badge>
-                  </HomePrice.Value>
+                  </Price.Value>
 
-                  <HomePrice.Description>
+                  <Price.Description>
                     {dictionary.home_prices.pro_plan.description}
-                  </HomePrice.Description>
-                </HomePrice.Header>
+                  </Price.Description>
+                </Price.Header>
 
-                <HomePrice.Benefits>
+                <Price.Benefits>
                   {dictionary.home_prices.pro_plan.benefits.map((benefit) => (
-                    <HomePrice.Benefit key={benefit}>
-                      {benefit}
-                    </HomePrice.Benefit>
+                    <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
                   ))}
-                </HomePrice.Benefits>
-              </HomePrice.Content>
+                </Price.Benefits>
+              </Price.Content>
 
               <Button asChild type="button">
                 <Link href={`/${language}/login`}>Login</Link>
               </Button>
-            </HomePrice.Root>
+            </Price.Root>
           )}
 
-          <HomePrice.Root>
-            <HomePrice.Content>
-              <HomePrice.Header>
-                <HomePrice.Label>
+          <Price.Root>
+            <Price.Content>
+              <Price.Header>
+                <Price.Label>
                   {dictionary.home_prices.patreon_plan.title}
-                </HomePrice.Label>
-                <HomePrice.Value>
+                </Price.Label>
+                <Price.Value>
                   {dictionary.home_prices.patreon_plan.price}
-                </HomePrice.Value>
+                </Price.Value>
 
                 <Skeleton className="h-[2ex] w-full" />
                 <Skeleton className="h-[2ex] w-full" />
-              </HomePrice.Header>
+              </Price.Header>
 
-              <HomePrice.Benefits>
-                <HomePrice.Benefit>
+              <Price.Benefits>
+                <Price.Benefit>
                   <Skeleton className="h-[2ex] w-[20ch]" />
-                </HomePrice.Benefit>
+                </Price.Benefit>
 
-                <HomePrice.Benefit>
+                <Price.Benefit>
                   <Skeleton className="h-[2ex] w-[20ch]" />
-                </HomePrice.Benefit>
+                </Price.Benefit>
 
-                <HomePrice.Benefit>
+                <Price.Benefit>
                   <Skeleton className="h-[2ex] w-[20ch]" />
-                </HomePrice.Benefit>
+                </Price.Benefit>
 
-                <HomePrice.Benefit>
+                <Price.Benefit>
                   <Skeleton className="h-[2ex] w-[20ch]" />
-                </HomePrice.Benefit>
-              </HomePrice.Benefits>
-            </HomePrice.Content>
+                </Price.Benefit>
+              </Price.Benefits>
+            </Price.Content>
 
             <Button disabled>
               {dictionary.home_prices.patreon_plan.coming_soon}
             </Button>
-          </HomePrice.Root>
+          </Price.Root>
         </ol>
       </div>
     </section>

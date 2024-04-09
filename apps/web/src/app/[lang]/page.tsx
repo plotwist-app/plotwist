@@ -13,12 +13,12 @@ import { CounterSection } from './_components/count-section'
 import { UserCount } from './_components/user-count'
 import { HomeButton } from './_components/home-button'
 import { HomeFeatures } from './_components/home-features'
-import { HomePrices } from './_components/home-prices'
 import { APP_URL } from '../../../constants'
 
 import { MovieDetails } from './movies/[id]/_components/movie-details'
 import { Footer } from '@/components/footer'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { Pricing } from '@/components/pricing'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -169,7 +169,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <HomeFeatures language={lang} dictionary={dictionary} />
-        <HomePrices />
+        <Pricing />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>

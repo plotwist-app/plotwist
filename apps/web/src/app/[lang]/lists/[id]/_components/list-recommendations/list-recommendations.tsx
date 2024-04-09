@@ -11,6 +11,8 @@ import { useMemo } from 'react'
 import { ListRecommendation } from './list-recommendation'
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
+import { ProBadge } from '@/components/pro-badge'
+import { ListRecommendationsBlock } from './list-recommendations-block'
 
 type ListRecommendationsProps = { list: List }
 export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
@@ -23,26 +25,29 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
     refetchOnWindowFocus: false,
   })
 
+  const userHasPermission = user?.subscription_type === 'PRO'
+
   const content = useMemo(() => {
-    console.log({ user })
-    if (user?.subscription_type !== 'PRO') {
+    if (isLoading || !data || isFetching)
       return (
         <div className="relative grid grid-cols-3 gap-2">
-          <div className="absolute h-full w-full rounded-lg border border-dashed"></div>
+          <ListRecommendationsBlock />
+          <Skeleton className="aspect-poster w-full" />
+          <Skeleton className="aspect-poster w-full" />
+          <Skeleton className="aspect-poster w-full" />
+        </div>
+      )
 
-          <div className="aspect-poster w-full" />
+    if (!userHasPermission) {
+      return (
+        <div className="pointer-events-none relative grid grid-cols-3 gap-2">
+          <ListRecommendationsBlock />
+          {data.movies.map((movie) => (
+            <ListRecommendation movie={movie} key={movie.id} list={list} />
+          ))}
         </div>
       )
     }
-
-    if (isLoading || !data || isFetching)
-      return (
-        <div className="grid grid-cols-3 gap-2">
-          <Skeleton className="aspect-poster w-full" />
-          <Skeleton className="aspect-poster w-full" />
-          <Skeleton className="aspect-poster w-full" />
-        </div>
-      )
 
     return (
       <div className="grid grid-cols-3 gap-2">
@@ -51,17 +56,17 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
         ))}
       </div>
     )
-  }, [isLoading, data, isFetching, list, user])
+  }, [userHasPermission, isLoading, data, isFetching, list])
 
   return (
     <div className="col-span-1 space-y-8">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-md font-semibold">
+          <h2 className="text-md flex gap-1 font-semibold">
             Suggestions
-            <span className="ml-1 animate-shine rounded-full border bg-[linear-gradient(110deg,#ffffff,45%,#f1f1f1,55%,#ffffff)] bg-[length:200%_100%] px-2 py-0.5 text-[10px] dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
-              PRO
-            </span>
+            <div>
+              <ProBadge />
+            </div>
           </h2>
 
           <Button
@@ -69,6 +74,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
             size="icon"
             className="h-6 w-6"
             onClick={() => refetch()}
+            disabled={!userHasPermission}
           >
             <RotateCw className="h-3 w-3" />
           </Button>
