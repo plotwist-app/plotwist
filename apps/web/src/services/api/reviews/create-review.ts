@@ -8,6 +8,7 @@ export const createReviewService = async ({
   rating,
   review,
   tmdbItem,
+  language,
 }: CreateReviewValues) => {
   const tmdbItemValues = sanitizeTmdbItem(tmdbItem)
 
@@ -16,6 +17,7 @@ export const createReviewService = async ({
     review,
     media_type: mediaType,
     user_id: userId,
+    language,
 
     ...tmdbItemValues,
   })

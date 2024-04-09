@@ -1,3 +1,4 @@
+import { Language } from '@/types/languages'
 import { MediaType } from '@/types/supabase/media-type'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
@@ -8,4 +9,5 @@ export type CreateReviewValues = {
   mediaType: MediaType
 
   tmdbItem: MovieDetails | TvSerieDetails
+  language: Language
 }
