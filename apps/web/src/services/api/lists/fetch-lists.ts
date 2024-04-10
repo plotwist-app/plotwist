@@ -9,6 +9,7 @@ export const fetchListsService = async (userId?: string) => {
     .select('*, list_items(*)')
     .eq('user_id', userId)
     .order('created_at', { ascending: true })
+    .order('created_at', { referencedTable: 'list_items' })
     .returns<List[]>()
 
   return data

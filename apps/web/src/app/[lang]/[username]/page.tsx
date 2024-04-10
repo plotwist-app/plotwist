@@ -15,7 +15,7 @@ const UserPage = async ({ params }: UserPageProps) => {
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <section className="flex h-[50vh] w-full items-center justify-center rounded-none border text-muted lg:rounded-lg">
+        <section className="flex h-[55vh] w-full items-center justify-center rounded-none border text-muted lg:rounded-lg">
           <LucideImage />
         </section>
 

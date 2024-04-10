@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { MoreVertical, Trash } from 'lucide-react'
@@ -28,10 +27,12 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 
-import { tmdbImage } from '@/utils/tmdb/image'
-
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
+import { Poster } from '../poster'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListCardProps = { list: List }
 
