@@ -9,7 +9,7 @@ import { useAuth } from '@/context/auth'
 
 import { cn } from '@/lib/utils'
 
-import { ReviewReply } from '@/types/supabase/reviews'
+import { Reply } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
 import { useReplies } from '@/hooks/use-replies/use-replies'
@@ -32,7 +32,7 @@ import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 type TmdbItem = TvSerieDetails | MovieDetails
 
 type ReviewItemActionsProps = {
-  reply: ReviewReply
+  reply: Reply
   tmdbItem: TmdbItem
   mediaType: MediaType
 }
@@ -58,7 +58,10 @@ const ReplyAction = ({ disabled, active, ...props }: ReplyActionProps) => {
 }
 
 export const ReviewReplyActions = ({
-  reply: { id, user_id: userId },
+  reply: {
+    id,
+    user: { id: userId },
+  },
   mediaType,
   tmdbItem,
 }: ReviewItemActionsProps) => {

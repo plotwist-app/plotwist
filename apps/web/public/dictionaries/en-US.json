@@ -401,7 +401,9 @@
       "make_first_review": "to make your first review!"
     },
     "popular_reviews": {
-      "title": "Popular reviews"
+      "title": "Popular reviews",
+      "no_reviews_found": "We didn't find any reviews.",
+      "explore_popular_movies": "Explore popular movies, and give us your opinion."
     }
   },
   "movies_list_filters": {

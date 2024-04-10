@@ -394,6 +394,8 @@ export type Dictionary = {
     }
     popular_reviews: {
       title: string
+      no_reviews_found: string
+      explore_popular_movies: string
     }
   }
   movies_list_filters: {

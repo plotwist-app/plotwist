@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { useLanguage } from '@/context/language'
 import { getPopularReviewsService } from '@/services/api/reviews/get-popular-reviews'
+import Link from 'next/link'
 
 const MAX_SKELETONS_REVIEWS = 5
 
@@ -13,7 +14,7 @@ export const DashboardPopularReviews = () => {
 
   const { data: reviews, isLoading } = useQuery({
     queryKey: ['dashboard-popular-reviews'],
-    queryFn: async () => getPopularReviewsService(),
+    queryFn: async () => getPopularReviewsService(language),
   })
 
   if (isLoading) {
@@ -41,15 +42,28 @@ export const DashboardPopularReviews = () => {
       </h3>
 
       <div className="space-y-8">
-        {reviews.map((review) => (
-          <DashboardReview
-            username={review.user_info.raw_user_meta_data.username}
-            key={review.id}
-            review={review}
-            likes={review.likes_count ?? 0}
-            language={language}
-          />
-        ))}
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <DashboardReview
+              username={review.user.username}
+              key={review.id}
+              review={review}
+              likes={review.likes_count ?? 0}
+              language={language}
+            />
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8">
+            <p>{dictionary.dashboard.popular_reviews.no_reviews_found}</p>
+
+            <Link
+              className="text-xs text-muted-foreground underline"
+              href={`/${language}/movies/popular`}
+            >
+              {dictionary.dashboard.popular_reviews.explore_popular_movies}
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )

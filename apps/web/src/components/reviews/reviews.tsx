@@ -11,6 +11,7 @@ import { ReviewForm } from '@/components/reviews/review-form'
 
 import { getReviewsService } from '@/services/api/reviews/get-reviews'
 import { MediaType } from '@/types/supabase/media-type'
+import { useLanguage } from '@/context/language'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -20,9 +21,12 @@ export type ReviewsProps = {
 }
 
 export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
+  const { language } = useLanguage()
+
   const { data, isLoading } = useQuery({
-    queryKey: [tmdbItem.id, mediaType],
-    queryFn: async () => getReviewsService({ id: tmdbItem.id, mediaType }),
+    queryKey: [tmdbItem.id, mediaType, language],
+    queryFn: async () =>
+      getReviewsService({ id: tmdbItem.id, mediaType, language }),
   })
 
   if (isLoading) {

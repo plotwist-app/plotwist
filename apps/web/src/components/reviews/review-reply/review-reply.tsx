@@ -16,7 +16,7 @@ import { timeFromNow } from '@/utils/date/time-from-now'
 type TmdbItem = TvSerieDetails | MovieDetails
 
 interface ReviewReplyProps {
-  replies: Review['review_replies']
+  replies: Review['replies']
   openReplies: boolean
   setOpenReplies: (param: boolean) => void
   tmdbItem: TmdbItem
@@ -51,7 +51,7 @@ export const ReviewReply = ({
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
           {replies.map((reply) => {
-            const username = reply.raw_user_meta_data?.username
+            const { username } = reply.user
             const usernameInitial = username[0].toUpperCase()
 
             return (

@@ -41,7 +41,7 @@ export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
 export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { handleCreateReview } = useReviews()
   const { user } = useAuth()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
 
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewFormSchema(dictionary)),
@@ -79,6 +79,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
         mediaType,
         userId: user.id,
         tmdbItem,
+        language,
       },
 
       {

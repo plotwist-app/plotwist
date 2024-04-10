@@ -31,13 +31,11 @@ export const ReviewItem = ({
   mediaType,
 }: ReviewItemProps) => {
   const {
-    user_info: {
-      raw_user_meta_data: { username },
-    },
     review: content,
     rating,
-    review_replies: replies,
+    replies,
     created_at: createdAt,
+    user: { username },
   } = review
 
   const {
