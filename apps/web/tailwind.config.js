@@ -8,13 +8,6 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
     extend: {
       aspectRatio: {
         poster: '2 / 3',
@@ -83,7 +76,7 @@ module.exports = {
         shine: 'shine 2s linear infinite',
       },
       maxWidth: {
-        article: '1080px',
+        app: '1080px',
       },
     },
   },

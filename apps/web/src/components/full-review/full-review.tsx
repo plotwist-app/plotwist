@@ -3,24 +3,17 @@ import Link from 'next/link'
 
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { Review } from '@/types/supabase/reviews'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { Language } from '@/types/languages'
+import { FullReview as FullReviewType } from '@/services/api/reviews'
 
-type DashboardReviewProps = {
-  review: Review
+type FullReviewProps = {
+  review: FullReviewType
   language: Language
-  username: string
-  likes: number
 }
 
-export const DashboardReview = ({
-  review,
-  language,
-  username,
-  likes,
-}: DashboardReviewProps) => {
+export const FullReview = ({ review, language }: FullReviewProps) => {
   const {
     tmdb_poster_path: poster,
     tmdb_title: title,
@@ -28,6 +21,8 @@ export const DashboardReview = ({
     media_type: mediaType,
     review: content,
     rating,
+    user: { username },
+    likes_count: likes,
   } = review
 
   const usernameInitial = username[0]?.toUpperCase()
@@ -81,7 +76,7 @@ export const DashboardReview = ({
   )
 }
 
-export const DashboardReviewSkeleton = () => {
+export const FullReviewSkeleton = () => {
   return (
     <div className="flex space-x-4">
       <div className="w-2/6 md:w-1/6">

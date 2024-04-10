@@ -6,14 +6,19 @@ import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/context/auth'
 
 import { useLanguage } from '@/context/language'
-import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
+
 import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
+
+import {
+  FullReview,
+  FullReviewSkeleton,
+} from '@/components/full-review/full-review'
 
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
   const { language, dictionary } = useLanguage()
 
-  const { data: response, isLoading } = useQuery({
+  const { data: lastReview, isLoading } = useQuery({
     queryKey: ['dashboard-user-last-review'],
     queryFn: async () => getUserLastReviewService(user?.id ?? ''),
   })
@@ -41,12 +46,13 @@ export const DashboardUserLastReview = () => {
         <h3 className="text-lg font-semibold">
           {dictionary.dashboard.user_last_review.title}
         </h3>
-        <DashboardReviewSkeleton />
+
+        <FullReviewSkeleton />
       </div>
     )
   }
 
-  if (!response) {
+  if (!lastReview) {
     return (
       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.dashboard.user_last_review.no_review_message}</p>
@@ -61,21 +67,13 @@ export const DashboardUserLastReview = () => {
     )
   }
 
-  const lastReview = response
-  const likesCount = lastReview.likes?.length
-
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">
         {dictionary.dashboard.user_last_review.title}
       </h3>
 
-      <DashboardReview
-        review={lastReview}
-        username={user.username}
-        language={language}
-        likes={likesCount ?? 0}
-      />
+      <FullReview review={lastReview} language={language} />
     </div>
   )
 }

@@ -120,9 +120,11 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               )}
             >
               <div className="flex flex-col space-y-1">
-                <div className="flex items-center gap-2">
-                  <h1 className="text-xl font-bold">{list.name}</h1>
-                  {mode === 'SHOW' && <UserResume userId={list.user_id} />}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-xl font-bold">{list.name}</h1>
+                    <UserResume userId={list.user_id} />
+                  </div>
 
                   {mode === 'EDIT' && (
                     <ListForm

@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Profile } from '@/types/supabase'
-import { getProfile } from '@/services/api/profiles/get-profile'
+import { getProfileById } from '@/services/api/profiles'
 
 export const authContext = createContext({} as AuthContext)
 
@@ -43,7 +43,7 @@ export const AuthContextProvider = ({
     if (data) {
       push(`/${language}/home`)
 
-      const profile = await getProfile(data.user.id)
+      const profile = await getProfileById(data.user.id)
       setUser(profile)
 
       toast.success(dictionary.login_form.login_success)
