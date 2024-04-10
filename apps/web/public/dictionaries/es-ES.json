@@ -401,7 +401,9 @@
       "make_first_review": "para hacer tu primera reseña!"
     },
     "popular_reviews": {
-      "title": "Reseñas populares"
+      "title": "Reseñas populares",
+      "no_reviews_found": "No encontramos ninguna evaluación.",
+      "explore_popular_movies": "Explora películas populares y danos tu opinión."
     }
   },
   "movies_list_filters": {

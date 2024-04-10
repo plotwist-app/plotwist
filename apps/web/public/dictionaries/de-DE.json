@@ -401,7 +401,9 @@
       "make_first_review": "um deine erste Bewertung zu verfassen!"
     },
     "popular_reviews": {
-      "title": "Beliebte Bewertungen"
+      "title": "Beliebte Bewertungen",
+      "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
+      "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung."
     }
   },
   "movies_list_filters": {

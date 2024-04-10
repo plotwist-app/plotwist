@@ -401,7 +401,9 @@
       "make_first_review": "pour faire votre première critique !"
     },
     "popular_reviews": {
-      "title": "Critiques populaires"
+      "title": "Critiques populaires",
+      "no_reviews_found": "Nous n'avons trouvé aucun avis.",
+      "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis."
     }
   },
   "movies_list_filters": {

@@ -15,7 +15,7 @@ export const getReviewsService = async ({
   language,
 }: GetReview) => {
   const { error, data } = await supabase
-    .from('reviews_with_replies')
+    .from('reviews_with_replies_and_users')
     .select('*')
     .eq('tmdb_id', id)
     .eq('language', language)

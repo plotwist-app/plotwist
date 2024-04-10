@@ -1,9 +1,9 @@
+import { Language } from '../languages'
 import { MediaType } from './media-type'
 
 export type Review = {
   created_at: string
   id: string
-
   rating: number
   review: string
   user_id: string
@@ -12,25 +12,20 @@ export type Review = {
   tmdb_title: string
   tmdb_overview: string
   tmdb_poster_path?: string
+  language: Language
 
-  user_info: UserInfo
-
-  review_replies: ReviewReply[] | null
+  user: User
+  replies: Reply[] | null
 }
 
-type UserInfo = {
-  email: string
-  raw_user_meta_data: {
-    username: string
-  }
-}
-
-export type ReviewReply = {
-  created_at: Date
+type User = {
   id: string
+  username: string
+}
+
+export type Reply = {
+  id: string
+  created_at: Date
   reply: string
-  user_id: string
-  raw_user_meta_data: {
-    username: string
-  }
+  user: User
 }
