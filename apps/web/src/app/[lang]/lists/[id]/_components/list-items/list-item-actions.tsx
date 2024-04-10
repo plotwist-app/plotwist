@@ -126,23 +126,20 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
           },
         )
 
-        APP_QUERY_CLIENT.setQueryData(
-          ['lists', user.id],
-          (query: { data: List[] }) => {
-            const newData = query.data.map((list) => {
-              if (list.id === variables.listId) {
-                return {
-                  ...list,
-                  cover_path: variables.newCoverPath,
-                }
+        APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
+          const newData = query.map((list) => {
+            if (list.id === variables.listId) {
+              return {
+                ...list,
+                cover_path: variables.newCoverPath,
               }
+            }
 
-              return list
-            })
+            return list
+          })
 
-            return { ...query, data: newData }
-          },
-        )
+          return newData
+        })
 
         toast.success(dictionary.list_item_actions.cover_changed_successfully)
       },

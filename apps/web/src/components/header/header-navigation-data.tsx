@@ -10,7 +10,6 @@ import {
   Sparkles,
   Star,
   Tv,
-  User,
 } from 'lucide-react'
 
 import { Dictionary } from '@/utils/dictionaries'
@@ -112,11 +111,11 @@ export const buildLanguageNavigation: buildLanguageNavigation = (
     href: '/animes',
     icon: JapaneseYen,
   },
-  {
-    label: dictionary.navigation.people,
-    href: '/people/popular',
-    icon: User,
-  },
+  // {
+  //   label: dictionary.navigation.people,
+  //   href: '/people/popular',
+  //   icon: User,
+  // },
   {
     label: dictionary.navigation.lists,
     href: '/lists',
