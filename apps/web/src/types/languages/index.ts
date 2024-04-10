@@ -7,7 +7,7 @@ export type Language =
   | 'pt-BR'
   | 'ja-JP'
 
-export type PageProps<T> = {
+export type PageProps<T = unknown> = {
   params: {
     lang: Language
   } & T

@@ -76,7 +76,7 @@ export const ListsContextProvider = ({
   return (
     <ListsContext.Provider
       value={{
-        lists: data?.data ?? [],
+        lists: data ?? [],
         isLoading,
 
         handleCreateNewList,

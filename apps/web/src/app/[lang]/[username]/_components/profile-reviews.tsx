@@ -2,12 +2,15 @@ import { FullReview } from '@/components/full-review'
 import { getProfileReviews } from '@/services/api/profiles'
 import { Language } from '@/types/languages'
 
-type UserReviewsProps = {
+type ProfileReviewsProps = {
   userId: string
   language: Language
 }
 
-export const UserReviews = async ({ userId, language }: UserReviewsProps) => {
+export const ProfileReviews = async ({
+  userId,
+  language,
+}: ProfileReviewsProps) => {
   const reviews = await getProfileReviews(userId, language)
 
   return (

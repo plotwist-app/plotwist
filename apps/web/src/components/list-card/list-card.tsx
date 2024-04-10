@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
@@ -30,14 +31,21 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { List } from '@/types/supabase/lists'
-import { Skeleton } from '@/components/ui/skeleton'
+import { useAuth } from '@/context/auth'
 
 type ListCardProps = { list: List }
 
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
   const { language, dictionary } = useLanguage()
+  const { user } = useAuth()
+
   const [open, setOpen] = useState(false)
+
+  const canEdit = useMemo(() => {
+    const isOwner = user?.id === list.user_id
+    return isOwner
+  }, [list.user_id, user?.id])
 
   const href = `/${language}/lists/${list.id}`
 
@@ -64,20 +72,22 @@ export const ListCard = ({ list }: ListCardProps) => {
               {list.name}
             </Link>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button variant="outline" size="icon" className="h-6 w-6">
-                  <MoreVertical size={12} />
-                </Button>
-              </DropdownMenuTrigger>
+            {canEdit && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Button variant="outline" size="icon" className="h-6 w-6">
+                    <MoreVertical size={12} />
+                  </Button>
+                </DropdownMenuTrigger>
 
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setOpen(true)}>
-                  <Trash size={12} className="mr-2" />
-                  {dictionary.list_card.delete}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setOpen(true)}>
+                    <Trash size={12} className="mr-2" />
+                    {dictionary.list_card.delete}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
           <p className="line-clamp-3 text-xs text-muted-foreground">
@@ -94,6 +104,7 @@ export const ListCard = ({ list }: ListCardProps) => {
               {dictionary.list_card.dialog_description}
             </DialogDescription>
           </DialogHeader>
+
           <DialogFooter className="sm:flex-end">
             <DialogClose asChild>
               <Button type="button" variant="secondary">

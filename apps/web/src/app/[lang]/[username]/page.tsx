@@ -3,7 +3,8 @@ import { ProBadge } from '@/components/pro-badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Lock, Image as LucideImage } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
-import { UserReviews } from './_components/user-reviews'
+import { ProfileReviews } from './_components/profile-reviews'
+import { ProfileLists } from './_components/profile-lists'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
@@ -12,13 +13,13 @@ const UserPage = async ({ params }: UserPageProps) => {
   if (!profile) return <p>cade?</p>
 
   return (
-    <main className="p-4">
+    <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <section className="flex aspect-[16/5] w-full items-center justify-center rounded-lg border text-muted">
+        <section className="flex h-[50vh] w-full items-center justify-center rounded-none border text-muted lg:rounded-lg">
           <LucideImage />
         </section>
 
-        <div className="grid grid-cols-3 gap-8 p-8">
+        <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-8 lg:p-8">
           <aside className="col-span-1 -mt-24 flex flex-col space-y-4">
             <div className="space-y-4">
               <div className="relative flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
@@ -63,7 +64,11 @@ const UserPage = async ({ params }: UserPageProps) => {
               </div>
 
               <TabsContent value="reviews" className="mt-4">
-                <UserReviews userId={profile.id} language={params.lang} />
+                <ProfileReviews userId={profile.id} language={params.lang} />
+              </TabsContent>
+
+              <TabsContent value="lists" className="mt-4">
+                <ProfileLists userId={profile.id} />
               </TabsContent>
             </Tabs>
           </section>

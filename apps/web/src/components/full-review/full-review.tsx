@@ -32,6 +32,8 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
       ? `/${language}/movies/${tmdbId}`
       : `/${language}/tv-series/${tmdbId}`
 
+  const userProfileHref = `/${language}/${username}`
+
   return (
     <div className="flex space-x-4">
       <Link href={href} className="w-2/6 md:w-1/6">
@@ -46,10 +48,19 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
         <div className="space-y-2">
           <div className="flex flex-col gap-2 md:flex-row md:items-center">
             <div className="flex items-center gap-x-2">
-              <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs">
+              <Link
+                href={userProfileHref}
+                className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs"
+              >
                 {usernameInitial}
-              </div>
-              <span className="text-sm text-muted-foreground">{username}</span>
+              </Link>
+
+              <Link
+                href={userProfileHref}
+                className="text-sm text-muted-foreground"
+              >
+                {username}
+              </Link>
             </div>
 
             <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
