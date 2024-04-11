@@ -50,7 +50,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
-        <div className="h-[55vh] w-full overflow-hidden rounded-lg">
+        <div className="h-[30dvh] w-full overflow-hidden rounded-lg lg:h-[55dvh]">
           <Skeleton className="h-full w-full" />
         </div>
 

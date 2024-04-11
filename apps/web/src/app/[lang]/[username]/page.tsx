@@ -1,10 +1,11 @@
 import { PageProps } from '@/types/languages'
 import { ProBadge } from '@/components/pro-badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Lock, Image as LucideImage } from 'lucide-react'
+import { Lock } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
+import { ProfileBanner } from './_components/profile-banner'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
@@ -15,11 +16,9 @@ const UserPage = async ({ params }: UserPageProps) => {
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <section className="flex h-[55vh] w-full items-center justify-center rounded-none border text-muted lg:rounded-lg">
-          <LucideImage />
-        </section>
+        <ProfileBanner />
 
-        <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-8 lg:p-8">
+        <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-16 lg:px-16">
           <aside className="col-span-1 -mt-24 flex flex-col space-y-4">
             <div className="space-y-4">
               <div className="relative flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
@@ -28,8 +27,7 @@ const UserPage = async ({ params }: UserPageProps) => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <h1 className="text-3xl font-bold">{profile.username}</h1>
-
+                  <h1 className="text-2xl font-bold">{profile.username}</h1>
                   <ProBadge />
                 </div>
               </div>
