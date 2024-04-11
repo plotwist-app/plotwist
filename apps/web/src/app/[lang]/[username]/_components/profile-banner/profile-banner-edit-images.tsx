@@ -22,5 +22,5 @@ export const ProfileBannerEditImages = ({
     )
   }
 
-  return <ImagesMasonry images={images()} />
+  return <ImagesMasonry images={images()} onSelect={() => console.log('oi')} />
 }

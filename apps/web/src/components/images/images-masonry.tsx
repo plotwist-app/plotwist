@@ -29,7 +29,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
         if (onSelect) {
           return (
             <div
-              className="relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow"
+              className="relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow hover:border-2 hover:shadow-lg"
               key={filePath}
               style={{ aspectRatio }}
             >
