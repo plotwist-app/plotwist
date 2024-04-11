@@ -624,5 +624,11 @@
     "added_successfully": "おすすめが正常に追加されました。",
     "add_to_list": "リストに追加",
     "view_details": "詳細を見る"
+  },
+  "profile_banner": {
+    "change_banner": "バナーを変更",
+    "change_profile_banner": "プロファイルのバナーを変更",
+    "search_movies_or_series": "映画やシリーズを検索...",
+    "changed_successfully": "バナーが正常に変更されました。"
   }
 }

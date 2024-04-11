@@ -4,6 +4,8 @@ import { tmdb } from '@plotwist/tmdb'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
 import { useProfile } from '@/hooks/use-profile'
 import { useParams } from 'next/navigation'
+import { toast } from 'sonner'
+import { useLanguage } from '@/context/language'
 
 type ProfileBannerEditImagesProps = {
   selectedItem: SelectedItem
@@ -15,6 +17,7 @@ export const ProfileBannerEditImages = ({
 }: ProfileBannerEditImagesProps) => {
   const { id, type } = selectedItem
 
+  const { dictionary } = useLanguage()
   const { data, isLoading } = useQuery({
     queryKey: ['images', id],
     queryFn: async () => await tmdb.images(type, id),
@@ -44,6 +47,7 @@ export const ProfileBannerEditImages = ({
           {
             onSettled: () => {
               handleCloseDialog()
+              toast.success(dictionary.profile_banner.changed_successfully)
             },
           },
         )

@@ -624,5 +624,11 @@
     "added_successfully": "Suggestion ajoutée avec succès.",
     "add_to_list": "Ajouter à la liste",
     "view_details": "Voir les détails"
+  },
+  "profile_banner": {
+    "change_banner": "Changer de bannière",
+    "change_profile_banner": "Changer la bannière du profil",
+    "search_movies_or_series": "Rechercher des films ou des séries...",
+    "changed_successfully": "Bannière modifiée avec succès."
   }
 }

@@ -16,11 +16,14 @@ import { ChevronLeft } from 'lucide-react'
 import { ProfileBannerEditSearchInitialResults } from './profile-banner-edit-search-initial-results'
 import { ProfileBannerEditSearchResults } from './profile-banner-edit-search-results'
 import { ProfileBannerEditImages } from './profile-banner-edit-images'
+import { useLanguage } from '@/context/language'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
 type ProfileBannerEditProps = PropsWithChildren
 export const ProfileBannerEdit = ({ children }: ProfileBannerEditProps) => {
+  const { dictionary } = useLanguage()
+
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
   const [selectedItem, setSelectedItem] = useState<null | SelectedItem>(null)
@@ -61,7 +64,7 @@ export const ProfileBannerEdit = ({ children }: ProfileBannerEditProps) => {
           <div className="absolute z-20 h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
 
           <p className="spacing z-30 scale-0 text-xs  font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
-            Change banner
+            {dictionary.profile_banner.change_banner}
           </p>
 
           {children}
@@ -70,7 +73,9 @@ export const ProfileBannerEdit = ({ children }: ProfileBannerEditProps) => {
 
       <DialogContent className="gap-0 p-0">
         <DialogHeader className="items-start space-y-4 border-b p-4">
-          <DialogTitle>Change profile banner</DialogTitle>
+          <DialogTitle>
+            {dictionary.profile_banner.change_profile_banner}
+          </DialogTitle>
 
           {selectedItem ? (
             <div className="flex gap-2">
@@ -84,7 +89,7 @@ export const ProfileBannerEdit = ({ children }: ProfileBannerEditProps) => {
             <Input
               id="search"
               type="text"
-              placeholder="Search movies or series..."
+              placeholder={dictionary.profile_banner.search_movies_or_series}
               onChange={({ target: { value } }) => setSearch(value)}
               defaultValue={search}
             />

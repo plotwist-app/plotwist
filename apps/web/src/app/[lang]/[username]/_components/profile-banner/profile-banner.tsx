@@ -18,6 +18,7 @@ export const ProfileBanner = ({
   profileUsername,
 }: ProfileBannerProps) => {
   const { user } = useAuth()
+
   const { data: bannerPath } = useQuery({
     queryKey: ['profile-banner', profileUsername],
     queryFn: async () => await getProfileByUsername(profileUsername),
