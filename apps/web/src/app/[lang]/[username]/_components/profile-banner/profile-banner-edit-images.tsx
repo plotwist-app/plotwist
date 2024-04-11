@@ -2,10 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 import { SelectedItem } from './profile-banner-edit'
 import { tmdb } from '@plotwist/tmdb'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
+import { useProfile } from '@/hooks/use-profile'
+import { useParams } from 'next/navigation'
 
-type ProfileBannerEditImagesProps = { selectedItem: SelectedItem }
+type ProfileBannerEditImagesProps = {
+  selectedItem: SelectedItem
+  handleCloseDialog: () => void
+}
 export const ProfileBannerEditImages = ({
   selectedItem,
+  handleCloseDialog,
 }: ProfileBannerEditImagesProps) => {
   const { id, type } = selectedItem
 
@@ -14,7 +20,11 @@ export const ProfileBannerEditImages = ({
     queryFn: async () => await tmdb.images(type, id),
   })
 
-  if (!data || isLoading) return <ReactMasonrySkeleton count={10} />
+  const { username } = useParams()
+
+  const { handleUpdateBannerPath } = useProfile()
+
+  if (!data || isLoading) return <ReactMasonrySkeleton count={20} />
 
   const images = () => {
     return [...data.backdrops, ...data.posters].sort(
@@ -22,5 +32,22 @@ export const ProfileBannerEditImages = ({
     )
   }
 
-  return <ImagesMasonry images={images()} onSelect={() => console.log('oi')} />
+  return (
+    <ImagesMasonry
+      images={images()}
+      onSelect={(image) =>
+        handleUpdateBannerPath.mutate(
+          {
+            newBannerPath: image.file_path,
+            username: String(username),
+          },
+          {
+            onSettled: () => {
+              handleCloseDialog()
+            },
+          },
+        )
+      }
+    />
+  )
 }

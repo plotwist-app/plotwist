@@ -9,19 +9,22 @@ import { ProfileBanner } from './_components/profile-banner'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
-const UserPage = async ({ params }: UserPageProps) => {
-  const profile = await getProfileByUsername(params.username)
+const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
+  const profile = await getProfileByUsername(username)
   if (!profile) return <p>cade?</p>
 
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <ProfileBanner />
+        <ProfileBanner
+          profileId={profile.id}
+          profileUsername={profile.username}
+        />
 
         <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-16 lg:px-16">
           <aside className="col-span-1 -mt-24 flex flex-col space-y-4">
             <div className="space-y-4">
-              <div className="relative flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
+              <div className="relative z-50 flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
                 {profile.username[0].toUpperCase()}
               </div>
 
@@ -62,7 +65,7 @@ const UserPage = async ({ params }: UserPageProps) => {
               </div>
 
               <TabsContent value="reviews" className="mt-4">
-                <ProfileReviews userId={profile.id} language={params.lang} />
+                <ProfileReviews userId={profile.id} language={lang} />
               </TabsContent>
 
               <TabsContent value="lists" className="mt-4">

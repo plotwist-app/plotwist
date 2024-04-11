@@ -22,16 +22,19 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
       }}
       data-testid="images-masonry"
     >
-      {images.map(({ file_path: filePath, aspect_ratio: aspectRatio }) => {
+      {images.map((image) => {
+        const { file_path: filePath, aspect_ratio: aspectRatio } = image
+
         const previewURL = tmdbImage(filePath, 'w500')
         const qualityURL = tmdbImage(filePath, 'original')
 
         if (onSelect) {
           return (
             <div
-              className="relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow hover:border-2 hover:shadow-lg"
+              className="relative mb-4 flex w-full cursor-pointer overflow-hidden rounded-md border bg-background/50 shadow hover:shadow-lg"
               key={filePath}
               style={{ aspectRatio }}
+              onClick={() => onSelect(image)}
             >
               <NextImage
                 fill

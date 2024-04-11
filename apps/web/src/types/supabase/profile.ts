@@ -4,4 +4,5 @@ export type Profile = {
   username: string
   created_at: string
   subscription_type: 'PRO' | 'FREE'
+  banner_path: string | null
 }

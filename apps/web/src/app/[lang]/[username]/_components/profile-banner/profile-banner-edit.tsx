@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { PropsWithChildren, useMemo, useState } from 'react'
 
 import {
   Dialog,
@@ -19,14 +19,21 @@ import { ProfileBannerEditImages } from './profile-banner-edit-images'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
-export const ProfileBannerEdit = () => {
+type ProfileBannerEditProps = PropsWithChildren
+export const ProfileBannerEdit = ({ children }: ProfileBannerEditProps) => {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
   const [selectedItem, setSelectedItem] = useState<null | SelectedItem>(null)
+  const [openDialog, setOpenDialog] = useState(false)
 
   const content = useMemo(() => {
     if (selectedItem) {
-      return <ProfileBannerEditImages selectedItem={selectedItem} />
+      return (
+        <ProfileBannerEditImages
+          selectedItem={selectedItem}
+          handleCloseDialog={() => setOpenDialog(false)}
+        />
+      )
     }
 
     if (debouncedSearch === '') {
@@ -48,14 +55,16 @@ export const ProfileBannerEdit = () => {
   }, [debouncedSearch, selectedItem])
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <section className="group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
-          <div className="absolute h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
+          <div className="absolute z-20 h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
 
-          <p className="spacing scale-0 text-xs font-bold  uppercase tracking-wider text-white transition-all group-hover:scale-100">
+          <p className="spacing z-30 scale-0 text-xs  font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
             Change banner
           </p>
+
+          {children}
         </section>
       </DialogTrigger>
 
