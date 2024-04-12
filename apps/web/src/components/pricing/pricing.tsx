@@ -125,7 +125,7 @@ export const Pricing = () => {
 
                 <Button
                   type={user.subscription_type === 'PRO' ? 'button' : 'submit'}
-                  disabled={user.subscription_type !== 'FREE'}
+                  disabled={user.subscription_type !== 'MEMBER'}
                 >
                   <TooltipProvider>
                     <Tooltip>
