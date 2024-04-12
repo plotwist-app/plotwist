@@ -1,7 +1,7 @@
 import { PageProps } from '@/types/languages'
 import { ProBadge } from '@/components/pro-badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Lock } from 'lucide-react'
+import { Lock, LucideIcon } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
@@ -14,7 +14,9 @@ import { getDictionary } from '@/utils/dictionaries'
 const RandomIcon = () => {
   const iconNames = Object.keys(icons)
   const randomIconName = iconNames[Math.floor(Math.random() * iconNames.length)]
-  const IconComponent = icons[randomIconName]
+  const IconComponent = icons[
+    randomIconName as keyof typeof icons
+  ] as LucideIcon
 
   return <IconComponent size={16} />
 }
