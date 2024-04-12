@@ -2,7 +2,12 @@ import { supabase } from '@/services/supabase'
 import { Language } from '@/types/languages'
 import { ReviewsOrderedByLikes } from '../reviews/get-popular-reviews'
 
-export const getProfileReviews = async (userId: string, language: Language) => {
+type GetProfileReviewsParams = { userId: string; language: Language }
+
+export const getProfileReviews = async ({
+  language,
+  userId,
+}: GetProfileReviewsParams) => {
   const { error, data } = await supabase
     .from('reviews_ordered_by_likes')
     .select()

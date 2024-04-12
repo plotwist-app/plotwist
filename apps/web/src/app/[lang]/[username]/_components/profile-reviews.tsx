@@ -12,7 +12,7 @@ export const ProfileReviews = async ({
   userId,
   language,
 }: ProfileReviewsProps) => {
-  const reviews = await getProfileReviews(userId, language)
+  const reviews = await getProfileReviews({ userId, language })
 
   return (
     <div className="space-y-4">
