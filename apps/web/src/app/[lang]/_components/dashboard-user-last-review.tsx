@@ -14,6 +14,23 @@ import {
   FullReviewSkeleton,
 } from '@/components/full-review/full-review'
 
+export const EmptyReview = () => {
+  const { language, dictionary } = useLanguage()
+
+  return (
+    <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
+      <p>{dictionary.dashboard.user_last_review.no_review_message}</p>
+
+      <Link
+        href={`/${language}/movies/top-rated`}
+        className="text-sm text-muted-foreground"
+      >
+        {dictionary.dashboard.user_last_review.no_review_action}
+      </Link>
+    </div>
+  )
+}
+
 export const DashboardUserLastReview = () => {
   const { user } = useAuth()
   const { language, dictionary } = useLanguage()

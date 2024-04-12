@@ -625,6 +625,13 @@
     "add_to_list": "リストに追加",
     "view_details": "詳細を見る"
   },
+  "profile": {
+    "achievements": "実績",
+    "reviews": "レビュー",
+    "lists": "リスト",
+    "communities": "コミュニティ",
+    "work_in_progress": "作業中"
+  },
   "profile_banner": {
     "change_banner": "バナーを変更",
     "change_profile_banner": "プロファイルのバナーを変更",

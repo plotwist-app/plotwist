@@ -625,6 +625,13 @@
     "add_to_list": "Aggiungi alla lista",
     "view_details": "Visualizza dettagli"
   },
+  "profile": {
+    "achievements": "Risultati",
+    "reviews": "Recensioni",
+    "lists": "Liste",
+    "communities": "Comunità",
+    "work_in_progress": "Lavoro in corso"
+  },
   "profile_banner": {
     "change_banner": "Cambia banner",
     "change_profile_banner": "Cambia il banner del profilo",

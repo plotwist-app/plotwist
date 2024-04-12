@@ -7,11 +7,27 @@ import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
 import { ProfileBanner } from './_components/profile-banner'
 
+import * as icons from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { getDictionary } from '@/utils/dictionaries'
+
+const RandomIcon = () => {
+  const iconNames = Object.keys(icons)
+  const randomIconName = iconNames[Math.floor(Math.random() * iconNames.length)]
+  const IconComponent = icons[randomIconName]
+
+  return <IconComponent size={16} />
+}
+
 type UserPageProps = PageProps<Record<'username', string>>
 
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
-  if (!profile) return <p>cade?</p>
+  const dictionary = await getDictionary(lang)
+
+  if (!profile) {
+    redirect(`/${lang}/home`)
+  }
 
   return (
     <main className="p-0 lg:p-4">
@@ -22,7 +38,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
         />
 
         <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-16 lg:px-16">
-          <aside className="col-span-1 -mt-24 flex flex-col space-y-4">
+          <aside className="col-span-1 -mt-20 flex flex-col space-y-4">
             <div className="space-y-4">
               <div className="relative z-50 flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
                 {profile.username[0].toUpperCase()}
@@ -35,16 +51,24 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                 </div>
               </div>
 
-              <div className="space-y-2 rounded-lg border p-4">
-                <h3 className="font-semibold">Achievements</h3>
+              <div className="relative space-y-2 rounded-lg border p-4">
+                <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center rounded-lg border border-dashed bg-black/10 backdrop-blur-[1.5px] dark:bg-black/50">
+                  🚧 Work in progress.
+                </div>
+
+                <h3 className="font-semibold">
+                  {dictionary.profile.achievements}
+                </h3>
 
                 <div className="grid grid-cols-5 gap-2">
                   {Array.from({ length: 15 }).map((_, index) => {
                     return (
                       <div
-                        className="aspect-square rounded-lg bg-muted"
+                        className="flex aspect-square items-center justify-center rounded-lg bg-muted"
                         key={index}
-                      />
+                      >
+                        <RandomIcon />
+                      </div>
                     )
                   })}
                 </div>
@@ -56,10 +80,17 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
             <Tabs defaultValue="reviews" className="w-full">
               <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
                 <TabsList>
-                  <TabsTrigger value="reviews">Reviews</TabsTrigger>
-                  <TabsTrigger value="lists">Lists</TabsTrigger>
+                  <TabsTrigger value="reviews">
+                    {dictionary.profile.reviews}
+                  </TabsTrigger>
+
+                  <TabsTrigger value="lists">
+                    {dictionary.profile.lists}
+                  </TabsTrigger>
+
                   <TabsTrigger value="communities" disabled>
-                    Communities <Lock className="ml-1" size={12} />
+                    {dictionary.profile.communities}
+                    <Lock className="ml-1" size={12} />
                   </TabsTrigger>
                 </TabsList>
               </div>

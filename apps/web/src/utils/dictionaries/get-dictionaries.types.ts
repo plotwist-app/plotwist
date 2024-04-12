@@ -617,6 +617,12 @@ export type Dictionary = {
     add_to_list: string
     view_details: string
   }
+  profile: {
+    achievements: string
+    reviews: string
+    lists: string
+    communities: string
+  }
   profile_banner: {
     change_banner: string
     change_profile_banner: string

@@ -625,6 +625,13 @@
     "add_to_list": "Ajouter à la liste",
     "view_details": "Voir les détails"
   },
+  "profile": {
+    "achievements": "Réalisations",
+    "reviews": "Critiques",
+    "lists": "Listes",
+    "communities": "Communautés",
+    "work_in_progress": "Travail en cours"
+  },
   "profile_banner": {
     "change_banner": "Changer de bannière",
     "change_profile_banner": "Changer la bannière du profil",
