@@ -404,7 +404,10 @@
     "popular_reviews": {
       "title": "Reseñas populares",
       "no_reviews_found": "No encontramos ninguna evaluación.",
-      "explore_popular_movies": "Explora películas populares y danos tu opinión."
+      "explore_popular_movies": "Explora películas populares y danos tu opinión.",
+      "last_week": "Última semana",
+      "last_month": "Último mes",
+      "all_time": "Todo el tiempo"
     }
   },
   "movies_list_filters": {

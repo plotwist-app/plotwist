@@ -404,7 +404,10 @@
     "popular_reviews": {
       "title": "Popular reviews",
       "no_reviews_found": "We didn't find any reviews.",
-      "explore_popular_movies": "Explore popular movies, and give us your opinion."
+      "explore_popular_movies": "Explore popular movies, and give us your opinion.",
+      "last_week": "Last week",
+      "last_month": "Last month",
+      "all_time": "All time"
     }
   },
   "movies_list_filters": {

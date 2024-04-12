@@ -397,6 +397,9 @@ export type Dictionary = {
       title: string
       no_reviews_found: string
       explore_popular_movies: string
+      last_week: string
+      last_month: string
+      all_time: string
     }
   }
   movies_list_filters: {

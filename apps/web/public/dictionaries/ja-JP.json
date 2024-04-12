@@ -404,7 +404,10 @@
     "popular_reviews": {
       "title": "人気のレビュー",
       "no_reviews_found": "評価が見つかりませんでした。",
-      "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。"
+      "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
+      "last_week": "先週",
+      "last_month": "先月",
+      "all_time": "全期間"
     }
   },
   "movies_list_filters": {

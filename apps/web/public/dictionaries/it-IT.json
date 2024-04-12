@@ -404,7 +404,10 @@
     "popular_reviews": {
       "title": "Recensioni popolari",
       "no_reviews_found": "Non abbiamo trovato nessuna valutazione.",
-      "explore_popular_movies": "Esplora film popolari e dacci la tua opinione."
+      "explore_popular_movies": "Esplora film popolari e dacci la tua opinione.",
+      "last_week": "Ultima settimana",
+      "last_month": "Ultimo mese",
+      "all_time": "Tutto il tempo"
     }
   },
   "movies_list_filters": {
