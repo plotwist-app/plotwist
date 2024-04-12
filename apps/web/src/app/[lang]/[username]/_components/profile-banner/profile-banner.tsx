@@ -45,7 +45,7 @@ export const ProfileBanner = ({
   }
 
   return (
-    <section className="group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
+    <section className="relative flex h-[30dvh] max-h-[720px] w-full items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
       {bannerPath && (
         <Image
           src={tmdbImage(bannerPath)}

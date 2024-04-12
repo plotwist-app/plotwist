@@ -103,9 +103,12 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex items-start space-x-4"
       >
-        <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
+        <Link
+          href={`/${language}/${username}`}
+          className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
+        >
           {usernameInitial}
-        </div>
+        </Link>
 
         <div className="w-full space-y-2">
           <div className="flex justify-between">
