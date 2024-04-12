@@ -55,7 +55,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
 
               <div className="relative space-y-2 rounded-lg border p-4">
                 <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center rounded-lg border border-dashed bg-black/10 backdrop-blur-[1.5px] dark:bg-black/50">
-                  🚧 Work in progress.
+                  🚧 {dictionary.profile.work_in_progress}
                 </div>
 
                 <h3 className="font-semibold">
