@@ -49,7 +49,8 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <h1 className="text-2xl font-bold">{profile.username}</h1>
-                  <ProBadge />
+
+                  {profile.subscription_type === 'PRO' && <ProBadge />}
                 </div>
               </div>
 
