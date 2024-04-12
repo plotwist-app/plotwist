@@ -617,4 +617,17 @@ export type Dictionary = {
     add_to_list: string
     view_details: string
   }
+  profile: {
+    achievements: string
+    reviews: string
+    lists: string
+    communities: string
+    work_in_progress: string
+  }
+  profile_banner: {
+    change_banner: string
+    change_profile_banner: string
+    search_movies_or_series: string
+    changed_successfully: string
+  }
 }

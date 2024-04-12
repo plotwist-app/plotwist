@@ -2,10 +2,10 @@
 
 import { useQuery } from '@tanstack/react-query'
 
-import { DashboardReview, DashboardReviewSkeleton } from './dashboard-review'
 import { useLanguage } from '@/context/language'
 import { getPopularReviewsService } from '@/services/api/reviews/get-popular-reviews'
 import Link from 'next/link'
+import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 
 const MAX_SKELETONS_REVIEWS = 5
 
@@ -26,7 +26,7 @@ export const DashboardPopularReviews = () => {
 
         <div className="space-y-8">
           {Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
-            <DashboardReviewSkeleton key={index} />
+            <FullReviewSkeleton key={index} />
           ))}
         </div>
       </div>
@@ -44,13 +44,7 @@ export const DashboardPopularReviews = () => {
       <div className="space-y-8">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <DashboardReview
-              username={review.user.username}
-              key={review.id}
-              review={review}
-              likes={review.likes_count ?? 0}
-              language={language}
-            />
+            <FullReview key={review.id} review={review} language={language} />
           ))
         ) : (
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8">

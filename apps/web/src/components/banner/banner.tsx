@@ -10,7 +10,7 @@ export const Banner = ({ url, className, ...props }: BannerProps) => {
     <div
       {...props}
       className={cn(
-        'aspect-video w-full overflow-hidden border bg-muted shadow md:rounded-lg',
+        'h-[30dvh] w-full overflow-hidden border bg-muted shadow md:rounded-lg lg:h-[55dvh]',
         className,
       )}
     >

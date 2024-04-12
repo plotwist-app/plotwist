@@ -26,6 +26,7 @@ import { useReplies } from '@/hooks/use-replies/use-replies'
 import { MediaType } from '@/types/supabase/media-type'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
+import Link from 'next/link'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -54,7 +55,7 @@ export const ReviewReplyForm = ({
   const { handleCreateReply } = useReplies()
 
   const { user } = useAuth()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -98,9 +99,12 @@ export const ReviewReplyForm = ({
         className="flex flex-col items-start gap-2 pt-3"
       >
         <div className="flex w-full gap-2">
-          <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
+          <Link
+            href={`/${language}/${username}`}
+            className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
+          >
             {usernameInitial}
-          </div>
+          </Link>
 
           <FormField
             control={form.control}

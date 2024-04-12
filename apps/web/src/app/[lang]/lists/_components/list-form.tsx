@@ -81,26 +81,21 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             },
           )
 
-          APP_QUERY_CLIENT.setQueryData(
-            ['lists', user.id],
-            (query: { data: List[] }) => {
-              const { data } = query
-
-              const newData = data.map((list) => {
-                if (list.id === variables.id) {
-                  return {
-                    ...list,
-                    name: variables.name,
-                    description: variables.description,
-                  }
+          APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
+            const newData = query.map((list) => {
+              if (list.id === variables.id) {
+                return {
+                  ...list,
+                  name: variables.name,
+                  description: variables.description,
                 }
+              }
 
-                return list
-              })
+              return list
+            })
 
-              return { ...query, data: newData }
-            },
-          )
+            return { ...query, data: newData }
+          })
 
           setOpen(false)
           toast.success(dictionary.list_form.list_edited_success)

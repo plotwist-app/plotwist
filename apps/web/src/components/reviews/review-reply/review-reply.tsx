@@ -12,6 +12,7 @@ import {
 } from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
+import Link from 'next/link'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -56,9 +57,12 @@ export const ReviewReply = ({
 
             return (
               <li key={reply.id} className="flex items-start space-x-4">
-                <div className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted">
+                <Link
+                  href={`/${language}/${username}`}
+                  className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
+                >
                   {usernameInitial}
-                </div>
+                </Link>
 
                 <div className="flex w-full flex-col space-y-2">
                   <div className="flex items-center space-x-2">

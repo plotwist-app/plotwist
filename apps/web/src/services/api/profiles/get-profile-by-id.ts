@@ -1,7 +1,7 @@
 import { supabase } from '@/services/supabase'
 import { Profile } from '@/types/supabase'
 
-export const getProfile = async (id: string) => {
+export const getProfileById = async (id: string) => {
   const { data: user } = await supabase
     .from('profiles')
     .select()

@@ -624,5 +624,18 @@
     "added_successfully": "Sugerencia añadida con éxito.",
     "add_to_list": "Añadir a la lista",
     "view_details": "Ver detalles"
+  },
+  "profile": {
+    "achievements": "Logros",
+    "reviews": "Reseñas",
+    "lists": "Listas",
+    "communities": "Comunidades",
+    "work_in_progress": "En progreso"
+  },
+  "profile_banner": {
+    "change_banner": "Cambiar banner",
+    "change_profile_banner": "Cambiar el banner del perfil",
+    "search_movies_or_series": "Buscar películas o series...",
+    "changed_successfully": "Banner cambiado con éxito."
   }
 }

@@ -23,6 +23,7 @@ import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
 import { cn } from '@/lib/utils'
+import { ListPosters } from '@/components/list-posters'
 
 type ListPageProps = {
   params: { id: string }
@@ -49,7 +50,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
-        <div className="aspect-video w-full overflow-hidden rounded-lg">
+        <div className="h-[30dvh] w-full overflow-hidden rounded-lg lg:h-[55dvh]">
           <Skeleton className="h-full w-full" />
         </div>
 
@@ -120,9 +121,11 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               )}
             >
               <div className="flex flex-col space-y-1">
-                <div className="flex items-center gap-2">
-                  <h1 className="text-xl font-bold">{list.name}</h1>
-                  {mode === 'SHOW' && <UserResume userId={list.user_id} />}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-xl font-bold">{list.name}</h1>
+                    <UserResume userId={list.user_id} />
+                  </div>
 
                   {mode === 'EDIT' && (
                     <ListForm

@@ -624,5 +624,18 @@
     "added_successfully": "Empfehlung erfolgreich hinzugefügt.",
     "add_to_list": "Zur Liste hinzufügen",
     "view_details": "Details ansehen"
+  },
+  "profile": {
+    "achievements": "Errungenschaften",
+    "reviews": "Bewertungen",
+    "lists": "Listen",
+    "communities": "Gemeinschaften",
+    "work_in_progress": "In Bearbeitung"
+  },
+  "profile_banner": {
+    "change_banner": "Banner ändern",
+    "change_profile_banner": "Profilbanner ändern",
+    "search_movies_or_series": "Suche Filme oder Serien...",
+    "changed_successfully": "Banner erfolgreich geändert."
   }
 }
