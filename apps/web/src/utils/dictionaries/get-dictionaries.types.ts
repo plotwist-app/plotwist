@@ -622,6 +622,7 @@ export type Dictionary = {
     reviews: string
     lists: string
     communities: string
+    work_in_progress: string
   }
   profile_banner: {
     change_banner: string
