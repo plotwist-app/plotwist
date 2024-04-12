@@ -258,7 +258,8 @@
     "dark": "🌚 Escuro",
     "language": "Idioma",
     "account": "Conta",
-    "logout": "Sair"
+    "logout": "Sair",
+    "profile": "Perfil"
   },
   "auth": {
     "logout_success": "Logout realizado com sucesso. Até a próxima ✌"

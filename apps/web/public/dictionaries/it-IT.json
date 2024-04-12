@@ -258,7 +258,8 @@
     "dark": "🌚 Scuro",
     "language": "Lingua",
     "account": "Account",
-    "logout": "Disconnettersi"
+    "logout": "Disconnettersi",
+    "profile": "Profilo"
   },
   "auth": {
     "logout_success": "Disconnessione avvenuta con successo. Alla prossima ✌"

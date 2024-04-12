@@ -258,7 +258,8 @@
     "dark": "🌚 Dark",
     "language": "Language",
     "account": "Account",
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile"
   },
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"

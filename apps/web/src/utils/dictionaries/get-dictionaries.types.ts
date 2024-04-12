@@ -244,6 +244,7 @@ export type Dictionary = {
     language: string
     account: string
     logout: string
+    profile: string
   }
   auth: {
     logout_success: string

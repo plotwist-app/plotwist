@@ -258,7 +258,8 @@
     "dark": "🌚 Dunkel",
     "language": "Sprache",
     "account": "Konto",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "profile": "Profil"
   },
   "auth": {
     "logout_success": "Erfolgreich abgemeldet. Bis zum nächsten Mal ✌"

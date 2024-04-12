@@ -17,6 +17,7 @@ export const Header = () => {
 
         <div className="flex gap-2">
           <CommandSearch />
+
           <div>
             <SettingsDropdown />
           </div>

@@ -258,7 +258,8 @@
     "dark": "🌚 Oscuro",
     "language": "Idioma",
     "account": "Cuenta",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "profile": "Perfil"
   },
   "auth": {
     "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
