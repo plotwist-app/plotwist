@@ -106,7 +106,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         <div className="mx-auto max-w-4xl p-4">
           <section className="flex h-[75vh] items-center md:h-[50vh]">
             <div className="mx-auto flex w-4/5 flex-col items-center justify-center space-y-4 text-center">
-              <h1 className="text-5xl font-bold">{title}</h1>
+              <h1 className="text-6xl font-bold">{title}</h1>
               <p className=" leading-6 text-muted-foreground">{description}</p>
 
               <div className="mt-2 flex gap-2">
