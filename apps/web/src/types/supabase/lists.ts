@@ -1,6 +1,7 @@
 export type List = {
   id: string
   name: string
+  visibility: 'public' | 'network' | 'private'
   description: string
   created_at: string
   user_id: string

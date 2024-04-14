@@ -267,6 +267,11 @@ export type Dictionary = {
     name_required: string
     description: string
     description_placeholder: string
+    visibility: string
+    visibility_placeholder: string
+    visibility_option_public: string
+    visibility_option_network: string
+    visibility_option_private: string
     submit: string
     list_created_success: string
 

@@ -33,6 +33,14 @@ import { listPageQueryKey } from '@/utils/list'
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Eye, EyeOff, View } from 'lucide-react'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -48,6 +56,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     defaultValues: {
       name: list?.name ?? '',
       description: list?.description ?? '',
+      visibility: list?.visibility ?? 'public',
     },
   })
 
@@ -55,11 +64,12 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     if (!user) return
 
     if (list) {
-      const { name, description } = values
+      const { name, description, visibility } = values
 
       const variables = {
         name,
         description,
+        visibility,
         id: list.id,
       }
 
@@ -76,6 +86,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                   ...data,
                   name: variables.name,
                   description: variables.description,
+                  visibility: variables.visibility,
                 },
               }
             },
@@ -88,13 +99,14 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                   ...list,
                   name: variables.name,
                   description: variables.description,
+                  visibility: variables.visibility,
                 }
               }
 
               return list
             })
 
-            return { ...query, data: newData }
+            return newData
           })
 
           setOpen(false)
@@ -118,6 +130,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           form.reset({
             description: '',
             name: '',
+            visibility: 'public',
           })
 
           toast.success(dictionary.list_form.list_created_success)
@@ -167,18 +180,76 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
 
             <FormField
               control={form.control}
-              name="description"
-              render={({ field }) => (
+              name="visibility"
+              render={({ field: { onChange, value } }) => (
                 <FormItem>
-                  <FormLabel>{dictionary.list_form.description}</FormLabel>
+                  <FormLabel>{dictionary.list_form.visibility}</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className="resize-none"
-                      rows={3}
-                      placeholder={dictionary.list_form.description_placeholder}
-                      {...field}
-                    />
+                    <Select
+                      onValueChange={onChange}
+                      value={value}
+                      defaultValue="public"
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue
+                          placeholder={
+                            dictionary.list_form.visibility_placeholder
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="public">
+                          <div className="flex items-center gap-2">
+                            <Eye size={16} />
+                            {dictionary.list_form.visibility_option_public}
+                          </div>
+                        </SelectItem>
+                        <SelectItem
+                          className="flex items-center gap-2"
+                          value="network"
+                          disabled
+                        >
+                          <div className="flex items-center gap-2">
+                            <View size={16} />
+                            {dictionary.list_form.visibility_option_network}
+                          </div>
+                        </SelectItem>
+                        <SelectItem
+                          className="flex items-center gap-2"
+                          value="private"
+                        >
+                          <div className="flex items-center gap-2">
+                            <EyeOff size={16} />
+                            {dictionary.list_form.visibility_option_private}
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {dictionary.list_form.description}
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="resize-none"
+                            rows={3}
+                            placeholder={
+                              dictionary.list_form.description_placeholder
+                            }
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <FormMessage />
                 </FormItem>
