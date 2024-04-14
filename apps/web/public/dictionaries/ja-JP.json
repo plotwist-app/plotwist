@@ -283,7 +283,6 @@
     "description": "説明",
     "description_placeholder": "視聴予定の映画やテレビ番組。",
     "visibility": "可視性",
-    "visibility_placeholder": "リストの可視性",
     "visibility_option_public": "公共",
     "visibility_option_network": "ネットワーク",
     "visibility_option_private": "私的",

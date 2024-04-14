@@ -283,7 +283,6 @@
     "description": "Beschreibung",
     "description_placeholder": "Filme und Fernsehshows, die ich planen zu sehen.",
     "visibility": "Sichtbarkeit",
-    "visibility_placeholder": "Sichtbarkeit der Liste",
     "visibility_option_public": "Öffentlich",
     "visibility_option_network": "Netzwerk",
     "visibility_option_private": "Privat",

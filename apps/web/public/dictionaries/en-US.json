@@ -283,7 +283,6 @@
     "description": "Description",
     "description_placeholder": "Movies and TV shows I plan to watch.",
     "visibility": "Visibility",
-    "visibility_placeholder": "List visibility",
     "visibility_option_public": "Public",
     "visibility_option_network": "Network",
     "visibility_option_private": "Private",

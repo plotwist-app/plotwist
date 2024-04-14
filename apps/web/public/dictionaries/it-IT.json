@@ -283,7 +283,6 @@
     "description": "Descrizione",
     "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
     "visibility": "Visibilità",
-    "visibility_placeholder": "Visibilità della lista",
     "visibility_option_public": "Pubblico",
     "visibility_option_network": "Rete",
     "visibility_option_private": "Privato",

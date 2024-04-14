@@ -33,14 +33,7 @@ import { listPageQueryKey } from '@/utils/list'
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Eye, EyeOff, View } from 'lucide-react'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -180,76 +173,63 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
 
             <FormField
               control={form.control}
-              name="visibility"
-              render={({ field: { onChange, value } }) => (
+              name="description"
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{dictionary.list_form.visibility}</FormLabel>
+                  <FormLabel>{dictionary.list_form.description}</FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={onChange}
-                      value={value}
-                      defaultValue="public"
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue
-                          placeholder={
-                            dictionary.list_form.visibility_placeholder
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="public">
-                          <div className="flex items-center gap-2">
-                            <Eye size={16} />
-                            {dictionary.list_form.visibility_option_public}
-                          </div>
-                        </SelectItem>
-                        <SelectItem
-                          className="flex items-center gap-2"
-                          value="network"
-                          disabled
-                        >
-                          <div className="flex items-center gap-2">
-                            <View size={16} />
-                            {dictionary.list_form.visibility_option_network}
-                          </div>
-                        </SelectItem>
-                        <SelectItem
-                          className="flex items-center gap-2"
-                          value="private"
-                        >
-                          <div className="flex items-center gap-2">
-                            <EyeOff size={16} />
-                            {dictionary.list_form.visibility_option_private}
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Textarea
+                      className="resize-none"
+                      rows={3}
+                      placeholder={dictionary.list_form.description_placeholder}
+                      {...field}
+                    />
                   </FormControl>
 
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {dictionary.list_form.description}
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            className="resize-none"
-                            rows={3}
-                            placeholder={
-                              dictionary.list_form.description_placeholder
-                            }
-                            {...field}
-                          />
-                        </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-                        <FormMessage />
+            <FormField
+              control={form.control}
+              name="visibility"
+              render={({ field: { onChange, value } }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>{dictionary.list_form.visibility}</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={onChange}
+                      defaultValue={value}
+                      className="flex items-center gap-4"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="public" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {dictionary.list_form.visibility_option_public}
+                        </FormLabel>
                       </FormItem>
-                    )}
-                  />
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="network" disabled />
+                        </FormControl>
+                        <FormLabel className="font-normal text-muted-foreground">
+                          {dictionary.list_form.visibility_option_network}
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="private" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {dictionary.list_form.visibility_option_private}
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
 
                   <FormMessage />
                 </FormItem>
