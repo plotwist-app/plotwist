@@ -23,7 +23,6 @@ import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
 import { cn } from '@/lib/utils'
-import { ListPosters } from '@/components/list-posters'
 
 type ListPageProps = {
   params: { id: string }
