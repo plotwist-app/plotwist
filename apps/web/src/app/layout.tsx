@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { ViewTransitions } from 'next-view-transitions'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { Language } from '@/types/languages'
 import { GTag } from '@/components/gtag'
@@ -25,18 +26,20 @@ export default async function RootLayout({
   params: { lang: Language }
 }) {
   return (
-    <html
-      lang={params.lang}
-      className={spaceGrotesk.className}
-      suppressHydrationWarning
-    >
-      <head>
-        <link rel="icon" href="/logo-white.svg" />
-        <meta name="theme-color" content="#09090b" />
-        <GTag />
-      </head>
+    <ViewTransitions>
+      <html
+        lang={params.lang}
+        className={spaceGrotesk.className}
+        suppressHydrationWarning
+      >
+        <head>
+          <link rel="icon" href="/logo-white.svg" />
+          <meta name="theme-color" content="#09090b" />
+          <GTag />
+        </head>
 
-      <body className="bg-background antialiased">{children}</body>
-    </html>
+        <body className="bg-background antialiased">{children}</body>
+      </html>
+    </ViewTransitions>
   )
 }
