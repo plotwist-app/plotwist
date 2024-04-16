@@ -61,7 +61,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <div className="mx-auto max-w-6xl space-y-4 p-0 lg:py-4">
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
-          <div className="grid grid-cols-1 gap-y-8 p-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
+          <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
             <div
               className={cn(
                 'space-y-4',

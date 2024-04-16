@@ -1,7 +1,7 @@
 'use client'
 
 import { ListItem } from '@/types/supabase/lists'
-import { Grid, Table } from 'lucide-react'
+import { Grid, List } from 'lucide-react'
 import { useState } from 'react'
 
 import { useLanguage } from '@/context/language'
@@ -36,17 +36,17 @@ export const ListItems = ({ listItems }: ListItemsProps) => {
         <Button
           variant={layout === 'table' ? 'default' : 'outline'}
           onClick={() => setLayout('table')}
+          size="icon"
         >
-          <Table className="mr-2 h-4 w-4" />
-          {dictionary.list_items.table}
+          <List className="h-4 w-4" />
         </Button>
 
         <Button
           variant={layout === 'grid' ? 'default' : 'outline'}
           onClick={() => setLayout('grid')}
+          size="icon"
         >
-          <Grid className="mr-2 h-4 w-4" />
-          {dictionary.list_items.grid}
+          <Grid className="h-4 w-4" />
         </Button>
       </div>
 
