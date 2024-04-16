@@ -322,8 +322,7 @@
     "status": "ステータス",
     "actions": "アクション",
     "movie": "映画",
-    "tv_serie": "テレビ番組",
-    "rating": "評価"
+    "tv_serie": "テレビ番組"
   },
   "data_table_view_options": {
     "view": "表示",
