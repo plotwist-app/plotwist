@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { MoreVertical } from 'lucide-react'
@@ -15,16 +17,27 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { useLists } from '@/context/lists'
-import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { listPageQueryKey } from '@/utils/list'
 import { useAuth } from '@/context/auth'
 
-type ListItemActionsProps = { listItem: ListItem }
+import { listPageQueryKey } from '@/utils/list'
 
-export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
+
+type ListItemActionsProps = {
+  listItem: ListItem
+  openDropdown: boolean
+  setOpenDropdown: (state: boolean) => void
+}
+
+export const ListItemActions = ({
+  listItem,
+  openDropdown,
+  setOpenDropdown,
+}: ListItemActionsProps) => {
   const {
     handleChangeListItemStatus,
     handleChangeListCoverPath,
@@ -147,9 +160,9 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   }, [dictionary, handleChangeListCoverPath, listItem, user])
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button size="icon" variant="outline" className="h-6 w-6">
+    <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
+      <DropdownMenuTrigger asChild>
+        <Button size="icon" variant="secondary" className="h-6 w-6">
           <MoreVertical className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
