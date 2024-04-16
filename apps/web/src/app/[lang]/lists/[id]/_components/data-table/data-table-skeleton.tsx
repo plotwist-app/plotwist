@@ -29,14 +29,15 @@ export const DataTableSkeleton = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[1ch]"></TableHead>
+            <TableHead className="w-[1ch]" />
+
             <TableHead className="w-[400px]">
               {dictionary.data_table_columns.title}
             </TableHead>
-            <TableHead>{dictionary.data_table_columns.type}</TableHead>
-            <TableHead>{dictionary.data_table_columns.added_at}</TableHead>
+
             <TableHead>{dictionary.data_table_columns.status}</TableHead>
-            <TableHead></TableHead>
+
+            <TableHead />
           </TableRow>
         </TableHeader>
 
@@ -48,25 +49,6 @@ export const DataTableSkeleton = () => {
               </TableCell>
 
               <TableCell className="w-[200px] font-medium">
-                <Skeleton className="h-4 w-[10ch]" />
-              </TableCell>
-
-              <TableCell>
-                <Skeleton className="h-4 w-[7ch]" />
-              </TableCell>
-
-              <TableCell>
-                <div className="space-y-1">
-                  <Skeleton className="h-2 w-full" />
-                  <Skeleton className="h-2 w-full" />
-                </div>
-              </TableCell>
-
-              <TableCell className="text-xs">
-                <Skeleton className="h-4 w-[17ch]" />
-              </TableCell>
-
-              <TableCell>
                 <Skeleton className="h-4 w-[10ch]" />
               </TableCell>
 

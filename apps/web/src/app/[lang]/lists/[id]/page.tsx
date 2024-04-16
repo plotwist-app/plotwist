@@ -1,29 +1,27 @@
 'use client'
 
 import { useMemo } from 'react'
-import Link from 'next/link'
 import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
-import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { Banner } from '@/components/banner'
 
 import { ListItems } from './_components/list-items'
-import { DataTableSkeleton } from './_components/data-table'
 import { ListForm } from '../_components/list-form'
 import { ListRecommendations } from './_components/list-recommendations'
 import { UserResume } from './_components/user-resume'
+import { ListPageSkeleton } from './_components/list-page-skeleton'
+import { ListPageEmptyResults } from './_components/list-page-results'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
+import { cn } from '@/lib/utils'
 
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
-import { cn } from '@/lib/utils'
-import { ListPosters } from '@/components/list-posters'
 
 type ListPageProps = {
   params: { id: string }
@@ -47,57 +45,8 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
     return 'SHOW'
   }, [response, user])
 
-  if (isLoading) {
-    return (
-      <div className="mx-auto max-w-6xl space-y-4 px-4 py-4 lg:px-0">
-        <div className="h-[30dvh] w-full overflow-hidden rounded-lg lg:h-[55dvh]">
-          <Skeleton className="h-full w-full" />
-        </div>
-
-        <div>
-          <div className="flex items-start gap-2">
-            <Skeleton className="mb-2 h-8 w-[20ch]" />
-
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              by
-              <Skeleton className="h-7 w-7 rounded-full" />
-              <Skeleton className="h-[2ex] w-[11ch]" />
-            </div>
-          </div>
-
-          <Skeleton className="h-[1.5ex] w-[30ch]" />
-        </div>
-
-        <div className="flex gap-2">
-          <Skeleton className="h-8 w-20" />
-          <Skeleton className="h-8 w-20" />
-        </div>
-
-        <DataTableSkeleton />
-      </div>
-    )
-  }
-
-  if (!response?.data) {
-    return (
-      <div className="mx-auto max-w-6xl space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">
-              {dictionary.list_page.list_not_found}
-            </h1>
-
-            <p className="text-muted-foreground">
-              {dictionary.list_page.see_your_lists_or_create_new}{' '}
-              <Link href="/lists" className="underline">
-                {dictionary.list_page.here}
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  if (isLoading) return <ListPageSkeleton mode={mode} />
+  if (!response?.data) return <ListPageEmptyResults dictionary={dictionary} />
 
   const list = response.data
 
@@ -115,9 +64,8 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
           <div className="grid grid-cols-1 gap-y-8 p-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
             <div
               className={cn(
-                mode === 'EDIT'
-                  ? 'col-span-2 space-y-4'
-                  : 'col-span-3 space-y-4',
+                'space-y-4',
+                mode === 'EDIT' ? 'col-span-2' : 'col-span-3',
               )}
             >
               <div className="flex flex-col space-y-1">
@@ -151,7 +99,9 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            {mode === 'EDIT' && <ListRecommendations list={list} />}
+            <div className="col-span-1 space-y-4">
+              {mode === 'EDIT' && <ListRecommendations list={list} />}
+            </div>
           </div>
         </div>
       </ListModeContextProvider>

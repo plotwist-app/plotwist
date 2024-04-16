@@ -15,7 +15,6 @@ import {
   createListService,
   deleteListService,
   fetchListsService,
-  changeListItemRating,
   editListService,
 } from '@/services/api/lists'
 
@@ -65,10 +64,6 @@ export const ListsContextProvider = ({
     mutationFn: changeListItemStatusService,
   })
 
-  const handleChangeListRating = useMutation({
-    mutationFn: changeListItemRating,
-  })
-
   const handleChangeListCoverPath = useMutation({
     mutationFn: changeListCoverPathService,
   })
@@ -90,7 +85,6 @@ export const ListsContextProvider = ({
         handleRemoveFromList,
 
         handleChangeListItemStatus,
-        handleChangeListRating,
       }}
     >
       {children}
