@@ -19,7 +19,6 @@ export type ListItem = {
   tmdb_id: number
   media_type: ListItemMediaType
   status: ListItemStatus
-  rating: number | null
 }
 
 export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'
