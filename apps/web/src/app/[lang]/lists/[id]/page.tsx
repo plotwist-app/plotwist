@@ -57,8 +57,6 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
         <meta name="description" content={list.description} />
       </head>
 
-      <ListPageSkeleton mode={mode} />
-
       <ListModeContextProvider mode={mode}>
         <div className="mx-auto max-w-6xl space-y-4 p-0 pb-4 lg:py-4">
           <Banner url={tmdbImage(list.cover_path ?? '')} />
