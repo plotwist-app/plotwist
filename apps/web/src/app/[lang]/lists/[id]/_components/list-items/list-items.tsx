@@ -16,37 +16,39 @@ type ListItemsProps = {
 }
 
 export const ListItems = ({ listItems }: ListItemsProps) => {
-  const [layout, setLayout] = useState<'table' | 'grid'>('table')
+  const [layout, setLayout] = useState<'table' | 'grid'>('grid')
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
+    grid: <ListItemsGrid listItems={listItems} />,
     table: (
       <DataTable
         data={listItems}
         columns={columns(dictionary, language, mode)}
       />
     ),
-    grid: <ListItemsGrid listItems={listItems} />,
   }
 
   return (
     <section className="space-y-4">
       <div className="flex space-x-2">
         <Button
-          variant={layout === 'table' ? 'default' : 'outline'}
-          onClick={() => setLayout('table')}
-          size="icon"
-        >
-          <List className="h-4 w-4" />
-        </Button>
-
-        <Button
           variant={layout === 'grid' ? 'default' : 'outline'}
           onClick={() => setLayout('grid')}
           size="icon"
+          className="h-9 w-9"
         >
           <Grid className="h-4 w-4" />
+        </Button>
+
+        <Button
+          variant={layout === 'table' ? 'default' : 'outline'}
+          onClick={() => setLayout('table')}
+          size="icon"
+          className="h-9 w-9"
+        >
+          <List className="h-4 w-4" />
         </Button>
       </div>
 
