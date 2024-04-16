@@ -6,19 +6,10 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { Badge } from '@/components/ui/badge'
 import { TableColumnHeader } from '@/components/table'
-import { Slider } from '@/components/ui/slider'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 
-import { List, ListItem } from '@/types/supabase/lists'
-import { useLists } from '@/context/lists'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { ListItem } from '@/types/supabase/lists'
 
 import { Dictionary } from '@/utils/dictionaries'
-import { listPageQueryKey } from '@/utils/list'
 import { locale } from '@/utils/date/locale'
 import { Language } from '@/types/languages'
 import { Status } from '../status'

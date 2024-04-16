@@ -1,7 +1,6 @@
 export * from './add-collection-to-list'
 export * from './add-to-list'
 export * from './change-list-cover-path'
-export * from './change-list-item-status'
 export * from './create-list'
 export * from './edit-list'
 export * from './delete-list'

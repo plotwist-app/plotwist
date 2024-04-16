@@ -16,7 +16,6 @@ export type ListsContextType = {
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
   handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>
   handleRemoveFromList: HandleFn<string>
-  handleChangeListItemStatus: HandleFn<ChangeListItemStatusParams>
   handleChangeListCoverPath: HandleFn<ChangeListCoverPathParams>
 }
 

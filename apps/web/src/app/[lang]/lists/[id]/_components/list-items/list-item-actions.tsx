@@ -26,11 +26,12 @@ import { useAuth } from '@/context/auth'
 import { listPageQueryKey } from '@/utils/list'
 
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { useListItem } from '@/hooks/use-list-item'
 
 type ListItemActionsProps = {
   listItem: ListItem
-  openDropdown: boolean
-  setOpenDropdown: (state: boolean) => void
+  openDropdown?: boolean
+  setOpenDropdown?: (state: boolean) => void
 }
 
 export const ListItemActions = ({
@@ -38,81 +39,11 @@ export const ListItemActions = ({
   openDropdown,
   setOpenDropdown,
 }: ListItemActionsProps) => {
-  const {
-    handleChangeListItemStatus,
-    handleChangeListCoverPath,
-    handleRemoveFromList,
-  } = useLists()
+  const { handleChangeListCoverPath } = useLists()
+  const { handleDelete, handleUpdateStatus } = useListItem(listItem)
+
   const { user } = useAuth()
   const { dictionary } = useLanguage()
-
-  const handleRemove = useCallback(
-    async (id: string, listId: string) => {
-      await handleRemoveFromList.mutateAsync(id, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(listId),
-            (query: { data: List }) => {
-              const newListItems = query.data.list_items.filter(
-                (item) => item.id !== id,
-              )
-
-              return {
-                ...query,
-                data: {
-                  ...query.data,
-                  list_items: newListItems,
-                },
-              }
-            },
-          )
-
-          toast.success(dictionary.list_item_actions.removed_successfully)
-        },
-      })
-    },
-    [dictionary, handleRemoveFromList],
-  )
-
-  const handleChangeStatus = useCallback(
-    async (status: ListItemStatus, listId: string) => {
-      const variables = {
-        listItemId: listItem.id,
-        newStatus: status,
-      }
-
-      await handleChangeListItemStatus.mutateAsync(variables, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(listId),
-            (query: { data: List }) => {
-              const newListItems = query.data.list_items.map((item) => {
-                if (item.id === variables.listItemId) {
-                  return {
-                    ...item,
-                    status: variables.newStatus,
-                  }
-                }
-
-                return item
-              })
-
-              const newQuery = {
-                ...query,
-                data: {
-                  ...query.data,
-                  list_items: newListItems,
-                },
-              }
-
-              return newQuery
-            },
-          )
-        },
-      })
-    },
-    [handleChangeListItemStatus, listItem],
-  )
 
   const handleChangeBackdrop = useCallback(async () => {
     if (!user) return
@@ -181,7 +112,7 @@ export const ListItemActions = ({
             <DropdownMenuRadioGroup
               value={listItem.status}
               onValueChange={(status) =>
-                handleChangeStatus(status as ListItemStatus, listItem.list_id)
+                handleUpdateStatus.mutate(status as ListItemStatus)
               }
             >
               {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
@@ -202,9 +133,7 @@ export const ListItemActions = ({
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            onClick={() => handleRemove(listItem.id, listItem.list_id)}
-          >
+          <DropdownMenuItem onClick={() => handleDelete.mutate()}>
             {dictionary.list_item_actions.delete}
           </DropdownMenuItem>
         </DropdownMenuSub>

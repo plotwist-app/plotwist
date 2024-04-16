@@ -7,7 +7,6 @@ import { useAuth } from '../auth'
 
 import {
   changeListCoverPathService,
-  changeListItemStatusService,
   removeFromListService,
   removeCollectionFromListService,
   addCollectionToListService,
@@ -60,10 +59,6 @@ export const ListsContextProvider = ({
     mutationFn: removeFromListService,
   })
 
-  const handleChangeListItemStatus = useMutation({
-    mutationFn: changeListItemStatusService,
-  })
-
   const handleChangeListCoverPath = useMutation({
     mutationFn: changeListCoverPathService,
   })
@@ -83,8 +78,6 @@ export const ListsContextProvider = ({
         handleAddCollectionToList,
         handleRemoveCollectionFromList,
         handleRemoveFromList,
-
-        handleChangeListItemStatus,
       }}
     >
       {children}
