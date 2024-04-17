@@ -33,6 +33,7 @@ import { listPageQueryKey } from '@/utils/list'
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -48,6 +49,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     defaultValues: {
       name: list?.name ?? '',
       description: list?.description ?? '',
+      visibility: list?.visibility ?? 'PUBLIC',
     },
   })
 
@@ -55,11 +57,12 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     if (!user) return
 
     if (list) {
-      const { name, description } = values
+      const { name, description, visibility } = values
 
       const variables = {
         name,
         description,
+        visibility,
         id: list.id,
       }
 
@@ -76,6 +79,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                   ...data,
                   name: variables.name,
                   description: variables.description,
+                  visibility: variables.visibility,
                 },
               }
             },
@@ -88,6 +92,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                   ...list,
                   name: variables.name,
                   description: variables.description,
+                  visibility: variables.visibility,
                 }
               }
 
@@ -118,6 +123,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           form.reset({
             description: '',
             name: '',
+            visibility: 'PUBLIC',
           })
 
           toast.success(dictionary.list_form.list_created_success)
@@ -179,6 +185,77 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                       {...field}
                     />
                   </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="visibility"
+              render={({ field: { onChange, value } }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>{dictionary.list_form.visibility}</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={onChange}
+                      defaultValue={value}
+                      className="flex flex-col gap-4"
+                    >
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="PUBLIC" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {dictionary.list_form.visibility_option_public}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_public
+                          }
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="NETWORK" disabled />
+                          </FormControl>
+                          <FormLabel className="font-normal text-muted-foreground">
+                            {dictionary.list_form.visibility_option_network}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_network
+                          }
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="PRIVATE" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {dictionary.list_form.visibility_option_private}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_private
+                          }
+                        </span>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
 
                   <FormMessage />
                 </FormItem>
