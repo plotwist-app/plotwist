@@ -41,6 +41,9 @@ importers:
       '@next/mdx':
         specifier: ^14.1.3
         version: 14.1.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1)
+      '@plotwist/email':
+        specifier: workspace:*
+        version: link:../../packages/email
       '@plotwist/tmdb':
         specifier: workspace:*
         version: link:../../packages/tmdb
@@ -300,6 +303,12 @@ importers:
       vitest:
         specifier: ^1.2.2
         version: 1.4.0(@types/node@20.11.24)(@vitest/ui@1.4.0)(jsdom@23.2.0)
+
+  packages/email:
+    dependencies:
+      resend:
+        specifier: ^3.2.0
+        version: 3.2.0
 
   packages/eslint-config:
     devDependencies:
@@ -8439,6 +8448,7 @@ packages:
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 
@@ -10204,6 +10214,7 @@ packages:
 
   /semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
+    hasBin: true
     dev: true
 
   /semver@6.3.1:
@@ -10212,6 +10223,7 @@ packages:
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 

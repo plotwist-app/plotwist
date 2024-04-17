@@ -1,5 +1,7 @@
 import { supabase } from '@/services/supabase'
 import { Profile } from '@/types/supabase'
+import { Review } from '@/types/supabase/reviews'
+import { Language, tmdb } from '@plotwist/tmdb'
 import Cors from 'micro-cors'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
@@ -7,32 +9,113 @@ import { Resend } from 'resend'
 Cors({
   allowMethods: ['POST', 'HEAD'],
 })
+const resend = new Resend(process.env.RESEND_KEY)
 
-const resend = new Resend('re_YfR8Ma7w_HC2eYtKg1kYUz2Jcb5CAfHwX')
+async function getProUsers() {
+  const { data: users } = await supabase
+    .from('profiles')
+    .select()
+    .eq('subscription_type', 'PRO')
+    .returns<Profile[]>()
 
-export async function POST(req: Request) {
+  return users || []
+}
+
+async function getLastMovieReview(userId: string) {
+  const { data: review } = await supabase
+    .from('reviews')
+    .select()
+    .eq('user_id', userId)
+    .eq('media_type', 'MOVIE')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single<Review>()
+
+  return review || null
+}
+
+function generateRecommendationsEmail(
+  recommendations: { id: number; title: string }[],
+  language: Language,
+) {
+  const title: Record<Language, string> = {
+    'de-DE':
+      'Sie werden es wahrscheinlich interessant finden, die folgenden Titel anzusehen:',
+    'en-US':
+      'You will probably find it interesting to watch the following titles:',
+    'es-ES': 'Probablemente te resulte interesante ver los siguientes títulos:',
+    'fr-FR':
+      'Vous trouverez probablement intéressant de regarder les titres suivants:',
+    'it-IT': 'Probabilmente troverai interessante guardare i seguenti titoli:',
+    'ja-JP': 'おそらく次のタイトルを見てみると面白いでしょう。',
+    'pt-BR':
+      'Você provavelmente achará interessante assistir aos seguintes títulos:',
+  }
+
+  return (
+    `
+    <h3>${title[language]}</h3>
+    <ul>` +
+    recommendations
+      .map(
+        (result) =>
+          `<li><a href="https://plotwist.app/${language}/movies/${result.id}">${result.title}</a></li>`,
+      )
+      .join('') +
+    `</ul>`
+  )
+}
+
+async function getRecommendations(review: Review, language: Language) {
+  const { results } = await tmdb.movies.related(
+    review.tmdb_id,
+    'recommendations',
+    language,
+  )
+
+  return results.slice(0, 5).map(({ id, title }) => ({ id, title }))
+}
+
+export async function sendRecommendationEmail(
+  html: string,
+  movieTitle: string,
+  receiver: string,
+) {
+  await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to:
+      process.env.NODE_ENV === 'development'
+        ? 'status451jr@gmail.com'
+        : receiver,
+    subject: `Because you reviewed - ${movieTitle}`,
+    html,
+  })
+}
+
+async function processUser(user: Profile): Promise<void> {
+  const lastMovieReview = await getLastMovieReview(user.id)
+
+  if (lastMovieReview) {
+    const recommendations = await getRecommendations(
+      lastMovieReview,
+      lastMovieReview.language,
+    )
+
+    const html = generateRecommendationsEmail(
+      recommendations,
+      lastMovieReview.language,
+    )
+
+    await sendRecommendationEmail(html, lastMovieReview.tmdb_title, user.email)
+  }
+}
+
+export async function POST(): Promise<NextResponse> {
   try {
-    const { data: proUsers } = await supabase
-      .from('profiles')
-      .select()
-      .eq('subscription_type', 'PRO')
-      .returns<Profile[]>()
+    const proUsers = await getProUsers()
 
-    const hasUsers = proUsers && proUsers.length > 0
-
-    if (hasUsers) {
-      const response = await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: 'status451jr@gmail.com',
-        subject: 'Hello World',
-        html: '<p>Congrats on sending your <strong>first email</strong>!</p>',
-      })
-
-      // await Promise.all(
-      //   proUsers.map(async (user) => {
-      //     console.log({ response })
-      //   }),
-      // )
+    if (proUsers.length > 0) {
+      await Promise.all(proUsers.map(processUser))
     }
 
     return NextResponse.json({ result: null, ok: true })
