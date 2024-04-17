@@ -201,32 +201,58 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                     <RadioGroup
                       onValueChange={onChange}
                       defaultValue={value}
-                      className="flex items-center gap-4"
+                      className="flex flex-col gap-4"
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="public" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {dictionary.list_form.visibility_option_public}
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="network" disabled />
-                        </FormControl>
-                        <FormLabel className="font-normal text-muted-foreground">
-                          {dictionary.list_form.visibility_option_network}
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="private" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {dictionary.list_form.visibility_option_private}
-                        </FormLabel>
-                      </FormItem>
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="public" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {dictionary.list_form.visibility_option_public}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_public
+                          }
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="network" disabled />
+                          </FormControl>
+                          <FormLabel className="font-normal text-muted-foreground">
+                            {dictionary.list_form.visibility_option_network}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_network
+                          }
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="private" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {dictionary.list_form.visibility_option_private}
+                          </FormLabel>
+                        </FormItem>
+                        <span className="block pl-7 text-sm text-muted-foreground">
+                          {
+                            dictionary.list_form
+                              .visibility_option_description_private
+                          }
+                        </span>
+                      </div>
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />

@@ -271,6 +271,9 @@ export type Dictionary = {
     visibility_option_public: string
     visibility_option_network: string
     visibility_option_private: string
+    visibility_option_description_public: string
+    visibility_option_description_network: string
+    visibility_option_description_private: string
     submit: string
     list_created_success: string
 
