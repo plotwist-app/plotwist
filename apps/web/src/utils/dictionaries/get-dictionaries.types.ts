@@ -325,6 +325,7 @@ export type Dictionary = {
     delete: string
     removed_successfully: string
     cover_changed_successfully: string
+    see_details: string
   }
   credits_columns: {
     year: string

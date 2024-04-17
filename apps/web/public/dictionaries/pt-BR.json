@@ -338,7 +338,8 @@
     "status": "Status",
     "delete": "Deletar",
     "removed_successfully": "Removido com sucesso.",
-    "cover_changed_successfully": "Capa alterada com sucesso."
+    "cover_changed_successfully": "Capa alterada com sucesso.",
+    "see_details": "Ver detalhes"
   },
   "credits_columns": {
     "year": "Ano",

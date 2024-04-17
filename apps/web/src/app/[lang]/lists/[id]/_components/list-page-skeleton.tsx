@@ -1,5 +1,4 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
 import { DataTableSkeleton } from './data-table'
 import { ListRecommendationsSkeleton } from './list-recommendations/list-recommendations-skeleton'
 
@@ -17,12 +16,7 @@ export const ListPageSkeleton = ({ mode }: ListPageSkeletonProps) => {
       </div>
 
       <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
-        <div
-          className={cn(
-            'space-y-4',
-            mode === 'EDIT' ? 'col-span-2' : 'col-span-3',
-          )}
-        >
+        <div className="col-span-2 space-y-4">
           <div className="flex flex-col space-y-1">
             <div className="flex justify-between">
               <div className="flex items-start gap-2">

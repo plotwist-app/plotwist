@@ -338,7 +338,8 @@
     "status": "Estado",
     "delete": "Eliminar",
     "removed_successfully": "Eliminado con éxito.",
-    "cover_changed_successfully": "Portada cambiada con éxito."
+    "cover_changed_successfully": "Portada cambiada con éxito.",
+    "see_details": "Ver detalles"
   },
   "credits_columns": {
     "year": "Año",

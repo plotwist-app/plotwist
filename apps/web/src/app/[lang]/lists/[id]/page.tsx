@@ -16,7 +16,6 @@ import { ListPageEmptyResults } from './_components/list-page-results'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
-import { cn } from '@/lib/utils'
 
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
@@ -62,12 +61,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
           <Banner url={tmdbImage(list.cover_path ?? '')} />
 
           <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
-            <div
-              className={cn(
-                'space-y-4',
-                mode === 'EDIT' ? 'col-span-2' : 'col-span-3',
-              )}
-            >
+            <div className="col-span-2 space-y-4">
               <div className="flex flex-col space-y-1">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2">
