@@ -49,7 +49,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     defaultValues: {
       name: list?.name ?? '',
       description: list?.description ?? '',
-      visibility: list?.visibility ?? 'public',
+      visibility: list?.visibility ?? 'PUBLIC',
     },
   })
 
@@ -123,7 +123,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           form.reset({
             description: '',
             name: '',
-            visibility: 'public',
+            visibility: 'PUBLIC',
           })
 
           toast.success(dictionary.list_form.list_created_success)
@@ -206,7 +206,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                       <div className="flex flex-col gap-1">
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="public" />
+                            <RadioGroupItem value="PUBLIC" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             {dictionary.list_form.visibility_option_public}
@@ -223,7 +223,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                       <div className="flex flex-col gap-1">
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="network" disabled />
+                            <RadioGroupItem value="NETWORK" disabled />
                           </FormControl>
                           <FormLabel className="font-normal text-muted-foreground">
                             {dictionary.list_form.visibility_option_network}
@@ -240,7 +240,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                       <div className="flex flex-col gap-1">
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="private" />
+                            <RadioGroupItem value="PRIVATE" />
                           </FormControl>
                           <FormLabel className="font-normal">
                             {dictionary.list_form.visibility_option_private}

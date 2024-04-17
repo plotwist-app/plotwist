@@ -5,7 +5,7 @@ export const listFormSchema = (dictionary: Dictionary) =>
   z.object({
     name: z.string().min(1, dictionary.list_form.name_required),
     description: z.string(),
-    visibility: z.enum(['public', 'network', 'private']),
+    visibility: z.enum(['PUBLIC', 'NETWORK', 'PRIVATE']),
   })
 
 export type ListFormValues = z.infer<ReturnType<typeof listFormSchema>>
