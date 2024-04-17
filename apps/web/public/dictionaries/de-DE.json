@@ -648,5 +648,10 @@
     "change_profile_banner": "Profilbanner ändern",
     "search_movies_or_series": "Suche Filme oder Serien...",
     "changed_successfully": "Banner erfolgreich geändert."
+  },
+  "private_list": {
+    "title": "✋ sBeruhige dich, Freund!",
+    "description": "Du hast keine Berechtigung, diese Liste zu sehen.",
+    "cta": "Andere Listen ansehen."
   }
 }

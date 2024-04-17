@@ -641,4 +641,9 @@ export type Dictionary = {
     search_movies_or_series: string
     changed_successfully: string
   }
+  private_list: {
+    title: string
+    description: string
+    cta: string
+  }
 }

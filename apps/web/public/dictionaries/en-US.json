@@ -649,5 +649,10 @@
     "change_profile_banner": "Change profile banner",
     "search_movies_or_series": "Search movies or series...",
     "changed_successfully": "Banner changed successfully."
+  },
+  "private_list": {
+    "title": "✋ Hold on, buddy!",
+    "description": "You are not authorized to view this list.",
+    "cta": "View other lists."
   }
 }

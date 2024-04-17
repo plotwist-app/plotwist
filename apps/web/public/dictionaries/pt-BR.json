@@ -648,5 +648,10 @@
     "change_profile_banner": "Mudar o banner do perfil",
     "search_movies_or_series": "Buscar filmes ou séries...",
     "changed_successfully": "Banner alterado com sucesso."
+  },
+  "private_list": {
+    "title": "✋ Calma lá, amigão!",
+    "description": "Você não tem autorização para ver essa lista.",
+    "cta": "Ver outras listas."
   }
 }

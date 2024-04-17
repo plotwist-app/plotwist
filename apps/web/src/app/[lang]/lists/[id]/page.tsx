@@ -21,6 +21,7 @@ import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
+import { ListPrivate } from './_components/list-private'
 
 type ListPageProps = {
   params: { id: string }
@@ -48,6 +49,8 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (!response?.data) return <ListPageEmptyResults dictionary={dictionary} />
 
   const list = response.data
+
+  if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (
     <>
