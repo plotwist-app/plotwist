@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { ExternalLink, MoreVertical } from 'lucide-react'
+import { ExternalLink, Image, MoreVertical, Pencil, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -104,12 +104,24 @@ export const ListItemActions = ({
       <DropdownMenuContent>
         {mode === 'EDIT' ? (
           <>
+            <DropdownMenuItem className="p-0">
+              <Link
+                href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+                className="flex items-center px-2 py-1.5"
+              >
+                <ExternalLink size={14} className="mr-2" />
+                {dictionary.list_item_actions.see_details}
+              </Link>
+            </DropdownMenuItem>
+
             <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
+              <Image size={14} className="mr-2" />
               {dictionary.list_item_actions.use_as_cover}
             </DropdownMenuItem>
 
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
+                <Pencil size={16} className="mr-2" />
                 {dictionary.list_item_actions.status}
               </DropdownMenuSubTrigger>
 
@@ -142,17 +154,19 @@ export const ListItemActions = ({
               <DropdownMenuSeparator />
 
               <DropdownMenuItem onClick={() => handleDelete.mutate()}>
+                <Trash size={16} className="mr-2" />
+
                 {dictionary.list_item_actions.delete}
               </DropdownMenuItem>
             </DropdownMenuSub>
           </>
         ) : (
-          <DropdownMenuItem>
+          <DropdownMenuItem className="p-0">
             <Link
               href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
-              className="flex items-center gap-2"
+              className="flex items-center px-2 py-1.5"
             >
-              <ExternalLink size={16} />
+              <ExternalLink size={16} className="mr-2" />
               {dictionary.list_item_actions.see_details}
             </Link>
           </DropdownMenuItem>
