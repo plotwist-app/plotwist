@@ -1,6 +1,8 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { MoreVertical } from 'lucide-react'
+import { ExternalLink, Image, MoreVertical, Pencil, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,91 +17,36 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+
 import { useLists } from '@/context/lists'
-import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { listPageQueryKey } from '@/utils/list'
 import { useAuth } from '@/context/auth'
 
-type ListItemActionsProps = { listItem: ListItem }
+import { listPageQueryKey } from '@/utils/list'
 
-export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
-  const {
-    handleChangeListItemStatus,
-    handleChangeListCoverPath,
-    handleRemoveFromList,
-  } = useLists()
+import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { useListItem } from '@/hooks/use-list-item'
+import { useListMode } from '@/context/list-mode'
+import Link from 'next/link'
+
+type ListItemActionsProps = {
+  listItem: ListItem
+  openDropdown?: boolean
+  setOpenDropdown?: (state: boolean) => void
+}
+
+export const ListItemActions = ({
+  listItem,
+  openDropdown,
+  setOpenDropdown,
+}: ListItemActionsProps) => {
+  const { handleChangeListCoverPath } = useLists()
+  const { handleDelete, handleUpdateStatus } = useListItem(listItem)
+
   const { user } = useAuth()
-  const { dictionary } = useLanguage()
-
-  const handleRemove = useCallback(
-    async (id: string, listId: string) => {
-      await handleRemoveFromList.mutateAsync(id, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(listId),
-            (query: { data: List }) => {
-              const newListItems = query.data.list_items.filter(
-                (item) => item.id !== id,
-              )
-
-              return {
-                ...query,
-                data: {
-                  ...query.data,
-                  list_items: newListItems,
-                },
-              }
-            },
-          )
-
-          toast.success(dictionary.list_item_actions.removed_successfully)
-        },
-      })
-    },
-    [dictionary, handleRemoveFromList],
-  )
-
-  const handleChangeStatus = useCallback(
-    async (status: ListItemStatus, listId: string) => {
-      const variables = {
-        listItemId: listItem.id,
-        newStatus: status,
-      }
-
-      await handleChangeListItemStatus.mutateAsync(variables, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(listId),
-            (query: { data: List }) => {
-              const newListItems = query.data.list_items.map((item) => {
-                if (item.id === variables.listItemId) {
-                  return {
-                    ...item,
-                    status: variables.newStatus,
-                  }
-                }
-
-                return item
-              })
-
-              const newQuery = {
-                ...query,
-                data: {
-                  ...query.data,
-                  list_items: newListItems,
-                },
-              }
-
-              return newQuery
-            },
-          )
-        },
-      })
-    },
-    [handleChangeListItemStatus, listItem],
-  )
+  const { dictionary, language } = useLanguage()
+  const { mode } = useListMode()
 
   const handleChangeBackdrop = useCallback(async () => {
     if (!user) return
@@ -147,54 +94,83 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   }, [dictionary, handleChangeListCoverPath, listItem, user])
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button size="icon" variant="outline" className="h-6 w-6">
+    <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
+      <DropdownMenuTrigger asChild>
+        <Button size="icon" variant="secondary" className="h-6 w-6">
           <MoreVertical className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
-          {dictionary.list_item_actions.use_as_cover}
-        </DropdownMenuItem>
+        {mode === 'EDIT' ? (
+          <>
+            <DropdownMenuItem className="p-0">
+              <Link
+                href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+                className="flex items-center px-2 py-1.5"
+              >
+                <ExternalLink size={14} className="mr-2" />
+                {dictionary.list_item_actions.see_details}
+              </Link>
+            </DropdownMenuItem>
 
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            {dictionary.list_item_actions.status}
-          </DropdownMenuSubTrigger>
+            <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
+              <Image size={14} className="mr-2" />
+              {dictionary.list_item_actions.use_as_cover}
+            </DropdownMenuItem>
 
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup
-              value={listItem.status}
-              onValueChange={(status) =>
-                handleChangeStatus(status as ListItemStatus, listItem.list_id)
-              }
-            >
-              {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
-                <DropdownMenuRadioItem
-                  key={status}
-                  value={status}
-                  className="text-sm capitalize"
-                >
-                  {
-                    dictionary.statuses[
-                      status.toLowerCase() as 'pending' | 'watching' | 'watched'
-                    ]
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Pencil size={16} className="mr-2" />
+                {dictionary.list_item_actions.status}
+              </DropdownMenuSubTrigger>
+
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup
+                  value={listItem.status}
+                  onValueChange={(status) =>
+                    handleUpdateStatus.mutate(status as ListItemStatus)
                   }
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
+                >
+                  {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
+                    <DropdownMenuRadioItem
+                      key={status}
+                      value={status}
+                      className="text-sm capitalize"
+                    >
+                      {
+                        dictionary.statuses[
+                          status.toLowerCase() as
+                            | 'pending'
+                            | 'watching'
+                            | 'watched'
+                        ]
+                      }
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
 
-          <DropdownMenuSeparator />
+              <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            onClick={() => handleRemove(listItem.id, listItem.list_id)}
-          >
-            {dictionary.list_item_actions.delete}
+              <DropdownMenuItem onClick={() => handleDelete.mutate()}>
+                <Trash size={16} className="mr-2" />
+
+                {dictionary.list_item_actions.delete}
+              </DropdownMenuItem>
+            </DropdownMenuSub>
+          </>
+        ) : (
+          <DropdownMenuItem className="p-0">
+            <Link
+              href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+              className="flex items-center px-2 py-1.5"
+            >
+              <ExternalLink size={16} className="mr-2" />
+              {dictionary.list_item_actions.see_details}
+            </Link>
           </DropdownMenuItem>
-        </DropdownMenuSub>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

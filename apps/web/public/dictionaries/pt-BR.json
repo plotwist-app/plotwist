@@ -329,8 +329,7 @@
     "status": "Status",
     "actions": "Ações",
     "movie": "Filme",
-    "tv_serie": "Série",
-    "rating": "Avaliação"
+    "tv_serie": "Série"
   },
   "data_table_view_options": {
     "view": "Visualizar",
@@ -346,7 +345,8 @@
     "status": "Status",
     "delete": "Deletar",
     "removed_successfully": "Removido com sucesso.",
-    "cover_changed_successfully": "Capa alterada com sucesso."
+    "cover_changed_successfully": "Capa alterada com sucesso.",
+    "see_details": "Ver detalhes"
   },
   "credits_columns": {
     "year": "Ano",

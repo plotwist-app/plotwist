@@ -329,8 +329,7 @@
     "status": "Statut",
     "actions": "Actions",
     "movie": "Film",
-    "tv_serie": "Série TV",
-    "rating": "Évaluation"
+    "tv_serie": "Série TV"
   },
   "data_table_view_options": {
     "view": "Voir",
@@ -346,7 +345,8 @@
     "status": "Statut",
     "delete": "Supprimer",
     "removed_successfully": "Supprimé avec succès.",
-    "cover_changed_successfully": "Couverture changée avec succès."
+    "cover_changed_successfully": "Couverture changée avec succès.",
+    "see_details": "Voir les détails"
   },
   "credits_columns": {
     "year": "Année",

@@ -316,7 +316,6 @@ export type Dictionary = {
     actions: string
     movie: string
     tv_serie: string
-    rating: string
   }
   data_table_view_options: {
     view: string
@@ -333,6 +332,7 @@ export type Dictionary = {
     delete: string
     removed_successfully: string
     cover_changed_successfully: string
+    see_details: string
   }
   credits_columns: {
     year: string

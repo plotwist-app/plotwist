@@ -7,6 +7,8 @@ function isPlatformAmong(platform: string, platformsArray: string[]) {
 }
 
 export function detectOperatingSystem() {
+  if (!window) return 'Windows'
+
   const userAgent = window.navigator.userAgent
   const platform = window.navigator.platform
 

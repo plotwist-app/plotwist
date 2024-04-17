@@ -1,7 +1,7 @@
 'use client'
 
 import { ListItem } from '@/types/supabase/lists'
-import { Grid, Table } from 'lucide-react'
+import { Grid, List } from 'lucide-react'
 import { useState } from 'react'
 
 import { useLanguage } from '@/context/language'
@@ -16,37 +16,39 @@ type ListItemsProps = {
 }
 
 export const ListItems = ({ listItems }: ListItemsProps) => {
-  const [layout, setLayout] = useState<'table' | 'grid'>('table')
+  const [layout, setLayout] = useState<'table' | 'grid'>('grid')
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
 
   const contentByLayout: Record<typeof layout, JSX.Element> = {
+    grid: <ListItemsGrid listItems={listItems} />,
     table: (
       <DataTable
         data={listItems}
         columns={columns(dictionary, language, mode)}
       />
     ),
-    grid: <ListItemsGrid listItems={listItems} />,
   }
 
   return (
     <section className="space-y-4">
       <div className="flex space-x-2">
         <Button
-          variant={layout === 'table' ? 'default' : 'outline'}
-          onClick={() => setLayout('table')}
+          variant={layout === 'grid' ? 'default' : 'outline'}
+          onClick={() => setLayout('grid')}
+          size="icon"
+          className="h-9 w-9"
         >
-          <Table className="mr-2 h-4 w-4" />
-          {dictionary.list_items.table}
+          <Grid className="h-4 w-4" />
         </Button>
 
         <Button
-          variant={layout === 'grid' ? 'default' : 'outline'}
-          onClick={() => setLayout('grid')}
+          variant={layout === 'table' ? 'default' : 'outline'}
+          onClick={() => setLayout('table')}
+          size="icon"
+          className="h-9 w-9"
         >
-          <Grid className="mr-2 h-4 w-4" />
-          {dictionary.list_items.grid}
+          <List className="h-4 w-4" />
         </Button>
       </div>
 

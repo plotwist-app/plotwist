@@ -6,7 +6,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import { CombinedCredit } from '@plotwist/tmdb'
 
 import { TableColumnHeader } from '@/components/table'
-import { Badge } from '@/components/ui/badge'
 
 import { Dictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
@@ -84,23 +83,6 @@ export const columns: Columns = (dictionary, language) => [
       )
     },
     enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: dictionary.credits_columns.rating,
-    accessorKey: 'vote_average',
-    header: ({ column }) => (
-      <TableColumnHeader
-        column={column}
-        title={dictionary.credits_columns.rating}
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <Badge variant="outline">{row.original.vote_average.toFixed(1)}</Badge>
-      )
-    },
-    enableSorting: true,
     enableHiding: false,
   },
 ]

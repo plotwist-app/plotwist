@@ -85,8 +85,8 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             },
           )
 
-          APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
-            const newData = query.map((list) => {
+          APP_QUERY_CLIENT.setQueryData(['lists', user.id], (data: List[]) => {
+            const newData = data.map((list) => {
               if (list.id === variables.id) {
                 return {
                   ...list,

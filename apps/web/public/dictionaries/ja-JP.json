@@ -329,8 +329,7 @@
     "status": "ステータス",
     "actions": "アクション",
     "movie": "映画",
-    "tv_serie": "テレビ番組",
-    "rating": "評価"
+    "tv_serie": "テレビ番組"
   },
   "data_table_view_options": {
     "view": "表示",
@@ -346,7 +345,8 @@
     "status": "ステータス",
     "delete": "削除",
     "removed_successfully": "排除に成功。",
-    "cover_changed_successfully": "カバーは無事に交換された。"
+    "cover_changed_successfully": "カバーは無事に交換された。",
+    "see_details": "詳細を見る"
   },
   "credits_columns": {
     "year": "年",
