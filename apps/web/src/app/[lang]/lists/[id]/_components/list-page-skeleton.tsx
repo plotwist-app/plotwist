@@ -1,5 +1,4 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { DataTableSkeleton } from './data-table'
 import { ListRecommendationsSkeleton } from './list-recommendations/list-recommendations-skeleton'
 
 type ListPageSkeletonProps = {
@@ -20,7 +19,7 @@ export const ListPageSkeleton = ({ mode }: ListPageSkeletonProps) => {
           <div className="flex flex-col space-y-1">
             <div className="flex justify-between">
               <div className="flex items-start gap-2">
-                <Skeleton className="mb-2 h-8 w-[20ch]" />
+                <Skeleton className="mb-2 h-8 w-[10ch]" />
 
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   by
@@ -36,7 +35,11 @@ export const ListPageSkeleton = ({ mode }: ListPageSkeletonProps) => {
             </div>
           </div>
 
-          <DataTableSkeleton />
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-5">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <Skeleton key={index} className="aspect-poster" />
+            ))}
+          </div>
         </div>
 
         <div className="col-span-1 space-y-4">
