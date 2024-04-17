@@ -16,11 +16,12 @@ type ListItemCardProps = { listItem: ListItem }
 export const ListItemCard = ({ listItem }: ListItemCardProps) => {
   const { poster_path: poster, title, status } = listItem
   const [openDropdown, setOpenDropdown] = useState(false)
+  const [openOverlay, setOpenOverlay] = useState(false)
 
   return (
     <div
       className="group cursor-pointer space-y-2"
-      onClick={() => setOpenDropdown((prev) => !prev)}
+      onClick={() => setOpenOverlay((prev) => !prev)}
     >
       <div className="relative aspect-poster w-full overflow-hidden rounded-md border bg-background/50 shadow">
         {poster && (
@@ -36,7 +37,7 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
         <div
           className={cn(
             'absolute z-20 h-full w-full bg-gradient-to-b from-black to-black/50 opacity-0 transition-all group-hover:opacity-100',
-            openDropdown && 'opacity-100',
+            (openDropdown || openOverlay) && 'opacity-100',
           )}
         />
 
@@ -52,7 +53,7 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
         <div
           className={cn(
             'absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100',
-            openDropdown && 'scale-100',
+            (openDropdown || openOverlay) && 'scale-100',
           )}
         >
           <ListItemActions
