@@ -42,3 +42,4 @@ export const tmdb = {
 
 export * from './models'
 export * from './api'
+export * from './utils'

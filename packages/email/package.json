@@ -11,6 +11,7 @@
     "start": "email start"
   },
   "dependencies": {
+    "@plotwist/tmdb": "workspace:*",
     "@react-email/components": "0.0.16",
     "@react-email/img": "0.0.7",
     "@react-email/tailwind": "0.0.15",

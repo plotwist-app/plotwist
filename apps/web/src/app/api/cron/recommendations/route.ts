@@ -2,7 +2,7 @@ import { getProfilesBySubscriptionType } from '@/services/api/profiles/get-profi
 import { getUserLastReviewService } from '@/services/api/reviews'
 import { Profile } from '@/types/supabase'
 import { Review } from '@/types/supabase/reviews'
-import { Language, tmdb } from '@plotwist/tmdb'
+import { Language, Movie, tmdb } from '@plotwist/tmdb'
 import Cors from 'micro-cors'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
@@ -13,7 +13,7 @@ Cors({
 const resend = new Resend(process.env.RESEND_KEY)
 
 function generateRecommendationsEmail(
-  recommendations: { id: number; title: string }[],
+  recommendations: Movie[],
   language: Language,
 ) {
   const title: Record<Language, string> = {
@@ -51,7 +51,7 @@ async function getRecommendations(review: Review, language: Language) {
     language,
   )
 
-  return results.slice(0, 5).map(({ id, title }) => ({ id, title }))
+  return results.slice(0, 3)
 }
 
 export async function sendRecommendationEmail(
@@ -65,7 +65,7 @@ export async function sendRecommendationEmail(
       process.env.NODE_ENV === 'development'
         ? 'status451jr@gmail.com'
         : receiver,
-    subject: `Because you reviewed - ${movieTitle}`,
+    subject: `Because you recently reviewed ${movieTitle}`,
     html,
   })
 }
@@ -81,6 +81,8 @@ async function processUser(user: Profile): Promise<void> {
       lastMovieReview,
       lastMovieReview.language,
     )
+
+    console.log({ recommendations })
 
     const html = generateRecommendationsEmail(
       recommendations,
