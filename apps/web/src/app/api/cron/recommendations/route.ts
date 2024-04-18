@@ -1,4 +1,5 @@
-import { supabase } from '@/services/supabase'
+import { getProfilesBySubscriptionType } from '@/services/api/profiles/get-profiles-by-subscription-type'
+import { getUserLastReviewService } from '@/services/api/reviews'
 import { Profile } from '@/types/supabase'
 import { Review } from '@/types/supabase/reviews'
 import { Language, tmdb } from '@plotwist/tmdb'
@@ -10,29 +11,6 @@ Cors({
   allowMethods: ['POST', 'HEAD'],
 })
 const resend = new Resend(process.env.RESEND_KEY)
-
-async function getProUsers() {
-  const { data: users } = await supabase
-    .from('profiles')
-    .select()
-    .eq('subscription_type', 'PRO')
-    .returns<Profile[]>()
-
-  return users || []
-}
-
-async function getLastMovieReview(userId: string) {
-  const { data: review } = await supabase
-    .from('reviews')
-    .select()
-    .eq('user_id', userId)
-    .eq('media_type', 'MOVIE')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single<Review>()
-
-  return review || null
-}
 
 function generateRecommendationsEmail(
   recommendations: { id: number; title: string }[],
@@ -93,7 +71,10 @@ export async function sendRecommendationEmail(
 }
 
 async function processUser(user: Profile): Promise<void> {
-  const lastMovieReview = await getLastMovieReview(user.id)
+  const lastMovieReview = await getUserLastReviewService({
+    userId: user.id,
+    mediaType: 'MOVIE',
+  })
 
   if (lastMovieReview) {
     const recommendations = await getRecommendations(
@@ -112,7 +93,7 @@ async function processUser(user: Profile): Promise<void> {
 
 export async function POST(): Promise<NextResponse> {
   try {
-    const proUsers = await getProUsers()
+    const proUsers = await getProfilesBySubscriptionType('PRO')
 
     if (proUsers.length > 0) {
       await Promise.all(proUsers.map(processUser))

@@ -37,7 +37,10 @@ export const DashboardUserLastReview = () => {
 
   const { data: lastReview, isLoading } = useQuery({
     queryKey: ['dashboard-user-last-review'],
-    queryFn: async () => getUserLastReviewService(user?.id ?? ''),
+    queryFn: async () =>
+      getUserLastReviewService({
+        userId: user?.id ?? '',
+      }),
   })
 
   if (!user) {

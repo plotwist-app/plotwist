@@ -41,9 +41,6 @@ importers:
       '@next/mdx':
         specifier: ^14.1.3
         version: 14.1.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1)
-      '@plotwist/email':
-        specifier: workspace:*
-        version: link:../../packages/email
       '@plotwist/tmdb':
         specifier: workspace:*
         version: link:../../packages/tmdb
@@ -303,12 +300,6 @@ importers:
       vitest:
         specifier: ^1.2.2
         version: 1.4.0(@types/node@20.11.24)(@vitest/ui@1.4.0)(jsdom@23.2.0)
-
-  packages/email:
-    dependencies:
-      resend:
-        specifier: ^3.2.0
-        version: 3.2.0
 
   packages/eslint-config:
     devDependencies:
