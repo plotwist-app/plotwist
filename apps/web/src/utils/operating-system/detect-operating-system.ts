@@ -7,10 +7,12 @@ function isPlatformAmong(platform: string, platformsArray: string[]) {
 }
 
 export function detectOperatingSystem() {
-  if (!window) return 'Windows'
+  if (typeof window === 'undefined') {
+    return 'Unknown OS - possibly server-side'
+  }
 
-  const userAgent = window.navigator.userAgent
-  const platform = window.navigator.platform
+  const userAgent = window?.navigator.userAgent
+  const platform = window?.navigator.platform
 
   if (isPlatformAmong(platform, MAC_OS_PLATFORMS)) {
     return 'Mac OS'
