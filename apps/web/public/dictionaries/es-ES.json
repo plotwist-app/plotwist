@@ -282,6 +282,13 @@
     "name_required": "Se requiere el nombre de la lista.",
     "description": "Descripción",
     "description_placeholder": "Películas y programas de TV que planeo ver.",
+    "visibility": "Visibilidad",
+    "visibility_option_public": "Público",
+    "visibility_option_network": "Red",
+    "visibility_option_private": "Privado",
+    "visibility_option_description_public": "Visible para todos.",
+    "visibility_option_description_network": "Solo visible para amigos.",
+    "visibility_option_description_private": "Solo visible para mí.",
     "submit": "Enviar",
     "list_created_success": "¡Lista creada con éxito!",
     "edit_list": "Editar lista",
@@ -338,7 +345,8 @@
     "status": "Estado",
     "delete": "Eliminar",
     "removed_successfully": "Eliminado con éxito.",
-    "cover_changed_successfully": "Portada cambiada con éxito."
+    "cover_changed_successfully": "Portada cambiada con éxito.",
+    "see_details": "Ver detalles"
   },
   "credits_columns": {
     "year": "Año",
@@ -640,5 +648,10 @@
     "change_profile_banner": "Cambiar el banner del perfil",
     "search_movies_or_series": "Buscar películas o series...",
     "changed_successfully": "Banner cambiado con éxito."
+  },
+  "private_list": {
+    "title": "¡Calma, amigo!",
+    "description": "No tienes autorización para ver esta lista.",
+    "cta": "Ver otras listas."
   }
 }

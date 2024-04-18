@@ -282,6 +282,13 @@
     "name_required": "Name of list is required.",
     "description": "Description",
     "description_placeholder": "Movies and TV shows I plan to watch.",
+    "visibility": "Visibility",
+    "visibility_option_public": "Public",
+    "visibility_option_network": "Network",
+    "visibility_option_private": "Private",
+    "visibility_option_description_public": "Visible to everyone.",
+    "visibility_option_description_network": "Visible to friends only.",
+    "visibility_option_description_private": "Visible to just me.",
     "submit": "Submit",
     "list_created_success": "List created successfully!",
     "edit_list": "Edit List",
@@ -338,7 +345,8 @@
     "status": "Status",
     "delete": "Delete",
     "removed_successfully": "Removed successfully.",
-    "cover_changed_successfully": "Cover changed successfully."
+    "cover_changed_successfully": "Cover changed successfully.",
+    "see_details": "See details"
   },
   "credits_columns": {
     "year": "Year",
@@ -641,5 +649,10 @@
     "change_profile_banner": "Change profile banner",
     "search_movies_or_series": "Search movies or series...",
     "changed_successfully": "Banner changed successfully."
+  },
+  "private_list": {
+    "title": "✋ Hold on, buddy!",
+    "description": "You are not authorized to view this list.",
+    "cta": "View other lists."
   }
 }

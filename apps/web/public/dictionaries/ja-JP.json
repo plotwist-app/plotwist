@@ -282,6 +282,13 @@
     "name_required": "リストの名前が必要です。",
     "description": "説明",
     "description_placeholder": "視聴予定の映画やテレビ番組。",
+    "visibility": "可視性",
+    "visibility_option_public": "公共",
+    "visibility_option_network": "ネットワーク",
+    "visibility_option_private": "私的",
+    "visibility_option_description_public": "誰でも閲覧可能。",
+    "visibility_option_description_network": "友人のみ閲覧可能。",
+    "visibility_option_description_private": "自分のみ閲覧可能。",
     "submit": "提出する",
     "list_created_success": "リストが正常に作成されました！",
     "edit_list": "リストを編集",
@@ -338,7 +345,8 @@
     "status": "ステータス",
     "delete": "削除",
     "removed_successfully": "排除に成功。",
-    "cover_changed_successfully": "カバーは無事に交換された。"
+    "cover_changed_successfully": "カバーは無事に交換された。",
+    "see_details": "詳細を見る"
   },
   "credits_columns": {
     "year": "年",
@@ -640,5 +648,10 @@
     "change_profile_banner": "プロファイルのバナーを変更",
     "search_movies_or_series": "映画やシリーズを検索...",
     "changed_successfully": "バナーが正常に変更されました。"
+  },
+  "private_list": {
+    "title": "✋ 落ち着いて、友よ！",
+    "description": "このリストを見る権限がありません。",
+    "cta": "他のリストを見る"
   }
 }

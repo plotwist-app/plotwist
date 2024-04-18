@@ -267,6 +267,13 @@ export type Dictionary = {
     name_required: string
     description: string
     description_placeholder: string
+    visibility: string
+    visibility_option_public: string
+    visibility_option_network: string
+    visibility_option_private: string
+    visibility_option_description_public: string
+    visibility_option_description_network: string
+    visibility_option_description_private: string
     submit: string
     list_created_success: string
 
@@ -325,6 +332,7 @@ export type Dictionary = {
     delete: string
     removed_successfully: string
     cover_changed_successfully: string
+    see_details: string
   }
   credits_columns: {
     year: string
@@ -632,5 +640,10 @@ export type Dictionary = {
     change_profile_banner: string
     search_movies_or_series: string
     changed_successfully: string
+  }
+  private_list: {
+    title: string
+    description: string
+    cta: string
   }
 }

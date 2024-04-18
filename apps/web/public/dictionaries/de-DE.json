@@ -282,6 +282,13 @@
     "name_required": "Der Name der Liste ist erforderlich.",
     "description": "Beschreibung",
     "description_placeholder": "Filme und Fernsehshows, die ich planen zu sehen.",
+    "visibility": "Sichtbarkeit",
+    "visibility_option_public": "Öffentlich",
+    "visibility_option_network": "Netzwerk",
+    "visibility_option_private": "Privat",
+    "visibility_option_description_public": "Für alle sichtbar.",
+    "visibility_option_description_network": "Nur für Freunde sichtbar.",
+    "visibility_option_description_private": "Nur für mich sichtbar.",
     "submit": "Einreichen",
     "list_created_success": "Liste erfolgreich erstellt!",
     "edit_list": "Liste bearbeiten",
@@ -338,7 +345,8 @@
     "status": "Status",
     "delete": "Löschen",
     "removed_successfully": "Erfolgreich entfernt.",
-    "cover_changed_successfully": "Cover erfolgreich geändert."
+    "cover_changed_successfully": "Cover erfolgreich geändert.",
+    "see_details": "Siehe Einzelheiten"
   },
   "credits_columns": {
     "year": "Jahr",
@@ -640,5 +648,10 @@
     "change_profile_banner": "Profilbanner ändern",
     "search_movies_or_series": "Suche Filme oder Serien...",
     "changed_successfully": "Banner erfolgreich geändert."
+  },
+  "private_list": {
+    "title": "✋ sBeruhige dich, Freund!",
+    "description": "Du hast keine Berechtigung, diese Liste zu sehen.",
+    "cta": "Andere Listen ansehen."
   }
 }

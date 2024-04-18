@@ -282,6 +282,13 @@
     "name_required": "Il nome della lista è richiesto.",
     "description": "Descrizione",
     "description_placeholder": "Film e programmi TV che ho intenzione di guardare.",
+    "visibility": "Visibilità",
+    "visibility_option_public": "Pubblico",
+    "visibility_option_network": "Rete",
+    "visibility_option_private": "Privato",
+    "visibility_option_description_public": "Visibile a tutti.",
+    "visibility_option_description_network": "Visibile solo agli amici.",
+    "visibility_option_description_private": "Visibile solo a me.",
     "submit": "Invia",
     "list_created_success": "Lista creata con successo!",
     "edit_list": "Modifica elenco",
@@ -338,7 +345,8 @@
     "status": "Stato",
     "delete": "Elimina",
     "removed_successfully": "Rimosso con successo.",
-    "cover_changed_successfully": "Copertina cambiata con successo."
+    "cover_changed_successfully": "Copertina cambiata con successo.",
+    "see_details": "Guarda i detagli"
   },
   "credits_columns": {
     "year": "Jahr",
@@ -640,5 +648,10 @@
     "change_profile_banner": "Cambia il banner del profilo",
     "search_movies_or_series": "Cerca film o serie...",
     "changed_successfully": "Banner cambiato con successo."
+  },
+  "private_list": {
+    "title": "✋ Calma là, amico!",
+    "description": "Non sei autorizzato a vedere questa lista.",
+    "cta": "Visualizza altre liste."
   }
 }

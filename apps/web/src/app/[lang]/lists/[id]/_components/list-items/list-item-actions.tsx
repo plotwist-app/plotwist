@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { MoreVertical } from 'lucide-react'
+import { ExternalLink, Image, MoreVertical, Pencil, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -27,6 +27,8 @@ import { listPageQueryKey } from '@/utils/list'
 
 import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { useListItem } from '@/hooks/use-list-item'
+import { useListMode } from '@/context/list-mode'
+import Link from 'next/link'
 
 type ListItemActionsProps = {
   listItem: ListItem
@@ -43,7 +45,8 @@ export const ListItemActions = ({
   const { handleDelete, handleUpdateStatus } = useListItem(listItem)
 
   const { user } = useAuth()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
+  const { mode } = useListMode()
 
   const handleChangeBackdrop = useCallback(async () => {
     if (!user) return
@@ -99,44 +102,75 @@ export const ListItemActions = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
-          {dictionary.list_item_actions.use_as_cover}
-        </DropdownMenuItem>
+        {mode === 'EDIT' ? (
+          <>
+            <DropdownMenuItem className="p-0">
+              <Link
+                href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+                className="flex items-center px-2 py-1.5"
+              >
+                <ExternalLink size={14} className="mr-2" />
+                {dictionary.list_item_actions.see_details}
+              </Link>
+            </DropdownMenuItem>
 
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            {dictionary.list_item_actions.status}
-          </DropdownMenuSubTrigger>
+            <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
+              <Image size={14} className="mr-2" />
+              {dictionary.list_item_actions.use_as_cover}
+            </DropdownMenuItem>
 
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup
-              value={listItem.status}
-              onValueChange={(status) =>
-                handleUpdateStatus.mutate(status as ListItemStatus)
-              }
-            >
-              {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
-                <DropdownMenuRadioItem
-                  key={status}
-                  value={status}
-                  className="text-sm capitalize"
-                >
-                  {
-                    dictionary.statuses[
-                      status.toLowerCase() as 'pending' | 'watching' | 'watched'
-                    ]
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Pencil size={16} className="mr-2" />
+                {dictionary.list_item_actions.status}
+              </DropdownMenuSubTrigger>
+
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup
+                  value={listItem.status}
+                  onValueChange={(status) =>
+                    handleUpdateStatus.mutate(status as ListItemStatus)
                   }
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
+                >
+                  {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
+                    <DropdownMenuRadioItem
+                      key={status}
+                      value={status}
+                      className="text-sm capitalize"
+                    >
+                      {
+                        dictionary.statuses[
+                          status.toLowerCase() as
+                            | 'pending'
+                            | 'watching'
+                            | 'watched'
+                        ]
+                      }
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
 
-          <DropdownMenuSeparator />
+              <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={() => handleDelete.mutate()}>
-            {dictionary.list_item_actions.delete}
+              <DropdownMenuItem onClick={() => handleDelete.mutate()}>
+                <Trash size={16} className="mr-2" />
+
+                {dictionary.list_item_actions.delete}
+              </DropdownMenuItem>
+            </DropdownMenuSub>
+          </>
+        ) : (
+          <DropdownMenuItem className="p-0">
+            <Link
+              href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+              className="flex items-center px-2 py-1.5"
+            >
+              <ExternalLink size={16} className="mr-2" />
+              {dictionary.list_item_actions.see_details}
+            </Link>
           </DropdownMenuItem>
-        </DropdownMenuSub>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )
