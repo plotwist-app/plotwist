@@ -1,0 +1,18 @@
+{
+  "extends": "@plotwist/typescript-config/react-library.json",
+  "compilerOptions": {
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": [
+    //     "./src/*"
+    //   ],
+    // }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

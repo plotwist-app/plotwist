@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "files": [
-    "next.js"
+    "next.js",
+    "node.js",
+    "react.js"
   ],
   "devDependencies": {
     "@vercel/style-guide": "^5.2.0",
