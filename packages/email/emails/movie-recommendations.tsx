@@ -51,7 +51,6 @@ const MovieRecommendations = ({
                 Here are this week&apos;s personalized movie recommendations
                 just for you. We&apos;ve curated these picks based on your
                 recent activities.
-                {/* <span className="font-bold">{movieTitle}.</span> */}
               </Text>
             </Section>
 

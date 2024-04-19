@@ -3,6 +3,7 @@ import { getUserLastReviewService } from '@/services/api/reviews'
 import { Profile } from '@/types/supabase'
 import { Review } from '@/types/supabase/reviews'
 import { Language, Movie, tmdb } from '@plotwist/tmdb'
+import {} from '@plotwist/email'
 import Cors from 'micro-cors'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
@@ -81,8 +82,6 @@ async function processUser(user: Profile): Promise<void> {
       lastMovieReview,
       lastMovieReview.language,
     )
-
-    console.log({ recommendations })
 
     const html = generateRecommendationsEmail(
       recommendations,

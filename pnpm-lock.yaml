@@ -41,6 +41,9 @@ importers:
       '@next/mdx':
         specifier: ^14.1.3
         version: 14.1.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1)
+      '@plotwist/email':
+        specifier: workspace:*
+        version: link:../../packages/email
       '@plotwist/tmdb':
         specifier: workspace:*
         version: link:../../packages/tmdb
