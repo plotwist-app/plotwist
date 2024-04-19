@@ -30,11 +30,11 @@ const MovieRecommendations = ({
   return (
     <Html>
       <Head />
-      <Preview>Hi, {username}!</Preview>
+      <Preview>Hello, {username}!</Preview>
 
       <Tailwind>
         <Body className="my-auto mx-auto font-sans px-2">
-          <Container className="border font-[#09090b] bg-[#fafafa] border-solid border-[#e4e4e7] rounded shadow mx-auto p-8 my-10">
+          <Container className="border font-[#09090b] bg-[#fafafa] border-solid border-[#e4e4e7] rounded-lg shadow mx-auto p-8 my-10">
             <Img
               src={`${baseUrl}/logo-black.png`}
               width="40"
@@ -43,17 +43,20 @@ const MovieRecommendations = ({
             />
 
             <Section className="mt-2">
-              <Text className="text-lg mb-0">Hello, {username}!</Text>
+              <Text className="text-xl mb-0">
+                Hello, <span className="font-semibold">{username}</span>!
+              </Text>
 
-              <Text className="mt-0">
-                Because you reviewed{' '}
-                <span className="font-semibold">{movieTitle}.</span>
+              <Text className="mt-1">
+                Here are this week&apos;s personalized movie recommendations
+                just for you. We&apos;ve curated these picks based on your
+                recent activities.
+                {/* <span className="font-bold">{movieTitle}.</span> */}
               </Text>
             </Section>
 
-            <Section className="mt-4 text-sm text-[#a1a1aa]">
-              You will probably find it interesting to watch the following
-              titles:
+            <Section className="mt-0 text-sm">
+              Because you enjoyed <strong>{movieTitle}</strong>, you might like:
             </Section>
 
             <Row className="mt-2 border-spacing-1">
@@ -64,7 +67,7 @@ const MovieRecommendations = ({
                 >
                   <Link
                     href={`${baseUrl}/movies/${movie.id}`}
-                    className="border-[#e4e4e7] shadow  aspect-[2/3]"
+                    className="border-[#e4e4e7] shadow aspect-[2/3]"
                   >
                     <Img
                       src={`${generateImageUrl(movie.poster_path)}`}
@@ -76,6 +79,13 @@ const MovieRecommendations = ({
                 </Column>
               ))}
             </Row>
+
+            <Text className="border-t text-[#a1a1aa] border-[#e4e4e7] text-center mb-0">
+              Looking for something different?{' '}
+              <a className="text-[#09090b]" href={`${baseUrl}/movies/discover`}>
+                Explore more titles
+              </a>
+            </Text>
           </Container>
         </Body>
       </Tailwind>
@@ -88,58 +98,58 @@ MovieRecommendations.PreviewProps = {
   movieTitle: 'Fight Club',
   movies: [
     {
-      backdrop_path: '/s0OrExdg7i3RLR7oqzHRk4q2kL4.jpg',
-      id: 194662,
-      original_title: 'Birdman or (The Unexpected Virtue of Ignorance)',
+      backdrop_path: '/tmU7GeKVybMWFButWEGl2M4GeiP.jpg',
+      id: 238,
+      original_title: 'The Godfather',
       overview:
-        'かつてヒーロー映画「バードマン」で一世を風靡した俳優リーガン・トムソンは、落ちぶれた今、自 分が脚色を手掛けた舞台「愛について語るときに我々の語ること」に再起を懸けていた。しかし、降板した俳優の代役としてやっ て来たマイク・シャイナーの才能がリーガンを追い込む。さらに娘サムとの不仲に苦しみ、リーガンは舞台の役柄に自分自身を投 影し始める。',
-      poster_path: '/dtJqCt271m4Ze8ActGWCvxVPXIw.jpg',
+        'Em 1945, Don Corleone é o chefe de uma mafiosa família italiana de Nova York. Ele costuma apadrinhar várias pessoas, realizando importantes favores para elas, em troca de favores futuros. Com a chegada das drogas, as famílias começam uma disputa pelo promissor mercado. Quando Corleone se recusa a facilitar a entrada dos narcóticos na cidade, não oferecendo ajuda política e policial, sua família começa a sofrer atentados para que mudem de posição. É nessa complicada época que Michael, um herói de guerra nunca envolvido nos negócios da família, vê a necessidade de proteger o seu pai e tudo o que ele construiu ao longo dos anos.',
+      poster_path: '/oJagOzBu9Rdd9BrciseCm3U3MCU.jpg',
       media_type: 'movie',
       adult: false,
-      title: 'バードマン あるいは（無知がもたらす予期せぬ奇跡）',
+      title: 'O Poderoso Chefão',
       original_language: 'en',
       genre_ids: [Array],
-      popularity: 45.364,
-      release_date: '2014-10-17',
+      popularity: 113.197,
+      release_date: '1972-03-14',
       video: false,
-      vote_average: 7.466,
-      vote_count: 12473,
+      vote_average: 8.695,
+      vote_count: 19720,
     },
     {
-      backdrop_path: '/hZkgoQYus5vegHoetLkCJzb17zJ.jpg',
-      id: 550,
-      original_title: 'Fight Club',
+      backdrop_path: '/zb6fM1CX41D9rF9hdgclu0peUmy.jpg',
+      id: 424,
+      original_title: "Schindler's List",
       overview:
-        '空虚な生活を送るヤング・エグゼクティブのジャックは、謎の男テイラーに導かれるまま、謎の秘密 組織「ファイト・クラブ」のメンバーになる。そこは鍛え抜かれた男達が己の拳のみを武器に闘いを繰り広げる、壮絶で危険な空 間だった',
-      poster_path: '/9KSTre6tUpeyC9oNelMqDhDnkbc.jpg',
+        'O alemão Oskar Schindler viu na mão de obra judia uma solução barata e viável para lucrar com negócios durante a guerra. Com sua forte influência dentro do partido nazista, foi fácil conseguir as autorizações e abrir uma fábrica. O que poderia parecer uma atitude de um homem não muito bondoso, transformou-se em um dos maiores casos de amor à vida da História, pois este alemão abdicou de toda sua fortuna para salvar a vida de mais de mil judeus em plena luta contra o extermínio alemão.',
+      poster_path: '/bGhhNzJYDsuLruNN5bJ2PvLcMiq.jpg',
       media_type: 'movie',
       adult: false,
-      title: 'ファイト・クラブ',
+      title: 'A Lista de Schindler',
       original_language: 'en',
       genre_ids: [Array],
-      popularity: 141.942,
-      release_date: '1999-10-15',
+      popularity: 104.948,
+      release_date: '1993-12-15',
       video: false,
-      vote_average: 8.442,
-      vote_count: 28377,
+      vote_average: 8.567,
+      vote_count: 15314,
     },
     {
-      backdrop_path: '/h2JaQWLKhapm7AuSViJwGiv8ngC.jpg',
-      id: 210577,
-      original_title: 'Gone Girl',
+      backdrop_path: '/dqK9Hag1054tghRQSqLSfrkvQnA.jpg',
+      id: 155,
+      original_title: 'The Dark Knight',
       overview:
-        'ニックとエイミーは誰もがうらやむ夫婦のはずだったが、結婚5周年の記念日に突然エイミーが行方 をくらましてしまう。警察に嫌疑を掛けられ、日々続報を流すため取材を続けるメディアによって、ニックが話す幸せに満ちあふ れた結婚生活にほころびが生じていく。うそをつき理解不能な行動を続けるニックに、次第に世間はエイミー殺害疑惑の目を向け る。',
-      poster_path: '/rHnrcYv51TfrBTtbcpwxsmPRNdu.jpg',
+        'Após dois anos desde o surgimento do Batman, os criminosos de Gotham City têm muito o que temer. Com a ajuda do tenente James Gordon e do promotor público Harvey Dent, Batman luta contra o crime organizado. Acuados com o combate, os chefes do crime aceitam a proposta feita pelo Coringa e o contratam para combater o Homem-Morcego.',
+      poster_path: '/4lj1ikfsSmMZNyfdi8R8Tv5tsgb.jpg',
       media_type: 'movie',
       adult: false,
-      title: 'ゴーン・ガール',
+      title: 'Batman: O Cavaleiro das Trevas',
       original_language: 'en',
       genre_ids: [Array],
-      popularity: 83.879,
-      release_date: '2014-10-01',
+      popularity: 118.745,
+      release_date: '2008-07-16',
       video: false,
-      vote_average: 7.893,
-      vote_count: 18015,
+      vote_average: 8.515,
+      vote_count: 31786,
     },
   ],
 }
