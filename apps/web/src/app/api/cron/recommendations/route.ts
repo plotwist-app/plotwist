@@ -2,48 +2,16 @@ import { getProfilesBySubscriptionType } from '@/services/api/profiles/get-profi
 import { getUserLastReviewService } from '@/services/api/reviews'
 import { Profile } from '@/types/supabase'
 import { Review } from '@/types/supabase/reviews'
-import { Language, Movie, tmdb } from '@plotwist/tmdb'
-import {} from '@plotwist/email'
+import { Language, tmdb } from '@plotwist/tmdb'
 import Cors from 'micro-cors'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { MovieRecommendations } from '@plotwist/email'
 
 Cors({
   allowMethods: ['POST', 'HEAD'],
 })
 const resend = new Resend(process.env.RESEND_KEY)
-
-function generateRecommendationsEmail(
-  recommendations: Movie[],
-  language: Language,
-) {
-  const title: Record<Language, string> = {
-    'de-DE':
-      'Sie werden es wahrscheinlich interessant finden, die folgenden Titel anzusehen:',
-    'en-US':
-      'You will probably find it interesting to watch the following titles:',
-    'es-ES': 'Probablemente te resulte interesante ver los siguientes títulos:',
-    'fr-FR':
-      'Vous trouverez probablement intéressant de regarder les titres suivants:',
-    'it-IT': 'Probabilmente troverai interessante guardare i seguenti titoli:',
-    'ja-JP': 'おそらく次のタイトルを見てみると面白いでしょう。',
-    'pt-BR':
-      'Você provavelmente achará interessante assistir aos seguintes títulos:',
-  }
-
-  return (
-    `
-    <h3>${title[language]}</h3>
-    <ul>` +
-    recommendations
-      .map(
-        (result) =>
-          `<li><a href="https://plotwist.app/${language}/movies/${result.id}">${result.title}</a></li>`,
-      )
-      .join('') +
-    `</ul>`
-  )
-}
 
 async function getRecommendations(review: Review, language: Language) {
   const { results } = await tmdb.movies.related(
@@ -53,22 +21,6 @@ async function getRecommendations(review: Review, language: Language) {
   )
 
   return results.slice(0, 3)
-}
-
-export async function sendRecommendationEmail(
-  html: string,
-  movieTitle: string,
-  receiver: string,
-) {
-  await resend.emails.send({
-    from: 'onboarding@resend.dev',
-    to:
-      process.env.NODE_ENV === 'development'
-        ? 'status451jr@gmail.com'
-        : receiver,
-    subject: `Because you recently reviewed ${movieTitle}`,
-    html,
-  })
 }
 
 async function processUser(user: Profile): Promise<void> {
@@ -83,12 +35,21 @@ async function processUser(user: Profile): Promise<void> {
       lastMovieReview.language,
     )
 
-    const html = generateRecommendationsEmail(
-      recommendations,
-      lastMovieReview.language,
-    )
+    const lastMovieReviewTitle = lastMovieReview.tmdb_title
 
-    await sendRecommendationEmail(html, lastMovieReview.tmdb_title, user.email)
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to:
+        process.env.NODE_ENV === 'development'
+          ? 'status451jr@gmail.com'
+          : user.email,
+      subject: `Because you recently reviewed ${lastMovieReviewTitle}`,
+      react: MovieRecommendations({
+        movies: recommendations,
+        movieTitle: lastMovieReviewTitle,
+        username: user.username,
+      }),
+    })
   }
 }
 

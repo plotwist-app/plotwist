@@ -1,6 +1,6 @@
 import { axiosClient } from '..'
 import { Language } from '../models/language'
-import { Movie, MovieDetails } from '../models/movie'
+import { Movie, MovieDetails, MovieWithMediaType } from '../models/movie'
 import { ListResponse } from '../utils/list-response'
 
 /*
@@ -121,7 +121,7 @@ const list = async (options: ListOptions) => {
 */
 
 type MovieRelatedType = 'recommendations' | 'similar'
-type RelatedResponse = ListResponse<Movie>
+type RelatedResponse = ListResponse<MovieWithMediaType>
 
 const related = async (
   id: number,
