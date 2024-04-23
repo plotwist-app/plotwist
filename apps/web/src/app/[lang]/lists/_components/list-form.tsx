@@ -212,7 +212,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                             {dictionary.list_form.visibility_option_public}
                           </FormLabel>
                         </FormItem>
-                        <span className="block pl-7 text-sm text-muted-foreground">
+                        <span className="pl-7 text-sm text-muted-foreground">
                           {
                             dictionary.list_form
                               .visibility_option_description_public
@@ -229,7 +229,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                             {dictionary.list_form.visibility_option_network}
                           </FormLabel>
                         </FormItem>
-                        <span className="block pl-7 text-sm text-muted-foreground">
+                        <span className="pl-7 text-sm text-muted-foreground">
                           {
                             dictionary.list_form
                               .visibility_option_description_network
@@ -246,7 +246,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
                             {dictionary.list_form.visibility_option_private}
                           </FormLabel>
                         </FormItem>
-                        <span className="block pl-7 text-sm text-muted-foreground">
+                        <span className="pl-7 text-sm text-muted-foreground">
                           {
                             dictionary.list_form
                               .visibility_option_description_private

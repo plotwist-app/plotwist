@@ -643,6 +643,15 @@
     "communities": "Comunidades",
     "work_in_progress": "En progreso"
   },
+  "profile_form": {
+    "dialog_title": "Editar perfil",
+    "username_label": "Nombre de usuario",
+    "username_placeholder": "John",
+    "username_required": "Se requiere un nuevo nombre de usuario",
+    "username_invalid": "Nombre de usuario inválido",
+    "same_username": "Tienes que probar un nuevo nombre de usuario",
+    "submit_button": "Guardar cambios"
+  },
   "profile_banner": {
     "change_banner": "Cambiar banner",
     "change_profile_banner": "Cambiar el banner del perfil",

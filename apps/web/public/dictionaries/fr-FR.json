@@ -643,6 +643,15 @@
     "communities": "Communautés",
     "work_in_progress": "Travail en cours"
   },
+  "profile_form": {
+    "dialog_title": "Modifier le profil",
+    "username_label": "Nom d'utilisateur",
+    "username_placeholder": "John",
+    "username_required": "Un nouveau nom d'utilisateur est requis",
+    "username_invalid": "Nom d'utilisateur invalide",
+    "same_username": "Vous devez essayer un nouveau nom d'utilisateur",
+    "submit_button": "Enregistrer les modifications"
+  },
   "profile_banner": {
     "change_banner": "Changer de bannière",
     "change_profile_banner": "Changer la bannière du profil",
