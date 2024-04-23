@@ -5,7 +5,7 @@ type ChangeProfileUsernameValues = {
   newUsername: string
 }
 
-export const changeProfileUsername = async ({
+export const updateProfileUsername = async ({
   id,
   newUsername,
 }: ChangeProfileUsernameValues) => {

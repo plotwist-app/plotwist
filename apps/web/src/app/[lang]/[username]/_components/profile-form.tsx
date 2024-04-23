@@ -27,7 +27,7 @@ import {
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
-import { changeProfileUsername } from '@/services/api/profiles'
+import { updateProfileUsername } from '@/services/api/profiles'
 
 import { Profile } from '@/types/supabase'
 
@@ -82,7 +82,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   async function onSubmit(values: ProfileFormValues) {
     if (!isUserPro) return
 
-    await changeProfileUsername({
+    await updateProfileUsername({
       id: profile.id,
       newUsername: values.name,
     })
