@@ -130,6 +130,7 @@
     "hide_password": "Ocultar senha",
     "submit_button": "Enviar",
     "username_required": "Por favor, insira seu nome de usuário.",
+    "username_invalid": "O nome de usuário deve conter apenas letras, números e hifens.",
     "email_required": "Por favor, insira seu endereço de e-mail.",
     "email_invalid": "Por favor, insira um endereço de e-mail válido.",
     "password_required": "Por favor, insira sua senha.",
@@ -657,5 +658,10 @@
     "change_profile_banner": "Mudar o banner do perfil",
     "search_movies_or_series": "Buscar filmes ou séries...",
     "changed_successfully": "Banner alterado com sucesso."
+  },
+  "private_list": {
+    "title": "✋ Calma lá, amigão!",
+    "description": "Você não tem autorização para ver essa lista.",
+    "cta": "Ver outras listas."
   }
 }

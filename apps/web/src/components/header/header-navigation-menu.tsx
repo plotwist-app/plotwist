@@ -92,6 +92,7 @@ export const HeaderNavigationMenu = () => {
                 navigationMenuTriggerStyle(),
                 getIsActive(href) && 'bg-muted',
               )}
+              asChild
             >
               <Link
                 href={`/${language}${href}`}

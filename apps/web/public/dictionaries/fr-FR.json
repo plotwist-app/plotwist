@@ -130,6 +130,7 @@
     "hide_password": "Cacher le mot de passe",
     "submit_button": "Soumettre",
     "username_required": "Veuillez entrer votre nom d'utilisateur.",
+    "username_invalid": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des tirets.",
     "email_required": "Veuillez entrer votre adresse e-mail.",
     "email_invalid": "Veuillez entrer une adresse e-mail valide.",
     "password_required": "Veuillez entrer votre mot de passe.",
@@ -657,5 +658,10 @@
     "change_profile_banner": "Changer la bannière du profil",
     "search_movies_or_series": "Rechercher des films ou des séries...",
     "changed_successfully": "Bannière modifiée avec succès."
+  },
+  "private_list": {
+    "title": "✋ Calme-toi, mon ami!",
+    "description": "Vous n'êtes pas autorisé à voir cette liste.",
+    "cta": "Voir d'autres listes."
   }
 }

@@ -114,6 +114,7 @@ export type Dictionary = {
     hide_password: string
     submit_button: string
     username_required: string
+    username_invalid: string
     email_required: string
     email_invalid: string
     password_required: string
@@ -649,5 +650,10 @@ export type Dictionary = {
     change_profile_banner: string
     search_movies_or_series: string
     changed_successfully: string
+  }
+  private_list: {
+    title: string
+    description: string
+    cta: string
   }
 }

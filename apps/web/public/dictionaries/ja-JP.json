@@ -130,6 +130,7 @@
     "hide_password": "パスワードを隠す",
     "submit_button": "提出",
     "username_required": "ユーザー名を入力してください。",
+    "username_invalid": "ユーザー名は英数字とダッシュのみ含むことができます。",
     "email_required": "メールアドレスを入力してください。",
     "email_invalid": "有効なメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",
@@ -657,5 +658,10 @@
     "change_profile_banner": "プロファイルのバナーを変更",
     "search_movies_or_series": "映画やシリーズを検索...",
     "changed_successfully": "バナーが正常に変更されました。"
+  },
+  "private_list": {
+    "title": "✋ 落ち着いて、友よ！",
+    "description": "このリストを見る権限がありません。",
+    "cta": "他のリストを見る"
   }
 }
