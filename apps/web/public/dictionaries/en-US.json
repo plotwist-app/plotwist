@@ -130,6 +130,7 @@
     "hide_password": "Hide password",
     "submit_button": "Submit",
     "username_required": "Please enter your username.",
+    "username_invalid": "Username must contain only letters, numbers, and dashes.",
     "email_required": "Please enter your e-mail address.",
     "email_invalid": "Please enter a valid e-mail address.",
     "password_required": "Please enter your password.",

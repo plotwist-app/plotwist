@@ -130,6 +130,7 @@
     "hide_password": "パスワードを隠す",
     "submit_button": "提出",
     "username_required": "ユーザー名を入力してください。",
+    "username_invalid": "ユーザー名は英数字とダッシュのみ含むことができます。",
     "email_required": "メールアドレスを入力してください。",
     "email_invalid": "有効なメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",

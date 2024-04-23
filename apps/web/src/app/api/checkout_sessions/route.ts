@@ -52,8 +52,6 @@ export async function POST(req: NextRequest) {
       if (session.url) {
         return Response.redirect(session.url, 303)
       }
-    } catch (err) {
-      console.error({ err })
-    }
+    } catch (err) {}
   }
 }

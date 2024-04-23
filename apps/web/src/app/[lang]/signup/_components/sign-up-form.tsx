@@ -29,9 +29,7 @@ type SignUpFormProps = { dictionary: Dictionary }
 
 export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
   const { signUpWithCredentials } = useAuth()
-
   const [showPassword, setShowPassword] = useState(false)
-
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema(dictionary)),
     defaultValues: {

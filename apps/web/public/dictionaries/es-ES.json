@@ -130,6 +130,7 @@
     "hide_password": "Ocultar contraseña",
     "submit_button": "Enviar",
     "username_required": "Por favor, introduce tu nombre de usuario.",
+    "username_invalid": "El nombre de usuario solo puede contener letras, números y guiones.",
     "email_required": "Por favor, introduce tu correo electrónico.",
     "email_invalid": "Por favor, introduce un correo electrónico válido.",
     "password_required": "Por favor, introduce tu contraseña.",

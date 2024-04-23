@@ -114,6 +114,7 @@ export type Dictionary = {
     hide_password: string
     submit_button: string
     username_required: string
+    username_invalid: string
     email_required: string
     email_invalid: string
     password_required: string
