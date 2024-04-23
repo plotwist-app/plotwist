@@ -636,6 +636,15 @@ export type Dictionary = {
     communities: string
     work_in_progress: string
   }
+  profile_form: {
+    dialog_title: string
+    username_label: string
+    username_placeholder: string
+    username_required: string
+    username_invalid: string
+    same_username: string
+    submit_button: string
+  }
   profile_banner: {
     change_banner: string
     change_profile_banner: string

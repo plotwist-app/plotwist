@@ -644,6 +644,15 @@
     "communities": "コミュニティ",
     "work_in_progress": "作業中"
   },
+  "profile_form": {
+    "dialog_title": "プロフィール編集",
+    "username_label": "ユーザー名",
+    "username_placeholder": "ジョン",
+    "username_required": "新しいユーザー名が必要です",
+    "username_invalid": "無効なユーザー名です",
+    "same_username": "新しいユーザー名を試してください",
+    "submit_button": "変更を保存する。"
+  },
   "profile_banner": {
     "change_banner": "バナーを変更",
     "change_profile_banner": "プロファイルのバナーを変更",

@@ -1,7 +1,7 @@
 import { PageProps } from '@/types/languages'
 import { ProBadge } from '@/components/pro-badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Lock, LucideIcon } from 'lucide-react'
+import { Lock, LucideIcon, Pencil } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
@@ -10,6 +10,8 @@ import { ProfileBanner } from './_components/profile-banner'
 import * as icons from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { getDictionary } from '@/utils/dictionaries'
+import { Button } from '@/components/ui/button'
+import { ProfileForm } from './_components/profile-form'
 
 const RandomIcon = () => {
   const iconNames = Object.keys(icons)
@@ -31,6 +33,8 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
     redirect(`/${lang}/home`)
   }
 
+  const isUserPro = profile.subscription_type === 'PRO'
+
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
@@ -50,7 +54,20 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                 <div className="flex items-center gap-2">
                   <h1 className="text-2xl font-bold">{profile.username}</h1>
 
-                  {profile.subscription_type === 'PRO' && <ProBadge />}
+                  {isUserPro && <ProBadge />}
+
+                  <ProfileForm
+                    profile={profile}
+                    trigger={
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="ml-auto h-6 w-6"
+                      >
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                    }
+                  />
                 </div>
               </div>
 
