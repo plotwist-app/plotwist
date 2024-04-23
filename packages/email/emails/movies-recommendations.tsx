@@ -12,26 +12,32 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components'
-import { MovieWithMediaType, generateImageUrl } from '@plotwist/tmdb'
-import { movieRecommendationsPropsMock } from '../utils/mock/movie-recommendations'
+import { Language, MovieWithMediaType, generateImageUrl } from '@plotwist/tmdb'
+import { moviesRecommendationsMock } from '../utils/mock/movies-recommendations'
+import { moviesRecommendationsDictionary } from '../utils/dictionaries/movies-recommendations'
 
-export type MovieRecommendationsProps = {
+export type MoviesRecommendationsProps = {
   username: string
   movieTitle: string
   movies: MovieWithMediaType[]
+  language: Language
 }
 
 const baseUrl = 'https://plotwist.app'
 
-export const MovieRecommendations = ({
+export const MoviesRecommendations = ({
   username,
   movieTitle,
   movies,
-}: MovieRecommendationsProps) => {
+  language,
+}: MoviesRecommendationsProps) => {
+  const { preview, hello, description } =
+    moviesRecommendationsDictionary[language]
+
   return (
     <Html>
       <Head />
-      <Preview>Hello, {username}!</Preview>
+      <Preview>{preview}</Preview>
 
       <Tailwind>
         <Body className="my-auto mx-auto font-sans px-2">
@@ -45,14 +51,10 @@ export const MovieRecommendations = ({
 
             <Section className="mt-2">
               <Text className="text-xl mb-0">
-                Hello, <span className="font-semibold">{username}</span>!
+                {hello}, <span className="font-semibold">{username}</span>!
               </Text>
 
-              <Text className="mt-1">
-                Here are this week&apos;s personalized movie recommendations
-                just for you. We&apos;ve curated these picks based on your
-                recent activities.
-              </Text>
+              <Text className="mt-1">{description}</Text>
             </Section>
 
             <Section className="mt-0 text-sm">
@@ -93,6 +95,5 @@ export const MovieRecommendations = ({
   )
 }
 
-MovieRecommendations.PreviewProps = movieRecommendationsPropsMock
-
-export default MovieRecommendations
+MoviesRecommendations.PreviewProps = moviesRecommendationsMock
+export default MoviesRecommendations

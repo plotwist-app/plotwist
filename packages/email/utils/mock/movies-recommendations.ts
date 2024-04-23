@@ -1,6 +1,6 @@
-import { MovieRecommendationsProps } from 'emails/movie-recommendations'
+import { MoviesRecommendationsProps } from '../../emails/movies-recommendations'
 
-export const movieRecommendationsPropsMock: MovieRecommendationsProps = {
+export const moviesRecommendationsMock: MoviesRecommendationsProps = {
   username: 'lui7henrique',
   movieTitle: 'Fight Club',
   movies: [
@@ -59,4 +59,5 @@ export const movieRecommendationsPropsMock: MovieRecommendationsProps = {
       vote_count: 31786,
     },
   ],
+  language: 'pt-BR',
 }

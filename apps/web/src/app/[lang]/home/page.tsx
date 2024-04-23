@@ -76,9 +76,11 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </h4>
 
             <div className="flex flex-col space-y-8">
-              {popularMovies.results.slice(0, 2).map((movie) => (
-                <MovieCard movie={movie} key={movie.id} language={lang} />
-              ))}
+              {popularMovies.results
+                ?.slice(0, 2)
+                .map((movie) => (
+                  <MovieCard movie={movie} key={movie.id} language={lang} />
+                ))}
             </div>
           </div>
 
@@ -88,9 +90,11 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </h4>
 
             <div className="flex flex-col space-y-8">
-              {popularTvSeries.results.slice(0, 2).map((tvSerie) => (
-                <TvSerieCard tvSerie={tvSerie} key={tvSerie.id} />
-              ))}
+              {popularTvSeries.results
+                ?.slice(0, 2)
+                .map((tvSerie) => (
+                  <TvSerieCard tvSerie={tvSerie} key={tvSerie.id} />
+                ))}
             </div>
           </div>
         </div>

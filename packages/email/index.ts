@@ -1,2 +1,2 @@
-export * from './emails/movie-recommendations'
-export * from './utils/mock/movie-recommendations'
+export * from './emails/movies-recommendations'
+export * from './utils/mock/movies-recommendations'

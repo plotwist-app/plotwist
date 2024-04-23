@@ -6,7 +6,7 @@ import { Language, tmdb } from '@plotwist/tmdb'
 import Cors from 'micro-cors'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { MovieRecommendations } from '@plotwist/email'
+import { MoviesRecommendations } from '@plotwist/email'
 
 Cors({
   allowMethods: ['POST', 'HEAD'],
@@ -43,11 +43,12 @@ async function processUser(user: Profile): Promise<void> {
         process.env.NODE_ENV === 'development'
           ? 'status451jr@gmail.com'
           : user.email,
-      subject: `Because you recently reviewed ${lastMovieReviewTitle}`,
-      react: MovieRecommendations({
+      subject: `Personalized movies picks just for you - See what's next after "Fight Club"`,
+      react: MoviesRecommendations({
         movies: recommendations,
         movieTitle: lastMovieReviewTitle,
         username: user.username,
+        language: lastMovieReview.language,
       }),
     })
   }
