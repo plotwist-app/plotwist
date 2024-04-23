@@ -31,7 +31,7 @@ export const MoviesRecommendations = ({
   movies,
   language,
 }: MoviesRecommendationsProps) => {
-  const { preview, hello, description } =
+  const { preview, hello, description, subtitle, footer } =
     moviesRecommendationsDictionary[language]
 
   return (
@@ -57,9 +57,7 @@ export const MoviesRecommendations = ({
               <Text className="mt-1">{description}</Text>
             </Section>
 
-            <Section className="mt-0 text-sm">
-              Because you enjoyed <strong>{movieTitle}</strong>, you might like:
-            </Section>
+            <Section className="mt-0 text-sm">{subtitle(movieTitle)}</Section>
 
             <Row className="mt-2 border-spacing-1">
               {movies?.map((movie) => (
@@ -83,9 +81,9 @@ export const MoviesRecommendations = ({
             </Row>
 
             <Text className="border-t text-[#a1a1aa] border-[#e4e4e7] text-center mb-0">
-              Looking for something different?{' '}
+              {footer.text}{' '}
               <a className="text-[#09090b]" href={`${baseUrl}/movies/discover`}>
-                Explore more titles
+                {footer.link}
               </a>
             </Text>
           </Container>
