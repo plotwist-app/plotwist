@@ -1,5 +1,12 @@
 'use client'
 
+import { useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -16,17 +23,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useLanguage } from '@/context/language'
-import { changeProfileUsername } from '@/services/api/profiles'
-import { Profile } from '@/types/supabase'
-import { Dictionary } from '@/utils/dictionaries'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
-import { z } from 'zod'
+import { useLanguage } from '@/context/language'
+
+import { Dictionary } from '@/utils/dictionaries'
+import { changeProfileUsername } from '@/services/api/profiles'
+
+import { Profile } from '@/types/supabase'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
