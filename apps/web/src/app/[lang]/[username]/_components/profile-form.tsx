@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -30,6 +30,7 @@ import { Dictionary } from '@/utils/dictionaries'
 import { updateProfileUsername } from '@/services/api/profiles'
 
 import { Profile } from '@/types/supabase'
+import { useAuth } from '@/context/auth'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
@@ -72,25 +73,36 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
+  const { user } = useAuth()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
   })
 
-  const isUserPro = profile.subscription_type === 'PRO'
+  const isUserPro = useMemo(
+    () => profile.subscription_type === 'PRO',
+    [profile],
+  )
 
-  async function onSubmit(values: ProfileFormValues) {
-    if (!isUserPro) return
+  const isUserOwner = useMemo(() => profile.id === user?.id, [profile, user])
 
-    await updateProfileUsername({
-      id: profile.id,
-      newUsername: values.name,
-    })
+  const onSubmit = useCallback(
+    async (values: ProfileFormValues) => {
+      if (!isUserPro) return
 
-    push(`/${language}/${values.name}`)
+      await updateProfileUsername({
+        id: profile.id,
+        newUsername: values.name,
+      })
 
-    form.reset()
-  }
+      push(`/${language}/${values.name}`)
+
+      form.reset()
+    },
+    [form, isUserPro, language, profile.id, push],
+  )
+
+  if (!isUserOwner) return null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
