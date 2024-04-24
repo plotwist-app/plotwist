@@ -14,3 +14,6 @@ Open-source easy management and reviews about movies, series and animes.
 - Database: [Supabase](https://supabase.com/)
 - Payments: [Stripe](https://stripe.com/br)
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=plotwist-app/plotwist&type=Date)](https://star-history.com/#plotwist-app/plotwist&Date)
