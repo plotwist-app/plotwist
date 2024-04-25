@@ -29,7 +29,7 @@ type ReviewLikes = {
 }
 
 export function ReviewLikes({ reviewId, className }: ReviewLikes) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const { data: likes } = useQuery({
     queryKey: ['likes', reviewId],
     queryFn: async () =>
@@ -69,7 +69,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       </DialogTrigger>
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
-          <DialogTitle>Curtidas</DialogTitle>
+          <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
         </DialogHeader>
         {!profiles &&
           Array.from({ length: 5 }).map((_, index) => (
@@ -114,7 +114,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
               href={`/${language}/${profile.username}`}
               className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
             >
-              Ver perfil
+              {dictionary.review_likes.view_profile}
             </Link>
           </div>
         ))}

@@ -663,5 +663,9 @@
     "title": "✋ 落ち着いて、友よ！",
     "description": "このリストを見る権限がありません。",
     "cta": "他のリストを見る"
+  },
+  "review_likes": {
+    "title": "いいね！",
+    "view_profile": "プロフィールを見る"
   }
 }
