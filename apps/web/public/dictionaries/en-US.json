@@ -664,5 +664,9 @@
     "title": "✋ Hold on, buddy!",
     "description": "You are not authorized to view this list.",
     "cta": "View other lists."
+  },
+  "review_likes": {
+    "title": "Gustos",
+    "view_profile": "Ver perfil"
   }
 }

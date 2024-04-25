@@ -656,4 +656,8 @@ export type Dictionary = {
     description: string
     cta: string
   }
+  review_likes: {
+    title: string
+    view_profile: string
+  }
 }
