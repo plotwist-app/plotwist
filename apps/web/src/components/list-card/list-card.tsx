@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { MoreVertical, Trash } from 'lucide-react'
+import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,9 +30,6 @@ import { useLanguage } from '@/context/language'
 
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
-import { Poster } from '../poster'
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListCardProps = { list: List }

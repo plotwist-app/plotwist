@@ -5,6 +5,7 @@ import { Container } from '../_components/container'
 
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { PopularLists } from './_components/popular-lists'
 
 export async function generateMetadata({
   params,
@@ -43,6 +44,12 @@ const ListsPage = async ({ params }: PageProps) => {
       </div>
 
       <Lists />
+
+      <div className="grid grid-cols-3 gap-8">
+        <section className="col-span-3 lg:col-span-2">
+          <PopularLists />
+        </section>
+      </div>
     </Container>
   )
 }

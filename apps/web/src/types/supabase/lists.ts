@@ -1,3 +1,5 @@
+import { Profile } from './profile'
+
 export type List = {
   id: string
   name: string
@@ -24,3 +26,7 @@ export type ListItem = {
 
 export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'
 export type ListItemStatus = 'PENDING' | 'WATCHING' | 'WATCHED'
+
+export type PopularList = List & {
+  profiles: Profile
+}
