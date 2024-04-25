@@ -73,7 +73,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
-                  <ReviewLikes reviewId={review.id} />
+                  <ReviewLikes reviewId={review.id} className="static" />
                 </>
               )}
             </div>

@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
 import { getLikesService } from '@/services/api/likes/get-likes'
 import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -15,7 +16,12 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function ReviewLikes({ reviewId }: { reviewId: string }) {
+type ReviewLikes = {
+  reviewId: string
+  className?: string
+}
+
+export function ReviewLikes({ reviewId, className }: ReviewLikes) {
   const { language } = useLanguage()
   const { data: likes } = useQuery({
     queryKey: ['likes', reviewId],
@@ -33,7 +39,12 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
 
   if (!likes?.data) {
     return (
-      <div className="absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted" />
+      <div
+        className={cn(
+          'absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted',
+          className,
+        )}
+      />
     )
   }
 
@@ -41,7 +52,12 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger className="absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60">
+      <DialogTrigger
+        className={cn(
+          'absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60',
+          className,
+        )}
+      >
         ❤ <span className="ml-1">{likes.count}</span>
       </DialogTrigger>
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
