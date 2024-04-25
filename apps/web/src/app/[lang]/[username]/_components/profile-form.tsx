@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -28,10 +28,10 @@ import {
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
-import { updateProfileUsername } from '@/services/api/profiles'
 
 import { Profile } from '@/types/supabase'
 import { useAuth } from '@/context/auth'
+import { useProfile } from '@/hooks/use-profile'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
@@ -75,6 +75,9 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
   const { user } = useAuth()
+  const { updateUsernameMutation } = useProfile()
+
+  const { mutateAsync: updateProfileUsername } = updateUsernameMutation
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
@@ -83,19 +86,14 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
     },
   })
 
-  const isUserPro = useMemo(
-    () => profile.subscription_type === 'PRO',
-    [profile],
-  )
-
-  const isUserOwner = useMemo(() => profile.id === user?.id, [profile, user])
+  const isUserPro = profile.subscription_type === 'PRO'
 
   const onSubmit = useCallback(
     async (values: ProfileFormValues) => {
       if (!isUserPro) return
 
       const { error } = await updateProfileUsername({
-        id: profile.id,
+        userId: user!.id,
         newUsername: values.name,
       })
 
@@ -112,21 +110,19 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
       }
 
       push(`/${language}/${values.name}`)
-
-      form.reset()
     },
     [
       dictionary.profile_form.error_existent_username,
       dictionary.profile_form.username_label,
-      form,
       isUserPro,
       language,
-      profile.id,
       push,
+      updateProfileUsername,
+      user,
     ],
   )
 
-  if (!isUserOwner) return null
+  if (!user) return null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

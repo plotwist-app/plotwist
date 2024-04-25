@@ -1,4 +1,7 @@
-import { updateProfileBannerPath } from '@/services/api/profiles'
+import {
+  updateProfileBannerPath,
+  updateProfileUsername,
+} from '@/services/api/profiles'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export const useProfile = () => {
@@ -13,5 +16,9 @@ export const useProfile = () => {
     },
   })
 
-  return { handleUpdateBannerPath }
+  const updateUsernameMutation = useMutation({
+    mutationFn: updateProfileUsername,
+  })
+
+  return { handleUpdateBannerPath, updateUsernameMutation }
 }
