@@ -77,8 +77,6 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const { user } = useAuth()
   const { updateUsernameMutation } = useProfile()
 
-  const { mutateAsync: updateProfileUsername } = updateUsernameMutation
-
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
     defaultValues: {
@@ -92,7 +90,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
     async (values: ProfileFormValues) => {
       if (!isUserPro) return
 
-      const { error } = await updateProfileUsername({
+      const { error } = await updateUsernameMutation.mutateAsync({
         userId: user!.id,
         newUsername: values.name,
       })
@@ -117,7 +115,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
       isUserPro,
       language,
       push,
-      updateProfileUsername,
+      updateUsernameMutation,
       user,
     ],
   )
