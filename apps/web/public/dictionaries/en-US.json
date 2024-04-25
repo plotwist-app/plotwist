@@ -166,7 +166,7 @@
     "top_rated": "Top Rated",
     "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
-    "upcoming_description": "Get ahead of the game and stay informed about the next big hits set to invade screens soon.",
+    "upcoming_description": "Stay tuned about the next big hits set to premiere soon.",
     "tv_series": "TV Shows",
     "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
@@ -179,7 +179,7 @@
   },
   "sidebar_search": {
     "placeholder": "Search for movies, TV shows, or people",
-    "search_everything": "Search everything",
+    "search_everything": "Search anything",
     "no_results": "No results found.",
     "movies": "Movies",
     "tv_series": "TV Shows",
@@ -267,7 +267,7 @@
   },
   "lists_page": {
     "title": "Lists",
-    "description": "Create watch-lists to manage your movies and tv shows."
+    "description": "Create watch-lists to manage your movies animes and tv shows."
   },
   "list_card": {
     "delete": "Delete",
@@ -282,7 +282,7 @@
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
-    "description_placeholder": "Movies and TV shows I plan to watch.",
+    "description_placeholder": "Movies Animes and TV shows I plan to watch.",
     "visibility": "Visibility",
     "visibility_option_public": "Public",
     "visibility_option_network": "Network",
@@ -402,7 +402,7 @@
   "dashboard": {
     "user_last_review": {
       "title": "Your last review",
-      "no_review_message": "Looks like you didn't write any review! 😿",
+      "no_review_message": "Looks like you haven't written any reviews yet!",
       "no_review_action": "Click here to see top-rated movies.",
       "login": "Login",
       "register": "Register",
