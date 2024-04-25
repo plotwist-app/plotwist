@@ -27,10 +27,7 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
 
   const { data: profiles } = useQuery({
     queryKey: ['profiles', reviewId],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      return getProfilesById(likedUsersId)
-    },
+    queryFn: async () => getProfilesById(likedUsersId),
     enabled: Boolean(likedUsersId?.length),
   })
 
@@ -44,10 +41,8 @@ export function ReviewLikes({ reviewId }: { reviewId: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <div className="absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60">
-          ❤ <span className="ml-1">{likes.count}</span>
-        </div>
+      <DialogTrigger className="absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60">
+        ❤ <span className="ml-1">{likes.count}</span>
       </DialogTrigger>
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
