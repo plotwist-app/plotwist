@@ -25,7 +25,7 @@ export const ProfileBannerEditImages = ({
 
   const { username } = useParams()
 
-  const { handleUpdateBannerPath } = useProfile()
+  const { updateBannerPathMutation } = useProfile()
 
   if (!data || isLoading) return <ReactMasonrySkeleton count={20} />
 
@@ -39,7 +39,7 @@ export const ProfileBannerEditImages = ({
     <ImagesMasonry
       images={images()}
       onSelect={(image) =>
-        handleUpdateBannerPath.mutate(
+        updateBannerPathMutation.mutate(
           {
             newBannerPath: image.file_path,
             username: String(username),
