@@ -1,4 +1,10 @@
-import { ProBadge } from '@/components/pro-badge'
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { useQuery } from '@tanstack/react-query'
+
 import {
   Dialog,
   DialogContent,
@@ -6,15 +12,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
+
+import { ProBadge } from '@/components/pro-badge'
+
 import { useLanguage } from '@/context/language'
+
 import { cn } from '@/lib/utils'
+import { tmdbImage } from '@/utils/tmdb/image'
+
 import { getLikesService } from '@/services/api/likes/get-likes'
 import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { DialogTitle } from '@radix-ui/react-dialog'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import Link from 'next/link'
 
 type ReviewLikes = {
   reviewId: string
