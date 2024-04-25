@@ -77,6 +77,9 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
+    defaultValues: {
+      name: profile.username,
+    },
   })
 
   const isUserPro = useMemo(
