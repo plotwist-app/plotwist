@@ -282,7 +282,7 @@
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
-    "description_placeholder": "Movies Animes and TV shows I plan to watch.",
+    "description_placeholder": "Movies, Animes and TV shows I plan to watch.",
     "visibility": "Visibility",
     "visibility_option_public": "Public",
     "visibility_option_network": "Network",
