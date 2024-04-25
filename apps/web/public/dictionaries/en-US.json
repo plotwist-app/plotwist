@@ -651,6 +651,7 @@
     "username_placeholder": "John",
     "username_required": "New username is required",
     "username_invalid": "Invalid username",
+    "error_existent_username": "already exists.",
     "same_username": "You have to try a new username",
     "submit_button": "Save changes"
   },

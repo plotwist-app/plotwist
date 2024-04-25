@@ -650,6 +650,7 @@
     "username_placeholder": "John",
     "username_required": "É necessário um novo nome de usuário",
     "username_invalid": "Nome de usuário inválido",
+    "error_existent_username": "já existe.",
     "same_username": "Você precisa tentar um novo nome de usuário",
     "submit_button": "Salvar alterações"
   },

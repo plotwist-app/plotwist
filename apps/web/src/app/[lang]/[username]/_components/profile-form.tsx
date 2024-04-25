@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
@@ -93,16 +94,36 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
     async (values: ProfileFormValues) => {
       if (!isUserPro) return
 
-      await updateProfileUsername({
+      const { error } = await updateProfileUsername({
         id: profile.id,
         newUsername: values.name,
       })
+
+      if (error) {
+        if (error.code === 'P0001') {
+          toast.error(
+            `${dictionary.profile_form.username_label} ${values.name} ${dictionary.profile_form.error_existent_username}`,
+          )
+          return
+        }
+
+        toast.error(error.message)
+        return
+      }
 
       push(`/${language}/${values.name}`)
 
       form.reset()
     },
-    [form, isUserPro, language, profile.id, push],
+    [
+      dictionary.profile_form.error_existent_username,
+      dictionary.profile_form.username_label,
+      form,
+      isUserPro,
+      language,
+      profile.id,
+      push,
+    ],
   )
 
   if (!isUserOwner) return null

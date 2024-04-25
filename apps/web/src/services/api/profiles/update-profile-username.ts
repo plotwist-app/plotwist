@@ -9,10 +9,10 @@ export const updateProfileUsername = async ({
   id,
   newUsername,
 }: ChangeProfileUsernameValues) => {
-  const { data } = await supabase
-    .from('profiles')
-    .update({ username: newUsername })
-    .eq('id', id)
+  const { error } = await supabase.rpc('update_username', {
+    user_id: id,
+    new_username: newUsername,
+  })
 
-  return data
+  return { error }
 }
