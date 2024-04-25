@@ -18,7 +18,7 @@ export const PopularLists = () => {
   if (!data) return <></>
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 border-t">
       <h2 className="text-xl font-bold">Popular lists</h2>
 
       <li className="flex flex-col gap-4">
