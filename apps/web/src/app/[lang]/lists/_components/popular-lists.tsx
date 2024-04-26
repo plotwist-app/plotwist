@@ -18,7 +18,7 @@ export const PopularLists = () => {
   if (!data) return <></>
 
   return (
-    <div className="space-y-4 border-t">
+    <div className="space-y-4">
       <h2 className="text-xl font-bold">Popular lists</h2>
 
       <li className="flex flex-col gap-4">
@@ -28,7 +28,7 @@ export const PopularLists = () => {
             key={list.id}
             className="grid grid-cols-5 gap-4"
           >
-            <div className="relative col-span-2 aspect-video overflow-hidden rounded-lg border bg-muted shadow">
+            <div className="relative col-span-2 aspect-video overflow-hidden rounded-lg border bg-muted">
               {list.cover_path && (
                 <Image fill src={tmdbImage(list.cover_path)} alt="" />
               )}
@@ -44,18 +44,26 @@ export const PopularLists = () => {
                     <AvatarFallback>{list.profiles.username[0]}</AvatarFallback>
                   </Avatar>
 
-                  <span className="">{list.profiles.username}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {list.profiles.username}
+                  </span>
                 </Link>
 
                 <div
                   className={'rounded-full border bg-muted px-3 py-1 text-xs'}
                 >
-                  ❤ <span className="ml-1">0</span>
+                  <div>
+                    ❤ <span className="ml-1">0</span>
+                  </div>
+
+                  <div>
+                    <span className="ml-1">0</span>
+                  </div>
                 </div>
               </div>
 
               <div className="space-y-1">
-                <h5 className="font-bold">{list.name}</h5>
+                <h5 className="text-lg font-bold">{list.name}</h5>
 
                 <p className="line-clamp-3 text-sm text-muted-foreground">
                   {list.description}
