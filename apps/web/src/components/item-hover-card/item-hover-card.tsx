@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react'
 const Banner = (props: PropsWithChildren) => {
   return (
     <figure
-      className="relative aspect-video overflow-hidden bg-muted"
+      className="relative aspect-video overflow-hidden bg-muted dark:bg-muted/25"
       {...props}
     />
   )
