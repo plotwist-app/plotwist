@@ -16,5 +16,23 @@ Open-source easy management and reviews about movies, series and animes.
 # Contributing
 If you are interested in contributing, feel free to read or [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.md).
 
+# Star History
 
-
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="
+      https://api.star-history.com/svg?repos=plotwist-app/plotwist&type=Date&theme=dark
+    "
+  />
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="
+      https://api.star-history.com/svg?repos=plotwist-app/plotwist&type=Date
+    "
+  />
+  <img
+    alt="Star History Chart"
+    src="https://api.star-history.com/svg?repos=plotwist-app/plotwist&type=Date&theme=dark"
+  />
+</picture>

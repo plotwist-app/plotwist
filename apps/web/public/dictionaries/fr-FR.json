@@ -663,5 +663,9 @@
     "title": "✋ Calme-toi, mon ami!",
     "description": "Vous n'êtes pas autorisé à voir cette liste.",
     "cta": "Voir d'autres listes."
+  },
+  "review_likes": {
+    "title": "Aime",
+    "view_profile": "Voir le profil"
   }
 }

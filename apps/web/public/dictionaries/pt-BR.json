@@ -663,5 +663,9 @@
     "title": "✋ Calma lá, amigão!",
     "description": "Você não tem autorização para ver essa lista.",
     "cta": "Ver outras listas."
+  },
+  "review_likes": {
+    "title": "Curtidas",
+    "view_profile": "Ver perfil"
   }
 }

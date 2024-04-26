@@ -7,6 +7,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { Language } from '@/types/languages'
 import { FullReview as FullReviewType } from '@/services/api/reviews'
+import { ReviewLikes } from '@/components/reviews/review-likes'
 
 type FullReviewProps = {
   review: FullReviewType
@@ -72,9 +73,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
-                  <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                    ❤ {likes}
-                  </div>
+                  <ReviewLikes reviewId={review.id} className="static" />
                 </>
               )}
             </div>
