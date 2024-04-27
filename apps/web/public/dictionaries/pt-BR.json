@@ -3,8 +3,6 @@
     "title": "Explore filmes, séries e animes!",
     "description": "O Plotwist é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
-    "primary_button": "Entrar",
-    "secondary_button": "Criar conta",
     "statistics": {
       "movies": {
         "value": 988788,
@@ -665,5 +663,7 @@
   "review_likes": {
     "title": "Curtidas",
     "view_profile": "Ver perfil"
-  }
+  },
+  "access_now": "Acessar agora",
+  "create_account": "Criar conta"
 }

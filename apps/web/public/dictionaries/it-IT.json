@@ -3,7 +3,6 @@
     "title": "Esplora film, serie e anime!",
     "description": "Plotwist è per gli appassionati di cinema che amano esplorare milioni di film e serie TV, con informazioni come sinossi, cast, budget e molto altro.",
     "keywords": "Cinema, film, serie, anime, dorame, attori famosi, episodi di serie, utenti del cinema, scoprire nuovi film, recensioni di film, consigli sui film, uscite cinematografiche, film popolari, serie popolari, film ben valutati, film in proiezione, comunità cinematografica, liste di film, discussioni sui film",
-    "primary_button": "Inizia ora",
     "secondary_button": "Creare un account",
     "statistics": {
       "movies": {
@@ -665,5 +664,7 @@
   "review_likes": {
     "title": "Piace",
     "view_profile": "Vedi profilo"
-  }
+  },
+  "access_now": "Accedi ora",
+  "create_account": "Creare un account"
 }

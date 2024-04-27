@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,34 +10,33 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+
 import { useAuth } from '@/context/auth'
-import { Language } from '@/types/languages'
+import { useLanguage } from '@/context/language'
 
-import Link from 'next/link'
-
-type HomeButtonProps = {
-  primaryButton: string
-  language: Language
-}
-
-export const HomeButton = ({ primaryButton, language }: HomeButtonProps) => {
+export const HomeHeroActions = () => {
   const { user } = useAuth()
+  const { language, dictionary } = useLanguage()
 
   if (!user)
     return (
-      <Button asChild variant="outline">
-        <Link href={`/${language}/login`} prefetch={false}>
-          {primaryButton}
-        </Link>
-      </Button>
+      <div className="flex gap-2">
+        <Button asChild>
+          <Link href={`/${language}/login`}>{dictionary.access_now}</Link>
+        </Button>
+
+        <Button asChild variant="outline">
+          <Link href={`/${language}/sign-up`}>{dictionary.create_account}</Link>
+        </Button>
+      </div>
     )
 
   const username: string = user.username
   const initial = username[0]?.toUpperCase()
 
   return (
-    <Button variant="outline" asChild>
-      <Link href={`/${language}/home`} prefetch={false}>
+    <Button asChild variant="outline" className="bg-background">
+      <Link href={`/${language}/home`}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -47,8 +48,7 @@ export const HomeButton = ({ primaryButton, language }: HomeButtonProps) => {
             <TooltipContent>{username}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-
-        {primaryButton}
+        {dictionary.access_now}
       </Link>
     </Button>
   )

@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import { ComponentProps, PropsWithChildren } from 'react'
-import { Globe } from '../globe'
+import { Globe } from './globe'
 
 type HomeFeatureProps = {
   icon: LucideIcon

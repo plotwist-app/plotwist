@@ -1,12 +1,5 @@
 export type Dictionary = {
-  home: Record<
-    | 'title'
-    | 'description'
-    | 'keywords'
-    | 'primary_button'
-    | 'secondary_button',
-    string
-  > & {
+  home: Record<'title' | 'description' | 'keywords', string> & {
     statistics: {
       movies: {
         value: number
@@ -658,4 +651,6 @@ export type Dictionary = {
     title: string
     view_profile: string
   }
+  access_now: string
+  create_account: string
 }

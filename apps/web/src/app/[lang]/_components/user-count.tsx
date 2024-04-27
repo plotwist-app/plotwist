@@ -1,9 +1,10 @@
 'use client'
 
 import { useLanguage } from '@/context/language'
-import { CounterSection } from '../count-section'
+
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/services/supabase'
+import { CountSection } from './count-section'
 
 export const UserCount = () => {
   const {
@@ -25,7 +26,7 @@ export const UserCount = () => {
 
   if (!data?.data) {
     return (
-      <CounterSection
+      <CountSection
         label={statistics.users.label}
         value={0}
         divider={false}
@@ -37,7 +38,7 @@ export const UserCount = () => {
   const { user_count: userCount } = data.data
 
   return (
-    <CounterSection
+    <CountSection
       label={statistics.users.label}
       value={userCount ?? 0}
       divider={false}

@@ -4,19 +4,19 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { formatNumber } from '@/utils/number/format-number'
 import CountUp from 'react-countup'
 
-type CounterSectionProps = {
+type CountSectionProps = {
   value: number
   label: string
   divider?: boolean
   loading?: boolean
 }
 
-export const CounterSection = ({
+export const CountSection = ({
   value,
   label,
   divider = true,
   loading = false,
-}: CounterSectionProps) => {
+}: CountSectionProps) => {
   return (
     <div className="relative flex flex-col items-center space-y-1 text-center">
       {divider && (
