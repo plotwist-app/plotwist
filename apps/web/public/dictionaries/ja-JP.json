@@ -594,10 +594,8 @@
     "expand": "もっと見る",
     "contract": "閉じる"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "グリッドレイアウト",
-    "table_layout_tooltip": "テーブルレイアウト"
-  },
+  "grid": "グリッド",
+  "table": "テーブル",
   "person_page": {
     "credit_list": {
       "show_all": "すべて表示",

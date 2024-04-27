@@ -586,10 +586,8 @@ export type Dictionary = {
     expand: string
     contract: string
   }
-  grid_or_table_layout: {
-    grid_layout_tooltip: string
-    table_layout_tooltip: string
-  }
+  grid: string
+  table: string
   person_page: {
     credit_list: {
       show_all: string

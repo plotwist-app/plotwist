@@ -594,10 +594,8 @@
     "expand": "Voir plus",
     "contract": "Voir moins"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Disposition en grille",
-    "table_layout_tooltip": "Disposition en tableau"
-  },
+  "grid": "Grille",
+  "table": "Tableau",
   "person_page": {
     "credit_list": {
       "show_all": "Tout afficher",

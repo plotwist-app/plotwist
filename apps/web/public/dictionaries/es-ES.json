@@ -594,10 +594,8 @@
     "expand": "Ver más",
     "contract": "Ver menos"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Diseño de cuadrícula",
-    "table_layout_tooltip": "Diseño de tabla"
-  },
+  "grid": "Cuadrícula",
+  "table": "Tabla",
   "person_page": {
     "credit_list": {
       "show_all": "Mostrar todo",

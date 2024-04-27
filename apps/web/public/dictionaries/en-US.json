@@ -595,10 +595,8 @@
     "expand": "See more",
     "contract": "See less"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Grid layout",
-    "table_layout_tooltip": "Table layout"
-  },
+  "grid": "Grid",
+  "table": "Table", 
   "person_page": {
     "credit_list": {
       "show_all": "Show all",
