@@ -10,7 +10,7 @@
       },
       "tv": {
         "value": 167204,
-        "label": "TV Shows"
+        "label": "TV Series"
       },
       "episodes": {
         "value": 4419904,
@@ -47,7 +47,7 @@
   },
   "home_prices": {
     "title": "Start Your Journey Today",
-    "description": "Discover the world of movies and TV shows like never before. Start your Plotwist journey today and become part of a growing community of cinema enthusiasts!",
+    "description": "Discover the world of movies and TV Series like never before. Start your Plotwist journey today and become part of a growing community of cinema enthusiasts!",
     "monthly": "Monthly",
     "yearly": "Yearly",
     "free_plan": {
@@ -96,7 +96,7 @@
   },
   "login_page": {
     "title": "Login",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
     "no_account": "Don't have an account? Register by clicking",
     "no_account_link": "here"
   },
@@ -116,7 +116,7 @@
   },
   "sign_up_page": {
     "title": "Create an account",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
     "already_have_account": "Already have an account? Access by clicking",
     "here_link": "here"
   },
@@ -141,7 +141,7 @@
     "dashboard_title": "Home",
     "dashboard_description": "Overview of your activities and trends.",
     "popular_movies_title": "Popular Movies",
-    "popular_tv_series_title": "Popular TV Shows"
+    "popular_tv_series_title": "Popular TV Series"
   },
   "tabs": {
     "reviews": "Reviews",
@@ -162,10 +162,10 @@
     "popular": "Popular",
     "popular_description": "See what's trending! These are the movies and shows everyone is watching and talking about.",
     "top_rated": "Top Rated",
-    "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
+    "top_rated_description": "Discover what have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
     "upcoming_description": "Stay tuned about the next big hits set to premiere soon.",
-    "tv_series": "TV Shows",
+    "tv_series": "TV Series",
     "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
@@ -176,11 +176,11 @@
     "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community."
   },
   "sidebar_search": {
-    "placeholder": "Search for movies, TV shows, or people",
+    "placeholder": "Search for movies, TV Series, or people",
     "search_everything": "Search anything",
     "no_results": "No results found.",
     "movies": "Movies",
-    "tv_series": "TV Shows",
+    "tv_series": "TV Series",
     "people": "People"
   },
   "watch_providers": {
@@ -265,7 +265,7 @@
   },
   "lists_page": {
     "title": "Lists",
-    "description": "Create watch-lists to manage your movies, animes and tv shows."
+    "description": "Create watch-lists to manage your movies, animes and tv series."
   },
   "list_card": {
     "delete": "Delete",
@@ -280,7 +280,7 @@
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
-    "description_placeholder": "Movies, Animes and TV shows I plan to watch.",
+    "description_placeholder": "Movies, Animes and TV Series I plan to watch.",
     "visibility": "Visibility",
     "visibility_option_public": "Public",
     "visibility_option_network": "Network",
@@ -378,23 +378,23 @@
   "tv_serie_pages": {
     "airing_today": {
       "title": "Airing Today",
-      "description": "TV shows airing today."
+      "description": "TV Series airing today."
     },
     "on_the_air": {
       "title": "On the Air",
-      "description": "TV shows that air in the next 7 days."
+      "description": "TV Series that air in the next 7 days."
     },
     "popular": {
       "title": "Popular",
-      "description": "TV shows ordered by popularity."
+      "description": "TV Series ordered by popularity."
     },
     "top_rated": {
       "title": "Top Rated",
-      "description": "TV shows ordered by rating."
+      "description": "TV Series ordered by rating."
     },
     "discover": {
       "title": "Discover",
-      "description": "Find TV shows using filters and sort options."
+      "description": "Find TV Series using filters and sort options."
     }
   },
   "dashboard": {
@@ -478,7 +478,7 @@
     "no_results": "No results."
   },
   "tv_series_list_filters": {
-    "title": "Discover TV Shows",
+    "title": "Discover TV Series",
     "tabs": {
       "filters": "Filters",
       "order": "Order",
@@ -540,8 +540,8 @@
     "search_placeholder": "Search for anything...",
     "no_results": "No results found.",
     "tv_series_label": "TV Series",
-    "tv_added_success": "TV series successfully added.",
-    "tv_removed_success": "TV series successfully removed.",
+    "tv_added_success": "TV Series successfully added.",
+    "tv_removed_success": "TV Series successfully removed.",
     "movies_label": "Movies",
     "remove_from_list": "Remove from list",
     "add_to_list": "Add to list",
