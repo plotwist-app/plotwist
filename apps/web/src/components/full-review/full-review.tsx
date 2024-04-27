@@ -58,7 +58,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
 
               <Link
                 href={userProfileHref}
-                className="text-sm text-muted-foreground"
+                className="flex gap-2 text-sm text-muted-foreground"
               >
                 {username}
               </Link>
@@ -72,7 +72,6 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
               {likes > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
-
                   <ReviewLikes reviewId={review.id} className="static" />
                 </>
               )}

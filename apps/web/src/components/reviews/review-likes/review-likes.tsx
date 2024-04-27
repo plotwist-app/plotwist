@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { useQuery } from '@tanstack/react-query'
@@ -18,7 +17,6 @@ import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import { getLikesService } from '@/services/api/likes/get-likes'
 import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
@@ -67,10 +65,12 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       >
         ❤ <span className="ml-1">{likes.count}</span>
       </DialogTrigger>
+
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
           <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
         </DialogHeader>
+
         {!profiles &&
           Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex items-center gap-3">
@@ -87,18 +87,9 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
               className="flex items-center overflow-hidden"
             >
               <div className="relative flex aspect-square size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border bg-background/50 shadow">
-                {profile.banner_path ? (
-                  <Image
-                    fill
-                    className="object-cover"
-                    src={tmdbImage(profile.banner_path)}
-                    alt={profile.username}
-                    sizes="100%"
-                  />
-                ) : (
-                  profile.username[0]
-                )}
+                {profile.username[0].toUpperCase()}
               </div>
+
               <span className="ml-3 mr-2 truncate text-sm">
                 {profile.username}
               </span>
