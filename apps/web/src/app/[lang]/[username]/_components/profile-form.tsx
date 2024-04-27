@@ -35,9 +35,12 @@ import { useProfile } from '@/hooks/use-profile'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
-export const profileFormSchema = (dictionary: Dictionary, username: string) =>
+export const profileFormSchema = (
+  dictionary: Dictionary,
+  newUsername: string,
+) =>
   z.object({
-    name: z
+    username: z
       .string()
       .min(1, dictionary.profile_form.username_required)
       .superRefine((value, ctx) => {
@@ -53,7 +56,7 @@ export const profileFormSchema = (dictionary: Dictionary, username: string) =>
           return z.NEVER
         }
 
-        if (username === value) {
+        if (newUsername === value) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: dictionary.profile_form.same_username,
@@ -80,7 +83,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
     defaultValues: {
-      name: profile.username,
+      username: profile.username,
     },
   })
 
@@ -92,13 +95,13 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
       const { error } = await updateUsernameMutation.mutateAsync({
         userId: user!.id,
-        newUsername: values.name,
+        newUsername: values.username,
       })
 
       if (error) {
         if (error.code === 'P0001') {
           toast.error(
-            `${dictionary.profile_form.username_label} ${values.name} ${dictionary.profile_form.error_existent_username}`,
+            `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
           )
           return
         }
@@ -107,7 +110,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
         return
       }
 
-      push(`/${language}/${values.name}`)
+      push(`/${language}/${values.username}`)
     },
     [
       dictionary.profile_form.error_existent_username,
@@ -138,7 +141,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="username"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
