@@ -647,6 +647,7 @@
     "username_required": "新しいユーザー名が必要です",
     "username_invalid": "無効なユーザー名です",
     "same_username": "新しいユーザー名を試してください",
+    "error_existent_username": "すでに存在しています。",
     "submit_button": "変更を保存する。"
   },
   "profile_banner": {

@@ -633,6 +633,7 @@ export type Dictionary = {
     username_placeholder: string
     username_required: string
     username_invalid: string
+    error_existent_username: string
     same_username: string
     submit_button: string
   }

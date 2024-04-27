@@ -647,6 +647,7 @@
     "username_placeholder": "John",
     "username_required": "È necessario un nuovo nome utente",
     "username_invalid": "Nome utente non valido",
+    "error_existent_username": "esiste già.",
     "same_username": "Devi provare un nuovo nome utente",
     "submit_button": "Salva modifiche"
   },

@@ -1,18 +1,18 @@
 import { supabase } from '@/services/supabase'
 
 type ChangeProfileUsernameValues = {
-  id: string
+  userId: string
   newUsername: string
 }
 
 export const updateProfileUsername = async ({
-  id,
+  userId,
   newUsername,
 }: ChangeProfileUsernameValues) => {
-  const { data } = await supabase
-    .from('profiles')
-    .update({ username: newUsername })
-    .eq('id', id)
+  const { error } = await supabase.rpc('update_username', {
+    user_id: userId,
+    new_username: newUsername,
+  })
 
-  return data
+  return { error }
 }
