@@ -11,6 +11,7 @@ type ProfileBannerEditImagesProps = {
   selectedItem: SelectedItem
   handleCloseDialog: () => void
 }
+
 export const ProfileBannerEditImages = ({
   selectedItem,
   handleCloseDialog,

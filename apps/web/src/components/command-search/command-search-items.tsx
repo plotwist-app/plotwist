@@ -5,14 +5,15 @@ import {
 } from '@plotwist/tmdb'
 import Image from 'next/image'
 import Link from 'next/link'
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
+
+import { ItemHoverCard } from '../item-hover-card'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Skeleton } from '../ui/skeleton'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
-import { ItemHoverCard } from '../item-hover-card/item-hover-card'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }
 
