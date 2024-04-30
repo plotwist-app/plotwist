@@ -651,8 +651,6 @@
   },
   "profile_banner": {
     "change_banner": "Mudar banner",
-    "change_profile_banner": "Mudar o banner do perfil",
-    "search_movies_or_series": "Buscar filmes ou séries...",
     "changed_successfully": "Banner alterado com sucesso."
   },
   "private_list": {
@@ -665,5 +663,6 @@
     "view_profile": "Ver perfil"
   },
   "access_now": "Acessar agora",
-  "create_account": "Criar conta"
+  "create_account": "Criar conta",
+  "search_movies_or_series": "Busque por filmes ou séries..."
 }

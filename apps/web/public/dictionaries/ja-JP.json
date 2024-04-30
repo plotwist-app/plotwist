@@ -651,8 +651,6 @@
   },
   "profile_banner": {
     "change_banner": "バナーを変更",
-    "change_profile_banner": "プロファイルのバナーを変更",
-    "search_movies_or_series": "映画やシリーズを検索...",
     "changed_successfully": "バナーが正常に変更されました。"
   },
   "private_list": {
@@ -665,5 +663,6 @@
     "view_profile": "プロフィールを見る"
   },
   "access_now": "今すぐアクセス",
-  "create_account": "アカウントを作成する"
+  "create_account": "アカウントを作成する",
+  "search_movies_or_series": "映画やシリーズを検索..."
 }
