@@ -40,7 +40,7 @@ export const UserLastReview = () => {
     queryFn: async () => getUserLastReviewService(user?.id ?? ''),
   })
 
-  if (user) {
+  if (!user) {
     return (
       <div className="flex items-center justify-center rounded-lg border border-dashed p-16">
         <span className="lg:text-md block space-y-2 text-center text-sm text-muted-foreground">
