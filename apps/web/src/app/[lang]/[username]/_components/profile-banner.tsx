@@ -10,6 +10,9 @@ import { useAuth } from '@/context/auth'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { useLanguage } from '@/context/language'
+import { useProfile } from '@/hooks/use-profile'
+import { toast } from 'sonner'
+import { useParams } from 'next/navigation'
 
 type ProfileBannerProps = {
   profileId: Profile['id']
@@ -22,6 +25,8 @@ export const ProfileBanner = ({
 }: ProfileBannerProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
+  const { updateBannerPathMutation } = useProfile()
+  const { username } = useParams()
 
   const { data: bannerPath } = useQuery({
     queryKey: ['profile-banner', profileUsername],
@@ -35,7 +40,22 @@ export const ProfileBanner = ({
 
   if (mode === 'EDIT') {
     return (
-      <ImagePicker.Root>
+      <ImagePicker.Root
+        onSelect={(image) =>
+          updateBannerPathMutation.mutate(
+            {
+              newBannerPath: image.file_path,
+              username: String(username),
+            },
+
+            {
+              onSettled: () => {
+                toast.success(dictionary.profile_banner.changed_successfully)
+              },
+            },
+          )
+        }
+      >
         <ImagePicker.Trigger>
           <section className="group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
             {bannerPath && (

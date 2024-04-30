@@ -18,24 +18,27 @@ import {
 } from './image-picker-list'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useLanguage } from '@/context/language'
+import { Image } from '@plotwist/tmdb'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
-export const ImagePickerRoot = ({ children }: PropsWithChildren) => {
+export type ImagePickerRootProps = {
+  onSelect: (image: Image) => void
+} & PropsWithChildren
+
+export const ImagePickerRoot = (props: ImagePickerRootProps) => {
+  const { onSelect, children } = props
+
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState<null | SelectedItem>(null)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
+
   const { dictionary } = useLanguage()
 
   const content = useMemo(() => {
     if (selectedItem) {
-      return (
-        <ImagePickerList
-          selectedItem={selectedItem}
-          handleCloseDialog={() => setOpenDialog(false)}
-        />
-      )
+      return <ImagePickerList selectedItem={selectedItem} onSelect={onSelect} />
     }
 
     if (debouncedSearch === '') {
@@ -54,7 +57,7 @@ export const ImagePickerRoot = ({ children }: PropsWithChildren) => {
         />
       )
     }
-  }, [debouncedSearch, selectedItem])
+  }, [debouncedSearch, onSelect, selectedItem])
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>

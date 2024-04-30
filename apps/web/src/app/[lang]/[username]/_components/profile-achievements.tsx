@@ -26,8 +26,8 @@ export const ProfileAchievements = ({
 
       <h3 className="font-semibold">{dictionary.profile.achievements}</h3>
 
-      <div className="grid grid-cols-5 gap-2">
-        {Array.from({ length: 15 }).map((_, index) => {
+      <div className="grid grid-cols-10 gap-2">
+        {Array.from({ length: 30 }).map((_, index) => {
           return (
             <div
               className="flex aspect-square items-center justify-center rounded-lg bg-muted"

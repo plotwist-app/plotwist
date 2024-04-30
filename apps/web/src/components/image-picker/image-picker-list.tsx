@@ -4,28 +4,21 @@ import { useQuery } from '@tanstack/react-query'
 
 import { MovieWithMediaType, TvSerieWithMediaType, tmdb } from '@plotwist/tmdb'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
-import { useProfile } from '@/hooks/use-profile'
-import { useParams } from 'next/navigation'
-import { toast } from 'sonner'
+
 import { useLanguage } from '@/context/language'
-import { SelectedItem } from './image-picker-root'
+import { ImagePickerRootProps, SelectedItem } from './image-picker-root'
 import { ImagePickerItem, ImagePickerItemSkeleton } from './image-picker-item'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ImagePickerListProps = {
   selectedItem: SelectedItem
-  handleCloseDialog: () => void
-}
+} & Pick<ImagePickerRootProps, 'onSelect'>
 
 export const ImagePickerList = ({
   selectedItem,
-  handleCloseDialog,
+  onSelect,
 }: ImagePickerListProps) => {
   const { id, type } = selectedItem
-
-  const { dictionary } = useLanguage()
-  const { username } = useParams()
-  const { updateBannerPathMutation } = useProfile()
 
   const { data, isLoading } = useQuery({
     queryKey: ['images', id],
@@ -40,25 +33,7 @@ export const ImagePickerList = ({
     )
   }
 
-  return (
-    <ImagesMasonry
-      images={images()}
-      onSelect={(image) =>
-        updateBannerPathMutation.mutate(
-          {
-            newBannerPath: image.file_path,
-            username: String(username),
-          },
-          {
-            onSettled: () => {
-              handleCloseDialog()
-              toast.success(dictionary.profile_banner.changed_successfully)
-            },
-          },
-        )
-      }
-    />
-  )
+  return <ImagesMasonry images={images()} onSelect={onSelect} />
 }
 
 type ImagePickerInitialListProps = {

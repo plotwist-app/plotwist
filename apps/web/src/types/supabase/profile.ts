@@ -5,4 +5,5 @@ export type Profile = {
   created_at: string
   subscription_type: 'PRO' | 'MEMBER'
   banner_path: string | null
+  image_path: string | null
 }

@@ -1,21 +1,22 @@
 import { redirect } from 'next/navigation'
+import { StarFilledIcon } from '@radix-ui/react-icons'
 
 import { PageProps } from '@/types/languages'
-import { Lock, Pencil } from 'lucide-react'
+import { List, Pencil, Trophy, Users } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
+import { ProBadge } from '@/components/pro-badge'
 
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
 import { ProfileBanner } from './_components/profile-banner'
 import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
-import { ProBadge } from '@/components/pro-badge'
+import { ProfileAchievements } from './_components/profile-achievements'
 
 import { getDictionary } from '@/utils/dictionaries'
-import { ProfileAchievements } from './_components/profile-achievements'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
@@ -37,8 +38,8 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
           profileUsername={profile.username}
         />
 
-        <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-16 lg:px-16">
-          <aside className="col-span-1 -mt-20 flex flex-col space-y-4">
+        <div className="mx-auto flex max-w-3xl flex-col space-y-4 p-4  lg:px-16">
+          <aside className="-mt-28 flex flex-col space-y-4">
             <div className="space-y-4">
               <ProfileImage profile={profile} />
 
@@ -63,25 +64,31 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                 </div>
               </div>
             </div>
-
-            <ProfileAchievements dictionary={dictionary} />
           </aside>
 
-          <section className="col-span-2">
+          <section>
             <Tabs defaultValue="reviews" className="w-full">
               <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
                 <TabsList>
                   <TabsTrigger value="reviews">
+                    <StarFilledIcon className="mr-1" width={12} height={12} />
                     {dictionary.profile.reviews}
                   </TabsTrigger>
 
                   <TabsTrigger value="lists">
+                    <List className="mr-1" width={12} height={12} />
                     {dictionary.profile.lists}
                   </TabsTrigger>
 
+                  <TabsTrigger value="achievements">
+                    <Trophy className="mr-1" width={12} height={12} />
+                    {dictionary.profile.achievements}
+                  </TabsTrigger>
+
                   <TabsTrigger value="communities" disabled>
+                    <Users className="mr-1" width={12} height={12} />
+
                     {dictionary.profile.communities}
-                    <Lock className="ml-1" size={12} />
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -92,6 +99,10 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
 
               <TabsContent value="lists" className="mt-4">
                 <ProfileLists userId={profile.id} />
+              </TabsContent>
+
+              <TabsContent value="achievements" className="mt-4">
+                <ProfileAchievements dictionary={dictionary} />
               </TabsContent>
             </Tabs>
           </section>
