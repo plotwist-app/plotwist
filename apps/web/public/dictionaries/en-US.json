@@ -397,24 +397,22 @@
       "description": "Find TV Series using filters and sort options."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Your last review",
-      "no_review_message": "Looks like you haven't written any reviews yet!",
-      "no_review_action": "Click here to see top-rated movies.",
-      "login": "Login",
-      "register": "Register",
-      "or": "or",
-      "make_first_review": "to make your first review!"
-    },
-    "popular_reviews": {
-      "title": "Popular reviews",
-      "no_reviews_found": "We didn't find any reviews.",
-      "explore_popular_movies": "Explore popular movies, and give us your opinion.",
-      "last_week": "Last week",
-      "last_month": "Last month",
-      "all_time": "All time"
-    }
+  "user_last_review": {
+    "title": "Your last review",
+    "no_review_message": "Looks like you haven't written any reviews yet!",
+    "no_review_action": "Click here to see top-rated movies.",
+    "login": "Login",
+    "register": "Register",
+    "or": "or",
+    "make_first_review": "to make your first review!"
+  },
+  "popular_reviews": {
+    "title": "Popular reviews",
+    "no_reviews_found": "We didn't find any reviews.",
+    "explore_popular_movies": "Explore popular movies, and give us your opinion.",
+    "last_week": "Last week",
+    "last_month": "Last month",
+    "all_time": "All time"
   },
   "movies_list_filters": {
     "title": "Discover Movies",
@@ -594,7 +592,7 @@
     "contract": "See less"
   },
   "grid": "Grid",
-  "table": "Table", 
+  "table": "Table",
   "person_page": {
     "credit_list": {
       "show_all": "Show all",

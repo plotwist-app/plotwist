@@ -1,7 +1,7 @@
 import { FullReview } from '@/components/full-review'
 import { getProfileReviews } from '@/services/api/profiles'
 import { Language } from '@/types/languages'
-import { EmptyReview } from '../../_components/dashboard-user-last-review'
+import { EmptyReview } from '../../_components/user-last-review'
 
 type ProfileReviewsProps = {
   userId: string

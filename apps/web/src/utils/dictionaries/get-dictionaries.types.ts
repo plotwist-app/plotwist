@@ -384,24 +384,22 @@ export type Dictionary = {
       description: string
     }
   }
-  dashboard: {
-    user_last_review: {
-      title: string
-      no_review_message: string
-      no_review_action: string
-      login: string
-      register: string
-      or: string
-      make_first_review: string
-    }
-    popular_reviews: {
-      title: string
-      no_reviews_found: string
-      explore_popular_movies: string
-      last_week: string
-      last_month: string
-      all_time: string
-    }
+  user_last_review: {
+    title: string
+    no_review_message: string
+    no_review_action: string
+    login: string
+    register: string
+    or: string
+    make_first_review: string
+  }
+  popular_reviews: {
+    title: string
+    no_reviews_found: string
+    explore_popular_movies: string
+    last_week: string
+    last_month: string
+    all_time: string
   }
   movies_list_filters: {
     title: string

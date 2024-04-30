@@ -397,24 +397,22 @@
       "description": "Descubra séries de tv utilizando filtros avançados."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Sua última avaliação",
-      "no_review_message": "Parece que você não escreveu nenhuma avaliação! 😿",
-      "no_review_action": "Clique aqui para ver os filmes mais bem avaliados.",
-      "login": "Faça login",
-      "register": "Cadastre-se",
-      "or": "ou",
-      "make_first_review": "para fazer sua primeira avaliação!"
-    },
-    "popular_reviews": {
-      "title": "Avaliações populares",
-      "no_reviews_found": "Não encontramos nenhuma avaliação.",
-      "explore_popular_movies": "Explore filmes populares e nos dê sua opinião.",
-      "last_week": "Última semana",
-      "last_month": "Último mês",
-      "all_time": "Todo o período"
-    }
+  "user_last_review": {
+    "title": "Sua última avaliação",
+    "no_review_message": "Parece que você não escreveu nenhuma avaliação! 😿",
+    "no_review_action": "Clique aqui para ver os filmes mais bem avaliados.",
+    "login": "Faça login",
+    "register": "Cadastre-se",
+    "or": "ou",
+    "make_first_review": "para fazer sua primeira avaliação!"
+  },
+  "popular_reviews": {
+    "title": "Avaliações populares",
+    "no_reviews_found": "Não encontramos nenhuma avaliação.",
+    "explore_popular_movies": "Explore filmes populares e nos dê sua opinião.",
+    "last_week": "Última semana",
+    "last_month": "Último mês",
+    "all_time": "Todo o período"
   },
   "movies_list_filters": {
     "title": "Descubra Filmes",

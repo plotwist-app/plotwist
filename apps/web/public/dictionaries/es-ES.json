@@ -397,24 +397,22 @@
       "description": "Encuentra series de televisión usando filtros y opciones de ordenación."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Tu última reseña",
-      "no_review_message": "¡Parece que no escribiste ninguna reseña! 😿",
-      "no_review_action": "Haz clic aquí para ver las películas mejor valoradas.",
-      "login": "Iniciar sesión",
-      "register": "Registrarse",
-      "or": "o",
-      "make_first_review": "para hacer tu primera reseña!"
-    },
-    "popular_reviews": {
-      "title": "Reseñas populares",
-      "no_reviews_found": "No encontramos ninguna evaluación.",
-      "explore_popular_movies": "Explora películas populares y danos tu opinión.",
-      "last_week": "Última semana",
-      "last_month": "Último mes",
-      "all_time": "Todo el tiempo"
-    }
+  "user_last_review": {
+    "title": "Tu última reseña",
+    "no_review_message": "¡Parece que no escribiste ninguna reseña! 😿",
+    "no_review_action": "Haz clic aquí para ver las películas mejor valoradas.",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "or": "o",
+    "make_first_review": "para hacer tu primera reseña!"
+  },
+  "popular_reviews": {
+    "title": "Reseñas populares",
+    "no_reviews_found": "No encontramos ninguna evaluación.",
+    "explore_popular_movies": "Explora películas populares y danos tu opinión.",
+    "last_week": "Última semana",
+    "last_month": "Último mes",
+    "all_time": "Todo el tiempo"
   },
   "movies_list_filters": {
     "title": "Descubrir Películas",

@@ -397,24 +397,22 @@
       "description": "フィルターや並べ替えオプションを使用してテレビ番組を探す。"
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "あなたの最後のレビュー",
-      "no_review_message": "レビューを書いていないようです！😿",
-      "no_review_action": "ここをクリックして、最も評価の高い映画を見る。",
-      "login": "ログイン",
-      "register": "登録",
-      "or": "または",
-      "make_first_review": "して、最初のレビューを書きましょう！"
-    },
-    "popular_reviews": {
-      "title": "人気のレビュー",
-      "no_reviews_found": "評価が見つかりませんでした。",
-      "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
-      "last_week": "先週",
-      "last_month": "先月",
-      "all_time": "全期間"
-    }
+  "user_last_review": {
+    "title": "あなたの最後のレビュー",
+    "no_review_message": "レビューを書いていないようです！😿",
+    "no_review_action": "ここをクリックして、最も評価の高い映画を見る。",
+    "login": "ログイン",
+    "register": "登録",
+    "or": "または",
+    "make_first_review": "して、最初のレビューを書きましょう！"
+  },
+  "popular_reviews": {
+    "title": "人気のレビュー",
+    "no_reviews_found": "評価が見つかりませんでした。",
+    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
+    "last_week": "先週",
+    "last_month": "先月",
+    "all_time": "全期間"
   },
   "movies_list_filters": {
     "title": "映画を発見",

@@ -87,8 +87,8 @@ export const ReviewItemActions = ({
 
   const invalidateQuery = () => {
     const queries = [
-      ['dashboard-user-last-review'],
-      ['dashboard-popular-reviews'],
+      ['user-last-review'],
+      ['popular-reviews'],
       ['likes', id],
       [tmdbId, mediaType],
     ]

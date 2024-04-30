@@ -397,24 +397,22 @@
       "description": "Finde Serien mit Filtern und Sortieroptionen."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Deine letzte Bewertung",
-      "no_review_message": "Sieht so aus, als hättest du keine Bewertung geschrieben! 😿",
-      "no_review_action": "Klicke hier, um die am besten bewerteten Filme zu sehen.",
-      "login": "Anmelden",
-      "register": "Registrieren",
-      "or": "oder",
-      "make_first_review": "um deine erste Bewertung zu verfassen!"
-    },
-    "popular_reviews": {
-      "title": "Beliebte Bewertungen",
-      "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
-      "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung.",
-      "last_week": "Letzte Woche",
-      "last_month": "Letzter Monat",
-      "all_time": "Gesamter Zeitraum"
-    }
+  "user_last_review": {
+    "title": "Deine letzte Bewertung",
+    "no_review_message": "Sieht so aus, als hättest du keine Bewertung geschrieben! 😿",
+    "no_review_action": "Klicke hier, um die am besten bewerteten Filme zu sehen.",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "or": "oder",
+    "make_first_review": "um deine erste Bewertung zu verfassen!"
+  },
+  "popular_reviews": {
+    "title": "Beliebte Bewertungen",
+    "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
+    "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung.",
+    "last_week": "Letzte Woche",
+    "last_month": "Letzter Monat",
+    "all_time": "Gesamter Zeitraum"
   },
   "movies_list_filters": {
     "title": "Filme Entdecken",

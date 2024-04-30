@@ -8,8 +8,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Metadata } from 'next'
 import { Container } from '../_components/container'
 
-import { DashboardUserLastReview } from '@/app/[lang]/_components/dashboard-user-last-review'
-import { DashboardPopularReviews } from '@/app/[lang]/_components/dashboard-popular-reviews'
+import { UserLastReview } from '@/app/[lang]/_components/user-last-review'
+import { PopularReviews } from '@/app/[lang]/_components/popular-reviews'
 
 export async function generateMetadata({
   params,
@@ -64,9 +64,9 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,325px]">
         <div className="space-y-8">
-          <DashboardUserLastReview />
+          <UserLastReview />
           <Separator className="bg-muted/75" />
-          <DashboardPopularReviews />
+          <PopularReviews />
         </div>
 
         <div className="mt-0 space-y-16">

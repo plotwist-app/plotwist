@@ -397,24 +397,22 @@
       "description": "Trouvez des séries télévisées en utilisant des filtres et des options de tri."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Votre dernière critique",
-      "no_review_message": "On dirait que vous n'avez écrit aucun avis ! 😿",
-      "no_review_action": "Cliquez ici pour voir les films les mieux notés.",
-      "login": "Connexion",
-      "register": "Inscription",
-      "or": "ou",
-      "make_first_review": "pour faire votre première critique !"
-    },
-    "popular_reviews": {
-      "title": "Critiques populaires",
-      "no_reviews_found": "Nous n'avons trouvé aucun avis.",
-      "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
-      "last_week": "La semaine dernière",
-      "last_month": "Le mois dernier",
-      "all_time": "Tous les temps"
-    }
+  "user_last_review": {
+    "title": "Votre dernière critique",
+    "no_review_message": "On dirait que vous n'avez écrit aucun avis ! 😿",
+    "no_review_action": "Cliquez ici pour voir les films les mieux notés.",
+    "login": "Connexion",
+    "register": "Inscription",
+    "or": "ou",
+    "make_first_review": "pour faire votre première critique !"
+  },
+  "popular_reviews": {
+    "title": "Critiques populaires",
+    "no_reviews_found": "Nous n'avons trouvé aucun avis.",
+    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
+    "last_week": "La semaine dernière",
+    "last_month": "Le mois dernier",
+    "all_time": "Tous les temps"
   },
   "movies_list_filters": {
     "title": "Découvrir les Films",
