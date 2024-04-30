@@ -108,7 +108,7 @@ export const PopularReviews = () => {
             <FullReview key={review.id} review={review} language={language} />
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
+          <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
             <p>{dictionary.popular_reviews.no_reviews_found}</p>
 
             <Link

@@ -106,8 +106,11 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             <Section.Label>{sections.developers}</Section.Label>
 
             <Section.List>
-              <Section.Item disabled>{sections.status}</Section.Item>
-              <Section.Item disabled>{sections.github}</Section.Item>
+              <Section.Item>
+                <Link href="https://github.com/plotwist-app/plotwist">
+                  {sections.github}
+                </Link>
+              </Section.Item>
             </Section.List>
           </Section.Root>
         </div>
