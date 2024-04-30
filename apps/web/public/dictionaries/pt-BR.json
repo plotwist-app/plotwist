@@ -135,7 +135,8 @@
     "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
     "sign_up_success": "Cadastro bem-sucedido. Bem-vindo! 🎉",
     "invalid_sign_up_credentials": "Credenciais de cadastro inválidas",
-    "try_again": "Tente novamente"
+    "try_again": "Tente novamente",
+    "username_already_taken": "Este nome de usuário ou e-mail já está em uso."
   },
   "app_page": {
     "dashboard_title": "Início",

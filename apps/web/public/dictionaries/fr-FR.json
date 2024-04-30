@@ -135,7 +135,8 @@
     "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
     "sign_up_success": "Inscription réussie. Bienvenue ! 🎉",
     "invalid_sign_up_credentials": "Identifiants d'inscription invalides",
-    "try_again": "Réessayer"
+    "try_again": "Réessayer",
+    "username_already_taken": "Ce nom d'utilisateur ou cette adresse e-mail est déjà utilisé."
   },
   "app_page": {
     "dashboard_title": "Tableau de bord",

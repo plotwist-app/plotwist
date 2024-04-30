@@ -64,12 +64,7 @@ export const AuthContextProvider = ({
     })
 
     if (error) {
-      toast.error(error.message, {
-        action: {
-          label: dictionary.login_form.try_again,
-          onClick: () => signUpWithCredentials({ username, ...credentials }),
-        },
-      })
+      toast.error(dictionary.sign_up_form.username_already_taken)
 
       return
     }

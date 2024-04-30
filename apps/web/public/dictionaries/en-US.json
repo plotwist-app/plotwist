@@ -135,7 +135,8 @@
     "password_length": "Your password must be at least 8 characters long.",
     "sign_up_success": "Registration successful. Welcome! 🎉",
     "invalid_sign_up_credentials": "Invalid sign up credentials",
-    "try_again": "Try again"
+    "try_again": "Try again",
+    "username_already_taken": "This username or email is already in use."
   },
   "app_page": {
     "dashboard_title": "Home",

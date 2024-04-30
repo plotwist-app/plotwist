@@ -37,13 +37,14 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
       <div className="bg flex h-[calc(100vh-70px)] w-full flex-col items-center justify-center p-4 lg:p-0">
         <div className="w-full max-w-[450px] space-y-4">
           <div className="w-full space-y-2">
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-3xl font-bold">
               {dictionary.sign_up_page.title}
             </h1>
-            <p className="">{dictionary.sign_up_page.description}</p>
+
+            <p>{dictionary.sign_up_page.description}</p>
 
             <div className="mt-2 flex space-x-2">
-              <div className="rounded-xs w-1 bg-muted-foreground" />
+              <div className="w-1 rounded-lg bg-muted" />
 
               <p className="text-sm text-muted-foreground">
                 {dictionary.sign_up_page.already_have_account}{' '}

@@ -136,7 +136,8 @@
     "password_length": "La tua password deve essere lunga almeno 8 caratteri.",
     "sign_up_success": "Registrazione avvenuta con successo. Benvenuto! 🎉",
     "invalid_sign_up_credentials": "Credenziali di registrazione non valide",
-    "try_again": "Riprova"
+    "try_again": "Riprova",
+    "username_already_taken": "Questo nome utente o email è già in uso."
   },
   "app_page": {
     "dashboard_title": "Cruscotto",

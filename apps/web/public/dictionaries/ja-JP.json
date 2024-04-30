@@ -135,7 +135,8 @@
     "password_length": "パスワードは最低8文字です",
     "sign_up_success": "登録完了。ようこそ！",
     "invalid_sign_up_credentials": "登録情報が無効です。",
-    "try_again": "再試行"
+    "try_again": "再試行",
+    "username_already_taken": "このユーザー名またはメールアドレスはすでに使用されています。"
   },
   "app_page": {
     "dashboard_title": "ダッシュボード",

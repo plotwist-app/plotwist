@@ -135,7 +135,8 @@
     "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
     "sign_up_success": "Registro exitoso. ¡Bienvenido! 🎉",
     "invalid_sign_up_credentials": "Credenciales de registro inválidas",
-    "try_again": "Intentar de nuevo"
+    "try_again": "Intentar de nuevo",
+    "username_already_taken": "Este nombre de usuario o correo electrónico ya está en uso."
   },
   "app_page": {
     "dashboard_title": "Tablero",

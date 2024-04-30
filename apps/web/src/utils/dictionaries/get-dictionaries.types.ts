@@ -115,6 +115,7 @@ export type Dictionary = {
     sign_up_success: string
     invalid_sign_up_credentials: string
     try_again: string
+    username_already_taken: string
   }
   app_page: {
     dashboard_title: string
