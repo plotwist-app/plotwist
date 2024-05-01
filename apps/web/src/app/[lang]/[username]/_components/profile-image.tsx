@@ -1,6 +1,7 @@
 'use client'
 
 import { ImagePicker } from '@/components/image-picker'
+import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { useProfile } from '@/hooks/use-profile'
 import { getProfileByUsername } from '@/services/api/profiles'
@@ -18,6 +19,7 @@ type ProfileImageProps = {
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { username } = profile
   const { dictionary } = useLanguage()
+  const { user } = useAuth()
 
   const { data: profileImagePath } = useQuery({
     queryKey: ['profile-image', username],
@@ -29,6 +31,25 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   })
 
   const { updateImagePathMutation } = useProfile()
+
+  const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
+
+  if (mode === 'SHOW') {
+    return (
+      <div className="relative z-50 flex aspect-square w-48 items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl">
+        {profileImagePath ? (
+          <Image
+            src={tmdbImage(profileImagePath)}
+            fill
+            alt=""
+            className="object-cover"
+          />
+        ) : (
+          profile.username[0].toUpperCase()
+        )}
+      </div>
+    )
+  }
 
   return (
     <ImagePicker.Root
