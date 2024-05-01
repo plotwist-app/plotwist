@@ -25,6 +25,8 @@ import { Dictionary } from '@/utils/dictionaries'
 import { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
 import Link from 'next/link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -103,11 +105,17 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex items-start space-x-4"
       >
-        <Link
-          href={`/${language}/${username}`}
-          className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
-        >
-          {usernameInitial}
+        <Link href={`/${language}/${username}`}>
+          <Avatar className="size-10 border text-[10px] shadow">
+            {user.image_path && (
+              <AvatarImage
+                src={tmdbImage(user.image_path, 'w500')}
+                className="object-cover"
+              />
+            )}
+
+            <AvatarFallback>{usernameInitial}</AvatarFallback>
+          </Avatar>
         </Link>
 
         <div className="w-full space-y-2">

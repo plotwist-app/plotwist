@@ -13,6 +13,8 @@ import {
 
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { AvatarImage } from '@radix-ui/react-avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export const HomeHeroActions = () => {
   const { user } = useAuth()
@@ -41,6 +43,13 @@ export const HomeHeroActions = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <Avatar className="mr-2 h-6 w-6 border text-[10px]">
+                {user.image_path && (
+                  <AvatarImage
+                    src={tmdbImage(user.image_path, 'w500')}
+                    className="object-cover"
+                  />
+                )}
+
                 <AvatarFallback>{initial}</AvatarFallback>
               </Avatar>
             </TooltipTrigger>

@@ -20,6 +20,8 @@ import { cn } from '@/lib/utils'
 
 import { getLikesService } from '@/services/api/likes/get-likes'
 import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type ReviewLikes = {
   reviewId: string
@@ -84,13 +86,22 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
           <div key={profile.id} className="flex items-center">
             <Link
               href={`/${language}/${profile.username}`}
-              className="flex items-center overflow-hidden"
+              className="flex items-center gap-1"
             >
-              <div className="relative flex aspect-square size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border bg-background/50 shadow">
-                {profile.username[0].toUpperCase()}
-              </div>
+              <Avatar className="size-10 border text-[10px] shadow">
+                {profile.image_path && (
+                  <AvatarImage
+                    src={tmdbImage(profile.image_path, 'w500')}
+                    className="object-cover"
+                  />
+                )}
 
-              <span className="ml-3 mr-2 truncate text-sm">
+                <AvatarFallback>
+                  {profile.username[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+
+              <span className="ml-2 mr-2 truncate text-sm">
                 {profile.username}
               </span>
             </Link>

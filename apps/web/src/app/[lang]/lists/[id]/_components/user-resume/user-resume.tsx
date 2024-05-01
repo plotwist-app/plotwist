@@ -1,8 +1,9 @@
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 import { supabase } from '@/services/supabase'
 import { Profile } from '@/types/supabase'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 
@@ -18,7 +19,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
     language,
   } = useLanguage()
 
-  const { data: response, isLoading } = useQuery({
+  const { data: profile, isLoading } = useQuery({
     queryKey: [userId],
     queryFn: async () =>
       await supabase
@@ -26,9 +27,10 @@ export const UserResume = ({ userId }: UserResumeProps) => {
         .select('*')
         .eq('id', userId)
         .single<Profile>(),
+    select: (response) => response.data,
   })
 
-  if (isLoading || !response) {
+  if (isLoading || !profile) {
     return (
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         {by}
@@ -38,7 +40,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
     )
   }
 
-  const username = response.data?.username
+  const username = profile.username
   const profileHref = `/${language}/${username}`
 
   return (
@@ -47,6 +49,13 @@ export const UserResume = ({ userId }: UserResumeProps) => {
 
       <Link href={profileHref}>
         <Avatar className="h-7 w-7">
+          {profile.image_path && (
+            <AvatarImage
+              src={tmdbImage(profile.image_path, 'w500')}
+              className="object-cover"
+            />
+          )}
+
           <AvatarFallback className="uppercase">
             {username && username[0]}
           </AvatarFallback>

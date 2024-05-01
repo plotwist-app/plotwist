@@ -1,5 +1,6 @@
 import { Language } from '../languages'
 import { MediaType } from './media-type'
+import { Profile } from './profile'
 
 export type Review = {
   created_at: string
@@ -18,10 +19,7 @@ export type Review = {
   replies: Reply[] | null
 }
 
-type User = {
-  id: string
-  username: string
-}
+type User = Pick<Profile, 'id' | 'username' | 'image_path'>
 
 export type Reply = {
   id: string

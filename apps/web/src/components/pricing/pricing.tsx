@@ -14,7 +14,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export const Pricing = () => {
   const { language, dictionary } = useLanguage()
@@ -131,6 +132,13 @@ export const Pricing = () => {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                          {user.image_path && (
+                            <AvatarImage
+                              src={tmdbImage(user.image_path, 'w500')}
+                              className="object-cover"
+                            />
+                          )}
+
                           <AvatarFallback className="bg-foreground">
                             {initial}
                           </AvatarFallback>

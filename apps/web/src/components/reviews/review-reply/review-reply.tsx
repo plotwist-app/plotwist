@@ -13,6 +13,8 @@ import {
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
 import Link from 'next/link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -52,16 +54,22 @@ export const ReviewReply = ({
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
           {replies.map((reply) => {
-            const { username } = reply.user
+            const { username, image_path: imagePath } = reply.user
             const usernameInitial = username[0].toUpperCase()
 
             return (
               <li key={reply.id} className="flex items-start space-x-4">
-                <Link
-                  href={`/${language}/${username}`}
-                  className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
-                >
-                  {usernameInitial}
+                <Link href={`/${language}/${username}`}>
+                  <Avatar className="size-10 border text-[10px] shadow">
+                    {imagePath && (
+                      <AvatarImage
+                        src={tmdbImage(imagePath, 'w500')}
+                        className="object-cover"
+                      />
+                    )}
+
+                    <AvatarFallback>{usernameInitial}</AvatarFallback>
+                  </Avatar>
                 </Link>
 
                 <div className="flex w-full flex-col space-y-2">

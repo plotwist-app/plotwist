@@ -27,6 +27,8 @@ import { MediaType } from '@/types/supabase/media-type'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import Link from 'next/link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -91,6 +93,7 @@ export const ReviewReplyForm = ({
 
   const username = user.username
   const usernameInitial = username[0].toUpperCase()
+  const imagePath = user.image_path
 
   return (
     <Form {...form}>
@@ -99,11 +102,17 @@ export const ReviewReplyForm = ({
         className="flex flex-col items-start gap-2 pt-3"
       >
         <div className="flex w-full gap-2">
-          <Link
-            href={`/${language}/${username}`}
-            className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
-          >
-            {usernameInitial}
+          <Link href={`/${language}/${username}`}>
+            <Avatar className="size-10 border text-[10px] shadow">
+              {imagePath && (
+                <AvatarImage
+                  src={tmdbImage(imagePath, 'w500')}
+                  className="object-cover"
+                />
+              )}
+
+              <AvatarFallback>{usernameInitial}</AvatarFallback>
+            </Avatar>
           </Link>
 
           <FormField

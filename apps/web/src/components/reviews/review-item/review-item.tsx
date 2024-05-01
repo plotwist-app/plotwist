@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns'
 
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import { ReviewLikes } from '@/components/reviews/review-likes'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ReviewReply } from '@/components/reviews/review-reply'
 
 import { ReviewItemActions } from '.'
@@ -17,6 +18,7 @@ import { useLanguage } from '@/context/language'
 import { locale } from '@/utils/date/locale'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import Link from 'next/link'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -36,7 +38,7 @@ export const ReviewItem = ({
     rating,
     replies,
     created_at: createdAt,
-    user: { username },
+    user: { username, image_path: imagePath },
   } = review
 
   const {
@@ -56,11 +58,17 @@ export const ReviewItem = ({
 
   return (
     <div className="flex items-start space-x-4">
-      <Link
-        href={`/${language}/${username}`}
-        className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
-      >
-        {usernameInitial}
+      <Link href={`/${language}/${username}`}>
+        <Avatar className="h-10 w-10 border text-[10px] shadow">
+          {imagePath && (
+            <AvatarImage
+              src={tmdbImage(imagePath, 'w500')}
+              className="object-cover"
+            />
+          )}
+
+          <AvatarFallback>{usernameInitial}</AvatarFallback>
+        </Avatar>
       </Link>
 
       <div className="flex max-w-[calc(100%-56px)] flex-1 flex-col space-y-2">
