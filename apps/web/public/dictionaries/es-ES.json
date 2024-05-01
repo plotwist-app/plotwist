@@ -664,5 +664,7 @@
   },
   "access_now": "Accede ahora",
   "create_account": "Crear una cuenta",
-  "search_movies_or_series": "Buscar películas o series..."
+  "search_movies_or_series": "Buscar películas o series...",
+  "select_an_image": "Seleccione una imagen",
+  "profile_image_changed_successfully": "La imagen de perfil se cambió correctamente."
 }

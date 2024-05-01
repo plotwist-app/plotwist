@@ -666,5 +666,6 @@
   "access_now": "Access now",
   "create_account": "Create account",
   "search_movies_or_series": "Search movies or series...",
-  "select_an_image": "Select an image"
+  "select_an_image": "Select an image",
+  "profile_image_changed_successfully": "Profile image successfully changed."
 }

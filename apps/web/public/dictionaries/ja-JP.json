@@ -664,5 +664,7 @@
   },
   "access_now": "今すぐアクセス",
   "create_account": "アカウントを作成する",
-  "search_movies_or_series": "映画やシリーズを検索..."
+  "search_movies_or_series": "映画やシリーズを検索...",
+  "select_an_image": "画像を選択してください",
+  "profile_image_changed_successfully": "プロフィール画像が正常に変更されました。"
 }

@@ -664,5 +664,7 @@
   },
   "access_now": "Jetzt zugreifen",
   "create_account": "Benutzerkonto erstellen",
-  "search_movies_or_series": "Suche Filme oder Serien..."
+  "search_movies_or_series": "Suche Filme oder Serien...",
+  "select_an_image": "Wählen Sie ein Bild aus",
+  "profile_image_changed_successfully": "Profilbild erfolgreich geändert."
 }

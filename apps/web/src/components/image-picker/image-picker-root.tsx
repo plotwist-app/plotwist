@@ -23,7 +23,7 @@ import { Image } from '@plotwist/tmdb'
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
 export type ImagePickerRootProps = {
-  onSelect: (image: Image) => void
+  onSelect: (image: Image, closeModal: () => void) => void
 } & PropsWithChildren
 
 export const ImagePickerRoot = (props: ImagePickerRootProps) => {
@@ -36,9 +36,16 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
 
   const { dictionary } = useLanguage()
 
+  const closeModal = () => setOpenDialog(false)
+
   const content = useMemo(() => {
     if (selectedItem) {
-      return <ImagePickerList selectedItem={selectedItem} onSelect={onSelect} />
+      return (
+        <ImagePickerList
+          selectedItem={selectedItem}
+          onSelect={(image) => onSelect(image, closeModal)}
+        />
+      )
     }
 
     if (debouncedSearch === '') {
@@ -65,7 +72,7 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
 
       <DialogContent className="gap-0 p-0">
         <DialogHeader className="items-start space-y-4 border-b p-4">
-          <DialogTitle>Select an image</DialogTitle>
+          <DialogTitle>{dictionary.select_an_image}</DialogTitle>
 
           {selectedItem ? (
             <div className="flex gap-2">

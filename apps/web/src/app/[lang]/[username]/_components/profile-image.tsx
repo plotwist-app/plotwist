@@ -1,6 +1,7 @@
 'use client'
 
 import { ImagePicker } from '@/components/image-picker'
+import { useLanguage } from '@/context/language'
 import { useProfile } from '@/hooks/use-profile'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { Profile } from '@/types/supabase'
@@ -16,6 +17,7 @@ type ProfileImageProps = {
 
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { username } = profile
+  const { dictionary } = useLanguage()
 
   const { data: profileImagePath } = useQuery({
     queryKey: ['profile-image', username],
@@ -23,13 +25,14 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
     select: (data) => {
       return data?.image_path
     },
+    initialData: profile,
   })
 
   const { updateImagePathMutation } = useProfile()
 
   return (
     <ImagePicker.Root
-      onSelect={(image) =>
+      onSelect={(image, closeModal) =>
         updateImagePathMutation.mutate(
           {
             newImagePath: image.file_path,
@@ -38,14 +41,16 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
           {
             onSettled: () => {
-              toast.success('profile image changed successfully.')
+              closeModal()
+
+              toast.success(dictionary.profile_image_changed_successfully)
             },
           },
         )
       }
     >
       <ImagePicker.Trigger>
-        <div className="group relative z-50 flex aspect-square w-48 cursor-pointer items-center justify-center overflow-hidden rounded-lg border bg-muted text-3xl">
+        <div className="group relative z-50 flex aspect-square w-48 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl">
           {profileImagePath ? (
             <Image
               src={tmdbImage(profileImagePath)}

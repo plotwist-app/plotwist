@@ -28,15 +28,10 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
     redirect(`/${lang}/home`)
   }
 
-  const isUserPro = profile.subscription_type === 'PRO'
-
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <ProfileBanner
-          profileId={profile.id}
-          profileUsername={profile.username}
-        />
+        <ProfileBanner profile={profile} />
 
         <div className="mx-auto flex max-w-3xl flex-col space-y-4 p-4  lg:px-16">
           <aside className="-mt-28 flex flex-col space-y-4">
@@ -47,7 +42,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                 <div className="flex items-center gap-2">
                   <h1 className="text-2xl font-bold">{profile.username}</h1>
 
-                  {isUserPro && <ProBadge />}
+                  {profile.subscription_type === 'PRO' && <ProBadge />}
 
                   <ProfileForm
                     profile={profile}

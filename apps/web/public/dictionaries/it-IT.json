@@ -665,5 +665,7 @@
   },
   "access_now": "Accedi ora",
   "create_account": "Creare un account",
-  "search_movies_or_series": "Cerca film o serie..."
+  "search_movies_or_series": "Cerca film o serie...",
+  "select_an_image": "Seleziona un'immagine",
+  "profile_image_changed_successfully": "L'immagine del profilo è stata modificata con successo."
 }

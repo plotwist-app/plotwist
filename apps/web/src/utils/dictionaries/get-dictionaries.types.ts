@@ -653,4 +653,6 @@ export type Dictionary = {
   access_now: string
   create_account: string
   search_movies_or_series: string
+  select_an_image: string
+  profile_image_changed_successfully: string
 }

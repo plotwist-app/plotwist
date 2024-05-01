@@ -15,28 +15,25 @@ import { toast } from 'sonner'
 import { useParams } from 'next/navigation'
 
 type ProfileBannerProps = {
-  profileId: Profile['id']
-  profileUsername: Profile['username']
+  profile: Profile
 }
 
-export const ProfileBanner = ({
-  profileId,
-  profileUsername,
-}: ProfileBannerProps) => {
+export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
   const { updateBannerPathMutation } = useProfile()
   const { username } = useParams()
 
   const { data: bannerPath } = useQuery({
-    queryKey: ['profile-banner', profileUsername],
-    queryFn: async () => await getProfileByUsername(profileUsername),
+    queryKey: ['profile-banner', profile.username],
+    queryFn: async () => await getProfileByUsername(profile.username),
     select: (data) => {
       return data?.banner_path
     },
+    initialData: profile,
   })
 
-  const mode = user?.id === profileId ? 'EDIT' : 'SHOW'
+  const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
   if (mode === 'EDIT') {
     return (
