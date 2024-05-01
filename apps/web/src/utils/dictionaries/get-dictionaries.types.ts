@@ -638,8 +638,6 @@ export type Dictionary = {
   }
   profile_banner: {
     change_banner: string
-    change_profile_banner: string
-    search_movies_or_series: string
     changed_successfully: string
   }
   private_list: {
@@ -653,4 +651,7 @@ export type Dictionary = {
   }
   access_now: string
   create_account: string
+  search_movies_or_series: string
+  select_an_image: string
+  profile_image_changed_successfully: string
 }

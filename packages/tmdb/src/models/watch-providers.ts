@@ -4,12 +4,14 @@ export type Flatrate = {
   provider_id: number
   provider_name: string
 }
+
 export type Rent = {
   display_priority: number
   logo_path: string
   provider_id: number
   provider_name: string
 }
+
 export type Buy = {
   display_priority: number
   logo_path: string

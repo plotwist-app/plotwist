@@ -3,7 +3,7 @@
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,6 @@ import { List } from '@/types/supabase/lists'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
