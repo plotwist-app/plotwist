@@ -2,17 +2,23 @@
 
 import { useQuery } from '@tanstack/react-query'
 
-import { MovieWithMediaType, TvSerieWithMediaType, tmdb } from '@plotwist/tmdb'
+import {
+  Image,
+  MovieWithMediaType,
+  TvSerieWithMediaType,
+  tmdb,
+} from '@plotwist/tmdb'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
 
 import { useLanguage } from '@/context/language'
-import { ImagePickerRootProps, SelectedItem } from './image-picker-root'
+import { SelectedItem } from './image-picker-root'
 import { ImagePickerItem, ImagePickerItemSkeleton } from './image-picker-item'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ImagePickerListProps = {
   selectedItem: SelectedItem
-} & Pick<ImagePickerRootProps, 'onSelect'>
+  onSelect: (image: Image) => void
+}
 
 export const ImagePickerList = ({
   selectedItem,

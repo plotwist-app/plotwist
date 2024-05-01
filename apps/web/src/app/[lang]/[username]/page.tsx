@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation'
-import { StarFilledIcon } from '@radix-ui/react-icons'
 
 import { PageProps } from '@/types/languages'
-import { List, Pencil, Trophy, Users } from 'lucide-react'
+import { Award, List, Pencil, Star, Users } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -66,7 +65,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
               <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
                 <TabsList>
                   <TabsTrigger value="reviews">
-                    <StarFilledIcon className="mr-1" width={12} height={12} />
+                    <Star className="mr-1" width={12} height={12} />
                     {dictionary.profile.reviews}
                   </TabsTrigger>
 
@@ -76,7 +75,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                   </TabsTrigger>
 
                   <TabsTrigger value="achievements">
-                    <Trophy className="mr-1" width={12} height={12} />
+                    <Award className="mr-1" width={12} height={12} />
                     {dictionary.profile.achievements}
                   </TabsTrigger>
 

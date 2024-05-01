@@ -638,7 +638,6 @@ export type Dictionary = {
   }
   profile_banner: {
     change_banner: string
-    change_profile_banner: string
     changed_successfully: string
   }
   private_list: {
