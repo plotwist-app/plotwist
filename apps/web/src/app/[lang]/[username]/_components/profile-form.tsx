@@ -88,7 +88,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   })
 
   const isUserPro = profile.subscription_type === 'PRO'
-  const isOwner = profile.id === user.id
+  const isOwner = profile.id === user?.id
 
   const onSubmit = useCallback(
     async (values: ProfileFormValues) => {
