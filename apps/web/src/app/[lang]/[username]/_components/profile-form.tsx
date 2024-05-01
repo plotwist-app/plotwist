@@ -88,6 +88,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   })
 
   const isUserPro = profile.subscription_type === 'PRO'
+  const isOwner = profile.id === user.id
 
   const onSubmit = useCallback(
     async (values: ProfileFormValues) => {
@@ -123,7 +124,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
     ],
   )
 
-  if (!user) return null
+  if (!user || !isOwner) return null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
