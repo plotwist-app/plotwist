@@ -58,7 +58,6 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
     home: {
       features: {
         section_title: title,
-        section_description: description,
         lists,
         communities,
         multi_lang_support: multiLangSupport,
