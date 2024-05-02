@@ -132,7 +132,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>{dictionary.profile_form.dialog_title}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -145,11 +145,13 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>
+                    {dictionary.profile_form.username_label}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={!isUserPro}
-                      placeholder="John"
+                      placeholder={dictionary.profile_form.username_placeholder}
                       {...field}
                     />
                   </FormControl>
@@ -165,7 +167,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
                 type="submit"
                 loading={form.formState.isSubmitting}
               >
-                Change
+                {dictionary.profile_form.submit_button}
               </Button>
             </div>
           </form>
