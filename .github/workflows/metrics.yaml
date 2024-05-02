@@ -1,0 +1,18 @@
+name: Metrics
+on:
+  workflow_dispatch:
+  schedule: [{cron: "0 3 * * *"}]
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Page Speed
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics/page_speed.svg
+          token: NOT_NEEDED
+          base: ""
+          plugin_pagespeed: yes
+          plugin_pagespeed_url: https://plotwist.app/en-US

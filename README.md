@@ -14,6 +14,9 @@ Open-source easy management and reviews about movies, series and animes.
 - Database: [Supabase](https://supabase.com/)
 - Payments: [Stripe](https://stripe.com/br)
 
+## Page Speed Report
+![Page Speed Report for Plotwist](./metrics/page_speed.svg)
+
 ## Star History
 
 <picture>
