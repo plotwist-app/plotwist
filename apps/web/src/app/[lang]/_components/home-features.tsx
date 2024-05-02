@@ -72,9 +72,9 @@ export const HomeFeatures = ({ language, dictionary }: HomeFeaturesProps) => {
       <div className="mx-auto max-w-6xl space-y-8">
         <div className="flex flex-col items-center space-y-2">
           <h2 className="text-2xl font-bold">{title}</h2>
-          <p className="w-2/3 text-center text-muted-foreground">
+          {/* <p className="w-2/3 text-center text-muted-foreground">
             {description}
-          </p>
+          </p> */}
         </div>
 
         <ul className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-3 lg:p-0">
