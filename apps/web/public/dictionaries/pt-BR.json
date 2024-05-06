@@ -227,8 +227,6 @@
   "review_item_actions": {
     "like": "Curtir",
     "reply": "Responder",
-    "delete": "Apagar",
-    "delete_success": "Avaliação deletada com sucesso.",
     "dialog_title": "Você tem certeza absoluta?",
     "dialog_description": "Esta ação não pode ser desfeita.",
     "dialog_close": "Fechar"
@@ -666,5 +664,8 @@
   "create_account": "Criar conta",
   "search_movies_or_series": "Busque por filmes ou séries...",
   "select_an_image": " Selecione uma imagem",
-  "profile_image_changed_successfully": "Imagem do perfil alterada com sucesso."
+  "profile_image_changed_successfully": "Imagem do perfil alterada com sucesso.",
+  "review_deleted_successfully": "Avaliação deletada com sucesso.",
+  "edit": "Editar",
+  "delete": "Excluir"
 }

@@ -227,8 +227,6 @@
   "review_item_actions": {
     "like": "Me gusta",
     "reply": "Responder",
-    "delete": "Eliminar",
-    "delete_success": "Reseña eliminada con éxito.",
     "dialog_title": "¿Está completamente seguro?",
     "dialog_description": "Esta acción no se puede deshacer.",
     "dialog_close": "Cerrar"
@@ -666,5 +664,8 @@
   "create_account": "Crear una cuenta",
   "search_movies_or_series": "Buscar películas o series...",
   "select_an_image": "Seleccione una imagen",
-  "profile_image_changed_successfully": "La imagen de perfil se cambió correctamente."
+  "profile_image_changed_successfully": "La imagen de perfil se cambió correctamente.",
+  "review_deleted_successfully": "Reseña eliminada con éxito.",
+  "edit": "Editar",
+  "delete": "Borrar"
 }

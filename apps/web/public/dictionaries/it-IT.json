@@ -228,8 +228,6 @@
   "review_item_actions": {
     "like": "Mi piace",
     "reply": "Rispondere",
-    "delete": "Eliminare",
-    "delete_success": "Recensione eliminata con successo.",
     "dialog_title": "Sei assolutamente sicuro?",
     "dialog_description": "Questa azione non può essere annullata.",
     "dialog_close": "Chiudi"
@@ -667,5 +665,8 @@
   "create_account": "Creare un account",
   "search_movies_or_series": "Cerca film o serie...",
   "select_an_image": "Seleziona un'immagine",
-  "profile_image_changed_successfully": "L'immagine del profilo è stata modificata con successo."
+  "profile_image_changed_successfully": "L'immagine del profilo è stata modificata con successo.",
+  "review_deleted_successfully": "Recensione eliminata con successo.",
+  "edit": "Modificare",
+  "delete": "Eliminare"
 }
