@@ -1,10 +1,8 @@
 'use client'
 
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import Link from 'next/link'
 
 import { Review } from '@/types/supabase/reviews'
-
-import { MediaType } from '@/types/supabase/media-type'
 
 import {
   ReviewReplyActions,
@@ -12,11 +10,9 @@ import {
 } from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
-import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReplyEditActions } from './review-reply-edit-actions'
-import { useMemo } from 'react'
 import { useAuth } from '@/context/auth'
 
 interface ReviewReplyProps {
@@ -32,12 +28,6 @@ export const ReviewReply = ({
 }: ReviewReplyProps) => {
   const { dictionary, language } = useLanguage()
   const { user } = useAuth()
-
-  const mode = useMemo(() => {
-    if (user?.id === review.user_id) return 'EDIT'
-
-    return 'SHOW'
-  }, [user, review])
 
   if (!review.replies) return <></>
 
@@ -60,6 +50,8 @@ export const ReviewReply = ({
           {review.replies.map((reply) => {
             const { username, image_path: imagePath } = reply.user
             const usernameInitial = username[0].toUpperCase()
+
+            const mode = user?.id === reply.user.id ? 'EDIT' : 'SHOW'
 
             return (
               <li key={reply.id} className="flex items-start space-x-4">
@@ -92,20 +84,15 @@ export const ReviewReply = ({
                       </span>
                     </div>
 
-                    <ReplyEditActions reply={reply} />
+                    {mode === 'EDIT' && <ReplyEditActions reply={reply} />}
                   </div>
 
                   <div className="relative space-y-1 rounded-md border p-4 shadow">
                     <p className="text-sm">{reply.reply}</p>
-
                     <ReviewReplyLikes replyId={reply.id} />
                   </div>
 
-                  <ReviewReplyActions
-                    reply={reply}
-                    tmdbItem={tmdbItem}
-                    mediaType={mediaType}
-                  />
+                  <ReviewReplyActions reply={reply} />
                 </div>
               </li>
             )

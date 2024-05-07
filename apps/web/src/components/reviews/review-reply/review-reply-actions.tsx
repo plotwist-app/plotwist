@@ -2,9 +2,7 @@
 
 import { ComponentProps } from 'react'
 import { toast } from 'sonner'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 
 import { cn } from '@/lib/utils'
@@ -13,18 +11,13 @@ import { Reply } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
 
-import { MediaType } from '@/types/supabase/media-type'
-
 import { useLike } from '@/hooks/use-like/use-like'
 
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
-
-type TmdbItem = TvSerieDetails | MovieDetails
+import { useReplies } from '@/hooks/use-replies'
 
 type ReviewItemActionsProps = {
   reply: Reply
-  tmdbItem: TmdbItem
-  mediaType: MediaType
 }
 
 type ReplyActionProps = {
@@ -52,12 +45,11 @@ export const ReviewReplyActions = ({
     id,
     user: { id: userId },
   },
-  mediaType,
-  tmdbItem,
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
+  const { invalidateQueries } = useReplies()
 
   const { data: likes } = useQuery({
     queryKey: ['likes', id],
@@ -69,16 +61,6 @@ export const ReviewReplyActions = ({
 
   const userLike = likes?.data?.find((like) => like.user_id === user.id)
   const isUserLiked = Boolean(userLike)
-
-  const invalidateQuery = () => {
-    const queries = [[tmdbItem.id, mediaType], [id]]
-
-    queries.map((queryKey) =>
-      APP_QUERY_CLIENT.invalidateQueries({
-        queryKey,
-      }),
-    )
-  }
 
   return (
     <div>
@@ -93,8 +75,8 @@ export const ReviewReplyActions = ({
               handleRemoveLike.mutateAsync(
                 { replyId: id, userId, entityType: 'REPLY' },
                 {
-                  onSuccess: () => {
-                    invalidateQuery()
+                  onSettled: () => {
+                    invalidateQueries(id)
                   },
                 },
               )
@@ -109,8 +91,8 @@ export const ReviewReplyActions = ({
                 entityType: 'REPLY',
               },
               {
-                onSuccess: () => {
-                  invalidateQuery()
+                onSettled: () => {
+                  invalidateQueries(id)
                 },
                 onError: (error) => {
                   toast.error(error.message)

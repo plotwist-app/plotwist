@@ -215,7 +215,7 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
 
           <Button
             onClick={form.handleSubmit(onSubmit)}
-            // loading={handleEditReview.isPending}
+            loading={handleEditReply.isPending}
           >
             {dictionary.edit}
           </Button>

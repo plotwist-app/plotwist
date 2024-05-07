@@ -25,10 +25,10 @@ import { useReplies } from '@/hooks/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
 
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { useReviews } from '@/hooks/use-reviews'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -51,10 +51,9 @@ export const ReviewReplyForm = ({
   reviewId,
   onOpenReplyForm,
   onOpenReplies,
-  tmdbItem: { id: tmdbId },
-  mediaType,
 }: ReviewReplyFormProps) => {
   const { handleCreateReply } = useReplies()
+  const { invalidateQueries } = useReviews()
 
   const { user } = useAuth()
   const { dictionary, language } = useLanguage()
@@ -76,16 +75,14 @@ export const ReviewReplyForm = ({
         reviewId,
       },
       {
-        onSuccess: () => {
-          form.reset()
+        onSettled: async () => {
+          await invalidateQueries(reviewId)
           toast.success(dictionary.review_reply_form.success)
+
+          form.reset()
 
           onOpenReplies(true)
           onOpenReplyForm(false)
-
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [tmdbId, mediaType],
-          })
         },
       },
     )
