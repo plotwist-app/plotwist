@@ -172,10 +172,6 @@ export const EditDialog = ({
           if (dialogProps.onOpenChange) {
             dialogProps.onOpenChange(false)
           }
-
-          // my bad about that =/, it's to prevent flickering when has scroll on screen.
-          await new Promise((resolve) => setTimeout(resolve, 150))
-          toast.success(dictionary.review_edited_successfully)
         },
       },
     )
@@ -223,7 +219,7 @@ export const EditDialog = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Textarea {...field} />
+                      <Textarea {...field} rows={4} />
                     </FormControl>
 
                     <FormMessage />

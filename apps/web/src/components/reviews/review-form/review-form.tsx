@@ -153,6 +153,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
                 <FormControl>
                   <Textarea
                     placeholder={dictionary.review_form.placeholder}
+                    rows={4}
                     {...field}
                   />
                 </FormControl>
