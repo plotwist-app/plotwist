@@ -97,7 +97,7 @@ export const ReviewItem = ({
             </span>
           </div>
 
-          {mode === 'EDIT' && <ReviewItemEditActions reviewId={review.id} />}
+          {mode === 'EDIT' && <ReviewItemEditActions review={review} />}
         </div>
 
         <div className="relative space-y-1 rounded-md border p-4 shadow">

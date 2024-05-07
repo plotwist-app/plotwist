@@ -228,8 +228,7 @@
     "like": "Me gusta",
     "reply": "Responder",
     "dialog_title": "¿Está completamente seguro?",
-    "dialog_description": "Esta acción no se puede deshacer.",
-    "dialog_close": "Cerrar"
+    "dialog_description": "Esta acción no se puede deshacer."
   },
   "review_reply_actions": {
     "like": "Me gusta",
@@ -666,6 +665,8 @@
   "select_an_image": "Seleccione una imagen",
   "profile_image_changed_successfully": "La imagen de perfil se cambió correctamente.",
   "review_deleted_successfully": "Reseña eliminada con éxito.",
+  "review_edited_successfully": "Reseña editada con éxito.",
   "edit": "Editar",
-  "delete": "Borrar"
+  "delete": "Borrar",
+  "close": "Cerrar"
 }

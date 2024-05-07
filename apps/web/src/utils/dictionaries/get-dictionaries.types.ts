@@ -653,6 +653,8 @@ export type Dictionary = {
   select_an_image: string
   profile_image_changed_successfully: string
   review_deleted_successfully: string
+  review_edited_successfully: string
   edit: string
   delete: string
+  close: string
 }

@@ -228,8 +228,7 @@
     "like": "Like",
     "reply": "Reply",
     "dialog_title": "Are you absolutely sure?",
-    "dialog_description": "This action cannot be undone.",
-    "dialog_close": "Close"
+    "dialog_description": "This action cannot be undone."
   },
   "review_reply_actions": {
     "like": "Like",
@@ -667,6 +666,8 @@
   "select_an_image": "Select an image",
   "profile_image_changed_successfully": "Profile image successfully changed.",
   "review_deleted_successfully": "Review deleted successfully.",
+  "review_edited_successfully": "Review edited successfully..",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "close": "Close"
 }

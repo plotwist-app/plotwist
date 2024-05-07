@@ -228,8 +228,7 @@
     "like": "Gefällt mir",
     "reply": "Antworten",
     "dialog_title": "Sind Sie sich absolut sicher?",
-    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
-    "dialog_close": "Schließen"
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "review_reply_actions": {
     "like": "Gefällt mir",
@@ -666,6 +665,8 @@
   "select_an_image": "Wählen Sie ein Bild aus",
   "profile_image_changed_successfully": "Profilbild erfolgreich geändert.",
   "review_deleted_succesfully": "Bewertung erfolgreich gelöscht.",
+  "review_edited_successfully": "Mit Erfolg bearbeitet.",
   "edit": "Bearbeiten",
-  "delete": "Löschen"
+  "delete": "Löschen",
+  "close": "Schließen"
 }

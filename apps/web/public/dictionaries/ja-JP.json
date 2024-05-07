@@ -228,8 +228,7 @@
     "like": "いいね",
     "reply": "返信",
     "dialog_title": "本当によろしいですか？",
-    "dialog_description": "この操作は取り消しできません。",
-    "dialog_close": "閉じる"
+    "dialog_description": "この操作は取り消しできません。"
   },
   "review_reply_actions": {
     "like": "いいね",
@@ -666,6 +665,8 @@
   "select_an_image": "画像を選択してください",
   "profile_image_changed_successfully": "プロフィール画像が正常に変更されました。",
   "review_deleted_successfully": "レビューが正常に削除されました。",
+  "review_edited_successfully": "レビューが正常に編集されました。",
   "edit": "編集",
-  "delete": "消去"
+  "delete": "消去",
+  "close": "閉じる"
 }

@@ -22,13 +22,29 @@ import {
 
 import { useReviews } from '@/hooks/use-reviews'
 import { useLanguage } from '@/context/language'
+import { Review } from '@/types/supabase/reviews'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '@/context/auth'
+import { ReviewStars } from '../review-stars'
+import { Textarea } from '@/components/ui/textarea'
+import { ReviewFormValues, reviewFormSchema } from '../review-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-type ReviewItemEditActionsProps = { reviewId: string }
+type ReviewItemEditActionsProps = { review: Review }
 
 export const ReviewItemEditActions = ({
-  reviewId,
+  review,
 }: ReviewItemEditActionsProps) => {
+  const [openEditDialog, setOpenEditDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const { dictionary } = useLanguage()
 
   return (
     <>
@@ -40,39 +56,47 @@ export const ReviewItemEditActions = ({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-4">
-          <DropdownMenuItem onClick={() => {}}>
+          <DropdownMenuItem onClick={() => setOpenEditDialog(true)}>
             <Pencil size={14} className="mr-2" />
-            Editar
+            {dictionary.edit}
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenDeleteDialog(true)}>
             <Trash size={14} className="mr-2" />
-            Excluir
+            {dictionary.delete}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
+      <EditDialog
+        review={review}
+        open={openEditDialog}
+        onOpenChange={setOpenEditDialog}
+      />
+
       <DeleteDialog
+        review={review}
         open={openDeleteDialog}
         onOpenChange={setOpenDeleteDialog}
-        reviewId={reviewId}
       />
     </>
   )
 }
 
-type DeleteDialogProps = { reviewId: string } & DialogProps
+type EditActionDialogProps = Pick<ReviewItemEditActionsProps, 'review'> &
+  DialogProps
+
 export const DeleteDialog = ({
-  reviewId,
+  review,
   ...dialogProps
-}: DeleteDialogProps) => {
+}: EditActionDialogProps) => {
   const { handleDeleteReview, invalidateQueries } = useReviews()
   const { dictionary } = useLanguage()
 
   function handleDeleteReviewClick() {
-    handleDeleteReview.mutate(reviewId, {
+    handleDeleteReview.mutate(review.id, {
       onSettled: async () => {
-        await invalidateQueries(reviewId)
+        await invalidateQueries(review.id)
         toast.success(dictionary.review_deleted_successfully)
 
         if (dialogProps.onOpenChange) {
@@ -102,7 +126,7 @@ export const DeleteDialog = ({
         <DialogFooter className="sm:flex-end gap-1">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
-              {dictionary.review_item_actions.dialog_close}
+              {dictionary.close}
             </Button>
           </DialogClose>
 
@@ -112,6 +136,116 @@ export const DeleteDialog = ({
             loading={handleDeleteReview.isPending}
           >
             {dictionary.delete}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export const EditDialog = ({
+  review,
+  ...dialogProps
+}: EditActionDialogProps) => {
+  const { dictionary } = useLanguage()
+  const { user } = useAuth()
+  const { handleEditReview, invalidateQueries } = useReviews()
+
+  const form = useForm<ReviewFormValues>({
+    resolver: zodResolver(reviewFormSchema(dictionary)),
+    defaultValues: {
+      review: review.review,
+      rating: review.rating,
+    },
+  })
+
+  const onSubmit = (values: ReviewFormValues) => {
+    handleEditReview.mutate(
+      {
+        id: review.id,
+        ...values,
+      },
+      {
+        onSettled: async () => {
+          await invalidateQueries(review.id)
+
+          if (dialogProps.onOpenChange) {
+            dialogProps.onOpenChange(false)
+          }
+
+          // my bad about that =/, it's to prevent flickering when has scroll on screen.
+          await new Promise((resolve) => setTimeout(resolve, 150))
+          toast.success(dictionary.review_edited_successfully)
+        },
+      },
+    )
+  }
+
+  const username = user?.username
+
+  return (
+    <Dialog {...dialogProps}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader className="gap-1">
+          <DialogTitle>Edit review</DialogTitle>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex items-start space-x-4"
+          >
+            <div className="w-full space-y-2">
+              <div className="flex justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-muted-foreground">
+                    {username}
+                  </span>
+
+                  <span className="h-1 w-1 rounded-full bg-muted" />
+
+                  <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                      <ReviewStars
+                        onChange={field.onChange}
+                        rating={field.value}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              <FormField
+                control={form.control}
+                name="review"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </form>
+        </Form>
+
+        <DialogFooter className="sm:flex-end gap-0">
+          <DialogClose asChild>
+            <Button type="button" variant="outline">
+              {dictionary.close}
+            </Button>
+          </DialogClose>
+
+          <Button
+            onClick={form.handleSubmit(onSubmit)}
+            loading={handleEditReview.isPending}
+          >
+            {dictionary.edit}
           </Button>
         </DialogFooter>
       </DialogContent>

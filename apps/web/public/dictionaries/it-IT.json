@@ -229,8 +229,7 @@
     "like": "Mi piace",
     "reply": "Rispondere",
     "dialog_title": "Sei assolutamente sicuro?",
-    "dialog_description": "Questa azione non può essere annullata.",
-    "dialog_close": "Chiudi"
+    "dialog_description": "Questa azione non può essere annullata."
   },
   "review_reply_actions": {
     "like": "Mi piace",
@@ -667,6 +666,8 @@
   "select_an_image": "Seleziona un'immagine",
   "profile_image_changed_successfully": "L'immagine del profilo è stata modificata con successo.",
   "review_deleted_successfully": "Recensione eliminata con successo.",
+  "review_edited_successfully": "Recensione modificata con successo.",
   "edit": "Modificare",
-  "delete": "Eliminare"
+  "delete": "Eliminare",
+  "close": "Chiudi"
 }
