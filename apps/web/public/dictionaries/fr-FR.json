@@ -669,5 +669,7 @@
   "review_edited_successfully": "Avis modifié avec succès.",
   "edit": "Modifier",
   "delete": "Supprimer",
-  "close": "Fermer"
+  "close": "Fermer",
+  "edit_review": "Modifier l'avis",
+  "edit_reply": "Modifier la réponse"
 }

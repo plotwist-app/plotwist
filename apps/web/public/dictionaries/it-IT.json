@@ -669,5 +669,7 @@
   "review_edited_successfully": "Recensione modificata con successo.",
   "edit": "Modificare",
   "delete": "Eliminare",
-  "close": "Chiudi"
+  "close": "Chiudi",
+  "edit_review": "Modifica recensione",
+  "edit_reply": "Modifica risposta"
 }

@@ -668,5 +668,7 @@
   "review_edited_successfully": "レビューが正常に編集されました。",
   "edit": "編集",
   "delete": "消去",
-  "close": "閉じる"
+  "close": "閉じる",
+  "edit_review": "レビューを編集する",
+  "edit_reply": "返信を編集する"
 }

@@ -669,5 +669,7 @@
   "review_edited_successfully": "Review edited successfully..",
   "edit": "Edit",
   "delete": "Delete",
-  "close": "Close"
+  "close": "Close",
+  "edit_review": "Edit review",
+  "edit_reply": "Edit reply"
 }

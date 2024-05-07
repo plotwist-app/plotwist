@@ -668,5 +668,7 @@
   "review_edited_successfully": "Reseña editada con éxito.",
   "edit": "Editar",
   "delete": "Borrar",
-  "close": "Cerrar"
+  "close": "Cerrar",
+  "edit_review": "Editar reseña",
+  "edit_reply": "Editar respuesta"
 }
