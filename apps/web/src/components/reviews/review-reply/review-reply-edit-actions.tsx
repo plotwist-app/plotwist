@@ -20,9 +20,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { useReviews } from '@/hooks/use-reviews'
 import { useLanguage } from '@/context/language'
-import { Review } from '@/types/supabase/reviews'
+import { Reply } from '@/types/supabase/reviews'
 import {
   Form,
   FormControl,
@@ -32,16 +31,14 @@ import {
 } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/auth'
-import { ReviewStars } from '../review-stars'
 import { Textarea } from '@/components/ui/textarea'
-import { ReviewFormValues, reviewFormSchema } from '../review-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useReplies } from '@/hooks/use-replies'
+import { ReplyFormValues, replyFormSchema } from '../review-reply-form'
 
-type ReviewItemEditActionsProps = { review: Review }
+type ReplyEditActionsProps = { reply: Reply }
 
-export const ReviewItemEditActions = ({
-  review,
-}: ReviewItemEditActionsProps) => {
+export const ReplyEditActions = ({ reply }: ReplyEditActionsProps) => {
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { dictionary } = useLanguage()
@@ -69,13 +66,13 @@ export const ReviewItemEditActions = ({
       </DropdownMenu>
 
       <EditDialog
-        review={review}
+        reply={reply}
         open={openEditDialog}
         onOpenChange={setOpenEditDialog}
       />
 
       <DeleteDialog
-        review={review}
+        reply={reply}
         open={openDeleteDialog}
         onOpenChange={setOpenDeleteDialog}
       />
@@ -83,18 +80,16 @@ export const ReviewItemEditActions = ({
   )
 }
 
-type EditActionDialogProps = Pick<ReviewItemEditActionsProps, 'review'> &
-  DialogProps
-
-const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { handleDeleteReview, invalidateQueries } = useReviews()
+type EditActionDialogProps = Pick<ReplyEditActionsProps, 'reply'> & DialogProps
+const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
+  const { handleDeleteReply, invalidateQueries } = useReplies()
   const { dictionary } = useLanguage()
 
   function handleDeleteReviewClick() {
-    handleDeleteReview.mutate(review.id, {
+    handleDeleteReply.mutate(reply.id, {
       onSettled: async () => {
-        await invalidateQueries(review.id)
-        toast.success(dictionary.review_deleted_successfully)
+        await invalidateQueries(reply.id)
+        toast.success('Reply deleted successfully')
 
         if (dialogProps.onOpenChange) {
           dialogProps.onOpenChange(false)
@@ -130,7 +125,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
           <Button
             variant="destructive"
             onClick={() => handleDeleteReviewClick()}
-            loading={handleDeleteReview.isPending}
+            loading={handleDeleteReply.isPending}
           >
             {dictionary.delete}
           </Button>
@@ -140,28 +135,28 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   )
 }
 
-const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
+const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
   const { user } = useAuth()
-  const { handleEditReview, invalidateQueries } = useReviews()
+  const { handleEditReply, invalidateQueries } = useReplies()
 
-  const form = useForm<ReviewFormValues>({
-    resolver: zodResolver(reviewFormSchema(dictionary)),
+  const form = useForm<ReplyFormValues>({
+    resolver: zodResolver(replyFormSchema(dictionary)),
     defaultValues: {
-      review: review.review,
-      rating: review.rating,
+      reply: reply.reply,
     },
   })
 
-  const onSubmit = (values: ReviewFormValues) => {
-    handleEditReview.mutate(
+  const onSubmit = (values: ReplyFormValues) => {
+    handleEditReply.mutate(
       {
-        id: review.id,
+        id: reply.id,
         ...values,
       },
+
       {
         onSettled: async () => {
-          await invalidateQueries(review.id)
+          await invalidateQueries(reply.id)
 
           if (dialogProps.onOpenChange) {
             dialogProps.onOpenChange(false)
@@ -191,25 +186,12 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
                   <span className="text-sm text-muted-foreground">
                     {username}
                   </span>
-
-                  <span className="h-1 w-1 rounded-full bg-muted" />
-
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={({ field }) => (
-                      <ReviewStars
-                        onChange={field.onChange}
-                        rating={field.value}
-                      />
-                    )}
-                  />
                 </div>
               </div>
 
               <FormField
                 control={form.control}
-                name="review"
+                name="reply"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -233,7 +215,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 
           <Button
             onClick={form.handleSubmit(onSubmit)}
-            loading={handleEditReview.isPending}
+            // loading={handleEditReview.isPending}
           >
             {dictionary.edit}
           </Button>

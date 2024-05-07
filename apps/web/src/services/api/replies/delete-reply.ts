@@ -1,11 +1,10 @@
-import { DeleteReplyValues } from '@/hooks/use-replies/use-replies.types'
 import { supabase } from '@/services/supabase'
 
-export const deleteReplyService = async ({ replyId }: DeleteReplyValues) => {
+export const deleteReply = async (id: string) => {
   const { error, data } = await supabase
     .from('review_replies')
     .delete()
-    .eq('id', replyId)
+    .eq('id', id)
 
   if (error) throw new Error(error.message)
 

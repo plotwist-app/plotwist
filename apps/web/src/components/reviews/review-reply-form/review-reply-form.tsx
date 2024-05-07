@@ -21,7 +21,7 @@ import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
 
-import { useReplies } from '@/hooks/use-replies/use-replies'
+import { useReplies } from '@/hooks/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
 

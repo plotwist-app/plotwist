@@ -3,7 +3,3 @@ export type CreateReplyValues = {
   userId: string
   reviewId: string
 }
-
-export type DeleteReplyValues = {
-  replyId: string
-}

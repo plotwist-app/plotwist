@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentProps, useState } from 'react'
+import { ComponentProps } from 'react'
 import { toast } from 'sonner'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
@@ -12,21 +12,11 @@ import { cn } from '@/lib/utils'
 import { Reply } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useQuery } from '@tanstack/react-query'
-import { useReplies } from '@/hooks/use-replies/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
 
 import { useLike } from '@/hooks/use-like/use-like'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 type TmdbItem = TvSerieDetails | MovieDetails
@@ -66,11 +56,8 @@ export const ReviewReplyActions = ({
   tmdbItem,
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
-  const { handleDeleteReply } = useReplies()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
-
-  const [openModal, setOpenModal] = useState(false)
 
   const { data: likes } = useQuery({
     queryKey: ['likes', id],
@@ -79,8 +66,6 @@ export const ReviewReplyActions = ({
   })
 
   if (!user) return <></>
-
-  const isUserOwner = user.id === userId
 
   const userLike = likes?.data?.find((like) => like.user_id === user.id)
   const isUserLiked = Boolean(userLike)
@@ -136,62 +121,7 @@ export const ReviewReplyActions = ({
         >
           {dictionary.review_reply_actions.like}
         </ReplyAction>
-
-        {isUserOwner && (
-          <>
-            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-
-            <ReplyAction
-              disabled={handleDeleteReply.isPending}
-              onClick={() => setOpenModal(true)}
-            >
-              {dictionary.review_reply_actions.delete}
-            </ReplyAction>
-          </>
-        )}
       </div>
-
-      <Dialog onOpenChange={setOpenModal} open={openModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="gap-1">
-            <DialogTitle>
-              {dictionary.review_reply_actions.dialog_title}
-            </DialogTitle>
-            <DialogDescription>
-              {dictionary.review_reply_actions.dialog_description}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="sm:flex-end">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                {dictionary.review_reply_actions.dialog_close}
-              </Button>
-            </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                handleDeleteReply.mutateAsync(
-                  { replyId: id },
-                  {
-                    onSuccess: () => {
-                      invalidateQuery()
-
-                      toast.success(
-                        dictionary.review_reply_actions.delete_success,
-                      )
-                    },
-                    onError: (error) => {
-                      toast.error(error.message)
-                    },
-                  },
-                )
-              }
-            >
-              {dictionary.review_reply_actions.delete}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

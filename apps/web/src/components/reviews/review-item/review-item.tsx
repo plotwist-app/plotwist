@@ -112,7 +112,7 @@ export const ReviewItem = ({
         />
 
         <ReviewReply
-          replies={replies}
+          review={review}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
           tmdbItem={tmdbItem}

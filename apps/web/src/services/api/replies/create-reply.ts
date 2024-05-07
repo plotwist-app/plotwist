@@ -1,7 +1,7 @@
-import { CreateReplyValues } from '@/hooks/use-replies/use-replies.types'
+import { CreateReplyValues } from '@/hooks/use-replies'
 import { supabase } from '@/services/supabase'
 
-export const createReplyService = async ({
+export const createReply = async ({
   reply,
   reviewId,
   userId,
