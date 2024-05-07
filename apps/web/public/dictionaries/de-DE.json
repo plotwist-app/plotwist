@@ -227,11 +227,8 @@
   "review_item_actions": {
     "like": "Gefällt mir",
     "reply": "Antworten",
-    "delete": "Löschen",
-    "delete_success": "Bewertung erfolgreich gelöscht.",
     "dialog_title": "Sind Sie sich absolut sicher?",
-    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
-    "dialog_close": "Schließen"
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "review_reply_actions": {
     "like": "Gefällt mir",
@@ -666,5 +663,10 @@
   "create_account": "Benutzerkonto erstellen",
   "search_movies_or_series": "Suche Filme oder Serien...",
   "select_an_image": "Wählen Sie ein Bild aus",
-  "profile_image_changed_successfully": "Profilbild erfolgreich geändert."
+  "profile_image_changed_successfully": "Profilbild erfolgreich geändert.",
+  "review_deleted_successfully": "Bewertung erfolgreich gelöscht.",
+  "review_edited_successfully": "Mit Erfolg bearbeitet.",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "close": "Schließen"
 }

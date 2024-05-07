@@ -24,7 +24,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { language } = useLanguage()
 
   const { data, isLoading } = useQuery({
-    queryKey: [tmdbItem.id, mediaType, language],
+    queryKey: ['reviews', tmdbItem.id, mediaType, language],
     queryFn: async () =>
       getReviewsService({ id: tmdbItem.id, mediaType, language }),
   })

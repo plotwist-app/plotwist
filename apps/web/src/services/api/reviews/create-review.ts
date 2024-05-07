@@ -2,7 +2,7 @@ import { CreateReviewValues } from '@/hooks/use-reviews/use-reviews.types'
 import { supabase } from '@/services/supabase'
 import { sanitizeTmdbItem } from '@/utils/tmdb/review/sanitize-tmdb-item'
 
-export const createReviewService = async ({
+export const createReview = async ({
   userId,
   mediaType,
   rating,

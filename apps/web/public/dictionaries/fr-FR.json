@@ -228,10 +228,8 @@
     "like": "Aimer",
     "reply": "Répondre",
     "delete": "Supprimer",
-    "delete_success": "Avis supprimé avec succès.",
     "dialog_title": "Êtes-vous absolument sûr ?",
-    "dialog_description": "Cette action ne peut pas être annulée.",
-    "dialog_close": "Fermer"
+    "dialog_description": "Cette action ne peut pas être annulée."
   },
   "review_reply_actions": {
     "like": "Aimer",
@@ -666,5 +664,10 @@
   "create_account": "Crear una cuenta",
   "search_movies_or_series": "Rechercher des films ou des séries...",
   "select_an_image": "Sélectionnez une image",
-  "profile_image_changed_successfully": "L'image de profil a été modifiée avec succès."
+  "profile_image_changed_successfully": "L'image de profil a été modifiée avec succès.",
+  "review_deleted_successfully": "Avis supprimé avec succès.",
+  "review_edited_successfully": "Avis modifié avec succès.",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "close": "Fermer"
 }

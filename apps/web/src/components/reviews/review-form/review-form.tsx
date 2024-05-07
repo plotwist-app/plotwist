@@ -85,10 +85,11 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
       },
 
       {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [tmdbItem.id, mediaType],
+        onSettled: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: ['reviews'],
           })
+
           form.reset()
           toast.success(dictionary.review_form.success)
         },
@@ -152,6 +153,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
                 <FormControl>
                   <Textarea
                     placeholder={dictionary.review_form.placeholder}
+                    rows={4}
                     {...field}
                   />
                 </FormControl>

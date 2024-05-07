@@ -207,11 +207,8 @@ export type Dictionary = {
   review_item_actions: {
     like: string
     reply: string
-    delete: string
-    delete_success: string
     dialog_title: string
     dialog_description: string
-    dialog_close: string
   }
   review_reply_actions: {
     like: string
@@ -654,4 +651,9 @@ export type Dictionary = {
   search_movies_or_series: string
   select_an_image: string
   profile_image_changed_successfully: string
+  review_deleted_successfully: string
+  review_edited_successfully: string
+  edit: string
+  delete: string
+  close: string
 }
