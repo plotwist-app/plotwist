@@ -177,7 +177,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
     <Dialog {...dialogProps}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="gap-1">
-          <DialogTitle>Edit review</DialogTitle>
+          <DialogTitle>{dictionary.edit_review}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
