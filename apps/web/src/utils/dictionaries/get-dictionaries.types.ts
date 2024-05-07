@@ -209,7 +209,6 @@ export type Dictionary = {
     reply: string
     dialog_title: string
     dialog_description: string
-    dialog_close: string
   }
   review_reply_actions: {
     like: string

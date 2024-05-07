@@ -41,7 +41,6 @@ export const ReviewItem = ({
   const {
     review: content,
     rating,
-    replies,
     created_at: createdAt,
     user: { username, image_path: imagePath },
     user_id: userId,
@@ -115,8 +114,6 @@ export const ReviewItem = ({
           review={review}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
-          tmdbItem={tmdbItem}
-          mediaType={mediaType}
         />
 
         {openReplyForm && (
