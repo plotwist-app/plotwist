@@ -3,8 +3,6 @@
     "title": "映画、シリーズ、アニメを探索しましょう!",
     "description": "Plotwistは映画やシリーズのあらすじ、キャスト、予算などの詳細情報を提供する、映画愛好家のための探索プラットフォームです。",
     "keywords": "映画, フィルム, シリーズ, アニメ, ドラマ, 有名な俳優, シリーズのエピソード, 映画ユーザー, 新しい映画を発見, 映画の評価, 映画のおすすめ, 映画の新作, 人気の映画, 人気のシリーズ, 評価の高い映画, 上映中の映画, 映画コミュニティ, 映画リスト, 映画についての議論",
-    "primary_button": "始めようか？",
-    "secondary_button": "アカウント作成",
     "statistics": {
       "movies": {
         "value": 988788,
@@ -137,7 +135,8 @@
     "password_length": "パスワードは最低8文字です",
     "sign_up_success": "登録完了。ようこそ！",
     "invalid_sign_up_credentials": "登録情報が無効です。",
-    "try_again": "再試行"
+    "try_again": "再試行",
+    "username_already_taken": "このユーザー名またはメールアドレスはすでに使用されています。"
   },
   "app_page": {
     "dashboard_title": "ダッシュボード",
@@ -164,7 +163,7 @@
     "popular": "人気",
     "popular_description": "何が流行っているか見てみましょう！これらは、皆が観て、話している映画やシリーズです。",
     "top_rated": "高評価",
-    "top_rated_description": "最高のもの。観客と批評家の心と心をつかんだ映画やシリーズを発見してください。",
+    "top_rated_description": "何が観客や批評家の心を掴んだのかを発見してください。",
     "upcoming": "公開予定",
     "upcoming_description": "先を行き、まもなくスクリーンに登場する次のヒット作について情報を入手してください。",
     "tv_series": "テレビ番組",
@@ -228,11 +227,8 @@
   "review_item_actions": {
     "like": "いいね",
     "reply": "返信",
-    "delete": "削除",
-    "delete_success": "レビューが正常に削除されました。",
     "dialog_title": "本当によろしいですか？",
-    "dialog_description": "この操作は取り消しできません。",
-    "dialog_close": "閉じる"
+    "dialog_description": "この操作は取り消しできません。"
   },
   "review_reply_actions": {
     "like": "いいね",
@@ -399,24 +395,22 @@
       "description": "フィルターや並べ替えオプションを使用してテレビ番組を探す。"
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "あなたの最後のレビュー",
-      "no_review_message": "レビューを書いていないようです！😿",
-      "no_review_action": "ここをクリックして、最も評価の高い映画を見る。",
-      "login": "ログイン",
-      "register": "登録",
-      "or": "または",
-      "make_first_review": "して、最初のレビューを書きましょう！"
-    },
-    "popular_reviews": {
-      "title": "人気のレビュー",
-      "no_reviews_found": "評価が見つかりませんでした。",
-      "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
-      "last_week": "先週",
-      "last_month": "先月",
-      "all_time": "全期間"
-    }
+  "user_last_review": {
+    "title": "あなたの最後のレビュー",
+    "no_review_message": "レビューを書いていないようです！😿",
+    "no_review_action": "ここをクリックして、最も評価の高い映画を見る。",
+    "login": "ログイン",
+    "register": "登録",
+    "or": "または",
+    "make_first_review": "して、最初のレビューを書きましょう！"
+  },
+  "popular_reviews": {
+    "title": "人気のレビュー",
+    "no_reviews_found": "評価が見つかりませんでした。",
+    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
+    "last_week": "先週",
+    "last_month": "先月",
+    "all_time": "全期間"
   },
   "movies_list_filters": {
     "title": "映画を発見",
@@ -594,10 +588,8 @@
     "expand": "もっと見る",
     "contract": "閉じる"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "グリッドレイアウト",
-    "table_layout_tooltip": "テーブルレイアウト"
-  },
+  "grid": "グリッド",
+  "table": "テーブル",
   "person_page": {
     "credit_list": {
       "show_all": "すべて表示",
@@ -651,12 +643,11 @@
     "username_required": "新しいユーザー名が必要です",
     "username_invalid": "無効なユーザー名です",
     "same_username": "新しいユーザー名を試してください",
+    "error_existent_username": "すでに存在しています。",
     "submit_button": "変更を保存する。"
   },
   "profile_banner": {
     "change_banner": "バナーを変更",
-    "change_profile_banner": "プロファイルのバナーを変更",
-    "search_movies_or_series": "映画やシリーズを検索...",
     "changed_successfully": "バナーが正常に変更されました。"
   },
   "private_list": {
@@ -667,5 +658,16 @@
   "review_likes": {
     "title": "いいね！",
     "view_profile": "プロフィールを見る"
-  }
+  },
+  "access_now": "今すぐアクセス",
+  "create_account": "アカウントを作成する",
+  "search_movies_or_series": "映画やシリーズを検索...",
+  "select_an_image": "画像を選択してください",
+  "profile_image_changed_successfully": "プロフィール画像が正常に変更されました。",
+  "review_deleted_successfully": "レビューが正常に削除されました。",
+  "edit": "編集",
+  "delete": "消去",
+  "close": "閉じる",
+  "edit_review": "レビューを編集する",
+  "edit_reply": "返信を編集する"
 }

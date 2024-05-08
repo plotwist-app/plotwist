@@ -14,12 +14,12 @@ import { Badge } from '@/components/ui/badge'
 
 const MAX_SKELETONS_REVIEWS = 5
 
-export const DashboardPopularReviews = () => {
+export const PopularReviews = () => {
   const { language, dictionary } = useLanguage()
   const [period, setPeriod] = useState<GetPopularReviewPeriod>('last_week')
 
   const { data: reviews, isLoading } = useQuery({
-    queryKey: ['dashboard-popular-reviews', period],
+    queryKey: ['popular-reviews', period],
     queryFn: async () => getPopularReviewsService({ language, period }),
   })
 
@@ -28,7 +28,7 @@ export const DashboardPopularReviews = () => {
       <div className="space-y-4">
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">
-            {dictionary.dashboard.popular_reviews.title}
+            {dictionary.popular_reviews.title}
           </h3>
 
           <div className="flex gap-1">
@@ -36,7 +36,7 @@ export const DashboardPopularReviews = () => {
               variant={period === 'last_week' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.dashboard.popular_reviews.last_week}
+              {dictionary.popular_reviews.last_week}
             </Badge>
 
             <Badge
@@ -44,7 +44,7 @@ export const DashboardPopularReviews = () => {
               variant={period === 'last_month' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.dashboard.popular_reviews.last_month}
+              {dictionary.popular_reviews.last_month}
             </Badge>
 
             <Badge
@@ -52,7 +52,7 @@ export const DashboardPopularReviews = () => {
               variant={period === 'all_time' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.dashboard.popular_reviews.all_time}
+              {dictionary.popular_reviews.all_time}
             </Badge>
           </div>
         </div>
@@ -72,7 +72,7 @@ export const DashboardPopularReviews = () => {
     <div className="space-y-4">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">
-          {dictionary.dashboard.popular_reviews.title}
+          {dictionary.popular_reviews.title}
         </h3>
 
         <div className="flex gap-1">
@@ -81,7 +81,7 @@ export const DashboardPopularReviews = () => {
             variant={period === 'last_week' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.dashboard.popular_reviews.last_week}
+            {dictionary.popular_reviews.last_week}
           </Badge>
 
           <Badge
@@ -89,7 +89,7 @@ export const DashboardPopularReviews = () => {
             variant={period === 'last_month' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.dashboard.popular_reviews.last_month}
+            {dictionary.popular_reviews.last_month}
           </Badge>
 
           <Badge
@@ -97,7 +97,7 @@ export const DashboardPopularReviews = () => {
             variant={period === 'all_time' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.dashboard.popular_reviews.all_time}
+            {dictionary.popular_reviews.all_time}
           </Badge>
         </div>
       </div>
@@ -108,14 +108,14 @@ export const DashboardPopularReviews = () => {
             <FullReview key={review.id} review={review} language={language} />
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8">
-            <p>{dictionary.dashboard.popular_reviews.no_reviews_found}</p>
+          <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
+            <p>{dictionary.popular_reviews.no_reviews_found}</p>
 
             <Link
-              className="text-xs text-muted-foreground underline"
+              className="lg:text-md text-sm text-muted-foreground hover:underline"
               href={`/${language}/movies/popular`}
             >
-              {dictionary.dashboard.popular_reviews.explore_popular_movies}
+              {dictionary.popular_reviews.explore_popular_movies}
             </Link>
           </div>
         )}

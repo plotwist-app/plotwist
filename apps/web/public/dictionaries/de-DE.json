@@ -3,8 +3,6 @@
     "title": "Entdecken Sie Filme, Serien und Animes!",
     "description": "Plotwist ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
     "keywords": "Kino, Filme, Serien, Animes, Doramas, berühmte Schauspieler, Serienepisoden, Kinobesucher, neue Filme entdecken, Filmkritiken, Filmempfehlungen, Kinostarts, beliebte Filme, beliebte Serien, hoch bewertete Filme, Filme im Kino, Filmgemeinschaft, Filmlisten, Diskussionen über Filme",
-    "primary_button": "Jetzt starten",
-    "secondary_button": "Konto erstellen",
     "statistics": {
       "movies": {
         "value": 988788,
@@ -137,7 +135,8 @@
     "password_length": "Ihr Passwort muss mindestens 8 Zeichen lang sein.",
     "sign_up_success": "Registrierung erfolgreich. Willkommen! 🎉",
     "invalid_sign_up_credentials": "Ungültige Anmeldeinformationen",
-    "try_again": "Erneut versuchen"
+    "try_again": "Erneut versuchen",
+    "username_already_taken": "Dieser Benutzername oder diese E-Mail-Adresse wird bereits verwendet."
   },
   "app_page": {
     "dashboard_title": "Dashboard",
@@ -164,7 +163,7 @@
     "popular": "Beliebt",
     "popular_description": "Sehen Sie, was angesagt ist! Dies sind die Filme und Serien, über die alle sprechen und die alle sehen.",
     "top_rated": "Bestbewertet",
-    "top_rated_description": "Die Crème de la Crème. Entdecken Sie die Filme und Serien, die die Herzen und Köpfe des Publikums und der Kritiker erobert haben.",
+    "top_rated_description": "Entdecken Sie, was die Herzen und Köpfe von Publikum und Kritikern erobert hat.",
     "upcoming": "Demnächst",
     "upcoming_description": "Seien Sie einen Schritt voraus und bleiben Sie informiert über die nächsten großen Hits, die bald auf den Bildschirmen erscheinen werden.",
     "tv_series": "Serien",
@@ -228,11 +227,8 @@
   "review_item_actions": {
     "like": "Gefällt mir",
     "reply": "Antworten",
-    "delete": "Löschen",
-    "delete_success": "Bewertung erfolgreich gelöscht.",
     "dialog_title": "Sind Sie sich absolut sicher?",
-    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden.",
-    "dialog_close": "Schließen"
+    "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "review_reply_actions": {
     "like": "Gefällt mir",
@@ -399,24 +395,22 @@
       "description": "Finde Serien mit Filtern und Sortieroptionen."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Deine letzte Bewertung",
-      "no_review_message": "Sieht so aus, als hättest du keine Bewertung geschrieben! 😿",
-      "no_review_action": "Klicke hier, um die am besten bewerteten Filme zu sehen.",
-      "login": "Anmelden",
-      "register": "Registrieren",
-      "or": "oder",
-      "make_first_review": "um deine erste Bewertung zu verfassen!"
-    },
-    "popular_reviews": {
-      "title": "Beliebte Bewertungen",
-      "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
-      "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung.",
-      "last_week": "Letzte Woche",
-      "last_month": "Letzter Monat",
-      "all_time": "Gesamter Zeitraum"
-    }
+  "user_last_review": {
+    "title": "Deine letzte Bewertung",
+    "no_review_message": "Sieht so aus, als hättest du keine Bewertung geschrieben! 😿",
+    "no_review_action": "Klicke hier, um die am besten bewerteten Filme zu sehen.",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "or": "oder",
+    "make_first_review": "um deine erste Bewertung zu verfassen!"
+  },
+  "popular_reviews": {
+    "title": "Beliebte Bewertungen",
+    "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
+    "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung.",
+    "last_week": "Letzte Woche",
+    "last_month": "Letzter Monat",
+    "all_time": "Gesamter Zeitraum"
   },
   "movies_list_filters": {
     "title": "Filme Entdecken",
@@ -594,10 +588,8 @@
     "expand": "Mehr anzeigen",
     "contract": "Weniger anzeigen"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Rasterlayout",
-    "table_layout_tooltip": "Tabellenlayout"
-  },
+  "grid": "Rasterlayout",
+  "table": "Tabellenlayout",
   "person_page": {
     "credit_list": {
       "show_all": "Alles anzeigen",
@@ -650,13 +642,12 @@
     "username_placeholder": "John",
     "username_required": "Ein neuer Benutzername ist erforderlich",
     "username_invalid": "Ungültiger Benutzername",
+    "error_existent_username": "existiert bereits.",
     "same_username": "Sie müssen einen neuen Benutzernamen versuchen",
     "submit_button": "Änderungen speichern"
   },
   "profile_banner": {
     "change_banner": "Banner ändern",
-    "change_profile_banner": "Profilbanner ändern",
-    "search_movies_or_series": "Suche Filme oder Serien...",
     "changed_successfully": "Banner erfolgreich geändert."
   },
   "private_list": {
@@ -667,5 +658,16 @@
   "review_likes": {
     "title": "Likes",
     "view_profile": "Profil anzeigen"
-  }
+  },
+  "access_now": "Jetzt zugreifen",
+  "create_account": "Benutzerkonto erstellen",
+  "search_movies_or_series": "Suche Filme oder Serien...",
+  "select_an_image": "Wählen Sie ein Bild aus",
+  "profile_image_changed_successfully": "Profilbild erfolgreich geändert.",
+  "review_deleted_successfully": "Bewertung erfolgreich gelöscht.",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "close": "Schließen",
+  "edit_review": "Rezension bearbeiten",
+  "edit_reply": "Antwort bearbeiten"
 }

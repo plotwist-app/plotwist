@@ -4,7 +4,7 @@
 `[In development]`
 Open-source easy management and reviews about movies, series and animes.
 
-[Discord](https://discord.gg/5rQ4wbZm) • [Website](https://plotwist.app/en-US)
+[Discord](https://discord.gg/dXjBgd2A) • [Website](https://plotwist.app/en-US)
 
 # Tech Stack
 - Framework: [Next.js](https://nextjs.org/)

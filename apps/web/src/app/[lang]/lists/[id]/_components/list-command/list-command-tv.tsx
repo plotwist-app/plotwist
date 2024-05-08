@@ -15,6 +15,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ItemHoverCard } from '@/components/item-hover-card'
 
 import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
@@ -28,7 +29,6 @@ import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 
 import { ListItem } from '@/types/supabase/lists'
-import { ItemHoverCard } from '@/components/item-hover-card/item-hover-card'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]

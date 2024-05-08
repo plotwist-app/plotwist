@@ -8,6 +8,7 @@ import { ReviewStars } from '@/components/reviews/review-stars'
 import { Language } from '@/types/languages'
 import { FullReview as FullReviewType } from '@/services/api/reviews'
 import { ReviewLikes } from '@/components/reviews/review-likes'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type FullReviewProps = {
   review: FullReviewType
@@ -22,7 +23,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     media_type: mediaType,
     review: content,
     rating,
-    user: { username },
+    user: { username, image_path: imagePath },
     likes_count: likes,
   } = review
 
@@ -49,16 +50,22 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
         <div className="space-y-2">
           <div className="flex flex-col gap-2 md:flex-row md:items-center">
             <div className="flex items-center gap-x-2">
-              <Link
-                href={userProfileHref}
-                className="flex aspect-square h-6 w-6 items-center justify-center rounded-full border text-xs"
-              >
-                {usernameInitial}
+              <Link href={userProfileHref}>
+                <Avatar className="size-8 border text-[10px] shadow">
+                  {imagePath && (
+                    <AvatarImage
+                      src={tmdbImage(imagePath, 'w500')}
+                      className="object-cover"
+                    />
+                  )}
+
+                  <AvatarFallback>{usernameInitial}</AvatarFallback>
+                </Avatar>
               </Link>
 
               <Link
                 href={userProfileHref}
-                className="text-sm text-muted-foreground"
+                className="flex gap-2 text-sm text-muted-foreground"
               >
                 {username}
               </Link>
@@ -72,7 +79,6 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
               {likes > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
-
                   <ReviewLikes reviewId={review.id} className="static" />
                 </>
               )}
@@ -98,7 +104,7 @@ export const FullReviewSkeleton = () => {
 
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Skeleton className="aspect-square h-6 w-6 rounded-full border" />
+            <Skeleton className="aspect-square size-8 rounded-full border" />
             <Skeleton className="aspect-square h-[1em] w-[10ch]" />
             <span className="h-1 w-1 rounded-full bg-muted" />
             <ReviewStars rating={0} />

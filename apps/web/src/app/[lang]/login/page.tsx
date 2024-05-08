@@ -37,14 +37,15 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
       <div className="flex h-[calc(100vh-70px)] w-full flex-col items-center justify-center p-4 lg:p-0">
         <div className="w-full max-w-[450px] space-y-4">
           <div className="w-full space-y-2">
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-3xl font-bold">
               {dictionary.login_page.title}
             </h1>
 
             <p>{dictionary.login_page.description}</p>
 
             <div className="mt-2 flex space-x-2">
-              <div className="rounded-xs w-1 bg-muted-foreground" />
+              <div className="rounded-xs w-1 rounded-lg bg-muted" />
+
               <p className="text-sm text-muted-foreground">
                 {dictionary.login_page.no_account}{' '}
                 <Link href={`/${lang}/signup`} className="underline">

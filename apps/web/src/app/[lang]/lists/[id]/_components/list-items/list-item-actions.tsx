@@ -115,6 +115,7 @@ export const ListItemActions = ({
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image size={14} className="mr-2" />
               {dictionary.list_item_actions.use_as_cover}
             </DropdownMenuItem>

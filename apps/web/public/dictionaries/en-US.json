@@ -3,8 +3,6 @@
     "title": "Explore movies, tv series, and animes!",
     "description": "Plotwist is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
     "keywords": "Cinema, movies, series, animes, doramas, famous actors, series episodes, cinema users, discover new movies, movie reviews, movie recommendations, cinema releases, popular movies, popular series, highly rated movies, movies in theaters, cinema community, movie lists, discussions about movies",
-    "primary_button": "Access now",
-    "secondary_button": "Create account",
     "statistics": {
       "movies": {
         "value": 988788,
@@ -12,7 +10,7 @@
       },
       "tv": {
         "value": 167204,
-        "label": "TV Shows"
+        "label": "TV Series"
       },
       "episodes": {
         "value": 4419904,
@@ -49,7 +47,7 @@
   },
   "home_prices": {
     "title": "Start Your Journey Today",
-    "description": "Discover the world of movies and TV shows like never before. Start your Plotwist journey today and become part of a growing community of cinema enthusiasts!",
+    "description": "Discover the world of movies and TV Series like never before. Start your Plotwist journey today and become part of a growing community of cinema enthusiasts!",
     "monthly": "Monthly",
     "yearly": "Yearly",
     "free_plan": {
@@ -98,7 +96,7 @@
   },
   "login_page": {
     "title": "Login",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
     "no_account": "Don't have an account? Register by clicking",
     "no_account_link": "here"
   },
@@ -118,7 +116,7 @@
   },
   "sign_up_page": {
     "title": "Create an account",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV series!",
+    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
     "already_have_account": "Already have an account? Access by clicking",
     "here_link": "here"
   },
@@ -137,13 +135,14 @@
     "password_length": "Your password must be at least 8 characters long.",
     "sign_up_success": "Registration successful. Welcome! 🎉",
     "invalid_sign_up_credentials": "Invalid sign up credentials",
-    "try_again": "Try again"
+    "try_again": "Try again",
+    "username_already_taken": "This username or email is already in use."
   },
   "app_page": {
     "dashboard_title": "Home",
     "dashboard_description": "Overview of your activities and trends.",
     "popular_movies_title": "Popular Movies",
-    "popular_tv_series_title": "Popular TV Shows"
+    "popular_tv_series_title": "Popular TV Series"
   },
   "tabs": {
     "reviews": "Reviews",
@@ -164,10 +163,10 @@
     "popular": "Popular",
     "popular_description": "See what's trending! These are the movies and shows everyone is watching and talking about.",
     "top_rated": "Top Rated",
-    "top_rated_description": "The crème de la crème. Discover the movies and shows that have won over the hearts and minds of audiences and critics.",
+    "top_rated_description": "Discover what have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
     "upcoming_description": "Stay tuned about the next big hits set to premiere soon.",
-    "tv_series": "TV Shows",
+    "tv_series": "TV Series",
     "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
@@ -178,11 +177,11 @@
     "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community."
   },
   "sidebar_search": {
-    "placeholder": "Search for movies, TV shows, or people",
+    "placeholder": "Search for movies, TV Series, or people",
     "search_everything": "Search anything",
     "no_results": "No results found.",
     "movies": "Movies",
-    "tv_series": "TV Shows",
+    "tv_series": "TV Series",
     "people": "People"
   },
   "watch_providers": {
@@ -228,11 +227,8 @@
   "review_item_actions": {
     "like": "Like",
     "reply": "Reply",
-    "delete": "Delete",
-    "delete_success": "Review deleted successfully.",
     "dialog_title": "Are you absolutely sure?",
-    "dialog_description": "This action cannot be undone.",
-    "dialog_close": "Close"
+    "dialog_description": "This action cannot be undone."
   },
   "review_reply_actions": {
     "like": "Like",
@@ -267,7 +263,7 @@
   },
   "lists_page": {
     "title": "Lists",
-    "description": "Create watch-lists to manage your movies, animes and tv shows."
+    "description": "Create watch-lists to manage your movies, animes and tv series."
   },
   "list_card": {
     "delete": "Delete",
@@ -282,7 +278,7 @@
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
-    "description_placeholder": "Movies, Animes and TV shows I plan to watch.",
+    "description_placeholder": "Movies, Animes and TV Series I plan to watch.",
     "visibility": "Visibility",
     "visibility_option_public": "Public",
     "visibility_option_network": "Network",
@@ -380,43 +376,41 @@
   "tv_serie_pages": {
     "airing_today": {
       "title": "Airing Today",
-      "description": "TV shows airing today."
+      "description": "TV Series airing today."
     },
     "on_the_air": {
       "title": "On the Air",
-      "description": "TV shows that air in the next 7 days."
+      "description": "TV Series that air in the next 7 days."
     },
     "popular": {
       "title": "Popular",
-      "description": "TV shows ordered by popularity."
+      "description": "TV Series ordered by popularity."
     },
     "top_rated": {
       "title": "Top Rated",
-      "description": "TV shows ordered by rating."
+      "description": "TV Series ordered by rating."
     },
     "discover": {
       "title": "Discover",
-      "description": "Find TV shows using filters and sort options."
+      "description": "Find TV Series using filters and sort options."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Your last review",
-      "no_review_message": "Looks like you haven't written any reviews yet!",
-      "no_review_action": "Click here to see top-rated movies.",
-      "login": "Login",
-      "register": "Register",
-      "or": "or",
-      "make_first_review": "to make your first review!"
-    },
-    "popular_reviews": {
-      "title": "Popular reviews",
-      "no_reviews_found": "We didn't find any reviews.",
-      "explore_popular_movies": "Explore popular movies, and give us your opinion.",
-      "last_week": "Last week",
-      "last_month": "Last month",
-      "all_time": "All time"
-    }
+  "user_last_review": {
+    "title": "Your last review",
+    "no_review_message": "Looks like you haven't written any reviews yet!",
+    "no_review_action": "Click here to see top-rated movies.",
+    "login": "Login",
+    "register": "Register",
+    "or": "or",
+    "make_first_review": "to make your first review!"
+  },
+  "popular_reviews": {
+    "title": "Popular reviews",
+    "no_reviews_found": "We didn't find any reviews.",
+    "explore_popular_movies": "Explore popular movies, and give us your opinion.",
+    "last_week": "Last week",
+    "last_month": "Last month",
+    "all_time": "All time"
   },
   "movies_list_filters": {
     "title": "Discover Movies",
@@ -480,7 +474,7 @@
     "no_results": "No results."
   },
   "tv_series_list_filters": {
-    "title": "Discover TV Shows",
+    "title": "Discover TV Series",
     "tabs": {
       "filters": "Filters",
       "order": "Order",
@@ -542,8 +536,8 @@
     "search_placeholder": "Search for anything...",
     "no_results": "No results found.",
     "tv_series_label": "TV Series",
-    "tv_added_success": "TV series successfully added.",
-    "tv_removed_success": "TV series successfully removed.",
+    "tv_added_success": "TV Series successfully added.",
+    "tv_removed_success": "TV Series successfully removed.",
     "movies_label": "Movies",
     "remove_from_list": "Remove from list",
     "add_to_list": "Add to list",
@@ -595,10 +589,8 @@
     "expand": "See more",
     "contract": "See less"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Grid layout",
-    "table_layout_tooltip": "Table layout"
-  },
+  "grid": "Grid",
+  "table": "Table",
   "person_page": {
     "credit_list": {
       "show_all": "Show all",
@@ -651,13 +643,12 @@
     "username_placeholder": "John",
     "username_required": "New username is required",
     "username_invalid": "Invalid username",
+    "error_existent_username": "already exists.",
     "same_username": "You have to try a new username",
     "submit_button": "Save changes"
   },
   "profile_banner": {
     "change_banner": "Change banner",
-    "change_profile_banner": "Change profile banner",
-    "search_movies_or_series": "Search movies or series...",
     "changed_successfully": "Banner changed successfully."
   },
   "private_list": {
@@ -668,5 +659,16 @@
   "review_likes": {
     "title": "Likes",
     "view_profile": "View profile"
-  }
+  },
+  "access_now": "Access now",
+  "create_account": "Create account",
+  "search_movies_or_series": "Search movies or series...",
+  "select_an_image": "Select an image",
+  "profile_image_changed_successfully": "Profile image successfully changed.",
+  "review_deleted_successfully": "Review deleted successfully.",
+  "edit": "Edit",
+  "delete": "Delete",
+  "close": "Close",
+  "edit_review": "Edit review",
+  "edit_reply": "Edit reply"
 }

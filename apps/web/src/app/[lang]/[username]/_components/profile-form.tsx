@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,16 +28,19 @@ import {
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
-import { updateProfileUsername } from '@/services/api/profiles'
 
 import { Profile } from '@/types/supabase'
 import { useAuth } from '@/context/auth'
+import { useProfile } from '@/hooks/use-profile'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
-export const profileFormSchema = (dictionary: Dictionary, username: string) =>
+export const profileFormSchema = (
+  dictionary: Dictionary,
+  newUsername: string,
+) =>
   z.object({
-    name: z
+    username: z
       .string()
       .min(1, dictionary.profile_form.username_required)
       .superRefine((value, ctx) => {
@@ -52,7 +56,7 @@ export const profileFormSchema = (dictionary: Dictionary, username: string) =>
           return z.NEVER
         }
 
-        if (username === value) {
+        if (newUsername === value) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: dictionary.profile_form.same_username,
@@ -74,35 +78,53 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
   const { user } = useAuth()
+  const { updateUsernameMutation } = useProfile()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
+    defaultValues: {
+      username: profile.username,
+    },
   })
 
-  const isUserPro = useMemo(
-    () => profile.subscription_type === 'PRO',
-    [profile],
-  )
-
-  const isUserOwner = useMemo(() => profile.id === user?.id, [profile, user])
+  const isUserPro = profile.subscription_type === 'PRO'
+  const isOwner = profile.id === user?.id
 
   const onSubmit = useCallback(
     async (values: ProfileFormValues) => {
       if (!isUserPro) return
 
-      await updateProfileUsername({
-        id: profile.id,
-        newUsername: values.name,
+      const { error } = await updateUsernameMutation.mutateAsync({
+        userId: user!.id,
+        newUsername: values.username,
       })
 
-      push(`/${language}/${values.name}`)
+      if (error) {
+        if (error.code === 'P0001') {
+          toast.error(
+            `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
+          )
+          return
+        }
 
-      form.reset()
+        toast.error(error.message)
+        return
+      }
+
+      push(`/${language}/${values.username}`)
     },
-    [form, isUserPro, language, profile.id, push],
+    [
+      dictionary.profile_form.error_existent_username,
+      dictionary.profile_form.username_label,
+      isUserPro,
+      language,
+      push,
+      updateUsernameMutation,
+      user,
+    ],
   )
 
-  if (!isUserOwner) return null
+  if (!user || !isOwner) return null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -110,7 +132,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>{dictionary.profile_form.dialog_title}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -120,14 +142,16 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>
+                    {dictionary.profile_form.username_label}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={!isUserPro}
-                      placeholder="John"
+                      placeholder={dictionary.profile_form.username_placeholder}
                       {...field}
                     />
                   </FormControl>
@@ -143,7 +167,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
                 type="submit"
                 loading={form.formState.isSubmitting}
               >
-                Change
+                {dictionary.profile_form.submit_button}
               </Button>
             </div>
           </form>

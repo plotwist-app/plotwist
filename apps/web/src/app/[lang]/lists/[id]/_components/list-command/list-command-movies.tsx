@@ -3,6 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink, PlusCircle, MinusCircle } from 'lucide-react'
+import { useCallback } from 'react'
+import { useParams } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { MovieWithMediaType } from '@plotwist/tmdb'
 
@@ -14,6 +17,8 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 
+import { ItemHoverCard } from '@/components/item-hover-card'
+
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
 
@@ -22,13 +27,10 @@ import { ListCommandItem } from './list-command-item'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { useLists } from '@/context/lists'
 import { ListItem } from '@/types/supabase/lists'
-import { useCallback } from 'react'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
-import { useParams } from 'next/navigation'
-import { toast } from 'sonner'
+
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { listPageQueryKey } from '@/utils/list'
-import { ItemHoverCard } from '@/components/item-hover-card/item-hover-card'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]

@@ -1,19 +1,17 @@
-import Link from 'next/link'
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 
-import { Button } from '@/components/ui/button'
 import { Pattern } from '@/components/pattern'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
-import { CounterSection } from './_components/count-section'
+import { CountSection } from './_components/count-section'
 import { UserCount } from './_components/user-count'
-import { HomeButton } from './_components/home-button'
 import { HomeFeatures } from './_components/home-features'
 import { APP_URL } from '../../../constants'
+import { HomeHeroActions } from './_components/home-hero-actions'
 
 import { MovieDetails } from './movies/[id]/_components/movie-details'
 import { Footer } from '@/components/footer'
@@ -90,13 +88,7 @@ export async function generateMetadata({
 export default async function Home({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)
   const {
-    home: {
-      title,
-      description,
-      secondary_button: secondaryButton,
-      primary_button: primaryButton,
-      statistics,
-    },
+    home: { title, description, statistics },
   } = dictionary
 
   return (
@@ -108,27 +100,11 @@ export default async function Home({ params: { lang } }: PageProps) {
           <section className="flex h-[75vh] items-center md:h-[50vh]">
             <div className="mx-auto flex w-4/5 flex-col items-center justify-center space-y-4 text-center">
               <h1 className="text-6xl font-bold">{title}</h1>
-              <p className=" leading-6 text-muted-foreground">{description}</p>
+              <p className="text-sm leading-6 text-muted-foreground">
+                {description}
+              </p>
 
-              <div className="mt-2 flex gap-2">
-                <Suspense
-                  fallback={
-                    <Button asChild variant="outline">
-                      <Link href={`/${lang}/login`} prefetch={false}>
-                        {primaryButton}
-                      </Link>
-                    </Button>
-                  }
-                >
-                  <HomeButton language={lang} primaryButton={primaryButton} />
-                </Suspense>
-
-                <Button asChild>
-                  <Link href={`/${lang}/signup`} prefetch={false}>
-                    {secondaryButton}
-                  </Link>
-                </Button>
-              </div>
+              <HomeHeroActions />
             </div>
           </section>
         </div>
@@ -145,22 +121,22 @@ export default async function Home({ params: { lang } }: PageProps) {
           </ScrollArea>
 
           <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-5">
-            <CounterSection
+            <CountSection
               label={statistics.movies.label}
               value={statistics.movies.value}
             />
 
-            <CounterSection
+            <CountSection
               label={statistics.tv.label}
               value={statistics.tv.value}
             />
 
-            <CounterSection
+            <CountSection
               label={statistics.episodes.label}
               value={statistics.episodes.value}
             />
 
-            <CounterSection
+            <CountSection
               label={statistics.people.label}
               value={statistics.people.value}
             />

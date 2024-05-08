@@ -25,6 +25,8 @@ import { Dictionary } from '@/utils/dictionaries'
 import { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
 import Link from 'next/link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -59,13 +61,13 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
         <div className="relative flex-1 space-y-1 rounded-md border border-dashed p-4 shadow">
           <p className="text-sm">
             <Link href="/login" className="text-muted-foreground underline">
-              {dictionary.dashboard.user_last_review.login}
+              {dictionary.user_last_review.login}
             </Link>{' '}
-            {dictionary.dashboard.user_last_review.or}{' '}
+            {dictionary.user_last_review.or}{' '}
             <Link href="/signup" className="text-muted-foreground underline">
-              {dictionary.dashboard.user_last_review.register}
+              {dictionary.user_last_review.register}
             </Link>{' '}
-            {dictionary.dashboard.user_last_review.make_first_review}
+            {dictionary.user_last_review.make_first_review}
           </p>
         </div>
       </div>
@@ -83,10 +85,11 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
       },
 
       {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: [tmdbItem.id, mediaType],
+        onSettled: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: ['reviews'],
           })
+
           form.reset()
           toast.success(dictionary.review_form.success)
         },
@@ -103,11 +106,17 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex items-start space-x-4"
       >
-        <Link
-          href={`/${language}/${username}`}
-          className="flex aspect-square h-10 w-10 items-center justify-center rounded-full border bg-muted"
-        >
-          {usernameInitial}
+        <Link href={`/${language}/${username}`}>
+          <Avatar className="size-10 border text-[10px] shadow">
+            {user.image_path && (
+              <AvatarImage
+                src={tmdbImage(user.image_path, 'w500')}
+                className="object-cover"
+              />
+            )}
+
+            <AvatarFallback>{usernameInitial}</AvatarFallback>
+          </Avatar>
         </Link>
 
         <div className="w-full space-y-2">
@@ -144,6 +153,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
                 <FormControl>
                   <Textarea
                     placeholder={dictionary.review_form.placeholder}
+                    rows={4}
                     {...field}
                   />
                 </FormControl>

@@ -1,30 +1,19 @@
 'use client'
 
-import { ComponentProps, useState } from 'react'
+import { ComponentProps } from 'react'
 import { toast } from 'sonner'
+import { useQuery } from '@tanstack/react-query'
 
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
 
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { cn } from '@/lib/utils'
+import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
-import { useQuery } from '@tanstack/react-query'
-import { useLike } from '@/hooks/use-like/use-like'
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
+import { useLike } from '@/hooks/use-like'
+import { useReviews } from '@/hooks/use-reviews/use-reviews'
 
 type ReviewItemActionsProps = {
   review: Review
@@ -61,22 +50,22 @@ const ReviewItemAction = ({
 export const ReviewItemActions = ({
   openReplyForm,
   setOpenReplyForm,
-  review: { user_id: userId, id, tmdb_id: tmdbId, media_type: mediaType },
+  review,
 }: ReviewItemActionsProps) => {
   const { user } = useAuth()
-  const { handleDeleteReview } = useReviews()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
-
-  const [openModal, setOpenModal] = useState(false)
+  const { invalidateQueries } = useReviews()
 
   const { data: likes } = useQuery({
-    queryKey: ['likes', id],
+    queryKey: ['likes', review.id],
     queryFn: async () =>
-      getLikeByUserService({ userId: user?.id, entityType: 'REVIEW', id }),
+      getLikeByUserService({
+        userId: user?.id,
+        entityType: 'REVIEW',
+        id: review.id,
+      }),
   })
-
-  const isUserOwner = user?.id === userId
 
   const userLike = likes?.data?.find((like) => like.user_id === user?.id)
   const isUserLiked = Boolean(userLike)
@@ -85,21 +74,6 @@ export const ReviewItemActions = ({
     ? handleRemoveLike.isPending
     : handleLike.isPending
 
-  const invalidateQuery = () => {
-    const queries = [
-      ['dashboard-user-last-review'],
-      ['dashboard-popular-reviews'],
-      ['likes', id],
-      [tmdbId, mediaType],
-    ]
-
-    queries.map((queryKey) =>
-      APP_QUERY_CLIENT.invalidateQueries({
-        queryKey,
-      }),
-    )
-  }
-
   if (!user) return null
 
   function handleLikeClick() {
@@ -107,13 +81,13 @@ export const ReviewItemActions = ({
 
     handleLike.mutate(
       {
-        reviewId: id,
+        reviewId: review.id,
         userId: user.id,
         entityType: 'REVIEW',
       },
       {
         onSuccess: () => {
-          invalidateQuery()
+          invalidateQueries(review.id)
         },
         onError: (error) => {
           toast.error(error.message)
@@ -127,32 +101,19 @@ export const ReviewItemActions = ({
 
     handleRemoveLike.mutate(
       {
-        reviewId: id,
+        reviewId: review.id,
         userId: user.id,
         entityType: 'REVIEW',
       },
       {
         onSuccess: () => {
-          invalidateQuery()
+          invalidateQueries(review.id)
         },
         onError: (error) => {
           toast.error(error.message)
         },
       },
     )
-  }
-
-  function handleDeleteReviewClick() {
-    handleDeleteReview.mutate(id, {
-      onSuccess: () => {
-        invalidateQuery()
-
-        toast.success(dictionary.review_item_actions.delete_success)
-      },
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    })
   }
 
   return (
@@ -178,46 +139,7 @@ export const ReviewItemActions = ({
         <ReviewItemAction onClick={() => setOpenReplyForm(!openReplyForm)}>
           {dictionary.review_item_actions.reply}
         </ReviewItemAction>
-
-        {isUserOwner && (
-          <>
-            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-
-            <ReviewItemAction
-              disabled={handleDeleteReview.isPending}
-              onClick={() => setOpenModal(true)}
-            >
-              {dictionary.review_item_actions.delete}
-            </ReviewItemAction>
-          </>
-        )}
       </div>
-
-      <Dialog onOpenChange={setOpenModal} open={openModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="gap-1">
-            <DialogTitle>
-              {dictionary.review_item_actions.dialog_title}
-            </DialogTitle>
-            <DialogDescription>
-              {dictionary.review_item_actions.dialog_description}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="sm:flex-end">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                {dictionary.review_item_actions.dialog_close}
-              </Button>
-            </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={() => handleDeleteReviewClick()}
-            >
-              {dictionary.review_item_actions.delete}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

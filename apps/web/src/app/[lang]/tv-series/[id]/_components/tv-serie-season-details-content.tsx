@@ -3,12 +3,6 @@
 import { useState } from 'react'
 import { Grid, Table as LucideTable } from 'lucide-react'
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -38,10 +32,8 @@ export const TvSerieSeasonDetailsContent = ({
   const {
     dictionary: {
       tv_serie_season_details: { name, overview, runtime, vote },
-      grid_or_table_layout: {
-        grid_layout_tooltip: grid,
-        table_layout_tooltip: table,
-      },
+      grid,
+      table,
     },
   } = useLanguage()
 
@@ -100,39 +92,23 @@ export const TvSerieSeasonDetailsContent = ({
   return (
     <div className="space-y-4">
       <div className="flex space-x-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="h-8 w-8"
-                size="icon"
-                variant={layout === 'grid' ? 'default' : 'outline'}
-                onClick={() => setLayout('grid')}
-              >
-                <Grid size={18} />
-              </Button>
-            </TooltipTrigger>
+        <Button
+          variant={layout === 'grid' ? 'default' : 'outline'}
+          onClick={() => setLayout('grid')}
+          size="sm"
+        >
+          <Grid size={18} className="mr-2" />
+          {grid}
+        </Button>
 
-            <TooltipContent>{grid}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="h-8 w-8"
-                size="icon"
-                variant={layout === 'table' ? 'default' : 'outline'}
-                onClick={() => setLayout('table')}
-              >
-                <LucideTable size={18} />
-              </Button>
-            </TooltipTrigger>
-
-            <TooltipContent>{table}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Button
+          variant={layout === 'table' ? 'default' : 'outline'}
+          onClick={() => setLayout('table')}
+          size="sm"
+        >
+          <LucideTable size={18} className="mr-2" />
+          {table}
+        </Button>
       </div>
 
       {contentByLayout[layout]}

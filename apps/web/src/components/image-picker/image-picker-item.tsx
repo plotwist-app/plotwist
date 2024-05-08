@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 import { ComponentProps, PropsWithChildren } from 'react'
 
-export const ProfileBannerEditItem = {
+export const ImagePickerItem = {
   Root: (props: PropsWithChildren & ComponentProps<'div'>) => (
     <div
       className="group relative flex h-48 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg p-8"
@@ -22,6 +22,6 @@ export const ProfileBannerEditItem = {
   ),
 }
 
-export const ProfileBannerEditItemSkeleton = () => {
+export const ImagePickerItemSkeleton = () => {
   return <Skeleton className="h-48 w-full" />
 }

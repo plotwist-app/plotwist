@@ -18,13 +18,15 @@ export async function generateStaticParams() {
 
 export const dynamic = 'force-dynamic'
 
+type RootLayoutProps = {
+  children: React.ReactNode
+  params: { lang: Language }
+}
+
 export default async function RootLayout({
   children,
   params,
-}: {
-  children: React.ReactNode
-  params: { lang: Language }
-}) {
+}: RootLayoutProps) {
   const dictionary = await getDictionary(params.lang)
   const user = await getUserService()
 

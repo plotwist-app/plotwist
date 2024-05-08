@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { useQuery } from '@tanstack/react-query'
@@ -18,10 +17,11 @@ import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import { getLikesService } from '@/services/api/likes/get-likes'
 import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type ReviewLikes = {
   reviewId: string
@@ -67,10 +67,12 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       >
         ❤ <span className="ml-1">{likes.count}</span>
       </DialogTrigger>
+
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
           <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
         </DialogHeader>
+
         {!profiles &&
           Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex items-center gap-3">
@@ -84,22 +86,22 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
           <div key={profile.id} className="flex items-center">
             <Link
               href={`/${language}/${profile.username}`}
-              className="flex items-center overflow-hidden"
+              className="flex items-center gap-1"
             >
-              <div className="relative flex aspect-square size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border bg-background/50 shadow">
-                {profile.banner_path ? (
-                  <Image
-                    fill
+              <Avatar className="size-10 border text-[10px] shadow">
+                {profile.image_path && (
+                  <AvatarImage
+                    src={tmdbImage(profile.image_path, 'w500')}
                     className="object-cover"
-                    src={tmdbImage(profile.banner_path)}
-                    alt={profile.username}
-                    sizes="100%"
                   />
-                ) : (
-                  profile.username[0]
                 )}
-              </div>
-              <span className="ml-3 mr-2 truncate text-sm">
+
+                <AvatarFallback>
+                  {profile.username[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+
+              <span className="ml-2 mr-2 truncate text-sm">
                 {profile.username}
               </span>
             </Link>

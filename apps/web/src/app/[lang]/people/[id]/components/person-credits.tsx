@@ -131,9 +131,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
                   </Button>
                 </TooltipTrigger>
 
-                <TooltipContent>
-                  {dictionary.grid_or_table_layout.grid_layout_tooltip}
-                </TooltipContent>
+                <TooltipContent>{dictionary.grid}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
@@ -150,9 +148,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
                   </Button>
                 </TooltipTrigger>
 
-                <TooltipContent>
-                  {dictionary.grid_or_table_layout.table_layout_tooltip}
-                </TooltipContent>
+                <TooltipContent>{dictionary.table}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
@@ -183,9 +179,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
                   </Button>
                 </TooltipTrigger>
 
-                <TooltipContent>
-                  {dictionary.grid_or_table_layout.grid_layout_tooltip}
-                </TooltipContent>
+                <TooltipContent>{dictionary.table}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
@@ -202,9 +196,7 @@ export const PersonCredits = ({ personId }: PersonCreditsProps) => {
                   </Button>
                 </TooltipTrigger>
 
-                <TooltipContent>
-                  {dictionary.grid_or_table_layout.table_layout_tooltip}
-                </TooltipContent>
+                <TooltipContent>{dictionary.table}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>

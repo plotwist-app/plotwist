@@ -1,12 +1,5 @@
 export type Dictionary = {
-  home: Record<
-    | 'title'
-    | 'description'
-    | 'keywords'
-    | 'primary_button'
-    | 'secondary_button',
-    string
-  > & {
+  home: Record<'title' | 'description' | 'keywords', string> & {
     statistics: {
       movies: {
         value: number
@@ -122,6 +115,7 @@ export type Dictionary = {
     sign_up_success: string
     invalid_sign_up_credentials: string
     try_again: string
+    username_already_taken: string
   }
   app_page: {
     dashboard_title: string
@@ -213,11 +207,8 @@ export type Dictionary = {
   review_item_actions: {
     like: string
     reply: string
-    delete: string
-    delete_success: string
     dialog_title: string
     dialog_description: string
-    dialog_close: string
   }
   review_reply_actions: {
     like: string
@@ -391,24 +382,22 @@ export type Dictionary = {
       description: string
     }
   }
-  dashboard: {
-    user_last_review: {
-      title: string
-      no_review_message: string
-      no_review_action: string
-      login: string
-      register: string
-      or: string
-      make_first_review: string
-    }
-    popular_reviews: {
-      title: string
-      no_reviews_found: string
-      explore_popular_movies: string
-      last_week: string
-      last_month: string
-      all_time: string
-    }
+  user_last_review: {
+    title: string
+    no_review_message: string
+    no_review_action: string
+    login: string
+    register: string
+    or: string
+    make_first_review: string
+  }
+  popular_reviews: {
+    title: string
+    no_reviews_found: string
+    explore_popular_movies: string
+    last_week: string
+    last_month: string
+    all_time: string
   }
   movies_list_filters: {
     title: string
@@ -586,10 +575,8 @@ export type Dictionary = {
     expand: string
     contract: string
   }
-  grid_or_table_layout: {
-    grid_layout_tooltip: string
-    table_layout_tooltip: string
-  }
+  grid: string
+  table: string
   person_page: {
     credit_list: {
       show_all: string
@@ -642,13 +629,12 @@ export type Dictionary = {
     username_placeholder: string
     username_required: string
     username_invalid: string
+    error_existent_username: string
     same_username: string
     submit_button: string
   }
   profile_banner: {
     change_banner: string
-    change_profile_banner: string
-    search_movies_or_series: string
     changed_successfully: string
   }
   private_list: {
@@ -660,4 +646,15 @@ export type Dictionary = {
     title: string
     view_profile: string
   }
+  access_now: string
+  create_account: string
+  search_movies_or_series: string
+  select_an_image: string
+  profile_image_changed_successfully: string
+  review_deleted_successfully: string
+  edit: string
+  delete: string
+  close: string
+  edit_review: string
+  edit_reply: string
 }

@@ -3,8 +3,6 @@
     "title": "Explorez des films, des séries et des anime !",
     "description": "Plotwist est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
     "keywords": "Cinéma, films, séries, animes, doramas, acteurs célèbres, épisodes de séries, utilisateurs de cinéma, découvrir de nouveaux films, critiques de films, recommandations de films, sorties cinéma, films populaires, séries populaires, films bien notés, films à l'affiche, communauté cinématographique, listes de films, discussions sur les films",
-    "primary_button": "Commencez maintenant",
-    "secondary_button": "Créer un compte",
     "statistics": {
       "movies": {
         "value": 988788,
@@ -137,7 +135,8 @@
     "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
     "sign_up_success": "Inscription réussie. Bienvenue ! 🎉",
     "invalid_sign_up_credentials": "Identifiants d'inscription invalides",
-    "try_again": "Réessayer"
+    "try_again": "Réessayer",
+    "username_already_taken": "Ce nom d'utilisateur ou cette adresse e-mail est déjà utilisé."
   },
   "app_page": {
     "dashboard_title": "Tableau de bord",
@@ -164,7 +163,7 @@
     "popular": "Populaires",
     "popular_description": "Voyez ce qui est tendance ! Ce sont les films et les séries que tout le monde regarde et dont tout le monde parle.",
     "top_rated": "Mieux Notés",
-    "top_rated_description": "La crème de la crème. Découvrez les films et les séries qui ont conquis le cœur et l'esprit du public et des critiques.",
+    "top_rated_description": "Découvrez ce qui a conquis le cœur et l'esprit du public et des critiques.",
     "upcoming": "Prochainement",
     "upcoming_description": "Prenez une longueur d'avance et restez informé des prochains grands succès qui envahiront bientôt les écrans.",
     "tv_series": "Séries TV",
@@ -229,10 +228,8 @@
     "like": "Aimer",
     "reply": "Répondre",
     "delete": "Supprimer",
-    "delete_success": "Avis supprimé avec succès.",
     "dialog_title": "Êtes-vous absolument sûr ?",
-    "dialog_description": "Cette action ne peut pas être annulée.",
-    "dialog_close": "Fermer"
+    "dialog_description": "Cette action ne peut pas être annulée."
   },
   "review_reply_actions": {
     "like": "Aimer",
@@ -399,24 +396,22 @@
       "description": "Trouvez des séries télévisées en utilisant des filtres et des options de tri."
     }
   },
-  "dashboard": {
-    "user_last_review": {
-      "title": "Votre dernière critique",
-      "no_review_message": "On dirait que vous n'avez écrit aucun avis ! 😿",
-      "no_review_action": "Cliquez ici pour voir les films les mieux notés.",
-      "login": "Connexion",
-      "register": "Inscription",
-      "or": "ou",
-      "make_first_review": "pour faire votre première critique !"
-    },
-    "popular_reviews": {
-      "title": "Critiques populaires",
-      "no_reviews_found": "Nous n'avons trouvé aucun avis.",
-      "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
-      "last_week": "La semaine dernière",
-      "last_month": "Le mois dernier",
-      "all_time": "Tous les temps"
-    }
+  "user_last_review": {
+    "title": "Votre dernière critique",
+    "no_review_message": "On dirait que vous n'avez écrit aucun avis ! 😿",
+    "no_review_action": "Cliquez ici pour voir les films les mieux notés.",
+    "login": "Connexion",
+    "register": "Inscription",
+    "or": "ou",
+    "make_first_review": "pour faire votre première critique !"
+  },
+  "popular_reviews": {
+    "title": "Critiques populaires",
+    "no_reviews_found": "Nous n'avons trouvé aucun avis.",
+    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
+    "last_week": "La semaine dernière",
+    "last_month": "Le mois dernier",
+    "all_time": "Tous les temps"
   },
   "movies_list_filters": {
     "title": "Découvrir les Films",
@@ -594,10 +589,8 @@
     "expand": "Voir plus",
     "contract": "Voir moins"
   },
-  "grid_or_table_layout": {
-    "grid_layout_tooltip": "Disposition en grille",
-    "table_layout_tooltip": "Disposition en tableau"
-  },
+  "grid": "Grille",
+  "table": "Tableau",
   "person_page": {
     "credit_list": {
       "show_all": "Tout afficher",
@@ -650,13 +643,12 @@
     "username_placeholder": "John",
     "username_required": "Un nouveau nom d'utilisateur est requis",
     "username_invalid": "Nom d'utilisateur invalide",
+    "error_existent_username": "existe déjà.",
     "same_username": "Vous devez essayer un nouveau nom d'utilisateur",
     "submit_button": "Enregistrer les modifications"
   },
   "profile_banner": {
     "change_banner": "Changer de bannière",
-    "change_profile_banner": "Changer la bannière du profil",
-    "search_movies_or_series": "Rechercher des films ou des séries...",
     "changed_successfully": "Bannière modifiée avec succès."
   },
   "private_list": {
@@ -667,5 +659,16 @@
   "review_likes": {
     "title": "Aime",
     "view_profile": "Voir le profil"
-  }
+  },
+  "access_now": "Accede ahora",
+  "create_account": "Crear una cuenta",
+  "search_movies_or_series": "Rechercher des films ou des séries...",
+  "select_an_image": "Sélectionnez une image",
+  "profile_image_changed_successfully": "L'image de profil a été modifiée avec succès.",
+  "review_deleted_successfully": "Avis supprimé avec succès.",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "close": "Fermer",
+  "edit_review": "Modifier l'avis",
+  "edit_reply": "Modifier la réponse"
 }

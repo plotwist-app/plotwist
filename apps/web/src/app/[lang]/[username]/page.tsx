@@ -1,27 +1,21 @@
+import { redirect } from 'next/navigation'
+
 import { PageProps } from '@/types/languages'
-import { ProBadge } from '@/components/pro-badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Lock, LucideIcon, Pencil } from 'lucide-react'
+import { Award, List, Pencil, Star, Users } from 'lucide-react'
 import { getProfileByUsername } from '@/services/api/profiles'
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+import { ProBadge } from '@/components/pro-badge'
+
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
 import { ProfileBanner } from './_components/profile-banner'
-
-import * as icons from 'lucide-react'
-import { redirect } from 'next/navigation'
-import { getDictionary } from '@/utils/dictionaries'
-import { Button } from '@/components/ui/button'
 import { ProfileForm } from './_components/profile-form'
+import { ProfileImage } from './_components/profile-image'
+import { ProfileAchievements } from './_components/profile-achievements'
 
-const RandomIcon = () => {
-  const iconNames = Object.keys(icons)
-  const randomIconName = iconNames[Math.floor(Math.random() * iconNames.length)]
-  const IconComponent = icons[
-    randomIconName as keyof typeof icons
-  ] as LucideIcon
-
-  return <IconComponent size={16} />
-}
+import { getDictionary } from '@/utils/dictionaries'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
@@ -33,28 +27,21 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
     redirect(`/${lang}/home`)
   }
 
-  const isUserPro = profile.subscription_type === 'PRO'
-
   return (
     <main className="p-0 lg:p-4">
       <div className="mx-auto max-w-6xl">
-        <ProfileBanner
-          profileId={profile.id}
-          profileUsername={profile.username}
-        />
+        <ProfileBanner profile={profile} />
 
-        <div className="grid grid-cols-1 gap-0 space-y-8 p-4 lg:grid-cols-3 lg:gap-16 lg:px-16">
-          <aside className="col-span-1 -mt-20 flex flex-col space-y-4">
+        <div className="mx-auto flex max-w-3xl flex-col space-y-4 p-4  lg:px-16">
+          <aside className="-mt-28 flex flex-col space-y-4">
             <div className="space-y-4">
-              <div className="relative z-50 flex aspect-square w-32 items-center justify-center rounded-full border bg-muted text-2xl">
-                {profile.username[0].toUpperCase()}
-              </div>
+              <ProfileImage profile={profile} />
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <h1 className="text-2xl font-bold">{profile.username}</h1>
 
-                  {isUserPro && <ProBadge />}
+                  {profile.subscription_type === 'PRO' && <ProBadge />}
 
                   <ProfileForm
                     profile={profile}
@@ -70,47 +57,32 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                   />
                 </div>
               </div>
-
-              <div className="relative space-y-2 rounded-lg border p-4">
-                <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center rounded-lg border border-dashed bg-black/10 backdrop-blur-[1.5px] dark:bg-black/50">
-                  🚧 {dictionary.profile.work_in_progress}
-                </div>
-
-                <h3 className="font-semibold">
-                  {dictionary.profile.achievements}
-                </h3>
-
-                <div className="grid grid-cols-5 gap-2">
-                  {Array.from({ length: 15 }).map((_, index) => {
-                    return (
-                      <div
-                        className="flex aspect-square items-center justify-center rounded-lg bg-muted"
-                        key={index}
-                      >
-                        <RandomIcon />
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
             </div>
           </aside>
 
-          <section className="col-span-2">
+          <section>
             <Tabs defaultValue="reviews" className="w-full">
               <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
                 <TabsList>
                   <TabsTrigger value="reviews">
+                    <Star className="mr-1" width={12} height={12} />
                     {dictionary.profile.reviews}
                   </TabsTrigger>
 
                   <TabsTrigger value="lists">
+                    <List className="mr-1" width={12} height={12} />
                     {dictionary.profile.lists}
                   </TabsTrigger>
 
+                  <TabsTrigger value="achievements">
+                    <Award className="mr-1" width={12} height={12} />
+                    {dictionary.profile.achievements}
+                  </TabsTrigger>
+
                   <TabsTrigger value="communities" disabled>
+                    <Users className="mr-1" width={12} height={12} />
+
                     {dictionary.profile.communities}
-                    <Lock className="ml-1" size={12} />
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -121,6 +93,10 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
 
               <TabsContent value="lists" className="mt-4">
                 <ProfileLists userId={profile.id} />
+              </TabsContent>
+
+              <TabsContent value="achievements" className="mt-4">
+                <ProfileAchievements dictionary={dictionary} />
               </TabsContent>
             </Tabs>
           </section>
