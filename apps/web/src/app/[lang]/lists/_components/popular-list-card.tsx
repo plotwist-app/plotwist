@@ -1,79 +1,70 @@
-import { ProBadge } from '@/components/pro-badge'
+import { MousePointer2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger,
-} from '@/components/ui/context-menu'
+import { Separator } from '@/components/ui/separator'
+
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { PopularList } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
-import {
-  Copy,
-  ExternalLink,
-  Heart,
-  Instagram,
-  MousePointer2,
-  Share,
-  Twitter,
-} from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
-import { toast } from 'sonner'
+
+import { useMediaQuery } from '@/hooks/use-media-query'
+
+import { PopularListCardContextMenu } from './popular-list-card-context-menu'
+import { PopularListCardDrawer } from './popular-list-card-drawer'
 
 type PopularListCardProps = { list: PopularList }
+
 export const PopularListCard = ({ list }: PopularListCardProps) => {
   const { language } = useLanguage()
-  const [contextOpen, setContextOpen] = useState(false)
-
+  const [open, setOpen] = useState(false)
   const href = `/${language}/lists/${list.id}`
 
-  return (
-    <ContextMenu onOpenChange={setContextOpen} modal={false}>
-      <ContextMenuTrigger>
-        <div className="grid grid-cols-5 gap-4">
-          <div className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border bg-muted shadow">
-            <div
-              className={cn(
-                'absolute z-50 flex h-full w-full items-center justify-center bg-black/0 text-white transition group-hover:bg-black/75',
-                contextOpen && 'bg-black/75',
-              )}
-              onClick={() => setContextOpen(true)}
-            >
-              <span
-                className={cn(
-                  'flex items-center text-sm opacity-0 transition-all group-hover:opacity-100',
-                  contextOpen && 'opacity-100',
-                )}
-              >
-                <MousePointer2 className="mr-2 size-4" />
-                Right click here
-              </span>
-            </div>
+  const isDesktop = useMediaQuery('(min-width: 1080px)')
 
-            {list.cover_path && (
-              <Image
-                fill
-                src={tmdbImage(list.cover_path)}
-                alt=""
-                className="transition-all hover:scale-105"
-              />
+  const Trigger = () => {
+    return (
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-5 md:gap-4">
+        <div className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border bg-muted shadow">
+          <div
+            className={cn(
+              'absolute z-50 flex h-full w-full items-center justify-center bg-black/0 text-white transition group-hover:bg-black/75',
+              open && 'bg-black/75',
             )}
+            onClick={() => setOpen(true)}
+          >
+            <span
+              className={cn(
+                'hidden items-center text-sm opacity-0 transition-all group-hover:opacity-100 md:flex',
+                open && 'opacity-100',
+              )}
+            >
+              <MousePointer2 className="mr-2 size-4" />
+              Right click here
+            </span>
           </div>
 
-          <div className="col-span-3 space-y-2">
-            <div className="space-y-2">
-              <Link href={href} className="text-xl font-bold">
-                {list.name}
-              </Link>
+          {list.cover_path && (
+            <Image
+              fill
+              src={tmdbImage(list.cover_path)}
+              alt=""
+              className="transition-all hover:scale-105"
+            />
+          )}
+        </div>
 
-              <div className="flex items-center justify-between gap-4">
+        <div className="col-span-3 space-y-2">
+          <div className="space-y-2">
+            <Link href={href} className="text-xl font-bold">
+              {list.name}
+            </Link>
+
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
                 <Link
                   href={`/${language}/${list.profiles.username}`}
                   className="flex items-center gap-2"
@@ -94,74 +85,34 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
                   </span>
                 </Link>
 
-                {/* <div className="rounded-full border bg-muted px-3 py-1 text-xs">
-                  <div>
-                    ❤ <span className="ml-1">0</span>
-                  </div>
-                </div> */}
-              </div>
+                <Separator className="h-4" orientation="vertical" />
 
-              <p className="line-clamp-3 text-sm text-muted-foreground">
-                {list.description}
-              </p>
+                <div className="cursor-pointer rounded-full border px-2 py-0.5 text-xs text-muted-foreground transition-all hover:bg-muted">
+                  ❤ <span className="ml-1">0</span>
+                </div>
+              </div>
             </div>
+
+            <p className="line-clamp-3 text-sm text-muted-foreground">
+              {list.description}
+            </p>
           </div>
         </div>
-      </ContextMenuTrigger>
+      </div>
+    )
+  }
 
-      <ContextMenuContent>
-        <ContextMenuItem asChild>
-          <Link href={href}>
-            <ExternalLink className="mr-2 size-4" />
-            Visit
-          </Link>
-        </ContextMenuItem>
+  if (isDesktop) {
+    return (
+      <PopularListCardContextMenu href={href}>
+        <Trigger />
+      </PopularListCardContextMenu>
+    )
+  }
 
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>
-            <Share className="mr-2 size-4" />
-            Share
-          </ContextMenuSubTrigger>
-
-          <ContextMenuSubContent className="w-56">
-            <ContextMenuItem
-              onClick={() => toast.success('Link copied to clipboard.')}
-            >
-              <Copy className="mr-2 size-4" />
-              Copy link
-            </ContextMenuItem>
-
-            <ContextMenuItem disabled className="flex justify-between">
-              <div className="flex">
-                <Twitter className="mr-2 size-4" />
-                Share to Twitter
-              </div>
-
-              <ProBadge className="ml-2" />
-            </ContextMenuItem>
-
-            <ContextMenuItem disabled className="flex justify-between">
-              <div className="flex">
-                <Instagram className="mr-2 size-4" />
-                Share to Instagram
-              </div>
-
-              <ProBadge className="ml-2" />
-            </ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-
-        <ContextMenuItem disabled>
-          <Heart className="mr-2 size-4" />
-          Like
-        </ContextMenuItem>
-
-        <ContextMenuItem disabled>
-          <Copy className="mr-2 size-4" />
-          Clone
-          <ProBadge className="ml-2" />
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+  return (
+    <PopularListCardDrawer open={open} onOpenChange={setOpen} list={list}>
+      <Trigger />
+    </PopularListCardDrawer>
   )
 }
