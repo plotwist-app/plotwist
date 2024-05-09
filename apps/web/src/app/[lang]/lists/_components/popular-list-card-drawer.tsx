@@ -5,7 +5,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerContent,
@@ -17,7 +16,6 @@ import {
 } from '@/components/ui/drawer'
 import { PopularList } from '@/types/supabase/lists'
 import {
-  ChevronDown,
   Copy,
   ExternalLink,
   Heart,
