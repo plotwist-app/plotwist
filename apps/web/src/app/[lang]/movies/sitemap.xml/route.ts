@@ -1,41 +1,27 @@
-import { Language } from '@/types/languages'
+import { getMoviesIds } from '@/utils/seo/get-movies-ids'
+import { Language } from '@plotwist/tmdb'
 import { SitemapStream, streamToPromise } from 'sitemap'
-
-export const dynamic = 'force-dynamic'
-
-const APP_ROUTES = [
-  '/',
-  '/home',
-  '/lists',
-  '/login',
-  '/signup',
-  '/movies/discover',
-  '/movies/now-playing',
-  '/movies/popular',
-  '/movies/top-rated',
-  '/people/popular',
-  '/tv-series/airing-today',
-  '/tv-series/discover',
-  '/tv-series/on-the-air',
-  '/tv-series/popular',
-  '/tv-series/top-rated',
-]
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
+
   const pathSegments = url.pathname.split('/').filter(Boolean)
+
   const language = pathSegments[0] as Language
+
+  const movieIds = await getMoviesIds(language)
 
   const sitemapStream = new SitemapStream({
     hostname: `https://${url.host}/${language}`,
   })
+
   const xmlPromise = streamToPromise(sitemapStream)
 
-  APP_ROUTES.forEach((route) => {
+  movieIds.forEach((id) => {
     sitemapStream.write({
-      url: `${language}${route}`,
-      changefreq: 'daily',
-      priority: 0.7,
+      url: `/${language}/movies/${id}`,
+      changefreq: 'weekly',
+      lastmodISO: new Date().toISOString(),
     })
   })
 
