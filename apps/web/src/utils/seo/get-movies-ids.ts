@@ -2,7 +2,7 @@ import { tmdb } from '@plotwist/tmdb'
 import { homeMovies } from '@/app/[lang]/page'
 import { Language } from '@/types/languages'
 
-const PAGES_BY_TYPE = 30
+const PAGES_BY_TYPE = 40
 
 export const getMoviesIds = async (language: Language) => {
   const types = ['now_playing', 'popular', 'top_rated', 'upcoming'] as const
