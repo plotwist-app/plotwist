@@ -6,10 +6,19 @@ import { languages as appLanguages } from '../languages'
 
 const headers = { 'accept-language': 'en-US' }
 const languages = new Negotiator({ headers }).languages()
-const defaultLocale = 'en-US'
-match(languages, appLanguages, defaultLocale)
+
+const DEFAULT_LOCALE = 'en-US'
+
+match(languages, appLanguages, DEFAULT_LOCALE)
 
 export async function middleware(req: NextRequest) {
+  const browserLanguage =
+    req.headers.get('accept-language')?.split(',')[0] ?? 'en'
+
+  const language =
+    appLanguages.find((language) => language.startsWith(browserLanguage)) ??
+    DEFAULT_LOCALE
+
   const { pathname } = req.nextUrl
 
   const pathnameHasLocale = appLanguages.some(
@@ -17,7 +26,7 @@ export async function middleware(req: NextRequest) {
   )
 
   if (!pathnameHasLocale) {
-    req.nextUrl.pathname = `/${defaultLocale}${pathname}`
+    req.nextUrl.pathname = `/${language}${pathname}`
     return NextResponse.redirect(req.nextUrl)
   }
 
