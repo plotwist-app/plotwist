@@ -4,20 +4,16 @@ import { SitemapStream, streamToPromise } from 'sitemap'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
-
   const pathSegments = url.pathname.split('/').filter(Boolean)
-
   const language = pathSegments[0] as Language
-
-  const movieIds = await getMoviesIds(language)
 
   const sitemapStream = new SitemapStream({
     hostname: `https://${url.host}/${language}`,
   })
-
   const xmlPromise = streamToPromise(sitemapStream)
 
-  movieIds.forEach((id) => {
+  const moviesIds = await getMoviesIds()
+  moviesIds.forEach((id) => {
     sitemapStream.write({
       url: `/${language}/movies/${id}`,
       changefreq: 'weekly',
@@ -26,7 +22,6 @@ export async function GET(request: Request) {
   })
 
   sitemapStream.end()
-
   const xml = await xmlPromise
   const xmlString = xml.toString()
 
@@ -34,7 +29,6 @@ export async function GET(request: Request) {
     status: 200,
     statusText: 'ok',
   })
-
   response.headers.append('content-type', 'text/xml')
 
   return response

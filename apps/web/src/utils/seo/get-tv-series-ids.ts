@@ -1,10 +1,9 @@
 import { tmdb } from '@plotwist/tmdb'
-import { homeMovies } from '@/app/[lang]/page'
 
 const PAGES_BY_TYPE = 20
 
-export const getMoviesIds = async () => {
-  const types = ['now_playing', 'popular', 'top_rated', 'upcoming'] as const
+export const getTvSeriesIds = async () => {
+  const types = ['airing_today', 'on_the_air', 'popular', 'top_rated'] as const
 
   const lists = await Promise.all(
     Array.from({ length: PAGES_BY_TYPE }).map(
@@ -12,7 +11,7 @@ export const getMoviesIds = async () => {
         await Promise.all(
           types.map(
             async (type) =>
-              await tmdb.movies.list({
+              await tmdb.tv.list({
                 language: 'en-US',
                 list: type,
                 page: index + 1,
@@ -21,12 +20,10 @@ export const getMoviesIds = async () => {
         ),
     ),
   )
-
   const results = lists.flatMap((list) => list.map((list) => list.results))
-  const ids = results.flatMap((result) => result.map((movie) => movie.id))
+  const ids = results.flatMap((result) => result.map((tv) => tv.id))
 
-  const combinedIds = [...Object.values(homeMovies), ...ids]
-  const uniqueIds = Array.from(new Set(combinedIds))
+  const uniqueIds = Array.from(new Set(ids))
 
   return uniqueIds
 }
