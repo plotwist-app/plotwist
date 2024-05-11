@@ -3,10 +3,26 @@ import { SUPPORTED_LANGUAGES } from '../../languages'
 import { APP_URL } from '../../constants'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return SUPPORTED_LANGUAGES.map((language) => ({
-    url: `${APP_URL}/${language.value}/sitemap.xml`,
-    changeFrequency: 'weekly',
-    lastModified: new Date().toISOString(),
-    priority: 1,
-  }))
+  const sitemaps = SUPPORTED_LANGUAGES.map((language) => [
+    {
+      url: `${APP_URL}/${language.value}/sitemap.xml`,
+      changeFrequency: 'weekly' as const,
+      lastModified: new Date().toISOString(),
+      priority: 1,
+    },
+    {
+      url: `${APP_URL}/${language.value}/movies/sitemap.xml`,
+      changeFrequency: 'weekly' as const,
+      lastModified: new Date().toISOString(),
+      priority: 1,
+    },
+    {
+      url: `${APP_URL}/${language.value}/tv-series/sitemap.xml`,
+      changeFrequency: 'weekly' as const,
+      lastModified: new Date().toISOString(),
+      priority: 1,
+    },
+  ]).flatMap((sitemap) => sitemap)
+
+  return [...sitemaps]
 }
