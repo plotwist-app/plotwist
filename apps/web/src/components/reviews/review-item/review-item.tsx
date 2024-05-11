@@ -76,6 +76,7 @@ export const ReviewItem = ({
             <AvatarImage
               src={tmdbImage(imagePath, 'w500')}
               className="object-cover"
+              alt={username}
             />
           )}
 

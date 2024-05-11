@@ -1,25 +1,6 @@
-import { Language } from '@/types/languages'
+import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
+import { Language } from '@plotwist/tmdb'
 import { SitemapStream, streamToPromise } from 'sitemap'
-
-export const dynamic = 'force-dynamic'
-
-const APP_ROUTES = [
-  '/',
-  '/home',
-  '/lists',
-  '/login',
-  '/signup',
-  '/movies/discover',
-  '/movies/now-playing',
-  '/movies/popular',
-  '/movies/top-rated',
-  '/people/popular',
-  '/tv-series/airing-today',
-  '/tv-series/discover',
-  '/tv-series/on-the-air',
-  '/tv-series/popular',
-  '/tv-series/top-rated',
-]
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -31,11 +12,12 @@ export async function GET(request: Request) {
   })
   const xmlPromise = streamToPromise(sitemapStream)
 
-  APP_ROUTES.forEach((route) => {
+  const tvSeriesIds = await getTvSeriesIds()
+  tvSeriesIds.forEach((id) => {
     sitemapStream.write({
-      url: `${language}${route}`,
-      changefreq: 'daily',
-      priority: 0.7,
+      url: `/${language}/tv-series/${id}`,
+      changefreq: 'weekly',
+      lastmodISO: new Date().toISOString(),
     })
   })
 
