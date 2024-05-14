@@ -64,7 +64,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
             {username}
           </Link>
 
-          <ProBadge />
+          {profile.subscription_type === 'PRO' && <ProBadge />}
         </div>
 
         <div className="flex items-center gap-2">
