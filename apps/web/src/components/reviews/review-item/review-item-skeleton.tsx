@@ -4,7 +4,7 @@ import { ReviewStars } from '../review-stars'
 export const ReviewItemSkeleton = () => {
   return (
     <div className="flex items-start space-x-4">
-      <Skeleton className="aspect-square h-10 w-10" />
+      <Skeleton className="aspect-square h-10 w-10 rounded-full" />
 
       <div className="flex w-full flex-col space-y-2">
         <div className="flex items-center space-x-2">

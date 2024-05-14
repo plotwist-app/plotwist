@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { tmdb } from '@plotwist/tmdb'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-import { getMoviesPagesIds } from '@/utils/seo/get-movies-pages-ids'
+import { getMoviesIds } from '@/utils/seo/get-movies-ids'
 
 import { MovieDetails } from './_components/movie-details'
 import { PageProps } from '@/types/languages'
@@ -14,12 +14,10 @@ type MoviePageProps = {
   params: { id: string }
 } & PageProps
 
-export async function generateStaticParams({
-  params: { lang },
-}: MoviePageProps) {
-  const moviesIds = await getMoviesPagesIds(lang)
+export async function generateStaticParams() {
+  const moviesIds = await getMoviesIds()
 
-  return moviesIds.map((id) => ({ id }))
+  return moviesIds.map((id) => ({ id: String(id) }))
 }
 
 export async function generateMetadata({
