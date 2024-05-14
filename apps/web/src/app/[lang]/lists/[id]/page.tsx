@@ -67,10 +67,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
             <div className="col-span-2 space-y-4">
               <div className="flex flex-col space-y-1">
                 <div className="flex justify-between">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-xl font-bold">{list.name}</h1>
-                    <UserResume userId={list.user_id} />
-                  </div>
+                  <h1 className="text-xl font-bold">{list.name}</h1>
 
                   {mode === 'EDIT' && (
                     <ListForm
@@ -96,7 +93,9 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            <div className="col-span-1 space-y-4">
+            <div className="col-span-1 space-y-8">
+              <UserResume userId={list.user_id} />
+
               {mode === 'EDIT' && <ListRecommendations list={list} />}
             </div>
           </div>
