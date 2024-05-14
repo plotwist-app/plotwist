@@ -88,7 +88,7 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
                 <Separator className="h-4" orientation="vertical" />
 
                 <div className="cursor-pointer rounded-full border px-2 py-0.5 text-xs text-muted-foreground transition-all hover:bg-muted">
-                  ❤ <span className="ml-1">0</span>
+                  ❤ <span className="ml-1">{list.list_likes.length}</span>
                 </div>
               </div>
             </div>

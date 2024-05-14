@@ -8,6 +8,7 @@ export type List = {
   created_at: string
   user_id: string
   list_items: ListItem[]
+  list_likes: ListLike[]
   cover_path?: string
 }
 
@@ -22,6 +23,13 @@ export type ListItem = {
   tmdb_id: number
   media_type: ListItemMediaType
   status: ListItemStatus
+}
+
+export type ListLike = {
+  created_at: string
+  id: string
+  list_id: string
+  user_id: string
 }
 
 export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'

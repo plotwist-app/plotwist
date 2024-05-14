@@ -22,6 +22,7 @@ import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists'
 import { ListPrivate } from './_components/list-private'
+import { useList } from '@/hooks/use-list'
 
 type ListPageProps = {
   params: { id: string }
@@ -30,25 +31,29 @@ type ListPageProps = {
 const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
+  const { handleLike, handleRemoveLike } = useList()
 
-  const { data: response, isLoading } = useQuery({
+  const { data: list, isLoading } = useQuery({
     queryKey: listPageQueryKey(id),
     queryFn: async () => await fetchList(id),
   })
 
   const mode = useMemo(() => {
-    if (!user || !response?.data) return 'SHOW'
+    if (!user || !list) return 'SHOW'
 
-    const isOwner = user.id === response.data.user_id
+    const isOwner = user.id === list.user_id
     if (isOwner) return 'EDIT'
 
     return 'SHOW'
-  }, [response, user])
+  }, [list, user])
+
+  const userLike = useMemo(
+    () => list?.list_likes.find((like) => like.user_id === user?.id),
+    [list, user],
+  )
 
   if (isLoading) return <ListPageSkeleton mode={mode} />
-  if (!response?.data) return <ListPageEmptyResults dictionary={dictionary} />
-
-  const list = response.data
+  if (!list) return <ListPageEmptyResults dictionary={dictionary} />
 
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
@@ -69,20 +74,45 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                 <div className="flex justify-between">
                   <h1 className="text-xl font-bold">{list.name}</h1>
 
-                  {mode === 'EDIT' && (
-                    <ListForm
-                      trigger={
-                        <Button
-                          size="icon"
-                          variant="outline"
-                          className="h-6 w-6"
-                        >
-                          <Pencil className="h-3 w-3" />
-                        </Button>
+                  <div className="flex gap-2">
+                    {mode === 'EDIT' && (
+                      <ListForm
+                        trigger={
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8 w-8"
+                          >
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                        }
+                        list={list}
+                      />
+                    )}
+
+                    <Button
+                      size="sm"
+                      variant={userLike ? 'default' : 'outline'}
+                      onClick={() => {
+                        if (userLike) {
+                          return handleRemoveLike.mutate(userLike.id)
+                        }
+
+                        if (user) {
+                          handleLike.mutate({
+                            listId: list.id,
+                            userId: user.id,
+                          })
+                        }
+                      }}
+                      disabled={!user}
+                      loading={
+                        handleLike.isPending || handleRemoveLike.isPending
                       }
-                      list={list}
-                    />
-                  )}
+                    >
+                      ❤<span className="ml-1">{list.list_likes.length}</span>
+                    </Button>
+                  </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground">
@@ -93,7 +123,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
               <ListItems listItems={list.list_items} />
             </div>
 
-            <div className="col-span-1 space-y-8">
+            <div className="col-span-1 space-y-4">
               <UserResume userId={list.user_id} />
 
               {mode === 'EDIT' && <ListRecommendations list={list} />}
