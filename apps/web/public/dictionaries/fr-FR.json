@@ -262,10 +262,6 @@
   "auth": {
     "logout_success": "Déconnexion réussie. À la prochaine ✌"
   },
-  "lists_page": {
-    "title": "Listes",
-    "description": "Créez des listes de visionnage pour gérer vos films et émissions de télévision."
-  },
   "list_card": {
     "delete": "Supprimer",
     "delete_success": "Liste supprimée avec succès.",
@@ -408,10 +404,7 @@
   "popular_reviews": {
     "title": "Critiques populaires",
     "no_reviews_found": "Nous n'avons trouvé aucun avis.",
-    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
-    "last_week": "La semaine dernière",
-    "last_month": "Le mois dernier",
-    "all_time": "Tous les temps"
+    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis."
   },
   "movies_list_filters": {
     "title": "Découvrir les Films",
@@ -670,5 +663,25 @@
   "delete": "Supprimer",
   "close": "Fermer",
   "edit_review": "Modifier l'avis",
-  "edit_reply": "Modifier la réponse"
+  "edit_reply": "Modifier la réponse",
+  "my_lists": "Mes listes",
+  "manage_your_lists": "Gérez vos listes et partagez-les avec d'autres membres!",
+  "lists": "Listes",
+  "popular_lists": "Listes populaires",
+  "last_week": "La semaine dernière",
+  "last_month": "Le mois dernier",
+  "all_time": "Tous les temps",
+  "follow": "Suivre",
+  "followers": "Abonnés",
+  "following": "Abonnements",
+  "visit": "Visiter",
+  "like": "Aimer",
+  "remove_like": "Ne plus aimer",
+  "clone": "Cloner",
+  "share": "Partager",
+  "copy_link": "Copier le lien",
+  "link_copied_to_clipboard": "Lien copié dans le presse-papiers",
+  "share_to_twitter": "Partager sur Twitter",
+  "share_to_instagram": "Partager sur Instagram",
+  "right_click_here": "Cliquez droit ici"
 }

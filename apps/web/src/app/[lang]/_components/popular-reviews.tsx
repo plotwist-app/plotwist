@@ -36,7 +36,7 @@ export const PopularReviews = () => {
               variant={period === 'last_week' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.popular_reviews.last_week}
+              {dictionary.last_week}
             </Badge>
 
             <Badge
@@ -44,7 +44,7 @@ export const PopularReviews = () => {
               variant={period === 'last_month' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.popular_reviews.last_month}
+              {dictionary.last_month}
             </Badge>
 
             <Badge
@@ -52,7 +52,7 @@ export const PopularReviews = () => {
               variant={period === 'all_time' ? 'default' : 'outline'}
               className="cursor-not-allowed opacity-50"
             >
-              {dictionary.popular_reviews.all_time}
+              {dictionary.all_time}
             </Badge>
           </div>
         </div>
@@ -81,7 +81,7 @@ export const PopularReviews = () => {
             variant={period === 'last_week' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.popular_reviews.last_week}
+            {dictionary.last_week}
           </Badge>
 
           <Badge
@@ -89,7 +89,7 @@ export const PopularReviews = () => {
             variant={period === 'last_month' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.popular_reviews.last_month}
+            {dictionary.last_month}
           </Badge>
 
           <Badge
@@ -97,7 +97,7 @@ export const PopularReviews = () => {
             variant={period === 'all_time' ? 'default' : 'outline'}
             className="cursor-pointer"
           >
-            {dictionary.popular_reviews.all_time}
+            {dictionary.all_time}
           </Badge>
         </div>
       </div>

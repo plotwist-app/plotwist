@@ -1,3 +1,5 @@
+import { Profile } from './profile'
+
 export type List = {
   id: string
   name: string
@@ -6,6 +8,7 @@ export type List = {
   created_at: string
   user_id: string
   list_items: ListItem[]
+  list_likes: ListLike[]
   cover_path?: string
 }
 
@@ -22,5 +25,16 @@ export type ListItem = {
   status: ListItemStatus
 }
 
+export type ListLike = {
+  created_at: string
+  id: string
+  list_id: string
+  user_id: string
+}
+
 export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'
 export type ListItemStatus = 'PENDING' | 'WATCHING' | 'WATCHED'
+
+export type PopularList = List & {
+  profiles: Profile
+}

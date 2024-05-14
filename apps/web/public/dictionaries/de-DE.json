@@ -261,10 +261,6 @@
   "auth": {
     "logout_success": "Erfolgreich abgemeldet. Bis zum nächsten Mal ✌"
   },
-  "lists_page": {
-    "title": "Listen",
-    "description": "Erstellen Sie Watchlisten, um Ihre Filme und Fernsehsendungen zu verwalten."
-  },
   "list_card": {
     "delete": "Löschen",
     "delete_success": "Liste erfolgreich gelöscht.",
@@ -407,10 +403,7 @@
   "popular_reviews": {
     "title": "Beliebte Bewertungen",
     "no_reviews_found": "Wir haben keine Bewertungen gefunden.",
-    "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung.",
-    "last_week": "Letzte Woche",
-    "last_month": "Letzter Monat",
-    "all_time": "Gesamter Zeitraum"
+    "explore_popular_movies": "Entdecken Sie beliebte Filme und geben Sie uns Ihre Meinung."
   },
   "movies_list_filters": {
     "title": "Filme Entdecken",
@@ -669,5 +662,25 @@
   "delete": "Löschen",
   "close": "Schließen",
   "edit_review": "Rezension bearbeiten",
-  "edit_reply": "Antwort bearbeiten"
+  "edit_reply": "Antwort bearbeiten",
+  "my_lists": "Meine Listen",
+  "manage_your_lists": "Verwalten Sie Ihre Listen und teilen Sie sie mit anderen Mitgliedern!",
+  "lists": "Listen",
+  "popular_lists": "Beliebte Listen",
+  "last_week": "Letzte Woche",
+  "last_month": "Letzter Monat",
+  "all_time": "Gesamter Zeitraum",
+  "follow": "Folgen",
+  "followers": "Follower",
+  "following": "Folgt",
+  "visit": "Besuchen",
+  "like": "Gefällt mir",
+  "remove_like": "Gefällt mir nicht mehr",
+  "clone": "Klonen",
+  "share": "Teilen",
+  "copy_link": "Link kopieren",
+  "link_copied_to_clipboard": "Link in die Zwischenablage kopiert",
+  "share_to_twitter": "Auf Twitter teilen",
+  "share_to_instagram": "Auf Instagram teilen",
+  "right_click_here": "Hier rechtsklicken"
 }

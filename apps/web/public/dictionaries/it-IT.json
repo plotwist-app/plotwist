@@ -262,10 +262,6 @@
   "auth": {
     "logout_success": "Disconnessione avvenuta con successo. Alla prossima ✌"
   },
-  "lists_page": {
-    "title": "Liste",
-    "description": "Crea liste di visione per gestire i tuoi film e programmi TV."
-  },
   "list_card": {
     "delete": "Eliminare",
     "delete_success": "Lista eliminata con successo.",
@@ -408,10 +404,7 @@
   "popular_reviews": {
     "title": "Recensioni popolari",
     "no_reviews_found": "Non abbiamo trovato nessuna valutazione.",
-    "explore_popular_movies": "Esplora film popolari e dacci la tua opinione.",
-    "last_week": "Ultima settimana",
-    "last_month": "Ultimo mese",
-    "all_time": "Tutto il tempo"
+    "explore_popular_movies": "Esplora film popolari e dacci la tua opinione."
   },
   "movies_list_filters": {
     "title": "Scopri Film",
@@ -670,5 +663,25 @@
   "delete": "Eliminare",
   "close": "Chiudi",
   "edit_review": "Modifica recensione",
-  "edit_reply": "Modifica risposta"
+  "edit_reply": "Modifica risposta",
+  "my_lists": "Le mie liste",
+  "manage_your_lists": "Gestisci le tue liste e condividile con altri membri!",
+  "lists": "Liste",
+  "popular_lists": "Liste popolari",
+  "last_week": "Ultima settimana",
+  "last_month": "Ultimo mese",
+  "all_time": "Tutto il tempo",
+  "follow": "Segui",
+  "followers": "Follower",
+  "following": "Seguiti",
+  "visit": "Visitare",
+  "like": "Mi piace",
+  "remove_like": "Non mi piace più",
+  "clone": "Clonare",
+  "share": "Condividere",
+  "copy_link": "Copia link",
+  "link_copied_to_clipboard": "Link copiato negli appunti",
+  "share_to_twitter": "Condividi su Twitter",
+  "share_to_instagram": "Condividi su Instagram",
+  "right_click_here": "Clicca con il tasto destro qui"
 }

@@ -1,6 +1,5 @@
 ![Screenshot_8](https://github.com/status-451/plotwist/assets/70612836/94637abe-c937-41b3-b855-18b5c983d886)
 
-
 # Plotwist 
 `[In development]`
 Open-source easy management and reviews about movies, series and animes.
@@ -14,7 +13,10 @@ Open-source easy management and reviews about movies, series and animes.
 - Database: [Supabase](https://supabase.com/)
 - Payments: [Stripe](https://stripe.com/br)
 
-## Star History
+# Contributing
+If you are interested in contributing, feel free to read or [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.md).
+
+# Star History
 
 <picture>
   <source
