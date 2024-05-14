@@ -7,6 +7,7 @@ export const fetchPopularLists = async () => {
     .select('*, list_items(*), profiles!inner(*), list_likes(*)')
     .eq('visibility', 'PUBLIC')
     .returns<PopularList[]>()
+    .limit(5)
 
   return data?.sort((a, b) => b.list_likes.length - a.list_likes.length)
 }

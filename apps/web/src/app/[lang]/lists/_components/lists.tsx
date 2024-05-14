@@ -39,7 +39,7 @@ export const Lists = () => {
 
   return (
     <div className="grid-cols:1 grid gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
-      {lists.map((list) => (
+      {lists.slice(0, LIMIT).map((list) => (
         <ListCard key={list.id} list={list} />
       ))}
 
