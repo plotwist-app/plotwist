@@ -77,17 +77,6 @@ export const UserResume = ({ userId }: UserResumeProps) => {
           </span>
         </div>
       </div>
-
-      {/* <div className="flex">
-        <div className="grid grid-cols-5 gap-1">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div
-          className="aspect-square w-6 rounded-lg border border-dashed bg-muted/50"
-          key={index}
-          />
-        ))}
-        </div>
-      </div> */}
     </div>
   )
 }

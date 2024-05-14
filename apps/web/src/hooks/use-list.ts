@@ -14,8 +14,7 @@ export const useList = () => {
 
   const handleRemoveLike = useMutation({
     mutationFn: removeLike,
-    onSettled: async (a, b) => {
-      console.log({ a, b })
+    onSettled: async () => {
       await APP_QUERY_CLIENT.invalidateQueries({
         queryKey: ['list'],
       })
