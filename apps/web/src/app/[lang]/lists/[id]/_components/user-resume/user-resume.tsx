@@ -82,13 +82,15 @@ export const UserResume = ({ userId }: UserResumeProps) => {
 }
 
 export const UserResumeSkeleton = () => {
+  const { dictionary } = useLanguage()
+
   return (
     <div className="flex w-full flex-col gap-4 rounded-lg border p-6">
       <div className="flex justify-between">
         <Skeleton className="h-16 w-16 rounded-full" />
 
-        <Button className="" size="sm" disabled>
-          Follow
+        <Button size="sm" disabled>
+          {dictionary.follow}
         </Button>
       </div>
 
@@ -97,13 +99,13 @@ export const UserResumeSkeleton = () => {
 
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Skeleton className="h-[2ex] w-[2ch]" /> Followers
+            <Skeleton className="h-[2ex] w-[2ch]" /> {dictionary.followers}
           </span>
 
           <Separator className="h-4" orientation="vertical" />
 
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Skeleton className="h-[2ex] w-[2ch]" /> Following
+            <Skeleton className="h-[2ex] w-[2ch]" /> {dictionary.following}
           </span>
         </div>
       </div>

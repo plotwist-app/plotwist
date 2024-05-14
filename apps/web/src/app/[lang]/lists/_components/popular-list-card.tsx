@@ -105,7 +105,7 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
 
   if (isDesktop) {
     return (
-      <PopularListCardContextMenu href={href}>
+      <PopularListCardContextMenu href={href} list={list}>
         <Trigger />
       </PopularListCardContextMenu>
     )

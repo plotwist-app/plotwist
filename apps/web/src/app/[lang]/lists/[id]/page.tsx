@@ -1,6 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
 import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
@@ -38,19 +37,15 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
     queryFn: async () => await fetchList(id),
   })
 
-  const mode = useMemo(() => {
+  const getMode = () => {
     if (!user || !list) return 'SHOW'
-
-    const isOwner = user.id === list.user_id
-    if (isOwner) return 'EDIT'
+    if (user.id === list.user_id) return 'EDIT'
 
     return 'SHOW'
-  }, [list, user])
+  }
+  const mode = getMode()
 
-  const userLike = useMemo(
-    () => list?.list_likes.find((like) => like.user_id === user?.id),
-    [list, user],
-  )
+  const userLike = list?.list_likes.find((like) => like.user_id === user?.id)
 
   if (isLoading) return <ListPageSkeleton mode={mode} />
   if (!list) return <ListPageEmptyResults dictionary={dictionary} />

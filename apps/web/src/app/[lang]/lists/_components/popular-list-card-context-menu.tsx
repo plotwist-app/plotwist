@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { PropsWithChildren } from 'react'
 
@@ -5,6 +7,7 @@ import {
   Copy,
   ExternalLink,
   Heart,
+  HeartOff,
   Instagram,
   Share,
   Twitter,
@@ -22,13 +25,27 @@ import {
 import { ProBadge } from '@/components/pro-badge'
 import { APP_URL } from '../../../../../constants'
 import { toast } from 'sonner'
+import { useList } from '@/hooks/use-list'
+import { PopularList } from '@/types/supabase/lists'
+import { useAuth } from '@/context/auth'
 
-type PopularListCardContextMenuProps = { href: string } & PropsWithChildren
+type PopularListCardContextMenuProps = {
+  href: string
+  list: PopularList
+} & PropsWithChildren
 
 export const PopularListCardContextMenu = ({
   children,
   href,
+  list,
 }: PopularListCardContextMenuProps) => {
+  const { handleLike, handleRemoveLike } = useList()
+  const { user } = useAuth()
+
+  const userLike = list.list_likes.find((like) => like.user_id === user?.id)
+
+  console.log({ list })
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
@@ -41,10 +58,25 @@ export const PopularListCardContextMenu = ({
           </Link>
         </ContextMenuItem>
 
-        <ContextMenuItem disabled>
-          <Heart className="mr-2 size-4" />
-          Like
-        </ContextMenuItem>
+        {userLike ? (
+          <ContextMenuItem onClick={() => handleRemoveLike.mutate(userLike.id)}>
+            <HeartOff className="mr-2 size-4" />
+            Remove like
+          </ContextMenuItem>
+        ) : (
+          <ContextMenuItem
+            onClick={() =>
+              handleLike.mutate({
+                listId: list.id,
+                userId: list.user_id,
+              })
+            }
+            disabled={!user}
+          >
+            <Heart className="mr-2 size-4" />
+            Like
+          </ContextMenuItem>
+        )}
 
         <ContextMenuItem disabled>
           <Copy className="mr-2 size-4" />

@@ -9,6 +9,10 @@ export const useList = () => {
       await APP_QUERY_CLIENT.invalidateQueries({
         queryKey: ['list', listId],
       })
+
+      await APP_QUERY_CLIENT.invalidateQueries({
+        queryKey: ['popular-lists'],
+      })
     },
   })
 
@@ -17,6 +21,10 @@ export const useList = () => {
     onSettled: async () => {
       await APP_QUERY_CLIENT.invalidateQueries({
         queryKey: ['list'],
+      })
+
+      await APP_QUERY_CLIENT.invalidateQueries({
+        queryKey: ['popular-lists'],
       })
     },
   })
