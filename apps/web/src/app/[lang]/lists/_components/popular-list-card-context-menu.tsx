@@ -28,6 +28,7 @@ import { toast } from 'sonner'
 import { useList } from '@/hooks/use-list'
 import { PopularList } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
 
 type PopularListCardContextMenuProps = {
   href: string
@@ -41,10 +42,9 @@ export const PopularListCardContextMenu = ({
 }: PopularListCardContextMenuProps) => {
   const { handleLike, handleRemoveLike } = useList()
   const { user } = useAuth()
+  const { dictionary } = useLanguage()
 
   const userLike = list.list_likes.find((like) => like.user_id === user?.id)
-
-  console.log({ list })
 
   return (
     <ContextMenu>
@@ -54,58 +54,60 @@ export const PopularListCardContextMenu = ({
         <ContextMenuItem asChild>
           <Link href={href}>
             <ExternalLink className="mr-2 size-4" />
-            Visit
+            {dictionary.visit}
           </Link>
         </ContextMenuItem>
 
         {userLike ? (
           <ContextMenuItem onClick={() => handleRemoveLike.mutate(userLike.id)}>
             <HeartOff className="mr-2 size-4" />
-            Remove like
+            {dictionary.remove_like}
           </ContextMenuItem>
         ) : (
           <ContextMenuItem
-            onClick={() =>
-              handleLike.mutate({
-                listId: list.id,
-                userId: list.user_id,
-              })
-            }
+            onClick={() => {
+              if (user) {
+                handleLike.mutate({
+                  listId: list.id,
+                  userId: user.id,
+                })
+              }
+            }}
             disabled={!user}
           >
             <Heart className="mr-2 size-4" />
-            Like
+            {dictionary.like}
           </ContextMenuItem>
         )}
 
         <ContextMenuItem disabled>
           <Copy className="mr-2 size-4" />
-          Clone
+          {dictionary.clone}
           <ProBadge className="ml-2" />
         </ContextMenuItem>
 
         <ContextMenuSub>
           <ContextMenuSubTrigger>
             <Share className="mr-2 size-4" />
-            Share
+            {dictionary.share}
           </ContextMenuSubTrigger>
 
-          <ContextMenuSubContent className="w-56">
+          <ContextMenuSubContent className="w-72">
             <ContextMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(`${APP_URL}${href}`)
 
-                toast.success('List link copied to clipboard.')
+                toast.success(dictionary.link_copied_to_clipboard)
               }}
             >
               <Copy className="mr-2 size-4" />
-              Copy link
+              {dictionary.copy_link}
             </ContextMenuItem>
 
             <ContextMenuItem disabled className="flex justify-between">
               <div className="flex">
                 <Twitter className="mr-2 size-4" />
-                Share to Twitter
+                {dictionary.share_to_twitter}
               </div>
 
               <ProBadge className="ml-2" />
@@ -114,7 +116,7 @@ export const PopularListCardContextMenu = ({
             <ContextMenuItem disabled className="flex justify-between">
               <div className="flex">
                 <Instagram className="mr-2 size-4" />
-                Share to Instagram
+                {dictionary.share_to_instagram}
               </div>
 
               <ProBadge className="ml-2" />

@@ -672,5 +672,15 @@
   "all_time": "全期間",
   "follow": "フォローする",
   "followers": "フォロワー",
-  "following": "フォロー中"
+  "following": "フォロー中",
+  "visit": "訪問",
+  "like": "いいね",
+  "remove_like": "いいねを取り消す",
+  "clone": "クローン",
+  "share": "共有",
+  "copy_link": "リンクをコピー",
+  "link_copied_to_clipboard": "リンクをクリップボードにコピーしました",
+  "share_to_twitter": "Twitterで共有",
+  "share_to_instagram": "Instagramで共有",
+  "right_click_here": "ここを右クリック"
 }

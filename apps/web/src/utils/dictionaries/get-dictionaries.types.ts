@@ -660,4 +660,14 @@ export type Dictionary = {
   follow: string
   followers: string
   following: string
+  visit: string
+  like: string
+  remove_like: string
+  clone: string
+  share: string
+  copy_link: string
+  link_copied_to_clipboard: string
+  share_to_twitter: string
+  share_to_instagram: string
+  right_click_here: string
 }

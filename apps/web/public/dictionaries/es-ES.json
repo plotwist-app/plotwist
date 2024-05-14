@@ -672,5 +672,15 @@
   "all_time": "Todo el tiempo",
   "follow": "Seguir",
   "followers": "Seguidores",
-  "following": "Siguiendo"
+  "following": "Siguiendo",
+  "visit": "Visitar",
+  "like": "Me gusta",
+  "remove_like": "Quitar me gusta",
+  "clone": "Clonar",
+  "share": "Compartir",
+  "copy_link": "Copiar enlace",
+  "link_copied_to_clipboard": "Enlace copiado al portapapeles",
+  "share_to_twitter": "Compartir en Twitter",
+  "share_to_instagram": "Compartir en Instagram",
+  "right_click_here": "Haga clic derecho aquí"
 }

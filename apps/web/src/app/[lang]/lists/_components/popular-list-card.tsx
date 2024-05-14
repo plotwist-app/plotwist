@@ -20,7 +20,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 type PopularListCardProps = { list: PopularList }
 
 export const PopularListCard = ({ list }: PopularListCardProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const [open, setOpen] = useState(false)
   const href = `/${language}/lists/${list.id}`
 
@@ -44,7 +44,7 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
               )}
             >
               <MousePointer2 className="mr-2 size-4" />
-              Right click here
+              {dictionary.right_click_here}
             </span>
           </div>
 
@@ -112,7 +112,12 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
   }
 
   return (
-    <PopularListCardDrawer open={open} onOpenChange={setOpen} list={list}>
+    <PopularListCardDrawer
+      open={open}
+      onOpenChange={setOpen}
+      list={list}
+      href={href}
+    >
       <Trigger />
     </PopularListCardDrawer>
   )
