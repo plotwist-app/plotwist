@@ -37,14 +37,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
     queryFn: async () => await fetchList(id),
   })
 
-  const getMode = () => {
-    if (!user || !list) return 'SHOW'
-    if (user.id === list.user_id) return 'EDIT'
-
-    return 'SHOW'
-  }
-  const mode = getMode()
-
+  const mode = user?.id === list?.user_id ? 'EDIT' : 'SHOW'
   const userLike = list?.list_likes.find((like) => like.user_id === user?.id)
 
   if (isLoading) return <ListPageSkeleton mode={mode} />
