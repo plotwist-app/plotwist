@@ -13,8 +13,9 @@ Open-source easy management and reviews about movies, series and animes.
 - Database: [Supabase](https://supabase.com/)
 - Payments: [Stripe](https://stripe.com/br)
 
+
 # Contributing
-If you are interested in contributing, feel free to read or [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.md).
+If you are interested in contributing, feel free to read or [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.MD).
 
 # Star History
 
