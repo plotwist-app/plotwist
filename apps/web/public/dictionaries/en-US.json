@@ -261,10 +261,6 @@
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"
   },
-  "lists_page": {
-    "title": "Lists",
-    "description": "Create watch-lists to manage your movies, animes and tv series."
-  },
   "list_card": {
     "delete": "Delete",
     "delete_success": "List deleted successfully.",
@@ -407,10 +403,7 @@
   "popular_reviews": {
     "title": "Popular reviews",
     "no_reviews_found": "We didn't find any reviews.",
-    "explore_popular_movies": "Explore popular movies, and give us your opinion.",
-    "last_week": "Last week",
-    "last_month": "Last month",
-    "all_time": "All time"
+    "explore_popular_movies": "Explore popular movies, and give us your opinion."
   },
   "movies_list_filters": {
     "title": "Discover Movies",
@@ -670,5 +663,15 @@
   "delete": "Delete",
   "close": "Close",
   "edit_review": "Edit review",
-  "edit_reply": "Edit reply"
+  "edit_reply": "Edit reply",
+  "my_lists": "My Lists",
+  "manage_your_lists": "Manage your lists and share them with other members!",
+  "lists": "Lists",
+  "popular_lists": "Popular Lists",
+  "last_week": "Last week",
+  "last_month": "Last month",
+  "all_time": "All time",
+  "follow": "Follow",
+  "followers": "Followers",
+  "following": "Following"
 }

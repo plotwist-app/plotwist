@@ -261,10 +261,6 @@
   "auth": {
     "logout_success": "ログアウト成功しました。また次回 ✌"
   },
-  "lists_page": {
-    "title": "リスト",
-    "description": "映画やテレビ番組を管理するためのウォッチリストを作成します。"
-  },
   "list_card": {
     "delete": "削除",
     "delete_success": "リストが正常に削除されました。",
@@ -407,10 +403,7 @@
   "popular_reviews": {
     "title": "人気のレビュー",
     "no_reviews_found": "評価が見つかりませんでした。",
-    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
-    "last_week": "先週",
-    "last_month": "先月",
-    "all_time": "全期間"
+    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。"
   },
   "movies_list_filters": {
     "title": "映画を発見",
@@ -669,5 +662,15 @@
   "delete": "消去",
   "close": "閉じる",
   "edit_review": "レビューを編集する",
-  "edit_reply": "返信を編集する"
+  "edit_reply": "返信を編集する",
+  "my_lists": "マイリスト",
+  "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
+  "lists": "リスト",
+  "popular_lists": "人気のリスト",
+  "last_week": "先週",
+  "last_month": "先月",
+  "all_time": "全期間",
+  "follow": "フォローする",
+  "followers": "フォロワー",
+  "following": "フォロー中"
 }

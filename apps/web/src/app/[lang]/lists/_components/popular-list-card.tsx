@@ -15,6 +15,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 
 import { PopularListCardContextMenu } from './popular-list-card-context-menu'
 import { PopularListCardDrawer } from './popular-list-card-drawer'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type PopularListCardProps = { list: PopularList }
 
@@ -114,5 +115,34 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
     <PopularListCardDrawer open={open} onOpenChange={setOpen} list={list}>
       <Trigger />
     </PopularListCardDrawer>
+  )
+}
+
+export const PopularListCardSkeleton = () => {
+  return (
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-5 md:gap-4">
+      <Skeleton className="col-span-2 aspect-video overflow-hidden rounded-lg border shadow" />
+
+      <div className="col-span-3 space-y-2">
+        <div className="space-y-2">
+          <Skeleton className="h-[3ex] w-[20ch]" />
+
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-8 w-8 rounded-full" />
+
+                <Skeleton className="h-[1.5ex] w-[10ch]" />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Skeleton className="h-[1.5ex] w-full" />
+            <Skeleton className="h-[1.5ex] w-1/3" />
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

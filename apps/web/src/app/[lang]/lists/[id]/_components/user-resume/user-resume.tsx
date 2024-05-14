@@ -15,7 +15,7 @@ type UserResumeProps = {
 }
 
 export const UserResume = ({ userId }: UserResumeProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const { data: profile, isLoading } = useQuery({
     queryKey: [userId],
@@ -54,7 +54,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
         </Link>
 
         <Button className="" size="sm" disabled>
-          Follow
+          {dictionary.follow}
         </Button>
       </div>
 
@@ -68,9 +68,13 @@ export const UserResume = ({ userId }: UserResumeProps) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">0 Followers</span>
+          <span className="text-xs text-muted-foreground">
+            0 {dictionary.followers}
+          </span>
           <Separator className="h-4" orientation="vertical" />
-          <span className="text-xs text-muted-foreground">0 Following</span>
+          <span className="text-xs text-muted-foreground">
+            0 {dictionary.following}
+          </span>
         </div>
       </div>
 

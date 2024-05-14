@@ -261,10 +261,6 @@
   "auth": {
     "logout_success": "Logout realizado com sucesso. Até a próxima ✌"
   },
-  "lists_page": {
-    "title": "Listas",
-    "description": "Crie listas para gerenciar seus filmes e séries."
-  },
   "list_card": {
     "delete": "Deletar",
     "delete_success": "Lista deletada com sucesso.",
@@ -407,10 +403,7 @@
   "popular_reviews": {
     "title": "Avaliações populares",
     "no_reviews_found": "Não encontramos nenhuma avaliação.",
-    "explore_popular_movies": "Explore filmes populares e nos dê sua opinião.",
-    "last_week": "Última semana",
-    "last_month": "Último mês",
-    "all_time": "Todo o período"
+    "explore_popular_movies": "Explore filmes populares e nos dê sua opinião."
   },
   "movies_list_filters": {
     "title": "Descubra Filmes",
@@ -669,5 +662,15 @@
   "delete": "Excluir",
   "close": "Fechar",
   "edit_review": "Editar avaliação",
-  "edit_reply": "Editar resposta"
+  "edit_reply": "Editar resposta",
+  "lists": "Listas",
+  "my_lists": "Minhas listas",
+  "manage_your_lists": "Gerencie suas listas de filmes e séries e compartilhe com outros membros!",
+  "popular_lists": "Listas populares",
+  "last_week": "Última semana",
+  "last_month": "Último mês",
+  "all_time": "Todo o período",
+  "follow": "Seguir",
+  "followers": "Seguidores",
+  "following": "Seguindo"
 }

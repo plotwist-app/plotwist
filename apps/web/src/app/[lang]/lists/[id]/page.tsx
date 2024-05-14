@@ -54,7 +54,6 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
   if (isLoading) return <ListPageSkeleton mode={mode} />
   if (!list) return <ListPageEmptyResults dictionary={dictionary} />
-
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (

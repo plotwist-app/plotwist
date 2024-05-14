@@ -241,10 +241,6 @@ export type Dictionary = {
   auth: {
     logout_success: string
   }
-  lists_page: {
-    title: string
-    description: string
-  }
   list_card: {
     delete: string
     delete_success: string
@@ -395,9 +391,6 @@ export type Dictionary = {
     title: string
     no_reviews_found: string
     explore_popular_movies: string
-    last_week: string
-    last_month: string
-    all_time: string
   }
   movies_list_filters: {
     title: string
@@ -657,4 +650,14 @@ export type Dictionary = {
   close: string
   edit_review: string
   edit_reply: string
+  my_lists: string
+  manage_your_lists: string
+  lists: string
+  popular_lists: string
+  last_week: string
+  last_month: string
+  all_time: string
+  follow: string
+  followers: string
+  following: string
 }
