@@ -42,11 +42,11 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       lists_dropdown: {
         removed_successfully: removedSuccessfully,
         added_successfully: addedSuccessfully,
-        view_list: viewList,
         add_to_list: addToList,
         my_lists: myLists,
       },
       list_form: { create_new_list: createNewList },
+      see_list: seeList,
     },
     language,
   } = useLanguage()
@@ -84,7 +84,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
 
             toast.success(addedSuccessfully, {
               action: {
-                label: viewList,
+                label: seeList,
                 onClick: () => push(`/${language}/lists/${list.id}`),
               },
             })
@@ -92,7 +92,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
         },
       )
     },
-    [addedSuccessfully, handleAddToList, item, language, push, viewList, user],
+    [addedSuccessfully, handleAddToList, item, language, push, seeList, user],
   )
 
   const Content = () => {
