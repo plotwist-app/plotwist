@@ -175,7 +175,6 @@ export type Dictionary = {
     my_lists: string
     removed_successfully: string
     added_successfully: string
-    view_list: string
   }
   credits: {
     cast: string
@@ -227,7 +226,6 @@ export type Dictionary = {
     my_lists: string
     collection_removed_successfully: string
     collection_added_successfully: string
-    view_list: string
   }
   settings_dropdown: {
     theme: string
