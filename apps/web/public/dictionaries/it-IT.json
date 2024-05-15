@@ -195,8 +195,7 @@
     "add_to_list": "Aggiungi alla lista",
     "my_lists": "Le mie liste",
     "removed_successfully": "Rimosso con successo.",
-    "added_successfully": "Aggiunto con successo.",
-    "view_list": "Visualizza lista"
+    "added_successfully": "Aggiunto con successo."
   },
   "credits": {
     "cast": "Cast",
@@ -247,8 +246,7 @@
     "add_collection_to_list": "Aggiungi collezione alla lista",
     "my_lists": "Le mie liste",
     "collection_removed_successfully": "Collezione rimossa con successo.",
-    "collection_added_successfully": "Collezione aggiunta con successo.",
-    "view_list": "Visualizza lista"
+    "collection_added_successfully": "Collezione aggiunta con successo."
   },
   "settings_dropdown": {
     "theme": "Tema",
@@ -683,5 +681,8 @@
   "link_copied_to_clipboard": "Link copiato negli appunti",
   "share_to_twitter": "Condividi su Twitter",
   "share_to_instagram": "Condividi su Instagram",
-  "right_click_here": "Clicca con il tasto destro qui"
+  "right_click_here": "Clicca con il tasto destro qui",
+  "list_cloned_successfully": "Lista clonata con successo!",
+  "see_list": "Vedi lista",
+  "unable_to_clone_list": "Impossibile clonare la lista."
 }

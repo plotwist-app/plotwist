@@ -670,4 +670,7 @@ export type Dictionary = {
   share_to_twitter: string
   share_to_instagram: string
   right_click_here: string
+  list_cloned_successfully: string
+  see_list: string
+  unable_to_clone_list: string
 }

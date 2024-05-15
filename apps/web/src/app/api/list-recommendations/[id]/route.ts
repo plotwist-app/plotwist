@@ -1,4 +1,4 @@
-import { fetchList } from '@/services/api/lists'
+import { fetchList } from '@/services/api/lists/fetch-list'
 import { Language } from '@/types/languages'
 import { List } from '@/types/supabase/lists'
 import { getRandomItems } from '@/utils/array'

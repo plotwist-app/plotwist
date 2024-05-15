@@ -19,7 +19,7 @@ import { listPageQueryKey } from '@/utils/list'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { fetchList } from '@/services/api/lists'
+import { fetchList } from '@/services/api/lists/fetch-list'
 import { ListPrivate } from './_components/list-private'
 import { useList } from '@/hooks/use-list'
 

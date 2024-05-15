@@ -194,8 +194,7 @@
     "add_to_list": "リストに追加",
     "my_lists": "僕のリスト",
     "removed_successfully": "排除に成功。",
-    "added_successfully": "追加に成功。",
-    "view_list": "リストを見る"
+    "added_successfully": "追加に成功。"
   },
   "credits": {
     "cast": "キャスト",
@@ -246,8 +245,7 @@
     "add_collection_to_list": "リストにコレクションを追加",
     "my_lists": "マイリスト",
     "collection_removed_successfully": "コレクションが正常に削除されました。",
-    "collection_added_successfully": "コレクションが正常に追加されました。",
-    "view_list": "リストを見る"
+    "collection_added_successfully": "コレクションが正常に追加されました。"
   },
   "settings_dropdown": {
     "theme": "テーマ",
@@ -682,5 +680,8 @@
   "link_copied_to_clipboard": "リンクをクリップボードにコピーしました",
   "share_to_twitter": "Twitterで共有",
   "share_to_instagram": "Instagramで共有",
-  "right_click_here": "ここを右クリック"
+  "right_click_here": "ここを右クリック",
+  "list_cloned_successfully": "リストを成功裏にクローンしました！",
+  "see_list": "リストを見る",
+  "unable_to_clone_list": "リストをクローンできませんでした。"
 }
