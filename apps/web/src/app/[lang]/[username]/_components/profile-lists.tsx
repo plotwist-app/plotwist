@@ -5,7 +5,7 @@ import { useAuth } from '@/context/auth'
 import { useQuery } from '@tanstack/react-query'
 import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
-import { fetchListsService } from '@/services/api/lists'
+import { fetchListsService } from '@/services/api/lists/fetch-lists'
 
 type ProfileListsProps = {
   userId: string

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { PropsWithChildren } from 'react'
+import { toast } from 'sonner'
 
 import {
   Copy,
@@ -23,12 +24,14 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { ProBadge } from '@/components/pro-badge'
-import { APP_URL } from '../../../../../constants'
-import { toast } from 'sonner'
+
 import { useList } from '@/hooks/use-list'
-import { PopularList } from '@/types/supabase/lists'
+import { APP_URL } from '../../../../../constants'
+
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+
+import { PopularList } from '@/types/supabase/lists'
 
 type PopularListCardContextMenuProps = {
   href: string
@@ -40,7 +43,7 @@ export const PopularListCardContextMenu = ({
   href,
   list,
 }: PopularListCardContextMenuProps) => {
-  const { handleLike, handleRemoveLike } = useList()
+  const { handleLike, handleRemoveLike, handleCloneList } = useList()
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
@@ -80,7 +83,17 @@ export const PopularListCardContextMenu = ({
           </ContextMenuItem>
         )}
 
-        <ContextMenuItem disabled>
+        <ContextMenuItem
+          disabled={user?.subscription_type !== 'PRO'}
+          onClick={() => {
+            if (user) {
+              handleCloneList.mutate({
+                listId: list.id,
+                userId: user.id,
+              })
+            }
+          }}
+        >
           <Copy className="mr-2 size-4" />
           {dictionary.clone}
           <ProBadge className="ml-2" />

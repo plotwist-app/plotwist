@@ -44,7 +44,7 @@ export const PopularListCardDrawer = ({
   children,
   ...drawerProps
 }: PopularListCardDrawerProps) => {
-  const { handleLike, handleRemoveLike } = useList()
+  const { handleLike, handleRemoveLike, handleCloneList } = useList()
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
@@ -94,7 +94,17 @@ export const PopularListCardDrawer = ({
             </div>
           )}
 
-          <div className="flex cursor-not-allowed items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground opacity-50">
+          <div
+            className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
+            onClick={() => {
+              if (user) {
+                handleCloneList.mutate({
+                  listId: list.id,
+                  userId: user.id,
+                })
+              }
+            }}
+          >
             <Copy className="mr-2 size-4" />
             {dictionary.clone}
             <ProBadge className="ml-2" />

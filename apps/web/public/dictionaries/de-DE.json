@@ -194,8 +194,7 @@
     "add_to_list": "Zur Liste hinzufügen",
     "my_lists": "Meine Listen",
     "removed_successfully": "Erfolgreich entfernt.",
-    "added_successfully": "Erfolgreich hinzugefügt.",
-    "view_list": "Liste ansehen"
+    "added_successfully": "Erfolgreich hinzugefügt."
   },
   "credits": {
     "cast": "Besetzung",
@@ -246,8 +245,7 @@
     "add_collection_to_list": "Sammlung zur Liste hinzufügen",
     "my_lists": "Meine Listen",
     "collection_removed_successfully": "Sammlung erfolgreich entfernt.",
-    "collection_added_successfully": "Sammlung erfolgreich hinzugefügt.",
-    "view_list": "Liste ansehen"
+    "collection_added_successfully": "Sammlung erfolgreich hinzugefügt."
   },
   "settings_dropdown": {
     "theme": "Thema",
@@ -682,5 +680,8 @@
   "link_copied_to_clipboard": "Link in die Zwischenablage kopiert",
   "share_to_twitter": "Auf Twitter teilen",
   "share_to_instagram": "Auf Instagram teilen",
-  "right_click_here": "Hier rechtsklicken"
+  "right_click_here": "Hier rechtsklicken",
+  "list_cloned_successfully": "Liste erfolgreich geklont!",
+  "see_list": "Liste anzeigen",
+  "unable_to_clone_list": "Liste konnte nicht geklont werden."
 }
