@@ -2,7 +2,7 @@
 
 # Plotwist 
 `[In development]`
-Open-source easy management and reviews about movies, series and animes.
+Open-source easy management and reviews about movies, TV shows and animes.
 
 [Discord](https://discord.gg/dXjBgd2A) • [Website](https://plotwist.app/en-US)
 
@@ -15,7 +15,7 @@ Open-source easy management and reviews about movies, series and animes.
 
 
 # Contributing
-If you are interested in contributing, feel free to read or [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.MD).
+If you are interested in contributing, feel free to read our [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.MD).
 
 # Star History
 
