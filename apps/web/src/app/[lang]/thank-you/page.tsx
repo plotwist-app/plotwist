@@ -22,7 +22,6 @@ export default async function Home({ params: { lang } }: PageProps) {
   } = await getDictionary(lang)
 
   const user = await getUserService()
-  console.log(user)
   return (
     <>
       <Pattern variant="checkered" />
