@@ -194,8 +194,7 @@
     "add_to_list": "Ajouter à la liste",
     "my_lists": "Mes listes",
     "removed_successfully": "Supprimé avec succès.",
-    "added_successfully": "Ajouté avec succès.",
-    "view_list": "Voir la liste"
+    "added_successfully": "Ajouté avec succès."
   },
   "credits": {
     "cast": "Distribution",
@@ -247,8 +246,7 @@
     "add_collection_to_list": "Ajouter la collection à la liste",
     "my_lists": "Mes listes",
     "collection_removed_successfully": "Collection supprimée avec succès.",
-    "collection_added_successfully": "Collection ajoutée avec succès.",
-    "view_list": "Voir la liste"
+    "collection_added_successfully": "Collection ajoutée avec succès."
   },
   "settings_dropdown": {
     "theme": "Thème",
@@ -683,5 +681,8 @@
   "link_copied_to_clipboard": "Lien copié dans le presse-papiers",
   "share_to_twitter": "Partager sur Twitter",
   "share_to_instagram": "Partager sur Instagram",
-  "right_click_here": "Cliquez droit ici"
+  "right_click_here": "Cliquez droit ici",
+  "list_cloned_successfully": "Liste clonée avec succès!",
+  "see_list": "Voir la liste",
+  "unable_to_clone_list": "Impossible de cloner la liste."
 }

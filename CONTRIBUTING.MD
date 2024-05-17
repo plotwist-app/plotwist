@@ -1,8 +1,9 @@
 # Contributing 
 
-Thanks for your interest in contributing to plotwist.app.
+> Thanks for your interest in contributing to **Plotwist**.
 
-About this repository
+## About this repository:
+
 This repository is a `monorepo`.
 
 - We use pnpm and workspaces for development.

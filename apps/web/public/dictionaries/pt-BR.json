@@ -195,8 +195,7 @@
     "add_to_list": "Adicionar à lista",
     "my_lists": "Minhas listas",
     "removed_successfully": "Removido com sucesso.",
-    "added_successfully": "Adicionado com sucesso.",
-    "view_list": "Ver lista"
+    "added_successfully": "Adicionado com sucesso."
   },
   "credits": {
     "cast": "Elenco",
@@ -247,8 +246,7 @@
     "add_collection_to_list": "Adicionar coleção à lista",
     "my_lists": "Minhas listas",
     "collection_removed_successfully": "Coleção removida com sucesso.",
-    "collection_added_successfully": "Coleção adicionada com sucesso.",
-    "view_list": "Ver lista"
+    "collection_added_successfully": "Coleção adicionada com sucesso."
   },
   "settings_dropdown": {
     "theme": "Tema",
@@ -683,5 +681,8 @@
   "link_copied_to_clipboard": "Link copiado para a área de transferência.",
   "share_to_twitter": "Compartilhar no Twitter",
   "share_to_instagram": "Compartilhar no Instagram",
-  "right_click_here": "Clique com o botão direito"
+  "right_click_here": "Clique com o botão direito",
+  "list_cloned_successfully": "Lista clonada com sucesso!",
+  "see_list": "Ver lista",
+  "unable_to_clone_list": "Não foi possível clonar a lista."
 }

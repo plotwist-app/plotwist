@@ -97,7 +97,7 @@ export const CollectionListDropdown = ({
               dictionary.collection_list_dropdown.collection_added_successfully,
               {
                 action: {
-                  label: dictionary.collection_list_dropdown.view_list,
+                  label: dictionary.see_list,
                   onClick: () => push(`/${language}/lists/${list.id}`),
                 },
               },
