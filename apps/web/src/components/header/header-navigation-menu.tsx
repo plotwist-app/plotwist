@@ -2,7 +2,8 @@
 
 import { useLanguage } from '@/context/language'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,17 +15,29 @@ import {
 } from '../ui/navigation-menu'
 
 import { cn } from '@/lib/utils'
+
 import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderPopularMovie } from './header-popular-movie'
 import { HeaderPopularTvSerie } from './header-popular-tv-serie'
+import { useAuth } from '@/context/auth'
+import { Bell } from 'lucide-react'
 
 export const HeaderNavigationMenu = () => {
   const { dictionary, language } = useLanguage()
   const items = buildLanguageNavigation(dictionary)
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const { user } = useAuth()
 
   const getIsActive = (href: string) => {
     const normalizedPath = pathname.replace(`/${language}`, '')
+
+    if (href.includes('animes')) {
+      const pathWithParams = `${normalizedPath}?type=${searchParams.get('type')}`
+
+      return pathWithParams.includes(href)
+    }
 
     return normalizedPath.includes(href)
   }
@@ -104,6 +117,27 @@ export const HeaderNavigationMenu = () => {
             </NavigationMenuItem>
           )
         })}
+
+        {user && (
+          <NavigationMenuItem
+            className={cn(
+              navigationMenuTriggerStyle(),
+              getIsActive(`/${language}/notifications`) && 'bg-muted',
+            )}
+            asChild
+          >
+            <Link
+              href={`/${language}/notifications`}
+              className="flex items-center gap-2"
+            >
+              <Bell width={12} height={12} />
+              Notifications
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-background">
+                2
+              </div>
+            </Link>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
     </NavigationMenu>
   )

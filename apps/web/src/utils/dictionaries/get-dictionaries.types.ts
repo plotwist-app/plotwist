@@ -155,6 +155,7 @@ export type Dictionary = {
     people: string
     lists: string
     lists_description: string
+    animes_description: string
   }
   sidebar_search: {
     placeholder: string
@@ -670,4 +671,5 @@ export type Dictionary = {
   share_to_twitter: string
   share_to_instagram: string
   right_click_here: string
+  discover_movies_animes: string
 }
