@@ -37,12 +37,15 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
   const userProfileHref = `/${language}/${username}`
 
   return (
-    <div className="flex space-x-4">
-      <Link href={href} className="w-2/6 md:w-1/6">
+    <Link
+      href={`${href}?r=${review.id}`}
+      className="flex space-x-4 hover:cursor-pointer hover:opacity-70"
+    >
+      <div className="w-2/6 md:w-1/6">
         <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
           {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
         </figure>
-      </Link>
+      </div>
 
       <div className="w-4/6 space-y-2 md:w-5/6">
         <h5 className="text-lg">{title}</h5>
@@ -88,7 +91,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
           <p className="break-words text-muted-foreground">{content}</p>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
