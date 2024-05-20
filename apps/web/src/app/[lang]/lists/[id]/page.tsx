@@ -1,6 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
 import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
@@ -20,8 +19,9 @@ import { listPageQueryKey } from '@/utils/list'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { fetchList } from '@/services/api/lists'
+import { fetchList } from '@/services/api/lists/fetch-list'
 import { ListPrivate } from './_components/list-private'
+import { useList } from '@/hooks/use-list'
 
 type ListPageProps = {
   params: { id: string }
@@ -30,26 +30,18 @@ type ListPageProps = {
 const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
+  const { handleLike, handleRemoveLike } = useList()
 
-  const { data: response, isLoading } = useQuery({
+  const { data: list, isLoading } = useQuery({
     queryKey: listPageQueryKey(id),
     queryFn: async () => await fetchList(id),
   })
 
-  const mode = useMemo(() => {
-    if (!user || !response?.data) return 'SHOW'
-
-    const isOwner = user.id === response.data.user_id
-    if (isOwner) return 'EDIT'
-
-    return 'SHOW'
-  }, [response, user])
+  const mode = user?.id === list?.user_id ? 'EDIT' : 'SHOW'
+  const userLike = list?.list_likes.find((like) => like.user_id === user?.id)
 
   if (isLoading) return <ListPageSkeleton mode={mode} />
-  if (!response?.data) return <ListPageEmptyResults dictionary={dictionary} />
-
-  const list = response.data
-
+  if (!list) return <ListPageEmptyResults dictionary={dictionary} />
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (
@@ -67,25 +59,49 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
             <div className="col-span-2 space-y-4">
               <div className="flex flex-col space-y-1">
                 <div className="flex justify-between">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-xl font-bold">{list.name}</h1>
-                    <UserResume userId={list.user_id} />
-                  </div>
+                  <h1 className="text-xl font-bold">{list.name}</h1>
 
-                  {mode === 'EDIT' && (
-                    <ListForm
-                      trigger={
-                        <Button
-                          size="icon"
-                          variant="outline"
-                          className="h-6 w-6"
-                        >
-                          <Pencil className="h-3 w-3" />
-                        </Button>
-                      }
-                      list={list}
-                    />
-                  )}
+                  <div className="flex gap-2">
+                    {mode === 'EDIT' && (
+                      <ListForm
+                        trigger={
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8 w-8"
+                          >
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                        }
+                        list={list}
+                      />
+                    )}
+
+                    {list.visibility === 'PUBLIC' && (
+                      <Button
+                        size="sm"
+                        variant={userLike ? 'default' : 'outline'}
+                        onClick={() => {
+                          if (userLike) {
+                            return handleRemoveLike.mutate(userLike.id)
+                          }
+
+                          if (user) {
+                            handleLike.mutate({
+                              listId: list.id,
+                              userId: user.id,
+                            })
+                          }
+                        }}
+                        disabled={!user}
+                        loading={
+                          handleLike.isPending || handleRemoveLike.isPending
+                        }
+                      >
+                        ❤<span className="ml-1">{list.list_likes.length}</span>
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground">
@@ -97,6 +113,8 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
             </div>
 
             <div className="col-span-1 space-y-4">
+              <UserResume userId={list.user_id} />
+
               {mode === 'EDIT' && <ListRecommendations list={list} />}
             </div>
           </div>

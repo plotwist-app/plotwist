@@ -60,13 +60,10 @@ export const ListItemActions = ({
       onSuccess: () => {
         APP_QUERY_CLIENT.setQueryData(
           listPageQueryKey(listItem.list_id),
-          (query: { data: List }) => {
+          (query: List) => {
             const newQuery = {
               ...query,
-              data: {
-                ...query.data,
-                cover_path: variables.newCoverPath,
-              },
+              cover_path: variables.newCoverPath,
             }
 
             return newQuery

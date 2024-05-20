@@ -174,7 +174,8 @@
     "on_the_air_description": "Tune in here to not miss out on current episodes of the hottest series right now.",
     "people": "People",
     "lists": "Lists",
-    "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community."
+    "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community.",
+    "animes_description": "Discover epic adventures and stunning visuals."
   },
   "sidebar_search": {
     "placeholder": "Search for movies, TV Series, or people",
@@ -194,8 +195,7 @@
     "add_to_list": "Add to list",
     "my_lists": "My lists",
     "removed_successfully": "Removed successfully.",
-    "added_successfully": "Added successfully.",
-    "view_list": "View list"
+    "added_successfully": "Added successfully."
   },
   "credits": {
     "cast": "Cast",
@@ -246,8 +246,7 @@
     "add_collection_to_list": "Add collection to list",
     "my_lists": "My lists",
     "collection_removed_successfully": "Collection removed successfully.",
-    "collection_added_successfully": "Collection added successfully.",
-    "view_list": "View list"
+    "collection_added_successfully": "Collection added successfully."
   },
   "notifications_dropdown": {
     "notifications": "Notifications",
@@ -264,10 +263,6 @@
   },
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"
-  },
-  "lists_page": {
-    "title": "Lists",
-    "description": "Create watch-lists to manage your movies, animes and tv series."
   },
   "list_card": {
     "delete": "Delete",
@@ -411,10 +406,7 @@
   "popular_reviews": {
     "title": "Popular reviews",
     "no_reviews_found": "We didn't find any reviews.",
-    "explore_popular_movies": "Explore popular movies, and give us your opinion.",
-    "last_week": "Last week",
-    "last_month": "Last month",
-    "all_time": "All time"
+    "explore_popular_movies": "Explore popular movies, and give us your opinion."
   },
   "movies_list_filters": {
     "title": "Discover Movies",
@@ -639,7 +631,8 @@
     "reviews": "Reviews",
     "lists": "Lists",
     "communities": "Communities",
-    "work_in_progress": "Work in progress"
+    "work_in_progress": "Work in progress",
+    "no_lists": "This user has no lists yet."
   },
   "profile_form": {
     "dialog_title": "Edit profile",
@@ -674,5 +667,28 @@
   "delete": "Delete",
   "close": "Close",
   "edit_review": "Edit review",
-  "edit_reply": "Edit reply"
+  "edit_reply": "Edit reply",
+  "my_lists": "My Lists",
+  "manage_your_lists": "Manage your lists and share them with other members!",
+  "lists": "Lists",
+  "popular_lists": "Popular Lists",
+  "last_week": "Last week",
+  "last_month": "Last month",
+  "all_time": "All time",
+  "follow": "Follow",
+  "followers": "Followers",
+  "following": "Following",
+  "visit": "Visit",
+  "like": "Like",
+  "remove_like": "Unlike",
+  "clone": "Clone",
+  "share": "Share",
+  "copy_link": "Copy Link",
+  "link_copied_to_clipboard": "Link copied to clipboard",
+  "share_to_twitter": "Share to Twitter",
+  "share_to_instagram": "Share to Instagram",
+  "right_click_here": "Right Click Here",
+  "list_cloned_successfully": "List cloned successfully!",
+  "see_list": "See list",
+  "unable_to_clone_list": "Unable to clone list."
 }

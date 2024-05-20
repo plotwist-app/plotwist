@@ -7,34 +7,24 @@ import { listPageQueryKey } from '@/utils/list'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
-type ListQuery = { data: List }
-
 export const useListItem = (listItem: ListItem) => {
   const { dictionary } = useLanguage()
 
-  const updateListItems = (previousQuery: ListQuery) => {
-    const newListItems = previousQuery.data.list_items.filter(
+  const updateListItems = (previous: List) => {
+    const newListItems = previous.list_items.filter(
       (item) => item.id !== listItem.id,
     )
 
     const newQuery = {
-      ...previousQuery,
-      data: {
-        ...previousQuery.data,
-        list_items: newListItems,
-      },
+      ...previous,
+      list_items: newListItems,
     }
 
     return newQuery
   }
 
-  const updateListItemsStatus = (
-    previousQuery: ListQuery,
-    status: ListItemStatus,
-  ) => {
-    const { data } = previousQuery
-
-    const newListItems = data.list_items.map((item) => {
+  const updateListItemsStatus = (previous: List, status: ListItemStatus) => {
+    const newListItems = previous.list_items.map((item) => {
       if (item.id === listItem.id)
         return {
           ...item,
@@ -45,11 +35,8 @@ export const useListItem = (listItem: ListItem) => {
     })
 
     const newQuery = {
-      ...previousQuery,
-      data: {
-        ...previousQuery.data,
-        list_items: newListItems,
-      },
+      ...previous,
+      list_items: newListItems,
     }
 
     return newQuery
@@ -73,8 +60,7 @@ export const useListItem = (listItem: ListItem) => {
     onMutate: (status: ListItemStatus) => {
       APP_QUERY_CLIENT.setQueryData(
         listPageQueryKey(listItem.list_id),
-        (previousQuery: ListQuery) =>
-          updateListItemsStatus(previousQuery, status),
+        (previous: List) => updateListItemsStatus(previous, status),
       )
     },
   })

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { MoreVertical, Trash } from 'lucide-react'
+import { MoreVertical, Trash, Image as ImageIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -30,7 +30,6 @@ import { useLanguage } from '@/context/language'
 
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
-
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListCardProps = { list: List }
@@ -53,8 +52,8 @@ export const ListCard = ({ list }: ListCardProps) => {
     <>
       <div className="space-y-2">
         <Link href={href}>
-          <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
-            {list.cover_path && (
+          <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 ">
+            {list.cover_path ? (
               <Image
                 fill
                 className="object-cover"
@@ -62,6 +61,8 @@ export const ListCard = ({ list }: ListCardProps) => {
                 alt={list.name}
                 sizes="100%"
               />
+            ) : (
+              <ImageIcon className="size-8 text-muted-foreground/20 dark:text-muted" />
             )}
           </div>
         </Link>
@@ -142,7 +143,7 @@ export const ListCardSkeleton = () => {
   return (
     <>
       <div className="space-y-2">
-        <div className="aspect-video w-full overflow-hidden rounded-md border bg-background/50 shadow">
+        <div className="aspect-video w-full overflow-hidden rounded-md border bg-background/50">
           <Skeleton className="h-full w-full" />
         </div>
 

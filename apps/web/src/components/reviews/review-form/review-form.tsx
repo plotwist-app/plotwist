@@ -112,6 +112,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
               <AvatarImage
                 src={tmdbImage(user.image_path, 'w500')}
                 className="object-cover"
+                alt={username}
               />
             )}
 

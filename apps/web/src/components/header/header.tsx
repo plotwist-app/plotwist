@@ -18,13 +18,8 @@ export const Header = () => {
 
         <div className="flex gap-2">
           <CommandSearch />
-
-          <div>
-            <NotificationsDropdown />
-          </div>
-          <div>
-            <SettingsDropdown />
-          </div>
+          <NotificationsDropdown />
+          <SettingsDropdown />
         </div>
       </header>
 

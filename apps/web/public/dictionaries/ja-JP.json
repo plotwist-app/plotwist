@@ -174,7 +174,8 @@
     "on_the_air_description": "今の最もホットなシリーズの現在のエピソードを逃さないように、ここにチューニングしてください。",
     "people": "人々",
     "lists": "リスト",
-    "lists_description": "あなたの選択、あなたの興味。コミュニティとあなたのお気に入りの映画やシリーズのリストを作成して共有してください。"
+    "lists_description": "あなたの選択、あなたの興味。コミュニティとあなたのお気に入りの映画やシリーズのリストを作成して共有してください。",
+    "animes_description": "壮大な冒険と美しいビジュアルを発見してください。"
   },
   "sidebar_search": {
     "placeholder": "映画、テレビ番組、人物を探す",
@@ -194,8 +195,7 @@
     "add_to_list": "リストに追加",
     "my_lists": "僕のリスト",
     "removed_successfully": "排除に成功。",
-    "added_successfully": "追加に成功。",
-    "view_list": "リストを見る"
+    "added_successfully": "追加に成功。"
   },
   "credits": {
     "cast": "キャスト",
@@ -246,8 +246,7 @@
     "add_collection_to_list": "リストにコレクションを追加",
     "my_lists": "マイリスト",
     "collection_removed_successfully": "コレクションが正常に削除されました。",
-    "collection_added_successfully": "コレクションが正常に追加されました。",
-    "view_list": "リストを見る"
+    "collection_added_successfully": "コレクションが正常に追加されました。"
   },
   "notifications_dropdown": {
     "notifications": "通知",
@@ -264,10 +263,6 @@
   },
   "auth": {
     "logout_success": "ログアウト成功しました。また次回 ✌"
-  },
-  "lists_page": {
-    "title": "リスト",
-    "description": "映画やテレビ番組を管理するためのウォッチリストを作成します。"
   },
   "list_card": {
     "delete": "削除",
@@ -411,10 +406,7 @@
   "popular_reviews": {
     "title": "人気のレビュー",
     "no_reviews_found": "評価が見つかりませんでした。",
-    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。",
-    "last_week": "先週",
-    "last_month": "先月",
-    "all_time": "全期間"
+    "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。"
   },
   "movies_list_filters": {
     "title": "映画を発見",
@@ -638,7 +630,8 @@
     "reviews": "レビュー",
     "lists": "リスト",
     "communities": "コミュニティ",
-    "work_in_progress": "作業中"
+    "work_in_progress": "作業中",
+    "no_lists": "このユーザーはまだリストを持っていません。"
   },
   "profile_form": {
     "dialog_title": "プロフィール編集",
@@ -673,5 +666,28 @@
   "delete": "消去",
   "close": "閉じる",
   "edit_review": "レビューを編集する",
-  "edit_reply": "返信を編集する"
+  "edit_reply": "返信を編集する",
+  "my_lists": "マイリスト",
+  "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
+  "lists": "リスト",
+  "popular_lists": "人気のリスト",
+  "last_week": "先週",
+  "last_month": "先月",
+  "all_time": "全期間",
+  "follow": "フォローする",
+  "followers": "フォロワー",
+  "following": "フォロー中",
+  "visit": "訪問",
+  "like": "いいね",
+  "remove_like": "いいねを取り消す",
+  "clone": "クローン",
+  "share": "共有",
+  "copy_link": "リンクをコピー",
+  "link_copied_to_clipboard": "リンクをクリップボードにコピーしました",
+  "share_to_twitter": "Twitterで共有",
+  "share_to_instagram": "Instagramで共有",
+  "right_click_here": "ここを右クリック",
+  "list_cloned_successfully": "リストを成功裏にクローンしました！",
+  "see_list": "リストを見る",
+  "unable_to_clone_list": "リストをクローンできませんでした。"
 }

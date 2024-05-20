@@ -9,12 +9,12 @@ import { TvSerieCard } from '../tv-serie-card'
 import { MovieCard, MovieCardSkeleton } from '../movie-card'
 import { MovieListSkeleton } from '../movie-list/movie-list-skeleton'
 
-import { AnimeListMode } from '.'
+import { AnimeListType } from '.'
 import { useLanguage } from '@/context/language'
 
-type AnimeListContentProps = { mode: AnimeListMode }
+type AnimeListContentProps = { type: AnimeListType }
 
-export const AnimeListContent = ({ mode }: AnimeListContentProps) => {
+export const AnimeListContent = ({ type }: AnimeListContentProps) => {
   const { language } = useLanguage()
 
   const { ref, inView } = useInView({
@@ -22,9 +22,9 @@ export const AnimeListContent = ({ mode }: AnimeListContentProps) => {
   })
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['animes', mode],
+    queryKey: ['animes', type],
     queryFn: async ({ pageParam }) => {
-      if (mode === 'TV_SERIES') {
+      if (type === 'tv') {
         return await tmdb.tv.discover({
           language,
           page: pageParam,
@@ -59,7 +59,7 @@ export const AnimeListContent = ({ mode }: AnimeListContentProps) => {
   return (
     <div className="rid-cols-1 grid gap-x-4 gap-y-8 md:grid-cols-3">
       {flatData.map((item) => {
-        if (mode === 'TV_SERIES') {
+        if (type === 'tv') {
           return <TvSerieCard tvSerie={item as TvSerie} key={item.id} />
         }
 

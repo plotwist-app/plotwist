@@ -1,4 +1,4 @@
-import { fetchList } from '@/services/api/lists'
+import { fetchList } from '@/services/api/lists/fetch-list'
 import { Language } from '@/types/languages'
 import { List } from '@/types/supabase/lists'
 import { getRandomItems } from '@/utils/array'
@@ -91,7 +91,7 @@ export async function GET(
   const language = url.searchParams.get('language') as Language
 
   try {
-    const { data } = await fetchList(id)
+    const data = await fetchList(id)
 
     if (!data) {
       return new Response(JSON.stringify({ error: 'List not found' }), {

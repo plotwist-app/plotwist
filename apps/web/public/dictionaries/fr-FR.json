@@ -174,7 +174,8 @@
     "on_the_air_description": "Accordez-vous ici pour ne pas manquer les épisodes actuels des séries les plus chaudes du moment.",
     "people": "Personnes",
     "lists": "Listes",
-    "lists_description": "Vos choix, vos intérêts. Créez et partagez des listes de vos films et séries préférés avec la communauté."
+    "lists_description": "Vos choix, vos intérêts. Créez et partagez des listes de vos films et séries préférés avec la communauté.",
+    "animes_description": "Découvrez des aventures épiques et des visuels époustouflants."
   },
   "sidebar_search": {
     "placeholder": "Recherchez des films, des émissions de télévision ou des personnes",
@@ -194,8 +195,7 @@
     "add_to_list": "Ajouter à la liste",
     "my_lists": "Mes listes",
     "removed_successfully": "Supprimé avec succès.",
-    "added_successfully": "Ajouté avec succès.",
-    "view_list": "Voir la liste"
+    "added_successfully": "Ajouté avec succès."
   },
   "credits": {
     "cast": "Distribution",
@@ -247,8 +247,7 @@
     "add_collection_to_list": "Ajouter la collection à la liste",
     "my_lists": "Mes listes",
     "collection_removed_successfully": "Collection supprimée avec succès.",
-    "collection_added_successfully": "Collection ajoutée avec succès.",
-    "view_list": "Voir la liste"
+    "collection_added_successfully": "Collection ajoutée avec succès."
   },
   "notifications_dropdown": {
     "notifications": "Notifications",
@@ -265,10 +264,6 @@
   },
   "auth": {
     "logout_success": "Déconnexion réussie. À la prochaine ✌"
-  },
-  "lists_page": {
-    "title": "Listes",
-    "description": "Créez des listes de visionnage pour gérer vos films et émissions de télévision."
   },
   "list_card": {
     "delete": "Supprimer",
@@ -412,10 +407,7 @@
   "popular_reviews": {
     "title": "Critiques populaires",
     "no_reviews_found": "Nous n'avons trouvé aucun avis.",
-    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis.",
-    "last_week": "La semaine dernière",
-    "last_month": "Le mois dernier",
-    "all_time": "Tous les temps"
+    "explore_popular_movies": "Explorez les films populaires et donnez-nous votre avis."
   },
   "movies_list_filters": {
     "title": "Découvrir les Films",
@@ -639,7 +631,8 @@
     "reviews": "Critiques",
     "lists": "Listes",
     "communities": "Communautés",
-    "work_in_progress": "Travail en cours"
+    "work_in_progress": "Travail en cours",
+    "no_lists": "Cet utilisateur n'a pas encore de listes."
   },
   "profile_form": {
     "dialog_title": "Modifier le profil",
@@ -674,5 +667,28 @@
   "delete": "Supprimer",
   "close": "Fermer",
   "edit_review": "Modifier l'avis",
-  "edit_reply": "Modifier la réponse"
+  "edit_reply": "Modifier la réponse",
+  "my_lists": "Mes listes",
+  "manage_your_lists": "Gérez vos listes et partagez-les avec d'autres membres!",
+  "lists": "Listes",
+  "popular_lists": "Listes populaires",
+  "last_week": "La semaine dernière",
+  "last_month": "Le mois dernier",
+  "all_time": "Tous les temps",
+  "follow": "Suivre",
+  "followers": "Abonnés",
+  "following": "Abonnements",
+  "visit": "Visiter",
+  "like": "Aimer",
+  "remove_like": "Ne plus aimer",
+  "clone": "Cloner",
+  "share": "Partager",
+  "copy_link": "Copier le lien",
+  "link_copied_to_clipboard": "Lien copié dans le presse-papiers",
+  "share_to_twitter": "Partager sur Twitter",
+  "share_to_instagram": "Partager sur Instagram",
+  "right_click_here": "Cliquez droit ici",
+  "list_cloned_successfully": "Liste clonée avec succès!",
+  "see_list": "Voir la liste",
+  "unable_to_clone_list": "Impossible de cloner la liste."
 }

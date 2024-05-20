@@ -5,17 +5,15 @@ import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useAuth } from '../auth'
 
-import {
-  changeListCoverPathService,
-  removeFromListService,
-  removeCollectionFromListService,
-  addCollectionToListService,
-  addToListService,
-  createListService,
-  deleteListService,
-  fetchListsService,
-  editListService,
-} from '@/services/api/lists'
+import { fetchListsService } from '@/services/api/lists/fetch-lists'
+import { createListService } from '@/services/api/lists/create-list'
+import { editListService } from '@/services/api/lists/edit-list'
+import { deleteListService } from '@/services/api/lists/delete-list'
+import { addToListService } from '@/services/api/lists/add-to-list'
+import { addCollectionToListService } from '@/services/api/lists/add-collection-to-list'
+import { removeCollectionFromListService } from '@/services/api/lists/remove-collection-from-list'
+import { removeFromListService } from '@/services/api/lists/remove-from-list'
+import { changeListCoverPathService } from '@/services/api/lists/change-list-cover-path'
 
 export const ListsContext = createContext<ListsContextType>(
   {} as ListsContextType,

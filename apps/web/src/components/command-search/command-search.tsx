@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
-
+import {
+  MovieWithMediaType,
+  PersonWithMediaType,
+  TvSerieWithMediaType,
+  tmdb,
+} from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
@@ -15,6 +20,7 @@ import {
   CommandInput,
   CommandList,
 } from '@/components/ui/command'
+
 import {
   CommandSearchMovie,
   CommandSearchPerson,
@@ -22,12 +28,6 @@ import {
   CommandSearchSkeleton,
   CommandSearchTvSerie,
 } from '../command-search'
-import {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TvSerieWithMediaType,
-  tmdb,
-} from '@plotwist/tmdb'
 import { CommandSearchIcon } from './command-search-icon'
 
 export const CommandSearch = () => {

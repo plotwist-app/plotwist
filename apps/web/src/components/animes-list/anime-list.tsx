@@ -1,38 +1,45 @@
 'use client'
 
-import { useState } from 'react'
-
 import { useLanguage } from '@/context/language'
 
 import { Badge } from '../ui/badge'
 import { AnimeListContent } from './anime-list-content'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export type AnimeListMode = 'TV_SERIES' | 'MOVIES'
+export type AnimeListType = 'tv' | 'movies'
 
 export const AnimeList = () => {
   const { dictionary } = useLanguage()
-  const [mode, setMode] = useState<AnimeListMode>('TV_SERIES')
+  const { replace } = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const type = (searchParams.get('type') ?? 'tv') as AnimeListType
+
+  const handleReplaceType = (type: AnimeListType) => {
+    replace(`${pathname}?type=${type}`)
+  }
 
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
         <Badge
-          onClick={() => setMode('TV_SERIES')}
+          onClick={() => handleReplaceType('tv')}
           className="cursor-pointer"
-          variant={mode === 'TV_SERIES' ? 'default' : 'outline'}
+          variant={type === 'tv' ? 'default' : 'outline'}
         >
           {dictionary.animes_page.button_tv_series}
         </Badge>
         <Badge
-          onClick={() => setMode('MOVIES')}
+          onClick={() => handleReplaceType('movies')}
           className="cursor-pointer"
-          variant={mode === 'MOVIES' ? 'default' : 'outline'}
+          variant={type === 'movies' ? 'default' : 'outline'}
         >
           {dictionary.animes_page.button_movies}
         </Badge>
       </div>
 
-      <AnimeListContent mode={mode} />
+      <AnimeListContent type={type} />
     </div>
   )
 }

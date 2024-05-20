@@ -174,7 +174,8 @@
     "on_the_air_description": "Sintoniza aquí para no perderte los episodios actuales de las series más calientes del momento.",
     "people": "Personas",
     "lists": "Listas",
-    "lists_description": "Tus elecciones, tus intereses. Crea y comparte listas de tus películas y series favoritas con la comunidad."
+    "lists_description": "Tus elecciones, tus intereses. Crea y comparte listas de tus películas y series favoritas con la comunidad.",
+    "animes_description": "Descubre aventuras épicas y visuales deslumbrantes."
   },
   "sidebar_search": {
     "placeholder": "Busca películas, programas de TV o personas",
@@ -194,8 +195,7 @@
     "add_to_list": "Añadir a la lista",
     "my_lists": "Mis listas",
     "removed_successfully": "Eliminado con éxito.",
-    "added_successfully": "Añadido con éxito.",
-    "view_list": "Ver lista"
+    "added_successfully": "Añadido con éxito."
   },
   "credits": {
     "cast": "Reparto",
@@ -246,8 +246,7 @@
     "add_collection_to_list": "Añadir colección a la lista",
     "my_lists": "Mis listas",
     "collection_removed_successfully": "Colección eliminada con éxito.",
-    "collection_added_successfully": "Colección añadida con éxito.",
-    "view_list": "Ver lista"
+    "collection_added_successfully": "Colección añadida con éxito."
   },
   "notifications_dropdown": {
     "notifications": "Notificaciones",
@@ -264,10 +263,6 @@
   },
   "auth": {
     "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
-  },
-  "lists_page": {
-    "title": "Listas",
-    "description": "Crea listas de seguimiento para gestionar tus películas y programas de televisión."
   },
   "list_card": {
     "delete": "Eliminar",
@@ -411,10 +406,7 @@
   "popular_reviews": {
     "title": "Reseñas populares",
     "no_reviews_found": "No encontramos ninguna evaluación.",
-    "explore_popular_movies": "Explora películas populares y danos tu opinión.",
-    "last_week": "Última semana",
-    "last_month": "Último mes",
-    "all_time": "Todo el tiempo"
+    "explore_popular_movies": "Explora películas populares y danos tu opinión."
   },
   "movies_list_filters": {
     "title": "Descubrir Películas",
@@ -638,7 +630,8 @@
     "reviews": "Reseñas",
     "lists": "Listas",
     "communities": "Comunidades",
-    "work_in_progress": "En progreso"
+    "work_in_progress": "En progreso",
+    "no_lists": "Este usuario aún no tiene listas."
   },
   "profile_form": {
     "dialog_title": "Editar perfil",
@@ -673,5 +666,28 @@
   "delete": "Borrar",
   "close": "Cerrar",
   "edit_review": "Editar reseña",
-  "edit_reply": "Editar respuesta"
+  "edit_reply": "Editar respuesta",
+  "my_lists": "Mis listas",
+  "manage_your_lists": "Gestiona tus listas y compártelas con otros miembros!",
+  "lists": "Listas",
+  "popular_lists": "Listas populares",
+  "last_week": "Última semana",
+  "last_month": "Último mes",
+  "all_time": "Todo el tiempo",
+  "follow": "Seguir",
+  "followers": "Seguidores",
+  "following": "Siguiendo",
+  "visit": "Visitar",
+  "like": "Me gusta",
+  "remove_like": "Quitar me gusta",
+  "clone": "Clonar",
+  "share": "Compartir",
+  "copy_link": "Copiar enlace",
+  "link_copied_to_clipboard": "Enlace copiado al portapapeles",
+  "share_to_twitter": "Compartir en Twitter",
+  "share_to_instagram": "Compartir en Instagram",
+  "right_click_here": "Haga clic derecho aquí",
+  "list_cloned_successfully": "¡Lista clonada con éxito!",
+  "see_list": "Ver lista",
+  "unable_to_clone_list": "No se pudo clonar la lista."
 }

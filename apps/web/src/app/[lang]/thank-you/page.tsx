@@ -1,9 +1,12 @@
+import Link from 'next/link'
+
 import { Confetti } from '@/components/confetti'
 import { Pattern } from '@/components/pattern'
 
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Check, Copy, List, Play, User } from 'lucide-react'
+import { getUserService } from '@/services/api/users/get-user'
 
 export default async function Home({ params: { lang } }: PageProps) {
   const {
@@ -17,6 +20,8 @@ export default async function Home({ params: { lang } }: PageProps) {
       feature4,
     },
   } = await getDictionary(lang)
+
+  const user = await getUserService()
   return (
     <>
       <Pattern variant="checkered" />
@@ -43,7 +48,10 @@ export default async function Home({ params: { lang } }: PageProps) {
           </h2>
 
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
+            <Link
+              className="space-y-6 rounded-lg border bg-background bg-gradient-to-b to-background p-4 shadow transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+              href={`/${lang}/lists`}
+            >
               <List />
 
               <div>
@@ -52,7 +60,7 @@ export default async function Home({ params: { lang } }: PageProps) {
                   {feature1.description}
                 </p>
               </div>
-            </li>
+            </Link>
 
             <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
               <Play />
@@ -65,7 +73,10 @@ export default async function Home({ params: { lang } }: PageProps) {
               </div>
             </li>
 
-            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
+            <Link
+              className="space-y-6 rounded-lg border bg-background bg-gradient-to-b to-background p-4 shadow transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+              href={`/${lang}/lists`}
+            >
               <Copy />
 
               <div>
@@ -74,9 +85,12 @@ export default async function Home({ params: { lang } }: PageProps) {
                   {feature3.description}
                 </p>
               </div>
-            </li>
+            </Link>
 
-            <li className="space-y-6 rounded-lg border bg-background bg-gradient-to-b from-transparent to-background p-4 shadow">
+            <Link
+              className="space-y-6 rounded-lg border bg-background bg-gradient-to-b to-background p-4 shadow transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+              href={`/${lang}/${user?.username}`}
+            >
               <User />
 
               <div>
@@ -85,7 +99,7 @@ export default async function Home({ params: { lang } }: PageProps) {
                   {feature4.description}
                 </p>
               </div>
-            </li>
+            </Link>
           </ul>
         </div>
       </main>

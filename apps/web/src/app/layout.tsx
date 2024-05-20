@@ -33,6 +33,7 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/logo-white.svg" />
         <meta name="theme-color" content="#09090b" />
+
         <GTag />
       </head>
 

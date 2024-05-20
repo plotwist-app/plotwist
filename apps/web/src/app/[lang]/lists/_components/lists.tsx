@@ -1,7 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
-
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
@@ -11,18 +9,12 @@ import { ListCard, ListCardSkeleton } from '@/components/list-card'
 
 import { ListForm } from './list-form'
 
+const LIMIT = 3
+
 export const Lists = () => {
   const { lists, isLoading } = useLists()
   const { dictionary } = useLanguage()
   const { user } = useAuth()
-
-  const listsAmountLimit = useMemo(() => {
-    if (process.env.NODE_ENV === 'development' || user) {
-      return Infinity
-    }
-
-    return 1
-  }, [user])
 
   if (!user) {
     return (
@@ -47,19 +39,23 @@ export const Lists = () => {
 
   return (
     <div className="grid-cols:1 grid gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
-      {lists.map((list) => (
+      {lists.slice(0, LIMIT).map((list) => (
         <ListCard key={list.id} list={list} />
       ))}
 
-      {lists.length < listsAmountLimit && (
-        <ListForm
-          trigger={
-            <button className="aspect-video rounded-md border border-dashed">
-              {dictionary.list_form.create_new_list}
-            </button>
-          }
-        />
-      )}
+      {lists.length < LIMIT &&
+        Array.from({ length: LIMIT - lists.length }).map((_, index) => (
+          <ListForm
+            trigger={
+              <button className="group aspect-video rounded-md border border-dashed">
+                <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
+                  {dictionary.list_form.create_new_list}
+                </p>
+              </button>
+            }
+            key={index}
+          />
+        ))}
     </div>
   )
 }

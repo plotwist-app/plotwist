@@ -70,17 +70,12 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
         onSuccess: () => {
           APP_QUERY_CLIENT.setQueryData(
             listPageQueryKey(variables.id),
-            (query: { data: List }) => {
-              const { data } = query
-
+            (previous: List) => {
               return {
-                ...query,
-                data: {
-                  ...data,
-                  name: variables.name,
-                  description: variables.description,
-                  visibility: variables.visibility,
-                },
+                ...previous,
+                name: variables.name,
+                description: variables.description,
+                visibility: variables.visibility,
               }
             },
           )

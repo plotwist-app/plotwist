@@ -5,7 +5,7 @@ import { useAuth } from '@/context/auth'
 import { useQuery } from '@tanstack/react-query'
 import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
-import { fetchListsService } from '@/services/api/lists'
+import { fetchListsService } from '@/services/api/lists/fetch-lists'
 
 type ProfileListsProps = {
   userId: string
@@ -15,12 +15,12 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
 
-  const { data, isLoading } = useQuery({
+  const { data: lists, isLoading } = useQuery({
     queryKey: ['lists', userId],
     queryFn: async () => fetchListsService(userId),
   })
 
-  if (!data || isLoading)
+  if (!lists || isLoading)
     return (
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {Array.from({ length: 2 }).map((_, index) => (
@@ -31,9 +31,21 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
 
   const isOwner = user?.id === userId
 
+  const isVisitorAndListEmpty = lists.length === 0 && !isOwner
+
+  if (isVisitorAndListEmpty) {
+    return (
+      <div className="justify flex w-full  flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          {dictionary.profile.no_lists}
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      {data.map((list) => (
+      {lists.map((list) => (
         <ListCard list={list} key={list.id} />
       ))}
 
