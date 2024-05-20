@@ -614,6 +614,7 @@ export type Dictionary = {
     lists: string
     communities: string
     work_in_progress: string
+    no_lists: string
   }
   profile_form: {
     dialog_title: string
