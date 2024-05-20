@@ -34,7 +34,7 @@ export const NotificationsDropdown = () => {
               width={40}
               height={40}
             />
-            <p className="line-clamp-2 text-xs text-muted-foreground">
+            <p className="line-clamp-3 text-center text-xs text-muted-foreground">
               {dictionary.notifications_dropdown.no_notifications}
             </p>
           </div>
