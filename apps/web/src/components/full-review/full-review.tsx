@@ -38,7 +38,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
 
   return (
     <Link
-      href={`${href}?r=${review.id}`}
+      href={`${href}?review=${review.id}`}
       className="flex space-x-4 hover:cursor-pointer hover:opacity-70"
     >
       <div className="w-2/6 md:w-1/6">

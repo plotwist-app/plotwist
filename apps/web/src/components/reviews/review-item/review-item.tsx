@@ -57,7 +57,7 @@ export const ReviewItem = ({
   } = useLanguage()
   const { user } = useAuth()
   const reviewRef = useRef<HTMLDivElement>(null)
-  const reviewToFocus = useSearchParams().get('r')
+  const reviewToFocus = useSearchParams().get('review')
 
   const [openReplyForm, setOpenReplyForm] = useState(false)
   const [openReplies, setOpenReplies] = useState(false)
@@ -121,7 +121,7 @@ export const ReviewItem = ({
           className={cn(
             'relative space-y-1 rounded-md border p-4 shadow',
             focusReview &&
-              'animate-pulse border border-yellow-500 shadow-2xl shadow-yellow-500/50',
+            'animate-pulse border border-yellow-500 shadow-2xl shadow-yellow-500/50',
           )}
         >
           <p className="break-words text-sm/6">{content}</p>
