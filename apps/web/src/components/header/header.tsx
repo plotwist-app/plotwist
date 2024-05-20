@@ -2,6 +2,7 @@
 
 import { CommandSearch } from '../command-search'
 import { SettingsDropdown } from '../settings-dropdown'
+import { NotificationsDropdown } from '../notifications-dropdown'
 import { HeaderNavigationMenu } from './header-navigation-menu'
 import { HeaderNavigationDrawer } from './header-navigation-drawer'
 import { Logo } from '../logo'
@@ -18,6 +19,9 @@ export const Header = () => {
         <div className="flex gap-2">
           <CommandSearch />
 
+          <div>
+            <NotificationsDropdown />
+          </div>
           <div>
             <SettingsDropdown />
           </div>
