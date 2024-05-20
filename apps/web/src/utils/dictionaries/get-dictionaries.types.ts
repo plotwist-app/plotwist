@@ -229,6 +229,10 @@ export type Dictionary = {
     collection_added_successfully: string
     view_list: string
   }
+  notifications_dropdown: {
+    notifications: string
+    no_notifications: string
+  }
   settings_dropdown: {
     theme: string
     light: string
