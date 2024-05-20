@@ -249,6 +249,10 @@
     "collection_added_successfully": "コレクションが正常に追加されました。",
     "view_list": "リストを見る"
   },
+  "notifications_dropdown": {
+    "notifications": "通知",
+    "no_notifications": "通知はありません。"
+  },
   "settings_dropdown": {
     "theme": "テーマ",
     "light": "🌞 ライト",
