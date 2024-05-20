@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { toast } from "sonner";
-import Image from "next/image";
-import { MoreVertical, Trash, Image as ImageIcon } from "lucide-react";
+import { useMemo, useState } from 'react'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import Image from 'next/image'
+import { MoreVertical, Trash, Image as ImageIcon } from 'lucide-react'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 import {
   Dialog,
   DialogClose,
@@ -21,32 +21,32 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
+} from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
 
-import { APP_QUERY_CLIENT } from "@/context/app/app";
-import { useLists } from "@/context/lists";
-import { useLanguage } from "@/context/language";
+import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { useLists } from '@/context/lists'
+import { useLanguage } from '@/context/language'
 
-import { List } from "@/types/supabase/lists";
-import { useAuth } from "@/context/auth";
-import { tmdbImage } from "@/utils/tmdb/image";
+import { List } from '@/types/supabase/lists'
+import { useAuth } from '@/context/auth'
+import { tmdbImage } from '@/utils/tmdb/image'
 
-type ListCardProps = { list: List };
+type ListCardProps = { list: List }
 
 export const ListCard = ({ list }: ListCardProps) => {
-  const { handleDeleteList } = useLists();
-  const { language, dictionary } = useLanguage();
-  const { user } = useAuth();
+  const { handleDeleteList } = useLists()
+  const { language, dictionary } = useLanguage()
+  const { user } = useAuth()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const canEdit = useMemo(() => {
-    const isOwner = user?.id === list.user_id;
-    return isOwner;
-  }, [list.user_id, user?.id]);
+    const isOwner = user?.id === list.user_id
+    return isOwner
+  }, [list.user_id, user?.id])
 
-  const href = `/${language}/lists/${list.id}`;
+  const href = `/${language}/lists/${list.id}`
 
   return (
     <>
@@ -119,15 +119,15 @@ export const ListCard = ({ list }: ListCardProps) => {
                 handleDeleteList.mutate(list.id, {
                   onSuccess: () => {
                     APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: ["lists", list.user_id],
-                    });
+                      queryKey: ['lists', list.user_id],
+                    })
 
-                    toast.success(dictionary.list_card.delete_success);
+                    toast.success(dictionary.list_card.delete_success)
                   },
                   onError: (error) => {
-                    toast.error(error.message);
+                    toast.error(error.message)
                   },
-                });
+                })
               }}
             >
               {dictionary.list_card.delete}
@@ -136,8 +136,8 @@ export const ListCard = ({ list }: ListCardProps) => {
         </DialogContent>
       </Dialog>
     </>
-  );
-};
+  )
+}
 
 export const ListCardSkeleton = () => {
   return (
@@ -160,5 +160,5 @@ export const ListCardSkeleton = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
