@@ -31,9 +31,9 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
 
   const isOwner = user?.id === userId
 
-  const isNotOwnerAndListEmpty = lists.length === 0 && !isOwner
+  const isVisitorAndListEmpty = lists.length === 0 && !isOwner
 
-  if (isNotOwnerAndListEmpty) {
+  if (isVisitorAndListEmpty) {
     return (
       <div className="justify flex w-full  flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p className="text-sm text-muted-foreground">
@@ -44,7 +44,7 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   }
 
   return (
-    <div className="grid   grid-cols-1 gap-4 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {lists.map((list) => (
         <ListCard list={list} key={list.id} />
       ))}
