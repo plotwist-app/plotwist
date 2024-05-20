@@ -628,7 +628,7 @@
     "lists": "Liste",
     "communities": "Comunità",
     "work_in_progress": "Lavoro in corso",
-    "no_lists": "Questo utente non ha ancora liste"
+    "no_lists": "Questo utente non ha ancora liste."
   },
   "profile_form": {
     "dialog_title": "Modifica profilo",
