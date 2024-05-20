@@ -130,7 +130,7 @@ export const ReviewItem = ({
           <div
             className={cn(
               focusReview &&
-              'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200',
+                'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200',
             )}
           >
             {focusReview && (

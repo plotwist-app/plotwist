@@ -5,8 +5,7 @@
     "build": "dotenv -- turbo build",
     "build:typescript": "turbo build --filter=@plotwist/typescript-config",
     "dev": "dotenv -- turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "lint": "turbo lint -- --fix"
   },
   "devDependencies": {
     "@plotwist/eslint-config": "workspace:*",
