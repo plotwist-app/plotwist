@@ -39,7 +39,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
   return (
     <div className="flex space-x-4" data-testid="full-review">
       <Link href={href} className="w-2/6 md:w-1/6">
-        <figure className="bg-muted relative aspect-[2/3] overflow-hidden rounded-md border shadow">
+        <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
           {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
         </figure>
       </Link>
@@ -65,27 +65,27 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
 
               <Link
                 href={userProfileHref}
-                className="text-muted-foreground flex gap-2 text-sm"
+                className="flex gap-2 text-sm text-muted-foreground"
               >
                 {username}
               </Link>
             </div>
 
-            <span className="bg-muted hidden h-1 w-1 rounded-full md:block" />
+            <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
 
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
               {likes > 0 && (
                 <>
-                  <span className="bg-muted h-1 w-1 rounded-full" />
+                  <span className="h-1 w-1 rounded-full bg-muted" />
                   <ReviewLikes reviewId={review.id} className="static" />
                 </>
               )}
             </div>
           </div>
 
-          <p className="text-muted-foreground break-words">{content}</p>
+          <p className="break-words text-muted-foreground">{content}</p>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@ export const FullReviewSkeleton = () => {
           <div className="flex items-center space-x-2">
             <Skeleton className="aspect-square size-8 rounded-full border" />
             <Skeleton className="aspect-square h-[1em] w-[10ch]" />
-            <span className="bg-muted h-1 w-1 rounded-full" />
+            <span className="h-1 w-1 rounded-full bg-muted" />
             <ReviewStars rating={0} />
           </div>
 
