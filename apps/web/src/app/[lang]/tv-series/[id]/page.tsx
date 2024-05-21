@@ -12,7 +12,7 @@ export type TvSeriePageProps = PageProps & {
 }
 
 export async function generateStaticParams() {
-  const tvSeriesIds = await getTvSeriesIds()
+  const tvSeriesIds = await getTvSeriesIds(1)
 
   return tvSeriesIds.map((id) => ({ id: String(id) }))
 }
