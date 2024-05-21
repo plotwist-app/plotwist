@@ -112,7 +112,7 @@ export const PopularReviews = () => {
             <p>{dictionary.popular_reviews.no_reviews_found}</p>
 
             <Link
-              className="lg:text-md text-muted-foreground text-sm hover:underline"
+              className="lg:text-md text-sm text-muted-foreground hover:underline"
               href={`/${language}/movies/popular`}
             >
               {dictionary.popular_reviews.explore_popular_movies}
