@@ -75,7 +75,7 @@ export const PopularReviews = () => {
           {dictionary.popular_reviews.title}
         </h3>
 
-        <div className="flex gap-1">
+        <div className="flex gap-1" data-testid="date-filter-badges">
           <Badge
             onClick={() => setPeriod('last_week')}
             variant={period === 'last_week' ? 'default' : 'outline'}
