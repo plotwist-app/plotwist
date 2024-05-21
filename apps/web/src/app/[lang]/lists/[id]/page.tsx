@@ -77,28 +77,30 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                       />
                     )}
 
-                    <Button
-                      size="sm"
-                      variant={userLike ? 'default' : 'outline'}
-                      onClick={() => {
-                        if (userLike) {
-                          return handleRemoveLike.mutate(userLike.id)
-                        }
+                    {list.visibility === 'PUBLIC' && (
+                      <Button
+                        size="sm"
+                        variant={userLike ? 'default' : 'outline'}
+                        onClick={() => {
+                          if (userLike) {
+                            return handleRemoveLike.mutate(userLike.id)
+                          }
 
-                        if (user) {
-                          handleLike.mutate({
-                            listId: list.id,
-                            userId: user.id,
-                          })
+                          if (user) {
+                            handleLike.mutate({
+                              listId: list.id,
+                              userId: user.id,
+                            })
+                          }
+                        }}
+                        disabled={!user}
+                        loading={
+                          handleLike.isPending || handleRemoveLike.isPending
                         }
-                      }}
-                      disabled={!user}
-                      loading={
-                        handleLike.isPending || handleRemoveLike.isPending
-                      }
-                    >
-                      ❤<span className="ml-1">{list.list_likes.length}</span>
-                    </Button>
+                      >
+                        ❤<span className="ml-1">{list.list_likes.length}</span>
+                      </Button>
+                    )}
                   </div>
                 </div>
 

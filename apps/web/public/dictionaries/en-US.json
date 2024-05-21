@@ -627,7 +627,8 @@
     "reviews": "Reviews",
     "lists": "Lists",
     "communities": "Communities",
-    "work_in_progress": "Work in progress"
+    "work_in_progress": "Work in progress",
+    "no_lists": "This user has no lists yet."
   },
   "profile_form": {
     "dialog_title": "Edit profile",

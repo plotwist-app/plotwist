@@ -626,8 +626,10 @@
     "reviews": "Avaliações",
     "lists": "Listas",
     "communities": "Comunidades",
-    "work_in_progress": "Em andamento"
+    "work_in_progress": "Em andamento",
+    "no_lists": "Este usuário ainda não possui listas."
   },
+
   "profile_form": {
     "dialog_title": "Editar perfil",
     "username_label": "Nome de usuário",

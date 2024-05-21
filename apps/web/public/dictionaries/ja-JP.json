@@ -626,7 +626,8 @@
     "reviews": "レビュー",
     "lists": "リスト",
     "communities": "コミュニティ",
-    "work_in_progress": "作業中"
+    "work_in_progress": "作業中",
+    "no_lists": "このユーザーはまだリストを持っていません。"
   },
   "profile_form": {
     "dialog_title": "プロフィール編集",
