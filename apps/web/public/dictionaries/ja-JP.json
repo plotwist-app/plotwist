@@ -627,7 +627,8 @@
     "lists": "リスト",
     "communities": "コミュニティ",
     "work_in_progress": "作業中",
-    "no_lists": "このユーザーはまだリストを持っていません。"
+    "no_lists": "このユーザーはまだリストを持っていません。",
+    "explore_popular_lists": "ここをクリックして人気のリストを探す"
   },
   "profile_form": {
     "dialog_title": "プロフィール編集",
