@@ -4,18 +4,25 @@ import { deleteFollow } from '@/services/api/followers/delete-follow'
 import { useMutation } from '@tanstack/react-query'
 
 export const useFollowers = () => {
+  const onSettled = async () => {
+    await Promise.all(
+      [['followers'], ['followers-and-following']].map(
+        async (queryKey) =>
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey,
+          }),
+      ),
+    )
+  }
+
   const handleFollow = useMutation({
     mutationFn: createFollow,
-    onSettled: async () => {
-      await APP_QUERY_CLIENT.invalidateQueries({ queryKey: ['followers'] })
-    },
+    onSettled,
   })
 
   const handleRemoveFollow = useMutation({
     mutationFn: deleteFollow,
-    onSettled: async () => {
-      await APP_QUERY_CLIENT.invalidateQueries({ queryKey: ['followers'] })
-    },
+    onSettled,
   })
 
   return { handleFollow, handleRemoveFollow }

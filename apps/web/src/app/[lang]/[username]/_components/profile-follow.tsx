@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
 import { useFollowers } from '@/hooks/use-followers'
 import { getFollowers } from '@/services/api/followers/get-followers'
 import { useQuery } from '@tanstack/react-query'
@@ -10,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 type ProfileFollowProps = { id: string }
 export const ProfileFollow = ({ id }: ProfileFollowProps) => {
   const { user } = useAuth()
+  const { dictionary } = useLanguage()
   const { handleFollow, handleRemoveFollow } = useFollowers()
   const { data: followers, isLoading } = useQuery({
     queryKey: ['followers'],
@@ -39,7 +41,7 @@ export const ProfileFollow = ({ id }: ProfileFollowProps) => {
         }}
         disabled={handleFollow.isPending}
       >
-        Follow
+        {dictionary.follow}
       </Button>
     ),
     FOLLOWER: (

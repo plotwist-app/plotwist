@@ -2,12 +2,14 @@
 
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useLanguage } from '@/context/language'
 import { getFollowersAndFollowing } from '@/services/api/followers/get-followers-and-following'
 import { useQuery } from '@tanstack/react-query'
 
 type ProfileFollowersProps = { id: string }
 
 export const ProfileFollowers = ({ id }: ProfileFollowersProps) => {
+  const { dictionary } = useLanguage()
   const { data, isLoading } = useQuery({
     queryFn: async () => await getFollowersAndFollowing(id),
     queryKey: ['followers-and-following', id],
@@ -24,7 +26,7 @@ export const ProfileFollowers = ({ id }: ProfileFollowersProps) => {
           </span>
         )}
 
-        <p>Followers</p>
+        <p>{dictionary.followers}</p>
       </div>
 
       <Separator orientation="vertical" className="h-4" />
@@ -38,7 +40,7 @@ export const ProfileFollowers = ({ id }: ProfileFollowersProps) => {
           </span>
         )}
 
-        <p>Following</p>
+        <p>{dictionary.following}</p>
       </div>
     </div>
   )
