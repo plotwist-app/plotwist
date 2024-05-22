@@ -1,7 +1,7 @@
 import { supabase } from '@/services/supabase'
 
-type CreateFollowerParams = { followerId: string; followedId: string }
-export const createFollower = async (params: CreateFollowerParams) => {
+type CreateFollowParams = { followerId: string; followedId: string }
+export const createFollow = async (params: CreateFollowParams) => {
   const { followerId, followedId } = params
 
   const { error, data } = await supabase.from('followers').insert({
