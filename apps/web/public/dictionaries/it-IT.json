@@ -290,7 +290,8 @@
   "list_page": {
     "list_not_found": "Lista non trovata.",
     "see_your_lists_or_create_new": "Visualizza le tue liste o crea una nuova cliccando",
-    "here": "qui"
+    "here": "qui",
+    "list_view_link": "Visualizza liste"
   },
   "list_items": {
     "table": "Tabella",

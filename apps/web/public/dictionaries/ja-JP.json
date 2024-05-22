@@ -289,7 +289,8 @@
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
     "see_your_lists_or_create_new": "リストを見るか、ここをクリックして新しいリストを作成する",
-    "here": "ここ"
+    "here": "ここ",
+    "list_view_link": "リストを見る"
   },
   "list_items": {
     "table": "テーブル",

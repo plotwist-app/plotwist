@@ -1,0 +1,91 @@
+'use client'
+
+import { Award, List, Star, Users } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ProfileReviews } from './profile-reviews'
+import { ProfileLists } from './profile-lists'
+import { Dictionary } from '@/utils/dictionaries'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Profile } from '@/types/supabase'
+import { Language } from '@/types/languages'
+import { FullReview } from '@/services/api/reviews'
+import dynamic from 'next/dynamic'
+
+const ProfileAchievements = dynamic(
+  () => import('./profile-achievements').then((mod) => mod.ProfileAchievements),
+  { ssr: false },
+)
+
+type ProfileTabsProps = {
+  dictionary: Dictionary
+  profile: Profile
+  lang: Language
+  reviews: FullReview[]
+}
+
+export const ProfileTabs = ({
+  dictionary,
+  profile,
+  lang,
+  reviews,
+}: ProfileTabsProps) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const tab = searchParams.get('tab') ?? 'reviews'
+
+  function handleTabChange(tab: string) {
+    router.replace(`?tab=${tab}`, { scroll: false })
+  }
+
+  return (
+    <Tabs defaultValue="reviews" value={tab} className="w-full">
+      <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
+        <TabsList>
+          <TabsTrigger
+            onClick={() => handleTabChange('reviews')}
+            value="reviews"
+          >
+            <Star className="mr-1" width={12} height={12} />
+            {dictionary.profile.reviews}
+          </TabsTrigger>
+
+          <TabsTrigger onClick={() => handleTabChange('lists')} value="lists">
+            <List className="mr-1" width={12} height={12} />
+            {dictionary.profile.lists}
+          </TabsTrigger>
+
+          <TabsTrigger
+            onClick={() => handleTabChange('achievements')}
+            value="achievements"
+          >
+            <Award className="mr-1" width={12} height={12} />
+            {dictionary.profile.achievements}
+          </TabsTrigger>
+
+          <TabsTrigger
+            onClick={() => handleTabChange('communities')}
+            value="communities"
+            disabled
+          >
+            <Users className="mr-1" width={12} height={12} />
+
+            {dictionary.profile.communities}
+          </TabsTrigger>
+        </TabsList>
+      </div>
+
+      <TabsContent value="reviews" className="mt-4">
+        <ProfileReviews reviews={reviews} language={lang} />
+      </TabsContent>
+
+      <TabsContent value="lists" className="mt-4">
+        <ProfileLists userId={profile.id} />
+      </TabsContent>
+
+      <TabsContent value="achievements" className="mt-4">
+        <ProfileAchievements dictionary={dictionary} />
+      </TabsContent>
+    </Tabs>
+  )
+}

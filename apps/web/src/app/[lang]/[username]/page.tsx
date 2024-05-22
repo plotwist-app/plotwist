@@ -1,23 +1,22 @@
 import { redirect } from 'next/navigation'
 
 import { PageProps } from '@/types/languages'
-import { Award, List, Pencil, Star, Users } from 'lucide-react'
-import { getProfileByUsername } from '@/services/api/profiles'
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Pencil } from 'lucide-react'
+import {
+  getProfileByUsername,
+  getProfileReviews,
+} from '@/services/api/profiles'
 import { Button } from '@/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
 
-import { ProfileReviews } from './_components/profile-reviews'
-import { ProfileLists } from './_components/profile-lists'
 import { ProfileBanner } from './_components/profile-banner'
 import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
-import { ProfileAchievements } from './_components/profile-achievements'
 
 import { getDictionary } from '@/utils/dictionaries'
+import { ProfileTabs } from './_components/profile-tabs'
 
-type UserPageProps = PageProps<Record<'username', string>>
+export type UserPageProps = PageProps<Record<'username', string>>
 
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
@@ -26,6 +25,11 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   if (!profile) {
     redirect(`/${lang}/home`)
   }
+
+  const reviews = await getProfileReviews({
+    userId: profile.id,
+    language: lang,
+  })
 
   return (
     <main className="p-0 lg:p-4">
@@ -61,44 +65,12 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
           </aside>
 
           <section>
-            <Tabs defaultValue="reviews" className="w-full">
-              <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
-                <TabsList>
-                  <TabsTrigger value="reviews">
-                    <Star className="mr-1" width={12} height={12} />
-                    {dictionary.profile.reviews}
-                  </TabsTrigger>
-
-                  <TabsTrigger value="lists">
-                    <List className="mr-1" width={12} height={12} />
-                    {dictionary.profile.lists}
-                  </TabsTrigger>
-
-                  <TabsTrigger value="achievements">
-                    <Award className="mr-1" width={12} height={12} />
-                    {dictionary.profile.achievements}
-                  </TabsTrigger>
-
-                  <TabsTrigger value="communities" disabled>
-                    <Users className="mr-1" width={12} height={12} />
-
-                    {dictionary.profile.communities}
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-
-              <TabsContent value="reviews" className="mt-4">
-                <ProfileReviews userId={profile.id} language={lang} />
-              </TabsContent>
-
-              <TabsContent value="lists" className="mt-4">
-                <ProfileLists userId={profile.id} />
-              </TabsContent>
-
-              <TabsContent value="achievements" className="mt-4">
-                <ProfileAchievements dictionary={dictionary} />
-              </TabsContent>
-            </Tabs>
+            <ProfileTabs
+              dictionary={dictionary}
+              lang={lang}
+              profile={profile}
+              reviews={reviews}
+            />
           </section>
         </div>
       </div>

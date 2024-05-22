@@ -271,6 +271,7 @@ export type Dictionary = {
     list_not_found: string
     see_your_lists_or_create_new: string
     here: string
+    list_view_link: string
   }
   list_items: {
     table: string

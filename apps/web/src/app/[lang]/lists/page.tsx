@@ -2,17 +2,17 @@ import { Metadata } from 'next'
 
 import { Lists } from './_components/lists'
 import { Container } from '../_components/container'
-
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { PopularLists } from './_components/popular-lists'
 import { Separator } from '@/components/ui/separator'
+import Link from 'next/link'
+import { getUserService } from '@/services/api/users/get-user'
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const dictionary = await getDictionary(params.lang)
-
   const title = dictionary.lists
   const description = dictionary.manage_your_lists
 
@@ -33,18 +33,26 @@ export async function generateMetadata({
 
 const ListsPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
+  const user = await getUserService()
 
   return (
     <Container>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
         <div>
           <h1 className="text-xl font-bold">{dictionary.my_lists}</h1>
           <p className="text-muted-foreground">
             {dictionary.manage_your_lists}
           </p>
         </div>
+        {user && (
+          <Link
+            href={`/${lang}/${user.username}?tab=lists`}
+            className="text-sm "
+          >
+            {dictionary.list_page.list_view_link}
+          </Link>
+        )}
       </div>
-
       <div className="space-y-8">
         <Lists />
         <Separator />
