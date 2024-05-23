@@ -36,7 +36,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   if (mode === 'SHOW') {
     return (
-      <div className="relative z-50 flex aspect-square w-48 items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl">
+      <div className="relative z-50 flex aspect-square w-32 items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
         {profileImagePath ? (
           <Image
             src={tmdbImage(profileImagePath)}
@@ -71,7 +71,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
       }
     >
       <ImagePicker.Trigger>
-        <div className="group relative z-50 flex aspect-square w-48 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl">
+        <div className="group relative z-50 flex aspect-square w-32 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
           {profileImagePath ? (
             <Image
               src={tmdbImage(profileImagePath)}

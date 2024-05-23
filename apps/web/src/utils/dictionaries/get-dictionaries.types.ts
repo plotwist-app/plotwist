@@ -658,6 +658,7 @@ export type Dictionary = {
   last_month: string
   all_time: string
   follow: string
+  unfollow: string
   followers: string
   following: string
   visit: string

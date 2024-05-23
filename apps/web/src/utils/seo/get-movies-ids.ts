@@ -1,13 +1,13 @@
 import { tmdb } from '@plotwist/tmdb'
 import { homeMovies } from '@/app/[lang]/page'
 
-const PAGES_BY_TYPE = 20
+const DEFAULT_PAGES = 20
 
-export const getMoviesIds = async () => {
+export const getMoviesIds = async (pages: number = DEFAULT_PAGES) => {
   const types = ['now_playing', 'popular', 'top_rated', 'upcoming'] as const
 
   const lists = await Promise.all(
-    Array.from({ length: PAGES_BY_TYPE }).map(
+    Array.from({ length: pages }).map(
       async (_, index) =>
         await Promise.all(
           types.map(
