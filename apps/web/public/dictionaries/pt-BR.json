@@ -627,7 +627,8 @@
     "lists": "Listas",
     "communities": "Comunidades",
     "work_in_progress": "Em andamento",
-    "no_lists": "Este usuário ainda não possui listas."
+    "no_lists": "Este usuário ainda não possui listas.",
+    "explore_popular_lists": "Clique aqui para explorar as listas mais populares"
   },
 
   "profile_form": {

@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { fetchListsService } from '@/services/api/lists/fetch-lists'
+import Link from 'next/link'
 
 type ProfileListsProps = {
   userId: string
@@ -36,9 +37,10 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   if (isVisitorAndListEmpty) {
     return (
       <div className="justify flex w-full  flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
-        <p className="text-sm text-muted-foreground">
-          {dictionary.profile.no_lists}
-        </p>
+        <p>{dictionary.profile.no_lists}</p>
+        <Link href={`/lists`} className="text-sm text-muted-foreground">
+          {dictionary.profile.explore_popular_lists}
+        </Link>
       </div>
     )
   }
