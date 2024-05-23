@@ -6,13 +6,12 @@ import { useLanguage } from '@/context/language'
 import { getFollowersAndFollowing } from '@/services/api/followers/get-followers-and-following'
 import { useQuery } from '@tanstack/react-query'
 
-type ProfileFollowersProps = { id: string }
-
-export const ProfileFollowers = ({ id }: ProfileFollowersProps) => {
+type FollowersProps = { profileId: string }
+export const Followers = ({ profileId }: FollowersProps) => {
   const { dictionary } = useLanguage()
   const { data, isLoading } = useQuery({
-    queryFn: async () => await getFollowersAndFollowing(id),
-    queryKey: ['followers-and-following', id],
+    queryFn: async () => await getFollowersAndFollowing(profileId),
+    queryKey: ['followers-and-following', profileId],
   })
 
   return (

@@ -7,6 +7,7 @@ import { getProfileByUsername } from '@/services/api/profiles'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
+import { Followers } from '@/components/followers'
 
 import { ProfileReviews } from './_components/profile-reviews'
 import { ProfileLists } from './_components/profile-lists'
@@ -14,10 +15,9 @@ import { ProfileBanner } from './_components/profile-banner'
 import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
 import { ProfileAchievements } from './_components/profile-achievements'
-import { ProfileFollowers } from './_components/profile-followers'
 
-import { ProfileFollow } from './_components/profile-follow'
 import { getDictionary } from '@/utils/dictionaries'
+import { FollowButton } from '@/components/follow-button'
 
 type UserPageProps = PageProps<Record<'username', string>>
 
@@ -59,10 +59,10 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                     }
                   />
 
-                  <ProfileFollow id={profile.id} />
+                  <FollowButton profileId={profile.id} />
                 </div>
 
-                <ProfileFollowers id={profile.id} />
+                <Followers profileId={profile.id} />
               </div>
             </div>
           </aside>

@@ -8,14 +8,15 @@ import { useFollowers } from '@/hooks/use-followers'
 import { getFollowers } from '@/services/api/followers/get-followers'
 import { useQuery } from '@tanstack/react-query'
 
-type ProfileFollowProps = { id: string }
-export const ProfileFollow = ({ id }: ProfileFollowProps) => {
+type FollowButtonProps = { profileId: string }
+export const FollowButton = ({ profileId }: FollowButtonProps) => {
   const { user } = useAuth()
   const { dictionary } = useLanguage()
   const { handleFollow, handleRemoveFollow } = useFollowers()
+
   const { data: followers, isLoading } = useQuery({
-    queryKey: ['followers'],
-    queryFn: async () => await getFollowers(id),
+    queryKey: ['followers', profileId],
+    queryFn: async () => await getFollowers(profileId),
   })
 
   const userFollow = followers?.find((f) => f.follower_id === user?.id)
@@ -23,9 +24,9 @@ export const ProfileFollow = ({ id }: ProfileFollowProps) => {
   const getMode = () => {
     if (!user) return 'UNAUTHENTICATED'
     if (isLoading) return 'DISABLED'
-    if (user.id === id) return 'OWNER'
+    if (user.id === profileId) return 'OWNER'
     if (userFollow) return 'FOLLOWER'
-    if (user.id !== id) return 'MEMBER'
+    if (user.id !== profileId) return 'MEMBER'
 
     return 'DISABLED'
   }
@@ -37,9 +38,10 @@ export const ProfileFollow = ({ id }: ProfileFollowProps) => {
       <Button
         variant="outline"
         onClick={() => {
-          handleFollow.mutate({ followedId: id, followerId: user!.id })
+          handleFollow.mutate({ followedId: profileId, followerId: user!.id })
         }}
         disabled={handleFollow.isPending}
+        size="sm"
       >
         {dictionary.follow}
       </Button>
@@ -48,8 +50,9 @@ export const ProfileFollow = ({ id }: ProfileFollowProps) => {
       <Button
         onClick={() => handleRemoveFollow.mutate(userFollow!.id)}
         disabled={handleRemoveFollow.isPending}
+        size="sm"
       >
-        Unfollow
+        {dictionary.unfollow}
       </Button>
     ),
     DISABLED: <Skeleton className="h-9 w-16" />,
