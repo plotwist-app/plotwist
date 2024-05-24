@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation'
-
 import { PageProps } from '@/types/languages'
 import { Pencil } from 'lucide-react'
 import {
@@ -8,7 +7,6 @@ import {
 } from '@/services/api/profiles'
 import { Button } from '@/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
-
 import { ProfileBanner } from './_components/profile-banner'
 import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
