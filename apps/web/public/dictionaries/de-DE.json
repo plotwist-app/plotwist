@@ -627,7 +627,8 @@
     "lists": "Listen",
     "communities": "Gemeinschaften",
     "work_in_progress": "In Bearbeitung",
-    "no_lists": "Dieser Benutzer hat noch keine Listen."
+    "no_lists": "Dieser Benutzer hat noch keine Listen.",
+    "explore_popular_lists": "Klicken Sie hier, um die beliebtesten Listen zu erkunden"
   },
   "profile_form": {
     "dialog_title": "Profil bearbeiten",
@@ -671,6 +672,7 @@
   "last_month": "Letzter Monat",
   "all_time": "Gesamter Zeitraum",
   "follow": "Folgen",
+  "unfollow": "Entfolgen",
   "followers": "Follower",
   "following": "Folgt",
   "visit": "Besuchen",

@@ -615,6 +615,7 @@ export type Dictionary = {
     communities: string
     work_in_progress: string
     no_lists: string
+    explore_popular_lists: string
   }
   profile_form: {
     dialog_title: string
@@ -658,6 +659,7 @@ export type Dictionary = {
   last_month: string
   all_time: string
   follow: string
+  unfollow: string
   followers: string
   following: string
   visit: string

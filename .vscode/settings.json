@@ -5,7 +5,8 @@
     "sonner",
     "supabase",
     "tanstack",
-    "tmdb"
+    "tmdb",
+    "unfollow"
   ],
   
   "gitlens.ai.experimental.provider": "openai",
