@@ -4,11 +4,12 @@ import { Award, List, Star, Users } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Profile } from '@/types/supabase'
 import { FullReview } from '@/services/api/reviews'
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/context/language'
+import { useCallback } from 'react'
 
 const ProfileAchievements = dynamic(
   () => import('./profile-achievements').then((mod) => mod.ProfileAchievements),
@@ -23,12 +24,23 @@ type ProfileTabsProps = {
 export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const pathname = usePathname()
   const { language, dictionary } = useLanguage()
 
   const tab = searchParams.get('tab') ?? 'reviews'
 
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+
+      return params.toString()
+    },
+    [searchParams],
+  )
+
   function handleTabChange(tab: string) {
-    router.replace(`?tab=${tab}`, { scroll: false })
+    router.push(pathname + '?' + createQueryString('tab', tab))
   }
 
   return (
