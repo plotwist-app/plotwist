@@ -37,7 +37,7 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
 
   return (
     <Container>
-      <div className="flex items-center justify-between ">
+      <div className="flex items-end justify-between ">
         <div>
           <h1 className="text-xl font-bold">{dictionary.my_lists}</h1>
           <p className="text-muted-foreground">
@@ -47,9 +47,9 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
         {user && (
           <Link
             href={`/${lang}/${user.username}?tab=lists`}
-            className="text-sm "
+            className="text-sm text-muted-foreground hover:underline"
           >
-            {dictionary.list_page.list_view_link}
+            {dictionary.see_all_list}
           </Link>
         )}
       </div>

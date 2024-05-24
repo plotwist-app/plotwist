@@ -289,8 +289,7 @@
   "list_page": {
     "list_not_found": "List not found.",
     "see_your_lists_or_create_new": "See your lists or create new clicking",
-    "here": "here",
-    "list_view_link": "View lists"
+    "here": "here"
   },
   "list_items": {
     "table": "Table",
@@ -687,5 +686,6 @@
   "right_click_here": "Right Click Here",
   "list_cloned_successfully": "List cloned successfully!",
   "see_list": "See list",
-  "unable_to_clone_list": "Unable to clone list."
+  "unable_to_clone_list": "Unable to clone list.",
+  "see_all_list": "See all"
 }

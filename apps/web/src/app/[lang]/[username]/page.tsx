@@ -12,15 +12,12 @@ import { ProBadge } from '@/components/pro-badge'
 import { ProfileBanner } from './_components/profile-banner'
 import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
-
-import { getDictionary } from '@/utils/dictionaries'
 import { ProfileTabs } from './_components/profile-tabs'
 
 export type UserPageProps = PageProps<Record<'username', string>>
 
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
-  const dictionary = await getDictionary(lang)
 
   if (!profile) {
     redirect(`/${lang}/home`)
@@ -65,12 +62,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
           </aside>
 
           <section>
-            <ProfileTabs
-              dictionary={dictionary}
-              lang={lang}
-              profile={profile}
-              reviews={reviews}
-            />
+            <ProfileTabs profile={profile} reviews={reviews} />
           </section>
         </div>
       </div>

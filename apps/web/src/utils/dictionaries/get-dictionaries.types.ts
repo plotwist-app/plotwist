@@ -271,7 +271,6 @@ export type Dictionary = {
     list_not_found: string
     see_your_lists_or_create_new: string
     here: string
-    list_view_link: string
   }
   list_items: {
     table: string
@@ -674,4 +673,5 @@ export type Dictionary = {
   list_cloned_successfully: string
   see_list: string
   unable_to_clone_list: string
+  see_all_list: string
 }

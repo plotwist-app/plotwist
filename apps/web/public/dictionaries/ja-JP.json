@@ -289,8 +289,7 @@
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
     "see_your_lists_or_create_new": "リストを見るか、ここをクリックして新しいリストを作成する",
-    "here": "ここ",
-    "list_view_link": "リストを見る"
+    "here": "ここ"
   },
   "list_items": {
     "table": "テーブル",
@@ -686,5 +685,6 @@
   "right_click_here": "ここを右クリック",
   "list_cloned_successfully": "リストを成功裏にクローンしました！",
   "see_list": "リストを見る",
-  "unable_to_clone_list": "リストをクローンできませんでした。"
+  "unable_to_clone_list": "リストをクローンできませんでした。",
+  "see_all_list": "すべてを見る"
 }

@@ -4,12 +4,11 @@ import { Award, List, Star, Users } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
-import { Dictionary } from '@/utils/dictionaries'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Profile } from '@/types/supabase'
-import { Language } from '@/types/languages'
 import { FullReview } from '@/services/api/reviews'
 import dynamic from 'next/dynamic'
+import { useLanguage } from '@/context/language'
 
 const ProfileAchievements = dynamic(
   () => import('./profile-achievements').then((mod) => mod.ProfileAchievements),
@@ -17,20 +16,14 @@ const ProfileAchievements = dynamic(
 )
 
 type ProfileTabsProps = {
-  dictionary: Dictionary
   profile: Profile
-  lang: Language
   reviews: FullReview[]
 }
 
-export const ProfileTabs = ({
-  dictionary,
-  profile,
-  lang,
-  reviews,
-}: ProfileTabsProps) => {
+export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { language, dictionary } = useLanguage()
 
   const tab = searchParams.get('tab') ?? 'reviews'
 
@@ -76,7 +69,7 @@ export const ProfileTabs = ({
       </div>
 
       <TabsContent value="reviews" className="mt-4">
-        <ProfileReviews reviews={reviews} language={lang} />
+        <ProfileReviews reviews={reviews} language={language} />
       </TabsContent>
 
       <TabsContent value="lists" className="mt-4">
