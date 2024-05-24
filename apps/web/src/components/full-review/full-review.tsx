@@ -37,11 +37,8 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
   const userProfileHref = `/${language}/${username}`
 
   return (
-    <div className="flex space-x-4 ">
-      <Link
-        className="w-2/6 cursor-pointer md:w-1/6"
-        href={`${href}?review=${review.id}`}
-      >
+    <div className="flex space-x-4" data-testid="full-review">
+      <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
         <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
           {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
         </figure>

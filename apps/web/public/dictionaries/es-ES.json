@@ -626,7 +626,9 @@
     "reviews": "Reseñas",
     "lists": "Listas",
     "communities": "Comunidades",
-    "work_in_progress": "En progreso"
+    "work_in_progress": "En progreso",
+    "no_lists": "Este usuario aún no tiene listas.",
+    "explore_popular_lists": "Haga clic aquí para explorar las listas más populares"
   },
   "profile_form": {
     "dialog_title": "Editar perfil",
@@ -670,6 +672,7 @@
   "last_month": "Último mes",
   "all_time": "Todo el tiempo",
   "follow": "Seguir",
+  "unfollow": "Dejar de seguir",
   "followers": "Seguidores",
   "following": "Siguiendo",
   "visit": "Visitar",

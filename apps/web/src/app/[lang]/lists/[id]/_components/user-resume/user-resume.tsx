@@ -1,3 +1,5 @@
+import { FollowButton } from '@/components/follow-button'
+import { Followers } from '@/components/followers'
 import { ProBadge } from '@/components/pro-badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -15,7 +17,7 @@ type UserResumeProps = {
 }
 
 export const UserResume = ({ userId }: UserResumeProps) => {
-  const { language, dictionary } = useLanguage()
+  const { language } = useLanguage()
 
   const { data: profile, isLoading } = useQuery({
     queryKey: [userId],
@@ -53,9 +55,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
           </Avatar>
         </Link>
 
-        <Button className="" size="sm" disabled>
-          {dictionary.follow}
-        </Button>
+        <FollowButton profileId={profile.id} />
       </div>
 
       <div className="space-y-1">
@@ -67,15 +67,7 @@ export const UserResume = ({ userId }: UserResumeProps) => {
           {profile.subscription_type === 'PRO' && <ProBadge />}
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">
-            0 {dictionary.followers}
-          </span>
-          <Separator className="h-4" orientation="vertical" />
-          <span className="text-xs text-muted-foreground">
-            0 {dictionary.following}
-          </span>
-        </div>
+        <Followers profileId={profile.id} />
       </div>
     </div>
   )

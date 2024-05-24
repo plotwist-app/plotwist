@@ -627,7 +627,9 @@
     "reviews": "Reviews",
     "lists": "Lists",
     "communities": "Communities",
-    "work_in_progress": "Work in progress"
+    "work_in_progress": "Work in progress",
+    "no_lists": "This user has no lists yet.",
+    "explore_popular_lists": "Click here to explore the most popular lists"
   },
   "profile_form": {
     "dialog_title": "Edit profile",
@@ -671,6 +673,7 @@
   "last_month": "Last month",
   "all_time": "All time",
   "follow": "Follow",
+  "unfollow": "Unfollow",
   "followers": "Followers",
   "following": "Following",
   "visit": "Visit",
