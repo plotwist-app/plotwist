@@ -124,13 +124,13 @@ export const ReviewItem = ({
           }}
           className={cn(
             'relative space-y-1 rounded-md border p-4 shadow',
-            focusReview && 'p-0',
+            focusReview && 'border-none p-0',
           )}
         >
           <div
             className={cn(
               focusReview &&
-                'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200',
+                'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_85%)_inset] transition-colors duration-200 dark:shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset]',
             )}
           >
             {focusReview && (
@@ -138,7 +138,8 @@ export const ReviewItem = ({
                 <span>
                   <span className="spark mask-gradient absolute inset-0 h-[100%] w-[100%] animate-flip overflow-hidden rounded-md [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:animate-rotate before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]" />
                 </span>
-                <span className="backdrop absolute inset-px rounded-md bg-neutral-950 transition-colors duration-200" />
+
+                <span className="backdrop absolute inset-px rounded-md bg-white transition-colors duration-200 dark:bg-neutral-950" />
               </>
             )}
             <p className="z-10 break-words text-sm/6">{content}</p>
