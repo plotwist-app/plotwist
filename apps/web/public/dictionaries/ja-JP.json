@@ -687,5 +687,6 @@
   "right_click_here": "ここを右クリック",
   "list_cloned_successfully": "リストを成功裏にクローンしました！",
   "see_list": "リストを見る",
-  "unable_to_clone_list": "リストをクローンできませんでした。"
+  "unable_to_clone_list": "リストをクローンできませんでした。",
+  "see_all_list": "すべてを見る"
 }

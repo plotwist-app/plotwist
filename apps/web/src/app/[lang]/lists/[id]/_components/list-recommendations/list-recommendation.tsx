@@ -75,7 +75,7 @@ export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
         <div className="absolute right-2 top-2">
           <DropdownMenu onOpenChange={setOpenDropdown} open={openDropdown}>
             <DropdownMenuTrigger>
-              <Button size="icon" variant="default" className="h-5 w-5 ">
+              <Button size="icon" variant="default" className="h-5 w-5">
                 <MoreVertical size={12} />
               </Button>
             </DropdownMenuTrigger>

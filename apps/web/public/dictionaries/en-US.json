@@ -688,5 +688,6 @@
   "right_click_here": "Right Click Here",
   "list_cloned_successfully": "List cloned successfully!",
   "see_list": "See list",
-  "unable_to_clone_list": "Unable to clone list."
+  "unable_to_clone_list": "Unable to clone list.",
+  "see_all_list": "See all"
 }

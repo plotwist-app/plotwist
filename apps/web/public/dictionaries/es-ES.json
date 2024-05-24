@@ -687,5 +687,6 @@
   "right_click_here": "Haga clic derecho aquí",
   "list_cloned_successfully": "¡Lista clonada con éxito!",
   "see_list": "Ver lista",
-  "unable_to_clone_list": "No se pudo clonar la lista."
+  "unable_to_clone_list": "No se pudo clonar la lista.",
+  "see_all_list": "Ver todo"
 }

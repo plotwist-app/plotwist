@@ -675,4 +675,5 @@ export type Dictionary = {
   list_cloned_successfully: string
   see_list: string
   unable_to_clone_list: string
+  see_all_list: string
 }
