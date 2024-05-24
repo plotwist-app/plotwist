@@ -40,7 +40,9 @@ export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
   )
 
   function handleTabChange(tab: string) {
-    router.push(pathname + '?' + createQueryString('tab', tab))
+    router.push(pathname + '?' + createQueryString('tab', tab), {
+      scroll: false,
+    })
   }
 
   return (
