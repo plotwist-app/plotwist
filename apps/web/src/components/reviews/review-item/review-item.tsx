@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 
@@ -24,6 +24,8 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
+import { useSearchParams } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -44,6 +46,7 @@ export const ReviewItem = ({
     created_at: createdAt,
     user: { username, image_path: imagePath },
     user_id: userId,
+    id,
   } = review
 
   const {
@@ -53,9 +56,13 @@ export const ReviewItem = ({
     },
   } = useLanguage()
   const { user } = useAuth()
+  const reviewRef = useRef<HTMLDivElement>(null)
+  const reviewToFocus = useSearchParams().get('review')
 
   const [openReplyForm, setOpenReplyForm] = useState(false)
   const [openReplies, setOpenReplies] = useState(false)
+  const [focusReview, setFocusReview] = useState(false)
+  const [wasFocusDisabled, setFocusWasDisabled] = useState(false)
 
   const usernameInitial = username[0].toUpperCase()
   const time = `${formatDistanceToNow(new Date(createdAt), {
@@ -68,8 +75,18 @@ export const ReviewItem = ({
     return 'SHOW'
   }, [user?.id, userId])
 
+  useEffect(() => {
+    if (reviewToFocus === id && !focusReview && !wasFocusDisabled) {
+      setFocusReview(true)
+      reviewRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+      })
+    }
+  }, [id, reviewToFocus, focusReview, wasFocusDisabled])
+
   return (
-    <div className="flex items-start space-x-4">
+    <div ref={reviewRef} className="flex items-start space-x-4">
       <Link href={`/${language}/${username}`}>
         <Avatar className="h-10 w-10 border text-[10px] shadow">
           {imagePath && (
@@ -100,8 +117,32 @@ export const ReviewItem = ({
           {mode === 'EDIT' && <ReviewItemEditActions review={review} />}
         </div>
 
-        <div className="relative space-y-1 rounded-md border p-4 shadow">
-          <p className="break-words text-sm/6">{content}</p>
+        <div
+          onMouseEnter={() => {
+            setFocusReview(false)
+            setFocusWasDisabled(true)
+          }}
+          className={cn(
+            'relative space-y-1 rounded-md border p-4 shadow',
+            focusReview && 'p-0',
+          )}
+        >
+          <div
+            className={cn(
+              focusReview &&
+                'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors duration-200',
+            )}
+          >
+            {focusReview && (
+              <>
+                <span>
+                  <span className="spark mask-gradient absolute inset-0 h-[100%] w-[100%] animate-flip overflow-hidden rounded-md [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:animate-rotate before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]" />
+                </span>
+                <span className="backdrop absolute inset-px rounded-md bg-neutral-950 transition-colors duration-200" />
+              </>
+            )}
+            <p className="z-10 break-words text-sm/6">{content}</p>
+          </div>
           <ReviewLikes reviewId={review.id} />
         </div>
 
