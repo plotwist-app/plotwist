@@ -77,7 +77,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                       />
                     )}
 
-                    {list.visibility === 'PUBLIC' && (
+                    {list.visibility === 'PUBLIC' && mode === 'SHOW' && (
                       <Button
                         size="sm"
                         variant={userLike ? 'default' : 'outline'}
