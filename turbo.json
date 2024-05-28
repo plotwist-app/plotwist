@@ -29,7 +29,8 @@
     "dev": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "test": {}
   },
   "globalEnv": [
     "NEXT_PUBLIC_TMDB_API_KEY",
