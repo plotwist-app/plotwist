@@ -5,5 +5,6 @@ export const addToListService = async ({ item }: AddToListParams) => {
   const { error, data } = await supabase.from('list_items').insert(item)
 
   if (error) throw new Error(error.message)
+
   return data
 }
