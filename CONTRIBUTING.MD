@@ -1,6 +1,8 @@
 # Contributing 
 
-> First of all, thanks for your interest in contributing to **Plotwist**! Here is a guide to help you contribute with this project.
+> First of all, thanks for your interest in contributing to **Plotwist**! Here is a guide to help you contribute with this project. You can reach us on [Discord](https://discord.gg/NGvYPyTK5n). We can help you with the problems and you talk directly to the others developers and contributors. 
+
+> It is important to mention that if you want to contribute you will need the **Supabase keys**, which are **only available to members of the discord community** that are part of the @Developers role (You'll need to ask to be a part of @Developers role for our moderators).
 
 Summary:
 - [Getting Started](#Getting-started)
@@ -10,14 +12,13 @@ Summary:
 - [How to start a development server](#Starting-development-server)
 - [Commit Convention](#Commit-Convention)
 - [Requesting and Reporting](#Requests-for-new-feature/bug-fix)
-- [Doubts about the project](#Any-other-doubts-about-the-project)
 
 ## About this repository:
 
 This repository is a `monorepo`. Which means that the source-code is stored on a single versioned repository. 
 
 - We use pnpm and workspaces for development.
-- We use Turborepo as our build system. It is a modern tool for managing `monorepos`, focused on optimizing the development and build processes of projects in monorepos.
+- We use Turborepo as our build system. It is a modern tool for managing `monorepos`, focused on optimizing the development and build processes of projects in monorepos. Read the documentation here: [Turborepo Documentation](https://turbo.build/repo/docs)
 
 
 # Getting started
@@ -176,5 +177,4 @@ When you create a commit we kindly ask you to follow the convention category (sc
 # Requests for new feature/bug fix
 If you have a request for a new feature, please open a discussion on GitHub. We'll be happy to help you out!
 
-# Any other doubts about the project
-You can reach us on [Discord](https://discord.gg/NGvYPyTK5n). We can help you with the problems and you talk directly to the others developers and contributors.
+
