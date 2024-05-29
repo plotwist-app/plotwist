@@ -8,7 +8,6 @@ import { Banner } from '@/components/banner'
 
 import { ListItems } from './_components/list-items'
 import { ListForm } from '../_components/list-form'
-import { ListRecommendations } from './_components/list-recommendations'
 import { UserResume } from './_components/user-resume'
 import { ListPageSkeleton } from './_components/list-page-skeleton'
 import { ListPageEmptyResults } from './_components/list-page-results'
@@ -113,9 +112,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
             </div>
 
             <div className="col-span-1 space-y-4">
-              <UserResume userId={list.user_id} />
-
-              {mode === 'EDIT' && <ListRecommendations list={list} />}
+              <UserResume list={list} />
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
   const { user } = useAuth()
+
   const {
     dictionary: {
       lists_dropdown: {
@@ -160,7 +161,17 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{myLists}</DropdownMenuLabel>
+        <DropdownMenuLabel className="flex justify-between">
+          {myLists}
+
+          <ListForm
+            trigger={
+              <Button size="icon" className="h-6 w-6" variant="outline">
+                <Plus className="size-4" />
+              </Button>
+            }
+          />
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <Content />

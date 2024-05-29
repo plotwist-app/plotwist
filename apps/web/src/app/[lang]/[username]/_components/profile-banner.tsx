@@ -64,9 +64,9 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
               />
             )}
 
-            <div className="absolute z-20 h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
+            <div className="z-5 absolute h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
 
-            <p className="spacing z-30 scale-0 text-xs  font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
+            <p className="spacing z-[6] scale-0 text-xs  font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
               {dictionary.profile_banner.change_banner}
             </p>
           </section>
