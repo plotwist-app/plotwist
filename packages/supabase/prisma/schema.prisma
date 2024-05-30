@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model followers {
+  id BigInt @id @default(autoincrement())
+
+  followerId                               String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  followedId                               String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profiles_followers_followed_idToprofiles profiles? @relation("followers_followed_idToprofiles", fields: [followedId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  profiles_followers_follower_idToprofiles profiles? @relation("followers_follower_idToprofiles", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model likes {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entityType    likeEntity
+  reviewId      String?        @db.Uuid
+  reviewReplyId String?        @db.Uuid
+  userId        String         @db.Uuid
+  reviews       reviews?       @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "public_likes_reviewId_fkey")
+  reviewReplies reviewReplies? @relation(fields: [reviewReplyId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "public_likes_reviewReplyId_fkey")
+  profiles      profiles       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_likes_userId_fkey")
+}
+
+model listItems {
+  id           String     @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime   @default(now()) @db.Timestamptz(6)
+  listId       String     @db.Uuid
+  title        String?
+  overview     String?
+  backdropPath String?
+  posterPath   String?
+  tmdbId       BigInt?
+  status       status?
+  mediaType    mediaType?
+  lists        lists      @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "public_listItems_listId_fkey")
+
+  @@id([id, listId])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model listLikes {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  listId    String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lists     lists?    @relation(fields: [listId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles  profiles? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model lists {
+  id          String         @id @unique(map: "unique_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime       @default(now()) @db.Timestamptz(6)
+  name        String?        @db.VarChar
+  userId      String         @db.Uuid
+  description String?
+  coverPath   String?
+  visibility  listVisibility
+  listItems   listItems[]
+  listLikes   listLikes[]
+  profiles    profiles       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model profiles {
+  id                                        String            @id(map: "users_pkey") @db.Uuid
+  email                                     String?           @unique @default("")
+  username                                  String?           @unique
+  createdAt                                 DateTime?         @default(now()) @db.Timestamptz(6)
+  bannetPath                                String?
+  subscription_type                         subscriptionType? @default(MEMBER)
+  image_path                                String?
+  followers_followers_followed_idToprofiles followers[]       @relation("followers_followed_idToprofiles")
+  followers_followers_follower_idToprofiles followers[]       @relation("followers_follower_idToprofiles")
+  likes                                     likes[]
+  listLikes                                 listLikes[]
+  lists                                     lists[]
+  reviewReplies                             reviewReplies[]
+  reviews                                   reviews[]
+  subscriptions                             subscriptions[]
+}
+
+model reviewReplies {
+  id        String    @id(map: "review_reply_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  userId    String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reply     String?
+  reviewId  String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  likes     likes[]
+  reviews   reviews?  @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "public_reviewReplies_reviewId_fkey")
+  profiles  profiles? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_reviewReplies_userId_fkey")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model reviews {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime        @default(now()) @db.Timestamptz(6)
+  userId         String?         @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tmdbId         BigInt?
+  mediaType      mediaType?
+  review         String?
+  rating         Int?            @db.SmallInt
+  tmdbTitle      String?         @db.VarChar
+  tmdbPosterPath String?
+  tmdbOverview   String?
+  language       languages?
+  likes          likes[]
+  reviewReplies  reviewReplies[]
+  profiles       profiles?       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_reviews_userId_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model subscriptions {
+  id        BigInt            @id @default(autoincrement())
+  createdAt DateTime          @default(now()) @db.Timestamptz(6)
+  userId    String?           @db.Uuid
+  type      subscriptionType?
+  profiles  profiles?         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_subscriptions_userId_fkey")
+}
+
+enum languages {
+  en_US @map("en-US")
+  es_ES @map("es-ES")
+  fr_FR @map("fr-FR")
+  it_IT @map("it-IT")
+  de_DE @map("de-DE")
+  pt_BR @map("pt-BR")
+  ja_JP @map("ja-JP")
+}
+
+enum likeEntity {
+  REVIEW
+  REPLY
+}
+
+/// This enum is commented in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+enum listVisibility {
+  PUBLIC
+  NETWORK
+  PRIVATE
+}
+
+/// This enum is commented in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+enum mediaType {
+  TV_SHOW
+  MOVIE
+}
+
+enum status {
+  WATCHING
+  PENDING
+  WATCHED
+}
+
+enum subscriptionType {
+  MEMBER
+  PRO
+}
+
+enum mediaTypeEnum {
+  TV_SHOW
+  MOVIE
+}
