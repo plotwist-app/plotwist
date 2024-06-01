@@ -688,5 +688,11 @@
   "list_cloned_successfully": "リストを成功裏にクローンしました！",
   "see_list": "リストを見る",
   "unable_to_clone_list": "リストをクローンできませんでした。",
-  "see_all_list": "すべてを見る"
+  "see_all_list": "すべてを見る",
+  "recommend": "おすすめ",
+  "recommendation_sended_successfully": "推奨が正常に送信されました。",
+  "to": "へ",
+  "suggestions": "提案",
+  "search": "検索...",
+  "write_a_message": "メッセージを書く..."
 }

@@ -689,5 +689,11 @@
   "list_cloned_successfully": "Liste clonée avec succès!",
   "see_list": "Voir la liste",
   "unable_to_clone_list": "Impossible de cloner la liste.",
-  "see_all_list": "Voir tout"
+  "see_all_list": "Voir tout",
+  "recommend": "Recommander",
+  "recommendation_sended_successfully": "Recommandation envoyée avec succès.",
+  "to": "À",
+  "suggestions": "Suggestions",
+  "search": "Rechercher...",
+  "write_a_message": "Écrire un message..."
 }
