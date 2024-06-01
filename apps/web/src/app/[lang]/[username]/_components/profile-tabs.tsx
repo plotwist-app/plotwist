@@ -1,6 +1,6 @@
 'use client'
 
-import { Award, List, Star, Users } from 'lucide-react'
+import { Award, Forward, List, Star, Users } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
@@ -10,6 +10,7 @@ import { FullReview } from '@/services/api/reviews'
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/context/language'
 import { useCallback } from 'react'
+import { ProfileRecommendations } from './profile-recommendations'
 
 const ProfileAchievements = dynamic(
   () => import('./profile-achievements').then((mod) => mod.ProfileAchievements),
@@ -63,6 +64,14 @@ export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
           </TabsTrigger>
 
           <TabsTrigger
+            onClick={() => handleTabChange('recommendations')}
+            value="recommendations"
+          >
+            <Forward className="mr-1" width={12} height={12} />
+            Recomendações
+          </TabsTrigger>
+
+          <TabsTrigger
             onClick={() => handleTabChange('achievements')}
             value="achievements"
           >
@@ -88,6 +97,10 @@ export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
 
       <TabsContent value="lists" className="mt-4">
         <ProfileLists userId={profile.id} />
+      </TabsContent>
+
+      <TabsContent value="recommendations" className="mt-4">
+        <ProfileRecommendations userId={profile.id} />
       </TabsContent>
 
       <TabsContent value="achievements" className="mt-4">
