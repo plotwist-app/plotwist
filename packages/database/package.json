@@ -1,5 +1,5 @@
 {
-  "name": "@plotwist/supabase",
+  "name": "@plotwist/database",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
