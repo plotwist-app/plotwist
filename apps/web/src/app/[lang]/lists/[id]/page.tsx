@@ -15,13 +15,13 @@ import { ListPageEmptyResults } from './_components/list-page-results'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
-
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists/fetch-list'
 import { ListPrivate } from './_components/list-private'
 import { useList } from '@/hooks/use-list'
+import { getOldestItem } from '@/utils/array/get-oldest-item'
 
 type ListPageProps = {
   params: { id: string }
@@ -44,6 +44,8 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
   if (!list) return <ListPageEmptyResults dictionary={dictionary} />
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
+  const backdropUrl = getOldestItem(list?.list_items) || ''
+
   return (
     <>
       <head>
@@ -53,7 +55,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
 
       <ListModeContextProvider mode={mode}>
         <div className="mx-auto max-w-6xl space-y-4 p-0 pb-4 lg:py-4">
-          <Banner url={tmdbImage(list.cover_path ?? '')} />
+          <Banner url={tmdbImage(list.cover_path ?? backdropUrl)} />
 
           <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
             <div className="col-span-2 space-y-4">

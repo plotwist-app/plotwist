@@ -52,9 +52,9 @@ export const MovieDetails = async ({
         className={embed ? 'max-h-[20vh] md:max-h-[50vh]' : undefined}
       />
 
-      <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12 md:p-0">
+      <div className="mx-auto my-8 max-w-4xl space-y-8 p-4 md:space-y-12 md:p-0 ">
         <main className="flex flex-col gap-4 md:flex-row">
-          <aside className="-mt-24 w-full space-y-2 md:-mt-32 md:w-1/3">
+          <aside className="-mt-24 w-full space-y-2  md:-mt-32 md:w-1/3">
             <Poster url={movie.poster_path} alt={movie.title} />
           </aside>
 
