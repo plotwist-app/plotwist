@@ -165,7 +165,3 @@ enum SUBSCRIPTION_TYPE {
   PRO
 }
 
-enum media_type_enum {
-  TV_SHOW
-  MOVIE
-}
