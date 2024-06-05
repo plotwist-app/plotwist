@@ -71,21 +71,21 @@ module.exports = {
         },
         flip: {
           to: {
-            transform: 'rotate(360deg)'
-          }
+            transform: 'rotate(360deg)',
+          },
         },
         rotate: {
           to: {
-            transform: 'rotate(90deg)'
-          }
-        }
+            transform: 'rotate(90deg)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         shine: 'shine 2s linear infinite',
         flip: 'flip 6s infinite steps(2, end)',
-        rotate: 'rotate 3s linear infinite both'
+        rotate: 'rotate 3s linear infinite both',
       },
       maxWidth: {
         app: '1080px',
