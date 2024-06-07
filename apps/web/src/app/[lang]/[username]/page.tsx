@@ -1,10 +1,7 @@
 import { redirect } from 'next/navigation'
 import { PageProps } from '@/types/languages'
 import { Pencil } from 'lucide-react'
-import {
-  getProfileByUsername,
-  getProfileReviews,
-} from '@/services/api/profiles'
+import { getProfileByUsername } from '@/services/api/profiles'
 import { Button } from '@/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
 import { Followers } from '@/components/followers'
@@ -14,19 +11,15 @@ import { ProfileImage } from './_components/profile-image'
 import { ProfileTabs } from './_components/profile-tabs'
 import { FollowButton } from '@/components/follow-button'
 
-type UserPageProps = PageProps<Record<'username', string>>
+export const dynamic = 'force-dynamic'
 
+type UserPageProps = PageProps<Record<'username', string>>
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
 
   if (!profile) {
     redirect(`/${lang}/home`)
   }
-
-  const reviews = await getProfileReviews({
-    userId: profile.id,
-    language: lang,
-  })
 
   return (
     <main className="p-0 lg:p-4">
@@ -67,7 +60,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
           </aside>
 
           <section>
-            <ProfileTabs profile={profile} reviews={reviews} />
+            <ProfileTabs profile={profile} />
           </section>
         </div>
       </div>

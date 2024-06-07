@@ -27,10 +27,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
-
 import { List } from '@/types/supabase/lists'
 import { useAuth } from '@/context/auth'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { getOldestItem } from '@/utils/array/get-oldest-item'
 
 type ListCardProps = { list: List }
 
@@ -38,6 +38,7 @@ export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
   const { language, dictionary } = useLanguage()
   const { user } = useAuth()
+  const backdropUrl = getOldestItem(list.list_items)
 
   const [open, setOpen] = useState(false)
 
@@ -53,11 +54,11 @@ export const ListCard = ({ list }: ListCardProps) => {
       <div className="space-y-2">
         <Link href={href}>
           <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 ">
-            {list.cover_path ? (
+            {list.cover_path || backdropUrl ? (
               <Image
                 fill
                 className="object-cover"
-                src={tmdbImage(list.cover_path)}
+                src={tmdbImage(list.cover_path ?? backdropUrl)}
                 alt={list.name}
                 sizes="100%"
               />
