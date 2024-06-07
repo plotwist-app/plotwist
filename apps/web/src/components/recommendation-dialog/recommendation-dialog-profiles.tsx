@@ -1,9 +1,10 @@
 'use client'
 
-import { getFollowingProfiles } from '@/services/api/followers/get-following-profiles'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useParams, usePathname } from 'next/navigation'
+import { FormEvent, useState } from 'react'
 import { Forward, X } from 'lucide-react'
+import { toast } from 'sonner'
 
 import {
   Dialog,
@@ -23,8 +24,7 @@ import { Profile } from '@/types/supabase'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 import { useRecommendations } from '@/hooks/use-recommendations'
-import { useParams, usePathname } from 'next/navigation'
-import { toast } from 'sonner'
+import { getFollowingProfiles } from '@/services/api/followers/get-following-profiles'
 
 export const RecommendationDialogProfiles = () => {
   const { dictionary } = useLanguage()
@@ -52,15 +52,18 @@ export const RecommendationDialogProfiles = () => {
     })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+
     handleCreate.mutate(
       {
         receiverUsersIds: selectedProfiles.map((profile) => profile.id),
         senderUserId: user!.id,
         mediaType: pathname.includes('movies') ? 'MOVIE' : 'TV_SHOW',
         tmdbId: Number(params.id),
+        message: String(formData.get('message')),
       },
-
       {
         onSettled: () => {
           setOpen(false)
@@ -144,23 +147,26 @@ export const RecommendationDialogProfiles = () => {
 
         <div className="h-[500px] space-y-4 overflow-y-auto py-4">
           <h5 className="px-4 font-bold">{dictionary.suggestions}</h5>
-
           <Content />
         </div>
 
-        <div className="flex flex-col gap-4 border-t p-4">
+        <form
+          className="flex flex-col gap-4 border-t p-4"
+          onSubmit={(event) => handleSubmit(event)}
+        >
           <input
             className="w-full border-none bg-transparent text-sm outline-none"
             placeholder={dictionary.write_a_message}
+            name="message"
           />
 
           <Button
             disabled={selectedProfiles.length === 0 || handleCreate.isPending}
-            onClick={() => handleSubmit()}
+            type="submit"
           >
             {dictionary.recommend}
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   )

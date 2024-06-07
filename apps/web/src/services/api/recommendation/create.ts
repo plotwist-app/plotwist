@@ -6,6 +6,7 @@ type CreateRecommendationParams = {
   senderUserId: string
   tmdbId: number
   mediaType: MediaType
+  message: string | null
 }
 
 export const createRecommendation = async ({
@@ -13,6 +14,7 @@ export const createRecommendation = async ({
   senderUserId,
   tmdbId,
   mediaType,
+  message,
 }: CreateRecommendationParams) => {
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -22,6 +24,7 @@ export const createRecommendation = async ({
       sender_user_id: senderUserId,
       tmdb_id: tmdbId,
       media_type: mediaType,
+      message,
     })),
   )
 
