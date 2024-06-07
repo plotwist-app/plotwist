@@ -699,5 +699,6 @@
   "no_recommendations_sent": "Aún no has enviado recomendaciones a nadie.",
   "recommend_movies_to_friends": "¿Qué tal recomendar tus películas favoritas a amigos? Mientras tanto, explora películas populares haciendo clic",
   "received": "Recibidas",
-  "sent": "Enviadas"
+  "sent": "Enviadas",
+  "sent_to": "envió a"
 }

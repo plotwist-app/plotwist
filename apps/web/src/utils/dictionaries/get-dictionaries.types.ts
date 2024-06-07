@@ -687,4 +687,5 @@ export type Dictionary = {
   recommend_movies_to_friends: string
   received: string
   sent: string
+  sent_to: string
 }

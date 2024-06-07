@@ -19,7 +19,7 @@ export const ProfileRecommendations = ({
 
   const { language, dictionary } = useLanguage()
   const { data: recommendations, isLoading } = useQuery({
-    queryKey: ['recommendations', userId, variant],
+    queryKey: ['recommendations', userId, variant, language],
     queryFn: () => getRecommendations({ userId, variant, language }),
   })
 
@@ -35,7 +35,7 @@ export const ProfileRecommendations = ({
     const isEmpty = recommendations.length === 0
     if (isEmpty)
       return (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
           <p className="text-md">
             {variant === 'receiver'
               ? dictionary.no_user_recommendations
@@ -57,11 +57,12 @@ export const ProfileRecommendations = ({
       )
 
     return (
-      <div className="flex flex-col gap-4 divide-y">
+      <div className="-ml-4 -mr-4 flex flex-col gap-4 divide-y">
         {recommendations.map((recommendation) => (
           <ProfileRecommendation
             recommendation={recommendation}
             key={recommendation.id}
+            variant={variant}
           />
         ))}
       </div>

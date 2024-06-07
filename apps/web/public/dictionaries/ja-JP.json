@@ -699,5 +699,6 @@
   "no_recommendations_sent": "まだ誰にもおすすめを送信していません。",
   "recommend_movies_to_friends": "お気に入りの映画を友達におすすめしてみませんか？その間に人気の映画を探索してみてください",
   "received": "受信済み",
-  "sent": "送信済み"
+  "sent": "送信済み",
+  "sent_to": "送信先"
 }

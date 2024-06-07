@@ -700,5 +700,6 @@
   "no_recommendations_sent": "Vous n'avez encore envoyé de recommandations à personne.",
   "recommend_movies_to_friends": "Que diriez-vous de recommander vos films préférés à des amis ? En attendant, explorez des films populaires en cliquant",
   "received": "Reçues",
-  "sent": "Envoyées"
+  "sent": "Envoyées",
+  "sent_to": "envoyé à"
 }
