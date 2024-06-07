@@ -11,6 +11,8 @@ import { ProfileImage } from './_components/profile-image'
 import { ProfileTabs } from './_components/profile-tabs'
 import { FollowButton } from '@/components/follow-button'
 
+export const dynamic = 'force-dynamic'
+
 type UserPageProps = PageProps<Record<'username', string>>
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
