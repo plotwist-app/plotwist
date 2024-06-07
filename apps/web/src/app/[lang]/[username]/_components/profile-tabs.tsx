@@ -6,7 +6,6 @@ import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Profile } from '@/types/supabase'
-import { FullReview } from '@/services/api/reviews'
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/context/language'
 import { useCallback } from 'react'
@@ -18,14 +17,13 @@ const ProfileAchievements = dynamic(
 
 type ProfileTabsProps = {
   profile: Profile
-  reviews: FullReview[]
 }
 
-export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
+export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { language, dictionary } = useLanguage()
+  const { dictionary } = useLanguage()
 
   const tab = searchParams.get('tab') ?? 'reviews'
 
@@ -83,7 +81,7 @@ export const ProfileTabs = ({ profile, reviews }: ProfileTabsProps) => {
       </div>
 
       <TabsContent value="reviews" className="mt-4">
-        <ProfileReviews reviews={reviews} language={language} />
+        <ProfileReviews profile={profile} />
       </TabsContent>
 
       <TabsContent value="lists" className="mt-4">

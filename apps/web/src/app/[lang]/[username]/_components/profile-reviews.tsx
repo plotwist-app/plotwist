@@ -1,14 +1,26 @@
-import { FullReview } from '@/components/full-review'
-import { Language } from '@/types/languages'
+import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { EmptyReview } from '../../_components/user-last-review'
-import { FullReview as FullReviewType } from '@/services/api/reviews'
+import { useQuery } from '@tanstack/react-query'
+import { getProfileReviews } from '@/services/api/profiles'
+import { Profile } from '@/types/supabase'
+import { useLanguage } from '@/context/language'
 
 type ProfileReviewsProps = {
-  reviews: FullReviewType[]
-  language: Language
+  profile: Profile
 }
 
-export const ProfileReviews = ({ reviews, language }: ProfileReviewsProps) => {
+export const ProfileReviews = ({ profile }: ProfileReviewsProps) => {
+  const { language } = useLanguage()
+  const { data: reviews, isLoading } = useQuery({
+    queryFn: async () =>
+      await getProfileReviews({ language, userId: profile.id }),
+    queryKey: ['reviews'],
+  })
+
+  if (!reviews || isLoading) {
+    return <FullReviewSkeleton />
+  }
+
   return (
     <div className="space-y-4">
       {reviews.length > 0 ? (
