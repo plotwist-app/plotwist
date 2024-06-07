@@ -49,12 +49,7 @@ export const ReviewItem = ({
     id,
   } = review
 
-  const {
-    language,
-    dictionary: {
-      review_item: { ago },
-    },
-  } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const { user } = useAuth()
   const reviewRef = useRef<HTMLDivElement>(null)
   const reviewToFocus = useSearchParams().get('review')
@@ -67,7 +62,7 @@ export const ReviewItem = ({
   const usernameInitial = username[0].toUpperCase()
   const time = `${formatDistanceToNow(new Date(createdAt), {
     locale: locale[language],
-  })} ${ago}`
+  })} ${dictionary.ago}`
 
   const mode = useMemo(() => {
     if (user?.id === userId) return 'EDIT'

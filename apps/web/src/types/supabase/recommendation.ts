@@ -8,9 +8,11 @@ export type Recommendation = {
   media_type: MediaType
   tmdb_id: number
   sender_user_id: string
+  message: string
 }
 
 export type DetailedRecommendation = Recommendation & {
   receiver_profile: Profile
   sender_profile: Profile
+  poster_path?: string
 }

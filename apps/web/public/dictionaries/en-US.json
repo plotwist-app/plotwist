@@ -117,8 +117,7 @@
   "sign_up_page": {
     "title": "Create an account",
     "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
-    "already_have_account": "Already have an account? Access by clicking",
-    "here_link": "here"
+    "already_have_account": "Already have an account? Access by clicking"
   },
   "sign_up_form": {
     "username_label": "Username",
@@ -220,9 +219,6 @@
     "placeholder": "Add a reply...",
     "open_replies": "View replies",
     "hide_replies": "Hide replies"
-  },
-  "review_item": {
-    "ago": "ago"
   },
   "review_item_actions": {
     "like": "Like",
@@ -626,6 +622,7 @@
     "achievements": "Achievements",
     "reviews": "Reviews",
     "lists": "Lists",
+    "recommendations": "Recommendations",
     "communities": "Communities",
     "work_in_progress": "Work in progress",
     "no_lists": "This user has no lists yet.",
@@ -695,5 +692,13 @@
   "to": "To",
   "suggestions": "Suggestions",
   "search": "Search...",
-  "write_a_message": "Write a message..."
+  "write_a_message": "Write a message...",
+  "ago": "ago",
+  "here": "here",
+  "no_user_recommendations": "We don't have any recommendations from other users for you yet 😿",
+  "explore_popular_movies": "How about exploring popular movies in the meantime? Click",
+  "no_recommendations_sent": "You haven't sent any recommendations to anyone yet.",
+  "recommend_movies_to_friends": "How about recommending your favorite movies to friends? In the meantime, explore popular movies by clicking",
+  "received": "Received",
+  "sent": "Sent"
 }

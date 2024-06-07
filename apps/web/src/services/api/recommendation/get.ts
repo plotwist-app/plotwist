@@ -20,6 +20,7 @@ export const getRecommendations = async ({
     .select(
       '*, receiver_profile:profiles!recommendations_receiver_user_id_fkey(*), sender_profile:profiles!recommendations_sender_user_id_fkey(*)',
     )
+    .order('created_at', { ascending: false })
     .eq(variant === 'receiver' ? 'receiver_user_id' : 'sender_user_id', userId)
     .returns<Array<DetailedRecommendation>>()
 

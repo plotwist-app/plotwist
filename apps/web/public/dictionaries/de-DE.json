@@ -117,8 +117,7 @@
   "sign_up_page": {
     "title": "Ein Konto erstellen",
     "description": "Sei Teil der Kinogemeinschaft, wo du Tausende von Filmen und Fernsehserien treffen und diskutieren kannst!",
-    "already_have_account": "Hast du schon ein Konto? Zugang durch Klicken",
-    "here_link": "hier"
+    "already_have_account": "Hast du schon ein Konto? Zugang durch Klicken"
   },
   "sign_up_form": {
     "username_label": "Benutzername",
@@ -220,9 +219,6 @@
     "placeholder": "Eine Antwort hinzufügen...",
     "open_replies": "Antworten anzeigen",
     "hide_replies": "Antworten verbergen"
-  },
-  "review_item": {
-    "ago": "vor"
   },
   "review_item_actions": {
     "like": "Gefällt mir",
@@ -625,6 +621,7 @@
     "achievements": "Errungenschaften",
     "reviews": "Bewertungen",
     "lists": "Listen",
+    "recommendations": "Empfehlungen",
     "communities": "Gemeinschaften",
     "work_in_progress": "In Bearbeitung",
     "no_lists": "Dieser Benutzer hat noch keine Listen.",
@@ -694,5 +691,13 @@
   "to": "Zu",
   "suggestions": "Vorschläge",
   "search": "Suchen...",
-  "write_a_message": "Schreibe eine Nachricht..."
+  "write_a_message": "Schreibe eine Nachricht...",
+  "ago": "vor",
+  "here": "hier",
+  "no_user_recommendations": "Wir haben noch keine Empfehlungen von anderen Benutzern für Sie 😿",
+  "explore_popular_movies": "Wie wäre es, währenddessen beliebte Filme zu erkunden? Klicken Sie",
+  "no_recommendations_sent": "Sie haben noch keine Empfehlungen an niemanden gesendet.",
+  "recommend_movies_to_friends": "Wie wäre es, Ihre Lieblingsfilme an Freunde zu empfehlen? Währenddessen, erkunden Sie beliebte Filme, indem Sie klicken",
+  "received": "Erhalten",
+  "sent": "Gesendet"
 }

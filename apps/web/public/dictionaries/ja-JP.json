@@ -117,8 +117,7 @@
   "sign_up_page": {
     "title": "アカウントを作成",
     "description": "数千の映画やテレビシリーズについてのディスカッションができるコミュニティへようこそ。",
-    "already_have_account": "既にアカウントをお持ちですか？こちらをクリックしてログインしてください。",
-    "here_link": "ここをクリック"
+    "already_have_account": "既にアカウントをお持ちですか？こちらをクリックしてログインしてください。"
   },
   "sign_up_form": {
     "username_label": "ユーザー名",
@@ -220,9 +219,6 @@
     "placeholder": "返信を追加する...",
     "open_replies": "返信を見る",
     "hide_replies": "返信を隠す"
-  },
-  "review_item": {
-    "ago": "前"
   },
   "review_item_actions": {
     "like": "いいね",
@@ -625,6 +621,7 @@
     "achievements": "実績",
     "reviews": "レビュー",
     "lists": "リスト",
+    "recommendations": "おすすめ",
     "communities": "コミュニティ",
     "work_in_progress": "作業中",
     "no_lists": "このユーザーはまだリストを持っていません。",
@@ -694,5 +691,13 @@
   "to": "へ",
   "suggestions": "提案",
   "search": "検索...",
-  "write_a_message": "メッセージを書く..."
+  "write_a_message": "メッセージを書く...",
+  "ago": "前",
+  "here": "ここをクリック",
+  "no_user_recommendations": "まだ他のユーザーからのおすすめがありません 😿",
+  "explore_popular_movies": "その間に人気の映画を探索してみませんか？クリック",
+  "no_recommendations_sent": "まだ誰にもおすすめを送信していません。",
+  "recommend_movies_to_friends": "お気に入りの映画を友達におすすめしてみませんか？その間に人気の映画を探索してみてください",
+  "received": "受信済み",
+  "sent": "送信済み"
 }

@@ -97,7 +97,6 @@ export type Dictionary = {
     title: string
     description: string
     already_have_account: string
-    here_link: string
   }
   sign_up_form: {
     username_label: string
@@ -200,9 +199,6 @@ export type Dictionary = {
     placeholder: string
     open_replies: string
     hide_replies: string
-  }
-  review_item: {
-    ago: string
   }
   review_item_actions: {
     like: string
@@ -612,6 +608,7 @@ export type Dictionary = {
     achievements: string
     reviews: string
     lists: string
+    recommendations: string
     communities: string
     work_in_progress: string
     no_lists: string
@@ -682,4 +679,12 @@ export type Dictionary = {
   suggestions: string
   search: string
   write_a_message: string
+  ago: string
+  here: string
+  no_user_recommendations: string
+  explore_popular_movies: string
+  no_recommendations_sent: string
+  recommend_movies_to_friends: string
+  received: string
+  sent: string
 }

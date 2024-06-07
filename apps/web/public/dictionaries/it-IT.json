@@ -118,8 +118,7 @@
   "sign_up_page": {
     "title": "Crea un account",
     "description": "Fai parte della comunità cinematografica, dove puoi incontrare e discutere migliaia di film e serie TV!",
-    "already_have_account": "Hai già un account? Accedi cliccando",
-    "here_link": "qui"
+    "already_have_account": "Hai già un account? Accedi cliccando"
   },
   "sign_up_form": {
     "username_label": "Nome utente",
@@ -221,9 +220,6 @@
     "placeholder": "Aggiungi una risposta...",
     "open_replies": "Visualizza risposte",
     "hide_replies": "Nascondi risposte"
-  },
-  "review_item": {
-    "ago": "fa"
   },
   "review_item_actions": {
     "like": "Mi piace",
@@ -626,6 +622,7 @@
     "achievements": "Risultati",
     "reviews": "Recensioni",
     "lists": "Liste",
+    "recommendations": "Raccomandazioni",
     "communities": "Comunità",
     "work_in_progress": "Lavoro in corso",
     "no_lists": "Questo utente non ha ancora liste.",
@@ -695,5 +692,13 @@
   "to": "A",
   "suggestions": "Suggerimenti",
   "search": "Cerca...",
-  "write_a_message": "Scrivi un messaggio..."
+  "write_a_message": "Scrivi un messaggio...",
+  "ago": "fa",
+  "here": "qui",
+  "no_user_recommendations": "Non abbiamo ancora raccomandazioni da altri utenti per te 😿",
+  "explore_popular_movies": "Che ne dici di esplorare film popolari nel frattempo? Clicca",
+  "no_recommendations_sent": "Non hai ancora inviato raccomandazioni a nessuno.",
+  "recommend_movies_to_friends": "Che ne dici di consigliare i tuoi film preferiti agli amici? Nel frattempo, esplora film popolari cliccando",
+  "received": "Ricevute",
+  "sent": "Inviate"
 }
