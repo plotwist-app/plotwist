@@ -19,6 +19,7 @@ export const ProfileRecommendation = ({
   recommendation,
 }: ProfileRecommendationProps) => {
   const { language, dictionary } = useLanguage()
+
   const time = `${formatDistanceToNow(new Date(recommendation.created_at), {
     locale: locale[language],
   })} ${dictionary.ago}`
