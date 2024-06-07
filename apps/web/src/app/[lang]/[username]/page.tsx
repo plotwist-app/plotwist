@@ -12,7 +12,6 @@ import { ProfileTabs } from './_components/profile-tabs'
 import { FollowButton } from '@/components/follow-button'
 
 type UserPageProps = PageProps<Record<'username', string>>
-
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
 

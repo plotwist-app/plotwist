@@ -27,7 +27,6 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
     select: (data) => {
       return data?.image_path
     },
-    initialData: profile,
   })
 
   const { updateImagePathMutation } = useProfile()

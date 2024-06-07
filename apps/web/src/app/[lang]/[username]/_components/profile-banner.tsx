@@ -30,7 +30,6 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
     select: (data) => {
       return data?.banner_path
     },
-    initialData: profile,
   })
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
