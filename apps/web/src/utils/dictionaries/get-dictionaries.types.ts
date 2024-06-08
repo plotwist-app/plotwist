@@ -171,7 +171,6 @@ export type Dictionary = {
     buy: string
   }
   lists_dropdown: {
-    add_to_list: string
     my_lists: string
     removed_successfully: string
     added_successfully: string
@@ -515,7 +514,6 @@ export type Dictionary = {
     tv_removed_success: string
     movies_label: string
     remove_from_list: string
-    add_to_list: string
     view_details: string
     movie_added_success: string
     movie_removed_success: string
@@ -601,7 +599,6 @@ export type Dictionary = {
       second_line: string
     }
     added_successfully: string
-    add_to_list: string
     view_details: string
   }
   profile: {
@@ -675,6 +672,7 @@ export type Dictionary = {
   see_all_list: string
   recommend: string
   recommendation_sended_successfully: string
+  recommendation_deleted_successfully: string
   to: string
   suggestions: string
   search: string
@@ -688,4 +686,7 @@ export type Dictionary = {
   received: string
   sent: string
   sent_to: string
+  cancel_shipping: string
+  refuse: string
+  add_to_list: string
 }

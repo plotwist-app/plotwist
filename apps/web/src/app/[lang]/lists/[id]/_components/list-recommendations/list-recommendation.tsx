@@ -83,7 +83,7 @@ export const ListRecommendation = ({ item, list }: ListRecommendationProps) => {
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleAdd()}>
                 <PlusCircle size={14} className="mr-1" />
-                {dictionary.list_recommendations.add_to_list}
+                {dictionary.add_to_list}
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>

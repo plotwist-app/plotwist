@@ -42,7 +42,7 @@ export const ProfileRecommendations = ({
               : dictionary.no_recommendations_sent}
           </p>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             {variant === 'receiver'
               ? dictionary.explore_popular_movies
               : dictionary.recommend_movies_to_friends}{' '}

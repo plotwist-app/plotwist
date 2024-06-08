@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
-import { Check, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -11,6 +11,8 @@ import { locale } from '@/utils/date/locale'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { DetailedRecommendation } from '@/types/supabase/recommendation'
+import { useRecommendations } from '@/hooks/use-recommendations'
+import { ListsDropdown } from '@/components/lists'
 
 type ProfileRecommendationProps = {
   recommendation: DetailedRecommendation
@@ -22,6 +24,7 @@ export const ProfileRecommendation = ({
   variant,
 }: ProfileRecommendationProps) => {
   const { language, dictionary } = useLanguage()
+  const { handleDelete } = useRecommendations()
 
   const time = `${formatDistanceToNow(new Date(recommendation.created_at), {
     locale: locale[language],
@@ -77,8 +80,12 @@ export const ProfileRecommendation = ({
           <Link
             href={`/${language}/${recommendation.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${recommendation.tmdb_id}`}
           >
-            {recommendation.poster_path && (
-              <Image src={tmdbImage(recommendation.poster_path)} fill alt="" />
+            {recommendation.tmdb_item.poster_path && (
+              <Image
+                src={tmdbImage(recommendation.tmdb_item.poster_path)}
+                fill
+                alt=""
+              />
             )}
           </Link>
         </figure>
@@ -91,17 +98,21 @@ export const ProfileRecommendation = ({
           )}
 
           <div className="flex gap-1">
-            <Button size="icon" className="h-8 w-8" variant="outline">
-              <Check size={12} />
-            </Button>
+            {variant === 'receiver' && (
+              <ListsDropdown item={recommendation.tmdb_item} className="h-8" />
+            )}
 
             <Button
-              size="icon"
-              className="h-8 w-8"
+              size="sm"
               variant="outline"
-              onClick={() => console.log('oi')}
+              onClick={() => handleDelete.mutate(recommendation.id)}
+              disabled={handleDelete.isPending}
             >
-              <X size={12} />
+              <X size={12} className="mr-2" />
+
+              {variant === 'sender'
+                ? dictionary.cancel_shipping
+                : dictionary.delete}
             </Button>
           </div>
         </div>

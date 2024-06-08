@@ -191,7 +191,6 @@
     "buy": "Comprar"
   },
   "lists_dropdown": {
-    "add_to_list": "Añadir a la lista",
     "my_lists": "Mis listas",
     "removed_successfully": "Eliminado con éxito.",
     "added_successfully": "Añadido con éxito."
@@ -528,7 +527,6 @@
     "tv_removed_success": "Serie de TV eliminada con éxito.",
     "movies_label": "Películas",
     "remove_from_list": "Eliminar de la lista",
-    "add_to_list": "Añadir a la lista",
     "view_details": "Ver detalles",
     "movie_added_success": "Película añadida con éxito.",
     "movie_removed_success": "Película eliminada con éxito."
@@ -614,7 +612,6 @@
       "second_line": "para recomendaciones exclusivas."
     },
     "added_successfully": "Sugerencia añadida con éxito.",
-    "add_to_list": "Añadir a la lista",
     "view_details": "Ver detalles"
   },
   "profile": {
@@ -688,6 +685,7 @@
   "see_all_list": "Ver todo",
   "recommend": "Recomendar",
   "recommendation_sended_successfully": "Recomendación enviada con éxito.",
+  "recommendation_deleted_successfully": "Recomendación eliminada con éxito.",
   "to": "Para",
   "suggestions": "Sugerencias",
   "search": "Buscar...",
@@ -700,5 +698,7 @@
   "recommend_movies_to_friends": "¿Qué tal recomendar tus películas favoritas a amigos? Mientras tanto, explora películas populares haciendo clic",
   "received": "Recibidas",
   "sent": "Enviadas",
-  "sent_to": "envió a"
+  "sent_to": "envió a",
+  "cancel_shipping": "Cancelar envío",
+  "add_to_list": "Añadir a la lista"
 }

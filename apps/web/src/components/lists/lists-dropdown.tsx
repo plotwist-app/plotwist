@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { ComponentProps, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
@@ -31,9 +31,13 @@ import { NoAccountTooltip } from '../no-account-tooltip'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
-}
+} & ComponentProps<'button'>
 
-export const ListsDropdown = ({ item }: ListsDropdownProps) => {
+export const ListsDropdown = ({
+  item,
+  className,
+  ...props
+}: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
   const { user } = useAuth()
@@ -43,11 +47,11 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
       lists_dropdown: {
         removed_successfully: removedSuccessfully,
         added_successfully: addedSuccessfully,
-        add_to_list: addToList,
         my_lists: myLists,
       },
       list_form: { create_new_list: createNewList },
       see_list: seeList,
+      add_to_list: addToList,
     },
     language,
   } = useLanguage()
@@ -154,7 +158,11 @@ export const ListsDropdown = ({ item }: ListsDropdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="h-6 px-2.5 py-0.5 text-xs">
+        <Button
+          variant="outline"
+          className={cn('h-6 px-2.5 py-0.5 text-xs', className)}
+          {...props}
+        >
           <Plus className="mr-2" size={12} />
           {addToList}
         </Button>

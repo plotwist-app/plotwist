@@ -1,3 +1,4 @@
+import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import { MediaType } from './media-type'
 import { Profile } from './profile'
 
@@ -14,5 +15,5 @@ export type Recommendation = {
 export type DetailedRecommendation = Recommendation & {
   receiver_profile: Profile
   sender_profile: Profile
-  poster_path?: string
+  tmdb_item: MovieDetails | TvSerieDetails
 }

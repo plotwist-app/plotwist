@@ -16,8 +16,6 @@ export const createRecommendation = async ({
   mediaType,
   message,
 }: CreateRecommendationParams) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
   const { data, error } = await supabase.from('recommendations').insert(
     receiverUsersIds.map((id) => ({
       receiver_user_id: id,

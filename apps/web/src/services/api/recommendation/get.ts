@@ -36,16 +36,14 @@ export const getRecommendations = async ({
 
         return {
           ...recommendation,
-          title: movie.title,
-          poster_path: movie.poster_path,
+          tmdb_item: movie,
         }
       }
 
       const tv = await tmdb.tv.details(recommendation.tmdb_id, language)
       return {
         ...recommendation,
-        title: tv.name,
-        poster_path: tv.poster_path,
+        tmdb_item: tv,
       }
     }),
   )

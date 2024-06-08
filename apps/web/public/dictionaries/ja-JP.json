@@ -191,7 +191,6 @@
     "buy": "購入"
   },
   "lists_dropdown": {
-    "add_to_list": "リストに追加",
     "my_lists": "僕のリスト",
     "removed_successfully": "排除に成功。",
     "added_successfully": "追加に成功。"
@@ -528,7 +527,6 @@
     "tv_removed_success": "TVシリーズを成功裏に削除しました。",
     "movies_label": "映画",
     "remove_from_list": "リストから削除",
-    "add_to_list": "リストに追加",
     "view_details": "詳細を見る",
     "movie_added_success": "映画を成功裏に追加しました。",
     "movie_removed_success": "映画を成功裏に削除しました。"
@@ -614,7 +612,6 @@
       "second_line": "独占的なおすすめのために。"
     },
     "added_successfully": "おすすめが正常に追加されました。",
-    "add_to_list": "リストに追加",
     "view_details": "詳細を見る"
   },
   "profile": {
@@ -688,6 +685,7 @@
   "see_all_list": "すべてを見る",
   "recommend": "おすすめ",
   "recommendation_sended_successfully": "推奨が正常に送信されました。",
+  "recommendation_deleted_successfully": "推奨事項が正常に削除されました。",
   "to": "へ",
   "suggestions": "提案",
   "search": "検索...",
@@ -700,5 +698,7 @@
   "recommend_movies_to_friends": "お気に入りの映画を友達におすすめしてみませんか？その間に人気の映画を探索してみてください",
   "received": "受信済み",
   "sent": "送信済み",
-  "sent_to": "送信先"
+  "sent_to": "送信先",
+  "cancel_shipping": "配送をキャンセル",
+  "add_to_list": "リストに追加"
 }
