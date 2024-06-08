@@ -106,7 +106,7 @@ export const MovieDetails = async ({
               {movie.overview}
             </p>
 
-            <div className="flex items-center space-x-1">
+            <div className="flex flex-wrap items-center gap-1">
               <WatchProviders id={id} variant="movie" language={language} />
               <ListsDropdown item={movie} />
               <RecommendationDialog />

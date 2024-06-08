@@ -30,6 +30,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
 import { tmdb } from '@plotwist/tmdb'
+import { RecommendationDialog } from '@/components/recommendation-dialog/recommendation-dialog'
 
 type TvSerieDetailsProps = {
   id: number
@@ -98,7 +99,7 @@ export const TvSerieDetails = async ({
               {tvSerie.overview}
             </p>
 
-            <div className="space-x-1">
+            <div className="flex flex-wrap gap-1">
               <WatchProviders
                 id={tvSerie.id}
                 variant="tv"
@@ -106,6 +107,7 @@ export const TvSerieDetails = async ({
               />
 
               <ListsDropdown item={tvSerie} />
+              <RecommendationDialog />
             </div>
           </article>
         </main>

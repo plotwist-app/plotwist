@@ -80,7 +80,7 @@ export const WatchProviders = async ({
   return (
     <DropdownMenu {...dropdownMenuProps}>
       <DropdownMenuTrigger asChild data-testid="watch-providers-trigger">
-        <Badge variant="outline" className="cursor-pointer">
+        <Badge variant="outline" className="cursor-pointer whitespace-nowrap">
           <Play className="mr-1.5" size={12} />
 
           {dictionary.watch_providers.label}
