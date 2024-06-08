@@ -117,8 +117,7 @@
   "sign_up_page": {
     "title": "Criar uma conta",
     "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
-    "already_have_account": "Já tem uma conta? Acesse clicando",
-    "here_link": "aqui"
+    "already_have_account": "Já tem uma conta? Acesse clicando"
   },
   "sign_up_form": {
     "username_label": "Nome de usuário",
@@ -192,7 +191,6 @@
     "buy": "Comprar"
   },
   "lists_dropdown": {
-    "add_to_list": "Adicionar à lista",
     "my_lists": "Minhas listas",
     "removed_successfully": "Removido com sucesso.",
     "added_successfully": "Adicionado com sucesso."
@@ -220,9 +218,6 @@
     "placeholder": "Adicione uma resposta...",
     "open_replies": "Ver respostas",
     "hide_replies": "Ocultar respostas"
-  },
-  "review_item": {
-    "ago": "atrás"
   },
   "review_item_actions": {
     "like": "Curtir",
@@ -532,7 +527,6 @@
     "tv_removed_success": "Série removida com sucesso.",
     "movies_label": "Filmes",
     "remove_from_list": "Remover da lista",
-    "add_to_list": "Adicionar à lista",
     "view_details": "Ver detalhes",
     "movie_added_success": "Filme adicionado com sucesso.",
     "movie_removed_success": "Filme removido com sucesso."
@@ -618,13 +612,13 @@
       "second_line": "para sugestões exclusivas."
     },
     "added_successfully": "Sugestão adicionada com sucesso.",
-    "add_to_list": "Adicionar à lista",
     "view_details": "Ver detalhes"
   },
   "profile": {
     "achievements": "Conquistas",
     "reviews": "Avaliações",
     "lists": "Listas",
+    "recommendations": "Recomendações",
     "communities": "Comunidades",
     "work_in_progress": "Em andamento",
     "no_lists": "Este usuário ainda não possui listas.",
@@ -689,6 +683,23 @@
   "list_cloned_successfully": "Lista clonada com sucesso!",
   "see_list": "Ver lista",
   "unable_to_clone_list": "Não foi possível clonar a lista.",
-  "see_all_list": "Ver tudo"
-
+  "see_all_list": "Ver todas",
+  "recommend": "Recomendar",
+  "recommendation_sended_successfully": "Recomendação enviada com sucesso.",
+  "recommendation_deleted_successfully": "Recomendação excluída com sucesso.",
+  "to": "Para",
+  "suggestions": "Sugestões",
+  "search": "Buscar...",
+  "write_a_message": "Escreva uma mensagem...",
+  "ago": "atrás",
+  "here": "aqui",
+  "no_user_recommendations": "Ainda não temos recomendações de outros usuários para você 😿",
+  "explore_popular_movies": "Que tal explorar filmes populares enquanto isso? Clique",
+  "no_recommendations_sent": "Você ainda não enviou recomendações para ninguém.",
+  "recommend_movies_to_friends": "Que tal recomendar seus filmes favoritos para amigos? Enquanto isso, explore filmes populares clicando",
+  "received": "Recebidas",
+  "sent": "Enviadas",
+  "sent_to": "enviou para",
+  "cancel_shipping": "Cancelar envio",
+  "add_to_list": "Adicionar à lista"
 }

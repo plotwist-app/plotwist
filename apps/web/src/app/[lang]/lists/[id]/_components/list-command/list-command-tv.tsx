@@ -117,7 +117,7 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
                 ) : (
                   <DropdownMenuItem onClick={() => handleAdd(tvSerie)}>
                     <PlusCircle size={14} className="mr-1" />
-                    {dictionary.list_command.add_to_list}
+                    {dictionary.add_to_list}
                   </DropdownMenuItem>
                 )}
 

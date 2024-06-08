@@ -10,10 +10,36 @@ import { ProfileForm } from './_components/profile-form'
 import { ProfileImage } from './_components/profile-image'
 import { ProfileTabs } from './_components/profile-tabs'
 import { FollowButton } from '@/components/follow-button'
+import { Metadata } from 'next'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export const dynamic = 'force-dynamic'
 
 type UserPageProps = PageProps<Record<'username', string>>
+
+export async function generateMetadata({
+  params: { username },
+}: UserPageProps): Promise<Metadata> {
+  const profile = await getProfileByUsername(username)
+
+  const title = profile?.username ?? 'User not found'
+  const images = profile?.banner_path ? [tmdbImage(profile.banner_path)] : []
+
+  return {
+    title,
+    openGraph: {
+      images,
+      title,
+      siteName: 'Plotwist',
+    },
+    twitter: {
+      title,
+      images,
+      card: 'summary_large_image',
+    },
+  }
+}
+
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
   const profile = await getProfileByUsername(username)
 

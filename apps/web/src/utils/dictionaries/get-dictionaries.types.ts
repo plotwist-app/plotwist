@@ -97,7 +97,6 @@ export type Dictionary = {
     title: string
     description: string
     already_have_account: string
-    here_link: string
   }
   sign_up_form: {
     username_label: string
@@ -172,7 +171,6 @@ export type Dictionary = {
     buy: string
   }
   lists_dropdown: {
-    add_to_list: string
     my_lists: string
     removed_successfully: string
     added_successfully: string
@@ -200,9 +198,6 @@ export type Dictionary = {
     placeholder: string
     open_replies: string
     hide_replies: string
-  }
-  review_item: {
-    ago: string
   }
   review_item_actions: {
     like: string
@@ -519,7 +514,6 @@ export type Dictionary = {
     tv_removed_success: string
     movies_label: string
     remove_from_list: string
-    add_to_list: string
     view_details: string
     movie_added_success: string
     movie_removed_success: string
@@ -605,13 +599,13 @@ export type Dictionary = {
       second_line: string
     }
     added_successfully: string
-    add_to_list: string
     view_details: string
   }
   profile: {
     achievements: string
     reviews: string
     lists: string
+    recommendations: string
     communities: string
     work_in_progress: string
     no_lists: string
@@ -676,4 +670,22 @@ export type Dictionary = {
   see_list: string
   unable_to_clone_list: string
   see_all_list: string
+  recommend: string
+  recommendation_sended_successfully: string
+  recommendation_deleted_successfully: string
+  to: string
+  suggestions: string
+  search: string
+  write_a_message: string
+  ago: string
+  here: string
+  no_user_recommendations: string
+  explore_popular_movies: string
+  no_recommendations_sent: string
+  recommend_movies_to_friends: string
+  received: string
+  sent: string
+  sent_to: string
+  cancel_shipping: string
+  add_to_list: string
 }

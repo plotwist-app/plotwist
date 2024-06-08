@@ -124,7 +124,7 @@ export const ListCommandMovies = ({
                 ) : (
                   <DropdownMenuItem onClick={() => handleAdd(movie)}>
                     <PlusCircle size={14} className="mr-1" />
-                    {dictionary.list_command.add_to_list}
+                    {dictionary.add_to_list}
                   </DropdownMenuItem>
                 )}
 

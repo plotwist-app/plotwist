@@ -1,6 +1,6 @@
 'use client'
 
-import { Award, List, Star, Users } from 'lucide-react'
+import { Award, Forward, List, Star, Users } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
@@ -9,6 +9,8 @@ import { Profile } from '@/types/supabase'
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/context/language'
 import { useCallback } from 'react'
+import { ProfileRecommendations } from './profile-recommendations'
+import { useAuth } from '@/context/auth'
 
 const ProfileAchievements = dynamic(
   () => import('./profile-achievements').then((mod) => mod.ProfileAchievements),
@@ -24,8 +26,10 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { dictionary } = useLanguage()
+  const { user } = useAuth()
 
   const tab = searchParams.get('tab') ?? 'reviews'
+  const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -60,6 +64,16 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
             {dictionary.profile.lists}
           </TabsTrigger>
 
+          {mode === 'EDIT' && (
+            <TabsTrigger
+              onClick={() => handleTabChange('recommendations')}
+              value="recommendations"
+            >
+              <Forward className="mr-1" width={12} height={12} />
+              {dictionary.profile.recommendations}
+            </TabsTrigger>
+          )}
+
           <TabsTrigger
             onClick={() => handleTabChange('achievements')}
             value="achievements"
@@ -87,6 +101,12 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
       <TabsContent value="lists" className="mt-4">
         <ProfileLists userId={profile.id} />
       </TabsContent>
+
+      {mode === 'EDIT' && (
+        <TabsContent value="recommendations" className="mt-4">
+          <ProfileRecommendations userId={profile.id} />
+        </TabsContent>
+      )}
 
       <TabsContent value="achievements" className="mt-4">
         <ProfileAchievements dictionary={dictionary} />

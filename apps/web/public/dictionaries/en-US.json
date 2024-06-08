@@ -117,8 +117,7 @@
   "sign_up_page": {
     "title": "Create an account",
     "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
-    "already_have_account": "Already have an account? Access by clicking",
-    "here_link": "here"
+    "already_have_account": "Already have an account? Access by clicking"
   },
   "sign_up_form": {
     "username_label": "Username",
@@ -192,7 +191,6 @@
     "buy": "Buy"
   },
   "lists_dropdown": {
-    "add_to_list": "Add to list",
     "my_lists": "My lists",
     "removed_successfully": "Removed successfully.",
     "added_successfully": "Added successfully."
@@ -220,9 +218,6 @@
     "placeholder": "Add a reply...",
     "open_replies": "View replies",
     "hide_replies": "Hide replies"
-  },
-  "review_item": {
-    "ago": "ago"
   },
   "review_item_actions": {
     "like": "Like",
@@ -532,7 +527,6 @@
     "tv_removed_success": "TV Series successfully removed.",
     "movies_label": "Movies",
     "remove_from_list": "Remove from list",
-    "add_to_list": "Add to list",
     "view_details": "View details",
     "movie_added_success": "Movie successfully added.",
     "movie_removed_success": "Movie successfully removed.",
@@ -619,13 +613,13 @@
       "second_line": "for exclusive recommendations."
     },
     "added_successfully": "Suggestion added successfully.",
-    "add_to_list": "Add to list",
     "view_details": "View details"
   },
   "profile": {
     "achievements": "Achievements",
     "reviews": "Reviews",
     "lists": "Lists",
+    "recommendations": "Recommendations",
     "communities": "Communities",
     "work_in_progress": "Work in progress",
     "no_lists": "This user has no lists yet.",
@@ -689,5 +683,23 @@
   "list_cloned_successfully": "List cloned successfully!",
   "see_list": "See list",
   "unable_to_clone_list": "Unable to clone list.",
-  "see_all_list": "See all"
+  "see_all_list": "See all",
+  "recommend": "Recommend",
+  "recommendation_sended_successfully": "Recommendation sent successfully.",
+  "recommendation_deleted_successfully": "Recommendation deleted successfully.",
+  "to": "To",
+  "suggestions": "Suggestions",
+  "search": "Search...",
+  "write_a_message": "Write a message...",
+  "ago": "ago",
+  "here": "here",
+  "no_user_recommendations": "We don't have any recommendations from other users for you yet 😿",
+  "explore_popular_movies": "How about exploring popular movies in the meantime? Click",
+  "no_recommendations_sent": "You haven't sent any recommendations to anyone yet.",
+  "recommend_movies_to_friends": "How about recommending your favorite movies to friends? In the meantime, explore popular movies by clicking",
+  "received": "Received",
+  "sent": "Sent",
+  "sent_to": "sent to",
+  "cancel_shipping": "Cancel shipping",
+  "add_to_list": "Add to list"
 }

@@ -64,7 +64,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
   }, [isLoading, data, isFetching, userHasPermission, type, list])
 
   return (
-    <div className="col-span-1 space-y-8">
+    <div className="col-span-1 space-y-8 border-t p-6">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
           <h2 className="text-md flex gap-1 font-semibold">
