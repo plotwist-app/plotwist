@@ -13,6 +13,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { DetailedRecommendation } from '@/types/supabase/recommendation'
 import { useRecommendations } from '@/hooks/use-recommendations'
 import { ListsDropdown } from '@/components/lists'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ProfileRecommendationProps = {
   recommendation: DetailedRecommendation
@@ -76,7 +77,7 @@ export const ProfileRecommendation = ({
           </span>
         </div>
 
-        <figure className="relative aspect-[2/3] w-1/2 overflow-hidden rounded-md border bg-muted shadow md:w-1/4">
+        <figure className="relative aspect-poster w-1/2 overflow-hidden rounded-md border bg-muted shadow md:w-1/4">
           <Link
             href={`/${language}/${recommendation.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${recommendation.tmdb_id}`}
           >
@@ -114,6 +115,28 @@ export const ProfileRecommendation = ({
                 ? dictionary.cancel_shipping
                 : dictionary.delete}
             </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const ProfileRecommendationSkeleton = () => {
+  return (
+    <div className="flex items-start gap-2 px-4 [&:not(:first-child)]:pt-4">
+      <Skeleton className="size-8 rounded-full" />
+
+      <div className="flex-1 space-y-2">
+        <Skeleton className="h-[1.5ex] w-[15ch]" />
+        <Skeleton className="md:1/4 aspect-poster w-1/2" />
+
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <Skeleton className="h-[4ex] w-[30ch]" />
+
+          <div className="flex gap-1">
+            <Skeleton className="h-8 w-[10ch]" />
+            <Skeleton className="h-8 w-[10ch]" />
           </div>
         </div>
       </div>

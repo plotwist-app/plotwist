@@ -5,7 +5,10 @@ import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/language'
 import { getRecommendations } from '@/services/api/recommendation/get'
 
-import { ProfileRecommendation } from './profile-recommendation'
+import {
+  ProfileRecommendation,
+  ProfileRecommendationSkeleton,
+} from './profile-recommendation'
 import Link from 'next/link'
 
 type ProfileRecommendationsProps = {
@@ -25,10 +28,13 @@ export const ProfileRecommendations = ({
 
   const getContent = () => {
     const loading = !recommendations || isLoading
+
     if (loading)
       return (
-        <div className="flex items-center justify-center rounded-lg border p-4">
-          loading...
+        <div className="-ml-4 -mr-4 flex flex-col gap-4 divide-y">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <ProfileRecommendationSkeleton key={index} />
+          ))}
         </div>
       )
 
