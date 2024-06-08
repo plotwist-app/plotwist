@@ -687,6 +687,5 @@ export type Dictionary = {
   sent: string
   sent_to: string
   cancel_shipping: string
-  refuse: string
   add_to_list: string
 }
