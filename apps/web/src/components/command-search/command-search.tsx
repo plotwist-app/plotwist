@@ -3,12 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
-import {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TvSerieWithMediaType,
-  tmdb,
-} from '@plotwist/tmdb'
+import { MovieWithMediaType, TvSerieWithMediaType, tmdb } from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
@@ -23,7 +18,6 @@ import {
 
 import {
   CommandSearchMovie,
-  CommandSearchPerson,
   CommandSearchGroup,
   CommandSearchSkeleton,
   CommandSearchTvSerie,
@@ -61,7 +55,7 @@ export const CommandSearch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName])
 
-  const [movies, tvSeries, people] = [
+  const [movies, tvSeries] = [
     data?.results.filter(
       (result) => result.media_type === 'movie',
     ) as MovieWithMediaType[],
@@ -69,19 +63,14 @@ export const CommandSearch = () => {
     data?.results.filter(
       (result) => result.media_type === 'tv',
     ) as TvSerieWithMediaType[],
-
-    data?.results.filter(
-      (result) => result.media_type === 'person',
-    ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTvSeries, hasPeople] = [
+  const [hasMovies, hasTvSeries] = [
     Boolean(movies?.length),
     Boolean(tvSeries?.length),
-    Boolean(people?.length),
   ]
 
-  const hasResults = hasMovies || hasTvSeries || hasPeople
+  const hasResults = hasMovies || hasTvSeries
 
   return (
     <>
@@ -147,20 +136,6 @@ export const CommandSearch = () => {
                         item={tvSerie}
                         language={language}
                         key={tvSerie.id}
-                      />
-                    ))}
-                  </CommandSearchGroup>
-                )}
-
-                {hasPeople && (
-                  <CommandSearchGroup
-                    heading={dictionary.sidebar_search.people}
-                  >
-                    {people?.map((person) => (
-                      <CommandSearchPerson
-                        item={person}
-                        language={language}
-                        key={person.id}
                       />
                     ))}
                   </CommandSearchGroup>

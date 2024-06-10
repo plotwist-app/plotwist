@@ -23,7 +23,6 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
             ({
               profile_path: profilePath,
               name,
-              id,
               character,
               credit_id: creditId,
             }) => (
@@ -32,7 +31,6 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 imagePath={profilePath}
                 name={name}
                 role={character}
-                href={`/${language}/people/${id}`}
               />
             ),
           )}
@@ -47,7 +45,6 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
             ({
               profile_path: profilePath,
               name,
-              id,
               department,
               credit_id: creditId,
             }) => (
@@ -56,7 +53,6 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 imagePath={profilePath}
                 name={name}
                 role={department}
-                href={`/${language}/people/${id}`}
               />
             ),
           )}

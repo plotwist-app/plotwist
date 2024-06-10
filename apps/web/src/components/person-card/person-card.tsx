@@ -4,7 +4,6 @@ import {
   TvSerieWithMediaType,
 } from '@plotwist/tmdb'
 import Image from 'next/image'
-import Link from 'next/link'
 import { forwardRef } from 'react'
 
 import { Language } from '@/types/languages'
@@ -14,8 +13,8 @@ import { Skeleton } from '../ui/skeleton'
 
 type PersonCardProps = { person: Person; language: Language }
 
-export const PersonCard = ({ person, language }: PersonCardProps) => {
-  const { id, profile_path: profilePath, name, known_for: knownFor } = person
+export const PersonCard = ({ person }: PersonCardProps) => {
+  const { profile_path: profilePath, name, known_for: knownFor } = person
 
   const credits = knownFor
     .map((item) => {
@@ -27,11 +26,7 @@ export const PersonCard = ({ person, language }: PersonCardProps) => {
     .join(', ')
 
   return (
-    <Link
-      href={`/${language}/people/${id}`}
-      className="w-full cursor-pointer space-y-2"
-      data-testid="movie-card"
-    >
+    <div className="w-full cursor-pointer space-y-2">
       <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 shadow">
         {profilePath ? (
           <Image
@@ -52,7 +47,7 @@ export const PersonCard = ({ person, language }: PersonCardProps) => {
           {credits}
         </p>
       </div>
-    </Link>
+    </div>
   )
 }
 

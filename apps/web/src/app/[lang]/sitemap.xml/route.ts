@@ -13,7 +13,6 @@ const APP_ROUTES = [
   '/movies/now-playing',
   '/movies/popular',
   '/movies/top-rated',
-  '/people/popular',
   '/tv-series/airing-today',
   '/tv-series/discover',
   '/tv-series/on-the-air',

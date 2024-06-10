@@ -1,26 +1,15 @@
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import Link from 'next/link'
 
 type CreditCardProps = {
   imagePath: string
   name: string
   role: string
-  href: string
 }
 
-export const CreditCard = ({
-  imagePath,
-  name,
-  role,
-  href,
-}: CreditCardProps) => {
+export const CreditCard = ({ imagePath, name, role }: CreditCardProps) => {
   return (
-    <Link
-      className="flex flex-col space-x-2 overflow-hidden rounded-md  border bg-muted shadow"
-      href={href}
-      prefetch={false}
-    >
+    <div className="flex flex-col space-x-2 overflow-hidden rounded-md border bg-muted shadow">
       <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-background/50">
         {imagePath ? (
           <Image
@@ -40,6 +29,6 @@ export const CreditCard = ({
         <span className="text-sm">{name}</span>
         <span className="text-xs text-muted-foreground">{role}</span>
       </div>
-    </Link>
+    </div>
   )
 }
