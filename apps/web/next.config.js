@@ -1,5 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withMDX = require('@next/mdx')()
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -15,4 +18,4 @@ const nextConfig = {
   transpilePackages: ['@plotwist/tmdb'],
 }
 
-module.exports = withMDX(nextConfig)
+module.exports = withBundleAnalyzer(withMDX(nextConfig))
