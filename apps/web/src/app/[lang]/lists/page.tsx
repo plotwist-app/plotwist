@@ -6,8 +6,6 @@ import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { PopularLists } from './_components/popular-lists'
 import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { SeeAllLists } from './_components/see-all-lists'
 
 export async function generateMetadata({
