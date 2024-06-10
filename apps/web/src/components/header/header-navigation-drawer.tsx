@@ -11,6 +11,7 @@ import { useLanguage } from '@/context/language'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { CommandSearch } from '../command-search'
 import { SettingsDropdown } from '../settings-dropdown'
+import { HeaderProfile } from './header-profile'
 
 export const HeaderNavigationDrawer = () => {
   const [open, setOpen] = useState(false)
@@ -46,6 +47,7 @@ export const HeaderNavigationDrawer = () => {
           <div className="flex gap-2">
             <CommandSearch />
             <SettingsDropdown />
+            <HeaderProfile />
           </div>
         </div>
       </DrawerContent>

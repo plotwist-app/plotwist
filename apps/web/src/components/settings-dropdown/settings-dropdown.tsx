@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { LogOut, Settings, User } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import ReactCountryFlag from 'react-country-flag'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -21,15 +21,12 @@ import {
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Language } from '@/types/languages'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
-import Link from 'next/link'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
   const pathname = usePathname()
   const { replace } = useRouter()
-  const { dictionary, language } = useLanguage()
-  const { logout, user } = useAuth()
+  const { dictionary } = useLanguage()
 
   const currentLanguage = pathname.split('/')[1]
 
@@ -119,38 +116,6 @@ export const SettingsDropdown = () => {
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuGroup>
-
-        {user ? (
-          <>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>
-                {dictionary.settings_dropdown.account}
-              </DropdownMenuLabel>
-
-              <DropdownMenuItem
-                className="flex cursor-pointer gap-1 hover:bg-muted"
-                asChild
-              >
-                <Link href={`/${language}/${user.username}`}>
-                  <User width={16} height={16} />
-                  {dictionary.settings_dropdown.profile}
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                className="flex cursor-pointer gap-1 hover:bg-muted"
-                onClick={() => logout()}
-              >
-                <LogOut width={16} height={16} />
-                {dictionary.settings_dropdown.logout}
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        ) : (
-          <></>
-        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )
