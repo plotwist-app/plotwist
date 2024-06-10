@@ -341,16 +341,6 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
-  packages/supabase:
-    dependencies:
-      '@prisma/client':
-        specifier: ^5.14.0
-        version: 5.14.0(prisma@5.14.0)
-    devDependencies:
-      prisma:
-        specifier: ^5.14.0
-        version: 5.14.0
-
   packages/tmdb:
     dependencies:
       axios:
