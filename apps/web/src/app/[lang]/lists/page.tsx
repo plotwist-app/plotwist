@@ -7,8 +7,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import { PopularLists } from './_components/popular-lists'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
-import { getUserService } from '@/services/api/users/get-user'
 import { Button } from '@/components/ui/button'
+import { SeeAllLists } from './_components/see-all-lists'
 
 export async function generateMetadata({
   params,
@@ -34,7 +34,6 @@ export async function generateMetadata({
 
 const ListsPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
-  const user = await getUserService()
 
   return (
     <Container>
@@ -46,30 +45,14 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
           </p>
         </div>
 
-        {user && (
-          <Link
-            href={`/${lang}/${user.username}?tab=lists`}
-            className="hidden text-sm text-muted-foreground hover:underline md:block "
-          >
-            {dictionary.see_all_list}
-          </Link>
-        )}
+        <SeeAllLists />
       </div>
 
       <div className="space-y-8">
         <div className="flex flex-col space-y-4">
           <Lists />
 
-          {user && (
-            <Button asChild>
-              <Link
-                href={`/${lang}/${user.username}?tab=lists`}
-                className="block text-sm text-muted-foreground hover:underline md:hidden "
-              >
-                {dictionary.see_all_list}
-              </Link>
-            </Button>
-          )}
+          <SeeAllLists className="block text-end md:hidden" />
         </div>
 
         <Separator />

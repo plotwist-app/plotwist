@@ -1,27 +1,31 @@
+'use client'
+
 import Link from 'next/link'
 
 import { Confetti } from '@/components/confetti'
 import { Pattern } from '@/components/pattern'
 
 import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
 import { Check, Copy, List, Play, User } from 'lucide-react'
-import { getUserService } from '@/services/api/users/get-user'
+import { useLanguage } from '@/context/language'
+import { useAuth } from '@/context/auth'
 
-export default async function Home({ params: { lang } }: PageProps) {
+export default function Home({ params: { lang } }: PageProps) {
   const {
-    thank_you: {
-      title,
-      description,
-      subtitle,
-      feature1,
-      feature2,
-      feature3,
-      feature4,
+    dictionary: {
+      thank_you: {
+        title,
+        description,
+        subtitle,
+        feature1,
+        feature2,
+        feature3,
+        feature4,
+      },
     },
-  } = await getDictionary(lang)
+  } = useLanguage()
+  const { user } = useAuth()
 
-  const user = await getUserService()
   return (
     <>
       <Pattern variant="checkered" />
