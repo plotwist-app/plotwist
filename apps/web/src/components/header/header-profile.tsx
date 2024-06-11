@@ -107,7 +107,9 @@ export const HeaderProfile = () => {
                   href={`/${language}/pricing`}
                   className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted"
                 >
-                  <p className="ml-1.5 text-sm">Become</p>
+                  <p className="ml-1.5 text-sm">
+                    {dictionary.become_pro_button}
+                  </p>
                   <ProBadge />
                 </Link>
               </DropdownMenuItem>
