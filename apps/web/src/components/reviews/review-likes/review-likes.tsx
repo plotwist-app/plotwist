@@ -19,7 +19,6 @@ import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 
 import { getLikesService } from '@/services/api/likes/get-likes'
-import { getProfilesById } from '@/services/api/profiles/get-profiles-by-id'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 
@@ -36,15 +35,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       getLikesService({ id: reviewId, entityType: 'REVIEW' }),
   })
 
-  const likedUsersId = likes?.data.map((like) => like.user_id) ?? []
-
-  const { data: profiles } = useQuery({
-    queryKey: ['profiles', reviewId],
-    queryFn: async () => getProfilesById(likedUsersId),
-    enabled: Boolean(likedUsersId?.length),
-  })
-
-  if (!likes?.data) {
+  if (!likes) {
     return (
       <div
         className={cn(
@@ -73,7 +64,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
           <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
         </DialogHeader>
 
-        {!profiles &&
+        {!likes.data &&
           Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex items-center gap-3">
               <Skeleton className="size-10 rounded-full" />
@@ -82,38 +73,38 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
             </div>
           ))}
 
-        {profiles?.map((profile) => (
-          <div key={profile.id} className="flex items-center">
+        {likes.data?.map((likeInfo) => (
+          <div key={likeInfo.profiles?.id} className="flex items-center">
             <Link
-              href={`/${language}/${profile.username}`}
+              href={`/${language}/${likeInfo.profiles?.username}`}
               className="flex items-center gap-1"
             >
               <Avatar className="size-10 border text-[10px] shadow">
-                {profile.image_path && (
+                {likeInfo.profiles?.image_path && (
                   <AvatarImage
-                    src={tmdbImage(profile.image_path, 'w500')}
+                    src={tmdbImage(likeInfo.profiles?.image_path, 'w500')}
                     className="object-cover"
                   />
                 )}
 
                 <AvatarFallback>
-                  {profile.username[0].toUpperCase()}
+                  {likeInfo.profiles?.username[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 
               <span className="ml-2 mr-2 truncate text-sm">
-                {profile.username}
+                {likeInfo.profiles?.username}
               </span>
             </Link>
 
-            {profile.subscription_type === 'PRO' && (
+            {likeInfo.profiles?.subscription_type === 'PRO' && (
               <Link href={`/${language}/pricing`}>
                 <ProBadge />
               </Link>
             )}
 
             <Link
-              href={`/${language}/${profile.username}`}
+              href={`/${language}/${likeInfo.profiles?.username}`}
               className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
             >
               {dictionary.review_likes.view_profile}
