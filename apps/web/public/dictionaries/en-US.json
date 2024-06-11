@@ -689,5 +689,6 @@
   "list_cloned_successfully": "List cloned successfully!",
   "see_list": "See list",
   "unable_to_clone_list": "Unable to clone list.",
-  "see_all_list": "See all"
+  "see_all_list": "See all",
+  "become_pro_button":"Become"
 }
