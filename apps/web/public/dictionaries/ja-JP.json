@@ -700,5 +700,6 @@
   "sent": "送信済み",
   "sent_to": "送信先",
   "cancel_shipping": "配送をキャンセル",
-  "add_to_list": "リストに追加"
+  "add_to_list": "リストに追加",
+  "become_pro_button" : "なる"
 }

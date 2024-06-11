@@ -701,5 +701,6 @@
   "send_to": "Gesendet an",
   "sent_to": "gesendet an",
   "cancel_shipping": "Versand stornieren",
-  "add_to_list": "Zur Liste hinzufügen"
+  "add_to_list": "Zur Liste hinzufügen",
+  "become_pro_button" : "Werden" 
 }

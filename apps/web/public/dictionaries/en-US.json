@@ -701,5 +701,6 @@
   "sent": "Sent",
   "sent_to": "sent to",
   "cancel_shipping": "Cancel shipping",
-  "add_to_list": "Add to list"
+  "add_to_list": "Add to list",
+  "become_pro_button" : "Become" 
 }

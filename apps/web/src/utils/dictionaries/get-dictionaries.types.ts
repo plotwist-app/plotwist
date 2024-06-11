@@ -688,4 +688,5 @@ export type Dictionary = {
   sent_to: string
   cancel_shipping: string
   add_to_list: string
+  become_pro_button: string
 }

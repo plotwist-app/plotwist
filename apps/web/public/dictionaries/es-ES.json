@@ -700,5 +700,6 @@
   "sent": "Enviadas",
   "sent_to": "envió a",
   "cancel_shipping": "Cancelar envío",
-  "add_to_list": "Añadir a la lista"
+  "add_to_list": "Añadir a la lista",
+  "become_pro_button" : "Convertirse"
 }
