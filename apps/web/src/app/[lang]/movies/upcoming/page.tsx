@@ -43,7 +43,7 @@ const UpcomingMoviesPage = async ({ params: { lang } }: PageProps) => {
         </p>
       </div>
 
-      <MovieList variant="upcoming" language={lang} />
+      <MovieList variant="upcoming" />
     </Container>
   )
 }

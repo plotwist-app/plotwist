@@ -2,14 +2,17 @@
 
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
-import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
-
-import { MovieListSkeleton } from './movie-list-skeleton'
 import { useMovieListQuery } from './use-movie-list-query'
 import { MovieListProps } from './movie-list.types'
+import { PosterCard } from '../poster-card'
 
-export const MovieList = ({ variant, language }: MovieListProps) => {
+import { tmdbImage } from '@/utils/tmdb/image'
+import { useLanguage } from '@/context/language'
+
+export const MovieList = ({ variant }: MovieListProps) => {
+  const { language } = useLanguage()
   const { data, fetchNextPage } = useMovieListQuery(variant)
   const { ref, inView } = useInView({
     threshold: 0,
@@ -19,7 +22,14 @@ export const MovieList = ({ variant, language }: MovieListProps) => {
     if (inView) fetchNextPage()
   }, [fetchNextPage, inView])
 
-  if (!data) return <MovieListSkeleton />
+  if (!data)
+    return (
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+        {Array.from({ length: 20 }).map((_, index) => (
+          <PosterCard.Skeleton key={index} />
+        ))}
+      </div>
+    )
 
   const flatData = data.pages.flatMap((page) => page.results)
   const isLastPage =
@@ -27,22 +37,34 @@ export const MovieList = ({ variant, language }: MovieListProps) => {
     data.pages[data.pages.length - 1].total_pages
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
-          {flatData.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} language={language} />
-          ))}
+    <div className="flex items-center justify-between">
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+        {flatData.map((movie) => (
+          <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
+            <PosterCard.Root>
+              <PosterCard.Image
+                src={tmdbImage(movie.poster_path, 'w500')}
+                alt={movie.title}
+              />
 
-          {!isLastPage && (
-            <>
-              <MovieCardSkeleton ref={ref} />
-              <MovieCardSkeleton />
-              <MovieCardSkeleton />
-            </>
-          )}
-        </div>
+              <PosterCard.Details>
+                <PosterCard.Title>{movie.title}</PosterCard.Title>
+                <PosterCard.Year>
+                  {movie.release_date.split('-')[0]}
+                </PosterCard.Year>
+              </PosterCard.Details>
+            </PosterCard.Root>
+          </Link>
+        ))}
+
+        {!isLastPage && (
+          <>
+            <PosterCard.Skeleton ref={ref} />
+            <PosterCard.Skeleton />
+            <PosterCard.Skeleton />
+          </>
+        )}
       </div>
-    </>
+    </div>
   )
 }

@@ -1,14 +1,15 @@
 'use client'
 
-import { TvSerieCard, TvSerieCardSkeleton } from '@/components/tv-serie-card'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 import { useTvSeriesListQuery } from './use-tv-series-list-query'
 import { TvSeriesListProps } from './tv-series-list.types'
-import { TvSeriesListSkeleton } from './tv-series-list-skeleton'
+import { PosterCard } from '../poster-card'
 
 export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   const { language } = useLanguage()
@@ -22,7 +23,14 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
     if (inView) fetchNextPage()
   }, [fetchNextPage, inView])
 
-  if (!data) return <TvSeriesListSkeleton />
+  if (!data)
+    return (
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+        {Array.from({ length: 20 }).map((_, index) => (
+          <PosterCard.Skeleton key={index} />
+        ))}
+      </div>
+    )
 
   const flatData = data.pages.flatMap((page) => page.results)
   const isLastPage =
@@ -31,16 +39,30 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
 
   return (
     <div className="flex items-center justify-between">
-      <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
-        {flatData.map((tvSerie) => (
-          <TvSerieCard tvSerie={tvSerie} key={tvSerie.id} language={language} />
+      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+        {flatData.map((tv) => (
+          <Link href={`/${language}/tv-series/${tv.id}`} key={tv.id}>
+            <PosterCard.Root>
+              <PosterCard.Image
+                src={tmdbImage(tv.poster_path, 'w500')}
+                alt={tv.name}
+              />
+
+              <PosterCard.Details>
+                <PosterCard.Title>{tv.name}</PosterCard.Title>
+                <PosterCard.Year>
+                  {tv.first_air_date.split('-')[0]}
+                </PosterCard.Year>
+              </PosterCard.Details>
+            </PosterCard.Root>
+          </Link>
         ))}
 
         {!isLastPage && (
           <>
-            <TvSerieCardSkeleton ref={ref} />
-            <TvSerieCardSkeleton />
-            <TvSerieCardSkeleton />
+            <PosterCard.Skeleton ref={ref} />
+            <PosterCard.Skeleton />
+            <PosterCard.Skeleton />
           </>
         )}
       </div>
