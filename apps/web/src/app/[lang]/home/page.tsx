@@ -106,7 +106,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
 
             <div className="grid grid-cols-2 gap-4">
               {popularTvSeries.results.slice(0, 2).map((tv) => (
-                <Link href={`/${lang}/movies/${tv.id}`} key={tv.id}>
+                <Link href={`/${lang}/tv-series/${tv.id}`} key={tv.id}>
                   <PosterCard.Root>
                     <PosterCard.Image
                       src={tmdbImage(tv.poster_path, 'w500')}
