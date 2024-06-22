@@ -43,7 +43,7 @@ const TopRatedMoviesPage = async ({ params: { lang } }: PageProps) => {
         </p>
       </div>
 
-      <MovieList variant="top_rated" language={lang} />
+      <MovieList variant="top_rated" />
     </Container>
   )
 }

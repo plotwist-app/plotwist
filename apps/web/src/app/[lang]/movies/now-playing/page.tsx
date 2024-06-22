@@ -43,7 +43,7 @@ const NowPlayingMoviesPage = async ({ params: { lang } }: PageProps) => {
         </p>
       </div>
 
-      <MovieList variant="now_playing" language={lang} />
+      <MovieList variant="now_playing" />
     </Container>
   )
 }

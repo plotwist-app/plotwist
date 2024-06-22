@@ -2,14 +2,18 @@
 
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
-
-import { MovieCard, MovieCardSkeleton } from '@/components/movie-card'
+import Link from 'next/link'
 
 import { MovieListSkeleton } from './movie-list-skeleton'
 import { useMovieListQuery } from './use-movie-list-query'
 import { MovieListProps } from './movie-list.types'
+import { PosterCard } from '../poster-card'
 
-export const MovieList = ({ variant, language }: MovieListProps) => {
+import { tmdbImage } from '@/utils/tmdb/image'
+import { useLanguage } from '@/context/language'
+
+export const MovieList = ({ variant }: MovieListProps) => {
+  const { language } = useLanguage()
   const { data, fetchNextPage } = useMovieListQuery(variant)
   const { ref, inView } = useInView({
     threshold: 0,
@@ -29,16 +33,30 @@ export const MovieList = ({ variant, language }: MovieListProps) => {
   return (
     <>
       <div className="flex items-center justify-between">
-        <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-3">
+        <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
           {flatData.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} language={language} />
+            <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
+              <PosterCard.Root>
+                <PosterCard.Image
+                  src={tmdbImage(movie.poster_path, 'w500')}
+                  alt={movie.title}
+                />
+
+                <PosterCard.Details>
+                  <PosterCard.Title>{movie.title}</PosterCard.Title>
+                  <PosterCard.Year>
+                    {movie.release_date.split('-')[0]}
+                  </PosterCard.Year>
+                </PosterCard.Details>
+              </PosterCard.Root>
+            </Link>
           ))}
 
           {!isLastPage && (
             <>
-              <MovieCardSkeleton ref={ref} />
-              <MovieCardSkeleton />
-              <MovieCardSkeleton />
+              <PosterCard.Skeleton ref={ref} />
+              <PosterCard.Skeleton />
+              <PosterCard.Skeleton />
             </>
           )}
         </div>

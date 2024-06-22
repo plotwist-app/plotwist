@@ -48,7 +48,7 @@ const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
         <MoviesListFilters />
       </div>
 
-      <MovieList variant="discover" language={lang} />
+      <MovieList variant="discover" />
     </Container>
   )
 }
