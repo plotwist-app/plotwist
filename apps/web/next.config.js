@@ -11,7 +11,9 @@ const nextConfig = {
       {
         hostname: 'image.tmdb.org',
       },
+      
     ],
+    unoptimized: true,
   },
   pageExtensions: ['mdx', 'ts', 'tsx'],
   transpilePackages: ['@plotwist/tmdb'],
