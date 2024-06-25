@@ -13,7 +13,18 @@ export const metadata: Metadata = {
     default: 'Plotwist',
   },
   icons: {
-    icon: '/logo-white.svg',
+    icon: [
+      {
+        url: '/favicon.ico',
+        href: '/favicon.ico',
+        rel: 'icon',
+      },
+      {
+        url: '/apple-icon.png',
+        href: '/apple-icon.png',
+        rel: 'apple-touch-icon',
+      },
+    ],
   },
 }
 
@@ -31,7 +42,6 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href="/logo-white.svg" />
         <meta name="theme-color" content="#09090b" />
 
         <GTag />

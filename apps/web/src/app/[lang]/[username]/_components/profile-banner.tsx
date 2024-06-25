@@ -1,6 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import { toast } from 'sonner'
+import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 
 import { ImagePicker } from '@/components/image-picker'
@@ -11,8 +13,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { useLanguage } from '@/context/language'
 import { useProfile } from '@/hooks/use-profile'
-import { toast } from 'sonner'
-import { useParams } from 'next/navigation'
 
 type ProfileBannerProps = {
   profile: Profile
