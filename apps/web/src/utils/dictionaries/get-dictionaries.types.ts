@@ -689,4 +689,6 @@ export type Dictionary = {
   cancel_shipping: string
   add_to_list: string
   become_pro_button: string
+  movies: string
+  tv_series: string
 }

@@ -177,7 +177,7 @@
     "animes_description": "Descubra aventuras épicas e visuais deslumbrantes."
   },
   "sidebar_search": {
-    "placeholder": "Procure por filmes, séries ou pessoas",
+    "placeholder": "Procure por filmes, séries ou pessoas!",
     "search_everything": "Procure por tudo",
     "no_results": "Nenhum resultado encontrado.",
     "movies": "Filmes",
@@ -702,5 +702,7 @@
   "sent_to": "enviou para",
   "cancel_shipping": "Cancelar envio",
   "add_to_list": "Adicionar à lista",
-  "become_pro_button" : "Tornar-se"
+  "become_pro_button" : "Tornar-se",
+  "movies": "Filmes",
+  "tv_series": "Séries"
 }
