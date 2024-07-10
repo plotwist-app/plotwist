@@ -243,6 +243,10 @@
     "collection_removed_successfully": "Sammlung erfolgreich entfernt.",
     "collection_added_successfully": "Sammlung erfolgreich hinzugefügt."
   },
+  "notifications_dropdown": {
+    "notifications": "Benachrichtigungen",
+    "no_notifications": "Keine Benachrichtigungen gefunden."
+  },
   "settings_dropdown": {
     "theme": "Thema",
     "light": "🌞 Hell",

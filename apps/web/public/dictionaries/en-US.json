@@ -243,6 +243,10 @@
     "collection_removed_successfully": "Collection removed successfully.",
     "collection_added_successfully": "Collection added successfully."
   },
+  "notifications_dropdown": {
+    "notifications": "Notifications",
+    "no_notifications": "No notifications yet."
+  },
   "settings_dropdown": {
     "theme": "Theme",
     "light": "🌞 Light",
