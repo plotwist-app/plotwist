@@ -18,6 +18,7 @@ const Video = () => {
       autoPlay
       muted
       loop
+      controls={false}
     >
       <source src="/gargantua.mp4" />
     </video>

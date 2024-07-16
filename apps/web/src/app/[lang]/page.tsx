@@ -118,42 +118,6 @@ export default async function Home({ params: { lang } }: PageProps) {
           </div>
         </section>
 
-        {/* <section className="border-t bg-background py-8">
-          <p>Alguma sessão muito convidativa.</p>
-        </section> */}
-
-        {/* <section className="space-y-8 p-4 py-16">
-          
-
-          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-5">
-            <CountSection
-              label={statistics.movies.label}
-              value={statistics.movies.value}
-            />
-
-            <CountSection
-              label={statistics.tv.label}
-              value={statistics.tv.value}
-            />
-
-            <CountSection
-              label={statistics.episodes.label}
-              value={statistics.episodes.value}
-            />
-
-            <CountSection
-              label={statistics.people.label}
-              value={statistics.people.value}
-            />
-
-            <UserCount />
-          </div>
-        </section>
-
-        <HomeFeatures language={lang} dictionary={dictionary} />
-        <Pricing />
-        */}
-
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>
