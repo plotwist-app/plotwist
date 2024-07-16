@@ -1,7 +1,6 @@
 import { Language } from '@/types/languages'
-import { Dictionary } from './get-dictionaries.types'
 
-const dictionaries: Record<Language, () => Promise<Dictionary>> = {
+const dictionaries = {
   'en-US': () =>
     import('../../../public/dictionaries/en-US.json').then((r) => r.default),
   'pt-BR': () =>
@@ -16,10 +15,12 @@ const dictionaries: Record<Language, () => Promise<Dictionary>> = {
     import('../../../public/dictionaries/it-IT.json').then((r) => r.default),
   'ja-JP': () =>
     import('../../../public/dictionaries/ja-JP.json').then((r) => r.default),
-}
+} as const
 
 export const getDictionary = (lang: Language) => {
   const langFn = dictionaries[lang]
 
   return langFn ? langFn() : dictionaries['en-US']()
 }
+
+export type Dictionary = Awaited<ReturnType<typeof getDictionary>>

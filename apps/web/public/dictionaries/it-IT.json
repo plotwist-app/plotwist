@@ -552,25 +552,6 @@
     "description": "Nuovi aggiornamenti e miglioramenti a Plotwist.",
     "subscribe": "Iscriviti agli aggiornamenti!"
   },
-  "footer": {
-    "status": "Stato: Operativo",
-    "rights": "© Status 451. Tutti i diritti riservati.",
-    "data_provided_by": "Dati forniti da TMDB.",
-    "sections": {
-      "product": "Prodotto",
-      "company": "Azienda",
-      "developers": "Sviluppatori",
-      "features": "Caratteristiche",
-      "pricing": "Prezzi",
-      "changelog": "Registro delle modifiche",
-      "download": "Scarica",
-      "about_us": "Chi siamo",
-      "careers": "Carriere",
-      "brand": "Marchio",
-      "status": "Stato",
-      "github": "GitHub"
-    }
-  },
   "text_actions": {
     "expand": "Mostra di più",
     "contract": "Mostra di meno"
@@ -702,5 +683,24 @@
   "sent_to": "inviato a",
   "cancel_shipping": "Annulla spedizione",
   "add_to_list": "Aggiungi alla lista",
-  "become_pro_button" : "Diventare"
+  "become_pro_button" : "Diventare",
+  "welcome_to_plotwist": "Benvenuto su Plotwist:",
+  "your_cinema_platform": "La tua piattaforma di cinema",
+  "join_plotwist": "Scopri un nuovo modo di vivere il cinema. Unisciti a Plotwist ed esplora tutto ciò che abbiamo da offrire.",
+  "discover_advantages": "Scopri i vantaggi di essere",
+  "about_us": "Chi siamo",
+  "features": "Funzionalità",
+  "pricing": "Prezzi",
+  "download": "Scarica",
+  "community": "Comunità",
+  "github": "GitHub",
+  "discord": "Discord",
+  "careers": "Carriere",
+  "brand": "Marca",
+  "legal": "Legale",
+  "privacy_policy": "Politica sulla Privacy",
+  "terms_of_service": "Termini di Servizio",
+  "plotwist_rights": "© 202X Plotwist",
+  "data_provided_by": "Dati forniti da TMDB.",
+  "explore": "Esplorare"
 }

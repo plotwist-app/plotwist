@@ -552,25 +552,6 @@
     "description": "New updates and improvements.",
     "subscribe": "Subscribe to updates!"
   },
-  "footer": {
-    "status": "Status: Operational",
-    "rights": "© Status 451. All rights reserved.",
-    "data_provided_by": "Data provided by TMDB.",
-    "sections": {
-      "product": "Product",
-      "company": "Company",
-      "developers": "Developers",
-      "features": "Features",
-      "pricing": "Pricing",
-      "changelog": "Changelog",
-      "download": "Download",
-      "about_us": "About us",
-      "careers": "Careers",
-      "brand": "Brand",
-      "status": "Status",
-      "github": "GitHub"
-    }
-  },
   "text_actions": {
     "expand": "See more",
     "contract": "See less"
@@ -702,5 +683,24 @@
   "sent_to": "sent to",
   "cancel_shipping": "Cancel shipping",
   "add_to_list": "Add to list",
-  "become_pro_button" : "Become" 
+  "become_pro_button" : "Become",
+  "welcome_to_plotwist": "Welcome to Plotwist:",
+  "your_cinema_platform": "Your cinema platform",
+  "join_plotwist": "Discover a new way to experience cinema. Join Plotwist and explore everything we have to offer.",
+  "discover_advantages": "Discover the advantages of being",
+  "about_us": "About Us",
+  "features": "Features",
+  "pricing": "Pricing",
+  "download": "Download",
+  "community": "Communities",
+  "github": "GitHub",
+  "discord": "Discord",
+  "careers": "Careers",
+  "brand": "Brand",
+  "legal": "Legal",
+  "privacy_policy": "Privacy Policy",
+  "terms_of_service": "Terms of Service",
+  "plotwist_rights": "© 202X Plotwist",
+  "data_provided_by": "Data provided by TMDB.",
+  "explore": "Explore"
 }

@@ -4,7 +4,8 @@ import { useLanguage } from '@/context/language'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const Logo = () => {
+type LogoProps = { size?: number }
+export const Logo = ({ size = 24 }: LogoProps) => {
   const { language } = useLanguage()
 
   return (
@@ -12,16 +13,16 @@ export const Logo = () => {
       <Image
         src="/logo-black.svg"
         alt="Logo"
-        width={24}
-        height={24}
+        width={size}
+        height={size}
         className="dark:hidden"
       />
 
       <Image
         src="/logo-white.svg"
         alt="Logo"
-        width={24}
-        height={24}
+        width={size}
+        height={size}
         className="hidden dark:block"
       />
     </Link>

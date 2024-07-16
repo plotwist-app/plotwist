@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Explore filmes, séries e animes!",
-    "description": "O Plotwist é para os fãs de cinema que gostam de explorar milhões de filmes e séries, com informações como sinopse, elenco, orçamento e muito mais.",
+    "title": "Bem-vindo ao Plotwist: Sua Nova Comunidade de Cinema",
+    "description": "Descubra uma nova maneira de viver o cinema. Junte-se ao Plotwist e explore tudo o que temos a oferecer.",
     "keywords": "cinema, filmes, séries, animes, doramas, atores famosos, episódios de séries, usuários de cinema, descobrir novos filmes, avaliações de filmes, recomendações de filmes, lançamentos de cinema, filmes populares, séries populares, filmes bem avaliados, filmes em exibição, comunidade de cinema, listas de filmes, discussões sobre filmes",
     "statistics": {
       "movies": {
@@ -47,7 +47,7 @@
   },
   "home_prices": {
     "title": "Comece sua jornada hoje!",
-    "description": "Descubra o mundo dos filmes e séries de TV como nunca antes. Inicie sua jornada Plotwist hoje e torne-se parte de uma comunidade crescente de entusiastas do cinema!",
+    "description": "Inicie sua jornada  hoje e torne-se parte de uma comunidade crescente de entusiastas do cinema!",
     "monthly": "Mensal",
     "yearly": "Anual",
     "free_plan": {
@@ -551,25 +551,6 @@
     "description": "Novas atualizações e melhorias.",
     "subscribe": "Inscreva-se para receber atualizações!"
   },
-  "footer": {
-    "status": "Status: Operacional",
-    "rights": "© Status 451. Todos os direitos reservados.",
-    "data_provided_by": "Dados fornecidos pela TMDB.",
-    "sections": {
-      "product": "Produto",
-      "company": "Empresa",
-      "developers": "Desenvolvedores",
-      "features": "Funcionalidades",
-      "pricing": "Preços",
-      "changelog": "Mudanças",
-      "download": "Baixar",
-      "about_us": "Sobre nós",
-      "careers": "Carreiras",
-      "brand": "Marca",
-      "status": "Status",
-      "github": "GitHub"
-    }
-  },
   "text_actions": {
     "expand": "Ver mais",
     "contract": "Ver menos"
@@ -702,5 +683,24 @@
   "sent_to": "enviou para",
   "cancel_shipping": "Cancelar envio",
   "add_to_list": "Adicionar à lista",
-  "become_pro_button" : "Tornar-se"
+  "become_pro_button" : "Tornar-se",
+  "welcome_to_plotwist": "Bem-vindo ao Plotwist:",
+  "your_cinema_platform": "Sua plataforma de cinema",
+  "join_plotwist": "Descubra uma nova maneira de viver o cinema. Junte-se ao Plotwist e explore tudo o que temos a oferecer.",
+  "discover_advantages": "Conheça as vantagens de ser",
+  "about_us": "Sobre nós",
+  "features": "Funcionalidades",
+  "pricing": "Precificação",
+  "download": "Baixar",
+  "community": "Comunidades",
+  "github": "GitHub",
+  "discord": "Discord",
+  "careers": "Carreiras",
+  "brand": "Marca",
+  "legal": "Legal",
+  "privacy_policy": "Política de Privacidade",
+  "terms_of_service": "Termos de Serviço",
+  "plotwist_rights": "© 202X Plotwist",
+  "data_provided_by": "Dados fornecidos por TMDB.",
+  "explore": "Explorar"
 }

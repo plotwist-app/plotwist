@@ -552,25 +552,6 @@
     "description": "Nouvelles mises à jour et améliorations.",
     "subscribe": "Abonnez-vous aux mises à jour !"
   },
-  "footer": {
-    "status": "Statut : Opérationnel",
-    "rights": "© Status 451. Tous droits réservés.",
-    "data_provided_by": "Données fournies par TMDB.",
-    "sections": {
-      "product": "Produit",
-      "company": "Société",
-      "developers": "Développeurs",
-      "features": "Fonctionnalités",
-      "pricing": "Tarification",
-      "changelog": "Journal des modifications",
-      "download": "Télécharger",
-      "about_us": "À propos de nous",
-      "careers": "Carrières",
-      "brand": "Marque",
-      "status": "Statut",
-      "github": "GitHub"
-    }
-  },
   "text_actions": {
     "expand": "Voir plus",
     "contract": "Voir moins"
@@ -702,5 +683,24 @@
   "sent_to": "envoyé à",
   "cancel_shipping": "Annuler l'envoi",
   "add_to_list": "Ajouter à la liste",
-  "become_pro_button" : "Devenir" 
+  "become_pro_button" : "Devenir",
+  "welcome_to_plotwist": "Bienvenue sur Plotwist :",
+  "your_cinema_platform": "Votre plateforme de cinéma",
+  "join_plotwist": "Découvrez une nouvelle façon de vivre le cinéma. Rejoignez Plotwist et explorez tout ce que nous avons à offrir.",
+  "discover_advantages": "Découvrez les avantages d'être",
+  "about_us": "À propos de nous",
+  "features": "Fonctionnalités",
+  "pricing": "Tarification",
+  "download": "Télécharger",
+  "community": "Communautés",
+  "github": "GitHub",
+  "discord": "Discord",
+  "careers": "Carrières",
+  "brand": "Marque",
+  "legal": "Légal",
+  "privacy_policy": "Politique de Confidentialité",
+  "terms_of_service": "Conditions d'Utilisation",
+  "plotwist_rights": "© 202X Plotwist",
+  "data_provided_by": "Données fournies par TMDB.",
+  "explore": "Explorer"
 }

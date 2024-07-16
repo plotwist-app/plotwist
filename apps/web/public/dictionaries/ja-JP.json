@@ -551,25 +551,6 @@
     "description": "Plotwistへの新しいアップデートと改善。",
     "subscribe": "アップデートを購読する！"
   },
-  "footer": {
-    "status": "ステータス：オペレーション",
-    "rights": "© Status 451. すべての権利を保有。",
-    "data_provided_by": "TMDBによって提供されたデータ。",
-    "sections": {
-      "product": "製品",
-      "company": "会社",
-      "developers": "開発者",
-      "features": "特徴",
-      "pricing": "価格設定",
-      "changelog": "変更履歴",
-      "download": "ダウンロード",
-      "about_us": "私たちについて",
-      "careers": "キャリア",
-      "brand": "ブランド",
-      "status": "ステータス",
-      "github": "GitHub"
-    }
-  },
   "text_actions": {
     "expand": "もっと見る",
     "contract": "閉じる"
@@ -701,5 +682,24 @@
   "sent_to": "送信先",
   "cancel_shipping": "配送をキャンセル",
   "add_to_list": "リストに追加",
-  "become_pro_button" : "なる"
+  "become_pro_button" : "なる",
+  "welcome_to_plotwist": "プロットウィストへようこそ：",
+  "your_cinema_platform": "あなたのシネマプラットフォーム",
+  "join_plotwist": "映画を体験する新しい方法を発見してください。プロットウィストに参加して、私たちが提供するすべてを探検してください。",
+  "discover_advantages": "の利点を発見する",
+  "about_us": "私たちに関しては",
+  "features": "機能",
+  "pricing": "価格設定",
+  "download": "ダウンロード",
+  "community": "コミュニティ",
+  "github": "GitHub",
+  "discord": "Discord",
+  "careers": "キャリア",
+  "brand": "ブランド",
+  "legal": "法的",
+  "privacy_policy": "プライバシーポリシー",
+  "terms_of_service": "利用規約",
+  "plotwist_rights": "© 202X Plotwist",
+  "data_provided_by": "データ提供元：TMDB.",
+  "explore": "探検する"
 }
