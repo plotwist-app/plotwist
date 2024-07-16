@@ -117,7 +117,9 @@ export default async function Home({ params: { lang } }: PageProps) {
                 </Link>
               </Button>
 
-              <Button variant="outline">{dictionary.explore}</Button>
+              <Button variant="outline" asChild>
+                <Link href={`/${lang}/home`}>{dictionary.explore}</Link>
+              </Button>
             </div>
           </div>
         </section>
