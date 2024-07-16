@@ -54,7 +54,7 @@ export async function generateMetadata({
       },
     ],
     openGraph: {
-      title,
+      title: `Plotwist ${title}`,
       description,
       siteName: 'Plotwist',
       url: APP_URL,
