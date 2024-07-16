@@ -48,11 +48,6 @@ export async function generateMetadata({
     title,
     description,
     keywords: dictionary.home.keywords,
-    authors: [
-      {
-        name: 'lui7henrique',
-      },
-    ],
     openGraph: {
       title: `Plotwist ${title}`,
       description,
