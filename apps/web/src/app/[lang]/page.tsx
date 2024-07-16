@@ -66,7 +66,6 @@ export async function generateMetadata({
       title,
       description,
       card: 'summary_large_image',
-      creator: '@lui7henrique',
     },
     alternates: {
       canonical: canonicalUrl,
