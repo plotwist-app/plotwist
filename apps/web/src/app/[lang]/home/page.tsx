@@ -78,21 +78,14 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
               {dictionary.app_page.popular_movies_title}
             </h4>
 
-            <div className="grid grid-cols-2 gap-4">
-              {popularMovies.results.slice(0, 2).map((movie) => (
+            <div className="grid grid-cols-3 gap-2">
+              {popularMovies.results.slice(0, 3).map((movie) => (
                 <Link href={`/${lang}/movies/${movie.id}`} key={movie.id}>
                   <PosterCard.Root>
                     <PosterCard.Image
                       src={tmdbImage(movie.poster_path, 'w500')}
                       alt={movie.title}
                     />
-
-                    <PosterCard.Details>
-                      <PosterCard.Title>{movie.title}</PosterCard.Title>
-                      <PosterCard.Year>
-                        {movie.release_date.split('-')[0]}
-                      </PosterCard.Year>
-                    </PosterCard.Details>
                   </PosterCard.Root>
                 </Link>
               ))}
@@ -104,21 +97,14 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
               {dictionary.app_page.popular_tv_series_title}
             </h4>
 
-            <div className="grid grid-cols-2 gap-4">
-              {popularTvSeries.results.slice(0, 2).map((tv) => (
+            <div className="grid grid-cols-3 gap-2">
+              {popularTvSeries.results.slice(0, 3).map((tv) => (
                 <Link href={`/${lang}/tv-series/${tv.id}`} key={tv.id}>
                   <PosterCard.Root>
                     <PosterCard.Image
                       src={tmdbImage(tv.poster_path, 'w500')}
                       alt={tv.name}
                     />
-
-                    <PosterCard.Details>
-                      <PosterCard.Title>{tv.name}</PosterCard.Title>
-                      <PosterCard.Year>
-                        {tv.first_air_date.split('-')[0]}
-                      </PosterCard.Year>
-                    </PosterCard.Details>
                   </PosterCard.Root>
                 </Link>
               ))}
