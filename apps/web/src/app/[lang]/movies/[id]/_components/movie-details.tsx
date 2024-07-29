@@ -30,7 +30,6 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
-import { RecommendationDialog } from '@/components/recommendation-dialog/recommendation-dialog'
 
 type MovieDetailsProps = {
   id: number
@@ -109,7 +108,7 @@ export const MovieDetails = async ({
             <div className="flex flex-wrap items-center gap-1">
               <WatchProviders id={id} variant="movie" language={language} />
               <ListsDropdown item={movie} />
-              <RecommendationDialog />
+              {/* <RecommendationDialog /> */}
             </div>
           </article>
         </main>
