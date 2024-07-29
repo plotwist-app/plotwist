@@ -13,7 +13,7 @@ export const MovieTabs = async ({ language, movie }: MovieTabsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <Tabs defaultValue="reviews" className="w-full">
+    <Tabs defaultValue="reviews" className="w-full p-4 md:p-0">
       <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         <TabsList>
           <TabsTrigger value="reviews">{dictionary.tabs.reviews}</TabsTrigger>
