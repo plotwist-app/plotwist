@@ -41,7 +41,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
     () => ({
       button: (
         <div
-          className="flex w-full cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
+          className="flex  cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
           onClick={() => setOpen(true)}
         >
           <Plus size={14} />
@@ -49,7 +49,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
       ),
       poster: (
         <div
-          className="flex aspect-[2/3] w-full cursor-pointer items-center justify-center rounded-md border border-dashed"
+          className="flex h-[212px] w-[141px] cursor-pointer items-center justify-center rounded-md border border-dashed"
           onClick={() => setOpen(true)}
         >
           <Plus />

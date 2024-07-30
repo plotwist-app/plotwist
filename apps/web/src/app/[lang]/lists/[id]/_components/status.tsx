@@ -27,6 +27,7 @@ const badge = cva(
 
 export const Status = ({ status }: StatusBadgeProps) => {
   const { dictionary } = useLanguage()
+  console.log(status)
 
   const lowerStatus = status.toLowerCase() as 'pending' | 'watching' | 'watched'
 

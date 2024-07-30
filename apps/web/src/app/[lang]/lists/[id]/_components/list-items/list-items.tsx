@@ -2,7 +2,6 @@
 
 import { ListItem } from '@/types/supabase/lists'
 import { Grid, List } from 'lucide-react'
-import { useState } from 'react'
 
 import { useLanguage } from '@/context/language'
 import { Button } from '@/components/ui/button'
@@ -10,11 +9,11 @@ import { Button } from '@/components/ui/button'
 import { ListItemsGrid } from './list-items-grid'
 import { DataTable, columns } from '../data-table'
 import { useListMode } from '@/context/list-mode'
+import { useState } from 'react'
 
 type ListItemsProps = {
   listItems: ListItem[]
 }
-
 export const ListItems = ({ listItems }: ListItemsProps) => {
   const [layout, setLayout] = useState<'table' | 'grid'>('grid')
   const { dictionary, language } = useLanguage()

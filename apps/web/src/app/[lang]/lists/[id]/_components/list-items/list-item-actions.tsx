@@ -43,7 +43,6 @@ export const ListItemActions = ({
 }: ListItemActionsProps) => {
   const { handleChangeListCoverPath } = useLists()
   const { handleDelete, handleUpdateStatus } = useListItem(listItem)
-
   const { user } = useAuth()
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()

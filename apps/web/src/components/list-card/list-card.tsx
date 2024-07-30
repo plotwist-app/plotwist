@@ -51,7 +51,7 @@ export const ListCard = ({ list }: ListCardProps) => {
 
   return (
     <>
-      <div className="space-y-2">
+      <div className="space-y-2 ">
         <Link href={href}>
           <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 ">
             {list.cover_path || backdropUrl ? (
