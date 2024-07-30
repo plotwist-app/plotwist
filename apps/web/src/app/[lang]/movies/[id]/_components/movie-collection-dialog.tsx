@@ -55,7 +55,7 @@ export const MovieCollectionDialog = ({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="mt-2 grid grid-cols-2 grid-cols-3 gap-4">
+          <div className="mt-2 grid grid-cols-3 gap-4">
             {parts.map((movie) => (
               <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
                 <PosterCard.Root>

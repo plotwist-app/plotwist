@@ -6,10 +6,7 @@ import { Table } from '@tanstack/react-table'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-import { statuses } from './data'
-
 import { useLanguage } from '@/context/language'
-import { TableFacetedFilter } from '@/components/table'
 import { TableViewOptions } from '@/components/table/table-view-options'
 
 interface DataTableToolbarProps<TData> {
@@ -34,14 +31,6 @@ export function DataTableToolbar<TData>({
           onChange={(event) => titleColumn?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
-
-        {table.getColumn(dictionary.data_table_columns.status) && (
-          <TableFacetedFilter
-            column={table.getColumn(dictionary.data_table_columns.status)}
-            title={dictionary.data_table_columns.status}
-            options={statuses(dictionary)}
-          />
-        )}
 
         {isFiltered && (
           <Button

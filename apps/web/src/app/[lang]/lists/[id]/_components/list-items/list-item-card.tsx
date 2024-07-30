@@ -4,7 +4,6 @@ import { ComponentProps, useState } from 'react'
 import Image from 'next/image'
 
 import { ListItemActions } from './list-item-actions'
-import { Status } from '../status'
 
 import { cn } from '@/lib/utils'
 
@@ -22,7 +21,7 @@ export const ListItemCard = ({
   showOverlay,
   ...props
 }: ListItemCardProps) => {
-  const { poster_path: poster, title, status } = listItem
+  const { poster_path: poster, title } = listItem
   const [openDropdown, setOpenDropdown] = useState(false)
 
   const isHighlighted = openDropdown || showOverlay
@@ -46,15 +45,6 @@ export const ListItemCard = ({
             isHighlighted && 'opacity-100',
           )}
         />
-
-        <div
-          className={cn(
-            'absolute bottom-2 left-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100',
-            isHighlighted && 'scale-100',
-          )}
-        >
-          <Status status={status} />
-        </div>
 
         <div
           className={cn(

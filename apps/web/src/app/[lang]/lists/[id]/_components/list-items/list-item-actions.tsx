@@ -2,19 +2,14 @@
 
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { ExternalLink, Image, MoreVertical, Pencil, Trash } from 'lucide-react'
+import { ExternalLink, Image, MoreVertical, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
@@ -25,7 +20,7 @@ import { useAuth } from '@/context/auth'
 
 import { listPageQueryKey } from '@/utils/list'
 
-import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { List, ListItem } from '@/types/supabase/lists'
 import { useListItem } from '@/hooks/use-list-item'
 import { useListMode } from '@/context/list-mode'
 import Link from 'next/link'
@@ -42,7 +37,7 @@ export const ListItemActions = ({
   setOpenDropdown,
 }: ListItemActionsProps) => {
   const { handleChangeListCoverPath } = useLists()
-  const { handleDelete, handleUpdateStatus } = useListItem(listItem)
+  const { handleDelete } = useListItem(listItem)
 
   const { user } = useAuth()
   const { dictionary, language } = useLanguage()
@@ -118,39 +113,6 @@ export const ListItemActions = ({
             </DropdownMenuItem>
 
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Pencil size={16} className="mr-2" />
-                {dictionary.list_item_actions.status}
-              </DropdownMenuSubTrigger>
-
-              <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={listItem.status}
-                  onValueChange={(status) =>
-                    handleUpdateStatus.mutate(status as ListItemStatus)
-                  }
-                >
-                  {['PENDING', 'WATCHING', 'WATCHED'].map((status) => (
-                    <DropdownMenuRadioItem
-                      key={status}
-                      value={status}
-                      className="text-sm capitalize"
-                    >
-                      {
-                        dictionary.statuses[
-                          status.toLowerCase() as
-                            | 'pending'
-                            | 'watching'
-                            | 'watched'
-                        ]
-                      }
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
-              </DropdownMenuSubContent>
-
-              <DropdownMenuSeparator />
-
               <DropdownMenuItem onClick={() => handleDelete.mutate()}>
                 <Trash size={16} className="mr-2" />
 

@@ -22,7 +22,6 @@ export type ListItem = {
   title: string
   tmdb_id: number
   media_type: ListItemMediaType
-  status: ListItemStatus
 }
 
 export type ListLike = {
