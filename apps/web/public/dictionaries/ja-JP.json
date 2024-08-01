@@ -701,5 +701,7 @@
   "terms_of_service": "利用規約",
   "plotwist_rights": "© 202X Plotwist",
   "data_provided_by": "データ提供元：TMDB.",
-  "explore": "探検する"
+  "explore": "探検する",
+  "save_order": "順序を保存",
+  "edit_order": "順序を編集"
 }

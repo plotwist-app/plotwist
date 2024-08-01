@@ -702,5 +702,7 @@
   "terms_of_service": "Nutzungsbedingungen",
   "plotwist_rights": "© 202X Plotwist",
   "data_provided_by": "Daten bereitgestellt von TMDB.",
-  "explore": "Erkunden"
+  "explore": "Erkunden",
+  "save_order": "Ordnung speichern",
+  "edit_order": "Ordnung bearbeiten"
 }

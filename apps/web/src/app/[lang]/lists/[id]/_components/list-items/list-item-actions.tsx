@@ -106,22 +106,28 @@ export const ListItemActions = ({
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => handleChangeBackdrop()}>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => handleChangeBackdrop()}
+            >
               {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image size={14} className="mr-2" />
               {dictionary.list_item_actions.use_as_cover}
             </DropdownMenuItem>
 
             <DropdownMenuSub>
-              <DropdownMenuItem onClick={() => handleDelete.mutate()}>
-                <Trash size={16} className="mr-2" />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => handleDelete.mutate()}
+              >
+                <Trash size={16} className="mr-2 " />
 
                 {dictionary.list_item_actions.delete}
               </DropdownMenuItem>
             </DropdownMenuSub>
           </>
         ) : (
-          <DropdownMenuItem className="p-0">
+          <DropdownMenuItem className=" p-0">
             <Link
               href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
               className="flex items-center px-2 py-1.5"
