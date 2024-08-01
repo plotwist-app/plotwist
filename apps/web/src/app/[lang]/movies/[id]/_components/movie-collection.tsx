@@ -20,7 +20,7 @@ export const MovieCollection = async ({
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="relative h-[40vh] overflow-hidden rounded-md border p-6 md:p-8">
+    <div className="relative h-[40vh] overflow-hidden border p-6 md:rounded-md md:p-8">
       <div
         style={{
           backgroundImage: `url('${backdropURL}')`,

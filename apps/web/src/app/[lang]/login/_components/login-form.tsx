@@ -22,9 +22,9 @@ import {
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
 import { useAuth } from '@/context/auth'
+import { Dictionary } from '@/utils/dictionaries'
 
 type LoginFormProps = {
   dictionary: Dictionary

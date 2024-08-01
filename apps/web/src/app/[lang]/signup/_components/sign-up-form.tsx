@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/context/auth'
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
 import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
+import { Dictionary } from '@/utils/dictionaries'
 
 type SignUpFormProps = { dictionary: Dictionary }
 

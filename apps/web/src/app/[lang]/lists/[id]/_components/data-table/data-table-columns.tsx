@@ -12,7 +12,6 @@ import { ListItem } from '@/types/supabase/lists'
 import { Dictionary } from '@/utils/dictionaries'
 import { locale } from '@/utils/date/locale'
 import { Language } from '@/types/languages'
-import { Status } from '../status'
 import { ListItemActions } from '../list-items'
 
 type Columns = (
@@ -101,25 +100,6 @@ export const columns: Columns = (dictionary, language, mode) => {
             })}
           </p>
         )
-      },
-    },
-    {
-      id: dictionary.data_table_columns.status,
-      accessorKey: 'status',
-      header: ({ column }) => (
-        <TableColumnHeader
-          column={column}
-          title={dictionary.data_table.status}
-          className="w-[30px]"
-        />
-      ),
-      cell: ({ row }) => {
-        const columnId = dictionary.data_table_columns.status
-
-        return <Status status={row.getValue(columnId)} />
-      },
-      filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
       },
     },
   ]

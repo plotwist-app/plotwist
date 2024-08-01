@@ -30,11 +30,6 @@ const Year = (props: ComponentProps<'span'>) => {
 const PosterCardSkeleton = forwardRef<HTMLDivElement>((_, ref) => (
   <Root ref={ref}>
     <Skeleton className="aspect-poster w-full" />
-
-    <Details>
-      <Skeleton className="h-[2ex] w-[10ch]" />
-      <Skeleton className="mt-2 h-[2ex] w-[4ch]" />
-    </Details>
   </Root>
 ))
 PosterCardSkeleton.displayName = 'Skeleton'

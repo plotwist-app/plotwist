@@ -1,23 +1,17 @@
-import { Suspense } from 'react'
 import { Metadata } from 'next'
 
 import { Pattern } from '@/components/pattern'
-import { Skeleton } from '@/components/ui/skeleton'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
-import { CountSection } from './_components/count-section'
-import { UserCount } from './_components/user-count'
-import { HomeFeatures } from './_components/home-features'
 import { APP_URL } from '../../../constants'
-import { HomeHeroActions } from './_components/home-hero-actions'
 
-import { MovieDetails } from './movies/[id]/_components/movie-details'
-import { Footer } from '@/components/footer'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { Pricing } from '@/components/pricing'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { ProBadge } from '@/components/pro-badge'
+import { Footer } from '@/components/footer'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -32,9 +26,7 @@ export const homeMovies: Record<Language, string> = {
 export async function generateMetadata({
   params: { lang },
 }: PageProps): Promise<Metadata> {
-  const {
-    home: { title, description, keywords },
-  } = await getDictionary(lang)
+  const dictionary = await getDictionary(lang)
 
   const image = `${APP_URL}/images/home/movie-${lang}.jpg`
   const canonicalUrl = `${APP_URL}/${lang}`
@@ -49,17 +41,15 @@ export async function generateMetadata({
     {} as Record<string, string>,
   )
 
+  const title = dictionary.your_cinema_platform
+  const description = dictionary.join_plotwist
+
   return {
     title,
     description,
-    keywords,
-    authors: [
-      {
-        name: 'lui7henrique',
-      },
-    ],
+    keywords: dictionary.home.keywords,
     openGraph: {
-      title,
+      title: `Plotwist ${title}`,
       description,
       siteName: 'Plotwist',
       url: APP_URL,
@@ -76,7 +66,6 @@ export async function generateMetadata({
       title,
       description,
       card: 'summary_large_image',
-      creator: '@lui7henrique',
     },
     alternates: {
       canonical: canonicalUrl,
@@ -87,66 +76,48 @@ export async function generateMetadata({
 
 export default async function Home({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)
-  const {
-    home: { title, description, statistics },
-  } = dictionary
 
   return (
     <>
       <Pattern variant="checkered" />
 
       <main className="">
-        <div className="mx-auto max-w-4xl p-4">
-          <section className="flex h-[75vh] items-center md:h-[50vh]">
-            <div className="mx-auto flex w-4/5 flex-col items-center justify-center space-y-4 text-center">
-              <h1 className="text-6xl font-bold">{title}</h1>
-              <p className="text-sm leading-6 text-muted-foreground">
-                {description}
-              </p>
-
-              <HomeHeroActions />
+        <section className="mx-auto max-w-6xl">
+          <div className="w-full space-y-8 px-4 py-36 xl:w-3/5 xl:px-0">
+            <div className="flex">
+              <Link
+                href={`/${lang}/pricing`}
+                className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs shadow"
+              >
+                {dictionary.discover_advantages} <ProBadge />
+              </Link>
             </div>
-          </section>
-        </div>
 
-        <section className="space-y-8 p-4 py-16">
-          <ScrollArea className="mx-auto aspect-[9/16] w-full max-w-6xl overflow-y-auto rounded-md border bg-background shadow-lg dark:shadow-none md:aspect-[16/9]">
-            <Suspense fallback={<Skeleton className="h-full w-full" />}>
-              <MovieDetails
-                id={Number(homeMovies[lang])}
-                language={lang}
-                embed
-              />
-            </Suspense>
-          </ScrollArea>
+            <div className="space-y-4">
+              <div className="text-2xl font-bold xl:text-5xl">
+                <h2>{dictionary.welcome_to_plotwist}</h2>
+                <h1>{dictionary.your_cinema_platform}</h1>
+              </div>
 
-          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 md:grid-cols-5">
-            <CountSection
-              label={statistics.movies.label}
-              value={statistics.movies.value}
-            />
+              <p className="text-md leading-6 text-muted-foreground">
+                {dictionary.join_plotwist}
+              </p>
+            </div>
 
-            <CountSection
-              label={statistics.tv.label}
-              value={statistics.tv.value}
-            />
+            <div className="flex gap-2">
+              <Button asChild>
+                <Link href={`/${lang}/signup`}>
+                  {dictionary.create_account}
+                </Link>
+              </Button>
 
-            <CountSection
-              label={statistics.episodes.label}
-              value={statistics.episodes.value}
-            />
-
-            <CountSection
-              label={statistics.people.label}
-              value={statistics.people.value}
-            />
-
-            <UserCount />
+              <Button variant="outline" asChild>
+                <Link href={`/${lang}/home`}>{dictionary.explore}</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
-        <HomeFeatures language={lang} dictionary={dictionary} />
-        <Pricing />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>

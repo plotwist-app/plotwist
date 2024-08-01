@@ -4,11 +4,9 @@ import { ComponentProps, useState } from 'react'
 import Image from 'next/image'
 
 import { ListItemActions } from './list-item-actions'
-import { Status } from '../status'
-import { CSS } from '@dnd-kit/utilities'
 
 import { cn } from '@/lib/utils'
-
+import { CSS } from '@dnd-kit/utilities'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { ListItem } from '@/types/supabase/lists'
@@ -17,10 +15,15 @@ import { useSortable } from '@dnd-kit/sortable'
 type ListItemCardProps = {
   listItem: ListItem
   showOverlay: boolean
+  isEditable: boolean
 } & ComponentProps<'div'>
 
-export const ListItemCard = ({ listItem, showOverlay }: ListItemCardProps) => {
-  const { poster_path: poster, title, status } = listItem
+export const ListItemCard = ({
+  listItem,
+  showOverlay,
+  isEditable,
+}: ListItemCardProps) => {
+  const { poster_path: poster, title } = listItem
   const [openDropdown, setOpenDropdown] = useState(false)
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: listItem.id })
@@ -34,7 +37,11 @@ export const ListItemCard = ({ listItem, showOverlay }: ListItemCardProps) => {
 
   return (
     <div
-      className="group cursor-pointer space-y-2"
+      className={
+        isEditable
+          ? 'group cursor-grab space-y-2'
+          : 'group cursor-pointer space-y-2'
+      }
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -60,24 +67,17 @@ export const ListItemCard = ({ listItem, showOverlay }: ListItemCardProps) => {
 
         <div
           className={cn(
-            'absolute bottom-2 left-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100',
+            'absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100',
             isHighlighted && 'scale-100',
           )}
         >
-          <Status status={status} />
-        </div>
-
-        <div
-          className={cn(
-            'absolute right-2 top-2 z-30 flex scale-0 gap-1  transition-all group-hover:scale-100',
-            isHighlighted && 'scale-100',
+          {!isEditable && (
+            <ListItemActions
+              listItem={listItem}
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+            />
           )}
-        >
-          <ListItemActions
-            listItem={listItem}
-            openDropdown={openDropdown}
-            setOpenDropdown={setOpenDropdown}
-          />
         </div>
       </div>
     </div>

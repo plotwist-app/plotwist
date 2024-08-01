@@ -11,9 +11,13 @@ import { handleUpdateOrderInDatabase } from '@/services/api/lists/update-list-or
 
 type ListItemsGridProps = {
   listItems: ListItem[]
+  isEditable: boolean
 }
 
-export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
+export const ListItemsGrid = ({
+  listItems,
+  isEditable,
+}: ListItemsGridProps) => {
   const { mode } = useListMode()
   const [selectedListItemId, setSelectedListItem] = useState<null | string>(
     null,
@@ -37,8 +41,27 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-2 md:grid-cols-5">
-        <DndContext onDragEnd={handleDragEnd}>
+      <div
+        className={`grid grid-cols-3 gap-2 rounded-md ${isEditable ? 'border-2   p-1 md:grid-cols-5' : 'md:grid-cols-5'} transition-all duration-150 ease-in-out`}
+      >
+        {isEditable ? (
+          <DndContext onDragEnd={handleDragEnd}>
+            <SortableContext items={items}>
+              {items.map((item) => (
+                <ListItemCard
+                  key={item.id}
+                  listItem={item}
+                  onClick={() => setSelectedListItem(item.id)}
+                  showOverlay={selectedListItemId === item.id}
+                  isEditable={isEditable}
+                />
+              ))}
+              {mode === 'EDIT' && (
+                <ListCommand variant="poster" listItems={listItems} />
+              )}
+            </SortableContext>
+          </DndContext>
+        ) : (
           <SortableContext items={items}>
             {items.map((item) => (
               <ListItemCard
@@ -46,13 +69,14 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
                 listItem={item}
                 onClick={() => setSelectedListItem(item.id)}
                 showOverlay={selectedListItemId === item.id}
+                isEditable={isEditable}
               />
             ))}
             {mode === 'EDIT' && (
               <ListCommand variant="poster" listItems={listItems} />
             )}
           </SortableContext>
-        </DndContext>
+        )}
       </div>
     </div>
   )

@@ -38,7 +38,7 @@ export const MovieList = ({ variant }: MovieListProps) => {
 
   return (
     <div className="flex items-center justify-between">
-      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+      <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {flatData.map((movie) => (
           <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
             <PosterCard.Root>
@@ -46,13 +46,6 @@ export const MovieList = ({ variant }: MovieListProps) => {
                 src={tmdbImage(movie.poster_path, 'w500')}
                 alt={movie.title}
               />
-
-              <PosterCard.Details>
-                <PosterCard.Title>{movie.title}</PosterCard.Title>
-                <PosterCard.Year>
-                  {movie.release_date.split('-')[0]}
-                </PosterCard.Year>
-              </PosterCard.Details>
             </PosterCard.Root>
           </Link>
         ))}

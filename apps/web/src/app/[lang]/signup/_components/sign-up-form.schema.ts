@@ -1,4 +1,4 @@
-import { Dictionary } from '@/utils/dictionaries/get-dictionaries.types'
+import { Dictionary } from '@/utils/dictionaries'
 import { z } from 'zod'
 
 export const signUpFormSchema = (dictionary: Dictionary) =>
