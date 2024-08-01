@@ -18,5 +18,9 @@ export const handleUpdateOrderInDatabase = async (
 
   const { data, error } = await supabase
     .from('list_items')
-    .upsert(updates, { onConflict: ['id', 'list_id'] })
+    .upsert(updates, { onConflict: 'id,list_id' })
+
+  if (error) throw new Error(error.message)
+
+  return data
 }
