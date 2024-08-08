@@ -1,9 +1,8 @@
-import Link from 'next/link'
-import { SignUpForm } from './_components/sign-up-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
+import { SignUpSocial } from './_components/sign-up-social'
 
 export async function generateMetadata({
   params,
@@ -24,33 +23,36 @@ export async function generateMetadata({
   }
 }
 
-const SignUpPage = async ({ params: { lang } }: PageProps) => {
-  const dictionary = await getDictionary(lang)
-
+const SignUpPage = async () => {
   return (
     <>
       <Pattern variant="checkered" />
 
       <div className="bg flex h-[calc(100vh-70px)] w-full flex-col items-center justify-center p-4 lg:p-0">
-        <div className="w-full max-w-[450px] space-y-4">
-          <div className="w-full space-y-2">
-            <h1 className="text-3xl font-bold">
-              {dictionary.sign_up_page.title}
-            </h1>
-
-            <div className="mt-2 flex space-x-2">
-              <div className="w-1 rounded-lg bg-muted" />
+        <div className="space-y- w-full max-w-[450px]">
+          <div className="space-y-4">
+            <div className="w-full space-y-2 text-center">
+              <h1 className="text-3xl font-bold">Comece agora!</h1>
 
               <p className="text-sm text-muted-foreground">
-                {dictionary.sign_up_page.already_have_account}{' '}
-                <Link href="/login" className="underline">
-                  {dictionary.here}
-                </Link>
+                Bem-vindo ao Plotwist. Comece sua jornada com apenas poucos
+                passos.
               </p>
             </div>
+
+            <SignUpSocial />
           </div>
 
-          <SignUpForm dictionary={dictionary} />
+          {/* <div className="space-y-8">
+            <SignUpForm dictionary={dictionary} />
+
+            <p className="text-center text-sm text-muted-foreground">
+              {dictionary.sign_up_page.already_have_account}{' '}
+              <Link href="/login" className="underline">
+                {dictionary.here}
+              </Link>
+            </p>
+          </div> */}
         </div>
       </div>
     </>

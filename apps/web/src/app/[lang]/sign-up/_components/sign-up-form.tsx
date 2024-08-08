@@ -30,6 +30,7 @@ type SignUpFormProps = { dictionary: Dictionary }
 export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
   const { signUpWithCredentials } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
+
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema(dictionary)),
     defaultValues: {
@@ -133,7 +134,7 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
           )}
         />
 
-        <div className="flex justify-end space-x-2">
+        <div className="flex w-full">
           <Button type="submit" loading={form.formState.isSubmitting}>
             {dictionary.sign_up_form.submit_button}
           </Button>
