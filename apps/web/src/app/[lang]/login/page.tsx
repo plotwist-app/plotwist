@@ -9,20 +9,17 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const {
-    login_page: { title, description },
+    login_page: { title },
   } = await getDictionary(params.lang)
 
   return {
     title,
-    description,
     openGraph: {
       title,
-      description,
       siteName: 'Plotwist',
     },
     twitter: {
       title,
-      description,
     },
   }
 }
@@ -41,14 +38,12 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
               {dictionary.login_page.title}
             </h1>
 
-            <p>{dictionary.login_page.description}</p>
-
             <div className="mt-2 flex space-x-2">
               <div className="rounded-xs w-1 rounded-lg bg-muted" />
 
               <p className="text-sm text-muted-foreground">
                 {dictionary.login_page.no_account}{' '}
-                <Link href={`/${lang}/signup`} className="underline">
+                <Link href={`/${lang}/sign-up`} className="underline">
                   {dictionary.login_page.no_account_link}
                 </Link>
                 .

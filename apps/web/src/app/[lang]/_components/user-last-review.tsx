@@ -48,7 +48,7 @@ export const UserLastReview = () => {
             {dictionary.user_last_review.login}
           </Link>{' '}
           {dictionary.user_last_review.or}{' '}
-          <Link href="/signup" className="text-foreground underline">
+          <Link href="/sign-up" className="text-foreground underline">
             {dictionary.user_last_review.register}
           </Link>{' '}
           {dictionary.user_last_review.make_first_review}

@@ -9,20 +9,17 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const {
-    sign_up_page: { title, description },
+    sign_up_page: { title },
   } = await getDictionary(params.lang)
 
   return {
     title,
-    description,
     openGraph: {
       title,
-      description,
       siteName: 'Plotwist',
     },
     twitter: {
       title,
-      description,
     },
   }
 }
@@ -40,8 +37,6 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
             <h1 className="text-3xl font-bold">
               {dictionary.sign_up_page.title}
             </h1>
-
-            <p>{dictionary.sign_up_page.description}</p>
 
             <div className="mt-2 flex space-x-2">
               <div className="w-1 rounded-lg bg-muted" />

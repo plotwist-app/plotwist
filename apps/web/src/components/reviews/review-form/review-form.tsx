@@ -64,7 +64,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
               {dictionary.user_last_review.login}
             </Link>{' '}
             {dictionary.user_last_review.or}{' '}
-            <Link href="/signup" className="text-muted-foreground underline">
+            <Link href="/sign-up" className="text-muted-foreground underline">
               {dictionary.user_last_review.register}
             </Link>{' '}
             {dictionary.user_last_review.make_first_review}

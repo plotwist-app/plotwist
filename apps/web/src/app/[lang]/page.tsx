@@ -106,7 +106,7 @@ export default async function Home({ params: { lang } }: PageProps) {
 
             <div className="flex gap-2">
               <Button asChild>
-                <Link href={`/${lang}/signup`}>
+                <Link href={`/${lang}/sign-up`}>
                   {dictionary.create_account}
                 </Link>
               </Button>

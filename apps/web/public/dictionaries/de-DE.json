@@ -96,7 +96,6 @@
   },
   "login_page": {
     "title": "Anmelden",
-    "description": "Sei Teil der Kinogemeinschaft, wo du Tausende von Filmen und Fernsehserien treffen und diskutieren kannst!",
     "no_account": "Hast du kein Konto? Registriere dich hier klicken",
     "no_account_link": "hier"
   },
@@ -116,7 +115,6 @@
   },
   "sign_up_page": {
     "title": "Ein Konto erstellen",
-    "description": "Sei Teil der Kinogemeinschaft, wo du Tausende von Filmen und Fernsehserien treffen und diskutieren kannst!",
     "already_have_account": "Hast du schon ein Konto? Zugang durch Klicken"
   },
   "sign_up_form": {

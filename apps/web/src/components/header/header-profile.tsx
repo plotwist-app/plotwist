@@ -31,7 +31,7 @@ export const HeaderProfile = () => {
     <div>
       {!user ? (
         <Link
-          href={`/${language}/signup`}
+          href={`/${language}/sign-up`}
           className="block cursor-pointer select-none space-y-1 rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
         >
           <div className="flex items-center gap-2">

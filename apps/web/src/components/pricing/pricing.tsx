@@ -87,7 +87,7 @@ export const Pricing = () => {
             </Price.Content>
 
             <Button asChild>
-              <Link href={`/${language}/signup`}>
+              <Link href={`/${language}/sign-up`}>
                 {dictionary.home_prices.free_plan.start_now}
               </Link>
             </Button>

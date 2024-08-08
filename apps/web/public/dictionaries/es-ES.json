@@ -96,7 +96,6 @@
   },
   "login_page": {
     "title": "Iniciar sesión",
-    "description": "¡Sé parte de la comunidad cinematográfica, donde puedes conocer y discutir miles de películas y series de TV!",
     "no_account": "¿No tienes una cuenta? Regístrate haciendo clic",
     "no_account_link": "aquí"
   },
@@ -116,7 +115,6 @@
   },
   "sign_up_page": {
     "title": "Crear una cuenta",
-    "description": "¡Sé parte de la comunidad de cine, donde puedes conocer y discutir miles de películas y series de TV!",
     "already_have_account": "¿Ya tienes una cuenta? Accede haciendo clic"
   },
   "sign_up_form": {

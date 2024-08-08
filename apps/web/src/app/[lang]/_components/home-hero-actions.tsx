@@ -28,7 +28,7 @@ export const HomeHeroActions = () => {
         </Button>
 
         <Button asChild variant="outline">
-          <Link href={`/${language}/signup`}>{dictionary.create_account}</Link>
+          <Link href={`/${language}/sign-up`}>{dictionary.create_account}</Link>
         </Button>
       </div>
     )
