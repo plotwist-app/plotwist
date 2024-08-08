@@ -8,6 +8,7 @@ import { Language } from '@/types/languages'
 import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'
 import { MovieTabs } from './movie-tabs'
+import { MovieActions } from './movie-actions'
 
 type MovieDetailsProps = {
   id: number
@@ -19,9 +20,11 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
   return (
     <div className="relative mx-auto max-w-6xl">
+      <MovieActions />
+
       <Banner url={tmdbImage(movie.backdrop_path)} />
 
-      <section className="mx-auto my-8 max-w-4xl space-y-6">
+      <section className="mx-auto my-8 max-w-4xl space-y-6 md:space-y-12">
         <MovieInfos movie={movie} language={language} />
 
         {movie.belongs_to_collection && (
