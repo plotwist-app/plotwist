@@ -704,5 +704,8 @@
   "continue_with_google": "Googleで続行",
   "continue_with_x": "Xで続行",
   "continue_with_email": "メールで続行",
-  "or": "または"
+  "or": "または",
+  "others_ways": "他の方法",
+  "sign_up": "サインアップ",
+  "login": "ログイン"
 }

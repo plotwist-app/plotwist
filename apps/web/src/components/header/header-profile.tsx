@@ -44,7 +44,7 @@ export const HeaderProfile = () => {
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className=" h-[34px] w-[34px] border hover:cursor-pointer">
+            <Avatar className="size-[34px] border">
               {user.image_path && (
                 <AvatarImage
                   src={tmdbImage(user.image_path, 'w500')}
@@ -76,7 +76,7 @@ export const HeaderProfile = () => {
               </DropdownMenuLabel>
               <DropdownMenuItem className=" outline-none">
                 <div
-                  className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 hover:bg-muted"
                   onClick={() => handleGetUrl('reviews')}
                 >
                   <Star size={16} className="ml-1.5" />
@@ -86,7 +86,7 @@ export const HeaderProfile = () => {
               <DropdownMenuItem className=" outline-none">
                 <div
                   onClick={() => handleGetUrl('lists')}
-                  className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 hover:bg-muted"
                 >
                   <List size={16} className="ml-1.5" />
                   <p className="text-sm">{dictionary.profile.lists}</p>
@@ -95,7 +95,7 @@ export const HeaderProfile = () => {
               <DropdownMenuItem className=" outline-none">
                 <div
                   onClick={() => handleGetUrl('achievements')}
-                  className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 hover:bg-muted"
                 >
                   <Award size={16} className="ml-1.5" />
                   <p className="text-sm">{dictionary.profile.achievements}</p>
@@ -105,7 +105,7 @@ export const HeaderProfile = () => {
               <DropdownMenuItem className=" cursor-pointer  outline-none">
                 <Link
                   href={`/${language}/pricing`}
-                  className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 hover:bg-muted"
                 >
                   <p className="ml-1.5 text-sm">
                     {dictionary.become_pro_button}
@@ -117,7 +117,7 @@ export const HeaderProfile = () => {
                 className=" cursor-pointer  outline-none"
                 onClick={() => logout()}
               >
-                <div className="flex items-center gap-1.5 rounded-md p-2 hover:cursor-pointer hover:bg-muted">
+                <div className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 hover:bg-muted">
                   <LogOut size={16} className="ml-1.5" />
                   <p className="text-sm">
                     {dictionary.settings_dropdown.logout}

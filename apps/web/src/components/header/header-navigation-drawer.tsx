@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu } from 'lucide-react'
 
@@ -10,17 +11,19 @@ import { useAuth } from '@/context/auth'
 import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer'
 import { Button } from '../ui/button'
 import { Accordion } from '../ui/accordion'
+
 import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
+import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
+
 import { CommandSearch } from '../command-search'
-import { SettingsDropdown } from '../settings-dropdown'
-import Link from 'next/link'
+import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
 export const HeaderNavigationDrawer = () => {
   const { user } = useAuth()
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
-  const { dictionary, language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   useEffect(() => {
     setOpen(false)
@@ -36,21 +39,27 @@ export const HeaderNavigationDrawer = () => {
 
       <DrawerContent>
         <div className="flex flex-col gap-4 p-4">
-          {user ? (
-            <div>
-              <h1>{user.username}</h1>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-2">
-              <Button size="default" variant="outline" asChild>
-                <Link href={`/${language}/sign-up`}>Sign up</Link>
-              </Button>
+          <div>
+            {user ? (
+              <HeaderNavigationDrawerUser user={user} />
+            ) : (
+              <div className="mb-2 grid grid-cols-2 gap-2 px-2">
+                <Button size="default" variant="outline" asChild>
+                  <Link href={`/${language}/sign-up`}>
+                    {dictionary.sign_up}
+                  </Link>
+                </Button>
 
-              <Button size="default">Log in</Button>
-            </div>
-          )}
+                <Button size="default" asChild>
+                  <Link href={`/${language}/login`}>{dictionary.login}</Link>
+                </Button>
+              </div>
+            )}
 
-          <div className="space-y-4">
+            <HeaderNavigationDrawerConfigs />
+          </div>
+
+          <div className="space-y-4 border-t pt-4">
             <Accordion type="multiple">
               <nav className="flex flex-col space-y-2">
                 {buildLanguageNavigation(dictionary).map((item) => {
@@ -60,11 +69,8 @@ export const HeaderNavigationDrawer = () => {
                 })}
               </nav>
             </Accordion>
-          </div>
 
-          <div className="flex gap-2">
             <CommandSearch />
-            <SettingsDropdown />
           </div>
         </div>
       </DrawerContent>

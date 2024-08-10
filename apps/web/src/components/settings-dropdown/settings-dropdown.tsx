@@ -24,10 +24,10 @@ import { useLanguage } from '@/context/language'
 
 export const SettingsDropdown = () => {
   const { setTheme, theme } = useTheme()
-  const pathname = usePathname()
   const { replace } = useRouter()
   const { dictionary } = useLanguage()
 
+  const pathname = usePathname()
   const currentLanguage = pathname.split('/')[1]
 
   const handleRedirectLanguageChange = (language: Language) => {

@@ -35,30 +35,33 @@ export const SignUpForm = () => {
     defaultValues: {
       email: '',
       password: '',
-      username: '',
     },
   })
 
   async function onSubmit(values: SignUpFormValues) {
-    await signUpWithCredentials(values)
+    // await signUpWithCredentials(values)
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <FormField
+        {/* <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="username" autoComplete="off" {...field} />
+                <Input
+                  placeholder="TonyStark"
+                  {...field}
+                  autoComplete="username"
+                />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}
@@ -68,8 +71,8 @@ export const SignUpForm = () => {
               <FormControl>
                 <Input
                   placeholder="email@domain.com"
-                  autoComplete="off"
                   {...field}
+                  autoComplete="email"
                 />
               </FormControl>
 
@@ -87,7 +90,6 @@ export const SignUpForm = () => {
                 <div className="flex space-x-2">
                   <Input
                     placeholder="*********"
-                    autoComplete="off"
                     type={showPassword ? 'text' : 'password'}
                     {...field}
                   />
@@ -143,7 +145,7 @@ export const SignUpForm = () => {
         className="mt-4 flex items-center justify-center gap-2 text-sm"
       >
         <ChevronLeft className="size-3.5" />
-        Outras formas
+        {dictionary.others_ways}
       </Link>
     </Form>
   )

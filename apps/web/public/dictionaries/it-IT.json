@@ -705,5 +705,8 @@
   "continue_with_google": "Continua con Google",
   "continue_with_x": "Continua con X",
   "continue_with_email": "Continua con e-mail",
-  "or": "o"
+  "or": "o",
+  "others_ways": "Altri modi",
+  "sign_up": "Registrati",
+  "login": "Accedi"
 }
