@@ -54,9 +54,7 @@ export const SettingsDropdown = () => {
 
       <DropdownMenuContent align="start">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>
-            {dictionary.settings_dropdown.theme}
-          </DropdownMenuLabel>
+          <DropdownMenuLabel>{dictionary.theme}</DropdownMenuLabel>
 
           <DropdownMenuItem
             onClick={() => setTheme('light')}
@@ -76,9 +74,7 @@ export const SettingsDropdown = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuLabel>
-            {dictionary.settings_dropdown.language}
-          </DropdownMenuLabel>
+          <DropdownMenuLabel>{dictionary.language}</DropdownMenuLabel>
 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

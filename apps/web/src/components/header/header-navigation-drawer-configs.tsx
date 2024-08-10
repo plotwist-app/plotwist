@@ -8,15 +8,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select'
 import { usePathname, useRouter } from 'next/navigation'
 import { Language } from '@plotwist/tmdb'
 import ReactCountryFlag from 'react-country-flag'
+import { useLanguage } from '@/context/language'
 
 export const HeaderNavigationDrawerConfigs = () => {
   const { setTheme, theme } = useTheme()
   const { replace } = useRouter()
+  const { language, dictionary } = useLanguage()
 
   const themes = ['light', 'dark'] as const
 
   const pathname = usePathname()
-  const currentLanguage = pathname.split('/')[1]
 
   const handleRedirectLanguageChange = (language: Language) => {
     const paramsArray = pathname.split('/')
@@ -29,13 +30,13 @@ export const HeaderNavigationDrawerConfigs = () => {
   }
 
   const currentLanguageOption = SUPPORTED_LANGUAGES.find(
-    (lang) => lang.value === currentLanguage,
+    (lang) => lang.value === language,
   )
 
   return (
     <div>
       <div className="flex h-9 items-center justify-between p-2 text-sm font-medium">
-        <span className="text-muted-foreground">Theme</span>
+        <span className="text-muted-foreground">{dictionary.theme}</span>
 
         <div className="-mr-1.5 flex rounded-full border">
           {themes.map((i) => {
@@ -63,7 +64,7 @@ export const HeaderNavigationDrawerConfigs = () => {
       </div>
 
       <div className="flex items-center justify-between p-2 text-sm font-medium">
-        <span className="text-muted-foreground">Language</span>
+        <span className="text-muted-foreground">{dictionary.language}</span>
 
         <div>
           <Select
@@ -90,9 +91,7 @@ export const HeaderNavigationDrawerConfigs = () => {
                 <SelectItem
                   key={value}
                   className={
-                    value === currentLanguage
-                      ? 'space-x-2 bg-muted'
-                      : 'space-x-2'
+                    value === language ? 'space-x-2 bg-muted' : 'space-x-2'
                   }
                   disabled={!enabled}
                   value={value}

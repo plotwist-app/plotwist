@@ -238,10 +238,8 @@
     "collection_added_successfully": "Coleção adicionada com sucesso."
   },
   "settings_dropdown": {
-    "theme": "Tema",
     "light": "🌞 Claro",
     "dark": "🌚 Escuro",
-    "language": "Idioma",
     "account": "Conta",
     "logout": "Sair",
     "profile": "Perfil"
@@ -708,5 +706,7 @@
   "or": "ou",
   "others_ways": "Outras formas",
   "sign_up": "Cadastrar-se",
-  "login": "Entrar"
+  "login": "Entrar",
+  "theme": "Tema",
+  "language": "Idioma"
 }

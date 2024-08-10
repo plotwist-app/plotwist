@@ -708,5 +708,7 @@
   "or": "or",
   "others_ways": "Other ways",
   "sign_up": "Sign Up",
-  "login": "Log In"
+  "login": "Log In",
+  "theme": "Theme",
+  "language": "Language"
 }
