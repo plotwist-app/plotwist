@@ -701,5 +701,9 @@
   "edit_order": "Modifica ordine",
   "start_now": "Inizia ora!",
   "start_your_journey": "Inizia il tuo viaggio in pochi passi.",
-  "already_have_an_account": "Hai già un account?"
+  "already_have_an_account": "Hai già un account?",
+  "continue_with_google": "Continua con Google",
+  "continue_with_x": "Continua con X",
+  "continue_with_email": "Continua con e-mail",
+  "or": "o"
 }

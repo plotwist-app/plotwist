@@ -700,5 +700,9 @@
   "edit_order": "Editar orden",
   "start_now": "¡Empieza ahora!",
   "start_your_journey": "Comienza tu viaje en solo unos pocos pasos.",
-  "already_have_an_account": "¿Ya tienes una cuenta?"
+  "already_have_an_account": "¿Ya tienes una cuenta?",
+  "continue_with_google": "Continuar con Google",
+  "continue_with_x": "Continuar con X",
+  "continue_with_email": "Continuar con correo electrónico",
+  "or": "o"
 }

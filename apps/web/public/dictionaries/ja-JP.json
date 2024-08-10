@@ -700,5 +700,9 @@
   "edit_order": "順序を編集",
   "start_now": "今すぐ始める!",
   "start_your_journey": "わずか数ステップで旅を始めましょう。",
-  "already_have_an_account": "すでにアカウントをお持ちですか?"
+  "already_have_an_account": "すでにアカウントをお持ちですか?",
+  "continue_with_google": "Googleで続行",
+  "continue_with_x": "Xで続行",
+  "continue_with_email": "メールで続行",
+  "or": "または"
 }
