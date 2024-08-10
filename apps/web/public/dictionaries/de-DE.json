@@ -113,10 +113,6 @@
     "invalid_login_credentials": "Ungültige Anmeldeinformationen",
     "try_again": "Erneut versuchen"
   },
-  "sign_up_page": {
-    "title": "Ein Konto erstellen",
-    "already_have_account": "Hast du schon ein Konto? Zugang durch Klicken"
-  },
   "sign_up_form": {
     "username_label": "Benutzername",
     "email_label": "E-Mail",
@@ -681,7 +677,7 @@
   "sent_to": "gesendet an",
   "cancel_shipping": "Versand stornieren",
   "add_to_list": "Zur Liste hinzufügen",
-  "become_pro_button" : "Werden",
+  "become_pro_button": "Werden",
   "welcome_to_plotwist": "Willkommen bei Plotwist:",
   "your_cinema_platform": "Ihre Kino-Plattform",
   "join_plotwist": "Entdecken Sie eine neue Art, Kino zu erleben. Treten Sie Plotwist bei und erkunden Sie alles, was wir zu bieten haben.",
@@ -702,5 +698,8 @@
   "data_provided_by": "Daten bereitgestellt von TMDB.",
   "explore": "Erkunden",
   "save_order": "Ordnung speichern",
-  "edit_order": "Ordnung bearbeiten"
+  "edit_order": "Ordnung bearbeiten",
+  "start_now": "Jetzt starten!",
+  "start_your_journey": "Beginnen Sie Ihre Reise in nur wenigen Schritten.",
+  "already_have_an_account": "Haben Sie schon ein Konto?"
 }

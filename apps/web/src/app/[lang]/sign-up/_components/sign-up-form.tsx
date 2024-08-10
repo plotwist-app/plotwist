@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { ChevronLeft, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -11,7 +11,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import {
@@ -23,12 +22,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/context/auth'
 import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
-import { Dictionary } from '@/utils/dictionaries'
+import { useLanguage } from '@/context/language'
+import Link from 'next/link'
 
-type SignUpFormProps = { dictionary: Dictionary }
-
-export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
+export const SignUpForm = () => {
   const { signUpWithCredentials } = useAuth()
+  const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<SignUpFormValues>({
@@ -52,10 +51,8 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{dictionary.sign_up_form.username_label}</FormLabel>
-
               <FormControl>
-                <Input placeholder="JohnDoe" autoComplete="off" {...field} />
+                <Input placeholder="username" autoComplete="off" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -68,8 +65,6 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{dictionary.sign_up_form.email_label}</FormLabel>
-
               <FormControl>
                 <Input
                   placeholder="email@domain.com"
@@ -88,8 +83,6 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{dictionary.sign_up_form.password_label}</FormLabel>
-
               <FormControl>
                 <div className="flex space-x-2">
                   <Input
@@ -134,12 +127,24 @@ export const SignUpForm = ({ dictionary }: SignUpFormProps) => {
           )}
         />
 
-        <div className="flex w-full">
-          <Button type="submit" loading={form.formState.isSubmitting}>
+        <div className="flex w-full justify-end">
+          <Button
+            type="submit"
+            className="w-full"
+            loading={form.formState.isSubmitting}
+          >
             {dictionary.sign_up_form.submit_button}
           </Button>
         </div>
       </form>
+
+      <Link
+        href={`/${language}/sign-up`}
+        className="mt-4 flex items-center justify-center gap-2 text-sm"
+      >
+        <ChevronLeft className="size-3.5" />
+        Outras formas
+      </Link>
     </Form>
   )
 }

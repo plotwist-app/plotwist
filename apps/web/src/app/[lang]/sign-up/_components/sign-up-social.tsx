@@ -1,5 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
+'use client'
+
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/context/language'
+import Link from 'next/link'
 import { tv } from 'tailwind-variants'
 
 export const socialButton = tv({
@@ -7,6 +10,8 @@ export const socialButton = tv({
 })
 
 export const SignUpSocial = () => {
+  const { language } = useLanguage()
+
   return (
     <div className="flex flex-col gap-2">
       <Button className="border bg-background text-foreground shadow-sm hover:bg-muted/50">
@@ -27,7 +32,11 @@ export const SignUpSocial = () => {
         <div className="flex-1 border-t" />
       </div>
 
-      <Button>Continue com e-mail</Button>
+      <Button asChild>
+        <Link href={`/${language}/sign-up?provider=email`}>
+          Continue com e-mail
+        </Link>
+      </Button>
     </div>
   )
 }

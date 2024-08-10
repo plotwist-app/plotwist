@@ -113,11 +113,6 @@
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
   },
-  "sign_up_page": {
-    "title": "Criar uma conta",
-    "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
-    "already_have_account": "Já tem uma conta? Acesse clicando"
-  },
   "sign_up_form": {
     "username_label": "Nome de usuário",
     "email_label": "E-mail",
@@ -628,7 +623,7 @@
     "title": "Curtidas",
     "view_profile": "Ver perfil"
   },
-  "access_now": "Acessar agora",
+  "access_now": "Acesse agora",
   "create_account": "Criar conta",
   "search_movies_or_series": "Busque por filmes ou séries...",
   "select_an_image": " Selecione uma imagem",
@@ -703,5 +698,8 @@
   "data_provided_by": "Dados fornecidos por TMDB.",
   "explore": "Explorar",
   "save_order": "Salvar Ordem",
-  "edit_order": "Editar Ordem"
+  "edit_order": "Editar Ordem",
+  "start_now": "Comece agora!",
+  "start_your_journey": "Comece sua jornada com apenas poucos passos.",
+  "already_have_an_account": "Já possui uma conta?"
 }

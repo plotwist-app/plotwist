@@ -114,10 +114,6 @@
     "invalid_login_credentials": "Credenziali di accesso non valide",
     "try_again": "Riprova"
   },
-  "sign_up_page": {
-    "title": "Crea un account",
-    "already_have_account": "Hai già un account? Accedi cliccando"
-  },
   "sign_up_form": {
     "username_label": "Nome utente",
     "email_label": "E-mail",
@@ -702,5 +698,8 @@
   "data_provided_by": "Dati forniti da TMDB.",
   "explore": "Esplorare",
   "save_order": "Salva ordine",
-  "edit_order": "Modifica ordine"
+  "edit_order": "Modifica ordine",
+  "start_now": "Inizia ora!",
+  "start_your_journey": "Inizia il tuo viaggio in pochi passi.",
+  "already_have_an_account": "Hai già un account?"
 }

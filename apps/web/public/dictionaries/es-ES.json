@@ -113,10 +113,6 @@
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
     "try_again": "Intentar de nuevo"
   },
-  "sign_up_page": {
-    "title": "Crear una cuenta",
-    "already_have_account": "¿Ya tienes una cuenta? Accede haciendo clic"
-  },
   "sign_up_form": {
     "username_label": "Nombre de usuario",
     "email_label": "Correo electrónico",
@@ -701,5 +697,8 @@
   "data_provided_by": "Datos proporcionados por TMDB.",
   "explore": "Explorar",
   "save_order": "Guardar orden",
-  "edit_order": "Editar orden"
+  "edit_order": "Editar orden",
+  "start_now": "¡Empieza ahora!",
+  "start_your_journey": "Comienza tu viaje en solo unos pocos pasos.",
+  "already_have_an_account": "¿Ya tienes una cuenta?"
 }
