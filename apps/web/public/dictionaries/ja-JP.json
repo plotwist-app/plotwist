@@ -709,5 +709,7 @@
   "sign_up": "サインアップ",
   "login": "ログイン",
   "theme": "テーマ",
-  "language": "言語"
+  "language": "言語",
+  "pick_your_username": "ユーザー名を選んでください",
+  "continue": "続ける"
 }

@@ -710,5 +710,7 @@
   "sign_up": "Registrati",
   "login": "Accedi",
   "theme": "Tema",
-  "language": "Lingua"
+  "language": "Lingua",
+  "pick_your_username": "Scegli il tuo nome utente",
+  "continue": "Continua"
 }

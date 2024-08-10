@@ -708,5 +708,7 @@
   "sign_up": "Cadastrar-se",
   "login": "Entrar",
   "theme": "Tema",
-  "language": "Idioma"
+  "language": "Idioma",
+  "continue": "Continuar",
+  "pick_your_username": "Selecione seu nome de usuário"
 }

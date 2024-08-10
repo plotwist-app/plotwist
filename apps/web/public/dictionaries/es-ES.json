@@ -709,5 +709,7 @@
   "sign_up": "Registrarse",
   "login": "Iniciar sesión",
   "theme": "Tema",
-  "language": "Idioma"
+  "language": "Idioma",
+  "pick_your_username": "Elige tu nombre de usuario",
+  "continue": "Continuar"
 }
