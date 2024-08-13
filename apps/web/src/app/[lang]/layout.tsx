@@ -36,10 +36,8 @@ export default async function RootLayout({
         <AuthContextProvider initialUser={user}>
           <ListsContextProvider>
             <div className="flex flex-col">
-              <div className="w-full border-b bg-background p-4">
-                <div className="mx-auto w-full max-w-6xl">
-                  <Header />
-                </div>
+              <div className="mx-auto my-4 w-full max-w-6xl rounded-full border bg-background px-4 py-2">
+                <Header />
               </div>
 
               <main className="w-full">{children}</main>

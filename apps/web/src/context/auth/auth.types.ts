@@ -8,6 +8,7 @@ export type AuthContext = {
     username,
     ...credentials
   }: SignUpCredentials) => Promise<void>
+
   logout: () => Promise<void>
 }
 

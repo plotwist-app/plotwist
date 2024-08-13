@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 import { Pattern } from '@/components/pattern'
 
@@ -9,9 +10,9 @@ import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { ProBadge } from '@/components/pro-badge'
 import { Footer } from '@/components/footer'
+import { TopMovies } from './_components/top-movies'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -83,15 +84,13 @@ export default async function Home({ params: { lang } }: PageProps) {
 
       <main className="">
         <section className="mx-auto max-w-6xl">
-          <div className="w-full space-y-8 px-4 py-36 xl:w-3/5 xl:px-0">
-            <div className="flex">
-              <Link
-                href={`/${lang}/pricing`}
-                className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs shadow"
-              >
-                {dictionary.discover_advantages} <ProBadge />
-              </Link>
-            </div>
+          <div className="flex w-full flex-col items-center space-y-8 px-4 py-36 text-center xl:px-0">
+            <Link
+              href={`/${lang}/pricing`}
+              className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs shadow"
+            >
+              {dictionary.discover_advantages} <ProBadge />
+            </Link>
 
             <div className="space-y-4">
               <div className="text-2xl font-bold xl:text-5xl">
@@ -118,6 +117,7 @@ export default async function Home({ params: { lang } }: PageProps) {
           </div>
         </section>
 
+        <TopMovies language={lang} />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>
