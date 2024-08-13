@@ -49,7 +49,7 @@ const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
       <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white">
         <p className="text-center text-sm">
           {dictionary.already_have_an_account}{' '}
-          <Link href="/login" className="underline">
+          <Link href={`/${lang}/login`} className="underline">
             {dictionary.access_now}
           </Link>
         </p>

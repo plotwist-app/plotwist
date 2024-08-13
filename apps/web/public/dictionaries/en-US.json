@@ -94,11 +94,6 @@
     "button_tv_series": "TV Series",
     "button_movies": "Movies"
   },
-  "login_page": {
-    "title": "Login",
-    "no_account": "Don't have an account? Register by clicking",
-    "no_account_link": "here"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Password",
@@ -712,5 +707,8 @@
   "theme": "Theme",
   "language": "Language",
   "pick_your_username": "Pick your username",
-  "continue": "Continue"
+  "continue": "Continue",
+  "do_not_have_an_account": "Don't have an account?",
+  "create_now": "Create now",
+  "access_plotwist": "Access Plotwist"
 }

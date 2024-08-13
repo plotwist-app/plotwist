@@ -94,11 +94,6 @@
     "button_tv_series": "Serien",
     "button_movies": "Filme"
   },
-  "login_page": {
-    "title": "Anmelden",
-    "no_account": "Hast du kein Konto? Registriere dich hier klicken",
-    "no_account_link": "hier"
-  },
   "login_form": {
     "email_label": "E-Mail",
     "password_label": "Passwort",
@@ -712,5 +707,8 @@
   "theme": "Thema",
   "language": "Sprache",
   "pick_your_username": "Wählen Sie Ihren Benutzernamen",
-  "continue": "Weiter"
+  "continue": "Weiter",
+  "do_not_have_an_account": "Haben Sie kein Konto?",
+  "create_now": "Jetzt erstellen",
+  "access_plotwist": "Zugriff auf Plotwist"
 }

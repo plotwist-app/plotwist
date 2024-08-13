@@ -94,11 +94,6 @@
     "button_tv_series": "Séries",
     "button_movies": "Filmes"
   },
-  "login_page": {
-    "title": "Login",
-    "no_account": "Não tem uma conta? Cadastre-se clicando",
-    "no_account_link": "aqui"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Senha",
@@ -710,5 +705,8 @@
   "theme": "Tema",
   "language": "Idioma",
   "continue": "Continuar",
-  "pick_your_username": "Selecione seu nome de usuário"
+  "pick_your_username": "Selecione seu nome de usuário",
+  "do_not_have_an_account": "Não tem uma conta?",
+  "create_now": "Crie agora",
+  "access_plotwist": "Acesse o Plotwist"
 }

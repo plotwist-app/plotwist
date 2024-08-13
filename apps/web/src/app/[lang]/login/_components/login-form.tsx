@@ -23,15 +23,13 @@ import {
 import { Input } from '@/components/ui/input'
 
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
+import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
-import { Dictionary } from '@/utils/dictionaries'
 
-type LoginFormProps = {
-  dictionary: Dictionary
-}
-
-export const LoginForm = ({ dictionary }: LoginFormProps) => {
+export const LoginForm = () => {
+  const { dictionary } = useLanguage()
   const { signInWithCredentials } = useAuth()
+
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormValues>({

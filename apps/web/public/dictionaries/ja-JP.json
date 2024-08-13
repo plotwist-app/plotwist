@@ -94,11 +94,6 @@
     "button_tv_series": "TVシリーズ",
     "button_movies": "映画"
   },
-  "login_page": {
-    "title": "ログイン",
-    "no_account": "アカウントをまだお持ちでない方は、こちらをクリックして登録してください。",
-    "no_account_link": "ここをクリック"
-  },
   "login_form": {
     "email_label": "Eメールアドレス",
     "password_label": "パスワード",
@@ -711,5 +706,8 @@
   "theme": "テーマ",
   "language": "言語",
   "pick_your_username": "ユーザー名を選んでください",
-  "continue": "続ける"
+  "continue": "続ける",
+  "do_not_have_an_account": "アカウントをお持ちではありませんか？",
+  "create_now": "今すぐ作成",
+  "access_plotwist": "プロットウィストにアクセス"
 }
