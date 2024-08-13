@@ -3,11 +3,8 @@ import { ReactNode } from 'react'
 
 export type AuthContext = {
   user: Profile | null
-  signInWithCredentials: (credentials: SignInCredentials) => Promise<void>
-  signUpWithCredentials: ({
-    username,
-    ...credentials
-  }: SignUpCredentials) => Promise<void>
+  signInWithCredentials: (credentials: Credentials) => Promise<void>
+  signUpWithCredentials: (credentials: Credentials) => Promise<void>
 
   logout: () => Promise<void>
 }
@@ -17,13 +14,7 @@ export type AuthContextProviderProps = {
   initialUser: Profile | null
 }
 
-export type SignInCredentials = {
+export type Credentials = {
   email: string
   password: string
-}
-
-export type SignUpCredentials = {
-  email: string
-  password: string
-  username: string
 }

@@ -22,28 +22,15 @@ import {
 } from '@/components/ui/tooltip'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/context/auth'
-import {
-  SignUpFormValues,
-  UsernameFormValues,
-  signUpFormSchema,
-  usernameSchema,
-} from './sign-up-form.schema'
+import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 import { useLanguage } from '@/context/language'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 
 export const SignUpForm = () => {
   const { signUpWithCredentials } = useAuth()
   const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
-  const [open, setOpen] = useState(false)
 
-  const signUpForm = useForm<SignUpFormValues>({
+  const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema(dictionary)),
     defaultValues: {
       email: '',
@@ -51,32 +38,19 @@ export const SignUpForm = () => {
     },
   })
 
-  const usernameForm = useForm<UsernameFormValues>({
-    resolver: zodResolver(usernameSchema(dictionary)),
-    defaultValues: {
-      username: '',
-    },
-  })
-
-  async function onSubmitSignUp() {
-    // todo: e-mail already exists validation
-    setOpen(true)
-  }
-
-  async function onSubmitUsername({ username }: UsernameFormValues) {
-    const values = { ...signUpForm.getValues(), username }
+  async function onSubmit(values: SignUpFormValues) {
     await signUpWithCredentials(values)
   }
 
   return (
     <>
-      <Form {...signUpForm}>
+      <Form {...form}>
         <form
-          onSubmit={signUpForm.handleSubmit(onSubmitSignUp)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-4"
         >
           <FormField
-            control={signUpForm.control}
+            control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
@@ -94,7 +68,7 @@ export const SignUpForm = () => {
           />
 
           <FormField
-            control={signUpForm.control}
+            control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -145,7 +119,7 @@ export const SignUpForm = () => {
             <Button
               type="submit"
               className="w-full"
-              loading={signUpForm.formState.isSubmitting}
+              loading={form.formState.isSubmitting}
             >
               {dictionary.continue}
             </Button>
@@ -160,41 +134,6 @@ export const SignUpForm = () => {
           {dictionary.others_ways}
         </Link>
       </Form>
-
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader className="text-start">
-            <DialogTitle>{dictionary.pick_your_username}</DialogTitle>
-          </DialogHeader>
-
-          <Form {...usernameForm}>
-            <form onSubmit={usernameForm.handleSubmit(onSubmitUsername)}>
-              <FormField
-                control={usernameForm.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="TylerDurden" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <DialogFooter className="mt-4">
-                <Button
-                  loading={usernameForm.formState.isSubmitting}
-                  type="submit"
-                >
-                  {dictionary.create_account}
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
     </>
   )
 }

@@ -4,8 +4,7 @@ import { createContext, useContext, useState } from 'react'
 import {
   AuthContext,
   AuthContextProviderProps,
-  SignInCredentials,
-  SignUpCredentials,
+  Credentials,
 } from './auth.types'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -26,7 +25,7 @@ export const AuthContextProvider = ({
   const supabase = createClientComponentClient()
   const { push } = useRouter()
 
-  const signInWithCredentials = async (credentials: SignInCredentials) => {
+  const signInWithCredentials = async (credentials: Credentials) => {
     const { error, data } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
@@ -50,22 +49,13 @@ export const AuthContextProvider = ({
     }
   }
 
-  const signUpWithCredentials = async ({
-    username,
-    ...credentials
-  }: SignUpCredentials) => {
+  const signUpWithCredentials = async (credentials: Credentials) => {
     const { error } = await supabase.auth.signUp({
       ...credentials,
-      options: {
-        data: {
-          username,
-        },
-      },
     })
 
     if (error) {
       toast.error(dictionary.sign_up_form.username_already_taken)
-
       return
     }
 
