@@ -5,11 +5,11 @@ export const formatCurrency = (
   language: Language = 'en-US',
 ) => {
   const commonOptions = {
-    style: 'currency',
+    style: 'currency' as const,
     minimumFractionDigits: 0,
   }
 
-  const amountByLanguage: Record<Language, string> = {
+  const amountByLanguage = {
     'en-US': amount.toLocaleString('en-US', {
       ...commonOptions,
       currency: 'USD',
