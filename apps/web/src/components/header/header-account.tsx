@@ -59,29 +59,15 @@ export const HeaderAccount = () => {
       <DropdownMenuContent className="w-72">
         {user && (
           <>
-            <div className="flex">
+            <Link
+              href={`/${language}/${user.username}`}
+              className="flex items-center gap-2 p-1 text-sm"
+            >
               <Avatar className="size-8 cursor-pointer">
                 <AvatarContent user={user} />
               </Avatar>
-            </div>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem disabled={!user}>
-                <Star className="mr-1 size-3" />
-                Reviews
-              </DropdownMenuItem>
-
-              <DropdownMenuItem disabled={!user}>
-                <List className="mr-1 size-3" />
-                Lists
-              </DropdownMenuItem>
-
-              <DropdownMenuItem disabled={!user}>
-                <Eye className="mr-1 size-3" />
-                Watched
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+              {user.username}
+            </Link>
 
             <DropdownMenuSeparator />
           </>
@@ -93,7 +79,7 @@ export const HeaderAccount = () => {
         {user ? (
           <DropdownMenuItem onClick={() => logout()}>
             <LogOut className="mr-1 size-3" />
-            Log out
+            {dictionary.logout}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem

@@ -232,15 +232,6 @@
     "collection_removed_successfully": "Collection removed successfully.",
     "collection_added_successfully": "Collection added successfully."
   },
-  "settings_dropdown": {
-    "theme": "Theme",
-    "light": "🌞 Light",
-    "dark": "🌚 Dark",
-    "language": "Language",
-    "account": "Account",
-    "logout": "Logout",
-    "profile": "Profile"
-  },
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"
   },
@@ -710,5 +701,6 @@
   "continue": "Continue",
   "do_not_have_an_account": "Don't have an account?",
   "create_now": "Create now",
-  "access_plotwist": "Access Plotwist"
+  "access_plotwist": "Access Plotwist",
+  "logout": "Logout"
 }

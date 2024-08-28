@@ -232,15 +232,6 @@
     "collection_removed_successfully": "Colección eliminada con éxito.",
     "collection_added_successfully": "Colección añadida con éxito."
   },
-  "settings_dropdown": {
-    "theme": "Tema",
-    "light": "🌞 Claro",
-    "dark": "🌚 Oscuro",
-    "language": "Idioma",
-    "account": "Cuenta",
-    "logout": "Cerrar sesión",
-    "profile": "Perfil"
-  },
   "auth": {
     "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
   },
@@ -709,5 +700,6 @@
   "continue": "Continuar",
   "do_not_have_an_account": "¿No tienes una cuenta?",
   "create_now": "Crea una ahora",
-  "access_plotwist": "Accede a Plotwist"
+  "access_plotwist": "Accede a Plotwist",
+  "logout": "Cerrar sesión"
 }

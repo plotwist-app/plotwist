@@ -232,15 +232,6 @@
     "collection_removed_successfully": "コレクションが正常に削除されました。",
     "collection_added_successfully": "コレクションが正常に追加されました。"
   },
-  "settings_dropdown": {
-    "theme": "テーマ",
-    "light": "🌞 ライト",
-    "dark": "🌚 ダーク",
-    "language": "言語",
-    "account": "アカウント",
-    "logout": "ログアウト",
-    "profile": "プロフィール"
-  },
   "auth": {
     "logout_success": "ログアウト成功しました。また次回 ✌"
   },
@@ -709,5 +700,6 @@
   "continue": "続ける",
   "do_not_have_an_account": "アカウントをお持ちではありませんか？",
   "create_now": "今すぐ作成",
-  "access_plotwist": "プロットウィストにアクセス"
+  "access_plotwist": "プロットウィストにアクセス",
+  "logout": "ログアウト"
 }

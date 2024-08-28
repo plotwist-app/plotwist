@@ -232,15 +232,6 @@
     "collection_removed_successfully": "Sammlung erfolgreich entfernt.",
     "collection_added_successfully": "Sammlung erfolgreich hinzugefügt."
   },
-  "settings_dropdown": {
-    "theme": "Thema",
-    "light": "🌞 Hell",
-    "dark": "🌚 Dunkel",
-    "language": "Sprache",
-    "account": "Konto",
-    "logout": "Abmelden",
-    "profile": "Profil"
-  },
   "auth": {
     "logout_success": "Erfolgreich abgemeldet. Bis zum nächsten Mal ✌"
   },
@@ -710,5 +701,6 @@
   "continue": "Weiter",
   "do_not_have_an_account": "Haben Sie kein Konto?",
   "create_now": "Jetzt erstellen",
-  "access_plotwist": "Zugriff auf Plotwist"
+  "access_plotwist": "Zugriff auf Plotwist",
+  "logout": "Abmelden"
 }

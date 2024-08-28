@@ -35,8 +35,8 @@ export const HeaderNavigationDrawerConfigs = () => {
 
   return (
     <div>
-      <div className="flex h-9 items-center justify-between p-2 text-sm font-medium">
-        <span className="text-muted-foreground">{dictionary.theme}</span>
+      <div className="flex h-9 items-center justify-between p-2 text-sm">
+        <span className="">{dictionary.theme}</span>
 
         <div className="-mr-1.5 flex rounded-full border">
           {themes.map((i) => {
@@ -45,7 +45,7 @@ export const HeaderNavigationDrawerConfigs = () => {
             return (
               <div
                 className={twMerge(
-                  'hover:t cursor-pointer rounded-full p-1 text-muted-foreground transition-all hover:text-foreground',
+                  'hover:t cursor-pointer rounded-full p-1  transition-all hover:text-foreground',
                   isActive &&
                     'border-x text-foreground first:border-r last:border-l',
                 )}
@@ -63,8 +63,8 @@ export const HeaderNavigationDrawerConfigs = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between p-2 text-sm font-medium">
-        <span className="text-muted-foreground">{dictionary.language}</span>
+      <div className="flex items-center justify-between p-2 text-sm">
+        <span className="">{dictionary.language}</span>
 
         <div>
           <Select
