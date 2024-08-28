@@ -6,13 +6,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Eye, List, LogIn, LogOut, Star, User } from 'lucide-react'
+import { LogIn, LogOut, User } from 'lucide-react'
 import { Profile } from '@/types/supabase'
 import Link from 'next/link'
 import { useLanguage } from '@/context/language'
