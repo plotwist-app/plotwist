@@ -16,7 +16,7 @@ export const SignUpSocial = () => {
   return (
     <div className="flex flex-col gap-2">
       <Button
-        className="border bg-background text-foreground shadow-sm hover:bg-muted/50"
+        className="pointer-events-none cursor-not-allowed border bg-background text-foreground shadow-sm hover:bg-muted/50"
         onClick={() => supabase.auth.signInWithOAuth({ provider: 'google' })}
       >
         <img src="/assets/google.svg" className="mr-2 size-4" alt="google" />
