@@ -150,7 +150,7 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       cmdk:
         specifier: ^0.2.0
@@ -164,6 +164,9 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
+      framer-motion:
+        specifier: ^11.3.30
+        version: 11.3.30(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.293.0
         version: 0.293.0(react@18.3.1)
@@ -228,7 +231,7 @@ importers:
         specifier: ^14.23.0
         version: 14.25.0
       tailwind-merge:
-        specifier: ^2.0.0
+        specifier: ^2.3.0
         version: 2.3.0
       tailwind-scrollbar-hide:
         specifier: ^1.1.7
@@ -7251,6 +7254,25 @@ packages:
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: true
+
+  /framer-motion@11.3.30(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-9VmqGe9OIjfMoCcs+ZsKXlv6JaG5QagKX2F1uSbkG3Z33wgjnz60Kw+CngC1M49rDYau+Y9aL+8jGagAwrbVyw==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tslib: 2.6.2
+    dev: false
 
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
