@@ -3,11 +3,6 @@ import { z } from 'zod'
 
 export const signUpFormSchema = (dictionary: Dictionary) =>
   z.object({
-    username: z
-      .string()
-      .min(1, dictionary.sign_up_form.username_required)
-      .regex(/^[a-zA-Z0-9-]+$/, dictionary.sign_up_form.username_invalid),
-
     email: z
       .string()
       .min(1, dictionary.sign_up_form.email_required)

@@ -94,12 +94,6 @@
     "button_tv_series": "TVシリーズ",
     "button_movies": "映画"
   },
-  "login_page": {
-    "title": "ログイン",
-    "description": "数千の映画やテレビシリーズについて話し合えるコミュニティに参加しましょう！",
-    "no_account": "アカウントをまだお持ちでない方は、こちらをクリックして登録してください。",
-    "no_account_link": "ここをクリック"
-  },
   "login_form": {
     "email_label": "Eメールアドレス",
     "password_label": "パスワード",
@@ -113,11 +107,6 @@
     "login_success": "ログイン成功！お帰りなさい！",
     "invalid_login_credentials": "無効なログイン情報です。",
     "try_again": "もう一度試す"
-  },
-  "sign_up_page": {
-    "title": "アカウントを作成",
-    "description": "数千の映画やテレビシリーズについてのディスカッションができるコミュニティへようこそ。",
-    "already_have_account": "既にアカウントをお持ちですか？こちらをクリックしてログインしてください。"
   },
   "sign_up_form": {
     "username_label": "ユーザー名",
@@ -242,15 +231,6 @@
     "my_lists": "マイリスト",
     "collection_removed_successfully": "コレクションが正常に削除されました。",
     "collection_added_successfully": "コレクションが正常に追加されました。"
-  },
-  "settings_dropdown": {
-    "theme": "テーマ",
-    "light": "🌞 ライト",
-    "dark": "🌚 ダーク",
-    "language": "言語",
-    "account": "アカウント",
-    "logout": "ログアウト",
-    "profile": "プロフィール"
   },
   "auth": {
     "logout_success": "ログアウト成功しました。また次回 ✌"
@@ -703,5 +683,23 @@
   "data_provided_by": "データ提供元：TMDB.",
   "explore": "探検する",
   "save_order": "順序を保存",
-  "edit_order": "順序を編集"
+  "edit_order": "順序を編集",
+  "start_now": "今すぐ始める!",
+  "start_your_journey": "わずか数ステップで旅を始めましょう。",
+  "already_have_an_account": "すでにアカウントをお持ちですか?",
+  "continue_with_google": "Googleで続行",
+  "continue_with_x": "Xで続行",
+  "continue_with_email": "メールで続行",
+  "or": "または",
+  "others_ways": "他の方法",
+  "sign_up": "サインアップ",
+  "login": "ログイン",
+  "theme": "テーマ",
+  "language": "言語",
+  "pick_your_username": "ユーザー名を選んでください",
+  "continue": "続ける",
+  "do_not_have_an_account": "アカウントをお持ちではありませんか？",
+  "create_now": "今すぐ作成",
+  "access_plotwist": "プロットウィストにアクセス",
+  "logout": "ログアウト"
 }

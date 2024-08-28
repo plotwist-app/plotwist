@@ -94,12 +94,6 @@
     "button_tv_series": "TV Series",
     "button_movies": "Movies"
   },
-  "login_page": {
-    "title": "Login",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
-    "no_account": "Don't have an account? Register by clicking",
-    "no_account_link": "here"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Password",
@@ -113,11 +107,6 @@
     "login_success": "Login successful. Welcome! 🎉",
     "invalid_login_credentials": "Invalid login credentials",
     "try_again": "Try again"
-  },
-  "sign_up_page": {
-    "title": "Create an account",
-    "description": "Be part of the cinema community, where you can meet and discuss thousands of movies and TV Series!",
-    "already_have_account": "Already have an account? Access by clicking"
   },
   "sign_up_form": {
     "username_label": "Username",
@@ -242,15 +231,6 @@
     "my_lists": "My lists",
     "collection_removed_successfully": "Collection removed successfully.",
     "collection_added_successfully": "Collection added successfully."
-  },
-  "settings_dropdown": {
-    "theme": "Theme",
-    "light": "🌞 Light",
-    "dark": "🌚 Dark",
-    "language": "Language",
-    "account": "Account",
-    "logout": "Logout",
-    "profile": "Profile"
   },
   "auth": {
     "logout_success": "Successfully logged out. See you next time ✌"
@@ -704,5 +684,23 @@
   "data_provided_by": "Data provided by TMDB.",
   "explore": "Explore",
   "save_order": "Save Order",
-  "edit_order": "Edit Order"
+  "edit_order": "Edit Order",
+  "start_now": "Start now!",
+  "start_your_journey": "Start your journey in just a few steps.",
+  "already_have_an_account": "Already have an account?",
+  "continue_with_google": "Continue with Google",
+  "continue_with_x": "Continue with X",
+  "continue_with_email": "Continue with email",
+  "or": "or",
+  "others_ways": "Other ways",
+  "sign_up": "Sign Up",
+  "login": "Log In",
+  "theme": "Theme",
+  "language": "Language",
+  "pick_your_username": "Pick your username",
+  "continue": "Continue",
+  "do_not_have_an_account": "Don't have an account?",
+  "create_now": "Create now",
+  "access_plotwist": "Access Plotwist",
+  "logout": "Logout"
 }

@@ -6,13 +6,13 @@ import { Separator } from '@/components/ui/separator'
 import { PosterCard } from '@/components/poster-card'
 import { Container } from '../_components/container'
 
+import { UserLastReview } from './_components/user-last-review'
+import { PopularReviews } from './_components/popular-reviews'
+
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-
-import { UserLastReview } from '@/app/[lang]/_components/user-last-review'
-import { PopularReviews } from '@/app/[lang]/_components/popular-reviews'
 
 export async function generateMetadata({
   params,

@@ -94,12 +94,6 @@
     "button_tv_series": "Series",
     "button_movies": "Películas"
   },
-  "login_page": {
-    "title": "Iniciar sesión",
-    "description": "¡Sé parte de la comunidad cinematográfica, donde puedes conocer y discutir miles de películas y series de TV!",
-    "no_account": "¿No tienes una cuenta? Regístrate haciendo clic",
-    "no_account_link": "aquí"
-  },
   "login_form": {
     "email_label": "Correo electrónico",
     "password_label": "Contraseña",
@@ -113,11 +107,6 @@
     "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
     "try_again": "Intentar de nuevo"
-  },
-  "sign_up_page": {
-    "title": "Crear una cuenta",
-    "description": "¡Sé parte de la comunidad de cine, donde puedes conocer y discutir miles de películas y series de TV!",
-    "already_have_account": "¿Ya tienes una cuenta? Accede haciendo clic"
   },
   "sign_up_form": {
     "username_label": "Nombre de usuario",
@@ -242,15 +231,6 @@
     "my_lists": "Mis listas",
     "collection_removed_successfully": "Colección eliminada con éxito.",
     "collection_added_successfully": "Colección añadida con éxito."
-  },
-  "settings_dropdown": {
-    "theme": "Tema",
-    "light": "🌞 Claro",
-    "dark": "🌚 Oscuro",
-    "language": "Idioma",
-    "account": "Cuenta",
-    "logout": "Cerrar sesión",
-    "profile": "Perfil"
   },
   "auth": {
     "logout_success": "Cierre de sesión exitoso. Hasta la próxima ✌"
@@ -703,5 +683,23 @@
   "data_provided_by": "Datos proporcionados por TMDB.",
   "explore": "Explorar",
   "save_order": "Guardar orden",
-  "edit_order": "Editar orden"
+  "edit_order": "Editar orden",
+  "start_now": "¡Empieza ahora!",
+  "start_your_journey": "Comienza tu viaje en solo unos pocos pasos.",
+  "already_have_an_account": "¿Ya tienes una cuenta?",
+  "continue_with_google": "Continuar con Google",
+  "continue_with_x": "Continuar con X",
+  "continue_with_email": "Continuar con correo electrónico",
+  "or": "o",
+  "others_ways": "Otras formas",
+  "sign_up": "Registrarse",
+  "login": "Iniciar sesión",
+  "theme": "Tema",
+  "language": "Idioma",
+  "pick_your_username": "Elige tu nombre de usuario",
+  "continue": "Continuar",
+  "do_not_have_an_account": "¿No tienes una cuenta?",
+  "create_now": "Crea una ahora",
+  "access_plotwist": "Accede a Plotwist",
+  "logout": "Cerrar sesión"
 }

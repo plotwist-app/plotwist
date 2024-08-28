@@ -95,12 +95,6 @@
     "button_tv_series": "Serie TV",
     "button_movies": "Film"
   },
-  "login_page": {
-    "title": "Accedi",
-    "description": "Fai parte della comunità cinematografica, dove puoi incontrare e discutere migliaia di film e serie TV!",
-    "no_account": "Non hai un account? Registrati cliccando",
-    "no_account_link": "qui"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Password",
@@ -114,11 +108,6 @@
     "login_success": "Accesso effettuato con successo. Benvenuto! 🎉",
     "invalid_login_credentials": "Credenziali di accesso non valide",
     "try_again": "Riprova"
-  },
-  "sign_up_page": {
-    "title": "Crea un account",
-    "description": "Fai parte della comunità cinematografica, dove puoi incontrare e discutere migliaia di film e serie TV!",
-    "already_have_account": "Hai già un account? Accedi cliccando"
   },
   "sign_up_form": {
     "username_label": "Nome utente",
@@ -243,15 +232,6 @@
     "my_lists": "Le mie liste",
     "collection_removed_successfully": "Collezione rimossa con successo.",
     "collection_added_successfully": "Collezione aggiunta con successo."
-  },
-  "settings_dropdown": {
-    "theme": "Tema",
-    "light": "🌞 Chiaro",
-    "dark": "🌚 Scuro",
-    "language": "Lingua",
-    "account": "Account",
-    "logout": "Disconnettersi",
-    "profile": "Profilo"
   },
   "auth": {
     "logout_success": "Disconnessione avvenuta con successo. Alla prossima ✌"
@@ -704,5 +684,23 @@
   "data_provided_by": "Dati forniti da TMDB.",
   "explore": "Esplorare",
   "save_order": "Salva ordine",
-  "edit_order": "Modifica ordine"
+  "edit_order": "Modifica ordine",
+  "start_now": "Inizia ora!",
+  "start_your_journey": "Inizia il tuo viaggio in pochi passi.",
+  "already_have_an_account": "Hai già un account?",
+  "continue_with_google": "Continua con Google",
+  "continue_with_x": "Continua con X",
+  "continue_with_email": "Continua con e-mail",
+  "or": "o",
+  "others_ways": "Altri modi",
+  "sign_up": "Registrati",
+  "login": "Accedi",
+  "theme": "Tema",
+  "language": "Lingua",
+  "pick_your_username": "Scegli il tuo nome utente",
+  "continue": "Continua",
+  "do_not_have_an_account": "Non hai un account?",
+  "create_now": "Crea ora",
+  "access_plotwist": "Accedi a Plotwist",
+  "logout": "Disconnettersi"
 }

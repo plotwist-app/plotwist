@@ -117,27 +117,6 @@ export const HeaderNavigationMenu = () => {
             </NavigationMenuItem>
           )
         })}
-
-        {/* {user && (
-          <NavigationMenuItem
-            className={cn(
-              navigationMenuTriggerStyle(),
-              getIsActive(`/${language}/notifications`) && 'bg-muted',
-            )}
-            asChild
-          >
-            <Link
-              href={`/${language}/notifications`}
-              className="flex items-center gap-2"
-            >
-              <Bell width={12} height={12} />
-              Notifications
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-background">
-                2
-              </div>
-            </Link>
-          </NavigationMenuItem>
-        )} */}
       </NavigationMenuList>
     </NavigationMenu>
   )

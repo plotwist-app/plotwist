@@ -94,12 +94,6 @@
     "button_tv_series": "Séries",
     "button_movies": "Filmes"
   },
-  "login_page": {
-    "title": "Login",
-    "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
-    "no_account": "Não tem uma conta? Cadastre-se clicando",
-    "no_account_link": "aqui"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Senha",
@@ -113,11 +107,6 @@
     "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
     "invalid_login_credentials": "Credenciais de login inválidas",
     "try_again": "Tente novamente"
-  },
-  "sign_up_page": {
-    "title": "Criar uma conta",
-    "description": "Faça parte da comunidade de cinema, onde você pode encontrar e discutir milhares de filmes e séries de TV!",
-    "already_have_account": "Já tem uma conta? Acesse clicando"
   },
   "sign_up_form": {
     "username_label": "Nome de usuário",
@@ -242,15 +231,6 @@
     "my_lists": "Minhas listas",
     "collection_removed_successfully": "Coleção removida com sucesso.",
     "collection_added_successfully": "Coleção adicionada com sucesso."
-  },
-  "settings_dropdown": {
-    "theme": "Tema",
-    "light": "🌞 Claro",
-    "dark": "🌚 Escuro",
-    "language": "Idioma",
-    "account": "Conta",
-    "logout": "Sair",
-    "profile": "Perfil"
   },
   "auth": {
     "logout_success": "Logout realizado com sucesso. Até a próxima ✌"
@@ -629,7 +609,7 @@
     "title": "Curtidas",
     "view_profile": "Ver perfil"
   },
-  "access_now": "Acessar agora",
+  "access_now": "Acesse agora",
   "create_account": "Criar conta",
   "search_movies_or_series": "Busque por filmes ou séries...",
   "select_an_image": " Selecione uma imagem",
@@ -704,5 +684,23 @@
   "data_provided_by": "Dados fornecidos por TMDB.",
   "explore": "Explorar",
   "save_order": "Salvar Ordem",
-  "edit_order": "Editar Ordem"
+  "edit_order": "Editar Ordem",
+  "start_now": "Comece agora!",
+  "start_your_journey": "Comece sua jornada com apenas poucos passos.",
+  "already_have_an_account": "Já possui uma conta?",
+  "continue_with_google": "Continue com Google",
+  "continue_with_x": "Continue com X",
+  "continue_with_email": "Continue com e-mail",
+  "or": "ou",
+  "others_ways": "Outras formas",
+  "sign_up": "Cadastrar-se",
+  "login": "Entrar",
+  "theme": "Tema",
+  "language": "Idioma",
+  "continue": "Continuar",
+  "pick_your_username": "Selecione seu nome de usuário",
+  "do_not_have_an_account": "Não tem uma conta?",
+  "create_now": "Crie agora",
+  "access_plotwist": "Acesse o Plotwist",
+  "logout": "Sair"
 }
