@@ -46,11 +46,13 @@ export const TvSeriesListFilters = () => {
   const { dictionary, language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
+  const defaultValues = {
+    ...getDefaultValues(searchParams),
+    watch_region: language.split('-')[1],
+  }
+
   const methods = useForm<TvSeriesListFiltersFormValues>({
-    defaultValues: {
-      ...getDefaultValues(searchParams),
-      watch_region: language.split('-')[1],
-    },
+    defaultValues,
   })
 
   const onSubmit = (values: TvSeriesListFiltersFormValues) => {
@@ -60,13 +62,17 @@ export const TvSeriesListFilters = () => {
     setOpen(false)
   }
 
+  const hasFilters = Object.keys(defaultValues).some((key) =>
+    searchParams.get(key),
+  )
+
   if (isDesktop) {
     return (
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
+              <Button variant={hasFilters ? 'default' : 'outline'} size="icon">
                 <SlidersHorizontal size={16} />
               </Button>
             </SheetTrigger>
