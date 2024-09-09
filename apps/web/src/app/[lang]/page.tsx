@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 
 import { Pattern } from '@/components/pattern'
+import { Footer } from '@/components/footer'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -9,9 +9,6 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { Button } from '@plotwist/ui/components/ui/button'
-import { ProBadge } from '@/components/pro-badge'
-import { Footer } from '@/components/footer'
 import { TopMovies } from './_components/top-movies'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
