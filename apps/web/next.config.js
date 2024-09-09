@@ -14,7 +14,7 @@ const nextConfig = {
 		unoptimized: true,
 	},
 	pageExtensions: ["mdx", "ts", "tsx"],
-	transpilePackages: ["@plotwist/tmdb"],
+	transpilePackages: ["@plotwist/tmdb", "@plotwist/ui"],
 };
 
 module.exports = withBundleAnalyzer(withMDX(nextConfig));
