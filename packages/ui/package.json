@@ -3,12 +3,14 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"ui": "pnpm dlx shadcn@latest"
+		"ui": "pnpm dlx shadcn@latest",
+		"lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
 	},
 	"peerDependencies": {
 		"react": "^18"
 	},
 	"devDependencies": {
+		"@plotwist/eslint-config": "workspace:*",
 		"@types/node": "^20.16.2",
 		"@types/react": "^18",
 		"autoprefixer": "^10",
