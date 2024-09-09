@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
 import { Footer } from '@/components/footer'
 import { TopMovies } from './_components/top-movies'
+import { BentoGrid } from './_components/bento-grid'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -118,6 +119,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <TopMovies language={lang} />
+        <BentoGrid/>
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>

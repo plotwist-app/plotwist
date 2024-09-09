@@ -1,8 +1,0 @@
-{
-  "root": true,
-  "extends": ["@plotwist/eslint-config/node.js"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": true
-  }
-}
