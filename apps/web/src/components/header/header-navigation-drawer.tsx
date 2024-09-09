@@ -8,7 +8,11 @@ import { Menu } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
 
-import { Drawer, DrawerContent, DrawerTrigger } from '@plotwist/ui/components/ui/drawer'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Accordion } from '@plotwist/ui/components/ui/accordion'
 
@@ -18,8 +22,6 @@ import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
 
 import { CommandSearch } from '../command-search'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
-
-const string = "sahusahu"
 
 export const HeaderNavigationDrawer = () => {
   const { user } = useAuth()

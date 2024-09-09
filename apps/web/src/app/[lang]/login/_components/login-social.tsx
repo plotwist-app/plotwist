@@ -1,32 +1,32 @@
-"use client";
+'use client'
 
-import { tv } from "tailwind-variants";
-import { Button } from "@plotwist/ui/components/ui/button";
-import { useLanguage } from "@/context/language";
-import { supabase } from "@/services/supabase";
+import { tv } from 'tailwind-variants'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { useLanguage } from '@/context/language'
+import { supabase } from '@/services/supabase'
 
 export const socialButton = tv({
-	base: "rounded-lg items-center border text-sm bg-background px-4 py-2 flex gap-2 justify-center cursor-pointer shadow-sm w-full font-semib",
-});
+  base: 'rounded-lg items-center border text-sm bg-background px-4 py-2 flex gap-2 justify-center cursor-pointer shadow-sm w-full font-semib',
+})
 
 export const LoginSocial = () => {
-	const { dictionary } = useLanguage();
+  const { dictionary } = useLanguage()
 
-	return (
-		<div className="flex flex-col gap-2">
-			<Button
-				className="pointer-events-none cursor-not-allowed border bg-background text-foreground opacity-50 shadow-sm hover:bg-muted/50"
-				onClick={() =>
-					supabase.auth.signInWithOAuth({
-						provider: "google",
-					})
-				}
-			>
-				<img src="/assets/google.svg" className="mr-2 size-4" alt="google" />
-				{dictionary.continue_with_google}
-			</Button>
+  return (
+    <div className="flex flex-col gap-2">
+      <Button
+        className="pointer-events-none cursor-not-allowed border bg-background text-foreground opacity-50 shadow-sm hover:bg-muted/50"
+        onClick={() =>
+          supabase.auth.signInWithOAuth({
+            provider: 'google',
+          })
+        }
+      >
+        <img src="/assets/google.svg" className="mr-2 size-4" alt="google" />
+        {dictionary.continue_with_google}
+      </Button>
 
-			{/* <Button
+      {/* <Button
         className="cursor-not-allowed border bg-background text-foreground opacity-50 shadow-sm hover:bg-muted/50 dark:[&_img]:invert"
         onClick={() => signInWithProvider('twitter')}
       >
@@ -34,13 +34,13 @@ export const LoginSocial = () => {
         {dictionary.continue_with_x}
       </Button> */}
 
-			<div className="flex items-center">
-				<div className="flex-1 border-t" />
-				<span className="m-4 text-sm font-medium uppercase text-muted-foreground/50">
-					{dictionary.or}
-				</span>
-				<div className="flex-1 border-t" />
-			</div>
-		</div>
-	);
-};
+      <div className="flex items-center">
+        <div className="flex-1 border-t" />
+        <span className="m-4 text-sm font-medium uppercase text-muted-foreground/50">
+          {dictionary.or}
+        </span>
+        <div className="flex-1 border-t" />
+      </div>
+    </div>
+  )
+}
