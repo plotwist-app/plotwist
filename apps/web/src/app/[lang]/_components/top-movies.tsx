@@ -1,11 +1,16 @@
-import { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { tmdb } from '@plotwist/tmdb'
 import Image from 'next/image'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
+import { Language } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
+
+import { tmdb } from '@plotwist/tmdb'
+import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+
 type TopMoviesProps = { language: Language }
+
+const BLUR_FADE_DELAY = 0.1
 
 export const TopMovies = async ({ language }: TopMoviesProps) => {
   const { results } = await tmdb.movies.list({
@@ -16,7 +21,7 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
 
   return (
     <div className="mx-auto mb-64 grid max-w-6xl grid-cols-3">
-      {results.slice(0, 3).map((movie) => {
+      {results.slice(0, 3).map((movie, index) => {
         return (
           <Link
             className={twMerge(
@@ -31,14 +36,18 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
             href={`/${language}/movies/${movie.id}`}
             key={movie.id}
           >
-            <div className="relative aspect-poster rounded-3xl">
-              <Image
-                src={tmdbImage(movie.poster_path, 'original')}
-                fill
-                quality={100}
-                alt={movie.title}
-              />
-            </div>
+            <BlurFade
+              delay={index === 1 ? BLUR_FADE_DELAY : BLUR_FADE_DELAY * 3}
+            >
+              <div className="relative aspect-poster rounded-3xl">
+                <Image
+                  src={tmdbImage(movie.poster_path, 'original')}
+                  fill
+                  quality={100}
+                  alt={movie.title}
+                />
+              </div>
+            </BlurFade>
           </Link>
         )
       })}

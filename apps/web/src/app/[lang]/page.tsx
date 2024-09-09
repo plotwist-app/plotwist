@@ -14,6 +14,7 @@ import { ProBadge } from '@/components/pro-badge'
 import { Footer } from '@/components/footer'
 import { TopMovies } from './_components/top-movies'
 import { BentoGrid } from './_components/bento-grid'
+import { Hero } from './_components/hero'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -84,40 +85,7 @@ export default async function Home({ params: { lang } }: PageProps) {
       <Pattern variant="checkered" />
 
       <main className="">
-        <section className="mx-auto max-w-6xl">
-          <div className="flex w-full flex-col items-center space-y-8 px-4 py-36 text-center xl:px-0">
-            <Link
-              href={`/${lang}/pricing`}
-              className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs shadow"
-            >
-              {dictionary.discover_advantages} <ProBadge />
-            </Link>
-
-            <div className="space-y-4">
-              <div className="text-2xl font-bold xl:text-5xl">
-                <h2>{dictionary.welcome_to_plotwist}</h2>
-                <h1>{dictionary.your_cinema_platform}</h1>
-              </div>
-
-              <p className="text-md leading-6 text-muted-foreground">
-                {dictionary.join_plotwist}
-              </p>
-            </div>
-
-            <div className="flex gap-2">
-              <Button asChild>
-                <Link href={`/${lang}/sign-up`}>
-                  {dictionary.create_account}
-                </Link>
-              </Button>
-
-              <Button variant="outline" asChild>
-                <Link href={`/${lang}/home`}>{dictionary.explore}</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
+        <Hero />
         <TopMovies language={lang} />
         <BentoGrid />
         <Footer language={lang} dictionary={dictionary} />
