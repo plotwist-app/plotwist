@@ -349,12 +349,13 @@ importers:
 
   packages/tmdb:
     dependencies:
-      '@plotwist/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
       axios:
         specifier: ^1.6.5
         version: 1.6.8
+    devDependencies:
+      '@plotwist/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
 
   packages/typescript-config: {}
 
