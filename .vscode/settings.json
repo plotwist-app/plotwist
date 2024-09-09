@@ -1,20 +1,19 @@
 {
-  "cSpell.words": [
-    "patreon",
-    "plotwist",
-    "sonner",
-    "supabase",
-    "tanstack",
-    "tmdb",
-    "unfollow"
-  ],
-  
-  
-  "gitlens.experimental.generateCommitMessagePrompt": "Generate a commit message following the Conventional Commits format, limiting it to a single line. The message should start with a type that describes the nature of the change, such as 'fix', 'feat', 'chore', 'docs', 'style', 'refactor', 'test', or another appropriate term. If applicable, include a scope in parentheses to provide additional context, like the name of a module or component that's affected. Conclude with a clear and concise description that summarizes the change made, all while not exceeding 50 characters to maintain brevity and clarity.",
+	"cSpell.words": [
+		"patreon",
+		"plotwist",
+		"sonner",
+		"supabase",
+		"tanstack",
+		"tmdb",
+		"unfollow"
+	],
 
-  "files.eol": "\n",
+	"gitlens.experimental.generateCommitMessagePrompt": "Generate a commit message following the Conventional Commits format, limiting it to a single line. The message should start with a type that describes the nature of the change, such as 'fix', 'feat', 'chore', 'docs', 'style', 'refactor', 'test', or another appropriate term. If applicable, include a scope in parentheses to provide additional context, like the name of a module or component that's affected. Conclude with a clear and concise description that summarizes the change made, all while not exceeding 50 characters to maintain brevity and clarity.",
 
-  "editor.defaultFormatter": "biomejs.biome",
+	// "files.eol": "\n",
+
+	"editor.defaultFormatter": "biomejs.biome",
 	"[javascript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
