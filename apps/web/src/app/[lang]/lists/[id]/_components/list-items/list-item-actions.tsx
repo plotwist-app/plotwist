@@ -4,14 +4,14 @@ import { useCallback } from "react";
 import { toast } from "sonner";
 import { ExternalLink, Image, MoreVertical, Trash } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@plotwist/ui/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSub,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@plotwist/ui/components/ui/dropdown-menu";
 
 import { useLists } from "@/context/lists";
 import { APP_QUERY_CLIENT } from "@/context/app/app";

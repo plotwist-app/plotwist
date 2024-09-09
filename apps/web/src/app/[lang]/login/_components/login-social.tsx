@@ -1,7 +1,7 @@
 "use client";
 
 import { tv } from "tailwind-variants";
-import { Button } from "@/components/ui/button";
+import { Button } from "@plotwist/ui/components/ui/button";
 import { useLanguage } from "@/context/language";
 import { supabase } from "@/services/supabase";
 

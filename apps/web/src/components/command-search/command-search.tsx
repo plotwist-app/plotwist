@@ -12,13 +12,13 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useLanguage } from "@/context/language";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@plotwist/ui/components/ui/button";
 import {
 	Command,
 	CommandDialog,
 	CommandInput,
 	CommandList,
-} from "@/components/ui/command";
+} from "@plotwist/ui/components/ui/command";
 
 import {
 	CommandSearchMovie,

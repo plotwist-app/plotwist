@@ -8,8 +8,8 @@ import {
 	CommandDialog,
 	CommandInput,
 	CommandList,
-} from "@/components/ui/command";
-import { Separator } from "@/components/ui/separator";
+} from "@plotwist/ui/components/ui/command";
+import { Separator } from "@plotwist/ui/components/ui/separator";
 
 import { useLanguage } from "@/context/language";
 
