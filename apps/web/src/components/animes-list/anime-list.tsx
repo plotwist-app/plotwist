@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useLanguage } from "@/context/language"
+import { useLanguage } from "@/context/language";
 
-import { Badge } from "../ui/badge"
-import { AnimeListContent } from "./anime-list-content"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { Badge } from "../ui/badge";
+import { AnimeListContent } from "./anime-list-content";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export type AnimeListType = "tv" | "movies"
+export type AnimeListType = "tv" | "movies";
 
 export const AnimeList = () => {
-	const { dictionary } = useLanguage()
-	const { replace } = useRouter()
-	const pathname = usePathname()
-	const searchParams = useSearchParams()
+	const { dictionary } = useLanguage();
+	const { replace } = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
-	const type = (searchParams.get("type") ?? "tv") as AnimeListType
+	const type = (searchParams.get("type") ?? "tv") as AnimeListType;
 
 	const handleReplaceType = (type: AnimeListType) => {
-		replace(`${pathname}?type=${type}`)
-	}
+		replace(`${pathname}?type=${type}`);
+	};
 
 	return (
 		<div className="space-y-4">
@@ -41,5 +41,5 @@ export const AnimeList = () => {
 
 			<AnimeListContent type={type} />
 		</div>
-	)
-}
+	);
+};

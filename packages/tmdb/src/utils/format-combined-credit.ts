@@ -1,4 +1,4 @@
-import type { CombinedCredit, RawMovieCredit, RawTvSerieCredit } from "..";
+						import type { CombinedCredit, RawMovieCredit, RawTvSerieCredit } from "..";
 
 export const formatCombinedCredit = (
 	credit: RawMovieCredit | RawTvSerieCredit,

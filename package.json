@@ -9,10 +9,9 @@
 		"test": "turbo test"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.8.3",
 		"@plotwist/typescript-config": "workspace:*",
 		"dotenv-cli": "^7.4.2",
-		"turbo": "2.1.0"
+		"turbo": "2.1.1"
 	},
 	"engines": {
 		"node": ">=18"

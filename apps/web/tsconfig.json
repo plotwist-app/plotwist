@@ -19,6 +19,6 @@
 		"**/*.tsx",
 		"**/*.mjs",
 		"**/*.js"
-	],
+, ".eslintrc.js"	],
 	"exclude": ["node_modules"]
 }
