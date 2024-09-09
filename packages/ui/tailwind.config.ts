@@ -19,6 +19,9 @@ module.exports = {
 			},
 		},
 		extend: {
+			aspectRatio: {
+				poster: "2 / 3",
+			},
 			colors: {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
@@ -64,27 +67,47 @@ module.exports = {
 			},
 			keyframes: {
 				"accordion-down": {
-					from: {
-						height: "0",
-					},
-					to: {
-						height: "var(--radix-accordion-content-height)",
-					},
+					from: { height: 0 },
+					to: { height: "var(--radix-accordion-content-height)" },
 				},
 				"accordion-up": {
+					from: { height: "var(--radix-accordion-content-height)" },
+					to: { height: 0 },
+				},
+				shine: {
 					from: {
-						height: "var(--radix-accordion-content-height)",
+						backgroundPosition: "0 0",
 					},
 					to: {
-						height: "0",
+						backgroundPosition: "-200% 0",
+					},
+				},
+				flip: {
+					to: {
+						transform: "rotate(360deg)",
+					},
+				},
+				rotate: {
+					to: {
+						transform: "rotate(90deg)",
 					},
 				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
+				shine: "shine 2s linear infinite",
+				flip: "flip 6s infinite steps(2, end)",
+				rotate: "rotate 3s linear infinite both",
+			},
+			maxWidth: {
+				app: "1080px",
 			},
 		},
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require("tailwind-scrollbar-hide"),
+		require("@tailwindcss/typography"),
+	],
 };

@@ -485,7 +485,7 @@ importers:
         version: 3.23.8
     devDependencies:
       '@types/node':
-        specifier: ^20
+        specifier: ^20.16.2
         version: 20.16.2
       '@types/react':
         specifier: ^18
