@@ -1,3 +1,7 @@
+import nextMDX from "@next/mdx";
+
+const withMDX = nextMDX();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
@@ -12,4 +16,4 @@ const nextConfig = {
 	transpilePackages: ["@plotwist/tmdb", "@plotwist/ui"],
 };
 
-export default nextConfig;
+export default withMDX(nextConfig);
