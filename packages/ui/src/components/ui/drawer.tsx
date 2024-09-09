@@ -5,6 +5,7 @@ import { Drawer as DrawerPrimitive } from 'vaul'
 
 import { cn } from '@plotwist/ui/lib/utils'
 
+type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root>
 const Drawer = ({
   shouldScaleBackground = true,
   ...props
@@ -115,4 +116,5 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
+  type DrawerProps,
 }

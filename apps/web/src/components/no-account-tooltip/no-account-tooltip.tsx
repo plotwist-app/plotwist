@@ -6,7 +6,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
+} from '@plotwist/ui/components/ui/tooltip'
+
 import { useLanguage } from '@/context/language'
 import { TooltipPortal } from '@radix-ui/react-tooltip'
 import Link from 'next/link'

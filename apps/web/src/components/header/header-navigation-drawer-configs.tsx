@@ -4,7 +4,14 @@ import { SUPPORTED_LANGUAGES } from 'languages'
 import { MoonStar, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { twMerge } from 'tailwind-merge'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select'
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from '@plotwist/ui/components/ui/select'
+
 import { usePathname, useRouter } from 'next/navigation'
 import { Language } from '@plotwist/tmdb'
 import ReactCountryFlag from 'react-country-flag'

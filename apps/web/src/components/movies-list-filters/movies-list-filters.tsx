@@ -6,7 +6,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 
 import { Button } from '@plotwist/ui/components/ui/button'
-
 import {
   Sheet,
   SheetClose,
@@ -22,6 +21,15 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
+
 import { useLanguage } from '@/context/language'
 
 import { Filters, SortBy, WhereToWatch } from './tabs'
@@ -31,14 +39,6 @@ import {
   getDefaultValues,
 } from './movies-list-filters.utils'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTrigger,
-} from '../ui/drawer'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)

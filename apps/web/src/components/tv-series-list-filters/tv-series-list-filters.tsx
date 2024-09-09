@@ -39,7 +39,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
-} from '../ui/drawer'
+} from '@plotwist/ui/components/ui/drawer'
 import { TvSeriesListFiltersFormValues } from '.'
 
 export const TvSeriesListFilters = () => {
