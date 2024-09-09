@@ -4,15 +4,17 @@
 	"rsc": true,
 	"tsx": true,
 	"tailwind": {
-		"config": "tailwind.config.js",
-		"css": "src/app/globals.css",
+		"config": "tailwind.config.ts",
+		"css": "src/globals.css",
 		"baseColor": "zinc",
-		"cssVariables": true
+		"cssVariables": true,
+		"prefix": ""
 	},
 	"aliases": {
-		"components": "@/components",
-		"utils": "@/lib/utils",
-		"ui": "@/components/ui",
-		"magicui": "@/components/magicui"
+		"components": "@plotwist/ui/components",
+		"ui": "@plotwist/ui/components/ui",
+		"utils": "@plotwist/ui/lib/utils",
+		"lib": "@plotwist/ui/lib",
+		"hooks": "@plotwist/ui/hooks"
 	}
 }

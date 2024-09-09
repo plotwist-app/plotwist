@@ -1,8 +1,3 @@
-const withMDX = require("@next/mdx")();
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-	enabled: process.env.ANALYZE === "true",
-});
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
@@ -17,4 +12,4 @@ const nextConfig = {
 	transpilePackages: ["@plotwist/tmdb", "@plotwist/ui"],
 };
 
-module.exports = withBundleAnalyzer(withMDX(nextConfig));
+export default nextConfig;

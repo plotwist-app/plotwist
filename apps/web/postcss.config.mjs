@@ -1,6 +1,1 @@
-module.exports = {
-	plugins: {
-		tailwindcss: {},
-		autoprefixer: {},
-	},
-};
+export { default } from "@plotwist/ui/postcss.config";
