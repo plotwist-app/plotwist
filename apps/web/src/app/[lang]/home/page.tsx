@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import { tmdb } from '@plotwist/tmdb'
 
-import { Separator } from '@/components/ui/separator'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import { PosterCard } from '@/components/poster-card'
 import { Container } from '../_components/container'
 

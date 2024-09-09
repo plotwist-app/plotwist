@@ -1,6 +1,11 @@
 import { Credits } from '@/components/credits'
 import { Reviews } from '@/components/reviews'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
 import { getDictionary } from '@/utils/dictionaries'
 import { Language, MovieDetails } from '@plotwist/tmdb'
 import { MovieRelated } from './movie-related'

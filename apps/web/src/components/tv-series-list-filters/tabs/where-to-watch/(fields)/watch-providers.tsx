@@ -14,7 +14,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Command,
   CommandEmpty,
@@ -22,15 +22,15 @@ import {
   CommandInput,
   CommandItem,
   CommandSeparator,
-} from '@/components/ui/command'
-import { Badge } from '@/components/ui/badge'
+} from '@plotwist/ui/components/ui/command'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
+} from '@plotwist/ui/components/ui/popover'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'

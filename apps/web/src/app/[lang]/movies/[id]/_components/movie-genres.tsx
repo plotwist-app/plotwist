@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 import { MovieDetails } from '@plotwist/tmdb'
 import Link from 'next/link'

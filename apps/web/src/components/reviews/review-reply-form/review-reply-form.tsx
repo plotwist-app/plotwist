@@ -6,15 +6,15 @@ import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+} from '@plotwist/ui/components/ui/form'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
@@ -26,7 +26,11 @@ import { useReplies } from '@/hooks/use-replies'
 import { MediaType } from '@/types/supabase/media-type'
 
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useReviews } from '@/hooks/use-reviews'
 

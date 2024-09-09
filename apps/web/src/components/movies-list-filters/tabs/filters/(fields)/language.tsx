@@ -8,7 +8,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@plotwist/ui/components/ui/select'
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 import { useLanguage } from '@/context/language'
 

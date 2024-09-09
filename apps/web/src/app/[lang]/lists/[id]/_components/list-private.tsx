@@ -1,5 +1,5 @@
 import { Pattern } from '@/components/pattern'
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { useLanguage } from '@/context/language'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'

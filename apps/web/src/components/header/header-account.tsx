@@ -1,7 +1,9 @@
 'use client'
 
+import Link from 'next/link'
+import { LogIn, LogOut, User } from 'lucide-react'
+
 import { useAuth } from '@/context/auth'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 import {
   DropdownMenu,
@@ -9,13 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+
 import { tmdbImage } from '@/utils/tmdb/image'
-import { LogIn, LogOut, User } from 'lucide-react'
-import { Profile } from '@/types/supabase'
-import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
+
+import type { Profile } from '@/types/supabase'
 
 type AvatarContentProps = {
   user: Profile | null

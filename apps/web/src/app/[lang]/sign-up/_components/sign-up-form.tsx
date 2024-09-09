@@ -6,21 +6,21 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Input } from '@/components/ui/input'
+} from '@plotwist/ui/components/ui/tooltip'
+import { Input } from '@plotwist/ui/components/ui/input'
 import { useAuth } from '@/context/auth'
 import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 import { useLanguage } from '@/context/language'

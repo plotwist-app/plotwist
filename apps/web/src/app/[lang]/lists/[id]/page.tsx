@@ -3,7 +3,7 @@
 import { Pencil } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { Banner } from '@/components/banner'
 
 import { ListItems } from './_components/list-items'

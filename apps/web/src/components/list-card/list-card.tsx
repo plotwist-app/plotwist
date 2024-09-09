@@ -6,13 +6,13 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { MoreVertical, Trash, Image as ImageIcon } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 import {
   Dialog,
   DialogClose,
@@ -21,8 +21,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@plotwist/ui/components/ui/dialog'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'

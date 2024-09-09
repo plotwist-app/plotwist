@@ -9,7 +9,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { ProBadge } from '@/components/pro-badge'
 import { Footer } from '@/components/footer'
 import { TopMovies } from './_components/top-movies'
@@ -119,7 +119,7 @@ export default async function Home({ params: { lang } }: PageProps) {
         </section>
 
         <TopMovies language={lang} />
-        <BentoGrid/>
+        <BentoGrid />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Play } from 'lucide-react'
 import { Buy, Rent, tmdb } from '@plotwist/tmdb'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'

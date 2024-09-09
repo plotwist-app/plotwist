@@ -4,7 +4,7 @@ import { ListItem } from '@/types/supabase/lists'
 import { Grid, List } from 'lucide-react'
 
 import { useLanguage } from '@/context/language'
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import { ListItemsGrid } from './list-items-grid'
 import { DataTable, columns } from '../data-table'

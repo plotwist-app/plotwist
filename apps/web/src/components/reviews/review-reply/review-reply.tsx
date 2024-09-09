@@ -10,7 +10,11 @@ import {
 } from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReplyEditActions } from './review-reply-edit-actions'
 import { useAuth } from '@/context/auth'

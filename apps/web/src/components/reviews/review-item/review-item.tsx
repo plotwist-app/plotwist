@@ -8,7 +8,11 @@ import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import { ReviewLikes } from '@/components/reviews/review-likes'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { ReviewReply } from '@/components/reviews/review-reply'
 
 import { ReviewStars } from '../review-stars'

@@ -8,14 +8,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@plotwist/ui/components/ui/select'
 
 import { useLanguage } from '@/context/language'
 

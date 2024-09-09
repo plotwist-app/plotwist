@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Image from 'next/image'
 import { ComponentProps, PropsWithChildren } from 'react'
 

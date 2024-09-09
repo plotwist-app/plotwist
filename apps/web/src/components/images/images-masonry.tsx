@@ -1,12 +1,12 @@
 'use client'
 
 import NextImage from 'next/image'
-import { Image } from '@plotwist/tmdb'
 import ReactMasonryCss from 'react-masonry-css'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
+import type { Image } from '@plotwist/tmdb'
 type ImagesMasonryProps = {
   images: Image[]
   onSelect?: (image: Image) => void
@@ -55,6 +55,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
             href={qualityURL}
             key={filePath}
             style={{ aspectRatio }}
+            rel="noreferrer"
           >
             <NextImage
               fill

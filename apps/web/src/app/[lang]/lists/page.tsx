@@ -5,7 +5,7 @@ import { Container } from '../_components/container'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { PopularLists } from './_components/popular-lists'
-import { Separator } from '@/components/ui/separator'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import { SeeAllLists } from './_components/see-all-lists'
 
 export async function generateMetadata({

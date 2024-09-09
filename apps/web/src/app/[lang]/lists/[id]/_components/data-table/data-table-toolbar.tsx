@@ -3,8 +3,8 @@
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from '@plotwist/ui/components/ui/input'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import { useLanguage } from '@/context/language'
 import { TableViewOptions } from '@/components/table/table-view-options'

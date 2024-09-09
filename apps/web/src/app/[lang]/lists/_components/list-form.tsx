@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -19,10 +19,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+} from '@plotwist/ui/components/ui/form'
+import { Input } from '@plotwist/ui/components/ui/input'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import { useLists } from '@/context/lists'
 import { useAuth } from '@/context/auth'
@@ -33,7 +33,10 @@ import { listPageQueryKey } from '@/utils/list'
 import { List } from '@/types/supabase/lists'
 
 import { ListFormValues, listFormSchema } from './list-form-schema'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@plotwist/ui/components/ui/radio-group'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 

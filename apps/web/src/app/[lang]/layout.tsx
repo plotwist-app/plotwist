@@ -1,8 +1,7 @@
-import { Toaster } from '@/components/ui/sonner'
-
 import { LanguageContextProvider } from '@/context/language'
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Toaster } from '@plotwist/ui/components/ui/sonner'
 
 import { AppWrapper } from '@/context/app'
 

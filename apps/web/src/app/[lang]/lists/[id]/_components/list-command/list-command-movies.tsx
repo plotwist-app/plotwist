@@ -13,9 +13,9 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@plotwist/ui/components/ui/hover-card'
+import { DropdownMenuItem } from '@plotwist/ui/components/ui/dropdown-menu'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { ItemHoverCard } from '@/components/item-hover-card'
 

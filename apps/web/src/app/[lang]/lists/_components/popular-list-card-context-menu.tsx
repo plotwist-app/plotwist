@@ -22,7 +22,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from '@/components/ui/context-menu'
+} from '@plotwist/ui/components/ui/context-menu'
 import { ProBadge } from '@/components/pro-badge'
 
 import { useList } from '@/hooks/use-list'

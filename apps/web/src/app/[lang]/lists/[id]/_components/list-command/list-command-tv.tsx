@@ -8,13 +8,13 @@ import { useParams } from 'next/navigation'
 
 import { TvSerieWithMediaType } from '@plotwist/tmdb'
 
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { DropdownMenuItem } from '@plotwist/ui/components/ui/dropdown-menu'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@plotwist/ui/components/ui/hover-card'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { ItemHoverCard } from '@/components/item-hover-card'
 
 import { useLanguage } from '@/context/language'

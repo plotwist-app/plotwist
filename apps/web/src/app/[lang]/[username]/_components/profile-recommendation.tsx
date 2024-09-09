@@ -3,8 +3,12 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import { useLanguage } from '@/context/language'
 import { locale } from '@/utils/date/locale'
@@ -13,7 +17,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { DetailedRecommendation } from '@/types/supabase/recommendation'
 import { useRecommendations } from '@/hooks/use-recommendations'
 import { ListsDropdown } from '@/components/lists'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type ProfileRecommendationProps = {
   recommendation: DetailedRecommendation

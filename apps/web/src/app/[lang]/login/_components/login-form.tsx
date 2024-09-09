@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
   FormControl,
@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Input } from '@/components/ui/input'
+} from '@plotwist/ui/components/ui/tooltip'
+import { Input } from '@plotwist/ui/components/ui/input'
 
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
 import { useLanguage } from '@/context/language'

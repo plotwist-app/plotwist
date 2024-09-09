@@ -1,11 +1,18 @@
-import { Profile } from '@/types/supabase'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
+import { useRouter } from 'next/navigation'
 import { LogOut, User } from 'lucide-react'
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+
+import { tmdbImage } from '@/utils/tmdb/image'
+
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
-import { useRouter } from 'next/navigation'
 
+import type { Profile } from '@/types/supabase'
 type HeaderNavigationDrawerUserProps = {
   user: Profile
 }

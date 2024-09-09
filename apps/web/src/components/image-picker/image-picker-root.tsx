@@ -1,24 +1,27 @@
 'use client'
 
 import { PropsWithChildren, useMemo, useState } from 'react'
+import { useDebounce } from '@uidotdev/usehooks'
+
+import { Image } from '@plotwist/tmdb'
+
+import { ChevronLeft } from 'lucide-react'
+import {
+  ImagePickerInitialList,
+  ImagePickerList,
+  ImagePickerListResults,
+} from './image-picker-list'
+import { useLanguage } from '@/context/language'
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
-import { ScrollArea } from '../ui/scroll-area'
-import { ChevronLeft } from 'lucide-react'
-import { Input } from '../ui/input'
-import {
-  ImagePickerInitialList,
-  ImagePickerList,
-  ImagePickerListResults,
-} from './image-picker-list'
-import { useDebounce } from '@uidotdev/usehooks'
-import { useLanguage } from '@/context/language'
-import { Image } from '@plotwist/tmdb'
+} from '@plotwist/ui/components/ui/dialog'
+import { Input } from '@plotwist/ui/components/ui/input'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 

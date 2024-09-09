@@ -10,7 +10,7 @@ import {
   getPopularReviewsService,
 } from '@/services/api/reviews'
 import { FullReview, FullReviewSkeleton } from '@/components/full-review'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 
 const MAX_SKELETONS_REVIEWS = 5
 

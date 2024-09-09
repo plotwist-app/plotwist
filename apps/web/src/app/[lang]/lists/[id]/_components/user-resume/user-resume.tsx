@@ -1,10 +1,14 @@
 import { FollowButton } from '@/components/follow-button'
 import { Followers } from '@/components/followers'
 import { ProBadge } from '@/components/pro-badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 import { supabase } from '@/services/supabase'

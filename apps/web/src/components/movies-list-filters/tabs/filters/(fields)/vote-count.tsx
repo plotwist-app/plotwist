@@ -1,6 +1,10 @@
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
-import { Slider } from '@/components/ui/slider'
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+} from '@plotwist/ui/components/ui/form'
+import { Slider } from '@plotwist/ui/components/ui/slider'
 import { useLanguage } from '@/context/language'
 import { useFormContext } from 'react-hook-form'
 

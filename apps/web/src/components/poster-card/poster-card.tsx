@@ -1,6 +1,6 @@
 import { ComponentProps, forwardRef } from 'react'
 import NextImage, { ImageProps } from 'next/image'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 const Root = forwardRef<HTMLDivElement, ComponentProps<'div'>>((props, ref) => {
   return <div className="space-y-2" {...props} ref={ref} />

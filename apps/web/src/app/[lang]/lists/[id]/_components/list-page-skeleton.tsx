@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { ListRecommendationsSkeleton } from './list-recommendations/list-recommendations-skeleton'
 import { UserResumeSkeleton } from './user-resume'
 

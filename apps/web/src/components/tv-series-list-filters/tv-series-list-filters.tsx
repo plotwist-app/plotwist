@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 import {
   Sheet,
@@ -15,8 +15,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+} from '@plotwist/ui/components/ui/sheet'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
 
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
@@ -34,7 +39,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
-} from '../ui/drawer'
+} from '@plotwist/ui/components/ui/drawer'
 import { TvSeriesListFiltersFormValues } from '.'
 
 export const TvSeriesListFilters = () => {

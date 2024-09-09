@@ -1,9 +1,15 @@
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Checkbox } from '../ui/checkbox'
-import { Profile } from '@/types/supabase'
-import { Skeleton } from '../ui/skeleton'
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+
+import type { Profile } from '@/types/supabase'
 type RecommendationDialogProfileProps = {
   profile: Profile
   checked: boolean

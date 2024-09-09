@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { useFollowers } from '@/hooks/use-followers'

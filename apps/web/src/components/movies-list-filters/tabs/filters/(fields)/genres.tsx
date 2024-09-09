@@ -11,13 +11,17 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
+} from '@plotwist/ui/components/ui/form'
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+} from '@plotwist/ui/components/ui/command'
 
 import { useLanguage } from '@/context/language'
 
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { tmdb } from '@plotwist/tmdb'
 
 type Option = {

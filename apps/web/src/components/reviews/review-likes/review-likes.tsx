@@ -9,8 +9,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@plotwist/ui/components/ui/dialog'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { ProBadge } from '@/components/pro-badge'
 
@@ -19,7 +19,11 @@ import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 
 import { getLikesService } from '@/services/api/likes/get-likes'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ReviewLikes = {
