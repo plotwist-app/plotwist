@@ -53,7 +53,7 @@ export const ReviewReply = ({
         <ul className="mt-4 flex flex-col gap-4">
           {review.replies.map((reply) => {
             const { username, image_path: imagePath } = reply.user
-            const usernameInitial = username[0].toUpperCase()
+            const usernameInitial = username?.at(0)?.toUpperCase()
 
             const mode = user?.id === reply.user.id ? 'EDIT' : 'SHOW'
 

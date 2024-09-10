@@ -63,7 +63,7 @@ export const ReviewItem = ({
   const [focusReview, setFocusReview] = useState(false)
   const [wasFocusDisabled, setFocusWasDisabled] = useState(false)
 
-  const usernameInitial = username[0].toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
   const time = `${formatDistanceToNow(new Date(createdAt), {
     locale: locale[language],
   })} ${dictionary.ago}`

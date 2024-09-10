@@ -59,7 +59,7 @@ export const UserResume = ({ list }: UserResumeProps) => {
               )}
 
               <AvatarFallback className="uppercase">
-                {username && username[0]}
+                {username?.at(0)}
               </AvatarFallback>
             </Avatar>
           </Link>

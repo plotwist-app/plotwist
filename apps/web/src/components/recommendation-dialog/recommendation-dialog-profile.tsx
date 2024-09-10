@@ -36,7 +36,7 @@ export const RecommendationDialogProfile = ({
           )}
 
           <AvatarFallback className="border">
-            {profile.username[0]}
+            {profile.username?.at(0)}
           </AvatarFallback>
         </Avatar>
 

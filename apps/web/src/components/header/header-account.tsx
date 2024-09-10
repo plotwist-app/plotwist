@@ -47,7 +47,7 @@ const AvatarContent = ({ user }: AvatarContentProps) => {
     )
   }
 
-  return <AvatarFallback>{user.username[0]}</AvatarFallback>
+  return <AvatarFallback>{user.username?.at(0)}</AvatarFallback>
 }
 
 export const HeaderAccount = () => {

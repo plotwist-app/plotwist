@@ -93,7 +93,7 @@ export const ReviewReplyForm = ({
   }
 
   const username = user.username
-  const usernameInitial = username[0].toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
   const imagePath = user.image_path
 
   return (
