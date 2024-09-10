@@ -32,7 +32,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     likes_count: likes,
   } = review
 
-  const usernameInitial = username[0]?.toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
 
   const href =
     mediaType === 'MOVIE'

@@ -92,7 +92,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
                 )}
 
                 <AvatarFallback>
-                  {likeInfo.profiles?.username[0].toUpperCase()}
+                  {likeInfo.profiles?.username?.at(0)?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 

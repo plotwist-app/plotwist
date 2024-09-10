@@ -50,7 +50,7 @@ export const ProfileRecommendation = ({
           )}
 
           <AvatarFallback>
-            {recommendation.sender_profile.username[0].toUpperCase()}
+            {recommendation.sender_profile.username?.at(0)?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </Link>

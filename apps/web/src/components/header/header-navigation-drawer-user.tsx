@@ -53,7 +53,7 @@ export const HeaderNavigationDrawerUser = ({
             />
           )}
 
-          <AvatarFallback>{user.username[0]}</AvatarFallback>
+          <AvatarFallback>{user.username?.at(0)}</AvatarFallback>
         </Avatar>
       </div>
 

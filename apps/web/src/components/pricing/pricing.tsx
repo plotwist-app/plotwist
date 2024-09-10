@@ -30,7 +30,7 @@ export const Pricing = () => {
   >('monthly')
 
   const username = user?.username
-  const initial = username ? username[0].toUpperCase() : ''
+  const initial = username ? username?.at(0)?.toUpperCase() : ''
 
   return (
     <section
