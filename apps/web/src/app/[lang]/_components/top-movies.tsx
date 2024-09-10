@@ -25,11 +25,11 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
         return (
           <Link
             className={twMerge(
-              'overflow-hidden rounded-[5%] transition-all',
+              'overflow-hidden rounded-[5%] transition-all ',
 
               'first:translate-x-[60px] first:translate-y-[30px] first:rotate-[-10deg] lg:first:translate-x-[120px] lg:first:translate-y-[75px] lg:first:rotate-[-10deg]',
 
-              'last:translate-x-[-60px] last:translate-y-[30px] last:rotate-[10deg] lg:last:translate-x-[-120px] lg:last:translate-y-[75px] lg:last:rotate-[10deg]',
+              'last:translate-x-[-60px] last:translate-y-[30px] last:rotate-[10deg] lg:last:translate-x-[-120px] lg:last:translate-y-[75px] lg:last:rotate-[10deg] ',
 
               '[&:nth-child(2)]:z-40',
             )}
@@ -39,7 +39,7 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
             <BlurFade
               delay={index === 1 ? BLUR_FADE_DELAY : BLUR_FADE_DELAY * 3}
             >
-              <div className="relative aspect-poster rounded-3xl">
+              <div className="relative aspect-poster ">
                 <Image
                   src={tmdbImage(movie.poster_path, 'original')}
                   fill

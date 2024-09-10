@@ -1,1 +1,1 @@
-export * from "@plotwist/ui/tailwind.config";
+export * from '@plotwist/ui/tailwind.config'

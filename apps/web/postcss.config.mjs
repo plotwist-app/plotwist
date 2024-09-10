@@ -1,1 +1,1 @@
-export { default } from "@plotwist/ui/postcss.config";
+export { default } from '@plotwist/ui/postcss.config'

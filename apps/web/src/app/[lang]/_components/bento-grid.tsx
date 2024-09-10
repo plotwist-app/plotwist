@@ -1,3 +1,3 @@
 export const BentoGrid = () => {
-  return <div></div>
+  return <div className=""></div>
 }
