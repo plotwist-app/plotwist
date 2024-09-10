@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { twMerge } from 'tailwind-merge'
 
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { tmdb } from '@plotwist/tmdb'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+import { cn } from '@plotwist/ui/lib/utils'
 
 type TopMoviesProps = { language: Language }
 
@@ -24,7 +24,7 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
       {results.slice(0, 3).map((movie, index) => {
         return (
           <Link
-            className={twMerge(
+            className={cn(
               'overflow-hidden rounded-[5%] transition-all ',
 
               'first:translate-x-[60px] first:translate-y-[30px] first:rotate-[-10deg] lg:first:translate-x-[120px] lg:first:translate-y-[75px] lg:first:rotate-[-10deg]',
@@ -38,6 +38,7 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
           >
             <BlurFade
               delay={index === 1 ? BLUR_FADE_DELAY : BLUR_FADE_DELAY * 3}
+              yOffset={0}
             >
               <div className="relative aspect-poster ">
                 <Image

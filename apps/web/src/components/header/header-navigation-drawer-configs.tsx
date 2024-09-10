@@ -3,7 +3,6 @@
 import { SUPPORTED_LANGUAGES } from 'languages'
 import { MoonStar, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { twMerge } from 'tailwind-merge'
 
 import {
   Select,
@@ -16,6 +15,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Language } from '@plotwist/tmdb'
 import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '@/context/language'
+import { cn } from '@plotwist/ui/lib/utils'
 
 export const HeaderNavigationDrawerConfigs = () => {
   const { setTheme, theme } = useTheme()
@@ -51,7 +51,7 @@ export const HeaderNavigationDrawerConfigs = () => {
 
             return (
               <div
-                className={twMerge(
+                className={cn(
                   'hover:t cursor-pointer rounded-full p-1  transition-all hover:text-foreground',
                   isActive &&
                     'border-x text-foreground first:border-r last:border-l',
