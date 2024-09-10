@@ -10,8 +10,8 @@ import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { TopMovies } from './_components/top-movies'
-import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
+import { Features } from './_components/features'
 
 export const homeMovies: Record<Language, string> = {
   'en-US': '27205',
@@ -84,7 +84,7 @@ export default async function Home({ params: { lang } }: PageProps) {
       <main className="">
         <Hero />
         <TopMovies language={lang} />
-        <BentoGrid />
+        <Features language={lang} />
         <Footer language={lang} dictionary={dictionary} />
       </main>
     </>
