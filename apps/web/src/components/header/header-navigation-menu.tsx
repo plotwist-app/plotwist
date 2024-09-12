@@ -19,16 +19,12 @@ import { cn } from '@/lib/utils'
 import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderPopularMovie } from './header-popular-movie'
 import { HeaderPopularTvSerie } from './header-popular-tv-serie'
-// import { useAuth } from '@/context/auth'
-// import { Bell } from 'lucide-react'
 
 export const HeaderNavigationMenu = () => {
   const { dictionary, language } = useLanguage()
   const items = buildLanguageNavigation(dictionary)
   const pathname = usePathname()
   const searchParams = useSearchParams()
-
-  // const { user } = useAuth()
 
   const getIsActive = (href: string) => {
     const normalizedPath = pathname.replace(`/${language}`, '')

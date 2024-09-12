@@ -3,7 +3,6 @@
 import { useFormContext } from 'react-hook-form'
 import { KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Command as CommandPrimitive } from 'cmdk'
 import { X } from 'lucide-react'
 
 import {
@@ -16,7 +15,7 @@ import {
   Command,
   CommandItem,
   CommandInput,
-  CommandList
+  CommandList,
 } from '@plotwist/ui/components/ui/command'
 
 import { useLanguage } from '@/context/language'
