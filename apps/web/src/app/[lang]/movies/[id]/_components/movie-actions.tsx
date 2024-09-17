@@ -1,7 +1,12 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
+import { Button } from '@plotwist/ui/components/ui/button'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
+
 import { Eye, List, MoreVertical, Plus } from 'lucide-react'
 import { tv } from 'tailwind-variants'
 
