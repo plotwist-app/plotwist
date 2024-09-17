@@ -1,9 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDotEnv": [
-    ".env"
-  ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
@@ -41,6 +38,7 @@
     "STRIPE_WEBHOOK_SECRET"
   ],
   "globalDependencies": [
-    "tsconfig.json"
+    "tsconfig.json",
+    ".env"
   ]
 }

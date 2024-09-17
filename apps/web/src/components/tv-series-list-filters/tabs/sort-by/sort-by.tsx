@@ -7,7 +7,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 
 import {
   Select,
@@ -15,7 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@plotwist/ui/components/ui/select'
 import { useLanguage } from '@/context/language'
 import { TvSeriesListFiltersFormValues } from '../..'
 

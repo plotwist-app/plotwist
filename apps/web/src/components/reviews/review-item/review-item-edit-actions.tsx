@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { DialogProps } from '@radix-ui/react-dialog'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -12,13 +12,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui/components/ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { useReviews } from '@/hooks/use-reviews'
 import { useLanguage } from '@/context/language'
@@ -29,11 +29,11 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/auth'
 import { ReviewStars } from '../review-stars'
-import { Textarea } from '@/components/ui/textarea'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 

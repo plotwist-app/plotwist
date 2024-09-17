@@ -10,7 +10,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
+} from '@plotwist/ui/components/ui/accordion'
 import { cn } from '@/lib/utils'
 
 export type Item = {

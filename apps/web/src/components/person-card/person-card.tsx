@@ -1,4 +1,4 @@
-import {
+import type {
   MovieWithMediaType,
   Person,
   TvSerieWithMediaType,
@@ -6,10 +6,10 @@ import {
 import Image from 'next/image'
 import { forwardRef } from 'react'
 
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type PersonCardProps = { person: Person; language: Language }
 

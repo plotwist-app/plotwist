@@ -4,13 +4,13 @@ import { ListsDropdown } from '@/components/lists'
 import { locale } from '@/utils/date/locale'
 import { Language, MovieDetails } from '@plotwist/tmdb'
 import { format } from 'date-fns'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
+} from '@plotwist/ui/components/ui/tooltip'
 import { MovieGenres } from './movie-genres'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }

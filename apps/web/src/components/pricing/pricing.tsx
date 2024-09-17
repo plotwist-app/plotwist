@@ -1,9 +1,9 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Price } from './price'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useLanguage } from '@/context/language'
@@ -13,8 +13,12 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+} from '@plotwist/ui/components/ui/tooltip'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 export const Pricing = () => {
@@ -26,7 +30,7 @@ export const Pricing = () => {
   >('monthly')
 
   const username = user?.username
-  const initial = username ? username[0].toUpperCase() : ''
+  const initial = username ? username?.at(0)?.toUpperCase() : ''
 
   return (
     <section
@@ -87,7 +91,7 @@ export const Pricing = () => {
             </Price.Content>
 
             <Button asChild>
-              <Link href={`/${language}/signup`}>
+              <Link href={`/${language}/sign-up`}>
                 {dictionary.home_prices.free_plan.start_now}
               </Link>
             </Button>

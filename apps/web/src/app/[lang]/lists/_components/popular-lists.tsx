@@ -3,7 +3,7 @@
 import { fetchPopularLists } from '@/services/api/lists/fetch-popular-lists'
 import { useQuery } from '@tanstack/react-query'
 import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 import { useMemo } from 'react'
 

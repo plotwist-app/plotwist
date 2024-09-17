@@ -4,16 +4,16 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
+} from '@plotwist/ui/components/ui/accordion'
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
-  DrawerProps,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer'
+  DrawerProps,
+} from '@plotwist/ui/components/ui/drawer'
 import { useAuth } from '@/context/auth'
 import { useList } from '@/hooks/use-list'
 import { cn } from '@/lib/utils'

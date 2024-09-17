@@ -94,12 +94,6 @@
     "button_tv_series": "Séries TV",
     "button_movies": "Films"
   },
-  "login_page": {
-    "title": "Connexion",
-    "description": "Faites partie de la communauté cinématographique, où vous pouvez rencontrer et discuter de milliers de films et de séries TV !",
-    "no_account": "Vous n'avez pas de compte ? Inscrivez-vous en cliquant",
-    "no_account_link": "ici"
-  },
   "login_form": {
     "email_label": "E-mail",
     "password_label": "Mot de passe",
@@ -113,11 +107,6 @@
     "login_success": "Connexion réussie. Bienvenue ! 🎉",
     "invalid_login_credentials": "Identifiants de connexion invalides",
     "try_again": "Réessayer"
-  },
-  "sign_up_page": {
-    "title": "Créer un compte",
-    "description": "Faites partie de la communauté cinématographique, où vous pouvez rencontrer et discuter de milliers de films et de séries TV !",
-    "already_have_account": "Vous avez déjà un compte ? Accédez en cliquant"
   },
   "sign_up_form": {
     "username_label": "Nom d'utilisateur",
@@ -243,15 +232,6 @@
     "my_lists": "Mes listes",
     "collection_removed_successfully": "Collection supprimée avec succès.",
     "collection_added_successfully": "Collection ajoutée avec succès."
-  },
-  "settings_dropdown": {
-    "theme": "Thème",
-    "light": "🌞 Clair",
-    "dark": "🌚 Sombre",
-    "language": "Langue",
-    "account": "Compte",
-    "logout": "Déconnexion",
-    "profile": "Profil"
   },
   "auth": {
     "logout_success": "Déconnexion réussie. À la prochaine ✌"
@@ -702,5 +682,25 @@
   "terms_of_service": "Conditions d'Utilisation",
   "plotwist_rights": "© 202X Plotwist",
   "data_provided_by": "Données fournies par TMDB.",
-  "explore": "Explorer"
+  "explore": "Explorer",
+  "save_order": "Sauvegarder l'ordre",
+  "edit_order": "Modifier l'ordre",
+  "start_now": "Commencez maintenant!",
+  "start_your_journey": "Commencez votre voyage en quelques étapes seulement.",
+  "already_have_an_account": "Vous avez déjà un compte?",
+  "continue_with_google": "Continuer avec Google",
+  "continue_with_x": "Continuer avec X",
+  "continue_with_email": "Continuer avec e-mail",
+  "or": "ou",
+  "others_ways": "Autres façons",
+  "sign_up": "S'inscrire",
+  "login": "Se connecter",
+  "theme": "Thème",
+  "language": "Langue",
+  "pick_your_username": "Choisissez votre nom d'utilisateur",
+  "continue": "Continuer",
+  "do_not_have_an_account": "¿No tienes una cuenta?",
+  "create_now": "Crea una ahora",
+  "access_plotwist": "Accédez à Plotwist",
+  "logout": "Déconnexion"
 }

@@ -1,10 +1,11 @@
 'use client'
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
 import { useLanguage } from '@/context/language'
 
-import { Badge } from '../ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { AnimeListContent } from './anime-list-content'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export type AnimeListType = 'tv' | 'movies'
 

@@ -1,8 +1,7 @@
-import { Toaster } from '@/components/ui/sonner'
-
 import { LanguageContextProvider } from '@/context/language'
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Toaster } from '@plotwist/ui/components/ui/sonner'
 
 import { AppWrapper } from '@/context/app'
 
@@ -36,10 +35,8 @@ export default async function RootLayout({
         <AuthContextProvider initialUser={user}>
           <ListsContextProvider>
             <div className="flex flex-col">
-              <div className="w-full border-b bg-background p-4">
-                <div className="mx-auto w-full max-w-6xl">
-                  <Header />
-                </div>
+              <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
+                <Header />
               </div>
 
               <main className="w-full">{children}</main>

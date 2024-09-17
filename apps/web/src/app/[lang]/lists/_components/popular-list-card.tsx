@@ -3,8 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
@@ -15,7 +19,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 
 import { PopularListCardContextMenu } from './popular-list-card-context-menu'
 import { PopularListCardDrawer } from './popular-list-card-drawer'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type PopularListCardProps = { list: PopularList }
 

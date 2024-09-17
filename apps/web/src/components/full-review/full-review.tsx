@@ -1,14 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-import { ReviewStars } from '@/components/reviews/review-stars'
 import { Language } from '@/types/languages'
 import { FullReview as FullReviewType } from '@/services/api/reviews'
+
+import { ReviewStars } from '@/components/reviews/review-stars'
 import { ReviewLikes } from '@/components/reviews/review-likes'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type FullReviewProps = {
   review: FullReviewType
@@ -27,7 +32,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     likes_count: likes,
   } = review
 
-  const usernameInitial = username[0]?.toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
 
   const href =
     mediaType === 'MOVIE'

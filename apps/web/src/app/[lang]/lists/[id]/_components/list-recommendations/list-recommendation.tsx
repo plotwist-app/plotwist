@@ -7,13 +7,13 @@ import { toast } from 'sonner'
 
 import { ExternalLink, MoreVertical, PlusCircle } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'

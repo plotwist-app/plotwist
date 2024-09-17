@@ -10,7 +10,11 @@ import {
 } from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
 import { timeFromNow } from '@/utils/date/time-from-now'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReplyEditActions } from './review-reply-edit-actions'
 import { useAuth } from '@/context/auth'
@@ -49,7 +53,7 @@ export const ReviewReply = ({
         <ul className="mt-4 flex flex-col gap-4">
           {review.replies.map((reply) => {
             const { username, image_path: imagePath } = reply.user
-            const usernameInitial = username[0].toUpperCase()
+            const usernameInitial = username?.at(0)?.toUpperCase()
 
             const mode = user?.id === reply.user.id ? 'EDIT' : 'SHOW'
 

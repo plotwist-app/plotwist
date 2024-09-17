@@ -5,8 +5,7 @@ import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Sheet,
   SheetClose,
@@ -15,8 +14,22 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+} from '@plotwist/ui/components/ui/sheet'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
+
 import { useLanguage } from '@/context/language'
 
 import { Filters, SortBy, WhereToWatch } from './tabs'
@@ -26,14 +39,6 @@ import {
   getDefaultValues,
 } from './movies-list-filters.utils'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTrigger,
-} from '../ui/drawer'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -44,11 +49,13 @@ export const MoviesListFilters = () => {
   const { dictionary, language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
+  const defaultValues = {
+    ...getDefaultValues(searchParams),
+    watch_region: language.split('-')[1],
+  }
+
   const methods = useForm<MoviesListFiltersFormValues>({
-    defaultValues: {
-      ...getDefaultValues(searchParams),
-      watch_region: language.split('-')[1],
-    },
+    defaultValues,
   })
 
   const onSubmit = (values: MoviesListFiltersFormValues) => {
@@ -58,13 +65,17 @@ export const MoviesListFilters = () => {
     setOpen(false)
   }
 
+  const hasFilters = Object.keys(defaultValues).some((key) =>
+    searchParams.get(key),
+  )
+
   if (isDesktop) {
     return (
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
+              <Button variant={hasFilters ? 'default' : 'outline'} size="icon">
                 <SlidersHorizontal size={16} />
               </Button>
             </SheetTrigger>

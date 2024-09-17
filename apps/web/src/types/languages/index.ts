@@ -8,6 +8,9 @@ export type Language =
   | 'ja-JP'
 
 export type PageProps<T = unknown> = {
+  searchParams: {
+    [key: string]: string
+  }
   params: {
     lang: Language
   } & T

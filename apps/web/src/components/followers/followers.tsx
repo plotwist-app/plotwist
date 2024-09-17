@@ -1,7 +1,7 @@
 'use client'
 
-import { Separator } from '@/components/ui/separator'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 import { getFollowersAndFollowing } from '@/services/api/followers/get-followers-and-following'
 import { useQuery } from '@tanstack/react-query'

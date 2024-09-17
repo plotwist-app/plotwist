@@ -21,10 +21,9 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
   return (
     <div className="relative mx-auto max-w-6xl">
       <MovieActions />
-
       <Banner url={tmdbImage(movie.backdrop_path)} />
 
-      <section className="mx-auto my-8 max-w-4xl space-y-6 md:space-y-12">
+      <section className="mx-auto my-8 max-w-4xl space-y-6">
         <MovieInfos movie={movie} language={language} />
 
         {movie.belongs_to_collection && (

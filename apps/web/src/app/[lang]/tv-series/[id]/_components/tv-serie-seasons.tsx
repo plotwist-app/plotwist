@@ -1,6 +1,6 @@
 import { Season } from '@plotwist/tmdb'
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui/components/ui/dialog'
 
 import { Poster } from '@/components/poster'
 import { Language } from '@/types/languages'

@@ -1,5 +1,5 @@
 import { ProBadge } from '@/components/pro-badge'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export const ListRecommendationsSkeleton = () => {
   return (

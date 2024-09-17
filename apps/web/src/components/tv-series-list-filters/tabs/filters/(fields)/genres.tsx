@@ -11,12 +11,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 
 import { useLanguage } from '@/context/language'
 
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
-import { Badge } from '@/components/ui/badge'
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+} from '@plotwist/ui/components/ui/command'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 import { tmdb } from '@plotwist/tmdb'
 

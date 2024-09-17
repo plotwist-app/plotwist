@@ -3,20 +3,20 @@
 import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Calendar } from '@plotwist/ui/components/ui/calendar'
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '@plotwist/ui/components/ui/popover'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'

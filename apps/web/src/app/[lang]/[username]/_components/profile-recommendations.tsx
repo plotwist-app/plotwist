@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { useLanguage } from '@/context/language'
 import { getRecommendations } from '@/services/api/recommendation/get'
 

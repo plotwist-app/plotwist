@@ -8,7 +8,11 @@ import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import { ReviewLikes } from '@/components/reviews/review-likes'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { ReviewReply } from '@/components/reviews/review-reply'
 
 import { ReviewStars } from '../review-stars'
@@ -59,7 +63,7 @@ export const ReviewItem = ({
   const [focusReview, setFocusReview] = useState(false)
   const [wasFocusDisabled, setFocusWasDisabled] = useState(false)
 
-  const usernameInitial = username[0].toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
   const time = `${formatDistanceToNow(new Date(createdAt), {
     locale: locale[language],
   })} ${dictionary.ago}`

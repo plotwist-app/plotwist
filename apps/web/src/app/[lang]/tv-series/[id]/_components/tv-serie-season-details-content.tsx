@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Grid, Table as LucideTable } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Table,
   TableBody,
@@ -11,8 +11,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
+} from '@plotwist/ui/components/ui/table'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'

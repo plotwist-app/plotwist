@@ -12,8 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
-import { Button } from '../ui/button'
+} from '@plotwist/ui/components/ui/dialog'
+import { Button } from '@plotwist/ui/components/ui/button'
+
 import {
   RecommendationDialogProfile,
   RecommendationDialogProfileSkeleton,

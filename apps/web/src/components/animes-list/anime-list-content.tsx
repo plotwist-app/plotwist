@@ -79,7 +79,7 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
                 <PosterCard.Details>
                   <PosterCard.Title>{tv.name}</PosterCard.Title>
                   <PosterCard.Year>
-                    {tv.first_air_date.split('-')[0]}
+                    {tv.first_air_date?.split('-')[0]}
                   </PosterCard.Year>
                 </PosterCard.Details>
               </PosterCard.Root>

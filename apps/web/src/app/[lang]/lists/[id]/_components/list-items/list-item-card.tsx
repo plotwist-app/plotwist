@@ -6,28 +6,47 @@ import Image from 'next/image'
 import { ListItemActions } from './list-item-actions'
 
 import { cn } from '@/lib/utils'
-
+import { CSS } from '@dnd-kit/utilities'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { ListItem } from '@/types/supabase/lists'
+import { useSortable } from '@dnd-kit/sortable'
 
 type ListItemCardProps = {
   listItem: ListItem
   showOverlay: boolean
+  isEditable: boolean
 } & ComponentProps<'div'>
 
 export const ListItemCard = ({
   listItem,
   showOverlay,
-  ...props
+  isEditable,
 }: ListItemCardProps) => {
   const { poster_path: poster, title } = listItem
   const [openDropdown, setOpenDropdown] = useState(false)
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: listItem.id })
 
   const isHighlighted = openDropdown || showOverlay
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
+
   return (
-    <div className="group cursor-pointer space-y-2" {...props}>
+    <div
+      className={
+        isEditable
+          ? 'group cursor-grab space-y-2'
+          : 'group cursor-pointer space-y-2'
+      }
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+    >
       <div className="relative aspect-poster w-full overflow-hidden rounded-md border bg-background/50 shadow">
         {poster && (
           <Image
@@ -52,11 +71,13 @@ export const ListItemCard = ({
             isHighlighted && 'scale-100',
           )}
         >
-          <ListItemActions
-            listItem={listItem}
-            openDropdown={openDropdown}
-            setOpenDropdown={setOpenDropdown}
-          />
+          {!isEditable && (
+            <ListItemActions
+              listItem={listItem}
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+            />
+          )}
         </div>
       </div>
     </div>

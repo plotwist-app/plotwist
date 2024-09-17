@@ -45,7 +45,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
             className="object-cover"
           />
         ) : (
-          profile.username[0].toUpperCase()
+          profile.username?.at(0)?.toUpperCase()
         )}
       </div>
     )
@@ -80,7 +80,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
               className="object-cover"
             />
           ) : (
-            profile.username[0].toUpperCase()
+            profile.username?.at(0)?.toUpperCase()
           )}
 
           <div className="absolute flex h-full w-full items-center justify-center bg-black/50 opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100">

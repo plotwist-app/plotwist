@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 import { MoreVertical } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 

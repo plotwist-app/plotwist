@@ -6,7 +6,7 @@ export const fetchList = async (id: string) => {
     .from('lists')
     .select('*, list_items(*, id), list_likes(*, id)')
     .eq('id', id)
-    .order('created_at', { referencedTable: 'list_items' })
+    .order('order', { ascending: true, foreignTable: 'list_items' })
     .single<List>()
 
   return data

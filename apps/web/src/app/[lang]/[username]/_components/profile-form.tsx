@@ -7,15 +7,15 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { toast } from 'sonner'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from '@plotwist/ui/components/ui/input'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -23,7 +23,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@plotwist/ui/components/ui/form'
 
 import { useLanguage } from '@/context/language'
 

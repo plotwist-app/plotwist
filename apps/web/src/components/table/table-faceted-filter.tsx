@@ -7,10 +7,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
+} from '@plotwist/ui/components/ui/popover'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Command,
   CommandEmpty,
@@ -19,7 +19,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
+} from '@plotwist/ui/components/ui/command'
 import { useLanguage } from '@/context/language'
 
 interface TableFacetedFilterProps<T, TValue> {

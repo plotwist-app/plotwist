@@ -1,11 +1,10 @@
 'use client'
 
 import { CommandSearch } from '../command-search'
-import { SettingsDropdown } from '../settings-dropdown'
 import { HeaderNavigationMenu } from './header-navigation-menu'
 import { HeaderNavigationDrawer } from './header-navigation-drawer'
 import { Logo } from '../logo'
-import { HeaderProfile } from './header-profile'
+import { HeaderAccount } from './header-account'
 
 export const Header = () => {
   return (
@@ -18,8 +17,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           <CommandSearch />
-          <SettingsDropdown />
-          <HeaderProfile />
+          <HeaderAccount />
         </div>
       </header>
 

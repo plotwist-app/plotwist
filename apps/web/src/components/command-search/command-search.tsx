@@ -3,18 +3,22 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { usePathname } from 'next/navigation'
-import { MovieWithMediaType, TvSerieWithMediaType, tmdb } from '@plotwist/tmdb'
+import {
+  type MovieWithMediaType,
+  type TvSerieWithMediaType,
+  tmdb,
+} from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Command,
   CommandDialog,
   CommandInput,
   CommandList,
-} from '@/components/ui/command'
+} from '@plotwist/ui/components/ui/command'
 
 import {
   CommandSearchMovie,
@@ -52,7 +56,6 @@ export const CommandSearch = () => {
 
   useEffect(() => {
     if (open) setOpen(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName])
 
   const [movies, tvSeries] = [

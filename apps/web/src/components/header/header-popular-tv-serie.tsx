@@ -1,13 +1,15 @@
 'use client'
 
-import { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { tmdb } from '@plotwist/tmdb'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Skeleton } from '../ui/skeleton'
 
+import { tmdb } from '@plotwist/tmdb'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+
+import { tmdbImage } from '@/utils/tmdb/image'
+
+import type { Language } from '@/types/languages'
 type HeaderPopularTvSerieProps = {
   language: Language
 }

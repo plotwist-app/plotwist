@@ -7,13 +7,13 @@ import { DetailedCollection } from '@plotwist/tmdb'
 
 import { CollectionListDropdown } from '@/components/lists/collection-list-button'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@plotwist/ui/components/ui/dialog'
 import { PosterCard } from '@/components/poster-card'
 
 import { useLanguage } from '@/context/language'
@@ -34,7 +34,6 @@ export const MovieCollectionDialog = ({
     if (openDialog) {
       setOpenDialog(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return (

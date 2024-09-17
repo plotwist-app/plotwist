@@ -5,15 +5,15 @@ import { z } from 'zod'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+} from '@plotwist/ui/components/ui/form'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useAuth } from '@/context/auth'
@@ -25,7 +25,11 @@ import { Dictionary } from '@/utils/dictionaries'
 import { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
@@ -64,7 +68,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
               {dictionary.user_last_review.login}
             </Link>{' '}
             {dictionary.user_last_review.or}{' '}
-            <Link href="/signup" className="text-muted-foreground underline">
+            <Link href="/sign-up" className="text-muted-foreground underline">
               {dictionary.user_last_review.register}
             </Link>{' '}
             {dictionary.user_last_review.make_first_review}
@@ -98,7 +102,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   }
 
   const username = user?.username
-  const usernameInitial = username[0].toUpperCase()
+  const usernameInitial = username?.at(0)?.toUpperCase()
 
   return (
     <Form {...form}>

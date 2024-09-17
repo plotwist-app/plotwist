@@ -8,8 +8,8 @@ import {
   CommandDialog,
   CommandInput,
   CommandList,
-} from '@/components/ui/command'
-import { Separator } from '@/components/ui/separator'
+} from '@plotwist/ui/components/ui/command'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 
 import { useLanguage } from '@/context/language'
 
@@ -20,7 +20,7 @@ import {
   ListCommandMoviesSkeleton,
 } from './list-command-movies'
 import { ListCommandTv, ListCommandTvSkeleton } from './list-command-tv'
-import { ListItem } from '@/types/supabase/lists'
+import type { ListItem } from '@/types/supabase/lists'
 
 type ListCommandVariant = 'poster' | 'button'
 type ListCommandProps = { variant: ListCommandVariant; listItems: ListItem[] }
@@ -41,7 +41,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
     () => ({
       button: (
         <div
-          className="flex w-full cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
+          className="flex  cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
           onClick={() => setOpen(true)}
         >
           <Plus size={14} />
@@ -49,7 +49,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
       ),
       poster: (
         <div
-          className="flex aspect-[2/3] w-full cursor-pointer items-center justify-center rounded-md border border-dashed"
+          className="flex h-[212px] w-[141px] cursor-pointer items-center justify-center rounded-md border border-dashed"
           onClick={() => setOpen(true)}
         >
           <Plus />

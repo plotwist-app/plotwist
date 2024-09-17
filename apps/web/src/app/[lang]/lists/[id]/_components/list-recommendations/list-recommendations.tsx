@@ -1,8 +1,8 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 import { listRecommendations } from '@/services/api'
 import { useQuery } from '@tanstack/react-query'

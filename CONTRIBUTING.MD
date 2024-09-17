@@ -42,7 +42,6 @@ apps
             ├── [lang] 
 packages
 └── emails [...]
-└── eslint-config
 └── tmdb
 └── supabase [...]
 └── typescript-config

@@ -1,11 +1,14 @@
 'use client'
 
-import { Forward } from 'lucide-react'
-import { Button } from '../ui/button'
-import { RecommendationDialogProfiles } from './recommendation-dialog-profiles'
-import { useAuth } from '@/context/auth'
 import Link from 'next/link'
+
+import { Forward } from 'lucide-react'
+import { Button } from '@plotwist/ui/components/ui/button'
+
+import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+
+import { RecommendationDialogProfiles } from './recommendation-dialog-profiles'
 
 export const RecommendationDialog = () => {
   const { user } = useAuth()

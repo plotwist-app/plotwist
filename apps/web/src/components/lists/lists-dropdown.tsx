@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react'
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 import { useRouter } from 'next/navigation'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -14,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'

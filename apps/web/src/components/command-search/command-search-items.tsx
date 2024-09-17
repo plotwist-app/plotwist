@@ -1,4 +1,4 @@
-import {
+import type {
   MovieWithMediaType,
   PersonWithMediaType,
   TvSerieWithMediaType,
@@ -9,11 +9,15 @@ import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
 import { ItemHoverCard } from '../item-hover-card'
 
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { Skeleton } from '../ui/skeleton'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@plotwist/ui/components/ui/hover-card'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }
 

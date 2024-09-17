@@ -1,7 +1,12 @@
 'use client'
 
 import { Eye, List, Star } from 'lucide-react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
 import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
