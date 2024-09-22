@@ -109,14 +109,11 @@
     "try_again": "Tente novamente"
   },
   "sign_up_form": {
-    "username_label": "Nome de usuário",
     "email_label": "E-mail",
     "password_label": "Senha",
     "show_password": "Mostrar senha",
     "hide_password": "Ocultar senha",
     "submit_button": "Enviar",
-    "username_required": "Por favor, insira seu nome de usuário.",
-    "username_invalid": "O nome de usuário deve conter apenas letras, números e hifens.",
     "email_required": "Por favor, insira seu endereço de e-mail.",
     "email_invalid": "Por favor, insira um endereço de e-mail válido.",
     "password_required": "Por favor, insira sua senha.",
@@ -696,10 +693,15 @@
   "theme": "Tema",
   "language": "Idioma",
   "continue": "Continuar",
-  "pick_your_username": "Selecione seu nome de usuário",
   "do_not_have_an_account": "Não tem uma conta?",
   "create_now": "Crie agora",
   "access_plotwist": "Acesse o Plotwist",
   "logout": "Sair",
-  "email_already_taken": "Este e-mail já está em uso."
+  "email_already_taken": "Este e-mail já está em uso.",
+  "username_label": "Nome de usuário",
+  "select_your_username": "Selecione seu nome de usuário",
+  "select_your_username_description": "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
+  "finish_sign_up": "Finalizar cadastro",
+  "username_required": "Nome de usuário é obrigatório.",
+  "username_invalid": "Nome de usuário não pode conter espaços ou caracteres especiais."
 }

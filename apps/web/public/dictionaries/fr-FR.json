@@ -109,14 +109,11 @@
     "try_again": "Réessayer"
   },
   "sign_up_form": {
-    "username_label": "Nom d'utilisateur",
     "email_label": "E-mail",
     "password_label": "Mot de passe",
     "show_password": "Afficher le mot de passe",
     "hide_password": "Cacher le mot de passe",
     "submit_button": "Soumettre",
-    "username_required": "Veuillez entrer votre nom d'utilisateur.",
-    "username_invalid": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des tirets.",
     "email_required": "Veuillez entrer votre adresse e-mail.",
     "email_invalid": "Veuillez entrer une adresse e-mail valide.",
     "password_required": "Veuillez entrer votre mot de passe.",
@@ -662,7 +659,7 @@
   "sent_to": "envoyé à",
   "cancel_shipping": "Annuler l'envoi",
   "add_to_list": "Ajouter à la liste",
-  "become_pro_button" : "Devenir",
+  "become_pro_button": "Devenir",
   "welcome_to_plotwist": "Bienvenue sur Plotwist :",
   "your_cinema_platform": "Votre plateforme de cinéma",
   "join_plotwist": "Découvrez une nouvelle façon de vivre le cinéma. Rejoignez Plotwist et explorez tout ce que nous avons à offrir.",
@@ -696,11 +693,16 @@
   "login": "Se connecter",
   "theme": "Thème",
   "language": "Langue",
-  "pick_your_username": "Choisissez votre nom d'utilisateur",
   "continue": "Continuer",
   "do_not_have_an_account": "¿No tienes una cuenta?",
   "create_now": "Crea una ahora",
   "access_plotwist": "Accédez à Plotwist",
   "logout": "Déconnexion",
-  "email_already_taken": "Cet e-mail est déjà utilisé."
+  "email_already_taken": "Cet e-mail est déjà utilisé.",
+  "username_label": "Nom d'utilisateur",
+  "select_your_username": "Sélectionnez votre nom d'utilisateur",
+  "select_your_username_description": "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
+  "finish_sign_up": "Terminer l'inscription",
+  "username_required": "Le nom d'utilisateur est obligatoire.",
+  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux."
 }

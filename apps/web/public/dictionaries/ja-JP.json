@@ -109,14 +109,11 @@
     "try_again": "もう一度試す"
   },
   "sign_up_form": {
-    "username_label": "ユーザー名",
     "email_label": "Eメールアドレス",
     "password_label": "パスワード",
     "show_password": "パスワードを表示",
     "hide_password": "パスワードを隠す",
     "submit_button": "提出",
-    "username_required": "ユーザー名を入力してください。",
-    "username_invalid": "ユーザー名は英数字とダッシュのみ含むことができます。",
     "email_required": "メールアドレスを入力してください。",
     "email_invalid": "有効なメールアドレスを入力してください。",
     "password_required": "パスワードを入力してください。",
@@ -661,7 +658,7 @@
   "sent_to": "送信先",
   "cancel_shipping": "配送をキャンセル",
   "add_to_list": "リストに追加",
-  "become_pro_button" : "なる",
+  "become_pro_button": "なる",
   "welcome_to_plotwist": "プロットウィストへようこそ：",
   "your_cinema_platform": "あなたのシネマプラットフォーム",
   "join_plotwist": "映画を体験する新しい方法を発見してください。プロットウィストに参加して、私たちが提供するすべてを探検してください。",
@@ -695,11 +692,16 @@
   "login": "ログイン",
   "theme": "テーマ",
   "language": "言語",
-  "pick_your_username": "ユーザー名を選んでください",
   "continue": "続ける",
   "do_not_have_an_account": "アカウントをお持ちではありませんか？",
   "create_now": "今すぐ作成",
   "access_plotwist": "プロットウィストにアクセス",
   "logout": "ログアウト",
-  "email_already_taken": "このメールアドレスは既に使用されています。"
+  "email_already_taken": "このメールアドレスは既に使用されています。",
+  "username_label": "ユーザー名",
+  "select_your_username": "ユーザー名を選択してください",
+  "select_your_username_description": "ユーザー名を選択し、プラットフォームの利用を開始するためにサインアップを完了してください。",
+  "finish_sign_up": "サインアップを完了",
+  "username_required": "ユーザー名は必須です。",
+  "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません。"
 }

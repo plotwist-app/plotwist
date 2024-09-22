@@ -109,21 +109,18 @@
     "try_again": "Try again"
   },
   "sign_up_form": {
-    "username_label": "Username",
     "email_label": "E-mail",
     "password_label": "Password",
     "show_password": "Show password",
     "hide_password": "Hide password",
     "submit_button": "Submit",
-    "username_required": "Please enter your username.",
-    "username_invalid": "Username must contain only letters, numbers, and dashes.",
     "email_required": "Please enter your e-mail address.",
     "email_invalid": "Please enter a valid e-mail address.",
     "password_required": "Please enter your password.",
     "password_length": "Your password must be at least 8 characters long.",
     "sign_up_success": "Registration successful. Welcome! 🎉",
     "invalid_sign_up_credentials": "Invalid sign up credentials",
-    "try_again": "Try again",
+    "try_again": "Try again"
   },
   "app_page": {
     "dashboard_title": "Home",
@@ -662,7 +659,7 @@
   "sent_to": "sent to",
   "cancel_shipping": "Cancel shipping",
   "add_to_list": "Add to list",
-  "become_pro_button" : "Become",
+  "become_pro_button": "Become",
   "welcome_to_plotwist": "Welcome to Plotwist:",
   "your_cinema_platform": "Your cinema platform",
   "join_plotwist": "Discover a new way to experience cinema. Join Plotwist and explore everything we have to offer.",
@@ -696,11 +693,16 @@
   "login": "Log In",
   "theme": "Theme",
   "language": "Language",
-  "pick_your_username": "Pick your username",
   "continue": "Continue",
   "do_not_have_an_account": "Don't have an account?",
   "create_now": "Create now",
   "access_plotwist": "Access Plotwist",
   "logout": "Logout",
-  "email_already_taken": "This email is already in use."
+  "email_already_taken": "This email is already in use.",
+  "username_label": "Username",
+  "select_your_username": "Select your username",
+  "select_your_username_description": "Choose your username and finish your sign-up to start using the platform.",
+  "finish_sign_up": "Finish sign-up",
+  "username_required": "Username is required.",
+  "username_invalid": "Username cannot contain spaces or special characters."
 }

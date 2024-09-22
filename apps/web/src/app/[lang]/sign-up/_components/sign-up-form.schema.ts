@@ -1,7 +1,7 @@
 import { Dictionary } from '@/utils/dictionaries'
 import { z } from 'zod'
 
-export const signUpFormSchema = (dictionary: Dictionary) =>
+export const credentialsFormSchema = (dictionary: Dictionary) =>
   z.object({
     email: z
       .string()
@@ -14,4 +14,16 @@ export const signUpFormSchema = (dictionary: Dictionary) =>
       .min(8, dictionary.sign_up_form.password_length),
   })
 
-export type SignUpFormValues = z.infer<ReturnType<typeof signUpFormSchema>>
+export type CredentialsFormValues = z.infer<
+  ReturnType<typeof credentialsFormSchema>
+>
+
+export const usernameFormSchema = (dictionary: Dictionary) =>
+  z.object({
+    username: z
+      .string()
+      .min(1, dictionary.username_required)
+      .regex(/^[a-zA-Z0-9_]+$/, dictionary.username_invalid),
+  })
+
+export type UsernameFormValues = z.infer<ReturnType<typeof usernameFormSchema>>

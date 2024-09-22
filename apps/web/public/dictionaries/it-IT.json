@@ -110,14 +110,11 @@
     "try_again": "Riprova"
   },
   "sign_up_form": {
-    "username_label": "Nome utente",
     "email_label": "E-mail",
     "password_label": "Password",
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "submit_button": "Invia",
-    "username_required": "Per favore, inserisci il tuo nome utente.",
-    "username_invalid": "Il nome utente può contenere solo lettere, numeri e trattini.",
     "email_required": "Per favore, inserisci il tuo indirizzo email.",
     "email_invalid": "Per favore, inserisci un indirizzo email valido.",
     "password_required": "Per favore, inserisci la tua password.",
@@ -662,7 +659,7 @@
   "sent_to": "inviato a",
   "cancel_shipping": "Annulla spedizione",
   "add_to_list": "Aggiungi alla lista",
-  "become_pro_button" : "Diventare",
+  "become_pro_button": "Diventare",
   "welcome_to_plotwist": "Benvenuto su Plotwist:",
   "your_cinema_platform": "La tua piattaforma di cinema",
   "join_plotwist": "Scopri un nuovo modo di vivere il cinema. Unisciti a Plotwist ed esplora tutto ciò che abbiamo da offrire.",
@@ -696,11 +693,16 @@
   "login": "Accedi",
   "theme": "Tema",
   "language": "Lingua",
-  "pick_your_username": "Scegli il tuo nome utente",
   "continue": "Continua",
   "do_not_have_an_account": "Non hai un account?",
   "create_now": "Crea ora",
   "access_plotwist": "Accedi a Plotwist",
   "logout": "Disconnettersi",
-  "email_already_taken": "Questa email è già in uso."
+  "email_already_taken": "Questa email è già in uso.",
+  "username_label": "Nome utente",
+  "select_your_username": "Seleziona il tuo nome utente",
+  "select_your_username_description": "Scegli il tuo nome utente e completa la registrazione per iniziare a usare la piattaforma.",
+  "finish_sign_up": "Completa la registrazione",
+  "username_required": "Il nome utente è obbligatorio.",
+  "username_invalid": "Il nome utente non può contenere spazi o caratteri speciali."
 }

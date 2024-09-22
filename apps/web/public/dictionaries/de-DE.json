@@ -109,14 +109,11 @@
     "try_again": "Erneut versuchen"
   },
   "sign_up_form": {
-    "username_label": "Benutzername",
     "email_label": "E-Mail",
     "password_label": "Passwort",
     "show_password": "Passwort anzeigen",
     "hide_password": "Passwort verbergen",
     "submit_button": "Einreichen",
-    "username_required": "Bitte geben Sie Ihren Benutzernamen ein.",
-    "username_invalid": "Der Benutzername darf nur Buchstaben, Zahlen und Bindestriche enthalten.",
     "email_required": "Bitte geben Sie Ihre E-Mail-Adresse ein.",
     "email_invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     "password_required": "Bitte geben Sie Ihr Passwort ein.",
@@ -696,11 +693,16 @@
   "login": "Anmelden",
   "theme": "Thema",
   "language": "Sprache",
-  "pick_your_username": "Wählen Sie Ihren Benutzernamen",
   "continue": "Weiter",
   "do_not_have_an_account": "Haben Sie kein Konto?",
   "create_now": "Jetzt erstellen",
   "access_plotwist": "Zugriff auf Plotwist",
   "logout": "Abmelden",
-  "email_already_taken": "Diese E-Mail-Adresse wird bereits verwendet."
+  "email_already_taken": "Diese E-Mail-Adresse wird bereits verwendet.",
+  "username_label": "Benutzername",
+  "select_your_username": "Wählen Sie Ihren Benutzernamen aus",
+  "select_your_username_description": "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
+  "finish_sign_up": "Registrierung abschließen",
+  "username_required": "Benutzername ist erforderlich.",
+  "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten."
 }

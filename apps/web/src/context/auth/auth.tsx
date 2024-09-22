@@ -25,7 +25,9 @@ export const AuthContextProvider = ({
   const supabase = createClientComponentClient()
   const { push } = useRouter()
 
-  const signInWithCredentials = async (credentials: Credentials) => {
+  const signInWithCredentials = async (
+    credentials: Omit<Credentials, 'username'>,
+  ) => {
     const { error, data } = await supabase.auth.signInWithPassword(credentials)
 
     if (error) {
@@ -52,6 +54,11 @@ export const AuthContextProvider = ({
   const signUpWithCredentials = async (credentials: Credentials) => {
     const { error } = await supabase.auth.signUp({
       ...credentials,
+      options: {
+        data: {
+          username: credentials.username,
+        },
+      },
     })
 
     if (error) {

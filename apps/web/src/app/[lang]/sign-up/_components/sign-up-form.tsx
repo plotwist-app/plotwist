@@ -22,40 +22,72 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { useAuth } from '@/context/auth'
-import { SignUpFormValues, signUpFormSchema } from './sign-up-form.schema'
 import { useLanguage } from '@/context/language'
+import {
+  credentialsFormSchema,
+  CredentialsFormValues,
+  usernameFormSchema,
+  UsernameFormValues,
+} from './sign-up-form.schema'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@plotwist/ui/components/ui/dialog'
 
 export const SignUpForm = () => {
   const { signUpWithCredentials } = useAuth()
   const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
+  const [showUsernameDialog, setShowUsernameDialog] = useState(false)
 
-  const form = useForm<SignUpFormValues>({
-    resolver: zodResolver(signUpFormSchema(dictionary)),
+  const credentialsForm = useForm<CredentialsFormValues>({
+    resolver: zodResolver(credentialsFormSchema(dictionary)),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  async function onSubmit(values: SignUpFormValues) {
-    await signUpWithCredentials(values)
+  const usernameForm = useForm<UsernameFormValues>({
+    resolver: zodResolver(usernameFormSchema(dictionary)),
+    defaultValues: {
+      username: '',
+    },
+  })
+
+  function onSubmitCredentialsForm() {
+    // TODO: VALIDAR SE EMAIL ESTÁ EM USO
+    setShowUsernameDialog(true)
+  }
+
+  async function onSubmitUsernameForm() {
+    const values = {
+      ...credentialsForm.getValues(),
+      ...usernameForm.getValues(),
+    }
+
+    signUpWithCredentials(values)
   }
 
   return (
     <>
-      <Form {...form}>
+      <Form {...credentialsForm}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={credentialsForm.handleSubmit(onSubmitCredentialsForm)}
           className="w-full space-y-4"
         >
           <FormField
-            control={form.control}
+            control={credentialsForm.control}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
+                    type="email"
                     placeholder="email@domain.com"
                     {...field}
                     autoComplete="email"
@@ -68,7 +100,7 @@ export const SignUpForm = () => {
           />
 
           <FormField
-            control={form.control}
+            control={credentialsForm.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -119,7 +151,7 @@ export const SignUpForm = () => {
             <Button
               type="submit"
               className="w-full"
-              loading={form.formState.isSubmitting}
+              loading={credentialsForm.formState.isSubmitting}
             >
               {dictionary.continue}
             </Button>
@@ -134,6 +166,46 @@ export const SignUpForm = () => {
           {dictionary.others_ways}
         </Link>
       </Form>
+
+      <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{dictionary.select_your_username}</DialogTitle>
+            <DialogDescription>
+              {dictionary.select_your_username_description}
+            </DialogDescription>
+          </DialogHeader>
+
+          <Form {...usernameForm}>
+            <form
+              onSubmit={usernameForm.handleSubmit(onSubmitUsernameForm)}
+              className="space-y-4"
+            >
+              <div className="grid gap-4">
+                <div className="">
+                  <FormField
+                    control={usernameForm.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormControl>
+                          <Input placeholder="john-doe" {...field} />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Button type="submit">{dictionary.finish_sign_up}</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
