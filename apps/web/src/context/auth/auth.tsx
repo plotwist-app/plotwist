@@ -55,7 +55,7 @@ export const AuthContextProvider = ({
     })
 
     if (error) {
-      toast.error(dictionary.sign_up_form.username_already_taken)
+      toast.error(dictionary.email_already_taken)
       return
     }
 

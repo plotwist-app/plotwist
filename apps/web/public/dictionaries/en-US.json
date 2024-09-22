@@ -124,7 +124,6 @@
     "sign_up_success": "Registration successful. Welcome! 🎉",
     "invalid_sign_up_credentials": "Invalid sign up credentials",
     "try_again": "Try again",
-    "username_already_taken": "This username or email is already in use."
   },
   "app_page": {
     "dashboard_title": "Home",
@@ -702,5 +701,6 @@
   "do_not_have_an_account": "Don't have an account?",
   "create_now": "Create now",
   "access_plotwist": "Access Plotwist",
-  "logout": "Logout"
+  "logout": "Logout",
+  "email_already_taken": "This email is already in use."
 }

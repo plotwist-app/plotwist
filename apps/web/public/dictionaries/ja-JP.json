@@ -123,8 +123,7 @@
     "password_length": "パスワードは最低8文字です",
     "sign_up_success": "登録完了。ようこそ！",
     "invalid_sign_up_credentials": "登録情報が無効です。",
-    "try_again": "再試行",
-    "username_already_taken": "このユーザー名またはメールアドレスはすでに使用されています。"
+    "try_again": "再試行"
   },
   "app_page": {
     "dashboard_title": "ダッシュボード",
@@ -701,5 +700,6 @@
   "do_not_have_an_account": "アカウントをお持ちではありませんか？",
   "create_now": "今すぐ作成",
   "access_plotwist": "プロットウィストにアクセス",
-  "logout": "ログアウト"
+  "logout": "ログアウト",
+  "email_already_taken": "このメールアドレスは既に使用されています。"
 }

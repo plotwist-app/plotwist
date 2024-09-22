@@ -123,8 +123,7 @@
     "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
     "sign_up_success": "Registro exitoso. ¡Bienvenido! 🎉",
     "invalid_sign_up_credentials": "Credenciales de registro inválidas",
-    "try_again": "Intentar de nuevo",
-    "username_already_taken": "Este nombre de usuario o correo electrónico ya está en uso."
+    "try_again": "Intentar de nuevo"
   },
   "app_page": {
     "dashboard_title": "Tablero",
@@ -662,7 +661,7 @@
   "sent_to": "envió a",
   "cancel_shipping": "Cancelar envío",
   "add_to_list": "Añadir a la lista",
-  "become_pro_button" : "Convertirse",
+  "become_pro_button": "Convertirse",
   "welcome_to_plotwist": "Bienvenido a Plotwist:",
   "your_cinema_platform": "Tu plataforma de cine",
   "join_plotwist": "Descubre una nueva manera de vivir el cine. Únete a Plotwist y explora todo lo que tenemos para ofrecer.",
@@ -701,5 +700,6 @@
   "do_not_have_an_account": "¿No tienes una cuenta?",
   "create_now": "Crea una ahora",
   "access_plotwist": "Accede a Plotwist",
-  "logout": "Cerrar sesión"
+  "logout": "Cerrar sesión",
+  "email_already_taken": "Este correo electrónico ya está en uso."
 }

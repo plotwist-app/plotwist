@@ -123,8 +123,7 @@
     "password_length": "Ihr Passwort muss mindestens 8 Zeichen lang sein.",
     "sign_up_success": "Registrierung erfolgreich. Willkommen! 🎉",
     "invalid_sign_up_credentials": "Ungültige Anmeldeinformationen",
-    "try_again": "Erneut versuchen",
-    "username_already_taken": "Dieser Benutzername oder diese E-Mail-Adresse wird bereits verwendet."
+    "try_again": "Erneut versuchen"
   },
   "app_page": {
     "dashboard_title": "Dashboard",
@@ -702,5 +701,6 @@
   "do_not_have_an_account": "Haben Sie kein Konto?",
   "create_now": "Jetzt erstellen",
   "access_plotwist": "Zugriff auf Plotwist",
-  "logout": "Abmelden"
+  "logout": "Abmelden",
+  "email_already_taken": "Diese E-Mail-Adresse wird bereits verwendet."
 }

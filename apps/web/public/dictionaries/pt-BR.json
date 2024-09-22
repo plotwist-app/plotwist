@@ -123,8 +123,7 @@
     "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
     "sign_up_success": "Cadastro bem-sucedido. Bem-vindo! 🎉",
     "invalid_sign_up_credentials": "Credenciais de cadastro inválidas",
-    "try_again": "Tente novamente",
-    "username_already_taken": "Este nome de usuário ou e-mail já está em uso."
+    "try_again": "Tente novamente"
   },
   "app_page": {
     "dashboard_title": "Início",
@@ -585,7 +584,6 @@
     "no_lists": "Este usuário ainda não possui listas.",
     "explore_popular_lists": "Clique aqui para explorar as listas mais populares"
   },
-
   "profile_form": {
     "dialog_title": "Editar perfil",
     "username_label": "Nome de usuário",
@@ -663,7 +661,7 @@
   "sent_to": "enviou para",
   "cancel_shipping": "Cancelar envio",
   "add_to_list": "Adicionar à lista",
-  "become_pro_button" : "Tornar-se",
+  "become_pro_button": "Tornar-se",
   "welcome_to_plotwist": "Bem-vindo ao Plotwist:",
   "your_cinema_platform": "Sua plataforma de cinema",
   "join_plotwist": "Descubra uma nova maneira de viver o cinema. Junte-se ao Plotwist e explore tudo o que temos a oferecer.",
@@ -702,5 +700,6 @@
   "do_not_have_an_account": "Não tem uma conta?",
   "create_now": "Crie agora",
   "access_plotwist": "Acesse o Plotwist",
-  "logout": "Sair"
+  "logout": "Sair",
+  "email_already_taken": "Este e-mail já está em uso."
 }
