@@ -3,7 +3,6 @@
 import { useFormContext } from 'react-hook-form'
 import { KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Command as CommandPrimitive } from 'cmdk'
 import { X } from 'lucide-react'
 
 import {
@@ -17,8 +16,9 @@ import { useLanguage } from '@/context/language'
 
 import {
   Command,
-  CommandGroup,
+  CommandInput,
   CommandItem,
+  CommandList,
 } from '@plotwist/ui/components/ui/command'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
@@ -149,7 +149,7 @@ export const GenresField = () => {
                   ))}
                 </div>
 
-                <CommandPrimitive.Input
+                <CommandInput
                   ref={inputRef}
                   value={inputValue}
                   onValueChange={setInputValue}
@@ -165,7 +165,7 @@ export const GenresField = () => {
               <div className="relative mt-2">
                 {open && selectableGenres.length > 0 ? (
                   <div className="absolute top-0 z-10 max-h-[200px] w-full overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in md:max-h-none">
-                    <CommandGroup className="h-full overflow-auto">
+                    <CommandList className="h-full overflow-auto">
                       {selectableGenres.map((option) => {
                         return (
                           <CommandItem
@@ -184,7 +184,7 @@ export const GenresField = () => {
                           </CommandItem>
                         )
                       })}
-                    </CommandGroup>
+                    </CommandList>
                   </div>
                 ) : null}
               </div>
