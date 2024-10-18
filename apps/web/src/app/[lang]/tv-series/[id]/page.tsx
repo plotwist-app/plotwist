@@ -11,6 +11,7 @@ export type TvSeriePageProps = PageProps & {
   params: { id: string }
 }
 
+export const dynamic = 'force-static'
 export async function generateStaticParams() {
   const tvSeriesIds = await getTvSeriesIds(1)
 
