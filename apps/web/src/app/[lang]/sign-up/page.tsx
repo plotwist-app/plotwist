@@ -36,7 +36,7 @@ const SignUpPage = async ({ params: { lang }, searchParams }: PageProps) => {
             <div className="w-full space-y-2 text-center">
               <h1 className="text-3xl font-bold">
                 {searchParams.step === 'success'
-                  ? '🎉 Cadastro concluído!'
+                  ? dictionary.registration_completed
                   : dictionary.start_now}
               </h1>
 

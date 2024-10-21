@@ -104,7 +104,7 @@ export const SignUpForm = () => {
     return (
       <div className=" flex flex-col items-center space-y-4">
         <p className="text-center text-muted-foreground">
-          Enviamos seu link de acesso para{' '}
+          {dictionary.access_link_sent}{' '}
           <b>{credentialsForm.getValues('email')}</b>
         </p>
 
