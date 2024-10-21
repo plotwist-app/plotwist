@@ -15,7 +15,7 @@ export const AuthContextProvider = ({
   initialUser,
 }: AuthContextProviderProps) => {
   const [user, setUser] = useState<Profile | null>(initialUser)
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
 
   const logout = async () => {
@@ -40,7 +40,18 @@ export const AuthContextProvider = ({
     await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: 'http://localhost:3000',
+        shouldCreateUser: false,
+        emailRedirectTo: `http://localhost:3000/${language}/home`,
+      },
+    })
+  }
+
+  async function signUpWithOTP(email: string, username: string) {
+    await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        data: { username },
+        emailRedirectTo: `http://localhost:3000/${language}/${username}`,
       },
     })
   }
@@ -49,6 +60,7 @@ export const AuthContextProvider = ({
     <authContext.Provider
       value={{
         user,
+        signUpWithOTP,
         signInWithOTP,
         logout,
       }}

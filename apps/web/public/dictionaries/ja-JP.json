@@ -706,5 +706,7 @@
   "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません。",
   "verification": "確認",
   "back": "戻る",
-  "sent_access_link": "アカウントをお持ちの場合、アクセスリンクを送信しました"
+  "sent_access_link": "アカウントをお持ちの場合、アクセスリンクを送信しました",
+  "username_already_registered": "ユーザー名は既に登録されています。",
+  "email_already_registered": "そのメールアドレスは既に登録されています。"
 }

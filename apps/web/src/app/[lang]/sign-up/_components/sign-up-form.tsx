@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@plotwist/ui/components/ui/button'
@@ -30,11 +30,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
+import { supabase } from '@/services/supabase'
+import { useQueryState } from 'nuqs'
+import { Confetti } from '@/components/confetti'
 
 export const SignUpForm = () => {
-  const { signInWithOTP } = useAuth()
+  const { signUpWithOTP } = useAuth()
   const { dictionary } = useLanguage()
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
+  const [step, setStep] = useQueryState('step', { shallow: false })
 
   const credentialsForm = useForm<CredentialsFormValues>({
     resolver: zodResolver(credentialsFormSchema(dictionary)),
@@ -50,18 +54,63 @@ export const SignUpForm = () => {
     },
   })
 
-  function onSubmitCredentialsForm() {
-    // TODO: VALIDAR SE EMAIL ESTÁ EM USO
+  async function onSubmitCredentialsForm(values: CredentialsFormValues) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('email', { count: 'exact' })
+      .eq('email', values.email)
+
+    const emailAlreadyRegistered = data && data?.length > 0
+
+    if (emailAlreadyRegistered) {
+      return credentialsForm.setError('email', {
+        message: dictionary.email_already_registered,
+      })
+    }
+
     setShowUsernameDialog(true)
   }
 
-  async function onSubmitUsernameForm() {
-    const values = {
+  async function onSubmitUsernameForm(values: UsernameFormValues) {
+    const { data } = await supabase
+      .from('profiles')
+      .select()
+      .eq('username', values.username)
+
+    const usernameAlreadyRegistered = data && data?.length > 0
+
+    if (usernameAlreadyRegistered) {
+      return usernameForm.setError('username', {
+        message: dictionary.username_already_registered,
+      })
+    }
+
+    const allValues = {
       ...credentialsForm.getValues(),
       ...usernameForm.getValues(),
     }
 
-    await signInWithOTP(values.email)
+    await signUpWithOTP(allValues.email, allValues.username)
+    setStep('success')
+  }
+
+  useEffect(() => {
+    if (step === 'success' && !credentialsForm.getValues('email')) {
+      setStep('form')
+    }
+  }, [credentialsForm, setStep, step])
+
+  if (step === 'success') {
+    return (
+      <div className=" flex flex-col items-center space-y-4">
+        <p className="text-center text-muted-foreground">
+          Enviamos seu link de acesso para{' '}
+          <b>{credentialsForm.getValues('email')}</b>
+        </p>
+
+        <Confetti />
+      </div>
+    )
   }
 
   return (
@@ -100,14 +149,6 @@ export const SignUpForm = () => {
             </Button>
           </div>
         </form>
-
-        {/* <Link
-          href={`/${language}/sign-up`}
-          className="mt-4 flex items-center justify-center gap-2 text-sm"
-        >
-          <ChevronLeft className="size-3.5" />
-          {dictionary.others_ways}
-        </Link> */}
       </Form>
 
       <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>
@@ -143,7 +184,12 @@ export const SignUpForm = () => {
               </div>
 
               <DialogFooter>
-                <Button type="submit">{dictionary.finish_sign_up}</Button>
+                <Button
+                  type="submit"
+                  loading={usernameForm.formState.isSubmitting}
+                >
+                  {dictionary.finish_sign_up}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

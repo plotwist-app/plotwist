@@ -707,5 +707,7 @@
   "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten.",
   "verification": "Verifizierung",
   "back": "Zurück",
-  "sent_access_link": "Wenn Sie ein Konto besitzen, haben wir einen Zugangslink an"
+  "sent_access_link": "Wenn Sie ein Konto besitzen, haben wir einen Zugangslink an",
+  "username_already_registered": "Benutzername bereits registriert.",
+  "email_already_registered": "E-Mail bereits registriert."
 }

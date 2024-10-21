@@ -707,5 +707,7 @@
   "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux.",
   "verification": "Vérification",
   "back": "Retour",
-  "sent_access_link": "Si vous avez un compte, nous avons envoyé un lien d'accès à"
+  "sent_access_link": "Si vous avez un compte, nous avons envoyé un lien d'accès à",
+  "username_already_registered": "Nom d'utilisateur déjà enregistré.",
+  "email_already_registered": "E-mail déjà enregistré."
 }

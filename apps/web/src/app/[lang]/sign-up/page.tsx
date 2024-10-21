@@ -23,7 +23,7 @@ export async function generateMetadata({
   }
 }
 
-const SignUpPage = async ({ params: { lang } }: PageProps) => {
+const SignUpPage = async ({ params: { lang }, searchParams }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
@@ -34,10 +34,17 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y- w-full max-w-[450px]">
           <div className="space-y-4">
             <div className="w-full space-y-2 text-center">
-              <h1 className="text-3xl font-bold">{dictionary.start_now}</h1>
-              <p className="text-sm text-muted-foreground">
-                {dictionary.start_your_journey}
-              </p>
+              <h1 className="text-3xl font-bold">
+                {searchParams.step === 'success'
+                  ? '🎉 Cadastro concluído! '
+                  : dictionary.start_now}
+              </h1>
+
+              {searchParams.step !== 'success' && (
+                <p className="text-sm text-muted-foreground">
+                  {dictionary.start_your_journey}
+                </p>
+              )}
             </div>
 
             {/* {searchParams.provider ? <SignUpForm /> : <SignUpSocial />} */}

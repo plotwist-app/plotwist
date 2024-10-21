@@ -39,10 +39,8 @@ const LoginPage = async ({ params: { lang }, searchParams }: PageProps) => {
                 ? dictionary.verification
                 : dictionary.access_plotwist}
             </h1>
-            <LoginOTP />
 
-            {/* <LoginSocial /> */}
-            {/* <LoginForm /> */}
+            <LoginOTP />
           </div>
         </div>
       </div>

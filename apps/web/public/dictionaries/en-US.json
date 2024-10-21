@@ -707,6 +707,7 @@
   "username_invalid": "Username cannot contain spaces or special characters.",
   "verification": "Verification",
   "back": "Back",
-  "sent_access_link": "If you have an account, we've sent an access link to"
-
+  "sent_access_link": "If you have an account, we've sent an access link to",
+  "username_already_registered": "Username already registered.",
+  "email_already_registered": "E-mail already registered."
 }
