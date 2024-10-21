@@ -709,5 +709,7 @@
   "back": "Back",
   "sent_access_link": "If you have an account, we've sent an access link to",
   "username_already_registered": "Username already registered.",
-  "email_already_registered": "E-mail already registered."
+  "email_already_registered": "E-mail already registered.",
+  "registration_completed": "🎉 Registration completed!",
+  "access_link_sent": "We've sent your access link to"
 }

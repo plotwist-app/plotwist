@@ -708,5 +708,7 @@
   "back": "Voltar",
   "sent_access_link": "Se você possuir uma conta, enviamos um link de acesso para",
   "username_already_registered": "Nome de usuário já registrado.",
-  "email_already_registered": "E-mail já registrado."
+  "email_already_registered": "E-mail já registrado.",
+  "registration_completed": "🎉 Cadastro concluído!",
+  "access_link_sent": "Enviamos seu link de acesso para"
 }

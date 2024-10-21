@@ -709,5 +709,7 @@
   "back": "Zurück",
   "sent_access_link": "Wenn Sie ein Konto besitzen, haben wir einen Zugangslink an",
   "username_already_registered": "Benutzername bereits registriert.",
-  "email_already_registered": "E-Mail bereits registriert."
+  "email_already_registered": "E-Mail bereits registriert.",
+  "registration_completed": "🎉 Registrierung abgeschlossen!",
+  "access_link_sent": "Wir haben Ihren Zugangslink an"
 }

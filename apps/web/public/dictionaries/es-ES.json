@@ -708,5 +708,7 @@
   "back": "Volver",
   "sent_access_link": "Si tienes una cuenta, hemos enviado un enlace de acceso a",
   "username_already_registered": "Nombre de usuario ya registrado.",
-  "email_already_registered": "Correo electrónico ya registrado."
+  "email_already_registered": "Correo electrónico ya registrado.",
+  "registration_completed": "🎉 ¡Registro completado!",
+  "access_link_sent": "Hemos enviado su enlace de acceso a"
 }
