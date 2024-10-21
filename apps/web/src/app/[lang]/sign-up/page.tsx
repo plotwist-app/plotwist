@@ -2,7 +2,6 @@ import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
-import { SignUpSocial } from './_components/sign-up-social'
 import { SignUpForm } from './_components/sign-up-form'
 import Link from 'next/link'
 
@@ -24,7 +23,7 @@ export async function generateMetadata({
   }
 }
 
-const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
+const SignUpPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
@@ -41,7 +40,8 @@ const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
               </p>
             </div>
 
-            {searchParams.provider ? <SignUpForm /> : <SignUpSocial />}
+            {/* {searchParams.provider ? <SignUpForm /> : <SignUpSocial />} */}
+            <SignUpForm />
           </div>
         </div>
       </div>

@@ -704,5 +704,8 @@
   "select_your_username_description": "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
   "finish_sign_up": "Registrierung abschließen",
   "username_required": "Benutzername ist erforderlich.",
-  "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten."
+  "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten.",
+  "verification": "Verifizierung",
+  "back": "Zurück",
+  "sent_access_link": "Wenn Sie ein Konto besitzen, haben wir einen Zugangslink an"
 }

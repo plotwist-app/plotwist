@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { LoginForm } from './_components/login-form'
+import { Metadata } from 'next'
+import { Pattern } from '@/components/pattern'
+
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Pattern } from '@/components/pattern'
-import { Metadata } from 'next'
-import { LoginSocial } from './_components/login-social'
+import { LoginOTP } from './_components/login-otp'
 
 export async function generateMetadata({
   params,
@@ -24,7 +24,7 @@ export async function generateMetadata({
   }
 }
 
-const LoginPage = async ({ params: { lang } }: PageProps) => {
+const LoginPage = async ({ params: { lang }, searchParams }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
@@ -35,11 +35,14 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y- w-full max-w-[450px]">
           <div className="space-y-4">
             <h1 className="text-center text-3xl font-bold">
-              {dictionary.access_plotwist}
+              {searchParams.step === 'verification'
+                ? dictionary.verification
+                : dictionary.access_plotwist}
             </h1>
+            <LoginOTP />
 
-            <LoginSocial />
-            <LoginForm />
+            {/* <LoginSocial /> */}
+            {/* <LoginForm /> */}
           </div>
         </div>
       </div>

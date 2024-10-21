@@ -1,10 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeft, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Link from 'next/link'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -14,12 +12,7 @@ import {
   FormItem,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
+
 import { Input } from '@plotwist/ui/components/ui/input'
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
@@ -39,16 +32,14 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 
 export const SignUpForm = () => {
-  const { signUpWithCredentials } = useAuth()
-  const { dictionary, language } = useLanguage()
-  const [showPassword, setShowPassword] = useState(false)
+  const { signInWithOTP } = useAuth()
+  const { dictionary } = useLanguage()
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
 
   const credentialsForm = useForm<CredentialsFormValues>({
     resolver: zodResolver(credentialsFormSchema(dictionary)),
     defaultValues: {
       email: '',
-      password: '',
     },
   })
 
@@ -70,7 +61,7 @@ export const SignUpForm = () => {
       ...usernameForm.getValues(),
     }
 
-    signUpWithCredentials(values)
+    await signInWithOTP(values.email)
   }
 
   return (
@@ -99,54 +90,6 @@ export const SignUpForm = () => {
             )}
           />
 
-          <FormField
-            control={credentialsForm.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex space-x-2">
-                    <Input
-                      placeholder="*********"
-                      type={showPassword ? 'text' : 'password'}
-                      {...field}
-                    />
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            size="icon"
-                            variant="outline"
-                            onClick={() => setShowPassword((prev) => !prev)}
-                            type="button"
-                            data-testid="toggle-password"
-                          >
-                            {showPassword ? (
-                              <Eye size={16} />
-                            ) : (
-                              <EyeOff size={16} />
-                            )}
-                          </Button>
-                        </TooltipTrigger>
-
-                        <TooltipContent>
-                          <p>
-                            {showPassword
-                              ? dictionary.sign_up_form.hide_password
-                              : dictionary.sign_up_form.show_password}
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <div className="flex w-full justify-end">
             <Button
               type="submit"
@@ -158,13 +101,13 @@ export const SignUpForm = () => {
           </div>
         </form>
 
-        <Link
+        {/* <Link
           href={`/${language}/sign-up`}
           className="mt-4 flex items-center justify-center gap-2 text-sm"
         >
           <ChevronLeft className="size-3.5" />
           {dictionary.others_ways}
-        </Link>
+        </Link> */}
       </Form>
 
       <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>

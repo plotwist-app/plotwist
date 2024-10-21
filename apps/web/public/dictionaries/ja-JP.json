@@ -703,5 +703,8 @@
   "select_your_username_description": "ユーザー名を選択し、プラットフォームの利用を開始するためにサインアップを完了してください。",
   "finish_sign_up": "サインアップを完了",
   "username_required": "ユーザー名は必須です。",
-  "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません。"
+  "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません。",
+  "verification": "確認",
+  "back": "戻る",
+  "sent_access_link": "アカウントをお持ちの場合、アクセスリンクを送信しました"
 }

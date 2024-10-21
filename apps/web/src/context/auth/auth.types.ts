@@ -3,13 +3,7 @@ import { ReactNode } from 'react'
 
 export type AuthContext = {
   user: Profile | null
-
-  signInWithCredentials: (
-    credentials: Omit<Credentials, 'username'>,
-  ) => Promise<void>
-
-  signUpWithCredentials: (credentials: Credentials) => Promise<void>
-
+  signInWithOTP: (email: string) => Promise<void>
   logout: () => Promise<void>
 }
 

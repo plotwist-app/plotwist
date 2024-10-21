@@ -704,5 +704,8 @@
   "select_your_username_description": "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
   "finish_sign_up": "Terminer l'inscription",
   "username_required": "Le nom d'utilisateur est obligatoire.",
-  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux."
+  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux.",
+  "verification": "Vérification",
+  "back": "Retour",
+  "sent_access_link": "Si vous avez un compte, nous avons envoyé un lien d'accès à"
 }

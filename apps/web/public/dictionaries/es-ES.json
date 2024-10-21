@@ -703,5 +703,8 @@
   "select_your_username_description": "Elija su nombre de usuario y finalice su registro para comenzar a usar la plataforma.",
   "finish_sign_up": "Finalizar registro",
   "username_required": "El nombre de usuario es obligatorio.",
-  "username_invalid": "El nombre de usuario no puede contener espacios ni caracteres especiales."
+  "username_invalid": "El nombre de usuario no puede contener espacios ni caracteres especiales.",
+  "verification": "Verificación",
+  "back": "Volver",
+  "sent_access_link": "Si tienes una cuenta, hemos enviado un enlace de acceso a"
 }
