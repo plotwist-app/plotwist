@@ -56,7 +56,7 @@ export const CommandSearch = () => {
 
   useEffect(() => {
     if (open) setOpen(false)
-  }, [pathName])
+  }, [pathName, open])
 
   const [movies, tvSeries] = [
     data?.results.filter(
