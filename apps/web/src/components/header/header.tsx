@@ -10,7 +10,7 @@ export const Header = () => {
   return (
     <>
       <header className="hidden justify-between lg:flex">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 z-50">
           <Logo />
           <HeaderNavigationMenu />
         </div>
