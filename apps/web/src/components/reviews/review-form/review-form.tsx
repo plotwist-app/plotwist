@@ -31,6 +31,8 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Label } from '@plotwist/ui/components/ui/label'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -40,6 +42,8 @@ export const reviewFormSchema = (dictionary: Dictionary) =>
       .number()
       .min(0, 'Required')
       .max(5, dictionary.review_form.rating_max),
+
+    containSpoilers: z.boolean(),
   })
 
 export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
@@ -54,6 +58,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     defaultValues: {
       review: '',
       rating: 0,
+      containSpoilers: false,
     },
   })
 
@@ -82,6 +87,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     await handleCreateReview.mutateAsync(
       {
         ...values,
+        contain_spoilers: values.containSpoilers,
         mediaType,
         userId: user.id,
         tmdbItem,
@@ -138,7 +144,30 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
               />
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex items-center space-x-2 justify-end">
+              <div className="flex items-center justify-center space-x-2">
+                <FormField
+                  control={form.control}
+                  name="containSpoilers"
+                  render={({ field }) => (
+                    <>
+                      <Checkbox
+                        onCheckedChange={field.onChange}
+                        id="contain-spoilers"
+                        className="border-muted-foreground text-primary-foreground/80"
+                      />
+                      <Label
+                        onClick={field.onChange}
+                        htmlFor="contain-spoilers"
+                        className="text-muted-foreground hover:cursor-pointer"
+                      >
+                        Contain spoilers
+                      </Label>
+                    </>
+                  )}
+                />
+              </div>
+              <span className="h-1 w-1 rounded-full bg-muted" />
               <Button
                 variant="outline"
                 type="submit"
