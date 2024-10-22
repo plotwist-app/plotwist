@@ -24,8 +24,15 @@ export const ListItems = ({ ownerId, listItems }: ListItemsProps) => {
 
   const { user } = useAuth()
 
+  const isListAuthor = ownerId === user?.id
+
   const contentByLayout: Record<typeof layout, JSX.Element> = {
-    grid: <ListItemsGrid listItems={listItems} isEditable={isEditable} />,
+    grid: (
+      <ListItemsGrid
+        listItems={listItems}
+        isEditable={!isListAuthor ? false : isEditable}
+      />
+    ),
     table: (
       <DataTable
         data={listItems}
@@ -33,8 +40,6 @@ export const ListItems = ({ ownerId, listItems }: ListItemsProps) => {
       />
     ),
   }
-
-  const isListAuthor = ownerId === user?.id
 
   return (
     <section className="space-y-4">
