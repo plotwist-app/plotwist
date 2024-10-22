@@ -124,7 +124,6 @@ export const PopularListCardDrawer = ({
                   className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
                   onClick={() => {
                     navigator.clipboard.writeText(`${APP_URL}${href}`)
-
                     toast.success(dictionary.link_copied_to_clipboard)
                   }}
                 >
