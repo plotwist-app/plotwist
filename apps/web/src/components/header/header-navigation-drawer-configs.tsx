@@ -60,9 +60,9 @@ export const HeaderNavigationDrawerConfigs = () => {
                 key={i}
               >
                 {i === 'light' ? (
-                  <MoonStar className="size-4" />
-                ) : (
                   <Sun className="size-4" />
+                ) : (
+                  <MoonStar className="size-4" />
                 )}
               </div>
             )

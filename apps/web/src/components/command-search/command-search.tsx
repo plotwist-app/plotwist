@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
-import { usePathname } from 'next/navigation'
 import {
   type MovieWithMediaType,
   type TvSerieWithMediaType,
@@ -32,7 +31,6 @@ export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
-  const pathName = usePathname()
   const { language, dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
@@ -53,10 +51,6 @@ export const CommandSearch = () => {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
-
-  useEffect(() => {
-    if (open) setOpen(false)
-  }, [pathName, open])
 
   const [movies, tvSeries] = [
     data?.results.filter(

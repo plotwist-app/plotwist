@@ -110,7 +110,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                 </p>
               </div>
 
-              <ListItems listItems={list.list_items} />
+              <ListItems listItems={list.list_items} ownerId={list.user_id} />
             </div>
 
             <div className="col-span-1 space-y-4">
