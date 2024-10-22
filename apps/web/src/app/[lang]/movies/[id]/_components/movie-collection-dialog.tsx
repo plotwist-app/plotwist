@@ -34,7 +34,7 @@ export const MovieCollectionDialog = ({
     if (openDialog) {
       setOpenDialog(false)
     }
-  }, [pathname])
+  }, [pathname, openDialog])
 
   return (
     <>
