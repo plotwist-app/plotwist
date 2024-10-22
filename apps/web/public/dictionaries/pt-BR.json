@@ -604,6 +604,7 @@
     "title": "Curtidas",
     "view_profile": "Ver perfil"
   },
+  "access_button": "Acessar",
   "access_now": "Acesse agora",
   "create_account": "Criar conta",
   "search_movies_or_series": "Busque por filmes ou séries...",
@@ -703,5 +704,18 @@
   "select_your_username_description": "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
   "finish_sign_up": "Finalizar cadastro",
   "username_required": "Nome de usuário é obrigatório.",
-  "username_invalid": "Nome de usuário não pode conter espaços ou caracteres especiais."
+  "username_invalid": "Nome de usuário não pode conter espaços ou caracteres especiais.",
+  "email_invalid": "Por favor, insira um e-mail válido.",
+  "email_required": "Por favor, insira seu endereço de e-mail.",
+  "email_label": "E-mail",
+  "submit_button": "Enviar",
+  "remembered_your_password": "Lembrou sua senha?",
+  "forgot_your_password": "Esqueceu sua senha?",
+  "password_label": "Senha",
+  "password_required": "Por favor, insira sua senha.",
+  "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
+  "request_password_reset_form_response": "Se o e-mail que você inseriu estiver associado a uma conta, você receberá um e-mail com instruções para redefinir sua senha.",
+  "invalid_reset_password_code": "Código de redefinição de senha inválido.",
+  "unexpected_error": "Ocorreu um erro inesperado.",
+  "reset_password_success": "Senha redefinida com sucesso."
 }

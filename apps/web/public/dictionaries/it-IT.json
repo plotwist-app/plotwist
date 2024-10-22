@@ -605,6 +605,7 @@
     "title": "Piace",
     "view_profile": "Vedi profilo"
   },
+  "access_button": "Accedi",
   "access_now": "Accedi ora",
   "create_account": "Creare un account",
   "search_movies_or_series": "Cerca film o serie...",
@@ -704,5 +705,18 @@
   "select_your_username_description": "Scegli il tuo nome utente e completa la registrazione per iniziare a usare la piattaforma.",
   "finish_sign_up": "Completa la registrazione",
   "username_required": "Il nome utente è obbligatorio.",
-  "username_invalid": "Il nome utente non può contenere spazi o caratteri speciali."
+  "username_invalid": "Il nome utente non può contenere spazi o caratteri speciali.",
+  "email_invalid": "Inserisci un indirizzo e-mail valido.",
+  "email_required": "Inserisci il tuo indirizzo e-mail.",
+  "email_label": "E-mail",
+  "submit_button": "Invia",
+  "remembered_your_password": "Hai ricordato la tua password?",
+  "forgot_your_password": "Hai dimenticato la tua password?",
+  "password_label": "Password",
+  "password_required": "Inserisci la tua password.",
+  "password_length": "La tua password deve contenere almeno 8 caratteri.",
+  "request_password_reset_form_response": "Se l'indirizzo e-mail che hai inserito è associato a un account, riceverai un'e-mail con le istruzioni per reimpostare la tua password.",
+  "invalid_reset_password_code": "Codice di reimpostazione della password non valido.",
+  "unexpected_error": "Si è verificato un errore imprevisto.",
+  "reset_password_success": "Password reimpostata con successo."
 }

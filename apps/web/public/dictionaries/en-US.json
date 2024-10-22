@@ -605,6 +605,7 @@
     "title": "Likes",
     "view_profile": "View profile"
   },
+  "access_button": "Access",
   "access_now": "Access now",
   "create_account": "Create account",
   "search_movies_or_series": "Search movies or series...",
@@ -704,5 +705,18 @@
   "select_your_username_description": "Choose your username and finish your sign-up to start using the platform.",
   "finish_sign_up": "Finish sign-up",
   "username_required": "Username is required.",
-  "username_invalid": "Username cannot contain spaces or special characters."
+  "username_invalid": "Username cannot contain spaces or special characters.",
+  "email_invalid": "Please enter a valid e-mail address.",
+  "email_required": "Please enter your e-mail address.",
+  "email_label": "E-mail",
+  "submit_button": "Submit",
+  "remembered_your_password": "Remembered your password?",
+  "forgot_your_password": "Forgot your password?",
+  "password_label": "Password",
+  "password_required": "Please enter your password.",
+  "password_length": "Your password must be at least 8 characters long.",
+  "request_password_reset_form_response": "If the email you entered is associated with an account, you will receive an email with instructions to reset your password.",
+  "invalid_reset_password_code": "Invalid reset password code.",
+  "unexpected_error": "An unexpected error occurred.",
+  "reset_password_success": "Password reset successfully."
 }

@@ -605,6 +605,7 @@
     "title": "Aime",
     "view_profile": "Voir le profil"
   },
+  "access_button": "Accéder",
   "access_now": "Accede ahora",
   "create_account": "Crear una cuenta",
   "search_movies_or_series": "Rechercher des films ou des séries...",
@@ -704,5 +705,18 @@
   "select_your_username_description": "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
   "finish_sign_up": "Terminer l'inscription",
   "username_required": "Le nom d'utilisateur est obligatoire.",
-  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux."
+  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux.",
+  "email_invalid": "Veuillez entrer une adresse e-mail valide.",
+  "email_required": "Veuillez entrer votre adresse e-mail.",
+  "email_label": "E-mail",
+  "submit_button": "Soumettre",
+  "remembered_your_password": "Vous vous souvenez de votre mot de passe ?",
+  "forgot_your_password": "Mot de passe oublié ?",
+  "password_label": "Mot de passe",
+  "password_required": "Veuillez entrer votre mot de passe.",
+  "password_length": "Votre mot de passe doit contenir au moins 8 caractères.",
+  "request_password_reset_form_response": "Si l'adresse e-mail que vous avez entrée est associée à un compte, vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe.",
+  "invalid_reset_password_code": "Code de réinitialisation de mot de passe non valide.",
+  "unexpected_error": "Une erreur inattendue s'est produite.",
+  "reset_password_success": "Mot de passe réinitialisé avec succès."
 }

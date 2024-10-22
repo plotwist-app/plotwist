@@ -604,6 +604,7 @@
     "title": "Gustos",
     "view_profile": "Ver perfil"
   },
+  "access_button": "Acceder",
   "access_now": "Accede ahora",
   "create_account": "Crear una cuenta",
   "search_movies_or_series": "Buscar películas o series...",
@@ -703,5 +704,18 @@
   "select_your_username_description": "Elija su nombre de usuario y finalice su registro para comenzar a usar la plataforma.",
   "finish_sign_up": "Finalizar registro",
   "username_required": "El nombre de usuario es obligatorio.",
-  "username_invalid": "El nombre de usuario no puede contener espacios ni caracteres especiales."
+  "username_invalid": "El nombre de usuario no puede contener espacios ni caracteres especiales.",
+  "email_invalid": "Por favor, introduce una dirección de correo electrónico válida.",
+  "email_required": "Por favor, introduce tu dirección de correo electrónico.",
+  "email_label": "Correo electrónico",
+  "submit_button": "Enviar",
+  "remembered_your_password": "¿Recordaste tu contraseña?",
+  "forgot_your_password": "¿Olvidaste tu contraseña?",
+  "password_label": "Contraseña",
+  "password_required": "Por favor, introduce tu contraseña.",
+  "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
+  "request_password_reset_form_response": "Si el correo electrónico que ingresaste está asociado a una cuenta, recibirás un correo con las instrucciones para restablecer tu contraseña.",
+  "invalid_reset_password_code": "Código de restablecimiento de contraseña no válido.",
+  "unexpected_error": "Ocurrió un error inesperado.",
+  "reset_password_success": "Contraseña restablecida con éxito."
 }

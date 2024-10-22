@@ -1,10 +1,10 @@
-import Link from 'next/link'
 import { LoginForm } from './_components/login-form'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
 import { LoginSocial } from './_components/login-social'
+import { AnimatedLink } from '@/components/animated-link'
 
 export async function generateMetadata({
   params,
@@ -44,13 +44,13 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white">
+      <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
         <p className="text-center text-sm">
           {dictionary.do_not_have_an_account}{' '}
-          <Link href={`/${lang}/sign-up`} className="underline">
-            {dictionary.create_now}
-          </Link>
         </p>
+        <AnimatedLink href={`/${lang}/sign-up`} className="text-xs">
+          {dictionary.create_now}
+        </AnimatedLink>
       </div>
     </>
   )
