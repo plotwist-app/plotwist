@@ -718,5 +718,6 @@
   "request_password_reset_form_response": "Wenn die eingegebene E-Mail-Adresse mit einem Konto verknüpft ist, erhalten Sie eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.",
   "invalid_reset_password_code": "Ungültiger Passwort-Zurücksetzungscode.",
   "unexpected_error": "Ein unerwarteter Fehler ist aufgetreten.",
-  "reset_password_success": "Passwort erfolgreich zurückgesetzt."
+  "reset_password_success": "Passwort erfolgreich zurückgesetzt.",
+  "reset_your_password": "Setzen Sie Ihr Passwort zurück"
 }

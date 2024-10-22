@@ -718,5 +718,6 @@
   "request_password_reset_form_response": "If the email you entered is associated with an account, you will receive an email with instructions to reset your password.",
   "invalid_reset_password_code": "Invalid reset password code.",
   "unexpected_error": "An unexpected error occurred.",
-  "reset_password_success": "Password reset successfully."
+  "reset_password_success": "Password reset successfully.",
+  "reset_your_password": "Reset your password"
 }

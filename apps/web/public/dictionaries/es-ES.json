@@ -717,5 +717,6 @@
   "request_password_reset_form_response": "Si el correo electrónico que ingresaste está asociado a una cuenta, recibirás un correo con las instrucciones para restablecer tu contraseña.",
   "invalid_reset_password_code": "Código de restablecimiento de contraseña no válido.",
   "unexpected_error": "Ocurrió un error inesperado.",
-  "reset_password_success": "Contraseña restablecida con éxito."
+  "reset_password_success": "Contraseña restablecida con éxito.",
+  "reset_your_password": "Restablece tu contraseña"
 }

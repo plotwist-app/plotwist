@@ -717,5 +717,6 @@
   "request_password_reset_form_response": "入力したメールアドレスがアカウントに関連付けられている場合、パスワードをリセットする手順を記載したメールが届きます。",
   "invalid_reset_password_code": "無効なパスワードリセットコードです。",
   "unexpected_error": "予期しないエラーが発生しました。",
-  "reset_password_success": "パスワードが正常にリセットされました。"
+  "reset_password_success": "パスワードが正常にリセットされました。",
+  "reset_your_password": "パスワードをリセットする"
 }

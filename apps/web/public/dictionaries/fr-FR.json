@@ -718,5 +718,6 @@
   "request_password_reset_form_response": "Si l'adresse e-mail que vous avez entrée est associée à un compte, vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe.",
   "invalid_reset_password_code": "Code de réinitialisation de mot de passe non valide.",
   "unexpected_error": "Une erreur inattendue s'est produite.",
-  "reset_password_success": "Mot de passe réinitialisé avec succès."
+  "reset_password_success": "Mot de passe réinitialisé avec succès.",
+  "reset_your_password": "Réinitialisez votre mot de passe"
 }

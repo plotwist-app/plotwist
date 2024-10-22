@@ -34,8 +34,7 @@ const ResetPasswordPage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y- w-full max-w-[450px]">
           <div className="space-y-4">
             <h1 className="text-center text-3xl font-bold">
-              {/* {dictionary.reset_your_password} */}
-              Reset your password
+              {dictionary.reset_your_password}
             </h1>
 
             <ResetPasswordForm />
