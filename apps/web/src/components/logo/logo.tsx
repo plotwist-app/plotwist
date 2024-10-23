@@ -10,7 +10,7 @@ type LogoProps = { size?: number }
 export const Logo = ({ size = 24 }: LogoProps) => {
   const { language } = useLanguage()
 
-  const { user } = useContext(authContext)
+  const { user } = useAuth()
 
   const href = user ? `/${language}/home` : `/${language}/`
 
