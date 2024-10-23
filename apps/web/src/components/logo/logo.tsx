@@ -1,10 +1,9 @@
 'use client'
 
-import { authContext } from '@/context/auth'
+import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useContext } from 'react'
 
 type LogoProps = { size?: number }
 export const Logo = ({ size = 24 }: LogoProps) => {
