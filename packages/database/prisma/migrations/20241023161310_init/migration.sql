@@ -23,15 +23,15 @@ CREATE TYPE "media_type_enum" AS ENUM ('TV_SHOW', 'MOVIE');
 CREATE TABLE "followers" (
     "id" BIGSERIAL NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "follower_id" UUID DEFAULT gen_random_uuid(),
-    "followed_id" UUID DEFAULT gen_random_uuid(),
+    "follower_id" UUID,
+    "followed_id" UUID,
 
     CONSTRAINT "followers_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "likes" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" UUID NOT NULL,
     "entity_type" "LIKE_ENTITY" NOT NULL,
     "review_id" UUID,
     "review_reply_id" UUID,
@@ -42,7 +42,7 @@ CREATE TABLE "likes" (
 
 -- CreateTable
 CREATE TABLE "list_items" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "list_id" UUID NOT NULL,
     "title" TEXT,
@@ -50,25 +50,25 @@ CREATE TABLE "list_items" (
     "backdrop_path" TEXT,
     "poster_path" TEXT,
     "tmdb_id" BIGINT,
-    "status" "STATUS",
     "media_type" "MEDIA_TYPE",
+    "order" INTEGER,
 
     CONSTRAINT "list_items_pkey" PRIMARY KEY ("id","list_id")
 );
 
 -- CreateTable
 CREATE TABLE "list_likes" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "list_id" UUID DEFAULT gen_random_uuid(),
-    "user_id" UUID DEFAULT gen_random_uuid(),
+    "list_id" UUID,
+    "user_id" UUID,
 
     CONSTRAINT "list_likes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "lists" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" VARCHAR,
     "user_id" UUID NOT NULL,
@@ -93,21 +93,34 @@ CREATE TABLE "profiles" (
 );
 
 -- CreateTable
-CREATE TABLE "review_replies" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+CREATE TABLE "recommendations" (
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "user_id" UUID DEFAULT gen_random_uuid(),
+    "receiver_user_id" UUID,
+    "media_type" "MEDIA_TYPE",
+    "tmdb_id" BIGINT,
+    "sender_user_id" UUID,
+    "message" TEXT,
+
+    CONSTRAINT "recommendations_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "review_replies" (
+    "id" UUID NOT NULL,
+    "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "user_id" UUID,
     "reply" TEXT,
-    "review_id" UUID DEFAULT gen_random_uuid(),
+    "review_id" UUID,
 
     CONSTRAINT "review_reply_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "reviews" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "user_id" UUID DEFAULT gen_random_uuid(),
+    "user_id" UUID,
     "tmdb_id" BIGINT,
     "media_type" "MEDIA_TYPE",
     "review" TEXT,
@@ -128,6 +141,16 @@ CREATE TABLE "subscriptions" (
     "type" "SUBSCRIPTION_TYPE",
 
     CONSTRAINT "subscriptions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "watched_items" (
+    "id" BIGSERIAL NOT NULL,
+    "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tmdb_id" BIGINT,
+    "user_id" UUID,
+
+    CONSTRAINT "watched_items_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -155,7 +178,7 @@ ALTER TABLE "likes" ADD CONSTRAINT "public_likes_review_reply_id_fkey" FOREIGN K
 ALTER TABLE "likes" ADD CONSTRAINT "public_likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "list_items" ADD CONSTRAINT "public_listItems_list_id_fkey" FOREIGN KEY ("list_id") REFERENCES "lists"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "list_items" ADD CONSTRAINT "public_list_items_list_id_fkey" FOREIGN KEY ("list_id") REFERENCES "lists"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "list_likes" ADD CONSTRAINT "list_likes_list_id_fkey" FOREIGN KEY ("list_id") REFERENCES "lists"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -165,6 +188,12 @@ ALTER TABLE "list_likes" ADD CONSTRAINT "list_likes_user_id_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "lists" ADD CONSTRAINT "lists_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "recommendations" ADD CONSTRAINT "recommendations_receiver_user_id_fkey" FOREIGN KEY ("receiver_user_id") REFERENCES "profiles"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "recommendations" ADD CONSTRAINT "recommendations_sender_user_id_fkey" FOREIGN KEY ("sender_user_id") REFERENCES "profiles"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "review_replies" ADD CONSTRAINT "public_review_replies_review_id_fkey" FOREIGN KEY ("review_id") REFERENCES "reviews"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
@@ -177,3 +206,6 @@ ALTER TABLE "reviews" ADD CONSTRAINT "public_reviews_user_id_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "subscriptions" ADD CONSTRAINT "public_subscriptions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "watched_items" ADD CONSTRAINT "watched_items_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE CASCADE;

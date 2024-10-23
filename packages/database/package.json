@@ -6,6 +6,11 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "db:pull": "npx prisma db pull",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev"
+  },
   "devDependencies": {
     "prisma": "^5.14.0"
   },
