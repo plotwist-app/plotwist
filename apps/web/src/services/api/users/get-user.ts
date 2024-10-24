@@ -9,10 +9,10 @@ export const getUserService = async () => {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (user?.id) {
-    const profile = getProfileById(user.id)
-    return profile
+  if (!user || !user.id) {
+    return null
   }
+  const profile = getProfileById(user.id)
 
-  return null
+  return profile
 }
