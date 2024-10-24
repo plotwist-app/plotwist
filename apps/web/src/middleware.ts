@@ -37,8 +37,19 @@ export async function middleware(req: NextRequest) {
     (locale) => pathname === `/${locale}`,
   )
 
-  if (isPathnameOnlyLocale && user) {
-    return NextResponse.redirect(`${req.nextUrl}/home`)
+  const authPathnames = [
+    '/login',
+    '/sign-up',
+    '/forgot-password',
+    '/reset-password',
+  ]
+
+  const strippedPathname = pathname.replace(/^\/[a-z]{2}-[A-Z]{2}/, '')
+
+  const isAuthPathname = authPathnames.includes(strippedPathname)
+
+  if ((isPathnameOnlyLocale || isAuthPathname) && user) {
+    return NextResponse.redirect(req.nextUrl.origin + `/${language}/home`)
   }
 
   return NextResponse.next()
