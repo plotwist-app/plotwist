@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { CreateReviewValues } from '@/hooks/use-reviews/use-reviews.types'
 import { supabase } from '@/services/supabase'
 import { sanitizeTmdbItem } from '@/utils/tmdb/review/sanitize-tmdb-item'
@@ -15,7 +14,7 @@ export const createReview = async ({
   const tmdbItemValues = sanitizeTmdbItem(tmdbItem)
 
   const { error, data } = await supabase.from('reviews').insert({
-    hasSpoilers,
+    has_spoilers: hasSpoilers,
     rating,
     review,
     media_type: mediaType,
