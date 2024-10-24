@@ -43,7 +43,7 @@ export const reviewFormSchema = (dictionary: Dictionary) =>
       .min(0, 'Required')
       .max(5, dictionary.review_form.rating_max),
 
-    containSpoilers: z.boolean(),
+    hasSpoilers: z.boolean(),
   })
 
 export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
@@ -58,7 +58,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     defaultValues: {
       review: '',
       rating: 0,
-      containSpoilers: false,
+      hasSpoilers: false,
     },
   })
 
@@ -87,7 +87,6 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
     await handleCreateReview.mutateAsync(
       {
         ...values,
-        contain_spoilers: values.containSpoilers,
         mediaType,
         userId: user.id,
         tmdbItem,
@@ -148,17 +147,17 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
               <div className="flex items-center justify-center space-x-2">
                 <FormField
                   control={form.control}
-                  name="containSpoilers"
+                  name="hasSpoilers"
                   render={({ field }) => (
                     <>
                       <Checkbox
                         onCheckedChange={field.onChange}
-                        id="contain-spoilers"
+                        id="has_spoilers"
                         className="border-muted-foreground text-primary-foreground/80"
                       />
                       <Label
                         onClick={field.onChange}
-                        htmlFor="contain-spoilers"
+                        htmlFor="has_spoilers"
                         className="text-muted-foreground hover:cursor-pointer"
                       >
                         Contain spoilers

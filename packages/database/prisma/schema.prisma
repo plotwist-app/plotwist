@@ -107,7 +107,7 @@ model reviews {
   media_type       MEDIA_TYPE?
   review           String?
   rating           Int?             @db.SmallInt
-  contain_spoilers Boolean?         @default(false)
+  has_spoilers     Boolean?         @default(false)
   tmdb_title       String?          @db.VarChar
   tmdb_poster_path String?
   tmdb_overview    String?
