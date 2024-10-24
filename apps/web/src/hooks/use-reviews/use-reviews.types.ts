@@ -4,6 +4,7 @@ import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
 export type CreateReviewValues = {
   rating: number
+  hasSpoilers: boolean
   review: string
   userId: string
   mediaType: MediaType
