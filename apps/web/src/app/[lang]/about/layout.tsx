@@ -1,8 +1,8 @@
 'use client'
 
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { usePathname } from 'next/navigation'
-import { PropsWithChildren } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { PropsWithChildren, useState } from 'react'
 import { buildNavigation } from './_navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -10,7 +10,7 @@ import { useLanguage } from '@/context/language'
 
 function NavigationDesktop() {
   const pathname = usePathname()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
 
   return (
     <aside className="sticky top-14 hidden h-[calc(100dvh-theme(spacing.16))] w-[220px] shrink-0 pt-8 md:block">
@@ -23,6 +23,7 @@ function NavigationDesktop() {
                   <div className="text-sm/6 font-[450] text-zinc-950 dark:text-white">
                     {item.name}
                   </div>
+
                   <ul
                     role="list"
                     className="mt-4 space-y-3.5 border-l border-zinc-200 dark:border-zinc-800"
@@ -42,7 +43,7 @@ function NavigationDesktop() {
                               child.isDisabled &&
                                 'opacity-50 cursor-default pointer-events-none',
                             )}
-                            href={child.href}
+                            href={`/${language}${child.href}`}
                           >
                             <span>{child.name}</span>
 
@@ -66,12 +67,52 @@ function NavigationDesktop() {
   )
 }
 
+function NavigationMobile() {
+  const router = useRouter()
+  const pathname = usePathname()
+  const { dictionary, language } = useLanguage()
+  const [selectedHref, setSelectedHref] = useState(pathname)
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const href = e.target.value
+    setSelectedHref(href)
+    router.push(`/${language}${href}`)
+  }
+
+  return (
+    <div className="block w-full pt-8 md:hidden">
+      <select
+        className="block w-full appearance-none rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
+        value={selectedHref}
+        onChange={handleChange}
+      >
+        {buildNavigation(dictionary).map((item) => {
+          return (
+            <optgroup label={item.name} key={item.name}>
+              {item.children.map((child) => (
+                <option
+                  key={child.href}
+                  value={child.href}
+                  disabled={child.isDisabled}
+                >
+                  {child.name}
+                </option>
+              ))}
+            </optgroup>
+          )
+        })}
+      </select>
+    </div>
+  )
+}
+
 export default async function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto flex w-full flex-col items-start md:flex-row md:space-x-8">
+        <div className="mx-auto flex w-full flex-col items-start md:flex-row md:space-x-8 px-4 xl:px-0">
           <NavigationDesktop />
+          <NavigationMobile />
 
           <main className="prose prose-zinc min-w-0 max-w-full flex-1 pb-16 pt-8 dark:prose-invert prose-h1:scroll-m-20 prose-h1:text-2xl prose-h1:font-semibold prose-h2:scroll-m-20 prose-h2:text-xl prose-h2:font-medium prose-h3:scroll-m-20 prose-h3:text-base prose-h3:font-medium prose-h4:scroll-m-20 prose-h5:scroll-m-20 prose-h6:scroll-m-20 prose-strong:font-medium prose-table:block prose-table:overflow-y-auto xl:max-w-2xl">
             {children}

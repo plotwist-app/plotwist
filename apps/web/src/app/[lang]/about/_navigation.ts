@@ -32,7 +32,7 @@ export const buildNavigation = (dictionary: Dictionary): NavigationGroup[] => [
       // },
       {
         name: 'Roadmap',
-        href: '/roadmap',
+        href: '/about/roadmap',
         isDisabled: true,
       },
     ],
