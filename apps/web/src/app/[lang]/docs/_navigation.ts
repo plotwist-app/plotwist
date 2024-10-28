@@ -18,7 +18,7 @@ export const buildNavigation = (dictionary: Dictionary): NavigationGroup[] => [
     name: 'Plotwist',
     children: [
       {
-        name: dictionary.about_us,
+        name: dictionary.about,
         href: '/docs',
         isNew: true,
       },
