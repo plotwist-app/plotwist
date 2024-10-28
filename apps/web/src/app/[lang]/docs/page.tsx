@@ -1,5 +1,3 @@
-'use client'
-
 import { PageProps } from '@/types/languages'
 import { notFound } from 'next/navigation'
 
