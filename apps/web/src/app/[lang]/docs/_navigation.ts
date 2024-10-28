@@ -19,7 +19,7 @@ export const buildNavigation = (dictionary: Dictionary): NavigationGroup[] => [
     children: [
       {
         name: dictionary.about_us,
-        href: '/about',
+        href: '/docs',
         isNew: true,
       },
       // {
@@ -31,7 +31,7 @@ export const buildNavigation = (dictionary: Dictionary): NavigationGroup[] => [
       //   href: '/membership',
       // },
       {
-        name: 'Roadmap',
+        name: dictionary.roadmap,
         href: '/about/roadmap',
         isDisabled: true,
       },

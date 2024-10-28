@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 
 import { Pattern } from '@/components/pattern'
-import { Footer } from '@/components/footer'
 
 import { PageProps, Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -75,8 +74,6 @@ export async function generateMetadata({
 }
 
 export default async function Home({ params: { lang } }: PageProps) {
-  const dictionary = await getDictionary(lang)
-
   return (
     <>
       <Pattern variant="checkered" />
@@ -85,7 +82,6 @@ export default async function Home({ params: { lang } }: PageProps) {
         <Hero />
         <TopMovies language={lang} />
         <BentoGrid />
-        <Footer language={lang} dictionary={dictionary} />
       </main>
     </>
   )

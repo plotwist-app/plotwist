@@ -703,5 +703,6 @@
   "username_required": "ユーザー名は必須です。",
   "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません",
   "new": "新しい",
-  "roadmap": "ロードマップ"
+  "roadmap": "ロードマップ",
+  "documentation": "ドキュメント"
 }

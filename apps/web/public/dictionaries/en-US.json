@@ -704,5 +704,6 @@
   "username_required": "Username is required.",
   "username_invalid": "Username cannot contain spaces or special characters.",
   "new": "New",
-  "roadmap": "Roadmap"
+  "roadmap": "Roadmap",
+  "documentation": "Documentation"
 }

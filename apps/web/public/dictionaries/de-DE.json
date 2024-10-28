@@ -704,5 +704,6 @@
   "username_required": "Benutzername ist erforderlich.",
   "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten.",
   "new": "Neu",
-  "roadmap": "Fahrplan"
+  "roadmap": "Fahrplan",
+  "documentation": "Dokumentation"
 }

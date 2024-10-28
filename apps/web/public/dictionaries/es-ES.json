@@ -703,5 +703,6 @@
   "username_required": "El nombre de usuario es obligatorio.",
   "username_invalid": "El nombre de usuario no puede contener espacios ni caracteres especiales.",
   "new": "Nuevo",
-  "roadmap": "Hoja de ruta"
+  "roadmap": "Hoja de ruta",
+  "documentation": "Documentación"
 }
