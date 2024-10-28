@@ -41,8 +41,6 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             <li>
               <Link href={`/${language}/pricing`}>{dictionary.pricing}</Link>
             </li>
-
-            <li className="disabled">{dictionary.download}</li>
           </ul>
         </section>
 
@@ -61,9 +59,6 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
                 {dictionary.discord}
               </Link>
             </li>
-
-            <li className="disabled">{dictionary.careers}</li>
-            <li className="disabled">{dictionary.brand}</li>
           </ul>
         </section>
 

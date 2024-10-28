@@ -667,11 +667,9 @@
   "about_us": "Über uns",
   "features": "Funktionen",
   "pricing": "Preisgestaltung",
-  "download": "Herunterladen",
   "community": "Gemeinschaften",
   "github": "GitHub",
   "discord": "Discord",
-  "careers": "Karrieren",
   "brand": "Marke",
   "legal": "Rechtlich",
   "privacy_policy": "Datenschutzrichtlinie",
@@ -704,5 +702,7 @@
   "select_your_username_description": "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
   "finish_sign_up": "Registrierung abschließen",
   "username_required": "Benutzername ist erforderlich.",
-  "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten."
+  "username_invalid": "Benutzername darf keine Leerzeichen oder Sonderzeichen enthalten.",
+  "new": "Neu",
+  "roadmap": "Fahrplan"
 }

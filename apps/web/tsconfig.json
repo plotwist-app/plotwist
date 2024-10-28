@@ -19,6 +19,6 @@
 		"**/*.tsx",
 		"**/*.mjs",
 		"**/*.js"
-, ".eslintrc.js"	],
+, ".eslintrc.js", "src/app/[lang]/about/content.mdx"	],
 	"exclude": ["node_modules"]
 }

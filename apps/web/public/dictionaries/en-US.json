@@ -667,11 +667,9 @@
   "about_us": "About Us",
   "features": "Features",
   "pricing": "Pricing",
-  "download": "Download",
   "community": "Communities",
   "github": "GitHub",
   "discord": "Discord",
-  "careers": "Careers",
   "brand": "Brand",
   "legal": "Legal",
   "privacy_policy": "Privacy Policy",
@@ -704,5 +702,7 @@
   "select_your_username_description": "Choose your username and finish your sign-up to start using the platform.",
   "finish_sign_up": "Finish sign-up",
   "username_required": "Username is required.",
-  "username_invalid": "Username cannot contain spaces or special characters."
+  "username_invalid": "Username cannot contain spaces or special characters.",
+  "new": "New",
+  "roadmap": "Roadmap"
 }
