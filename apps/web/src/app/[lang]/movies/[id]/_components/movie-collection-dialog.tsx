@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import Link from 'next/link'
 import { DetailedCollection } from '@plotwist/tmdb'
 
@@ -27,14 +26,7 @@ export const MovieCollectionDialog = ({
   const { name, parts } = collection
 
   const [openDialog, setOpenDialog] = useState(false)
-  const pathname = usePathname()
   const { dictionary, language } = useLanguage()
-
-  useEffect(() => {
-    if (openDialog) {
-      setOpenDialog(false)
-    }
-  }, [pathname, openDialog])
 
   return (
     <>
