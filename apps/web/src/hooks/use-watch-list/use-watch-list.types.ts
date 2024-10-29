@@ -4,5 +4,11 @@ export interface AddItemToWatchListValues {
   tmdbId: string
 }
 
+export interface RemoveItemFromWatchListValues {
+  userId: string
+
+  tmdbId: string
+}
+
 export interface GetWatchListValues
   extends Omit<AddItemToWatchListValues, 'tmdbId'> {}
