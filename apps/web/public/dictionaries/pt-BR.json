@@ -663,14 +663,12 @@
   "your_cinema_platform": "Sua plataforma de cinema",
   "join_plotwist": "Descubra uma nova maneira de viver o cinema. Junte-se ao Plotwist e explore tudo o que temos a oferecer.",
   "discover_advantages": "Conheça as vantagens de ser",
-  "about_us": "Sobre nós",
+  "about": "Sobre",
   "features": "Funcionalidades",
   "pricing": "Precificação",
-  "download": "Baixar",
   "community": "Comunidades",
   "github": "GitHub",
   "discord": "Discord",
-  "careers": "Carreiras",
   "brand": "Marca",
   "legal": "Legal",
   "privacy_policy": "Política de Privacidade",
@@ -703,5 +701,8 @@
   "select_your_username_description": "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
   "finish_sign_up": "Finalizar cadastro",
   "username_required": "Nome de usuário é obrigatório.",
-  "username_invalid": "Nome de usuário não pode conter espaços ou caracteres especiais."
+  "username_invalid": "Nome de usuário não pode conter espaços ou caracteres especiais.",
+  "new": "Novo",
+  "roadmap": "Plano de desenvolvimento",
+  "documentation": "Documentação"
 }

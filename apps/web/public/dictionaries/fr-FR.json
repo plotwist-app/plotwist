@@ -664,14 +664,12 @@
   "your_cinema_platform": "Votre plateforme de cinéma",
   "join_plotwist": "Découvrez une nouvelle façon de vivre le cinéma. Rejoignez Plotwist et explorez tout ce que nous avons à offrir.",
   "discover_advantages": "Découvrez les avantages d'être",
-  "about_us": "À propos de nous",
+  "about": "À propos de Plot Twist",
   "features": "Fonctionnalités",
   "pricing": "Tarification",
-  "download": "Télécharger",
   "community": "Communautés",
   "github": "GitHub",
   "discord": "Discord",
-  "careers": "Carrières",
   "brand": "Marque",
   "legal": "Légal",
   "privacy_policy": "Politique de Confidentialité",
@@ -704,5 +702,8 @@
   "select_your_username_description": "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
   "finish_sign_up": "Terminer l'inscription",
   "username_required": "Le nom d'utilisateur est obligatoire.",
-  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux."
+  "username_invalid": "Le nom d'utilisateur ne peut pas contenir d'espaces ni de caractères spéciaux.",
+  "new": "Nouveau",
+  "roadmap": "Feuille de route",
+  "documentation": "Documentation"
 }
