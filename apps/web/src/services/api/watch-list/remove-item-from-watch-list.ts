@@ -1,10 +1,24 @@
-import type { RemoveItemFromWatchListValues } from '@/hooks/use-watch-list'
+import type {
+  RemoveItemFromWatchListValues,
+  WatchListItem,
+} from '@/hooks/use-watch-list'
 import { supabase } from '@/services/supabase'
 
 export const removeItemFromWatchList = async ({
   userId,
   tmdbId,
 }: RemoveItemFromWatchListValues) => {
+  const userHasItem = await supabase
+    .from('watch_list_items')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('tmdb_id', tmdbId)
+    .returns<WatchListItem>()
+
+  if (!userHasItem.data) {
+    throw new Error('Item not in watch list')
+  }
+
   const { error } = await supabase
     .from('watch_list_items')
     .delete()

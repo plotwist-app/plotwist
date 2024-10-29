@@ -1,14 +1,13 @@
-export interface AddItemToWatchListValues {
+export interface WatchListItem {
+  id: string
   userId: string
-
   tmdbId: string
 }
 
-export interface RemoveItemFromWatchListValues {
-  userId: string
+export interface AddItemToWatchListValues
+  extends Pick<WatchListItem, 'userId' | 'tmdbId'> {}
 
-  tmdbId: string
-}
+export interface RemoveItemFromWatchListValues
+  extends Pick<WatchListItem, 'userId' | 'tmdbId'> {}
 
-export interface GetWatchListValues
-  extends Omit<AddItemToWatchListValues, 'tmdbId'> {}
+export interface GetWatchListValues extends Pick<WatchListItem, 'userId'> {}
