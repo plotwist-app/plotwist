@@ -45,10 +45,10 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
       </div>
 
       <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
-        <p className="text-center text-sm">
+        <p className="text-center text-xs text-muted-foreground">
           {dictionary.do_not_have_an_account}{' '}
         </p>
-        <AnimatedLink href={`/${lang}/sign-up`} className="text-xs">
+        <AnimatedLink href={`/${lang}/sign-up`} className="text-md font-medium">
           {dictionary.create_now}
         </AnimatedLink>
       </div>

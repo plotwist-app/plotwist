@@ -47,10 +47,10 @@ const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
       </div>
 
       <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
-        <p className="text-center text-sm">
+        <p className="text-center text-xs text-muted-foreground">
           {dictionary.already_have_an_account}{' '}
         </p>
-        <AnimatedLink href={`/${lang}/login`} className="text-xs">
+        <AnimatedLink href={`/${lang}/login`} className="text-md font-medium">
           {dictionary.access_now}
         </AnimatedLink>
       </div>
