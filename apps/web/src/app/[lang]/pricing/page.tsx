@@ -3,7 +3,6 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
 import { Pricing } from '@/components/pricing'
-import { Footer } from '@/components/footer'
 
 export async function generateMetadata({
   params: { lang },
@@ -27,9 +26,7 @@ export async function generateMetadata({
   }
 }
 
-const PricingPage = async ({ params: { lang } }: PageProps) => {
-  const dictionary = await getDictionary(lang)
-
+const PricingPage = async () => {
   return (
     <>
       <Pattern variant="checkered" />
@@ -37,8 +34,6 @@ const PricingPage = async ({ params: { lang } }: PageProps) => {
       <div className="flex min-h-[100dvh] items-center justify-center">
         <Pricing />
       </div>
-
-      <Footer dictionary={dictionary} language={lang} />
     </>
   )
 }

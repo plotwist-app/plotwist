@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,8 +9,12 @@ type LogoProps = { size?: number }
 export const Logo = ({ size = 24 }: LogoProps) => {
   const { language } = useLanguage()
 
+  const { user } = useAuth()
+
+  const href = user ? `/${language}/home` : `/${language}/`
+
   return (
-    <Link href={`/${language}/`} className="text-foreground">
+    <Link href={href} className="text-foreground">
       <Image
         src="/logo-black.svg"
         alt="Logo"

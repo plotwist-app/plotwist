@@ -65,7 +65,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,325px]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,325px] min-h-screen">
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />

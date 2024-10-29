@@ -8,7 +8,10 @@ import { AppWrapper } from '@/context/app'
 import { AuthContextProvider } from '@/context/auth'
 import { ListsContextProvider } from '@/context/lists'
 import { getUserService } from '@/services/api/users/get-user'
+
 import { Header } from '@/components/header'
+import { Footer } from '@/components/footer'
+
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 
 export async function generateStaticParams() {
@@ -24,14 +27,14 @@ type RootLayoutProps = {
 
 export default async function RootLayout({
   children,
-  params,
+  params: { lang },
 }: RootLayoutProps) {
-  const dictionary = await getDictionary(params.lang)
+  const dictionary = await getDictionary(lang)
   const user = await getUserService()
 
   return (
     <AppWrapper>
-      <LanguageContextProvider language={params.lang} dictionary={dictionary}>
+      <LanguageContextProvider language={lang} dictionary={dictionary}>
         <AuthContextProvider initialUser={user}>
           <ListsContextProvider>
             <div className="flex flex-col">
@@ -40,6 +43,8 @@ export default async function RootLayout({
               </div>
 
               <main className="w-full">{children}</main>
+
+              <Footer dictionary={dictionary} language={lang} />
             </div>
           </ListsContextProvider>
           <Toaster />
