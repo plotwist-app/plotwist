@@ -718,5 +718,8 @@
   "invalid_reset_password_code": "Código de restablecimiento de contraseña no válido.",
   "unexpected_error": "Ocurrió un error inesperado.",
   "reset_password_success": "Contraseña restablecida con éxito.",
-  "reset_your_password": "Restablece tu contraseña"
+  "reset_your_password": "Restablece tu contraseña",
+  "new": "Nuevo",
+  "roadmap": "Hoja de ruta",
+  "documentation": "Documentación"
 }

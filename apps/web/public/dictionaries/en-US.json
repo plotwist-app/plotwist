@@ -719,5 +719,8 @@
   "invalid_reset_password_code": "Invalid reset password code.",
   "unexpected_error": "An unexpected error occurred.",
   "reset_password_success": "Password reset successfully.",
-  "reset_your_password": "Reset your password"
+  "reset_your_password": "Reset your password",
+  "new": "New",
+  "roadmap": "Roadmap",
+  "documentation": "Documentation"
 }

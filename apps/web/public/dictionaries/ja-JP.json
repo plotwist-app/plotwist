@@ -718,5 +718,8 @@
   "invalid_reset_password_code": "無効なパスワードリセットコードです。",
   "unexpected_error": "予期しないエラーが発生しました。",
   "reset_password_success": "パスワードが正常にリセットされました。",
-  "reset_your_password": "パスワードをリセットする"
+  "reset_your_password": "パスワードをリセットする",
+  "new": "新しい",
+  "roadmap": "ロードマップ",
+  "documentation": "ドキュメント"
 }

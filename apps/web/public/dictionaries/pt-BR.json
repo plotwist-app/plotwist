@@ -718,5 +718,8 @@
   "invalid_reset_password_code": "Código de redefinição de senha inválido.",
   "unexpected_error": "Ocorreu um erro inesperado.",
   "reset_password_success": "Senha redefinida com sucesso.",
-  "reset_your_password": "Redefina sua senha"
+  "reset_your_password": "Redefina sua senha",
+  "new": "Novo",
+  "roadmap": "Plano de desenvolvimento",
+  "documentation": "Documentação"
 }

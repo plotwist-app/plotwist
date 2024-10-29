@@ -719,5 +719,8 @@
   "invalid_reset_password_code": "Codice di reimpostazione della password non valido.",
   "unexpected_error": "Si è verificato un errore imprevisto.",
   "reset_password_success": "Password reimpostata con successo.",
-  "reset_your_password": "Reimposta la tua password"
+  "reset_your_password": "Reimposta la tua password",
+  "new": "Nuovo",
+  "roadmap": "Piano di sviluppo",
+  "documentation": "Documentazione"
 }

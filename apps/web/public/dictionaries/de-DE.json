@@ -719,5 +719,8 @@
   "invalid_reset_password_code": "Ungültiger Passwort-Zurücksetzungscode.",
   "unexpected_error": "Ein unerwarteter Fehler ist aufgetreten.",
   "reset_password_success": "Passwort erfolgreich zurückgesetzt.",
-  "reset_your_password": "Setzen Sie Ihr Passwort zurück"
+  "reset_your_password": "Setzen Sie Ihr Passwort zurück",
+  "new": "Neu",
+  "roadmap": "Fahrplan",
+  "documentation": "Dokumentation"
 }
