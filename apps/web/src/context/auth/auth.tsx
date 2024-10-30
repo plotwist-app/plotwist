@@ -5,6 +5,7 @@ import {
   AuthContext,
   AuthContextProviderProps,
   Credentials,
+  type ResetPasswordProps,
 } from './auth.types'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -13,6 +14,7 @@ import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Profile } from '@/types/supabase'
 import { getProfileById } from '@/services/api/profiles'
+import { APP_URL } from '../../../constants'
 
 export const authContext = createContext({} as AuthContext)
 
@@ -88,6 +90,43 @@ export const AuthContextProvider = ({
     setUser(null)
   }
 
+  const requestPasswordReset = async ({
+    email,
+  }: Omit<Credentials, 'username' | 'password'>) => {
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${APP_URL}/${language}/reset-password`,
+    })
+
+    toast.success(dictionary.request_password_reset_form_response) // we have only one response, because we don't want to expose the email existence for a potencial BruteForce attack
+  }
+
+  const resetPassword = async ({ code, password }: ResetPasswordProps) => {
+    const { error: verifyOtpError } = await supabase.auth.verifyOtp({
+      type: 'recovery',
+      token_hash: code,
+    })
+
+    if (verifyOtpError) {
+      toast.error(dictionary.invalid_reset_password_code)
+
+      return
+    }
+
+    const { error: updatePasswordError } = await supabase.auth.updateUser({
+      password,
+    })
+
+    if (updatePasswordError) {
+      toast.error(dictionary.unexpected_error)
+
+      return
+    }
+
+    toast.success(dictionary.reset_password_success)
+
+    push(`/${language}/login`)
+  }
+
   return (
     <authContext.Provider
       value={{
@@ -95,6 +134,8 @@ export const AuthContextProvider = ({
         signInWithCredentials,
         signUpWithCredentials,
         logout,
+        requestPasswordReset,
+        resetPassword,
       }}
     >
       {children}
