@@ -1,9 +1,15 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+
+import { Eye, EyeOff } from 'lucide-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -14,56 +20,43 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
+
 import { Input } from '@plotwist/ui/components/ui/input'
 
-import { LoginFormValues, loginFormSchema } from './login-form.schema'
+import {
+  ResetPasswordFormValues,
+  resetPasswordFormSchema,
+} from './reset-password-form.schema'
 import { useLanguage } from '@/context/language'
 import { useAuth } from '@/context/auth'
-import { AnimatedLink } from '@/components/animated-link'
+import { useState } from 'react'
+import { redirect, useSearchParams } from 'next/navigation'
 
-export const LoginForm = () => {
+export const ResetPasswordForm = () => {
   const { dictionary, language } = useLanguage()
-  const { signInWithCredentials } = useAuth()
+  const { resetPassword } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginFormSchema(dictionary)),
+  const form = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordFormSchema(dictionary)),
     defaultValues: {
-      email: '',
       password: '',
     },
   })
 
-  async function onSubmit(values: LoginFormValues) {
-    await signInWithCredentials(values)
+  const searchParams = useSearchParams()
+  const code = searchParams.get('code')
+
+  async function onSubmit({ password }: ResetPasswordFormValues) {
+    if (!code) return redirect(`/${language}/login`)
+
+    await resetPassword({ password, code })
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{dictionary.email_label}</FormLabel>
-
-              <FormControl>
-                <Input placeholder="email@domain.com" {...field} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="password"
@@ -114,16 +107,13 @@ export const LoginForm = () => {
           )}
         />
 
-        <div className="flex justify-between items-end space-x-2">
-          <AnimatedLink
-            href={`/${language}/forgot-password`}
-            className="text-sm"
+        <div className="flex justify-end space-x-2">
+          <Button
+            type="submit"
+            className="w-full"
+            loading={form.formState.isSubmitting}
           >
-            {dictionary.forgot_your_password}
-          </AnimatedLink>
-
-          <Button type="submit" loading={form.formState.isSubmitting}>
-            {dictionary.access_button}
+            {dictionary.submit_button}
           </Button>
         </div>
       </form>
