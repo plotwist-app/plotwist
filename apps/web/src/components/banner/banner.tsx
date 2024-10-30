@@ -17,7 +17,7 @@ export const Banner = ({ url, className, ...props }: BannerProps) => {
       <div
         style={{
           backgroundImage: `url('${url}')`,
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
         }}
         className="h-full w-full brightness-50"
         data-testid="banner"

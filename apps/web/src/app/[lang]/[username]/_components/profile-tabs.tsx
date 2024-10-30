@@ -1,6 +1,6 @@
 'use client'
 
-import { Eye, List, Star } from 'lucide-react'
+import { List, Star, File } from 'lucide-react'
 import {
   Tabs,
   TabsContent,
@@ -13,6 +13,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Profile } from '@/types/supabase'
 import { useLanguage } from '@/context/language'
 import { useCallback } from 'react'
+import { WatchList } from './profile-watch-list'
 
 type ProfileTabsProps = {
   profile: Profile
@@ -59,12 +60,21 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
             {dictionary.profile.lists}
           </TabsTrigger>
 
-          <TabsTrigger
+          {/* <TabsTrigger
             onClick={() => handleTabChange('watched')}
             value="watched"
           >
             <Eye className="mr-1" width={12} height={12} />
             Assistidos
+          </TabsTrigger>
+           */}
+
+          <TabsTrigger
+            onClick={() => handleTabChange('watch-list')}
+            value="watch-list"
+          >
+            <File className="mr-1" width={12} height={12} />
+            Watchlist
           </TabsTrigger>
 
           {/* {mode === 'EDIT' && (
@@ -103,6 +113,10 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
 
       <TabsContent value="lists" className="mt-4">
         <ProfileLists userId={profile.id} />
+      </TabsContent>
+
+      <TabsContent value="watch-list" className="mt-4">
+        <WatchList userId={profile.id} />
       </TabsContent>
 
       {/* {mode === 'EDIT' && (

@@ -8,6 +8,7 @@ import type { Review } from '@/types/supabase/reviews'
 export const addItemToWatchList = async ({
   userId,
   tmdbId,
+  type,
 }: AddItemToWatchListValues) => {
   const userAlreadyReviewedItem = await supabase
     .from('reviews')
@@ -16,7 +17,7 @@ export const addItemToWatchList = async ({
     .eq('tmdb_id', tmdbId)
     .returns<Review>()
 
-  if (userAlreadyReviewedItem.data) {
+  if (userAlreadyReviewedItem.data?.id) {
     throw new Error('User already reviewed item')
   }
 
@@ -27,13 +28,14 @@ export const addItemToWatchList = async ({
     .eq('tmdb_id', tmdbId)
     .returns<WatchListItem>()
 
-  if (userAlreadyHasItem.data) {
+  if (userAlreadyHasItem.data?.id) {
     throw new Error('Item already in watch list')
   }
 
   const { error, data } = await supabase.from('watch_list_items').insert({
     user_id: userId,
     tmdb_id: tmdbId,
+    type,
   })
 
   if (error) throw new Error(error.message)
