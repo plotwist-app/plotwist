@@ -23,5 +23,12 @@ export const createReview = async ({
   })
 
   if (error) throw new Error(error.message)
+
+  await supabase
+    .from('watch_list_items')
+    .delete()
+    .eq('user_id', userId)
+    .eq('tmdb_id', tmdbItem.id)
+
   return data
 }

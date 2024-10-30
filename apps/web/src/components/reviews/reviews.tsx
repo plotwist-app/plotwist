@@ -13,7 +13,7 @@ import { getReviewsService } from '@/services/api/reviews/get-reviews'
 import { MediaType } from '@/types/supabase/media-type'
 import { useLanguage } from '@/context/language'
 
-type TmdbItem = TvSerieDetails | MovieDetails
+export type TmdbItem = TvSerieDetails | MovieDetails
 
 export type ReviewsProps = {
   tmdbItem: TmdbItem

@@ -1,11 +1,11 @@
 'use client'
 
 import { useAuth } from '@/context/auth'
-import { useQuery } from '@tanstack/react-query'
 import { getWatchList } from '@/services/api/watch-list'
+import { useQuery } from '@tanstack/react-query'
 import {
-  WatchListItemCardSkeleton,
   WatchListItemCard,
+  WatchListItemCardSkeleton,
 } from './profile-watch-list-item-card'
 
 import { WatchListModalSearch } from './profile-watch-list-modal'
@@ -24,8 +24,8 @@ export const WatchList = ({ userId }: WatchListProps) => {
 
   if (isLoading)
     return (
-      <div className="grid w-1/2 grid-cols-1 gap-4 lg:grid-cols-2">
-        {Array.from({ length: 2 }).map((_, index) => (
+      <div className="grid w-1/2 grid-cols-1 gap-4 lg:grid-cols-4 lg:w-full">
+        {Array.from({ length: 4 }).map((_, index) => (
           <WatchListItemCardSkeleton key={index} />
         ))}
       </div>
@@ -63,7 +63,7 @@ export const WatchList = ({ userId }: WatchListProps) => {
 
         <div className="grid w-1/2 grid-cols-1 gap-4 lg:grid-cols-4 lg:w-full">
           {watchList.map((item) => (
-            <WatchListItemCard item={item} key={item.id} />
+            <WatchListItemCard item={item} key={item.id} isOwner={isOwner} />
           ))}
         </div>
       </div>

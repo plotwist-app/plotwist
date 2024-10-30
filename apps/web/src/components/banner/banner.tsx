@@ -3,9 +3,10 @@ import { ComponentProps } from 'react'
 
 type BannerProps = {
   url?: string
+  initial?: boolean
 } & ComponentProps<'div'>
 
-export const Banner = ({ url, className, ...props }: BannerProps) => {
+export const Banner = ({ initial, url, className, ...props }: BannerProps) => {
   return (
     <div
       {...props}
@@ -17,7 +18,7 @@ export const Banner = ({ url, className, ...props }: BannerProps) => {
       <div
         style={{
           backgroundImage: `url('${url}')`,
-          backgroundSize: 'contain',
+          backgroundSize: initial ? 'initial' : 'contain',
         }}
         className="h-full w-full brightness-50"
         data-testid="banner"
