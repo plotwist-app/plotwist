@@ -47,7 +47,6 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
     const down = (e: KeyboardEvent) => {
       if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-
         setOpen((open) => !open)
       }
     }
@@ -77,24 +76,26 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
     <>
       <Button
         variant="outline"
-        className="flex flex-row gap-2 w-full"
+        className="flex flex-row gap-2 w-full text-xs sm:text-sm"
         onClick={() => setOpen(true)}
       >
-        <PlusIcon className="size-4" />
-        Add more movies or series
+        <PlusIcon className="size-3 sm:size-4" />
+        <span className="hidden sm:inline">Add more movies or series</span>
+        <span className="sm:hidden">Add to watchlist</span>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command>
+        <Command className="max-w-[95vw] sm:max-w-xl">
           <CommandInput
             placeholder={dictionary.sidebar_search.placeholder}
             onValueChange={setSearch}
             value={search}
+            className="text-sm sm:text-base"
           />
 
-          <CommandList className="">
+          <CommandList className="max-h-[60vh] sm:max-h-[70vh] overflow-y-auto">
             {isLoading && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8 p-2 sm:p-4">
                 <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
                   {Array.from({ length: 5 }).map((_, index) => (
                     <CommandSearchSkeleton key={index} />
@@ -112,7 +113,7 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
             )}
 
             {hasResults ? (
-              <div className="">
+              <div className="p-2 sm:p-4 space-y-6 sm:space-y-8">
                 {hasMovies && (
                   <CommandSearchGroup
                     heading={dictionary.sidebar_search.movies}
@@ -129,7 +130,6 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
                             {
                               onError: () => {
                                 setOpen(false)
-
                                 return toast.error(
                                   'There was a error trying to add this item to your Watchlist',
                                 )
@@ -165,14 +165,12 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
                             {
                               onError: () => {
                                 setOpen(false)
-
                                 return toast.error(
                                   'There was a error trying to add this item to your Watchlist',
                                 )
                               },
                               onSuccess: () => {
                                 setOpen(false)
-
                                 return toast.success(
                                   'This item was added to your Watchlist',
                                 )
@@ -189,7 +187,7 @@ export const WatchListModalSearch = ({ userId }: { userId: string }) => {
                 )}
               </div>
             ) : (
-              <p className="p-8 text-center">
+              <p className="p-4 sm:p-8 text-center text-sm sm:text-base">
                 {dictionary.list_command.no_results}
               </p>
             )}

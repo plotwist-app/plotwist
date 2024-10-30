@@ -29,13 +29,13 @@ export const WatchListSearchMovie = ({
       <HoverCardTrigger>
         <button
           onClick={() => handleAddToWatchList(item.id.toString(), 'MOVIE')}
-          className="w-full flex cursor-pointer items-center justify-between gap-4 rounded-sm p-2 hover:bg-muted"
+          className="w-full flex cursor-pointer items-center justify-between gap-2 sm:gap-4 rounded-sm p-1.5 sm:p-2 hover:bg-muted"
         >
-          <span className="truncate whitespace-nowrap text-sm">
+          <span className="truncate whitespace-nowrap text-xs sm:text-sm">
             {item.title}
           </span>
 
-          <span className="whitespace-nowrap text-xs text-muted-foreground">
+          <span className="whitespace-nowrap text-[10px] sm:text-xs text-muted-foreground">
             {item.release_date !== '' &&
               new Date(item.release_date).getFullYear()}
           </span>
@@ -44,7 +44,7 @@ export const WatchListSearchMovie = ({
 
       <HoverCardPortal>
         <HoverCardContent
-          className="w-[320px] overflow-hidden rounded-lg p-0"
+          className="w-[280px] sm:w-[320px] overflow-hidden rounded-lg p-0"
           side="top"
           align="start"
         >
@@ -54,6 +54,7 @@ export const WatchListSearchMovie = ({
                 src={tmdbImage(item.backdrop_path)}
                 alt={item.title}
                 fill
+                className="object-cover"
               />
             )}
           </ItemHoverCard.Banner>
@@ -65,15 +66,19 @@ export const WatchListSearchMovie = ({
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.title}
                   fill
-                  objectFit="cover"
+                  className="object-cover"
                 />
               )}
             </ItemHoverCard.Poster>
 
             <ItemHoverCard.Summary>
-              <ItemHoverCard.Title>{item.title}</ItemHoverCard.Title>
+              <ItemHoverCard.Title>
+                <h1 className="text-sm sm:text-base">{item.title}</h1>
+              </ItemHoverCard.Title>
 
-              <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
+              <ItemHoverCard.Overview>
+                <p className="text-xs sm:text-sm">{item.overview}</p>
+              </ItemHoverCard.Overview>
             </ItemHoverCard.Summary>
           </ItemHoverCard.Information>
         </HoverCardContent>
@@ -91,13 +96,13 @@ export const WatchListSearchTvSerie = ({
       <HoverCardTrigger>
         <button
           onClick={() => handleAddToWatchList(item.id.toString(), 'TV')}
-          className="w-full flex cursor-pointer items-center justify-between gap-4 rounded-sm p-2 hover:bg-muted"
+          className="w-full flex cursor-pointer items-center justify-between gap-2 sm:gap-4 rounded-sm p-1.5 sm:p-2 hover:bg-muted"
         >
-          <span className="truncate whitespace-nowrap text-sm">
+          <span className="truncate whitespace-nowrap text-xs sm:text-sm">
             {item.name}
           </span>
 
-          <span className="whitespace-nowrap text-xs text-muted-foreground">
+          <span className="whitespace-nowrap text-[10px] sm:text-xs text-muted-foreground">
             {item.first_air_date && new Date(item.first_air_date).getFullYear()}
           </span>
         </button>
@@ -105,13 +110,18 @@ export const WatchListSearchTvSerie = ({
 
       <HoverCardPortal>
         <HoverCardContent
-          className="w-[320px] overflow-hidden rounded-lg p-0"
+          className="w-[280px] sm:w-[320px] overflow-hidden rounded-lg p-0"
           side="top"
           align="start"
         >
           <ItemHoverCard.Banner>
             {item.backdrop_path && (
-              <Image src={tmdbImage(item.backdrop_path)} alt={item.name} fill />
+              <Image
+                src={tmdbImage(item.backdrop_path)}
+                alt={item.name}
+                fill
+                className="object-cover"
+              />
             )}
           </ItemHoverCard.Banner>
 
@@ -122,15 +132,19 @@ export const WatchListSearchTvSerie = ({
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.name}
                   fill
-                  objectFit="cover"
+                  className="object-cover"
                 />
               )}
             </ItemHoverCard.Poster>
 
             <ItemHoverCard.Summary>
-              <ItemHoverCard.Title>{item.name}</ItemHoverCard.Title>
+              <ItemHoverCard.Title>
+                <h1 className="text-sm sm:text-base">{item.name}</h1>
+              </ItemHoverCard.Title>
 
-              <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
+              <ItemHoverCard.Overview>
+                <p className="text-xs sm:text-sm">{item.overview}</p>
+              </ItemHoverCard.Overview>
             </ItemHoverCard.Summary>
           </ItemHoverCard.Information>
         </HoverCardContent>
@@ -140,8 +154,8 @@ export const WatchListSearchTvSerie = ({
 }
 
 export const WatchListSearchSkeleton = () => (
-  <div className="flex items-center justify-between gap-4 rounded-sm p-2">
-    <Skeleton className="h-[2ex] w-[20ch]" />
-    <Skeleton className="h-[2ex] w-[4ch]" />
+  <div className="flex items-center justify-between gap-2 sm:gap-4 rounded-sm p-1.5 sm:p-2">
+    <Skeleton className="h-[1.5ex] sm:h-[2ex] w-[15ch] sm:w-[20ch]" />
+    <Skeleton className="h-[1.5ex] sm:h-[2ex] w-[3ch] sm:w-[4ch]" />
   </div>
 )

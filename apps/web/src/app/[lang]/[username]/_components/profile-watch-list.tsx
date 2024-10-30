@@ -24,7 +24,7 @@ export const WatchList = ({ userId }: WatchListProps) => {
 
   if (isLoading)
     return (
-      <div className="grid w-1/2 grid-cols-1 gap-4 lg:grid-cols-4 lg:w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
         {Array.from({ length: 4 }).map((_, index) => (
           <WatchListItemCardSkeleton key={index} />
         ))}
@@ -37,8 +37,10 @@ export const WatchList = ({ userId }: WatchListProps) => {
 
   if (!watchList && isOwner && userId) {
     return (
-      <div className="justify flex w-full flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
-        <p>You don&apos;t have a Watchlist yet.</p>
+      <div className="flex w-full flex-col items-center justify-center space-y-2 rounded-md border border-dashed px-4 py-6 sm:py-8 text-center">
+        <p className="text-sm sm:text-base">
+          You don&apos;t have a Watchlist yet.
+        </p>
         <WatchListModalSearch userId={userId} />
       </div>
     )
@@ -46,27 +48,27 @@ export const WatchList = ({ userId }: WatchListProps) => {
 
   if (isVisitorAndListEmpty || !watchList) {
     return (
-      <div className="justify flex w-full flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
-        <p>This user doesn&apos;t have a Watchlist yet.</p>
+      <div className="flex w-full flex-col items-center justify-center space-y-2 rounded-md border border-dashed px-4 py-6 sm:py-8 text-center">
+        <p className="text-sm sm:text-base">
+          This user doesn&apos;t have a Watchlist yet.
+        </p>
       </div>
     )
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-2">
-        {isOwner && userId && (
-          <div className="flex">
-            <WatchListModalSearch userId={userId} />
-          </div>
-        )}
-
-        <div className="grid w-1/2 grid-cols-1 gap-4 lg:grid-cols-4 lg:w-full">
-          {watchList.map((item) => (
-            <WatchListItemCard item={item} key={item.id} isOwner={isOwner} />
-          ))}
+    <div className="flex flex-col gap-3 sm:gap-4">
+      {isOwner && userId && (
+        <div className="flex w-full">
+          <WatchListModalSearch userId={userId} />
         </div>
+      )}
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+        {watchList.map((item) => (
+          <WatchListItemCard item={item} key={item.id} isOwner={isOwner} />
+        ))}
       </div>
-    </>
+    </div>
   )
 }

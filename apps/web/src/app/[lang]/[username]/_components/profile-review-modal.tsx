@@ -90,15 +90,18 @@ export const ProfileReviewModal = ({
   const usernameInitial = username?.at(0)?.toUpperCase()
 
   return (
-    <DialogContent className="sm:max-w-[500px]">
+    <DialogContent className="w-[95vw] max-w-[500px] p-4 sm:p-6">
       <DialogHeader>
-        <DialogTitle className="text-xl font-semibold">
+        <DialogTitle className="text-lg sm:text-xl font-semibold">
           Write a review
         </DialogTitle>
       </DialogHeader>
-      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex items-start gap-4">
-          <div className="relative flex-shrink-0 rounded-lg overflow-hidden w-24 h-36 sm:w-32 sm:h-48">
+      <form
+        className="space-y-4 sm:space-y-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div className="relative flex-shrink-0 rounded-lg overflow-hidden w-32 h-48">
             {tmdbItem.poster_path && (
               <Banner
                 url={tmdbImage(tmdbItem.poster_path, 'w500')}
@@ -106,13 +109,13 @@ export const ProfileReviewModal = ({
               />
             )}
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold leading-tight mb-2">
+          <div className="flex-1 min-w-0 w-full text-center sm:text-left">
+            <h3 className="text-base sm:text-lg font-semibold leading-tight mb-2">
               {'title' in tmdbItem ? tmdbItem.title : tmdbItem.name}
             </h3>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center justify-center sm:justify-start gap-2 mb-4">
               <Link href={`/${language}/${username}`}>
-                <Avatar className="size-8 border text-[10px] shadow">
+                <Avatar className="size-6 sm:size-8 border text-[10px] shadow">
                   {user.image_path && (
                     <AvatarImage
                       src={tmdbImage(user.image_path, 'w500')}
@@ -120,11 +123,12 @@ export const ProfileReviewModal = ({
                       alt={username}
                     />
                   )}
-
                   <AvatarFallback>{usernameInitial}</AvatarFallback>
                 </Avatar>
               </Link>
-              <span className="text-md text-muted-foreground">{username}</span>
+              <span className="text-sm sm:text-md text-muted-foreground">
+                {username}
+              </span>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Your Rating</label>
@@ -149,22 +153,27 @@ export const ProfileReviewModal = ({
               <Textarea
                 id="review"
                 placeholder="What did you think about the movie?"
-                className="min-h-[100px] resize-none"
+                className="min-h-[100px] resize-none text-sm sm:text-base"
                 {...field}
               />
             )}
           />
         </div>
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
           <Button
             type="button"
             variant="outline"
             onClick={() => setOpen(false)}
             disabled={form.formState.isSubmitting}
+            className="w-full sm:w-auto"
           >
             Cancel
           </Button>
-          <Button type="submit" loading={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            loading={form.formState.isSubmitting}
+            className="w-full sm:w-auto"
+          >
             {form.formState.isSubmitting && (
               <Loader2 className="size-4 mr-2 animate-spin" />
             )}

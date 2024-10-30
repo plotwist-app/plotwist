@@ -60,7 +60,7 @@ export const WatchListItemCard = ({
   if (!itemData) return null
 
   return (
-    <div className="group relative space-y-2">
+    <div className="group relative space-y-0.5 sm:space-y-2">
       <div className="aspect-poster w-full overflow-hidden rounded-md border bg-card/50">
         {itemData.poster_path ? (
           <Banner
@@ -69,28 +69,27 @@ export const WatchListItemCard = ({
           />
         ) : (
           <div className="flex h-full items-center justify-center">
-            <ImageIcon className="size-8 text-muted-foreground" />
+            <ImageIcon className="size-6 sm:size-8 text-muted-foreground" />
           </div>
         )}
 
         {isOwner && (
-          <div className="absolute inset-0 flex items-end justify-end opacity-0 transition-opacity group-hover:opacity-100 bg-gradient-to-t from-black/80 to-transparent p-2">
+          <div className="absolute inset-0 flex items-end justify-end opacity-0 transition-opacity group-hover:opacity-100 bg-gradient-to-t from-black/80 to-transparent p-0.5 sm:p-2">
             <TooltipProvider>
-              <div className="flex gap-1">
+              <div className="flex gap-0.5">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="size-8 bg-background"
+                      className="size-5 sm:size-8 bg-background"
                       disabled
-                      // onClick={() => handleMar}
                     >
-                      <Eye className="size-4" />
+                      <Eye className="size-2.5 sm:size-4" />
                     </Button>
                   </TooltipTrigger>
 
-                  <TooltipContent className="bg-background border-accent text-muted-foreground">
+                  <TooltipContent className="bg-background border-accent text-muted-foreground text-[10px] sm:text-sm">
                     <p>Mark as watched</p>
                   </TooltipContent>
                 </Tooltip>
@@ -105,15 +104,15 @@ export const WatchListItemCard = ({
                         <Button
                           variant="secondary"
                           size="icon"
-                          className="size-8 bg-background hover:text-yellow-300"
+                          className="size-5 sm:size-8 bg-background hover:text-yellow-300"
                           onClick={() => setMarkAsWatchedModalOpen(true)}
                         >
-                          <StarIcon className="size-4" />
+                          <StarIcon className="size-2.5 sm:size-4" />
                         </Button>
                       </TooltipTrigger>
                     </DialogTrigger>
 
-                    <TooltipContent className="bg-background border-accent text-muted-foreground">
+                    <TooltipContent className="bg-background border-accent text-muted-foreground text-[10px] sm:text-sm">
                       <p>Review it now</p>
                     </TooltipContent>
 
@@ -130,7 +129,7 @@ export const WatchListItemCard = ({
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="size-8 bg-background hover:text-red-300"
+                      className="size-5 sm:size-8 bg-background hover:text-red-300"
                       onClick={() => {
                         handleRemoveFromWatchList.mutate(
                           { tmdb_id: item.tmdb_id, user_id: user?.id || '' },
@@ -143,11 +142,11 @@ export const WatchListItemCard = ({
                         )
                       }}
                     >
-                      <Trash2 className="size-4" />
+                      <Trash2 className="size-2.5 sm:size-4" />
                     </Button>
                   </TooltipTrigger>
 
-                  <TooltipContent className="bg-background border-accent text-muted-foreground">
+                  <TooltipContent className="bg-background border-accent text-muted-foreground text-[10px] sm:text-sm">
                     <p>Remove from watchlist</p>
                   </TooltipContent>
                 </Tooltip>
@@ -162,7 +161,7 @@ export const WatchListItemCard = ({
 
 export const WatchListItemCardSkeleton = () => {
   return (
-    <div className="group relative space-y-2">
+    <div className="group relative space-y-1 sm:space-y-2">
       <div className="aspect-poster w-full overflow-hidden rounded-md border bg-card/50">
         <Skeleton className="h-full w-full" />
       </div>
