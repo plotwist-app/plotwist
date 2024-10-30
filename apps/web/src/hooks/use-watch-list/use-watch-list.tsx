@@ -10,7 +10,7 @@ import {
 export const useWatchList = ({ userId }: { userId: string }) => {
   const { data } = useQuery({
     queryKey: ['watch-list', userId],
-    queryFn: () => getWatchList({ userId }),
+    queryFn: () => getWatchList({ user_id: userId }),
   })
 
   const invalidateQueries = async () => {

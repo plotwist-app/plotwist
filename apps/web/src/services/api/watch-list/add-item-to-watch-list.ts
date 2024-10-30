@@ -6,10 +6,13 @@ import { supabase } from '@/services/supabase'
 import type { Review } from '@/types/supabase/reviews'
 
 export const addItemToWatchList = async ({
-  userId,
-  tmdbId,
+  user_id: userId,
+  tmdb_id: tmdbId,
   type,
 }: AddItemToWatchListValues) => {
+  if (!userId) throw new Error('User ID is required')
+  if (typeof userId !== 'string') throw new Error('Invalid user id')
+
   const userAlreadyReviewedItem = await supabase
     .from('reviews')
     .select('*')

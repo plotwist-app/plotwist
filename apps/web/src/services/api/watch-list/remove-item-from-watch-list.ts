@@ -5,8 +5,8 @@ import type {
 import { supabase } from '@/services/supabase'
 
 export const removeItemFromWatchList = async ({
-  userId,
-  tmdbId,
+  user_id: userId,
+  tmdb_id: tmdbId,
 }: RemoveItemFromWatchListValues) => {
   const userHasItem = await supabase
     .from('watch_list_items')
