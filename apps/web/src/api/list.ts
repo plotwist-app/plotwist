@@ -4,76 +4,27 @@
  * Event booster
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
-import type {
-  MutationFunction,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
 import type {
   PostRegisterListBody
 } from './endpoints.schemas'
+import { axiosInstance } from '../services/axios-instance';
 
 
 
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-/**
+
+  /**
  * Register a list
  */
 export const postRegisterList = (
-    postRegisterListBody: PostRegisterListBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `/register-list`,
-      postRegisterListBody,options
-    );
-  }
-
-
-
-export const getPostRegisterListMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRegisterList>>, TError,{data: PostRegisterListBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postRegisterList>>, TError,{data: PostRegisterListBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postRegisterList>>, {data: PostRegisterListBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postRegisterList(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostRegisterListMutationResult = NonNullable<Awaited<ReturnType<typeof postRegisterList>>>
-    export type PostRegisterListMutationBody = PostRegisterListBody
-    export type PostRegisterListMutationError = AxiosError<unknown>
-
-    export const usePostRegisterList = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postRegisterList>>, TError,{data: PostRegisterListBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof postRegisterList>>,
-        TError,
-        {data: PostRegisterListBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPostRegisterListMutationOptions(options);
-
-      return useMutation(mutationOptions);
+    postRegisterListBody: PostRegisterListBody,
+ options?: SecondParameter<typeof axiosInstance>,) => {
+      return axiosInstance<void>(
+      {url: `/register-list`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postRegisterListBody
+    },
+      options);
     }
-    
+  export type PostRegisterListResult = NonNullable<Awaited<ReturnType<typeof postRegisterList>>>

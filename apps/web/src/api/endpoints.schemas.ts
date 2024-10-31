@@ -4,83 +4,92 @@
  * Event booster
  * OpenAPI spec version: 0.1.0
  */
+/**
+ * Invalid email or password.
+ */
+export type PostLogin400 = {
+  message: string
+}
+
+export type PostLogin200 = {
+  token: string
+}
+
 export type PostLoginBody = {
-  email: string;
+  email: string
   /** @minLength 8 */
-  password?: string;
-};
+  password?: string
+}
 
 export type PostRegisterListBody = {
-  description: string;
+  description: string
   /** @minLength 1 */
-  title: string;
-};
+  title: string
+}
 
 /**
  * Email is already registered.
  */
-export type GetCheckEmail409 = {
-  message: string;
-};
+export type GetUsersCheckEmail409 = {
+  message: string
+}
 
-export type GetCheckEmail200 = {
-  available: boolean;
-};
+export type GetUsersCheckEmail200 = {
+  available: boolean
+}
 
-export type GetCheckEmailParams = {
-email: string;
-};
+export type GetUsersCheckEmailParams = {
+  email: string
+}
 
 /**
  * Username is already registered.
  */
-export type GetCheckUsername409 = {
-  message: string;
-};
+export type GetUsersAvailableUsername409 = {
+  message: string
+}
 
-export type GetCheckUsername200 = {
-  available: boolean;
-};
+export type GetUsersAvailableUsername200 = {
+  available: boolean
+}
 
-export type GetCheckUsernameParams = {
-username: string;
-};
+export type GetUsersAvailableUsernameParams = {
+  username: string
+}
 
 /**
  * Fail to hash password.
  */
-export type PostRegisterUser500 = {
-  message: string;
-};
+export type PostUsersCreate500 = {
+  message: string
+}
 
 /**
  * Email or username is already registered.
  */
-export type PostRegisterUser409 = {
-  message: string;
-};
+export type PostUsersCreate409 = {
+  message: string
+}
 
-export type PostRegisterUser200User = {
+export type PostUsersCreate200User = {
   /** @nullable */
-  createdAt?: string | null;
-  /** @maxLength 255 */
-  email: string;
-  id?: string;
-  username: string;
-};
+  createdAt?: string | null
+  email: string
+  id?: string
+  username: string
+}
 
 /**
  * Fail to hash password.
  */
-export type PostRegisterUser200 = {
-  user: PostRegisterUser200User;
-};
+export type PostUsersCreate200 = {
+  user: PostUsersCreate200User
+}
 
-export type PostRegisterUserBody = {
-  email: string;
+export type PostUsersCreateBody = {
+  email: string
   /** @minLength 8 */
-  password?: string;
-  /** @minLength 1 */
-  username: string;
-};
-
+  password: string
+  /** @minLength 3 */
+  username: string
+}

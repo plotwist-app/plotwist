@@ -1,10 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeft, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Link from 'next/link'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -37,10 +36,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
+import { getUsersCheckEmail } from '@/api/users'
+import { AxiosError } from 'axios'
 
 export const SignUpForm = () => {
   const { signUpWithCredentials } = useAuth()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
 
@@ -59,9 +60,19 @@ export const SignUpForm = () => {
     },
   })
 
-  function onSubmitCredentialsForm() {
-    // TODO: VALIDAR SE EMAIL ESTÁ EM USO
-    setShowUsernameDialog(true)
+  async function onSubmitCredentialsForm({ email }: CredentialsFormValues) {
+    try {
+      await getUsersCheckEmail({ email })
+      setShowUsernameDialog(true)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 409) {
+          credentialsForm.setError('email', {
+            message: dictionary.email_already_taken,
+          })
+        }
+      }
+    }
   }
 
   async function onSubmitUsernameForm() {
@@ -157,14 +168,6 @@ export const SignUpForm = () => {
             </Button>
           </div>
         </form>
-
-        <Link
-          href={`/${language}/sign-up`}
-          className="mt-4 flex items-center justify-center gap-2 text-sm"
-        >
-          <ChevronLeft className="size-3.5" />
-          {dictionary.others_ways}
-        </Link>
       </Form>
 
       <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>

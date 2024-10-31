@@ -4,76 +4,28 @@
  * Event booster
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
 import type {
-  MutationFunction,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
-import type {
+  PostLogin200,
   PostLoginBody
 } from './endpoints.schemas'
+import { axiosInstance } from '../services/axios-instance';
 
 
 
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-/**
+
+  /**
  * User login with email and password
  */
 export const postLogin = (
-    postLoginBody: PostLoginBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `/login`,
-      postLoginBody,options
-    );
-  }
-
-
-
-export const getPostLoginMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postLogin>>, {data: PostLoginBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postLogin(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostLoginMutationResult = NonNullable<Awaited<ReturnType<typeof postLogin>>>
-    export type PostLoginMutationBody = PostLoginBody
-    export type PostLoginMutationError = AxiosError<unknown>
-
-    export const usePostLogin = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof postLogin>>,
-        TError,
-        {data: PostLoginBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPostLoginMutationOptions(options);
-
-      return useMutation(mutationOptions);
+    postLoginBody: PostLoginBody,
+ options?: SecondParameter<typeof axiosInstance>,) => {
+      return axiosInstance<PostLogin200>(
+      {url: `/login`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postLoginBody
+    },
+      options);
     }
-    
+  export type PostLoginResult = NonNullable<Awaited<ReturnType<typeof postLogin>>>

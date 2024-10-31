@@ -28,10 +28,10 @@ import { useAuth } from '@/context/auth'
 import { AnimatedLink } from '@/components/animated-link'
 
 export const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false)
+
   const { dictionary, language } = useLanguage()
   const { signInWithCredentials } = useAuth()
-
-  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema(dictionary)),

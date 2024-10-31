@@ -1,24 +1,27 @@
 {
-	"extends": "@plotwist/typescript-config/nextjs.json",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"plugins": [
-			{
-				"name": "next"
-			}
-		]
-	},
-	"include": [
-		"next-env.d.ts",
-		"next.config.mjs",
-		".next/types/**/*.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.mjs",
-		"**/*.js"
-, ".eslintrc.js", "src/app/[lang]/about/content.mdx"	],
-	"exclude": ["node_modules"]
+  "extends": "@plotwist/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "target": "ES2015",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.mjs",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mjs",
+    "**/*.js",
+    ".eslintrc.js",
+    "src/app/[lang]/about/content.mdx"
+  ],
+  "exclude": ["node_modules"]
 }
