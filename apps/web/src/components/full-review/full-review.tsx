@@ -17,7 +17,7 @@ import { FullReview as FullReviewType } from '@/services/api/reviews'
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { ReviewLikes } from '@/components/reviews/review-likes'
 import { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 type FullReviewProps = {
   review: FullReviewType
@@ -90,23 +90,6 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {hasSpoilers && (
-                <>
-                  <span className="h-1 w-1 rounded-full bg-muted" />
-                  <button
-                    onClick={() => setShowSpoiler(!showSpoiler)}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground/80"
-                  >
-                    {showSpoiler ? (
-                      <EyeOff className="size-4" />
-                    ) : (
-                      <Eye className="size-4" />
-                    )}
-                    {showSpoiler ? 'Hide Spoiler' : 'Show Spoiler'}
-                  </button>
-                </>
-              )}
-
               {likes > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
@@ -116,19 +99,17 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
             </div>
           </div>
 
-          <div className="inline-block relative rounded-md">
-            {hasSpoilers && (
-              <div
-                className={`absolute w-full h-full inset-0 flex items-center justify-center ${
-                  !showSpoiler
-                    ? 'bg-black/30 backdrop-blur-sm'
-                    : 'bg-transparent hover:bg-black/10'
-                } rounded-md z-10 px-4 py-2 transition-colors`}
-              />
+          <p
+            className={cn(
+              'break-words text-muted-foreground relative',
+              hasSpoilers &&
+                'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
+              showSpoiler && 'after:bg-muted/50 after:-z-10',
             )}
-
-            <p className="break-words text-muted-foreground p-3">{content}</p>
-          </div>
+            onClick={() => setShowSpoiler(!showSpoiler)}
+          >
+            {content}
+          </p>
         </div>
       </div>
     </div>

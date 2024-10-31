@@ -27,7 +27,6 @@ import { locale } from '@/utils/date/locale'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { cn } from '@/lib/utils'
-import { Eye } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
@@ -110,19 +109,6 @@ export const ReviewItem = ({
             <span className="h-1 w-1 rounded-full bg-muted" />
             <ReviewStars rating={rating} />
 
-            {hasSpoilers && (
-              <>
-                <span className="h-1 w-1 rounded-full bg-muted" />
-                <button
-                  onClick={() => setShowSpoiler(!showSpoiler)}
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground/80"
-                >
-                  <Eye className="size-4" />
-                  {showSpoiler ? 'Hide Spoiler' : 'Show Spoiler'}
-                </button>
-              </>
-            )}
-
             <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
             <span className="hidden text-xs text-muted-foreground underline-offset-1 md:block">
               {time}
@@ -139,7 +125,7 @@ export const ReviewItem = ({
               setFocusWasDisabled(true)
             }}
             className={cn(
-              'relative space-y-1 rounded-md border p-4 shadow',
+              'relative space-y-1 rounded-md border p-4 shadow overflow-hidden',
               focusReview && 'border-none p-0',
             )}
           >
@@ -158,14 +144,21 @@ export const ReviewItem = ({
                   <span className="backdrop absolute inset-px rounded-md bg-white transition-colors duration-200 dark:bg-neutral-950" />
                 </>
               )}
-              <p className="z-10 break-words text-sm/6">{content}</p>
+
+              <p
+                className={cn(
+                  'z-10 break-words text-sm/6 relative',
+                  hasSpoilers &&
+                    'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
+                  showSpoiler && 'after:bg-muted/50 after:-z-10',
+                )}
+                onClick={() => setShowSpoiler(!showSpoiler)}
+              >
+                {content}
+              </p>
             </div>
           </div>
           <ReviewLikes reviewId={id} />
-
-          {!showSpoiler && hasSpoilers && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[3px] rounded-lg z-10" />
-          )}
         </div>
 
         <ReviewItemActions
