@@ -40,7 +40,7 @@ import { getUsersAvailableUsername, getUsersCheckEmail } from '@/api/users'
 import { AxiosError } from 'axios'
 
 export const SignUpForm = () => {
-  const { signUpWithCredentials } = useAuth()
+  const { signUp } = useAuth()
   const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
@@ -84,9 +84,7 @@ export const SignUpForm = () => {
         ...usernameForm.getValues(),
       }
 
-      console.log({ values })
-
-      // signUpWithCredentials(values)
+      signUp(values)
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.status === 409) {

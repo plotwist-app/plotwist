@@ -24,15 +24,11 @@ import { Input } from '@plotwist/ui/components/ui/input'
 
 import { LoginFormValues, loginFormSchema } from './login-form.schema'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 import { AnimatedLink } from '@/components/animated-link'
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
-
   const { dictionary, language } = useLanguage()
-  const { signInWithCredentials } = useAuth()
-
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema(dictionary)),
     defaultValues: {
@@ -42,7 +38,8 @@ export const LoginForm = () => {
   })
 
   async function onSubmit(values: LoginFormValues) {
-    await signInWithCredentials(values)
+    console.log({ values })
+    // await signInWithCredentials(values)
   }
 
   return (
@@ -114,7 +111,7 @@ export const LoginForm = () => {
           )}
         />
 
-        <div className="flex justify-between items-end space-x-2">
+        <div className="flex justify-between items-center space-x-2">
           <AnimatedLink
             href={`/${language}/forgot-password`}
             className="text-sm"

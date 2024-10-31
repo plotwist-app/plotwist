@@ -3,7 +3,6 @@ import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
-import { LoginSocial } from './_components/login-social'
 import { AnimatedLink } from '@/components/animated-link'
 
 export async function generateMetadata({
@@ -38,7 +37,6 @@ const LoginPage = async ({ params: { lang } }: PageProps) => {
               {dictionary.access_plotwist}
             </h1>
 
-            <LoginSocial />
             <LoginForm />
           </div>
         </div>

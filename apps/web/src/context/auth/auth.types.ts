@@ -1,14 +1,12 @@
+import { PostUsersCreateBody } from '@/api/endpoints.schemas'
 import { Profile } from '@/types/supabase'
 import { ReactNode } from 'react'
 
+export type Credentials = PostUsersCreateBody
+
 export type AuthContext = {
   user: Profile | null
-
-  signInWithCredentials: (
-    credentials: Omit<Credentials, 'username'>,
-  ) => Promise<void>
-
-  signUpWithCredentials: (credentials: Credentials) => Promise<void>
+  signUp: (params: Credentials) => Promise<void>
 
   logout: () => Promise<void>
 
@@ -22,12 +20,6 @@ export type AuthContext = {
 export type AuthContextProviderProps = {
   children: ReactNode
   initialUser: Profile | null
-}
-
-export type Credentials = {
-  email: string
-  password: string
-  username: string
 }
 
 export interface ResetPasswordProps

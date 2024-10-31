@@ -15,6 +15,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Profile } from '@/types/supabase'
 import { getProfileById } from '@/services/api/profiles'
 import { APP_URL } from '../../../constants'
+import { postUsersCreate } from '@/api/users'
 
 export const authContext = createContext({} as AuthContext)
 
@@ -27,67 +28,29 @@ export const AuthContextProvider = ({
   const supabase = createClientComponentClient()
   const { push } = useRouter()
 
-  const signInWithCredentials = async (
-    credentials: Omit<Credentials, 'username'>,
-  ) => {
-    const { error, data } = await supabase.auth.signInWithPassword(credentials)
-
-    if (error) {
-      toast.error(dictionary.login_form.invalid_login_credentials, {
-        action: {
-          label: dictionary.login_form.try_again,
-          onClick: () => signInWithCredentials(credentials),
-        },
-      })
-
-      return
+  const signUp = async (credentials: Credentials) => {
+    try {
+      await postUsersCreate({ ...credentials })
+      toast.success(dictionary.sign_up_form.sign_up_success)
+      push(`/${language}/login`)
+    } catch {
+      toast.error('Não foi possível realizar o cadastro.')
     }
-
-    if (data) {
-      push(`/${language}/home`)
-
-      const profile = await getProfileById(data.user.id)
-      setUser(profile)
-
-      toast.success(dictionary.login_form.login_success)
-    }
-  }
-
-  const signUpWithCredentials = async (credentials: Credentials) => {
-    const { error } = await supabase.auth.signUp({
-      ...credentials,
-      options: {
-        data: {
-          username: credentials.username,
-        },
-      },
-    })
-
-    if (error) {
-      toast.error(dictionary.email_already_taken)
-      return
-    }
-
-    toast.success(dictionary.sign_up_form.sign_up_success)
-    await signInWithCredentials(credentials)
   }
 
   const logout = async () => {
-    const { error } = await supabase.auth.signOut()
-
-    if (error) {
-      toast.error(error.message, {
-        action: {
-          label: dictionary.sign_up_form.try_again,
-          onClick: () => logout(),
-        },
-      })
-
-      return
-    }
-
-    toast.success(dictionary.auth.logout_success)
-    setUser(null)
+    // const { error } = await supabase.auth.signOut()
+    // if (error) {
+    //   toast.error(error.message, {
+    //     action: {
+    //       label: dictionary.sign_up_form.try_again,
+    //       onClick: () => logout(),
+    //     },
+    //   })
+    //   return
+    // }
+    // toast.success(dictionary.auth.logout_success)
+    // setUser(null)
   }
 
   const requestPasswordReset = async ({
@@ -131,8 +94,7 @@ export const AuthContextProvider = ({
     <authContext.Provider
       value={{
         user,
-        signInWithCredentials,
-        signUpWithCredentials,
+        signUp,
         logout,
         requestPasswordReset,
         resetPassword,
@@ -147,7 +109,7 @@ export const useAuth = () => {
   const context = useContext(authContext)
 
   if (!context) {
-    throw new Error('ListsContext must be used within ListsContextProvider')
+    throw new Error('AuthContext must be used within AuthContextProvider')
   }
 
   return context

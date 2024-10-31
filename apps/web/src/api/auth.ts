@@ -4,28 +4,26 @@
  * Event booster
  * OpenAPI spec version: 0.1.0
  */
-import type {
-  PostLogin200,
-  PostLoginBody
-} from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance';
+import type { PostLogin200, PostLoginBody } from './endpoints.schemas'
+import { axiosInstance } from '../services/axios-instance'
 
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
-
-type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
-
-
-  /**
+/**
  * User login with email and password
  */
 export const postLogin = (
-    postLoginBody: PostLoginBody,
- options?: SecondParameter<typeof axiosInstance>,) => {
-      return axiosInstance<PostLogin200>(
-      {url: `/login`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postLoginBody
+  postLoginBody: PostLoginBody,
+  options?: SecondParameter<typeof axiosInstance>,
+) => {
+  return axiosInstance<PostLogin200>(
+    {
+      url: `/login`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: postLoginBody,
     },
-      options);
-    }
-  export type PostLoginResult = NonNullable<Awaited<ReturnType<typeof postLogin>>>
+    options,
+  )
+}
+export type PostLoginResult = NonNullable<Awaited<ReturnType<typeof postLogin>>>

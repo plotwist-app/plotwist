@@ -8,89 +8,97 @@
  * Invalid email or password.
  */
 export type PostLogin400 = {
-  message: string;
-};
+  message: string
+}
+
+export type PostLogin200User = {
+  /** @nullable */
+  createdAt: string | null
+  email: string
+  id: string
+  username: string
+}
 
 export type PostLogin200 = {
-  token: string;
-};
+  token: string
+  user: PostLogin200User
+}
 
 export type PostLoginBody = {
-  email: string;
+  email: string
   /** @minLength 8 */
-  password?: string;
-};
+  password?: string
+}
 
 export type PostRegisterListBody = {
-  description: string;
+  description: string
   /** @minLength 1 */
-  title: string;
-};
+  title: string
+}
 
 /**
  * Email is already registered.
  */
 export type GetUsersCheckEmail409 = {
-  message: string;
-};
+  message: string
+}
 
 export type GetUsersCheckEmail200 = {
-  available: boolean;
-};
+  available: boolean
+}
 
 export type GetUsersCheckEmailParams = {
-email: string;
-};
+  email: string
+}
 
 /**
  * Username is already registered.
  */
 export type GetUsersAvailableUsername409 = {
-  message: string;
-};
+  message: string
+}
 
 export type GetUsersAvailableUsername200 = {
-  available: boolean;
-};
+  available: boolean
+}
 
 export type GetUsersAvailableUsernameParams = {
-username: string;
-};
+  username: string
+}
 
 /**
  * Fail to hash password.
  */
 export type PostUsersCreate500 = {
-  message: string;
-};
+  message: string
+}
 
 /**
  * Email or username is already registered.
  */
 export type PostUsersCreate409 = {
-  message: string;
-};
+  message: string
+}
 
 export type PostUsersCreate200User = {
   /** @nullable */
-  createdAt?: string | null;
-  email: string;
-  id?: string;
-  username: string;
-};
+  createdAt?: string | null
+  email: string
+  id?: string
+  username: string
+}
 
 /**
  * Fail to hash password.
  */
 export type PostUsersCreate200 = {
-  user: PostUsersCreate200User;
-};
+  user: PostUsersCreate200User
+}
 
 export type PostUsersCreateBody = {
-  email: string;
+  email: string
   /** @minLength 8 */
-  password: string;
+  password: string
   /** @minLength 3 */
-  username: string;
-};
-
+  username: string
+}
