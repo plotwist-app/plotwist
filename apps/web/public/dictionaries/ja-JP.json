@@ -719,5 +719,6 @@
   "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません",
   "new": "新しい",
   "roadmap": "ロードマップ",
-  "documentation": "ドキュメント"
+  "documentation": "ドキュメント",
+  "username_already_taken": "このユーザー名は既に使用されています。"
 }

@@ -719,5 +719,7 @@
   "reset_your_password": "Setzen Sie Ihr Passwort zurück",
   "new": "Neu",
   "roadmap": "Fahrplan",
-  "documentation": "Dokumentation"
+  "documentation": "Dokumentation",
+  "username_already_taken": "Dieser Benutzername ist bereits vergeben."
+  
 }

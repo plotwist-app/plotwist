@@ -719,5 +719,6 @@
   "reset_your_password": "Reimposta la tua password",
   "new": "Nuovo",
   "roadmap": "Piano di sviluppo",
-  "documentation": "Documentazione"
+  "documentation": "Documentazione",
+  "username_already_taken": "Questo nome utente è già in uso."
 }

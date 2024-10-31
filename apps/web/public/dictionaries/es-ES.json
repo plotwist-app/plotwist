@@ -718,5 +718,6 @@
   "reset_your_password": "Restablece tu contraseña",
   "new": "Nuevo",
   "roadmap": "Hoja de ruta",
-  "documentation": "Documentación"
+  "documentation": "Documentación",
+  "username_already_taken": "Este nombre de usuario ya está en uso."
 }

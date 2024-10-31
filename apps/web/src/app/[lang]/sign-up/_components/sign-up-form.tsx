@@ -36,7 +36,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
-import { getUsersCheckEmail } from '@/api/users'
+import { getUsersAvailableUsername, getUsersCheckEmail } from '@/api/users'
 import { AxiosError } from 'axios'
 
 export const SignUpForm = () => {
@@ -75,13 +75,27 @@ export const SignUpForm = () => {
     }
   }
 
-  async function onSubmitUsernameForm() {
-    const values = {
-      ...credentialsForm.getValues(),
-      ...usernameForm.getValues(),
-    }
+  async function onSubmitUsernameForm({ username }: UsernameFormValues) {
+    try {
+      await getUsersAvailableUsername({ username })
 
-    signUpWithCredentials(values)
+      const values = {
+        ...credentialsForm.getValues(),
+        ...usernameForm.getValues(),
+      }
+
+      console.log({ values })
+
+      // signUpWithCredentials(values)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 409) {
+          usernameForm.setError('username', {
+            message: dictionary.username_already_taken,
+          })
+        }
+      }
+    }
   }
 
   return (
@@ -203,7 +217,12 @@ export const SignUpForm = () => {
               </div>
 
               <DialogFooter>
-                <Button type="submit">{dictionary.finish_sign_up}</Button>
+                <Button
+                  type="submit"
+                  loading={usernameForm.formState.isSubmitting}
+                >
+                  {dictionary.finish_sign_up}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

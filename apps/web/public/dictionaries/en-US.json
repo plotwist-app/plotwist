@@ -718,5 +718,6 @@
   "reset_your_password": "Reset your password",
   "new": "New",
   "roadmap": "Roadmap",
-  "documentation": "Documentation"
+  "documentation": "Documentation",
+  "username_already_taken": "This username is already taken."
 }

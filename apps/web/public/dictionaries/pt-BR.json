@@ -718,5 +718,6 @@
   "reset_your_password": "Redefina sua senha",
   "new": "Novo",
   "roadmap": "Plano de desenvolvimento",
-  "documentation": "Documentação"
+  "documentation": "Documentação",
+  "username_already_taken": "Este nome de usuário já está em uso."
 }
