@@ -36,6 +36,9 @@ import { ReviewStars } from '../review-stars'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { Label } from '@plotwist/ui/components/ui/label'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 type ReviewItemEditActionsProps = { review: Review }
 
@@ -150,6 +153,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
     defaultValues: {
       review: review.review,
       rating: review.rating,
+      hasSpoilers: review.has_spoilers,
     },
   })
 
@@ -157,6 +161,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
     handleEditReview.mutate(
       {
         id: review.id,
+        has_spoilers: values.hasSpoilers,
         ...values,
       },
       {
@@ -194,16 +199,44 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={({ field }) => (
-                      <ReviewStars
-                        onChange={field.onChange}
-                        rating={field.value}
-                      />
+                  <div className="flex items-center justify-between gap-2 xs:gap-[168.5px] sm:gap-[108.5px]">
+                    <FormField
+                      control={form.control}
+                      name="rating"
+                      render={({ field }) => (
+                        <ReviewStars
+                          onChange={field.onChange}
+                          rating={field.value}
+                        />
+                      )}
+                    />
+
+                    {useMediaQuery('(min-width: 520px)') ? null : (
+                      <span className="h-1 w-1 rounded-full bg-muted" />
                     )}
-                  />
+
+                    <FormField
+                      control={form.control}
+                      name="hasSpoilers"
+                      render={({ field }) => (
+                        <div className="flex items-center justify-center gap-2">
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            id="has_spoilers"
+                            className="border-muted-foreground text-primary-foreground/80"
+                          />
+                          <Label
+                            onClick={field.onChange}
+                            htmlFor="has_spoilers"
+                            className="text-muted-foreground hover:cursor-pointer"
+                          >
+                            Contain spoilers
+                          </Label>
+                        </div>
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
 

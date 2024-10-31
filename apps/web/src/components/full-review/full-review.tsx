@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -14,6 +16,8 @@ import { FullReview as FullReviewType } from '@/services/api/reviews'
 
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { ReviewLikes } from '@/components/reviews/review-likes'
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 type FullReviewProps = {
   review: FullReviewType
@@ -28,6 +32,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     media_type: mediaType,
     review: content,
     rating,
+    has_spoilers: hasSpoilers,
     user: { username, image_path: imagePath },
     likes_count: likes,
   } = review
@@ -40,6 +45,8 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
       : `/${language}/tv-series/${tmdbId}`
 
   const userProfileHref = `/${language}/${username}`
+
+  const [showSpoiler, setShowSpoiler] = useState(false)
 
   return (
     <div className="flex space-x-4" data-testid="full-review">
@@ -92,7 +99,17 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
             </div>
           </div>
 
-          <p className="break-words text-muted-foreground">{content}</p>
+          <p
+            className={cn(
+              'break-words text-muted-foreground relative',
+              hasSpoilers &&
+                'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
+              showSpoiler && 'after:bg-muted/50 after:-z-10',
+            )}
+            onClick={() => setShowSpoiler(!showSpoiler)}
+          >
+            {content}
+          </p>
         </div>
       </div>
     </div>
