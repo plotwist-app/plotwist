@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 import { languages as appLanguages } from '../languages'
-import { getUserService } from './services/api/users/get-user'
 
 const headers = { 'accept-language': 'en-US' }
 const languages = new Negotiator({ headers }).languages()
@@ -29,27 +28,6 @@ export async function middleware(req: NextRequest) {
   if (!pathnameHasLocale) {
     req.nextUrl.pathname = `/${language}${pathname}`
     return NextResponse.redirect(req.nextUrl)
-  }
-
-  const user = await getUserService()
-
-  const isPathnameOnlyLocale = appLanguages.some(
-    (locale) => pathname === `/${locale}`,
-  )
-
-  const authPathnames = [
-    '/login',
-    '/sign-up',
-    '/forgot-password',
-    '/reset-password',
-  ]
-
-  const strippedPathname = pathname.replace(/^\/[a-z]{2}-[A-Z]{2}/, '')
-
-  const isAuthPathname = authPathnames.includes(strippedPathname)
-
-  if ((isPathnameOnlyLocale || isAuthPathname) && user) {
-    return NextResponse.redirect(req.nextUrl.origin + `/${language}/home`)
   }
 
   return NextResponse.next()

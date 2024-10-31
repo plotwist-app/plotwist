@@ -6,6 +6,7 @@ export type Review = {
   created_at: string
   id: string
   rating: number
+  has_spoilers: boolean
   review: string
   user_id: string
   media_type: MediaType
