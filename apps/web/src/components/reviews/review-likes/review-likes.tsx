@@ -43,7 +43,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
     return (
       <div
         className={cn(
-          'absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted',
+          'absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted z-20',
           className,
         )}
       />
@@ -56,7 +56,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
     <Dialog>
       <DialogTrigger
         className={cn(
-          'absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60',
+          'absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60 z-20',
           className,
         )}
       >
