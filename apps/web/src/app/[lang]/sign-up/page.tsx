@@ -44,7 +44,7 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 w-full border-t bg-muted p-4 items-center justify-center space-x-1 flex">
+        <div className="absolute bottom-0 w-full border-t bg-muted dark:bg-black p-4 items-center justify-center space-x-1 flex">
           <Link
             href={`/${lang}/sign-in`}
             className="text-center text-xs text-muted-foreground hover:underline"

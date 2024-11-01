@@ -1,5 +1,4 @@
-import { useRouter } from 'next/navigation'
-import { LogOut, User as UserIcon } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 
 import {
   Avatar,
@@ -9,9 +8,10 @@ import {
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { PostLogin200User } from '@/api/endpoints.schemas'
+import { logout } from '@/actions/auth/logout'
+import Link from 'next/link'
 
 type HeaderNavigationDrawerUserProps = {
   user: PostLogin200User
@@ -20,33 +20,19 @@ type HeaderNavigationDrawerUserProps = {
 export const HeaderNavigationDrawerUser = ({
   user,
 }: HeaderNavigationDrawerUserProps) => {
-  const { push } = useRouter()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   if (!user) return
 
-  const ACTIONS = [
-    {
-      label: 'Profile',
-      icon: UserIcon,
-      fn: () => push(`/${language}/${user.username}`),
-    },
-    {
-      label: 'Log out',
-      icon: LogOut,
-      fn: () => console.log("logout"),
-    },
-  ]
-
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between px-2">
-        <div className="">
-          <span className="font-medium">{user.username}</span>
-          <p className="text-muted-foreground">{user.email}</p>
-        </div>
+      <Link
+        href={`/${language}/${user.username}`}
+        className="flex items-center justify-between px-2"
+      >
+        <span className="font-medium">{user.username}</span>
 
-        <Avatar className="size-6 border">
+        <Avatar className="size-10 border">
           {user.imagePath && (
             <AvatarImage
               src={tmdbImage(user.imagePath, 'w500')}
@@ -56,21 +42,17 @@ export const HeaderNavigationDrawerUser = ({
 
           <AvatarFallback>{user.username?.at(0)}</AvatarFallback>
         </Avatar>
-      </div>
+      </Link>
 
-      <div className="flex flex-col">
-        {ACTIONS.map((action) => (
-          <button
-            className="flex items-center justify-between gap-2 rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-muted"
-            onClick={action.fn}
-            key={action.label}
-          >
-            {action.label}
-
-            {action.icon && <action.icon className="size-4" />}
-          </button>
-        ))}
-      </div>
+      <form action={logout} className="w-full">
+        <button
+          className="flex items-center justify-between gap-2 rounded-md p-2 text-sm font-medium hover:bg-muted w-full"
+          type="submit"
+        >
+          {dictionary.logout}
+          <LogOut className="size-4" />
+        </button>
+      </form>
     </div>
   )
 }

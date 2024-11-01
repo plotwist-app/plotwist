@@ -83,7 +83,6 @@ export const HeaderAccount = () => {
         <DropdownMenuSeparator />
 
         {user ? (
-          // TODO: LOGOUT
           <form action={logout}>
             <DropdownMenuItem onClick={() => {}} asChild>
               <button type="submit" className="w-full">
@@ -93,10 +92,7 @@ export const HeaderAccount = () => {
             </DropdownMenuItem>
           </form>
         ) : (
-          <DropdownMenuItem
-            asChild
-            className="font-medium text-muted-foreground"
-          >
+          <DropdownMenuItem asChild>
             <Link href={`/${language}/sign-in`}>
               <LogIn className="mr-1 size-3" />
               {dictionary.login}
