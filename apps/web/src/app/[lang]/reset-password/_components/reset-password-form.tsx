@@ -28,14 +28,11 @@ import {
   resetPasswordFormSchema,
 } from './reset-password-form.schema'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 import { useState } from 'react'
 import { redirect, useSearchParams } from 'next/navigation'
 
 export const ResetPasswordForm = () => {
   const { dictionary, language } = useLanguage()
-  const { resetPassword } = useAuth()
-
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<ResetPasswordFormValues>({
@@ -50,8 +47,7 @@ export const ResetPasswordForm = () => {
 
   async function onSubmit({ password }: ResetPasswordFormValues) {
     if (!code) return redirect(`/${language}/sign-in`)
-
-    await resetPassword({ password, code })
+    await console.log({ password, code })
   }
 
   return (
