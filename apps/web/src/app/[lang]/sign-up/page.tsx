@@ -4,6 +4,7 @@ import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
 import { SignUpForm } from './_components/sign-up-form'
 import Link from 'next/link'
+import { signUp } from '@/actions/auth/sign-up'
 
 export async function generateMetadata({
   params,
@@ -40,7 +41,7 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
               </p>
             </div>
 
-            <SignUpForm />
+            <SignUpForm onSignUp={signUp} />
           </div>
         </div>
 

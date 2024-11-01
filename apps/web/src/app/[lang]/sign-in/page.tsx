@@ -1,8 +1,9 @@
 import { PageProps } from '@/types/languages'
-import { SignIn } from './_sign-in'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import Link from 'next/link'
+import { SignInForm } from './_sign-in-form'
+import { signIn } from '@/actions/auth/sign-in'
 
 export default async function SignInPage({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)
@@ -18,7 +19,7 @@ export default async function SignInPage({ params: { lang } }: PageProps) {
               {dictionary.access_plotwist}
             </h1>
 
-            <SignIn />
+            <SignInForm onSignIn={signIn} />
           </div>
         </div>
 

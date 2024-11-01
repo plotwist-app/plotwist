@@ -20,7 +20,6 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { Input } from '@plotwist/ui/components/ui/input'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import {
   credentialsFormSchema,
@@ -38,9 +37,15 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { getUsersAvailableUsername, getUsersCheckEmail } from '@/api/users'
 import { AxiosError } from 'axios'
+import { toast } from 'sonner'
 
-export const SignUpForm = () => {
-  const { signUp } = useAuth()
+type SignUpFormProps = {
+  onSignUp: (
+    values: UsernameFormValues & CredentialsFormValues,
+  ) => Promise<void>
+}
+
+export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
   const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
@@ -84,16 +89,18 @@ export const SignUpForm = () => {
         ...usernameForm.getValues(),
       }
 
-      signUp(values)
+      onSignUp(values)
+      toast.success(dictionary.sign_up_form.sign_up_success)
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.status === 409) {
-          usernameForm.setError('username', {
+          return usernameForm.setError('username', {
             message: dictionary.username_already_taken,
           })
         }
       }
-      console.log({ error })
+
+      return toast.error(dictionary.sign_up_form.invalid_sign_up_credentials)
     }
   }
 
