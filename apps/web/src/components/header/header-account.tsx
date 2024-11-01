@@ -22,6 +22,7 @@ import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-config
 
 import { useSession } from '@/context/session'
 import { User } from '@/types/user'
+import { logout } from '@/actions/auth/logout'
 
 type AvatarContentProps = {
   user: User
@@ -83,10 +84,14 @@ export const HeaderAccount = () => {
 
         {user ? (
           // TODO: LOGOUT
-          <DropdownMenuItem onClick={() => {}}>
-            <LogOut className="mr-1 size-3" />
-            {dictionary.logout}
-          </DropdownMenuItem>
+          <form action={logout}>
+            <DropdownMenuItem onClick={() => {}} asChild>
+              <button type="submit" className="w-full">
+                <LogOut className="mr-1 size-3" />
+                {dictionary.logout}
+              </button>
+            </DropdownMenuItem>
+          </form>
         ) : (
           <DropdownMenuItem
             asChild

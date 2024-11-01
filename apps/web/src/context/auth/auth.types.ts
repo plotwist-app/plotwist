@@ -1,27 +1,10 @@
 import { PostUsersCreateBody } from '@/api/endpoints.schemas'
-import { Profile } from '@/types/supabase'
-import { ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 
 export type Credentials = PostUsersCreateBody
 
-export type AuthContext = {
+export type AuthContextType = {
   signUp: (params: Credentials) => Promise<void>
-
-  logout: () => Promise<void>
-
-  requestPasswordReset: (
-    credentials: Omit<Credentials, 'username' | 'password'>,
-  ) => Promise<void>
-
-  resetPassword: (credentials: ResetPasswordProps) => Promise<void>
 }
 
-export type AuthContextProviderProps = {
-  children: ReactNode
-  initialUser: Profile | null
-}
-
-export interface ResetPasswordProps
-  extends Omit<Credentials, 'username' | 'email'> {
-  code: string
-}
+export type AuthContextProviderProps = PropsWithChildren

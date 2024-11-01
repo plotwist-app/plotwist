@@ -93,6 +93,7 @@ export const SignUpForm = () => {
           })
         }
       }
+      console.log({ error })
     }
   }
 

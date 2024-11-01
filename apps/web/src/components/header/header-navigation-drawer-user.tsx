@@ -20,7 +20,6 @@ type HeaderNavigationDrawerUserProps = {
 export const HeaderNavigationDrawerUser = ({
   user,
 }: HeaderNavigationDrawerUserProps) => {
-  const { logout } = useAuth()
   const { push } = useRouter()
   const { language } = useLanguage()
 
@@ -35,7 +34,7 @@ export const HeaderNavigationDrawerUser = ({
     {
       label: 'Log out',
       icon: LogOut,
-      fn: logout,
+      fn: () => console.log("logout"),
     },
   ]
 

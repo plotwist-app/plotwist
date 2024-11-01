@@ -1,6 +1,6 @@
 'use client'
 
-import { signIn, FormState } from '@/actions/auth'
+import { signIn, FormState } from '@/actions/auth/sign-in'
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Input } from '@plotwist/ui/components/ui/input'

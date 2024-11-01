@@ -57,7 +57,8 @@ export async function signIn(
     user = response.user
 
     await createSession({ token, user })
-  } catch {
+  } catch (e) {
+    console.log({ e })
     return state
   }
 
