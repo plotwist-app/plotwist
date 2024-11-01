@@ -11,8 +11,36 @@ export type PostLogin400 = {
   message: string
 }
 
+/**
+ * @nullable
+ */
+export type PostLogin200UserSubscriptionType =
+  | (typeof PostLogin200UserSubscriptionType)[keyof typeof PostLogin200UserSubscriptionType]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogin200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const
+
+export type PostLogin200User = {
+  /** @nullable */
+  bannerPath: string | null
+  /** @nullable */
+  createdAt: string | null
+  email: string
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  /** @nullable */
+  subscriptionType: PostLogin200UserSubscriptionType
+  username: string
+}
+
 export type PostLogin200 = {
   token: string
+  user: PostLogin200User
 }
 
 export type PostLoginBody = {
@@ -71,19 +99,38 @@ export type PostUsersCreate409 = {
   message: string
 }
 
-export type PostUsersCreate200User = {
+/**
+ * @nullable
+ */
+export type PostUsersCreate201UserSubscriptionType =
+  | (typeof PostUsersCreate201UserSubscriptionType)[keyof typeof PostUsersCreate201UserSubscriptionType]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersCreate201UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const
+
+export type PostUsersCreate201User = {
+  /** @nullable */
+  bannerPath?: string | null
   /** @nullable */
   createdAt?: string | null
   email: string
   id?: string
+  /** @nullable */
+  imagePath?: string | null
+  /** @nullable */
+  subscriptionType?: PostUsersCreate201UserSubscriptionType
   username: string
 }
 
 /**
- * Fail to hash password.
+ * User created.
  */
-export type PostUsersCreate200 = {
-  user: PostUsersCreate200User
+export type PostUsersCreate201 = {
+  user: PostUsersCreate201User
 }
 
 export type PostUsersCreateBody = {

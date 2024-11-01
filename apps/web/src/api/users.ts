@@ -9,7 +9,7 @@ import type {
   GetUsersAvailableUsernameParams,
   GetUsersCheckEmail200,
   GetUsersCheckEmailParams,
-  PostUsersCreate200,
+  PostUsersCreate201,
   PostUsersCreateBody,
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance'
@@ -18,7 +18,7 @@ import { axiosInstance } from '../services/axios-instance'
  * Create a user
  */
 export const postUsersCreate = (postUsersCreateBody: PostUsersCreateBody) => {
-  return axiosInstance<PostUsersCreate200>({
+  return axiosInstance<PostUsersCreate201>({
     url: `/users/create`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

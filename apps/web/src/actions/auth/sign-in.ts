@@ -46,7 +46,7 @@ export async function signIn(
     }
   }
 
- const { email, password } = validatedFields.data
+  const { email, password } = validatedFields.data
 
   let token
   let user
