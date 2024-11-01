@@ -44,7 +44,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
                   <Badge>
                     <Image
                       src="/assets/tmdb.svg"
-                      width={55}
+                      width={50}
                       height={1}
                       alt="TMDB"
                       className="mr-2"

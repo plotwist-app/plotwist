@@ -41,6 +41,5 @@ export async function createSession(payload: SessionPayload) {
 }
 
 export async function deleteSession() {
-  console.log("oxi?")
   cookies().delete('session')
 }

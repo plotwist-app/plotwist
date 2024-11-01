@@ -7,24 +7,18 @@
 import type { PostRegisterListBody } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance'
 
-type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
-
 /**
  * Register a list
  */
 export const postRegisterList = (
   postRegisterListBody: PostRegisterListBody,
-  options?: SecondParameter<typeof axiosInstance>,
 ) => {
-  return axiosInstance<void>(
-    {
-      url: `/register-list`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: postRegisterListBody,
-    },
-    options,
-  )
+  return axiosInstance<void>({
+    url: `/register-list`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postRegisterListBody,
+  })
 }
 export type PostRegisterListResult = NonNullable<
   Awaited<ReturnType<typeof postRegisterList>>

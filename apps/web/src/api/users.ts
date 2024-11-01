@@ -9,60 +9,51 @@ import type {
   GetUsersAvailableUsernameParams,
   GetUsersCheckEmail200,
   GetUsersCheckEmailParams,
-  PostUsersCreate201,
-  PostUsersCreateBody,
+  PostUsersCreate200,
+  PostUsersCreateBody
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
 
-type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
-/**
+
+
+  /**
  * Create a user
  */
 export const postUsersCreate = (
-  postUsersCreateBody: PostUsersCreateBody,
-  options?: SecondParameter<typeof axiosInstance>,
-) => {
-  return axiosInstance<PostUsersCreate201>(
-    {
-      url: `/users/create`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: postUsersCreateBody,
+    postUsersCreateBody: PostUsersCreateBody,
+ ) => {
+      return axiosInstance<PostUsersCreate200>(
+      {url: `/users/create`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postUsersCreateBody
     },
-    options,
-  )
-}
-/**
+      );
+    }
+  /**
  * Check if this username is available
  */
 export const getUsersAvailableUsername = (
-  params: GetUsersAvailableUsernameParams,
-  options?: SecondParameter<typeof axiosInstance>,
-) => {
-  return axiosInstance<GetUsersAvailableUsername200>(
-    { url: `/users/available-username`, method: 'GET', params },
-    options,
-  )
-}
-/**
+    params: GetUsersAvailableUsernameParams,
+ ) => {
+      return axiosInstance<GetUsersAvailableUsername200>(
+      {url: `/users/available-username`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
  * Check if this email is available
  */
 export const getUsersCheckEmail = (
-  params: GetUsersCheckEmailParams,
-  options?: SecondParameter<typeof axiosInstance>,
-) => {
-  return axiosInstance<GetUsersCheckEmail200>(
-    { url: `/users/check-email`, method: 'GET', params },
-    options,
-  )
-}
-export type PostUsersCreateResult = NonNullable<
-  Awaited<ReturnType<typeof postUsersCreate>>
->
-export type GetUsersAvailableUsernameResult = NonNullable<
-  Awaited<ReturnType<typeof getUsersAvailableUsername>>
->
-export type GetUsersCheckEmailResult = NonNullable<
-  Awaited<ReturnType<typeof getUsersCheckEmail>>
->
+    params: GetUsersCheckEmailParams,
+ ) => {
+      return axiosInstance<GetUsersCheckEmail200>(
+      {url: `/users/check-email`, method: 'GET',
+        params
+    },
+      );
+    }
+  export type PostUsersCreateResult = NonNullable<Awaited<ReturnType<typeof postUsersCreate>>>
+export type GetUsersAvailableUsernameResult = NonNullable<Awaited<ReturnType<typeof getUsersAvailableUsername>>>
+export type GetUsersCheckEmailResult = NonNullable<Awaited<ReturnType<typeof getUsersCheckEmail>>>
