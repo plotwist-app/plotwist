@@ -7,7 +7,6 @@ import {
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
 import { Badge } from '@plotwist/ui/components/ui/badge'
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import {
   Tooltip,
   TooltipContent,
@@ -35,6 +34,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
 import { tmdb } from '@plotwist/tmdb'
+import Image from 'next/image'
 
 type TvSerieDetailsProps = {
   id: number
@@ -84,12 +84,20 @@ export const TvSerieDetails = async ({
                 )
               })}
 
-              <Separator orientation="vertical" className="h-6" />
-
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Badge>{tvSerie.vote_average.toFixed(1)}</Badge>
+                    <Badge>
+                      <Image
+                        src="/assets/tmdb.svg"
+                        width={55}
+                        height={1}
+                        alt="TMDB"
+                        className="mr-2"
+                      />
+
+                      {tvSerie.vote_average.toFixed(1)}
+                    </Badge>
                   </TooltipTrigger>
 
                   <TooltipContent>
