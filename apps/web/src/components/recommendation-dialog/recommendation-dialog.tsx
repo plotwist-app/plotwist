@@ -5,13 +5,13 @@ import Link from 'next/link'
 import { Forward } from 'lucide-react'
 import { Button } from '@plotwist/ui/components/ui/button'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 import { RecommendationDialogProfiles } from './recommendation-dialog-profiles'
 
 export const RecommendationDialog = () => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { language, dictionary } = useLanguage()
 
   if (!user) {

@@ -3,6 +3,7 @@
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { ExternalLink, Image, MoreVertical, Trash } from 'lucide-react'
+import Link from 'next/link'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -16,14 +17,13 @@ import {
 import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
+import { useListMode } from '@/context/list-mode'
 
 import { listPageQueryKey } from '@/utils/list'
 
 import type { List, ListItem } from '@/types/supabase/lists'
 import { useListItem } from '@/hooks/use-list-item'
-import { useListMode } from '@/context/list-mode'
-import Link from 'next/link'
 
 type ListItemActionsProps = {
   listItem: ListItem
@@ -39,7 +39,7 @@ export const ListItemActions = ({
   const { handleChangeListCoverPath } = useLists()
   const { handleDelete } = useListItem(listItem)
 
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
 

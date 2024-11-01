@@ -1,29 +1,26 @@
 'use client'
 
+import { User } from '@/types/user'
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
 
-type Session = {
-  user: unknown
-} | null
-
 type SessionContextProviderProps = PropsWithChildren & {
-  initialSession: Session
+  initialUser: User
 }
 
 type SessionContext = {
-  session: Session | null
+  user: User
 }
 
 export const SessionContext = createContext({} as SessionContext)
 
 export const SessionContextProvider = ({
   children,
-  initialSession,
+  initialUser,
 }: SessionContextProviderProps) => {
-  const [session] = useState<Session>(initialSession)
+  const [user] = useState<User>(initialUser)
 
   return (
-    <SessionContext.Provider value={{ session }}>
+    <SessionContext.Provider value={{ user }}>
       {children}
     </SessionContext.Provider>
   )

@@ -5,7 +5,6 @@ import { ReactNode } from 'react'
 export type Credentials = PostUsersCreateBody
 
 export type AuthContext = {
-  user: Profile | null
   signUp: (params: Credentials) => Promise<void>
 
   logout: () => Promise<void>

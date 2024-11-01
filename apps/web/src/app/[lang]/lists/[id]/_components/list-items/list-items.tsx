@@ -10,7 +10,7 @@ import { ListItemsGrid } from './list-items-grid'
 import { DataTable, columns } from '../data-table'
 import { useListMode } from '@/context/list-mode'
 import { useState } from 'react'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
 
 type ListItemsProps = {
   ownerId: string
@@ -22,7 +22,7 @@ export const ListItems = ({ ownerId, listItems }: ListItemsProps) => {
   const { mode } = useListMode()
   const [isEditable, setIsEditable] = useState(false)
 
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const isListAuthor = ownerId === user?.id
 

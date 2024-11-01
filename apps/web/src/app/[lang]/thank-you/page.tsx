@@ -8,7 +8,7 @@ import { Pattern } from '@/components/pattern'
 import { PageProps } from '@/types/languages'
 import { Check, Copy, List, Play, User } from 'lucide-react'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
 
 export default function Home({ params: { lang } }: PageProps) {
   const {
@@ -24,7 +24,7 @@ export default function Home({ params: { lang } }: PageProps) {
       },
     },
   } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   return (
     <>

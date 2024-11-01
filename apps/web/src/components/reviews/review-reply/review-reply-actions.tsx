@@ -2,19 +2,18 @@
 
 import { ComponentProps } from 'react'
 import { toast } from 'sonner'
-
-import { useAuth } from '@/context/auth'
+import { useQuery } from '@tanstack/react-query'
 
 import { cn } from '@/lib/utils'
 
 import { Reply } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
-import { useQuery } from '@tanstack/react-query'
+import { useSession } from '@/context/session'
 
 import { useLike } from '@/hooks/use-like/use-like'
+import { useReplies } from '@/hooks/use-replies'
 
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
-import { useReplies } from '@/hooks/use-replies'
 
 type ReviewItemActionsProps = {
   reply: Reply
@@ -46,7 +45,7 @@ export const ReviewReplyActions = ({
     user: { id: userId },
   },
 }: ReviewItemActionsProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
   const { invalidateQueries } = useReplies()

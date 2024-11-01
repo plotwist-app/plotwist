@@ -19,9 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-
-import { useLanguage } from '@/context/language'
-import { Reply } from '@/types/supabase/reviews'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import {
   Form,
   FormControl,
@@ -29,9 +27,13 @@ import {
   FormItem,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
+
+import { useSession } from '@/context/session'
+import { useLanguage } from '@/context/language'
+
+import { Reply } from '@/types/supabase/reviews'
+
 import { useForm } from 'react-hook-form'
-import { useAuth } from '@/context/auth'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useReplies } from '@/hooks/use-replies'
 import { ReplyFormValues, replyFormSchema } from '../review-reply-form'
@@ -137,7 +139,7 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
 
 const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { handleEditReply, invalidateQueries } = useReplies()
 
   const form = useForm<ReplyFormValues>({

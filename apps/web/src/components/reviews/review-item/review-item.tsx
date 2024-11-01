@@ -3,6 +3,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
 
@@ -20,14 +21,14 @@ import { ReviewStars } from '../review-stars'
 import { MediaType } from '@/types/supabase/media-type'
 import { Review } from '@/types/supabase/reviews'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 import { locale } from '@/utils/date/locale'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { cn } from '@/lib/utils'
-import { useSearchParams } from 'next/navigation'
+
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
 
@@ -55,7 +56,7 @@ export const ReviewItem = ({
   } = review
 
   const { language, dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const reviewRef = useRef<HTMLDivElement>(null)
   const reviewToFocus = useSearchParams().get('review')
 

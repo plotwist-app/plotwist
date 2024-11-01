@@ -28,10 +28,10 @@ import { ProBadge } from '@/components/pro-badge'
 import { useList } from '@/hooks/use-list'
 import { APP_URL } from '../../../../../constants'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
 import { PopularList } from '@/types/supabase/lists'
+import { useSession } from '@/context/session'
 
 type PopularListCardContextMenuProps = {
   href: string
@@ -44,7 +44,7 @@ export const PopularListCardContextMenu = ({
   list,
 }: PopularListCardContextMenuProps) => {
   const { handleLike, handleRemoveLike, handleCloneList } = useList()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
 
   const userLike = list.list_likes.find((like) => like.user_id === user?.id)
@@ -84,7 +84,7 @@ export const PopularListCardContextMenu = ({
         )}
 
         <ContextMenuItem
-          disabled={user?.subscription_type !== 'PRO'}
+          disabled={user?.subscriptionType !== 'PRO'}
           onClick={() => {
             if (user) {
               handleCloneList.mutate({

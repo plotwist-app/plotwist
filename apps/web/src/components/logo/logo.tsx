@@ -1,15 +1,14 @@
 'use client'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import Image from 'next/image'
 import Link from 'next/link'
 
 type LogoProps = { size?: number }
 export const Logo = ({ size = 24 }: LogoProps) => {
   const { language } = useLanguage()
-
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const href = user ? `/${language}/home` : `/${language}/`
 

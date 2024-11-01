@@ -16,7 +16,6 @@ import {
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
 import { useReviews } from '@/hooks/use-reviews/use-reviews'
@@ -33,6 +32,7 @@ import {
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { useSession } from '@/context/session'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -50,7 +50,7 @@ export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
 
 export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { handleCreateReview } = useReviews()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
   const form = useForm<ReviewFormValues>({
@@ -117,9 +117,9 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
       >
         <Link href={`/${language}/${username}`}>
           <Avatar className="size-10 border text-[10px] shadow">
-            {user.image_path && (
+            {user.imagePath && (
               <AvatarImage
-                src={tmdbImage(user.image_path, 'w500')}
+                src={tmdbImage(user.imagePath, 'w500')}
                 className="object-cover"
                 alt={username}
               />

@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext } from 'react'
 import {
   AuthContext,
   AuthContextProviderProps,
@@ -12,17 +12,12 @@ import { useRouter } from 'next/navigation'
 
 import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Profile } from '@/types/supabase'
 import { APP_URL } from '../../../constants'
 import { postUsersCreate } from '@/api/users'
 
 export const authContext = createContext({} as AuthContext)
 
-export const AuthContextProvider = ({
-  children,
-  initialUser,
-}: AuthContextProviderProps) => {
-  const [user, setUser] = useState<Profile | null>(initialUser)
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { dictionary, language } = useLanguage()
   const supabase = createClientComponentClient()
   const { push } = useRouter()
@@ -92,7 +87,6 @@ export const AuthContextProvider = ({
   return (
     <authContext.Provider
       value={{
-        user,
         signUp,
         logout,
         requestPasswordReset,

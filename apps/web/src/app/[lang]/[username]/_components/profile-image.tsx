@@ -1,8 +1,8 @@
 'use client'
 
 import { ImagePicker } from '@/components/image-picker'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { useProfile } from '@/hooks/use-profile'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { Profile } from '@/types/supabase'
@@ -19,7 +19,7 @@ type ProfileImageProps = {
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { username } = profile
   const { dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const { data: profileImagePath } = useQuery({
     queryKey: ['profile-image', username],

@@ -7,7 +7,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
 import {
   Tooltip,
   TooltipContent,
@@ -23,7 +23,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 export const Pricing = () => {
   const { language, dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const [subscriptionMode, setSubscriptionMode] = useState<
     'monthly' | 'yearly'
@@ -129,16 +129,16 @@ export const Pricing = () => {
                 </Price.Content>
 
                 <Button
-                  type={user.subscription_type === 'PRO' ? 'button' : 'submit'}
-                  disabled={user.subscription_type !== 'MEMBER'}
+                  type={user.subscriptionType === 'PRO' ? 'button' : 'submit'}
+                  disabled={user.subscriptionType !== 'MEMBER'}
                 >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                          {user.image_path && (
+                          {user.imagePath && (
                             <AvatarImage
-                              src={tmdbImage(user.image_path, 'w500')}
+                              src={tmdbImage(user.imagePath, 'w500')}
                               className="object-cover"
                             />
                           )}

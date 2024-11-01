@@ -23,13 +23,14 @@ import {
 import { Profile } from '@/types/supabase'
 
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
+
 import { useRecommendations } from '@/hooks/use-recommendations'
 import { getFollowingProfiles } from '@/services/api/followers/get-following-profiles'
 
 export const RecommendationDialogProfiles = () => {
   const { dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { handleCreate } = useRecommendations()
   const params = useParams<{ id: string }>()
   const pathname = usePathname()

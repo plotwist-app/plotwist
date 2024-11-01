@@ -26,8 +26,8 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
 import { List } from '@/types/supabase/lists'
 
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/context/auth'
 import { NoAccountTooltip } from '../no-account-tooltip'
+import { useSession } from '@/context/session'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -40,7 +40,7 @@ export const ListsDropdown = ({
 }: ListsDropdownProps) => {
   const { lists, handleAddToList, handleRemoveFromList } = useLists()
   const { push } = useRouter()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const {
     dictionary: {

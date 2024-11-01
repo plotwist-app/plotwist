@@ -16,7 +16,6 @@ import {
 } from '@plotwist/ui/components/ui/form'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
@@ -33,6 +32,7 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useReviews } from '@/hooks/use-reviews'
+import { useSession } from '@/context/session'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -59,7 +59,7 @@ export const ReviewReplyForm = ({
   const { handleCreateReply } = useReplies()
   const { invalidateQueries } = useReviews()
 
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
   const form = useForm<ReplyFormValues>({
@@ -94,7 +94,7 @@ export const ReviewReplyForm = ({
 
   const username = user.username
   const usernameInitial = username?.at(0)?.toUpperCase()
-  const imagePath = user.image_path
+  const imagePath = user.imagePath
 
   return (
     <Form {...form}>

@@ -4,13 +4,12 @@ import { ComponentProps } from 'react'
 import { toast } from 'sonner'
 import { useQuery } from '@tanstack/react-query'
 
-import { useAuth } from '@/context/auth'
-
 import { cn } from '@/lib/utils'
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 import { useLike } from '@/hooks/use-like'
 import { useReviews } from '@/hooks/use-reviews/use-reviews'
@@ -52,7 +51,7 @@ export const ReviewItemActions = ({
   setOpenReplyForm,
   review,
 }: ReviewItemActionsProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
   const { invalidateQueries } = useReviews()

@@ -5,19 +5,22 @@ import Link from 'next/link'
 import { Review } from '@/types/supabase/reviews'
 
 import {
-  ReviewReplyActions,
-  ReviewReplyLikes,
-} from '@/components/reviews/review-reply'
-import { useLanguage } from '@/context/language'
-import { timeFromNow } from '@/utils/date/time-from-now'
-import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
+
+import {
+  ReviewReplyActions,
+  ReviewReplyLikes,
+} from '@/components/reviews/review-reply'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+
+import { timeFromNow } from '@/utils/date/time-from-now'
+
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReplyEditActions } from './review-reply-edit-actions'
-import { useAuth } from '@/context/auth'
 
 interface ReviewReplyProps {
   review: Review
@@ -31,7 +34,7 @@ export const ReviewReply = ({
   setOpenReplies,
 }: ReviewReplyProps) => {
   const { dictionary, language } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   if (!review.replies) return <></>
 

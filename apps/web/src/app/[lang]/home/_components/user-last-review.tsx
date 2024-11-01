@@ -3,9 +3,8 @@
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 
-import { useAuth } from '@/context/auth'
-
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
 
@@ -32,7 +31,7 @@ export const EmptyReview = () => {
 }
 
 export const UserLastReview = () => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { language, dictionary } = useLanguage()
 
   const { data: lastReview, isLoading } = useQuery({

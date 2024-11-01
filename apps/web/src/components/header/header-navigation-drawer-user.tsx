@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import { LogOut, User } from 'lucide-react'
+import { LogOut, User as UserIcon } from 'lucide-react'
 
 import {
   Avatar,
@@ -11,10 +11,10 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { PostLogin200User } from '@/api/endpoints.schemas'
 
-import type { Profile } from '@/types/supabase'
 type HeaderNavigationDrawerUserProps = {
-  user: Profile
+  user: PostLogin200User
 }
 
 export const HeaderNavigationDrawerUser = ({
@@ -24,10 +24,12 @@ export const HeaderNavigationDrawerUser = ({
   const { push } = useRouter()
   const { language } = useLanguage()
 
+  if (!user) return
+
   const ACTIONS = [
     {
       label: 'Profile',
-      icon: User,
+      icon: UserIcon,
       fn: () => push(`/${language}/${user.username}`),
     },
     {
@@ -46,9 +48,9 @@ export const HeaderNavigationDrawerUser = ({
         </div>
 
         <Avatar className="size-6 border">
-          {user.image_path && (
+          {user.imagePath && (
             <AvatarImage
-              src={tmdbImage(user.image_path, 'w500')}
+              src={tmdbImage(user.imagePath, 'w500')}
               className="object-cover"
             />
           )}
