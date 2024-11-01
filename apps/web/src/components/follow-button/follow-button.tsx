@@ -2,15 +2,15 @@
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { useFollowers } from '@/hooks/use-followers'
 import { getFollowers } from '@/services/api/followers/get-followers'
 import { useQuery } from '@tanstack/react-query'
+import { useSession } from '@/context/session'
 
 type FollowButtonProps = { profileId: string }
 export const FollowButton = ({ profileId }: FollowButtonProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
   const { handleFollow, handleRemoveFollow } = useFollowers()
 

@@ -28,16 +28,16 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 import { List } from '@/types/supabase/lists'
-import { useAuth } from '@/context/auth'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getOldestItem } from '@/utils/array/get-oldest-item'
+import { useSession } from '@/context/session'
 
 type ListCardProps = { list: List }
 
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
   const { language, dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const backdropUrl = getOldestItem(list.list_items)
 
   const [open, setOpen] = useState(false)

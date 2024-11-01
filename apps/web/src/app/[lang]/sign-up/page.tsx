@@ -2,9 +2,9 @@ import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
-import { SignUpSocial } from './_components/sign-up-social'
 import { SignUpForm } from './_components/sign-up-form'
-import { AnimatedLink } from '@/components/animated-link'
+import Link from 'next/link'
+import { signUp } from '@/actions/auth/sign-up'
 
 export async function generateMetadata({
   params,
@@ -24,14 +24,14 @@ export async function generateMetadata({
   }
 }
 
-const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
+const SignUpPage = async ({ params: { lang } }: PageProps) => {
   const dictionary = await getDictionary(lang)
 
   return (
     <>
       <Pattern variant="checkered" />
 
-      <div className="flex h-[calc(100svh-72px-54px)] w-full flex-col items-center justify-center p-4 lg:p-0">
+      <div className="flex h-[calc(100svh-54px-33px)] w-full flex-col items-center justify-center p-4 lg:p-0 relative">
         <div className="space-y- w-full max-w-[450px]">
           <div className="space-y-4">
             <div className="w-full space-y-2 text-center">
@@ -41,18 +41,18 @@ const SignUpPage = async ({ searchParams, params: { lang } }: PageProps) => {
               </p>
             </div>
 
-            {searchParams.provider ? <SignUpForm /> : <SignUpSocial />}
+            <SignUpForm onSignUp={signUp} />
           </div>
         </div>
-      </div>
 
-      <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
-        <p className="text-center text-xs text-muted-foreground">
-          {dictionary.already_have_an_account}{' '}
-        </p>
-        <AnimatedLink href={`/${lang}/login`} className="text-md font-medium">
-          {dictionary.access_now}
-        </AnimatedLink>
+        <div className="absolute bottom-0 w-full border-t bg-muted dark:bg-black p-4 items-center justify-center space-x-1 flex">
+          <Link
+            href={`/${lang}/sign-in`}
+            className="text-center text-xs text-muted-foreground hover:underline"
+          >
+            {dictionary.already_have_an_account} {dictionary.access_now}
+          </Link>
+        </div>
       </div>
     </>
   )

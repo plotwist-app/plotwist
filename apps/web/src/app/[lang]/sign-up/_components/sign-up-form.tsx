@@ -1,10 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ChevronLeft, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Link from 'next/link'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -21,7 +20,6 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { Input } from '@plotwist/ui/components/ui/input'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import {
   credentialsFormSchema,
@@ -37,10 +35,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
+import { getUsersAvailableUsername, getUsersCheckEmail } from '@/api/users'
+import { AxiosError } from 'axios'
+import { toast } from 'sonner'
 
-export const SignUpForm = () => {
-  const { signUpWithCredentials } = useAuth()
-  const { dictionary, language } = useLanguage()
+type SignUpFormProps = {
+  onSignUp: (
+    values: UsernameFormValues & CredentialsFormValues,
+  ) => Promise<void>
+}
+
+export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
+  const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
 
@@ -59,18 +65,43 @@ export const SignUpForm = () => {
     },
   })
 
-  function onSubmitCredentialsForm() {
-    // TODO: VALIDAR SE EMAIL ESTÁ EM USO
-    setShowUsernameDialog(true)
+  async function onSubmitCredentialsForm({ email }: CredentialsFormValues) {
+    try {
+      await getUsersCheckEmail({ email })
+      setShowUsernameDialog(true)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 409) {
+          credentialsForm.setError('email', {
+            message: dictionary.email_already_taken,
+          })
+        }
+      }
+    }
   }
 
-  async function onSubmitUsernameForm() {
-    const values = {
-      ...credentialsForm.getValues(),
-      ...usernameForm.getValues(),
-    }
+  async function onSubmitUsernameForm({ username }: UsernameFormValues) {
+    try {
+      await getUsersAvailableUsername({ username })
 
-    signUpWithCredentials(values)
+      const values = {
+        ...credentialsForm.getValues(),
+        ...usernameForm.getValues(),
+      }
+
+      onSignUp(values)
+      toast.success(dictionary.sign_up_form.sign_up_success)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 409) {
+          return usernameForm.setError('username', {
+            message: dictionary.username_already_taken,
+          })
+        }
+      }
+
+      return toast.error(dictionary.sign_up_form.invalid_sign_up_credentials)
+    }
   }
 
   return (
@@ -157,14 +188,6 @@ export const SignUpForm = () => {
             </Button>
           </div>
         </form>
-
-        <Link
-          href={`/${language}/sign-up`}
-          className="mt-4 flex items-center justify-center gap-2 text-sm"
-        >
-          <ChevronLeft className="size-3.5" />
-          {dictionary.others_ways}
-        </Link>
       </Form>
 
       <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>
@@ -200,7 +223,12 @@ export const SignUpForm = () => {
               </div>
 
               <DialogFooter>
-                <Button type="submit">{dictionary.finish_sign_up}</Button>
+                <Button
+                  type="submit"
+                  loading={usernameForm.formState.isSubmitting}
+                >
+                  {dictionary.finish_sign_up}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

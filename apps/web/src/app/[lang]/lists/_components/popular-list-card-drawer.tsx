@@ -14,7 +14,6 @@ import {
   DrawerTrigger,
   DrawerProps,
 } from '@plotwist/ui/components/ui/drawer'
-import { useAuth } from '@/context/auth'
 import { useList } from '@/hooks/use-list'
 import { cn } from '@/lib/utils'
 import { PopularList } from '@/types/supabase/lists'
@@ -31,6 +30,7 @@ import { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 type PopularListCardDrawerProps = PropsWithChildren &
   DrawerProps & {
@@ -45,7 +45,7 @@ export const PopularListCardDrawer = ({
   ...drawerProps
 }: PopularListCardDrawerProps) => {
   const { handleLike, handleRemoveLike, handleCloneList } = useList()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
 
   const userLike = list.list_likes.find((like) => like.user_id === user?.id)

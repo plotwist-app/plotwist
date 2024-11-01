@@ -2,19 +2,19 @@
 
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
 import { ListCard, ListCardSkeleton } from '@/components/list-card'
 
 import { ListForm } from './list-form'
+import { useSession } from '@/context/session'
 
 const LIMIT = 3
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
   const { dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   if (!user) {
     return (

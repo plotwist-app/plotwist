@@ -46,7 +46,7 @@ const ResetPasswordPage = async ({ params: { lang } }: PageProps) => {
         <p className="text-center text-sm">
           {dictionary.remembered_your_password}{' '}
         </p>
-        <AnimatedLink href={`/${lang}/login`} className="text-xs">
+        <AnimatedLink href={`/${lang}/sign-in`} className="text-xs">
           {dictionary.login}
         </AnimatedLink>
       </div>

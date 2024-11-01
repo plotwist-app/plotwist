@@ -10,14 +10,14 @@ import { RotateCw } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { ListRecommendation } from './list-recommendation'
 import { List } from '@/types/supabase/lists'
-import { useAuth } from '@/context/auth'
 import { ProBadge } from '@/components/pro-badge'
 import { ListRecommendationsBlock } from './list-recommendations-block'
+import { useSession } from '@/context/session'
 
 type ListRecommendationsProps = { list: List }
 export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
   const { language, dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const [type, setType] = useState<'movies' | 'tv'>('movies')
   const { data, refetch, isLoading, isFetching } = useQuery({
@@ -26,7 +26,7 @@ export const ListRecommendations = ({ list }: ListRecommendationsProps) => {
     refetchOnWindowFocus: false,
   })
 
-  const userHasPermission = user?.subscription_type === 'PRO'
+  const userHasPermission = user?.subscriptionType === 'PRO'
 
   const content = useMemo(() => {
     if (isLoading || !data || isFetching)

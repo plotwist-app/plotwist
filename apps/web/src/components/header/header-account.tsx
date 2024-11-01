@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { LogIn, LogOut, User } from 'lucide-react'
-
-import { useAuth } from '@/context/auth'
+import { LogIn, LogOut, User as UserIcon } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -22,25 +20,27 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
-import type { Profile } from '@/types/supabase'
+import { useSession } from '@/context/session'
+import { User } from '@/types/user'
+import { logout } from '@/actions/auth/logout'
 
 type AvatarContentProps = {
-  user: Profile | null
+  user: User
 }
 
 const AvatarContent = ({ user }: AvatarContentProps) => {
   if (!user) {
     return (
       <AvatarFallback>
-        <User className="size-4 text-muted-foreground" />
+        <UserIcon className="size-4 text-muted-foreground" />
       </AvatarFallback>
     )
   }
 
-  if (user.image_path) {
+  if (user.imagePath) {
     return (
       <AvatarImage
-        src={tmdbImage(user.image_path)}
+        src={tmdbImage(user.imagePath)}
         alt={user.username}
         className="object-cover"
       />
@@ -51,7 +51,7 @@ const AvatarContent = ({ user }: AvatarContentProps) => {
 }
 
 export const HeaderAccount = () => {
-  const { user, logout } = useAuth()
+  const { user } = useSession()
   const { language, dictionary } = useLanguage()
 
   return (
@@ -83,16 +83,17 @@ export const HeaderAccount = () => {
         <DropdownMenuSeparator />
 
         {user ? (
-          <DropdownMenuItem onClick={() => logout()}>
-            <LogOut className="mr-1 size-3" />
-            {dictionary.logout}
-          </DropdownMenuItem>
+          <form action={logout}>
+            <DropdownMenuItem onClick={() => {}} asChild>
+              <button type="submit" className="w-full">
+                <LogOut className="mr-1 size-3" />
+                {dictionary.logout}
+              </button>
+            </DropdownMenuItem>
+          </form>
         ) : (
-          <DropdownMenuItem
-            asChild
-            className="font-medium text-muted-foreground"
-          >
-            <Link href={`/${language}/login`}>
+          <DropdownMenuItem asChild>
+            <Link href={`/${language}/sign-in`}>
               <LogIn className="mr-1 size-3" />
               {dictionary.login}
             </Link>

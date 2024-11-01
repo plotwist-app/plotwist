@@ -59,10 +59,12 @@
 		"date-fns": "^2.30.0",
 		"dotenv": "^16.4.5",
 		"framer-motion": "^11.3.30",
+		"jose": "^5.9.6",
 		"lucide-react": "^0.293.0",
 		"micro-cors": "^0.1.1",
 		"negotiator": "^0.6.3",
 		"next": "14.2.6",
+		"next-auth": "^4.24.10",
 		"next-themes": "^0.2.1",
 		"nextjs-toploader": "^1.6.4",
 		"nprogress": "^0.2.0",
@@ -102,6 +104,7 @@
 		"autoprefixer": "^10.4.20",
 		"jsdom": "^23.0.1",
 		"msw": "^2.3.5",
+		"orval": "^7.2.0",
 		"typescript": "^5.5.4",
 		"vitest": "^2.0.5"
 	}

@@ -8,18 +8,18 @@ import { useQuery } from '@tanstack/react-query'
 import { ImagePicker } from '@/components/image-picker'
 
 import { Profile } from '@/types/supabase'
-import { useAuth } from '@/context/auth'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getProfileByUsername } from '@/services/api/profiles'
 import { useLanguage } from '@/context/language'
 import { useProfile } from '@/hooks/use-profile'
+import { useSession } from '@/context/session'
 
 type ProfileBannerProps = {
   profile: Profile
 }
 
 export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
   const { updateBannerPathMutation } = useProfile()
   const { username } = useParams()

@@ -686,7 +686,6 @@
   "continue_with_x": "Continuar con X",
   "continue_with_email": "Continuar con correo electrónico",
   "or": "o",
-  "others_ways": "Otras formas",
   "sign_up": "Registrarse",
   "login": "Iniciar sesión",
   "theme": "Tema",
@@ -719,5 +718,6 @@
   "reset_your_password": "Restablece tu contraseña",
   "new": "Nuevo",
   "roadmap": "Hoja de ruta",
-  "documentation": "Documentación"
+  "documentation": "Documentación",
+  "username_already_taken": "Este nombre de usuario ya está en uso."
 }

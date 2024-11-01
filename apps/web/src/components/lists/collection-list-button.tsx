@@ -22,8 +22,8 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { List } from '@/types/supabase/lists'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 import { Movie } from '@plotwist/tmdb'
+import { useSession } from '@/context/session'
 
 const areAllItemsIncluded = (list: List, items: Movie[]) => {
   const included = items.every((item) =>
@@ -50,7 +50,7 @@ export const CollectionListDropdown = ({
     useLists()
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const handleRemove = useCallback(
     async (ids: string[]) => {

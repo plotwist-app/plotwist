@@ -30,8 +30,8 @@ import { useLanguage } from '@/context/language'
 import { Dictionary } from '@/utils/dictionaries'
 
 import { Profile } from '@/types/supabase'
-import { useAuth } from '@/context/auth'
 import { useProfile } from '@/hooks/use-profile'
+import { useSession } from '@/context/session'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
@@ -77,7 +77,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
 
   const { push } = useRouter()
   const { dictionary, language } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { updateUsernameMutation } = useProfile()
 
   const form = useForm<ProfileFormValues>({

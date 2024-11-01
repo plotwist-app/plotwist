@@ -1,19 +1,20 @@
 'use client'
 
-import { ListCard, ListCardSkeleton } from '@/components/list-card'
-import { useAuth } from '@/context/auth'
+import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
+
+import { ListCard, ListCardSkeleton } from '@/components/list-card'
 import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { fetchListsService } from '@/services/api/lists/fetch-lists'
-import Link from 'next/link'
 
 type ProfileListsProps = {
   userId: string
 }
 
 export const ProfileLists = ({ userId }: ProfileListsProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
 
   const { data: lists, isLoading } = useQuery({

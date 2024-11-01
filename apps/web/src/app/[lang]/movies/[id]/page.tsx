@@ -14,10 +14,8 @@ type MoviePageProps = {
   params: { id: string }
 } & PageProps
 
-export const dynamic = 'force-static'
 export async function generateStaticParams() {
   const moviesIds = await getMoviesIds(1)
-
   return moviesIds.map((id) => ({ id: String(id) }))
 }
 

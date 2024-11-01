@@ -25,7 +25,6 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { Button } from '@plotwist/ui/components/ui/button'
 
 import { useLists } from '@/context/lists'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { listPageQueryKey } from '@/utils/list'
@@ -37,12 +36,13 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
+import { useSession } from '@/context/session'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const { handleCreateNewList, handleEditList } = useLists()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
 
   const [open, setOpen] = useState(false)

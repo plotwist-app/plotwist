@@ -15,19 +15,19 @@ import { ListPageEmptyResults } from './_components/list-page-results'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { listPageQueryKey } from '@/utils/list'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { fetchList } from '@/services/api/lists/fetch-list'
 import { ListPrivate } from './_components/list-private'
 import { useList } from '@/hooks/use-list'
 import { getOldestItem } from '@/utils/array/get-oldest-item'
+import { useSession } from '@/context/session'
 
 type ListPageProps = {
   params: { id: string }
 }
 
 const ListPage = ({ params: { id } }: ListPageProps) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary } = useLanguage()
   const { handleLike, handleRemoveLike } = useList()
 

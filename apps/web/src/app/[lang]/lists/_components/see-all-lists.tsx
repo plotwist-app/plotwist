@@ -1,13 +1,13 @@
 'use client'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { ComponentProps } from 'react'
 
 export const SeeAllLists = ({ className }: ComponentProps<'div'>) => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
   return (

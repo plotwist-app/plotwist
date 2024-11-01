@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { DialogProps } from '@radix-ui/react-dialog'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -19,9 +21,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { Label } from '@plotwist/ui/components/ui/label'
 
 import { useReviews } from '@/hooks/use-reviews'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { Review } from '@/types/supabase/reviews'
 import {
   Form,
@@ -30,15 +37,9 @@ import {
   FormItem,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { useAuth } from '@/context/auth'
 import { ReviewStars } from '../review-stars'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
+
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
-import { Label } from '@plotwist/ui/components/ui/label'
-import { useMediaQuery } from '@/hooks/use-media-query'
 
 type ReviewItemEditActionsProps = { review: Review }
 
@@ -145,7 +146,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 
 const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
-  const { user } = useAuth()
+  const { user } = useSession()
   const { handleEditReview, invalidateQueries } = useReviews()
 
   const form = useForm<ReviewFormValues>({

@@ -686,7 +686,6 @@
   "continue_with_x": "Xで続行",
   "continue_with_email": "メールで続行",
   "or": "または",
-  "others_ways": "他の方法",
   "sign_up": "サインアップ",
   "login": "ログイン",
   "theme": "テーマ",
@@ -720,5 +719,6 @@
   "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません",
   "new": "新しい",
   "roadmap": "ロードマップ",
-  "documentation": "ドキュメント"
+  "documentation": "ドキュメント",
+  "username_already_taken": "このユーザー名は既に使用されています。"
 }

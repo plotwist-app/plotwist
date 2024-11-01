@@ -22,15 +22,33 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { Input } from '@plotwist/ui/components/ui/input'
 
-import { LoginFormValues, loginFormSchema } from './login-form.schema'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
-import { AnimatedLink } from '@/components/animated-link'
 
-export const LoginForm = () => {
-  const { dictionary, language } = useLanguage()
-  const { signInWithCredentials } = useAuth()
+import { Dictionary } from '@/utils/dictionaries'
+import { z } from 'zod'
+import { toast } from 'sonner'
 
+const loginFormSchema = (dictionary: Dictionary) =>
+  z.object({
+    email: z
+      .string()
+      .min(1, dictionary.email_required)
+      .email(dictionary.email_invalid),
+
+    password: z
+      .string()
+      .min(1, dictionary.password_required)
+      .min(8, dictionary.password_length),
+  })
+
+type LoginFormValues = z.infer<ReturnType<typeof loginFormSchema>>
+
+type SignInFormProps = {
+  onSignIn: (values: LoginFormValues) => Promise<void>
+}
+
+export const SignInForm = ({ onSignIn }: SignInFormProps) => {
+  const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormValues>({
@@ -42,7 +60,12 @@ export const LoginForm = () => {
   })
 
   async function onSubmit(values: LoginFormValues) {
-    await signInWithCredentials(values)
+    try {
+      await onSignIn(values)
+      toast.success(dictionary.login_form.login_success)
+    } catch {
+      toast.error(dictionary.login_form.invalid_login_credentials)
+    }
   }
 
   return (
@@ -114,18 +137,13 @@ export const LoginForm = () => {
           )}
         />
 
-        <div className="flex justify-between items-end space-x-2">
-          <AnimatedLink
-            href={`/${language}/forgot-password`}
-            className="text-sm"
-          >
-            {dictionary.forgot_your_password}
-          </AnimatedLink>
-
-          <Button type="submit" loading={form.formState.isSubmitting}>
-            {dictionary.access_button}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="w-full"
+          loading={form.formState.isSubmitting}
+        >
+          {dictionary.access_button}
+        </Button>
       </form>
     </Form>
   )
