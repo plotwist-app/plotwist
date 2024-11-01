@@ -69,7 +69,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
         <div className="relative flex-1 space-y-1 rounded-md border border-dashed p-4 shadow">
           <p className="text-sm">
-            <Link href="/login" className="text-muted-foreground underline">
+            <Link href="/sign-in" className="text-muted-foreground underline">
               {dictionary.user_last_review.login}
             </Link>{' '}
             {dictionary.user_last_review.or}{' '}

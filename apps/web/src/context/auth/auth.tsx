@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation'
 import { useLanguage } from '../language'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Profile } from '@/types/supabase'
-import { getProfileById } from '@/services/api/profiles'
 import { APP_URL } from '../../../constants'
 import { postUsersCreate } from '@/api/users'
 
@@ -32,7 +31,7 @@ export const AuthContextProvider = ({
     try {
       await postUsersCreate({ ...credentials })
       toast.success(dictionary.sign_up_form.sign_up_success)
-      push(`/${language}/login`)
+      push(`/${language}/sign-in`)
     } catch {
       toast.error('Não foi possível realizar o cadastro.')
     }
@@ -87,7 +86,7 @@ export const AuthContextProvider = ({
 
     toast.success(dictionary.reset_password_success)
 
-    push(`/${language}/login`)
+    push(`/${language}/sign-in`)
   }
 
   return (

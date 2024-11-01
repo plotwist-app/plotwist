@@ -17,7 +17,7 @@ export const RecommendationDialog = () => {
   if (!user) {
     return (
       <Button className="h-6 px-2.5 py-0.5 text-xs" variant="outline" asChild>
-        <Link href={`/${language}/login`}>
+        <Link href={`/${language}/sign-in`}>
           <Forward className="mr-2 size-3" />
           {dictionary.recommend}
         </Link>

@@ -48,7 +48,6 @@ export default async function RootLayout({
                 </div>
 
                 <main className="w-full">{children}</main>
-
                 <Footer dictionary={dictionary} language={lang} />
               </div>
             </ListsContextProvider>

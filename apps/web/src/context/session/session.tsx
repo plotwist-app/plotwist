@@ -4,18 +4,23 @@ import { createContext, PropsWithChildren, useContext, useState } from 'react'
 
 type Session = {
   user: unknown
-}
+} | null
 
 type SessionContextProviderProps = PropsWithChildren & {
   initialSession: Session
 }
 
-export const SessionContext = createContext({})
+type SessionContext = {
+  session: Session | null
+}
+
+export const SessionContext = createContext({} as SessionContext)
+
 export const SessionContextProvider = ({
   children,
   initialSession,
 }: SessionContextProviderProps) => {
-  const [session] = useState<Session | null>(initialSession)
+  const [session] = useState<Session>(initialSession)
 
   return (
     <SessionContext.Provider value={{ session }}>

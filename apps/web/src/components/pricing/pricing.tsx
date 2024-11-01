@@ -185,7 +185,7 @@ export const Pricing = () => {
               </Price.Content>
 
               <Button asChild type="button">
-                <Link href={`/${language}/login`}>Login</Link>
+                <Link href={`/${language}/sign-in`}>Login</Link>
               </Button>
             </Price.Root>
           )}

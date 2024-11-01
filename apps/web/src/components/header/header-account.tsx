@@ -92,7 +92,7 @@ export const HeaderAccount = () => {
             asChild
             className="font-medium text-muted-foreground"
           >
-            <Link href={`/${language}/login`}>
+            <Link href={`/${language}/sign-in`}>
               <LogIn className="mr-1 size-3" />
               {dictionary.login}
             </Link>

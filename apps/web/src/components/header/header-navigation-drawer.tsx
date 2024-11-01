@@ -55,7 +55,7 @@ export const HeaderNavigationDrawer = () => {
                 </Button>
 
                 <Button size="default" asChild>
-                  <Link href={`/${language}/login`}>{dictionary.login}</Link>
+                  <Link href={`/${language}/sign-in`}>{dictionary.login}</Link>
                 </Button>
               </div>
             )}

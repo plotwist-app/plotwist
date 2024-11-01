@@ -44,7 +44,7 @@ export const UserLastReview = () => {
     return (
       <div className="flex items-center justify-center rounded-lg border border-dashed p-16">
         <span className="lg:text-md block space-y-2 text-center text-sm text-muted-foreground">
-          <Link href="/login" className="text-foreground underline">
+          <Link href="/sign-in" className="text-foreground underline">
             {dictionary.user_last_review.login}
           </Link>{' '}
           {dictionary.user_last_review.or}{' '}

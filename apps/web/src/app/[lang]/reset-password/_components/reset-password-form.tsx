@@ -49,7 +49,7 @@ export const ResetPasswordForm = () => {
   const code = searchParams.get('code')
 
   async function onSubmit({ password }: ResetPasswordFormValues) {
-    if (!code) return redirect(`/${language}/login`)
+    if (!code) return redirect(`/${language}/sign-in`)
 
     await resetPassword({ password, code })
   }
