@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { MovieGenres } from './movie-genres'
+import Image from 'next/image'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
@@ -40,7 +41,17 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge>{movie.vote_average.toFixed(1)}</Badge>
+                  <Badge>
+                    <Image
+                      src="/assets/tmdb.svg"
+                      width={55}
+                      height={1}
+                      alt="TMDB"
+                      className="mr-2"
+                    />
+
+                    {movie.vote_average.toFixed(1)}
+                  </Badge>
                 </TooltipTrigger>
 
                 <TooltipContent>
