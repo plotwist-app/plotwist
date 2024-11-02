@@ -30,12 +30,12 @@ import { APP_URL } from '../../../../../constants'
 
 import { useLanguage } from '@/context/language'
 
-import { PopularList } from '@/types/supabase/lists'
 import { useSession } from '@/context/session'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardContextMenuProps = {
   href: string
-  list: PopularList
+  list: GetLists200ListsItem
 } & PropsWithChildren
 
 export const PopularListCardContextMenu = ({
@@ -47,7 +47,7 @@ export const PopularListCardContextMenu = ({
   const { user } = useSession()
   const { dictionary } = useLanguage()
 
-  const userLike = list.list_likes.find((like) => like.user_id === user?.id)
+  const userLike = list.likes.find((like) => like.id === user?.id)
 
   return (
     <ContextMenu>

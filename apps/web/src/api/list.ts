@@ -5,14 +5,24 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  GetLists200,
+  GetListsParams,
   PostCreateList201,
   PostCreateListBody
 } from './endpoints.schemas'
@@ -22,7 +32,7 @@ import { axiosInstance } from '../services/axios-instance';
 
 
 /**
- * Register a list
+ * Create a list
  */
 export const postCreateList = (
     postCreateListBody: PostCreateListBody,
@@ -75,4 +85,88 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get lists
+ */
+export const getLists = (
+    params?: GetListsParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetLists200>(
+      {url: `/lists`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetListsQueryKey = (params?: GetListsParams,) => {
+    return [`/lists`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetListsQueryOptions = <TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getLists>>> = ({ signal }) => getLists(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetListsQueryResult = NonNullable<Awaited<ReturnType<typeof getLists>>>
+export type GetListsQueryError = unknown
+
+
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params: undefined |  GetListsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getLists>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getLists>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

@@ -31,10 +31,11 @@ import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardDrawerProps = PropsWithChildren &
   DrawerProps & {
-    list: PopularList
+    list: GetLists200ListsItem
     href: string
   }
 
@@ -48,7 +49,7 @@ export const PopularListCardDrawer = ({
   const { user } = useSession()
   const { dictionary } = useLanguage()
 
-  const userLike = list.list_likes.find((like) => like.user_id === user?.id)
+  const userLike = list.likes.find((like) => like.id === user?.id)
 
   return (
     <Drawer {...drawerProps}>
@@ -56,7 +57,7 @@ export const PopularListCardDrawer = ({
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>{list.name}</DrawerTitle>
+          <DrawerTitle>{list.title}</DrawerTitle>
           <DrawerDescription>{list.description}</DrawerDescription>
         </DrawerHeader>
 

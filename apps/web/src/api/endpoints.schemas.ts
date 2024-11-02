@@ -48,6 +48,52 @@ export type PostLoginBody = {
   password?: string;
 };
 
+export type GetLists200 = {
+  lists: GetLists200ListsItem[];
+};
+
+export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetLists200ListsItemVisibility = {
+  PUBLIC: 'PUBLIC',
+  NETWORK: 'NETWORK',
+  PRIVATE: 'PRIVATE',
+} as const;
+
+export type GetLists200ListsItemUser = {
+  id: string;
+  /** @nullable */
+  imagePath: string | null;
+  username: string;
+};
+
+export type GetLists200ListsItemLikesItem = {
+  id: string;
+  /** @nullable */
+  imagePath: string | null;
+  username: string;
+};
+
+export type GetLists200ListsItem = {
+  /** @nullable */
+  coverPath: string | null;
+  createdAt: string;
+  /** @nullable */
+  description: string | null;
+  id: string;
+  likes: GetLists200ListsItemLikesItem[];
+  title: string;
+  user: GetLists200ListsItemUser;
+  userId: string;
+  visibility: GetLists200ListsItemVisibility;
+};
+
+export type GetListsParams = {
+userId?: string;
+};
+
 export type PostCreateList201ListVisibility = typeof PostCreateList201ListVisibility[keyof typeof PostCreateList201ListVisibility];
 
 

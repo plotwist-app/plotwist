@@ -49,7 +49,6 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
       <div className="space-y-8">
         <div className="flex flex-col space-y-4">
           <Lists />
-
           <SeeAllLists className="block text-end md:hidden" />
         </div>
 
