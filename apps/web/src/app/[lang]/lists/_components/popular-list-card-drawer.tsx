@@ -16,7 +16,6 @@ import {
 } from '@plotwist/ui/components/ui/drawer'
 import { useList } from '@/hooks/use-list'
 import { cn } from '@/lib/utils'
-import { PopularList } from '@/types/supabase/lists'
 import {
   Copy,
   ExternalLink,
@@ -49,8 +48,6 @@ export const PopularListCardDrawer = ({
   const { user } = useSession()
   const { dictionary } = useLanguage()
 
-  const userLike = list.likes.find((like) => like.id === user?.id)
-
   return (
     <Drawer {...drawerProps}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
@@ -67,10 +64,10 @@ export const PopularListCardDrawer = ({
             {dictionary.visit}
           </div>
 
-          {userLike ? (
+          {list.hasLiked ? (
             <div
               className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
-              onClick={() => handleRemoveLike.mutate(userLike.id)}
+              onClick={() => handleRemoveLike.mutate(list.id)}
             >
               <HeartOff className="mr-2 size-4" />
               {dictionary.remove_like}

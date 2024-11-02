@@ -34,7 +34,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
-import { usePostCreateList } from '@/api/list'
+import { usePostList } from '@/api/list'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -42,7 +42,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)
   const { dictionary, language } = useLanguage()
   const { push } = useRouter()
-  const createList = usePostCreateList()
+  const createList = usePostList()
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),

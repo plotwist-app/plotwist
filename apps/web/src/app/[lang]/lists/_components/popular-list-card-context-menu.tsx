@@ -43,11 +43,9 @@ export const PopularListCardContextMenu = ({
   href,
   list,
 }: PopularListCardContextMenuProps) => {
-  const { handleLike, handleRemoveLike, handleCloneList } = useList()
+  const { handleLike, handleCloneList } = useList()
   const { user } = useSession()
   const { dictionary } = useLanguage()
-
-  const userLike = list.likes.find((like) => like.id === user?.id)
 
   return (
     <ContextMenu>
@@ -61,8 +59,8 @@ export const PopularListCardContextMenu = ({
           </Link>
         </ContextMenuItem>
 
-        {userLike ? (
-          <ContextMenuItem onClick={() => handleRemoveLike.mutate(userLike.id)}>
+        {list.hasLiked ? (
+          <ContextMenuItem onClick={() => console.log(list.id)}>
             <HeartOff className="mr-2 size-4" />
             {dictionary.remove_like}
           </ContextMenuItem>
