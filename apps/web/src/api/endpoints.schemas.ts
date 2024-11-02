@@ -8,215 +8,245 @@
  * Invalid email or password.
  */
 export type PostLogin400 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * @nullable
  */
-export type PostLogin200UserSubscriptionType =
-  | (typeof PostLogin200UserSubscriptionType)[keyof typeof PostLogin200UserSubscriptionType]
-  | null
+export type PostLogin200UserSubscriptionType = typeof PostLogin200UserSubscriptionType[keyof typeof PostLogin200UserSubscriptionType] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin200UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type PostLogin200User = {
   /** @nullable */
-  bannerPath: string | null
+  bannerPath: string | null;
   /** @nullable */
-  createdAt: string | null
-  email: string
-  id: string
+  createdAt: string | null;
+  email: string;
+  id: string;
   /** @nullable */
-  imagePath: string | null
+  imagePath: string | null;
   /** @nullable */
-  subscriptionType: PostLogin200UserSubscriptionType
-  username: string
-}
+  subscriptionType: PostLogin200UserSubscriptionType;
+  username: string;
+};
 
 export type PostLogin200 = {
-  token: string
-  user: PostLogin200User
-}
+  token: string;
+  user: PostLogin200User;
+};
 
 export type PostLoginBody = {
-  email: string
+  email: string;
   /** @minLength 8 */
-  password?: string
-}
+  password?: string;
+};
 
-export type GetLists200ListsItemVisibility =
-  (typeof GetLists200ListsItemVisibility)[keyof typeof GetLists200ListsItemVisibility]
+export type GetLists200 = {
+  lists: GetLists200ListsItem[];
+};
+
+export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetLists200ListsItemVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type GetLists200ListsItemUser = {
-  id: string
+  id: string;
   /** @nullable */
-  imagePath: string | null
-  username: string
-}
+  imagePath: string | null;
+  username: string;
+};
 
 export type GetLists200ListsItem = {
   /** @nullable */
-  coverPath: string | null
-  createdAt: string
+  coverPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  hasLiked: boolean
-  id: string
-  likeCount: number
-  title: string
-  user: GetLists200ListsItemUser
-  userId: string
-  visibility: GetLists200ListsItemVisibility
-}
-
-export type GetLists200 = {
-  lists: GetLists200ListsItem[]
-}
+  description: string | null;
+  hasLiked: boolean;
+  id: string;
+  likeCount: number;
+  title: string;
+  user: GetLists200ListsItemUser;
+  userId: string;
+  visibility: GetLists200ListsItemVisibility;
+};
 
 export type GetListsParams = {
-  userId?: string
-}
+userId?: string;
+limit?: string;
+};
 
-export type PostList201ListVisibility =
-  (typeof PostList201ListVisibility)[keyof typeof PostList201ListVisibility]
+export type PostList201ListVisibility = typeof PostList201ListVisibility[keyof typeof PostList201ListVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostList201ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PostList201List = {
   /** @nullable */
-  coverPath: string | null
-  createdAt: string
+  coverPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  id: string
-  title: string
-  userId: string
-  visibility: PostList201ListVisibility
-}
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: PostList201ListVisibility;
+};
 
 /**
  * List created.
  */
 export type PostList201 = {
-  list: PostList201List
-}
+  list: PostList201List;
+};
 
-export type PostListBodyVisibility =
-  (typeof PostListBodyVisibility)[keyof typeof PostListBodyVisibility]
+export type PostListBodyVisibility = typeof PostListBodyVisibility[keyof typeof PostListBodyVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListBodyVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PostListBody = {
   /** @nullable */
-  description?: string | null
-  title: string
-  visibility: PostListBodyVisibility
-}
+  description?: string | null;
+  title: string;
+  visibility: PostListBodyVisibility;
+};
+
+/**
+ * @nullable
+ */
+export type GetUsersUsername200UserSubscriptionType = typeof GetUsersUsername200UserSubscriptionType[keyof typeof GetUsersUsername200UserSubscriptionType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUsersUsername200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const;
+
+export type GetUsersUsername200User = {
+  /** @nullable */
+  bannerPath: string | null;
+  /** @nullable */
+  createdAt: string | null;
+  email: string;
+  id: string;
+  /** @nullable */
+  imagePath: string | null;
+  /** @nullable */
+  subscriptionType: GetUsersUsername200UserSubscriptionType;
+  username: string;
+};
+
+export type GetUsersUsername200 = {
+  user: GetUsersUsername200User;
+};
 
 /**
  * Email is already registered.
  */
 export type GetUsersCheckEmail409 = {
-  message: string
-}
+  message: string;
+};
 
 export type GetUsersCheckEmail200 = {
-  available: boolean
-}
+  available: boolean;
+};
 
 export type GetUsersCheckEmailParams = {
-  email: string
-}
+email: string;
+};
 
 /**
  * Username is already registered.
  */
 export type GetUsersAvailableUsername409 = {
-  message: string
-}
+  message: string;
+};
 
 export type GetUsersAvailableUsername200 = {
-  available: boolean
-}
+  available: boolean;
+};
 
 export type GetUsersAvailableUsernameParams = {
-  username: string
-}
+username: string;
+};
 
 /**
  * Fail to hash password.
  */
 export type PostUsersCreate500 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * Email or username is already registered.
  */
 export type PostUsersCreate409 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * @nullable
  */
-export type PostUsersCreate201UserSubscriptionType =
-  | (typeof PostUsersCreate201UserSubscriptionType)[keyof typeof PostUsersCreate201UserSubscriptionType]
-  | null
+export type PostUsersCreate201UserSubscriptionType = typeof PostUsersCreate201UserSubscriptionType[keyof typeof PostUsersCreate201UserSubscriptionType] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUsersCreate201UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type PostUsersCreate201User = {
   /** @nullable */
-  bannerPath?: string | null
+  bannerPath?: string | null;
   /** @nullable */
-  createdAt?: string | null
-  email: string
-  id?: string
+  createdAt?: string | null;
+  email: string;
+  id?: string;
   /** @nullable */
-  imagePath?: string | null
+  imagePath?: string | null;
   /** @nullable */
-  subscriptionType?: PostUsersCreate201UserSubscriptionType
-  username: string
-}
+  subscriptionType?: PostUsersCreate201UserSubscriptionType;
+  username: string;
+};
 
 /**
  * User created.
  */
 export type PostUsersCreate201 = {
-  user: PostUsersCreate201User
-}
+  user: PostUsersCreate201User;
+};
 
 export type PostUsersCreateBody = {
-  email: string
+  email: string;
   /** @minLength 8 */
-  password: string
+  password: string;
   /** @minLength 3 */
-  username: string
-}
+  username: string;
+};
+

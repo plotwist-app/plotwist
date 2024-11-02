@@ -4,7 +4,10 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -15,196 +18,155 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   GetLists200,
   GetListsParams,
   PostList201,
-  PostListBody,
+  PostListBody
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
+
+
+
 
 /**
  * Create a list
  */
-export const postList = (postListBody: PostListBody) => {
-  return axiosInstance<PostList201>({
-    url: `/list`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: postListBody,
-  })
-}
+export const postList = (
+    postListBody: PostListBody,
+ ) => {
+      
+      
+      return axiosInstance<PostList201>(
+      {url: `/list`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postListBody
+    },
+      );
+    }
+  
 
-export const getPostListMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postList>>,
-    TError,
-    { data: PostListBody },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postList>>,
-  TError,
-  { data: PostListBody },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postList>>,
-    { data: PostListBody }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getPostListMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return postList(data)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type PostListMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postList>>
->
-export type PostListMutationBody = PostListBody
-export type PostListMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postList>>, {data: PostListBody}> = (props) => {
+          const {data} = props ?? {};
 
-export const usePostList = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postList>>,
-    TError,
-    { data: PostListBody },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof postList>>,
-  TError,
-  { data: PostListBody },
-  TContext
-> => {
-  const mutationOptions = getPostListMutationOptions(options)
+          return  postList(data,)
+        }
 
-  return useMutation(mutationOptions)
-}
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostListMutationResult = NonNullable<Awaited<ReturnType<typeof postList>>>
+    export type PostListMutationBody = PostListBody
+    export type PostListMutationError = unknown
+
+    export const usePostList = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postList>>,
+        TError,
+        {data: PostListBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPostListMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Get lists
  */
-export const getLists = (params?: GetListsParams, signal?: AbortSignal) => {
-  return axiosInstance<GetLists200>({
-    url: `/lists`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getGetListsQueryKey = (params?: GetListsParams) => {
-  return [`/lists`, ...(params ? [params] : [])] as const
-}
-
-export const getGetListsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getLists>>,
-  TError = unknown,
->(
-  params?: GetListsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
-    >
-  },
+export const getLists = (
+    params?: GetListsParams,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return axiosInstance<GetLists200>(
+      {url: `/lists`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getGetListsQueryKey(params)
+export const getGetListsQueryKey = (params?: GetListsParams,) => {
+    return [`/lists`, ...(params ? [params]: [])] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getLists>>> = ({
-    signal,
-  }) => getLists(params, signal)
+    
+export const getGetListsQueryOptions = <TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getLists>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getLists>>> = ({ signal }) => getLists(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetListsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getLists>>
->
+export type GetListsQueryResult = NonNullable<Awaited<ReturnType<typeof getLists>>>
 export type GetListsQueryError = unknown
 
-export function useGetLists<
-  TData = Awaited<ReturnType<typeof getLists>>,
-  TError = unknown,
->(
-  params: undefined | GetListsParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
-    > &
-      Pick<
+
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params: undefined |  GetListsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getLists>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetLists<
-  TData = Awaited<ReturnType<typeof getLists>>,
-  TError = unknown,
->(
-  params?: GetListsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getLists>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetLists<
-  TData = Awaited<ReturnType<typeof getLists>>,
-  TError = unknown,
->(
-  params?: GetListsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+        > , 'initialData'
+      >, }
 
-export function useGetLists<
-  TData = Awaited<ReturnType<typeof getLists>>,
-  TError = unknown,
->(
-  params?: GetListsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetListsQueryOptions(params, options)
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-  query.queryKey = queryOptions.queryKey
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+ params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
 
-  return query
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
+

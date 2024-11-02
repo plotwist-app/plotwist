@@ -27,25 +27,23 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
-import { List } from '@/types/supabase/lists'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { getOldestItem } from '@/utils/array/get-oldest-item'
 import { useSession } from '@/context/session'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
-type ListCardProps = { list: List }
+type ListCardProps = { list: GetLists200ListsItem }
 
 export const ListCard = ({ list }: ListCardProps) => {
   const { handleDeleteList } = useLists()
   const { language, dictionary } = useLanguage()
   const { user } = useSession()
-  const backdropUrl = getOldestItem(list.list_items)
 
   const [open, setOpen] = useState(false)
 
   const canEdit = useMemo(() => {
-    const isOwner = user?.id === list.user_id
+    const isOwner = user?.id === list.userId
     return isOwner
-  }, [list.user_id, user?.id])
+  }, [list.userId, user?.id])
 
   const href = `/${language}/lists/${list.id}`
 
@@ -54,12 +52,12 @@ export const ListCard = ({ list }: ListCardProps) => {
       <div className="space-y-2 ">
         <Link href={href}>
           <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 ">
-            {list.cover_path || backdropUrl ? (
+            {list.coverPath ? (
               <Image
                 fill
                 className="object-cover"
-                src={tmdbImage(list.cover_path ?? backdropUrl)}
-                alt={list.name}
+                src={tmdbImage(list.coverPath)}
+                alt={list.title}
                 sizes="100%"
               />
             ) : (
@@ -71,7 +69,7 @@ export const ListCard = ({ list }: ListCardProps) => {
         <div className="space-y-1">
           <div className="flex justify-between gap-1">
             <Link href={href} className="hover:underline">
-              {list.name}
+              {list.title}
             </Link>
 
             {canEdit && (
@@ -120,7 +118,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                 handleDeleteList.mutate(list.id, {
                   onSuccess: () => {
                     APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: ['lists', list.user_id],
+                      queryKey: ['lists', list.userId],
                     })
 
                     toast.success(dictionary.list_card.delete_success)

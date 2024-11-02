@@ -29,9 +29,9 @@ import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
 
-import { Profile } from '@/types/supabase'
 import { useProfile } from '@/hooks/use-profile'
 import { useSession } from '@/context/session'
+import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
@@ -69,7 +69,7 @@ export type ProfileFormValues = z.infer<ReturnType<typeof profileFormSchema>>
 
 type ProfileFormProps = {
   trigger: JSX.Element
-  profile: Profile
+  profile: GetUsersUsername200User
 }
 
 export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
@@ -87,7 +87,7 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
     },
   })
 
-  const isUserPro = profile.subscription_type === 'PRO'
+  const isUserPro = profile.subscriptionType === 'PRO'
   const isOwner = profile.id === user?.id
 
   const onSubmit = useCallback(

@@ -12,6 +12,7 @@ import { ProfileTabs } from './_components/profile-tabs'
 import { FollowButton } from '@/components/follow-button'
 import { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { getUsersUsername } from '@/api/users'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,7 +42,7 @@ export async function generateMetadata({
 }
 
 const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
-  const profile = await getProfileByUsername(username)
+  const { user: profile } = await getUsersUsername(username)
 
   if (!profile) {
     redirect(`/${lang}/home`)
@@ -61,7 +62,7 @@ const UserPage = async ({ params: { username, lang } }: UserPageProps) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <h1 className="text-2xl font-bold">{profile.username}</h1>
-                    {profile.subscription_type === 'PRO' && <ProBadge />}
+                    {profile.subscriptionType === 'PRO' && <ProBadge />}
                   </div>
 
                   <ProfileForm

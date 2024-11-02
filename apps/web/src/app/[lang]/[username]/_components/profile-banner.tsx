@@ -3,19 +3,17 @@
 import Image from 'next/image'
 import { toast } from 'sonner'
 import { useParams } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query'
 
 import { ImagePicker } from '@/components/image-picker'
 
-import { Profile } from '@/types/supabase'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { getProfileByUsername } from '@/services/api/profiles'
 import { useLanguage } from '@/context/language'
 import { useProfile } from '@/hooks/use-profile'
 import { useSession } from '@/context/session'
+import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 
 type ProfileBannerProps = {
-  profile: Profile
+  profile: GetUsersUsername200User
 }
 
 export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
@@ -23,15 +21,6 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   const { dictionary } = useLanguage()
   const { updateBannerPathMutation } = useProfile()
   const { username } = useParams()
-
-  const { data: bannerPath } = useQuery({
-    queryKey: ['profile-banner', profile.username],
-    queryFn: async () => await getProfileByUsername(profile.username),
-    select: (data) => {
-      return data?.banner_path
-    },
-    initialData: profile,
-  })
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
@@ -55,9 +44,9 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
       >
         <ImagePicker.Trigger>
           <section className="group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
-            {bannerPath && (
+            {profile.bannerPath && (
               <Image
-                src={tmdbImage(bannerPath)}
+                src={tmdbImage(profile.bannerPath)}
                 alt=""
                 fill
                 className="object-cover"
@@ -77,9 +66,9 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
 
   return (
     <section className="relative flex h-[30dvh] max-h-[720px] w-full items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
-      {bannerPath && (
+      {profile.bannerPath && (
         <Image
-          src={tmdbImage(bannerPath)}
+          src={tmdbImage(profile.bannerPath)}
           alt=""
           fill
           className="object-cover"
