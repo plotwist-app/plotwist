@@ -3,6 +3,8 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 import {
   Dialog,
@@ -32,13 +34,15 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
-import { postCreateList } from '@/api/list'
+import { usePostCreateList } from '@/api/list'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
-  const { dictionary } = useLanguage()
   const [open, setOpen] = useState(false)
+  const { dictionary, language } = useLanguage()
+  const { push } = useRouter()
+  const createList = usePostCreateList()
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
@@ -50,72 +54,29 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   })
 
   async function onSubmit(values: ListFormValues) {
-    await postCreateList({ ...values })
-    console.log({ values })
-    // if (!user) return
-    // if (list) {
-    //   const { name, description, visibility } = values
-    //   const variables = {
-    //     name,
-    //     description,
-    //     visibility,
-    //     id: list.id,
-    //   }
-    //   return await handleEditList.mutateAsync(variables, {
-    //     onSuccess: () => {
-    //       APP_QUERY_CLIENT.setQueryData(
-    //         listPageQueryKey(variables.id),
-    //         (previous: List) => {
-    //           return {
-    //             ...previous,
-    //             name: variables.name,
-    //             description: variables.description,
-    //             visibility: variables.visibility,
-    //           }
-    //         },
-    //       )
-    //       APP_QUERY_CLIENT.setQueryData(['lists', user.id], (data: List[]) => {
-    //         const newData = data.map((list) => {
-    //           if (list.id === variables.id) {
-    //             return {
-    //               ...list,
-    //               name: variables.name,
-    //               description: variables.description,
-    //               visibility: variables.visibility,
-    //             }
-    //           }
-    //           return list
-    //         })
-    //         return newData
-    //       })
-    //       setOpen(false)
-    //       toast.success(dictionary.list_form.list_edited_success)
-    //     },
-    //     onError: (error) => {
-    //       toast.error(error.message)
-    //     },
-    //   })
-    // }
-    // await handleCreateNewList.mutateAsync(
-    //   { ...values, userId: user.id },
-    //   {
-    //     onSuccess: () => {
-    //       APP_QUERY_CLIENT.invalidateQueries({
-    //         queryKey: ['lists', user.id],
-    //       })
-    //       setOpen(false)
-    //       form.reset({
-    //         description: '',
-    //         name: '',
-    //         visibility: 'PUBLIC',
-    //       })
-    //       toast.success(dictionary.list_form.list_created_success)
-    //     },
-    //     onError: (error) => {
-    //       toast.error(error.message)
-    //     },
-    //   },
-    // )
+    if (list) {
+      return console.log('editar lista')
+    }
+
+    return createList.mutateAsync(
+      { data: values },
+      {
+        onSuccess: ({ list: { id } }) => {
+          setOpen(false)
+          form.reset()
+          toast.success(dictionary.list_created_success, {
+            action: {
+              label: dictionary.see_list,
+              onClick: () => push(`/${language}/lists/${id}`),
+            },
+          })
+        },
+
+        onError: () => {
+          toast.error(dictionary.unable_to_create_list)
+        },
+      },
+    )
   }
 
   return (
@@ -141,7 +102,8 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{dictionary.list_form.name}</FormLabel>
+                  <FormLabel>{dictionary.title}</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder={dictionary.list_form.name_placeholder}

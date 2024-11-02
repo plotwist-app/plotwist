@@ -60,11 +60,11 @@ export const PostCreateList201ListVisibility = {
 
 export type PostCreateList201List = {
   /** @nullable */
-  coverPath?: string | null;
-  createdAt?: string;
+  coverPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description?: string | null;
-  id?: string;
+  description: string | null;
+  id: string;
   title: string;
   userId: string;
   visibility: PostCreateList201ListVisibility;
