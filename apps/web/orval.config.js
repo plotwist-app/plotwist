@@ -6,7 +6,7 @@ module.exports = {
     output: {
       mode: 'tags',
       target: 'src/api/endpoints.ts',
-      // client: 'react-query',
+      client: 'react-query',
       override: {
         mutator: {
           path: './src/services/axios-instance.ts',

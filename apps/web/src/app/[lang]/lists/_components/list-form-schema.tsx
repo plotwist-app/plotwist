@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 export const listFormSchema = (dictionary: Dictionary) =>
   z.object({
-    name: z.string().min(1, dictionary.list_form.name_required),
+    title: z.string().min(1, dictionary.list_form.name_required),
     description: z.string(),
     visibility: z.enum(['PUBLIC', 'NETWORK', 'PRIVATE']),
   })

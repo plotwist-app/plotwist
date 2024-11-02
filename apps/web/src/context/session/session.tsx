@@ -1,5 +1,7 @@
 'use client'
 
+import { PostLogin200 } from '@/api/endpoints.schemas'
+import { AXIOS_INSTANCE } from '@/services/axios-instance'
 import { User } from '@/types/user'
 import {
   createContext,
@@ -10,7 +12,7 @@ import {
 } from 'react'
 
 type SessionContextProviderProps = PropsWithChildren & {
-  initialUser: User
+  initialSession: PostLogin200 | undefined
 }
 
 type SessionContext = {
@@ -21,13 +23,16 @@ export const SessionContext = createContext({} as SessionContext)
 
 export const SessionContextProvider = ({
   children,
-  initialUser,
+  initialSession,
 }: SessionContextProviderProps) => {
-  const [user, setUser] = useState<User>(initialUser)
+  const [user, setUser] = useState<User>(initialSession?.user)
 
   useEffect(() => {
-    setUser(initialUser)
-  }, [initialUser])
+    if (initialSession) {
+      setUser(initialSession.user)
+      AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${initialSession.token}`
+    }
+  }, [initialSession])
 
   return (
     <SessionContext.Provider value={{ user }}>

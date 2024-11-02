@@ -4,22 +4,75 @@
  * Event booster
  * OpenAPI spec version: 0.1.0
  */
-import type { PostRegisterListBody } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
+import {
+  useMutation
+} from '@tanstack/react-query'
+import type {
+  MutationFunction,
+  UseMutationOptions,
+  UseMutationResult
+} from '@tanstack/react-query'
+import type {
+  PostCreateList201,
+  PostCreateListBody
+} from './endpoints.schemas'
+import { axiosInstance } from '../services/axios-instance';
+
+
+
 
 /**
  * Register a list
  */
-export const postRegisterList = (
-  postRegisterListBody: PostRegisterListBody,
-) => {
-  return axiosInstance<void>({
-    url: `/register-list`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: postRegisterListBody,
-  })
-}
-export type PostRegisterListResult = NonNullable<
-  Awaited<ReturnType<typeof postRegisterList>>
->
+export const postCreateList = (
+    postCreateListBody: PostCreateListBody,
+ ) => {
+      
+      
+      return axiosInstance<PostCreateList201>(
+      {url: `/create-list`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postCreateListBody
+    },
+      );
+    }
+  
+
+
+export const getPostCreateListMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCreateList>>, TError,{data: PostCreateListBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postCreateList>>, TError,{data: PostCreateListBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postCreateList>>, {data: PostCreateListBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postCreateList(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostCreateListMutationResult = NonNullable<Awaited<ReturnType<typeof postCreateList>>>
+    export type PostCreateListMutationBody = PostCreateListBody
+    export type PostCreateListMutationError = unknown
+
+    export const usePostCreateList = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCreateList>>, TError,{data: PostCreateListBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postCreateList>>,
+        TError,
+        {data: PostCreateListBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPostCreateListMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

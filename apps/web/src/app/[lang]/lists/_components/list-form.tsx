@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
 import { useState } from 'react'
 
 import {
@@ -24,10 +23,7 @@ import { Input } from '@plotwist/ui/components/ui/input'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { Button } from '@plotwist/ui/components/ui/button'
 
-import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { listPageQueryKey } from '@/utils/list'
 
 import { List } from '@/types/supabase/lists'
 
@@ -36,101 +32,90 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
-import { useSession } from '@/context/session'
+import { postCreateList } from '@/api/list'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
-  const { handleCreateNewList, handleEditList } = useLists()
-  const { user } = useSession()
   const { dictionary } = useLanguage()
-
   const [open, setOpen] = useState(false)
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
     defaultValues: {
-      name: list?.name ?? '',
+      title: list?.name ?? '',
       description: list?.description ?? '',
       visibility: list?.visibility ?? 'PUBLIC',
     },
   })
 
   async function onSubmit(values: ListFormValues) {
-    if (!user) return
-
-    if (list) {
-      const { name, description, visibility } = values
-
-      const variables = {
-        name,
-        description,
-        visibility,
-        id: list.id,
-      }
-
-      return await handleEditList.mutateAsync(variables, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(variables.id),
-            (previous: List) => {
-              return {
-                ...previous,
-                name: variables.name,
-                description: variables.description,
-                visibility: variables.visibility,
-              }
-            },
-          )
-
-          APP_QUERY_CLIENT.setQueryData(['lists', user.id], (data: List[]) => {
-            const newData = data.map((list) => {
-              if (list.id === variables.id) {
-                return {
-                  ...list,
-                  name: variables.name,
-                  description: variables.description,
-                  visibility: variables.visibility,
-                }
-              }
-
-              return list
-            })
-
-            return newData
-          })
-
-          setOpen(false)
-          toast.success(dictionary.list_form.list_edited_success)
-        },
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      })
-    }
-
-    await handleCreateNewList.mutateAsync(
-      { ...values, userId: user.id },
-      {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['lists', user.id],
-          })
-
-          setOpen(false)
-          form.reset({
-            description: '',
-            name: '',
-            visibility: 'PUBLIC',
-          })
-
-          toast.success(dictionary.list_form.list_created_success)
-        },
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      },
-    )
+    await postCreateList({ ...values })
+    console.log({ values })
+    // if (!user) return
+    // if (list) {
+    //   const { name, description, visibility } = values
+    //   const variables = {
+    //     name,
+    //     description,
+    //     visibility,
+    //     id: list.id,
+    //   }
+    //   return await handleEditList.mutateAsync(variables, {
+    //     onSuccess: () => {
+    //       APP_QUERY_CLIENT.setQueryData(
+    //         listPageQueryKey(variables.id),
+    //         (previous: List) => {
+    //           return {
+    //             ...previous,
+    //             name: variables.name,
+    //             description: variables.description,
+    //             visibility: variables.visibility,
+    //           }
+    //         },
+    //       )
+    //       APP_QUERY_CLIENT.setQueryData(['lists', user.id], (data: List[]) => {
+    //         const newData = data.map((list) => {
+    //           if (list.id === variables.id) {
+    //             return {
+    //               ...list,
+    //               name: variables.name,
+    //               description: variables.description,
+    //               visibility: variables.visibility,
+    //             }
+    //           }
+    //           return list
+    //         })
+    //         return newData
+    //       })
+    //       setOpen(false)
+    //       toast.success(dictionary.list_form.list_edited_success)
+    //     },
+    //     onError: (error) => {
+    //       toast.error(error.message)
+    //     },
+    //   })
+    // }
+    // await handleCreateNewList.mutateAsync(
+    //   { ...values, userId: user.id },
+    //   {
+    //     onSuccess: () => {
+    //       APP_QUERY_CLIENT.invalidateQueries({
+    //         queryKey: ['lists', user.id],
+    //       })
+    //       setOpen(false)
+    //       form.reset({
+    //         description: '',
+    //         name: '',
+    //         visibility: 'PUBLIC',
+    //       })
+    //       toast.success(dictionary.list_form.list_created_success)
+    //     },
+    //     onError: (error) => {
+    //       toast.error(error.message)
+    //     },
+    //   },
+    // )
   }
 
   return (
@@ -153,7 +138,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{dictionary.list_form.name}</FormLabel>
