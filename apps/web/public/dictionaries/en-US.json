@@ -252,8 +252,7 @@
     "visibility_option_description_network": "Visible to friends only.",
     "visibility_option_description_private": "Visible to just me.",
     "submit": "Submit",
-    "edit_list": "Edit List",
-    "list_edited_success": "List edited successfully."
+    "edit_list": "Edit List"
   },
   "list_page": {
     "list_not_found": "List not found.",
@@ -720,5 +719,6 @@
   "username_already_taken": "This username is already taken.",
   "list_created_success": "List created successfully.",
   "unable_to_create_list": "Unable to create list.",
-  "title": "Title"
+  "title": "Title",
+  "list_edited_successfully": "List edited successfully."
 }

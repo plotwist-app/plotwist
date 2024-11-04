@@ -21,10 +21,17 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  DeleteListId204,
+  DeleteListId404,
   GetLists200,
+  GetLists404,
   GetListsParams,
   PostList201,
-  PostListBody
+  PostList404,
+  PostListBody,
+  PutListId200,
+  PutListId404,
+  PutListIdBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -49,7 +56,7 @@ export const postList = (
   
 
 
-export const getPostListMutationOptions = <TError = unknown,
+export const getPostListMutationOptions = <TError = PostList404,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
@@ -70,9 +77,9 @@ const {mutation: mutationOptions} = options ?? {};
 
     export type PostListMutationResult = NonNullable<Awaited<ReturnType<typeof postList>>>
     export type PostListMutationBody = PostListBody
-    export type PostListMutationError = unknown
+    export type PostListMutationError = PostList404
 
-    export const usePostList = <TError = unknown,
+    export const usePostList = <TError = PostList404,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof postList>>,
@@ -107,7 +114,7 @@ export const getGetListsQueryKey = (params?: GetListsParams,) => {
     }
 
     
-export const getGetListsQueryOptions = <TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
+export const getGetListsQueryOptions = <TData = Awaited<ReturnType<typeof getLists>>, TError = GetLists404>(params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -126,10 +133,10 @@ const {query: queryOptions} = options ?? {};
 }
 
 export type GetListsQueryResult = NonNullable<Awaited<ReturnType<typeof getLists>>>
-export type GetListsQueryError = unknown
+export type GetListsQueryError = GetLists404
 
 
-export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = GetLists404>(
  params: undefined |  GetListsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getLists>>,
@@ -139,7 +146,7 @@ export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError
       >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = GetLists404>(
  params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getLists>>,
@@ -149,12 +156,12 @@ export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError
       >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = GetLists404>(
  params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = unknown>(
+export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError = GetLists404>(
  params?: GetListsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
@@ -170,3 +177,111 @@ export function useGetLists<TData = Awaited<ReturnType<typeof getLists>>, TError
 
 
 
+/**
+ * Delete list
+ */
+export const deleteListId = (
+    id: string,
+ ) => {
+      
+      
+      return axiosInstance<DeleteListId204>(
+      {url: `/list/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteListIdMutationOptions = <TError = DeleteListId404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteListId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteListId>>, TError,{id: string}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteListId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteListId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteListIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteListId>>>
+    
+    export type DeleteListIdMutationError = DeleteListId404
+
+    export const useDeleteListId = <TError = DeleteListId404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteListId>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteListId>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteListIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * Update list
+ */
+export const putListId = (
+    id: string,
+    putListIdBody: PutListIdBody,
+ ) => {
+      
+      
+      return axiosInstance<PutListId200>(
+      {url: `/list/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putListIdBody
+    },
+      );
+    }
+  
+
+
+export const getPutListIdMutationOptions = <TError = PutListId404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putListId>>, TError,{id: string;data: PutListIdBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putListId>>, TError,{id: string;data: PutListIdBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putListId>>, {id: string;data: PutListIdBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  putListId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutListIdMutationResult = NonNullable<Awaited<ReturnType<typeof putListId>>>
+    export type PutListIdMutationBody = PutListIdBody
+    export type PutListIdMutationError = PutListId404
+
+    export const usePutListId = <TError = PutListId404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putListId>>, TError,{id: string;data: PutListIdBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof putListId>>,
+        TError,
+        {id: string;data: PutListIdBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPutListIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

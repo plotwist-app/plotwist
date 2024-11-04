@@ -119,8 +119,8 @@ export const ListsDropdown = ({
       return (
         <>
           {lists.map((list) => {
-            const itemIncluded = list.list_items.find(
-              ({ tmdb_id: tmdbId }) => tmdbId === item.id,
+            const itemIncluded = list.items.find(
+              ({ tmdbId }) => tmdbId === item.id,
             )
 
             return (
@@ -132,7 +132,7 @@ export const ListsDropdown = ({
                   itemIncluded ? handleRemove(itemIncluded.id) : handleAdd(list)
                 }
               >
-                {list.name}
+                {list.title}
               </DropdownMenuCheckboxItem>
             )
           })}

@@ -252,8 +252,7 @@
     "visibility_option_description_network": "友人のみ閲覧可能。",
     "visibility_option_description_private": "自分のみ閲覧可能。",
     "submit": "提出する",
-    "edit_list": "リストを編集",
-    "list_edited_success": "リストが正常に編集されました。"
+    "edit_list": "リストを編集"
   },
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
@@ -720,5 +719,6 @@
   "username_already_taken": "このユーザー名は既に使用されています。",
   "list_created_success": "リストが正常に作成されました。",
   "unable_to_create_list": "リストを作成できませんでした。",
-  "title": "タイトル"
+  "title": "タイトル",
+  "list_edited_successfully": "リストが正常に編集されました。"
 }

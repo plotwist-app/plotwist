@@ -1,18 +1,16 @@
-import { EditListServiceValues } from '@/services/api/lists/edit-list'
-import { List, ListItem, ListItemStatus } from '@/types/supabase/lists'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import { ListItem, ListItemStatus } from '@/types/supabase/lists'
 import { UseMutationResult } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
 type HandleFn<T> = UseMutationResult<null, Error, T, unknown>
 
 export type ListsContextType = {
-  lists: List[]
+  lists: GetLists200ListsItem[]
   isLoading: boolean
 
-  handleCreateNewList: HandleFn<CreateNewListParams>
   handleDeleteList: HandleFn<string>
   handleAddToList: HandleFn<AddToListParams>
-  handleEditList: HandleFn<EditListServiceValues>
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
   handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>
   handleRemoveFromList: HandleFn<string>

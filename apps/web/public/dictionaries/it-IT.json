@@ -253,8 +253,7 @@
     "visibility_option_description_network": "Visibile solo agli amici.",
     "visibility_option_description_private": "Visibile solo a me.",
     "submit": "Invia",
-    "edit_list": "Modifica elenco",
-    "list_edited_success": "Elenco modificato con successo."
+    "edit_list": "Modifica elenco"
   },
   "list_page": {
     "list_not_found": "Lista non trovata.",
@@ -721,5 +720,6 @@
   "username_already_taken": "Questo nome utente è già in uso.",
   "list_created_success": "Lista creata con successo.",
   "unable_to_create_list": "Impossibile creare l'elenco.",
-  "title": "Titolo"
+  "title": "Titolo",
+  "list_edited_successfully": "Elenco modificato con successo."
 }
