@@ -16,6 +16,7 @@ import { useLanguage } from '@/context/language'
 import { ListModeContextProvider } from '@/context/list-mode'
 import { useSession } from '@/context/session'
 import { useGetListById } from '@/api/list'
+import { ListItems } from './_components/list-items'
 
 type ListPageProps = {
   params: { id: string }
@@ -96,7 +97,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                 </p>
               </div>
 
-              {/* <ListItems listItems={list.list_items} ownerId={list.user_id} /> */}
+              <ListItems ownerId={list.userId} />
             </div>
 
             <div className="col-span-1 space-y-4">

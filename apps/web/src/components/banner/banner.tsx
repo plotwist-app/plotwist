@@ -10,7 +10,8 @@ export const Banner = ({ url, className, ...props }: BannerProps) => {
     <div
       {...props}
       className={cn(
-        'h-[30dvh] w-full overflow-hidden border bg-muted shadow md:rounded-lg lg:h-[55dvh]',
+        'h-[30dvh] w-full overflow-hidden border md:rounded-lg lg:h-[55dvh]',
+        !url && 'border-dashed bg-background',
         className,
       )}
     >
