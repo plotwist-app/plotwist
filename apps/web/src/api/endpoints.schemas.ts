@@ -152,6 +152,39 @@ export type PostLoginBody = {
 /**
  * List not found.
  */
+export type GetListById404 = {
+  message: string;
+};
+
+export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetListById200ListVisibility = {
+  PUBLIC: 'PUBLIC',
+  NETWORK: 'NETWORK',
+  PRIVATE: 'PRIVATE',
+} as const;
+
+export type GetListById200List = {
+  /** @nullable */
+  coverPath: string | null;
+  createdAt: string;
+  /** @nullable */
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: GetListById200ListVisibility;
+};
+
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
+/**
+ * List not found.
+ */
 export type PutListId404 = {
   message: string;
 };
@@ -221,10 +254,6 @@ export type GetLists404 = {
   message: string;
 };
 
-export type GetLists200 = {
-  lists: GetLists200ListsItem[];
-};
-
 export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
 
 
@@ -277,6 +306,10 @@ export type GetLists200ListsItem = {
   user: GetLists200ListsItemUser;
   userId: string;
   visibility: GetLists200ListsItemVisibility;
+};
+
+export type GetLists200 = {
+  lists: GetLists200ListsItem[];
 };
 
 export type GetListsParams = {
@@ -335,6 +368,53 @@ export type PostListBody = {
   description?: string | null;
   title: string;
   visibility: PostListBodyVisibility;
+};
+
+/**
+ * Fail to hash password.
+ */
+export type GetUserById500 = {
+  message: string;
+};
+
+/**
+ * Email or username is already registered.
+ */
+export type GetUserById409 = {
+  message: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserById201UserSubscriptionType = typeof GetUserById201UserSubscriptionType[keyof typeof GetUserById201UserSubscriptionType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserById201UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const;
+
+export type GetUserById201User = {
+  /** @nullable */
+  bannerPath?: string | null;
+  /** @nullable */
+  createdAt?: string | null;
+  email: string;
+  id?: string;
+  /** @nullable */
+  imagePath?: string | null;
+  /** @nullable */
+  subscriptionType?: GetUserById201UserSubscriptionType;
+  username: string;
+};
+
+/**
+ * User created.
+ */
+export type GetUserById201 = {
+  user: GetUserById201User;
 };
 
 /**

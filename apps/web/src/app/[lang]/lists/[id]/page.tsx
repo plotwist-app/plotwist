@@ -1,26 +1,21 @@
 'use client'
 
 import { Pencil } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Banner } from '@/components/banner'
 
-import { ListItems } from './_components/list-items'
 import { ListForm } from '../_components/list-form'
-import { UserResume } from './_components/user-resume'
 import { ListPageSkeleton } from './_components/list-page-skeleton'
 import { ListPageEmptyResults } from './_components/list-page-results'
+import { UserResume } from './_components/user-resume'
+import { ListPrivate } from './_components/list-private'
 
 import { tmdbImage } from '@/utils/tmdb/image'
-import { listPageQueryKey } from '@/utils/list'
 import { useLanguage } from '@/context/language'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { fetchList } from '@/services/api/lists/fetch-list'
-import { ListPrivate } from './_components/list-private'
-import { useList } from '@/hooks/use-list'
-import { getOldestItem } from '@/utils/array/get-oldest-item'
 import { useSession } from '@/context/session'
+import { useGetListById } from '@/api/list'
 
 type ListPageProps = {
   params: { id: string }
@@ -29,38 +24,29 @@ type ListPageProps = {
 const ListPage = ({ params: { id } }: ListPageProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
-  const { handleLike, handleRemoveLike } = useList()
+  const { data, isLoading } = useGetListById(id)
 
-  const { data: list, isLoading } = useQuery({
-    queryKey: listPageQueryKey(id),
-    queryFn: async () => await fetchList(id),
-  })
+  if (!data || isLoading) return <ListPageSkeleton mode="SHOW" />
+  const { list } = data
 
-  const mode = user?.id === list?.user_id ? 'EDIT' : 'SHOW'
-  const userLike = list?.list_likes.find((like) => like.user_id === user?.id)
-
+  const mode = user?.id === list.userId ? 'EDIT' : 'SHOW'
   if (isLoading) return <ListPageSkeleton mode={mode} />
   if (!list) return <ListPageEmptyResults dictionary={dictionary} />
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
-  const backdropUrl = getOldestItem(list?.list_items) || ''
-
   return (
     <>
-      <head>
-        <title>{list.name}</title>
-        <meta name="description" content={list.description} />
-      </head>
-
       <ListModeContextProvider mode={mode}>
-        <div className="mx-auto max-w-6xl space-y-4 p-0 pb-4 lg:py-4">
-          <Banner url={tmdbImage(list.cover_path ?? backdropUrl)} />
+        <div className="mx-auto max-w-6xl space-y-4 p-0 pb-4 lg:py-4 min-h-screen">
+          <Banner
+            url={list.coverPath ? tmdbImage(list.coverPath) : undefined}
+          />
 
           <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
             <div className="col-span-2 space-y-4">
               <div className="flex flex-col space-y-1">
                 <div className="flex justify-between">
-                  <h1 className="text-xl font-bold">{list.name}</h1>
+                  <h1 className="text-xl font-bold">{list.title}</h1>
 
                   <div className="flex gap-2">
                     {mode === 'EDIT' && (
@@ -78,7 +64,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                       />
                     )}
 
-                    {list.visibility === 'PUBLIC' && mode === 'SHOW' && (
+                    {/* {list.visibility === 'PUBLIC' && mode === 'SHOW' && (
                       <Button
                         size="sm"
                         variant={userLike ? 'default' : 'outline'}
@@ -101,7 +87,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                       >
                         ❤<span className="ml-1">{list.list_likes.length}</span>
                       </Button>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -110,7 +96,7 @@ const ListPage = ({ params: { id } }: ListPageProps) => {
                 </p>
               </div>
 
-              <ListItems listItems={list.list_items} ownerId={list.user_id} />
+              {/* <ListItems listItems={list.list_items} ownerId={list.user_id} /> */}
             </div>
 
             <div className="col-span-1 space-y-4">

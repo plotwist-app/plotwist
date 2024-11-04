@@ -21,6 +21,9 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  GetUserById201,
+  GetUserById409,
+  GetUserById500,
   GetUsersAvailableUsername200,
   GetUsersAvailableUsername409,
   GetUsersAvailableUsernameParams,
@@ -336,6 +339,90 @@ export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUs
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetUsersUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Get user by
+ */
+export const getUserById = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUserById201>(
+      {url: `/user/by/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetUserByIdQueryKey = (id: string,) => {
+    return [`/user/by/${id}`] as const;
+    }
+
+    
+export const getGetUserByIdQueryOptions = <TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserById>>> = ({ signal }) => getUserById(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getUserById>>>
+export type GetUserByIdQueryError = GetUserById409 | GetUserById500
+
+
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserByIdQueryOptions(id,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

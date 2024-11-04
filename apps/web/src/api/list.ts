@@ -23,6 +23,8 @@ import type {
 import type {
   DeleteListId204,
   DeleteListId404,
+  GetListById200,
+  GetListById404,
   GetLists200,
   GetLists404,
   GetListsParams,
@@ -284,4 +286,87 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get list by ID
+ */
+export const getListById = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetListById200>(
+      {url: `/list/by/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetListByIdQueryKey = (id: string,) => {
+    return [`/list/by/${id}`] as const;
+    }
+
     
+export const getGetListByIdQueryOptions = <TData = Awaited<ReturnType<typeof getListById>>, TError = GetListById404>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListById>>> = ({ signal }) => getListById(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetListByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getListById>>>
+export type GetListByIdQueryError = GetListById404
+
+
+export function useGetListById<TData = Awaited<ReturnType<typeof getListById>>, TError = GetListById404>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getListById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListById<TData = Awaited<ReturnType<typeof getListById>>, TError = GetListById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getListById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListById<TData = Awaited<ReturnType<typeof getListById>>, TError = GetListById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetListById<TData = Awaited<ReturnType<typeof getListById>>, TError = GetListById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

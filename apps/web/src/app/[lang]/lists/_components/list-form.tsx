@@ -48,7 +48,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
     defaultValues: {
-      title: list?.name ?? '',
+      title: list?.title ?? '',
       description: list?.description ?? '',
       visibility: list?.visibility ?? 'PUBLIC',
     },
