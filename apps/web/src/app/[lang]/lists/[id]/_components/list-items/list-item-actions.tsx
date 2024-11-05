@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback } from 'react'
-import { toast } from 'sonner'
 import { ExternalLink, Image, MoreVertical, Trash } from 'lucide-react'
 import Link from 'next/link'
 
@@ -15,14 +14,11 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { useLists } from '@/context/lists'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useListMode } from '@/context/list-mode'
 
-import { listPageQueryKey } from '@/utils/list'
-
-import type { List, ListItem } from '@/types/supabase/lists'
+import type { ListItem } from '@/types/supabase/lists'
 import { useListItem } from '@/hooks/use-list-item'
 
 type ListItemActionsProps = {
@@ -47,42 +43,43 @@ export const ListItemActions = ({
     if (!user) return
 
     const variables = {
-      listId: listItem.list_id,
-      newCoverPath: listItem.backdrop_path,
+      listId: listItem.listId,
+      newCoverPath: listItem.backdropPath,
     }
 
-    await handleChangeListCoverPath.mutateAsync(variables, {
-      onSuccess: () => {
-        APP_QUERY_CLIENT.setQueryData(
-          listPageQueryKey(listItem.list_id),
-          (query: List) => {
-            const newQuery = {
-              ...query,
-              cover_path: variables.newCoverPath,
-            }
+    console.log({ variables })
 
-            return newQuery
-          },
-        )
+    // await handleChangeListCoverPath.mutateAsync(variables, {
+    //   onSuccess: () => {
+    //     APP_QUERY_CLIENT.setQueryData(
+    //       listPageQueryKey(listItem.list_id),
+    //       (query: List) => {
+    //         const newQuery = {
+    //           ...query,
+    //           cover_path: variables.newCoverPath,
+    //         }
 
-        APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
-          const newData = query.map((list) => {
-            if (list.id === variables.listId) {
-              return {
-                ...list,
-                cover_path: variables.newCoverPath,
-              }
-            }
+    //         return newQuery
+    //       },
+    //     )
 
-            return list
-          })
+    //     APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
+    //       const newData = query.map((list) => {
+    //         if (list.id === variables.listId) {
+    //           return {
+    //             ...list,
+    //             cover_path: variables.newCoverPath,
+    //           }
+    //         }
 
-          return newData
-        })
+    //         return list
+    //       })
 
-        toast.success(dictionary.list_item_actions.cover_changed_successfully)
-      },
-    })
+    //       return newData
+    //     })
+
+    //     toast.success(dictionary.list_item_actions.cover_changed_successfully)
+    //   },
   }, [dictionary, handleChangeListCoverPath, listItem, user])
 
   return (
@@ -98,7 +95,7 @@ export const ListItemActions = ({
           <>
             <DropdownMenuItem className="p-0">
               <Link
-                href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+                href={`/${language}/${listItem.mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdbId}`}
                 className="flex items-center px-2 py-1.5"
               >
                 <ExternalLink size={14} className="mr-2" />
@@ -128,7 +125,7 @@ export const ListItemActions = ({
         ) : (
           <DropdownMenuItem className=" p-0">
             <Link
-              href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+              href={`/${language}/${listItem.mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdbId}`}
               className="flex items-center px-2 py-1.5"
             >
               <ExternalLink size={16} className="mr-2" />

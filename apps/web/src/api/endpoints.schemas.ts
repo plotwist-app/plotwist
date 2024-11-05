@@ -162,6 +162,8 @@ export const DeleteListItemId200ListItemsItemMediaType = {
 } as const;
 
 export type DeleteListItemId200ListItemsItem = {
+  /** @nullable */
+  backdropPath: string | null;
   createdAt: string;
   id: string;
   listId: string;
@@ -192,6 +194,8 @@ export const GetListItemsByListId200ListItemsItemMediaType = {
 } as const;
 
 export type GetListItemsByListId200ListItemsItem = {
+  /** @nullable */
+  backdropPath: string | null;
   createdAt: string;
   id: string;
   listId: string;
@@ -222,6 +226,8 @@ export const PostListItem201ListItemMediaType = {
 } as const;
 
 export type PostListItem201ListItem = {
+  /** @nullable */
+  backdropPath: string | null;
   createdAt: string;
   id: string;
   listId: string;
@@ -252,6 +258,8 @@ export const PostListItemBodyMediaType = {
 } as const;
 
 export type PostListItemBody = {
+  /** @nullable */
+  backdropPath?: string | null;
   listId: string;
   /** @nullable */
   mediaType?: PostListItemBodyMediaType;

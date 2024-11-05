@@ -1,3 +1,5 @@
+'use client'
+
 import { ProBadge } from '@/components/pro-badge'
 import {
   Avatar,
@@ -14,6 +16,8 @@ import Link from 'next/link'
 import { ListRecommendations } from '../list-recommendations'
 import { List } from '@/types/supabase/lists'
 import { useGetUserById } from '@/api/users'
+import { FollowButton } from '@/components/follow-button'
+import { Followers } from '@/components/followers'
 
 type UserResumeProps = {
   list: List
@@ -52,7 +56,7 @@ export const UserResume = ({ list }: UserResumeProps) => {
             </Avatar>
           </Link>
 
-          {/* <FollowButton profileId={profile.id} /> */}
+          <FollowButton userId={list.userId} />
         </div>
 
         <div className="space-y-1">
@@ -64,7 +68,7 @@ export const UserResume = ({ list }: UserResumeProps) => {
             {user.subscriptionType === 'PRO' && <ProBadge />}
           </div>
 
-          {/* <Followers profileId={profile.id} /> */}
+          <Followers />
         </div>
       </div>
 

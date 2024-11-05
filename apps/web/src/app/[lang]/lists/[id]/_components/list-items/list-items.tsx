@@ -16,6 +16,7 @@ type ListItemsProps = {
 
 export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
   const [isEditable, setIsEditable] = useState(false)
+
   const { dictionary } = useLanguage()
   const { user } = useSession()
   const {
