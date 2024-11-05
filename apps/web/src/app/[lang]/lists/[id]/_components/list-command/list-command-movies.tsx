@@ -25,13 +25,13 @@ import { useLanguage } from '@/context/language'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
-import { useLists } from '@/context/lists'
 import { ListItem } from '@/types/supabase/lists'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { APP_QUERY_CLIENT } from '@/context/app'
 import {
   getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
   usePostListItem,
 } from '@/api/list-item'
 
@@ -45,9 +45,10 @@ export const ListCommandMovies = ({
   listItems,
 }: ListCommandMoviesProps) => {
   const { language, dictionary } = useLanguage()
-  const { mutateAsync } = usePostListItem()
-  const { handleRemoveFromList } = useLists()
   const listId = String(useParams().id)
+
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
 
   const isItemIncluded = useCallback(
     (movieId: number) => {
@@ -61,7 +62,7 @@ export const ListCommandMovies = ({
     async (movie: MovieWithMediaType) => {
       const sanitizedItem = sanitizeListItem(listId, movie)
 
-      await mutateAsync(
+      await postListItem.mutateAsync(
         { data: sanitizedItem },
         {
           onSuccess: async () => {
@@ -74,7 +75,7 @@ export const ListCommandMovies = ({
         },
       )
     },
-    [dictionary, listId, mutateAsync],
+    [dictionary, listId, postListItem],
   )
 
   const handleRemove = useCallback(
@@ -84,18 +85,21 @@ export const ListCommandMovies = ({
       )
 
       if (listItemToRemove) {
-        await handleRemoveFromList.mutateAsync(listItemToRemove.id, {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: getGetListItemsByListIdQueryKey(listId),
-            })
+        await deleteListItem.mutateAsync(
+          { id: listItemToRemove.id },
+          {
+            onSuccess: () => {
+              APP_QUERY_CLIENT.invalidateQueries({
+                queryKey: getGetListItemsByListIdQueryKey(listId),
+              })
 
-            toast.success(dictionary.list_command.movie_removed_success)
+              toast.success(dictionary.list_command.movie_removed_success)
+            },
           },
-        })
+        )
       }
     },
-    [dictionary, handleRemoveFromList, listId, listItems],
+    [deleteListItem, dictionary, listId, listItems],
   )
 
   return (

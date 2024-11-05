@@ -13,13 +13,11 @@ import {
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
-import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useListMode } from '@/context/list-mode'
 
 import type { ListItem } from '@/types/supabase/lists'
-import { useListItem } from '@/hooks/use-list-item'
 import {
   getGetListItemsByListIdQueryKey,
   useDeleteListItemId,

@@ -7,7 +7,6 @@ import { useListMode } from '@/context/list-mode'
 import { useEffect, useState } from 'react'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { handleUpdateOrderInDatabase } from '@/services/api/lists/update-list-order'
 
 type ListItemsGridProps = {
   listItems: ListItem[]
@@ -38,7 +37,9 @@ export const ListItemsGrid = ({
 
       const newItems = arrayMove([...listItems], oldIndex, newIndex)
       setItems(newItems)
-      await handleUpdateOrderInDatabase(listItems, oldIndex, newIndex)
+
+      // TODO: AJUSTAR
+      // await handleUpdateOrderInDatabase(listItems, oldIndex, newIndex)
     }
   }
 

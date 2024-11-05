@@ -10,10 +10,8 @@ import { Button } from '@plotwist/ui/components/ui/button'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
-import { useListMode } from '@/context/list-mode'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Link from 'next/link'
-import { ListRecommendations } from '../list-recommendations'
 import { List } from '@/types/supabase/lists'
 import { useGetUserById } from '@/api/users'
 import { FollowButton } from '@/components/follow-button'
@@ -25,7 +23,6 @@ type UserResumeProps = {
 
 export const UserResume = ({ list }: UserResumeProps) => {
   const { language } = useLanguage()
-  const { mode } = useListMode()
   const { data, isLoading } = useGetUserById(list.userId)
 
   if (isLoading || !data) {
@@ -71,8 +68,6 @@ export const UserResume = ({ list }: UserResumeProps) => {
           <Followers />
         </div>
       </div>
-
-      {mode === 'EDIT' && <ListRecommendations list={list} />}
     </div>
   )
 }

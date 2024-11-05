@@ -28,6 +28,7 @@ import { List } from '@/types/supabase/lists'
 import { cn } from '@/lib/utils'
 import { NoAccountTooltip } from '../no-account-tooltip'
 import { useSession } from '@/context/session'
+import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -38,7 +39,10 @@ export const ListsDropdown = ({
   className,
   ...props
 }: ListsDropdownProps) => {
-  const { lists, handleAddToList, handleRemoveFromList } = useLists()
+  const { lists } = useLists()
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
+
   const { push } = useRouter()
   const { user } = useSession()
 
@@ -60,17 +64,20 @@ export const ListsDropdown = ({
     async (id: string) => {
       if (!user) return
 
-      await handleRemoveFromList.mutateAsync(id, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['lists', user.id],
-          })
+      await deleteListItem.mutateAsync(
+        { id },
+        {
+          onSuccess: () => {
+            APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: ['lists', user.id],
+            })
 
-          toast.success(removedSuccessfully)
+            toast.success(removedSuccessfully)
+          },
         },
-      })
+      )
     },
-    [removedSuccessfully, handleRemoveFromList, user],
+    [removedSuccessfully, deleteListItem, user],
   )
 
   const handleAdd = useCallback(
@@ -79,8 +86,8 @@ export const ListsDropdown = ({
 
       const sanitizedItem = sanitizeListItem(list.id, item)
 
-      await handleAddToList.mutateAsync(
-        { item: sanitizedItem },
+      await postListItem.mutateAsync(
+        { data: sanitizedItem },
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
@@ -97,7 +104,7 @@ export const ListsDropdown = ({
         },
       )
     },
-    [addedSuccessfully, handleAddToList, item, language, push, seeList, user],
+    [addedSuccessfully, item, language, postListItem, push, seeList, user],
   )
 
   const Content = () => {

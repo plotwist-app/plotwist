@@ -18,17 +18,20 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { ItemHoverCard } from '@/components/item-hover-card'
 
 import { useLanguage } from '@/context/language'
-import { useLists } from '@/context/lists'
 import { APP_QUERY_CLIENT } from '@/context/app'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
-import { listPageQueryKey } from '@/utils/list'
 
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 
 import { ListItem } from '@/types/supabase/lists'
+import {
+  getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
+  usePostListItem,
+} from '@/api/list-item'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]
@@ -37,12 +40,13 @@ type ListCommandTvProps = {
 
 export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
   const { language, dictionary } = useLanguage()
-  const { handleAddToList, handleRemoveFromList } = useLists()
   const listId = String(useParams().id)
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
 
   const isItemIncluded = useCallback(
     (tvSerieId: number) => {
-      return listItems.some((listItem) => listItem.tmdb_id === tvSerieId)
+      return listItems.some((listItem) => listItem.tmdbId === tvSerieId)
     },
     [listItems],
   )
@@ -51,12 +55,12 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
     async (tvSerie: TvSerieWithMediaType) => {
       const sanitizedItem = sanitizeListItem(listId, tvSerie)
 
-      await handleAddToList.mutateAsync(
-        { item: sanitizedItem },
+      await postListItem.mutateAsync(
+        { data: sanitizedItem },
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
+              queryKey: getGetListItemsByListIdQueryKey(listId),
             })
 
             toast.success(dictionary.list_command.tv_added_success)
@@ -64,28 +68,31 @@ export const ListCommandTv = ({ tv, listItems }: ListCommandTvProps) => {
         },
       )
     },
-    [handleAddToList, listId, dictionary],
+    [listId, postListItem, dictionary],
   )
 
   const handleRemove = useCallback(
     async (tmdbId: number) => {
       const listItemToRemove = listItems.find(
-        (listItem) => listItem.tmdb_id === tmdbId,
+        (listItem) => listItem.tmdbId === tmdbId,
       )
 
       if (listItemToRemove) {
-        await handleRemoveFromList.mutateAsync(listItemToRemove.id, {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
-            })
+        await deleteListItem.mutateAsync(
+          { id: listItemToRemove.id },
+          {
+            onSuccess: () => {
+              APP_QUERY_CLIENT.invalidateQueries({
+                queryKey: getGetListItemsByListIdQueryKey(listId),
+              })
 
-            toast.success(dictionary.list_command.tv_removed_success)
+              toast.success(dictionary.list_command.tv_removed_success)
+            },
           },
-        })
+        )
       }
     },
-    [handleRemoveFromList, listId, listItems, dictionary],
+    [listItems, deleteListItem, listId, dictionary],
   )
 
   return (

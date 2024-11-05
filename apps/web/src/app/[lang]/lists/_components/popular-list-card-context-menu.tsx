@@ -43,7 +43,7 @@ export const PopularListCardContextMenu = ({
   href,
   list,
 }: PopularListCardContextMenuProps) => {
-  const { handleLike, handleCloneList } = useList()
+  const { handleLike } = useList()
   const { user } = useSession()
   const { dictionary } = useLanguage()
 
@@ -80,22 +80,6 @@ export const PopularListCardContextMenu = ({
             {dictionary.like}
           </ContextMenuItem>
         )}
-
-        <ContextMenuItem
-          disabled={user?.subscriptionType !== 'PRO'}
-          onClick={() => {
-            if (user) {
-              handleCloneList.mutate({
-                listId: list.id,
-                userId: user.id,
-              })
-            }
-          }}
-        >
-          <Copy className="mr-2 size-4" />
-          {dictionary.clone}
-          <ProBadge className="ml-2" />
-        </ContextMenuItem>
 
         <ContextMenuSub>
           <ContextMenuSubTrigger>

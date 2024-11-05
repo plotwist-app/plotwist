@@ -4,76 +4,86 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
 } from '@tanstack/react-query'
 import type {
   PostReviewsCreate201,
   PostReviewsCreate404,
-  PostReviewsCreateBody
+  PostReviewsCreateBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance';
-
-
-
+import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a review
  */
 export const postReviewsCreate = (
-    postReviewsCreateBody: PostReviewsCreateBody,
- ) => {
-      
-      
-      return axiosInstance<PostReviewsCreate201>(
-      {url: `/reviews/create`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postReviewsCreateBody
-    },
-      );
-    }
-  
+  postReviewsCreateBody: PostReviewsCreateBody,
+) => {
+  return axiosInstance<PostReviewsCreate201>({
+    url: `/reviews/create`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postReviewsCreateBody,
+  })
+}
 
+export const getPostReviewsCreateMutationOptions = <
+  TError = PostReviewsCreate404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postReviewsCreate>>,
+    TError,
+    { data: PostReviewsCreateBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postReviewsCreate>>,
+  TError,
+  { data: PostReviewsCreateBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPostReviewsCreateMutationOptions = <TError = PostReviewsCreate404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReviewsCreate>>, TError,{data: PostReviewsCreateBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postReviewsCreate>>, TError,{data: PostReviewsCreateBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postReviewsCreate>>,
+    { data: PostReviewsCreateBody }
+  > = (props) => {
+    const { data } = props ?? {}
 
-      
+    return postReviewsCreate(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postReviewsCreate>>, {data: PostReviewsCreateBody}> = (props) => {
-          const {data} = props ?? {};
+export type PostReviewsCreateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postReviewsCreate>>
+>
+export type PostReviewsCreateMutationBody = PostReviewsCreateBody
+export type PostReviewsCreateMutationError = PostReviewsCreate404
 
-          return  postReviewsCreate(data,)
-        }
+export const usePostReviewsCreate = <
+  TError = PostReviewsCreate404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postReviewsCreate>>,
+    TError,
+    { data: PostReviewsCreateBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postReviewsCreate>>,
+  TError,
+  { data: PostReviewsCreateBody },
+  TContext
+> => {
+  const mutationOptions = getPostReviewsCreateMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostReviewsCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postReviewsCreate>>>
-    export type PostReviewsCreateMutationBody = PostReviewsCreateBody
-    export type PostReviewsCreateMutationError = PostReviewsCreate404
-
-    export const usePostReviewsCreate = <TError = PostReviewsCreate404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReviewsCreate>>, TError,{data: PostReviewsCreateBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof postReviewsCreate>>,
-        TError,
-        {data: PostReviewsCreateBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPostReviewsCreateMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

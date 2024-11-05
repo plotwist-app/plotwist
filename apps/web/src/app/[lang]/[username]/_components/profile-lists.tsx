@@ -15,7 +15,7 @@ type ProfileListsProps = {
 export const ProfileLists = ({ userId }: ProfileListsProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
-  const { data, isLoading } = useGetLists({ limit: '99', userId })
+  const { data, isLoading } = useGetLists({ limit: 99, userId })
 
   if (!data?.lists || isLoading)
     return (

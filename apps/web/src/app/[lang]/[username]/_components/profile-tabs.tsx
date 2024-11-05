@@ -1,13 +1,12 @@
 'use client'
 
-import { Eye, List, Star } from 'lucide-react'
+import { List, Star } from 'lucide-react'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { ProfileReviews } from './profile-reviews'
 import { ProfileLists } from './profile-lists'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useLanguage } from '@/context/language'
@@ -15,10 +14,10 @@ import { useCallback } from 'react'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 
 type ProfileTabsProps = {
-  profile: GetUsersUsername200User
+  user: GetUsersUsername200User
 }
 
-export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
+export const ProfileTabs = ({ user }: ProfileTabsProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -103,7 +102,7 @@ export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
       </TabsContent> */}
 
       <TabsContent value="lists" className="mt-4">
-        <ProfileLists userId={profile.id} />
+        <ProfileLists userId={user.id} />
       </TabsContent>
 
       {/* {mode === 'EDIT' && (
