@@ -19,13 +19,16 @@ export const ListItemsGrid = ({
   isEditable,
 }: ListItemsGridProps) => {
   const { mode } = useListMode()
+
   const [selectedListItemId, setSelectedListItem] = useState<null | string>(
     null,
   )
+  const [items, setItems] = useState<ListItem[]>([])
+
   useEffect(() => {
     setItems(listItems)
   }, [listItems])
-  const [items, setItems] = useState<ListItem[]>([])
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
 
@@ -62,7 +65,7 @@ export const ListItemsGrid = ({
             </SortableContext>
           </DndContext>
         ) : (
-          <SortableContext items={items}>
+          <>
             {items.map((item) => (
               <ListItemCard
                 key={item.id}
@@ -72,10 +75,11 @@ export const ListItemsGrid = ({
                 isEditable={isEditable}
               />
             ))}
+
             {mode === 'EDIT' && (
               <ListCommand variant="poster" listItems={listItems} />
             )}
-          </SortableContext>
+          </>
         )}
       </div>
     </div>

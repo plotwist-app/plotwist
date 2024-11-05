@@ -12,6 +12,12 @@ module.exports = {
           path: './src/services/axios-instance.ts',
           name: 'axiosInstance',
         },
+        query: {
+          useQuery: true,
+          useInfinite: false,
+          useSuspenseQuery: true,
+          useSuspenseInfiniteQuery: false,
+        },
       },
       // mock: true,
     },

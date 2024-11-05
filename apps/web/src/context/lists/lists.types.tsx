@@ -9,7 +9,6 @@ export type ListsContextType = {
   lists: GetLists200ListsItem[]
   isLoading: boolean
 
-  handleDeleteList: HandleFn<string>
   handleAddToList: HandleFn<AddToListParams>
   handleAddCollectionToList: HandleFn<AddCollectionToListParams>
   handleRemoveCollectionFromList: HandleFn<RemoveCollectionFromListParams>

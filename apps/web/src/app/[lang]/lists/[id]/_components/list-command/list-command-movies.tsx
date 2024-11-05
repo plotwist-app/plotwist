@@ -31,6 +31,7 @@ import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { listPageQueryKey } from '@/utils/list'
+import { usePostListItem } from '@/api/list-item'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -42,13 +43,15 @@ export const ListCommandMovies = ({
   listItems,
 }: ListCommandMoviesProps) => {
   const { language, dictionary } = useLanguage()
-  const { handleAddToList, handleRemoveFromList } = useLists()
+  const { mutateAsync } = usePostListItem()
+  const { handleRemoveFromList } = useLists()
   const listId = String(useParams().id)
 
   const isItemIncluded = useCallback(
     (movieId: number) => {
       return listItems.some((listItem) => listItem.tmdb_id === movieId)
     },
+
     [listItems],
   )
 
@@ -56,8 +59,8 @@ export const ListCommandMovies = ({
     async (movie: MovieWithMediaType) => {
       const sanitizedItem = sanitizeListItem(listId, movie)
 
-      await handleAddToList.mutateAsync(
-        { item: sanitizedItem },
+      await mutateAsync(
+        { data: sanitizedItem },
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
@@ -69,7 +72,7 @@ export const ListCommandMovies = ({
         },
       )
     },
-    [dictionary, handleAddToList, listId],
+    [dictionary, listId, mutateAsync],
   )
 
   const handleRemove = useCallback(

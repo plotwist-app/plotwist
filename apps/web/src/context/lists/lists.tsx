@@ -4,7 +4,6 @@ import { createContext, useContext } from 'react'
 import { ListsContextProviderProps, ListsContextType } from './lists.types'
 import { useMutation } from '@tanstack/react-query'
 
-import { deleteListService } from '@/services/api/lists/delete-list'
 import { addToListService } from '@/services/api/lists/add-to-list'
 import { addCollectionToListService } from '@/services/api/lists/add-collection-to-list'
 import { removeCollectionFromListService } from '@/services/api/lists/remove-collection-from-list'
@@ -23,10 +22,6 @@ export const ListsContextProvider = ({
 }: ListsContextProviderProps) => {
   const { user } = useSession()
   const { data, isLoading } = useGetLists({ userId: user?.id })
-
-  const handleDeleteList = useMutation({
-    mutationFn: deleteListService,
-  })
 
   const handleAddToList = useMutation({
     mutationFn: addToListService,
@@ -54,7 +49,6 @@ export const ListsContextProvider = ({
         lists: data?.lists ?? [],
         isLoading,
 
-        handleDeleteList,
         handleAddToList,
         handleChangeListCoverPath,
 

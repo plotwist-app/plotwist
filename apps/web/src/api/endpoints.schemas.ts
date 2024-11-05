@@ -12,13 +12,6 @@ export type PostReviewsCreate404 = {
 };
 
 /**
- * Review created.
- */
-export type PostReviewsCreate201 = {
-  review: PostReviewsCreate201Review;
-};
-
-/**
  * @nullable
  */
 export type PostReviewsCreate201ReviewMediaType = typeof PostReviewsCreate201ReviewMediaType[keyof typeof PostReviewsCreate201ReviewMediaType] | null;
@@ -67,6 +60,13 @@ export type PostReviewsCreate201Review = {
   /** @nullable */
   tmdbTitle?: string | null;
   userId: string;
+};
+
+/**
+ * Review created.
+ */
+export type PostReviewsCreate201 = {
+  review: PostReviewsCreate201Review;
 };
 
 export type PostReviewsCreateBodyMediaType = typeof PostReviewsCreateBodyMediaType[keyof typeof PostReviewsCreateBodyMediaType];
@@ -147,6 +147,120 @@ export type PostLoginBody = {
   email: string;
   /** @minLength 8 */
   password?: string;
+};
+
+/**
+ * @nullable
+ */
+export type DeleteListItemId200ListItemsItemMediaType = typeof DeleteListItemId200ListItemsItemMediaType[keyof typeof DeleteListItemId200ListItemsItemMediaType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteListItemId200ListItemsItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type DeleteListItemId200ListItemsItem = {
+  createdAt: string;
+  id: string;
+  listId: string;
+  /** @nullable */
+  mediaType: DeleteListItemId200ListItemsItemMediaType;
+  overview: string;
+  /** @nullable */
+  posterPath: string | null;
+  title: string;
+  /** @nullable */
+  tmdbId: number | null;
+};
+
+export type DeleteListItemId200 = {
+  listItems: DeleteListItemId200ListItemsItem[];
+};
+
+/**
+ * @nullable
+ */
+export type GetListItemsByListId200ListItemsItemMediaType = typeof GetListItemsByListId200ListItemsItemMediaType[keyof typeof GetListItemsByListId200ListItemsItemMediaType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetListItemsByListId200ListItemsItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type GetListItemsByListId200ListItemsItem = {
+  createdAt: string;
+  id: string;
+  listId: string;
+  /** @nullable */
+  mediaType: GetListItemsByListId200ListItemsItemMediaType;
+  overview: string;
+  /** @nullable */
+  posterPath: string | null;
+  title: string;
+  /** @nullable */
+  tmdbId: number | null;
+};
+
+export type GetListItemsByListId200 = {
+  listItems: GetListItemsByListId200ListItemsItem[];
+};
+
+/**
+ * @nullable
+ */
+export type PostListItem201ListItemMediaType = typeof PostListItem201ListItemMediaType[keyof typeof PostListItem201ListItemMediaType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostListItem201ListItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type PostListItem201ListItem = {
+  createdAt: string;
+  id: string;
+  listId: string;
+  /** @nullable */
+  mediaType: PostListItem201ListItemMediaType;
+  overview: string;
+  /** @nullable */
+  posterPath: string | null;
+  title: string;
+  /** @nullable */
+  tmdbId: number | null;
+};
+
+export type PostListItem201 = {
+  listItem: PostListItem201ListItem;
+};
+
+/**
+ * @nullable
+ */
+export type PostListItemBodyMediaType = typeof PostListItemBodyMediaType[keyof typeof PostListItemBodyMediaType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostListItemBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type PostListItemBody = {
+  listId: string;
+  /** @nullable */
+  mediaType?: PostListItemBodyMediaType;
+  overview: string;
+  /** @nullable */
+  posterPath?: string | null;
+  title: string;
+  /** @nullable */
+  tmdbId?: number | null;
 };
 
 /**
@@ -284,8 +398,7 @@ export const GetLists200ListsItemItemsItemMediaType = {
 } as const;
 
 export type GetLists200ListsItemItemsItem = {
-  /** @nullable */
-  id: string | null;
+  id: string;
   /** @nullable */
   mediaType: GetLists200ListsItemItemsItemMediaType;
   /** @nullable */

@@ -1,19 +1,11 @@
-import { GetListById200List } from '@/api/endpoints.schemas'
+import {
+  GetListById200List,
+  GetListItemsByListId200ListItemsItem,
+} from '@/api/endpoints.schemas'
 import { Profile } from './profile'
 
 export type List = GetListById200List
-
-export type ListItem = {
-  backdrop_path: string
-  created_at: string
-  id: string
-  list_id: string
-  overview: string
-  poster_path?: string
-  title: string
-  tmdb_id: number
-  media_type: ListItemMediaType
-}
+export type ListItem = GetListItemsByListId200ListItemsItem
 
 export type ListLike = {
   created_at: string
