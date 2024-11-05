@@ -34,7 +34,8 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
-import { usePostList, usePutListId } from '@/api/list'
+import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
+import { APP_QUERY_CLIENT } from '@/context/app'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -71,9 +72,14 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
     return createList.mutateAsync(
       { data: values },
       {
-        onSuccess: ({ list: { id } }) => {
+        onSuccess: async ({ list: { id } }) => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetListsQueryKey(),
+          })
+
           setOpen(false)
           form.reset()
+
           toast.success(dictionary.list_created_success, {
             action: {
               label: dictionary.see_list,

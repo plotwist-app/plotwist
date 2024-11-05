@@ -20,6 +20,12 @@ import { useListMode } from '@/context/list-mode'
 
 import type { ListItem } from '@/types/supabase/lists'
 import { useListItem } from '@/hooks/use-list-item'
+import {
+  getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
+} from '@/api/list-item'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { toast } from 'sonner'
 
 type ListItemActionsProps = {
   listItem: ListItem
@@ -32,8 +38,7 @@ export const ListItemActions = ({
   openDropdown,
   setOpenDropdown,
 }: ListItemActionsProps) => {
-  const { handleChangeListCoverPath } = useLists()
-  const { handleDelete } = useListItem(listItem)
+  const deleteListItem = useDeleteListItemId()
 
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
@@ -80,7 +85,7 @@ export const ListItemActions = ({
 
     //     toast.success(dictionary.list_item_actions.cover_changed_successfully)
     //   },
-  }, [dictionary, handleChangeListCoverPath, listItem, user])
+  }, [listItem, user])
 
   return (
     <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
@@ -114,7 +119,24 @@ export const ListItemActions = ({
             <DropdownMenuSub>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => handleDelete.mutate()}
+                onClick={() =>
+                  deleteListItem.mutateAsync(
+                    { id: listItem.id },
+                    {
+                      onSuccess: async () => {
+                        await APP_QUERY_CLIENT.invalidateQueries({
+                          queryKey: getGetListItemsByListIdQueryKey(
+                            listItem.listId,
+                          ),
+                        })
+
+                        toast.success(
+                          dictionary.list_item_actions.removed_successfully,
+                        )
+                      },
+                    },
+                  )
+                }
               >
                 <Trash size={16} className="mr-2 " />
 

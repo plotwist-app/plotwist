@@ -30,8 +30,10 @@ import { ListItem } from '@/types/supabase/lists'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { listPageQueryKey } from '@/utils/list'
-import { usePostListItem } from '@/api/list-item'
+import {
+  getGetListItemsByListIdQueryKey,
+  usePostListItem,
+} from '@/api/list-item'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -49,7 +51,7 @@ export const ListCommandMovies = ({
 
   const isItemIncluded = useCallback(
     (movieId: number) => {
-      return listItems.some((listItem) => listItem.tmdb_id === movieId)
+      return listItems.some((listItem) => listItem.tmdbId === movieId)
     },
 
     [listItems],
@@ -62,9 +64,9 @@ export const ListCommandMovies = ({
       await mutateAsync(
         { data: sanitizedItem },
         {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
+          onSuccess: async () => {
+            await APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetListItemsByListIdQueryKey(listId),
             })
 
             toast.success(dictionary.list_command.movie_added_success)
@@ -78,14 +80,14 @@ export const ListCommandMovies = ({
   const handleRemove = useCallback(
     async (tmdbId: number) => {
       const listItemToRemove = listItems.find(
-        (listItem) => listItem.tmdb_id === tmdbId,
+        (listItem) => listItem.tmdbId === tmdbId,
       )
 
       if (listItemToRemove) {
         await handleRemoveFromList.mutateAsync(listItemToRemove.id, {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
+              queryKey: getGetListItemsByListIdQueryKey(listId),
             })
 
             toast.success(dictionary.list_command.movie_removed_success)

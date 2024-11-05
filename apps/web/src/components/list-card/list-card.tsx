@@ -25,18 +25,18 @@ import {
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useLists } from '@/context/lists'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useSession } from '@/context/session'
 import { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
 
 type ListCardProps = { list: GetLists200ListsItem }
 
 export const ListCard = ({ list }: ListCardProps) => {
-  const { handleDeleteList } = useLists()
   const { language, dictionary } = useLanguage()
   const { user } = useSession()
+  const deleteList = useDeleteListId()
 
   const [open, setOpen] = useState(false)
 
@@ -115,19 +115,24 @@ export const ListCard = ({ list }: ListCardProps) => {
             <Button
               variant="destructive"
               onClick={() => {
-                handleDeleteList.mutate(list.id, {
-                  onSuccess: () => {
-                    APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: ['lists', list.userId],
-                    })
+                deleteList.mutateAsync(
+                  { id: list.id },
+                  {
+                    onSuccess: async () => {
+                      await APP_QUERY_CLIENT.invalidateQueries({
+                        queryKey: getGetListsQueryKey(),
+                      })
 
-                    toast.success(dictionary.list_card.delete_success)
+                      setOpen(false)
+                      toast.success(dictionary.list_card.delete_success)
+                    },
+                    onError: (error) => {
+                      toast.error(error.message)
+                    },
                   },
-                  onError: (error) => {
-                    toast.error(error.message)
-                  },
-                })
+                )
               }}
+              loading={deleteList.isPending}
             >
               {dictionary.list_card.delete}
             </Button>
