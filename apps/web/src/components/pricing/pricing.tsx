@@ -3,7 +3,6 @@
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Price } from './price'
 import { Button } from '@plotwist/ui/components/ui/button'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
