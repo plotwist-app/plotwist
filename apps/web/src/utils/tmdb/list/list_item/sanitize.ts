@@ -20,7 +20,7 @@ type Raw =
 export const sanitizeListItem = (
   listId: string,
   raw: Raw,
-): Omit<PostListItem201ListItem, 'createdAt' | 'id'> => {
+): Omit<PostListItem201ListItem, 'createdAt' | 'id' | 'position'> => {
   const isTvSerie = 'name' in raw
 
   const title = isTvSerie
