@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const prices = await stripe.prices.list({
     product:
       process.env.NODE_ENV === 'development'
-        ? 'prod_Pqs2HScixDThzJ'
+        ? 'prod_RATX2kocUmZGdH'
         : 'prod_PrlSkiekCRFLto',
   })
 
@@ -52,6 +52,8 @@ export async function POST(req: NextRequest) {
       if (session.url) {
         return Response.redirect(session.url, 303)
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
