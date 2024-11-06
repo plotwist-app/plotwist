@@ -27,9 +27,9 @@ export default async function Layout({
       <div className="mx-auto max-w-6xl">
         <ProfileBanner profile={user} />
 
-        <div className="mx-auto flex max-w-3xl flex-col space-y-6 p-4  lg:px-16">
+        <div className="mx-auto flex max-w-4xl flex-col space-y-10 p-4  lg:px-16">
           <aside className="-mt-20 flex flex-col space-y-4 lg:-mt-28">
-            <div className="space-y-4">
+            <div className="flex gap-4 items-end space-y-4">
               <ProfileImage profile={user} />
 
               <div className="space-y-2">
@@ -47,7 +47,7 @@ export default async function Layout({
             </div>
           </aside>
 
-          <section>
+          <section className="space-y-4">
             <ProfileTabs user={user} />
             {children}
           </section>

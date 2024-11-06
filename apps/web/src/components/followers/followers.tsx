@@ -9,7 +9,7 @@ export const Followers = () => {
   const isLoading = false
 
   return (
-    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <div className="flex items-center gap-2 text-xs text-muted-foreground">
       <div className="flex gap-1">
         {isLoading ? (
           <Skeleton className="aspect-square w-[2ch]" />

@@ -1,6 +1,12 @@
 'use client'
 
-import { Activity, Award, List, Star } from 'lucide-react'
+import {
+  Activity,
+  Award,
+  BarChartHorizontalBig,
+  List,
+  Star,
+} from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import { useLanguage } from '@/context/language'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
@@ -56,16 +62,22 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             </Link>
           </TabsTrigger>
 
-          <TabsTrigger value="reviews" disabled>
-            {/* <Link href={`/${language}/${user.username}/reviews`}> */}
-            <Star className="mr-1" width={12} height={12} />
-            {dictionary.profile.reviews}
-            {/* </Link> */}
+          <TabsTrigger value="reviews" asChild>
+            <Link href={`/${language}/${user.username}/reviews`}>
+              <Star className="mr-1" width={12} height={12} />
+              {dictionary.profile.reviews}
+            </Link>
           </TabsTrigger>
 
           <TabsTrigger value="achievements" disabled>
             <Award className="mr-1" width={12} height={12} />
+
             {dictionary.profile.achievements}
+          </TabsTrigger>
+
+          <TabsTrigger value="achievements" disabled>
+            <BarChartHorizontalBig className="mr-1" width={12} height={12} />
+            Stats
           </TabsTrigger>
         </TabsList>
       </div>
