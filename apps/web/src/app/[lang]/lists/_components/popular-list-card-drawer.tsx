@@ -14,7 +14,6 @@ import {
   DrawerTrigger,
   DrawerProps,
 } from '@plotwist/ui/components/ui/drawer'
-import { useList } from '@/hooks/use-list'
 import { cn } from '@/lib/utils'
 import {
   Copy,
@@ -44,7 +43,6 @@ export const PopularListCardDrawer = ({
   children,
   ...drawerProps
 }: PopularListCardDrawerProps) => {
-  const { handleLike, handleRemoveLike } = useList()
   const { user } = useSession()
   const { dictionary } = useLanguage()
 
@@ -67,7 +65,7 @@ export const PopularListCardDrawer = ({
           {list.hasLiked ? (
             <div
               className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
-              onClick={() => handleRemoveLike.mutate(list.id)}
+              onClick={() => {}}
             >
               <HeartOff className="mr-2 size-4" />
               {dictionary.remove_like}
@@ -78,14 +76,7 @@ export const PopularListCardDrawer = ({
                 'flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground',
                 !user && 'pointer-events-none opacity-50',
               )}
-              onClick={() => {
-                if (user) {
-                  handleLike.mutate({
-                    listId: list.id,
-                    userId: user.id,
-                  })
-                }
-              }}
+              onClick={() => {}}
             >
               <Heart className="mr-2 size-4" />
               {dictionary.like}

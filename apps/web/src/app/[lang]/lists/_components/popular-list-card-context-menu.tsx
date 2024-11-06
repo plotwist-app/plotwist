@@ -25,12 +25,10 @@ import {
 } from '@plotwist/ui/components/ui/context-menu'
 import { ProBadge } from '@/components/pro-badge'
 
-import { useList } from '@/hooks/use-list'
 import { APP_URL } from '../../../../../constants'
 
 import { useLanguage } from '@/context/language'
 
-import { useSession } from '@/context/session'
 import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardContextMenuProps = {
@@ -43,8 +41,6 @@ export const PopularListCardContextMenu = ({
   href,
   list,
 }: PopularListCardContextMenuProps) => {
-  const { handleLike } = useList()
-  const { user } = useSession()
   const { dictionary } = useLanguage()
 
   return (
@@ -65,17 +61,7 @@ export const PopularListCardContextMenu = ({
             {dictionary.remove_like}
           </ContextMenuItem>
         ) : (
-          <ContextMenuItem
-            onClick={() => {
-              if (user) {
-                handleLike.mutate({
-                  listId: list.id,
-                  userId: user.id,
-                })
-              }
-            }}
-            disabled={!user}
-          >
+          <ContextMenuItem onClick={() => {}} disabled={true}>
             <Heart className="mr-2 size-4" />
             {dictionary.like}
           </ContextMenuItem>

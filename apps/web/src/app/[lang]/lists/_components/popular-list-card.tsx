@@ -33,7 +33,7 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
   const Trigger = () => {
     return (
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5 md:gap-4">
-        <div className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border bg-muted ">
+        <div className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border">
           <div
             className={cn(
               'absolute z-50 flex h-full w-full items-center justify-center bg-black/0 text-white transition group-hover:bg-black/75',
@@ -52,10 +52,10 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
             </span>
           </div>
 
-          {list.coverPath && (
+          {list.bannerPath && (
             <Image
               fill
-              src={tmdbImage(list.coverPath)}
+              src={tmdbImage(list.bannerPath)}
               alt=""
               className="transition-all hover:scale-105"
             />

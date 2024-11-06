@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { MoreVertical, Trash, Image as ImageIcon } from 'lucide-react'
+import { MoreVertical, Trash } from 'lucide-react'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -30,6 +30,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { useSession } from '@/context/session'
 import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
+import { cn } from '@/lib/utils'
 
 type ListCardProps = { list: GetLists200ListsItem }
 
@@ -51,17 +52,20 @@ export const ListCard = ({ list }: ListCardProps) => {
     <>
       <div className="space-y-2 ">
         <Link href={href}>
-          <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border bg-background/50 ">
-            {list.coverPath ? (
+          <div
+            className={cn(
+              'relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border-dashed border bg-background/50',
+              list.bannerPath && 'border border-solid',
+            )}
+          >
+            {list.bannerPath && (
               <Image
                 fill
                 className="object-cover"
-                src={tmdbImage(list.coverPath)}
+                src={tmdbImage(list.bannerPath)}
                 alt={list.title}
                 sizes="100%"
               />
-            ) : (
-              <ImageIcon className="size-8 text-muted-foreground/20 dark:text-muted" />
             )}
           </div>
         </Link>

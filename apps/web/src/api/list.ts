@@ -27,6 +27,9 @@ import type {
   GetLists200,
   GetLists404,
   GetListsParams,
+  PatchListBanner200,
+  PatchListBanner404,
+  PatchListBannerBody,
   PostList201,
   PostList404,
   PostListBody,
@@ -699,4 +702,73 @@ export function useGetListByIdSuspense<
   query.queryKey = queryOptions.queryKey
 
   return query
+}
+
+/**
+ * Update list banner by ID
+ */
+export const patchListBanner = (patchListBannerBody: PatchListBannerBody) => {
+  return axiosInstance<PatchListBanner200>({
+    url: `/list/banner`,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    data: patchListBannerBody,
+  })
+}
+
+export const getPatchListBannerMutationOptions = <
+  TError = PatchListBanner404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchListBanner>>,
+    TError,
+    { data: PatchListBannerBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchListBanner>>,
+  TError,
+  { data: PatchListBannerBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchListBanner>>,
+    { data: PatchListBannerBody }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return patchListBanner(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PatchListBannerMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchListBanner>>
+>
+export type PatchListBannerMutationBody = PatchListBannerBody
+export type PatchListBannerMutationError = PatchListBanner404
+
+export const usePatchListBanner = <
+  TError = PatchListBanner404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchListBanner>>,
+    TError,
+    { data: PatchListBannerBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof patchListBanner>>,
+  TError,
+  { data: PatchListBannerBody },
+  TContext
+> => {
+  const mutationOptions = getPatchListBannerMutationOptions(options)
+
+  return useMutation(mutationOptions)
 }

@@ -42,7 +42,7 @@ type ListFormProps = { trigger: JSX.Element; list?: List }
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)
   const { dictionary, language } = useLanguage()
-  const { push } = useRouter()
+  const { push, refresh } = useRouter()
   const createList = usePostList()
   const editList = usePutListId()
 
@@ -60,7 +60,9 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       return editList.mutateAsync(
         { data: values, id: list.id },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            refresh()
+
             setOpen(false)
             form.reset()
             toast.success(dictionary.list_edited_successfully)

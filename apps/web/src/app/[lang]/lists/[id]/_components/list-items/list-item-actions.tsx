@@ -24,6 +24,8 @@ import {
 } from '@/api/list-item'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { toast } from 'sonner'
+import { getGetListsQueryKey, usePatchListBanner } from '@/api/list'
+import { useRouter } from 'next/navigation'
 
 type ListItemActionsProps = {
   listItem: ListItem
@@ -37,53 +39,33 @@ export const ListItemActions = ({
   setOpenDropdown,
 }: ListItemActionsProps) => {
   const deleteListItem = useDeleteListItemId()
+  const patchBanner = usePatchListBanner()
 
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
+  const { refresh } = useRouter()
 
   const handleChangeBackdrop = useCallback(async () => {
     if (!user) return
 
-    const variables = {
-      listId: listItem.listId,
-      newCoverPath: listItem.backdropPath,
-    }
+    await patchBanner.mutateAsync(
+      {
+        data: { bannerPath: listItem.backdropPath!, listId: listItem.listId },
+      },
+      {
+        onSuccess: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetListsQueryKey(),
+          })
 
-    console.log({ variables })
+          refresh()
 
-    // await handleChangeListCoverPath.mutateAsync(variables, {
-    //   onSuccess: () => {
-    //     APP_QUERY_CLIENT.setQueryData(
-    //       listPageQueryKey(listItem.list_id),
-    //       (query: List) => {
-    //         const newQuery = {
-    //           ...query,
-    //           cover_path: variables.newCoverPath,
-    //         }
-
-    //         return newQuery
-    //       },
-    //     )
-
-    //     APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
-    //       const newData = query.map((list) => {
-    //         if (list.id === variables.listId) {
-    //           return {
-    //             ...list,
-    //             cover_path: variables.newCoverPath,
-    //           }
-    //         }
-
-    //         return list
-    //       })
-
-    //       return newData
-    //     })
-
-    //     toast.success(dictionary.list_item_actions.cover_changed_successfully)
-    //   },
-  }, [listItem, user])
+          toast.success(dictionary.list_item_actions.cover_changed_successfully)
+        },
+      },
+    )
+  }, [dictionary, listItem.backdropPath, listItem.listId, patchBanner, user])
 
   return (
     <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
