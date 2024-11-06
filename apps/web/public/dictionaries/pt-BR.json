@@ -63,7 +63,7 @@
     },
     "pro_plan": {
       "title": "Pro",
-      "price": "R$3/mês",
+      "price": "R$5/mês",
       "recommended": "Recomendado",
       "description": "Tudo no plano gratuito, porém com limites mais altos e recomendações personalizadas.",
       "benefits": [
@@ -73,12 +73,6 @@
         "Mudar nome de usuário"
       ],
       "subscribe": "Assine"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "R$10/mês",
-      "description": "Em breve",
-      "coming_soon": "Em breve"
     }
   },
   "movies_list": {

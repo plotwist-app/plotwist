@@ -63,7 +63,7 @@
     },
     "pro_plan": {
       "title": "Pro",
-      "price": "3 €/mois",
+      "price": "5 €/mois",
       "recommended": "Recommandé",
       "description": "Tout dans le plan gratuit plus des limites plus élevées et des paramètres personnalisés.",
       "benefits": [
@@ -73,12 +73,6 @@
         "Changer de nom d'utilisateur"
       ],
       "subscribe": "S'abonner"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "10 €/mois",
-      "description": "Bientôt disponible",
-      "coming_soon": "Prochainement"
     }
   },
   "movies_list": {

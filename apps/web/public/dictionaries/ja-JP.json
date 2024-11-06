@@ -63,7 +63,7 @@
     },
     "pro_plan": {
       "title": "商売人",
-      "price": "100円/月",
+      "price": "200円/月",
       "recommended": "おすすめ",
       "description": "無料プランの全てに、より高い限度とカスタム設定をプラス。",
       "benefits": [
@@ -73,12 +73,6 @@
         "ユーザー名の変更"
       ],
       "subscribe": "登録する"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "1000円/月",
-      "description": "近日公開",
-      "coming_soon": "近日公開"
     }
   },
   "movies_list": {

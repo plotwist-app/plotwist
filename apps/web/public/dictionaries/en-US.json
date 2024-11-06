@@ -63,7 +63,7 @@
     },
     "pro_plan": {
       "title": "Pro",
-      "price": "$3/month",
+      "price": "$5/month",
       "recommended": "Recommended",
       "description": "Everything in the free plan plus higher limits and custom settings.",
       "benefits": [
@@ -73,12 +73,6 @@
         "Change username"
       ],
       "subscribe": "Subscribe"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "$10/month",
-      "description": "Coming soon",
-      "coming_soon": "Coming Soon"
     }
   },
   "movies_list": {
