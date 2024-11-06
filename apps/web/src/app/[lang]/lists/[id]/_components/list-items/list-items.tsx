@@ -31,7 +31,7 @@ export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
         <Button
           variant="outline"
           onClick={() => setIsEditable(!isEditable)}
-          disabled={!isListAuthor}
+          disabled={true}
         >
           {isEditable ? dictionary.save_order : dictionary.edit_order}
         </Button>
