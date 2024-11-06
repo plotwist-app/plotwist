@@ -4,6 +4,7 @@ import {
   Activity,
   Award,
   BarChartHorizontalBig,
+  Check,
   List,
   Star,
 } from 'lucide-react'
@@ -43,7 +44,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
           <TabsTrigger value="watched" asChild>
             <Link href={`/${language}/${user.username}/watched`}>
-              <List className="mr-1" width={12} height={12} />
+              <Check className="mr-1" width={12} height={12} />
               Watched
             </Link>
           </TabsTrigger>
