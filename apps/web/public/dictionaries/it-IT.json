@@ -57,8 +57,7 @@
       "description": "Esplora film e crea la tua lista personale da guardare.",
       "benefits": [
         "Accesso completo alla piattaforma",
-        "Valutazioni illimitate",
-        "Una lista personale"
+        "Valutazioni illimitate"
       ],
       "start_now": "Inizia ora!"
     },
@@ -66,12 +65,12 @@
       "title": "Pro",
       "price": "5 €/mese",
       "recommended": "Consigliato",
-      "description": "Tutto nel piano gratuito più limiti più elevati e impostazioni personalizzate.",
-      "benefits": [
+      "description": "Tutto nel piano gratuito e molto di più!",      "benefits": [
+        "Strumenti di organizzazione e controllo per gli assistiti",
+        "Raccomandazioni personali basate sui tuoi gusti e sulla tua cronologia",
         "Liste illimitate",
-        "Raccomandazioni personali basate sui tuoi gusti",
-        "Clona le tue liste o quelle di altri membri",
-        "Cambia username"
+        "Personalizzazione avanzata",
+        "Conquiste e distintivi"
       ],
       "subscribe": "Iscriviti"
     }

@@ -56,8 +56,7 @@
       "description": "Erforschen Sie Filme und erstellen Sie Ihre persönliche Watchlist.",
       "benefits": [
         "Voller Zugriff auf die Plattform",
-        "Unbegrenzte Bewertungen",
-        "Eine persönliche Liste"
+        "Unbegrenzte Bewertungen"
       ],
       "start_now": "Jetzt starten!"
     },
@@ -65,12 +64,12 @@
       "title": "Profi",
       "price": "5 €/Monat",
       "recommended": "Empfohlen",
-      "description": "Alles im kostenlosen Tarif plus höhere Grenzen und benutzerdefinierte Einstellungen.",
-      "benefits": [
+      "description": "Alles im kostenlosen Plan und noch viel mehr!",      "benefits": [
+        "Organisations- und Kontrollwerkzeuge für Unterstützte",
+        "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
         "Unbegrenzte Listen",
-        "Persönliche Empfehlungen basierend auf persönlichem Geschmack",
-        "Eigene oder Listen anderer Mitglieder klonen",
-        "Benutzernamen ändern"
+        "Erweiterte Personalisierung",
+        "Auszeichnungen und Abzeichen"
       ],
       "subscribe": "Abonnieren"
     }

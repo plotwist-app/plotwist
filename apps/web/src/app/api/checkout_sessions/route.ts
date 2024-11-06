@@ -6,6 +6,7 @@ export async function POST(req: NextRequest) {
   const url = new URL(req.url)
 
   const email = url.searchParams.get('email')
+  const username = url.searchParams.get('username')
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
           },
         ],
         mode: 'subscription',
-        success_url: `${url.origin}/thank-you`,
+        success_url: `${url.origin}/${username}`,
         cancel_url: `${url.origin}/`,
         locale,
         customer_email: email,

@@ -56,8 +56,7 @@
       "description": "Explore movies and create your personal watchlist.",
       "benefits": [
         "Full access to the platform",
-        "Unlimited ratings",
-        "A personal list"
+        "Unlimited ratings"
       ],
       "start_now": "Start Now!"
     },
@@ -65,12 +64,13 @@
       "title": "Pro",
       "price": "$5/month",
       "recommended": "Recommended",
-      "description": "Everything in the free plan plus higher limits and custom settings.",
+      "description": "Everything in the free plan and much more!",
       "benefits": [
+        "Organization and control tools for watched",
+        "Personal recommendations based on your taste and history",
         "Unlimited lists",
-        "Personal recommendations based on personal taste",
-        "Clone your own or other members' lists",
-        "Change username"
+        "Advanced personalization",
+        "Achievements and badges"
       ],
       "subscribe": "Subscribe"
     }

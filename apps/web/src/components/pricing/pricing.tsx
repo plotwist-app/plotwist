@@ -75,7 +75,7 @@ export const Pricing = () => {
 
           {user ? (
             <form
-              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}`}
+              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}`}
               method="POST"
             >
               <Price.Root>

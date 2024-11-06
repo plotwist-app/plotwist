@@ -29,7 +29,7 @@ export const SessionContextProvider = ({
 
   useEffect(() => {
     if (!initialSession) {
-      setUser(null)
+      setUser(undefined)
       AXIOS_INSTANCE.defaults.headers.Authorization = ''
 
       return

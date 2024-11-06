@@ -1,3 +1,3 @@
-import { PostLogin200User } from '@/api/endpoints.schemas'
+import { GetUserById201User } from '@/api/endpoints.schemas'
 
-export type User = PostLogin200User | undefined
+export type User = GetUserById201User | undefined

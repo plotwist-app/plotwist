@@ -56,8 +56,7 @@
       "description": "Explora películas y crea tu lista de seguimiento personal.",
       "benefits": [
         "Acceso completo a la plataforma",
-        "Valoraciones ilimitadas",
-        "Una lista personal"
+        "Valoraciones ilimitadas"
       ],
       "start_now": "¡Empieza ahora!"
     },
@@ -65,12 +64,13 @@
       "title": "Pro",
       "price": "5 €/mes",
       "recommended": "Recomendado",
-      "description": "Todo en el plan gratuito más límites más altos y configuraciones personalizadas.",
+      "description": "Todo en el plan gratuito y mucho más!",
       "benefits": [
+        "Herramientas de organización y control para asistidos",
+        "Recomendaciones personales basadas en tus gustos e historial",
         "Listas ilimitadas",
-        "Recomendaciones personales basadas en el gusto personal",
-        "Clonar tus propias listas o las de otros miembros",
-        "Cambiar nombre de usuario"
+        "Personalización avanzada",
+        "Logros y distintivos"
       ],
       "subscribe": "Suscribirse"
     }

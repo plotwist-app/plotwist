@@ -56,8 +56,7 @@
       "description": "Explorez des films et créez votre liste de surveillance personnelle.",
       "benefits": [
         "Accès complet à la plateforme",
-        "Évaluations illimitées",
-        "Une liste personnelle"
+        "Évaluations illimitées"
       ],
       "start_now": "Commencez maintenant!"
     },
@@ -65,12 +64,13 @@
       "title": "Pro",
       "price": "5 €/mois",
       "recommended": "Recommandé",
-      "description": "Tout dans le plan gratuit plus des limites plus élevées et des paramètres personnalisés.",
+      "description": "Tout dans le plan gratuit et bien plus encore!",
       "benefits": [
+        "Outils d'organisation et de contrôle pour les assistés",
+        "Recommandations personnelles basées sur vos goûts et votre historique",
         "Listes illimitées",
-        "Recommandations personnelles basées sur les goûts personnels",
-        "Cloner vos propres listes ou celles d'autres membres",
-        "Changer de nom d'utilisateur"
+        "Personnalisation avancée",
+        "Réalisations et badges"
       ],
       "subscribe": "S'abonner"
     }
