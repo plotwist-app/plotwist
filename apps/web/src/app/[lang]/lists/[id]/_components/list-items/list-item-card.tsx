@@ -23,7 +23,7 @@ export const ListItemCard = ({
   showOverlay,
   isEditable,
 }: ListItemCardProps) => {
-  const { poster_path: poster, title } = listItem
+  const { posterPath, title } = listItem
   const [openDropdown, setOpenDropdown] = useState(false)
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: listItem.id })
@@ -48,11 +48,11 @@ export const ListItemCard = ({
       style={style}
     >
       <div className="relative aspect-poster w-full overflow-hidden rounded-md border bg-background/50 shadow">
-        {poster && (
+        {posterPath && (
           <Image
             fill
             className="z-10 object-fill"
-            src={tmdbImage(poster, 'w500')}
+            src={tmdbImage(posterPath, 'w500')}
             alt={title}
             sizes="100%"
           />

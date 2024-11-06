@@ -2,12 +2,15 @@ import 'server-only'
 
 import { cookies } from 'next/headers'
 import { decrypt } from '@/app/lib/session'
-import { PostLogin200User } from '@/api/endpoints.schemas'
+import { AXIOS_INSTANCE } from '@/services/axios-instance'
 
 export const verifySession = async () => {
   const cookie = cookies().get('session')?.value
-  console.log({ cookie })
   const session = await decrypt(cookie)
 
-  return { user: session ? (session.user as PostLogin200User) : null }
+  if (session) {
+    AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${session.token}`
+  }
+
+  return session
 }

@@ -240,7 +240,6 @@
   },
   "list_form": {
     "create_new_list": "Crear nueva lista",
-    "name": "Nombre",
     "name_placeholder": "Mi Lista",
     "name_required": "Se requiere el nombre de la lista.",
     "description": "Descripción",
@@ -253,9 +252,7 @@
     "visibility_option_description_network": "Solo visible para amigos.",
     "visibility_option_description_private": "Solo visible para mí.",
     "submit": "Enviar",
-    "list_created_success": "¡Lista creada con éxito!",
-    "edit_list": "Editar lista",
-    "list_edited_success": "Lista editada con éxito."
+    "edit_list": "Editar lista"
   },
   "list_page": {
     "list_not_found": "Lista no encontrada.",
@@ -719,5 +716,9 @@
   "new": "Nuevo",
   "roadmap": "Hoja de ruta",
   "documentation": "Documentación",
-  "username_already_taken": "Este nombre de usuario ya está en uso."
+  "username_already_taken": "Este nombre de usuario ya está en uso.",
+  "list_created_success": "¡Lista creada con éxito.",
+  "unable_to_create_list": "No se pudo crear la lista.",
+  "title": "Título",
+  "list_edited_successfully": "Lista editada con éxito."
 }

@@ -25,12 +25,15 @@ import { useLanguage } from '@/context/language'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
-import { useLists } from '@/context/lists'
 import { ListItem } from '@/types/supabase/lists'
 import { sanitizeListItem } from '@/utils/tmdb/list/list_item'
 
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { listPageQueryKey } from '@/utils/list'
+import {
+  getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
+  usePostListItem,
+} from '@/api/list-item'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -42,13 +45,16 @@ export const ListCommandMovies = ({
   listItems,
 }: ListCommandMoviesProps) => {
   const { language, dictionary } = useLanguage()
-  const { handleAddToList, handleRemoveFromList } = useLists()
   const listId = String(useParams().id)
+
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
 
   const isItemIncluded = useCallback(
     (movieId: number) => {
-      return listItems.some((listItem) => listItem.tmdb_id === movieId)
+      return listItems.some((listItem) => listItem.tmdbId === movieId)
     },
+
     [listItems],
   )
 
@@ -56,12 +62,12 @@ export const ListCommandMovies = ({
     async (movie: MovieWithMediaType) => {
       const sanitizedItem = sanitizeListItem(listId, movie)
 
-      await handleAddToList.mutateAsync(
-        { item: sanitizedItem },
+      await postListItem.mutateAsync(
+        { data: sanitizedItem },
         {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
+          onSuccess: async () => {
+            await APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetListItemsByListIdQueryKey(listId),
             })
 
             toast.success(dictionary.list_command.movie_added_success)
@@ -69,28 +75,31 @@ export const ListCommandMovies = ({
         },
       )
     },
-    [dictionary, handleAddToList, listId],
+    [dictionary, listId, postListItem],
   )
 
   const handleRemove = useCallback(
     async (tmdbId: number) => {
       const listItemToRemove = listItems.find(
-        (listItem) => listItem.tmdb_id === tmdbId,
+        (listItem) => listItem.tmdbId === tmdbId,
       )
 
       if (listItemToRemove) {
-        await handleRemoveFromList.mutateAsync(listItemToRemove.id, {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: listPageQueryKey(listId),
-            })
+        await deleteListItem.mutateAsync(
+          { id: listItemToRemove.id },
+          {
+            onSuccess: () => {
+              APP_QUERY_CLIENT.invalidateQueries({
+                queryKey: getGetListItemsByListIdQueryKey(listId),
+              })
 
-            toast.success(dictionary.list_command.movie_removed_success)
+              toast.success(dictionary.list_command.movie_removed_success)
+            },
           },
-        })
+        )
       }
     },
-    [dictionary, handleRemoveFromList, listId, listItems],
+    [deleteListItem, dictionary, listId, listItems],
   )
 
   return (

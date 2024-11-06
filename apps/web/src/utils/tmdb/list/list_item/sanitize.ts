@@ -7,7 +7,7 @@ import {
   TvSerie,
 } from '@plotwist/tmdb'
 
-import { ListItem } from '@/types/supabase/lists'
+import { PostListItem201ListItem } from '@/api/endpoints.schemas'
 
 type Raw =
   | MovieDetails
@@ -20,7 +20,7 @@ type Raw =
 export const sanitizeListItem = (
   listId: string,
   raw: Raw,
-): Omit<ListItem, 'created_at' | 'id'> => {
+): Omit<PostListItem201ListItem, 'createdAt' | 'id' | 'position'> => {
   const isTvSerie = 'name' in raw
 
   const title = isTvSerie
@@ -28,12 +28,12 @@ export const sanitizeListItem = (
     : (raw as MovieDetails).title
 
   return {
-    list_id: listId,
-    backdrop_path: raw.backdrop_path ?? '',
+    listId,
+    backdropPath: raw.backdrop_path ?? '',
     overview: raw.overview,
-    poster_path: raw.poster_path,
+    posterPath: raw.poster_path!,
     title,
-    tmdb_id: raw.id,
-    media_type: isTvSerie ? 'TV_SHOW' : 'MOVIE',
+    tmdbId: raw.id,
+    mediaType: isTvSerie ? 'TV_SHOW' : 'MOVIE',
   }
 }

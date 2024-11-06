@@ -14,9 +14,7 @@ import {
   DrawerTrigger,
   DrawerProps,
 } from '@plotwist/ui/components/ui/drawer'
-import { useList } from '@/hooks/use-list'
 import { cn } from '@/lib/utils'
-import { PopularList } from '@/types/supabase/lists'
 import {
   Copy,
   ExternalLink,
@@ -31,10 +29,11 @@ import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardDrawerProps = PropsWithChildren &
   DrawerProps & {
-    list: PopularList
+    list: GetLists200ListsItem
     href: string
   }
 
@@ -44,11 +43,8 @@ export const PopularListCardDrawer = ({
   children,
   ...drawerProps
 }: PopularListCardDrawerProps) => {
-  const { handleLike, handleRemoveLike, handleCloneList } = useList()
   const { user } = useSession()
   const { dictionary } = useLanguage()
-
-  const userLike = list.list_likes.find((like) => like.user_id === user?.id)
 
   return (
     <Drawer {...drawerProps}>
@@ -56,7 +52,7 @@ export const PopularListCardDrawer = ({
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>{list.name}</DrawerTitle>
+          <DrawerTitle>{list.title}</DrawerTitle>
           <DrawerDescription>{list.description}</DrawerDescription>
         </DrawerHeader>
 
@@ -66,10 +62,10 @@ export const PopularListCardDrawer = ({
             {dictionary.visit}
           </div>
 
-          {userLike ? (
+          {list.hasLiked ? (
             <div
               className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
-              onClick={() => handleRemoveLike.mutate(userLike.id)}
+              onClick={() => {}}
             >
               <HeartOff className="mr-2 size-4" />
               {dictionary.remove_like}
@@ -80,35 +76,12 @@ export const PopularListCardDrawer = ({
                 'flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground',
                 !user && 'pointer-events-none opacity-50',
               )}
-              onClick={() => {
-                if (user) {
-                  handleLike.mutate({
-                    listId: list.id,
-                    userId: user.id,
-                  })
-                }
-              }}
+              onClick={() => {}}
             >
               <Heart className="mr-2 size-4" />
               {dictionary.like}
             </div>
           )}
-
-          <div
-            className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
-            onClick={() => {
-              if (user) {
-                handleCloneList.mutate({
-                  listId: list.id,
-                  userId: user.id,
-                })
-              }
-            }}
-          >
-            <Copy className="mr-2 size-4" />
-            {dictionary.clone}
-            <ProBadge className="ml-2" />
-          </div>
 
           <Accordion type="multiple">
             <AccordionItem value="share" className="border-none">

@@ -1,18 +1,14 @@
 'use client'
 
-import { fetchPopularLists } from '@/services/api/lists/fetch-popular-lists'
-import { useQuery } from '@tanstack/react-query'
 import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 import { useMemo } from 'react'
+import { useGetLists } from '@/api/list'
 
 export const PopularLists = () => {
   const { dictionary } = useLanguage()
-  const { data } = useQuery({
-    queryKey: ['popular-lists'],
-    queryFn: fetchPopularLists,
-  })
+  const { data } = useGetLists()
 
   const content = useMemo(() => {
     if (!data)
@@ -26,7 +22,7 @@ export const PopularLists = () => {
 
     return (
       <li className="flex flex-col gap-6">
-        {data.map((list) => (
+        {data.lists.map((list) => (
           <PopularListCard list={list} key={list.id} />
         ))}
       </li>

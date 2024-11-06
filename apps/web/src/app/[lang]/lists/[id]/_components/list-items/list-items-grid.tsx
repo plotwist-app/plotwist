@@ -7,7 +7,6 @@ import { useListMode } from '@/context/list-mode'
 import { useEffect, useState } from 'react'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { handleUpdateOrderInDatabase } from '@/services/api/lists/update-list-order'
 
 type ListItemsGridProps = {
   listItems: ListItem[]
@@ -19,13 +18,16 @@ export const ListItemsGrid = ({
   isEditable,
 }: ListItemsGridProps) => {
   const { mode } = useListMode()
+
   const [selectedListItemId, setSelectedListItem] = useState<null | string>(
     null,
   )
+  const [items, setItems] = useState<ListItem[]>([])
+
   useEffect(() => {
     setItems(listItems)
   }, [listItems])
-  const [items, setItems] = useState<ListItem[]>([])
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
 
@@ -35,7 +37,9 @@ export const ListItemsGrid = ({
 
       const newItems = arrayMove([...listItems], oldIndex, newIndex)
       setItems(newItems)
-      await handleUpdateOrderInDatabase(listItems, oldIndex, newIndex)
+
+      // TODO: AJUSTAR
+      // await handleUpdateOrderInDatabase(listItems, oldIndex, newIndex)
     }
   }
 
@@ -62,7 +66,7 @@ export const ListItemsGrid = ({
             </SortableContext>
           </DndContext>
         ) : (
-          <SortableContext items={items}>
+          <>
             {items.map((item) => (
               <ListItemCard
                 key={item.id}
@@ -72,10 +76,11 @@ export const ListItemsGrid = ({
                 isEditable={isEditable}
               />
             ))}
+
             {mode === 'EDIT' && (
               <ListCommand variant="poster" listItems={listItems} />
             )}
-          </SortableContext>
+          </>
         )}
       </div>
     </div>

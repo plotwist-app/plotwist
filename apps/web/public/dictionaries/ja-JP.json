@@ -240,7 +240,6 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
-    "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
     "description": "説明",
@@ -253,9 +252,7 @@
     "visibility_option_description_network": "友人のみ閲覧可能。",
     "visibility_option_description_private": "自分のみ閲覧可能。",
     "submit": "提出する",
-    "list_created_success": "リストが正常に作成されました！",
-    "edit_list": "リストを編集",
-    "list_edited_success": "リストが正常に編集されました。"
+    "edit_list": "リストを編集"
   },
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
@@ -716,9 +713,12 @@
   "unexpected_error": "予期しないエラーが発生しました。",
   "reset_password_success": "パスワードが正常にリセットされました。",
   "reset_your_password": "パスワードをリセットする",
-  "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません",
   "new": "新しい",
   "roadmap": "ロードマップ",
   "documentation": "ドキュメント",
-  "username_already_taken": "このユーザー名は既に使用されています。"
+  "username_already_taken": "このユーザー名は既に使用されています。",
+  "list_created_success": "リストが正常に作成されました。",
+  "unable_to_create_list": "リストを作成できませんでした。",
+  "title": "タイトル",
+  "list_edited_successfully": "リストが正常に編集されました。"
 }

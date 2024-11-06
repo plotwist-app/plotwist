@@ -3,6 +3,7 @@ import { SignJWT, jwtVerify } from 'jose'
 import { SessionPayload } from './definitions'
 
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
@@ -21,7 +22,7 @@ export async function decrypt(session: string | undefined = '') {
       algorithms: ['HS256'],
     })
 
-    return payload
+    return payload as SessionPayload
   } catch (error) {
     console.log('Failed to verify session')
   }
@@ -42,4 +43,5 @@ export async function createSession(payload: SessionPayload) {
 
 export async function deleteSession() {
   cookies().delete('session')
+  redirect('/sign-in')
 }

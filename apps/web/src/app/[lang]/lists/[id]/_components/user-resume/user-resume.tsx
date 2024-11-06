@@ -1,5 +1,5 @@
-import { FollowButton } from '@/components/follow-button'
-import { Followers } from '@/components/followers'
+'use client'
+
 import { ProBadge } from '@/components/pro-badge'
 import {
   Avatar,
@@ -10,14 +10,12 @@ import { Button } from '@plotwist/ui/components/ui/button'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
-import { useListMode } from '@/context/list-mode'
-import { supabase } from '@/services/supabase'
-import { Profile } from '@/types/supabase'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { ListRecommendations } from '../list-recommendations'
 import { List } from '@/types/supabase/lists'
+import { useGetUserById } from '@/api/users'
+import { FollowButton } from '@/components/follow-button'
+import { Followers } from '@/components/followers'
 
 type UserResumeProps = {
   list: List
@@ -25,24 +23,15 @@ type UserResumeProps = {
 
 export const UserResume = ({ list }: UserResumeProps) => {
   const { language } = useLanguage()
-  const { mode } = useListMode()
+  const { data, isLoading } = useGetUserById(list.userId)
 
-  const { data: profile, isLoading } = useQuery({
-    queryKey: [list.user_id],
-    queryFn: async () =>
-      await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', list.user_id)
-        .single<Profile>(),
-    select: (response) => response.data,
-  })
-
-  if (isLoading || !profile) {
+  if (isLoading || !data) {
     return <UserResumeSkeleton />
   }
 
-  const username = profile.username
+  const { user } = data
+
+  const username = user.username
   const profileHref = `/${language}/${username}`
 
   return (
@@ -51,9 +40,9 @@ export const UserResume = ({ list }: UserResumeProps) => {
         <div className="flex justify-between">
           <Link href={profileHref} className="">
             <Avatar className="h-16 w-16">
-              {profile.image_path && (
+              {user.imagePath && (
                 <AvatarImage
-                  src={tmdbImage(profile.image_path, 'w500')}
+                  src={tmdbImage(user.imagePath, 'w500')}
                   className="object-cover"
                 />
               )}
@@ -64,7 +53,7 @@ export const UserResume = ({ list }: UserResumeProps) => {
             </Avatar>
           </Link>
 
-          <FollowButton profileId={profile.id} />
+          <FollowButton userId={list.userId} />
         </div>
 
         <div className="space-y-1">
@@ -73,14 +62,12 @@ export const UserResume = ({ list }: UserResumeProps) => {
               {username}
             </Link>
 
-            {profile.subscription_type === 'PRO' && <ProBadge />}
+            {user.subscriptionType === 'PRO' && <ProBadge />}
           </div>
 
-          <Followers profileId={profile.id} />
+          <Followers />
         </div>
       </div>
-
-      {mode === 'EDIT' && <ListRecommendations list={list} />}
     </div>
   )
 }

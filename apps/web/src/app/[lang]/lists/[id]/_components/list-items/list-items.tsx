@@ -1,79 +1,46 @@
 'use client'
 
-import { ListItem } from '@/types/supabase/lists'
-import { Grid, List } from 'lucide-react'
+import { useState } from 'react'
 
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 
 import { ListItemsGrid } from './list-items-grid'
-import { DataTable, columns } from '../data-table'
-import { useListMode } from '@/context/list-mode'
-import { useState } from 'react'
 import { useSession } from '@/context/session'
+import { useGetListItemsByListIdSuspense } from '@/api/list-item'
 
 type ListItemsProps = {
   ownerId: string
-  listItems: ListItem[]
+  listId: string
 }
-export const ListItems = ({ ownerId, listItems }: ListItemsProps) => {
-  const [layout, setLayout] = useState<'table' | 'grid'>('grid')
-  const { dictionary, language } = useLanguage()
-  const { mode } = useListMode()
+
+export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
   const [isEditable, setIsEditable] = useState(false)
 
+  const { dictionary } = useLanguage()
   const { user } = useSession()
+  const {
+    data: { listItems },
+  } = useGetListItemsByListIdSuspense(listId)
 
   const isListAuthor = ownerId === user?.id
 
-  const contentByLayout: Record<typeof layout, JSX.Element> = {
-    grid: (
-      <ListItemsGrid
-        listItems={listItems}
-        isEditable={!isListAuthor ? false : isEditable}
-      />
-    ),
-    table: (
-      <DataTable
-        data={listItems}
-        columns={columns(dictionary, language, mode)}
-      />
-    ),
-  }
-
   return (
     <section className="space-y-4">
-      <div className="flex justify-between">
-        <div className="flex space-x-2">
-          <Button
-            variant={layout === 'grid' ? 'default' : 'outline'}
-            onClick={() => setLayout('grid')}
-            size="icon"
-            className="h-9 w-9"
-          >
-            <Grid className="h-4 w-4" />
-          </Button>
+      {isListAuthor && (
+        <Button
+          variant="outline"
+          onClick={() => setIsEditable(!isEditable)}
+          disabled={true}
+        >
+          {isEditable ? dictionary.save_order : dictionary.edit_order}
+        </Button>
+      )}
 
-          <Button
-            variant={layout === 'table' ? 'default' : 'outline'}
-            onClick={() => setLayout('table')}
-            size="icon"
-            className="h-9 w-9"
-          >
-            <List className="h-4 w-4" />
-          </Button>
-        </div>
-        {layout === 'grid' && (
-          <Button
-            variant="outline"
-            onClick={() => setIsEditable(!isEditable)}
-            disabled={!isListAuthor}
-          >
-            {isEditable ? dictionary.save_order : dictionary.edit_order}
-          </Button>
-        )}
-      </div>
-      {contentByLayout[layout]}
+      <ListItemsGrid
+        listItems={listItems}
+        isEditable={isListAuthor ? isEditable : false}
+      />
     </section>
   )
 }

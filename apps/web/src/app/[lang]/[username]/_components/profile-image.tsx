@@ -1,34 +1,23 @@
 'use client'
 
+import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useProfile } from '@/hooks/use-profile'
-import { getProfileByUsername } from '@/services/api/profiles'
-import { Profile } from '@/types/supabase'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { useQuery } from '@tanstack/react-query'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
 import { toast } from 'sonner'
 
 type ProfileImageProps = {
-  profile: Profile
+  profile: GetUsersUsername200User
 }
 
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { username } = profile
   const { dictionary } = useLanguage()
   const { user } = useSession()
-
-  const { data: profileImagePath } = useQuery({
-    queryKey: ['profile-image', username],
-    queryFn: async () => await getProfileByUsername(username),
-    select: (data) => {
-      return data?.image_path
-    },
-    initialData: profile,
-  })
 
   const { updateImagePathMutation } = useProfile()
 
@@ -37,9 +26,9 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   if (mode === 'SHOW') {
     return (
       <div className="relative z-40 flex aspect-square w-32 items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
-        {profileImagePath ? (
+        {profile.imagePath ? (
           <Image
-            src={tmdbImage(profileImagePath)}
+            src={tmdbImage(profile.imagePath)}
             fill
             alt=""
             className="object-cover"
@@ -72,9 +61,9 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
     >
       <ImagePicker.Trigger>
         <div className="group relative z-40 flex aspect-square w-32 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
-          {profileImagePath ? (
+          {profile.imagePath ? (
             <Image
-              src={tmdbImage(profileImagePath)}
+              src={tmdbImage(profile.imagePath)}
               fill
               alt=""
               className="object-cover"

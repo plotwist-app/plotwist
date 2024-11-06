@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <AppWrapper>
       <LanguageContextProvider language={lang} dictionary={dictionary}>
-        <SessionContextProvider initialUser={session.user}>
+        <SessionContextProvider initialSession={session}>
           <ListsContextProvider>
             <div className="flex flex-col">
               <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
