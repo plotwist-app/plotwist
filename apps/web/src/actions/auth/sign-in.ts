@@ -12,8 +12,8 @@ type SignInCredentials = {
 export async function signIn(credentials: SignInCredentials) {
   const { email, password } = credentials
 
-  const { token, user } = await postLogin({ email, password })
-  await createSession({ token, user })
+  const { token } = await postLogin({ email, password })
+  await createSession({ token })
 
   redirect('/home')
 }

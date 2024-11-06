@@ -2,11 +2,9 @@
 
 import { useCallback, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { toast } from 'sonner'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -29,7 +27,6 @@ import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
 
-import { useProfile } from '@/hooks/use-profile'
 import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 
@@ -75,10 +72,8 @@ type ProfileFormProps = {
 export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const [open, setOpen] = useState(false)
 
-  const { push } = useRouter()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
-  const { updateUsernameMutation } = useProfile()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
@@ -90,39 +85,9 @@ export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
   const isUserPro = profile.subscriptionType === 'PRO'
   const isOwner = profile.id === user?.id
 
-  const onSubmit = useCallback(
-    async (values: ProfileFormValues) => {
-      if (!isUserPro) return
-
-      const { error } = await updateUsernameMutation.mutateAsync({
-        userId: user!.id,
-        newUsername: values.username,
-      })
-
-      if (error) {
-        if (error.code === 'P0001') {
-          toast.error(
-            `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
-          )
-          return
-        }
-
-        toast.error(error.message)
-        return
-      }
-
-      push(`/${language}/${values.username}`)
-    },
-    [
-      dictionary.profile_form.error_existent_username,
-      dictionary.profile_form.username_label,
-      isUserPro,
-      language,
-      push,
-      updateUsernameMutation,
-      user,
-    ],
-  )
+  const onSubmit = useCallback(async (values: ProfileFormValues) => {
+    console.log({ values })
+  }, [])
 
   if (!user || !isOwner) return null
 

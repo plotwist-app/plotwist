@@ -9,12 +9,12 @@ import {
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { useLanguage } from '@/context/language'
-import { PostLogin200User } from '@/api/endpoints.schemas'
 import { logout } from '@/actions/auth/logout'
 import Link from 'next/link'
+import { User } from '@/types/user'
 
 type HeaderNavigationDrawerUserProps = {
-  user: PostLogin200User
+  user: User
 }
 
 export const HeaderNavigationDrawerUser = ({
