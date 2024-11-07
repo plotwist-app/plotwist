@@ -8,7 +8,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import { Separator } from '@plotwist/ui/components/ui/separator'
 
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
@@ -89,12 +88,6 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
                     {list.user.username}
                   </span>
                 </Link>
-
-                <Separator className="h-4" orientation="vertical" />
-
-                <div className="cursor-pointer rounded-full border px-2 py-0.5 text-xs text-muted-foreground transition-all hover:bg-muted">
-                  ❤ <span className="ml-1">{list.likeCount}</span>
-                </div>
               </div>
             </div>
 

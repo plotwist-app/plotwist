@@ -4,69 +4,69 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation } from '@tanstack/react-query'
+import {
+  useMutation
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult,
+  UseMutationResult
 } from '@tanstack/react-query'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
+
+
+
 
 /**
  * Webhook route
  */
-export const postWebhook = () => {
-  return axiosInstance<void>({ url: `/webhook`, method: 'POST' })
-}
+export const postWebhook = (
+    
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/webhook`, method: 'POST'
+    },
+      );
+    }
+  
 
-export const getPostWebhookMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postWebhook>>,
-    TError,
-    void,
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postWebhook>>,
-  TError,
-  void,
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postWebhook>>,
-    void
-  > = () => {
-    return postWebhook()
-  }
+export const getPostWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postWebhook>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postWebhook>>, TError,void, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type PostWebhookMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postWebhook>>
->
 
-export type PostWebhookMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postWebhook>>, void> = () => {
+          
 
-export const usePostWebhook = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postWebhook>>,
-    TError,
-    void,
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof postWebhook>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationOptions = getPostWebhookMutationOptions(options)
+          return  postWebhook()
+        }
 
-  return useMutation(mutationOptions)
-}
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof postWebhook>>>
+    
+    export type PostWebhookMutationError = unknown
+
+    export const usePostWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postWebhook>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postWebhook>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getPostWebhookMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

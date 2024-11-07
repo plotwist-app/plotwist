@@ -31,6 +31,8 @@ import type {
   GetUsersCheckEmail409,
   GetUsersCheckEmailParams,
   GetUsersUsername200,
+  PatchUserImage200,
+  PatchUserImageBody,
   PostUsersCreate201,
   PostUsersCreate409,
   PostUsersCreate500,
@@ -1288,4 +1290,73 @@ export function useGetMeSuspense<
   query.queryKey = queryOptions.queryKey
 
   return query
+}
+
+/**
+ * Update user image
+ */
+export const patchUserImage = (patchUserImageBody: PatchUserImageBody) => {
+  return axiosInstance<PatchUserImage200>({
+    url: `/user/image`,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    data: patchUserImageBody,
+  })
+}
+
+export const getPatchUserImageMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserImage>>,
+    TError,
+    { data: PatchUserImageBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchUserImage>>,
+  TError,
+  { data: PatchUserImageBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchUserImage>>,
+    { data: PatchUserImageBody }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return patchUserImage(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PatchUserImageMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUserImage>>
+>
+export type PatchUserImageMutationBody = PatchUserImageBody
+export type PatchUserImageMutationError = unknown
+
+export const usePatchUserImage = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserImage>>,
+    TError,
+    { data: PatchUserImageBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof patchUserImage>>,
+  TError,
+  { data: PatchUserImageBody },
+  TContext
+> => {
+  const mutationOptions = getPatchUserImageMutationOptions(options)
+
+  return useMutation(mutationOptions)
 }

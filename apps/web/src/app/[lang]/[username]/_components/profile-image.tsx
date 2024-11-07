@@ -1,13 +1,14 @@
 'use client'
 
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { usePatchUserImage } from '@/api/users'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { useProfile } from '@/hooks/use-profile'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 type ProfileImageProps = {
@@ -15,11 +16,10 @@ type ProfileImageProps = {
 }
 
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
-  const { username } = profile
   const { dictionary } = useLanguage()
   const { user } = useSession()
-
-  const { updateImagePathMutation } = useProfile()
+  const useUpdateUserImage = usePatchUserImage()
+  const { refresh } = useRouter()
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
@@ -43,16 +43,15 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   return (
     <ImagePicker.Root
       onSelect={(image, closeModal) =>
-        updateImagePathMutation.mutate(
+        useUpdateUserImage.mutateAsync(
           {
-            newImagePath: image.file_path,
-            username: String(username),
+            data: { imagePath: image.file_path },
           },
 
           {
             onSettled: () => {
+              refresh()
               closeModal()
-
               toast.success(dictionary.profile_image_changed_successfully)
             },
           },
