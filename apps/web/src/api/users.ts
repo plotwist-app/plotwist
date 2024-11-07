@@ -31,6 +31,8 @@ import type {
   GetUsersCheckEmail409,
   GetUsersCheckEmailParams,
   GetUsersUsername200,
+  PatchUserBanner200,
+  PatchUserBannerBody,
   PatchUserImage200,
   PatchUserImageBody,
   PostUsersCreate201,
@@ -1357,6 +1359,74 @@ export const usePatchUserImage = <
   TContext
 > => {
   const mutationOptions = getPatchUserImageMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+/**
+ * Update user banner
+ */
+export const patchUserBanner = (patchUserBannerBody: PatchUserBannerBody) => {
+  return axiosInstance<PatchUserBanner200>({
+    url: `/user/banner`,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    data: patchUserBannerBody,
+  })
+}
+
+export const getPatchUserBannerMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserBanner>>,
+    TError,
+    { data: PatchUserBannerBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchUserBanner>>,
+  TError,
+  { data: PatchUserBannerBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchUserBanner>>,
+    { data: PatchUserBannerBody }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return patchUserBanner(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PatchUserBannerMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUserBanner>>
+>
+export type PatchUserBannerMutationBody = PatchUserBannerBody
+export type PatchUserBannerMutationError = unknown
+
+export const usePatchUserBanner = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserBanner>>,
+    TError,
+    { data: PatchUserBannerBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof patchUserBanner>>,
+  TError,
+  { data: PatchUserBannerBody },
+  TContext
+> => {
+  const mutationOptions = getPatchUserBannerMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

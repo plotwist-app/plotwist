@@ -9,7 +9,8 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
-import { usePatchUserImage } from '@/api/users'
+import { usePatchUserBanner } from '@/api/users'
+import { useRouter } from 'next/navigation'
 
 type ProfileBannerProps = {
   profile: GetUsersUsername200User
@@ -18,18 +19,21 @@ type ProfileBannerProps = {
 export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
-  const useUpdateUserImage = usePatchUserImage()
+  const { mutateAsync } = usePatchUserBanner()
+  const { refresh } = useRouter()
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
-        onSelect={(image) =>
-          useUpdateUserImage.mutateAsync(
-            { data: { imagePath: image.file_path } },
+        onSelect={(image, onClose) =>
+          mutateAsync(
+            { data: { bannerPath: image.file_path } },
             {
               onSettled: () => {
+                refresh()
+                onClose()
                 toast.success(dictionary.profile_banner.changed_successfully)
               },
             },
