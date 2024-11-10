@@ -18,6 +18,8 @@ export async function POST(req: NextRequest) {
         : 'prod_PrlSkiekCRFLto',
   })
 
+  console.log({ prices })
+
   const priceByLocale = prices.data.find((price) => {
     if (locale === 'ja') {
       return price.currency === 'jpy'
