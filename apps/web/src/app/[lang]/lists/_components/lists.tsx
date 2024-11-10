@@ -8,12 +8,13 @@ import { ListCard, ListCardSkeleton } from '@/components/list-card'
 
 import { ListForm } from './list-form'
 import { useSession } from '@/context/session'
+import Link from 'next/link'
 
 const LIMIT = 3
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const { user } = useSession()
 
   if (!user) {
@@ -44,18 +45,34 @@ export const Lists = () => {
       ))}
 
       {lists.length < LIMIT &&
-        Array.from({ length: LIMIT - lists.length }).map((_, index) => (
-          <ListForm
-            trigger={
-              <button className="group aspect-video rounded-md border border-dashed">
+        Array.from({ length: LIMIT - lists.length }).map((_, index) => {
+          if (user.subscriptionType === 'MEMBER') {
+            return (
+              <Link
+                href={`/${language}/pricing`}
+                className="flex items-center justify-center group aspect-video rounded-md border border-dashed"
+                key={index}
+              >
                 <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
                   {dictionary.list_form.create_new_list}
                 </p>
-              </button>
-            }
-            key={index}
-          />
-        ))}
+              </Link>
+            )
+          }
+
+          return (
+            <ListForm
+              trigger={
+                <button className="group aspect-video rounded-md border border-dashed">
+                  <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
+                    {dictionary.list_form.create_new_list}
+                  </p>
+                </button>
+              }
+              key={index}
+            />
+          )
+        })}
     </div>
   )
 }

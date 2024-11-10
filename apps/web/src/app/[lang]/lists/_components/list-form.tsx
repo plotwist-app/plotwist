@@ -64,7 +64,6 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             refresh()
 
             setOpen(false)
-            form.reset()
             toast.success(dictionary.list_edited_successfully)
           },
         },

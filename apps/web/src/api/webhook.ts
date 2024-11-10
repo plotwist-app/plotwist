@@ -15,22 +15,25 @@ import { axiosInstance } from '../services/axios-instance'
 /**
  * Webhook route
  */
-export const postWebhook = () => {
-  return axiosInstance<void>({ url: `/webhook`, method: 'POST' })
+export const postCompleteStripeSubscription = () => {
+  return axiosInstance<void>({
+    url: `/complete-stripe-subscription`,
+    method: 'POST',
+  })
 }
 
-export const getPostWebhookMutationOptions = <
+export const getPostCompleteStripeSubscriptionMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postWebhook>>,
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
     TError,
     void,
     TContext
   >
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postWebhook>>,
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
   TError,
   void,
   TContext
@@ -38,35 +41,39 @@ export const getPostWebhookMutationOptions = <
   const { mutation: mutationOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postWebhook>>,
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
     void
   > = () => {
-    return postWebhook()
+    return postCompleteStripeSubscription()
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type PostWebhookMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postWebhook>>
+export type PostCompleteStripeSubscriptionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>
 >
 
-export type PostWebhookMutationError = unknown
+export type PostCompleteStripeSubscriptionMutationError = unknown
 
-export const usePostWebhook = <TError = unknown, TContext = unknown>(options?: {
+export const usePostCompleteStripeSubscription = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postWebhook>>,
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
     TError,
     void,
     TContext
   >
 }): UseMutationResult<
-  Awaited<ReturnType<typeof postWebhook>>,
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
   TError,
   void,
   TContext
 > => {
-  const mutationOptions = getPostWebhookMutationOptions(options)
+  const mutationOptions =
+    getPostCompleteStripeSubscriptionMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

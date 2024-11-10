@@ -24,12 +24,12 @@ import type {
   GetUserById201,
   GetUserById409,
   GetUserById500,
+  GetUsersAvailableEmail200,
+  GetUsersAvailableEmail409,
+  GetUsersAvailableEmailParams,
   GetUsersAvailableUsername200,
   GetUsersAvailableUsername409,
   GetUsersAvailableUsernameParams,
-  GetUsersCheckEmail200,
-  GetUsersCheckEmail409,
-  GetUsersCheckEmailParams,
   GetUsersUsername200,
   PatchUserBanner200,
   PatchUserBannerBody,
@@ -373,33 +373,33 @@ export function useGetUsersAvailableUsernameSuspense<
 /**
  * Check if this email is available
  */
-export const getUsersCheckEmail = (
-  params: GetUsersCheckEmailParams,
+export const getUsersAvailableEmail = (
+  params: GetUsersAvailableEmailParams,
   signal?: AbortSignal,
 ) => {
-  return axiosInstance<GetUsersCheckEmail200>({
-    url: `/users/check-email`,
+  return axiosInstance<GetUsersAvailableEmail200>({
+    url: `/users/available-email`,
     method: 'GET',
     params,
     signal,
   })
 }
 
-export const getGetUsersCheckEmailQueryKey = (
-  params: GetUsersCheckEmailParams,
+export const getGetUsersAvailableEmailQueryKey = (
+  params: GetUsersAvailableEmailParams,
 ) => {
-  return [`/users/check-email`, ...(params ? [params] : [])] as const
+  return [`/users/available-email`, ...(params ? [params] : [])] as const
 }
 
-export const getGetUsersCheckEmailQueryOptions = <
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export const getGetUsersAvailableEmailQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
@@ -409,40 +409,40 @@ export const getGetUsersCheckEmailQueryOptions = <
   const { query: queryOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetUsersCheckEmailQueryKey(params)
+    queryOptions?.queryKey ?? getGetUsersAvailableEmailQueryKey(params)
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getUsersCheckEmail>>
-  > = ({ signal }) => getUsersCheckEmail(params, signal)
+    Awaited<ReturnType<typeof getUsersAvailableEmail>>
+  > = ({ signal }) => getUsersAvailableEmail(params, signal)
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getUsersCheckEmail>>,
+    Awaited<ReturnType<typeof getUsersAvailableEmail>>,
     TError,
     TData
   > & { queryKey: QueryKey }
 }
 
-export type GetUsersCheckEmailQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getUsersCheckEmail>>
+export type GetUsersAvailableEmailQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUsersAvailableEmail>>
 >
-export type GetUsersCheckEmailQueryError = GetUsersCheckEmail409
+export type GetUsersAvailableEmailQueryError = GetUsersAvailableEmail409
 
-export function useGetUsersCheckEmail<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmail<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsersCheckEmail>>,
+          Awaited<ReturnType<typeof getUsersAvailableEmail>>,
           TError,
           TData
         >,
@@ -450,22 +450,22 @@ export function useGetUsersCheckEmail<
       >
   },
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUsersCheckEmail<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmail<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getUsersCheckEmail>>,
+          Awaited<ReturnType<typeof getUsersAvailableEmail>>,
           TError,
           TData
         >,
@@ -473,15 +473,15 @@ export function useGetUsersCheckEmail<
       >
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUsersCheckEmail<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmail<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
@@ -489,22 +489,22 @@ export function useGetUsersCheckEmail<
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetUsersCheckEmail<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmail<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     >
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetUsersCheckEmailQueryOptions(params, options)
+  const queryOptions = getGetUsersAvailableEmailQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey
@@ -515,15 +515,15 @@ export function useGetUsersCheckEmail<
   return query
 }
 
-export const getGetUsersCheckEmailSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export const getGetUsersAvailableEmailSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
@@ -533,63 +533,63 @@ export const getGetUsersCheckEmailSuspenseQueryOptions = <
   const { query: queryOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetUsersCheckEmailQueryKey(params)
+    queryOptions?.queryKey ?? getGetUsersAvailableEmailQueryKey(params)
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getUsersCheckEmail>>
-  > = ({ signal }) => getUsersCheckEmail(params, signal)
+    Awaited<ReturnType<typeof getUsersAvailableEmail>>
+  > = ({ signal }) => getUsersAvailableEmail(params, signal)
 
   return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof getUsersCheckEmail>>,
+    Awaited<ReturnType<typeof getUsersAvailableEmail>>,
     TError,
     TData
   > & { queryKey: QueryKey }
 }
 
-export type GetUsersCheckEmailSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getUsersCheckEmail>>
+export type GetUsersAvailableEmailSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUsersAvailableEmail>>
 >
-export type GetUsersCheckEmailSuspenseQueryError = GetUsersCheckEmail409
+export type GetUsersAvailableEmailSuspenseQueryError = GetUsersAvailableEmail409
 
-export function useGetUsersCheckEmailSuspense<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmailSuspense<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     >
   },
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUsersCheckEmailSuspense<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmailSuspense<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     >
   },
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUsersCheckEmailSuspense<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmailSuspense<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
@@ -597,22 +597,22 @@ export function useGetUsersCheckEmailSuspense<
   },
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetUsersCheckEmailSuspense<
-  TData = Awaited<ReturnType<typeof getUsersCheckEmail>>,
-  TError = GetUsersCheckEmail409,
+export function useGetUsersAvailableEmailSuspense<
+  TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
+  TError = GetUsersAvailableEmail409,
 >(
-  params: GetUsersCheckEmailParams,
+  params: GetUsersAvailableEmailParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getUsersCheckEmail>>,
+        Awaited<ReturnType<typeof getUsersAvailableEmail>>,
         TError,
         TData
       >
     >
   },
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetUsersCheckEmailSuspenseQueryOptions(
+  const queryOptions = getGetUsersAvailableEmailSuspenseQueryOptions(
     params,
     options,
   )

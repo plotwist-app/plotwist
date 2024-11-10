@@ -5,126 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 /**
- * User not found
- */
-export type PostReviewsCreate404 = {
-  message: string
-}
-
-/**
- * @nullable
- */
-export type PostReviewsCreate201ReviewMediaType =
-  | (typeof PostReviewsCreate201ReviewMediaType)[keyof typeof PostReviewsCreate201ReviewMediaType]
-  | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const
-
-/**
- * @nullable
- */
-export type PostReviewsCreate201ReviewLanguage =
-  | (typeof PostReviewsCreate201ReviewLanguage)[keyof typeof PostReviewsCreate201ReviewLanguage]
-  | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'it-IT': 'it-IT',
-  'de-DE': 'de-DE',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
-} as const
-
-export type PostReviewsCreate201Review = {
-  createdAt?: string
-  /** @nullable */
-  hasSpoilers?: boolean | null
-  id?: string
-  /** @nullable */
-  language?: PostReviewsCreate201ReviewLanguage
-  /** @nullable */
-  mediaType?: PostReviewsCreate201ReviewMediaType
-  rating: number
-  review: string
-  /** @nullable */
-  tmdbId?: number | null
-  /** @nullable */
-  tmdbOverview?: string | null
-  /** @nullable */
-  tmdbPosterPath?: string | null
-  /** @nullable */
-  tmdbTitle?: string | null
-  userId: string
-}
-
-/**
- * Review created.
- */
-export type PostReviewsCreate201 = {
-  review: PostReviewsCreate201Review
-}
-
-export type PostReviewsCreateBodyMediaType =
-  (typeof PostReviewsCreateBodyMediaType)[keyof typeof PostReviewsCreateBodyMediaType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const
-
-export type PostReviewsCreateBodyLanguage =
-  (typeof PostReviewsCreateBodyLanguage)[keyof typeof PostReviewsCreateBodyLanguage]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'it-IT': 'it-IT',
-  'de-DE': 'de-DE',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
-} as const
-
-export type PostReviewsCreateBody = {
-  hasSpoilers?: boolean
-  language: PostReviewsCreateBodyLanguage
-  mediaType: PostReviewsCreateBodyMediaType
-  rating: number
-  review: string
-  tmdbId?: number
-  tmdbOverview?: string
-  tmdbPosterPath?: string
-  tmdbTitle?: string
-  userId: string
-}
-
-/**
- * Invalid email or password.
- */
-export type PostLogin400 = {
-  message: string
-}
-
-export type PostLogin200 = {
-  token: string
-}
-
-export type PostLoginBody = {
-  email: string
-  /** @minLength 8 */
-  password?: string
-}
-
-/**
  * @nullable
  */
 export type DeleteListItemId200ListItemsItemMediaType =
@@ -254,6 +134,126 @@ export type PostListItemBody = {
   title: string
   /** @nullable */
   tmdbId?: number | null
+}
+
+/**
+ * User not found
+ */
+export type PostReviewsCreate404 = {
+  message: string
+}
+
+/**
+ * Review created.
+ */
+export type PostReviewsCreate201 = {
+  review: PostReviewsCreate201Review
+}
+
+/**
+ * @nullable
+ */
+export type PostReviewsCreate201ReviewMediaType =
+  | (typeof PostReviewsCreate201ReviewMediaType)[keyof typeof PostReviewsCreate201ReviewMediaType]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreate201ReviewMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+/**
+ * @nullable
+ */
+export type PostReviewsCreate201ReviewLanguage =
+  | (typeof PostReviewsCreate201ReviewLanguage)[keyof typeof PostReviewsCreate201ReviewLanguage]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreate201ReviewLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type PostReviewsCreate201Review = {
+  createdAt?: string
+  /** @nullable */
+  hasSpoilers?: boolean | null
+  id?: string
+  /** @nullable */
+  language?: PostReviewsCreate201ReviewLanguage
+  /** @nullable */
+  mediaType?: PostReviewsCreate201ReviewMediaType
+  rating: number
+  review: string
+  /** @nullable */
+  tmdbId?: number | null
+  /** @nullable */
+  tmdbOverview?: string | null
+  /** @nullable */
+  tmdbPosterPath?: string | null
+  /** @nullable */
+  tmdbTitle?: string | null
+  userId: string
+}
+
+export type PostReviewsCreateBodyMediaType =
+  (typeof PostReviewsCreateBodyMediaType)[keyof typeof PostReviewsCreateBodyMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreateBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostReviewsCreateBodyLanguage =
+  (typeof PostReviewsCreateBodyLanguage)[keyof typeof PostReviewsCreateBodyLanguage]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreateBodyLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type PostReviewsCreateBody = {
+  hasSpoilers?: boolean
+  language: PostReviewsCreateBodyLanguage
+  mediaType: PostReviewsCreateBodyMediaType
+  rating: number
+  review: string
+  tmdbId?: number
+  tmdbOverview?: string
+  tmdbPosterPath?: string
+  tmdbTitle?: string
+  userId: string
+}
+
+/**
+ * Invalid email or password.
+ */
+export type PostLogin400 = {
+  message: string
+}
+
+export type PostLogin200 = {
+  token: string
+}
+
+export type PostLoginBody = {
+  email: string
+  /** @minLength 8 */
+  password?: string
 }
 
 /**
@@ -674,15 +674,15 @@ export type GetUsersUsername200 = {
 /**
  * Email is already registered.
  */
-export type GetUsersCheckEmail409 = {
+export type GetUsersAvailableEmail409 = {
   message: string
 }
 
-export type GetUsersCheckEmail200 = {
+export type GetUsersAvailableEmail200 = {
   available: boolean
 }
 
-export type GetUsersCheckEmailParams = {
+export type GetUsersAvailableEmailParams = {
   email: string
 }
 
