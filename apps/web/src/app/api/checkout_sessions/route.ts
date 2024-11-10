@@ -10,15 +10,9 @@ export async function POST(req: NextRequest) {
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
-  // TODO: REFATORAR ISSO
   const prices = await stripe.prices.list({
-    product:
-      process.env.NODE_ENV === 'development'
-        ? 'prod_RATX2kocUmZGdH'
-        : 'prod_PrlSkiekCRFLto',
+    product: process.env.STRIPE_PRODUCT_ID,
   })
-
-  console.log({ prices })
 
   const priceByLocale = prices.data.find((price) => {
     if (locale === 'ja') {
