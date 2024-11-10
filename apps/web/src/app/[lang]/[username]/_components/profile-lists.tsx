@@ -7,14 +7,13 @@ import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useGetLists } from '@/api/list'
-import { Lock, LockIcon, LockKeyhole } from 'lucide-react'
+import { LockKeyhole } from 'lucide-react'
 import {
   TooltipContent,
   Tooltip,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { ProBadge } from '@/components/pro-badge'
 
 type ProfileListsProps = {
   userId: string
