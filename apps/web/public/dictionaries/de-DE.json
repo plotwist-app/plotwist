@@ -714,5 +714,6 @@
   "list_created_success": "Liste erfolgreich erstellt.",
   "unable_to_create_list": "Liste konnte nicht erstellt werden.",
   "title": "Titel",
-  "list_edited_successfully": "Liste erfolgreich bearbeitet."
+  "list_edited_successfully": "Liste erfolgreich bearbeitet.",
+  "upgrade_list_message": "Abonnieren Sie den PRO-Plan, um unbegrenzte Listen zu erhalten."
 }

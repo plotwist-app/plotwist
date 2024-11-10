@@ -7,6 +7,14 @@ import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useGetLists } from '@/api/list'
+import { Lock, LockIcon, LockKeyhole } from 'lucide-react'
+import {
+  TooltipContent,
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
+import { ProBadge } from '@/components/pro-badge'
 
 type ProfileListsProps = {
   userId: string
@@ -42,29 +50,51 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-      {data.lists.map((list) => (
-        <ListCard list={list} key={list.id} />
-      ))}
+    <>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {data.lists.map((list) => (
+          <ListCard list={list} key={list.id} />
+        ))}
 
-      {isOwner && isPro && (
-        <ListForm
-          trigger={
-            <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
-              {dictionary.list_form.create_new_list}
-            </button>
-          }
-        />
-      )}
+        {isOwner && isPro && (
+          <ListForm
+            trigger={
+              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+                {dictionary.list_form.create_new_list}
+              </button>
+            }
+          />
+        )}
 
-      {isOwner && !isPro && (
-        <Link
-          href={`/${language}/pricing`}
-          className="flex items-center justify-center aspect-video text-sm rounded-md border border-dashed text-muted-foreground"
-        >
-          {dictionary.list_form.create_new_list}
-        </Link>
-      )}
-    </div>
+        {isOwner && !isPro && data.lists.length === 0 && (
+          <ListForm
+            trigger={
+              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+                {dictionary.list_form.create_new_list}
+              </button>
+            }
+          />
+        )}
+
+        {isOwner && !isPro && data.lists.length > 0 && (
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href={`/${language}/pricing`}
+                  className="flex items-center justify-center aspect-video rounded-md border border-dashed text-muted-foreground/50 p-8 uppercase"
+                >
+                  <LockKeyhole />
+                </Link>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>{dictionary.upgrade_list_message}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+    </>
   )
 }

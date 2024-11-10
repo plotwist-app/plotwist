@@ -14,7 +14,7 @@ export const SeeAllLists = ({ className }: ComponentProps<'div'>) => {
     <>
       {user && (
         <Link
-          href={`/${language}/${user.username}?tab=lists`}
+          href={`/${language}/${user.username}/lists`}
           className={cn(
             'hidden text-sm text-muted-foreground hover:underline md:block',
             className,

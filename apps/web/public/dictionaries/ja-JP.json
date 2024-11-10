@@ -714,5 +714,6 @@
   "list_created_success": "リストが正常に作成されました。",
   "unable_to_create_list": "リストを作成できませんでした。",
   "title": "タイトル",
-  "list_edited_successfully": "リストが正常に編集されました。"
+  "list_edited_successfully": "リストが正常に編集されました。",
+  "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。"
 }

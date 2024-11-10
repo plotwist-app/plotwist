@@ -9,6 +9,13 @@ import { ListCard, ListCardSkeleton } from '@/components/list-card'
 import { ListForm } from './list-form'
 import { useSession } from '@/context/session'
 import Link from 'next/link'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
+import { LockKeyhole } from 'lucide-react'
 
 const LIMIT = 3
 
@@ -48,15 +55,32 @@ export const Lists = () => {
         Array.from({ length: LIMIT - lists.length }).map((_, index) => {
           if (user.subscriptionType === 'MEMBER') {
             return (
-              <Link
-                href={`/${language}/pricing`}
-                className="flex items-center justify-center group aspect-video rounded-md border border-dashed"
-                key={index}
-              >
-                <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
-                  {dictionary.list_form.create_new_list}
-                </p>
-              </Link>
+              <TooltipProvider delayDuration={0} key={index}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={`/${language}/pricing`}
+                      className="flex items-center justify-center aspect-video rounded-md border border-dashed text-muted-foreground/50 p-8 uppercase"
+                    >
+                      <LockKeyhole />
+                    </Link>
+                  </TooltipTrigger>
+
+                  <TooltipContent>
+                    <p>{dictionary.upgrade_list_message}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              // <Link
+              //   href={`/${language}/pricing`}
+              //   className="flex items-center justify-center group aspect-video rounded-md border border-dashed"
+              //   key={index}
+              // >
+              //   <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
+              //     {dictionary.list_form.create_new_list}
+              //   </p>
+              // </Link>
             )
           }
 

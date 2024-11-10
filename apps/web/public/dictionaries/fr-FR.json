@@ -715,5 +715,6 @@
   "list_created_success": "Liste créée avec succès.",
   "unable_to_create_list": "Impossible de créer la liste.",
   "title": "Titre",
-  "list_edited_successfully": "Liste modifiée avec succès."
+  "list_edited_successfully": "Liste modifiée avec succès.",
+  "upgrade_list_message": "Abonnez-vous au plan PRO pour obtenir des listes illimitées."
 }
