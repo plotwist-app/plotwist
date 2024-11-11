@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'

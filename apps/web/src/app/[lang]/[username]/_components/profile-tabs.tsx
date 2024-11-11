@@ -38,21 +38,21 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
           <TabsTrigger value="activity" asChild>
             <Link href={`/${language}/${user.username}`}>
               <Activity className="mr-1" width={12} height={12} />
-              Activity
+              {dictionary.activity}
             </Link>
           </TabsTrigger>
 
           <TabsTrigger value="watched" asChild>
             <Link href={`/${language}/${user.username}/watched`}>
               <Check className="mr-1" width={12} height={12} />
-              Watched
+              {dictionary.watched}
             </Link>
           </TabsTrigger>
 
           <TabsTrigger value="watchlist" asChild>
             <Link href={`/${language}/${user.username}/watchlist`}>
               <List className="mr-1" width={12} height={12} />
-              Watchlist
+              {dictionary.watchlist}
             </Link>
           </TabsTrigger>
 
@@ -78,7 +78,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
           <TabsTrigger value="achievements" disabled>
             <BarChartHorizontalBig className="mr-1" width={12} height={12} />
-            Stats
+            {dictionary.stats}
           </TabsTrigger>
         </TabsList>
       </div>

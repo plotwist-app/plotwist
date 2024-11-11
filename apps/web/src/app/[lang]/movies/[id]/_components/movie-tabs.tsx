@@ -7,7 +7,7 @@ import {
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
 import { getDictionary } from '@/utils/dictionaries'
-import { Language, MovieDetails } from '@plotwist/tmdb'
+import { Language, MovieDetails } from '@/services/tmdb'
 import { MovieRelated } from './movie-related'
 import { Images } from '@/components/images'
 import { Videos } from '@/components/videos'

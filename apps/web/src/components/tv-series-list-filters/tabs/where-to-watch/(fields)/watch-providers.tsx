@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Eye, X } from 'lucide-react'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { useLanguage } from '@/context/language'
 

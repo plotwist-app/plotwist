@@ -6,8 +6,6 @@ import Image from 'next/image'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { useParams } from 'next/navigation'
 
-import { TvSerieWithMediaType } from '@plotwist/tmdb'
-
 import { DropdownMenuItem } from '@plotwist/ui/components/ui/dropdown-menu'
 import {
   HoverCard,
@@ -32,6 +30,8 @@ import {
   useDeleteListItemId,
   usePostListItem,
 } from '@/api/list-item'
+
+import { TvSerieWithMediaType } from '@/services/tmdb'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]

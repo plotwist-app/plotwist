@@ -1,4 +1,4 @@
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { Review } from '@/types/supabase/reviews'
 
 export const sanitizeTmdbItem = (

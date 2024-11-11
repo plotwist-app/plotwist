@@ -7,7 +7,7 @@ import {
   MovieWithMediaType,
   TvSerieWithMediaType,
   tmdb,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
 
 import { useLanguage } from '@/context/language'

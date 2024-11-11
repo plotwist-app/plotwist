@@ -19,7 +19,7 @@ import {
 
 import { useLanguage } from '@/context/language'
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 type RegionOption = {
   label: string

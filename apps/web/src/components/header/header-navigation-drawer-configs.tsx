@@ -12,7 +12,7 @@ import {
 } from '@plotwist/ui/components/ui/select'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { Language } from '@plotwist/tmdb'
+import { Language } from '@/services/tmdb'
 import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '@/context/language'
 import { cn } from '@plotwist/ui/lib/utils'

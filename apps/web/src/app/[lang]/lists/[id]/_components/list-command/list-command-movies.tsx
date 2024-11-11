@@ -7,8 +7,6 @@ import { useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { MovieWithMediaType } from '@plotwist/tmdb'
-
 import {
   HoverCard,
   HoverCardContent,
@@ -34,6 +32,8 @@ import {
   useDeleteListItemId,
   usePostListItem,
 } from '@/api/list-item'
+
+import { MovieWithMediaType } from '@/services/tmdb'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]

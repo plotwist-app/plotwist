@@ -2,7 +2,7 @@
 
 import { supabase } from '@/services/supabase'
 import { DetailedRecommendation } from '@/types/supabase/recommendation'
-import { Language, tmdb } from '@plotwist/tmdb'
+import { Language, tmdb } from '@/services/tmdb'
 
 type Options = {
   userId: string

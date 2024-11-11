@@ -6,7 +6,7 @@ import {
   type MovieWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'

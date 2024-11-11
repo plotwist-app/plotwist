@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { tmdbImage } from '@/utils/tmdb/image'

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { tmdb, MovieRelatedType } from '@plotwist/tmdb'
+import { tmdb, MovieRelatedType } from '@/services/tmdb'
 
 import { Language } from '@/types/languages'
 import { PosterCard } from '@/components/poster-card'

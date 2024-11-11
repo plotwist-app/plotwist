@@ -716,5 +716,9 @@
   "unable_to_create_list": "リストを作成できませんでした。",
   "title": "タイトル",
   "list_edited_successfully": "リストが正常に編集されました。",
-  "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。"
+  "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。",
+  "activity": "アクティビティ",
+  "watched": "視聴済み",
+  "watchlist": "ウォッチリスト",
+  "stats": "統計"
 }

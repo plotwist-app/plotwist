@@ -16,7 +16,7 @@ import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'
-import { Episode } from '@plotwist/tmdb'
+import { Episode } from '@/services/tmdb'
 
 type TvSerieSeasonDetailsContentProps = {
   episodes: Episode[]

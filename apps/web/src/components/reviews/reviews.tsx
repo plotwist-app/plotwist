@@ -1,6 +1,6 @@
 'use client'
 
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import {

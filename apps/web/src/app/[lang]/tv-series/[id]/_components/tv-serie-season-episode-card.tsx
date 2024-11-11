@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Image as ImageIcon } from 'lucide-react'
-import { Episode } from '@plotwist/tmdb'
+import { Episode } from '@/services/tmdb'
 
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {

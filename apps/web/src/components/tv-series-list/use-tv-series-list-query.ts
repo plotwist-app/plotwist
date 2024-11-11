@@ -1,6 +1,6 @@
 import { useLanguage } from '@/context/language'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { DiscoverTvSeriesFilters, tmdb } from '@plotwist/tmdb'
+import { DiscoverTvSeriesFilters, tmdb } from '@/services/tmdb'
 import { useSearchParams } from 'next/navigation'
 
 import { TvSeriesListVariant } from './tv-series-list.types'

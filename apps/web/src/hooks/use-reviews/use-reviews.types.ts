@@ -1,6 +1,6 @@
 import { Language } from '@/types/languages'
 import { MediaType } from '@/types/supabase/media-type'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 export type CreateReviewValues = {
   rating: number

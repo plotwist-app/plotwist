@@ -20,7 +20,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 export const LanguageField = () => {
   const { dictionary } = useLanguage()

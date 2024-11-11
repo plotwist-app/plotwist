@@ -13,7 +13,7 @@ import { Separator } from '@plotwist/ui/components/ui/separator'
 
 import { useLanguage } from '@/context/language'
 
-import { tmdb, MovieWithMediaType, TvSerieWithMediaType } from '@plotwist/tmdb'
+import { tmdb, MovieWithMediaType, TvSerieWithMediaType } from '@/services/tmdb'
 
 import {
   ListCommandMovies,

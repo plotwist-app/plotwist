@@ -1,4 +1,4 @@
-import { Movie, TvSerie } from '@plotwist/tmdb'
+import { Movie, TvSerie } from '@/services/tmdb'
 
 export type ListRecommendations = {
   movies: Movie[]

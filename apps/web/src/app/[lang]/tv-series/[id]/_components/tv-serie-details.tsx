@@ -33,7 +33,7 @@ import { getDictionary } from '@/utils/dictionaries'
 
 import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 import Image from 'next/image'
 
 type TvSerieDetailsProps = {

@@ -717,5 +717,9 @@
   "unable_to_create_list": "Impossible de créer la liste.",
   "title": "Titre",
   "list_edited_successfully": "Liste modifiée avec succès.",
-  "upgrade_list_message": "Abonnez-vous au plan PRO pour obtenir des listes illimitées."
+  "upgrade_list_message": "Abonnez-vous au plan PRO pour obtenir des listes illimitées.",
+  "activity": "Activité",
+  "watched": "Vus",
+  "watchlist": "Liste de suivi",
+  "stats": "Statistiques"
 }

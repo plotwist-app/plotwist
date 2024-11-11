@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { DetailedCollection } from '@plotwist/tmdb'
+import { DetailedCollection } from '@/services/tmdb'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
