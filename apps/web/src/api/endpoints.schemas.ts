@@ -5,154 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 /**
- * User not found
- */
-export type PostReviewsCreate404 = {
-  message: string
-}
-
-/**
- * @nullable
- */
-export type PostReviewsCreate201ReviewMediaType =
-  | (typeof PostReviewsCreate201ReviewMediaType)[keyof typeof PostReviewsCreate201ReviewMediaType]
-  | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const
-
-/**
- * @nullable
- */
-export type PostReviewsCreate201ReviewLanguage =
-  | (typeof PostReviewsCreate201ReviewLanguage)[keyof typeof PostReviewsCreate201ReviewLanguage]
-  | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'it-IT': 'it-IT',
-  'de-DE': 'de-DE',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
-} as const
-
-export type PostReviewsCreate201Review = {
-  createdAt?: string
-  /** @nullable */
-  hasSpoilers?: boolean | null
-  id?: string
-  /** @nullable */
-  language?: PostReviewsCreate201ReviewLanguage
-  /** @nullable */
-  mediaType?: PostReviewsCreate201ReviewMediaType
-  rating: number
-  review: string
-  /** @nullable */
-  tmdbId?: number | null
-  /** @nullable */
-  tmdbOverview?: string | null
-  /** @nullable */
-  tmdbPosterPath?: string | null
-  /** @nullable */
-  tmdbTitle?: string | null
-  userId: string
-}
-
-/**
- * Review created.
- */
-export type PostReviewsCreate201 = {
-  review: PostReviewsCreate201Review
-}
-
-export type PostReviewsCreateBodyMediaType =
-  (typeof PostReviewsCreateBodyMediaType)[keyof typeof PostReviewsCreateBodyMediaType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const
-
-export type PostReviewsCreateBodyLanguage =
-  (typeof PostReviewsCreateBodyLanguage)[keyof typeof PostReviewsCreateBodyLanguage]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'it-IT': 'it-IT',
-  'de-DE': 'de-DE',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
-} as const
-
-export type PostReviewsCreateBody = {
-  hasSpoilers?: boolean
-  language: PostReviewsCreateBodyLanguage
-  mediaType: PostReviewsCreateBodyMediaType
-  rating: number
-  review: string
-  tmdbId?: number
-  tmdbOverview?: string
-  tmdbPosterPath?: string
-  tmdbTitle?: string
-  userId: string
-}
-
-/**
- * Invalid email or password.
- */
-export type PostLogin400 = {
-  message: string
-}
-
-/**
- * @nullable
- */
-export type PostLogin200UserSubscriptionType =
-  | (typeof PostLogin200UserSubscriptionType)[keyof typeof PostLogin200UserSubscriptionType]
-  | null
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostLogin200UserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const
-
-export type PostLogin200User = {
-  /** @nullable */
-  bannerPath: string | null
-  /** @nullable */
-  createdAt: string | null
-  email: string
-  id: string
-  /** @nullable */
-  imagePath: string | null
-  /** @nullable */
-  subscriptionType: PostLogin200UserSubscriptionType
-  username: string
-}
-
-export type PostLogin200 = {
-  token: string
-  user: PostLogin200User
-}
-
-export type PostLoginBody = {
-  email: string
-  /** @minLength 8 */
-  password?: string
-}
-
-/**
  * @nullable
  */
 export type DeleteListItemId200ListItemsItemMediaType =
@@ -282,6 +134,126 @@ export type PostListItemBody = {
   title: string
   /** @nullable */
   tmdbId?: number | null
+}
+
+/**
+ * User not found
+ */
+export type PostReviewsCreate404 = {
+  message: string
+}
+
+/**
+ * Review created.
+ */
+export type PostReviewsCreate201 = {
+  review: PostReviewsCreate201Review
+}
+
+/**
+ * @nullable
+ */
+export type PostReviewsCreate201ReviewMediaType =
+  | (typeof PostReviewsCreate201ReviewMediaType)[keyof typeof PostReviewsCreate201ReviewMediaType]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreate201ReviewMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+/**
+ * @nullable
+ */
+export type PostReviewsCreate201ReviewLanguage =
+  | (typeof PostReviewsCreate201ReviewLanguage)[keyof typeof PostReviewsCreate201ReviewLanguage]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreate201ReviewLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type PostReviewsCreate201Review = {
+  createdAt?: string
+  /** @nullable */
+  hasSpoilers?: boolean | null
+  id?: string
+  /** @nullable */
+  language?: PostReviewsCreate201ReviewLanguage
+  /** @nullable */
+  mediaType?: PostReviewsCreate201ReviewMediaType
+  rating: number
+  review: string
+  /** @nullable */
+  tmdbId?: number | null
+  /** @nullable */
+  tmdbOverview?: string | null
+  /** @nullable */
+  tmdbPosterPath?: string | null
+  /** @nullable */
+  tmdbTitle?: string | null
+  userId: string
+}
+
+export type PostReviewsCreateBodyMediaType =
+  (typeof PostReviewsCreateBodyMediaType)[keyof typeof PostReviewsCreateBodyMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreateBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostReviewsCreateBodyLanguage =
+  (typeof PostReviewsCreateBodyLanguage)[keyof typeof PostReviewsCreateBodyLanguage]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostReviewsCreateBodyLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type PostReviewsCreateBody = {
+  hasSpoilers?: boolean
+  language: PostReviewsCreateBodyLanguage
+  mediaType: PostReviewsCreateBodyMediaType
+  rating: number
+  review: string
+  tmdbId?: number
+  tmdbOverview?: string
+  tmdbPosterPath?: string
+  tmdbTitle?: string
+  userId: string
+}
+
+/**
+ * Invalid email or password.
+ */
+export type PostLogin400 = {
+  message: string
+}
+
+export type PostLogin200 = {
+  token: string
+}
+
+export type PostLoginBody = {
+  email: string
+  /** @minLength 8 */
+  password?: string
 }
 
 /**
@@ -445,6 +417,26 @@ export type GetLists200ListsItemUser = {
   username: string
 }
 
+export type GetLists200ListsItem = {
+  /** @nullable */
+  bannerPath: string | null
+  createdAt: string
+  /** @nullable */
+  description: string | null
+  hasLiked: boolean
+  id: string
+  items: GetLists200ListsItemItemsItem[]
+  likeCount: number
+  title: string
+  user: GetLists200ListsItemUser
+  userId: string
+  visibility: GetLists200ListsItemVisibility
+}
+
+export type GetLists200 = {
+  lists: GetLists200ListsItem[]
+}
+
 /**
  * @nullable
  */
@@ -464,26 +456,6 @@ export type GetLists200ListsItemItemsItem = {
   mediaType: GetLists200ListsItemItemsItemMediaType
   /** @nullable */
   tmdbId: number | null
-}
-
-export type GetLists200ListsItem = {
-  /** @nullable */
-  bannerPath: string | null
-  createdAt: string
-  /** @nullable */
-  description: string | null
-  hasLiked: boolean
-  id: string
-  items: GetLists200ListsItemItemsItem[]
-  likeCount: number
-  title: string
-  user: GetLists200ListsItemUser
-  userId: string
-  visibility: GetLists200ListsItemVisibility
-}
-
-export type GetLists200 = {
-  lists: GetLists200ListsItem[]
 }
 
 export type GetListsParams = {
@@ -544,6 +516,92 @@ export type PostListBody = {
   visibility: PostListBodyVisibility
 }
 
+export type PatchUserBanner200UserSubscriptionType =
+  (typeof PatchUserBanner200UserSubscriptionType)[keyof typeof PatchUserBanner200UserSubscriptionType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserBanner200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const
+
+export type PatchUserBanner200User = {
+  /** @nullable */
+  bannerPath: string | null
+  /** @nullable */
+  createdAt: string | null
+  email: string
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  subscriptionType: PatchUserBanner200UserSubscriptionType
+  username: string
+}
+
+export type PatchUserBanner200 = {
+  user: PatchUserBanner200User
+}
+
+export type PatchUserBannerBody = {
+  bannerPath: string
+}
+
+export type PatchUserImage200UserSubscriptionType =
+  (typeof PatchUserImage200UserSubscriptionType)[keyof typeof PatchUserImage200UserSubscriptionType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserImage200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const
+
+export type PatchUserImage200User = {
+  /** @nullable */
+  bannerPath: string | null
+  /** @nullable */
+  createdAt: string | null
+  email: string
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  subscriptionType: PatchUserImage200UserSubscriptionType
+  username: string
+}
+
+export type PatchUserImage200 = {
+  user: PatchUserImage200User
+}
+
+export type PatchUserImageBody = {
+  imagePath: string
+}
+
+export type GetMe200UserSubscriptionType =
+  (typeof GetMe200UserSubscriptionType)[keyof typeof GetMe200UserSubscriptionType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMe200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const
+
+export type GetMe200User = {
+  /** @nullable */
+  bannerPath: string | null
+  /** @nullable */
+  createdAt: string | null
+  email: string
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  subscriptionType: GetMe200UserSubscriptionType
+  username: string
+}
+
+export type GetMe200 = {
+  user: GetMe200User
+}
+
 /**
  * Fail to hash password.
  */
@@ -558,12 +616,8 @@ export type GetUserById409 = {
   message: string
 }
 
-/**
- * @nullable
- */
 export type GetUserById201UserSubscriptionType =
-  | (typeof GetUserById201UserSubscriptionType)[keyof typeof GetUserById201UserSubscriptionType]
-  | null
+  (typeof GetUserById201UserSubscriptionType)[keyof typeof GetUserById201UserSubscriptionType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserById201UserSubscriptionType = {
@@ -580,7 +634,6 @@ export type GetUserById201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
-  /** @nullable */
   subscriptionType?: GetUserById201UserSubscriptionType
   username: string
 }
@@ -592,12 +645,8 @@ export type GetUserById201 = {
   user: GetUserById201User
 }
 
-/**
- * @nullable
- */
 export type GetUsersUsername200UserSubscriptionType =
-  | (typeof GetUsersUsername200UserSubscriptionType)[keyof typeof GetUsersUsername200UserSubscriptionType]
-  | null
+  (typeof GetUsersUsername200UserSubscriptionType)[keyof typeof GetUsersUsername200UserSubscriptionType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUsersUsername200UserSubscriptionType = {
@@ -614,7 +663,6 @@ export type GetUsersUsername200User = {
   id: string
   /** @nullable */
   imagePath: string | null
-  /** @nullable */
   subscriptionType: GetUsersUsername200UserSubscriptionType
   username: string
 }
@@ -626,15 +674,15 @@ export type GetUsersUsername200 = {
 /**
  * Email is already registered.
  */
-export type GetUsersCheckEmail409 = {
+export type GetUsersAvailableEmail409 = {
   message: string
 }
 
-export type GetUsersCheckEmail200 = {
+export type GetUsersAvailableEmail200 = {
   available: boolean
 }
 
-export type GetUsersCheckEmailParams = {
+export type GetUsersAvailableEmailParams = {
   email: string
 }
 
@@ -667,12 +715,8 @@ export type PostUsersCreate409 = {
   message: string
 }
 
-/**
- * @nullable
- */
 export type PostUsersCreate201UserSubscriptionType =
-  | (typeof PostUsersCreate201UserSubscriptionType)[keyof typeof PostUsersCreate201UserSubscriptionType]
-  | null
+  (typeof PostUsersCreate201UserSubscriptionType)[keyof typeof PostUsersCreate201UserSubscriptionType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUsersCreate201UserSubscriptionType = {
@@ -689,7 +733,6 @@ export type PostUsersCreate201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
-  /** @nullable */
   subscriptionType?: PostUsersCreate201UserSubscriptionType
   username: string
 }

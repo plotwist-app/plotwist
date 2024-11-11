@@ -3,7 +3,7 @@
 import { ComponentProps, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@plotwist/ui/components/ui/button'

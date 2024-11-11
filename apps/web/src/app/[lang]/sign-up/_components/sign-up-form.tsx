@@ -35,7 +35,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
-import { getUsersAvailableUsername, getUsersCheckEmail } from '@/api/users'
+import { getUsersAvailableUsername, getUsersAvailableEmail } from '@/api/users'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
@@ -67,7 +67,7 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
 
   async function onSubmitCredentialsForm({ email }: CredentialsFormValues) {
     try {
-      await getUsersCheckEmail({ email })
+      await getUsersAvailableEmail({ email })
       setShowUsernameDialog(true)
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -89,7 +89,7 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
         ...usernameForm.getValues(),
       }
 
-      onSignUp(values)
+      await onSignUp(values)
       toast.success(dictionary.sign_up_form.sign_up_success)
     } catch (error) {
       if (error instanceof AxiosError) {

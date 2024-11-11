@@ -2,7 +2,7 @@ import type {
   MovieWithMediaType,
   PersonWithMediaType,
   TvSerieWithMediaType,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'

@@ -1,4 +1,4 @@
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { MovieCollectionDialog } from './movie-collection-dialog'
 

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Movie, TvSerie, tmdb } from '@plotwist/tmdb'
+import { Movie, TvSerie, tmdb } from '@/services/tmdb'
 
 import { AnimeListType } from '.'
 import { useLanguage } from '@/context/language'

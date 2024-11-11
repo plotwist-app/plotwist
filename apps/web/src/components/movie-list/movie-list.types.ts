@@ -1,4 +1,4 @@
-import { MovieListType } from '@plotwist/tmdb'
+import { MovieListType } from '@/services/tmdb'
 
 export type MovieListVariant = MovieListType | 'discover'
 export type MovieListProps = {

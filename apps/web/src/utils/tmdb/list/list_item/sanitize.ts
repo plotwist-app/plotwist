@@ -5,7 +5,7 @@ import {
   MovieWithMediaType,
   TvSerieWithMediaType,
   TvSerie,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 
 import { PostListItem201ListItem } from '@/api/endpoints.schemas'
 

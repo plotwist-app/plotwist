@@ -2,7 +2,7 @@
 
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
-import { MovieDetails } from '@plotwist/tmdb'
+import { MovieDetails } from '@/services/tmdb'
 import Link from 'next/link'
 
 type MovieGenresProps = { genres: MovieDetails['genres'] }

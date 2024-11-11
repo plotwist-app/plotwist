@@ -63,22 +63,16 @@
     },
     "pro_plan": {
       "title": "Profi",
-      "price": "3 €/Monat",
+      "price": "5 €/Monat",
       "recommended": "Empfohlen",
-      "description": "Alles im kostenlosen Tarif plus höhere Grenzen und benutzerdefinierte Einstellungen.",
-      "benefits": [
+      "description": "Alles im kostenlosen Plan und noch viel mehr!",      "benefits": [
+        "Organisations- und Kontrollwerkzeuge für Unterstützte",
+        "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
         "Unbegrenzte Listen",
-        "Persönliche Empfehlungen basierend auf persönlichem Geschmack",
-        "Eigene oder Listen anderer Mitglieder klonen",
-        "Benutzernamen ändern"
+        "Erweiterte Personalisierung",
+        "Auszeichnungen und Abzeichen"
       ],
       "subscribe": "Abonnieren"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "10 €/Monat",
-      "description": "Bald verfügbar",
-      "coming_soon": "Demnächst"
     }
   },
   "movies_list": {
@@ -721,5 +715,10 @@
   "list_created_success": "Liste erfolgreich erstellt.",
   "unable_to_create_list": "Liste konnte nicht erstellt werden.",
   "title": "Titel",
-  "list_edited_successfully": "Liste erfolgreich bearbeitet."
+  "list_edited_successfully": "Liste erfolgreich bearbeitet.",
+  "upgrade_list_message": "Abonnieren Sie den PRO-Plan, um unbegrenzte Listen zu erhalten.",
+  "activity": "Aktivität",
+  "watched": "Gesehen",
+  "watchlist": "Watchlist",
+  "stats": "Statistiken"
 }

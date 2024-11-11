@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {

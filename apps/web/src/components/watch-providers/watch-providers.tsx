@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Play } from 'lucide-react'
-import { Buy, Rent, tmdb } from '@plotwist/tmdb'
+import { Buy, Rent, tmdb } from '@/services/tmdb'
 
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {

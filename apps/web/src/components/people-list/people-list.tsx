@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { PersonCard, PersonCardSkeleton } from '@/components/person-card'
 import { useLanguage } from '@/context/language'

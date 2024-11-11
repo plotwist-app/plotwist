@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { tmdb } from '@plotwist/tmdb'
 
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { PosterCard } from '@/components/poster-card'
@@ -13,6 +12,7 @@ import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { tmdbImage } from '@/utils/tmdb/image'
+import { tmdb } from '@/services/tmdb'
 
 export async function generateMetadata({
   params,

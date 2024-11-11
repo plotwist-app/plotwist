@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { tmdb } from '@plotwist/tmdb'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
 import { cn } from '@plotwist/ui/lib/utils'
+import { tmdb } from '@/services/tmdb'
 
 type TopMoviesProps = { language: Language }
 

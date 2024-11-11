@@ -2,15 +2,15 @@
 
 import Image from 'next/image'
 import { toast } from 'sonner'
-import { useParams } from 'next/navigation'
 
 import { ImagePicker } from '@/components/image-picker'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
-import { useProfile } from '@/hooks/use-profile'
 import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { usePatchUserBanner } from '@/api/users'
+import { useRouter } from 'next/navigation'
 
 type ProfileBannerProps = {
   profile: GetUsersUsername200User
@@ -19,23 +19,21 @@ type ProfileBannerProps = {
 export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
-  const { updateBannerPathMutation } = useProfile()
-  const { username } = useParams()
+  const { mutateAsync } = usePatchUserBanner()
+  const { refresh } = useRouter()
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
 
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
-        onSelect={(image) =>
-          updateBannerPathMutation.mutate(
-            {
-              newBannerPath: image.file_path,
-              username: String(username),
-            },
-
+        onSelect={(image, onClose) =>
+          mutateAsync(
+            { data: { bannerPath: image.file_path } },
             {
               onSettled: () => {
+                refresh()
+                onClose()
                 toast.success(dictionary.profile_banner.changed_successfully)
               },
             },

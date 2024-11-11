@@ -1,4 +1,4 @@
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 const DEFAULT_PAGES = 20
 

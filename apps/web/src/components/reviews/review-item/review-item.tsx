@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { ReviewLikes } from '@/components/reviews/review-likes'
 import { ReviewReply } from '@/components/reviews/review-reply'

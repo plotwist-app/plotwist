@@ -57,28 +57,23 @@
       "benefits": [
         "プラットフォームへの完全アクセス",
         "無制限の評価",
-        "個人のリスト"
+        "個人用リスト"
       ],
       "start_now": "今すぐ始める"
     },
     "pro_plan": {
       "title": "商売人",
-      "price": "100円/月",
+      "price": "200円/月",
       "recommended": "おすすめ",
-      "description": "無料プランの全てに、より高い限度とカスタム設定をプラス。",
+      "description": "無料プランの全てに、さらに多くを！",
       "benefits": [
+        "支援される人のための組織化および制御ツール",
+        "あなたの好みと履歴に基づく個人的な推薦",
         "無制限のリスト",
-        "個人の好みに基づく個人的な推薦",
-        "自分のリストや他のメンバーのリストを複製",
-        "ユーザー名の変更"
+        "高度なパーソナライゼーション",
+        "実績とバッジ"
       ],
       "subscribe": "登録する"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "1000円/月",
-      "description": "近日公開",
-      "coming_soon": "近日公開"
     }
   },
   "movies_list": {
@@ -720,5 +715,10 @@
   "list_created_success": "リストが正常に作成されました。",
   "unable_to_create_list": "リストを作成できませんでした。",
   "title": "タイトル",
-  "list_edited_successfully": "リストが正常に編集されました。"
+  "list_edited_successfully": "リストが正常に編集されました。",
+  "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。",
+  "activity": "アクティビティ",
+  "watched": "視聴済み",
+  "watchlist": "ウォッチリスト",
+  "stats": "統計"
 }

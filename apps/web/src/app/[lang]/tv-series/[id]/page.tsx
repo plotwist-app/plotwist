@@ -5,7 +5,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 export type TvSeriePageProps = PageProps & {
   params: { id: string }

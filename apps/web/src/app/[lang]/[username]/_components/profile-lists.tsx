@@ -7,6 +7,13 @@ import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useGetLists } from '@/api/list'
+import { LockKeyhole } from 'lucide-react'
+import {
+  TooltipContent,
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 
 type ProfileListsProps = {
   userId: string
@@ -14,19 +21,20 @@ type ProfileListsProps = {
 
 export const ProfileLists = ({ userId }: ProfileListsProps) => {
   const { user } = useSession()
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const { data, isLoading } = useGetLists({ limit: 99, userId })
 
   if (!data?.lists || isLoading)
     return (
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {Array.from({ length: 2 }).map((_, index) => (
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, index) => (
           <ListCardSkeleton key={index} />
         ))}
       </div>
     )
 
   const isOwner = user?.id === userId
+  const isPro = user?.subscriptionType === 'PRO'
   const isVisitorAndListEmpty = data.lists.length === 0 && !isOwner
 
   if (isVisitorAndListEmpty) {
@@ -41,20 +49,51 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      {data.lists.map((list) => (
-        <ListCard list={list} key={list.id} />
-      ))}
+    <>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {data.lists.map((list) => (
+          <ListCard list={list} key={list.id} />
+        ))}
 
-      {isOwner && (
-        <ListForm
-          trigger={
-            <button className="aspect-video rounded-md border border-dashed">
-              {dictionary.list_form.create_new_list}
-            </button>
-          }
-        />
-      )}
-    </div>
+        {isOwner && isPro && (
+          <ListForm
+            trigger={
+              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+                {dictionary.list_form.create_new_list}
+              </button>
+            }
+          />
+        )}
+
+        {isOwner && !isPro && data.lists.length === 0 && (
+          <ListForm
+            trigger={
+              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+                {dictionary.list_form.create_new_list}
+              </button>
+            }
+          />
+        )}
+
+        {isOwner && !isPro && data.lists.length > 0 && (
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href={`/${language}/pricing`}
+                  className="flex items-center justify-center aspect-video rounded-md border border-dashed text-muted-foreground/50 p-8 uppercase"
+                >
+                  <LockKeyhole />
+                </Link>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>{dictionary.upgrade_list_message}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+    </>
   )
 }

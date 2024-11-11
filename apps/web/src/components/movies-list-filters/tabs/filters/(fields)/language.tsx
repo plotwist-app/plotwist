@@ -1,4 +1,4 @@
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 

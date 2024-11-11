@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { Language } from '@/types/languages'

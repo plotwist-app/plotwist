@@ -2,7 +2,7 @@ import { WatchProviders } from '@/components/watch-providers'
 import { Poster } from '@/components/poster'
 import { ListsDropdown } from '@/components/lists'
 import { locale } from '@/utils/date/locale'
-import { Language, MovieDetails } from '@plotwist/tmdb'
+import { Language, MovieDetails } from '@/services/tmdb'
 import { format } from 'date-fns'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
