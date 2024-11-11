@@ -14,9 +14,6 @@ export type ListLike = {
   user_id: string
 }
 
-export type ListItemMediaType = 'TV_SHOW' | 'MOVIE'
-export type ListItemStatus = 'PENDING' | 'WATCHING' | 'WATCHED'
-
 export type PopularList = List & {
   profiles: Profile
 }
