@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import type { Language } from '@/types/languages'
 import { GTag } from '@/components/gtag'
+import { verifySession } from './lib/dal'
+import { SessionContextProvider } from '@/context/session'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -35,6 +37,8 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { lang: Language }
 }) {
+  const session = await verifySession()
+
   return (
     <html
       lang={params.lang}
@@ -43,11 +47,14 @@ export default async function RootLayout({
     >
       <head>
         <meta name="theme-color" content="#09090b" />
-
         <GTag />
       </head>
 
-      <body className="bg-background antialiased">{children}</body>
+      <body className="bg-background antialiased">
+        <SessionContextProvider initialSession={session}>
+          {children}
+        </SessionContextProvider>
+      </body>
     </html>
   )
 }

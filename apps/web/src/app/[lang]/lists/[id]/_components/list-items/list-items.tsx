@@ -17,11 +17,9 @@ type ListItemsProps = {
 export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
   const [isEditable, setIsEditable] = useState(false)
 
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const { user } = useSession()
-  const {
-    data: { listItems },
-  } = useGetListItemsByListIdSuspense(listId)
+  const { data } = useGetListItemsByListIdSuspense(listId, { language })
 
   const isListAuthor = ownerId === user?.id
 
@@ -38,7 +36,7 @@ export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
       )}
 
       <ListItemsGrid
-        listItems={listItems}
+        listItems={data}
         isEditable={isListAuthor ? isEditable : false}
       />
     </section>
