@@ -32,44 +32,6 @@ export const ListItemsGrid = ({
 
   const { dictionary, language } = useLanguage()
 
-  const Command = () => (
-    <ListCommand
-      onAdd={(tmdbId, mediaType) =>
-        postListItem.mutate(
-          { data: { listId, mediaType, tmdbId } },
-          {
-            onSuccess: async () => {
-              await APP_QUERY_CLIENT.invalidateQueries({
-                queryKey: getGetListItemsByListIdQueryKey(listId, { language }),
-              })
-
-              toast.success(dictionary.list_command.movie_added_success)
-            },
-          },
-        )
-      }
-      onRemove={(id) =>
-        deleteListItem.mutate(
-          { id },
-          {
-            onSuccess: async () => {
-              await APP_QUERY_CLIENT.invalidateQueries({
-                queryKey: getGetListItemsByListIdQueryKey(listId, { language }),
-              })
-
-              toast.success(dictionary.list_command.movie_removed_success)
-            },
-          },
-        )
-      }
-      items={listItems}
-    >
-      <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
-        <Plus />
-      </div>
-    </ListCommand>
-  )
-
   return (
     <div>
       <div
@@ -79,7 +41,47 @@ export const ListItemsGrid = ({
           <ListItemCard key={item.id} listItem={item} />
         ))}
 
-        {mode === 'EDIT' && <Command />}
+        {mode === 'EDIT' && (
+          <ListCommand
+            onAdd={(tmdbId, mediaType) =>
+              postListItem.mutate(
+                { data: { listId, mediaType, tmdbId } },
+                {
+                  onSuccess: async () => {
+                    await APP_QUERY_CLIENT.invalidateQueries({
+                      queryKey: getGetListItemsByListIdQueryKey(listId, {
+                        language,
+                      }),
+                    })
+
+                    toast.success(dictionary.list_command.movie_added_success)
+                  },
+                },
+              )
+            }
+            onRemove={(id) =>
+              deleteListItem.mutate(
+                { id },
+                {
+                  onSuccess: async () => {
+                    await APP_QUERY_CLIENT.invalidateQueries({
+                      queryKey: getGetListItemsByListIdQueryKey(listId, {
+                        language,
+                      }),
+                    })
+
+                    toast.success(dictionary.list_command.movie_removed_success)
+                  },
+                },
+              )
+            }
+            items={listItems}
+          >
+            <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
+              <Plus />
+            </div>
+          </ListCommand>
+        )}
       </div>
     </div>
   )
