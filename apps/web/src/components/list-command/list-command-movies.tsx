@@ -70,9 +70,7 @@ export const ListCommandMovies = ({
                       {dictionary.list_command.remove_from_list}
                     </DropdownMenuItem>
                   ) : (
-                    <DropdownMenuItem
-                      onClick={() => onAdd(movie.id, 'MOVIE', movie.title)}
-                    >
+                    <DropdownMenuItem onClick={() => onAdd(movie.id, 'MOVIE')}>
                       <PlusCircle size={14} className="mr-1" />
                       {dictionary.add_to_list}
                     </DropdownMenuItem>

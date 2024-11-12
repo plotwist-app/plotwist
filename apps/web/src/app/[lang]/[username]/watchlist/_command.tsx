@@ -25,7 +25,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
   return (
     <ListCommand
       items={items}
-      onAdd={(tmdbId, mediaType, title) =>
+      onAdd={(tmdbId, mediaType) =>
         add.mutate(
           { data: { tmdbId, mediaType, status: 'WATCHLIST' } },
           {
@@ -37,7 +37,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
                 }),
               })
 
-              toast.success(`Adicionado à Watchlist!`)
+              toast.success('Adicionado à Watchlist!')
             },
           },
         )
@@ -54,7 +54,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
                 }),
               })
 
-              toast.success('mensagem')
+              toast.success('Adicionado à Watchlist!')
             },
           },
         )

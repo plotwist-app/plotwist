@@ -21,8 +21,6 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 
-import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
-
 import { List } from '@/types/supabase/lists'
 
 import { cn } from '@/lib/utils'
@@ -84,10 +82,14 @@ export const ListsDropdown = ({
     async (list: List) => {
       if (!user) return
 
-      const sanitizedItem = sanitizeListItem(list.id, item)
-
       await postListItem.mutateAsync(
-        { data: sanitizedItem },
+        {
+          data: {
+            listId: list.id,
+            tmdbId: item.id,
+            mediaType: 'title' in item ? 'MOVIE' : 'TV_SHOW',
+          },
+        },
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({

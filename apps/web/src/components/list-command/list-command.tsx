@@ -25,7 +25,7 @@ import { MediaType } from '@/types/supabase/media-type'
 
 export type ListCommandProps = {
   items: Array<{ tmdbId: number; id: string }>
-  onAdd: (tmdbId: number, mediaType: MediaType, title: string) => void
+  onAdd: (tmdbId: number, mediaType: MediaType) => void
   onRemove: (itemId: string) => void
 } & PropsWithChildren
 
