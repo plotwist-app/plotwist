@@ -720,5 +720,7 @@
   "activity": "アクティビティ",
   "watched": "視聴済み",
   "watchlist": "ウォッチリスト",
-  "stats": "統計"
+  "stats": "統計",
+  "where_to_watch": "視聴可能な場所",
+  "unavailable": "利用不可"
 }

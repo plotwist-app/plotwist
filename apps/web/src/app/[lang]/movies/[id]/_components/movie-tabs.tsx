@@ -11,6 +11,7 @@ import { Language, MovieDetails } from '@/services/tmdb'
 import { MovieRelated } from './movie-related'
 import { Images } from '@/components/images'
 import { Videos } from '@/components/videos'
+import { WhereToWatch } from '@/components/where-to-watch'
 
 type MovieTabsProps = { language: Language; movie: MovieDetails }
 
@@ -22,6 +23,9 @@ export const MovieTabs = async ({ language, movie }: MovieTabsProps) => {
       <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         <TabsList>
           <TabsTrigger value="reviews">{dictionary.tabs.reviews}</TabsTrigger>
+          <TabsTrigger value="where_to_watch">
+            {dictionary.where_to_watch}
+          </TabsTrigger>
           <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
           <TabsTrigger value="recommendations">
             {dictionary.tabs.recommendations}
@@ -31,6 +35,10 @@ export const MovieTabs = async ({ language, movie }: MovieTabsProps) => {
           <TabsTrigger value="videos">{dictionary.tabs.videos}</TabsTrigger>
         </TabsList>
       </div>
+
+      <TabsContent value="where_to_watch" className="mt-4">
+        <WhereToWatch id={movie.id} variant="movie" language={language} />
+      </TabsContent>
 
       <TabsContent value="reviews" className="mt-4">
         <Reviews tmdbItem={movie} mediaType="MOVIE" />

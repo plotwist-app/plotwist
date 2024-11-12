@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { WatchListCommand } from './_command'
 import { useLanguage } from '@/context/language'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import Link from 'next/link'
 
 export function Items() {
   const { language } = useLanguage()
@@ -25,10 +26,11 @@ export function Items() {
     <>
       <WatchListCommand items={data} />
 
-      {data?.map(({ id, posterPath, title }) => (
-        <div
+      {data?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
+        <Link
           className="border overflow-hidden border-dashed aspect-poster rounded-sm relative"
           key={id}
+          href={`/${language}/${mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${tmdbId}`}
         >
           {posterPath && (
             <Image
@@ -39,7 +41,7 @@ export function Items() {
               sizes="100%"
             />
           )}
-        </div>
+        </Link>
       ))}
     </>
   )

@@ -719,6 +719,6 @@
   "upgrade_list_message": "Suscríbete al plan PRO para obtener listas ilimitadas.",
   "activity": "Actividad",
   "watched": "Vistos",
-  "watchlist": "Lista de seguimiento",
-  "stats": "Estadísticas"
+  "where_to_watch": "Dónde ver",
+  "unavailable": "No disponible"  
 }

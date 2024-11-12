@@ -4,7 +4,7 @@ import { Items } from './_items'
 export default function WatchListPage() {
   return (
     <div className="space-y-4">
-      <section className="grid grid-cols-5 gap-2">
+      <section className="grid grid-cols-3 md:grid-cols-5 gap-2">
         <Items />
       </section>
 
