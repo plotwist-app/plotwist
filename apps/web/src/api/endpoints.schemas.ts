@@ -207,6 +207,51 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
+export type PutReviewById200MediaType = typeof PutReviewById200MediaType[keyof typeof PutReviewById200MediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutReviewById200MediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+/**
+ * @nullable
+ */
+export type PutReviewById200Language = typeof PutReviewById200Language[keyof typeof PutReviewById200Language] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutReviewById200Language = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type PutReviewById200 = {
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: PutReviewById200Language;
+  mediaType: PutReviewById200MediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+  userId: string;
+};
+
+export type PutReviewByIdBody = {
+  hasSpoilers?: boolean;
+  rating: number;
+  review: string;
+};
+
 export type GetReviews200ItemUser = {
   id: string;
   /** @nullable */
@@ -467,10 +512,6 @@ export type PutListId404 = {
   message: string;
 };
 
-export type PutListId200 = {
-  list: PutListId200List;
-};
-
 export type PutListId200ListVisibility = typeof PutListId200ListVisibility[keyof typeof PutListId200ListVisibility];
 
 
@@ -491,6 +532,10 @@ export type PutListId200List = {
   title: string;
   userId: string;
   visibility: PutListId200ListVisibility;
+};
+
+export type PutListId200 = {
+  list: PutListId200List;
 };
 
 export type PutListIdBodyVisibility = typeof PutListIdBodyVisibility[keyof typeof PutListIdBodyVisibility];

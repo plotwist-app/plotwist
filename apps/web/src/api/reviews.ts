@@ -28,7 +28,9 @@ import type {
   GetReviewsParams,
   PostReview201,
   PostReview404,
-  PostReviewBody
+  PostReviewBody,
+  PutReviewById200,
+  PutReviewByIdBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -274,6 +276,61 @@ const {mutation: mutationOptions} = options ?? {};
       > => {
 
       const mutationOptions = getDeleteReviewByIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * Update review by id
+ */
+export const putReviewById = (
+    id: string,
+    putReviewByIdBody: PutReviewByIdBody,
+ ) => {
+      
+      
+      return axiosInstance<PutReviewById200>(
+      {url: `/review/by/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putReviewByIdBody
+    },
+      );
+    }
+  
+
+
+export const getPutReviewByIdMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putReviewById>>, TError,{id: string;data: PutReviewByIdBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putReviewById>>, TError,{id: string;data: PutReviewByIdBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putReviewById>>, {id: string;data: PutReviewByIdBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  putReviewById(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutReviewByIdMutationResult = NonNullable<Awaited<ReturnType<typeof putReviewById>>>
+    export type PutReviewByIdMutationBody = PutReviewByIdBody
+    export type PutReviewByIdMutationError = unknown
+
+    export const usePutReviewById = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putReviewById>>, TError,{id: string;data: PutReviewByIdBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof putReviewById>>,
+        TError,
+        {id: string;data: PutReviewByIdBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPutReviewByIdMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

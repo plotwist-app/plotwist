@@ -11,7 +11,6 @@ import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
 import { useLike } from '@/hooks/use-like'
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
@@ -53,7 +52,6 @@ export const ReviewItemActions = ({
   const { user } = useSession()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
-  const { invalidateQueries } = useReviews()
 
   const { data: likes } = useQuery({
     queryKey: ['likes', review.id],
@@ -84,9 +82,7 @@ export const ReviewItemActions = ({
         entityType: 'REVIEW',
       },
       {
-        onSuccess: () => {
-          invalidateQueries(review.id)
-        },
+        onSuccess: () => {},
         onError: (error) => {
           toast.error(error.message)
         },
@@ -104,9 +100,7 @@ export const ReviewItemActions = ({
         entityType: 'REVIEW',
       },
       {
-        onSuccess: () => {
-          invalidateQueries(review.id)
-        },
+        onSuccess: () => {},
         onError: (error) => {
           toast.error(error.message)
         },

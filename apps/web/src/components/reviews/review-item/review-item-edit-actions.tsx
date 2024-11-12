@@ -25,7 +25,6 @@ import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { Label } from '@plotwist/ui/components/ui/label'
 
-import { useReviews } from '@/hooks/use-reviews'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -40,7 +39,11 @@ import { ReviewStars } from '../review-stars'
 
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
 import { ReviewItemProps } from './review-item'
-import { getGetReviewsQueryKey, useDeleteReviewById } from '@/api/reviews'
+import {
+  getGetReviewsQueryKey,
+  useDeleteReviewById,
+  usePutReviewById,
+} from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
 
 export const ReviewItemEditActions = ({
@@ -150,9 +153,9 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 }
 
 const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const { user } = useSession()
-  const { handleEditReview, invalidateQueries } = useReviews()
+  const editReview = usePutReviewById()
 
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewFormSchema(dictionary)),
@@ -164,15 +167,24 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   })
 
   const onSubmit = (values: ReviewFormValues) => {
-    handleEditReview.mutate(
+    editReview.mutate(
       {
         id: review.id,
-        has_spoilers: values.hasSpoilers,
-        ...values,
+        data: {
+          rating: values.rating,
+          review: values.review,
+          hasSpoilers: values.hasSpoilers,
+        },
       },
       {
         onSettled: async () => {
-          await invalidateQueries(review.id)
+          APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetReviewsQueryKey({
+              language,
+              mediaType: review.mediaType,
+              tmdbId: String(review.tmdbId),
+            }),
+          })
 
           if (dialogProps.onOpenChange) {
             dialogProps.onOpenChange(false)
@@ -272,7 +284,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 
           <Button
             onClick={form.handleSubmit(onSubmit)}
-            loading={handleEditReview.isPending}
+            loading={editReview.isPending}
           >
             {dictionary.edit}
           </Button>
