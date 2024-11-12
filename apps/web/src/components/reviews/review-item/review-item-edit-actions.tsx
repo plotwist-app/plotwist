@@ -29,7 +29,6 @@ import { useReviews } from '@/hooks/use-reviews'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { Review } from '@/types/supabase/reviews'
 import {
   Form,
   FormControl,
@@ -41,6 +40,8 @@ import { ReviewStars } from '../review-stars'
 
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
 import { ReviewItemProps } from './review-item'
+import { getGetReviewsQueryKey, useDeleteReviewById } from '@/api/reviews'
+import { APP_QUERY_CLIENT } from '@/context/app'
 
 export const ReviewItemEditActions = ({
   review,
@@ -89,24 +90,30 @@ export const ReviewItemEditActions = ({
 type EditActionDialogProps = Pick<ReviewItemProps, 'review'> & DialogProps
 
 const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { handleDeleteReview, invalidateQueries } = useReviews()
-  const { dictionary } = useLanguage()
+  const deleteReview = useDeleteReviewById()
+  const { dictionary, language } = useLanguage()
 
   function handleDeleteReviewClick() {
-    handleDeleteReview.mutate(review.id, {
-      onSettled: async () => {
-        await invalidateQueries(review.id)
-        toast.success(dictionary.review_deleted_successfully)
+    deleteReview.mutate(
+      { id: review.id },
+      {
+        onSettled: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetReviewsQueryKey({
+              language,
+              mediaType: review.mediaType,
+              tmdbId: String(review.tmdbId),
+            }),
+          })
 
-        if (dialogProps.onOpenChange) {
-          dialogProps.onOpenChange(false)
-        }
-      },
+          toast.success(dictionary.review_deleted_successfully)
 
-      onError: (error) => {
-        toast.error(error.message)
+          if (dialogProps.onOpenChange) {
+            dialogProps.onOpenChange(false)
+          }
+        },
       },
-    })
+    )
   }
 
   return (
@@ -132,7 +139,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
           <Button
             variant="destructive"
             onClick={() => handleDeleteReviewClick()}
-            loading={handleDeleteReview.isPending}
+            loading={deleteReview.isPending}
           >
             {dictionary.delete}
           </Button>

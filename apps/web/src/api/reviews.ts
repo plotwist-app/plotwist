@@ -225,3 +225,56 @@ export function useGetReviewsSuspense<TData = Awaited<ReturnType<typeof getRevie
 
 
 
+/**
+ * Delete review by id
+ */
+export const deleteReviewById = (
+    id: string,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/review/by/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteReviewByIdMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteReviewById>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteReviewById>>, TError,{id: string}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteReviewById>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteReviewById(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteReviewByIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteReviewById>>>
+    
+    export type DeleteReviewByIdMutationError = unknown
+
+    export const useDeleteReviewById = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteReviewById>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteReviewById>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteReviewByIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
