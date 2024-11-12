@@ -21,12 +21,12 @@ import { timeFromNow } from '@/utils/date/time-from-now'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ReplyEditActions } from './review-reply-edit-actions'
+import { ReviewItemProps } from '../review-item'
 
-interface ReviewReplyProps {
-  review: Review
+type ReviewReplyProps = {
   openReplies: boolean
   setOpenReplies: (param: boolean) => void
-}
+} & Pick<ReviewItemProps, 'review'>
 
 export const ReviewReply = ({
   review,
@@ -36,7 +36,7 @@ export const ReviewReply = ({
   const { dictionary, language } = useLanguage()
   const { user } = useSession()
 
-  if (!review.replies) return <></>
+  if (!review) return <></>
 
   return (
     <div className="pt-2">

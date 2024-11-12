@@ -7,18 +7,17 @@ import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
-import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
 import { useLike } from '@/hooks/use-like'
 import { useReviews } from '@/hooks/use-reviews/use-reviews'
+import { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
-  review: Review
   openReplyForm: boolean
   setOpenReplyForm: (param: boolean) => void
-}
+} & Pick<ReviewItemProps, 'review'>
 
 type ReviewItemActionProps = {
   disabled?: boolean

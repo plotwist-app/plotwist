@@ -19,7 +19,6 @@ import {
 import { ReviewStars } from '../review-stars'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { Review } from '@/types/supabase/reviews'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -31,11 +30,12 @@ import { cn } from '@/lib/utils'
 
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
+import { GetReviews200Item } from '@/api/endpoints.schemas'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
-type ReviewItemProps = {
-  review: Review
+export type ReviewItemProps = {
+  review: GetReviews200Item
   tmdbItem: TmdbItem
   mediaType: MediaType
 }
@@ -48,10 +48,10 @@ export const ReviewItem = ({
   const {
     review: content,
     rating,
-    has_spoilers: hasSpoilers,
-    created_at: createdAt,
-    user: { username, image_path: imagePath },
-    user_id: userId,
+    hasSpoilers,
+    createdAt,
+    user: { username, imagePath },
+    userId,
     id,
   } = review
 
@@ -168,11 +168,11 @@ export const ReviewItem = ({
           setOpenReplyForm={setOpenReplyForm}
         />
 
-        <ReviewReply
+        {/* <ReviewReply
           review={review}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
-        />
+        /> */}
 
         {openReplyForm && (
           <ReviewReplyForm

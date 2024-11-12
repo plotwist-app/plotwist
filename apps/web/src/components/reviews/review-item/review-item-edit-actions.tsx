@@ -40,12 +40,11 @@ import {
 import { ReviewStars } from '../review-stars'
 
 import { ReviewFormValues, reviewFormSchema } from '../review-form'
-
-type ReviewItemEditActionsProps = { review: Review }
+import { ReviewItemProps } from './review-item'
 
 export const ReviewItemEditActions = ({
   review,
-}: ReviewItemEditActionsProps) => {
+}: Pick<ReviewItemProps, 'review'>) => {
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { dictionary } = useLanguage()
@@ -87,8 +86,7 @@ export const ReviewItemEditActions = ({
   )
 }
 
-type EditActionDialogProps = Pick<ReviewItemEditActionsProps, 'review'> &
-  DialogProps
+type EditActionDialogProps = Pick<ReviewItemProps, 'review'> & DialogProps
 
 const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   const { handleDeleteReview, invalidateQueries } = useReviews()
@@ -154,7 +152,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
     defaultValues: {
       review: review.review,
       rating: review.rating,
-      hasSpoilers: review.has_spoilers,
+      hasSpoilers: review.hasSpoilers,
     },
   })
 

@@ -32,10 +32,6 @@ export async function WhereToWatch({
   const watchProvider =
     resultsByLanguage[language] ?? resultsByLanguage['en-US']
 
-  if (!watchProvider) return <></>
-
-  const { buy, flatrate, rent } = watchProvider
-
   return (
     <div className="space-y-8 md:space-y-0 md:grid-cols-3 md:grid md:gap-8">
       <div className="">
@@ -44,8 +40,8 @@ export async function WhereToWatch({
         </div>
 
         <div className="">
-          {flatrate ? (
-            flatrate.map((item) => (
+          {watchProvider?.flatrate ? (
+            watchProvider.flatrate.map((item) => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>
@@ -62,8 +58,8 @@ export async function WhereToWatch({
         </div>
 
         <div className="">
-          {rent ? (
-            rent.map((item) => (
+          {watchProvider?.rent ? (
+            watchProvider.rent.map((item) => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>
@@ -80,8 +76,8 @@ export async function WhereToWatch({
         </div>
 
         <div className="">
-          {buy ? (
-            buy.map((item) => (
+          {watchProvider?.buy ? (
+            watchProvider.buy.map((item) => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>
@@ -122,7 +118,7 @@ export const WhereToWatchItem = ({ item }: WatchProviderItemProps) => {
 }
 function Unavailable({ message }: { message: string }) {
   return (
-    <div className="py-2 flex gap-2 border-b border-dashed items-center text-sm">
+    <div className="py-2 flex gap-2 border-b border-dashed items-center text-sm  text-muted-foreground">
       <div className="w-6 h-6 border rounded-lg flex items-center justify-center">
         <X size="16" />
       </div>
