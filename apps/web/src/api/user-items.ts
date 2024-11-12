@@ -22,6 +22,7 @@ import type {
 import type {
   GetUserItems200Item,
   GetUserItemsParams,
+  PostUserItem201,
   PostUserItemBody,
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance'
@@ -30,7 +31,7 @@ import { axiosInstance } from '../services/axios-instance'
  * Create user item
  */
 export const postUserItem = (postUserItemBody: PostUserItemBody) => {
-  return axiosInstance<void>({
+  return axiosInstance<PostUserItem201>({
     url: `/user/item`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

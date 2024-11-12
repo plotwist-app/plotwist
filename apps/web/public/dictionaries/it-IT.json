@@ -722,5 +722,7 @@
   "watchlist": "Lista di controllo",
   "stats": "Statistiche",
   "where_to_watch": "Dove guardare",
-  "unavailable": "Non disponibile"
+  "unavailable": "Non disponibile",
+  "watchlist_added": "Aggiunto alla Watchlist!",
+  "watchlist_removed": "Rimosso dalla Watchlist!"
 }

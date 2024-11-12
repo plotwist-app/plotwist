@@ -68,6 +68,29 @@ export type GetUserItemsParams = {
   language: GetUserItemsLanguage
 }
 
+export type PostUserItem201ListItemMediaType =
+  (typeof PostUserItem201ListItemMediaType)[keyof typeof PostUserItem201ListItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItem201ListItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostUserItem201ListItem = {
+  createdAt: string
+  id: string
+  listId: string
+  mediaType: PostUserItem201ListItemMediaType
+  /** @nullable */
+  position: number | null
+  tmdbId: number
+}
+
+export type PostUserItem201 = {
+  listItem: PostUserItem201ListItem
+}
+
 export type PostUserItemBodyStatus =
   (typeof PostUserItemBodyStatus)[keyof typeof PostUserItemBodyStatus]
 
@@ -565,6 +588,8 @@ export type PatchUserBanner200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: PatchUserBanner200UserSubscriptionType
   username: string
 }
@@ -595,6 +620,8 @@ export type PatchUserImage200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: PatchUserImage200UserSubscriptionType
   username: string
 }
@@ -625,6 +652,8 @@ export type GetMe200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: GetMe200UserSubscriptionType
   username: string
 }
@@ -665,6 +694,8 @@ export type GetUserById201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
+  /** @nullable */
+  isLegacy?: boolean | null
   subscriptionType?: GetUserById201UserSubscriptionType
   username: string
 }
@@ -694,6 +725,8 @@ export type GetUsersUsername200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: GetUsersUsername200UserSubscriptionType
   username: string
 }
@@ -764,6 +797,8 @@ export type PostUsersCreate201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
+  /** @nullable */
+  isLegacy?: boolean | null
   subscriptionType?: PostUsersCreate201UserSubscriptionType
   username: string
 }

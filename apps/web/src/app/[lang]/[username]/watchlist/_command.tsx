@@ -20,7 +20,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
   const add = usePostUserItem()
   const remove = useDeleteUserItemId()
 
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   return (
     <ListCommand
@@ -37,7 +37,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
                 }),
               })
 
-              toast.success('Adicionado à Watchlist!')
+              toast.success(dictionary.watchlist_added)
             },
           },
         )
@@ -54,7 +54,7 @@ export function WatchListCommand({ items }: WatchListCommandProps) {
                 }),
               })
 
-              toast.success('Adicionado à Watchlist!')
+              toast.success(dictionary.watchlist_removed)
             },
           },
         )
