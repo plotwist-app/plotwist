@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation'
 import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { ReviewLikes } from '@/components/reviews/review-likes'
-import { ReviewReply } from '@/components/reviews/review-reply'
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import {
   Avatar,
@@ -76,6 +75,8 @@ export const ReviewItem = ({
 
     return 'SHOW'
   }, [user?.id, userId])
+
+  console.log({ openReplies })
 
   useEffect(() => {
     if (reviewToFocus === id && !focusReview && !wasFocusDisabled) {

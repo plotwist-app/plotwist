@@ -1,26 +1,7 @@
 'use client'
 
-import Link from 'next/link'
-
-import { Review } from '@/types/supabase/reviews'
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
-
-import {
-  ReviewReplyActions,
-  ReviewReplyLikes,
-} from '@/components/reviews/review-reply'
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 
-import { timeFromNow } from '@/utils/date/time-from-now'
-
-import { tmdbImage } from '@/utils/tmdb/image'
-import { ReplyEditActions } from './review-reply-edit-actions'
 import { ReviewItemProps } from '../review-item'
 
 type ReviewReplyProps = {
@@ -33,10 +14,11 @@ export const ReviewReply = ({
   openReplies,
   setOpenReplies,
 }: ReviewReplyProps) => {
-  const { dictionary, language } = useLanguage()
-  const { user } = useSession()
+  const { dictionary } = useLanguage()
 
   if (!review) return <></>
+
+  const reviewRepliesCount = 0
 
   return (
     <div className="pt-2">
@@ -48,13 +30,13 @@ export const ReviewReply = ({
         <div className="mr-4 w-6 border" />
 
         {!openReplies
-          ? `${dictionary.review_reply.open_replies} (${review.replies.length})`
+          ? `${dictionary.review_reply.open_replies} (${reviewRepliesCount})`
           : `${dictionary.review_reply.hide_replies}`}
       </button>
 
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
-          {review.replies.map((reply) => {
+          {/* {review.replies.map((reply) => {
             const { username, image_path: imagePath } = reply.user
             const usernameInitial = username?.at(0)?.toUpperCase()
 
@@ -103,7 +85,7 @@ export const ReviewReply = ({
                 </div>
               </li>
             )
-          })}
+          })} */}
         </ul>
       )}
     </div>
