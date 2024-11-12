@@ -90,7 +90,7 @@ export const ReviewItem = ({
   return (
     <div ref={reviewRef} className="flex items-start space-x-4">
       <Link href={`/${language}/${username}`}>
-        <Avatar className="h-10 w-10 border text-[10px] shadow">
+        <Avatar className="h-10 w-10 border text-[10px] ">
           {imagePath && (
             <AvatarImage
               src={tmdbImage(imagePath, 'w500')}
@@ -126,7 +126,7 @@ export const ReviewItem = ({
               setFocusWasDisabled(true)
             }}
             className={cn(
-              'relative space-y-1 rounded-md border p-4 shadow overflow-hidden',
+              'relative space-y-1 rounded-md border p-4 overflow-hidden',
               focusReview && 'border-none p-0',
             )}
           >

@@ -1,7 +1,6 @@
 'use client'
 
 import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
-import { useQuery } from '@tanstack/react-query'
 
 import {
   ReviewItem,
@@ -9,7 +8,6 @@ import {
 } from '@/components/reviews/review-item'
 import { ReviewForm } from '@/components/reviews/review-form'
 
-import { getReviewsService } from '@/services/api/reviews/get-reviews'
 import { MediaType } from '@/types/supabase/media-type'
 import { useLanguage } from '@/context/language'
 import { useGetReviews } from '@/api/reviews'
