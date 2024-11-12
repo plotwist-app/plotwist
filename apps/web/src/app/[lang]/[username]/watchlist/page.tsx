@@ -9,8 +9,13 @@ export default function WatchListPage() {
       </section>
 
       <div className="flex justify-between">
-        <Button size="sm">Newest</Button>
-        <Button size="sm">Oldest</Button>
+        <Button size="sm" variant="outline">
+          Newest
+        </Button>
+
+        <Button size="sm" variant="outline">
+          Oldest
+        </Button>
       </div>
     </div>
   )

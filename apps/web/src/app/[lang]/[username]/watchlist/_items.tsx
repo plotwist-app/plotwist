@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetWatchlistItems } from '@/api/watchlist'
+import { useGetUserItems } from '@/api/user-items'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import { WatchListCommand } from './_command'
@@ -9,7 +9,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function Items() {
   const { language } = useLanguage()
-  const { data, isLoading } = useGetWatchlistItems({ language })
+  const { data, isLoading } = useGetUserItems({ language, status: 'WATCHLIST' })
 
   if (isLoading || !data) {
     return (
