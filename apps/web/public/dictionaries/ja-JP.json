@@ -724,5 +724,6 @@
   "where_to_watch": "視聴可能な場所",
   "unavailable": "利用不可",
   "watchlist_added": "ウォッチリストに追加しました！",
-  "watchlist_removed": "ウォッチリストから削除しました！"
+  "watchlist_removed": "ウォッチリストから削除しました！",
+  "contain_spoilers": "ネタバレあり"
 }

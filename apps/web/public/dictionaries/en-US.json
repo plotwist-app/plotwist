@@ -724,5 +724,6 @@
   "where_to_watch": "Where to watch",
   "unavailable": "Unavailable",
   "watchlist_added": "Added to Watchlist!",
-  "watchlist_removed": "Removed from Watchlist!"
+  "watchlist_removed": "Removed from Watchlist!",
+  "contain_spoilers": "Contains spoilers"
 }
