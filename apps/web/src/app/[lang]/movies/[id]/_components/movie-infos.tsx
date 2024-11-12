@@ -1,4 +1,3 @@
-import { WatchProviders } from '@/components/watch-providers'
 import { Poster } from '@/components/poster'
 import { ListsDropdown } from '@/components/lists'
 import { locale } from '@/utils/date/locale'
@@ -66,7 +65,6 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
           </p>
 
           <div className="hidden flex-wrap items-center gap-1 md:flex">
-            <WatchProviders id={movie.id} variant="movie" language={language} />
             <ListsDropdown item={movie} />
             {/* <RecommendationDialog /> */}
           </div>

@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+'use client'
+
+import { PropsWithChildren, useMemo, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useQuery } from '@tanstack/react-query'
-import { Plus } from 'lucide-react'
 
 import {
   Command,
@@ -20,12 +21,20 @@ import {
   ListCommandMoviesSkeleton,
 } from './list-command-movies'
 import { ListCommandTv, ListCommandTvSkeleton } from './list-command-tv'
-import type { ListItem } from '@/types/supabase/lists'
+import { MediaType } from '@/types/supabase/media-type'
 
-type ListCommandVariant = 'poster' | 'button'
-type ListCommandProps = { variant: ListCommandVariant; listItems: ListItem[] }
+export type ListCommandProps = {
+  items: Array<{ tmdbId: number; id: string }>
+  onAdd: (tmdbId: number, mediaType: MediaType) => void
+  onRemove: (itemId: string) => void
+} & PropsWithChildren
 
-export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
+export const ListCommand = ({
+  children,
+  items,
+  onAdd,
+  onRemove,
+}: ListCommandProps) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
@@ -36,28 +45,6 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
     queryFn: async () => await tmdb.search.multi(debouncedSearch, language),
     staleTime: 1000,
   })
-
-  const trigger: Record<ListCommandVariant, JSX.Element> = useMemo(
-    () => ({
-      button: (
-        <div
-          className="flex cursor-pointer items-center justify-center rounded-md border border-dashed p-2"
-          onClick={() => setOpen(true)}
-        >
-          <Plus size={14} />
-        </div>
-      ),
-      poster: (
-        <div
-          className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed"
-          onClick={() => setOpen(true)}
-        >
-          <Plus />
-        </div>
-      ),
-    }),
-    [],
-  )
 
   const { movies, tv } = useMemo(() => {
     if (!data)
@@ -84,7 +71,7 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
 
   return (
     <>
-      {trigger[variant]}
+      <div onClick={() => setOpen(true)}>{children}</div>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>
@@ -104,12 +91,23 @@ export const ListCommand = ({ variant, listItems }: ListCommandProps) => {
               )}
 
               {hasMovies && (
-                <ListCommandMovies movies={movies} listItems={listItems} />
+                <ListCommandMovies
+                  movies={movies}
+                  items={items}
+                  onAdd={onAdd}
+                  onRemove={onRemove}
+                />
               )}
 
               {hasTv && hasMovies && <Separator />}
-
-              {hasTv && <ListCommandTv tv={tv} listItems={listItems} />}
+              {hasTv && (
+                <ListCommandTv
+                  tv={tv}
+                  items={items}
+                  onAdd={onAdd}
+                  onRemove={onRemove}
+                />
+              )}
             </div>
 
             {!hasMovies && !hasTv && (

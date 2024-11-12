@@ -4,82 +4,162 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-/**
- * @nullable
- */
-export type DeleteListItemId200ListItemsItemMediaType =
-  | (typeof DeleteListItemId200ListItemsItemMediaType)[keyof typeof DeleteListItemId200ListItemsItemMediaType]
-  | null
+export type GetUserItems200ItemStatus =
+  (typeof GetUserItems200ItemStatus)[keyof typeof GetUserItems200ItemStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteListItemId200ListItemsItemMediaType = {
+export const GetUserItems200ItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type GetUserItems200ItemMediaType =
+  (typeof GetUserItems200ItemMediaType)[keyof typeof GetUserItems200ItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItems200ItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
 
-export type DeleteListItemId200ListItemsItem = {
+export type GetUserItems200Item = {
+  addedAt: string
+  /** @nullable */
+  backdropPath: string | null
+  id: string
+  mediaType: GetUserItems200ItemMediaType
+  /** @nullable */
+  position: number | null
+  /** @nullable */
+  posterPath: string | null
+  status: GetUserItems200ItemStatus
+  title: string
+  tmdbId: number
+  userId: string
+}
+
+export type GetUserItemsLanguage =
+  (typeof GetUserItemsLanguage)[keyof typeof GetUserItemsLanguage]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItemsLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type GetUserItemsStatus =
+  (typeof GetUserItemsStatus)[keyof typeof GetUserItemsStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItemsStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type GetUserItemsParams = {
+  status: GetUserItemsStatus
+  language: GetUserItemsLanguage
+}
+
+export type PostUserItem201ListItemMediaType =
+  (typeof PostUserItem201ListItemMediaType)[keyof typeof PostUserItem201ListItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItem201ListItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostUserItem201ListItem = {
+  createdAt: string
+  id: string
+  listId: string
+  mediaType: PostUserItem201ListItemMediaType
+  /** @nullable */
+  position: number | null
+  tmdbId: number
+}
+
+export type PostUserItem201 = {
+  listItem: PostUserItem201ListItem
+}
+
+export type PostUserItemBodyStatus =
+  (typeof PostUserItemBodyStatus)[keyof typeof PostUserItemBodyStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItemBodyStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PostUserItemBodyMediaType =
+  (typeof PostUserItemBodyMediaType)[keyof typeof PostUserItemBodyMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItemBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostUserItemBody = {
+  mediaType: PostUserItemBodyMediaType
+  status: PostUserItemBodyStatus
+  tmdbId: number
+}
+
+export type GetListItemsByListId200ItemMediaType =
+  (typeof GetListItemsByListId200ItemMediaType)[keyof typeof GetListItemsByListId200ItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetListItemsByListId200ItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type GetListItemsByListId200Item = {
   /** @nullable */
   backdropPath: string | null
   createdAt: string
   id: string
   listId: string
-  /** @nullable */
-  mediaType: DeleteListItemId200ListItemsItemMediaType
-  overview: string
+  mediaType: GetListItemsByListId200ItemMediaType
   /** @nullable */
   position: number | null
   /** @nullable */
   posterPath: string | null
   title: string
-  /** @nullable */
-  tmdbId: number | null
+  tmdbId: number
 }
 
-export type DeleteListItemId200 = {
-  listItems: DeleteListItemId200ListItemsItem[]
-}
-
-/**
- * @nullable
- */
-export type GetListItemsByListId200ListItemsItemMediaType =
-  | (typeof GetListItemsByListId200ListItemsItemMediaType)[keyof typeof GetListItemsByListId200ListItemsItemMediaType]
-  | null
+export type GetListItemsByListIdLanguage =
+  (typeof GetListItemsByListIdLanguage)[keyof typeof GetListItemsByListIdLanguage]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetListItemsByListId200ListItemsItemMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
+export const GetListItemsByListIdLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
 } as const
 
-export type GetListItemsByListId200ListItemsItem = {
-  /** @nullable */
-  backdropPath: string | null
-  createdAt: string
-  id: string
-  listId: string
-  /** @nullable */
-  mediaType: GetListItemsByListId200ListItemsItemMediaType
-  overview: string
-  /** @nullable */
-  position: number | null
-  /** @nullable */
-  posterPath: string | null
-  title: string
-  /** @nullable */
-  tmdbId: number | null
+export type GetListItemsByListIdParams = {
+  language: GetListItemsByListIdLanguage
 }
 
-export type GetListItemsByListId200 = {
-  listItems: GetListItemsByListId200ListItemsItem[]
-}
-
-/**
- * @nullable
- */
 export type PostListItem201ListItemMediaType =
-  | (typeof PostListItem201ListItemMediaType)[keyof typeof PostListItem201ListItemMediaType]
-  | null
+  (typeof PostListItem201ListItemMediaType)[keyof typeof PostListItem201ListItemMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListItem201ListItemMediaType = {
@@ -88,33 +168,21 @@ export const PostListItem201ListItemMediaType = {
 } as const
 
 export type PostListItem201ListItem = {
-  /** @nullable */
-  backdropPath: string | null
   createdAt: string
   id: string
   listId: string
-  /** @nullable */
   mediaType: PostListItem201ListItemMediaType
-  overview: string
   /** @nullable */
   position: number | null
-  /** @nullable */
-  posterPath: string | null
-  title: string
-  /** @nullable */
-  tmdbId: number | null
+  tmdbId: number
 }
 
 export type PostListItem201 = {
   listItem: PostListItem201ListItem
 }
 
-/**
- * @nullable
- */
 export type PostListItemBodyMediaType =
-  | (typeof PostListItemBodyMediaType)[keyof typeof PostListItemBodyMediaType]
-  | null
+  (typeof PostListItemBodyMediaType)[keyof typeof PostListItemBodyMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListItemBodyMediaType = {
@@ -123,17 +191,9 @@ export const PostListItemBodyMediaType = {
 } as const
 
 export type PostListItemBody = {
-  /** @nullable */
-  backdropPath?: string | null
   listId: string
-  /** @nullable */
-  mediaType?: PostListItemBodyMediaType
-  overview: string
-  /** @nullable */
-  posterPath?: string | null
-  title: string
-  /** @nullable */
-  tmdbId?: number | null
+  mediaType: PostListItemBodyMediaType
+  tmdbId: number
 }
 
 /**
@@ -437,12 +497,8 @@ export type GetLists200 = {
   lists: GetLists200ListsItem[]
 }
 
-/**
- * @nullable
- */
 export type GetLists200ListsItemItemsItemMediaType =
-  | (typeof GetLists200ListsItemItemsItemMediaType)[keyof typeof GetLists200ListsItemItemsItemMediaType]
-  | null
+  (typeof GetLists200ListsItemItemsItemMediaType)[keyof typeof GetLists200ListsItemItemsItemMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetLists200ListsItemItemsItemMediaType = {
@@ -452,10 +508,8 @@ export const GetLists200ListsItemItemsItemMediaType = {
 
 export type GetLists200ListsItemItemsItem = {
   id: string
-  /** @nullable */
   mediaType: GetLists200ListsItemItemsItemMediaType
-  /** @nullable */
-  tmdbId: number | null
+  tmdbId: number
 }
 
 export type GetListsParams = {
@@ -534,6 +588,8 @@ export type PatchUserBanner200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: PatchUserBanner200UserSubscriptionType
   username: string
 }
@@ -564,6 +620,8 @@ export type PatchUserImage200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: PatchUserImage200UserSubscriptionType
   username: string
 }
@@ -594,6 +652,8 @@ export type GetMe200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: GetMe200UserSubscriptionType
   username: string
 }
@@ -634,6 +694,8 @@ export type GetUserById201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
+  /** @nullable */
+  isLegacy?: boolean | null
   subscriptionType?: GetUserById201UserSubscriptionType
   username: string
 }
@@ -663,6 +725,8 @@ export type GetUsersUsername200User = {
   id: string
   /** @nullable */
   imagePath: string | null
+  /** @nullable */
+  isLegacy: boolean | null
   subscriptionType: GetUsersUsername200UserSubscriptionType
   username: string
 }
@@ -733,6 +797,8 @@ export type PostUsersCreate201User = {
   id?: string
   /** @nullable */
   imagePath?: string | null
+  /** @nullable */
+  isLegacy?: boolean | null
   subscriptionType?: PostUsersCreate201UserSubscriptionType
   username: string
 }

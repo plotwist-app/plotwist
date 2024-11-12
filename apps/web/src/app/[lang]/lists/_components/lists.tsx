@@ -53,7 +53,7 @@ export const Lists = () => {
 
       {lists.length < LIMIT &&
         Array.from({ length: LIMIT - lists.length }).map((_, index) => {
-          if (user.subscriptionType === 'MEMBER') {
+          if (user.subscriptionType === 'MEMBER' && index !== 0) {
             return (
               <TooltipProvider delayDuration={0} key={index}>
                 <Tooltip>
@@ -71,16 +71,6 @@ export const Lists = () => {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-
-              // <Link
-              //   href={`/${language}/pricing`}
-              //   className="flex items-center justify-center group aspect-video rounded-md border border-dashed"
-              //   key={index}
-              // >
-              //   <p className="scale-0 text-xs font-bold uppercase text-muted-foreground transition-all group-hover:scale-100">
-              //     {dictionary.list_form.create_new_list}
-              //   </p>
-              // </Link>
             )
           }
 

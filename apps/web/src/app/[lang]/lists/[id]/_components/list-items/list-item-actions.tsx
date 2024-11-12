@@ -65,7 +65,14 @@ export const ListItemActions = ({
         },
       },
     )
-  }, [dictionary, listItem.backdropPath, listItem.listId, patchBanner, user])
+  }, [
+    dictionary,
+    listItem.backdropPath,
+    listItem.listId,
+    patchBanner,
+    refresh,
+    user,
+  ])
 
   return (
     <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
@@ -107,6 +114,7 @@ export const ListItemActions = ({
                         await APP_QUERY_CLIENT.invalidateQueries({
                           queryKey: getGetListItemsByListIdQueryKey(
                             listItem.listId,
+                            { language },
                           ),
                         })
 

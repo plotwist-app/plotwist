@@ -20,8 +20,8 @@ import type {
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
 import type {
-  DeleteListItemId200,
-  GetListItemsByListId200,
+  GetListItemsByListId200Item,
+  GetListItemsByListIdParams,
   PostListItem201,
   PostListItemBody,
 } from './endpoints.schemas'
@@ -98,16 +98,24 @@ export const usePostListItem = <
 /**
  * Create list item
  */
-export const getListItemsByListId = (listId: string, signal?: AbortSignal) => {
-  return axiosInstance<GetListItemsByListId200>({
+export const getListItemsByListId = (
+  listId: string,
+  params: GetListItemsByListIdParams,
+  signal?: AbortSignal,
+) => {
+  return axiosInstance<GetListItemsByListId200Item[]>({
     url: `/list-items/by/${listId}`,
     method: 'GET',
+    params,
     signal,
   })
 }
 
-export const getGetListItemsByListIdQueryKey = (listId: string) => {
-  return [`/list-items/by/${listId}`] as const
+export const getGetListItemsByListIdQueryKey = (
+  listId: string,
+  params: GetListItemsByListIdParams,
+) => {
+  return [`/list-items/by/${listId}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetListItemsByListIdQueryOptions = <
@@ -115,6 +123,7 @@ export const getGetListItemsByListIdQueryOptions = <
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -128,11 +137,11 @@ export const getGetListItemsByListIdQueryOptions = <
   const { query: queryOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId)
+    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId, params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getListItemsByListId>>
-  > = ({ signal }) => getListItemsByListId(listId, signal)
+  > = ({ signal }) => getListItemsByListId(listId, params, signal)
 
   return {
     queryKey,
@@ -156,6 +165,7 @@ export function useGetListItemsByListId<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -179,6 +189,7 @@ export function useGetListItemsByListId<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -202,6 +213,7 @@ export function useGetListItemsByListId<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -218,6 +230,7 @@ export function useGetListItemsByListId<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -228,7 +241,11 @@ export function useGetListItemsByListId<
     >
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetListItemsByListIdQueryOptions(listId, options)
+  const queryOptions = getGetListItemsByListIdQueryOptions(
+    listId,
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey
@@ -244,6 +261,7 @@ export const getGetListItemsByListIdSuspenseQueryOptions = <
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -257,11 +275,11 @@ export const getGetListItemsByListIdSuspenseQueryOptions = <
   const { query: queryOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId)
+    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId, params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getListItemsByListId>>
-  > = ({ signal }) => getListItemsByListId(listId, signal)
+  > = ({ signal }) => getListItemsByListId(listId, params, signal)
 
   return {
     queryKey,
@@ -285,6 +303,7 @@ export function useGetListItemsByListIdSuspense<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options: {
     query: Partial<
       UseSuspenseQueryOptions<
@@ -300,6 +319,7 @@ export function useGetListItemsByListIdSuspense<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -315,6 +335,7 @@ export function useGetListItemsByListIdSuspense<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -331,6 +352,7 @@ export function useGetListItemsByListIdSuspense<
   TError = unknown,
 >(
   listId: string,
+  params: GetListItemsByListIdParams,
   options?: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -343,6 +365,7 @@ export function useGetListItemsByListIdSuspense<
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListItemsByListIdSuspenseQueryOptions(
     listId,
+    params,
     options,
   )
 
@@ -360,10 +383,7 @@ export function useGetListItemsByListIdSuspense<
  * Delete list item
  */
 export const deleteListItemId = (id: string) => {
-  return axiosInstance<DeleteListItemId200>({
-    url: `/list-item/${id}`,
-    method: 'DELETE',
-  })
+  return axiosInstance<void>({ url: `/list-item/${id}`, method: 'DELETE' })
 }
 
 export const getDeleteListItemIdMutationOptions = <

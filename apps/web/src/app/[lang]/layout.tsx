@@ -10,8 +10,6 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { verifySession } from '../lib/dal'
-import { SessionContextProvider } from '@/context/session/session'
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
@@ -29,24 +27,21 @@ export default async function RootLayout({
   params: { lang },
 }: RootLayoutProps) {
   const dictionary = await getDictionary(lang)
-  const session = await verifySession()
 
   return (
     <AppWrapper>
       <LanguageContextProvider language={lang} dictionary={dictionary}>
-        <SessionContextProvider initialSession={session}>
-          <ListsContextProvider>
-            <div className="flex flex-col">
-              <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
-                <Header />
-              </div>
-
-              <main className="w-full">{children}</main>
-              <Footer dictionary={dictionary} language={lang} />
+        <ListsContextProvider>
+          <div className="flex flex-col">
+            <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
+              <Header />
             </div>
-          </ListsContextProvider>
-          <Toaster />
-        </SessionContextProvider>
+
+            <main className="w-full">{children}</main>
+            <Footer dictionary={dictionary} language={lang} />
+          </div>
+        </ListsContextProvider>
+        <Toaster />
       </LanguageContextProvider>
     </AppWrapper>
   )

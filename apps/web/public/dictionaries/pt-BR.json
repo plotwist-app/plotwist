@@ -720,5 +720,9 @@
   "activity": "Atividade",
   "watched": "Assistidos",
   "watchlist": "Assistir",
-  "stats": "Estatísticas"
+  "stats": "Estatísticas",
+  "where_to_watch": "Onde assistir",
+  "unavailable": "Indisponível",
+  "watchlist_added": "Adicionado à Watchlist!",
+  "watchlist_removed": "Removido da Watchlist!"
 }

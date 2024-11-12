@@ -720,5 +720,9 @@
   "activity": "Activity",
   "watched": "Watched",
   "watchlist": "Watchlist",
-  "stats": "Stats"
+  "stats": "Stats",
+  "where_to_watch": "Where to watch",
+  "unavailable": "Unavailable",
+  "watchlist_added": "Added to Watchlist!",
+  "watchlist_removed": "Removed from Watchlist!"
 }

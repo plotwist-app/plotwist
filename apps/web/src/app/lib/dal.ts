@@ -12,9 +12,12 @@ export const verifySession = async () => {
   if (session) {
     AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${session.token}`
 
-    const { user } = await getMe()
-
-    return { token: session.token, user }
+    try {
+      const { user } = await getMe()
+      return { token: session.token, user }
+    } catch {
+      return undefined
+    }
   }
 
   return undefined

@@ -20,7 +20,6 @@ import { Reviews } from '@/components/reviews'
 import { Images } from '@/components/images'
 import { Videos } from '@/components/videos'
 
-import { WatchProviders } from '@/components/watch-providers'
 import { ListsDropdown } from '@/components/lists'
 import { Credits } from '@/components/credits'
 
@@ -35,6 +34,7 @@ import { Language } from '@/types/languages'
 import { cn } from '@/lib/utils'
 import { tmdb } from '@/services/tmdb'
 import Image from 'next/image'
+import { WhereToWatch } from '@/components/where-to-watch'
 
 type TvSerieDetailsProps = {
   id: number
@@ -112,12 +112,6 @@ export const TvSerieDetails = async ({
             </p>
 
             <div className="flex flex-wrap gap-1">
-              <WatchProviders
-                id={tvSerie.id}
-                variant="tv"
-                language={language}
-              />
-
               <ListsDropdown item={tvSerie} />
               {/* <RecommendationDialog /> */}
             </div>
@@ -129,6 +123,9 @@ export const TvSerieDetails = async ({
             <TabsList>
               <TabsTrigger value="reviews">
                 {dictionary.tabs.reviews}
+              </TabsTrigger>
+              <TabsTrigger value="where_to_watch">
+                {dictionary.where_to_watch}
               </TabsTrigger>
               <TabsTrigger value="seasons">
                 {dictionary.tabs.seasons}
@@ -149,6 +146,10 @@ export const TvSerieDetails = async ({
 
           <TabsContent value="reviews" className="mt-4">
             <Reviews tmdbItem={tvSerie} mediaType="TV_SHOW" />
+          </TabsContent>
+
+          <TabsContent value="where_to_watch">
+            <WhereToWatch id={tvSerie.id} variant="tv" language={language} />
           </TabsContent>
 
           <TabsContent value="seasons" className="mt-4">
