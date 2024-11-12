@@ -19,7 +19,6 @@ import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
 
-import { CommandSearch } from '../command-search'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 import { useSession } from '@/context/session'
 
@@ -73,8 +72,6 @@ export const HeaderNavigationDrawer = () => {
                 })}
               </nav>
             </Accordion>
-
-            <CommandSearch />
           </div>
         </div>
       </DrawerContent>

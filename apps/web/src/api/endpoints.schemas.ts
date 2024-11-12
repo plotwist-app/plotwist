@@ -4,6 +4,54 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type PatchUserItemStatusById200 = {
+  userItem: PatchUserItemStatusById200UserItem
+}
+
+export type PatchUserItemStatusById200UserItemStatus =
+  (typeof PatchUserItemStatusById200UserItemStatus)[keyof typeof PatchUserItemStatusById200UserItemStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusById200UserItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PatchUserItemStatusById200UserItemMediaType =
+  (typeof PatchUserItemStatusById200UserItemMediaType)[keyof typeof PatchUserItemStatusById200UserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusById200UserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PatchUserItemStatusById200UserItem = {
+  addedAt: string
+  id: string
+  mediaType: PatchUserItemStatusById200UserItemMediaType
+  /** @nullable */
+  position: number | null
+  status: PatchUserItemStatusById200UserItemStatus
+  tmdbId: number
+  userId: string
+}
+
+export type PatchUserItemStatusByIdBodyStatus =
+  (typeof PatchUserItemStatusByIdBodyStatus)[keyof typeof PatchUserItemStatusByIdBodyStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusByIdBodyStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PatchUserItemStatusByIdBody = {
+  status: PatchUserItemStatusByIdBodyStatus
+}
+
 export type GetUserItems200ItemStatus =
   (typeof GetUserItems200ItemStatus)[keyof typeof GetUserItems200ItemStatus]
 
@@ -66,6 +114,54 @@ export const GetUserItemsStatus = {
 export type GetUserItemsParams = {
   status: GetUserItemsStatus
   language: GetUserItemsLanguage
+}
+
+export type GetUserItem200UserItemStatus =
+  (typeof GetUserItem200UserItemStatus)[keyof typeof GetUserItem200UserItemStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItem200UserItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type GetUserItem200UserItemMediaType =
+  (typeof GetUserItem200UserItemMediaType)[keyof typeof GetUserItem200UserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItem200UserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type GetUserItem200UserItem = {
+  addedAt: string
+  id: string
+  mediaType: GetUserItem200UserItemMediaType
+  /** @nullable */
+  position: number | null
+  status: GetUserItem200UserItemStatus
+  tmdbId: number
+  userId: string
+}
+
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem
+}
+
+export type GetUserItemMediaType =
+  (typeof GetUserItemMediaType)[keyof typeof GetUserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type GetUserItemParams = {
+  mediaType: GetUserItemMediaType
+  tmdbId: string
 }
 
 export type PostUserItem201UserItemStatus =
@@ -338,6 +434,13 @@ export type PostReview404 = {
   message: string
 }
 
+/**
+ * Review created.
+ */
+export type PostReview201 = {
+  review: PostReview201Review
+}
+
 export type PostReview201ReviewMediaType =
   (typeof PostReview201ReviewMediaType)[keyof typeof PostReview201ReviewMediaType]
 
@@ -376,13 +479,6 @@ export type PostReview201Review = {
   review: string
   tmdbId: number
   userId: string
-}
-
-/**
- * Review created.
- */
-export type PostReview201 = {
-  review: PostReview201Review
 }
 
 export type PostReviewBodyMediaType =

@@ -5,6 +5,7 @@ import {
   Award,
   BarChartHorizontalBig,
   Check,
+  Clock,
   List,
   Star,
 } from 'lucide-react'
@@ -51,7 +52,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
           <TabsTrigger value="watchlist" asChild>
             <Link href={`/${language}/${user.username}/watchlist`}>
-              <List className="mr-1" width={12} height={12} />
+              <Clock className="mr-1" width={12} height={12} />
               {dictionary.watchlist}
             </Link>
           </TabsTrigger>
