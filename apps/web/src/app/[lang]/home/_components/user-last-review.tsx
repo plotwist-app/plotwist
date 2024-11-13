@@ -31,6 +31,7 @@ export const EmptyReview = () => {
 export const UserLastReview = () => {
   const { user } = useSession()
   const { language, dictionary } = useLanguage()
+  console.log({ user })
 
   const { data, isLoading } = useGetDetailedReviews({
     language,

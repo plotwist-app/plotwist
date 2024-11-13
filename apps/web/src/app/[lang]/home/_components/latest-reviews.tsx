@@ -10,7 +10,11 @@ const MAX_SKELETONS_REVIEWS = 5
 
 export const LatestReviews = () => {
   const { language, dictionary } = useLanguage()
-  const { isLoading, data } = useGetDetailedReviews({ language, limit: '5' })
+  const { isLoading, data } = useGetDetailedReviews({
+    language,
+    userId: undefined,
+    limit: '5',
+  })
 
   if (isLoading) {
     return (

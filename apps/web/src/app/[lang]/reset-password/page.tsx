@@ -4,6 +4,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
 import { AnimatedLink } from '@/components/animated-link'
+import { resetPassword } from '@/actions/auth/reset-password'
 
 export async function generateMetadata({
   params,
@@ -37,7 +38,7 @@ const ResetPasswordPage = async ({ params: { lang } }: PageProps) => {
               {dictionary.reset_your_password}
             </h1>
 
-            <ResetPasswordForm />
+            <ResetPasswordForm onReset={resetPassword} />
           </div>
         </div>
       </div>
@@ -46,6 +47,7 @@ const ResetPasswordPage = async ({ params: { lang } }: PageProps) => {
         <p className="text-center text-sm">
           {dictionary.remembered_your_password}{' '}
         </p>
+
         <AnimatedLink href={`/${lang}/sign-in`} className="text-xs">
           {dictionary.login}
         </AnimatedLink>

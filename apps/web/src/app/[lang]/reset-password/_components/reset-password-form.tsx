@@ -30,8 +30,14 @@ import {
 import { useLanguage } from '@/context/language'
 import { useState } from 'react'
 import { redirect, useSearchParams } from 'next/navigation'
+import { resetPassword } from '@/actions/auth/reset-password'
+import { toast } from 'sonner'
 
-export const ResetPasswordForm = () => {
+type ResetPasswordFormProps = {
+  onReset: typeof resetPassword
+}
+
+export const ResetPasswordForm = ({ onReset }: ResetPasswordFormProps) => {
   const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
 
@@ -43,11 +49,12 @@ export const ResetPasswordForm = () => {
   })
 
   const searchParams = useSearchParams()
-  const code = searchParams.get('code')
+  const token = searchParams.get('token')
 
   async function onSubmit({ password }: ResetPasswordFormValues) {
-    if (!code) return redirect(`/${language}/sign-in`)
-    await console.log({ password, code })
+    if (!token) return redirect(`/${language}/sign-in`)
+    await onReset({ password, token })
+    toast.success(dictionary.reset_password_success)
   }
 
   return (
