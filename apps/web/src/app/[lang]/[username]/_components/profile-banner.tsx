@@ -9,7 +9,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
-import { usePatchUserBanner } from '@/api/users'
+import { usePatchUser } from '@/api/users'
 import { useRouter } from 'next/navigation'
 
 type ProfileBannerProps = {
@@ -19,7 +19,7 @@ type ProfileBannerProps = {
 export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
-  const { mutateAsync } = usePatchUserBanner()
+  const { mutateAsync } = usePatchUser()
   const { refresh } = useRouter()
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'

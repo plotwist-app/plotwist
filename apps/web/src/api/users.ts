@@ -31,10 +31,8 @@ import type {
   GetUsersAvailableUsername409,
   GetUsersAvailableUsernameParams,
   GetUsersUsername200,
-  PatchUserBanner200,
-  PatchUserBannerBody,
-  PatchUserImage200,
-  PatchUserImageBody,
+  PatchUser200,
+  PatchUserBody,
   PatchUserPassword200,
   PatchUserPasswordBody,
   PostUsersCreate201,
@@ -1297,138 +1295,67 @@ export function useGetMeSuspense<
 }
 
 /**
- * Update user image
+ * Update user
  */
-export const patchUserImage = (patchUserImageBody: PatchUserImageBody) => {
-  return axiosInstance<PatchUserImage200>({
-    url: `/user/image`,
+export const patchUser = (patchUserBody: PatchUserBody) => {
+  return axiosInstance<PatchUser200>({
+    url: `/user`,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    data: patchUserImageBody,
+    data: patchUserBody,
   })
 }
 
-export const getPatchUserImageMutationOptions = <
+export const getPatchUserMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchUserImage>>,
+    Awaited<ReturnType<typeof patchUser>>,
     TError,
-    { data: PatchUserImageBody },
+    { data: PatchUserBody },
     TContext
   >
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof patchUserImage>>,
+  Awaited<ReturnType<typeof patchUser>>,
   TError,
-  { data: PatchUserImageBody },
+  { data: PatchUserBody },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof patchUserImage>>,
-    { data: PatchUserImageBody }
+    Awaited<ReturnType<typeof patchUser>>,
+    { data: PatchUserBody }
   > = (props) => {
     const { data } = props ?? {}
 
-    return patchUserImage(data)
+    return patchUser(data)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type PatchUserImageMutationResult = NonNullable<
-  Awaited<ReturnType<typeof patchUserImage>>
+export type PatchUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUser>>
 >
-export type PatchUserImageMutationBody = PatchUserImageBody
-export type PatchUserImageMutationError = unknown
+export type PatchUserMutationBody = PatchUserBody
+export type PatchUserMutationError = unknown
 
-export const usePatchUserImage = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
+export const usePatchUser = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchUserImage>>,
+    Awaited<ReturnType<typeof patchUser>>,
     TError,
-    { data: PatchUserImageBody },
+    { data: PatchUserBody },
     TContext
   >
 }): UseMutationResult<
-  Awaited<ReturnType<typeof patchUserImage>>,
+  Awaited<ReturnType<typeof patchUser>>,
   TError,
-  { data: PatchUserImageBody },
+  { data: PatchUserBody },
   TContext
 > => {
-  const mutationOptions = getPatchUserImageMutationOptions(options)
-
-  return useMutation(mutationOptions)
-}
-/**
- * Update user banner
- */
-export const patchUserBanner = (patchUserBannerBody: PatchUserBannerBody) => {
-  return axiosInstance<PatchUserBanner200>({
-    url: `/user/banner`,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    data: patchUserBannerBody,
-  })
-}
-
-export const getPatchUserBannerMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchUserBanner>>,
-    TError,
-    { data: PatchUserBannerBody },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof patchUserBanner>>,
-  TError,
-  { data: PatchUserBannerBody },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof patchUserBanner>>,
-    { data: PatchUserBannerBody }
-  > = (props) => {
-    const { data } = props ?? {}
-
-    return patchUserBanner(data)
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PatchUserBannerMutationResult = NonNullable<
-  Awaited<ReturnType<typeof patchUserBanner>>
->
-export type PatchUserBannerMutationBody = PatchUserBannerBody
-export type PatchUserBannerMutationError = unknown
-
-export const usePatchUserBanner = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchUserBanner>>,
-    TError,
-    { data: PatchUserBannerBody },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof patchUserBanner>>,
-  TError,
-  { data: PatchUserBannerBody },
-  TContext
-> => {
-  const mutationOptions = getPatchUserBannerMutationOptions(options)
+  const mutationOptions = getPatchUserMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

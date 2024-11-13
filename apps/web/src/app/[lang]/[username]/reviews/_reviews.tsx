@@ -17,7 +17,7 @@ export const Reviews = ({ userId }: ReviewsProps) => {
     return <FullReviewSkeleton />
   }
 
-  if (data.reviews.length < 0) {
+  if (data.reviews.length === 0) {
     return <EmptyReview />
   }
 

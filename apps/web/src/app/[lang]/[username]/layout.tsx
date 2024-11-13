@@ -4,10 +4,11 @@ import { redirect } from 'next/navigation'
 import { ProfileBanner } from './_components/profile-banner'
 import { ProfileImage } from './_components/profile-image'
 import { ProBadge } from '@/components/pro-badge'
-import { FollowButton } from '@/components/follow-button'
-import { Followers } from '@/components/followers'
 import { PropsWithChildren } from 'react'
 import { ProfileTabs } from './_components/profile-tabs'
+import { UserForm } from './_components/user-form'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Pencil } from 'lucide-react'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
@@ -35,14 +36,27 @@ export default async function Layout({
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
+                    <UserForm
+                      user={user}
+                      trigger={
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="ml-auto h-6 w-6"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                      }
+                    />
+
                     <h1 className="text-2xl font-bold">{user.username}</h1>
                     {user.subscriptionType === 'PRO' && <ProBadge />}
                   </div>
 
-                  <FollowButton userId={user.id} />
+                  {/* <FollowButton userId={user.id} /> */}
                 </div>
 
-                <Followers />
+                {/* <Followers /> */}
               </div>
             </div>
           </aside>

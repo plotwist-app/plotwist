@@ -1,7 +1,7 @@
 'use client'
 
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
-import { usePatchUserImage } from '@/api/users'
+import { usePatchUser } from '@/api/users'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -18,7 +18,7 @@ type ProfileImageProps = {
 export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { dictionary } = useLanguage()
   const { user } = useSession()
-  const useUpdateUserImage = usePatchUserImage()
+  const patchUser = usePatchUser()
   const { refresh } = useRouter()
 
   const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
@@ -43,11 +43,10 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   return (
     <ImagePicker.Root
       onSelect={(image, closeModal) =>
-        useUpdateUserImage.mutateAsync(
+        patchUser.mutateAsync(
           {
             data: { imagePath: image.file_path },
           },
-
           {
             onSettled: () => {
               refresh()

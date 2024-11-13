@@ -29,13 +29,12 @@ import { Dictionary } from '@/utils/dictionaries'
 
 import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { usePatchUser } from '@/api/users'
+import { useRouter } from 'next/navigation'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
-export const profileFormSchema = (
-  dictionary: Dictionary,
-  newUsername: string,
-) =>
+export const userFormSchema = (dictionary: Dictionary, newUsername: string) =>
   z.object({
     username: z
       .string()
@@ -62,32 +61,50 @@ export const profileFormSchema = (
       }),
   })
 
-export type ProfileFormValues = z.infer<ReturnType<typeof profileFormSchema>>
+export type UserFormValues = z.infer<ReturnType<typeof userFormSchema>>
 
-type ProfileFormProps = {
+type UserFormProps = {
   trigger: JSX.Element
-  profile: GetUsersUsername200User
+  user: GetUsersUsername200User
 }
 
-export const ProfileForm = ({ trigger, profile }: ProfileFormProps) => {
+export const UserForm = ({ trigger, user }: UserFormProps) => {
   const [open, setOpen] = useState(false)
 
-  const { dictionary } = useLanguage()
-  const { user } = useSession()
+  const { dictionary, language } = useLanguage()
+  const session = useSession()
+  const { mutateAsync } = usePatchUser()
+  const { push, refresh } = useRouter()
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema(dictionary, profile.username)),
+  const form = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema(dictionary, user.username)),
     defaultValues: {
-      username: profile.username,
+      username: user.username,
     },
   })
 
-  const isUserPro = profile.subscriptionType === 'PRO'
-  const isOwner = profile.id === user?.id
+  const isUserPro = user.subscriptionType === 'PRO'
+  const isOwner = session?.user?.id === user?.id
 
-  const onSubmit = useCallback(async (values: ProfileFormValues) => {
-    console.log({ values })
-  }, [])
+  const onSubmit = useCallback(
+    async (values: UserFormValues) => {
+      await mutateAsync(
+        { data: { username: values.username } },
+        {
+          onSuccess: ({ user }) => {
+            push(`/${language}/${user.username}/`)
+            refresh()
+          },
+          onError: () => {
+            form.setError('username', {
+              message: `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
+            })
+          },
+        },
+      )
+    },
+    [mutateAsync, push, language, refresh, form, dictionary],
+  )
 
   if (!user || !isOwner) return null
 

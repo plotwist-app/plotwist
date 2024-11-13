@@ -7,7 +7,7 @@ import { useGetLists } from '@/api/list'
 
 export const LatestLists = () => {
   const { dictionary } = useLanguage()
-  const { data, isLoading } = useGetLists()
+  const { data, isLoading } = useGetLists({ limit: 5 })
 
   const content = useMemo(() => {
     if (isLoading)

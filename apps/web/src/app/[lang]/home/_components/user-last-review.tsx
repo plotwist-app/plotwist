@@ -68,7 +68,7 @@ export const UserLastReview = () => {
     )
   }
 
-  if (!data) {
+  if (!data?.reviews[0]) {
     return (
       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.user_last_review.no_review_message}</p>
