@@ -4,76 +4,84 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
 } from '@tanstack/react-query'
 import type {
   PostLogin200,
   PostLogin400,
-  PostLoginBody
+  PostLoginBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance';
-
-
-
+import { axiosInstance } from '../services/axios-instance'
 
 /**
  * User login with email and password
  */
-export const postLogin = (
-    postLoginBody: PostLoginBody,
- ) => {
-      
-      
-      return axiosInstance<PostLogin200>(
-      {url: `/login`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postLoginBody
-    },
-      );
-    }
-  
+export const postLogin = (postLoginBody: PostLoginBody) => {
+  return axiosInstance<PostLogin200>({
+    url: `/login`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postLoginBody,
+  })
+}
 
+export const getPostLoginMutationOptions = <
+  TError = PostLogin400,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postLogin>>,
+    TError,
+    { data: PostLoginBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postLogin>>,
+  TError,
+  { data: PostLoginBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPostLoginMutationOptions = <TError = PostLogin400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postLogin>>,
+    { data: PostLoginBody }
+  > = (props) => {
+    const { data } = props ?? {}
 
-      
+    return postLogin(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postLogin>>, {data: PostLoginBody}> = (props) => {
-          const {data} = props ?? {};
+export type PostLoginMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postLogin>>
+>
+export type PostLoginMutationBody = PostLoginBody
+export type PostLoginMutationError = PostLogin400
 
-          return  postLogin(data,)
-        }
+export const usePostLogin = <
+  TError = PostLogin400,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postLogin>>,
+    TError,
+    { data: PostLoginBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postLogin>>,
+  TError,
+  { data: PostLoginBody },
+  TContext
+> => {
+  const mutationOptions = getPostLoginMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostLoginMutationResult = NonNullable<Awaited<ReturnType<typeof postLogin>>>
-    export type PostLoginMutationBody = PostLoginBody
-    export type PostLoginMutationError = PostLogin400
-
-    export const usePostLogin = <TError = PostLogin400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postLogin>>, TError,{data: PostLoginBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof postLogin>>,
-        TError,
-        {data: PostLoginBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPostLoginMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

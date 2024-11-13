@@ -4,69 +4,76 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
 } from '@tanstack/react-query'
-import { axiosInstance } from '../services/axios-instance';
-
-
-
+import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Webhook route
  */
-export const postCompleteStripeSubscription = (
-    
- ) => {
-      
-      
-      return axiosInstance<void>(
-      {url: `/complete-stripe-subscription`, method: 'POST'
-    },
-      );
-    }
-  
+export const postCompleteStripeSubscription = () => {
+  return axiosInstance<void>({
+    url: `/complete-stripe-subscription`,
+    method: 'POST',
+  })
+}
 
+export const getPostCompleteStripeSubscriptionMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
+    TError,
+    void,
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
+  TError,
+  void,
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPostCompleteStripeSubscriptionMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCompleteStripeSubscription>>, TError,void, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postCompleteStripeSubscription>>, TError,void, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
+    void
+  > = () => {
+    return postCompleteStripeSubscription()
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type PostCompleteStripeSubscriptionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>
+>
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postCompleteStripeSubscription>>, void> = () => {
-          
+export type PostCompleteStripeSubscriptionMutationError = unknown
 
-          return  postCompleteStripeSubscription()
-        }
+export const usePostCompleteStripeSubscription = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
+    TError,
+    void,
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions =
+    getPostCompleteStripeSubscriptionMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostCompleteStripeSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof postCompleteStripeSubscription>>>
-    
-    export type PostCompleteStripeSubscriptionMutationError = unknown
-
-    export const usePostCompleteStripeSubscription = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCompleteStripeSubscription>>, TError,void, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof postCompleteStripeSubscription>>,
-        TError,
-        void,
-        TContext
-      > => {
-
-      const mutationOptions = getPostCompleteStripeSubscriptionMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}
