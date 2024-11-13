@@ -1,7 +1,5 @@
+import { UserItems } from '../_components/user-items'
+
 export default async function WatchedPage() {
-  return (
-    <section>
-      <h1>watched</h1>
-    </section>
-  )
+  return <UserItems status="WATCHED" />
 }

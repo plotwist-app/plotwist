@@ -291,7 +291,6 @@
   },
   "statuses": {
     "pending": "Ausstehend",
-    "watching": "Ansehen",
     "watched": "Gesehen"
   },
   "list_item_actions": {
@@ -719,6 +718,7 @@
   "upgrade_list_message": "Abonnieren Sie den PRO-Plan, um unbegrenzte Listen zu erhalten.",
   "activity": "Aktivität",
   "watched": "Gesehen",
+  "watching": "Ansehen",
   "watchlist": "Watchlist",
   "stats": "Statistiken",
   "where_to_watch": "Wo zu sehen",

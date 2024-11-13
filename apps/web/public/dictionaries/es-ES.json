@@ -290,11 +290,6 @@
     "view": "Ver",
     "toggle_columns": "Alternar columnas"
   },
-  "statuses": {
-    "pending": "Pendiente",
-    "watching": "Viendo",
-    "watched": "Visto"
-  },
   "list_item_actions": {
     "use_as_cover": "Usar como portada",
     "status": "Estado",
@@ -719,6 +714,7 @@
   "upgrade_list_message": "Suscríbete al plan PRO para obtener listas ilimitadas.",
   "activity": "Actividad",
   "watched": "Vistos",
+  "watching": "Viendo",
   "watchlist": "Lista de seguimiento",
   "stats": "Estadísticas",
   "where_to_watch": "Dónde ver",

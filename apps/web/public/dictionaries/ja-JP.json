@@ -290,11 +290,6 @@
     "view": "表示",
     "toggle_columns": "列の切り替え"
   },
-  "statuses": {
-    "pending": "保留中",
-    "watching": "視聴中",
-    "watched": "視聴済み"
-  },
   "list_item_actions": {
     "use_as_cover": "カバーとして使用",
     "status": "ステータス",
@@ -719,6 +714,7 @@
   "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。",
   "activity": "アクティビティ",
   "watched": "視聴済み",
+  "watching": "視聴中",
   "watchlist": "ウォッチリスト",
   "stats": "統計",
   "where_to_watch": "視聴可能な場所",

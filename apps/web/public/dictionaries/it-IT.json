@@ -290,11 +290,6 @@
     "view": "Visualizza",
     "toggle_columns": "Alterna colonne"
   },
-  "statuses": {
-    "pending": "In sospeso",
-    "watching": "Guardando",
-    "watched": "Guardato"
-  },
   "list_item_actions": {
     "use_as_cover": "Usa come copertina",
     "status": "Stato",
@@ -719,6 +714,7 @@
   "upgrade_list_message": "Abbonati al piano PRO per ottenere liste illimitate.",
   "activity": "Attività",
   "watched": "Visti",
+  "watching": "Guardando",
   "watchlist": "Lista di controllo",
   "stats": "Statistiche",
   "where_to_watch": "Dove guardare",

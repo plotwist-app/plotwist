@@ -9,6 +9,7 @@ import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'
 import { MovieTabs } from './movie-tabs'
 import { ItemDrawer } from '@/components/item-drawer/item-drawer'
+import { getYear } from 'date-fns'
 
 type MovieDetailsProps = {
   id: number
@@ -20,7 +21,12 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
   return (
     <div className="relative mx-auto max-w-6xl">
-      <ItemDrawer mediaType="MOVIE" tmdbId={movie.id} />
+      <ItemDrawer
+        mediaType="MOVIE"
+        tmdbId={movie.id}
+        title={`${movie.title} (${getYear(new Date(movie.release_date))})`}
+      />
+
       <Banner url={tmdbImage(movie.backdrop_path)} />
 
       <section className="mx-auto my-8 max-w-4xl space-y-6">
