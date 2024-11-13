@@ -25,17 +25,15 @@ import {
 } from '@plotwist/ui/components/ui/context-menu'
 import { ProBadge } from '@/components/pro-badge'
 
-import { useList } from '@/hooks/use-list'
 import { APP_URL } from '../../../../../constants'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
-import { PopularList } from '@/types/supabase/lists'
+import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardContextMenuProps = {
   href: string
-  list: PopularList
+  list: GetLists200ListsItem
 } & PropsWithChildren
 
 export const PopularListCardContextMenu = ({
@@ -43,11 +41,7 @@ export const PopularListCardContextMenu = ({
   href,
   list,
 }: PopularListCardContextMenuProps) => {
-  const { handleLike, handleRemoveLike, handleCloneList } = useList()
-  const { user } = useAuth()
   const { dictionary } = useLanguage()
-
-  const userLike = list.list_likes.find((like) => like.user_id === user?.id)
 
   return (
     <ContextMenu>
@@ -61,43 +55,17 @@ export const PopularListCardContextMenu = ({
           </Link>
         </ContextMenuItem>
 
-        {userLike ? (
-          <ContextMenuItem onClick={() => handleRemoveLike.mutate(userLike.id)}>
+        {list.hasLiked ? (
+          <ContextMenuItem onClick={() => console.log(list.id)}>
             <HeartOff className="mr-2 size-4" />
             {dictionary.remove_like}
           </ContextMenuItem>
         ) : (
-          <ContextMenuItem
-            onClick={() => {
-              if (user) {
-                handleLike.mutate({
-                  listId: list.id,
-                  userId: user.id,
-                })
-              }
-            }}
-            disabled={!user}
-          >
+          <ContextMenuItem onClick={() => {}} disabled={true}>
             <Heart className="mr-2 size-4" />
             {dictionary.like}
           </ContextMenuItem>
         )}
-
-        <ContextMenuItem
-          disabled={user?.subscription_type !== 'PRO'}
-          onClick={() => {
-            if (user) {
-              handleCloneList.mutate({
-                listId: list.id,
-                userId: user.id,
-              })
-            }
-          }}
-        >
-          <Copy className="mr-2 size-4" />
-          {dictionary.clone}
-          <ProBadge className="ml-2" />
-        </ContextMenuItem>
 
         <ContextMenuSub>
           <ContextMenuSubTrigger>

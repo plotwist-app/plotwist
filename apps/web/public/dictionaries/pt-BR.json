@@ -63,22 +63,17 @@
     },
     "pro_plan": {
       "title": "Pro",
-      "price": "R$3/mês",
+      "price": "R$5/mês",
       "recommended": "Recomendado",
-      "description": "Tudo no plano gratuito, porém com limites mais altos e recomendações personalizadas.",
+      "description": "Tudo no plano gratuito e muito mais!",
       "benefits": [
+        "Ferramentas de organização e controle de assistidos",
+        "Recomendações pessoais baseado no seu gosto e histórico",
         "Listas ilimitadas",
-        "Recomendações pessoais baseadas no seu gosto",
-        "Clonar suas listas ou de outros pros",
-        "Mudar nome de usuário"
+        "Personalização avançada",
+        "Conquistas e distintivos"
       ],
       "subscribe": "Assine"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "R$10/mês",
-      "description": "Em breve",
-      "coming_soon": "Em breve"
     }
   },
   "movies_list": {
@@ -240,7 +235,6 @@
   },
   "list_form": {
     "create_new_list": "Criar nova lista",
-    "name": "Nome",
     "name_placeholder": "Minha Lista",
     "name_required": "O nome da lista é necessário.",
     "description": "Descrição",
@@ -253,9 +247,7 @@
     "visibility_option_description_network": "Visível apenas para amigos.",
     "visibility_option_description_private": "Visível apenas para mim.",
     "submit": "Enviar",
-    "list_created_success": "Lista criada com sucesso!",
-    "edit_list": "Editar lista",
-    "list_edited_success": "Lista editada com sucesso."
+    "edit_list": "Editar lista"
   },
   "list_page": {
     "list_not_found": "Lista não encontrada.",
@@ -297,11 +289,6 @@
   "data_table_view_options": {
     "view": "Visualizar",
     "toggle_columns": "Alternar colunas"
-  },
-  "statuses": {
-    "pending": "Pendente",
-    "watching": "Assistindo",
-    "watched": "Assistido"
   },
   "list_item_actions": {
     "use_as_cover": "Usar como capa",
@@ -370,8 +357,8 @@
     "or": "ou",
     "make_first_review": "para fazer sua primeira avaliação!"
   },
-  "popular_reviews": {
-    "title": "Avaliações populares",
+  "latest_reviews": {
+    "title": "Avaliações recentes",
     "no_reviews_found": "Não encontramos nenhuma avaliação.",
     "explore_popular_movies": "Explore filmes populares e nos dê sua opinião."
   },
@@ -619,7 +606,7 @@
   "lists": "Listas",
   "my_lists": "Minhas listas",
   "manage_your_lists": "Gerencie suas listas de filmes e séries e compartilhe com outros membros!",
-  "popular_lists": "Listas populares",
+  "latest_lists": "Listas recentes",
   "last_week": "Última semana",
   "last_month": "Último mês",
   "all_time": "Todo o período",
@@ -686,7 +673,6 @@
   "continue_with_x": "Continue com X",
   "continue_with_email": "Continue com e-mail",
   "or": "ou",
-  "others_ways": "Outras formas",
   "sign_up": "Cadastrar-se",
   "login": "Entrar",
   "theme": "Tema",
@@ -719,5 +705,22 @@
   "reset_your_password": "Redefina sua senha",
   "new": "Novo",
   "roadmap": "Plano de desenvolvimento",
-  "documentation": "Documentação"
+  "documentation": "Documentação",
+  "username_already_taken": "Este nome de usuário já está em uso.",
+  "list_created_success": "Lista criada com sucesso.",
+  "unable_to_create_list": "Não foi possível criar a lista.",
+  "title": "Título",
+  "list_edited_successfully": "Lista editada com sucesso.",
+  "upgrade_list_message": "Assine o plano PRO para ter listas ilimitadas.",
+  "activity": "Atividade",
+  "watched": "Assistidos",
+  "watchlist": "Assistir",
+  "watching": "Assistindo",
+  "stats": "Estatísticas",
+  "where_to_watch": "Onde assistir",
+  "unavailable": "Indisponível",
+  "watchlist_added": "Adicionado à Watchlist!",
+  "watchlist_removed": "Removido da Watchlist!",
+  "contain_spoilers": "Contém spoilers",
+  "no_lists_found": "Não encontramos nenhuma lista."
 }

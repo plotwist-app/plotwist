@@ -12,32 +12,30 @@ import {
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Language } from '@/types/languages'
-import { FullReview as FullReviewType } from '@/services/api/reviews'
 
 import { ReviewStars } from '@/components/reviews/review-stars'
-import { ReviewLikes } from '@/components/reviews/review-likes'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
 
 type FullReviewProps = {
-  review: FullReviewType
+  review: GetDetailedReviews200ReviewsItem
   language: Language
 }
 
 export const FullReview = ({ review, language }: FullReviewProps) => {
   const {
-    tmdb_poster_path: poster,
-    tmdb_title: title,
-    tmdb_id: tmdbId,
-    media_type: mediaType,
+    posterPath,
+    title,
+    tmdbId,
+    mediaType,
+    hasSpoilers,
     review: content,
     rating,
-    has_spoilers: hasSpoilers,
-    user: { username, image_path: imagePath },
-    likes_count: likes,
+    user: { username, imagePath },
   } = review
 
-  const usernameInitial = username?.at(0)?.toUpperCase()
+  const usernameInitial = username.at(0)?.toUpperCase()
 
   const href =
     mediaType === 'MOVIE'
@@ -52,7 +50,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     <div className="flex space-x-4" data-testid="full-review">
       <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
         <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
-          {poster && <Image src={tmdbImage(poster)} fill alt={title} />}
+          {posterPath && <Image src={tmdbImage(posterPath)} fill alt={title} />}
         </figure>
       </Link>
 
@@ -90,12 +88,12 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {likes > 0 && (
+              {/* {likes > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
                   <ReviewLikes reviewId={review.id} className="static" />
                 </>
-              )}
+              )} */}
             </div>
           </div>
 

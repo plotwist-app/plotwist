@@ -22,7 +22,7 @@ export const NoAccountTooltip = ({ children }: PropsWithChildren) => {
 
         <TooltipPortal>
           <TooltipContent>
-            <Link href={`/${language}/login`}>
+            <Link href={`/${language}/sign-in`}>
               {dictionary.no_account_tooltip}
             </Link>
           </TooltipContent>

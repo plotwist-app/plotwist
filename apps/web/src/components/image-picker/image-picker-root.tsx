@@ -3,7 +3,7 @@
 import { PropsWithChildren, useMemo, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 
-import { Image } from '@plotwist/tmdb'
+import { Image } from '@/services/tmdb'
 
 import { ChevronLeft } from 'lucide-react'
 import {

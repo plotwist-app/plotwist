@@ -2,9 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { DetailedCollection } from '@plotwist/tmdb'
-
-import { CollectionListDropdown } from '@/components/lists/collection-list-button'
+import { DetailedCollection } from '@/services/tmdb'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -39,10 +37,6 @@ export const MovieCollectionDialog = ({
           <DialogHeader className="space-x-2 text-start">
             <DialogTitle className="flex items-center space-x-2">
               {name}
-
-              <div className="ml-2">
-                <CollectionListDropdown items={parts} />
-              </div>
             </DialogTitle>
           </DialogHeader>
 

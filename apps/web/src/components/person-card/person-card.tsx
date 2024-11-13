@@ -2,7 +2,7 @@ import type {
   MovieWithMediaType,
   Person,
   TvSerieWithMediaType,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 import Image from 'next/image'
 import { forwardRef } from 'react'
 

@@ -2,9 +2,8 @@
 
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -16,12 +15,9 @@ import {
 } from '@plotwist/ui/components/ui/form'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
-
-import { useReplies } from '@/hooks/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
 
@@ -32,7 +28,7 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { useReviews } from '@/hooks/use-reviews'
+import { useSession } from '@/context/session'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -56,10 +52,7 @@ export const ReviewReplyForm = ({
   onOpenReplyForm,
   onOpenReplies,
 }: ReviewReplyFormProps) => {
-  const { handleCreateReply } = useReplies()
-  const { invalidateQueries } = useReviews()
-
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
   const form = useForm<ReplyFormValues>({
@@ -72,29 +65,12 @@ export const ReviewReplyForm = ({
   if (!user) return <></>
 
   const onSubmit = async (values: ReplyFormValues) => {
-    await handleCreateReply.mutateAsync(
-      {
-        userId: user.id,
-        reply: values.reply,
-        reviewId,
-      },
-      {
-        onSettled: async () => {
-          await invalidateQueries(reviewId)
-          toast.success(dictionary.review_reply_form.success)
-
-          form.reset()
-
-          onOpenReplies(true)
-          onOpenReplyForm(false)
-        },
-      },
-    )
+    console.log({ values, reviewId, onOpenReplyForm, onOpenReplies })
   }
 
   const username = user.username
   const usernameInitial = username?.at(0)?.toUpperCase()
-  const imagePath = user.image_path
+  const imagePath = user.imagePath
 
   return (
     <Form {...form}>

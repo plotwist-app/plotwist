@@ -1,7 +1,6 @@
 'use client'
 
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
-import { useQuery } from '@tanstack/react-query'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import {
   ReviewItem,
@@ -9,9 +8,9 @@ import {
 } from '@/components/reviews/review-item'
 import { ReviewForm } from '@/components/reviews/review-form'
 
-import { getReviewsService } from '@/services/api/reviews/get-reviews'
 import { MediaType } from '@/types/supabase/media-type'
 import { useLanguage } from '@/context/language'
+import { useGetReviews } from '@/api/reviews'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -23,10 +22,10 @@ export type ReviewsProps = {
 export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const { language } = useLanguage()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['reviews', tmdbItem.id, mediaType, language],
-    queryFn: async () =>
-      getReviewsService({ id: tmdbItem.id, mediaType, language }),
+  const { data, isLoading } = useGetReviews({
+    tmdbId: String(tmdbItem.id),
+    mediaType,
+    language,
   })
 
   if (isLoading) {

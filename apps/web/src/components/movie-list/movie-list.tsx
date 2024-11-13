@@ -24,7 +24,7 @@ export const MovieList = ({ variant }: MovieListProps) => {
 
   if (!data)
     return (
-      <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+      <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {Array.from({ length: 20 }).map((_, index) => (
           <PosterCard.Skeleton key={index} />
         ))}

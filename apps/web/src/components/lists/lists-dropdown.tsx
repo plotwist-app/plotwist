@@ -3,7 +3,7 @@
 import { ComponentProps, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@plotwist/ui/components/ui/button'
@@ -21,13 +21,12 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 
-import { sanitizeListItem } from '@/utils/tmdb/list/list_item/sanitize'
-
 import { List } from '@/types/supabase/lists'
 
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/context/auth'
 import { NoAccountTooltip } from '../no-account-tooltip'
+import { useSession } from '@/context/session'
+import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -38,9 +37,12 @@ export const ListsDropdown = ({
   className,
   ...props
 }: ListsDropdownProps) => {
-  const { lists, handleAddToList, handleRemoveFromList } = useLists()
+  const { lists } = useLists()
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
+
   const { push } = useRouter()
-  const { user } = useAuth()
+  const { user } = useSession()
 
   const {
     dictionary: {
@@ -60,27 +62,34 @@ export const ListsDropdown = ({
     async (id: string) => {
       if (!user) return
 
-      await handleRemoveFromList.mutateAsync(id, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['lists', user.id],
-          })
+      await deleteListItem.mutateAsync(
+        { id },
+        {
+          onSuccess: () => {
+            APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: ['lists', user.id],
+            })
 
-          toast.success(removedSuccessfully)
+            toast.success(removedSuccessfully)
+          },
         },
-      })
+      )
     },
-    [removedSuccessfully, handleRemoveFromList, user],
+    [removedSuccessfully, deleteListItem, user],
   )
 
   const handleAdd = useCallback(
     async (list: List) => {
       if (!user) return
 
-      const sanitizedItem = sanitizeListItem(list.id, item)
-
-      await handleAddToList.mutateAsync(
-        { item: sanitizedItem },
+      await postListItem.mutateAsync(
+        {
+          data: {
+            listId: list.id,
+            tmdbId: item.id,
+            mediaType: 'title' in item ? 'MOVIE' : 'TV_SHOW',
+          },
+        },
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
@@ -97,7 +106,7 @@ export const ListsDropdown = ({
         },
       )
     },
-    [addedSuccessfully, handleAddToList, item, language, push, seeList, user],
+    [addedSuccessfully, item, language, postListItem, push, seeList, user],
   )
 
   const Content = () => {
@@ -119,8 +128,8 @@ export const ListsDropdown = ({
       return (
         <>
           {lists.map((list) => {
-            const itemIncluded = list.list_items.find(
-              ({ tmdb_id: tmdbId }) => tmdbId === item.id,
+            const itemIncluded = list.items.find(
+              ({ tmdbId }) => tmdbId === item.id,
             )
 
             return (
@@ -132,7 +141,7 @@ export const ListsDropdown = ({
                   itemIncluded ? handleRemove(itemIncluded.id) : handleAdd(list)
                 }
               >
-                {list.name}
+                {list.title}
               </DropdownMenuCheckboxItem>
             )
           })}

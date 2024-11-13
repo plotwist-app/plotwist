@@ -22,7 +22,7 @@ import { useLanguage } from '@/context/language'
 
 import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 import { Badge } from '@plotwist/ui/components/ui/badge'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 type Option = {
   value: number

@@ -16,10 +16,8 @@ import {
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { Dictionary } from '@/utils/dictionaries'
 
 import { ReviewsProps } from '..'
@@ -33,6 +31,8 @@ import {
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { useSession } from '@/context/session'
+import { getGetReviewsQueryKey, usePostReview } from '@/api/reviews'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -49,8 +49,8 @@ export const reviewFormSchema = (dictionary: Dictionary) =>
 export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
 
 export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
-  const { handleCreateReview } = useReviews()
-  const { user } = useAuth()
+  const postReview = usePostReview()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
   const form = useForm<ReviewFormValues>({
@@ -69,7 +69,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
         <div className="relative flex-1 space-y-1 rounded-md border border-dashed p-4 shadow">
           <p className="text-sm">
-            <Link href="/login" className="text-muted-foreground underline">
+            <Link href="/sign-in" className="text-muted-foreground underline">
               {dictionary.user_last_review.login}
             </Link>{' '}
             {dictionary.user_last_review.or}{' '}
@@ -84,19 +84,24 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   }
 
   const onSubmit = async (values: ReviewFormValues) => {
-    await handleCreateReview.mutateAsync(
+    await postReview.mutateAsync(
       {
-        ...values,
-        mediaType,
-        userId: user.id,
-        tmdbItem,
-        language,
+        data: {
+          ...values,
+          mediaType,
+          tmdbId: tmdbItem.id,
+          language,
+        },
       },
 
       {
         onSettled: async () => {
           await APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['reviews'],
+            queryKey: getGetReviewsQueryKey({
+              language,
+              tmdbId: String(tmdbItem.id),
+              mediaType,
+            }),
           })
 
           form.reset()
@@ -117,9 +122,9 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
       >
         <Link href={`/${language}/${username}`}>
           <Avatar className="size-10 border text-[10px] shadow">
-            {user.image_path && (
+            {user.imagePath && (
               <AvatarImage
-                src={tmdbImage(user.image_path, 'w500')}
+                src={tmdbImage(user.imagePath, 'w500')}
                 className="object-cover"
                 alt={username}
               />
@@ -144,29 +149,6 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
             </div>
 
             <div className="flex items-center space-x-2 justify-end">
-              <div className="flex items-center justify-center space-x-2">
-                <FormField
-                  control={form.control}
-                  name="hasSpoilers"
-                  render={({ field }) => (
-                    <>
-                      <Checkbox
-                        onCheckedChange={field.onChange}
-                        id="has_spoilers"
-                        className="border-muted-foreground text-primary-foreground/80"
-                      />
-                      <Label
-                        onClick={field.onChange}
-                        htmlFor="has_spoilers"
-                        className="text-muted-foreground hover:cursor-pointer"
-                      >
-                        Contain spoilers
-                      </Label>
-                    </>
-                  )}
-                />
-              </div>
-              <span className="h-1 w-1 rounded-full bg-muted" />
               <Button
                 variant="outline"
                 type="submit"
@@ -178,23 +160,46 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
             </div>
           </div>
 
-          <FormField
-            control={form.control}
-            name="review"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    placeholder={dictionary.review_form.placeholder}
-                    rows={4}
-                    {...field}
-                  />
-                </FormControl>
+          <div className="flex flex-col items-end gap-2 flex-1">
+            <FormField
+              control={form.control}
+              name="review"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <Textarea
+                      placeholder={dictionary.review_form.placeholder}
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="hasSpoilers"
+              render={({ field }) => (
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    onCheckedChange={field.onChange}
+                    id="has_spoilers"
+                    className="border-muted-foreground text-primary-foreground/80"
+                  />
+                  <Label
+                    onClick={field.onChange}
+                    htmlFor="has_spoilers"
+                    className="text-muted-foreground hover:cursor-pointer text-sm"
+                  >
+                    {dictionary.contain_spoilers}
+                  </Label>
+                </div>
+              )}
+            />
+          </div>
         </div>
       </form>
     </Form>

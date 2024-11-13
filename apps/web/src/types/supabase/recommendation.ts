@@ -1,4 +1,4 @@
-import { MovieDetails, TvSerieDetails } from '@plotwist/tmdb'
+import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { MediaType } from './media-type'
 import { Profile } from './profile'
 

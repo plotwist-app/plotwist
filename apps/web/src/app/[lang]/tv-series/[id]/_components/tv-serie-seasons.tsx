@@ -1,4 +1,4 @@
-import { Season } from '@plotwist/tmdb'
+import { Season } from '@/services/tmdb'
 
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {

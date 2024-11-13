@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
@@ -14,10 +14,8 @@ type MoviePageProps = {
   params: { id: string }
 } & PageProps
 
-export const dynamic = 'force-static'
 export async function generateStaticParams() {
   const moviesIds = await getMoviesIds(1)
-
   return moviesIds.map((id) => ({ id: String(id) }))
 }
 

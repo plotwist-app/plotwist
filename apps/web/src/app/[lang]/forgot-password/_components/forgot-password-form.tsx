@@ -20,11 +20,9 @@ import {
   forgotPasswordFormSchema,
 } from './forgot-password-form.schema'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 
 export const ForgotPasswordForm = () => {
   const { dictionary } = useLanguage()
-  const { requestPasswordReset } = useAuth()
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema(dictionary)),
@@ -34,7 +32,7 @@ export const ForgotPasswordForm = () => {
   })
 
   async function onSubmit(values: ForgotPasswordFormValues) {
-    await requestPasswordReset(values)
+    console.log({ values })
   }
 
   return (

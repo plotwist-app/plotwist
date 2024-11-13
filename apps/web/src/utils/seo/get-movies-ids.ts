@@ -1,5 +1,4 @@
-import { tmdb } from '@plotwist/tmdb'
-import { homeMovies } from '@/app/[lang]/page'
+import { tmdb } from '@/services/tmdb'
 
 const DEFAULT_PAGES = 20
 
@@ -25,7 +24,7 @@ export const getMoviesIds = async (pages: number = DEFAULT_PAGES) => {
   const results = lists.flatMap((list) => list.map((list) => list.results))
   const ids = results.flatMap((result) => result.map((movie) => movie.id))
 
-  const combinedIds = [...Object.values(homeMovies), ...ids]
+  const combinedIds = [...ids]
   const uniqueIds = Array.from(new Set(combinedIds))
 
   return uniqueIds

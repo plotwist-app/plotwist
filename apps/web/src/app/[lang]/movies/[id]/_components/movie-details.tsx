@@ -1,4 +1,4 @@
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 import { Banner } from '@/components/banner'
 
@@ -8,6 +8,8 @@ import { Language } from '@/types/languages'
 import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'
 import { MovieTabs } from './movie-tabs'
+import { ItemDrawer } from '@/components/item-drawer/item-drawer'
+import { getYear } from 'date-fns'
 
 type MovieDetailsProps = {
   id: number
@@ -19,18 +21,22 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
   return (
     <div className="relative mx-auto max-w-6xl">
+      <ItemDrawer
+        mediaType="MOVIE"
+        tmdbId={movie.id}
+        title={`${movie.title} (${getYear(new Date(movie.release_date))})`}
+      />
+
       <Banner url={tmdbImage(movie.backdrop_path)} />
 
       <section className="mx-auto my-8 max-w-4xl space-y-6">
         <MovieInfos movie={movie} language={language} />
-
         {movie.belongs_to_collection && (
           <MovieCollection
             collectionId={movie.belongs_to_collection.id}
             language={language}
           />
         )}
-
         <MovieTabs movie={movie} language={language} />
       </section>
     </div>

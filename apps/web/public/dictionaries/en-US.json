@@ -63,22 +63,17 @@
     },
     "pro_plan": {
       "title": "Pro",
-      "price": "$3/month",
+      "price": "$5/month",
       "recommended": "Recommended",
-      "description": "Everything in the free plan plus higher limits and custom settings.",
+      "description": "Everything in the free plan and much more!",
       "benefits": [
+        "Organization and control tools for watched",
+        "Personal recommendations based on your taste and history",
         "Unlimited lists",
-        "Personal recommendations based on personal taste",
-        "Clone your own or other members' lists",
-        "Change username"
+        "Advanced personalization",
+        "Achievements and badges"
       ],
       "subscribe": "Subscribe"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "$10/month",
-      "description": "Coming soon",
-      "coming_soon": "Coming Soon"
     }
   },
   "movies_list": {
@@ -105,7 +100,7 @@
     "password_required": "Please enter your password.",
     "password_length": "Your password must be at least 8 characters long.",
     "login_success": "Login successful. Welcome! 🎉",
-    "invalid_login_credentials": "Invalid login credentials",
+    "invalid_login_credentials": "Invalid login credentials.",
     "try_again": "Try again"
   },
   "sign_up_form": {
@@ -240,7 +235,6 @@
   },
   "list_form": {
     "create_new_list": "Create new list",
-    "name": "Name",
     "name_placeholder": "My List",
     "name_required": "Name of list is required.",
     "description": "Description",
@@ -253,9 +247,7 @@
     "visibility_option_description_network": "Visible to friends only.",
     "visibility_option_description_private": "Visible to just me.",
     "submit": "Submit",
-    "list_created_success": "List created successfully!",
-    "edit_list": "Edit List",
-    "list_edited_success": "List edited successfully."
+    "edit_list": "Edit List"
   },
   "list_page": {
     "list_not_found": "List not found.",
@@ -297,11 +289,6 @@
   "data_table_view_options": {
     "view": "View",
     "toggle_columns": "Toggle columns"
-  },
-  "statuses": {
-    "pending": "Pending",
-    "watching": "Watching",
-    "watched": "Watched"
   },
   "list_item_actions": {
     "use_as_cover": "Use as cover",
@@ -370,8 +357,8 @@
     "or": "or",
     "make_first_review": "to make your first review!"
   },
-  "popular_reviews": {
-    "title": "Popular reviews",
+  "latest_reviews": {
+    "title": "Recent Reviews",
     "no_reviews_found": "We didn't find any reviews.",
     "explore_popular_movies": "Explore popular movies, and give us your opinion."
   },
@@ -620,7 +607,7 @@
   "my_lists": "My Lists",
   "manage_your_lists": "Manage your lists and share them with other members!",
   "lists": "Lists",
-  "popular_lists": "Popular Lists",
+  "latest_lists": "Recent Lists",
   "last_week": "Last week",
   "last_month": "Last month",
   "all_time": "All time",
@@ -686,7 +673,6 @@
   "continue_with_x": "Continue with X",
   "continue_with_email": "Continue with email",
   "or": "or",
-  "others_ways": "Other ways",
   "sign_up": "Sign Up",
   "login": "Log In",
   "theme": "Theme",
@@ -719,5 +705,22 @@
   "reset_your_password": "Reset your password",
   "new": "New",
   "roadmap": "Roadmap",
-  "documentation": "Documentation"
+  "documentation": "Documentation",
+  "username_already_taken": "This username is already taken.",
+  "list_created_success": "List created successfully.",
+  "unable_to_create_list": "Unable to create list.",
+  "title": "Title",
+  "list_edited_successfully": "List edited successfully.",
+  "upgrade_list_message": "Subscribe to the PRO plan to get unlimited lists.",
+  "activity": "Activity",
+  "watched": "Watched",
+  "watching": "Watching",
+  "watchlist": "Watchlist",
+  "stats": "Stats",
+  "where_to_watch": "Where to watch",
+  "unavailable": "Unavailable",
+  "watchlist_added": "Added to Watchlist!",
+  "watchlist_removed": "Removed from Watchlist!",
+  "contain_spoilers": "Contains spoilers",
+  "no_lists_found": "We did not find any lists."
 }

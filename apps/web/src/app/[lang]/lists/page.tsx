@@ -4,7 +4,7 @@ import { Lists } from './_components/lists'
 import { Container } from '../_components/container'
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { PopularLists } from './_components/popular-lists'
+import { LatestLists } from './_components/latest-lists'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { SeeAllLists } from './_components/see-all-lists'
 
@@ -46,10 +46,9 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
         <SeeAllLists />
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-8 min-h-screen">
         <div className="flex flex-col space-y-4">
           <Lists />
-
           <SeeAllLists className="block text-end md:hidden" />
         </div>
 
@@ -57,7 +56,7 @@ const ListsPage = async ({ params: { lang } }: PageProps) => {
 
         <div className="grid grid-cols-3 gap-16">
           <section className="col-span-3 lg:col-span-2">
-            <PopularLists />
+            <LatestLists />
           </section>
         </div>
       </div>

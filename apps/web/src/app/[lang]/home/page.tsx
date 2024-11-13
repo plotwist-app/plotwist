@@ -1,18 +1,18 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { tmdb } from '@plotwist/tmdb'
 
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { PosterCard } from '@/components/poster-card'
 import { Container } from '../_components/container'
 
 import { UserLastReview } from './_components/user-last-review'
-import { PopularReviews } from './_components/popular-reviews'
+import { LatestReviews } from './_components/latest-reviews'
 
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { tmdbImage } from '@/utils/tmdb/image'
+import { tmdb } from '@/services/tmdb'
 
 export async function generateMetadata({
   params,
@@ -69,14 +69,17 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />
-          <PopularReviews />
+          <LatestReviews />
         </div>
 
         <div className="mt-0 space-y-8">
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">
+          <div className="space-y-2">
+            <Link
+              href={`/${lang}/movies/popular`}
+              className="text-lg font-semibold"
+            >
               {dictionary.app_page.popular_movies_title}
-            </h4>
+            </Link>
 
             <div className="grid grid-cols-3 gap-2">
               {popularMovies.results.slice(0, 3).map((movie) => (
@@ -92,10 +95,13 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">
+          <div className="space-y-2">
+            <Link
+              href={`/${lang}/tv-series/popular`}
+              className="text-lg font-semibold"
+            >
               {dictionary.app_page.popular_tv_series_title}
-            </h4>
+            </Link>
 
             <div className="grid grid-cols-3 gap-2">
               {popularTvSeries.results.slice(0, 3).map((tv) => (

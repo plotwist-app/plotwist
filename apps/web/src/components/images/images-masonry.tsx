@@ -6,7 +6,7 @@ import ReactMasonryCss from 'react-masonry-css'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
-import type { Image } from '@plotwist/tmdb'
+import type { Image } from '@/services/tmdb'
 type ImagesMasonryProps = {
   images: Image[]
   onSelect?: (image: Image) => void

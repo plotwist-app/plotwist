@@ -1,8 +1,7 @@
-import { WatchProviders } from '@/components/watch-providers'
 import { Poster } from '@/components/poster'
 import { ListsDropdown } from '@/components/lists'
 import { locale } from '@/utils/date/locale'
-import { Language, MovieDetails } from '@plotwist/tmdb'
+import { Language, MovieDetails } from '@/services/tmdb'
 import { format } from 'date-fns'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
@@ -12,12 +11,13 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { MovieGenres } from './movie-genres'
+import Image from 'next/image'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
 export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
   return (
-    <main className="space-y-4 p-4 md:p-0">
+    <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
         <aside className="-mt-32 w-2/5 space-y-2 md:w-1/3">
           <Poster url={movie.poster_path} alt={movie.title} />
@@ -40,7 +40,17 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge>{movie.vote_average.toFixed(1)}</Badge>
+                  <Badge>
+                    <Image
+                      src="/assets/tmdb.svg"
+                      width={50}
+                      height={1}
+                      alt="TMDB"
+                      className="mr-2"
+                    />
+
+                    {movie.vote_average.toFixed(1)}
+                  </Badge>
                 </TooltipTrigger>
 
                 <TooltipContent>
@@ -55,9 +65,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
           </p>
 
           <div className="hidden flex-wrap items-center gap-1 md:flex">
-            <WatchProviders id={movie.id} variant="movie" language={language} />
             <ListsDropdown item={movie} />
-            {/* <RecommendationDialog /> */}
           </div>
         </article>
       </div>

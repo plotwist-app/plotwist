@@ -7,7 +7,7 @@ type FooterProps = { language: Language; dictionary: Dictionary }
 
 export const Footer = ({ language, dictionary }: FooterProps) => {
   return (
-    <div className="w-full border-t mt-8">
+    <div className="w-full border-t">
       <div className="max-w-6xl mx-auto py-4">
         <div className="flex justify-between px-4 gap-4 md:px-0 md:flex-row flex-col">
           <div className="flex items-center gap-2">

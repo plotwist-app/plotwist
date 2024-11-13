@@ -2,8 +2,9 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 import {
   Dialog,
@@ -24,11 +25,7 @@ import { Input } from '@plotwist/ui/components/ui/input'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { Button } from '@plotwist/ui/components/ui/button'
 
-import { useLists } from '@/context/lists'
-import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
-import { listPageQueryKey } from '@/utils/list'
 
 import { List } from '@/types/supabase/lists'
 
@@ -37,97 +34,63 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
+import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
+import { APP_QUERY_CLIENT } from '@/context/app'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
-  const { handleCreateNewList, handleEditList } = useLists()
-  const { user } = useAuth()
-  const { dictionary } = useLanguage()
-
   const [open, setOpen] = useState(false)
+  const { dictionary, language } = useLanguage()
+  const { push, refresh } = useRouter()
+  const createList = usePostList()
+  const editList = usePutListId()
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
     defaultValues: {
-      name: list?.name ?? '',
+      title: list?.title ?? '',
       description: list?.description ?? '',
       visibility: list?.visibility ?? 'PUBLIC',
     },
   })
 
   async function onSubmit(values: ListFormValues) {
-    if (!user) return
-
     if (list) {
-      const { name, description, visibility } = values
+      return editList.mutateAsync(
+        { data: values, id: list.id },
+        {
+          onSuccess: async () => {
+            refresh()
 
-      const variables = {
-        name,
-        description,
-        visibility,
-        id: list.id,
-      }
-
-      return await handleEditList.mutateAsync(variables, {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.setQueryData(
-            listPageQueryKey(variables.id),
-            (previous: List) => {
-              return {
-                ...previous,
-                name: variables.name,
-                description: variables.description,
-                visibility: variables.visibility,
-              }
-            },
-          )
-
-          APP_QUERY_CLIENT.setQueryData(['lists', user.id], (data: List[]) => {
-            const newData = data.map((list) => {
-              if (list.id === variables.id) {
-                return {
-                  ...list,
-                  name: variables.name,
-                  description: variables.description,
-                  visibility: variables.visibility,
-                }
-              }
-
-              return list
-            })
-
-            return newData
-          })
-
-          setOpen(false)
-          toast.success(dictionary.list_form.list_edited_success)
+            setOpen(false)
+            toast.success(dictionary.list_edited_successfully)
+          },
         },
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      })
+      )
     }
 
-    await handleCreateNewList.mutateAsync(
-      { ...values, userId: user.id },
+    return createList.mutateAsync(
+      { data: values },
       {
-        onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['lists', user.id],
+        onSuccess: async ({ list: { id } }) => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetListsQueryKey(),
           })
 
           setOpen(false)
-          form.reset({
-            description: '',
-            name: '',
-            visibility: 'PUBLIC',
-          })
+          form.reset()
 
-          toast.success(dictionary.list_form.list_created_success)
+          toast.success(dictionary.list_created_success, {
+            action: {
+              label: dictionary.see_list,
+              onClick: () => push(`/${language}/lists/${id}`),
+            },
+          })
         },
-        onError: (error) => {
-          toast.error(error.message)
+
+        onError: () => {
+          toast.error(dictionary.unable_to_create_list)
         },
       },
     )
@@ -153,10 +116,11 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{dictionary.list_form.name}</FormLabel>
+                  <FormLabel>{dictionary.title}</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder={dictionary.list_form.name_placeholder}

@@ -1,18 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { useQuery } from '@tanstack/react-query'
-
-import { useAuth } from '@/context/auth'
 
 import { useLanguage } from '@/context/language'
-
-import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
+import { useSession } from '@/context/session'
 
 import {
   FullReview,
   FullReviewSkeleton,
 } from '@/components/full-review/full-review'
+import { useGetDetailedReviews } from '@/api/reviews'
 
 export const EmptyReview = () => {
   const { language, dictionary } = useLanguage()
@@ -32,19 +29,21 @@ export const EmptyReview = () => {
 }
 
 export const UserLastReview = () => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const { language, dictionary } = useLanguage()
+  console.log({ user })
 
-  const { data: lastReview, isLoading } = useQuery({
-    queryKey: ['user-last-review'],
-    queryFn: async () => getUserLastReviewService(user?.id ?? ''),
+  const { data, isLoading } = useGetDetailedReviews({
+    language,
+    userId: user?.id,
+    limit: '1',
   })
 
   if (!user) {
     return (
       <div className="flex items-center justify-center rounded-lg border border-dashed p-16">
         <span className="lg:text-md block space-y-2 text-center text-sm text-muted-foreground">
-          <Link href="/login" className="text-foreground underline">
+          <Link href="/sign-in" className="text-foreground underline">
             {dictionary.user_last_review.login}
           </Link>{' '}
           {dictionary.user_last_review.or}{' '}
@@ -69,7 +68,7 @@ export const UserLastReview = () => {
     )
   }
 
-  if (!lastReview) {
+  if (!data?.reviews[0]) {
     return (
       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.user_last_review.no_review_message}</p>
@@ -90,7 +89,7 @@ export const UserLastReview = () => {
         {dictionary.user_last_review.title}
       </h3>
 
-      <FullReview review={lastReview} language={language} />
+      <FullReview review={data.reviews[0]} language={language} />
     </div>
   )
 }

@@ -3,26 +3,18 @@
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
-import { getFollowersAndFollowing } from '@/services/api/followers/get-followers-and-following'
-import { useQuery } from '@tanstack/react-query'
 
-type FollowersProps = { profileId: string }
-export const Followers = ({ profileId }: FollowersProps) => {
+export const Followers = () => {
   const { dictionary } = useLanguage()
-  const { data, isLoading } = useQuery({
-    queryFn: async () => await getFollowersAndFollowing(profileId),
-    queryKey: ['followers-and-following', profileId],
-  })
+  const isLoading = false
 
   return (
-    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <div className="flex items-center gap-2 text-xs text-muted-foreground">
       <div className="flex gap-1">
         {isLoading ? (
           <Skeleton className="aspect-square w-[2ch]" />
         ) : (
-          <span className="font-medium text-foreground">
-            {data?.followers.length}
-          </span>
+          <span className="font-medium text-foreground">{0}</span>
         )}
 
         <p>{dictionary.followers}</p>
@@ -34,9 +26,7 @@ export const Followers = ({ profileId }: FollowersProps) => {
         {isLoading ? (
           <Skeleton className="aspect-square w-[2ch]" />
         ) : (
-          <span className="font-medium text-foreground">
-            {data?.following.length}
-          </span>
+          <span className="font-medium text-foreground">{0}</span>
         )}
 
         <p>{dictionary.following}</p>

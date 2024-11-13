@@ -23,7 +23,11 @@ export const Header = () => {
 
       <header className="flex w-full items-center justify-between lg:hidden">
         <Logo />
-        <HeaderNavigationDrawer />
+
+        <div className="flex space-x-2">
+          <CommandSearch />
+          <HeaderNavigationDrawer />
+        </div>
       </header>
     </>
   )

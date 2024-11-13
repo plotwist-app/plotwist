@@ -28,14 +28,17 @@ import {
   resetPasswordFormSchema,
 } from './reset-password-form.schema'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 import { useState } from 'react'
 import { redirect, useSearchParams } from 'next/navigation'
+import { resetPassword } from '@/actions/auth/reset-password'
+import { toast } from 'sonner'
 
-export const ResetPasswordForm = () => {
+type ResetPasswordFormProps = {
+  onReset: typeof resetPassword
+}
+
+export const ResetPasswordForm = ({ onReset }: ResetPasswordFormProps) => {
   const { dictionary, language } = useLanguage()
-  const { resetPassword } = useAuth()
-
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<ResetPasswordFormValues>({
@@ -46,12 +49,12 @@ export const ResetPasswordForm = () => {
   })
 
   const searchParams = useSearchParams()
-  const code = searchParams.get('code')
+  const token = searchParams.get('token')
 
   async function onSubmit({ password }: ResetPasswordFormValues) {
-    if (!code) return redirect(`/${language}/login`)
-
-    await resetPassword({ password, code })
+    if (!token) return redirect(`/${language}/sign-in`)
+    await onReset({ password, token })
+    toast.success(dictionary.reset_password_success)
   }
 
   return (

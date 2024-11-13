@@ -6,15 +6,12 @@ export async function POST(req: NextRequest) {
   const url = new URL(req.url)
 
   const email = url.searchParams.get('email')
+  const username = url.searchParams.get('username')
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
-  // TODO: REFATORAR ISSO
   const prices = await stripe.prices.list({
-    product:
-      process.env.NODE_ENV === 'development'
-        ? 'prod_Pqs2HScixDThzJ'
-        : 'prod_PrlSkiekCRFLto',
+    product: process.env.STRIPE_PRODUCT_ID,
   })
 
   const priceByLocale = prices.data.find((price) => {
@@ -43,7 +40,7 @@ export async function POST(req: NextRequest) {
           },
         ],
         mode: 'subscription',
-        success_url: `${url.origin}/thank-you`,
+        success_url: `${url.origin}/${username}`,
         cancel_url: `${url.origin}/`,
         locale,
         customer_email: email,
@@ -52,6 +49,8 @@ export async function POST(req: NextRequest) {
       if (session.url) {
         return Response.redirect(session.url, 303)
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

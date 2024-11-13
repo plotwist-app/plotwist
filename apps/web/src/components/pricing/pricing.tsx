@@ -3,11 +3,9 @@
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Price } from './price'
 import { Button } from '@plotwist/ui/components/ui/button'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
-import { useState } from 'react'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
+import { useSession } from '@/context/session'
 import {
   Tooltip,
   TooltipContent,
@@ -23,11 +21,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 export const Pricing = () => {
   const { language, dictionary } = useLanguage()
-  const { user } = useAuth()
-
-  const [subscriptionMode, setSubscriptionMode] = useState<
-    'monthly' | 'yearly'
-  >('monthly')
+  const { user } = useSession()
 
   const username = user?.username
   const initial = username ? username?.at(0)?.toUpperCase() : ''
@@ -47,26 +41,8 @@ export const Pricing = () => {
         </p>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex gap-1">
-          <Badge
-            variant={subscriptionMode === 'monthly' ? 'default' : 'outline'}
-            className="cursor-pointer"
-            onClick={() => setSubscriptionMode('monthly')}
-          >
-            {dictionary.home_prices.monthly}
-          </Badge>
-
-          <Badge
-            variant={subscriptionMode === 'yearly' ? 'default' : 'outline'}
-            className="cursor-not-allowed opacity-50"
-            // onClick={() => setSubscriptionMode('yearly')}
-          >
-            {dictionary.home_prices.yearly}
-          </Badge>
-        </div>
-
-        <ol className="grid-col-1 grid gap-8 lg:grid-cols-3 lg:gap-4">
+      <div className="flex flex-col items-center gap-4 mx-auto">
+        <ol className="grid-col-1 grid gap-8 lg:grid-cols-2 lg:gap-4">
           <Price.Root>
             <Price.Content>
               <Price.Header>
@@ -99,7 +75,7 @@ export const Pricing = () => {
 
           {user ? (
             <form
-              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}`}
+              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}`}
               method="POST"
             >
               <Price.Root>
@@ -129,16 +105,16 @@ export const Pricing = () => {
                 </Price.Content>
 
                 <Button
-                  type={user.subscription_type === 'PRO' ? 'button' : 'submit'}
-                  disabled={user.subscription_type !== 'MEMBER'}
+                  type={user.subscriptionType === 'PRO' ? 'button' : 'submit'}
+                  disabled={user.subscriptionType !== 'MEMBER'}
                 >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                          {user.image_path && (
+                          {user.imagePath && (
                             <AvatarImage
-                              src={tmdbImage(user.image_path, 'w500')}
+                              src={tmdbImage(user.imagePath, 'w500')}
                               className="object-cover"
                             />
                           )}
@@ -185,48 +161,10 @@ export const Pricing = () => {
               </Price.Content>
 
               <Button asChild type="button">
-                <Link href={`/${language}/login`}>Login</Link>
+                <Link href={`/${language}/sign-in`}>Login</Link>
               </Button>
             </Price.Root>
           )}
-
-          <Price.Root>
-            <Price.Content>
-              <Price.Header>
-                <Price.Label>
-                  {dictionary.home_prices.patreon_plan.title}
-                </Price.Label>
-                <Price.Value>
-                  {dictionary.home_prices.patreon_plan.price}
-                </Price.Value>
-
-                <Skeleton className="h-[2ex] w-full" />
-                <Skeleton className="h-[2ex] w-full" />
-              </Price.Header>
-
-              <Price.Benefits>
-                <Price.Benefit>
-                  <Skeleton className="h-[2ex] w-[20ch]" />
-                </Price.Benefit>
-
-                <Price.Benefit>
-                  <Skeleton className="h-[2ex] w-[20ch]" />
-                </Price.Benefit>
-
-                <Price.Benefit>
-                  <Skeleton className="h-[2ex] w-[20ch]" />
-                </Price.Benefit>
-
-                <Price.Benefit>
-                  <Skeleton className="h-[2ex] w-[20ch]" />
-                </Price.Benefit>
-              </Price.Benefits>
-            </Price.Content>
-
-            <Button disabled>
-              {dictionary.home_prices.patreon_plan.coming_soon}
-            </Button>
-          </Price.Root>
         </ol>
       </div>
     </section>

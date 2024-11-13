@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 import { Pattern } from '@/components/pattern'
 
-import { PageProps, Language } from '@/types/languages'
+import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { APP_URL } from '../../../constants'
@@ -11,16 +11,6 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { TopMovies } from './_components/top-movies'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
-
-export const homeMovies: Record<Language, string> = {
-  'en-US': '27205',
-  'es-ES': '1417',
-  'fr-FR': '194',
-  'de-DE': '582',
-  'it-IT': '637',
-  'pt-BR': '598',
-  'ja-JP': '129',
-}
 
 export async function generateMetadata({
   params: { lang },

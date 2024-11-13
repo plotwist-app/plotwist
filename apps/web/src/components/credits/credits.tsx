@@ -1,7 +1,7 @@
 import { CreditCard } from './credit-card'
 import { getDictionary } from '@/utils/dictionaries'
 import { Language } from '@/types/languages'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 export type CreditsProps = {
   variant: 'movie' | 'tv'

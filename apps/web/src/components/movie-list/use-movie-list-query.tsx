@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import { useLanguage } from '@/context/language'
 import { MovieListVariant } from './movie-list.types'
-import { DiscoverMovieFilters, tmdb } from '@plotwist/tmdb'
+import { DiscoverMovieFilters, tmdb } from '@/services/tmdb'
 
 const INITIAL_PAGE = 1
 

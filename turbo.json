@@ -31,11 +31,8 @@
   },
   "globalEnv": [
     "NEXT_PUBLIC_TMDB_API_KEY",
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
     "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
-    "STRIPE_SECRET_KEY",
-    "STRIPE_WEBHOOK_SECRET"
+    "STRIPE_SECRET_KEY"
   ],
   "globalDependencies": [
     "tsconfig.json",

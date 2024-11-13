@@ -57,28 +57,23 @@
       "benefits": [
         "プラットフォームへの完全アクセス",
         "無制限の評価",
-        "個人のリスト"
+        "個人用リスト"
       ],
       "start_now": "今すぐ始める"
     },
     "pro_plan": {
       "title": "商売人",
-      "price": "100円/月",
+      "price": "200円/月",
       "recommended": "おすすめ",
-      "description": "無料プランの全てに、より高い限度とカスタム設定をプラス。",
+      "description": "無料プランの全てに、さらに多くを！",
       "benefits": [
+        "支援される人のための組織化および制御ツール",
+        "あなたの好みと履歴に基づく個人的な推薦",
         "無制限のリスト",
-        "個人の好みに基づく個人的な推薦",
-        "自分のリストや他のメンバーのリストを複製",
-        "ユーザー名の変更"
+        "高度なパーソナライゼーション",
+        "実績とバッジ"
       ],
       "subscribe": "登録する"
-    },
-    "patreon_plan": {
-      "title": "Patreon",
-      "price": "1000円/月",
-      "description": "近日公開",
-      "coming_soon": "近日公開"
     }
   },
   "movies_list": {
@@ -240,7 +235,6 @@
   },
   "list_form": {
     "create_new_list": "新しいリストを作成",
-    "name": "名前",
     "name_placeholder": "マイリスト",
     "name_required": "リストの名前が必要です。",
     "description": "説明",
@@ -253,9 +247,7 @@
     "visibility_option_description_network": "友人のみ閲覧可能。",
     "visibility_option_description_private": "自分のみ閲覧可能。",
     "submit": "提出する",
-    "list_created_success": "リストが正常に作成されました！",
-    "edit_list": "リストを編集",
-    "list_edited_success": "リストが正常に編集されました。"
+    "edit_list": "リストを編集"
   },
   "list_page": {
     "list_not_found": "リストが見つかりませんでした。",
@@ -297,11 +289,6 @@
   "data_table_view_options": {
     "view": "表示",
     "toggle_columns": "列の切り替え"
-  },
-  "statuses": {
-    "pending": "保留中",
-    "watching": "視聴中",
-    "watched": "視聴済み"
   },
   "list_item_actions": {
     "use_as_cover": "カバーとして使用",
@@ -370,8 +357,8 @@
     "or": "または",
     "make_first_review": "して、最初のレビューを書きましょう！"
   },
-  "popular_reviews": {
-    "title": "人気のレビュー",
+  "latest_reviews": {
+    "title": "最近のレビュー",
     "no_reviews_found": "評価が見つかりませんでした。",
     "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。"
   },
@@ -619,7 +606,7 @@
   "my_lists": "マイリスト",
   "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
   "lists": "リスト",
-  "popular_lists": "人気のリスト",
+  "latest_lists": "最近のリスト",
   "last_week": "先週",
   "last_month": "先月",
   "all_time": "全期間",
@@ -686,7 +673,6 @@
   "continue_with_x": "Xで続行",
   "continue_with_email": "メールで続行",
   "or": "または",
-  "others_ways": "他の方法",
   "sign_up": "サインアップ",
   "login": "ログイン",
   "theme": "テーマ",
@@ -717,8 +703,24 @@
   "unexpected_error": "予期しないエラーが発生しました。",
   "reset_password_success": "パスワードが正常にリセットされました。",
   "reset_your_password": "パスワードをリセットする",
-  "username_invalid": "ユーザー名にスペースや特殊文字を含めることはできません",
   "new": "新しい",
   "roadmap": "ロードマップ",
-  "documentation": "ドキュメント"
+  "documentation": "ドキュメント",
+  "username_already_taken": "このユーザー名は既に使用されています。",
+  "list_created_success": "リストが正常に作成されました。",
+  "unable_to_create_list": "リストを作成できませんでした。",
+  "title": "タイトル",
+  "list_edited_successfully": "リストが正常に編集されました。",
+  "upgrade_list_message": "無制限のリストを利用するにはPROプランを購読してください。",
+  "activity": "アクティビティ",
+  "watched": "視聴済み",
+  "watching": "視聴中",
+  "watchlist": "ウォッチリスト",
+  "stats": "統計",
+  "where_to_watch": "視聴可能な場所",
+  "unavailable": "利用不可",
+  "watchlist_added": "ウォッチリストに追加しました！",
+  "watchlist_removed": "ウォッチリストから削除しました！",
+  "contain_spoilers": "ネタバレあり",
+  "no_lists_found": "リストは見つかりませんでした。"
 }

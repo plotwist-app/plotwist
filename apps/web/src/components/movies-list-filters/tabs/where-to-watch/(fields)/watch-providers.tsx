@@ -33,7 +33,7 @@ import { Button } from '@plotwist/ui/components/ui/button'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
-import { tmdb } from '@plotwist/tmdb'
+import { tmdb } from '@/services/tmdb'
 
 type Option = {
   value: number

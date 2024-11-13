@@ -2,12 +2,18 @@
 
 import { ListItem } from '@/types/supabase/lists'
 import { ListItemCard } from './list-item-card'
-import { ListCommand } from '../list-command'
+import { ListCommand } from '@/components/list-command'
 import { useListMode } from '@/context/list-mode'
-import { useEffect, useState } from 'react'
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, arrayMove } from '@dnd-kit/sortable'
-import { handleUpdateOrderInDatabase } from '@/services/api/lists/update-list-order'
+import { Plus } from 'lucide-react'
+import {
+  getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
+  usePostListItem,
+} from '@/api/list-item'
+import { useParams } from 'next/navigation'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { toast } from 'sonner'
+import { useLanguage } from '@/context/language'
 
 type ListItemsGridProps = {
   listItems: ListItem[]
@@ -19,63 +25,62 @@ export const ListItemsGrid = ({
   isEditable,
 }: ListItemsGridProps) => {
   const { mode } = useListMode()
-  const [selectedListItemId, setSelectedListItem] = useState<null | string>(
-    null,
-  )
-  useEffect(() => {
-    setItems(listItems)
-  }, [listItems])
-  const [items, setItems] = useState<ListItem[]>([])
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event
+  const listId = String(useParams().id)
 
-    if (over && active.id !== over.id) {
-      const oldIndex = listItems.findIndex((item) => item.id === active.id)
-      const newIndex = listItems.findIndex((item) => item.id === over.id)
+  const postListItem = usePostListItem()
+  const deleteListItem = useDeleteListItemId()
 
-      const newItems = arrayMove([...listItems], oldIndex, newIndex)
-      setItems(newItems)
-      await handleUpdateOrderInDatabase(listItems, oldIndex, newIndex)
-    }
-  }
+  const { dictionary, language } = useLanguage()
 
   return (
     <div>
       <div
         className={`grid grid-cols-3 gap-2 rounded-md ${isEditable ? 'border-2   p-1 md:grid-cols-5' : 'md:grid-cols-5'} transition-all duration-150 ease-in-out`}
       >
-        {isEditable ? (
-          <DndContext onDragEnd={handleDragEnd}>
-            <SortableContext items={items}>
-              {items.map((item) => (
-                <ListItemCard
-                  key={item.id}
-                  listItem={item}
-                  onClick={() => setSelectedListItem(item.id)}
-                  showOverlay={selectedListItemId === item.id}
-                  isEditable={isEditable}
-                />
-              ))}
-              {mode === 'EDIT' && (
-                <ListCommand variant="poster" listItems={listItems} />
-              )}
-            </SortableContext>
-          </DndContext>
-        ) : (
-          <SortableContext items={items}>
-            {items.map((item) => (
-              <ListItemCard
-                key={item.id}
-                listItem={item}
-                onClick={() => setSelectedListItem(item.id)}
-                showOverlay={selectedListItemId === item.id}
-                isEditable={isEditable}
-              />
-            ))}
-            {mode === 'EDIT' && (
-              <ListCommand variant="poster" listItems={listItems} />
-            )}
-          </SortableContext>
+        {listItems.map((item) => (
+          <ListItemCard key={item.id} listItem={item} />
+        ))}
+
+        {mode === 'EDIT' && (
+          <ListCommand
+            onAdd={(tmdbId, mediaType) =>
+              postListItem.mutate(
+                { data: { listId, mediaType, tmdbId } },
+                {
+                  onSuccess: async () => {
+                    await APP_QUERY_CLIENT.invalidateQueries({
+                      queryKey: getGetListItemsByListIdQueryKey(listId, {
+                        language,
+                      }),
+                    })
+
+                    toast.success(dictionary.list_command.movie_added_success)
+                  },
+                },
+              )
+            }
+            onRemove={(id) =>
+              deleteListItem.mutate(
+                { id },
+                {
+                  onSuccess: async () => {
+                    await APP_QUERY_CLIENT.invalidateQueries({
+                      queryKey: getGetListItemsByListIdQueryKey(listId, {
+                        language,
+                      }),
+                    })
+
+                    toast.success(dictionary.list_command.movie_removed_success)
+                  },
+                },
+              )
+            }
+            items={listItems}
+          >
+            <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
+              <Plus />
+            </div>
+          </ListCommand>
         )}
       </div>
     </div>

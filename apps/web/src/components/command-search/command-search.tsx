@@ -6,7 +6,7 @@ import {
   type MovieWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
-} from '@plotwist/tmdb'
+} from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
@@ -73,7 +73,7 @@ export const CommandSearch = () => {
     <>
       <Button
         variant="outline"
-        className="flex w-full flex-1 justify-between gap-2 pr-2 text-sm text-muted-foreground"
+        className="flex lg:flex-1 justify-between gap-2 px-3 text-sm text-muted-foreground"
         onClick={() => setOpen(true)}
       >
         {dictionary.sidebar_search.search_everything}

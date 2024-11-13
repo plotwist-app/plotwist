@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 import { Menu } from 'lucide-react'
 
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
 
 import {
   Drawer,
@@ -20,11 +19,11 @@ import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
 
-import { CommandSearch } from '../command-search'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
+import { useSession } from '@/context/session'
 
 export const HeaderNavigationDrawer = () => {
-  const { user } = useAuth()
+  const { user } = useSession()
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { language, dictionary } = useLanguage()
@@ -55,7 +54,7 @@ export const HeaderNavigationDrawer = () => {
                 </Button>
 
                 <Button size="default" asChild>
-                  <Link href={`/${language}/login`}>{dictionary.login}</Link>
+                  <Link href={`/${language}/sign-in`}>{dictionary.login}</Link>
                 </Button>
               </div>
             )}
@@ -73,8 +72,6 @@ export const HeaderNavigationDrawer = () => {
                 })}
               </nav>
             </Accordion>
-
-            <CommandSearch />
           </div>
         </div>
       </DrawerContent>

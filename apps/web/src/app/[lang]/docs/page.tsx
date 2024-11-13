@@ -8,7 +8,6 @@ export default async function Page({ params }: PageProps) {
     const Content = (await import(`./_content/${params.lang}.mdx`)).default
     return <Content />
   } catch (error) {
-    console.log({ error })
     notFound()
   }
 }

@@ -1,4 +1,4 @@
-import { Movie } from '@plotwist/tmdb'
+import { Movie } from '@/services/tmdb'
 
 export const movie: Movie = {
   adult: false,

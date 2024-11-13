@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback } from 'react'
-import { toast } from 'sonner'
 import { ExternalLink, Image, MoreVertical, Trash } from 'lucide-react'
+import Link from 'next/link'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -13,17 +13,19 @@ import {
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
-import { useLists } from '@/context/lists'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { useAuth } from '@/context/auth'
-
-import { listPageQueryKey } from '@/utils/list'
-
-import type { List, ListItem } from '@/types/supabase/lists'
-import { useListItem } from '@/hooks/use-list-item'
+import { useSession } from '@/context/session'
 import { useListMode } from '@/context/list-mode'
-import Link from 'next/link'
+
+import type { ListItem } from '@/types/supabase/lists'
+import {
+  getGetListItemsByListIdQueryKey,
+  useDeleteListItemId,
+} from '@/api/list-item'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { toast } from 'sonner'
+import { getGetListsQueryKey, usePatchListBanner } from '@/api/list'
+import { useRouter } from 'next/navigation'
 
 type ListItemActionsProps = {
   listItem: ListItem
@@ -36,54 +38,41 @@ export const ListItemActions = ({
   openDropdown,
   setOpenDropdown,
 }: ListItemActionsProps) => {
-  const { handleChangeListCoverPath } = useLists()
-  const { handleDelete } = useListItem(listItem)
+  const deleteListItem = useDeleteListItemId()
+  const patchBanner = usePatchListBanner()
 
-  const { user } = useAuth()
+  const { user } = useSession()
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
+  const { refresh } = useRouter()
 
   const handleChangeBackdrop = useCallback(async () => {
     if (!user) return
 
-    const variables = {
-      listId: listItem.list_id,
-      newCoverPath: listItem.backdrop_path,
-    }
-
-    await handleChangeListCoverPath.mutateAsync(variables, {
-      onSuccess: () => {
-        APP_QUERY_CLIENT.setQueryData(
-          listPageQueryKey(listItem.list_id),
-          (query: List) => {
-            const newQuery = {
-              ...query,
-              cover_path: variables.newCoverPath,
-            }
-
-            return newQuery
-          },
-        )
-
-        APP_QUERY_CLIENT.setQueryData(['lists', user.id], (query: List[]) => {
-          const newData = query.map((list) => {
-            if (list.id === variables.listId) {
-              return {
-                ...list,
-                cover_path: variables.newCoverPath,
-              }
-            }
-
-            return list
+    await patchBanner.mutateAsync(
+      {
+        data: { bannerPath: listItem.backdropPath!, listId: listItem.listId },
+      },
+      {
+        onSuccess: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetListsQueryKey(),
           })
 
-          return newData
-        })
+          refresh()
 
-        toast.success(dictionary.list_item_actions.cover_changed_successfully)
+          toast.success(dictionary.list_item_actions.cover_changed_successfully)
+        },
       },
-    })
-  }, [dictionary, handleChangeListCoverPath, listItem, user])
+    )
+  }, [
+    dictionary,
+    listItem.backdropPath,
+    listItem.listId,
+    patchBanner,
+    refresh,
+    user,
+  ])
 
   return (
     <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
@@ -98,7 +87,7 @@ export const ListItemActions = ({
           <>
             <DropdownMenuItem className="p-0">
               <Link
-                href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+                href={`/${language}/${listItem.mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdbId}`}
                 className="flex items-center px-2 py-1.5"
               >
                 <ExternalLink size={14} className="mr-2" />
@@ -117,7 +106,25 @@ export const ListItemActions = ({
             <DropdownMenuSub>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => handleDelete.mutate()}
+                onClick={() =>
+                  deleteListItem.mutateAsync(
+                    { id: listItem.id },
+                    {
+                      onSuccess: async () => {
+                        await APP_QUERY_CLIENT.invalidateQueries({
+                          queryKey: getGetListItemsByListIdQueryKey(
+                            listItem.listId,
+                            { language },
+                          ),
+                        })
+
+                        toast.success(
+                          dictionary.list_item_actions.removed_successfully,
+                        )
+                      },
+                    },
+                  )
+                }
               >
                 <Trash size={16} className="mr-2 " />
 
@@ -128,7 +135,7 @@ export const ListItemActions = ({
         ) : (
           <DropdownMenuItem className=" p-0">
             <Link
-              href={`/${language}/${listItem.media_type === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdb_id}`}
+              href={`/${language}/${listItem.mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${listItem.tmdbId}`}
               className="flex items-center px-2 py-1.5"
             >
               <ExternalLink size={16} className="mr-2" />

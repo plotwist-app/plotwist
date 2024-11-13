@@ -1,5 +1,5 @@
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
-import { Language } from '@plotwist/tmdb'
+import { Language } from '@/services/tmdb'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export async function GET(request: Request) {

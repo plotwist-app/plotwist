@@ -1,120 +1,87 @@
 'use client'
 
-import { Eye, List, Star } from 'lucide-react'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@plotwist/ui/components/ui/tabs'
-import { ProfileReviews } from './profile-reviews'
-import { ProfileLists } from './profile-lists'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Profile } from '@/types/supabase'
+import { Activity, Check, Clock, List, Loader, Star } from 'lucide-react'
+import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import { useLanguage } from '@/context/language'
-import { useCallback } from 'react'
+import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { usePathname } from 'next/navigation'
+import { useMemo } from 'react'
+import Link from 'next/link'
 
 type ProfileTabsProps = {
-  profile: Profile
+  user: GetUsersUsername200User
 }
 
-export const ProfileTabs = ({ profile }: ProfileTabsProps) => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+export const ProfileTabs = ({ user }: ProfileTabsProps) => {
+  const { dictionary, language } = useLanguage()
   const pathname = usePathname()
-  const { dictionary } = useLanguage()
 
-  const tab = searchParams.get('tab') ?? 'reviews'
+  const value = useMemo(() => {
+    if (pathname.split('/').length === 3) {
+      return 'activity'
+    }
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
-
-  function handleTabChange(tab: string) {
-    router.push(pathname + '?' + createQueryString('tab', tab), {
-      scroll: false,
-    })
-  }
+    return pathname.split('/')[3]
+  }, [pathname])
 
   return (
-    <Tabs defaultValue="reviews" value={tab} className="w-full">
+    <Tabs defaultValue="activity" value={value} className="w-full">
       <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         <TabsList>
-          <TabsTrigger
-            onClick={() => handleTabChange('reviews')}
-            value="reviews"
-          >
-            <Star className="mr-1" width={12} height={12} />
-            {dictionary.profile.reviews}
+          <TabsTrigger value="activity" asChild>
+            <Link href={`/${language}/${user.username}`}>
+              <Activity className="mr-1" size={12} />
+              {dictionary.activity}
+            </Link>
           </TabsTrigger>
 
-          <TabsTrigger onClick={() => handleTabChange('lists')} value="lists">
-            <List className="mr-1" width={12} height={12} />
-            {dictionary.profile.lists}
+          <TabsTrigger value="watched" asChild>
+            <Link href={`/${language}/${user.username}/watched`}>
+              <Check className="mr-1" size={12} />
+              {dictionary.watched}
+            </Link>
           </TabsTrigger>
 
-          <TabsTrigger
-            onClick={() => handleTabChange('watched')}
-            value="watched"
-          >
-            <Eye className="mr-1" width={12} height={12} />
-            Assistidos
+          <TabsTrigger value="watching" asChild>
+            <Link href={`/${language}/${user.username}/watching`}>
+              <Loader className="mr-1" size={12} />
+              {dictionary.watching}
+            </Link>
           </TabsTrigger>
 
-          {/* {mode === 'EDIT' && (
-            <TabsTrigger
-              onClick={() => handleTabChange('recommendations')}
-              value="recommendations"
-            >
-              <Forward className="mr-1" width={12} height={12} />
-              {dictionary.profile.recommendations}
-            </TabsTrigger>
-          )} */}
+          <TabsTrigger value="watchlist" asChild>
+            <Link href={`/${language}/${user.username}/watchlist`}>
+              <Clock className="mr-1" size={12} />
+              {dictionary.watchlist}
+            </Link>
+          </TabsTrigger>
 
-          {/* <TabsTrigger
-            onClick={() => handleTabChange('achievements')}
-            value="achievements"
-          >
-            <Award className="mr-1" width={12} height={12} />
+          <TabsTrigger value="lists" asChild>
+            <Link href={`/${language}/${user.username}/lists`}>
+              <List className="mr-1" size={12} />
+              {dictionary.profile.lists}
+            </Link>
+          </TabsTrigger>
+
+          <TabsTrigger value="reviews" asChild>
+            <Link href={`/${language}/${user.username}/reviews`}>
+              <Star className="mr-1" size={12} />
+              {dictionary.profile.reviews}
+            </Link>
+          </TabsTrigger>
+
+          {/* <TabsTrigger value="achievements" disabled>
+            <Award className="mr-1" size={12} />
+
             {dictionary.profile.achievements}
-          </TabsTrigger> */}
+          </TabsTrigger>
 
-          {/* <TabsTrigger
-            onClick={() => handleTabChange('communities')}
-            value="communities"
-            disabled
-          >
-            <Users className="mr-1" width={12} height={12} />
-
-            {dictionary.profile.communities}
+          <TabsTrigger value="achievements" disabled>
+            <BarChartHorizontalBig className="mr-1" size={12} />
+            {dictionary.stats}
           </TabsTrigger> */}
         </TabsList>
       </div>
-
-      <TabsContent value="reviews" className="mt-4">
-        <ProfileReviews profile={profile} />
-      </TabsContent>
-
-      <TabsContent value="lists" className="mt-4">
-        <ProfileLists userId={profile.id} />
-      </TabsContent>
-
-      {/* {mode === 'EDIT' && (
-        <TabsContent value="recommendations" className="mt-4">
-          <ProfileRecommendations userId={profile.id} />
-        </TabsContent>
-      )} */}
-
-      {/* 
-      <TabsContent value="achievements" className="mt-4">
-        <ProfileAchievements dictionary={dictionary} />
-      </TabsContent> */}
     </Tabs>
   )
 }
