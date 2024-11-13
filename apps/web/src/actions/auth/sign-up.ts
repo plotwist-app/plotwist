@@ -1,6 +1,6 @@
 'use server'
 
-import { PostUsersCreateBody } from '@/api/endpoints.schemas'
+import type { PostUsersCreateBody } from '@/api/endpoints.schemas'
 import { postUsersCreate } from '@/api/users'
 import { signIn } from './sign-in'
 

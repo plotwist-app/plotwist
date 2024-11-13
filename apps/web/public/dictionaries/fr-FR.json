@@ -592,6 +592,12 @@
     "title": "Aime",
     "view_profile": "Voir le profil"
   },
+  "legacy_user": {
+    "title": "Réinitialisation du mot de passe",
+    "description": "Nous avons mis à jour notre système et, pour votre sécurité, il est nécessaire de réinitialiser votre mot de passe. Nous avons envoyé des instructions à votre adresse e-mail enregistrée.",
+    "resend_email": "Renvoyer l'e-mail",
+    "agree": "J'ai compris"
+  },
   "access_button": "Accéder",
   "access_now": "Accede ahora",
   "create_account": "Crear una cuenta",

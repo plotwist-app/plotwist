@@ -591,6 +591,12 @@
     "title": "Piace",
     "view_profile": "Vedi profilo"
   },
+  "legacy_user": {
+    "title": "Reimpostazione della password",
+    "description": "Abbiamo aggiornato il nostro sistema e, per la tua sicurezza, è necessario reimpostare la password. Abbiamo inviato le istruzioni alla tua e-mail registrata.",
+    "resend_email": "Reinvia e-mail",
+    "agree": "Ho capito"
+  },
   "access_button": "Accedi",
   "access_now": "Accedi ora",
   "create_account": "Creare un account",

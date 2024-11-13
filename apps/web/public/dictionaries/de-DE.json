@@ -594,6 +594,12 @@
     "title": "Likes",
     "view_profile": "Profil anzeigen"
   },
+  "legacy_user": {
+    "title": "Passwort zurücksetzen",
+    "description": "Wir haben unser System aktualisiert und aus Sicherheitsgründen ist es notwendig, Ihr Passwort zurückzusetzen. Wir haben Anweisungen an Ihre registrierte E-Mail-Adresse gesendet.",
+    "resend_email": "E-Mail erneut senden",
+    "agree": "Verstanden"
+  },
   "access_button": "Zugreifen",
   "access_now": "Jetzt zugreifen",
   "create_account": "Benutzerkonto erstellen",
