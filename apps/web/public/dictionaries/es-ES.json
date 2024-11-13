@@ -357,8 +357,8 @@
     "or": "o",
     "make_first_review": "para hacer tu primera reseña!"
   },
-  "popular_reviews": {
-    "title": "Reseñas populares",
+  "latest_reviews": {
+    "title": "Reseñas recientes",
     "no_reviews_found": "No encontramos ninguna evaluación.",
     "explore_popular_movies": "Explora películas populares y danos tu opinión."
   },
@@ -606,7 +606,7 @@
   "my_lists": "Mis listas",
   "manage_your_lists": "Gestiona tus listas y compártelas con otros miembros!",
   "lists": "Listas",
-  "popular_lists": "Listas populares",
+  "latest_lists": "Listas recientes",
   "last_week": "Última semana",
   "last_month": "Último mes",
   "all_time": "Todo el tiempo",
@@ -721,5 +721,6 @@
   "unavailable": "No disponible",
   "watchlist_added": "¡Añadido a la Watchlist!",
   "watchlist_removed": "¡Eliminado de la Watchlist!",
-  "contain_spoilers": "Contiene spoilers"
+  "contain_spoilers": "Contiene spoilers",
+  "no_lists_found": "No encontramos ninguna lista."
 }

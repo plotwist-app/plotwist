@@ -1,8 +1,6 @@
 'use client'
 
-import Link from 'next/link'
 import { DialogTitle } from '@radix-ui/react-dialog'
-import { useQuery } from '@tanstack/react-query'
 
 import {
   Dialog,
@@ -12,19 +10,9 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
-import { ProBadge } from '@/components/pro-badge'
-
 import { useLanguage } from '@/context/language'
 
 import { cn } from '@/lib/utils'
-
-import { getLikesService } from '@/services/api/likes/get-likes'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 type ReviewLikes = {
   reviewId: string
@@ -32,12 +20,13 @@ type ReviewLikes = {
 }
 
 export function ReviewLikes({ reviewId, className }: ReviewLikes) {
-  const { language, dictionary } = useLanguage()
-  const { data: likes } = useQuery({
-    queryKey: ['likes', reviewId],
-    queryFn: async () =>
-      getLikesService({ id: reviewId, entityType: 'REVIEW' }),
-  })
+  const { dictionary } = useLanguage()
+
+  const likes = {
+    count: 0,
+    data: {},
+    reviewId,
+  }
 
   if (!likes) {
     return (
@@ -77,7 +66,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
             </div>
           ))}
 
-        {likes.data?.map((likeInfo) => (
+        {/* {likes.data?.map((likeInfo) => (
           <div key={likeInfo.profiles?.id} className="flex items-center">
             <Link
               href={`/${language}/${likeInfo.profiles?.username}`}
@@ -114,7 +103,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
               {dictionary.review_likes.view_profile}
             </Link>
           </div>
-        ))}
+        ))} */}
       </DialogContent>
     </Dialog>
   )

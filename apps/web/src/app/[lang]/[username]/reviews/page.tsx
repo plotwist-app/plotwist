@@ -1,5 +1,5 @@
 import { getUsersUsername } from '@/api/users'
-import { ProfileReviews } from '../_components/profile-reviews'
+import { Reviews } from './_reviews'
 
 export default async function ReviewsPage({
   params,
@@ -8,5 +8,5 @@ export default async function ReviewsPage({
 }) {
   const { user } = await getUsersUsername(params.username)
 
-  return <ProfileReviews userId={user.id} />
+  return <Reviews userId={user.id} />
 }

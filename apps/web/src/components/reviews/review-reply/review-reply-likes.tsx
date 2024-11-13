@@ -1,11 +1,9 @@
-import { getLikesService } from '@/services/api/likes/get-likes'
-import { useQuery } from '@tanstack/react-query'
-
 export function ReviewReplyLikes({ replyId }: { replyId: string }) {
-  const { data: likes } = useQuery({
-    queryKey: ['likes', replyId],
-    queryFn: async () => getLikesService({ id: replyId, entityType: 'REPLY' }),
-  })
+  const likes = {
+    count: 0,
+    data: {},
+    replyId,
+  }
 
   if (!likes?.data) {
     return (

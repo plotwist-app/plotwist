@@ -1,17 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { useQuery } from '@tanstack/react-query'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-
-import { getUserLastReviewService } from '@/services/api/reviews/get-user-last-review'
 
 import {
   FullReview,
   FullReviewSkeleton,
 } from '@/components/full-review/full-review'
+import { useGetDetailedReviews } from '@/api/reviews'
 
 export const EmptyReview = () => {
   const { language, dictionary } = useLanguage()
@@ -34,9 +32,10 @@ export const UserLastReview = () => {
   const { user } = useSession()
   const { language, dictionary } = useLanguage()
 
-  const { data: lastReview, isLoading } = useQuery({
-    queryKey: ['user-last-review'],
-    queryFn: async () => getUserLastReviewService(user?.id ?? ''),
+  const { data, isLoading } = useGetDetailedReviews({
+    language,
+    userId: user?.id,
+    limit: '1',
   })
 
   if (!user) {
@@ -68,7 +67,7 @@ export const UserLastReview = () => {
     )
   }
 
-  if (!lastReview) {
+  if (!data) {
     return (
       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.user_last_review.no_review_message}</p>
@@ -89,7 +88,7 @@ export const UserLastReview = () => {
         {dictionary.user_last_review.title}
       </h3>
 
-      <FullReview review={lastReview} language={language} />
+      <FullReview review={data.reviews[0]} language={language} />
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { PosterCard } from '@/components/poster-card'
 import { Container } from '../_components/container'
 
 import { UserLastReview } from './_components/user-last-review'
-import { PopularReviews } from './_components/popular-reviews'
+import { LatestReviews } from './_components/latest-reviews'
 
 import { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -69,7 +69,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />
-          <PopularReviews />
+          <LatestReviews />
         </div>
 
         <div className="mt-0 space-y-8">

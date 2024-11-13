@@ -1,16 +1,12 @@
 'use client'
 
 import { ComponentProps } from 'react'
-import { toast } from 'sonner'
-import { useQuery } from '@tanstack/react-query'
 
 import { cn } from '@/lib/utils'
-import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
-import { useLike } from '@/hooks/use-like'
 import { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
@@ -47,82 +43,16 @@ const ReviewItemAction = ({
 export const ReviewItemActions = ({
   openReplyForm,
   setOpenReplyForm,
-  review,
 }: ReviewItemActionsProps) => {
   const { user } = useSession()
-  const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
 
-  const { data: likes } = useQuery({
-    queryKey: ['likes', review.id],
-    queryFn: async () =>
-      getLikeByUserService({
-        userId: user?.id,
-        entityType: 'REVIEW',
-        id: review.id,
-      }),
-  })
-
-  const userLike = likes?.data?.find((like) => like.user_id === user?.id)
-  const isUserLiked = Boolean(userLike)
-
-  const isLikeDisabled = isUserLiked
-    ? handleRemoveLike.isPending
-    : handleLike.isPending
-
   if (!user) return null
-
-  function handleLikeClick() {
-    if (!user) return
-
-    handleLike.mutate(
-      {
-        reviewId: review.id,
-        userId: user.id,
-        entityType: 'REVIEW',
-      },
-      {
-        onSuccess: () => {},
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      },
-    )
-  }
-
-  function handleDeleteLikeClick() {
-    if (!user) return
-
-    handleRemoveLike.mutate(
-      {
-        reviewId: review.id,
-        userId: user.id,
-        entityType: 'REVIEW',
-      },
-      {
-        onSuccess: () => {},
-        onError: (error) => {
-          toast.error(error.message)
-        },
-      },
-    )
-  }
 
   return (
     <div>
       <div className="flex items-center space-x-2">
-        <ReviewItemAction
-          active={isUserLiked}
-          disabled={true || isLikeDisabled}
-          onClick={() => {
-            if (isUserLiked) {
-              handleDeleteLikeClick()
-              return
-            }
-
-            handleLikeClick()
-          }}
-        >
+        <ReviewItemAction active={false} disabled={true} onClick={() => {}}>
           {dictionary.review_item_actions.like}
         </ReviewItemAction>
 

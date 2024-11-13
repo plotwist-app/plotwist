@@ -357,8 +357,8 @@
     "or": "または",
     "make_first_review": "して、最初のレビューを書きましょう！"
   },
-  "popular_reviews": {
-    "title": "人気のレビュー",
+  "latest_reviews": {
+    "title": "最近のレビュー",
     "no_reviews_found": "評価が見つかりませんでした。",
     "explore_popular_movies": "人気の映画を探索して、ご意見をお聞かせください。"
   },
@@ -606,7 +606,7 @@
   "my_lists": "マイリスト",
   "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
   "lists": "リスト",
-  "popular_lists": "人気のリスト",
+  "latest_lists": "最近のリスト",
   "last_week": "先週",
   "last_month": "先月",
   "all_time": "全期間",
@@ -721,5 +721,6 @@
   "unavailable": "利用不可",
   "watchlist_added": "ウォッチリストに追加しました！",
   "watchlist_removed": "ウォッチリストから削除しました！",
-  "contain_spoilers": "ネタバレあり"
+  "contain_spoilers": "ネタバレあり",
+  "no_lists_found": "リストは見つかりませんでした。"
 }

@@ -4,7 +4,11 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -17,428 +21,271 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
   GetListItemsByListId200Item,
   GetListItemsByListIdParams,
   PostListItem201,
-  PostListItemBody,
+  PostListItemBody
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
+
+
+
 
 /**
  * Create list item
  */
-export const postListItem = (postListItemBody: PostListItemBody) => {
-  return axiosInstance<PostListItem201>({
-    url: `/list-item`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: postListItemBody,
-  })
-}
+export const postListItem = (
+    postListItemBody: PostListItemBody,
+ ) => {
+      
+      
+      return axiosInstance<PostListItem201>(
+      {url: `/list-item`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postListItemBody
+    },
+      );
+    }
+  
 
-export const getPostListItemMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postListItem>>,
-    TError,
-    { data: PostListItemBody },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postListItem>>,
-  TError,
-  { data: PostListItemBody },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postListItem>>,
-    { data: PostListItemBody }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getPostListItemMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postListItem>>, TError,{data: PostListItemBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postListItem>>, TError,{data: PostListItemBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return postListItem(data)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type PostListItemMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postListItem>>
->
-export type PostListItemMutationBody = PostListItemBody
-export type PostListItemMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postListItem>>, {data: PostListItemBody}> = (props) => {
+          const {data} = props ?? {};
 
-export const usePostListItem = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postListItem>>,
-    TError,
-    { data: PostListItemBody },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof postListItem>>,
-  TError,
-  { data: PostListItemBody },
-  TContext
-> => {
-  const mutationOptions = getPostListItemMutationOptions(options)
+          return  postListItem(data,)
+        }
 
-  return useMutation(mutationOptions)
-}
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostListItemMutationResult = NonNullable<Awaited<ReturnType<typeof postListItem>>>
+    export type PostListItemMutationBody = PostListItemBody
+    export type PostListItemMutationError = unknown
+
+    export const usePostListItem = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postListItem>>, TError,{data: PostListItemBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postListItem>>,
+        TError,
+        {data: PostListItemBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPostListItemMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Create list item
  */
 export const getListItemsByListId = (
-  listId: string,
-  params: GetListItemsByListIdParams,
-  signal?: AbortSignal,
+    listId: string,
+    params?: GetListItemsByListIdParams,
+ signal?: AbortSignal
 ) => {
-  return axiosInstance<GetListItemsByListId200Item[]>({
-    url: `/list-items/by/${listId}`,
-    method: 'GET',
-    params,
-    signal,
-  })
+      
+      
+      return axiosInstance<GetListItemsByListId200Item[]>(
+      {url: `/list-items/by/${listId}`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetListItemsByListIdQueryKey = (listId: string,
+    params?: GetListItemsByListIdParams,) => {
+    return [`/list-items/by/${listId}`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetListItemsByListIdQueryOptions = <TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListItemsByListId>>> = ({ signal }) => getListItemsByListId(listId,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(listId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export const getGetListItemsByListIdQueryKey = (
-  listId: string,
-  params: GetListItemsByListIdParams,
-) => {
-  return [`/list-items/by/${listId}`, ...(params ? [params] : [])] as const
-}
-
-export const getGetListItemsByListIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId, params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getListItemsByListId>>
-  > = ({ signal }) => getListItemsByListId(listId, params, signal)
-
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!listId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getListItemsByListId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
-
-export type GetListItemsByListIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getListItemsByListId>>
->
+export type GetListItemsByListIdQueryResult = NonNullable<Awaited<ReturnType<typeof getListItemsByListId>>>
 export type GetListItemsByListIdQueryError = unknown
 
-export function useGetListItemsByListId<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetListItemsByListId<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params: undefined |  GetListItemsByListIdParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getListItemsByListId>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetListItemsByListId<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListItemsByListId<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getListItemsByListId>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetListItemsByListId<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+        > , 'initialData'
+      >, }
 
-export function useGetListItemsByListId<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetListItemsByListIdQueryOptions(
-    listId,
-    params,
-    options,
-  )
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListItemsByListId<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-  query.queryKey = queryOptions.queryKey
+export function useGetListItemsByListId<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 
-  return query
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListItemsByListIdQueryOptions(listId,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
 
-export const getGetListItemsByListIdSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
+
+
+export const getGetListItemsByListIdSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId, params)
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getListItemsByListId>>
-  > = ({ signal }) => getListItemsByListId(listId, params, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetListItemsByListIdQueryKey(listId,params);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!listId,
-    ...queryOptions,
-  } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof getListItemsByListId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListItemsByListId>>> = ({ signal }) => getListItemsByListId(listId,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(listId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetListItemsByListIdSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getListItemsByListId>>
->
+export type GetListItemsByListIdSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getListItemsByListId>>>
 export type GetListItemsByListIdSuspenseQueryError = unknown
 
-export function useGetListItemsByListIdSuspense<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options: {
-    query: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetListItemsByListIdSuspense<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetListItemsByListIdSuspense<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetListItemsByListIdSuspense<
-  TData = Awaited<ReturnType<typeof getListItemsByListId>>,
-  TError = unknown,
->(
-  listId: string,
-  params: GetListItemsByListIdParams,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getListItemsByListId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetListItemsByListIdSuspenseQueryOptions(
-    listId,
-    params,
-    options,
-  )
+export function useGetListItemsByListIdSuspense<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params: undefined |  GetListItemsByListIdParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListItemsByListIdSuspense<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 
-  query.queryKey = queryOptions.queryKey
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListItemsByListIdSuspense<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
 
-  return query
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetListItemsByListIdSuspense<TData = Awaited<ReturnType<typeof getListItemsByListId>>, TError = unknown>(
+ listId: string,
+    params?: GetListItemsByListIdParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListItemsByListId>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListItemsByListIdSuspenseQueryOptions(listId,params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * Delete list item
  */
-export const deleteListItemId = (id: string) => {
-  return axiosInstance<void>({ url: `/list-item/${id}`, method: 'DELETE' })
-}
+export const deleteListItemId = (
+    id: string,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/list-item/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
 
-export const getDeleteListItemIdMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteListItemId>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deleteListItemId>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof deleteListItemId>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {}
+export const getDeleteListItemIdMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteListItemId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteListItemId>>, TError,{id: string}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return deleteListItemId(id)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type DeleteListItemIdMutationResult = NonNullable<
-  Awaited<ReturnType<typeof deleteListItemId>>
->
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteListItemId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
 
-export type DeleteListItemIdMutationError = unknown
+          return  deleteListItemId(id,)
+        }
 
-export const useDeleteListItemId = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteListItemId>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof deleteListItemId>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationOptions = getDeleteListItemIdMutationOptions(options)
+        
 
-  return useMutation(mutationOptions)
-}
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteListItemIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteListItemId>>>
+    
+    export type DeleteListItemIdMutationError = unknown
+
+    export const useDeleteListItemId = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteListItemId>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteListItemId>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteListItemIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

@@ -1,17 +1,16 @@
 'use client'
 
 import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
-import { Badge } from '@plotwist/ui/components/ui/badge'
 import { useLanguage } from '@/context/language'
 import { useMemo } from 'react'
 import { useGetLists } from '@/api/list'
 
-export const PopularLists = () => {
+export const LatestLists = () => {
   const { dictionary } = useLanguage()
-  const { data } = useGetLists()
+  const { data, isLoading } = useGetLists()
 
   const content = useMemo(() => {
-    if (!data)
+    if (isLoading)
       return (
         <li className="flex flex-col gap-6">
           {Array.from({ length: 3 }).map((_, index) => (
@@ -20,6 +19,14 @@ export const PopularLists = () => {
         </li>
       )
 
+    if (!data?.lists.length) {
+      return (
+        <div className="w-full h-[300px] flex items-center justify-center border border-dashed rounded-sm">
+          {dictionary.no_lists_found}
+        </div>
+      )
+    }
+
     return (
       <li className="flex flex-col gap-6">
         {data.lists.map((list) => (
@@ -27,24 +34,12 @@ export const PopularLists = () => {
         ))}
       </li>
     )
-  }, [data])
+  }, [data, isLoading, dictionary])
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h2 className="text-xl font-bold">{dictionary.popular_lists}</h2>
-
-        <div className="flex gap-2">
-          <Badge variant="outline" className="cursor-not-allowed opacity-50">
-            {dictionary.last_week}
-          </Badge>
-
-          <Badge variant="outline" className="cursor-not-allowed opacity-50">
-            {dictionary.last_month}
-          </Badge>
-
-          <Badge>{dictionary.all_time}</Badge>
-        </div>
+        <h2 className="text-xl font-bold">{dictionary.latest_lists}</h2>
       </div>
 
       {content}

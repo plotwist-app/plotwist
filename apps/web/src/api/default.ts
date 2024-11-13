@@ -4,7 +4,10 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useQuery,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -14,195 +17,142 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
 
-export const getHealthcheck = (signal?: AbortSignal) => {
-  return axiosInstance<void>({ url: `/healthcheck`, method: 'GET', signal })
-}
+
+
+
+export const getHealthcheck = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/healthcheck`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getGetHealthcheckQueryKey = () => {
-  return [`/healthcheck`] as const
+    return [`/healthcheck`] as const;
+    }
+
+    
+export const getGetHealthcheckQueryOptions = <TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetHealthcheckQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({ signal }) => getHealthcheck(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export const getGetHealthcheckQueryOptions = <
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getGetHealthcheckQueryKey()
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({
-    signal,
-  }) => getHealthcheck(signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getHealthcheck>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
-}
-
-export type GetHealthcheckQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getHealthcheck>>
->
+export type GetHealthcheckQueryResult = NonNullable<Awaited<ReturnType<typeof getHealthcheck>>>
 export type GetHealthcheckQueryError = unknown
 
-export function useGetHealthcheck<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getHealthcheck>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetHealthcheck<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getHealthcheck>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetHealthcheck<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>
-  >
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetHealthcheck<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>
-  >
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHealthcheck>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHealthcheck>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
   const queryOptions = getGetHealthcheckQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey ;
 
-  return query
+  return query;
 }
 
-export const getGetHealthcheckSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof getHealthcheck>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetHealthcheckQueryKey()
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({
-    signal,
-  }) => getHealthcheck(signal)
+export const getGetHealthcheckSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof getHealthcheck>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetHealthcheckQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({ signal }) => getHealthcheck(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetHealthcheckSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getHealthcheck>>
->
+export type GetHealthcheckSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getHealthcheck>>>
 export type GetHealthcheckSuspenseQueryError = unknown
 
-export function useGetHealthcheckSuspense<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof getHealthcheck>>,
-      TError,
-      TData
-    >
-  >
-}): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetHealthcheckSuspense<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof getHealthcheck>>,
-      TError,
-      TData
-    >
-  >
-}): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetHealthcheckSuspense<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof getHealthcheck>>,
-      TError,
-      TData
-    >
-  >
-}): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetHealthcheckSuspense<
-  TData = Awaited<ReturnType<typeof getHealthcheck>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseSuspenseQueryOptions<
-      Awaited<ReturnType<typeof getHealthcheck>>,
-      TError,
-      TData
-    >
-  >
-}): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
   const queryOptions = getGetHealthcheckSuspenseQueryOptions(options)
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey ;
 
-  return query
+  return query;
 }
+
+
+

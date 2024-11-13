@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { toast } from 'sonner'
 import { DialogProps } from '@radix-ui/react-dialog'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
 
@@ -35,7 +34,6 @@ import { Reply } from '@/types/supabase/reviews'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useReplies } from '@/hooks/use-replies'
 import { ReplyFormValues, replyFormSchema } from '../review-reply-form'
 
 type ReplyEditActionsProps = { reply: Reply }
@@ -84,24 +82,10 @@ export const ReplyEditActions = ({ reply }: ReplyEditActionsProps) => {
 
 type EditActionDialogProps = Pick<ReplyEditActionsProps, 'reply'> & DialogProps
 const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
-  const { handleDeleteReply, invalidateQueries } = useReplies()
   const { dictionary } = useLanguage()
 
   function handleDeleteReviewClick() {
-    handleDeleteReply.mutate(reply.id, {
-      onSettled: async () => {
-        await invalidateQueries(reply.id)
-        toast.success('Reply deleted successfully')
-
-        if (dialogProps.onOpenChange) {
-          dialogProps.onOpenChange(false)
-        }
-      },
-
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    })
+    console.log({ reply })
   }
 
   return (
@@ -127,7 +111,7 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
           <Button
             variant="destructive"
             onClick={() => handleDeleteReviewClick()}
-            loading={handleDeleteReply.isPending}
+            loading={false}
           >
             {dictionary.delete}
           </Button>
@@ -140,7 +124,6 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
 const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
   const { user } = useSession()
-  const { handleEditReply, invalidateQueries } = useReplies()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -150,22 +133,7 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   })
 
   const onSubmit = (values: ReplyFormValues) => {
-    handleEditReply.mutate(
-      {
-        id: reply.id,
-        ...values,
-      },
-
-      {
-        onSettled: async () => {
-          await invalidateQueries(reply.id)
-
-          if (dialogProps.onOpenChange) {
-            dialogProps.onOpenChange(false)
-          }
-        },
-      },
-    )
+    console.log({ values })
   }
 
   const username = user?.username
@@ -215,10 +183,7 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
             </Button>
           </DialogClose>
 
-          <Button
-            onClick={form.handleSubmit(onSubmit)}
-            loading={handleEditReply.isPending}
-          >
+          <Button onClick={form.handleSubmit(onSubmit)} loading={false}>
             {dictionary.edit}
           </Button>
         </DialogFooter>

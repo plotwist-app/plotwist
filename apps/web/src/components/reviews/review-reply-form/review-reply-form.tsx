@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
@@ -19,8 +18,6 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { useLanguage } from '@/context/language'
 
 import { Dictionary } from '@/utils/dictionaries'
-
-import { useReplies } from '@/hooks/use-replies'
 
 import { MediaType } from '@/types/supabase/media-type'
 
@@ -55,8 +52,6 @@ export const ReviewReplyForm = ({
   onOpenReplyForm,
   onOpenReplies,
 }: ReviewReplyFormProps) => {
-  const { handleCreateReply } = useReplies()
-
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
@@ -70,23 +65,7 @@ export const ReviewReplyForm = ({
   if (!user) return <></>
 
   const onSubmit = async (values: ReplyFormValues) => {
-    await handleCreateReply.mutateAsync(
-      {
-        userId: user.id,
-        reply: values.reply,
-        reviewId,
-      },
-      {
-        onSettled: async () => {
-          toast.success(dictionary.review_reply_form.success)
-
-          form.reset()
-
-          onOpenReplies(true)
-          onOpenReplyForm(false)
-        },
-      },
-    )
+    console.log({ values, reviewId, onOpenReplyForm, onOpenReplies })
   }
 
   const username = user.username
