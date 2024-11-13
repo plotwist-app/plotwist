@@ -113,7 +113,7 @@ export const ReviewItemActions = ({
       <div className="flex items-center space-x-2">
         <ReviewItemAction
           active={isUserLiked}
-          disabled={isLikeDisabled}
+          disabled={true || isLikeDisabled}
           onClick={() => {
             if (isUserLiked) {
               handleDeleteLikeClick()
@@ -128,7 +128,10 @@ export const ReviewItemActions = ({
 
         <span className="h-1 w-1 rounded-full bg-muted-foreground" />
 
-        <ReviewItemAction onClick={() => setOpenReplyForm(!openReplyForm)}>
+        <ReviewItemAction
+          onClick={() => setOpenReplyForm(!openReplyForm)}
+          disabled={true}
+        >
           {dictionary.review_item_actions.reply}
         </ReviewItemAction>
       </div>

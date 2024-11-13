@@ -10,7 +10,7 @@ export function UserItems({ status }: UserItemsProps) {
         <UserItemsList status={status} />
       </section>
 
-      <div className="flex justify-between">
+      <div className="justify-between hidden">
         <Button size="sm" variant="outline">
           Newest
         </Button>

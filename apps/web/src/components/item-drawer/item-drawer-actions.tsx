@@ -8,7 +8,7 @@ import {
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { Clock, Eye, Image, List, Loader, Star } from 'lucide-react'
+import { Clock, Eye, Image, Loader, Star } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { ComponentProps, PropsWithChildren } from 'react'
 import { ItemDrawerProps } from './item-drawer'
@@ -147,10 +147,10 @@ export function ItemDrawerActions({ mediaType, tmdbId }: ItemDrawerProps) {
       </div>
 
       <div className="rounded-md border">
-        <ItemDrawerAction isDisabled>
+        {/* <ItemDrawerAction isDisabled>
           <List size={16} />
           Add to list
-        </ItemDrawerAction>
+        </ItemDrawerAction> */}
 
         <ItemDrawerAction isDisabled>
           <Star size={16} />

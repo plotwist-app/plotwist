@@ -247,7 +247,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
                           <Label
                             onClick={field.onChange}
                             htmlFor="has_spoilers"
-                            className="text-muted-foreground hover:cursor-pointer text-sm"
+                            className="text-muted-foreground hover:cursor-pointer text-sm whitespace-nowrap"
                           >
                             {dictionary.contain_spoilers}
                           </Label>
