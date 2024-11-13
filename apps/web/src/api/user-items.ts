@@ -20,8 +20,12 @@ import type {
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
 import type {
+  GetUserItem200,
+  GetUserItemParams,
   GetUserItems200Item,
   GetUserItemsParams,
+  PatchUserItemStatusById200,
+  PatchUserItemStatusByIdBody,
   PostUserItem201,
   PostUserItemBody,
 } from './endpoints.schemas'
@@ -95,6 +99,236 @@ export const usePostUserItem = <
 
   return useMutation(mutationOptions)
 }
+/**
+ * Get user item
+ */
+export const getUserItem = (
+  params: GetUserItemParams,
+  signal?: AbortSignal,
+) => {
+  return axiosInstance<GetUserItem200>({
+    url: `/user/item`,
+    method: 'GET',
+    params,
+    signal,
+  })
+}
+
+export const getGetUserItemQueryKey = (params: GetUserItemParams) => {
+  return [`/user/item`, ...(params ? [params] : [])] as const
+}
+
+export const getGetUserItemQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
+    >
+  },
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetUserItemQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItem>>> = ({
+    signal,
+  }) => getUserItem(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUserItem>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetUserItemQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserItem>>
+>
+export type GetUserItemQueryError = unknown
+
+export function useGetUserItem<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserItem>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserItem<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserItem>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserItem<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUserItem<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetUserItemQueryOptions(params, options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+export const getGetUserItemSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserItem>>,
+        TError,
+        TData
+      >
+    >
+  },
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetUserItemQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItem>>> = ({
+    signal,
+  }) => getUserItem(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof getUserItem>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetUserItemSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserItem>>
+>
+export type GetUserItemSuspenseQueryError = unknown
+
+export function useGetUserItemSuspense<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserItem>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserItemSuspense<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserItem>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserItemSuspense<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserItem>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUserItemSuspense<
+  TData = Awaited<ReturnType<typeof getUserItem>>,
+  TError = unknown,
+>(
+  params: GetUserItemParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserItem>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetUserItemSuspenseQueryOptions(params, options)
+
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
 /**
  * Get user items
  */
@@ -385,6 +619,77 @@ export const useDeleteUserItemId = <
   TContext
 > => {
   const mutationOptions = getDeleteUserItemIdMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+/**
+ * Get user item
+ */
+export const patchUserItemStatusById = (
+  id: string,
+  patchUserItemStatusByIdBody: PatchUserItemStatusByIdBody,
+) => {
+  return axiosInstance<PatchUserItemStatusById200>({
+    url: `/user/item/status/by/${id}`,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    data: patchUserItemStatusByIdBody,
+  })
+}
+
+export const getPatchUserItemStatusByIdMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserItemStatusById>>,
+    TError,
+    { id: string; data: PatchUserItemStatusByIdBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchUserItemStatusById>>,
+  TError,
+  { id: string; data: PatchUserItemStatusByIdBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchUserItemStatusById>>,
+    { id: string; data: PatchUserItemStatusByIdBody }
+  > = (props) => {
+    const { id, data } = props ?? {}
+
+    return patchUserItemStatusById(id, data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PatchUserItemStatusByIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUserItemStatusById>>
+>
+export type PatchUserItemStatusByIdMutationBody = PatchUserItemStatusByIdBody
+export type PatchUserItemStatusByIdMutationError = unknown
+
+export const usePatchUserItemStatusById = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserItemStatusById>>,
+    TError,
+    { id: string; data: PatchUserItemStatusByIdBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof patchUserItemStatusById>>,
+  TError,
+  { id: string; data: PatchUserItemStatusByIdBody },
+  TContext
+> => {
+  const mutationOptions = getPatchUserItemStatusByIdMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

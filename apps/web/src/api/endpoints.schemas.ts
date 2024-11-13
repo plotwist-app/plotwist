@@ -4,6 +4,54 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type PatchUserItemStatusById200 = {
+  userItem: PatchUserItemStatusById200UserItem
+}
+
+export type PatchUserItemStatusById200UserItemStatus =
+  (typeof PatchUserItemStatusById200UserItemStatus)[keyof typeof PatchUserItemStatusById200UserItemStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusById200UserItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PatchUserItemStatusById200UserItemMediaType =
+  (typeof PatchUserItemStatusById200UserItemMediaType)[keyof typeof PatchUserItemStatusById200UserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusById200UserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PatchUserItemStatusById200UserItem = {
+  addedAt: string
+  id: string
+  mediaType: PatchUserItemStatusById200UserItemMediaType
+  /** @nullable */
+  position: number | null
+  status: PatchUserItemStatusById200UserItemStatus
+  tmdbId: number
+  userId: string
+}
+
+export type PatchUserItemStatusByIdBodyStatus =
+  (typeof PatchUserItemStatusByIdBodyStatus)[keyof typeof PatchUserItemStatusByIdBodyStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUserItemStatusByIdBodyStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PatchUserItemStatusByIdBody = {
+  status: PatchUserItemStatusByIdBodyStatus
+}
+
 export type GetUserItems200ItemStatus =
   (typeof GetUserItems200ItemStatus)[keyof typeof GetUserItems200ItemStatus]
 
@@ -68,27 +116,86 @@ export type GetUserItemsParams = {
   language: GetUserItemsLanguage
 }
 
-export type PostUserItem201ListItemMediaType =
-  (typeof PostUserItem201ListItemMediaType)[keyof typeof PostUserItem201ListItemMediaType]
+export type GetUserItem200UserItemStatus =
+  (typeof GetUserItem200UserItemStatus)[keyof typeof GetUserItem200UserItemStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUserItem201ListItemMediaType = {
+export const GetUserItem200UserItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type GetUserItem200UserItemMediaType =
+  (typeof GetUserItem200UserItemMediaType)[keyof typeof GetUserItem200UserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItem200UserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
 
-export type PostUserItem201ListItem = {
-  createdAt: string
+export type GetUserItem200UserItem = {
+  addedAt: string
   id: string
-  listId: string
-  mediaType: PostUserItem201ListItemMediaType
+  mediaType: GetUserItem200UserItemMediaType
   /** @nullable */
   position: number | null
+  status: GetUserItem200UserItemStatus
   tmdbId: number
+  userId: string
+}
+
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem
+}
+
+export type GetUserItemMediaType =
+  (typeof GetUserItemMediaType)[keyof typeof GetUserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type GetUserItemParams = {
+  mediaType: GetUserItemMediaType
+  tmdbId: string
+}
+
+export type PostUserItem201UserItemStatus =
+  (typeof PostUserItem201UserItemStatus)[keyof typeof PostUserItem201UserItemStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItem201UserItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const
+
+export type PostUserItem201UserItemMediaType =
+  (typeof PostUserItem201UserItemMediaType)[keyof typeof PostUserItem201UserItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUserItem201UserItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type PostUserItem201UserItem = {
+  addedAt: string
+  id: string
+  mediaType: PostUserItem201UserItemMediaType
+  /** @nullable */
+  position: number | null
+  status: PostUserItem201UserItemStatus
+  tmdbId: number
+  userId: string
 }
 
 export type PostUserItem201 = {
-  listItem: PostUserItem201ListItem
+  userItem: PostUserItem201UserItem
 }
 
 export type PostUserItemBodyStatus =
@@ -196,29 +303,149 @@ export type PostListItemBody = {
   tmdbId: number
 }
 
+export type PutReviewById200MediaType =
+  (typeof PutReviewById200MediaType)[keyof typeof PutReviewById200MediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutReviewById200MediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+/**
+ * @nullable
+ */
+export type PutReviewById200Language =
+  | (typeof PutReviewById200Language)[keyof typeof PutReviewById200Language]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutReviewById200Language = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type PutReviewById200 = {
+  createdAt: string
+  hasSpoilers: boolean
+  id: string
+  /** @nullable */
+  language: PutReviewById200Language
+  mediaType: PutReviewById200MediaType
+  rating: number
+  review: string
+  tmdbId: number
+  userId: string
+}
+
+export type PutReviewByIdBody = {
+  hasSpoilers?: boolean
+  rating: number
+  review: string
+}
+
+export type GetReviews200ItemUser = {
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  username: string
+}
+
+export type GetReviews200ItemMediaType =
+  (typeof GetReviews200ItemMediaType)[keyof typeof GetReviews200ItemMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviews200ItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+/**
+ * @nullable
+ */
+export type GetReviews200ItemLanguage =
+  | (typeof GetReviews200ItemLanguage)[keyof typeof GetReviews200ItemLanguage]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviews200ItemLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type GetReviews200Item = {
+  createdAt: string
+  hasSpoilers: boolean
+  id: string
+  /** @nullable */
+  language: GetReviews200ItemLanguage
+  mediaType: GetReviews200ItemMediaType
+  rating: number
+  review: string
+  tmdbId: number
+  user: GetReviews200ItemUser
+  userId: string
+}
+
+export type GetReviewsLanguage =
+  | (typeof GetReviewsLanguage)[keyof typeof GetReviewsLanguage]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviewsLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const
+
+export type GetReviewsMediaType =
+  (typeof GetReviewsMediaType)[keyof typeof GetReviewsMediaType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviewsMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const
+
+export type GetReviewsParams = {
+  mediaType: GetReviewsMediaType
+  language: GetReviewsLanguage
+  tmdbId: string
+}
+
 /**
  * User not found
  */
-export type PostReviewsCreate404 = {
+export type PostReview404 = {
   message: string
 }
 
 /**
  * Review created.
  */
-export type PostReviewsCreate201 = {
-  review: PostReviewsCreate201Review
+export type PostReview201 = {
+  review: PostReview201Review
 }
 
-/**
- * @nullable
- */
-export type PostReviewsCreate201ReviewMediaType =
-  | (typeof PostReviewsCreate201ReviewMediaType)[keyof typeof PostReviewsCreate201ReviewMediaType]
-  | null
+export type PostReview201ReviewMediaType =
+  (typeof PostReview201ReviewMediaType)[keyof typeof PostReview201ReviewMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewMediaType = {
+export const PostReview201ReviewMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
@@ -226,12 +453,12 @@ export const PostReviewsCreate201ReviewMediaType = {
 /**
  * @nullable
  */
-export type PostReviewsCreate201ReviewLanguage =
-  | (typeof PostReviewsCreate201ReviewLanguage)[keyof typeof PostReviewsCreate201ReviewLanguage]
+export type PostReview201ReviewLanguage =
+  | (typeof PostReview201ReviewLanguage)[keyof typeof PostReview201ReviewLanguage]
   | null
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreate201ReviewLanguage = {
+export const PostReview201ReviewLanguage = {
   'en-US': 'en-US',
   'es-ES': 'es-ES',
   'fr-FR': 'fr-FR',
@@ -241,42 +468,37 @@ export const PostReviewsCreate201ReviewLanguage = {
   'ja-JP': 'ja-JP',
 } as const
 
-export type PostReviewsCreate201Review = {
+export type PostReview201Review = {
   createdAt?: string
-  /** @nullable */
-  hasSpoilers?: boolean | null
+  hasSpoilers?: boolean
   id?: string
   /** @nullable */
-  language?: PostReviewsCreate201ReviewLanguage
-  /** @nullable */
-  mediaType?: PostReviewsCreate201ReviewMediaType
+  language?: PostReview201ReviewLanguage
+  mediaType: PostReview201ReviewMediaType
   rating: number
   review: string
-  /** @nullable */
-  tmdbId?: number | null
-  /** @nullable */
-  tmdbOverview?: string | null
-  /** @nullable */
-  tmdbPosterPath?: string | null
-  /** @nullable */
-  tmdbTitle?: string | null
+  tmdbId: number
   userId: string
 }
 
-export type PostReviewsCreateBodyMediaType =
-  (typeof PostReviewsCreateBodyMediaType)[keyof typeof PostReviewsCreateBodyMediaType]
+export type PostReviewBodyMediaType =
+  (typeof PostReviewBodyMediaType)[keyof typeof PostReviewBodyMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyMediaType = {
+export const PostReviewBodyMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
 
-export type PostReviewsCreateBodyLanguage =
-  (typeof PostReviewsCreateBodyLanguage)[keyof typeof PostReviewsCreateBodyLanguage]
+/**
+ * @nullable
+ */
+export type PostReviewBodyLanguage =
+  | (typeof PostReviewBodyLanguage)[keyof typeof PostReviewBodyLanguage]
+  | null
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostReviewsCreateBodyLanguage = {
+export const PostReviewBodyLanguage = {
   'en-US': 'en-US',
   'es-ES': 'es-ES',
   'fr-FR': 'fr-FR',
@@ -286,17 +508,14 @@ export const PostReviewsCreateBodyLanguage = {
   'ja-JP': 'ja-JP',
 } as const
 
-export type PostReviewsCreateBody = {
+export type PostReviewBody = {
   hasSpoilers?: boolean
-  language: PostReviewsCreateBodyLanguage
-  mediaType: PostReviewsCreateBodyMediaType
+  /** @nullable */
+  language?: PostReviewBodyLanguage
+  mediaType: PostReviewBodyMediaType
   rating: number
   review: string
-  tmdbId?: number
-  tmdbOverview?: string
-  tmdbPosterPath?: string
-  tmdbTitle?: string
-  userId: string
+  tmdbId: number
 }
 
 /**

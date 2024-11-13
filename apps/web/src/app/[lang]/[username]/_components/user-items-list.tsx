@@ -3,14 +3,15 @@
 import { useGetUserItems } from '@/api/user-items'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
-import { WatchListCommand } from './_command'
 import { useLanguage } from '@/context/language'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
+import { UserItemsCommand } from './user-items-command'
+import { UserItemsProps } from './user-items'
 
-export function Items() {
+export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()
-  const { data, isLoading } = useGetUserItems({ language, status: 'WATCHLIST' })
+  const { data, isLoading } = useGetUserItems({ language, status })
 
   if (isLoading || !data) {
     return (
@@ -24,7 +25,7 @@ export function Items() {
 
   return (
     <>
-      <WatchListCommand items={data} />
+      <UserItemsCommand items={data} status={status} />
 
       {data?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link

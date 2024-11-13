@@ -290,11 +290,6 @@
     "view": "Visualizar",
     "toggle_columns": "Alternar colunas"
   },
-  "statuses": {
-    "pending": "Pendente",
-    "watching": "Assistindo",
-    "watched": "Assistido"
-  },
   "list_item_actions": {
     "use_as_cover": "Usar como capa",
     "status": "Status",
@@ -720,9 +715,11 @@
   "activity": "Atividade",
   "watched": "Assistidos",
   "watchlist": "Assistir",
+  "watching": "Assistindo",
   "stats": "Estatísticas",
   "where_to_watch": "Onde assistir",
   "unavailable": "Indisponível",
   "watchlist_added": "Adicionado à Watchlist!",
-  "watchlist_removed": "Removido da Watchlist!"
+  "watchlist_removed": "Removido da Watchlist!",
+  "contain_spoilers": "Contém spoilers"
 }

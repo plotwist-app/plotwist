@@ -31,7 +31,6 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { useReviews } from '@/hooks/use-reviews'
 import { useSession } from '@/context/session'
 
 type TmdbItem = TvSerieDetails | MovieDetails
@@ -57,7 +56,6 @@ export const ReviewReplyForm = ({
   onOpenReplies,
 }: ReviewReplyFormProps) => {
   const { handleCreateReply } = useReplies()
-  const { invalidateQueries } = useReviews()
 
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
@@ -80,7 +78,6 @@ export const ReviewReplyForm = ({
       },
       {
         onSettled: async () => {
-          await invalidateQueries(reviewId)
           toast.success(dictionary.review_reply_form.success)
 
           form.reset()

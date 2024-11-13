@@ -291,11 +291,6 @@
     "view": "Voir",
     "toggle_columns": "Basculer les colonnes"
   },
-  "statuses": {
-    "pending": "En attente",
-    "watching": "Visionnage",
-    "watched": "Vu"
-  },
   "list_item_actions": {
     "use_as_cover": "Utiliser comme couverture",
     "status": "Statut",
@@ -720,10 +715,12 @@
   "upgrade_list_message": "Abonnez-vous au plan PRO pour obtenir des listes illimitées.",
   "activity": "Activité",
   "watched": "Vus",
+  "watching": "Visionnage",
   "watchlist": "Liste de suivi",
   "stats": "Statistiques",
   "where_to_watch": "Où regarder",
   "unavailable": "Indisponible",
   "watchlist_added": "Ajouté à la Watchlist !",
-  "watchlist_removed": "Supprimé de la Watchlist !"
+  "watchlist_removed": "Supprimé de la Watchlist !",
+  "contain_spoilers": "Contient des spoilers"
 }

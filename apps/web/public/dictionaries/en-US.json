@@ -290,11 +290,6 @@
     "view": "View",
     "toggle_columns": "Toggle columns"
   },
-  "statuses": {
-    "pending": "Pending",
-    "watching": "Watching",
-    "watched": "Watched"
-  },
   "list_item_actions": {
     "use_as_cover": "Use as cover",
     "status": "Status",
@@ -719,10 +714,12 @@
   "upgrade_list_message": "Subscribe to the PRO plan to get unlimited lists.",
   "activity": "Activity",
   "watched": "Watched",
+  "watching": "Watching",
   "watchlist": "Watchlist",
   "stats": "Stats",
   "where_to_watch": "Where to watch",
   "unavailable": "Unavailable",
   "watchlist_added": "Added to Watchlist!",
-  "watchlist_removed": "Removed from Watchlist!"
+  "watchlist_removed": "Removed from Watchlist!",
+  "contain_spoilers": "Contains spoilers"
 }

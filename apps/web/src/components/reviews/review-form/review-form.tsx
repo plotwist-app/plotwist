@@ -18,7 +18,6 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
 import { Dictionary } from '@/utils/dictionaries'
 
 import { ReviewsProps } from '..'
@@ -33,6 +32,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 import { useSession } from '@/context/session'
+import { getGetReviewsQueryKey, usePostReview } from '@/api/reviews'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -49,7 +49,7 @@ export const reviewFormSchema = (dictionary: Dictionary) =>
 export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
 
 export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
-  const { handleCreateReview } = useReviews()
+  const postReview = usePostReview()
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
@@ -84,19 +84,24 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   }
 
   const onSubmit = async (values: ReviewFormValues) => {
-    await handleCreateReview.mutateAsync(
+    await postReview.mutateAsync(
       {
-        ...values,
-        mediaType,
-        userId: user.id,
-        tmdbItem,
-        language,
+        data: {
+          ...values,
+          mediaType,
+          tmdbId: tmdbItem.id,
+          language,
+        },
       },
 
       {
         onSettled: async () => {
           await APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: ['reviews'],
+            queryKey: getGetReviewsQueryKey({
+              language,
+              tmdbId: String(tmdbItem.id),
+              mediaType,
+            }),
           })
 
           form.reset()
@@ -158,9 +163,9 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
                       <Label
                         onClick={field.onChange}
                         htmlFor="has_spoilers"
-                        className="text-muted-foreground hover:cursor-pointer"
+                        className="text-muted-foreground hover:cursor-pointer text-sm"
                       >
-                        Contain spoilers
+                        {dictionary.contain_spoilers}
                       </Label>
                     </>
                   )}

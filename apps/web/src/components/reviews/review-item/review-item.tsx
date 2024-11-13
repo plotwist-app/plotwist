@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation'
 import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { ReviewLikes } from '@/components/reviews/review-likes'
-import { ReviewReply } from '@/components/reviews/review-reply'
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import {
   Avatar,
@@ -19,7 +18,6 @@ import {
 import { ReviewStars } from '../review-stars'
 
 import { MediaType } from '@/types/supabase/media-type'
-import { Review } from '@/types/supabase/reviews'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -31,11 +29,12 @@ import { cn } from '@/lib/utils'
 
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
+import { GetReviews200Item } from '@/api/endpoints.schemas'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
-type ReviewItemProps = {
-  review: Review
+export type ReviewItemProps = {
+  review: GetReviews200Item
   tmdbItem: TmdbItem
   mediaType: MediaType
 }
@@ -48,10 +47,10 @@ export const ReviewItem = ({
   const {
     review: content,
     rating,
-    has_spoilers: hasSpoilers,
-    created_at: createdAt,
-    user: { username, image_path: imagePath },
-    user_id: userId,
+    hasSpoilers,
+    createdAt,
+    user: { username, imagePath },
+    userId,
     id,
   } = review
 
@@ -77,6 +76,8 @@ export const ReviewItem = ({
     return 'SHOW'
   }, [user?.id, userId])
 
+  console.log({ openReplies })
+
   useEffect(() => {
     if (reviewToFocus === id && !focusReview && !wasFocusDisabled) {
       setFocusReview(true)
@@ -90,7 +91,7 @@ export const ReviewItem = ({
   return (
     <div ref={reviewRef} className="flex items-start space-x-4">
       <Link href={`/${language}/${username}`}>
-        <Avatar className="h-10 w-10 border text-[10px] shadow">
+        <Avatar className="h-10 w-10 border text-[10px] ">
           {imagePath && (
             <AvatarImage
               src={tmdbImage(imagePath, 'w500')}
@@ -126,7 +127,7 @@ export const ReviewItem = ({
               setFocusWasDisabled(true)
             }}
             className={cn(
-              'relative space-y-1 rounded-md border p-4 shadow overflow-hidden',
+              'relative space-y-1 rounded-md border p-4 overflow-hidden',
               focusReview && 'border-none p-0',
             )}
           >
@@ -168,11 +169,11 @@ export const ReviewItem = ({
           setOpenReplyForm={setOpenReplyForm}
         />
 
-        <ReviewReply
+        {/* <ReviewReply
           review={review}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
-        />
+        /> */}
 
         {openReplyForm && (
           <ReviewReplyForm

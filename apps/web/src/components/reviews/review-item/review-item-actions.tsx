@@ -7,18 +7,16 @@ import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { getLikeByUserService } from '@/services/api/likes/get-like-by-user'
 
-import { Review } from '@/types/supabase/reviews'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
 import { useLike } from '@/hooks/use-like'
-import { useReviews } from '@/hooks/use-reviews/use-reviews'
+import { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
-  review: Review
   openReplyForm: boolean
   setOpenReplyForm: (param: boolean) => void
-}
+} & Pick<ReviewItemProps, 'review'>
 
 type ReviewItemActionProps = {
   disabled?: boolean
@@ -54,7 +52,6 @@ export const ReviewItemActions = ({
   const { user } = useSession()
   const { handleLike, handleRemoveLike } = useLike()
   const { dictionary } = useLanguage()
-  const { invalidateQueries } = useReviews()
 
   const { data: likes } = useQuery({
     queryKey: ['likes', review.id],
@@ -85,9 +82,7 @@ export const ReviewItemActions = ({
         entityType: 'REVIEW',
       },
       {
-        onSuccess: () => {
-          invalidateQueries(review.id)
-        },
+        onSuccess: () => {},
         onError: (error) => {
           toast.error(error.message)
         },
@@ -105,9 +100,7 @@ export const ReviewItemActions = ({
         entityType: 'REVIEW',
       },
       {
-        onSuccess: () => {
-          invalidateQueries(review.id)
-        },
+        onSuccess: () => {},
         onError: (error) => {
           toast.error(error.message)
         },
@@ -120,7 +113,7 @@ export const ReviewItemActions = ({
       <div className="flex items-center space-x-2">
         <ReviewItemAction
           active={isUserLiked}
-          disabled={isLikeDisabled}
+          disabled={true || isLikeDisabled}
           onClick={() => {
             if (isUserLiked) {
               handleDeleteLikeClick()
@@ -135,7 +128,10 @@ export const ReviewItemActions = ({
 
         <span className="h-1 w-1 rounded-full bg-muted-foreground" />
 
-        <ReviewItemAction onClick={() => setOpenReplyForm(!openReplyForm)}>
+        <ReviewItemAction
+          onClick={() => setOpenReplyForm(!openReplyForm)}
+          disabled={true}
+        >
           {dictionary.review_item_actions.reply}
         </ReviewItemAction>
       </div>
