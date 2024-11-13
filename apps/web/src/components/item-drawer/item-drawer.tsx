@@ -40,8 +40,8 @@ export function ItemDrawer({ mediaType, tmdbId, title }: ItemDrawerProps) {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="w-96">
-          <DialogTitle>{title}</DialogTitle>
+        <DialogContent className="w-[480px] p-0 gap-0">
+          <DialogTitle className="p-4">{title}</DialogTitle>
           <ItemDrawerActions mediaType={mediaType} tmdbId={tmdbId} />
         </DialogContent>
       </Dialog>
@@ -60,7 +60,7 @@ export function ItemDrawer({ mediaType, tmdbId, title }: ItemDrawerProps) {
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent className="space-y-4">
         <ItemDrawerActions mediaType={mediaType} tmdbId={tmdbId} />
       </DrawerContent>
     </Drawer>

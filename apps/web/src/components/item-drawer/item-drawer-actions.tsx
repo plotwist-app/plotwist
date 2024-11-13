@@ -27,7 +27,7 @@ function ItemDrawerMainAction({
   return (
     <div
       className={cn(
-        'aspect-[3/2] text-center flex items-center justify-center rounded-md  border flex-col gap-2 text-sm cursor-pointer p-2',
+        'text-center flex items-center justify-center gap-2 text-sm cursor-pointer p-2 border-r border-dashed',
         isActive &&
           'dark:bg-foreground dark:text-background bg-zinc-950 text-white',
         isDisabled && 'opacity-50 pointer-events-none',
@@ -43,7 +43,7 @@ function ItemDrawerAction({ children, isDisabled }: ItemDrawerActionProps) {
     <div
       className={cn(
         'flex items-center gap-2 text-sm border-b border-dashed px-4 py-3',
-        isDisabled && 'opacity-50',
+        isDisabled && 'opacity-50 cursor-not-allowed',
       )}
     >
       {children}
@@ -58,7 +58,7 @@ export function ItemDrawerActions({ mediaType, tmdbId }: ItemDrawerProps) {
 
   const { user } = useSession()
   const { push } = useRouter()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const { data, isLoading, queryKey } = useGetUserItem(
     {
@@ -116,15 +116,15 @@ export function ItemDrawerActions({ mediaType, tmdbId }: ItemDrawerProps) {
   }
 
   return (
-    <div className="space-y-4 gap-4 p-4 lg:p-0">
-      <div className="grid grid-cols-3 gap-4 ">
+    <div className="lg:p-0">
+      <div className="grid grid-cols-3 border-y border-dashed">
         <ItemDrawerMainAction
           isActive={data?.userItem?.status === 'WATCHED'}
           onClick={() => handleStatusChange('WATCHED')}
           isDisabled={isLoading}
         >
-          <Eye size={24} />
-          Watched
+          <Eye size={20} />
+          {dictionary.watched}
         </ItemDrawerMainAction>
 
         <ItemDrawerMainAction
@@ -132,8 +132,8 @@ export function ItemDrawerActions({ mediaType, tmdbId }: ItemDrawerProps) {
           onClick={() => handleStatusChange('WATCHING')}
           isDisabled={isLoading}
         >
-          <Loader size={24} />
-          Watching
+          <Loader size={20} />
+          {dictionary.watching}
         </ItemDrawerMainAction>
 
         <ItemDrawerMainAction
@@ -141,12 +141,12 @@ export function ItemDrawerActions({ mediaType, tmdbId }: ItemDrawerProps) {
           onClick={() => handleStatusChange('WATCHLIST')}
           isDisabled={isLoading}
         >
-          <Clock size={24} />
-          Watchlist
+          <Clock size={20} />
+          {dictionary.watchlist}
         </ItemDrawerMainAction>
       </div>
 
-      <div className="rounded-md border">
+      <div className="">
         {/* <ItemDrawerAction isDisabled>
           <List size={16} />
           Add to list
