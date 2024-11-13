@@ -591,6 +591,12 @@
     "title": "Curtidas",
     "view_profile": "Ver perfil"
   },
+  "legacy_user": {
+    "title": "Redefinição de senha",
+    "description": "Atualizamos nosso sistema e, para sua segurança, é necessário redefinir sua senha. Enviamos instruções para o seu e-mail registrado.",
+    "resend_email": "Reenviar e-mail",
+    "agree": "Entendi"
+  },
   "access_button": "Acessar",
   "access_now": "Acesse agora",
   "create_account": "Criar conta",

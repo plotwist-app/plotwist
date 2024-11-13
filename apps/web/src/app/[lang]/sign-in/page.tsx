@@ -1,4 +1,4 @@
-import { PageProps } from '@/types/languages'
+import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import Link from 'next/link'

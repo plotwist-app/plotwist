@@ -591,6 +591,12 @@
     "title": "Gustos",
     "view_profile": "Ver perfil"
   },
+  "legacy_user": {
+    "title": "Restablecimiento de contraseña",
+    "description": "Hemos actualizado nuestro sistema y, por tu seguridad, es necesario restablecer tu contraseña. Hemos enviado instrucciones a tu correo electrónico registrado.",
+    "resend_email": "Reenviar correo electrónico",
+    "agree": "Entendido"
+  },
   "access_button": "Acceder",
   "access_now": "Accede ahora",
   "create_account": "Crear una cuenta",

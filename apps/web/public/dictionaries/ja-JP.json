@@ -591,6 +591,12 @@
     "title": "いいね！",
     "view_profile": "プロフィールを見る"
   },
+  "legacy_user": {
+    "title": "パスワードの再設定",
+    "description": "システムを更新しました。セキュリティのため、パスワードを再設定する必要があります。登録されたメールアドレスに手順を送信しました。",
+    "resend_email": "メールを再送信",
+    "agree": "了解しました"
+  },
   "access_button": "アクセス",
   "access_now": "今すぐアクセス",
   "create_account": "アカウントを作成する",

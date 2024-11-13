@@ -592,6 +592,12 @@
     "title": "Likes",
     "view_profile": "View profile"
   },
+  "legacy_user": {
+    "title": "Password Reset",
+    "description": "We have updated our system, and for your security, it's necessary to reset your password. We have sent instructions to your registered email.",
+    "resend_email": "Resend Email",
+    "agree": "Got it"
+  },
   "access_button": "Access",
   "access_now": "Access now",
   "create_account": "Create account",

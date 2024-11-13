@@ -24,10 +24,10 @@ import { Input } from '@plotwist/ui/components/ui/input'
 
 import { useLanguage } from '@/context/language'
 
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { signIn } from '@/actions/auth/sign-in'
+import type { signIn } from '@/actions/auth/sign-in'
 import {
   Dialog,
   DialogFooter,
@@ -166,17 +166,15 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
       <Dialog open={warningDialogOpen} onOpenChange={setWarningDialogOpen}>
         <DialogContent>
-          <DialogTitle>Redefinição de senha</DialogTitle>
+          <DialogTitle>{dictionary.legacy_user.title}</DialogTitle>
 
-          <p>
-            Atualizamos nosso sistema e, para sua segurança, é necessário
-            redefinir sua senha. Enviamos instruções para o seu e-mail
-            registrado.
-          </p>
+          <p>{dictionary.legacy_user.description}</p>
 
           <DialogFooter>
-            <Button variant="outline">Reenviar e-mail</Button>
-            <Button>Entendi</Button>
+            <Button variant="outline">
+              {dictionary.legacy_user.resend_email}
+            </Button>
+            <Button>{dictionary.legacy_user.agree}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
