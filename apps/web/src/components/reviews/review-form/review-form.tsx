@@ -149,29 +149,6 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
             </div>
 
             <div className="flex items-center space-x-2 justify-end">
-              <div className="flex items-center justify-center space-x-2">
-                <FormField
-                  control={form.control}
-                  name="hasSpoilers"
-                  render={({ field }) => (
-                    <>
-                      <Checkbox
-                        onCheckedChange={field.onChange}
-                        id="has_spoilers"
-                        className="border-muted-foreground text-primary-foreground/80"
-                      />
-                      <Label
-                        onClick={field.onChange}
-                        htmlFor="has_spoilers"
-                        className="text-muted-foreground hover:cursor-pointer text-sm"
-                      >
-                        {dictionary.contain_spoilers}
-                      </Label>
-                    </>
-                  )}
-                />
-              </div>
-              <span className="h-1 w-1 rounded-full bg-muted" />
               <Button
                 variant="outline"
                 type="submit"
@@ -183,23 +160,46 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
             </div>
           </div>
 
-          <FormField
-            control={form.control}
-            name="review"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    placeholder={dictionary.review_form.placeholder}
-                    rows={4}
-                    {...field}
-                  />
-                </FormControl>
+          <div className="flex flex-col items-end gap-2 flex-1">
+            <FormField
+              control={form.control}
+              name="review"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <Textarea
+                      placeholder={dictionary.review_form.placeholder}
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="hasSpoilers"
+              render={({ field }) => (
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    onCheckedChange={field.onChange}
+                    id="has_spoilers"
+                    className="border-muted-foreground text-primary-foreground/80"
+                  />
+                  <Label
+                    onClick={field.onChange}
+                    htmlFor="has_spoilers"
+                    className="text-muted-foreground hover:cursor-pointer text-sm"
+                  >
+                    {dictionary.contain_spoilers}
+                  </Label>
+                </div>
+              )}
+            />
+          </div>
         </div>
       </form>
     </Form>

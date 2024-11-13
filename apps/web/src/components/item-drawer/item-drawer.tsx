@@ -33,7 +33,7 @@ export function ItemDrawer({ mediaType, tmdbId, title }: ItemDrawerProps) {
         <DialogTrigger asChild>
           <Button
             size="icon"
-            className="absolute top-4 right-4 bg-background"
+            className="absolute size-8 top-4 right-4 bg-background"
             variant="outline"
           >
             <MoreHorizontal />
