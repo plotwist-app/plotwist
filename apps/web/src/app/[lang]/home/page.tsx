@@ -73,10 +73,13 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         </div>
 
         <div className="mt-0 space-y-8">
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">
+          <div className="space-y-2">
+            <Link
+              href={`/${lang}/movies/popular`}
+              className="text-lg font-semibold"
+            >
               {dictionary.app_page.popular_movies_title}
-            </h4>
+            </Link>
 
             <div className="grid grid-cols-3 gap-2">
               {popularMovies.results.slice(0, 3).map((movie) => (
@@ -92,10 +95,13 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">
+          <div className="space-y-2">
+            <Link
+              href={`/${lang}/tv-series/popular`}
+              className="text-lg font-semibold"
+            >
               {dictionary.app_page.popular_tv_series_title}
-            </h4>
+            </Link>
 
             <div className="grid grid-cols-3 gap-2">
               {popularTvSeries.results.slice(0, 3).map((tv) => (
