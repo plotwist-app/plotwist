@@ -45,8 +45,6 @@
 		"@radix-ui/react-tooltip": "^1.1.2",
 		"@sentry/nextjs": "8",
 		"@stripe/stripe-js": "^3.5.0",
-		"@supabase/auth-helpers-nextjs": "^0.8.7",
-		"@supabase/supabase-js": "^2.45.2",
 		"@tanstack/react-query": "^5.52.2",
 		"@tanstack/react-table": "^8.20.5",
 		"@types/mdx": "^2.0.13",
