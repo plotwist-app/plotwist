@@ -17,7 +17,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const dictionary = await getDictionary(lang)
 
-  const image = `${APP_URL}/images/home/movie-${lang}.jpg`
+  const image = `${APP_URL}/images/lp/home.png`
   const canonicalUrl = `${APP_URL}/${lang}`
 
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(
@@ -30,15 +30,16 @@ export async function generateMetadata({
     {} as Record<string, string>,
   )
 
-  const title = dictionary.your_cinema_platform
-  const description = dictionary.join_plotwist
+  const title = `${dictionary.organize} ${dictionary.movies_and_series} ${dictionary.never_been_easier}`
+
+  const description = `${dictionary.most_apps_functional} ${dictionary.plotwist_incredible_interface}`
 
   return {
     title,
     description,
     keywords: dictionary.home.keywords,
     openGraph: {
-      title: `Plotwist ${title}`,
+      title: `Plotwist • ${title}`,
       description,
       siteName: 'Plotwist',
       url: APP_URL,
