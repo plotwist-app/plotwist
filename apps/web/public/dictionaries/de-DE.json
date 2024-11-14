@@ -57,7 +57,8 @@
       "benefits": [
         "Voller Zugriff auf die Plattform",
         "Unbegrenzte Bewertungen",
-        "Eine persönliche Liste"
+        "Eine persönliche Liste",
+        "Organisations- und Kontrollwerkzeuge für Unterstützte"
       ],
       "start_now": "Jetzt starten!"
     },
@@ -66,7 +67,6 @@
       "price": "5 €/Monat",
       "recommended": "Empfohlen",
       "description": "Alles im kostenlosen Plan und noch viel mehr!",      "benefits": [
-        "Organisations- und Kontrollwerkzeuge für Unterstützte",
         "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
         "Unbegrenzte Listen",
         "Erweiterte Personalisierung",
