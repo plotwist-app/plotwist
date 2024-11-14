@@ -1,6 +1,7 @@
 {
 	"name": "plotwist",
 	"private": true,
+	"version": "1.0.0",
 	"scripts": {
 		"build": "dotenv -- turbo build",
 		"build:typescript": "turbo build --filter=@plotwist/typescript-config",
