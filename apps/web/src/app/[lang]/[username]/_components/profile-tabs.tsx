@@ -7,6 +7,7 @@ import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 import Link from 'next/link'
+import { useSession } from '@/context/session'
 
 type ProfileTabsProps = {
   user: GetUsersUsername200User
@@ -15,6 +16,7 @@ type ProfileTabsProps = {
 export const ProfileTabs = ({ user }: ProfileTabsProps) => {
   const { dictionary, language } = useLanguage()
   const pathname = usePathname()
+  const session = useSession()
 
   const value = useMemo(() => {
     if (pathname.split('/').length === 3) {
@@ -23,6 +25,8 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
     return pathname.split('/')[3]
   }, [pathname])
+
+  const isOwner = session.user?.id === user.id
 
   return (
     <Tabs defaultValue="activity" value={value} className="w-full">
@@ -35,26 +39,30 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             </Link>
           </TabsTrigger>
 
-          <TabsTrigger value="watched" asChild>
-            <Link href={`/${language}/${user.username}/watched`}>
-              <Check className="mr-1" size={12} />
-              {dictionary.watched}
-            </Link>
-          </TabsTrigger>
+          {isOwner && (
+            <>
+              <TabsTrigger value="watched" asChild>
+                <Link href={`/${language}/${user.username}/watched`}>
+                  <Check className="mr-1" size={12} />
+                  {dictionary.watched}
+                </Link>
+              </TabsTrigger>
 
-          <TabsTrigger value="watching" asChild>
-            <Link href={`/${language}/${user.username}/watching`}>
-              <Loader className="mr-1" size={12} />
-              {dictionary.watching}
-            </Link>
-          </TabsTrigger>
+              <TabsTrigger value="watching" asChild>
+                <Link href={`/${language}/${user.username}/watching`}>
+                  <Loader className="mr-1" size={12} />
+                  {dictionary.watching}
+                </Link>
+              </TabsTrigger>
 
-          <TabsTrigger value="watchlist" asChild>
-            <Link href={`/${language}/${user.username}/watchlist`}>
-              <Clock className="mr-1" size={12} />
-              {dictionary.watchlist}
-            </Link>
-          </TabsTrigger>
+              <TabsTrigger value="watchlist" asChild>
+                <Link href={`/${language}/${user.username}/watchlist`}>
+                  <Clock className="mr-1" size={12} />
+                  {dictionary.watchlist}
+                </Link>
+              </TabsTrigger>
+            </>
+          )}
 
           <TabsTrigger value="lists" asChild>
             <Link href={`/${language}/${user.username}/lists`}>
