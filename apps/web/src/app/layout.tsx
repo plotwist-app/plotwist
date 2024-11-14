@@ -1,6 +1,6 @@
 import '@plotwist/ui/globals.css'
 
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import type { Language } from '@/types/languages'
 import { GTag } from '@/components/gtag'
@@ -30,6 +30,14 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  colorScheme: 'dark',
+  themeColor: '#09090b',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
+
 export default async function RootLayout({
   children,
   params,
@@ -46,7 +54,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <meta name="theme-color" content="#09090b" />
+        <meta name="theme-color" content="" />
         <GTag />
       </head>
 

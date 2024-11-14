@@ -170,7 +170,7 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
           <p>{dictionary.legacy_user.description}</p>
 
-          <DialogFooter>
+          <DialogFooter className="space-y-2">
             <Button variant="outline">
               {dictionary.legacy_user.resend_email}
             </Button>
