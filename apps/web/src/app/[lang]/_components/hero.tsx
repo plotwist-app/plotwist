@@ -5,11 +5,21 @@ import Link from 'next/link'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
 
+import { useLanguage } from '@/context/language'
 import { ProBadge } from '@/components/pro-badge'
 
-import { useLanguage } from '@/context/language'
-
 const BLUR_FADE_DELAY = 0.04
+
+export const Brush = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 418 42"
+    className="absolute left-0 top-2/3 h-[0.58em] w-full fill-muted-foreground -z-10"
+    preserveAspectRatio="none"
+  >
+    <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
+  </svg>
+)
 
 export const Hero = () => {
   const { language, dictionary } = useLanguage()
@@ -19,38 +29,45 @@ export const Hero = () => {
       <div className="flex w-full flex-col items-center space-y-8 px-4 py-36 text-center xl:px-0">
         <BlurFade delay={BLUR_FADE_DELAY}>
           <Link
-            href={`/${language}/pricing`}
-            className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs shadow"
+            href={`/${language}#pricing`}
+            className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs"
           >
             {dictionary.discover_advantages} <ProBadge />
           </Link>
         </BlurFade>
 
-        <div className="space-y-4">
+        <div>
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
-            <div className="text-2xl font-bold xl:text-5xl">
-              <h2>{dictionary.welcome_to_plotwist}</h2>
-              <h1>{dictionary.your_cinema_platform}</h1>
-            </div>
+            <h1 className="text-5xl font-medium tracking-tight sm:text-7xl max-w-4xl mx-auto">
+              {dictionary.organize}{' '}
+              <span className="relative whitespace-nowrap font-bold">
+                <span className="z-10">{dictionary.movies_and_series}</span>
+                <Brush />
+              </span>{' '}
+              {dictionary.never_been_easier}
+            </h1>
           </BlurFade>
 
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <p className="text-md leading-6 text-muted-foreground">
-              {dictionary.join_plotwist}
+            <p className="text-muted-foreground max-w-2xl text-lg tracking-tight mx-auto mt-6">
+              {dictionary.most_apps_functional}{' '}
+              {dictionary.plotwist_incredible_interface}
             </p>
           </BlurFade>
         </div>
 
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <div className="flex gap-2">
+          <div className="flex-col md:flex-row flex gap-2">
             <Button asChild>
-              <Link href={`/${language}/sign-up`}>
-                {dictionary.create_account}
+              <Link href={`/${language}#pricing`}>
+                {dictionary.get_one_month_free}
               </Link>
             </Button>
 
             <Button variant="outline" asChild>
-              <Link href={`/${language}/home`}>{dictionary.explore}</Link>
+              <Link href={`/${language}#features`}>
+                {dictionary.keep_exploring}
+              </Link>
             </Button>
           </div>
         </BlurFade>

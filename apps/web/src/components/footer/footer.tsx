@@ -13,9 +13,7 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
           <div className="flex items-center gap-2">
             <Logo size={20} />
 
-            <p className="text-xs text-muted-foreground">
-              {dictionary.plotwist_rights}
-            </p>
+            <p className="text-xs text-muted-foreground">© 2024 Plotwist</p>
 
             <div className="h-3 border-r" />
 

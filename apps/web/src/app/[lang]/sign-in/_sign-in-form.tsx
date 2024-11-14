@@ -55,7 +55,7 @@ type SignInFormProps = {
 }
 
 export const SignInForm = ({ onSignIn }: SignInFormProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [warningDialogOpen, setWarningDialogOpen] = useState(false)
 
@@ -69,7 +69,10 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      const response = await onSignIn(values)
+      const response = await onSignIn({
+        ...values,
+        redirectTo: `/${language}/home`,
+      })
 
       if (response?.status) {
         return setWarningDialogOpen(true)

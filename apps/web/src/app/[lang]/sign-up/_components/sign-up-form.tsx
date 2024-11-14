@@ -38,17 +38,19 @@ import {
 import { getUsersAvailableUsername, getUsersAvailableEmail } from '@/api/users'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
+import { signUp } from '@/actions/auth/sign-up'
+import { useSearchParams } from 'next/navigation'
 
 type SignUpFormProps = {
-  onSignUp: (
-    values: UsernameFormValues & CredentialsFormValues,
-  ) => Promise<void>
+  onSignUp: typeof signUp
 }
 
 export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
+  const searchParams = useSearchParams()
+  const redirectToCheckout = searchParams.get('redirect') === 'checkout'
 
   const credentialsForm = useForm<CredentialsFormValues>({
     resolver: zodResolver(credentialsFormSchema(dictionary)),
@@ -89,7 +91,12 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
         ...usernameForm.getValues(),
       }
 
-      await onSignUp(values)
+      await onSignUp({
+        ...values,
+        redirectToCheckout,
+        language,
+      })
+
       toast.success(dictionary.sign_up_form.sign_up_success)
     } catch (error) {
       if (error instanceof AxiosError) {

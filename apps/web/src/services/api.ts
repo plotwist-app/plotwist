@@ -1,18 +1,7 @@
-import { ListRecommendations } from '@/types/api/list-recommendations'
-import { Language } from '@/types/languages'
 import axios from 'axios'
 
+const URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+
 export const api = axios.create({
-  baseURL: '/api',
+  baseURL: `http://${URL}/api` || 'http://localhost:3000/api',
 })
-
-export const listRecommendations = async (id: string, language: Language) => {
-  const { data } = await api.get<ListRecommendations>(
-    `/list-recommendations/${id}`,
-    {
-      params: { language },
-    },
-  )
-
-  return data
-}

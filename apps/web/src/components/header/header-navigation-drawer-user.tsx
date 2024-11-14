@@ -44,7 +44,7 @@ export const HeaderNavigationDrawerUser = ({
         </Avatar>
       </Link>
 
-      <form action={logout} className="w-full">
+      <form action={() => logout(language)} className="w-full">
         <button
           className="flex items-center justify-between gap-2 rounded-md p-2 text-sm font-medium hover:bg-muted w-full"
           type="submit"

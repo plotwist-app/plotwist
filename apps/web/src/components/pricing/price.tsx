@@ -22,7 +22,7 @@ const PriceContent = ({ className, ...props }: PriceContentProps) => {
 
 type PriceHeaderProps = ComponentProps<'div'>
 const PriceHeader = (props: PriceHeaderProps) => {
-  return <div className="space-y-2" {...props} />
+  return <div className="flex flex-col gap-2" {...props} />
 }
 
 type PriceLabelProps = ComponentProps<'h4'>

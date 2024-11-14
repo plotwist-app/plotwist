@@ -68,7 +68,7 @@
       "recommended": "Recomendado",
       "description": "Tudo no plano gratuito e muito mais!",
       "benefits": [
-        "Recomendações pessoais baseado no seu gosto e histórico",
+        "Recomendações pessoais baseado no histórico",
         "Listas ilimitadas",
         "Personalização avançada",
         "Conquistas e distintivos"
@@ -667,7 +667,6 @@
   "legal": "Legal",
   "privacy_policy": "Política de Privacidade",
   "terms_of_service": "Termos de Serviço",
-  "plotwist_rights": "© 202X Plotwist",
   "data_provided_by": "Dados fornecidos por TMDB.",
   "explore": "Explorar",
   "save_order": "Salvar Ordem",
@@ -728,5 +727,24 @@
   "watchlist_added": "Adicionado à Watchlist!",
   "watchlist_removed": "Removido da Watchlist!",
   "contain_spoilers": "Contém spoilers",
-  "no_lists_found": "Não encontramos nenhuma lista."
+  "no_lists_found": "Não encontramos nenhuma lista.",
+  "organize": "Organizar",
+  "movies_and_series": "filmes e séries",
+  "never_been_easier": "nunca foi tão fácil.",
+  "most_apps_functional": "A maioria dos aplicativos é funcional, mas sem graça.",
+  "plotwist_incredible_interface": "No Plotwist, a gente prefere uma interface incrível, mesmo que você nunca assista àquela série da sua lista.",
+  "get_one_month_free": "Ganhe 1 mês grátis",
+  "keep_exploring": "Continuar explorando",
+  "elegant_control": "Controle Elegante",
+  "elegant_control_description": "Mantenha tudo sob controle. Marque o que já assistiu, organize por status e nunca se perca em suas maratonas.",
+  "recommendations": "Recomendações",
+  "recommendations_description": "Conheça sugestões feitas sob medida para o seu gosto.",
+  "create_and_share_lists": "Crie e Compartilhe listas",
+  "create_and_share_lists_description": "Crie listas temáticas e compartilhe com amigos para inspirar suas escolhas ou planejar sessões juntos.",
+  "reviews": "Avaliações",
+  "reviews_description": "Deixe sua opinião e leia reviews de outros membros para decidir o que assistir.",
+  "choose_the": "Escolha o",
+  "perfect_plan": "plano perfeito",
+  "for_you": "para você.",
+  "explore_features": "Explore funcionalidades gratuitas ou leve sua experiência a um novo nível com o Pro."
 }
