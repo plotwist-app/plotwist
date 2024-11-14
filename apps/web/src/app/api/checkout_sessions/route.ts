@@ -10,37 +10,46 @@ export async function POST(req: NextRequest) {
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
 
+  const redirect = url.searchParams.get('redirect')
+
   const prices = await stripe.prices.list({
     product: process.env.STRIPE_PRODUCT_ID,
+    type: 'recurring',
   })
 
   const priceByLocale = prices.data.find((price) => {
-    if (locale === 'ja') {
-      return price.currency === 'jpy'
+    if (!price.recurring) {
+      return false
     }
 
-    if (['de', 'es', 'fr', 'it'].includes(locale)) {
-      return price.currency === 'eur'
+    switch (locale) {
+      case 'ja':
+        return price.currency === 'jpy'
+      case 'pt':
+        return price.currency === 'brl'
+      case 'de':
+      case 'es':
+      case 'fr':
+      case 'it':
+        return price.currency === 'eur'
+      default:
+        return price.currency === 'usd'
     }
-
-    if (locale === 'pt') {
-      return price.currency === 'brl'
-    }
-
-    return price.currency === 'usd'
   })
+
+  const price = priceByLocale ? priceByLocale.id : prices.data[0].id
 
   if (stripe && prices && email) {
     try {
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
-            price: priceByLocale ? priceByLocale.id : prices.data[0].id,
+            price,
             quantity: 1,
           },
         ],
         mode: 'subscription',
-        success_url: `${url.origin}/${username}`,
+        success_url: `${url.origin}/${username}?subscription=pro`,
         cancel_url: `${url.origin}/`,
         locale,
         customer_email: email,
@@ -50,10 +59,15 @@ export async function POST(req: NextRequest) {
       })
 
       if (session.url) {
-        return Response.redirect(session.url, 303)
+        console.log({ redirect })
+        if (redirect) {
+          return Response.redirect(session.url, 303)
+        }
+
+        return Response.json({ url: session.url })
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }

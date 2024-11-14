@@ -80,7 +80,7 @@ export const Pricing = () => {
 
             {user ? (
               <form
-                action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}`}
+                action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}&redirect=checkout`}
                 method="POST"
               >
                 <Price.Root>
@@ -184,7 +184,7 @@ export const Pricing = () => {
                 </Price.Content>
 
                 <Button asChild type="button">
-                  <Link href={`/${language}/sign-in`}>
+                  <Link href={`/${language}/sign-up?redirect=checkout`}>
                     {dictionary.get_one_month_free}
                   </Link>
                 </Button>

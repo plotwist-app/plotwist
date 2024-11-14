@@ -4,19 +4,18 @@ import { postLogin } from '@/api/auth'
 import { createSession } from '@/app/lib/session'
 import { redirect } from 'next/navigation'
 
-type SignInCredentials = {
+type SignInInput = {
   email: string
   password: string
+  redirectTo?: string
 }
 
-export async function signIn(credentials: SignInCredentials) {
-  const { email, password } = credentials
-
+export async function signIn({ email, password, redirectTo }: SignInInput) {
   const { token, status } = await postLogin({ email, password })
 
   if (token) {
     await createSession({ token })
-    redirect('/home')
+    redirectTo && redirect(redirectTo)
   }
 
   return { status }

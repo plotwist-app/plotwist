@@ -1,18 +1,5 @@
-import { ListRecommendations } from '@/types/api/list-recommendations'
-import { Language } from '@/types/languages'
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api',
 })
-
-export const listRecommendations = async (id: string, language: Language) => {
-  const { data } = await api.get<ListRecommendations>(
-    `/list-recommendations/${id}`,
-    {
-      params: { language },
-    },
-  )
-
-  return data
-}

@@ -83,7 +83,7 @@ export const HeaderAccount = () => {
         <DropdownMenuSeparator />
 
         {user ? (
-          <form action={logout}>
+          <form action={() => logout(language)}>
             <DropdownMenuItem onClick={() => {}} asChild>
               <button type="submit" className="w-full">
                 <LogOut className="mr-1 size-3" />
