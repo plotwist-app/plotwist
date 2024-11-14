@@ -44,6 +44,9 @@ export async function POST(req: NextRequest) {
         cancel_url: `${url.origin}/`,
         locale,
         customer_email: email,
+        subscription_data: {
+          trial_period_days: 30,
+        },
       })
 
       if (session.url) {

@@ -8,9 +8,9 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { TopMovies } from './_components/top-movies'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
+import { Pricing } from '@/components/pricing'
 
 export async function generateMetadata({
   params: { lang },
@@ -70,8 +70,9 @@ export default async function Home({ params: { lang } }: PageProps) {
 
       <main className="">
         <Hero />
-        <TopMovies language={lang} />
-        <BentoGrid />
+        {/* <TopMovies language={lang} /> */}
+        <BentoGrid language={lang} />
+        <Pricing />
       </main>
     </>
   )

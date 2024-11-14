@@ -30,6 +30,7 @@ export const ListItems = ({ ownerId, listId }: ListItemsProps) => {
           variant="outline"
           onClick={() => setIsEditable(!isEditable)}
           disabled={true}
+          className="hidden"
         >
           {isEditable ? dictionary.save_order : dictionary.edit_order}
         </Button>
