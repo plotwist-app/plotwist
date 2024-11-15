@@ -14,20 +14,6 @@ export const metadata: Metadata = {
     template: 'Plotwist • %s',
     default: 'Plotwist',
   },
-  icons: {
-    icon: [
-      {
-        url: '/favicon.ico',
-        href: '/favicon.ico',
-        rel: 'icon',
-      },
-      {
-        url: '/apple-icon.png',
-        href: '/apple-icon.png',
-        rel: 'apple-touch-icon',
-      },
-    ],
-  },
 }
 
 export const viewport: Viewport = {
@@ -54,7 +40,14 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <meta name="theme-color" content="" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="apple-touch-icon"
+          href="/apple-icon.png"
+          type="image"
+          sizes="any"
+        />
+
         <GTag />
       </head>
 
