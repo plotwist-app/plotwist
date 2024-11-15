@@ -26,12 +26,14 @@ import {
   CommandSearchTvSerie,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
+import { usePathname } from 'next/navigation'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
   const { language, dictionary } = useLanguage()
+  const pathname = usePathname()
 
   const { data, isLoading } = useQuery({
     queryKey: ['search', debouncedSearch],
@@ -51,6 +53,10 @@ export const CommandSearch = () => {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
+
+  useEffect(() => {
+    if (open) setOpen(false)
+  }, [pathname])
 
   const [movies, tvSeries] = [
     data?.results.filter(
@@ -86,7 +92,7 @@ export const CommandSearch = () => {
           <CommandInput
             placeholder={dictionary.sidebar_search.placeholder}
             onValueChange={setSearch}
-            value={search}
+            defaultValue={search}
           />
 
           <CommandList className="">
