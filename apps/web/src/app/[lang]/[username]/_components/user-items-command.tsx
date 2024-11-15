@@ -23,6 +23,24 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
 
   const { language, dictionary } = useLanguage()
 
+  const messages: Record<
+    UserItemsCommandProps['status'],
+    Record<'add' | 'remove', string>
+  > = {
+    WATCHED: {
+      add: dictionary.watched_added,
+      remove: dictionary.watched_removed,
+    },
+    WATCHING: {
+      add: dictionary.watching_added,
+      remove: dictionary.watching_removed,
+    },
+    WATCHLIST: {
+      add: dictionary.watchlist_added,
+      remove: dictionary.watchlist_removed,
+    },
+  }
+
   return (
     <ListCommand
       items={items}
@@ -38,7 +56,7 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
                 }),
               })
 
-              toast.success(dictionary.watchlist_added)
+              toast.success(messages[status].add)
             },
           },
         )
@@ -51,11 +69,11 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
               await APP_QUERY_CLIENT.invalidateQueries({
                 queryKey: getGetUserItemsQueryKey({
                   language,
-                  status: 'WATCHLIST',
+                  status,
                 }),
               })
 
-              toast.success(dictionary.watchlist_removed)
+              toast.success(messages[status].remove)
             },
           },
         )
