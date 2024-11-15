@@ -1,9 +1,9 @@
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
-import Link from 'next/link'
 import { SignInForm } from './_sign-in-form'
 import { signIn } from '@/actions/auth/sign-in'
+import { AnimatedLink } from '@/components/animated-link'
 
 export default async function SignInPage({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)
@@ -23,13 +23,16 @@ export default async function SignInPage({ params: { lang } }: PageProps) {
           </div>
         </div>
 
-        <div className="absolute bottom-0 w-full border-t bg-muted dark:bg-black p-4 items-center justify-center space-x-1 flex">
-          <Link
+        <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
+          <p className="text-center text-xs text-muted-foreground">
+            {dictionary.do_not_have_an_account}{' '}
+          </p>
+          <AnimatedLink
             href={`/${lang}/sign-up`}
-            className="text-center text-xs text-muted-foreground hover:underline"
+            className="text-md font-medium"
           >
-            {dictionary.do_not_have_an_account} {dictionary.create_now}
-          </Link>
+            {dictionary.create_account}
+          </AnimatedLink>
         </div>
       </div>
     </>
