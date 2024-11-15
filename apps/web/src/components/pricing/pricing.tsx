@@ -123,6 +123,7 @@ export const Pricing = () => {
                               <AvatarImage
                                 src={tmdbImage(user.imagePath, 'w500')}
                                 className="object-cover"
+                                alt={user.username}
                               />
                             )}
 
