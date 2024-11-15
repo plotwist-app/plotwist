@@ -1,49 +1,6 @@
 {
   "home": {
-    "title": "¡Explora películas, series y animes!",
-    "description": "Plotwist es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
-    "keywords": "Cine, películas, series, animes, doramas, actores famosos, episodios de series, usuarios de cine, descubrir nuevas películas, críticas de películas, recomendaciones de películas, estrenos de cine, películas populares, series populares, películas bien valoradas, películas en exhibición, comunidad de cine, listas de películas, discusiones sobre películas",
-    "statistics": {
-      "movies": {
-        "value": 988788,
-        "label": "Películas"
-      },
-      "tv": {
-        "value": 167204,
-        "label": "Series de TV"
-      },
-      "episodes": {
-        "value": 4419904,
-        "label": "Episodios"
-      },
-      "people": {
-        "value": 3369005,
-        "label": "Actores"
-      },
-      "users": {
-        "label": "Usuarios"
-      }
-    },
-    "features": {
-      "section_title": "Plotwist Características",
-      "section_description": "Plotwist es para los aficionados al cine que les gusta explorar millones de películas y series, con información como sinopsis, reparto, presupuesto y mucho más.",
-      "lists": {
-        "title": "Listas",
-        "description": "Crea y gestiona el estado de tus películas, series y animes en un hermoso lugar."
-      },
-      "reviews": {
-        "title": "Reseñas",
-        "description": "Escribe reseñas sobre lo que estás viendo y deja que el mundo conozca tu opinión."
-      },
-      "multi_lang_support": {
-        "title": "Soporte Multilingüe",
-        "description": "Apoyamos diferentes idiomas para reunir a diferentes países."
-      },
-      "communities": {
-        "title": "Comunidades",
-        "description": "Crea o participa en comunidades de nicho específicas."
-      }
-    }
+   "keywords": "organizar películas, organizar series, app de películas y series, recomendaciones personalizadas, crear listas de películas, control de series, mejores apps de películas, app para maratones de series, organizar maratones, reseñas de series, listas de películas online, interfaz elegante para series, sugerencias de películas, controlar películas vistas"
   },
   "home_prices": {
     "title": "Comienza tu viaje hoy",

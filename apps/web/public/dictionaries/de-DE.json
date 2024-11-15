@@ -1,49 +1,6 @@
 {
-  "home": {
-    "title": "Entdecken Sie Filme, Serien und Animes!",
-    "description": "Plotwist ist für Kinofans, die Millionen von Filmen und Serien erkunden möchten, mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr.",
-    "keywords": "Kino, Filme, Serien, Animes, Doramas, berühmte Schauspieler, Serienepisoden, Kinobesucher, neue Filme entdecken, Filmkritiken, Filmempfehlungen, Kinostarts, beliebte Filme, beliebte Serien, hoch bewertete Filme, Filme im Kino, Filmgemeinschaft, Filmlisten, Diskussionen über Filme",
-    "statistics": {
-      "movies": {
-        "value": 988788,
-        "label": "Filme"
-      },
-      "tv": {
-        "value": 167204,
-        "label": "TV-Serien"
-      },
-      "episodes": {
-        "value": 4419904,
-        "label": "Episoden"
-      },
-      "people": {
-        "value": 3369005,
-        "label": "Schauspieler"
-      },
-      "users": {
-        "label": "Benutzer"
-      }
-    },
-    "features": {
-      "section_title": "Plotwist Funktionen",
-      "section_description": "Plotwist ist für Kinofans, die Millionen von Filmen und Serien mit Informationen wie Synopsis, Besetzung, Budget und vielem mehr erkunden möchten.",
-      "lists": {
-        "title": "Listen",
-        "description": "Erstellen und verwalten Sie den Status Ihrer Filme, Serien und Animes an einem schönen Ort."
-      },
-      "reviews": {
-        "title": "Bewertungen",
-        "description": "Schreiben Sie Bewertungen zu dem, was Sie sehen, und lassen Sie die Welt Ihre Meinung wissen."
-      },
-      "multi_lang_support": {
-        "title": "Mehrsprachige Unterstützung",
-        "description": "Wir unterstützen verschiedene Sprachen, um unterschiedliche Länder zu erreichen."
-      },
-      "communities": {
-        "title": "Gemeinschaften",
-        "description": "Erstellen oder beteiligen Sie sich an spezifischen Nischengemeinschaften."
-      }
-    }
+  "home": {  
+    "keywords": "Filme organisieren, Serien organisieren, App für Filme und Serien, personalisierte Empfehlungen, Filmlisten erstellen, Serienverwaltung, beste Film-Apps, App für Serien-Marathons, Marathons organisieren, Serienbewertungen, Online-Filmlisten, elegante Benutzeroberfläche für Serien, Filmvorschläge, gesehenen Filme verwalten"
   },
   "home_prices": {
     "title": "Beginnen Sie noch heute Ihre Reise",

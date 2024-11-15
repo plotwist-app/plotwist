@@ -1,49 +1,6 @@
 {
   "home": {
-    "title": "映画、シリーズ、アニメを探索しましょう!",
-    "description": "Plotwistは映画やシリーズのあらすじ、キャスト、予算などの詳細情報を提供する、映画愛好家のための探索プラットフォームです。",
-    "keywords": "映画, フィルム, シリーズ, アニメ, ドラマ, 有名な俳優, シリーズのエピソード, 映画ユーザー, 新しい映画を発見, 映画の評価, 映画のおすすめ, 映画の新作, 人気の映画, 人気のシリーズ, 評価の高い映画, 上映中の映画, 映画コミュニティ, 映画リスト, 映画についての議論",
-    "statistics": {
-      "movies": {
-        "value": 988788,
-        "label": "映画"
-      },
-      "tv": {
-        "value": 167204,
-        "label": "テレビ番組"
-      },
-      "episodes": {
-        "value": 4419904,
-        "label": "エピソード"
-      },
-      "people": {
-        "value": 3369005,
-        "label": "俳優"
-      },
-      "users": {
-        "label": "ユーザー"
-      }
-    },
-    "features": {
-      "section_title": "Plotwist 機能",
-      "section_description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo iste sunt alias ipsum minima aspernatur excepturi cum perferendis dolorum nostrum, consequatur ullam! Veniam enim neque sint adipisci labore ratione quidem.",
-      "lists": {
-        "title": "リスト",
-        "description": "映画、シリーズ、アニメのステータスを美しい一か所で作成し、管理します。"
-      },
-      "reviews": {
-        "title": "レビュー",
-        "description": "視聴中の作品についてレビューを書き、あなたの意見を世界に伝えましょう。"
-      },
-      "multi_lang_support": {
-        "title": "多言語サポート",
-        "description": "さまざまな国々を巻き込むために、さまざまな言語をサポートしています。"
-      },
-      "communities": {
-        "title": "コミュニティ",
-        "description": "特定のニッチなコミュニティを作成するか、参加します。"
-      }
-    }
+    "keywords": "映画を整理, シリーズを整理, 映画とシリーズのアプリ, パーソナライズされたおすすめ, 映画リストを作成, シリーズ管理, ベスト映画アプリ, シリーズマラソン用アプリ, マラソンを整理, シリーズレビュー, オンライン映画リスト, シリーズのエレガントなインターフェース, 映画のおすすめ, 見た映画を管理"
   },
   "home_prices": {
     "title": "今日からあなたの旅を始めましょう",

@@ -1,49 +1,6 @@
 {
   "home": {
-    "title": "Explorez des films, des séries et des anime !",
-    "description": "Plotwist est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
-    "keywords": "Cinéma, films, séries, animes, doramas, acteurs célèbres, épisodes de séries, utilisateurs de cinéma, découvrir de nouveaux films, critiques de films, recommandations de films, sorties cinéma, films populaires, séries populaires, films bien notés, films à l'affiche, communauté cinématographique, listes de films, discussions sur les films",
-    "statistics": {
-      "movies": {
-        "value": 988788,
-        "label": "Films"
-      },
-      "tv": {
-        "value": 167204,
-        "label": "Séries TV"
-      },
-      "episodes": {
-        "value": 4419904,
-        "label": "Épisodes"
-      },
-      "people": {
-        "value": 3369005,
-        "label": "Acteurs"
-      },
-      "users": {
-        "label": "Utilisateurs"
-      }
-    },
-    "features": {
-      "section_title": "Plotwist Fonctionnalités",
-      "section_description": "Plotwist est destiné aux cinéphiles qui aiment explorer des millions de films et de séries, avec des informations telles que le synopsis, le casting, le budget et bien plus encore.",
-      "lists": {
-        "title": "Listes",
-        "description": "Créez et gérez l'état de vos films, séries et animes dans un bel endroit."
-      },
-      "reviews": {
-        "title": "Critiques",
-        "description": "Rédigez des critiques sur ce que vous regardez et faites connaître votre avis au monde entier."
-      },
-      "multi_lang_support": {
-        "title": "Support Multilingue",
-        "description": "Nous prenons en charge différentes langues pour rassembler différents pays."
-      },
-      "communities": {
-        "title": "Communautés",
-        "description": "Créez ou participez à des communautés de niche spécifiques."
-      }
-    }
+    "keywords": "organiser des films, organiser des séries, application pour films et séries, recommandations personnalisées, créer des listes de films, gestion des séries, meilleures applications de films, application pour des marathons de séries, organiser des marathons, avis sur les séries, listes de films en ligne, interface élégante pour séries, suggestions de films, gérer les films regardés"
   },
   "home_prices": {
     "title": "Commencez votre voyage aujourd'hui",

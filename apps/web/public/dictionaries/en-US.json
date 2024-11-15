@@ -1,49 +1,6 @@
 {
-  "home": {
-    "title": "Explore movies, tv series, and animes!",
-    "description": "Plotwist is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
-    "keywords": "Cinema, movies, series, animes, doramas, famous actors, series episodes, cinema users, discover new movies, movie reviews, movie recommendations, cinema releases, popular movies, popular series, highly rated movies, movies in theaters, cinema community, movie lists, discussions about movies",
-    "statistics": {
-      "movies": {
-        "value": 988788,
-        "label": "Movies"
-      },
-      "tv": {
-        "value": 167204,
-        "label": "TV Series"
-      },
-      "episodes": {
-        "value": 4419904,
-        "label": "Episodes"
-      },
-      "people": {
-        "value": 3369005,
-        "label": "Actors"
-      },
-      "users": {
-        "label": "Users"
-      }
-    },
-    "features": {
-      "section_title": "Plotwist Features",
-      "section_description": "Plotwist is for cinema fans who like to explore millions of movies and series, with information such as synopsis, cast, budget, and much more.",
-      "lists": {
-        "title": "Lists",
-        "description": "Create and manage the status of your movies, series, and animes in one beautiful place."
-      },
-      "reviews": {
-        "title": "Reviews",
-        "description": "Write reviews about what you're watching and let the world know your opinion."
-      },
-      "multi_lang_support": {
-        "title": "Multi-language Support",
-        "description": "We support different languages to bring together different countries."
-      },
-      "communities": {
-        "title": "Communities",
-        "description": "Create or participate in specific niche communities."
-      }
-    }
+  "home": {   
+    "keywords": "organize movies, organize series, movie and series app, personalized recommendations, create movie lists, series control, best movie apps, app for series marathons, organize marathons, series reviews, online movie lists, elegant interface for series, movie suggestions, track watched movies"
   },
   "home_prices": {
     "title": "Start Your Journey Today",
