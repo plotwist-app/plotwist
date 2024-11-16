@@ -71,10 +71,37 @@ export const Pricing = () => {
                 </Price.Benefits>
               </Price.Content>
 
-              <Button asChild>
-                <Link href={`/${language}/sign-up`}>
-                  {dictionary.home_prices.free_plan.start_now}
-                </Link>
+              <Button asChild={!user} disabled={Boolean(user)}>
+                {user?.subscriptionType === 'MEMBER' ? (
+                  <div className="flex">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                            {user.imagePath && (
+                              <AvatarImage
+                                src={tmdbImage(user.imagePath, 'w500')}
+                                className="object-cover"
+                                alt={user.username}
+                              />
+                            )}
+
+                            <AvatarFallback className="bg-foreground">
+                              {initial}
+                            </AvatarFallback>
+                          </Avatar>
+                        </TooltipTrigger>
+
+                        <TooltipContent>{username}</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <p>{dictionary.already_in_free}</p>
+                  </div>
+                ) : (
+                  <Link href={`/${language}/sign-up`}>
+                    {dictionary.home_prices.free_plan.start_now}
+                  </Link>
+                )}
               </Button>
             </Price.Root>
 
@@ -137,7 +164,9 @@ export const Pricing = () => {
                       </Tooltip>
                     </TooltipProvider>
 
-                    {dictionary.get_one_month_free}
+                    {user.subscriptionType === 'MEMBER'
+                      ? dictionary.get_one_month_free
+                      : dictionary.already_in_pro}
                   </Button>
                 </Price.Root>
               </form>

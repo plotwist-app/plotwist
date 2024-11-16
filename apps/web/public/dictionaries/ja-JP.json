@@ -707,5 +707,7 @@
   "choose_the": "選んでください",
   "perfect_plan": "完璧なプラン",
   "for_you": "あなたに。",
-  "explore_features": "無料機能を試すか、Proで体験を新しいレベルに引き上げましょう。"
+  "explore_features": "無料機能を試すか、Proで体験を新しいレベルに引き上げましょう。",
+  "already_in_free": "無料プランをご利用中です",
+  "already_in_pro": "PROプランをご利用中です"
 }
