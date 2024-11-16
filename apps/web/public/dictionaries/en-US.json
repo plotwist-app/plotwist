@@ -707,5 +707,7 @@
   "choose_the": "Choose the",
   "perfect_plan": "perfect plan",
   "for_you": "for you.",
-  "explore_features": "Explore free features or take your experience to a new level with Pro."
+  "explore_features": "Explore free features or take your experience to a new level with Pro.",
+  "already_in_free": "You are already on the Free plan",
+  "already_in_pro": "You are already on the PRO plan"
 }

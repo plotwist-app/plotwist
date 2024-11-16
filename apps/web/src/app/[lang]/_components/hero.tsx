@@ -7,6 +7,21 @@ import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
 
 import { useLanguage } from '@/context/language'
 import { ProBadge } from '@/components/pro-badge'
+import { useSession } from '@/context/session'
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+
+import { tmdbImage } from '@/utils/tmdb/image'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 
 const BLUR_FADE_DELAY = 0.04
 
@@ -23,6 +38,7 @@ export const Brush = () => (
 
 export const Hero = () => {
   const { language, dictionary } = useLanguage()
+  const { user } = useSession()
 
   return (
     <section className="mx-auto max-w-6xl">
@@ -58,10 +74,40 @@ export const Hero = () => {
 
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <div className="flex-col md:flex-row flex gap-2">
-            <Button asChild>
-              <Link href={`/${language}#pricing`}>
-                {dictionary.get_one_month_free}
-              </Link>
+            <Button asChild disabled={user?.subscriptionType === 'PRO'}>
+              <div>
+                {user && (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                          {user.imagePath && (
+                            <AvatarImage
+                              src={tmdbImage(user.imagePath, 'w500')}
+                              className="object-cover"
+                              alt={user.username}
+                            />
+                          )}
+
+                          <AvatarFallback className="bg-foreground">
+                            {user.username[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      </TooltipTrigger>
+
+                      <TooltipContent>{user.username}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
+
+                {user?.subscriptionType === 'PRO' ? (
+                  <div className="flex">{dictionary.already_in_pro}</div>
+                ) : (
+                  <Link href={`/${language}#pricing`}>
+                    {dictionary.get_one_month_free}
+                  </Link>
+                )}
+              </div>
             </Button>
 
             <Button variant="outline" asChild>
