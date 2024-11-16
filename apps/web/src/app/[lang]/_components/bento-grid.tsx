@@ -1,12 +1,12 @@
 import { ProBadge } from '@/components/pro-badge'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
-import Iphone from '@plotwist/ui/components/ui/iphone-15-pro'
 import { AnimatedListDemo } from './animated-list-demo'
 import Link from 'next/link'
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+import { BentoGridIphone } from './bent-grid-iphone'
 
 type BentoGridProps = {
   language: Language
@@ -39,7 +39,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
               </div>
             </div>
 
-            <Iphone className="w-full h-auto" src="/images/lp/watched.png" />
+            <BentoGridIphone />
           </div>
 
           <div className="row-span-1 col-span-1 border rounded-md">
