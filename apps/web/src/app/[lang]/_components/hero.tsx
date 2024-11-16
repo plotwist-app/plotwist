@@ -38,7 +38,7 @@ export const Hero = () => {
 
         <div>
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
-            <h1 className="text-5xl font-medium tracking-tight sm:text-7xl max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl font-medium tracking-tight md:text-7xl max-w-4xl mx-auto">
               {dictionary.organize}{' '}
               <span className="relative whitespace-nowrap font-bold">
                 <span className="z-10">{dictionary.movies_and_series}</span>
@@ -49,7 +49,7 @@ export const Hero = () => {
           </BlurFade>
 
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <p className="text-muted-foreground max-w-2xl text-lg tracking-tight mx-auto mt-6">
+            <p className="text-muted-foreground max-w-2xl text-md sm:text-lg tracking-tight mx-auto mt-6">
               {dictionary.most_apps_functional}{' '}
               {dictionary.plotwist_incredible_interface}
             </p>
