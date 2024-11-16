@@ -1,7 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
 
@@ -37,19 +35,23 @@ export const Brush = () => (
 )
 
 export const Hero = () => {
-  const { language, dictionary } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
 
   return (
     <section className="mx-auto max-w-6xl">
       <div className="flex w-full flex-col items-center space-y-8 px-4 py-36 text-center xl:px-0">
         <BlurFade delay={BLUR_FADE_DELAY}>
-          <Link
-            href={`/${language}#pricing`}
+          <button
+            onClick={() => {
+              document.getElementById('features')?.scrollIntoView({
+                behavior: 'smooth',
+              })
+            }}
             className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs"
           >
             {dictionary.discover_advantages} <ProBadge />
-          </Link>
+          </button>
         </BlurFade>
 
         <div>
@@ -103,17 +105,29 @@ export const Hero = () => {
                 {user?.subscriptionType === 'PRO' ? (
                   <div className="flex">{dictionary.already_in_pro}</div>
                 ) : (
-                  <Link href={`/${language}#pricing`}>
+                  <button
+                    onClick={() => {
+                      document.getElementById('pricing')?.scrollIntoView({
+                        behavior: 'smooth',
+                      })
+                    }}
+                  >
                     {dictionary.get_one_month_free}
-                  </Link>
+                  </button>
                 )}
               </div>
             </Button>
 
             <Button variant="outline" asChild>
-              <Link href={`/${language}#features`}>
+              <button
+                onClick={() => {
+                  document.getElementById('features')?.scrollIntoView({
+                    behavior: 'smooth',
+                  })
+                }}
+              >
                 {dictionary.keep_exploring}
-              </Link>
+              </button>
             </Button>
           </div>
         </BlurFade>
