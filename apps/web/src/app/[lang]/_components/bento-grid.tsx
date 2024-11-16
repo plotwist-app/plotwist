@@ -1,12 +1,12 @@
 import { ProBadge } from '@/components/pro-badge'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
-import Iphone from '@plotwist/ui/components/ui/iphone-15-pro'
 import { AnimatedListDemo } from './animated-list-demo'
 import Link from 'next/link'
 import { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+import { BentoGridIphone } from './bent-grid-iphone'
 
 type BentoGridProps = {
   language: Language
@@ -25,7 +25,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
   return (
     <BlurFade delay={BLUR_FADE_DELAY * 4}>
       <section className="py-16 px-4 xl:px-0" id="features">
-        <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 max-w-6xl mx-auto gap-4 aspect-video">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 max-w-6xl mx-auto gap-4 aspect-auto lg:aspect-video">
           <div className="aspect-poster lg:aspect-auto col-span-1 row-span-2 border rounded-md overflow-hidden space-y-8 p-6">
             <div className="">
               <div className="space-y-2">
@@ -39,37 +39,33 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
               </div>
             </div>
 
-            <Iphone className="w-full h-auto" src="/images/lp/watched.png" />
+            <BentoGridIphone />
           </div>
 
-          <div className="row-span-1 col-span-1 border rounded-md">
-            <div className="bg-muted" />
+          <div className="row-span-1 col-span-1 border rounded-md p-6 space-y-4">
+            <div className="space-y-2">
+              <h5 className="text-lg font-semibold flex gap-2 items-center">
+                <span>
+                  <ProBadge />
+                </span>
+                {dictionary.recommendations}
+              </h5>
 
-            <div className="p-6 space-y-4">
-              <div className="space-y-2">
-                <h5 className="text-lg font-semibold flex gap-2 items-center">
-                  <span>
-                    <ProBadge />
-                  </span>
-                  {dictionary.recommendations}
-                </h5>
+              <p className="text-muted-foreground">
+                {dictionary.recommendations_description}
+              </p>
+            </div>
 
-                <p className="text-muted-foreground">
-                  {dictionary.recommendations_description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                {results.slice(0, 3).map((result) => (
-                  <Link
-                    href={`/${language}/movies/${result.id}`}
-                    className="aspect-poster bg-muted rounded-md overflow-hidden border"
-                    key={result.id}
-                  >
-                    <img src={tmdbImage(result.poster_path, 'w500')} alt="" />
-                  </Link>
-                ))}
-              </div>
+            <div className="grid grid-cols-3 gap-2">
+              {results.slice(0, 3).map((result) => (
+                <Link
+                  href={`/${language}/movies/${result.id}`}
+                  className="aspect-poster bg-muted rounded-md overflow-hidden border"
+                  key={result.id}
+                >
+                  <img src={tmdbImage(result.poster_path, 'w500')} alt="" />
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -85,9 +81,15 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
             </div>
 
             <img
+              src="/images/lp/list-light.png"
+              alt="list"
+              className="object-cover object-left h-full absolute rounded-md border aspect-video block dark:hidden"
+            />
+
+            <img
               src="/images/lp/list.png"
               alt="list"
-              className="object-cover object-left h-full absolute rounded-md border aspect-video"
+              className="object-cover object-left h-full absolute rounded-md border aspect-video hidden dark:block"
             />
           </div>
 

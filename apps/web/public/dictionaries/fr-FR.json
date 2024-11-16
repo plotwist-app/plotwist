@@ -708,5 +708,7 @@
   "choose_the": "Choisissez le",
   "perfect_plan": "plan parfait",
   "for_you": "pour vous.",
-  "explore_features": "Découvrez des fonctionnalités gratuites ou passez à un niveau supérieur avec Pro."
+  "explore_features": "Découvrez des fonctionnalités gratuites ou passez à un niveau supérieur avec Pro.",
+  "already_in_free": "Vous êtes déjà sur le plan Free",
+  "already_in_pro": "Vous êtes déjà sur le plan PRO"
 }

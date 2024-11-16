@@ -5,8 +5,11 @@ import { HeaderNavigationMenu } from './header-navigation-menu'
 import { HeaderNavigationDrawer } from './header-navigation-drawer'
 import { Logo } from '../logo'
 import { HeaderAccount } from './header-account'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const Header = () => {
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
+
   return (
     <>
       <header className="hidden justify-between lg:flex">
@@ -16,7 +19,7 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <CommandSearch />
+          {isDesktop && <CommandSearch />}
           <HeaderAccount />
         </div>
       </header>
@@ -25,8 +28,7 @@ export const Header = () => {
         <Logo />
 
         <div className="flex space-x-2">
-          <CommandSearch />
-          <HeaderNavigationDrawer />
+          {!isDesktop && <CommandSearch />} <HeaderNavigationDrawer />
         </div>
       </header>
     </>
