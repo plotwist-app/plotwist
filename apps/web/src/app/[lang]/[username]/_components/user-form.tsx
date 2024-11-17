@@ -31,10 +31,11 @@ import { useSession } from '@/context/session'
 import { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
 import { useRouter } from 'next/navigation'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
-export const userFormSchema = (dictionary: Dictionary, newUsername: string) =>
+export const userFormSchema = (dictionary: Dictionary) =>
   z.object({
     username: z
       .string()
@@ -51,14 +52,8 @@ export const userFormSchema = (dictionary: Dictionary, newUsername: string) =>
 
           return z.NEVER
         }
-
-        if (newUsername === value) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: dictionary.profile_form.same_username,
-          })
-        }
       }),
+    biography: z.string().max(200, 'Limite máximo de caracteres.'),
   })
 
 export type UserFormValues = z.infer<ReturnType<typeof userFormSchema>>
@@ -77,9 +72,10 @@ export const UserForm = ({ trigger, user }: UserFormProps) => {
   const { push, refresh } = useRouter()
 
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(userFormSchema(dictionary, user.username)),
+    resolver: zodResolver(userFormSchema(dictionary)),
     defaultValues: {
       username: user.username,
+      biography: user.biography || '',
     },
   })
 
@@ -88,12 +84,21 @@ export const UserForm = ({ trigger, user }: UserFormProps) => {
 
   const onSubmit = useCallback(
     async (values: UserFormValues) => {
+      const sendUsername = values.username !== session.user?.username
+      const sendBiography = values.biography !== session.user?.biography
+
       await mutateAsync(
-        { data: { username: values.username } },
+        {
+          data: {
+            ...(sendUsername && { username: values.username }),
+            ...(sendBiography && { biography: values.biography }),
+          },
+        },
         {
           onSuccess: ({ user }) => {
             push(`/${language}/${user.username}/`)
             refresh()
+            setOpen(false)
           },
           onError: () => {
             form.setError('username', {
@@ -103,7 +108,15 @@ export const UserForm = ({ trigger, user }: UserFormProps) => {
         },
       )
     },
-    [mutateAsync, push, language, refresh, form, dictionary],
+    [
+      session.user?.username,
+      mutateAsync,
+      form,
+      dictionary,
+      push,
+      language,
+      refresh,
+    ],
   )
 
   if (!user || !isOwner) return null
@@ -143,12 +156,23 @@ export const UserForm = ({ trigger, user }: UserFormProps) => {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="biography"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bio</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="About you" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex justify-end space-x-2">
-              <Button
-                disabled={!isUserPro}
-                type="submit"
-                loading={form.formState.isSubmitting}
-              >
+              <Button type="submit" loading={form.formState.isSubmitting}>
                 {dictionary.profile_form.submit_button}
               </Button>
             </div>
