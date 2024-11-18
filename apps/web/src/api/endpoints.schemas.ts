@@ -4,8 +4,8 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-export type GetSocialLinksByUserId200SocialLinksItemPlatform =
-  (typeof GetSocialLinksByUserId200SocialLinksItemPlatform)[keyof typeof GetSocialLinksByUserId200SocialLinksItemPlatform]
+export type GetSocialLinksByUserId200SocialLinksItemPlatform = typeof GetSocialLinksByUserId200SocialLinksItemPlatform[keyof typeof GetSocialLinksByUserId200SocialLinksItemPlatform];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSocialLinksByUserId200SocialLinksItemPlatform = {
@@ -13,197 +13,195 @@ export const GetSocialLinksByUserId200SocialLinksItemPlatform = {
   TIKTOK: 'TIKTOK',
   YOUTUBE: 'YOUTUBE',
   X: 'X',
-} as const
+} as const;
 
 export type GetSocialLinksByUserId200SocialLinksItem = {
-  createdAt: string
-  id: string
-  platform: GetSocialLinksByUserId200SocialLinksItemPlatform
-  url: string
-  userId: string
-}
+  createdAt: string;
+  id: string;
+  platform: GetSocialLinksByUserId200SocialLinksItemPlatform;
+  url: string;
+  userId: string;
+};
 
 export type GetSocialLinksByUserId200 = {
-  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
-}
+  socialLinks: GetSocialLinksByUserId200SocialLinksItem[];
+};
 
-export type PutSocialLinksBodyYOUTUBEAnyOf = string | ''
+export type PutSocialLinksBodyYOUTUBEAnyOf = string | '';
 
-export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf
+export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf;
 
-export type PutSocialLinksBodyXAnyOf = string | ''
+export type PutSocialLinksBodyXAnyOf = string | '';
 
-export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf
+export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
 
-export type PutSocialLinksBodyTIKTOKAnyOf = string | ''
+export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
-export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf
+export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
 
-export type PutSocialLinksBodyINSTAGRAM =
-  | unknown
-  | PutSocialLinksBodyINSTAGRAMAnyOf
+export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
 
 export type PutSocialLinksBody = {
-  INSTAGRAM: PutSocialLinksBodyINSTAGRAM
-  TIKTOK: PutSocialLinksBodyTIKTOK
-  X: PutSocialLinksBodyX
-  YOUTUBE: PutSocialLinksBodyYOUTUBE
-}
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
+  TIKTOK: PutSocialLinksBodyTIKTOK;
+  X: PutSocialLinksBodyX;
+  YOUTUBE: PutSocialLinksBodyYOUTUBE;
+};
 
 export type PutReviewReplyById200ReviewReply = {
-  createdAt: string
-  id: string
-  reply: string
-  reviewId: string
-  userId: string
-}
+  createdAt: string;
+  id: string;
+  reply: string;
+  reviewId: string;
+  userId: string;
+};
 
 export type PutReviewReplyById200 = {
-  reviewReply: PutReviewReplyById200ReviewReply
-}
+  reviewReply: PutReviewReplyById200ReviewReply;
+};
 
 export type PutReviewReplyByIdBody = {
-  reply: string
-}
+  reply: string;
+};
 
 export type GetReviewReplies200ItemUser = {
-  id: string
+  id: string;
   /** @nullable */
-  imagePath: string | null
-  username: string
-}
+  imagePath: string | null;
+  username: string;
+};
 
 export type GetReviewReplies200Item = {
-  createdAt: string
-  id: string
-  reply: string
-  reviewId: string
-  user: GetReviewReplies200ItemUser
-  userId: string
-}
+  createdAt: string;
+  id: string;
+  reply: string;
+  reviewId: string;
+  user: GetReviewReplies200ItemUser;
+  userId: string;
+};
 
 export type GetReviewRepliesParams = {
-  reviewId: string
-  page?: number
-}
+reviewId: string;
+page?: number;
+};
 
 /**
  * Review or user not found
  */
 export type PostReviewReply404 = {
-  message: string
-}
+  message: string;
+};
 
 export type PostReviewReply201ReviewReply = {
-  createdAt: string
-  id: string
-  reply: string
-  reviewId: string
-  userId: string
-}
+  createdAt: string;
+  id: string;
+  reply: string;
+  reviewId: string;
+  userId: string;
+};
 
 /**
  * Review reply created.
  */
 export type PostReviewReply201 = {
-  reviewReply: PostReviewReply201ReviewReply
-}
+  reviewReply: PostReviewReply201ReviewReply;
+};
 
 export type PostReviewReplyBody = {
-  createdAt?: string
-  id?: string
-  reply: string
-  reviewId: string
-  userId: string
-}
+  createdAt?: string;
+  id?: string;
+  reply: string;
+  reviewId: string;
+  userId: string;
+};
 
 export type PatchUserItemStatusById200 = {
-  userItem: PatchUserItemStatusById200UserItem
-}
+  userItem: PatchUserItemStatusById200UserItem;
+};
 
-export type PatchUserItemStatusById200UserItemStatus =
-  (typeof PatchUserItemStatusById200UserItemStatus)[keyof typeof PatchUserItemStatusById200UserItemStatus]
+export type PatchUserItemStatusById200UserItemStatus = typeof PatchUserItemStatusById200UserItemStatus[keyof typeof PatchUserItemStatusById200UserItemStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchUserItemStatusById200UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
-export type PatchUserItemStatusById200UserItemMediaType =
-  (typeof PatchUserItemStatusById200UserItemMediaType)[keyof typeof PatchUserItemStatusById200UserItemMediaType]
+export type PatchUserItemStatusById200UserItemMediaType = typeof PatchUserItemStatusById200UserItemMediaType[keyof typeof PatchUserItemStatusById200UserItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchUserItemStatusById200UserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type PatchUserItemStatusById200UserItem = {
-  addedAt: string
-  id: string
-  mediaType: PatchUserItemStatusById200UserItemMediaType
+  addedAt: string;
+  id: string;
+  mediaType: PatchUserItemStatusById200UserItemMediaType;
   /** @nullable */
-  position: number | null
-  status: PatchUserItemStatusById200UserItemStatus
-  tmdbId: number
-  userId: string
-}
+  position: number | null;
+  status: PatchUserItemStatusById200UserItemStatus;
+  tmdbId: number;
+  userId: string;
+};
 
-export type PatchUserItemStatusByIdBodyStatus =
-  (typeof PatchUserItemStatusByIdBodyStatus)[keyof typeof PatchUserItemStatusByIdBodyStatus]
+export type PatchUserItemStatusByIdBodyStatus = typeof PatchUserItemStatusByIdBodyStatus[keyof typeof PatchUserItemStatusByIdBodyStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchUserItemStatusByIdBodyStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
 export type PatchUserItemStatusByIdBody = {
-  status: PatchUserItemStatusByIdBodyStatus
-}
+  status: PatchUserItemStatusByIdBodyStatus;
+};
 
-export type GetUserItems200ItemStatus =
-  (typeof GetUserItems200ItemStatus)[keyof typeof GetUserItems200ItemStatus]
+export type GetUserItems200ItemStatus = typeof GetUserItems200ItemStatus[keyof typeof GetUserItems200ItemStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItems200ItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
-export type GetUserItems200ItemMediaType =
-  (typeof GetUserItems200ItemMediaType)[keyof typeof GetUserItems200ItemMediaType]
+export type GetUserItems200ItemMediaType = typeof GetUserItems200ItemMediaType[keyof typeof GetUserItems200ItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItems200ItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetUserItems200Item = {
-  addedAt: string
+  addedAt: string;
   /** @nullable */
-  backdropPath: string | null
-  id: string
-  mediaType: GetUserItems200ItemMediaType
+  backdropPath: string | null;
+  id: string;
+  mediaType: GetUserItems200ItemMediaType;
   /** @nullable */
-  position: number | null
+  position: number | null;
   /** @nullable */
-  posterPath: string | null
-  status: GetUserItems200ItemStatus
-  title: string
-  tmdbId: number
-  userId: string
-}
+  posterPath: string | null;
+  status: GetUserItems200ItemStatus;
+  title: string;
+  tmdbId: number;
+  userId: string;
+};
 
-export type GetUserItemsLanguage =
-  (typeof GetUserItemsLanguage)[keyof typeof GetUserItemsLanguage]
+export type GetUserItemsLanguage = typeof GetUserItemsLanguage[keyof typeof GetUserItemsLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItemsLanguage = {
@@ -214,156 +212,157 @@ export const GetUserItemsLanguage = {
   'it-IT': 'it-IT',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
-export type GetUserItemsStatus =
-  (typeof GetUserItemsStatus)[keyof typeof GetUserItemsStatus]
+export type GetUserItemsStatus = typeof GetUserItemsStatus[keyof typeof GetUserItemsStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItemsStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
 export type GetUserItemsParams = {
-  status: GetUserItemsStatus
-  language?: GetUserItemsLanguage
-}
+status: GetUserItemsStatus;
+userId: string;
+language?: GetUserItemsLanguage;
+};
 
 export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem
-}
+  userItem?: GetUserItem200UserItem;
+};
 
-export type GetUserItem200UserItemStatus =
-  (typeof GetUserItem200UserItemStatus)[keyof typeof GetUserItem200UserItemStatus]
+export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItem200UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
-export type GetUserItem200UserItemMediaType =
-  (typeof GetUserItem200UserItemMediaType)[keyof typeof GetUserItem200UserItemMediaType]
+export type GetUserItem200UserItemMediaType = typeof GetUserItem200UserItemMediaType[keyof typeof GetUserItem200UserItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItem200UserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetUserItem200UserItem = {
-  addedAt: string
-  id: string
-  mediaType: GetUserItem200UserItemMediaType
+  addedAt: string;
+  id: string;
+  mediaType: GetUserItem200UserItemMediaType;
   /** @nullable */
-  position: number | null
-  status: GetUserItem200UserItemStatus
-  tmdbId: number
-  userId: string
-}
+  position: number | null;
+  status: GetUserItem200UserItemStatus;
+  tmdbId: number;
+  userId: string;
+};
 
-export type GetUserItemMediaType =
-  (typeof GetUserItemMediaType)[keyof typeof GetUserItemMediaType]
+export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetUserItemParams = {
-  mediaType: GetUserItemMediaType
-  tmdbId: string
-}
+mediaType: GetUserItemMediaType;
+tmdbId: string;
+};
 
 export type PostUserItem201 = {
-  userItem: PostUserItem201UserItem
-}
+  userItem: PostUserItem201UserItem;
+};
 
-export type PostUserItem201UserItemStatus =
-  (typeof PostUserItem201UserItemStatus)[keyof typeof PostUserItem201UserItemStatus]
+export type PostUserItem201UserItemStatus = typeof PostUserItem201UserItemStatus[keyof typeof PostUserItem201UserItemStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUserItem201UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
-export type PostUserItem201UserItemMediaType =
-  (typeof PostUserItem201UserItemMediaType)[keyof typeof PostUserItem201UserItemMediaType]
+export type PostUserItem201UserItemMediaType = typeof PostUserItem201UserItemMediaType[keyof typeof PostUserItem201UserItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUserItem201UserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type PostUserItem201UserItem = {
-  addedAt: string
-  id: string
-  mediaType: PostUserItem201UserItemMediaType
+  addedAt: string;
+  id: string;
+  mediaType: PostUserItem201UserItemMediaType;
   /** @nullable */
-  position: number | null
-  status: PostUserItem201UserItemStatus
-  tmdbId: number
-  userId: string
-}
+  position: number | null;
+  status: PostUserItem201UserItemStatus;
+  tmdbId: number;
+  userId: string;
+};
 
-export type PostUserItemBodyStatus =
-  (typeof PostUserItemBodyStatus)[keyof typeof PostUserItemBodyStatus]
+export type PostUserItemBodyStatus = typeof PostUserItemBodyStatus[keyof typeof PostUserItemBodyStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUserItemBodyStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
-} as const
+} as const;
 
-export type PostUserItemBodyMediaType =
-  (typeof PostUserItemBodyMediaType)[keyof typeof PostUserItemBodyMediaType]
+export type PostUserItemBodyMediaType = typeof PostUserItemBodyMediaType[keyof typeof PostUserItemBodyMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUserItemBodyMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type PostUserItemBody = {
-  mediaType: PostUserItemBodyMediaType
-  status: PostUserItemBodyStatus
-  tmdbId: number
-}
+  mediaType: PostUserItemBodyMediaType;
+  status: PostUserItemBodyStatus;
+  tmdbId: number;
+};
 
-export type GetListItemsByListId200ItemMediaType =
-  (typeof GetListItemsByListId200ItemMediaType)[keyof typeof GetListItemsByListId200ItemMediaType]
+export type GetListItemsByListId200ItemMediaType = typeof GetListItemsByListId200ItemMediaType[keyof typeof GetListItemsByListId200ItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetListItemsByListId200ItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetListItemsByListId200Item = {
   /** @nullable */
-  backdropPath: string | null
-  createdAt: string
-  id: string
-  listId: string
-  mediaType: GetListItemsByListId200ItemMediaType
+  backdropPath: string | null;
+  createdAt: string;
+  id: string;
+  listId: string;
+  mediaType: GetListItemsByListId200ItemMediaType;
   /** @nullable */
-  position: number | null
+  position: number | null;
   /** @nullable */
-  posterPath: string | null
-  title: string
-  tmdbId: number
-}
+  posterPath: string | null;
+  title: string;
+  tmdbId: number;
+};
 
-export type GetListItemsByListIdLanguage =
-  (typeof GetListItemsByListIdLanguage)[keyof typeof GetListItemsByListIdLanguage]
+export type GetListItemsByListIdLanguage = typeof GetListItemsByListIdLanguage[keyof typeof GetListItemsByListIdLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetListItemsByListIdLanguage = {
@@ -374,72 +373,71 @@ export const GetListItemsByListIdLanguage = {
   'it-IT': 'it-IT',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type GetListItemsByListIdParams = {
-  language?: GetListItemsByListIdLanguage
-}
+language?: GetListItemsByListIdLanguage;
+};
 
-export type PostListItem201ListItemMediaType =
-  (typeof PostListItem201ListItemMediaType)[keyof typeof PostListItem201ListItemMediaType]
+export type PostListItem201ListItemMediaType = typeof PostListItem201ListItemMediaType[keyof typeof PostListItem201ListItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListItem201ListItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type PostListItem201ListItem = {
-  createdAt: string
-  id: string
-  listId: string
-  mediaType: PostListItem201ListItemMediaType
+  createdAt: string;
+  id: string;
+  listId: string;
+  mediaType: PostListItem201ListItemMediaType;
   /** @nullable */
-  position: number | null
-  tmdbId: number
-}
+  position: number | null;
+  tmdbId: number;
+};
 
 export type PostListItem201 = {
-  listItem: PostListItem201ListItem
-}
+  listItem: PostListItem201ListItem;
+};
 
-export type PostListItemBodyMediaType =
-  (typeof PostListItemBodyMediaType)[keyof typeof PostListItemBodyMediaType]
+export type PostListItemBodyMediaType = typeof PostListItemBodyMediaType[keyof typeof PostListItemBodyMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListItemBodyMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type PostListItemBody = {
-  listId: string
-  mediaType: PostListItemBodyMediaType
-  tmdbId: number
-}
+  listId: string;
+  mediaType: PostListItemBodyMediaType;
+  tmdbId: number;
+};
 
 export type GetDetailedReviews200ReviewsItemUser = {
-  id: string
+  id: string;
   /** @nullable */
-  imagePath: string | null
-  username: string
-}
+  imagePath: string | null;
+  username: string;
+};
 
-export type GetDetailedReviews200ReviewsItemMediaType =
-  (typeof GetDetailedReviews200ReviewsItemMediaType)[keyof typeof GetDetailedReviews200ReviewsItemMediaType]
+export type GetDetailedReviews200ReviewsItemMediaType = typeof GetDetailedReviews200ReviewsItemMediaType[keyof typeof GetDetailedReviews200ReviewsItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetDetailedReviews200ReviewsItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 /**
  * @nullable
  */
-export type GetDetailedReviews200ReviewsItemLanguage =
-  | (typeof GetDetailedReviews200ReviewsItemLanguage)[keyof typeof GetDetailedReviews200ReviewsItemLanguage]
-  | null
+export type GetDetailedReviews200ReviewsItemLanguage = typeof GetDetailedReviews200ReviewsItemLanguage[keyof typeof GetDetailedReviews200ReviewsItemLanguage] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetDetailedReviews200ReviewsItemLanguage = {
@@ -450,33 +448,33 @@ export const GetDetailedReviews200ReviewsItemLanguage = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type GetDetailedReviews200ReviewsItem = {
   /** @nullable */
-  backdropPath: string | null
-  createdAt: string
-  hasSpoilers: boolean
-  id: string
+  backdropPath: string | null;
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
   /** @nullable */
-  language: GetDetailedReviews200ReviewsItemLanguage
-  mediaType: GetDetailedReviews200ReviewsItemMediaType
+  language: GetDetailedReviews200ReviewsItemLanguage;
+  mediaType: GetDetailedReviews200ReviewsItemMediaType;
   /** @nullable */
-  posterPath: string | null
-  rating: number
-  review: string
-  title: string
-  tmdbId: number
-  user: GetDetailedReviews200ReviewsItemUser
-  userId: string
-}
+  posterPath: string | null;
+  rating: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  user: GetDetailedReviews200ReviewsItemUser;
+  userId: string;
+};
 
 export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[]
-}
+  reviews: GetDetailedReviews200ReviewsItem[];
+};
 
-export type GetDetailedReviewsLanguage =
-  (typeof GetDetailedReviewsLanguage)[keyof typeof GetDetailedReviewsLanguage]
+export type GetDetailedReviewsLanguage = typeof GetDetailedReviewsLanguage[keyof typeof GetDetailedReviewsLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetDetailedReviewsLanguage = {
@@ -487,29 +485,28 @@ export const GetDetailedReviewsLanguage = {
   'it-IT': 'it-IT',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type GetDetailedReviewsParams = {
-  userId?: string
-  limit?: string
-  language?: GetDetailedReviewsLanguage
-}
+userId?: string;
+limit?: string;
+language?: GetDetailedReviewsLanguage;
+};
 
-export type PutReviewById200MediaType =
-  (typeof PutReviewById200MediaType)[keyof typeof PutReviewById200MediaType]
+export type PutReviewById200MediaType = typeof PutReviewById200MediaType[keyof typeof PutReviewById200MediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutReviewById200MediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 /**
  * @nullable
  */
-export type PutReviewById200Language =
-  | (typeof PutReviewById200Language)[keyof typeof PutReviewById200Language]
-  | null
+export type PutReviewById200Language = typeof PutReviewById200Language[keyof typeof PutReviewById200Language] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutReviewById200Language = {
@@ -520,49 +517,48 @@ export const PutReviewById200Language = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type PutReviewById200 = {
-  createdAt: string
-  hasSpoilers: boolean
-  id: string
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
   /** @nullable */
-  language: PutReviewById200Language
-  mediaType: PutReviewById200MediaType
-  rating: number
-  review: string
-  tmdbId: number
-  userId: string
-}
+  language: PutReviewById200Language;
+  mediaType: PutReviewById200MediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+  userId: string;
+};
 
 export type PutReviewByIdBody = {
-  hasSpoilers?: boolean
-  rating: number
-  review: string
-}
+  hasSpoilers?: boolean;
+  rating: number;
+  review: string;
+};
 
 export type GetReviews200ItemUser = {
-  id: string
+  id: string;
   /** @nullable */
-  imagePath: string | null
-  username: string
-}
+  imagePath: string | null;
+  username: string;
+};
 
-export type GetReviews200ItemMediaType =
-  (typeof GetReviews200ItemMediaType)[keyof typeof GetReviews200ItemMediaType]
+export type GetReviews200ItemMediaType = typeof GetReviews200ItemMediaType[keyof typeof GetReviews200ItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetReviews200ItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 /**
  * @nullable
  */
-export type GetReviews200ItemLanguage =
-  | (typeof GetReviews200ItemLanguage)[keyof typeof GetReviews200ItemLanguage]
-  | null
+export type GetReviews200ItemLanguage = typeof GetReviews200ItemLanguage[keyof typeof GetReviews200ItemLanguage] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetReviews200ItemLanguage = {
@@ -573,25 +569,24 @@ export const GetReviews200ItemLanguage = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type GetReviews200Item = {
-  createdAt: string
-  hasSpoilers: boolean
-  id: string
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
   /** @nullable */
-  language: GetReviews200ItemLanguage
-  mediaType: GetReviews200ItemMediaType
-  rating: number
-  review: string
-  tmdbId: number
-  user: GetReviews200ItemUser
-  userId: string
-}
+  language: GetReviews200ItemLanguage;
+  mediaType: GetReviews200ItemMediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+  user: GetReviews200ItemUser;
+  userId: string;
+};
 
-export type GetReviewsLanguage =
-  | (typeof GetReviewsLanguage)[keyof typeof GetReviewsLanguage]
-  | null
+export type GetReviewsLanguage = typeof GetReviewsLanguage[keyof typeof GetReviewsLanguage] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetReviewsLanguage = {
@@ -602,45 +597,44 @@ export const GetReviewsLanguage = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
-export type GetReviewsMediaType =
-  (typeof GetReviewsMediaType)[keyof typeof GetReviewsMediaType]
+export type GetReviewsMediaType = typeof GetReviewsMediaType[keyof typeof GetReviewsMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetReviewsMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetReviewsParams = {
-  mediaType: GetReviewsMediaType
-  language: GetReviewsLanguage
-  tmdbId: string
-}
+mediaType: GetReviewsMediaType;
+language: GetReviewsLanguage;
+tmdbId: string;
+};
 
 /**
  * User not found
  */
 export type PostReview404 = {
-  message: string
-}
+  message: string;
+};
 
-export type PostReview201ReviewMediaType =
-  (typeof PostReview201ReviewMediaType)[keyof typeof PostReview201ReviewMediaType]
+export type PostReview201ReviewMediaType = typeof PostReview201ReviewMediaType[keyof typeof PostReview201ReviewMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostReview201ReviewMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 /**
  * @nullable
  */
-export type PostReview201ReviewLanguage =
-  | (typeof PostReview201ReviewLanguage)[keyof typeof PostReview201ReviewLanguage]
-  | null
+export type PostReview201ReviewLanguage = typeof PostReview201ReviewLanguage[keyof typeof PostReview201ReviewLanguage] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostReview201ReviewLanguage = {
@@ -651,43 +645,42 @@ export const PostReview201ReviewLanguage = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type PostReview201Review = {
-  createdAt?: string
-  hasSpoilers?: boolean
-  id?: string
+  createdAt?: string;
+  hasSpoilers?: boolean;
+  id?: string;
   /** @nullable */
-  language?: PostReview201ReviewLanguage
-  mediaType: PostReview201ReviewMediaType
-  rating: number
-  review: string
-  tmdbId: number
-  userId: string
-}
+  language?: PostReview201ReviewLanguage;
+  mediaType: PostReview201ReviewMediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+  userId: string;
+};
 
 /**
  * Review created.
  */
 export type PostReview201 = {
-  review: PostReview201Review
-}
+  review: PostReview201Review;
+};
 
-export type PostReviewBodyMediaType =
-  (typeof PostReviewBodyMediaType)[keyof typeof PostReviewBodyMediaType]
+export type PostReviewBodyMediaType = typeof PostReviewBodyMediaType[keyof typeof PostReviewBodyMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostReviewBodyMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 /**
  * @nullable
  */
-export type PostReviewBodyLanguage =
-  | (typeof PostReviewBodyLanguage)[keyof typeof PostReviewBodyLanguage]
-  | null
+export type PostReviewBodyLanguage = typeof PostReviewBodyLanguage[keyof typeof PostReviewBodyLanguage] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostReviewBodyLanguage = {
@@ -698,528 +691,528 @@ export const PostReviewBodyLanguage = {
   'de-DE': 'de-DE',
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
-} as const
+} as const;
 
 export type PostReviewBody = {
-  hasSpoilers?: boolean
+  hasSpoilers?: boolean;
   /** @nullable */
-  language?: PostReviewBodyLanguage
-  mediaType: PostReviewBodyMediaType
-  rating: number
-  review: string
-  tmdbId: number
-}
+  language?: PostReviewBodyLanguage;
+  mediaType: PostReviewBodyMediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+};
 
 /**
  * Invalid email or password.
  */
 export type PostLogin400 = {
-  message: string
-}
+  message: string;
+};
 
 export type PostLogin200 = {
-  status?: string
-  token?: string
-}
+  status?: string;
+  token?: string;
+};
 
 export type PostLoginBody = {
-  email: string
+  email: string;
   /** @minLength 8 */
-  password?: string
-  url?: string
-}
+  password?: string;
+  url?: string;
+};
 
 /**
  * List not found.
  */
 export type PatchListBanner404 = {
-  message: string
-}
+  message: string;
+};
 
-export type PatchListBanner200ListVisibility =
-  (typeof PatchListBanner200ListVisibility)[keyof typeof PatchListBanner200ListVisibility]
+export type PatchListBanner200ListVisibility = typeof PatchListBanner200ListVisibility[keyof typeof PatchListBanner200ListVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchListBanner200ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PatchListBanner200List = {
   /** @nullable */
-  bannerPath: string | null
-  createdAt: string
+  bannerPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  id: string
-  title: string
-  userId: string
-  visibility: PatchListBanner200ListVisibility
-}
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: PatchListBanner200ListVisibility;
+};
 
 export type PatchListBanner200 = {
-  list: PatchListBanner200List
-}
+  list: PatchListBanner200List;
+};
 
 export type PatchListBannerBody = {
-  bannerPath: string
-  listId: string
-}
+  bannerPath: string;
+  listId: string;
+};
 
 /**
  * List not found.
  */
 export type GetListById404 = {
-  message: string
-}
+  message: string;
+};
 
-export type GetListById200ListVisibility =
-  (typeof GetListById200ListVisibility)[keyof typeof GetListById200ListVisibility]
+export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetListById200ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type GetListById200List = {
   /** @nullable */
-  bannerPath: string | null
-  createdAt: string
+  bannerPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  id: string
-  title: string
-  userId: string
-  visibility: GetListById200ListVisibility
-}
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: GetListById200ListVisibility;
+};
 
 export type GetListById200 = {
-  list: GetListById200List
-}
+  list: GetListById200List;
+};
 
 /**
  * List not found.
  */
 export type PutListId404 = {
-  message: string
-}
+  message: string;
+};
 
-export type PutListId200ListVisibility =
-  (typeof PutListId200ListVisibility)[keyof typeof PutListId200ListVisibility]
+export type PutListId200ListVisibility = typeof PutListId200ListVisibility[keyof typeof PutListId200ListVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutListId200ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PutListId200List = {
   /** @nullable */
-  bannerPath: string | null
-  createdAt: string
+  bannerPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  id: string
-  title: string
-  userId: string
-  visibility: PutListId200ListVisibility
-}
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: PutListId200ListVisibility;
+};
 
 export type PutListId200 = {
-  list: PutListId200List
-}
+  list: PutListId200List;
+};
 
-export type PutListIdBodyVisibility =
-  (typeof PutListIdBodyVisibility)[keyof typeof PutListIdBodyVisibility]
+export type PutListIdBodyVisibility = typeof PutListIdBodyVisibility[keyof typeof PutListIdBodyVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutListIdBodyVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PutListIdBody = {
   /** @nullable */
-  description?: string | null
-  title: string
-  visibility: PutListIdBodyVisibility
-}
+  description?: string | null;
+  title: string;
+  visibility: PutListIdBodyVisibility;
+};
 
 /**
  * List not found.
  */
 export type DeleteListId404 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * @nullable
  */
-export type DeleteListId204 =
-  | (typeof DeleteListId204)[keyof typeof DeleteListId204]
-  | null
+export type DeleteListId204 = typeof DeleteListId204[keyof typeof DeleteListId204] | null;
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteListId204 = {
   null: 'null',
-} as const
+} as const;
 
 export type GetLists404 = {
-  message: string
-}
+  message: string;
+};
 
-export type GetLists200ListsItemVisibility =
-  (typeof GetLists200ListsItemVisibility)[keyof typeof GetLists200ListsItemVisibility]
+export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetLists200ListsItemVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type GetLists200ListsItemUser = {
-  id: string
+  id: string;
   /** @nullable */
-  imagePath: string | null
-  username: string
-}
+  imagePath: string | null;
+  username: string;
+};
 
 export type GetLists200ListsItem = {
   /** @nullable */
-  bannerPath: string | null
-  createdAt: string
+  bannerPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  hasLiked: boolean
-  id: string
-  items: GetLists200ListsItemItemsItem[]
-  likeCount: number
-  title: string
-  user: GetLists200ListsItemUser
-  userId: string
-  visibility: GetLists200ListsItemVisibility
-}
+  description: string | null;
+  hasLiked: boolean;
+  id: string;
+  items: GetLists200ListsItemItemsItem[];
+  likeCount: number;
+  title: string;
+  user: GetLists200ListsItemUser;
+  userId: string;
+  visibility: GetLists200ListsItemVisibility;
+};
 
 export type GetLists200 = {
-  lists: GetLists200ListsItem[]
-}
+  lists: GetLists200ListsItem[];
+};
 
-export type GetLists200ListsItemItemsItemMediaType =
-  (typeof GetLists200ListsItemItemsItemMediaType)[keyof typeof GetLists200ListsItemItemsItemMediaType]
+export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetLists200ListsItemItemsItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
-} as const
+} as const;
 
 export type GetLists200ListsItemItemsItem = {
-  id: string
-  mediaType: GetLists200ListsItemItemsItemMediaType
-  tmdbId: number
-}
+  id: string;
+  mediaType: GetLists200ListsItemItemsItemMediaType;
+  tmdbId: number;
+};
 
 export type GetListsParams = {
-  userId?: string
-  limit?: number
-}
+userId?: string;
+limit?: number;
+};
 
 /**
  * User not found
  */
 export type PostList404 = {
-  message: string
-}
+  message: string;
+};
 
-export type PostList201ListVisibility =
-  (typeof PostList201ListVisibility)[keyof typeof PostList201ListVisibility]
+export type PostList201ListVisibility = typeof PostList201ListVisibility[keyof typeof PostList201ListVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostList201ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PostList201List = {
   /** @nullable */
-  bannerPath: string | null
-  createdAt: string
+  bannerPath: string | null;
+  createdAt: string;
   /** @nullable */
-  description: string | null
-  id: string
-  title: string
-  userId: string
-  visibility: PostList201ListVisibility
-}
+  description: string | null;
+  id: string;
+  title: string;
+  userId: string;
+  visibility: PostList201ListVisibility;
+};
 
 /**
  * List created.
  */
 export type PostList201 = {
-  list: PostList201List
-}
+  list: PostList201List;
+};
 
-export type PostListBodyVisibility =
-  (typeof PostListBodyVisibility)[keyof typeof PostListBodyVisibility]
+export type PostListBodyVisibility = typeof PostListBodyVisibility[keyof typeof PostListBodyVisibility];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListBodyVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
-} as const
+} as const;
 
 export type PostListBody = {
   /** @nullable */
-  description?: string | null
-  title: string
-  visibility: PostListBodyVisibility
-}
+  description?: string | null;
+  title: string;
+  visibility: PostListBodyVisibility;
+};
 
-export type PatchUserPassword200Status =
-  (typeof PatchUserPassword200Status)[keyof typeof PatchUserPassword200Status]
+export type PatchUserPassword200Status = typeof PatchUserPassword200Status[keyof typeof PatchUserPassword200Status];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchUserPassword200Status = {
   password_set: 'password_set',
-} as const
+} as const;
 
 export type PatchUserPassword200 = {
-  status: PatchUserPassword200Status
-}
+  status: PatchUserPassword200Status;
+};
 
 export type PatchUserPasswordBody = {
-  password: string
-  token: string
-}
+  password: string;
+  token: string;
+};
 
-export type PatchUser200UserSubscriptionType =
-  (typeof PatchUser200UserSubscriptionType)[keyof typeof PatchUser200UserSubscriptionType]
+export type PatchUser200UserSubscriptionType = typeof PatchUser200UserSubscriptionType[keyof typeof PatchUser200UserSubscriptionType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PatchUser200UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type PatchUser200User = {
   /** @nullable */
-  bannerPath: string | null
+  bannerPath: string | null;
   /** @nullable */
-  biography: string | null
-  createdAt: string
-  email: string
-  id: string
+  biography: string | null;
+  createdAt: string;
+  email: string;
+  id: string;
   /** @nullable */
-  imagePath: string | null
+  imagePath: string | null;
   /** @nullable */
-  isLegacy: boolean | null
-  subscriptionType: PatchUser200UserSubscriptionType
-  username: string
-}
+  isLegacy: boolean | null;
+  subscriptionType: PatchUser200UserSubscriptionType;
+  username: string;
+};
 
 export type PatchUser200 = {
-  user: PatchUser200User
-}
+  user: PatchUser200User;
+};
 
 export type PatchUserBody = {
-  bannerPath?: string
-  biography?: string
-  imagePath?: string
-  username?: string
-}
+  bannerPath?: string;
+  biography?: string;
+  imagePath?: string;
+  username?: string;
+};
 
-export type GetMe200UserSubscriptionType =
-  (typeof GetMe200UserSubscriptionType)[keyof typeof GetMe200UserSubscriptionType]
+export type GetMe200UserSubscriptionType = typeof GetMe200UserSubscriptionType[keyof typeof GetMe200UserSubscriptionType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMe200UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type GetMe200User = {
   /** @nullable */
-  bannerPath: string | null
+  bannerPath: string | null;
   /** @nullable */
-  biography: string | null
-  createdAt: string
-  email: string
-  id: string
+  biography: string | null;
+  createdAt: string;
+  email: string;
+  id: string;
   /** @nullable */
-  imagePath: string | null
+  imagePath: string | null;
   /** @nullable */
-  isLegacy: boolean | null
-  subscriptionType: GetMe200UserSubscriptionType
-  username: string
-}
+  isLegacy: boolean | null;
+  subscriptionType: GetMe200UserSubscriptionType;
+  username: string;
+};
 
 export type GetMe200 = {
-  user: GetMe200User
-}
+  user: GetMe200User;
+};
 
 /**
  * Fail to hash password.
  */
 export type GetUserById500 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * Email or username is already registered.
  */
 export type GetUserById409 = {
-  message: string
-}
+  message: string;
+};
 
-export type GetUserById201UserSubscriptionType =
-  (typeof GetUserById201UserSubscriptionType)[keyof typeof GetUserById201UserSubscriptionType]
+export type GetUserById201UserSubscriptionType = typeof GetUserById201UserSubscriptionType[keyof typeof GetUserById201UserSubscriptionType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUserById201UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type GetUserById201User = {
   /** @nullable */
-  bannerPath?: string | null
+  bannerPath?: string | null;
   /** @nullable */
-  biography?: string | null
-  createdAt?: string
-  email: string
-  id?: string
+  biography?: string | null;
+  createdAt?: string;
+  email: string;
+  id?: string;
   /** @nullable */
-  imagePath?: string | null
+  imagePath?: string | null;
   /** @nullable */
-  isLegacy?: boolean | null
-  subscriptionType?: GetUserById201UserSubscriptionType
-  username: string
-}
+  isLegacy?: boolean | null;
+  subscriptionType?: GetUserById201UserSubscriptionType;
+  username: string;
+};
 
 /**
  * User created.
  */
 export type GetUserById201 = {
-  user: GetUserById201User
-}
+  user: GetUserById201User;
+};
 
-export type GetUsersUsername200UserSubscriptionType =
-  (typeof GetUsersUsername200UserSubscriptionType)[keyof typeof GetUsersUsername200UserSubscriptionType]
+export type GetUsersUsername200UserSubscriptionType = typeof GetUsersUsername200UserSubscriptionType[keyof typeof GetUsersUsername200UserSubscriptionType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetUsersUsername200UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type GetUsersUsername200User = {
   /** @nullable */
-  bannerPath: string | null
+  bannerPath: string | null;
   /** @nullable */
-  biography: string | null
-  createdAt: string
-  email: string
-  id: string
+  biography: string | null;
+  createdAt: string;
+  email: string;
+  id: string;
   /** @nullable */
-  imagePath: string | null
+  imagePath: string | null;
   /** @nullable */
-  isLegacy: boolean | null
-  subscriptionType: GetUsersUsername200UserSubscriptionType
-  username: string
-}
+  isLegacy: boolean | null;
+  subscriptionType: GetUsersUsername200UserSubscriptionType;
+  username: string;
+};
 
 export type GetUsersUsername200 = {
-  user: GetUsersUsername200User
-}
+  user: GetUsersUsername200User;
+};
 
 /**
  * Email is already registered.
  */
 export type GetUsersAvailableEmail409 = {
-  message: string
-}
+  message: string;
+};
 
 export type GetUsersAvailableEmail200 = {
-  available: boolean
-}
+  available: boolean;
+};
 
 export type GetUsersAvailableEmailParams = {
-  email: string
-}
+email: string;
+};
 
 /**
  * Username is already registered.
  */
 export type GetUsersAvailableUsername409 = {
-  message: string
-}
+  message: string;
+};
 
 export type GetUsersAvailableUsername200 = {
-  available: boolean
-}
+  available: boolean;
+};
 
 export type GetUsersAvailableUsernameParams = {
-  username: string
-}
+username: string;
+};
 
 /**
  * Fail to hash password.
  */
 export type PostUsersCreate500 = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * Email or username is already registered.
  */
 export type PostUsersCreate409 = {
-  message: string
-}
+  message: string;
+};
 
-export type PostUsersCreate201UserSubscriptionType =
-  (typeof PostUsersCreate201UserSubscriptionType)[keyof typeof PostUsersCreate201UserSubscriptionType]
+export type PostUsersCreate201UserSubscriptionType = typeof PostUsersCreate201UserSubscriptionType[keyof typeof PostUsersCreate201UserSubscriptionType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUsersCreate201UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
-} as const
+} as const;
 
 export type PostUsersCreate201User = {
   /** @nullable */
-  bannerPath?: string | null
+  bannerPath?: string | null;
   /** @nullable */
-  biography?: string | null
-  createdAt?: string
-  email: string
-  id?: string
+  biography?: string | null;
+  createdAt?: string;
+  email: string;
+  id?: string;
   /** @nullable */
-  imagePath?: string | null
+  imagePath?: string | null;
   /** @nullable */
-  isLegacy?: boolean | null
-  subscriptionType?: PostUsersCreate201UserSubscriptionType
-  username: string
-}
+  isLegacy?: boolean | null;
+  subscriptionType?: PostUsersCreate201UserSubscriptionType;
+  username: string;
+};
 
 /**
  * User created.
  */
 export type PostUsersCreate201 = {
-  user: PostUsersCreate201User
-}
+  user: PostUsersCreate201User;
+};
 
 export type PostUsersCreateBody = {
-  email: string
+  email: string;
   /** @minLength 8 */
-  password: string
+  password: string;
   /** @minLength 3 */
-  username: string
-}
+  username: string;
+};
+

@@ -4,7 +4,11 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -17,342 +21,203 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
   GetSocialLinksByUserId200,
-  PutSocialLinksBody,
+  PutSocialLinksBody
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
+import { axiosInstance } from '../services/axios-instance';
+
+
+
 
 /**
  * Update social links
  */
-export const putSocialLinks = (putSocialLinksBody: PutSocialLinksBody) => {
-  return axiosInstance<unknown>({
-    url: `/social-links`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: putSocialLinksBody,
-  })
-}
+export const putSocialLinks = (
+    putSocialLinksBody: PutSocialLinksBody,
+ ) => {
+      
+      
+      return axiosInstance<unknown>(
+      {url: `/social-links`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putSocialLinksBody
+    },
+      );
+    }
+  
 
-export const getPutSocialLinksMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof putSocialLinks>>,
-    TError,
-    { data: PutSocialLinksBody },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof putSocialLinks>>,
-  TError,
-  { data: PutSocialLinksBody },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof putSocialLinks>>,
-    { data: PutSocialLinksBody }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getPutSocialLinksMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putSocialLinks>>, TError,{data: PutSocialLinksBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putSocialLinks>>, TError,{data: PutSocialLinksBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return putSocialLinks(data)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type PutSocialLinksMutationResult = NonNullable<
-  Awaited<ReturnType<typeof putSocialLinks>>
->
-export type PutSocialLinksMutationBody = PutSocialLinksBody
-export type PutSocialLinksMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putSocialLinks>>, {data: PutSocialLinksBody}> = (props) => {
+          const {data} = props ?? {};
 
-export const usePutSocialLinks = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof putSocialLinks>>,
-    TError,
-    { data: PutSocialLinksBody },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof putSocialLinks>>,
-  TError,
-  { data: PutSocialLinksBody },
-  TContext
-> => {
-  const mutationOptions = getPutSocialLinksMutationOptions(options)
+          return  putSocialLinks(data,)
+        }
 
-  return useMutation(mutationOptions)
-}
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutSocialLinksMutationResult = NonNullable<Awaited<ReturnType<typeof putSocialLinks>>>
+    export type PutSocialLinksMutationBody = PutSocialLinksBody
+    export type PutSocialLinksMutationError = unknown
+
+    export const usePutSocialLinks = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putSocialLinks>>, TError,{data: PutSocialLinksBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof putSocialLinks>>,
+        TError,
+        {data: PutSocialLinksBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPutSocialLinksMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Get social links by userId
  */
 export const getSocialLinksByUserId = (
-  userId: string,
-  signal?: AbortSignal,
+    userId: string,
+ signal?: AbortSignal
 ) => {
-  return axiosInstance<GetSocialLinksByUserId200>({
-    url: `/social-links/by/${userId}`,
-    method: 'GET',
-    signal,
-  })
-}
+      
+      
+      return axiosInstance<GetSocialLinksByUserId200>(
+      {url: `/social-links/by/${userId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getGetSocialLinksByUserIdQueryKey = (userId: string) => {
-  return [`/social-links/by/${userId}`] as const
-}
+export const getGetSocialLinksByUserIdQueryKey = (userId: string,) => {
+    return [`/social-links/by/${userId}`] as const;
+    }
 
-export const getGetSocialLinksByUserIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
+    
+export const getGetSocialLinksByUserIdQueryOptions = <TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(userId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetSocialLinksByUserIdQueryKey(userId)
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getSocialLinksByUserId>>
-  > = ({ signal }) => getSocialLinksByUserId(userId, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetSocialLinksByUserIdQueryKey(userId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!userId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSocialLinksByUserId>>> = ({ signal }) => getSocialLinksByUserId(userId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetSocialLinksByUserIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getSocialLinksByUserId>>
->
+export type GetSocialLinksByUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof getSocialLinksByUserId>>>
 export type GetSocialLinksByUserIdQueryError = unknown
 
-export function useGetSocialLinksByUserId<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useGetSocialLinksByUserId<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSocialLinksByUserId>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetSocialLinksByUserId<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSocialLinksByUserId<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSocialLinksByUserId>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetSocialLinksByUserId<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+        > , 'initialData'
+      >, }
 
-export function useGetSocialLinksByUserId<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetSocialLinksByUserIdQueryOptions(userId, options)
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSocialLinksByUserId<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-  query.queryKey = queryOptions.queryKey
+export function useGetSocialLinksByUserId<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 
-  return query
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetSocialLinksByUserIdQueryOptions(userId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
 
-export const getGetSocialLinksByUserIdSuspenseQueryOptions = <
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
+
+
+export const getGetSocialLinksByUserIdSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(userId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {}
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetSocialLinksByUserIdQueryKey(userId)
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getSocialLinksByUserId>>
-  > = ({ signal }) => getSocialLinksByUserId(userId, signal)
+  const queryKey =  queryOptions?.queryKey ?? getGetSocialLinksByUserIdQueryKey(userId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!userId,
-    ...queryOptions,
-  } as UseSuspenseQueryOptions<
-    Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey }
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSocialLinksByUserId>>> = ({ signal }) => getSocialLinksByUserId(userId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetSocialLinksByUserIdSuspenseQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getSocialLinksByUserId>>
->
+export type GetSocialLinksByUserIdSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getSocialLinksByUserId>>>
 export type GetSocialLinksByUserIdSuspenseQueryError = unknown
 
-export function useGetSocialLinksByUserIdSuspense<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options: {
-    query: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetSocialLinksByUserIdSuspense<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetSocialLinksByUserIdSuspense<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetSocialLinksByUserIdSuspense<
-  TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-  TError = unknown,
->(
-  userId: string,
-  options?: {
-    query?: Partial<
-      UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getSocialLinksByUserId>>,
-        TError,
-        TData
-      >
-    >
-  },
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetSocialLinksByUserIdSuspenseQueryOptions(
-    userId,
-    options,
-  )
+export function useGetSocialLinksByUserIdSuspense<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 
-  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
-    TData,
-    TError
-  > & { queryKey: QueryKey }
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSocialLinksByUserIdSuspense<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 
-  query.queryKey = queryOptions.queryKey
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSocialLinksByUserIdSuspense<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
 
-  return query
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetSocialLinksByUserIdSuspense<TData = Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError = unknown>(
+ userId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getSocialLinksByUserId>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetSocialLinksByUserIdSuspenseQueryOptions(userId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
+
