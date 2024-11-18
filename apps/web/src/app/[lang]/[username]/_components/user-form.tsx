@@ -1,19 +1,12 @@
 'use client'
 
-import { useCallback, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Input } from '@plotwist/ui/components/ui/input'
 import { Button } from '@plotwist/ui/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@plotwist/ui/components/ui/dialog'
+
 import {
   Form,
   FormControl,
@@ -59,13 +52,11 @@ export const userFormSchema = (dictionary: Dictionary) =>
 export type UserFormValues = z.infer<ReturnType<typeof userFormSchema>>
 
 type UserFormProps = {
-  trigger: JSX.Element
   user: GetUsersUsername200User
+  onClose: () => void
 }
 
-export const UserForm = ({ trigger, user }: UserFormProps) => {
-  const [open, setOpen] = useState(false)
-
+export const UserForm = ({ user, onClose }: UserFormProps) => {
   const { dictionary, language } = useLanguage()
   const session = useSession()
   const { mutateAsync } = usePatchUser()
@@ -82,103 +73,85 @@ export const UserForm = ({ trigger, user }: UserFormProps) => {
   const isUserPro = user.subscriptionType === 'PRO'
   const isOwner = session?.user?.id === user?.id
 
-  const onSubmit = useCallback(
-    async (values: UserFormValues) => {
-      const sendUsername = values.username !== session.user?.username
-      const sendBiography = values.biography !== session.user?.biography
+  const onSubmit = async (values: UserFormValues) => {
+    const sendUsername = values.username !== session.user?.username
+    const sendBiography = values.biography !== session.user?.biography
 
-      await mutateAsync(
-        {
-          data: {
-            ...(sendUsername && { username: values.username }),
-            ...(sendBiography && { biography: values.biography }),
-          },
+    await mutateAsync(
+      {
+        data: {
+          ...(sendUsername && { username: values.username }),
+          ...(sendBiography && { biography: values.biography }),
         },
-        {
-          onSuccess: ({ user }) => {
-            push(`/${language}/${user.username}/`)
-            refresh()
-            setOpen(false)
-          },
-          onError: () => {
-            form.setError('username', {
-              message: `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
-            })
-          },
+      },
+      {
+        onSuccess: ({ user }) => {
+          push(`/${language}/${user.username}/`)
+          refresh()
+          onClose()
         },
-      )
-    },
-    [
-      session.user?.username,
-      mutateAsync,
-      form,
-      dictionary,
-      push,
-      language,
-      refresh,
-    ],
-  )
+        onError: () => {
+          form.setError('username', {
+            message: `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
+          })
+        },
+      },
+    )
+  }
 
   if (!user || !isOwner) return null
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{dictionary.profile_form.username_label}</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={!isUserPro}
+                  placeholder={dictionary.profile_form.username_placeholder}
+                  {...field}
+                />
+              </FormControl>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{dictionary.profile_form.dialog_title}</DialogTitle>
-        </DialogHeader>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-4"
+        <FormField
+          control={form.control}
+          name="biography"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{dictionary.biography}</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder={dictionary.biography_placeholder}
+                  rows={4}
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex justify-end space-x-2">
+          <Button
+            type="submit"
+            loading={form.formState.isSubmitting}
+            disabled={!form.formState.isDirty}
           >
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {dictionary.profile_form.username_label}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={!isUserPro}
-                      placeholder={dictionary.profile_form.username_placeholder}
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="biography"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="About you" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-end space-x-2">
-              <Button type="submit" loading={form.formState.isSubmitting}>
-                {dictionary.profile_form.submit_button}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+            {dictionary.profile_form.submit_button}
+          </Button>
+        </div>
+      </form>
+    </Form>
   )
 }

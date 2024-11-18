@@ -6,14 +6,14 @@ import { ProfileImage } from './_components/profile-image'
 import { ProBadge } from '@/components/pro-badge'
 import { PropsWithChildren } from 'react'
 import { ProfileTabs } from './_components/profile-tabs'
-import { UserForm } from './_components/user-form'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
+import { SocialLinks } from './_components/social-links'
+import { UserDialog } from './_components/user-dialog'
+import { getSocialLinksByUserId } from '@/api/social-links'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
@@ -28,6 +28,8 @@ export default async function Layout({
   if (!user) {
     redirect(`/${lang}/home`)
   }
+
+  const { socialLinks } = await getSocialLinksByUserId(user.id)
 
   return (
     <main className="p-0 lg:p-4 mx-auto max-w-6xl">
@@ -56,7 +58,7 @@ export default async function Layout({
               )}
             >
               <p className="text-xs text-muted-foreground">
-                Member since{' '}
+                {dictionary.member_since}{' '}
                 {format(new Date(user.createdAt), 'MMM/yyyy', {
                   locale: locale[lang],
                 })}
@@ -65,14 +67,11 @@ export default async function Layout({
               <div className="flex items-center gap-4 mt-2">
                 <h1 className="text-3xl font-bold">{user.username}</h1>
 
-                <UserForm
-                  user={user}
-                  trigger={
-                    <Button size="sm" variant="outline">
-                      {dictionary.profile_form.dialog_title}
-                    </Button>
-                  }
-                />
+                <UserDialog user={user} socialLinks={socialLinks}>
+                  <Button size="sm" variant="outline">
+                    {dictionary.profile_form.dialog_title}
+                  </Button>
+                </UserDialog>
               </div>
 
               <p className="text-muted-foreground mt-2 text-sm">
@@ -87,18 +86,17 @@ export default async function Layout({
               >
                 {user.subscriptionType === 'PRO' && <ProBadge />}
 
-                {/* <Badge variant="outline">
-                  375 movies{' '}
-                  <Separator orientation="vertical" className="mx-2" /> 17 this
-                  year
-                </Badge>
+                {/* <Badge variant="outline">375 movies</Badge> */}
+                {/* <Badge variant="outline">375 series</Badge> */}
 
-                <Badge variant="outline">
-                  375 series{' '}
-                  <Separator orientation="vertical" className="mx-2" /> 17 in
-                  2024 year
-                </Badge> */}
+                {/* <Badge variant="outline">Potterhead</Badge>
+                <Badge variant="outline">Marveleiro</Badge>
+                <Badge variant="outline">Jedi</Badge>
+                <Badge variant="outline">Tolkienista</Badge>
+                <Badge variant="outline">Afiliado</Badge> */}
               </div>
+
+              <SocialLinks socialLinks={socialLinks} />
 
               {/* <FollowButton userId={user.id} /> */}
               {/* <Followers /> */}

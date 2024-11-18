@@ -4,11 +4,7 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation,
-  useQuery,
-  useSuspenseQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -21,7 +17,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult
+  UseSuspenseQueryResult,
 } from '@tanstack/react-query'
 import type {
   GetReviewReplies200Item,
@@ -30,308 +26,462 @@ import type {
   PostReviewReply404,
   PostReviewReplyBody,
   PutReviewReplyById200,
-  PutReviewReplyByIdBody
+  PutReviewReplyByIdBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance';
-
-
-
+import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a review reply
  */
-export const postReviewReply = (
-    postReviewReplyBody: PostReviewReplyBody,
- ) => {
-      
-      
-      return axiosInstance<PostReviewReply201>(
-      {url: `/review-reply`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postReviewReplyBody
-    },
-      );
-    }
-  
+export const postReviewReply = (postReviewReplyBody: PostReviewReplyBody) => {
+  return axiosInstance<PostReviewReply201>({
+    url: `/review-reply`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postReviewReplyBody,
+  })
+}
 
+export const getPostReviewReplyMutationOptions = <
+  TError = PostReviewReply404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postReviewReply>>,
+    TError,
+    { data: PostReviewReplyBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postReviewReply>>,
+  TError,
+  { data: PostReviewReplyBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPostReviewReplyMutationOptions = <TError = PostReviewReply404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReviewReply>>, TError,{data: PostReviewReplyBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postReviewReply>>, TError,{data: PostReviewReplyBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postReviewReply>>,
+    { data: PostReviewReplyBody }
+  > = (props) => {
+    const { data } = props ?? {}
 
-      
+    return postReviewReply(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postReviewReply>>, {data: PostReviewReplyBody}> = (props) => {
-          const {data} = props ?? {};
+export type PostReviewReplyMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postReviewReply>>
+>
+export type PostReviewReplyMutationBody = PostReviewReplyBody
+export type PostReviewReplyMutationError = PostReviewReply404
 
-          return  postReviewReply(data,)
-        }
+export const usePostReviewReply = <
+  TError = PostReviewReply404,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postReviewReply>>,
+    TError,
+    { data: PostReviewReplyBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postReviewReply>>,
+  TError,
+  { data: PostReviewReplyBody },
+  TContext
+> => {
+  const mutationOptions = getPostReviewReplyMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostReviewReplyMutationResult = NonNullable<Awaited<ReturnType<typeof postReviewReply>>>
-    export type PostReviewReplyMutationBody = PostReviewReplyBody
-    export type PostReviewReplyMutationError = PostReviewReply404
-
-    export const usePostReviewReply = <TError = PostReviewReply404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postReviewReply>>, TError,{data: PostReviewReplyBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof postReviewReply>>,
-        TError,
-        {data: PostReviewReplyBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPostReviewReplyMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions)
+}
+/**
  * Get review replies
  */
 export const getReviewReplies = (
-    params: GetReviewRepliesParams,
- signal?: AbortSignal
+  params: GetReviewRepliesParams,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return axiosInstance<GetReviewReplies200Item[]>(
-      {url: `/review-replies`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-  
-
-export const getGetReviewRepliesQueryKey = (params: GetReviewRepliesParams,) => {
-    return [`/review-replies`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetReviewRepliesQueryOptions = <TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(params: GetReviewRepliesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetReviewRepliesQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReviewReplies>>> = ({ signal }) => getReviewReplies(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData> & { queryKey: QueryKey }
+  return axiosInstance<GetReviewReplies200Item[]>({
+    url: `/review-replies`,
+    method: 'GET',
+    params,
+    signal,
+  })
 }
 
-export type GetReviewRepliesQueryResult = NonNullable<Awaited<ReturnType<typeof getReviewReplies>>>
+export const getGetReviewRepliesQueryKey = (params: GetReviewRepliesParams) => {
+  return [`/review-replies`, ...(params ? [params] : [])] as const
+}
+
+export const getGetReviewRepliesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetReviewRepliesQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getReviewReplies>>
+  > = ({ signal }) => getReviewReplies(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getReviewReplies>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetReviewRepliesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getReviewReplies>>
+>
 export type GetReviewRepliesQueryError = unknown
 
-
-export function useGetReviewReplies<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>> & Pick<
+export function useGetReviewReplies<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getReviewReplies>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetReviewReplies<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetReviewReplies<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getReviewReplies>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
+        >,
+        'initialData'
+      >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetReviewReplies<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetReviewReplies<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+export function useGetReviewReplies<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetReviewRepliesQueryOptions(params, options)
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
 
-export function useGetReviewReplies<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+  query.queryKey = queryOptions.queryKey
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetReviewRepliesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+  return query
 }
 
-
-
-export const getGetReviewRepliesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(params: GetReviewRepliesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+export const getGetReviewRepliesSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
 ) => {
+  const { query: queryOptions } = options ?? {}
 
-const {query: queryOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetReviewRepliesQueryKey(params)
 
-  const queryKey =  queryOptions?.queryKey ?? getGetReviewRepliesQueryKey(params);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getReviewReplies>>
+  > = ({ signal }) => getReviewReplies(params, signal)
 
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReviewReplies>>> = ({ signal }) => getReviewReplies(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData> & { queryKey: QueryKey }
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof getReviewReplies>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
 }
 
-export type GetReviewRepliesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getReviewReplies>>>
+export type GetReviewRepliesSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getReviewReplies>>
+>
 export type GetReviewRepliesSuspenseQueryError = unknown
 
+export function useGetReviewRepliesSuspense<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetReviewRepliesSuspense<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetReviewRepliesSuspense<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetReviewRepliesSuspense<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+export function useGetReviewRepliesSuspense<
+  TData = Awaited<ReturnType<typeof getReviewReplies>>,
+  TError = unknown,
+>(
+  params: GetReviewRepliesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getReviewReplies>>,
+        TError,
+        TData
+      >
+    >
+  },
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetReviewRepliesSuspenseQueryOptions(params, options)
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetReviewRepliesSuspense<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey }
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetReviewRepliesSuspense<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
+  query.queryKey = queryOptions.queryKey
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-export function useGetReviewRepliesSuspense<TData = Awaited<ReturnType<typeof getReviewReplies>>, TError = unknown>(
- params: GetReviewRepliesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getReviewReplies>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetReviewRepliesSuspenseQueryOptions(params,options)
-
-  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+  return query
 }
-
-
 
 /**
  * Delete review reply by id
  */
-export const deleteReviewReplyById = (
-    id: string,
- ) => {
-      
-      
-      return axiosInstance<void>(
-      {url: `/review-reply/by/${id}`, method: 'DELETE'
-    },
-      );
-    }
-  
+export const deleteReviewReplyById = (id: string) => {
+  return axiosInstance<void>({
+    url: `/review-reply/by/${id}`,
+    method: 'DELETE',
+  })
+}
 
+export const getDeleteReviewReplyByIdMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteReviewReplyById>>,
+    TError,
+    { id: string },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteReviewReplyById>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getDeleteReviewReplyByIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteReviewReplyById>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteReviewReplyById>>, TError,{id: string}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteReviewReplyById>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {}
 
-      
+    return deleteReviewReplyById(id)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteReviewReplyById>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+export type DeleteReviewReplyByIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteReviewReplyById>>
+>
 
-          return  deleteReviewReplyById(id,)
-        }
+export type DeleteReviewReplyByIdMutationError = unknown
 
-        
+export const useDeleteReviewReplyById = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteReviewReplyById>>,
+    TError,
+    { id: string },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteReviewReplyById>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationOptions = getDeleteReviewReplyByIdMutationOptions(options)
 
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteReviewReplyByIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteReviewReplyById>>>
-    
-    export type DeleteReviewReplyByIdMutationError = unknown
-
-    export const useDeleteReviewReplyById = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteReviewReplyById>>, TError,{id: string}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof deleteReviewReplyById>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteReviewReplyByIdMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions)
+}
+/**
  * Update review reply by id
  */
 export const putReviewReplyById = (
-    id: string,
-    putReviewReplyByIdBody: PutReviewReplyByIdBody,
- ) => {
-      
-      
-      return axiosInstance<PutReviewReplyById200>(
-      {url: `/review-reply/by/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: putReviewReplyByIdBody
-    },
-      );
-    }
-  
+  id: string,
+  putReviewReplyByIdBody: PutReviewReplyByIdBody,
+) => {
+  return axiosInstance<PutReviewReplyById200>({
+    url: `/review-reply/by/${id}`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: putReviewReplyByIdBody,
+  })
+}
 
+export const getPutReviewReplyByIdMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putReviewReplyById>>,
+    TError,
+    { id: string; data: PutReviewReplyByIdBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putReviewReplyById>>,
+  TError,
+  { id: string; data: PutReviewReplyByIdBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPutReviewReplyByIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putReviewReplyById>>, TError,{id: string;data: PutReviewReplyByIdBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putReviewReplyById>>, TError,{id: string;data: PutReviewReplyByIdBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putReviewReplyById>>,
+    { id: string; data: PutReviewReplyByIdBody }
+  > = (props) => {
+    const { id, data } = props ?? {}
 
-      
+    return putReviewReplyById(id, data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putReviewReplyById>>, {id: string;data: PutReviewReplyByIdBody}> = (props) => {
-          const {id,data} = props ?? {};
+export type PutReviewReplyByIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putReviewReplyById>>
+>
+export type PutReviewReplyByIdMutationBody = PutReviewReplyByIdBody
+export type PutReviewReplyByIdMutationError = unknown
 
-          return  putReviewReplyById(id,data,)
-        }
+export const usePutReviewReplyById = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putReviewReplyById>>,
+    TError,
+    { id: string; data: PutReviewReplyByIdBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof putReviewReplyById>>,
+  TError,
+  { id: string; data: PutReviewReplyByIdBody },
+  TContext
+> => {
+  const mutationOptions = getPutReviewReplyByIdMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutReviewReplyByIdMutationResult = NonNullable<Awaited<ReturnType<typeof putReviewReplyById>>>
-    export type PutReviewReplyByIdMutationBody = PutReviewReplyByIdBody
-    export type PutReviewReplyByIdMutationError = unknown
-
-    export const usePutReviewReplyById = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putReviewReplyById>>, TError,{id: string;data: PutReviewReplyByIdBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof putReviewReplyById>>,
-        TError,
-        {id: string;data: PutReviewReplyByIdBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPutReviewReplyByIdMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

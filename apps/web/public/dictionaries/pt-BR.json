@@ -709,5 +709,12 @@
   "for_you": "para você.",
   "explore_features": "Explore funcionalidades gratuitas ou leve sua experiência a um novo nível com o Pro.",
   "already_in_free": "Você já está no plano Free",
-  "already_in_pro": "Você já está no plano PRO"
+  "already_in_pro": "Você já está no plano PRO",
+  "biography": "Biografia",
+  "biography_placeholder": "Escreva uma breve descrição sobre você.",
+  "member_since": "Membro desde",
+  "save_social_links": "Salvar links sociais",
+  "account_data": "Dados da conta",
+  "social_links": "Links sociais",
+  "subscription": "Assinatura"
 }

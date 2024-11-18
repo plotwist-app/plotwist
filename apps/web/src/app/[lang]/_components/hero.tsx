@@ -76,46 +76,43 @@ export const Hero = () => {
 
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <div className="flex-col md:flex-row flex gap-2">
-            <Button asChild disabled={user?.subscriptionType === 'PRO'}>
-              <div>
-                {user && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                          {user.imagePath && (
-                            <AvatarImage
-                              src={tmdbImage(user.imagePath, 'w500')}
-                              className="object-cover"
-                              alt={user.username}
-                            />
-                          )}
+            <Button
+              disabled={user?.subscriptionType === 'PRO'}
+              onClick={() => {
+                document.getElementById('pricing')?.scrollIntoView({
+                  behavior: 'smooth',
+                })
+              }}
+            >
+              {user && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
+                        {user.imagePath && (
+                          <AvatarImage
+                            src={tmdbImage(user.imagePath, 'w500')}
+                            className="object-cover"
+                            alt={user.username}
+                          />
+                        )}
 
-                          <AvatarFallback className="bg-foreground">
-                            {user.username[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                      </TooltipTrigger>
+                        <AvatarFallback className="bg-foreground">
+                          {user.username[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
 
-                      <TooltipContent>{user.username}</TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
+                    <TooltipContent>{user.username}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
 
-                {user?.subscriptionType === 'PRO' ? (
-                  <div className="flex">{dictionary.already_in_pro}</div>
-                ) : (
-                  <button
-                    onClick={() => {
-                      document.getElementById('pricing')?.scrollIntoView({
-                        behavior: 'smooth',
-                      })
-                    }}
-                  >
-                    {dictionary.get_one_month_free}
-                  </button>
-                )}
-              </div>
+              <p>
+                {user?.subscriptionType === 'PRO'
+                  ? dictionary.already_in_pro
+                  : dictionary.get_one_month_free}
+              </p>
             </Button>
 
             <Button variant="outline" asChild>
