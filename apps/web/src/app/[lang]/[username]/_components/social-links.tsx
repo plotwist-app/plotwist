@@ -5,7 +5,7 @@ import { ComponentProps, ReactElement } from 'react'
 const SocialLink = {
   Root: (props: ComponentProps<'a'>) => (
     <a
-      className="border px-4 py-2 gap-2 rounded-sm cursor-pointer flex items-center text-xs"
+      className="border px-4 py-2 gap-2 rounded-md cursor-pointer flex items-center text-xs"
       {...props}
     />
   ),
