@@ -1,4 +1,4 @@
-import { GetSocialLinksByUserId200SocialLinksItem } from '@/api/endpoints.schemas'
+import { GetSocialLinks200SocialLinksItem } from '@/api/endpoints.schemas'
 import { cn } from '@/lib/utils'
 import { ComponentProps, ReactElement } from 'react'
 
@@ -12,7 +12,7 @@ const SocialLink = {
 }
 
 type SocialLinksProps = {
-  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
+  socialLinks: GetSocialLinks200SocialLinksItem[]
 }
 
 export async function SocialLinks({ socialLinks }: SocialLinksProps) {

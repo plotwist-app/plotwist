@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  GetSocialLinksByUserId200SocialLinksItem,
+  GetSocialLinks200SocialLinksItem,
   PutSocialLinksBody,
 } from '@/api/endpoints.schemas'
 import { usePutSocialLinks } from '@/api/social-links'
@@ -31,7 +31,7 @@ const socialLinksSchema = z.object({
 type SocialLinksFormValues = z.infer<typeof socialLinksSchema>
 
 type SocialLinksFormProps = {
-  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
+  socialLinks: GetSocialLinks200SocialLinksItem[]
   onClose: () => void
 }
 

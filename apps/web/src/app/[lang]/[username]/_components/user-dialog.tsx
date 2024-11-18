@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  GetSocialLinksByUserId200SocialLinksItem,
+  GetSocialLinks200SocialLinksItem,
   GetUsersUsername200User,
 } from '@/api/endpoints.schemas'
 import {
@@ -29,7 +29,7 @@ import { useSession } from '@/context/session'
 
 type UserDialogProps = PropsWithChildren & {
   user: GetUsersUsername200User
-  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
+  socialLinks: GetSocialLinks200SocialLinksItem[]
 }
 
 export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
