@@ -13,7 +13,7 @@ import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 import { SocialLinks } from './_components/social-links'
 import { UserDialog } from './_components/user-dialog'
-import { getSocialLinksByUserId } from '@/api/social-links'
+import { getSocialLinks } from '@/api/social-links'
 import { LayoutProvider } from './_context'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
@@ -30,7 +30,7 @@ export default async function Layout(props: UserPageProps) {
     redirect(`/${params.lang}/home`)
   }
 
-  const { socialLinks } = await getSocialLinksByUserId(user.id)
+  const { socialLinks } = await getSocialLinks({ userId: user.id })
 
   return (
     <LayoutProvider userId={user.id}>

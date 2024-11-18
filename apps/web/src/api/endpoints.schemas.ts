@@ -4,27 +4,31 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-export type GetSocialLinksByUserId200SocialLinksItemPlatform =
-  (typeof GetSocialLinksByUserId200SocialLinksItemPlatform)[keyof typeof GetSocialLinksByUserId200SocialLinksItemPlatform]
+export type GetSocialLinks200SocialLinksItemPlatform =
+  (typeof GetSocialLinks200SocialLinksItemPlatform)[keyof typeof GetSocialLinks200SocialLinksItemPlatform]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSocialLinksByUserId200SocialLinksItemPlatform = {
+export const GetSocialLinks200SocialLinksItemPlatform = {
   INSTAGRAM: 'INSTAGRAM',
   TIKTOK: 'TIKTOK',
   YOUTUBE: 'YOUTUBE',
   X: 'X',
 } as const
 
-export type GetSocialLinksByUserId200SocialLinksItem = {
+export type GetSocialLinks200SocialLinksItem = {
   createdAt: string
   id: string
-  platform: GetSocialLinksByUserId200SocialLinksItemPlatform
+  platform: GetSocialLinks200SocialLinksItemPlatform
   url: string
   userId: string
 }
 
-export type GetSocialLinksByUserId200 = {
-  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
+export type GetSocialLinks200 = {
+  socialLinks: GetSocialLinks200SocialLinksItem[]
+}
+
+export type GetSocialLinksParams = {
+  userId: string
 }
 
 export type PutSocialLinksBodyYOUTUBEAnyOf = string | ''
