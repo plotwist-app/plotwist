@@ -47,7 +47,7 @@ export default async function Layout(props: UserPageProps) {
           <aside className="flex flex-col space-y-4 col-span-1 relative">
             <div
               className={cn(
-                'flex flex-col items-center gap-8 text-center justify-center sticky top-4',
+                'flex flex-col items-center gap-8 text-center justify-center sticky top-16',
                 'lg:justify-start lg:flex-col lg:text-start lg:items-start',
               )}
             >

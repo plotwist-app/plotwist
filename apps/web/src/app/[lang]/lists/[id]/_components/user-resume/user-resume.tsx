@@ -35,7 +35,7 @@ export const UserResume = ({ list }: UserResumeProps) => {
   const profileHref = `/${language}/${username}`
 
   return (
-    <div className="sticky top-16 flex w-full flex-col gap-2 rounded-lg border">
+    <div className="sticky flex top-4 w-full flex-col gap-2 rounded-lg border">
       <div className="space-y-2 p-6">
         <div className="flex justify-between">
           <Link href={profileHref} className="">
