@@ -37,7 +37,10 @@ export async function SocialLinks({ socialLinks }: SocialLinksProps) {
 
   return (
     <div
-      className={cn('flex gap-2 flex-wrap justify-center ', 'md:justify-start')}
+      className={cn(
+        'flex gap-2 flex-wrap justify-center mt-4',
+        'md:justify-start',
+      )}
     >
       {socialLinks.map(({ platform, id, url }) => (
         <SocialLink.Root key={id} href={url} target="_blank">
