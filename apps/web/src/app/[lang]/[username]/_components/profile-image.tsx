@@ -5,6 +5,7 @@ import { usePatchUser } from '@/api/users'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
@@ -25,7 +26,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   if (mode === 'SHOW') {
     return (
-      <div className="relative z-40 flex aspect-square w-32 items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
+      <div className="relative z-40 flex aspect-square  items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl -mt-20 w-40">
         {profile.imagePath ? (
           <Image
             src={tmdbImage(profile.imagePath)}
@@ -58,7 +59,11 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
       }
     >
       <ImagePicker.Trigger>
-        <div className="group relative z-40 flex aspect-square w-32 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl lg:w-48">
+        <div
+          className={cn(
+            'group relative z-40 flex w-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl aspect-square -mt-20',
+          )}
+        >
           {profile.imagePath ? (
             <Image
               src={tmdbImage(profile.imagePath)}

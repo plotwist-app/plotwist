@@ -47,7 +47,7 @@ import { axiosInstance } from '../services/axios-instance'
  */
 export const postUsersCreate = (postUsersCreateBody: PostUsersCreateBody) => {
   return axiosInstance<PostUsersCreate201>({
-    url: '/users/create',
+    url: `/users/create`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     data: postUsersCreateBody,
@@ -120,7 +120,7 @@ export const getUsersAvailableUsername = (
   signal?: AbortSignal,
 ) => {
   return axiosInstance<GetUsersAvailableUsername200>({
-    url: '/users/available-username',
+    url: `/users/available-username`,
     method: 'GET',
     params,
     signal,
@@ -130,7 +130,7 @@ export const getUsersAvailableUsername = (
 export const getGetUsersAvailableUsernameQueryKey = (
   params: GetUsersAvailableUsernameParams,
 ) => {
-  return ['/users/available-username', ...(params ? [params] : [])] as const
+  return [`/users/available-username`, ...(params ? [params] : [])] as const
 }
 
 export const getGetUsersAvailableUsernameQueryOptions = <
@@ -378,7 +378,7 @@ export const getUsersAvailableEmail = (
   signal?: AbortSignal,
 ) => {
   return axiosInstance<GetUsersAvailableEmail200>({
-    url: '/users/available-email',
+    url: `/users/available-email`,
     method: 'GET',
     params,
     signal,
@@ -388,7 +388,7 @@ export const getUsersAvailableEmail = (
 export const getGetUsersAvailableEmailQueryKey = (
   params: GetUsersAvailableEmailParams,
 ) => {
-  return ['/users/available-email', ...(params ? [params] : [])] as const
+  return [`/users/available-email`, ...(params ? [params] : [])] as const
 }
 
 export const getGetUsersAvailableEmailQueryOptions = <
@@ -1128,11 +1128,11 @@ export function useGetUserByIdSuspense<
  * Get me
  */
 export const getMe = (signal?: AbortSignal) => {
-  return axiosInstance<GetMe200>({ url: '/me', method: 'GET', signal })
+  return axiosInstance<GetMe200>({ url: `/me`, method: 'GET', signal })
 }
 
 export const getGetMeQueryKey = () => {
-  return ['/me'] as const
+  return [`/me`] as const
 }
 
 export const getGetMeQueryOptions = <
@@ -1299,7 +1299,7 @@ export function useGetMeSuspense<
  */
 export const patchUser = (patchUserBody: PatchUserBody) => {
   return axiosInstance<PatchUser200>({
-    url: '/user',
+    url: `/user`,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     data: patchUserBody,
@@ -1366,7 +1366,7 @@ export const patchUserPassword = (
   patchUserPasswordBody: PatchUserPasswordBody,
 ) => {
   return axiosInstance<PatchUserPassword200>({
-    url: '/user/password',
+    url: `/user/password`,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     data: patchUserPasswordBody,

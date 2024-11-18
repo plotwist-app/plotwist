@@ -709,5 +709,12 @@
   "for_you": "あなたに。",
   "explore_features": "無料機能を試すか、Proで体験を新しいレベルに引き上げましょう。",
   "already_in_free": "無料プランをご利用中です",
-  "already_in_pro": "PROプランをご利用中です"
+  "already_in_pro": "PROプランをご利用中です",
+  "biography": "バイオグラフィー",
+  "biography_placeholder": "簡単な自己紹介を書いてください。",
+  "member_since": "会員登録日",
+  "save_social_links": "ソーシャルリンクを保存",
+  "account_data": "アカウントデータ",
+  "social_links": "ソーシャルリンク",
+  "subscription": "サブスクリプション"
 }

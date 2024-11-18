@@ -4,6 +4,121 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetSocialLinksByUserId200SocialLinksItemPlatform =
+  (typeof GetSocialLinksByUserId200SocialLinksItemPlatform)[keyof typeof GetSocialLinksByUserId200SocialLinksItemPlatform]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSocialLinksByUserId200SocialLinksItemPlatform = {
+  INSTAGRAM: 'INSTAGRAM',
+  TIKTOK: 'TIKTOK',
+  YOUTUBE: 'YOUTUBE',
+  X: 'X',
+} as const
+
+export type GetSocialLinksByUserId200SocialLinksItem = {
+  createdAt: string
+  id: string
+  platform: GetSocialLinksByUserId200SocialLinksItemPlatform
+  url: string
+  userId: string
+}
+
+export type GetSocialLinksByUserId200 = {
+  socialLinks: GetSocialLinksByUserId200SocialLinksItem[]
+}
+
+export type PutSocialLinksBodyYOUTUBEAnyOf = string | ''
+
+export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf
+
+export type PutSocialLinksBodyXAnyOf = string | ''
+
+export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf
+
+export type PutSocialLinksBodyTIKTOKAnyOf = string | ''
+
+export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf
+
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
+
+export type PutSocialLinksBodyINSTAGRAM =
+  | unknown
+  | PutSocialLinksBodyINSTAGRAMAnyOf
+
+export type PutSocialLinksBody = {
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM
+  TIKTOK: PutSocialLinksBodyTIKTOK
+  X: PutSocialLinksBodyX
+  YOUTUBE: PutSocialLinksBodyYOUTUBE
+}
+
+export type PutReviewReplyById200ReviewReply = {
+  createdAt: string
+  id: string
+  reply: string
+  reviewId: string
+  userId: string
+}
+
+export type PutReviewReplyById200 = {
+  reviewReply: PutReviewReplyById200ReviewReply
+}
+
+export type PutReviewReplyByIdBody = {
+  reply: string
+}
+
+export type GetReviewReplies200ItemUser = {
+  id: string
+  /** @nullable */
+  imagePath: string | null
+  username: string
+}
+
+export type GetReviewReplies200Item = {
+  createdAt: string
+  id: string
+  reply: string
+  reviewId: string
+  user: GetReviewReplies200ItemUser
+  userId: string
+}
+
+export type GetReviewRepliesParams = {
+  reviewId: string
+  page?: number
+}
+
+/**
+ * Review or user not found
+ */
+export type PostReviewReply404 = {
+  message: string
+}
+
+export type PostReviewReply201ReviewReply = {
+  createdAt: string
+  id: string
+  reply: string
+  reviewId: string
+  userId: string
+}
+
+/**
+ * Review reply created.
+ */
+export type PostReviewReply201 = {
+  reviewReply: PostReviewReply201ReviewReply
+}
+
+export type PostReviewReplyBody = {
+  createdAt?: string
+  id?: string
+  reply: string
+  reviewId: string
+  userId: string
+}
+
 export type PatchUserItemStatusById200 = {
   userItem: PatchUserItemStatusById200UserItem
 }
@@ -113,6 +228,7 @@ export const GetUserItemsStatus = {
 
 export type GetUserItemsParams = {
   status: GetUserItemsStatus
+  userId: string
   language?: GetUserItemsLanguage
 }
 
@@ -164,6 +280,10 @@ export type GetUserItemParams = {
   tmdbId: string
 }
 
+export type PostUserItem201 = {
+  userItem: PostUserItem201UserItem
+}
+
 export type PostUserItem201UserItemStatus =
   (typeof PostUserItem201UserItemStatus)[keyof typeof PostUserItem201UserItemStatus]
 
@@ -192,10 +312,6 @@ export type PostUserItem201UserItem = {
   status: PostUserItem201UserItemStatus
   tmdbId: number
   userId: string
-}
-
-export type PostUserItem201 = {
-  userItem: PostUserItem201UserItem
 }
 
 export type PostUserItemBodyStatus =
@@ -898,7 +1014,8 @@ export type PatchUser200User = {
   /** @nullable */
   bannerPath: string | null
   /** @nullable */
-  createdAt: string | null
+  biography: string | null
+  createdAt: string
   email: string
   id: string
   /** @nullable */
@@ -915,6 +1032,7 @@ export type PatchUser200 = {
 
 export type PatchUserBody = {
   bannerPath?: string
+  biography?: string
   imagePath?: string
   username?: string
 }
@@ -932,7 +1050,8 @@ export type GetMe200User = {
   /** @nullable */
   bannerPath: string | null
   /** @nullable */
-  createdAt: string | null
+  biography: string | null
+  createdAt: string
   email: string
   id: string
   /** @nullable */
@@ -974,7 +1093,8 @@ export type GetUserById201User = {
   /** @nullable */
   bannerPath?: string | null
   /** @nullable */
-  createdAt?: string | null
+  biography?: string | null
+  createdAt?: string
   email: string
   id?: string
   /** @nullable */
@@ -1005,7 +1125,8 @@ export type GetUsersUsername200User = {
   /** @nullable */
   bannerPath: string | null
   /** @nullable */
-  createdAt: string | null
+  biography: string | null
+  createdAt: string
   email: string
   id: string
   /** @nullable */
@@ -1077,7 +1198,8 @@ export type PostUsersCreate201User = {
   /** @nullable */
   bannerPath?: string | null
   /** @nullable */
-  createdAt?: string | null
+  biography?: string | null
+  createdAt?: string
   email: string
   id?: string
   /** @nullable */

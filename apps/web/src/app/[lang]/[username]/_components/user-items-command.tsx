@@ -53,6 +53,7 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
                 queryKey: getGetUserItemsQueryKey({
                   language,
                   status,
+                  userId: items[0].userId,
                 }),
               })
 
@@ -70,6 +71,7 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
                 queryKey: getGetUserItemsQueryKey({
                   language,
                   status,
+                  userId: items[0].userId,
                 }),
               })
 

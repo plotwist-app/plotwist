@@ -42,10 +42,10 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             </Link>
 
             <Link
-              href="https://x.com/plotwist.app"
+              href="https://x.com/plotwist_cinema"
               className="hover:text-foreground"
             >
-              Twitter
+              X
             </Link>
           </div>
         </div>

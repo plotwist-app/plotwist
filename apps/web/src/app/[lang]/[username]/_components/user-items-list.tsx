@@ -8,10 +8,14 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
 import { UserItemsCommand } from './user-items-command'
 import { UserItemsProps } from './user-items'
+import { useLayoutContext } from '../_context'
+import { useSession } from '@/context/session'
 
 export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()
-  const { data, isLoading } = useGetUserItems({ language, status })
+  const { userId } = useLayoutContext()
+  const { data, isLoading } = useGetUserItems({ language, status, userId })
+  const session = useSession()
 
   if (isLoading || !data) {
     return (
@@ -23,9 +27,11 @@ export function UserItemsList({ status }: UserItemsProps) {
     )
   }
 
+  const isOwner = session.user?.id === userId
+
   return (
     <>
-      <UserItemsCommand items={data} status={status} />
+      {isOwner && <UserItemsCommand items={data} status={status} />}
 
       {data?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link
