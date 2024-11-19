@@ -102,7 +102,7 @@ export const usePostUserItem = <
 /**
  * Get user item
  */
-export const getUserItem = (
+export const getUserItem = async (
   params: GetUserItemParams,
   signal?: AbortSignal,
 ) => {

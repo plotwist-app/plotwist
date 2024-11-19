@@ -716,5 +716,12 @@
   "save_social_links": "ソーシャルリンクを保存",
   "account_data": "アカウントデータ",
   "social_links": "ソーシャルリンク",
-  "subscription": "サブスクリプション"
+  "subscription": "サブスクリプション",
+  "overall_progress": "全体の進捗",
+  "episodes": "エピソード",
+  "when_you_mark_all_episodes": "すべてのエピソードを視聴済みにすると、シリーズ/アニメは自動的にステータスに更新されます",
+  "update_progress": "進捗を更新する",
+  "update_status": "ステータスを更新する"
+
+
 }

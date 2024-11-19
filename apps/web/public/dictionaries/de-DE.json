@@ -720,5 +720,10 @@
   "save_social_links": "Soziale Links speichern",
   "account_data": "Kontodaten",
   "social_links": "Soziale Links",
-  "subscription": "Abonnement"
+  "subscription": "Abonnement",
+  "overall_progress": "Gesamtfortschritt",
+  "episodes": "Episoden",
+  "when_you_mark_all_episodes": "Wenn Sie alle Episoden als angesehen markieren, wird die Serie/Anime automatisch auf den Status aktualisiert",
+  "update_progress": "Fortschritt aktualisieren",
+  "update_status": "Status aktualisieren"
 }

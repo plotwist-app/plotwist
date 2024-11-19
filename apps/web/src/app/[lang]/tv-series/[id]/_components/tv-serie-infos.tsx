@@ -1,5 +1,7 @@
+import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
+import { tmdb } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
@@ -13,9 +15,6 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
-import { tmdb } from '@/services/tmdb'
-import { Loader } from 'lucide-react'
-import { Button } from '@plotwist/ui/components/ui/button'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
@@ -34,12 +33,8 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
         seasonsDetails={seasonsDetails.filter(
           (season) => season.season_number !== 0 && season.episodes.length > 0,
         )}
-      >
-        <Button size="sm" variant="outline">
-          <Loader className="mr-2" size={14} />
-          Seu progresso
-        </Button>
-      </TvSeriesProgress>
+      />
+      <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
     </div>
   )
 

@@ -175,7 +175,12 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
 
           <ListForm
             trigger={
-              <Button size="icon" className="h-6 w-6" variant="outline">
+              <Button
+                size="icon"
+                className="h-6 w-6"
+                variant="outline"
+                disabled={!user}
+              >
                 <Plus className="size-4" />
               </Button>
             }

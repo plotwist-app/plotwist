@@ -12,6 +12,7 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { MovieGenres } from './movie-genres'
 import Image from 'next/image'
+import { ItemStatus } from '@/components/item-status'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
@@ -66,6 +67,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
 
           <div className="hidden flex-wrap items-center gap-1 md:flex">
             <ListsDropdown item={movie} />
+            <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
           </div>
         </article>
       </div>
