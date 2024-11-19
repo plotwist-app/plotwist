@@ -17,6 +17,13 @@ import { ItemStatus } from '@/components/item-status'
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
 export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
+  const actions = (
+    <div className="flex flex-wrap items-center gap-1">
+      <ListsDropdown item={movie} />
+      <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
+    </div>
+  )
+
   return (
     <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
@@ -65,14 +72,12 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
             {movie.overview}
           </p>
 
-          <div className="hidden flex-wrap items-center gap-1 md:flex">
-            <ListsDropdown item={movie} />
-            <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
-          </div>
+          <div className="hidden md:block">{actions}</div>
         </article>
       </div>
 
       <div className="space-y-2 md:hidden">
+        {actions}
         <p className="text-sm/7 text-muted-foreground">{movie.overview}</p>
         <MovieGenres genres={movie.genres} />
       </div>

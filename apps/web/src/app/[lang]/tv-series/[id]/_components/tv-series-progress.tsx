@@ -17,7 +17,7 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { isBefore } from 'date-fns'
-import { CheckCircle2Icon, ChevronDownIcon, Loader } from 'lucide-react'
+import { Check, CheckCircle2Icon, ChevronDownIcon, Loader } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
@@ -217,8 +217,8 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button size="sm" variant="outline" className="hidden">
-            <Loader className="mr-2" size={14} />
+          <Button size="sm" variant="outline">
+            <Check className="mr-2" size={14} />
             {dictionary.update_progress}
           </Button>
         </DialogTrigger>
@@ -232,8 +232,8 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" variant="outline" className="hidden">
-          <Loader className="mr-2" size={14} />
+        <Button size="sm" variant="outline">
+          <Check className="mr-2" size={14} />
           {dictionary.update_progress}
         </Button>
       </DrawerTrigger>
