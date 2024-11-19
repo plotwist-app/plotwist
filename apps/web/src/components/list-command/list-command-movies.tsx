@@ -2,14 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ExternalLink, PlusCircle, MinusCircle } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@plotwist/ui/components/ui/hover-card'
-import { DropdownMenuItem } from '@plotwist/ui/components/ui/dropdown-menu'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { ItemHoverCard } from '@/components/item-hover-card'
@@ -23,6 +22,7 @@ import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
 import { MovieWithMediaType } from '@/services/tmdb'
 import { ListCommandProps } from './list-command'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -53,7 +53,12 @@ export const ListCommandMovies = ({
               <ListCommandItem.Root>
                 <HoverCardTrigger>
                   <ListCommandItem.Label>
-                    {movie.title}
+                    <Link
+                      href={`/${language}/movies/${movie.id}`}
+                      className="whitespace-nowrap max-w-[30ch] truncate hover:underline"
+                    >
+                      {movie.title}
+                    </Link>
 
                     {movie.release_date !== '' && (
                       <ListCommandItem.Year>
@@ -63,26 +68,25 @@ export const ListCommandMovies = ({
                   </ListCommandItem.Label>
                 </HoverCardTrigger>
 
-                <ListCommandItem.Dropdown>
-                  {includedItem ? (
-                    <DropdownMenuItem onClick={() => onRemove(includedItem.id)}>
-                      <MinusCircle size={14} className="mr-1" />
-                      {dictionary.list_command.remove_from_list}
-                    </DropdownMenuItem>
-                  ) : (
-                    <DropdownMenuItem onClick={() => onAdd(movie.id, 'MOVIE')}>
-                      <PlusCircle size={14} className="mr-1" />
-                      {dictionary.add_to_list}
-                    </DropdownMenuItem>
-                  )}
-
-                  <DropdownMenuItem asChild>
-                    <Link href={`/${language}/movies/${movie.id}`}>
-                      <ExternalLink size={14} className="mr-1" />
-                      {dictionary.list_command.view_details}
-                    </Link>
-                  </DropdownMenuItem>
-                </ListCommandItem.Dropdown>
+                {includedItem ? (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => onRemove(includedItem.id)}
+                    className="size-5"
+                  >
+                    <Minus size={14} />
+                  </Button>
+                ) : (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => onAdd(movie.id, 'MOVIE')}
+                    className="size-5"
+                  >
+                    <Plus size={14} />
+                  </Button>
+                )}
               </ListCommandItem.Root>
 
               <HoverCardPortal>

@@ -1,9 +1,8 @@
 import Link from 'next/link'
-import { ExternalLink, MinusCircle, PlusCircle } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
-import { DropdownMenuItem } from '@plotwist/ui/components/ui/dropdown-menu'
 import {
   HoverCard,
   HoverCardContent,
@@ -21,6 +20,7 @@ import { ListCommandItem } from './list-command-item'
 import { ListCommandProps } from './list-command'
 
 import { TvSerieWithMediaType } from '@/services/tmdb'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]
@@ -36,7 +36,9 @@ export const ListCommandTv = ({
 
   return (
     <ListCommandGroup.Root>
-      <ListCommandGroup.Label>TV Series</ListCommandGroup.Label>
+      <ListCommandGroup.Label>
+        {dictionary.list_command.tv_series_label}
+      </ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
         {tv.map((tvSerie) => {
@@ -49,7 +51,12 @@ export const ListCommandTv = ({
               <ListCommandItem.Root>
                 <HoverCardTrigger>
                   <ListCommandItem.Label>
-                    {tvSerie.name}
+                    <Link
+                      href={`/${language}/tv-series/${tvSerie.id}`}
+                      className="whitespace-nowrap max-w-[30ch] truncate hover:underline"
+                    >
+                      {tvSerie.name}
+                    </Link>
 
                     {tvSerie.first_air_date !== '' && (
                       <ListCommandItem.Year>
@@ -59,28 +66,25 @@ export const ListCommandTv = ({
                   </ListCommandItem.Label>
                 </HoverCardTrigger>
 
-                <ListCommandItem.Dropdown>
-                  {includedItem ? (
-                    <DropdownMenuItem onClick={() => onRemove(includedItem.id)}>
-                      <MinusCircle size={14} className="mr-1" />
-                      {dictionary.list_command.remove_from_list}
-                    </DropdownMenuItem>
-                  ) : (
-                    <DropdownMenuItem
-                      onClick={() => onAdd(tvSerie.id, 'TV_SHOW')}
-                    >
-                      <PlusCircle size={14} className="mr-1" />
-                      {dictionary.add_to_list}
-                    </DropdownMenuItem>
-                  )}
-
-                  <DropdownMenuItem asChild>
-                    <Link href={`/${language}/tv-series/${tvSerie.id}`}>
-                      <ExternalLink size={14} className="mr-1" />
-                      {dictionary.list_command.view_details}
-                    </Link>
-                  </DropdownMenuItem>
-                </ListCommandItem.Dropdown>
+                {includedItem ? (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => onRemove(includedItem.id)}
+                    className="size-5"
+                  >
+                    <Minus size={14} />
+                  </Button>
+                ) : (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => onAdd(tvSerie.id, 'TV_SHOW')}
+                    className="size-5"
+                  >
+                    <Plus size={14} />
+                  </Button>
+                )}
               </ListCommandItem.Root>
 
               <HoverCardPortal>

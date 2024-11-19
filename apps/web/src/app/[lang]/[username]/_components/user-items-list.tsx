@@ -31,7 +31,9 @@ export function UserItemsList({ status }: UserItemsProps) {
 
   return (
     <>
-      {isOwner && <UserItemsCommand items={data} status={status} />}
+      {isOwner && (
+        <UserItemsCommand items={data} status={status} userId={userId} />
+      )}
 
       {data?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link

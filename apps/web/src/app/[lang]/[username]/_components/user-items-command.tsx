@@ -15,9 +15,14 @@ import { UserItemsProps } from './user-items'
 
 type UserItemsCommandProps = {
   items: GetUserItems200Item[]
+  userId: string
 } & Pick<UserItemsProps, 'status'>
 
-export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
+export function UserItemsCommand({
+  items,
+  status,
+  userId,
+}: UserItemsCommandProps) {
   const add = usePostUserItem()
   const remove = useDeleteUserItemId()
 
@@ -53,7 +58,7 @@ export function UserItemsCommand({ items, status }: UserItemsCommandProps) {
                 queryKey: getGetUserItemsQueryKey({
                   language,
                   status,
-                  userId: items[0].userId,
+                  userId,
                 }),
               })
 
