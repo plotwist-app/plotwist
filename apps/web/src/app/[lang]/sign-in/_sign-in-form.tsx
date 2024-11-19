@@ -34,7 +34,6 @@ import {
   DialogTitle,
   DialogContent,
 } from '@plotwist/ui/components/ui/dialog'
-import { AnimatedLink } from '@/components/animated-link'
 
 const loginFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -157,13 +156,6 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
               </FormItem>
             )}
           />
-
-          <AnimatedLink
-            href={`/${language}/forgot-password`}
-            className="text-md text-muted-foreground"
-          >
-            {dictionary.forgot_your_password}
-          </AnimatedLink>
 
           <Button
             type="submit"
