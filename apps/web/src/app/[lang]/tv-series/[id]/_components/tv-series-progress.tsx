@@ -17,7 +17,7 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { isBefore } from 'date-fns'
-import { Check, CheckCircle2Icon, ChevronDownIcon, Loader } from 'lucide-react'
+import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
