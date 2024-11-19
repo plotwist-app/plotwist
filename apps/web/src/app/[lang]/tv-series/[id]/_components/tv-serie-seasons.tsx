@@ -57,7 +57,7 @@ const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
         </div>
       </DialogTrigger>
 
-      <DialogContent className="max-h-[75vh] overflow-y-auto sm:max-w-[1080px]">
+      <DialogContent className="max-h-[75vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader className="text-start">
           <div className="flex items-center gap-4">
             <DialogTitle>{name}</DialogTitle>
@@ -83,14 +83,18 @@ export const TvSerieSeasons = ({
 }: TvSerieSeasonsProps) => {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
-      {seasons.map((season) => (
-        <TvSerieSeason
-          season={season}
-          key={season.id}
-          id={id}
-          language={language}
-        />
-      ))}
+      {seasons
+        .filter(
+          (season) => season.season_number !== 0 && season.episode_count > 0,
+        )
+        .map((season) => (
+          <TvSerieSeason
+            season={season}
+            key={season.id}
+            id={id}
+            language={language}
+          />
+        ))}
     </div>
   )
 }

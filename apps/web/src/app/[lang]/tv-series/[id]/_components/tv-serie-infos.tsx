@@ -12,10 +12,37 @@ import { Language, TvSerieDetails } from '@plotwist_app/tmdb'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { TvSeriesGenres } from './tv-serie-genres'
+import { TvSeriesProgress } from './tv-series-progress'
+import { tmdb } from '@/services/tmdb'
+import { Loader } from 'lucide-react'
+import { Button } from '@plotwist/ui/components/ui/button'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
-export function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
+export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
+  const seasonsDetails = await Promise.all(
+    tvSerie.seasons.map(
+      async (season) =>
+        await tmdb.season.details(tvSerie.id, season.season_number, language),
+    ),
+  )
+
+  const actions = (
+    <div className="flex flex-wrap items-center gap-1">
+      <ListsDropdown item={tvSerie} />
+      <TvSeriesProgress
+        seasonsDetails={seasonsDetails.filter(
+          (season) => season.season_number !== 0 && season.episodes.length > 0,
+        )}
+      >
+        <Button size="sm" variant="outline">
+          <Loader className="mr-2" size={14} />
+          Seu progresso
+        </Button>
+      </TvSeriesProgress>
+    </div>
+  )
+
   return (
     <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
@@ -64,13 +91,12 @@ export function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
             {tvSerie.overview}
           </p>
 
-          <div className="hidden flex-wrap items-center gap-1 md:flex">
-            <ListsDropdown item={tvSerie} />
-          </div>
+          <div className="hidden md:block">{actions}</div>
         </article>
       </div>
 
       <div className="space-y-2 md:hidden">
+        {actions}
         <p className="text-sm/7 text-muted-foreground">{tvSerie.overview}</p>
         <TvSeriesGenres genres={tvSerie.genres} />
       </div>

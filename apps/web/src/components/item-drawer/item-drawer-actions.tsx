@@ -37,7 +37,7 @@ function ItemDrawerMainAction({
   )
 }
 
-type ItemDrawerActionProps = { isDisabled: boolean } & PropsWithChildren
+type ItemDrawerActionProps = { isDisabled?: boolean } & PropsWithChildren
 function ItemDrawerAction({ children, isDisabled }: ItemDrawerActionProps) {
   return (
     <div

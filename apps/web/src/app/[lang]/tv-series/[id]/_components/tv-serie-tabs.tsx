@@ -23,7 +23,7 @@ type TvSerieTabsProps = {
 
 export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
   const dictionary = await getDictionary(language)
-  const { id } = tvSerie
+  const { id, seasons } = tvSerie
 
   return (
     <Tabs defaultValue="reviews" className="w-full p-4 lg:p-0">
@@ -49,11 +49,11 @@ export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
       </TabsContent>
 
       <TabsContent value="where_to_watch">
-        <WhereToWatch id={tvSerie.id} variant="tv" language={language} />
+        <WhereToWatch id={id} variant="tv" language={language} />
       </TabsContent>
 
       <TabsContent value="seasons" className="mt-4">
-        <TvSerieSeasons seasons={tvSerie.seasons} id={id} language={language} />
+        <TvSerieSeasons seasons={seasons} id={id} language={language} />
       </TabsContent>
 
       <TabsContent value="credits" className="mt-4">

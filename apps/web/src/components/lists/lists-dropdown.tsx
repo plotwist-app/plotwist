@@ -32,11 +32,7 @@ type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
 } & ComponentProps<'button'>
 
-export const ListsDropdown = ({
-  item,
-  className,
-  ...props
-}: ListsDropdownProps) => {
+export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
   const { lists } = useLists()
   const postListItem = usePostListItem()
   const deleteListItem = useDeleteListItemId()
@@ -167,12 +163,8 @@ export const ListsDropdown = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn('h-6 px-2.5 py-0.5 text-xs', className)}
-          {...props}
-        >
-          <Plus className="mr-2" size={12} />
+        <Button size="sm" variant="outline" {...props}>
+          <Plus className="mr-2" size={14} />
           {addToList}
         </Button>
       </DropdownMenuTrigger>
