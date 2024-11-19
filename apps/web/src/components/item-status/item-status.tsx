@@ -191,7 +191,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
 
       <DrawerContent aria-describedby="" className="text-center">
-        <DrawerTitle className="my-4">Update Status</DrawerTitle>
+        <DrawerTitle className="my-4">{dictionary.update_status}</DrawerTitle>
 
         <div className="grid grid-cols-3 gap-2 px-4 mb-4">
           <Button
