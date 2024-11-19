@@ -3,8 +3,9 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
 import { Metadata } from 'next'
 import { SignUpForm } from './_components/sign-up-form'
-import { AnimatedLink } from '@/components/animated-link'
+import Link from 'next/link'
 import { signUp } from '@/actions/auth/sign-up'
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -44,16 +45,13 @@ const SignUpPage = async ({ params: { lang } }: PageProps) => {
           </div>
         </div>
 
-        <div className="fixed bottom-0 w-full border bg-muted p-4 dark:bg-black dark:text-white flex items-center justify-center flex-col space-y-1">
-          <p className="text-center text-xs text-muted-foreground">
-            {dictionary.already_have_an_account}{' '}
-          </p>
-          <AnimatedLink
+        <div className="absolute bottom-0 w-full border-t bg-muted dark:bg-black p-4 items-center justify-center space-x-1 flex">
+          <Link
             href={`/${lang}/sign-in`}
-            className="text-md font-medium"
+            className="text-center text-xs text-muted-foreground hover:underline"
           >
-            {dictionary.access_now}
-          </AnimatedLink>
+            {dictionary.already_have_an_account} {dictionary.access_now}
+          </Link>
         </div>
       </div>
     </>
