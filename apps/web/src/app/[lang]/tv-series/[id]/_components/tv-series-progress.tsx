@@ -217,7 +217,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" className="hidden">
             <Check className="mr-2" size={14} />
             {dictionary.update_progress}
           </Button>
@@ -232,7 +232,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="outline" className="hidden">
           <Check className="mr-2" size={14} />
           {dictionary.update_progress}
         </Button>
