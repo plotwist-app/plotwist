@@ -4,6 +4,60 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+/**
+ * @nullable
+ */
+export type DeleteUserEpisodesId204 =
+  | (typeof DeleteUserEpisodesId204)[keyof typeof DeleteUserEpisodesId204]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUserEpisodesId204 = {
+  null: 'null',
+} as const
+
+export type GetUserEpisodes200Item = {
+  episodeNumber: number
+  id: string
+  seasonNumber: number
+  tmdbId: number
+  userId: string
+  watchedAt: string
+}
+
+export type GetUserEpisodesParams = {
+  tmdbId: string
+}
+
+/**
+ * User episode already registered.
+ */
+export type PostUserEpisodes409 = {
+  message?: string
+}
+
+export type PostUserEpisodes201UserEpisode = {
+  episodeNumber: number
+  id: string
+  seasonNumber: number
+  tmdbId: number
+  userId: string
+  watchedAt: string
+}
+
+/**
+ * User episode registered.
+ */
+export type PostUserEpisodes201 = {
+  userEpisode: PostUserEpisodes201UserEpisode
+}
+
+export type PostUserEpisodesBody = {
+  episodeNumber: number
+  seasonNumber: number
+  tmdbId: number
+}
+
 export type GetSocialLinks200SocialLinksItemPlatform =
   (typeof GetSocialLinks200SocialLinksItemPlatform)[keyof typeof GetSocialLinks200SocialLinksItemPlatform]
 
@@ -43,18 +97,18 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | ''
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf
 
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
-
-export type PutSocialLinksBodyINSTAGRAM =
-  | unknown
-  | PutSocialLinksBodyINSTAGRAMAnyOf
-
 export type PutSocialLinksBody = {
   INSTAGRAM: PutSocialLinksBodyINSTAGRAM
   TIKTOK: PutSocialLinksBodyTIKTOK
   X: PutSocialLinksBodyX
   YOUTUBE: PutSocialLinksBodyYOUTUBE
 }
+
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
+
+export type PutSocialLinksBodyINSTAGRAM =
+  | unknown
+  | PutSocialLinksBodyINSTAGRAMAnyOf
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string
@@ -236,10 +290,6 @@ export type GetUserItemsParams = {
   language?: GetUserItemsLanguage
 }
 
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem
-}
-
 export type GetUserItem200UserItemStatus =
   (typeof GetUserItem200UserItemStatus)[keyof typeof GetUserItem200UserItemStatus]
 
@@ -268,6 +318,10 @@ export type GetUserItem200UserItem = {
   status: GetUserItem200UserItemStatus
   tmdbId: number
   userId: string
+}
+
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem
 }
 
 export type GetUserItemMediaType =
@@ -423,6 +477,10 @@ export type PostListItemBody = {
   tmdbId: number
 }
 
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[]
+}
+
 export type GetDetailedReviews200ReviewsItemUser = {
   id: string
   /** @nullable */
@@ -474,10 +532,6 @@ export type GetDetailedReviews200ReviewsItem = {
   tmdbId: number
   user: GetDetailedReviews200ReviewsItemUser
   userId: string
-}
-
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[]
 }
 
 export type GetDetailedReviewsLanguage =
@@ -631,6 +685,13 @@ export type PostReview404 = {
   message: string
 }
 
+/**
+ * Review created.
+ */
+export type PostReview201 = {
+  review: PostReview201Review
+}
+
 export type PostReview201ReviewMediaType =
   (typeof PostReview201ReviewMediaType)[keyof typeof PostReview201ReviewMediaType]
 
@@ -669,13 +730,6 @@ export type PostReview201Review = {
   review: string
   tmdbId: number
   userId: string
-}
-
-/**
- * Review created.
- */
-export type PostReview201 = {
-  review: PostReview201Review
 }
 
 export type PostReviewBodyMediaType =
@@ -878,6 +932,10 @@ export type GetLists404 = {
   message: string
 }
 
+export type GetLists200 = {
+  lists: GetLists200ListsItem[]
+}
+
 export type GetLists200ListsItemVisibility =
   (typeof GetLists200ListsItemVisibility)[keyof typeof GetLists200ListsItemVisibility]
 
@@ -909,10 +967,6 @@ export type GetLists200ListsItem = {
   user: GetLists200ListsItemUser
   userId: string
   visibility: GetLists200ListsItemVisibility
-}
-
-export type GetLists200 = {
-  lists: GetLists200ListsItem[]
 }
 
 export type GetLists200ListsItemItemsItemMediaType =

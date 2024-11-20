@@ -15,6 +15,7 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
+import { Suspense } from 'react'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
@@ -29,11 +30,17 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
-      <TvSeriesProgress
-        seasonsDetails={seasonsDetails.filter(
-          (season) => season.season_number !== 0 && season.episodes.length > 0,
-        )}
-      />
+
+      <Suspense fallback={<p>loading...</p>}>
+        <TvSeriesProgress
+          seasonsDetails={seasonsDetails.filter(
+            (season) =>
+              season.season_number !== 0 && season.episodes.length > 0,
+          )}
+          tmdbId={tvSerie.id}
+        />
+      </Suspense>
+
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
     </div>
   )

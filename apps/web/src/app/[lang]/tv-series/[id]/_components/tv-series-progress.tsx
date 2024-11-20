@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { SeasonDetails } from '@/services/tmdb'
+import { Episode, SeasonDetails } from '@/services/tmdb'
 import {
   AccordionContent,
   Accordion,
@@ -18,7 +18,7 @@ import {
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { isBefore } from 'date-fns'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Separator } from '@plotwist/ui/components/ui/separator'
@@ -31,13 +31,29 @@ import {
 } from '@plotwist/ui/components/ui/drawer'
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
+import {
+  useDeleteUserEpisodesId,
+  useGetUserEpisodesSuspense,
+  usePostUserEpisodes,
+} from '@/api/user-episodes'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { GetUserEpisodes200Item } from '@/api/endpoints.schemas'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
+  tmdbId: number
 }
 
-export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
-  const [watchedEpisodes, setWatchedEpisodes] = useState<Set<string>>(new Set())
+export function TvSeriesProgress({
+  seasonsDetails,
+  tmdbId,
+}: TvSeriesProgressProps) {
+  const { data: userEpisodes, queryKey } = useGetUserEpisodesSuspense({
+    tmdbId: String(tmdbId),
+  })
+  const createUserEpisode = usePostUserEpisodes()
+  const deleteUserEpisode = useDeleteUserEpisodesId()
+
   const confettiButtonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary } = useLanguage()
@@ -46,44 +62,75 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
     (acc, current) => acc + current.episodes.length,
     0,
   )
-
-  const watchedCount = watchedEpisodes.size
+  const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
-
-  const toggleEpisode = (episodeId: string) => {
-    setWatchedEpisodes((prev) => {
-      const newSet = new Set(prev)
-
-      if (newSet.has(episodeId)) {
-        newSet.delete(episodeId)
-      } else {
-        newSet.add(episodeId)
-      }
-
-      return newSet
-    })
-  }
-
-  const toggleSeason = (episodeIds: string[]) => {
-    setWatchedEpisodes((prev) => {
-      const newSet = new Set(prev)
-      const allEpisodesWatched = episodeIds.every((id) => newSet.has(id))
-
-      if (allEpisodesWatched) {
-        episodeIds.forEach((id) => newSet.delete(id))
-      } else {
-        episodeIds.forEach((id) => newSet.add(id))
-      }
-
-      return newSet
-    })
-  }
 
   useEffect(() => {
     if (watchedCount === totalEpisodes) {
       confettiButtonRef.current?.click()
     }
   }, [watchedCount, totalEpisodes])
+
+  function findUserEpisode(episode: Episode) {
+    return userEpisodes.find((userEpisode) => {
+      return (
+        userEpisode.seasonNumber === episode.season_number &&
+        userEpisode.episodeNumber === episode.episode_number
+      )
+    })
+  }
+
+  async function handleToggleSeason(episodes: Episode[]) {
+    for (const episode of episodes) {
+      await handleToggleEpisode(episode)
+    }
+  }
+
+  async function handleToggleEpisode(episode: Episode) {
+    const userEpisode = findUserEpisode(episode)
+
+    if (userEpisode) {
+      const { id } = userEpisode
+
+      return deleteUserEpisode.mutateAsync(
+        { id },
+        {
+          onSettled: () => {
+            APP_QUERY_CLIENT.setQueryData(
+              queryKey,
+              (userEpisodes: GetUserEpisodes200Item[]) => {
+                return userEpisodes.filter(
+                  (userEpisode) => userEpisode.id !== id,
+                )
+              },
+            )
+          },
+        },
+      )
+    }
+
+    await createUserEpisode.mutateAsync(
+      {
+        data: {
+          episodeNumber: episode.episode_number,
+          seasonNumber: episode.season_number,
+          tmdbId: episode.show_id,
+        },
+      },
+      {
+        onSuccess: (response) => {
+          if (response) {
+            APP_QUERY_CLIENT.setQueryData(
+              queryKey,
+              (userEpisodes: GetUserEpisodes200Item[]) => {
+                return [...userEpisodes, response.userEpisode]
+              },
+            )
+          }
+        },
+      },
+    )
+  }
 
   const content = (
     <div className="relative">
@@ -107,7 +154,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
           <Separator orientation="vertical" className="h-4" />
 
           <span className="text-sm text-muted-foreground ">
-            {watchedEpisodes.size}/{totalEpisodes} {dictionary.episodes}
+            {watchedCount}/{totalEpisodes} {dictionary.episodes}
           </span>
         </div>
 
@@ -126,12 +173,12 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
       <ScrollArea className="h-[50vh] scroll-y-auto px-4">
         <Accordion type="single" collapsible>
           {seasonsDetails.map((season) => {
-            const releasedEpisodeIds = season.episodes
-              .filter((e) => isBefore(new Date(e.air_date), new Date()))
-              .map((e) => String(e.id))
+            const releasedEpisodes = season.episodes.filter((e) =>
+              isBefore(new Date(e.air_date), new Date()),
+            )
 
-            const allReleasedWatched = releasedEpisodeIds.every((id) =>
-              watchedEpisodes.has(id),
+            const allReleasedWatched = releasedEpisodes.every((episode) =>
+              Boolean(findUserEpisode(episode)),
             )
 
             return (
@@ -141,7 +188,9 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
                     <Checkbox
                       id={String(season.id)}
                       checked={allReleasedWatched}
-                      onCheckedChange={() => toggleSeason(releasedEpisodeIds)}
+                      onCheckedChange={() =>
+                        handleToggleSeason(releasedEpisodes)
+                      }
                     />
 
                     <AccordionPrimitive.Trigger className="hover:underline text-start">
@@ -156,53 +205,51 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
 
                 <AccordionContent>
                   <ul className="space-y-4 pl-6">
-                    {season.episodes.map(
-                      ({
+                    {season.episodes.map((episode) => {
+                      const {
                         id,
                         episode_number: number,
                         name,
                         air_date: airDate,
-                      }) => {
-                        const episodeId = String(id)
-                        const isWatched = watchedEpisodes.has(episodeId)
-                        const isReleased = isBefore(
-                          new Date(airDate),
-                          new Date(),
-                        )
-                        const isDisabled = !isReleased
+                      } = episode
 
-                        return (
-                          <li
+                      const episodeId = String(id)
+                      const isWatched = Boolean(findUserEpisode(episode))
+
+                      const isReleased = isBefore(new Date(airDate), new Date())
+                      const isDisabled = !isReleased
+
+                      return (
+                        <li
+                          className={cn(
+                            'flex items-center space-x-2',
+                            isDisabled && 'opacity-50',
+                          )}
+                          key={episodeId}
+                        >
+                          <Checkbox
+                            id={episodeId}
+                            checked={isWatched}
+                            disabled={isDisabled}
+                            onCheckedChange={() => handleToggleEpisode(episode)}
+                          />
+
+                          <label
+                            htmlFor={episodeId}
                             className={cn(
-                              'flex items-center space-x-2',
-                              isDisabled && 'opacity-50',
+                              `flex-grow cursor-pointer`,
+                              isWatched && 'line-through',
                             )}
-                            key={episodeId}
                           >
-                            <Checkbox
-                              id={episodeId}
-                              checked={isWatched}
-                              disabled={isDisabled}
-                              onCheckedChange={() => toggleEpisode(episodeId)}
-                            />
+                            {number}. {name}
+                          </label>
 
-                            <label
-                              htmlFor={episodeId}
-                              className={cn(
-                                `flex-grow cursor-pointer`,
-                                isWatched && 'line-through',
-                              )}
-                            >
-                              {number}. {name}
-                            </label>
-
-                            {isWatched && (
-                              <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
-                            )}
-                          </li>
-                        )
-                      },
-                    )}
+                          {isWatched && (
+                            <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
+                          )}
+                        </li>
+                      )
+                    })}
                   </ul>
                 </AccordionContent>
               </AccordionItem>
@@ -217,7 +264,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button size="sm" variant="outline" className="hidden">
+          <Button size="sm" variant="outline">
             <Check className="mr-2" size={14} />
             {dictionary.update_progress}
           </Button>
@@ -232,7 +279,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" variant="outline" className="hidden">
+        <Button size="sm" variant="outline">
           <Check className="mr-2" size={14} />
           {dictionary.update_progress}
         </Button>
