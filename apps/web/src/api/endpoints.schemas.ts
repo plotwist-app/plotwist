@@ -7,14 +7,18 @@
 /**
  * @nullable
  */
-export type DeleteUserEpisodesId204 =
-  | (typeof DeleteUserEpisodesId204)[keyof typeof DeleteUserEpisodesId204]
+export type DeleteUserEpisodes204 =
+  | (typeof DeleteUserEpisodes204)[keyof typeof DeleteUserEpisodes204]
   | null
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteUserEpisodesId204 = {
+export const DeleteUserEpisodes204 = {
   null: 'null',
 } as const
+
+export type DeleteUserEpisodesBody = {
+  ids: string[]
+}
 
 export type GetUserEpisodes200Item = {
   episodeNumber: number
@@ -30,13 +34,13 @@ export type GetUserEpisodesParams = {
 }
 
 /**
- * User episode already registered.
+ * User episodes already registered.
  */
 export type PostUserEpisodes409 = {
   message?: string
 }
 
-export type PostUserEpisodes201UserEpisode = {
+export type PostUserEpisodes201Item = {
   episodeNumber: number
   id: string
   seasonNumber: number
@@ -45,14 +49,7 @@ export type PostUserEpisodes201UserEpisode = {
   watchedAt: string
 }
 
-/**
- * User episode registered.
- */
-export type PostUserEpisodes201 = {
-  userEpisode: PostUserEpisodes201UserEpisode
-}
-
-export type PostUserEpisodesBody = {
+export type PostUserEpisodesBodyItem = {
   episodeNumber: number
   seasonNumber: number
   tmdbId: number

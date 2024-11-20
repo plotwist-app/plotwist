@@ -32,7 +32,7 @@ import {
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
-  useDeleteUserEpisodesId,
+  useDeleteUserEpisodes,
   useGetUserEpisodesSuspense,
   usePostUserEpisodes,
 } from '@/api/user-episodes'
@@ -52,7 +52,7 @@ export function TvSeriesProgress({
     tmdbId: String(tmdbId),
   })
   const createUserEpisode = usePostUserEpisodes()
-  const deleteUserEpisode = useDeleteUserEpisodesId()
+  const deleteUserEpisode = useDeleteUserEpisodes()
 
   const confettiButtonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -67,6 +67,7 @@ export function TvSeriesProgress({
 
   useEffect(() => {
     if (watchedCount === totalEpisodes) {
+      console.log('alterado p watched')
       confettiButtonRef.current?.click()
     }
   }, [watchedCount, totalEpisodes])
@@ -81,8 +82,67 @@ export function TvSeriesProgress({
   }
 
   async function handleToggleSeason(episodes: Episode[]) {
-    for (const episode of episodes) {
-      await handleToggleEpisode(episode)
+    const allWatched = episodes.every((episode) => findUserEpisode(episode))
+
+    if (allWatched) {
+      const toDelete = episodes
+        .map((episode) => {
+          const userEpisode = findUserEpisode(episode)
+          return userEpisode?.id
+        })
+        .filter((id) => id !== undefined)
+
+      if (toDelete.length > 0) {
+        await deleteUserEpisode.mutateAsync(
+          {
+            data: { ids: toDelete },
+          },
+          {
+            onSettled: () => {
+              APP_QUERY_CLIENT.setQueryData(
+                queryKey,
+                (userEpisodes: GetUserEpisodes200Item[]) => {
+                  return userEpisodes.filter(
+                    (userEpisode) =>
+                      !episodes.some(
+                        (episode) =>
+                          userEpisode.seasonNumber === episode.season_number &&
+                          userEpisode.episodeNumber === episode.episode_number,
+                      ),
+                  )
+                },
+              )
+            },
+          },
+        )
+      }
+
+      return
+    }
+
+    const toCreate = episodes.filter((episode) => !findUserEpisode(episode))
+    if (toCreate.length > 0) {
+      await createUserEpisode.mutateAsync(
+        {
+          data: toCreate.map((episode) => ({
+            episodeNumber: episode.episode_number,
+            seasonNumber: episode.season_number,
+            tmdbId: episode.show_id,
+          })),
+        },
+        {
+          onSuccess: (response) => {
+            if (response) {
+              APP_QUERY_CLIENT.setQueryData(
+                queryKey,
+                (userEpisodes: GetUserEpisodes200Item[]) => {
+                  return [...userEpisodes, ...response]
+                },
+              )
+            }
+          },
+        },
+      )
     }
   }
 
@@ -93,7 +153,7 @@ export function TvSeriesProgress({
       const { id } = userEpisode
 
       return deleteUserEpisode.mutateAsync(
-        { id },
+        { data: { ids: [id] } },
         {
           onSettled: () => {
             APP_QUERY_CLIENT.setQueryData(
@@ -111,11 +171,13 @@ export function TvSeriesProgress({
 
     await createUserEpisode.mutateAsync(
       {
-        data: {
-          episodeNumber: episode.episode_number,
-          seasonNumber: episode.season_number,
-          tmdbId: episode.show_id,
-        },
+        data: [
+          {
+            episodeNumber: episode.episode_number,
+            seasonNumber: episode.season_number,
+            tmdbId: episode.show_id,
+          },
+        ],
       },
       {
         onSuccess: (response) => {
@@ -123,7 +185,7 @@ export function TvSeriesProgress({
             APP_QUERY_CLIENT.setQueryData(
               queryKey,
               (userEpisodes: GetUserEpisodes200Item[]) => {
-                return [...userEpisodes, response.userEpisode]
+                return [...userEpisodes, ...response]
               },
             )
           }
