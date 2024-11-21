@@ -34,7 +34,7 @@ export default async function Layout(props: UserPageProps) {
 
   return (
     <LayoutProvider userId={user.id}>
-      <main className="p-0 lg:p-4 mx-auto max-w-6xl">
+      <main className="pb-16 mx-auto max-w-6xl">
         <ProfileBanner profile={user} />
 
         <section

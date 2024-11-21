@@ -28,6 +28,7 @@ import { NoAccountTooltip } from '../no-account-tooltip'
 import { useSession } from '@/context/session'
 import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { ProFeatureTooltip } from '../pro-feature-tooltip'
+import { getGetListsQueryKey } from '@/api/list'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -64,7 +65,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: ['lists', user.id],
+              queryKey: getGetListsQueryKey({ userId: user.id }),
             })
 
             toast.success(removedSuccessfully)
@@ -90,7 +91,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         {
           onSuccess: () => {
             APP_QUERY_CLIENT.invalidateQueries({
-              queryKey: ['lists', user.id],
+              queryKey: getGetListsQueryKey({ userId: user.id }),
             })
 
             toast.success(addedSuccessfully, {
