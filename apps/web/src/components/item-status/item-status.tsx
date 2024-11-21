@@ -4,8 +4,7 @@ import { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
 import {
   useDeleteUserItemId,
   useGetUserItem,
-  usePatchUserItemStatusById,
-  usePostUserItem,
+  usePutUserItem,
 } from '@/api/user-items'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
@@ -41,8 +40,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
   const { push } = useRouter()
   const { language, dictionary } = useLanguage()
 
-  const createUserItem = usePostUserItem()
-  const editUserItem = usePatchUserItemStatusById()
+  const putUserItem = usePutUserItem()
   const deleteUserItem = useDeleteUserItemId()
 
   const { data, isLoading, queryKey } = useGetUserItem(
@@ -60,24 +58,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       return push(`/${language}/sign-in`)
     }
 
-    if (!data) {
-      await createUserItem.mutateAsync(
-        {
-          data: { mediaType, tmdbId, status: newStatus },
-        },
-        {
-          onSettled: (response) => {
-            if (response) {
-              APP_QUERY_CLIENT.setQueryData(queryKey, response)
-            }
-          },
-        },
-      )
-
-      return
-    }
-
-    if (newStatus === data.status) {
+    if (newStatus === data?.status) {
       await deleteUserItem.mutateAsync(
         { id: data.id },
         {
@@ -88,12 +69,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
           },
         },
       )
-
       return
     }
 
-    await editUserItem.mutateAsync(
-      { data: { status: newStatus }, id: data.id },
+    await putUserItem.mutateAsync(
+      {
+        data: { mediaType, tmdbId, status: newStatus },
+      },
       {
         onSettled: (response) => {
           if (response) {
@@ -104,11 +86,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
     )
   }
 
-  const isDisabled =
-    isLoading ||
-    createUserItem.isPending ||
-    editUserItem.isPending ||
-    deleteUserItem.isPending
+  const isDisabled = isLoading || putUserItem.isPending
 
   const trigger = (
     <Button
@@ -133,7 +111,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       {data?.status === 'WATCHLIST' && (
         <>
           <Clock className="mr-2" size={14} />
-          {dictionary.watching}
+          {dictionary.watchlist}
         </>
       )}
 
@@ -153,7 +131,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel className="flex justify-between">
-            Status
+            {dictionary.update_status}
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />

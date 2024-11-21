@@ -37,7 +37,8 @@ import {
   usePostUserEpisodes,
 } from '@/api/user-episodes'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { GetUserEpisodes200Item } from '@/api/endpoints.schemas'
+import { GetUserEpisodes200Item, GetUserItem200 } from '@/api/endpoints.schemas'
+import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
@@ -51,6 +52,15 @@ export function TvSeriesProgress({
   const { data: userEpisodes, queryKey } = useGetUserEpisodesSuspense({
     tmdbId: String(tmdbId),
   })
+
+  const { data: userItemData, queryKey: userItemQueryKey } =
+    useGetUserItemSuspense({
+      mediaType: 'TV_SHOW',
+      tmdbId: String(tmdbId),
+    })
+
+  const putUserItem = usePutUserItem()
+
   const createUserEpisode = usePostUserEpisodes()
   const deleteUserEpisode = useDeleteUserEpisodes()
 
@@ -64,13 +74,6 @@ export function TvSeriesProgress({
   )
   const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
-
-  useEffect(() => {
-    if (watchedCount === totalEpisodes) {
-      console.log('alterado p watched')
-      confettiButtonRef.current?.click()
-    }
-  }, [watchedCount, totalEpisodes])
 
   function findUserEpisode(episode: Episode) {
     return userEpisodes.find((userEpisode) => {
@@ -193,6 +196,60 @@ export function TvSeriesProgress({
       },
     )
   }
+
+  const updateUserItemStatus = async () => {
+    if (watchedCount === totalEpisodes) {
+      if (userItemData?.userItem?.status !== 'WATCHED') {
+        await putUserItem.mutateAsync(
+          { data: { mediaType: 'TV_SHOW', status: 'WATCHED', tmdbId } },
+          {
+            onSuccess: () => {
+              APP_QUERY_CLIENT.setQueryData(
+                userItemQueryKey,
+                (old: GetUserItem200) => {
+                  return {
+                    userItem: {
+                      ...old.userItem,
+                      status: 'WATCHED',
+                    },
+                  }
+                },
+              )
+
+              confettiButtonRef.current?.click()
+            },
+          },
+        )
+      }
+    }
+
+    if (watchedCount > 0 && userItemData?.userItem?.status !== 'WATCHING') {
+      await putUserItem.mutateAsync(
+        {
+          data: { mediaType: 'TV_SHOW', status: 'WATCHING', tmdbId },
+        },
+        {
+          onSuccess: () => {
+            APP_QUERY_CLIENT.setQueryData(
+              userItemQueryKey,
+              (old: GetUserItem200) => {
+                return {
+                  userItem: {
+                    ...old.userItem,
+                    status: 'WATCHING',
+                  },
+                }
+              },
+            )
+          },
+        },
+      )
+    }
+  }
+
+  useEffect(() => {
+    updateUserItemStatus()
+  }, [watchedCount, totalEpisodes])
 
   const content = (
     <div className="relative">

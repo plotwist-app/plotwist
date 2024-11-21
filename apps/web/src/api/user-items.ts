@@ -28,10 +28,8 @@ import type {
   GetUserItemParams,
   GetUserItems200Item,
   GetUserItemsParams,
-  PatchUserItemStatusById200,
-  PatchUserItemStatusByIdBody,
-  PostUserItem201,
-  PostUserItemBody
+  PutUserItem201,
+  PutUserItemBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -39,35 +37,35 @@ import { axiosInstance } from '../services/axios-instance';
 
 
 /**
- * Create user item
+ * Upsert user item
  */
-export const postUserItem = (
-    postUserItemBody: PostUserItemBody,
+export const putUserItem = (
+    putUserItemBody: PutUserItemBody,
  ) => {
       
       
-      return axiosInstance<PostUserItem201>(
-      {url: `/user/item`, method: 'POST',
+      return axiosInstance<PutUserItem201>(
+      {url: `/user/item`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
-      data: postUserItemBody
+      data: putUserItemBody
     },
       );
     }
   
 
 
-export const getPostUserItemMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserItem>>, TError,{data: PostUserItemBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postUserItem>>, TError,{data: PostUserItemBody}, TContext> => {
+export const getPutUserItemMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserItem>>, TError,{data: PutUserItemBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putUserItem>>, TError,{data: PutUserItemBody}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUserItem>>, {data: PostUserItemBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putUserItem>>, {data: PutUserItemBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  postUserItem(data,)
+          return  putUserItem(data,)
         }
 
         
@@ -75,20 +73,20 @@ const {mutation: mutationOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostUserItemMutationResult = NonNullable<Awaited<ReturnType<typeof postUserItem>>>
-    export type PostUserItemMutationBody = PostUserItemBody
-    export type PostUserItemMutationError = unknown
+    export type PutUserItemMutationResult = NonNullable<Awaited<ReturnType<typeof putUserItem>>>
+    export type PutUserItemMutationBody = PutUserItemBody
+    export type PutUserItemMutationError = unknown
 
-    export const usePostUserItem = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserItem>>, TError,{data: PostUserItemBody}, TContext>, }
+    export const usePutUserItem = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserItem>>, TError,{data: PutUserItemBody}, TContext>, }
 ): UseMutationResult<
-        Awaited<ReturnType<typeof postUserItem>>,
+        Awaited<ReturnType<typeof putUserItem>>,
         TError,
-        {data: PostUserItemBody},
+        {data: PutUserItemBody},
         TContext
       > => {
 
-      const mutationOptions = getPostUserItemMutationOptions(options);
+      const mutationOptions = getPutUserItemMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -413,61 +411,6 @@ const {mutation: mutationOptions} = options ?? {};
       > => {
 
       const mutationOptions = getDeleteUserItemIdMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
- * Get user item
- */
-export const patchUserItemStatusById = (
-    id: string,
-    patchUserItemStatusByIdBody: PatchUserItemStatusByIdBody,
- ) => {
-      
-      
-      return axiosInstance<PatchUserItemStatusById200>(
-      {url: `/user/item/status/by/${id}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: patchUserItemStatusByIdBody
-    },
-      );
-    }
-  
-
-
-export const getPatchUserItemStatusByIdMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUserItemStatusById>>, TError,{id: string;data: PatchUserItemStatusByIdBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof patchUserItemStatusById>>, TError,{id: string;data: PatchUserItemStatusByIdBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchUserItemStatusById>>, {id: string;data: PatchUserItemStatusByIdBody}> = (props) => {
-          const {id,data} = props ?? {};
-
-          return  patchUserItemStatusById(id,data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchUserItemStatusByIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchUserItemStatusById>>>
-    export type PatchUserItemStatusByIdMutationBody = PatchUserItemStatusByIdBody
-    export type PatchUserItemStatusByIdMutationError = unknown
-
-    export const usePatchUserItemStatusById = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUserItemStatusById>>, TError,{id: string;data: PatchUserItemStatusByIdBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof patchUserItemStatusById>>,
-        TError,
-        {id: string;data: PatchUserItemStatusByIdBody},
-        TContext
-      > => {
-
-      const mutationOptions = getPatchUserItemStatusByIdMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

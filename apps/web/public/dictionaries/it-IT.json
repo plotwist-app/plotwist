@@ -14,8 +14,7 @@
       "benefits": [
         "Accesso completo alla piattaforma",
         "Valutazioni illimitate",
-        "Una lista personale",
-        "Strumenti di organizzazione e controllo per gli assistiti"
+        "Una lista personale"
       ],
       "start_now": "Inizia ora!"
     },
@@ -24,6 +23,7 @@
       "price": "5 €/mese",
       "recommended": "Consigliato",
       "description": "Tutto nel piano gratuito e molto di più!",      "benefits": [
+        "Strumenti di organizzazione e controllo per gli assistiti",
         "Raccomandazioni personali basate sui tuoi gusti e sulla tua cronologia",
         "Liste illimitate",
         "Personalizzazione avanzata",

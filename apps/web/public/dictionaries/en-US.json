@@ -14,8 +14,7 @@
       "benefits": [
         "Full access to the platform",
         "Unlimited ratings",
-        "A personal list",
-        "Organization and control tools for watched"
+        "A personal list"
       ],
       "start_now": "Start Now!"
     },
@@ -25,6 +24,7 @@
       "recommended": "Recommended",
       "description": "Everything in the free plan and much more!",
       "benefits": [
+        "Organization and control tools for watched",
         "Personal recommendations based on your taste and history",
         "Unlimited lists",
         "Advanced personalization",

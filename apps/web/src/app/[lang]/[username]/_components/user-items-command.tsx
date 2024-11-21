@@ -4,7 +4,7 @@ import { GetUserItems200Item } from '@/api/endpoints.schemas'
 import {
   getGetUserItemsQueryKey,
   useDeleteUserItemId,
-  usePostUserItem,
+  usePutUserItem,
 } from '@/api/user-items'
 import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
@@ -23,7 +23,7 @@ export function UserItemsCommand({
   status,
   userId,
 }: UserItemsCommandProps) {
-  const add = usePostUserItem()
+  const add = usePutUserItem()
   const remove = useDeleteUserItemId()
 
   const { language, dictionary } = useLanguage()

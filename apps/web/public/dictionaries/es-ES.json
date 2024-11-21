@@ -14,8 +14,7 @@
       "benefits": [
         "Acceso completo a la plataforma",
         "Valoraciones ilimitadas",
-         "Una lista personal",
-         "Herramientas de organización y control para asistidos"
+         "Una lista personal"
       ],
       "start_now": "¡Empieza ahora!"
     },
@@ -25,6 +24,7 @@
       "recommended": "Recomendado",
       "description": "Todo en el plan gratuito y mucho más!",
       "benefits": [
+        "Herramientas de organización y control para asistidos",
         "Recomendaciones personales basadas en tus gustos e historial",
         "Listas ilimitadas",
         "Personalización avanzada",
