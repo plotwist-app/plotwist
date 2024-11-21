@@ -35,7 +35,6 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
     )
 
   const isOwner = user?.id === userId
-  const isPro = user?.subscriptionType === 'PRO'
   const isVisitorAndListEmpty = data.lists.length === 0 && !isOwner
 
   if (isVisitorAndListEmpty) {
@@ -60,7 +59,7 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
           <ListCard list={list} key={list.id} />
         ))}
 
-        {isOwner && isPro && (
+        {isOwner && (
           <ListForm
             trigger={
               <button
@@ -71,38 +70,6 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
               </button>
             }
           />
-        )}
-
-        {isOwner && !isPro && data.lists.length === 0 && (
-          <ListForm
-            trigger={
-              <button
-                className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground"
-                type="button"
-              >
-                {dictionary.list_form.create_new_list}
-              </button>
-            }
-          />
-        )}
-
-        {isOwner && !isPro && data.lists.length > 0 && (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href={`/${language}/pricing`}
-                  className="flex items-center justify-center aspect-video rounded-md border border-dashed text-muted-foreground/50 p-8 uppercase"
-                >
-                  <LockKeyhole />
-                </Link>
-              </TooltipTrigger>
-
-              <TooltipContent>
-                <p>{dictionary.upgrade_list_message}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         )}
       </div>
     </>

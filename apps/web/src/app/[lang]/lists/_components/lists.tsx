@@ -57,27 +57,6 @@ export const Lists = () => {
 
       {lists.length < LIMIT &&
         Array.from({ length: LIMIT - lists.length }).map((_, index) => {
-          if (user.subscriptionType === 'MEMBER' && index !== 0) {
-            return (
-              <TooltipProvider delayDuration={0} key={v4()}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      href={`/${language}/pricing`}
-                      className="flex items-center justify-center aspect-video rounded-md border border-dashed text-muted-foreground/50 p-8 uppercase"
-                    >
-                      <LockKeyhole />
-                    </Link>
-                  </TooltipTrigger>
-
-                  <TooltipContent>
-                    <p>{dictionary.upgrade_list_message}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )
-          }
-
           return (
             <ListForm
               trigger={

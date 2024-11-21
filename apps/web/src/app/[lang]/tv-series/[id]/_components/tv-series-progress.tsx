@@ -10,7 +10,6 @@ import {
   usePostUserEpisodes,
 } from '@/api/user-episodes'
 import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
-import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -389,17 +388,6 @@ export function TvSeriesProgress({
       </ScrollArea>
     </div>
   )
-
-  if (user?.subscriptionType === 'MEMBER') {
-    return (
-      <ProFeatureTooltip>
-        <Button size="sm" variant="outline">
-          <Check className="mr-2" size={14} />
-          {dictionary.update_progress}
-        </Button>
-      </ProFeatureTooltip>
-    )
-  }
 
   if (isDesktop) {
     return (

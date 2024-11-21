@@ -7,7 +7,6 @@ import {
   usePutUserItem,
 } from '@/api/user-items'
 import { ListCommand } from '@/components/list-command'
-import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -48,20 +47,6 @@ export function UserItemsCommand({
       add: dictionary.watchlist_added,
       remove: dictionary.watchlist_removed,
     },
-  }
-
-  if (user?.subscriptionType === 'MEMBER') {
-    return (
-      <ProFeatureTooltip>
-        <div
-          className={cn(
-            'flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed'
-          )}
-        >
-          <Plus />
-        </div>
-      </ProFeatureTooltip>
-    )
   }
 
   return (

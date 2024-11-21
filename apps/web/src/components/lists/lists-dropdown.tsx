@@ -28,7 +28,6 @@ import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import { ProFeatureTooltip } from '../pro-feature-tooltip'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -175,28 +174,20 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         <DropdownMenuLabel className="flex justify-between">
           {myLists}
 
-          {user?.subscriptionType === 'MEMBER' && lists.length === 1 ? (
-            <ProFeatureTooltip>
-              <Button size="icon" className="h-6 w-6" variant="outline">
+          <ListForm
+            trigger={
+              <Button
+                size="icon"
+                className="h-6 w-6"
+                variant="outline"
+                disabled={
+                  user?.subscriptionType === 'MEMBER' && lists.length === 1
+                }
+              >
                 <Plus className="size-4" />
               </Button>
-            </ProFeatureTooltip>
-          ) : (
-            <ListForm
-              trigger={
-                <Button
-                  size="icon"
-                  className="h-6 w-6"
-                  variant="outline"
-                  disabled={
-                    user?.subscriptionType === 'MEMBER' && lists.length === 1
-                  }
-                >
-                  <Plus className="size-4" />
-                </Button>
-              }
-            />
-          )}
+            }
+          />
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
