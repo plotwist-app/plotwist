@@ -76,13 +76,6 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
                   src={tmdbImage(tv.poster_path, 'w500')}
                   alt={tv.name}
                 />
-
-                <PosterCard.Details>
-                  <PosterCard.Title>{tv.name}</PosterCard.Title>
-                  <PosterCard.Year>
-                    {tv.first_air_date?.split('-')[0]}
-                  </PosterCard.Year>
-                </PosterCard.Details>
               </PosterCard.Root>
             </Link>
           )
@@ -96,13 +89,6 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
                 src={tmdbImage(movie.poster_path, 'w500')}
                 alt={movie.title}
               />
-
-              <PosterCard.Details>
-                <PosterCard.Title>{movie.title}</PosterCard.Title>
-                <PosterCard.Year>
-                  {movie.release_date.split('-')[0]}
-                </PosterCard.Year>
-              </PosterCard.Details>
             </PosterCard.Root>
           </Link>
         )
