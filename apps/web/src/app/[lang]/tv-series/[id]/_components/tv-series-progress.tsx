@@ -42,7 +42,6 @@ import { Progress } from '@plotwist/ui/components/ui/progress'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { isBefore } from 'date-fns'
-import { watch } from 'fs'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
@@ -232,6 +231,7 @@ export function TvSeriesProgress({
 
     if (
       watchedCount < totalEpisodes &&
+      watchedCount > 0 &&
       userItemData?.userItem?.status !== 'WATCHING'
     ) {
       await putUserItem.mutateAsync(

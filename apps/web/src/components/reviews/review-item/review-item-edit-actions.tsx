@@ -210,52 +210,46 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
           >
             <div className="w-full space-y-2">
               <div className="flex justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex gap-2">
                   <span className="text-sm text-muted-foreground">
                     {username}
                   </span>
 
                   <span className="h-1 w-1 rounded-full bg-muted" />
 
-                  <div className="flex items-center justify-between gap-2 xs:gap-[168.5px] sm:gap-[108.5px]">
-                    <FormField
-                      control={form.control}
-                      name="rating"
-                      render={({ field }) => (
-                        <ReviewStars
-                          onChange={field.onChange}
-                          rating={field.value}
-                        />
-                      )}
-                    />
-
-                    {useMediaQuery('(min-width: 520px)') ? null : (
-                      <span className="h-1 w-1 rounded-full bg-muted" />
+                  <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                      <ReviewStars
+                        onChange={field.onChange}
+                        rating={field.value}
+                      />
                     )}
-
-                    <FormField
-                      control={form.control}
-                      name="hasSpoilers"
-                      render={({ field }) => (
-                        <div className="flex items-center justify-center gap-2">
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            id="has_spoilers"
-                            className="border-muted-foreground text-primary-foreground/80"
-                          />
-                          <Label
-                            onClick={field.onChange}
-                            htmlFor="has_spoilers"
-                            className="text-muted-foreground hover:cursor-pointer text-sm whitespace-nowrap"
-                          >
-                            {dictionary.contain_spoilers}
-                          </Label>
-                        </div>
-                      )}
-                    />
-                  </div>
+                  />
                 </div>
+
+                <FormField
+                  control={form.control}
+                  name="hasSpoilers"
+                  render={({ field }) => (
+                    <div className="flex items-center justify-center gap-2">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        id="has_spoilers"
+                        className="border-muted-foreground text-primary-foreground/80"
+                      />
+                      <Label
+                        onClick={field.onChange}
+                        htmlFor="has_spoilers"
+                        className="text-muted-foreground hover:cursor-pointer text-sm whitespace-nowrap"
+                      >
+                        {dictionary.contain_spoilers}
+                      </Label>
+                    </div>
+                  )}
+                />
               </div>
 
               <FormField
