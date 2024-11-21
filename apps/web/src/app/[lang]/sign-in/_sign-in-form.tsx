@@ -14,26 +14,26 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
+import { Input } from '@plotwist/ui/components/ui/input'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { Input } from '@plotwist/ui/components/ui/input'
 
 import { useLanguage } from '@/context/language'
 
-import type { Dictionary } from '@/utils/dictionaries'
-import { z } from 'zod'
-import { toast } from 'sonner'
 import type { signIn } from '@/actions/auth/sign-in'
+import type { Dictionary } from '@/utils/dictionaries'
 import {
   Dialog,
+  DialogContent,
   DialogFooter,
   DialogTitle,
-  DialogContent,
 } from '@plotwist/ui/components/ui/dialog'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 const loginFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -128,7 +128,7 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
                           <Button
                             size="icon"
                             variant="outline"
-                            onClick={() => setShowPassword((prev) => !prev)}
+                            onClick={() => setShowPassword(prev => !prev)}
                             type="button"
                             data-testId="toggle-password"
                           >

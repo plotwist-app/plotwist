@@ -15,11 +15,11 @@ import {
 
 import { Input } from '@plotwist/ui/components/ui/input'
 
+import { useLanguage } from '@/context/language'
 import {
-  ForgotPasswordFormValues,
+  type ForgotPasswordFormValues,
   forgotPasswordFormSchema,
 } from './forgot-password-form.schema'
-import { useLanguage } from '@/context/language'
 
 export const ForgotPasswordForm = () => {
   const { dictionary } = useLanguage()

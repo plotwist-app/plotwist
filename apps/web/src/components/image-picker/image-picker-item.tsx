@@ -1,6 +1,6 @@
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Image from 'next/image'
-import { ComponentProps, PropsWithChildren } from 'react'
+import type { ComponentProps, PropsWithChildren } from 'react'
 
 export const ImagePickerItem = {
   Root: (props: PropsWithChildren & ComponentProps<'div'>) => (

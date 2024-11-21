@@ -1,15 +1,16 @@
 'use client'
 
+import { type Movie, type TvSerie, tmdb } from '@/services/tmdb'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { Movie, TvSerie, tmdb } from '@/services/tmdb'
 
-import { AnimeListType } from '.'
 import { useLanguage } from '@/context/language'
-import Link from 'next/link'
-import { PosterCard } from '../poster-card'
 import { tmdbImage } from '@/utils/tmdb/image'
+import Link from 'next/link'
+import { v4 } from 'uuid'
+import type { AnimeListType } from '.'
+import { PosterCard } from '../poster-card'
 
 type AnimeListContentProps = { type: AnimeListType }
 
@@ -38,7 +39,7 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
       })
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: lastPage => lastPage.page + 1,
   })
 
   useEffect(() => {
@@ -48,14 +49,14 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
   if (!data)
     return (
       <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <PosterCard.Skeleton key={index} />
+        {Array.from({ length: 20 }).map(_ => (
+          <PosterCard.Skeleton key={v4()} />
         ))}
       </div>
     )
 
   const flatData = data.pages.flatMap(
-    (page) => page.results as unknown as TvSerie | Movie,
+    page => page.results as unknown as TvSerie | Movie
   )
 
   const isLastPage =
@@ -64,7 +65,7 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
 
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
-      {flatData.map((item) => {
+      {flatData.map(item => {
         if (type === 'tv') {
           const tv = item as TvSerie
 

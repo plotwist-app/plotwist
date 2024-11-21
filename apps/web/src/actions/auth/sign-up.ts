@@ -2,10 +2,10 @@
 
 import type { PostUsersCreateBody } from '@/api/endpoints.schemas'
 import { postUsersCreate } from '@/api/users'
-import { signIn } from './sign-in'
-import { Language } from '@plotwist_app/tmdb'
 import { api } from '@/services/api'
+import type { Language } from '@plotwist_app/tmdb'
 import { redirect } from 'next/navigation'
+import { signIn } from './sign-in'
 
 type SignUpParams = PostUsersCreateBody & {
   redirectToCheckout?: boolean
@@ -30,7 +30,7 @@ export async function signUp({
 
   if (redirectToCheckout) {
     const { data } = await api.post(
-      `/checkout_sessions?locale=${language.split('-')[0]}&email=${email}&username=${username}`,
+      `/checkout_sessions?locale=${language.split('-')[0]}&email=${email}&username=${username}`
     )
 
     if (data.url) {

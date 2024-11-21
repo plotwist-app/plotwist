@@ -2,8 +2,8 @@ import { Banner } from '@/components/banner'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { Language } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
 import { TvSerieInfos } from './tv-serie-infos'
 import { TvSerieTabs } from './tv-serie-tabs'
 

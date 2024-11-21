@@ -1,19 +1,19 @@
 'use client'
 
-import { ListItem } from '@/types/supabase/lists'
-import { ListItemCard } from './list-item-card'
-import { ListCommand } from '@/components/list-command'
-import { useListMode } from '@/context/list-mode'
-import { Plus } from 'lucide-react'
 import {
   getGetListItemsByListIdQueryKey,
   useDeleteListItemId,
   usePostListItem,
 } from '@/api/list-item'
-import { useParams } from 'next/navigation'
+import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
+import { useListMode } from '@/context/list-mode'
+import type { ListItem } from '@/types/supabase/lists'
+import { Plus } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { toast } from 'sonner'
+import { ListItemCard } from './list-item-card'
 
 type ListItemsGridProps = {
   listItems: ListItem[]
@@ -37,7 +37,7 @@ export const ListItemsGrid = ({
       <div
         className={`grid grid-cols-3 gap-2 rounded-md ${isEditable ? 'border-2   p-1 md:grid-cols-5' : 'md:grid-cols-5'} transition-all duration-150 ease-in-out`}
       >
-        {listItems.map((item) => (
+        {listItems.map(item => (
           <ListItemCard key={item.id} listItem={item} />
         ))}
 
@@ -56,10 +56,10 @@ export const ListItemsGrid = ({
 
                     toast.success(dictionary.list_command.movie_added_success)
                   },
-                },
+                }
               )
             }
-            onRemove={(id) =>
+            onRemove={id =>
               deleteListItem.mutate(
                 { id },
                 {
@@ -72,7 +72,7 @@ export const ListItemsGrid = ({
 
                     toast.success(dictionary.list_command.movie_removed_success)
                   },
-                },
+                }
               )
             }
             items={listItems}

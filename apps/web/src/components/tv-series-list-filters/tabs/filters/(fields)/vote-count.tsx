@@ -1,12 +1,13 @@
-import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { useLanguage } from '@/context/language'
 import {
   FormControl,
   FormItem,
   FormLabel,
 } from '@plotwist/ui/components/ui/form'
 import { Slider } from '@plotwist/ui/components/ui/slider'
-import { useLanguage } from '@/context/language'
 import { useFormContext } from 'react-hook-form'
+import { v4 } from 'uuid'
 
 export const VoteCountField = () => {
   const {
@@ -40,7 +41,7 @@ export const VoteCountField = () => {
             {Array.from({ length: 11 }).map((_, index) => (
               <div
                 className="relative flex translate-x-[3px] flex-col items-center"
-                key={index}
+                key={v4()}
               >
                 <div className="h-[4px] w-[1px] bg-muted" />
                 <div className="text-xs">{index * 50}</div>

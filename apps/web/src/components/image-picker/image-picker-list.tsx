@@ -2,18 +2,19 @@
 
 import { useQuery } from '@tanstack/react-query'
 
+import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
 import {
-  Image,
-  MovieWithMediaType,
-  TvSerieWithMediaType,
+  type Image,
+  type MovieWithMediaType,
+  type TvSerieWithMediaType,
   tmdb,
 } from '@/services/tmdb'
-import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
 
 import { useLanguage } from '@/context/language'
-import { SelectedItem } from './image-picker-root'
-import { ImagePickerItem, ImagePickerItemSkeleton } from './image-picker-item'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { v4 } from 'uuid'
+import { ImagePickerItem, ImagePickerItemSkeleton } from './image-picker-item'
+import type { SelectedItem } from './image-picker-root'
 
 type ImagePickerListProps = {
   selectedItem: SelectedItem
@@ -35,7 +36,7 @@ export const ImagePickerList = ({
 
   const images = () => {
     return [...data.backdrops, ...data.posters].sort(
-      (a, b) => b.vote_count - a.vote_count,
+      (a, b) => b.vote_count - a.vote_count
     )
   }
 
@@ -59,7 +60,7 @@ export const ImagePickerInitialList = ({
 
   return (
     <div className="flex flex-col gap-4">
-      {data?.results.map((movie) => (
+      {data?.results.map(movie => (
         <ImagePickerItem.Root
           key={movie.id}
           onClick={() =>
@@ -97,23 +98,23 @@ export const ImagePickerListResults = ({
     return (
       <div className="flex flex-col gap-4">
         {Array.from({ length: 10 }).map((_, index) => (
-          <ImagePickerItemSkeleton key={index} />
+          <ImagePickerItemSkeleton key={v4()} />
         ))}
       </div>
     )
   }
 
   const movies = data?.results.filter(
-    (result) => result.media_type === 'movie',
+    result => result.media_type === 'movie'
   ) as MovieWithMediaType[]
 
   const tvSeries = data?.results.filter(
-    (result) => result.media_type === 'tv',
+    result => result.media_type === 'tv'
   ) as TvSerieWithMediaType[]
 
   return (
     <div className="flex flex-col gap-4">
-      {movies?.map((movie) => {
+      {movies?.map(movie => {
         if (!movie.backdrop_path) return null
 
         return (
@@ -132,7 +133,7 @@ export const ImagePickerListResults = ({
         )
       })}
 
-      {tvSeries?.map((tvSerie) => {
+      {tvSeries?.map(tvSerie => {
         if (!tvSerie.backdrop_path) return null
 
         return (

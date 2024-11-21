@@ -20,9 +20,9 @@ import {
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
+import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 import { useLanguage } from '@/context/language'
 import { locale } from '@/utils/date/locale'
-import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 
 export const AirDateField = () => {
   const { dictionary, language } = useLanguage()

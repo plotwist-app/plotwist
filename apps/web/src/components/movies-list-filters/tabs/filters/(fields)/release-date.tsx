@@ -3,6 +3,8 @@
 import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Calendar } from '@plotwist/ui/components/ui/calendar'
 import {
@@ -19,9 +21,7 @@ import {
 } from '@plotwist/ui/components/ui/popover'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
-import { useLanguage } from '@/context/language'
-import { locale } from '@/utils/date/locale'
+import type { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 
 export const ReleaseDateField = () => {
   const { dictionary, language } = useLanguage()

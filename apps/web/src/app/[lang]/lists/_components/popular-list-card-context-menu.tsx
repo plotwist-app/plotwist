@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -14,6 +14,7 @@ import {
   Twitter,
 } from 'lucide-react'
 
+import { ProBadge } from '@/components/pro-badge'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -23,13 +24,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@plotwist/ui/components/ui/context-menu'
-import { ProBadge } from '@/components/pro-badge'
 
 import { APP_URL } from '../../../../../constants'
 
 import { useLanguage } from '@/context/language'
 
-import { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardContextMenuProps = {
   href: string

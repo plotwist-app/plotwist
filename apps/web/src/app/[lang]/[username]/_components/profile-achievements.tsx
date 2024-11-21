@@ -1,5 +1,6 @@
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 import * as icons from 'lucide-react'
+import { v4 } from 'uuid'
 
 const RandomIcon = () => {
   const iconNames = Object.keys(icons)
@@ -31,7 +32,7 @@ export const ProfileAchievements = ({
           return (
             <div
               className="flex aspect-square items-center justify-center rounded-lg bg-muted"
-              key={index}
+              key={v4()}
             >
               <RandomIcon />
             </div>

@@ -1,5 +1,5 @@
 {
-  "home": {   
+  "home": {
     "keywords": "organize movies, organize series, movie and series app, personalized recommendations, create movie lists, series control, best movie apps, app for series marathons, organize marathons, series reviews, online movie lists, elegant interface for series, movie suggestions, track watched movies"
   },
   "home_prices": {
@@ -14,8 +14,7 @@
       "benefits": [
         "Full access to the platform",
         "Unlimited ratings",
-        "A personal list",
-        "Organization and control tools for watched"
+        "A personal list"
       ],
       "start_now": "Start Now!"
     },
@@ -25,7 +24,8 @@
       "recommended": "Recommended",
       "description": "Everything in the free plan and much more!",
       "benefits": [
-        "Personal recommendations based on your taste and history",
+        "Organization and control tools for watched",
+        "Recommendations based on your taste",
         "Unlimited lists",
         "Advanced personalization",
         "Achievements and badges"
@@ -721,5 +721,6 @@
   "episodes": "Episodes",
   "when_you_mark_all_episodes": "When you mark all episodes as watched, the series/anime will automatically be updated to the status of",
   "update_progress": "Update Progress",
-  "update_status": "Update Status"
+  "update_status": "Update Status",
+  "feature_only_in_pro_plan": "This feature is available only in the PRO Plan."
 }

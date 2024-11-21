@@ -1,9 +1,9 @@
 'use client'
 
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -17,18 +17,18 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { useLanguage } from '@/context/language'
 
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 
-import { MediaType } from '@/types/supabase/media-type'
+import type { MediaType } from '@/types/supabase/media-type'
 
-import Link from 'next/link'
+import { useSession } from '@/context/session'
+import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { useSession } from '@/context/session'
+import Link from 'next/link'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 

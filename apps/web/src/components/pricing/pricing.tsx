@@ -1,25 +1,25 @@
 'use client'
 
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { Price } from './price'
-import { Button } from '@plotwist/ui/components/ui/button'
-import Link from 'next/link'
+import { Brush } from '@/app/[lang]/_components/hero'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { tmdbImage } from '@/utils/tmdb/image'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import { BorderBeam } from '@plotwist/ui/components/ui/border-beam'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Brush } from '@/app/[lang]/_components/hero'
-import { BorderBeam } from '@plotwist/ui/components/ui/border-beam'
+import Link from 'next/link'
+import { Price } from './price'
 
 export const Pricing = () => {
   const { language, dictionary } = useLanguage()
@@ -65,7 +65,7 @@ export const Pricing = () => {
                 </Price.Header>
 
                 <Price.Benefits>
-                  {dictionary.home_prices.free_plan.benefits.map((benefit) => (
+                  {dictionary.home_prices.free_plan.benefits.map(benefit => (
                     <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
                   ))}
                 </Price.Benefits>
@@ -130,11 +130,9 @@ export const Pricing = () => {
                     </Price.Header>
 
                     <Price.Benefits>
-                      {dictionary.home_prices.pro_plan.benefits.map(
-                        (benefit) => (
-                          <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
-                        ),
-                      )}
+                      {dictionary.home_prices.pro_plan.benefits.map(benefit => (
+                        <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
+                      ))}
                     </Price.Benefits>
                   </Price.Content>
 
@@ -207,7 +205,7 @@ export const Pricing = () => {
                   </Price.Header>
 
                   <Price.Benefits>
-                    {dictionary.home_prices.pro_plan.benefits.map((benefit) => (
+                    {dictionary.home_prices.pro_plan.benefits.map(benefit => (
                       <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
                     ))}
                   </Price.Benefits>

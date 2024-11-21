@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Input } from '@plotwist/ui/components/ui/input'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { Input } from '@plotwist/ui/components/ui/input'
 
 import {
   Form,
@@ -18,13 +18,13 @@ import {
 
 import { useLanguage } from '@/context/language'
 
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 
-import { useSession } from '@/context/session'
-import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
-import { useRouter } from 'next/navigation'
+import { useSession } from '@/context/session'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { useRouter } from 'next/navigation'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 
@@ -95,7 +95,7 @@ export const UserForm = ({ user, onClose }: UserFormProps) => {
             message: `${dictionary.profile_form.username_label} ${values.username} ${dictionary.profile_form.error_existent_username}`,
           })
         },
-      },
+      }
     )
   }
 

@@ -1,6 +1,6 @@
 {
   "home": {
-   "keywords": "organizar películas, organizar series, app de películas y series, recomendaciones personalizadas, crear listas de películas, control de series, mejores apps de películas, app para maratones de series, organizar maratones, reseñas de series, listas de películas online, interfaz elegante para series, sugerencias de películas, controlar películas vistas"
+    "keywords": "organizar películas, organizar series, app de películas y series, recomendaciones personalizadas, crear listas de películas, control de series, mejores apps de películas, app para maratones de series, organizar maratones, reseñas de series, listas de películas online, interfaz elegante para series, sugerencias de películas, controlar películas vistas"
   },
   "home_prices": {
     "title": "Comienza tu viaje hoy",
@@ -14,8 +14,7 @@
       "benefits": [
         "Acceso completo a la plataforma",
         "Valoraciones ilimitadas",
-         "Una lista personal",
-         "Herramientas de organización y control para asistidos"
+        "Una lista personal"
       ],
       "start_now": "¡Empieza ahora!"
     },
@@ -25,6 +24,7 @@
       "recommended": "Recomendado",
       "description": "Todo en el plan gratuito y mucho más!",
       "benefits": [
+        "Herramientas de organización y control para asistidos",
         "Recomendaciones personales basadas en tus gustos e historial",
         "Listas ilimitadas",
         "Personalización avanzada",
@@ -721,5 +721,6 @@
   "episodes": "Episodios",
   "when_you_mark_all_episodes": "Al marcar todos los episodios como vistos, la serie/anime se actualizará automáticamente al estado de",
   "update_progress": "Actualizar progreso",
-  "update_status": "Actualizar estado"
+  "update_status": "Actualizar estado",
+  "feature_only_in_pro_plan": "Esta funcionalidad está disponible solo en el Plan PRO."
 }

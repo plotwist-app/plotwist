@@ -1,9 +1,9 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -18,21 +18,21 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 
-import { ReviewsProps } from '..'
-import { ReviewStars } from '../review-stars'
-import Link from 'next/link'
+import { getGetReviewsQueryKey, usePostReview } from '@/api/reviews'
+import { useSession } from '@/context/session'
+import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Label } from '@plotwist/ui/components/ui/label'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
-import { useSession } from '@/context/session'
-import { getGetReviewsQueryKey, usePostReview } from '@/api/reviews'
+import { Label } from '@plotwist/ui/components/ui/label'
+import Link from 'next/link'
+import type { ReviewsProps } from '..'
+import { ReviewStars } from '../review-stars'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -107,7 +107,7 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
           form.reset()
           toast.success(dictionary.review_form.success)
         },
-      },
+      }
     )
   }
 

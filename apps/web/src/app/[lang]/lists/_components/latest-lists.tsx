@@ -1,9 +1,10 @@
 'use client'
 
-import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
+import { useGetLists } from '@/api/list'
 import { useLanguage } from '@/context/language'
 import { useMemo } from 'react'
-import { useGetLists } from '@/api/list'
+import { v4 } from 'uuid'
+import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
 
 export const LatestLists = () => {
   const { dictionary } = useLanguage()
@@ -13,8 +14,8 @@ export const LatestLists = () => {
     if (isLoading)
       return (
         <li className="flex flex-col gap-6">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <PopularListCardSkeleton key={index} />
+          {Array.from({ length: 3 }).map(_ => (
+            <PopularListCardSkeleton key={v4()} />
           ))}
         </li>
       )
@@ -29,7 +30,7 @@ export const LatestLists = () => {
 
     return (
       <li className="flex flex-col gap-6">
-        {data.lists.map((list) => (
+        {data.lists.map(list => (
           <PopularListCard list={list} key={list.id} />
         ))}
       </li>

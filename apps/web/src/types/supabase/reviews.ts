@@ -1,6 +1,6 @@
-import { Language } from '../languages'
-import { MediaType } from './media-type'
-import { Profile } from './profile'
+import type { Language } from '../languages'
+import type { MediaType } from './media-type'
+import type { Profile } from './profile'
 
 export type Review = {
   created_at: string

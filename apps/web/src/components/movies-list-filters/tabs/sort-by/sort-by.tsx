@@ -1,5 +1,5 @@
-import { useFormContext } from 'react-hook-form'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
 
 import {
   FormControl,
@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
 
+import { useLanguage } from '@/context/language'
 import {
   Select,
   SelectContent,
@@ -16,9 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
-import { useLanguage } from '@/context/language'
 
-import { MoviesListFiltersFormValues } from '../..'
+import type { MoviesListFiltersFormValues } from '../..'
 
 const options = [
   'popularity.desc',
@@ -63,7 +63,7 @@ export const SortBy = () => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {options.map((option) => {
+                  {options.map(option => {
                     return (
                       <SelectItem value={option} key={option}>
                         <div className="flex items-center gap-1">

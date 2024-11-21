@@ -19,6 +19,7 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetMe200,
   GetUserById201,
@@ -40,7 +41,6 @@ import type {
   PostUsersCreate500,
   PostUsersCreateBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a user
@@ -75,7 +75,7 @@ export const getPostUsersCreateMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postUsersCreate>>,
     { data: PostUsersCreateBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postUsersCreate(data)
@@ -117,7 +117,7 @@ export const usePostUsersCreate = <
  */
 export const getUsersAvailableUsername = (
   params: GetUsersAvailableUsernameParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetUsersAvailableUsername200>({
     url: `/users/available-username`,
@@ -128,7 +128,7 @@ export const getUsersAvailableUsername = (
 }
 
 export const getGetUsersAvailableUsernameQueryKey = (
-  params: GetUsersAvailableUsernameParams,
+  params: GetUsersAvailableUsernameParams
 ) => {
   return [`/users/available-username`, ...(params ? [params] : [])] as const
 }
@@ -146,7 +146,7 @@ export const getGetUsersAvailableUsernameQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -190,7 +190,7 @@ export function useGetUsersAvailableUsername<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableUsername<
   TData = Awaited<ReturnType<typeof getUsersAvailableUsername>>,
@@ -213,7 +213,7 @@ export function useGetUsersAvailableUsername<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableUsername<
   TData = Awaited<ReturnType<typeof getUsersAvailableUsername>>,
@@ -228,7 +228,7 @@ export function useGetUsersAvailableUsername<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersAvailableUsername<
@@ -244,7 +244,7 @@ export function useGetUsersAvailableUsername<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersAvailableUsernameQueryOptions(params, options)
 
@@ -270,7 +270,7 @@ export const getGetUsersAvailableUsernameSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -307,7 +307,7 @@ export function useGetUsersAvailableUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableUsernameSuspense<
   TData = Awaited<ReturnType<typeof getUsersAvailableUsername>>,
@@ -322,7 +322,7 @@ export function useGetUsersAvailableUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableUsernameSuspense<
   TData = Awaited<ReturnType<typeof getUsersAvailableUsername>>,
@@ -337,7 +337,7 @@ export function useGetUsersAvailableUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersAvailableUsernameSuspense<
@@ -353,11 +353,11 @@ export function useGetUsersAvailableUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersAvailableUsernameSuspenseQueryOptions(
     params,
-    options,
+    options
   )
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
@@ -375,7 +375,7 @@ export function useGetUsersAvailableUsernameSuspense<
  */
 export const getUsersAvailableEmail = (
   params: GetUsersAvailableEmailParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetUsersAvailableEmail200>({
     url: `/users/available-email`,
@@ -386,7 +386,7 @@ export const getUsersAvailableEmail = (
 }
 
 export const getGetUsersAvailableEmailQueryKey = (
-  params: GetUsersAvailableEmailParams,
+  params: GetUsersAvailableEmailParams
 ) => {
   return [`/users/available-email`, ...(params ? [params] : [])] as const
 }
@@ -404,7 +404,7 @@ export const getGetUsersAvailableEmailQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -448,7 +448,7 @@ export function useGetUsersAvailableEmail<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableEmail<
   TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
@@ -471,7 +471,7 @@ export function useGetUsersAvailableEmail<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableEmail<
   TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
@@ -486,7 +486,7 @@ export function useGetUsersAvailableEmail<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersAvailableEmail<
@@ -502,7 +502,7 @@ export function useGetUsersAvailableEmail<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersAvailableEmailQueryOptions(params, options)
 
@@ -528,7 +528,7 @@ export const getGetUsersAvailableEmailSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -564,7 +564,7 @@ export function useGetUsersAvailableEmailSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableEmailSuspense<
   TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
@@ -579,7 +579,7 @@ export function useGetUsersAvailableEmailSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersAvailableEmailSuspense<
   TData = Awaited<ReturnType<typeof getUsersAvailableEmail>>,
@@ -594,7 +594,7 @@ export function useGetUsersAvailableEmailSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersAvailableEmailSuspense<
@@ -610,11 +610,11 @@ export function useGetUsersAvailableEmailSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersAvailableEmailSuspenseQueryOptions(
     params,
-    options,
+    options
   )
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
@@ -655,7 +655,7 @@ export const getGetUsersUsernameQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -704,7 +704,7 @@ export function useGetUsersUsername<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersUsername<
   TData = Awaited<ReturnType<typeof getUsersUsername>>,
@@ -727,7 +727,7 @@ export function useGetUsersUsername<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersUsername<
   TData = Awaited<ReturnType<typeof getUsersUsername>>,
@@ -742,7 +742,7 @@ export function useGetUsersUsername<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersUsername<
@@ -758,7 +758,7 @@ export function useGetUsersUsername<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersUsernameQueryOptions(username, options)
 
@@ -784,7 +784,7 @@ export const getGetUsersUsernameSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -825,7 +825,7 @@ export function useGetUsersUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersUsernameSuspense<
   TData = Awaited<ReturnType<typeof getUsersUsername>>,
@@ -840,7 +840,7 @@ export function useGetUsersUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUsersUsernameSuspense<
   TData = Awaited<ReturnType<typeof getUsersUsername>>,
@@ -855,7 +855,7 @@ export function useGetUsersUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUsersUsernameSuspense<
@@ -871,11 +871,11 @@ export function useGetUsersUsernameSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersUsernameSuspenseQueryOptions(
     username,
-    options,
+    options
   )
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
@@ -912,7 +912,7 @@ export const getGetUserByIdQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -956,7 +956,7 @@ export function useGetUserById<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserById<
   TData = Awaited<ReturnType<typeof getUserById>>,
@@ -975,7 +975,7 @@ export function useGetUserById<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserById<
   TData = Awaited<ReturnType<typeof getUserById>>,
@@ -986,7 +986,7 @@ export function useGetUserById<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserById<
@@ -998,7 +998,7 @@ export function useGetUserById<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserByIdQueryOptions(id, options)
 
@@ -1024,7 +1024,7 @@ export const getGetUserByIdSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -1064,7 +1064,7 @@ export function useGetUserByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserByIdSuspense<
   TData = Awaited<ReturnType<typeof getUserById>>,
@@ -1079,7 +1079,7 @@ export function useGetUserByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserByIdSuspense<
   TData = Awaited<ReturnType<typeof getUserById>>,
@@ -1094,7 +1094,7 @@ export function useGetUserByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserByIdSuspense<
@@ -1110,7 +1110,7 @@ export function useGetUserByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserByIdSuspenseQueryOptions(id, options)
 
@@ -1327,7 +1327,7 @@ export const getPatchUserMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchUser>>,
     { data: PatchUserBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return patchUser(data)
@@ -1363,7 +1363,7 @@ export const usePatchUser = <TError = unknown, TContext = unknown>(options?: {
  * Update user password
  */
 export const patchUserPassword = (
-  patchUserPasswordBody: PatchUserPasswordBody,
+  patchUserPasswordBody: PatchUserPasswordBody
 ) => {
   return axiosInstance<PatchUserPassword200>({
     url: `/user/password`,
@@ -1394,7 +1394,7 @@ export const getPatchUserPasswordMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchUserPassword>>,
     { data: PatchUserPasswordBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return patchUserPassword(data)

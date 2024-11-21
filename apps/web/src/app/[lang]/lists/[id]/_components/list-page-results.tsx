@@ -1,4 +1,4 @@
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 import Link from 'next/link'
 
 export type ListPageEmptyResultsProps = { dictionary: Dictionary }

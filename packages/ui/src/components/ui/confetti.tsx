@@ -1,5 +1,12 @@
+import type {
+  GlobalOptions as ConfettiGlobalOptions,
+  CreateTypes as ConfettiInstance,
+  Options as ConfettiOptions,
+} from 'canvas-confetti'
+import confetti from 'canvas-confetti'
 import type { ReactNode } from 'react'
-import React, {
+import type React from 'react'
+import {
   createContext,
   forwardRef,
   useCallback,
@@ -8,13 +15,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import type {
-  GlobalOptions as ConfettiGlobalOptions,
-  CreateTypes as ConfettiInstance,
-  Options as ConfettiOptions,
-} from 'canvas-confetti'
-import confetti from 'canvas-confetti'
-import { Button, ButtonProps } from './button'
+import { Button, type ButtonProps } from './button'
 
 type Api = {
   fire: (options?: ConfettiOptions) => void
@@ -60,20 +61,20 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
         }
       }
     },
-    [globalOptions],
+    [globalOptions]
   )
 
   // `fire` is a function that calls the instance() with `opts` merged with `options`
   const fire = useCallback(
     (opts = {}) => instanceRef.current?.({ ...options, ...opts }),
-    [options],
+    [options]
   )
 
   const api = useMemo(
     () => ({
       fire,
     }),
-    [fire],
+    [fire]
   )
 
   useImperativeHandle(ref, () => api, [api])
@@ -118,7 +119,7 @@ const ConfettiButton = forwardRef<HTMLButtonElement, ConfettiButtonProps>(
         {children}
       </Button>
     )
-  },
+  }
 )
 ConfettiButton.displayName = 'ConfettiButton'
 Confetti.displayName = 'Confetti'

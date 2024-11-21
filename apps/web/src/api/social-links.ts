@@ -19,12 +19,12 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetSocialLinks200,
   GetSocialLinksParams,
   PutSocialLinksBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Upsert social links
@@ -59,7 +59,7 @@ export const getPutSocialLinksMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putSocialLinks>>,
     { data: PutSocialLinksBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return putSocialLinks(data)
@@ -99,7 +99,7 @@ export const usePutSocialLinks = <
  */
 export const getSocialLinks = (
   params: GetSocialLinksParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetSocialLinks200>({
     url: `/social-links`,
@@ -122,7 +122,7 @@ export const getGetSocialLinksQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getSocialLinks>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -161,7 +161,7 @@ export function useGetSocialLinks<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetSocialLinks<
   TData = Awaited<ReturnType<typeof getSocialLinks>>,
@@ -180,7 +180,7 @@ export function useGetSocialLinks<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetSocialLinks<
   TData = Awaited<ReturnType<typeof getSocialLinks>>,
@@ -191,7 +191,7 @@ export function useGetSocialLinks<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getSocialLinks>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetSocialLinks<
@@ -203,7 +203,7 @@ export function useGetSocialLinks<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getSocialLinks>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetSocialLinksQueryOptions(params, options)
 
@@ -229,7 +229,7 @@ export const getGetSocialLinksSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -264,7 +264,7 @@ export function useGetSocialLinksSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetSocialLinksSuspense<
   TData = Awaited<ReturnType<typeof getSocialLinks>>,
@@ -279,7 +279,7 @@ export function useGetSocialLinksSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetSocialLinksSuspense<
   TData = Awaited<ReturnType<typeof getSocialLinks>>,
@@ -294,7 +294,7 @@ export function useGetSocialLinksSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetSocialLinksSuspense<
@@ -310,7 +310,7 @@ export function useGetSocialLinksSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetSocialLinksSuspenseQueryOptions(params, options)
 

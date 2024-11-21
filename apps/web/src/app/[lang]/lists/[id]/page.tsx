@@ -1,16 +1,15 @@
 import { getListById } from '@/api/list'
 import { verifySession } from '@/app/lib/dal'
-import { ListForm } from '../_components/list-form'
-import { Pencil } from 'lucide-react'
-import { Button } from '@plotwist/ui/components/ui/button'
-import { Suspense } from 'react'
-import { ListItems } from './_components/list-items'
-import { UserResume } from './_components/user-resume'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { ListPrivate } from './_components/list-private'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Pencil } from 'lucide-react'
+import { Suspense } from 'react'
+import { ListForm } from '../_components/list-form'
+import { ListBanner } from './_components/list-banner'
+import { ListItems } from './_components/list-items'
 import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
-import { Banner } from '@/components/banner'
-import { tmdbImage } from '@/utils/tmdb/image'
+import { ListPrivate } from './_components/list-private'
+import { UserResume } from './_components/user-resume'
 
 type ListPageProps = {
   params: { id: string }
@@ -26,10 +25,8 @@ export default async function ListPage({ params: { id } }: ListPageProps) {
 
   return (
     <ListModeContextProvider mode={mode}>
-      <div className="mx-auto max-w-6xl space-y-4 p-0 pb-4 lg:py-4 min-h-screen">
-        <Banner
-          url={list.bannerPath ? tmdbImage(list.bannerPath) : undefined}
-        />
+      <div className="mx-auto max-w-6xl space-y-4 pb-16  min-h-screen">
+        <ListBanner list={list} />
 
         <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
           <div className="col-span-2 space-y-4">

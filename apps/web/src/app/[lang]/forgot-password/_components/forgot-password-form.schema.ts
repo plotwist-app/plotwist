@@ -1,4 +1,4 @@
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 import { z } from 'zod'
 
 export const forgotPasswordFormSchema = (dictionary: Dictionary) =>

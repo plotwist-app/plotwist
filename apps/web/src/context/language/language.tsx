@@ -1,8 +1,8 @@
 'use client'
 
-import { ReactNode, createContext, useContext } from 'react'
-import { Language } from '@/types/languages'
-import { Dictionary } from '@/utils/dictionaries'
+import type { Language } from '@/types/languages'
+import type { Dictionary } from '@/utils/dictionaries'
+import { type ReactNode, createContext, useContext } from 'react'
 
 type LanguageContextProviderProps = {
   children: ReactNode
@@ -34,7 +34,7 @@ export const useLanguage = () => {
 
   if (!context) {
     throw new Error(
-      'LanguageContext must be used within LanguageContextProvider',
+      'LanguageContext must be used within LanguageContextProvider'
     )
   }
 

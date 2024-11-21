@@ -1,5 +1,5 @@
-import { Language } from '@/types/languages'
-import { Locale } from 'date-fns'
+import type { Language } from '@/types/languages'
+import type { Locale } from 'date-fns'
 import { de, enUS, es, fr, it, ja, ptBR } from 'date-fns/locale'
 
 export const locale: Record<Language, Locale> = {

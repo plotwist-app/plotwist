@@ -1,31 +1,31 @@
 'use client'
 
-import {
+import type {
   GetSocialLinks200SocialLinksItem,
   GetUsersUsername200User,
 } from '@/api/endpoints.schemas'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
 import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
+import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { PropsWithChildren, useState } from 'react'
-import { UserForm } from './user-form'
+import { type PropsWithChildren, useState } from 'react'
 import { SocialLinksForm } from './social-links-form'
-import { useLanguage } from '@/context/language'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from '@plotwist/ui/components/ui/drawer'
-import { useSession } from '@/context/session'
+import { UserForm } from './user-form'
 
 type UserDialogProps = PropsWithChildren & {
   user: GetUsersUsername200User

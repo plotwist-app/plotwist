@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
 import { MoreVertical } from 'lucide-react'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 const Root = (props: PropsWithChildren) => {
   return (

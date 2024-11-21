@@ -1149,7 +1149,7 @@ export const images = {
       width: 1000,
     },
     {
-      aspect_ratio: 0.707,
+      aspect_ratio: 0.667,
       height: 778,
       iso_639_1: 'ja',
       file_path: '/mCvffvxNZVZIvkGm4z1iKGXTEBQ.jpg',

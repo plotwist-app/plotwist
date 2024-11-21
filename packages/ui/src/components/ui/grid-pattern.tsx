@@ -1,16 +1,16 @@
-import { useId } from "react";
+import { useId } from 'react'
 
-import { cn } from "@plotwist/ui/lib/utils";
+import { cn } from '@plotwist/ui/lib/utils'
 
 interface GridPatternProps {
-  width?: number;
-  height?: number;
-  x?: number;
-  y?: number;
-  squares?: Array<[x: number, y: number]>;
-  strokeDasharray?: string;
-  className?: string;
-  [key: string]: unknown;
+  width?: number
+  height?: number
+  x?: number
+  y?: number
+  squares?: Array<[x: number, y: number]>
+  strokeDasharray?: string
+  className?: string
+  [key: string]: unknown
 }
 
 export function GridPattern({
@@ -18,19 +18,19 @@ export function GridPattern({
   height = 40,
   x = -1,
   y = -1,
-  strokeDasharray = "0",
+  strokeDasharray = '0',
   squares,
   className,
   ...props
 }: GridPatternProps) {
-  const id = useId();
+  const id = useId()
 
   return (
     <svg
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
-        className,
+        'pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30',
+        className
       )}
       {...props}
     >
@@ -66,7 +66,7 @@ export function GridPattern({
         </svg>
       )}
     </svg>
-  );
+  )
 }
 
-export default GridPattern;
+export default GridPattern

@@ -71,7 +71,7 @@ export const HeaderNavigationMenu = () => {
                           <Link
                             className={cn(
                               'block cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-                              getIsActive(href) && 'bg-muted',
+                              getIsActive(href) && 'bg-muted'
                             )}
                             href={`/${language}${href}`}
                           >
@@ -99,7 +99,7 @@ export const HeaderNavigationMenu = () => {
               key={label}
               className={cn(
                 navigationMenuTriggerStyle(),
-                getIsActive(href) && 'bg-muted',
+                getIsActive(href) && 'bg-muted'
               )}
               asChild
             >

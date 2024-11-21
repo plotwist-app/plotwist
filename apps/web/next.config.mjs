@@ -1,5 +1,5 @@
-import { withSentryConfig } from '@sentry/nextjs'
 import createMDX from '@next/mdx'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const withMDX = createMDX()
 

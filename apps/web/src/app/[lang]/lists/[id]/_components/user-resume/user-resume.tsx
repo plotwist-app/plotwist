@@ -1,6 +1,12 @@
 'use client'
 
+import { useGetUserById } from '@/api/users'
+import { FollowButton } from '@/components/follow-button'
+import { Followers } from '@/components/followers'
 import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
+import type { List } from '@/types/supabase/lists'
+import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
@@ -9,13 +15,7 @@ import {
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 import Link from 'next/link'
-import { List } from '@/types/supabase/lists'
-import { useGetUserById } from '@/api/users'
-import { FollowButton } from '@/components/follow-button'
-import { Followers } from '@/components/followers'
 
 type UserResumeProps = {
   list: List

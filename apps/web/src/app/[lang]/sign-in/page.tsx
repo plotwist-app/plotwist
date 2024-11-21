@@ -1,9 +1,9 @@
+import { signIn } from '@/actions/auth/sign-in'
+import { Pattern } from '@/components/pattern'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Pattern } from '@/components/pattern'
 import Link from 'next/link'
 import { SignInForm } from './_sign-in-form'
-import { signIn } from '@/actions/auth/sign-in'
 
 export default async function SignInPage({ params: { lang } }: PageProps) {
   const dictionary = await getDictionary(lang)

@@ -1,7 +1,7 @@
 import { PosterCard } from '@/components/poster-card'
-import { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
 import Link from 'next/link'
 
 type TvSerieRelatedProps = {
@@ -19,7 +19,7 @@ export const TvSerieRelated = async ({
 
   return (
     <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-5">
-      {results.map((tv) => (
+      {results.map(tv => (
         <Link href={`/${language}/tv-series/${tv.id}`} key={tv.id}>
           <PosterCard.Root>
             <PosterCard.Image

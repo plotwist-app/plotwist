@@ -1,7 +1,8 @@
-import Image from 'next/image'
+import type { Episode } from '@/services/tmdb'
 import { Image as ImageIcon } from 'lucide-react'
-import { Episode } from '@/services/tmdb'
+import Image from 'next/image'
 
+import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Tooltip,
@@ -9,7 +10,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 type TvSerieEpisodeCardProps = {
   episode: Episode

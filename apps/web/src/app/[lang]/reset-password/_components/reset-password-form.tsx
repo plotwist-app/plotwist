@@ -3,13 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { Eye, EyeOff } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
+import { Eye, EyeOff } from 'lucide-react'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -23,15 +23,15 @@ import {
 
 import { Input } from '@plotwist/ui/components/ui/input'
 
+import type { resetPassword } from '@/actions/auth/reset-password'
+import { useLanguage } from '@/context/language'
+import { redirect, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import {
-  ResetPasswordFormValues,
+  type ResetPasswordFormValues,
   resetPasswordFormSchema,
 } from './reset-password-form.schema'
-import { useLanguage } from '@/context/language'
-import { useState } from 'react'
-import { redirect, useSearchParams } from 'next/navigation'
-import { resetPassword } from '@/actions/auth/reset-password'
-import { toast } from 'sonner'
 
 type ResetPasswordFormProps = {
   onReset: typeof resetPassword
@@ -81,7 +81,7 @@ export const ResetPasswordForm = ({ onReset }: ResetPasswordFormProps) => {
                         <Button
                           size="icon"
                           variant="outline"
-                          onClick={() => setShowPassword((prev) => !prev)}
+                          onClick={() => setShowPassword(prev => !prev)}
                           type="button"
                           data-testId="toggle-password"
                         >

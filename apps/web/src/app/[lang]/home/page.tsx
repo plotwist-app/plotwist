@@ -1,18 +1,18 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Metadata } from 'next'
 
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import { PosterCard } from '@/components/poster-card'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Container } from '../_components/container'
 
-import { UserLastReview } from './_components/user-last-review'
 import { LatestReviews } from './_components/latest-reviews'
+import { UserLastReview } from './_components/user-last-review'
 
-import { PageProps } from '@/types/languages'
+import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
-import { tmdbImage } from '@/utils/tmdb/image'
 import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export async function generateMetadata({
   params,
@@ -82,7 +82,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </Link>
 
             <div className="grid grid-cols-3 gap-2">
-              {popularMovies.results.slice(0, 3).map((movie) => (
+              {popularMovies.results.slice(0, 3).map(movie => (
                 <Link href={`/${lang}/movies/${movie.id}`} key={movie.id}>
                   <PosterCard.Root>
                     <PosterCard.Image
@@ -104,7 +104,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
             </Link>
 
             <div className="grid grid-cols-3 gap-2">
-              {popularTvSeries.results.slice(0, 3).map((tv) => (
+              {popularTvSeries.results.slice(0, 3).map(tv => (
                 <Link href={`/${lang}/tv-series/${tv.id}`} key={tv.id}>
                   <PosterCard.Root>
                     <PosterCard.Image

@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
-import { Credits, CreditsProps } from '.'
+import { afterEach, describe, expect, it } from 'vitest'
+import { Credits, type CreditsProps } from '.'
 
 const PROPS: CreditsProps = {
   id: 673, // Harry Potter and the Prisoner of Azkaban

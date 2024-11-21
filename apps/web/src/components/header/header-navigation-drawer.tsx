@@ -1,26 +1,26 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 import { useLanguage } from '@/context/language'
 
+import { Accordion } from '@plotwist/ui/components/ui/accordion'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import { Button } from '@plotwist/ui/components/ui/button'
-import { Accordion } from '@plotwist/ui/components/ui/accordion'
 
 import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
 
-import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 import { useSession } from '@/context/session'
+import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
 export const HeaderNavigationDrawer = () => {
   const { user } = useSession()
@@ -28,6 +28,7 @@ export const HeaderNavigationDrawer = () => {
   const pathname = usePathname()
   const { language, dictionary } = useLanguage()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setOpen(false)
   }, [pathname])
@@ -65,7 +66,7 @@ export const HeaderNavigationDrawer = () => {
           <div className="space-y-4 border-t pt-4">
             <Accordion type="multiple">
               <nav className="flex flex-col space-y-2">
-                {buildLanguageNavigation(dictionary).map((item) => {
+                {buildLanguageNavigation(dictionary).map(item => {
                   return (
                     <HeaderNavigationDrawerItem {...item} key={item.href} />
                   )

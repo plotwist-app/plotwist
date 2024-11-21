@@ -1,18 +1,12 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import Link from 'next/link'
-import { toast } from 'sonner'
-import Image from 'next/image'
 import { MoreVertical, Trash } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@plotwist/ui/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@plotwist/ui/components/ui/dropdown-menu'
 import {
   Dialog,
   DialogClose,
@@ -22,15 +16,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@plotwist/ui/components/ui/dropdown-menu'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { useSession } from '@/context/session'
-import { GetLists200ListsItem } from '@/api/endpoints.schemas'
-import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
 import { cn } from '@/lib/utils'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListCardProps = { list: GetLists200ListsItem }
 
@@ -55,7 +55,7 @@ export const ListCard = ({ list }: ListCardProps) => {
           <div
             className={cn(
               'relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border-dashed border bg-background/50',
-              list.bannerPath && 'border border-solid',
+              list.bannerPath && 'border border-solid'
             )}
           >
             {list.bannerPath && (
@@ -130,10 +130,10 @@ export const ListCard = ({ list }: ListCardProps) => {
                       setOpen(false)
                       toast.success(dictionary.list_card.delete_success)
                     },
-                    onError: (error) => {
+                    onError: error => {
                       toast.error(error.message)
                     },
-                  },
+                  }
                 )
               }}
               loading={deleteList.isPending}

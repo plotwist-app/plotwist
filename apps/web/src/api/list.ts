@@ -19,6 +19,7 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   DeleteListId204,
   DeleteListId404,
@@ -37,7 +38,6 @@ import type {
   PutListId404,
   PutListIdBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a list
@@ -72,7 +72,7 @@ export const getPostListMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postList>>,
     { data: PostListBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postList(data)
@@ -132,7 +132,7 @@ export const getGetListsQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -171,7 +171,7 @@ export function useGetLists<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetLists<
   TData = Awaited<ReturnType<typeof getLists>>,
@@ -190,7 +190,7 @@ export function useGetLists<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetLists<
   TData = Awaited<ReturnType<typeof getLists>>,
@@ -201,7 +201,7 @@ export function useGetLists<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetLists<
@@ -213,7 +213,7 @@ export function useGetLists<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getLists>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListsQueryOptions(params, options)
 
@@ -239,7 +239,7 @@ export const getGetListsSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -274,7 +274,7 @@ export function useGetListsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListsSuspense<
   TData = Awaited<ReturnType<typeof getLists>>,
@@ -289,7 +289,7 @@ export function useGetListsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListsSuspense<
   TData = Awaited<ReturnType<typeof getLists>>,
@@ -304,7 +304,7 @@ export function useGetListsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetListsSuspense<
@@ -320,7 +320,7 @@ export function useGetListsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListsSuspenseQueryOptions(params, options)
 
@@ -365,7 +365,7 @@ export const getDeleteListIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteListId>>,
     { id: string }
-  > = (props) => {
+  > = props => {
     const { id } = props ?? {}
 
     return deleteListId(id)
@@ -433,7 +433,7 @@ export const getPutListIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putListId>>,
     { id: string; data: PutListIdBody }
-  > = (props) => {
+  > = props => {
     const { id, data } = props ?? {}
 
     return putListId(id, data)
@@ -492,7 +492,7 @@ export const getGetListByIdQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -536,7 +536,7 @@ export function useGetListById<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListById<
   TData = Awaited<ReturnType<typeof getListById>>,
@@ -555,7 +555,7 @@ export function useGetListById<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListById<
   TData = Awaited<ReturnType<typeof getListById>>,
@@ -566,7 +566,7 @@ export function useGetListById<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetListById<
@@ -578,7 +578,7 @@ export function useGetListById<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getListById>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListByIdQueryOptions(id, options)
 
@@ -604,7 +604,7 @@ export const getGetListByIdSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -644,7 +644,7 @@ export function useGetListByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListByIdSuspense<
   TData = Awaited<ReturnType<typeof getListById>>,
@@ -659,7 +659,7 @@ export function useGetListByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListByIdSuspense<
   TData = Awaited<ReturnType<typeof getListById>>,
@@ -674,7 +674,7 @@ export function useGetListByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetListByIdSuspense<
@@ -690,7 +690,7 @@ export function useGetListByIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListByIdSuspenseQueryOptions(id, options)
 
@@ -737,7 +737,7 @@ export const getPatchListBannerMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchListBanner>>,
     { data: PatchListBannerBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return patchListBanner(data)

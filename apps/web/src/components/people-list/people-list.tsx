@@ -1,12 +1,13 @@
 'use client'
 
-import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { tmdb } from '@/services/tmdb'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { PersonCard, PersonCardSkeleton } from '@/components/person-card'
 import { useLanguage } from '@/context/language'
+import { v4 } from 'uuid'
 
 const INITIAL_PAGE = 1
 const MAX_PAGE = 500
@@ -24,7 +25,7 @@ export const PeopleList = () => {
         language,
         page: pageParam,
       }),
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: lastPage => lastPage.page + 1,
     initialPageParam: INITIAL_PAGE,
   })
 
@@ -36,12 +37,12 @@ export const PeopleList = () => {
     return (
       <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-6">
         {Array.from({ length: 6 }).map((_, index) => (
-          <PersonCardSkeleton key={index} />
+          <PersonCardSkeleton key={v4()} />
         ))}
       </div>
     )
 
-  const flatData = data.pages.flatMap((page) => page.results)
+  const flatData = data.pages.flatMap(page => page.results)
 
   const currentPage = data.pages[data.pages.length - 1]
   const isLastPage =
@@ -49,13 +50,13 @@ export const PeopleList = () => {
 
   return (
     <div className="relative grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-6">
-      {flatData.map((person) => (
+      {flatData.map(person => (
         <PersonCard person={person} key={person.id} language={language} />
       ))}
 
       {!isLastPage &&
         Array.from({ length: 6 }).map((_, index) => (
-          <PersonCardSkeleton key={index} ref={index === 0 ? ref : undefined} />
+          <PersonCardSkeleton key={v4()} ref={index === 0 ? ref : undefined} />
         ))}
     </div>
   )

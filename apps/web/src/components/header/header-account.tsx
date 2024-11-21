@@ -1,8 +1,13 @@
 'use client'
 
-import Link from 'next/link'
 import { LogIn, LogOut, User as UserIcon } from 'lucide-react'
+import Link from 'next/link'
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,19 +15,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
 
-import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
-import { useSession } from '@/context/session'
-import { User } from '@/types/user'
 import { logout } from '@/actions/auth/logout'
+import { useSession } from '@/context/session'
+import type { User } from '@/types/user'
 
 type AvatarContentProps = {
   user: User

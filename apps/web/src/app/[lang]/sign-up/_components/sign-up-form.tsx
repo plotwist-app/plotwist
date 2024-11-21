@@ -5,28 +5,10 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Button } from '@plotwist/ui/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@plotwist/ui/components/ui/form'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
-import { Input } from '@plotwist/ui/components/ui/input'
+import type { signUp } from '@/actions/auth/sign-up'
+import { getUsersAvailableEmail, getUsersAvailableUsername } from '@/api/users'
 import { useLanguage } from '@/context/language'
-import {
-  credentialsFormSchema,
-  CredentialsFormValues,
-  usernameFormSchema,
-  UsernameFormValues,
-} from './sign-up-form.schema'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -35,11 +17,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
-import { getUsersAvailableUsername, getUsersAvailableEmail } from '@/api/users'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@plotwist/ui/components/ui/form'
+import { Input } from '@plotwist/ui/components/ui/input'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 import { AxiosError } from 'axios'
-import { toast } from 'sonner'
-import { signUp } from '@/actions/auth/sign-up'
 import { useSearchParams } from 'next/navigation'
+import { toast } from 'sonner'
+import {
+  type CredentialsFormValues,
+  type UsernameFormValues,
+  credentialsFormSchema,
+  usernameFormSchema,
+} from './sign-up-form.schema'
 
 type SignUpFormProps = {
   onSignUp: typeof signUp
@@ -156,7 +156,7 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
                           <Button
                             size="icon"
                             variant="outline"
-                            onClick={() => setShowPassword((prev) => !prev)}
+                            onClick={() => setShowPassword(prev => !prev)}
                             type="button"
                             data-testid="toggle-password"
                           >

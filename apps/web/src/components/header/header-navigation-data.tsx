@@ -5,14 +5,14 @@ import {
   Home,
   JapaneseYen,
   List,
-  LucideIcon,
+  type LucideIcon,
   Play,
   Sparkles,
   Star,
   Tv,
 } from 'lucide-react'
 
-import { Dictionary } from '@/utils/dictionaries'
+import type { Dictionary } from '@/utils/dictionaries'
 
 type NavigationItem = {
   label: string
@@ -24,9 +24,7 @@ type NavigationItem = {
 
 type buildLanguageNavigation = (dictionary: Dictionary) => NavigationItem[]
 
-export const buildLanguageNavigation: buildLanguageNavigation = (
-  dictionary,
-) => [
+export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
   {
     label: dictionary.navigation.home,
     href: '/home',

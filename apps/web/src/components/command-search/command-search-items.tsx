@@ -3,9 +3,9 @@ import type {
   PersonWithMediaType,
   TvSerieWithMediaType,
 } from '@/services/tmdb'
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import Image from 'next/image'
 import Link from 'next/link'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
 import { ItemHoverCard } from '../item-hover-card'
 

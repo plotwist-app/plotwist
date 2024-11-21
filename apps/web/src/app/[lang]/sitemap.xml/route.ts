@@ -1,4 +1,4 @@
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export const dynamic = 'force-dynamic'
@@ -30,13 +30,13 @@ export async function GET(request: Request) {
   })
   const xmlPromise = streamToPromise(sitemapStream)
 
-  APP_ROUTES.forEach((route) => {
+  for (const route of APP_ROUTES) {
     sitemapStream.write({
       url: `${language}${route}`,
       changefreq: 'daily',
       priority: 0.7,
     })
-  })
+  }
 
   sitemapStream.end()
   const xml = await xmlPromise

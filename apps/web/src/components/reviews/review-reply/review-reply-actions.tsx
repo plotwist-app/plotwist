@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -18,7 +18,7 @@ const ReplyAction = ({ disabled, active, ...props }: ReplyActionProps) => {
       className={cn(
         'cursor-pointer text-xs text-muted-foreground underline-offset-1 hover:underline',
         disabled && 'pointer-events-none animate-pulse opacity-50',
-        active && 'font-bold text-foreground',
+        active && 'font-bold text-foreground'
       )}
       {...props}
     >

@@ -1,7 +1,7 @@
-import { CreditCard } from './credit-card'
-import { getDictionary } from '@/utils/dictionaries'
-import { Language } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import { CreditCard } from './credit-card'
 
 export type CreditsProps = {
   variant: 'movie' | 'tv'
@@ -14,11 +14,14 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <div className="space-y-8" data-testid="credits">
-      <section className="space-y-2">
-        <h5 className="text-xl font-bold">{dictionary.credits.cast}</h5>
+    <div
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+      data-testid="credits"
+    >
+      <section className="">
+        <h5 className="text-lg font-medium">{dictionary.credits.cast}</h5>
 
-        <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+        <ul className="">
           {cast.map(
             ({
               profile_path: profilePath,
@@ -32,15 +35,15 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 name={name}
                 role={character}
               />
-            ),
+            )
           )}
-        </div>
+        </ul>
       </section>
 
-      <section className="space-y-2">
-        <h5 className="text-xl font-bold">{dictionary.credits.crew}</h5>
+      <section className="">
+        <h5 className="text-lg font-medium">{dictionary.credits.crew}</h5>
 
-        <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+        <ul className="">
           {crew.map(
             ({
               profile_path: profilePath,
@@ -54,9 +57,9 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 name={name}
                 role={department}
               />
-            ),
+            )
           )}
-        </div>
+        </ul>
       </section>
     </div>
   )

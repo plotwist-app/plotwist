@@ -10,19 +10,19 @@ export const getMoviesIds = async (pages: number = DEFAULT_PAGES) => {
       async (_, index) =>
         await Promise.all(
           types.map(
-            async (type) =>
+            async type =>
               await tmdb.movies.list({
                 language: 'en-US',
                 list: type,
                 page: index + 1,
-              }),
-          ),
-        ),
-    ),
+              })
+          )
+        )
+    )
   )
 
-  const results = lists.flatMap((list) => list.map((list) => list.results))
-  const ids = results.flatMap((result) => result.map((movie) => movie.id))
+  const results = lists.flatMap(list => list.map(list => list.results))
+  const ids = results.flatMap(result => result.map(movie => movie.id))
 
   const combinedIds = [...ids]
   const uniqueIds = Array.from(new Set(combinedIds))

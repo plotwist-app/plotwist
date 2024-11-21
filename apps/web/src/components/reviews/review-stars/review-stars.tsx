@@ -2,6 +2,7 @@
 
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
+import { v4 } from 'uuid'
 
 type ReviewStarsProps = {
   rating: number
@@ -18,12 +19,12 @@ export const ReviewStars = ({ onChange, rating }: ReviewStarsProps) => {
   if (!isInteractive) {
     return (
       <div className="flex items-center">
-        {Array.from({ length: rating }).map((_, index) => {
-          return <StarFilledIcon key={index} className={filledClass} />
+        {Array.from({ length: rating }).map(_ => {
+          return <StarFilledIcon key={v4()} className={filledClass} />
         })}
 
-        {Array.from({ length: 5 - rating }).map((_, index) => {
-          return <StarFilledIcon key={index} className="text-foreground/25" />
+        {Array.from({ length: 5 - rating }).map(_ => {
+          return <StarFilledIcon key={v4()} className="text-foreground/25" />
         })}
       </div>
     )
@@ -37,7 +38,7 @@ export const ReviewStars = ({ onChange, rating }: ReviewStarsProps) => {
 
         return (
           <StarFilledIcon
-            key={index}
+            key={v4()}
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
             onClick={() => onChange(starIndex)}

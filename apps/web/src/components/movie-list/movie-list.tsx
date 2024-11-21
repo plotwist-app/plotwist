@@ -1,15 +1,16 @@
 'use client'
 
-import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
-import { useMovieListQuery } from './use-movie-list-query'
-import { MovieListProps } from './movie-list.types'
 import { PosterCard } from '../poster-card'
+import type { MovieListProps } from './movie-list.types'
+import { useMovieListQuery } from './use-movie-list-query'
 
-import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { v4 } from 'uuid'
 
 export const MovieList = ({ variant }: MovieListProps) => {
   const { language } = useLanguage()
@@ -25,13 +26,13 @@ export const MovieList = ({ variant }: MovieListProps) => {
   if (!data)
     return (
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <PosterCard.Skeleton key={index} />
+        {Array.from({ length: 20 }).map(_ => (
+          <PosterCard.Skeleton key={v4()} />
         ))}
       </div>
     )
 
-  const flatData = data.pages.flatMap((page) => page.results)
+  const flatData = data.pages.flatMap(page => page.results)
   const isLastPage =
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
@@ -39,7 +40,7 @@ export const MovieList = ({ variant }: MovieListProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
-        {flatData.map((movie) => (
+        {flatData.map(movie => (
           <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
             <PosterCard.Root>
               <PosterCard.Image

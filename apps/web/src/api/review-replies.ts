@@ -19,6 +19,7 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetReviewReplies200Item,
   GetReviewRepliesParams,
@@ -28,7 +29,6 @@ import type {
   PutReviewReplyById200,
   PutReviewReplyByIdBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a review reply
@@ -63,7 +63,7 @@ export const getPostReviewReplyMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postReviewReply>>,
     { data: PostReviewReplyBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postReviewReply(data)
@@ -103,7 +103,7 @@ export const usePostReviewReply = <
  */
 export const getReviewReplies = (
   params: GetReviewRepliesParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetReviewReplies200Item[]>({
     url: `/review-replies`,
@@ -130,7 +130,7 @@ export const getGetReviewRepliesQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -173,7 +173,7 @@ export function useGetReviewReplies<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewReplies<
   TData = Awaited<ReturnType<typeof getReviewReplies>>,
@@ -196,7 +196,7 @@ export function useGetReviewReplies<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewReplies<
   TData = Awaited<ReturnType<typeof getReviewReplies>>,
@@ -211,7 +211,7 @@ export function useGetReviewReplies<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetReviewReplies<
@@ -227,7 +227,7 @@ export function useGetReviewReplies<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetReviewRepliesQueryOptions(params, options)
 
@@ -253,7 +253,7 @@ export const getGetReviewRepliesSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -288,7 +288,7 @@ export function useGetReviewRepliesSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewRepliesSuspense<
   TData = Awaited<ReturnType<typeof getReviewReplies>>,
@@ -303,7 +303,7 @@ export function useGetReviewRepliesSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewRepliesSuspense<
   TData = Awaited<ReturnType<typeof getReviewReplies>>,
@@ -318,7 +318,7 @@ export function useGetReviewRepliesSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetReviewRepliesSuspense<
@@ -334,7 +334,7 @@ export function useGetReviewRepliesSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetReviewRepliesSuspenseQueryOptions(params, options)
 
@@ -379,7 +379,7 @@ export const getDeleteReviewReplyByIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteReviewReplyById>>,
     { id: string }
-  > = (props) => {
+  > = props => {
     const { id } = props ?? {}
 
     return deleteReviewReplyById(id)
@@ -419,7 +419,7 @@ export const useDeleteReviewReplyById = <
  */
 export const putReviewReplyById = (
   id: string,
-  putReviewReplyByIdBody: PutReviewReplyByIdBody,
+  putReviewReplyByIdBody: PutReviewReplyByIdBody
 ) => {
   return axiosInstance<PutReviewReplyById200>({
     url: `/review-reply/by/${id}`,
@@ -450,7 +450,7 @@ export const getPutReviewReplyByIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putReviewReplyById>>,
     { id: string; data: PutReviewReplyByIdBody }
-  > = (props) => {
+  > = props => {
     const { id, data } = props ?? {}
 
     return putReviewReplyById(id, data)

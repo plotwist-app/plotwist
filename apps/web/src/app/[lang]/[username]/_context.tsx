@@ -1,6 +1,7 @@
 'use client'
 
-import React, { createContext, useContext } from 'react'
+import type React from 'react'
+import { createContext, useContext } from 'react'
 
 interface LayoutContextProps {
   userId: string
@@ -26,7 +27,7 @@ export const useLayoutContext = () => {
   const context = useContext(LayoutContext)
   if (!context) {
     throw new Error(
-      'useLayoutContext deve ser usado dentro de um LayoutProvider',
+      'useLayoutContext deve ser usado dentro de um LayoutProvider'
     )
   }
   return context

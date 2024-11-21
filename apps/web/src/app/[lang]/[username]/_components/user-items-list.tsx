@@ -1,15 +1,16 @@
 'use client'
 
 import { useGetUserItems } from '@/api/user-items'
-import { tmdbImage } from '@/utils/tmdb/image'
-import Image from 'next/image'
 import { useLanguage } from '@/context/language'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import Link from 'next/link'
-import { UserItemsCommand } from './user-items-command'
-import { UserItemsProps } from './user-items'
-import { useLayoutContext } from '../_context'
 import { useSession } from '@/context/session'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useLayoutContext } from '../_context'
+import type { UserItemsProps } from './user-items'
+import { UserItemsCommand } from './user-items-command'
+import { v4 } from 'uuid'
 
 export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()
@@ -21,7 +22,7 @@ export function UserItemsList({ status }: UserItemsProps) {
     return (
       <>
         {Array.from({ length: 20 }).map((_, index) => (
-          <Skeleton key={index} className="aspect-poster" />
+          <Skeleton key={v4()} className="aspect-poster" />
         ))}
       </>
     )

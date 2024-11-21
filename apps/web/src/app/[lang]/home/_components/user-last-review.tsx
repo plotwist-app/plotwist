@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
+import { useGetDetailedReviews } from '@/api/reviews'
 import {
   FullReview,
   FullReviewSkeleton,
 } from '@/components/full-review/full-review'
-import { useGetDetailedReviews } from '@/api/reviews'
 
 export const EmptyReview = () => {
   const { language, dictionary } = useLanguage()

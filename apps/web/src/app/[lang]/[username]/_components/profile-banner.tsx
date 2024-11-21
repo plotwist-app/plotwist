@@ -5,11 +5,11 @@ import { toast } from 'sonner'
 
 import { ImagePicker } from '@/components/image-picker'
 
-import { tmdbImage } from '@/utils/tmdb/image'
+import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { usePatchUser } from '@/api/users'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { GetUsersUsername200User } from '@/api/endpoints.schemas'
-import { usePatchUser } from '@/api/users'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { useRouter } from 'next/navigation'
 
 type ProfileBannerProps = {
@@ -36,7 +36,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
                 onClose()
                 toast.success(dictionary.profile_banner.changed_successfully)
               },
-            },
+            }
           )
         }
       >

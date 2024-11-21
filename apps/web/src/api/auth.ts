@@ -50,7 +50,7 @@ export const getPostLoginMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postLogin>>,
     { data: PostLoginBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postLogin(data)

@@ -6,13 +6,13 @@ import { Toaster } from '@plotwist/ui/components/ui/sonner'
 import { AppWrapper } from '@/context/app'
 import { ListsContextProvider } from '@/context/lists'
 
-import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 
 export async function generateStaticParams() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ lang: lang.value }))
+  return SUPPORTED_LANGUAGES.map(lang => ({ lang: lang.value }))
 }
 
 export const dynamic = 'force-dynamic'

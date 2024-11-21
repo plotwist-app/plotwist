@@ -1,5 +1,5 @@
 {
-  "home": {  
+  "home": {
     "keywords": "Filme organisieren, Serien organisieren, App für Filme und Serien, personalisierte Empfehlungen, Filmlisten erstellen, Serienverwaltung, beste Film-Apps, App für Serien-Marathons, Marathons organisieren, Serienbewertungen, Online-Filmlisten, elegante Benutzeroberfläche für Serien, Filmvorschläge, gesehenen Filme verwalten"
   },
   "home_prices": {
@@ -14,8 +14,7 @@
       "benefits": [
         "Voller Zugriff auf die Plattform",
         "Unbegrenzte Bewertungen",
-        "Eine persönliche Liste",
-        "Organisations- und Kontrollwerkzeuge für Unterstützte"
+        "Eine persönliche Liste"
       ],
       "start_now": "Jetzt starten!"
     },
@@ -23,7 +22,9 @@
       "title": "Profi",
       "price": "5 €/Monat",
       "recommended": "Empfohlen",
-      "description": "Alles im kostenlosen Plan und noch viel mehr!",      "benefits": [
+      "description": "Alles im kostenlosen Plan und noch viel mehr!",
+      "benefits": [
+        "Organisations- und Kontrollwerkzeuge für Unterstützte",
         "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
         "Unbegrenzte Listen",
         "Erweiterte Personalisierung",
@@ -725,5 +726,6 @@
   "episodes": "Episoden",
   "when_you_mark_all_episodes": "Wenn Sie alle Episoden als angesehen markieren, wird die Serie/Anime automatisch auf den Status aktualisiert",
   "update_progress": "Fortschritt aktualisieren",
-  "update_status": "Status aktualisieren"
+  "update_status": "Status aktualisieren",
+  "feature_only_in_pro_plan": "Diese Funktion ist nur im PRO-Plan verfügbar."
 }

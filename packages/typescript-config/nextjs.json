@@ -3,11 +3,7 @@
   "display": "Next.js",
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext",
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
     "plugins": [
       {
@@ -19,6 +15,6 @@
     "jsx": "preserve",
     "noEmit": true,
     "declaration": false,
-    "declarationMap": false,
+    "declarationMap": false
   }
 }

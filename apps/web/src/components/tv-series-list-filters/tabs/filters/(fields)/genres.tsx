@@ -1,9 +1,15 @@
 'use client'
 
-import { useFormContext } from 'react-hook-form'
-import { KeyboardEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { X } from 'lucide-react'
+import {
+  type KeyboardEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { useFormContext } from 'react-hook-form'
 
 import {
   FormControl,
@@ -14,15 +20,15 @@ import {
 
 import { useLanguage } from '@/context/language'
 
+import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { tmdb } from '@/services/tmdb'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Command,
   CommandInput,
   CommandItem,
   CommandList,
 } from '@plotwist/ui/components/ui/command'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
-import { tmdb } from '@/services/tmdb'
 
 type Option = {
   value: number
@@ -46,23 +52,23 @@ export const GenresField = () => {
   const genresOptions: Option[] = useMemo(
     () =>
       data
-        ? data.genres.map((genre) => ({
+        ? data.genres.map(genre => ({
             label: genre.name,
             value: genre.id,
           }))
         : [],
-    [data],
+    [data]
   )
 
   const handleUnselect = useCallback(
     (option: Option) => {
       const newSelectedGenres = watch('genres').filter(
-        (genre) => genre !== option.value,
+        genre => genre !== option.value
       )
 
       setValue('genres', newSelectedGenres)
     },
-    [setValue, watch],
+    [setValue, watch]
   )
 
   const handleSelect = useCallback(
@@ -75,7 +81,7 @@ export const GenresField = () => {
 
       setValue('genres', newSelectedGenres)
     },
-    [setValue, watch],
+    [setValue, watch]
   )
 
   const handleKeyDown = useCallback(
@@ -97,16 +103,15 @@ export const GenresField = () => {
         }
       }
     },
-    [setValue, watch],
+    [setValue, watch]
   )
 
-  const selectedGenres = genresOptions.filter((genreOption) =>
-    watch('genres')?.includes(genreOption.value),
+  const selectedGenres = genresOptions.filter(genreOption =>
+    watch('genres')?.includes(genreOption.value)
   )
 
   const selectableGenres = genresOptions.filter(
-    (option) =>
-      !selectedGenres.map((option) => option.value).includes(option.value),
+    option => !selectedGenres.map(option => option.value).includes(option.value)
   )
 
   return (
@@ -126,22 +131,23 @@ export const GenresField = () => {
             >
               <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
                 <div className="flex flex-wrap gap-1">
-                  {selectedGenres.map((selectedGenre) => (
+                  {selectedGenres.map(selectedGenre => (
                     <Badge key={selectedGenre.value} variant="secondary">
                       {selectedGenre.label}
 
                       <button
                         className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                        onKeyDown={(e) => {
+                        onKeyDown={e => {
                           if (e.key === 'Enter') {
                             handleUnselect(selectedGenre)
                           }
                         }}
-                        onMouseDown={(e) => {
+                        onMouseDown={e => {
                           e.preventDefault()
                           e.stopPropagation()
                         }}
                         onClick={() => handleUnselect(selectedGenre)}
+                        type="button"
                       >
                         <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                       </button>
@@ -166,11 +172,11 @@ export const GenresField = () => {
                 {open && selectableGenres.length > 0 ? (
                   <div className="absolute top-0 z-10 max-h-[200px] w-full overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in md:max-h-none">
                     <CommandList className="h-full overflow-auto">
-                      {selectableGenres.map((option) => {
+                      {selectableGenres.map(option => {
                         return (
                           <CommandItem
                             key={option.value}
-                            onMouseDown={(e) => {
+                            onMouseDown={e => {
                               e.preventDefault()
                               e.stopPropagation()
                             }}

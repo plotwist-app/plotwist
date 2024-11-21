@@ -1,6 +1,6 @@
 import { stripe } from '@/services/stripe'
-import { NextRequest } from 'next/server'
-import { Stripe } from 'stripe'
+import type { NextRequest } from 'next/server'
+import type { Stripe } from 'stripe'
 
 export async function POST(req: NextRequest) {
   const url = new URL(req.url)
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     type: 'recurring',
   })
 
-  const priceByLocale = prices.data.find((price) => {
+  const priceByLocale = prices.data.find(price => {
     if (!price.recurring) {
       return false
     }
@@ -59,7 +59,6 @@ export async function POST(req: NextRequest) {
       })
 
       if (session.url) {
-        console.log({ redirect })
         if (redirect) {
           return Response.redirect(session.url, 303)
         }

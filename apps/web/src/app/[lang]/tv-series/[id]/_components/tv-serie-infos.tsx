@@ -10,9 +10,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { Language, TvSerieDetails } from '@plotwist_app/tmdb'
+import type { Language, TvSerieDetails } from '@plotwist_app/tmdb'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
 
@@ -21,19 +22,24 @@ type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
   const seasonsDetails = await Promise.all(
     tvSerie.seasons.map(
-      async (season) =>
-        await tmdb.season.details(tvSerie.id, season.season_number, language),
-    ),
+      async season =>
+        await tmdb.season.details(tvSerie.id, season.season_number, language)
+    )
   )
 
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
-      <TvSeriesProgress
-        seasonsDetails={seasonsDetails.filter(
-          (season) => season.season_number !== 0 && season.episodes.length > 0,
-        )}
-      />
+
+      <Suspense fallback={<div />}>
+        <TvSeriesProgress
+          seasonsDetails={seasonsDetails.filter(
+            season => season.season_number !== 0 && season.episodes.length > 0
+          )}
+          tmdbId={tvSerie.id}
+        />
+      </Suspense>
+
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
     </div>
   )

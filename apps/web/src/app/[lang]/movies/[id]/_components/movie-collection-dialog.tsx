@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import type { DetailedCollection } from '@/services/tmdb'
 import Link from 'next/link'
-import { DetailedCollection } from '@/services/tmdb'
+import { useState } from 'react'
 
+import { PosterCard } from '@/components/poster-card'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
@@ -11,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
-import { PosterCard } from '@/components/poster-card'
 
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -41,7 +41,7 @@ export const MovieCollectionDialog = ({
           </DialogHeader>
 
           <div className="mt-2 grid grid-cols-3 gap-4">
-            {parts.map((movie) => (
+            {parts.map(movie => (
               <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
                 <PosterCard.Root>
                   <PosterCard.Image

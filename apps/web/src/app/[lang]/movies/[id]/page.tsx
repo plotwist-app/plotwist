@@ -1,11 +1,11 @@
-import { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
+import type { Metadata } from 'next'
 
-import { tmdbImage } from '@/utils/tmdb/image'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
+import { tmdbImage } from '@/utils/tmdb/image'
 
+import type { PageProps } from '@/types/languages'
 import { MovieDetails } from './_components/movie-details'
-import { PageProps } from '@/types/languages'
 
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
@@ -16,7 +16,7 @@ type MoviePageProps = {
 
 export async function generateStaticParams() {
   const moviesIds = await getMoviesIds(1)
-  return moviesIds.map((id) => ({ id: String(id) }))
+  return moviesIds.map(id => ({ id: String(id) }))
 }
 
 export async function generateMetadata({
@@ -38,13 +38,13 @@ export async function generateMetadata({
       }
       return acc
     },
-    {} as Record<string, string>,
+    {} as Record<string, string>
   )
 
   return {
     title,
     description: overview,
-    keywords: keywords?.map((keyword) => keyword.name).join(','),
+    keywords: keywords?.map(keyword => keyword.name).join(','),
     openGraph: {
       images: [tmdbImage(backdrop)],
       title,

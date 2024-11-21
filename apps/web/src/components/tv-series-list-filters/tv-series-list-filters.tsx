@@ -1,9 +1,9 @@
 'use client'
 
-import { FormProvider, useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 
@@ -40,7 +40,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import { TvSeriesListFiltersFormValues } from '.'
+import type { TvSeriesListFiltersFormValues } from '.'
 
 export const TvSeriesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -67,8 +67,8 @@ export const TvSeriesListFilters = () => {
     setOpen(false)
   }
 
-  const hasFilters = Object.keys(defaultValues).some((key) =>
-    searchParams.get(key),
+  const hasFilters = Object.keys(defaultValues).some(key =>
+    searchParams.get(key)
   )
 
   if (isDesktop) {

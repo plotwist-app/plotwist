@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, createContext, useContext } from 'react'
+import { type ReactNode, createContext, useContext } from 'react'
 
 type ListModeContextProviderProps = {
   children: ReactNode
@@ -26,7 +26,7 @@ export const useListMode = () => {
 
   if (!context) {
     throw new Error(
-      'ListModeContext must be used within ListModeContextProvider',
+      'ListModeContext must be used within ListModeContextProvider'
     )
   }
 

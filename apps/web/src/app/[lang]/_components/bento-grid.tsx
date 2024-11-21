@@ -1,11 +1,11 @@
 import { ProBadge } from '@/components/pro-badge'
 import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { AnimatedListDemo } from './animated-list-demo'
-import Link from 'next/link'
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+import Link from 'next/link'
+import { AnimatedListDemo } from './animated-list-demo'
 import { BentoGridIphone } from './bent-grid-iphone'
 
 type BentoGridProps = {
@@ -29,7 +29,10 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
           <div className="aspect-poster lg:aspect-auto col-span-1 row-span-2 border rounded-md overflow-hidden space-y-8 p-6">
             <div className="">
               <div className="space-y-2">
-                <h5 className="text-lg font-semibold">
+                <h5 className="flex items-center gap-2 text-lg font-semibold">
+                  <span>
+                    <ProBadge />
+                  </span>
                   {dictionary.elegant_control}
                 </h5>
 
@@ -57,7 +60,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              {results.slice(0, 3).map((result) => (
+              {results.slice(0, 3).map(result => (
                 <Link
                   href={`/${language}/movies/${result.id}`}
                   className="aspect-poster bg-muted rounded-md overflow-hidden border"

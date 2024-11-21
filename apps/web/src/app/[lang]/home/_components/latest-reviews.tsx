@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 
-import { useLanguage } from '@/context/language'
-import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { useGetDetailedReviews } from '@/api/reviews'
+import { FullReview, FullReviewSkeleton } from '@/components/full-review'
+import { useLanguage } from '@/context/language'
+import { v4 } from 'uuid'
 
 const MAX_SKELETONS_REVIEWS = 5
 
@@ -27,7 +28,7 @@ export const LatestReviews = () => {
 
         <div className="space-y-4">
           {Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
-            <FullReviewSkeleton key={index} />
+            <FullReviewSkeleton key={v4()} />
           ))}
         </div>
       </div>
@@ -46,7 +47,7 @@ export const LatestReviews = () => {
 
       <div className="space-y-4">
         {data.reviews.length > 0 ? (
-          data.reviews.map((review) => (
+          data.reviews.map(review => (
             <FullReview key={review.id} review={review} language={language} />
           ))
         ) : (

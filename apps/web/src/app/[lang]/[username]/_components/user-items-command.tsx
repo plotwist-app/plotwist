@@ -1,17 +1,20 @@
 'use client'
 
-import { GetUserItems200Item } from '@/api/endpoints.schemas'
+import type { GetUserItems200Item } from '@/api/endpoints.schemas'
 import {
   getGetUserItemsQueryKey,
   useDeleteUserItemId,
-  usePostUserItem,
+  usePutUserItem,
 } from '@/api/user-items'
 import { ListCommand } from '@/components/list-command'
+import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
-import { UserItemsProps } from './user-items'
+import type { UserItemsProps } from './user-items'
 
 type UserItemsCommandProps = {
   items: GetUserItems200Item[]
@@ -23,10 +26,11 @@ export function UserItemsCommand({
   status,
   userId,
 }: UserItemsCommandProps) {
-  const add = usePostUserItem()
+  const add = usePutUserItem()
   const remove = useDeleteUserItemId()
 
   const { language, dictionary } = useLanguage()
+  const { user } = useSession()
 
   const messages: Record<
     UserItemsCommandProps['status'],
@@ -44,6 +48,20 @@ export function UserItemsCommand({
       add: dictionary.watchlist_added,
       remove: dictionary.watchlist_removed,
     },
+  }
+
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <div
+          className={cn(
+            'flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed'
+          )}
+        >
+          <Plus />
+        </div>
+      </ProFeatureTooltip>
+    )
   }
 
   return (
@@ -64,10 +82,10 @@ export function UserItemsCommand({
 
               toast.success(messages[status].add)
             },
-          },
+          }
         )
       }
-      onRemove={(id) =>
+      onRemove={id =>
         remove.mutate(
           { id },
           {
@@ -82,11 +100,15 @@ export function UserItemsCommand({
 
               toast.success(messages[status].remove)
             },
-          },
+          }
         )
       }
     >
-      <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
+      <div
+        className={cn(
+          'flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed'
+        )}
+      >
         <Plus />
       </div>
     </ListCommand>

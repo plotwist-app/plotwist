@@ -1,26 +1,27 @@
-import Link from 'next/link'
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
+import Link from 'next/link'
 
+import { ItemHoverCard } from '@/components/item-hover-card'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@plotwist/ui/components/ui/hover-card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { ItemHoverCard } from '@/components/item-hover-card'
 
 import { useLanguage } from '@/context/language'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
+import type { ListCommandProps } from './list-command'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
-import { ListCommandProps } from './list-command'
 
-import { TvSerieWithMediaType } from '@/services/tmdb'
+import type { TvSerieWithMediaType } from '@/services/tmdb'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { v4 } from 'uuid'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]
@@ -41,9 +42,9 @@ export const ListCommandTv = ({
       </ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
-        {tv.map((tvSerie) => {
+        {tv.map(tvSerie => {
           const includedItem = items.find(
-            (listItem) => listItem.tmdbId === tvSerie.id,
+            listItem => listItem.tmdbId === tvSerie.id
           )
 
           return (
@@ -139,8 +140,8 @@ export const ListCommandTvSkeleton = () => {
       <ListCommandGroup.Label>TV Series</ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <ListCommandItem.Root key={index}>
+        {Array.from({ length: 5 }).map(_ => (
+          <ListCommandItem.Root key={v4()}>
             <ListCommandItem.Label>
               <Skeleton className="h-[1.5ex] w-[30ch]" />
 

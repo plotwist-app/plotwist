@@ -14,8 +14,7 @@
       "benefits": [
         "Accès complet à la plateforme",
         "Évaluations illimitées",
-        "Une liste personnelle",
-        "Outils d'organisation et de contrôle pour les assistés"
+        "Une liste personnelle"
       ],
       "start_now": "Commencez maintenant!"
     },
@@ -25,6 +24,7 @@
       "recommended": "Recommandé",
       "description": "Tout dans le plan gratuit et bien plus encore!",
       "benefits": [
+        "Outils d'organisation et de contrôle pour les assistés",
         "Recommandations personnelles basées sur vos goûts et votre historique",
         "Listes illimitées",
         "Personnalisation avancée",
@@ -722,5 +722,6 @@
   "episodes": "Épisodes",
   "when_you_mark_all_episodes": "Lorsque vous marquez tous les épisodes comme regardés, la série/anime sera automatiquement mise à jour au statut de",
   "update_progress": "Mettre à jour le progrès",
-  "update_status": "Mettre à jour le statut"
+  "update_status": "Mettre à jour le statut",
+  "feature_only_in_pro_plan": "Cette fonctionnalité est disponible uniquement dans le Plan PRO."
 }

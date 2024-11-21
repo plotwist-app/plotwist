@@ -19,6 +19,7 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetDetailedReviews200,
   GetDetailedReviewsParams,
@@ -30,7 +31,6 @@ import type {
   PutReviewById200,
   PutReviewByIdBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create a review
@@ -65,7 +65,7 @@ export const getPostReviewMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postReview>>,
     { data: PostReviewBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postReview(data)
@@ -125,7 +125,7 @@ export const getGetReviewsQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getReviews>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -164,7 +164,7 @@ export function useGetReviews<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviews<
   TData = Awaited<ReturnType<typeof getReviews>>,
@@ -183,7 +183,7 @@ export function useGetReviews<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviews<
   TData = Awaited<ReturnType<typeof getReviews>>,
@@ -194,7 +194,7 @@ export function useGetReviews<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getReviews>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetReviews<
@@ -206,7 +206,7 @@ export function useGetReviews<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getReviews>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetReviewsQueryOptions(params, options)
 
@@ -232,7 +232,7 @@ export const getGetReviewsSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -267,7 +267,7 @@ export function useGetReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewsSuspense<
   TData = Awaited<ReturnType<typeof getReviews>>,
@@ -282,7 +282,7 @@ export function useGetReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetReviewsSuspense<
   TData = Awaited<ReturnType<typeof getReviews>>,
@@ -297,7 +297,7 @@ export function useGetReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetReviewsSuspense<
@@ -313,7 +313,7 @@ export function useGetReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetReviewsSuspenseQueryOptions(params, options)
 
@@ -355,7 +355,7 @@ export const getDeleteReviewByIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteReviewById>>,
     { id: string }
-  > = (props) => {
+  > = props => {
     const { id } = props ?? {}
 
     return deleteReviewById(id)
@@ -395,7 +395,7 @@ export const useDeleteReviewById = <
  */
 export const putReviewById = (
   id: string,
-  putReviewByIdBody: PutReviewByIdBody,
+  putReviewByIdBody: PutReviewByIdBody
 ) => {
   return axiosInstance<PutReviewById200>({
     url: `/review/by/${id}`,
@@ -426,7 +426,7 @@ export const getPutReviewByIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putReviewById>>,
     { id: string; data: PutReviewByIdBody }
-  > = (props) => {
+  > = props => {
     const { id, data } = props ?? {}
 
     return putReviewById(id, data)
@@ -466,7 +466,7 @@ export const usePutReviewById = <
  */
 export const getDetailedReviews = (
   params?: GetDetailedReviewsParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetDetailedReviews200>({
     url: `/detailed/reviews`,
@@ -477,7 +477,7 @@ export const getDetailedReviews = (
 }
 
 export const getGetDetailedReviewsQueryKey = (
-  params?: GetDetailedReviewsParams,
+  params?: GetDetailedReviewsParams
 ) => {
   return [`/detailed/reviews`, ...(params ? [params] : [])] as const
 }
@@ -495,7 +495,7 @@ export const getGetDetailedReviewsQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -539,7 +539,7 @@ export function useGetDetailedReviews<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetDetailedReviews<
   TData = Awaited<ReturnType<typeof getDetailedReviews>>,
@@ -562,7 +562,7 @@ export function useGetDetailedReviews<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetDetailedReviews<
   TData = Awaited<ReturnType<typeof getDetailedReviews>>,
@@ -577,7 +577,7 @@ export function useGetDetailedReviews<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetDetailedReviews<
@@ -593,7 +593,7 @@ export function useGetDetailedReviews<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDetailedReviewsQueryOptions(params, options)
 
@@ -619,7 +619,7 @@ export const getGetDetailedReviewsSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -655,7 +655,7 @@ export function useGetDetailedReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetDetailedReviewsSuspense<
   TData = Awaited<ReturnType<typeof getDetailedReviews>>,
@@ -670,7 +670,7 @@ export function useGetDetailedReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetDetailedReviewsSuspense<
   TData = Awaited<ReturnType<typeof getDetailedReviews>>,
@@ -685,7 +685,7 @@ export function useGetDetailedReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetDetailedReviewsSuspense<
@@ -701,11 +701,11 @@ export function useGetDetailedReviewsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDetailedReviewsSuspenseQueryOptions(
     params,
-    options,
+    options
   )
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<

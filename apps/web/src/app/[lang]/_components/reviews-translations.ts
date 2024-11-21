@@ -1,4 +1,4 @@
-import { Language } from '@plotwist_app/tmdb'
+import type { Language } from '@plotwist_app/tmdb'
 
 export type Review = {
   name: string

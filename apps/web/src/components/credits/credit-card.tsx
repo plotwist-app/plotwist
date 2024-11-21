@@ -9,8 +9,8 @@ type CreditCardProps = {
 
 export const CreditCard = ({ imagePath, name, role }: CreditCardProps) => {
   return (
-    <div className="flex flex-col space-x-2 overflow-hidden rounded-md border bg-muted shadow">
-      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-background/50">
+    <li className="flex items-center gap-2 border-b border-dashed py-3">
+      <div className="relative flex aspect-square items-center justify-center overflow-hidden size-10 rounded-md border">
         {imagePath ? (
           <Image
             loading="lazy"
@@ -21,14 +21,14 @@ export const CreditCard = ({ imagePath, name, role }: CreditCardProps) => {
             sizes="100%"
           />
         ) : (
-          <span className="select-none text-2xl">{name[0]}</span>
+          <span className="select-none">{name[0]}</span>
         )}
       </div>
 
-      <div className="flex flex-col space-y-0 py-2">
+      <div className="flex flex-1 justify-between">
         <span className="text-sm">{name}</span>
         <span className="text-xs text-muted-foreground">{role}</span>
       </div>
-    </div>
+    </li>
   )
 }

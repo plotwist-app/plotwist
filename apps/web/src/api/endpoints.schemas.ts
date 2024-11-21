@@ -4,6 +4,57 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+/**
+ * @nullable
+ */
+export type DeleteUserEpisodes204 =
+  | (typeof DeleteUserEpisodes204)[keyof typeof DeleteUserEpisodes204]
+  | null
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUserEpisodes204 = {
+  null: 'null',
+} as const
+
+export type DeleteUserEpisodesBody = {
+  ids: string[]
+}
+
+export type GetUserEpisodes200Item = {
+  episodeNumber: number
+  id: string
+  seasonNumber: number
+  tmdbId: number
+  userId: string
+  watchedAt: string
+}
+
+export type GetUserEpisodesParams = {
+  tmdbId: string
+}
+
+/**
+ * User episodes already registered.
+ */
+export type PostUserEpisodes409 = {
+  message?: string
+}
+
+export type PostUserEpisodes201Item = {
+  episodeNumber: number
+  id: string
+  seasonNumber: number
+  tmdbId: number
+  userId: string
+  watchedAt: string
+}
+
+export type PostUserEpisodesBodyItem = {
+  episodeNumber: number
+  seasonNumber: number
+  tmdbId: number
+}
+
 export type GetSocialLinks200SocialLinksItemPlatform =
   (typeof GetSocialLinks200SocialLinksItemPlatform)[keyof typeof GetSocialLinks200SocialLinksItemPlatform]
 
@@ -43,18 +94,18 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | ''
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf
 
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
-
-export type PutSocialLinksBodyINSTAGRAM =
-  | unknown
-  | PutSocialLinksBodyINSTAGRAMAnyOf
-
 export type PutSocialLinksBody = {
   INSTAGRAM: PutSocialLinksBodyINSTAGRAM
   TIKTOK: PutSocialLinksBodyTIKTOK
   X: PutSocialLinksBodyX
   YOUTUBE: PutSocialLinksBodyYOUTUBE
 }
+
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | ''
+
+export type PutSocialLinksBodyINSTAGRAM =
+  | unknown
+  | PutSocialLinksBodyINSTAGRAMAnyOf
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string
@@ -121,54 +172,6 @@ export type PostReviewReplyBody = {
   reply: string
   reviewId: string
   userId: string
-}
-
-export type PatchUserItemStatusById200 = {
-  userItem: PatchUserItemStatusById200UserItem
-}
-
-export type PatchUserItemStatusById200UserItemStatus =
-  (typeof PatchUserItemStatusById200UserItemStatus)[keyof typeof PatchUserItemStatusById200UserItemStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchUserItemStatusById200UserItemStatus = {
-  WATCHLIST: 'WATCHLIST',
-  WATCHED: 'WATCHED',
-  WATCHING: 'WATCHING',
-} as const
-
-export type PatchUserItemStatusById200UserItemMediaType =
-  (typeof PatchUserItemStatusById200UserItemMediaType)[keyof typeof PatchUserItemStatusById200UserItemMediaType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchUserItemStatusById200UserItemMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const
-
-export type PatchUserItemStatusById200UserItem = {
-  addedAt: string
-  id: string
-  mediaType: PatchUserItemStatusById200UserItemMediaType
-  /** @nullable */
-  position: number | null
-  status: PatchUserItemStatusById200UserItemStatus
-  tmdbId: number
-  userId: string
-}
-
-export type PatchUserItemStatusByIdBodyStatus =
-  (typeof PatchUserItemStatusByIdBodyStatus)[keyof typeof PatchUserItemStatusByIdBodyStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchUserItemStatusByIdBodyStatus = {
-  WATCHLIST: 'WATCHLIST',
-  WATCHED: 'WATCHED',
-  WATCHING: 'WATCHING',
-} as const
-
-export type PatchUserItemStatusByIdBody = {
-  status: PatchUserItemStatusByIdBodyStatus
 }
 
 export type GetUserItems200ItemStatus =
@@ -284,62 +287,62 @@ export type GetUserItemParams = {
   tmdbId: string
 }
 
-export type PostUserItem201 = {
-  userItem: PostUserItem201UserItem
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem
 }
 
-export type PostUserItem201UserItemStatus =
-  (typeof PostUserItem201UserItemStatus)[keyof typeof PostUserItem201UserItemStatus]
+export type PutUserItem201UserItemStatus =
+  (typeof PutUserItem201UserItemStatus)[keyof typeof PutUserItem201UserItemStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUserItem201UserItemStatus = {
+export const PutUserItem201UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
 } as const
 
-export type PostUserItem201UserItemMediaType =
-  (typeof PostUserItem201UserItemMediaType)[keyof typeof PostUserItem201UserItemMediaType]
+export type PutUserItem201UserItemMediaType =
+  (typeof PutUserItem201UserItemMediaType)[keyof typeof PutUserItem201UserItemMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUserItem201UserItemMediaType = {
+export const PutUserItem201UserItemMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
 
-export type PostUserItem201UserItem = {
+export type PutUserItem201UserItem = {
   addedAt: string
   id: string
-  mediaType: PostUserItem201UserItemMediaType
+  mediaType: PutUserItem201UserItemMediaType
   /** @nullable */
   position: number | null
-  status: PostUserItem201UserItemStatus
+  status: PutUserItem201UserItemStatus
   tmdbId: number
   userId: string
 }
 
-export type PostUserItemBodyStatus =
-  (typeof PostUserItemBodyStatus)[keyof typeof PostUserItemBodyStatus]
+export type PutUserItemBodyStatus =
+  (typeof PutUserItemBodyStatus)[keyof typeof PutUserItemBodyStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUserItemBodyStatus = {
+export const PutUserItemBodyStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
 } as const
 
-export type PostUserItemBodyMediaType =
-  (typeof PostUserItemBodyMediaType)[keyof typeof PostUserItemBodyMediaType]
+export type PutUserItemBodyMediaType =
+  (typeof PutUserItemBodyMediaType)[keyof typeof PutUserItemBodyMediaType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUserItemBodyMediaType = {
+export const PutUserItemBodyMediaType = {
   TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
 } as const
 
-export type PostUserItemBody = {
-  mediaType: PostUserItemBodyMediaType
-  status: PostUserItemBodyStatus
+export type PutUserItemBody = {
+  mediaType: PutUserItemBodyMediaType
+  status: PutUserItemBodyStatus
   tmdbId: number
 }
 

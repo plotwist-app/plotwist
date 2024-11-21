@@ -1,19 +1,25 @@
 {
-	"cSpell.words": [
-		"patreon",
-		"plotwist",
-		"sonner",
-		"supabase",
-		"tanstack",
-		"tmdb",
-		"unfollow",
-		"Watchlist"
-	],
-	"gitlens.experimental.generateCommitMessagePrompt": "Generate a commit message following the Conventional Commits format, limiting it to a single line. The message should start with a type that describes the nature of the change, such as 'fix', 'feat', 'chore', 'docs', 'style', 'refactor', 'test', or another appropriate term. If applicable, include a scope in parentheses to provide additional context, like the name of a module or component that's affected. Conclude with a clear and concise description that summarizes the change made, all while not exceeding 50 characters to maintain brevity and clarity.",
-	"files.eol": "\n",
+  "cSpell.words": [
+    "patreon",
+    "plotwist",
+    "sonner",
+    "supabase",
+    "tanstack",
+    "tmdb",
+    "unfollow",
+    "Watchlist"
+  ],
+  "gitlens.experimental.generateCommitMessagePrompt": "Generate a commit message following the Conventional Commits format, limiting it to a single line. The message should start with a type that describes the nature of the change, such as 'fix', 'feat', 'chore', 'docs', 'style', 'refactor', 'test', or another appropriate term. If applicable, include a scope in parentheses to provide additional context, like the name of a module or component that's affected. Conclude with a clear and concise description that summarizes the change made, all while not exceeding 50 characters to maintain brevity and clarity.",
+  "files.eol": "\n",
 
-	"editor.formatOnSave": false,
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit"
-	},
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+  // "editor.codeActionsOnSave": {
+  //   "quickfix.biome": "explicit"
+  // }
 }

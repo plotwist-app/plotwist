@@ -3,20 +3,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Language } from '@/types/languages'
 
+import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
 import { ReviewStars } from '@/components/reviews/review-stars'
-import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
+import { useState } from 'react'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
@@ -102,9 +102,10 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
               'break-words text-muted-foreground relative',
               hasSpoilers &&
                 'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
-              showSpoiler && 'after:bg-muted/50 after:-z-10',
+              showSpoiler && 'after:bg-muted/50 after:-z-10'
             )}
             onClick={() => setShowSpoiler(!showSpoiler)}
+            onKeyDown={() => setShowSpoiler(!showSpoiler)}
           >
             {content}
           </p>

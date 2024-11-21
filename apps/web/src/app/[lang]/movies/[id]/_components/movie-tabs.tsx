@@ -1,17 +1,17 @@
 import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
 import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import { WhereToWatch } from '@/components/where-to-watch'
+import type { Language, MovieDetails } from '@/services/tmdb'
+import { getDictionary } from '@/utils/dictionaries'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { getDictionary } from '@/utils/dictionaries'
-import { Language, MovieDetails } from '@/services/tmdb'
 import { MovieRelated } from './movie-related'
-import { Images } from '@/components/images'
-import { Videos } from '@/components/videos'
-import { WhereToWatch } from '@/components/where-to-watch'
 
 type MovieTabsProps = { language: Language; movie: MovieDetails }
 

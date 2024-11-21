@@ -14,8 +14,7 @@
       "benefits": [
         "Accesso completo alla piattaforma",
         "Valutazioni illimitate",
-        "Una lista personale",
-        "Strumenti di organizzazione e controllo per gli assistiti"
+        "Una lista personale"
       ],
       "start_now": "Inizia ora!"
     },
@@ -23,7 +22,9 @@
       "title": "Pro",
       "price": "5 €/mese",
       "recommended": "Consigliato",
-      "description": "Tutto nel piano gratuito e molto di più!",      "benefits": [
+      "description": "Tutto nel piano gratuito e molto di più!",
+      "benefits": [
+        "Strumenti di organizzazione e controllo per gli assistiti",
         "Raccomandazioni personali basate sui tuoi gusti e sulla tua cronologia",
         "Liste illimitate",
         "Personalizzazione avanzata",
@@ -720,5 +721,6 @@
   "episodes": "Episodi",
   "when_you_mark_all_episodes": "Quando contrassegni tutti gli episodi come guardati, la serie/anime verrà automaticamente aggiornata allo stato di",
   "update_progress": "Aggiornare il progresso",
-  "update_status": "Aggiorna stato"
+  "update_status": "Aggiorna stato",
+  "feature_only_in_pro_plan": "Questa funzionalità è disponibile solo nel Piano PRO."
 }

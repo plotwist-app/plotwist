@@ -1,15 +1,16 @@
 'use client'
 
-import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { useTvSeriesListQuery } from './use-tv-series-list-query'
-import { TvSeriesListProps } from './tv-series-list.types'
+import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
+import type { TvSeriesListProps } from './tv-series-list.types'
+import { useTvSeriesListQuery } from './use-tv-series-list-query'
 
 export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   const { language } = useLanguage()
@@ -27,12 +28,12 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
     return (
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {Array.from({ length: 20 }).map((_, index) => (
-          <PosterCard.Skeleton key={index} />
+          <PosterCard.Skeleton key={v4()} />
         ))}
       </div>
     )
 
-  const flatData = data.pages.flatMap((page) => page.results)
+  const flatData = data.pages.flatMap(page => page.results)
   const isLastPage =
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
@@ -40,7 +41,7 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
-        {flatData.map((tv) => (
+        {flatData.map(tv => (
           <Link href={`/${language}/tv-series/${tv.id}`} key={tv.id}>
             <PosterCard.Root>
               <PosterCard.Image

@@ -1,88 +1,258 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import { SeasonDetails } from '@/services/tmdb'
+import type {
+  GetUserEpisodes200Item,
+  GetUserItem200,
+} from '@/api/endpoints.schemas'
 import {
-  AccordionContent,
+  useDeleteUserEpisodes,
+  useGetUserEpisodesSuspense,
+  usePostUserEpisodes,
+} from '@/api/user-episodes'
+import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
+import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import type { Episode, SeasonDetails } from '@/services/tmdb'
+import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionPrimitive,
 } from '@plotwist/ui/components/ui/accordion'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
-import { Progress } from '@plotwist/ui/components/ui/progress'
-import { isBefore } from 'date-fns'
-import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { Separator } from '@plotwist/ui/components/ui/separator'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Drawer,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import { useLanguage } from '@/context/language'
-import { Button } from '@plotwist/ui/components/ui/button'
+import { Progress } from '@plotwist/ui/components/ui/progress'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { isBefore } from 'date-fns'
+import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
+  tmdbId: number
 }
 
-export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
-  const [watchedEpisodes, setWatchedEpisodes] = useState<Set<string>>(new Set())
+export function TvSeriesProgress({
+  seasonsDetails,
+  tmdbId,
+}: TvSeriesProgressProps) {
+  const { data: userEpisodes, queryKey } = useGetUserEpisodesSuspense({
+    tmdbId: String(tmdbId),
+  })
+
+  const { data: userItemData, queryKey: userItemQueryKey } =
+    useGetUserItemSuspense({
+      mediaType: 'TV_SHOW',
+      tmdbId: String(tmdbId),
+    })
+
+  const putUserItem = usePutUserItem()
+  const createUserEpisode = usePostUserEpisodes()
+  const deleteUserEpisode = useDeleteUserEpisodes()
+
   const confettiButtonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary } = useLanguage()
+  const { user } = useSession()
 
   const totalEpisodes = seasonsDetails.reduce(
     (acc, current) => acc + current.episodes.length,
-    0,
+    0
   )
-
-  const watchedCount = watchedEpisodes.size
+  const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
-  const toggleEpisode = (episodeId: string) => {
-    setWatchedEpisodes((prev) => {
-      const newSet = new Set(prev)
-
-      if (newSet.has(episodeId)) {
-        newSet.delete(episodeId)
-      } else {
-        newSet.add(episodeId)
-      }
-
-      return newSet
+  function findUserEpisode(episode: Episode) {
+    return userEpisodes.find(userEpisode => {
+      return (
+        userEpisode.seasonNumber === episode.season_number &&
+        userEpisode.episodeNumber === episode.episode_number
+      )
     })
   }
 
-  const toggleSeason = (episodeIds: string[]) => {
-    setWatchedEpisodes((prev) => {
-      const newSet = new Set(prev)
-      const allEpisodesWatched = episodeIds.every((id) => newSet.has(id))
+  async function handleToggleSeason(episodes: Episode[]) {
+    const allWatched = episodes.every(episode => findUserEpisode(episode))
 
-      if (allEpisodesWatched) {
-        episodeIds.forEach((id) => newSet.delete(id))
-      } else {
-        episodeIds.forEach((id) => newSet.add(id))
+    if (allWatched) {
+      const toDelete = episodes
+        .map(episode => {
+          const userEpisode = findUserEpisode(episode)
+          return userEpisode?.id
+        })
+        .filter(id => id !== undefined)
+
+      if (toDelete.length > 0) {
+        await deleteUserEpisode.mutateAsync(
+          {
+            data: { ids: toDelete },
+          },
+          {
+            onSettled: () => {
+              APP_QUERY_CLIENT.setQueryData(
+                queryKey,
+                (userEpisodes: GetUserEpisodes200Item[]) => {
+                  return userEpisodes.filter(
+                    userEpisode =>
+                      !episodes.some(
+                        episode =>
+                          userEpisode.seasonNumber === episode.season_number &&
+                          userEpisode.episodeNumber === episode.episode_number
+                      )
+                  )
+                }
+              )
+            },
+          }
+        )
       }
 
-      return newSet
-    })
-  }
-
-  useEffect(() => {
-    if (watchedCount === totalEpisodes) {
-      confettiButtonRef.current?.click()
+      return
     }
+
+    const toCreate = episodes.filter(episode => !findUserEpisode(episode))
+    if (toCreate.length > 0) {
+      await createUserEpisode.mutateAsync(
+        {
+          data: toCreate.map(episode => ({
+            episodeNumber: episode.episode_number,
+            seasonNumber: episode.season_number,
+            tmdbId: episode.show_id,
+          })),
+        },
+        {
+          onSuccess: response => {
+            if (response) {
+              APP_QUERY_CLIENT.setQueryData(
+                queryKey,
+                (userEpisodes: GetUserEpisodes200Item[]) => {
+                  return [...userEpisodes, ...response]
+                }
+              )
+            }
+          },
+        }
+      )
+    }
+  }
+
+  async function handleToggleEpisode(episode: Episode) {
+    const userEpisode = findUserEpisode(episode)
+
+    if (userEpisode) {
+      const { id } = userEpisode
+
+      return deleteUserEpisode.mutateAsync(
+        { data: { ids: [id] } },
+        {
+          onSettled: () => {
+            APP_QUERY_CLIENT.setQueryData(
+              queryKey,
+              (userEpisodes: GetUserEpisodes200Item[]) => {
+                return userEpisodes.filter(userEpisode => userEpisode.id !== id)
+              }
+            )
+          },
+        }
+      )
+    }
+
+    await createUserEpisode.mutateAsync(
+      {
+        data: [
+          {
+            episodeNumber: episode.episode_number,
+            seasonNumber: episode.season_number,
+            tmdbId: episode.show_id,
+          },
+        ],
+      },
+      {
+        onSuccess: response => {
+          if (response) {
+            APP_QUERY_CLIENT.setQueryData(
+              queryKey,
+              (userEpisodes: GetUserEpisodes200Item[]) => {
+                return [...userEpisodes, ...response]
+              }
+            )
+          }
+        },
+      }
+    )
+  }
+
+  const updateUserItemStatus = async () => {
+    if (watchedCount === totalEpisodes) {
+      if (userItemData?.userItem?.status !== 'WATCHED') {
+        await putUserItem.mutateAsync(
+          { data: { mediaType: 'TV_SHOW', status: 'WATCHED', tmdbId } },
+          {
+            onSuccess: () => {
+              APP_QUERY_CLIENT.setQueryData(
+                userItemQueryKey,
+                (old: GetUserItem200) => {
+                  return {
+                    userItem: {
+                      ...old.userItem,
+                      status: 'WATCHED',
+                    },
+                  }
+                }
+              )
+
+              confettiButtonRef.current?.click()
+            },
+          }
+        )
+      }
+    }
+
+    if (watchedCount > 0 && userItemData?.userItem?.status !== 'WATCHING') {
+      await putUserItem.mutateAsync(
+        {
+          data: { mediaType: 'TV_SHOW', status: 'WATCHING', tmdbId },
+        },
+        {
+          onSuccess: () => {
+            APP_QUERY_CLIENT.setQueryData(
+              userItemQueryKey,
+              (old: GetUserItem200) => {
+                return {
+                  userItem: {
+                    ...old.userItem,
+                    status: 'WATCHING',
+                  },
+                }
+              }
+            )
+          },
+        }
+      )
+    }
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    updateUserItemStatus()
   }, [watchedCount, totalEpisodes])
 
   const content = (
@@ -107,7 +277,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
           <Separator orientation="vertical" className="h-4" />
 
           <span className="text-sm text-muted-foreground ">
-            {watchedEpisodes.size}/{totalEpisodes} {dictionary.episodes}
+            {watchedCount}/{totalEpisodes} {dictionary.episodes}
           </span>
         </div>
 
@@ -125,13 +295,13 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
 
       <ScrollArea className="h-[50vh] scroll-y-auto px-4">
         <Accordion type="single" collapsible>
-          {seasonsDetails.map((season) => {
-            const releasedEpisodeIds = season.episodes
-              .filter((e) => isBefore(new Date(e.air_date), new Date()))
-              .map((e) => String(e.id))
+          {seasonsDetails.map(season => {
+            const releasedEpisodes = season.episodes.filter(e =>
+              isBefore(new Date(e.air_date), new Date())
+            )
 
-            const allReleasedWatched = releasedEpisodeIds.every((id) =>
-              watchedEpisodes.has(id),
+            const allReleasedWatched = releasedEpisodes.every(episode =>
+              Boolean(findUserEpisode(episode))
             )
 
             return (
@@ -141,7 +311,9 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
                     <Checkbox
                       id={String(season.id)}
                       checked={allReleasedWatched}
-                      onCheckedChange={() => toggleSeason(releasedEpisodeIds)}
+                      onCheckedChange={() =>
+                        handleToggleSeason(releasedEpisodes)
+                      }
                     />
 
                     <AccordionPrimitive.Trigger className="hover:underline text-start">
@@ -156,53 +328,51 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
 
                 <AccordionContent>
                   <ul className="space-y-4 pl-6">
-                    {season.episodes.map(
-                      ({
+                    {season.episodes.map(episode => {
+                      const {
                         id,
                         episode_number: number,
                         name,
                         air_date: airDate,
-                      }) => {
-                        const episodeId = String(id)
-                        const isWatched = watchedEpisodes.has(episodeId)
-                        const isReleased = isBefore(
-                          new Date(airDate),
-                          new Date(),
-                        )
-                        const isDisabled = !isReleased
+                      } = episode
 
-                        return (
-                          <li
+                      const episodeId = String(id)
+                      const isWatched = Boolean(findUserEpisode(episode))
+
+                      const isReleased = isBefore(new Date(airDate), new Date())
+                      const isDisabled = !isReleased
+
+                      return (
+                        <li
+                          className={cn(
+                            'flex items-center space-x-2',
+                            isDisabled && 'opacity-50'
+                          )}
+                          key={episodeId}
+                        >
+                          <Checkbox
+                            id={episodeId}
+                            checked={isWatched}
+                            disabled={isDisabled}
+                            onCheckedChange={() => handleToggleEpisode(episode)}
+                          />
+
+                          <label
+                            htmlFor={episodeId}
                             className={cn(
-                              'flex items-center space-x-2',
-                              isDisabled && 'opacity-50',
+                              'flex-grow cursor-pointer',
+                              isWatched && 'line-through'
                             )}
-                            key={episodeId}
                           >
-                            <Checkbox
-                              id={episodeId}
-                              checked={isWatched}
-                              disabled={isDisabled}
-                              onCheckedChange={() => toggleEpisode(episodeId)}
-                            />
+                            {number}. {name}
+                          </label>
 
-                            <label
-                              htmlFor={episodeId}
-                              className={cn(
-                                `flex-grow cursor-pointer`,
-                                isWatched && 'line-through',
-                              )}
-                            >
-                              {number}. {name}
-                            </label>
-
-                            {isWatched && (
-                              <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
-                            )}
-                          </li>
-                        )
-                      },
-                    )}
+                          {isWatched && (
+                            <CheckCircle2Icon className="w-4 h-4 text-emerald-500" />
+                          )}
+                        </li>
+                      )
+                    })}
                   </ul>
                 </AccordionContent>
               </AccordionItem>
@@ -213,16 +383,31 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
     </div>
   )
 
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <Button size="sm" variant="outline">
+          <Check className="mr-2" size={14} />
+          {dictionary.update_progress}
+        </Button>
+      </ProFeatureTooltip>
+    )
+  }
+
   if (isDesktop) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button size="sm" variant="outline" className="hidden">
+          <Button size="sm" variant="outline">
             <Check className="mr-2" size={14} />
             {dictionary.update_progress}
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-0 max-w-lg" aria-describedby="">
+
+        <DialogContent
+          className="p-0 max-w-lg"
+          aria-describedby={dictionary.update_progress}
+        >
           {content}
         </DialogContent>
       </Dialog>
@@ -232,7 +417,7 @@ export function TvSeriesProgress({ seasonsDetails }: TvSeriesProgressProps) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="sm" variant="outline" className="hidden">
+        <Button size="sm" variant="outline">
           <Check className="mr-2" size={14} />
           {dictionary.update_progress}
         </Button>

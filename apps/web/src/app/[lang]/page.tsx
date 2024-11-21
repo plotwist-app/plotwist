@@ -1,16 +1,16 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import { Pattern } from '@/components/pattern'
 
-import { PageProps } from '@/types/languages'
+import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { APP_URL } from '../../../constants'
 
+import { Pricing } from '@/components/pricing'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
-import { Pricing } from '@/components/pricing'
 
 export async function generateMetadata({
   params: { lang },
@@ -27,7 +27,7 @@ export async function generateMetadata({
       }
       return acc
     },
-    {} as Record<string, string>,
+    {} as Record<string, string>
   )
 
   const title = `${dictionary.organize} ${dictionary.movies_and_series} ${dictionary.never_been_easier}`

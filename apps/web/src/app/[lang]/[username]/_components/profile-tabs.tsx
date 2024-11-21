@@ -1,12 +1,12 @@
 'use client'
 
-import { Activity, Check, Clock, List, Loader, Star } from 'lucide-react'
-import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
+import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
-import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
+import { Activity, Check, Clock, List, Loader, Star } from 'lucide-react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
-import Link from 'next/link'
 
 type ProfileTabsProps = {
   user: GetUsersUsername200User

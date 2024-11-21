@@ -19,13 +19,13 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetListItemsByListId200Item,
   GetListItemsByListIdParams,
   PostListItem201,
   PostListItemBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Create list item
@@ -60,7 +60,7 @@ export const getPostListItemMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postListItem>>,
     { data: PostListItemBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return postListItem(data)
@@ -101,7 +101,7 @@ export const usePostListItem = <
 export const getListItemsByListId = (
   listId: string,
   params?: GetListItemsByListIdParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetListItemsByListId200Item[]>({
     url: `/list-items/by/${listId}`,
@@ -113,7 +113,7 @@ export const getListItemsByListId = (
 
 export const getGetListItemsByListIdQueryKey = (
   listId: string,
-  params?: GetListItemsByListIdParams,
+  params?: GetListItemsByListIdParams
 ) => {
   return [`/list-items/by/${listId}`, ...(params ? [params] : [])] as const
 }
@@ -132,7 +132,7 @@ export const getGetListItemsByListIdQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -182,7 +182,7 @@ export function useGetListItemsByListId<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListItemsByListId<
   TData = Awaited<ReturnType<typeof getListItemsByListId>>,
@@ -206,7 +206,7 @@ export function useGetListItemsByListId<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListItemsByListId<
   TData = Awaited<ReturnType<typeof getListItemsByListId>>,
@@ -222,7 +222,7 @@ export function useGetListItemsByListId<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetListItemsByListId<
@@ -239,12 +239,12 @@ export function useGetListItemsByListId<
         TData
       >
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListItemsByListIdQueryOptions(
     listId,
     params,
-    options,
+    options
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -270,7 +270,7 @@ export const getGetListItemsByListIdSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -312,7 +312,7 @@ export function useGetListItemsByListIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListItemsByListIdSuspense<
   TData = Awaited<ReturnType<typeof getListItemsByListId>>,
@@ -328,7 +328,7 @@ export function useGetListItemsByListIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetListItemsByListIdSuspense<
   TData = Awaited<ReturnType<typeof getListItemsByListId>>,
@@ -344,7 +344,7 @@ export function useGetListItemsByListIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetListItemsByListIdSuspense<
@@ -361,12 +361,12 @@ export function useGetListItemsByListIdSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetListItemsByListIdSuspenseQueryOptions(
     listId,
     params,
-    options,
+    options
   )
 
   const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
@@ -407,7 +407,7 @@ export const getDeleteListItemIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteListItemId>>,
     { id: string }
-  > = (props) => {
+  > = props => {
     const { id } = props ?? {}
 
     return deleteListItemId(id)

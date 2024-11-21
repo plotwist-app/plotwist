@@ -1,17 +1,16 @@
 'use client'
 
-import { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
+import type { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
 import {
   useDeleteUserItemId,
   useGetUserItem,
-  usePatchUserItemStatusById,
-  usePostUserItem,
+  usePutUserItem,
 } from '@/api/user-items'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { MediaType } from '@/types/supabase/media-type'
+import type { MediaType } from '@/types/supabase/media-type'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
@@ -29,6 +28,7 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 import { Clock, Eye, Loader, Pen } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { ProFeatureTooltip } from '../pro-feature-tooltip'
 
 type ItemStatusProps = {
   mediaType: MediaType
@@ -41,8 +41,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
   const { push } = useRouter()
   const { language, dictionary } = useLanguage()
 
-  const createUserItem = usePostUserItem()
-  const editUserItem = usePatchUserItemStatusById()
+  const putUserItem = usePutUserItem()
   const deleteUserItem = useDeleteUserItemId()
 
   const { data, isLoading, queryKey } = useGetUserItem(
@@ -50,34 +49,17 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       mediaType,
       tmdbId: String(tmdbId),
     },
-    { query: { enabled: Boolean(user), select: (data) => data.userItem } },
+    { query: { enabled: Boolean(user), select: data => data.userItem } }
   )
 
   const handleStatusChange = async (
-    newStatus: GetUserItem200UserItemStatus,
+    newStatus: GetUserItem200UserItemStatus
   ) => {
     if (!user) {
       return push(`/${language}/sign-in`)
     }
 
-    if (!data) {
-      await createUserItem.mutateAsync(
-        {
-          data: { mediaType, tmdbId, status: newStatus },
-        },
-        {
-          onSettled: (response) => {
-            if (response) {
-              APP_QUERY_CLIENT.setQueryData(queryKey, response)
-            }
-          },
-        },
-      )
-
-      return
-    }
-
-    if (newStatus === data.status) {
+    if (newStatus === data?.status) {
       await deleteUserItem.mutateAsync(
         { id: data.id },
         {
@@ -86,29 +68,26 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
               queryKey,
             })
           },
-        },
+        }
       )
-
       return
     }
 
-    await editUserItem.mutateAsync(
-      { data: { status: newStatus }, id: data.id },
+    await putUserItem.mutateAsync(
       {
-        onSettled: (response) => {
+        data: { mediaType, tmdbId, status: newStatus },
+      },
+      {
+        onSettled: response => {
           if (response) {
             APP_QUERY_CLIENT.setQueryData(queryKey, response)
           }
         },
-      },
+      }
     )
   }
 
-  const isDisabled =
-    isLoading ||
-    createUserItem.isPending ||
-    editUserItem.isPending ||
-    deleteUserItem.isPending
+  const isDisabled = isLoading || putUserItem.isPending
 
   const trigger = (
     <Button
@@ -133,7 +112,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       {data?.status === 'WATCHLIST' && (
         <>
           <Clock className="mr-2" size={14} />
-          {dictionary.watching}
+          {dictionary.watchlist}
         </>
       )}
 
@@ -146,6 +125,17 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
     </Button>
   )
 
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <Button size="sm" variant="outline">
+          <Pen className="mr-2" size={14} />
+          {dictionary.update_status}
+        </Button>
+      </ProFeatureTooltip>
+    )
+  }
+
   if (isDesktop) {
     return (
       <DropdownMenu>
@@ -153,7 +143,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel className="flex justify-between">
-            Status
+            {dictionary.update_status}
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />
@@ -190,7 +180,10 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
     <Drawer>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
 
-      <DrawerContent aria-describedby="" className="text-center">
+      <DrawerContent
+        aria-describedby={dictionary.update_status}
+        className="text-center"
+      >
         <DrawerTitle className="my-4">{dictionary.update_status}</DrawerTitle>
 
         <div className="grid grid-cols-3 gap-2 px-4 mb-4">
