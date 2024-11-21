@@ -725,5 +725,6 @@
   "episodes": "Episoden",
   "when_you_mark_all_episodes": "Wenn Sie alle Episoden als angesehen markieren, wird die Serie/Anime automatisch auf den Status aktualisiert",
   "update_progress": "Fortschritt aktualisieren",
-  "update_status": "Status aktualisieren"
+  "update_status": "Status aktualisieren",
+  "feature_only_in_pro_plan": "Diese Funktion ist nur im PRO-Plan verfügbar."
 }

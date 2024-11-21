@@ -31,7 +31,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
 
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<></>}>
         <TvSeriesProgress
           seasonsDetails={seasonsDetails.filter(
             (season) =>

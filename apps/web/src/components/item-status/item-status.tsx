@@ -28,6 +28,7 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 import { Clock, Eye, Loader, Pen } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { ProFeatureTooltip } from '../pro-feature-tooltip'
 
 type ItemStatusProps = {
   mediaType: MediaType
@@ -123,6 +124,17 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       )}
     </Button>
   )
+
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <Button size="sm" variant="outline">
+          <Pen className="mr-2" size={14} />
+          {dictionary.update_status}
+        </Button>
+      </ProFeatureTooltip>
+    )
+  }
 
   if (isDesktop) {
     return (

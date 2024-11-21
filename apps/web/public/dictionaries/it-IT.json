@@ -720,5 +720,6 @@
   "episodes": "Episodi",
   "when_you_mark_all_episodes": "Quando contrassegni tutti gli episodi come guardati, la serie/anime verrà automaticamente aggiornata allo stato di",
   "update_progress": "Aggiornare il progresso",
-  "update_status": "Aggiorna stato"
+  "update_status": "Aggiorna stato",
+  "feature_only_in_pro_plan": "Questa funzionalità è disponibile solo nel Piano PRO."
 }

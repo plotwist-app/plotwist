@@ -12,6 +12,9 @@ import { useLanguage } from '@/context/language'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { UserItemsProps } from './user-items'
+import { useSession } from '@/context/session'
+import { cn } from '@/lib/utils'
+import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
 
 type UserItemsCommandProps = {
   items: GetUserItems200Item[]
@@ -27,6 +30,7 @@ export function UserItemsCommand({
   const remove = useDeleteUserItemId()
 
   const { language, dictionary } = useLanguage()
+  const { user } = useSession()
 
   const messages: Record<
     UserItemsCommandProps['status'],
@@ -44,6 +48,20 @@ export function UserItemsCommand({
       add: dictionary.watchlist_added,
       remove: dictionary.watchlist_removed,
     },
+  }
+
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <div
+          className={cn(
+            'flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed',
+          )}
+        >
+          <Plus />
+        </div>
+      </ProFeatureTooltip>
+    )
   }
 
   return (
@@ -86,7 +104,11 @@ export function UserItemsCommand({
         )
       }
     >
-      <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
+      <div
+        className={cn(
+          'flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed',
+        )}
+      >
         <Plus />
       </div>
     </ListCommand>

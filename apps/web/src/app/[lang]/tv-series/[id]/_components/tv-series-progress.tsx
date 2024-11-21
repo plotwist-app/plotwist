@@ -39,6 +39,8 @@ import {
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { GetUserEpisodes200Item, GetUserItem200 } from '@/api/endpoints.schemas'
 import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
+import { useSession } from '@/context/session'
+import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
@@ -60,13 +62,13 @@ export function TvSeriesProgress({
     })
 
   const putUserItem = usePutUserItem()
-
   const createUserEpisode = usePostUserEpisodes()
   const deleteUserEpisode = useDeleteUserEpisodes()
 
   const confettiButtonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary } = useLanguage()
+  const { user } = useSession()
 
   const totalEpisodes = seasonsDetails.reduce(
     (acc, current) => acc + current.episodes.length,
@@ -378,6 +380,17 @@ export function TvSeriesProgress({
       </ScrollArea>
     </div>
   )
+
+  if (user?.subscriptionType === 'MEMBER') {
+    return (
+      <ProFeatureTooltip>
+        <Button size="sm" variant="outline">
+          <Check className="mr-2" size={14} />
+          {dictionary.update_progress}
+        </Button>
+      </ProFeatureTooltip>
+    )
+  }
 
   if (isDesktop) {
     return (

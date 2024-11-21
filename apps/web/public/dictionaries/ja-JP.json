@@ -721,7 +721,6 @@
   "episodes": "エピソード",
   "when_you_mark_all_episodes": "すべてのエピソードを視聴済みにすると、シリーズ/アニメは自動的にステータスに更新されます",
   "update_progress": "進捗を更新する",
-  "update_status": "ステータスを更新する"
-
-
+  "update_status": "ステータスを更新する",
+  "feature_only_in_pro_plan": "この機能はPROプランでのみ利用可能です。"
 }
