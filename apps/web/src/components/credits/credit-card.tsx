@@ -10,7 +10,7 @@ type CreditCardProps = {
 export const CreditCard = ({ imagePath, name, role }: CreditCardProps) => {
   return (
     <li className="flex items-center gap-2 border-b border-dashed py-3">
-      <div className="relative flex aspect-square items-center justify-center overflow-hidden size-10 rounded-md border">
+      <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
         {imagePath ? (
           <Image
             loading="lazy"

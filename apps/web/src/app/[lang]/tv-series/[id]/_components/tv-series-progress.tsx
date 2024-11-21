@@ -42,6 +42,7 @@ import { Progress } from '@plotwist/ui/components/ui/progress'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { isBefore } from 'date-fns'
+import { watch } from 'fs'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
@@ -58,11 +59,14 @@ export function TvSeriesProgress({
     tmdbId: String(tmdbId),
   })
 
-  const { data: userItemData, queryKey: userItemQueryKey } =
-    useGetUserItemSuspense({
-      mediaType: 'TV_SHOW',
-      tmdbId: String(tmdbId),
-    })
+  const {
+    data: userItemData,
+    queryKey: userItemQueryKey,
+    isLoading: isLoadingUserItem,
+  } = useGetUserItemSuspense({
+    mediaType: 'TV_SHOW',
+    tmdbId: String(tmdbId),
+  })
 
   const putUserItem = usePutUserItem()
   const createUserEpisode = usePostUserEpisodes()
@@ -226,7 +230,10 @@ export function TvSeriesProgress({
       }
     }
 
-    if (watchedCount > 0 && userItemData?.userItem?.status !== 'WATCHING') {
+    if (
+      watchedCount < totalEpisodes &&
+      userItemData?.userItem?.status !== 'WATCHING'
+    ) {
       await putUserItem.mutateAsync(
         {
           data: { mediaType: 'TV_SHOW', status: 'WATCHING', tmdbId },
