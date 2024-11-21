@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { DialogProps } from '@radix-ui/react-dialog'
+import type { DialogProps } from '@radix-ui/react-dialog'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -18,7 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import {
   Form,
   FormControl,
@@ -26,15 +25,16 @@ import {
   FormItem,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
-import { useSession } from '@/context/session'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
-import { Reply } from '@/types/supabase/reviews'
+import type { Reply } from '@/types/supabase/reviews'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReplyFormValues, replyFormSchema } from '../review-reply-form'
+import { useForm } from 'react-hook-form'
+import { type ReplyFormValues, replyFormSchema } from '../review-reply-form'
 
 type ReplyEditActionsProps = { reply: Reply }
 

@@ -17,8 +17,8 @@ import {
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
 
+import type { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { useLanguage } from '@/context/language'
-import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { tmdb } from '@/services/tmdb'
 
 type RegionOption = {
@@ -48,12 +48,12 @@ export const WatchRegion = () => {
   const regionsOptions: RegionOption[] = useMemo(
     () =>
       regions
-        ? regions.map((region) => ({
+        ? regions.map(region => ({
             label: region.english_name,
             value: region.iso_3166_1,
           }))
         : [],
-    [regions],
+    [regions]
   )
 
   return (
@@ -71,7 +71,7 @@ export const WatchRegion = () => {
               </SelectTrigger>
 
               <SelectContent>
-                {regionsOptions.map((regionOption) => (
+                {regionsOptions.map(regionOption => (
                   <SelectItem
                     value={regionOption.value}
                     key={regionOption.value}

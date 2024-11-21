@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@plotwist/ui/components/ui/button'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { Button } from '@plotwist/ui/components/ui/button'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type FollowButtonProps = { userId: string }
 

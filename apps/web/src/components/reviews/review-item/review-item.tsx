@@ -2,10 +2,10 @@
 
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
 import { ReviewLikes } from '@/components/reviews/review-likes'
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
@@ -17,7 +17,7 @@ import {
 
 import { ReviewStars } from '../review-stars'
 
-import { MediaType } from '@/types/supabase/media-type'
+import type { MediaType } from '@/types/supabase/media-type'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -27,9 +27,9 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { cn } from '@/lib/utils'
 
+import type { GetReviews200Item } from '@/api/endpoints.schemas'
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
-import { GetReviews200Item } from '@/api/endpoints.schemas'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -128,13 +128,13 @@ export const ReviewItem = ({
             }}
             className={cn(
               'relative space-y-1 rounded-md border p-4 overflow-hidden',
-              focusReview && 'border-none p-0',
+              focusReview && 'border-none p-0'
             )}
           >
             <div
               className={cn(
                 focusReview &&
-                  'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_85%)_inset] transition-colors duration-200 dark:shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset]',
+                  'group relative grid overflow-hidden rounded-md p-4 shadow-[0_1000px_0_0_hsl(0_0%_85%)_inset] transition-colors duration-200 dark:shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset]'
               )}
             >
               {focusReview && (
@@ -152,9 +152,10 @@ export const ReviewItem = ({
                   'z-10 break-words text-sm/6 relative',
                   hasSpoilers &&
                     'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
-                  showSpoiler && 'after:bg-muted/50 after:-z-10',
+                  showSpoiler && 'after:bg-muted/50 after:-z-10'
                 )}
                 onClick={() => setShowSpoiler(!showSpoiler)}
+                onKeyDown={() => setShowSpoiler(!showSpoiler)}
               >
                 {content}
               </p>

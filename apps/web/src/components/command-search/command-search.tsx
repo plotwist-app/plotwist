@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useDebounce } from '@uidotdev/usehooks'
 import {
   type MovieWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
 } from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@uidotdev/usehooks'
+import { useEffect, useState } from 'react'
 
 import { useLanguage } from '@/context/language'
 
@@ -19,14 +19,15 @@ import {
   CommandList,
 } from '@plotwist/ui/components/ui/command'
 
+import { usePathname } from 'next/navigation'
+import { v4 } from 'uuid'
 import {
-  CommandSearchMovie,
   CommandSearchGroup,
+  CommandSearchMovie,
   CommandSearchSkeleton,
   CommandSearchTvSerie,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
-import { usePathname } from 'next/navigation'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -46,7 +47,7 @@ export const CommandSearch = () => {
       if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
 
-        setOpen((open) => !open)
+        setOpen(open => !open)
       }
     }
 
@@ -54,17 +55,18 @@ export const CommandSearch = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (open) setOpen(false)
   }, [pathname])
 
   const [movies, tvSeries] = [
     data?.results.filter(
-      (result) => result.media_type === 'movie',
+      result => result.media_type === 'movie'
     ) as MovieWithMediaType[],
 
     data?.results.filter(
-      (result) => result.media_type === 'tv',
+      result => result.media_type === 'tv'
     ) as TvSerieWithMediaType[],
   ]
 
@@ -99,16 +101,16 @@ export const CommandSearch = () => {
             {isLoading && (
               <div className="space-y-8">
                 <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <CommandSearchSkeleton key={index} />
+                  {Array.from({ length: 5 }).map(_ => (
+                    <CommandSearchSkeleton key={v4()} />
                   ))}
                 </CommandSearchGroup>
 
                 <CommandSearchGroup
                   heading={dictionary.sidebar_search.tv_series}
                 >
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <CommandSearchSkeleton key={index} />
+                  {Array.from({ length: 5 }).map(_ => (
+                    <CommandSearchSkeleton key={v4()} />
                   ))}
                 </CommandSearchGroup>
               </div>
@@ -120,7 +122,7 @@ export const CommandSearch = () => {
                   <CommandSearchGroup
                     heading={dictionary.sidebar_search.movies}
                   >
-                    {movies?.map((movie) => (
+                    {movies?.map(movie => (
                       <CommandSearchMovie
                         item={movie}
                         language={language}
@@ -134,7 +136,7 @@ export const CommandSearch = () => {
                   <CommandSearchGroup
                     heading={dictionary.sidebar_search.tv_series}
                   >
-                    {tvSeries?.map((tvSerie) => (
+                    {tvSeries?.map(tvSerie => (
                       <CommandSearchTvSerie
                         item={tvSerie}
                         language={language}

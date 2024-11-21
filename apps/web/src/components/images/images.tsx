@@ -14,7 +14,7 @@ export const Images = async ({ tmdbId, variant }: ImagesProps) => {
       return [...profiles].sort((a, b) => b.vote_count - a.vote_count)
 
     return [...backdrops, ...posters].sort(
-      (a, b) => b.vote_count - a.vote_count,
+      (a, b) => b.vote_count - a.vote_count
     )
   }
 

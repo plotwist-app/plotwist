@@ -1,8 +1,8 @@
 'use client'
 
+import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Minus, Plus } from 'lucide-react'
 
 import {
   HoverCard,
@@ -13,16 +13,17 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import { ItemHoverCard } from '@/components/item-hover-card'
 
-import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
 
-import { MovieWithMediaType } from '@/services/tmdb'
-import { ListCommandProps } from './list-command'
+import type { MovieWithMediaType } from '@/services/tmdb'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { v4 } from 'uuid'
+import type { ListCommandProps } from './list-command'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
@@ -43,9 +44,9 @@ export const ListCommandMovies = ({
       </ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
-        {movies.map((movie) => {
+        {movies.map(movie => {
           const includedItem = items.find(
-            (listItem) => listItem.tmdbId === movie.id,
+            listItem => listItem.tmdbId === movie.id
           )
 
           return (
@@ -146,7 +147,7 @@ export const ListCommandMoviesSkeleton = () => {
 
       <ListCommandGroup.Items>
         {Array.from({ length: 5 }).map((_, index) => (
-          <ListCommandItem.Root key={index}>
+          <ListCommandItem.Root key={v4()}>
             <ListCommandItem.Label>
               <Skeleton className="h-[1.5ex] w-[30ch]" />
 

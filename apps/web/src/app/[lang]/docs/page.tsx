@@ -1,6 +1,6 @@
 'use client'
 
-import { PageProps } from '@/types/languages'
+import type { PageProps } from '@/types/languages'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: PageProps) {

@@ -1,11 +1,11 @@
-import { PageProps } from '@/types/languages'
-import { TvSerieDetails } from './_components/tv-serie-details'
-import { Metadata } from 'next'
-import { tmdbImage } from '@/utils/tmdb/image'
+import { tmdb } from '@/services/tmdb'
+import type { PageProps } from '@/types/languages'
 import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
+import { tmdbImage } from '@/utils/tmdb/image'
+import type { Metadata } from 'next'
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
-import { tmdb } from '@/services/tmdb'
+import { TvSerieDetails } from './_components/tv-serie-details'
 
 export type TvSeriePageProps = PageProps & {
   params: { id: string }
@@ -14,7 +14,7 @@ export type TvSeriePageProps = PageProps & {
 export async function generateStaticParams() {
   const tvSeriesIds = await getTvSeriesIds(1)
 
-  return tvSeriesIds.map((id) => ({ id: String(id) }))
+  return tvSeriesIds.map(id => ({ id: String(id) }))
 }
 
 export async function generateMetadata({
@@ -36,13 +36,13 @@ export async function generateMetadata({
       }
       return acc
     },
-    {} as Record<string, string>,
+    {} as Record<string, string>
   )
 
   return {
     title: name,
     description: overview,
-    keywords: keywords?.map((keyword) => keyword.name).join(','),
+    keywords: keywords?.map(keyword => keyword.name).join(','),
     openGraph: {
       images: [tmdbImage(backdrop)],
       title: name,

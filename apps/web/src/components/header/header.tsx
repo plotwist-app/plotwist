@@ -1,11 +1,11 @@
 'use client'
 
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { CommandSearch } from '../command-search'
-import { HeaderNavigationMenu } from './header-navigation-menu'
-import { HeaderNavigationDrawer } from './header-navigation-drawer'
 import { Logo } from '../logo'
 import { HeaderAccount } from './header-account'
-import { useMediaQuery } from '@/hooks/use-media-query'
+import { HeaderNavigationDrawer } from './header-navigation-drawer'
+import { HeaderNavigationMenu } from './header-navigation-menu'
 
 export const Header = () => {
   const isDesktop = useMediaQuery('(min-width: 1024px)')

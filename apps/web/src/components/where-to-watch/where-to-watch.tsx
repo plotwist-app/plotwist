@@ -1,7 +1,7 @@
 import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Buy, Language, Rent } from '@plotwist_app/tmdb'
+import type { Buy, Language, Rent } from '@plotwist_app/tmdb'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 
@@ -41,7 +41,7 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.flatrate ? (
-            watchProvider.flatrate.map((item) => (
+            watchProvider.flatrate.map(item => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>
@@ -59,7 +59,7 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.rent ? (
-            watchProvider.rent.map((item) => (
+            watchProvider.rent.map(item => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>
@@ -77,7 +77,7 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.buy ? (
-            watchProvider.buy.map((item) => (
+            watchProvider.buy.map(item => (
               <div key={item.provider_id}>
                 <WhereToWatchItem item={item} />
               </div>

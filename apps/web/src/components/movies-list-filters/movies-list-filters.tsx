@@ -1,11 +1,19 @@
 'use client'
 
-import { FormProvider, useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@plotwist/ui/components/ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import {
   Sheet,
   SheetClose,
@@ -21,24 +29,16 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTrigger,
-} from '@plotwist/ui/components/ui/drawer'
 
 import { useLanguage } from '@/context/language'
 
-import { Filters, SortBy, WhereToWatch } from './tabs'
-import { MoviesListFiltersFormValues } from './movies-list-filters-schema'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import type { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import {
   buildQueryStringFromValues,
   getDefaultValues,
 } from './movies-list-filters.utils'
-import { useMediaQuery } from '@/hooks/use-media-query'
+import { Filters, SortBy, WhereToWatch } from './tabs'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -65,8 +65,8 @@ export const MoviesListFilters = () => {
     setOpen(false)
   }
 
-  const hasFilters = Object.keys(defaultValues).some((key) =>
-    searchParams.get(key),
+  const hasFilters = Object.keys(defaultValues).some(key =>
+    searchParams.get(key)
   )
 
   if (isDesktop) {

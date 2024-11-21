@@ -1,9 +1,9 @@
 import { useLanguage } from '@/context/language'
+import { type DiscoverTvSeriesFilters, tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { DiscoverTvSeriesFilters, tmdb } from '@/services/tmdb'
 import { useSearchParams } from 'next/navigation'
 
-import { TvSeriesListVariant } from './tv-series-list.types'
+import type { TvSeriesListVariant } from './tv-series-list.types'
 
 const INITIAL_PAGE = 1
 
@@ -43,7 +43,7 @@ export const useTvSeriesListQuery = (variant: TvSeriesListVariant) => {
   return useInfiniteQuery({
     queryKey: [variant, language, ...Object.values(filters)],
     queryFn: ({ pageParam }) => getQueryFn(pageParam),
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: lastPage => lastPage.page + 1,
     initialPageParam: INITIAL_PAGE,
   })
 }

@@ -15,10 +15,10 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { useMediaQuery } from '@/hooks/use-media-query'
 
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { PopularListCardContextMenu } from './popular-list-card-context-menu'
 import { PopularListCardDrawer } from './popular-list-card-drawer'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardProps = { list: GetLists200ListsItem }
 
@@ -36,14 +36,15 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
           <div
             className={cn(
               'absolute z-50 flex h-full w-full items-center justify-center bg-black/0 text-white transition group-hover:bg-black/75',
-              open && 'bg-black/75',
+              open && 'bg-black/75'
             )}
             onClick={() => setOpen(true)}
+            onKeyDown={() => setOpen(true)}
           >
             <span
               className={cn(
                 'hidden items-center text-sm opacity-0 transition-all group-hover:opacity-100 md:flex',
-                open && 'opacity-100',
+                open && 'opacity-100'
               )}
             >
               <MousePointer2 className="mr-2 size-4" />

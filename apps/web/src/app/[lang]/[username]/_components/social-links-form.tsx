@@ -1,6 +1,6 @@
 'use client'
 
-import {
+import type {
   GetSocialLinks200SocialLinksItem,
   PutSocialLinksBody,
 } from '@/api/endpoints.schemas'
@@ -49,8 +49,8 @@ export function SocialLinksForm({
     resolver: zodResolver(socialLinksSchema),
     defaultValues: SOCIAL_LINKS.reduce((acc, platform) => {
       acc[platform] =
-        socialLinks.find((socialLink) => socialLink.platform === platform)
-          ?.url || undefined
+        socialLinks.find(socialLink => socialLink.platform === platform)?.url ||
+        undefined
 
       return acc
     }, {} as SocialLinksFormValues),
@@ -69,7 +69,7 @@ export function SocialLinksForm({
           refresh()
           onClose()
         },
-      },
+      }
     )
   }
 

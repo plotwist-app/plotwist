@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import Link from 'next/link'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 export function ProFeatureTooltip({ children }: PropsWithChildren) {
   const { language, dictionary } = useLanguage()

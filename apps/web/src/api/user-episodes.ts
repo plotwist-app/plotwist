@@ -4,11 +4,7 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation,
-  useQuery,
-  useSuspenseQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -21,8 +17,9 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult
+  UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   DeleteUserEpisodes204,
   DeleteUserEpisodesBody,
@@ -30,255 +27,396 @@ import type {
   GetUserEpisodesParams,
   PostUserEpisodes201Item,
   PostUserEpisodes409,
-  PostUserEpisodesBodyItem
+  PostUserEpisodesBodyItem,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance';
-
-
-
 
 /**
  * Create user episode
  */
 export const postUserEpisodes = (
-    postUserEpisodesBodyItem: PostUserEpisodesBodyItem[],
- ) => {
-      
-      
-      return axiosInstance<PostUserEpisodes201Item[]>(
-      {url: `/user/episodes`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: postUserEpisodesBodyItem
-    },
-      );
-    }
-  
+  postUserEpisodesBodyItem: PostUserEpisodesBodyItem[]
+) => {
+  return axiosInstance<PostUserEpisodes201Item[]>({
+    url: `/user/episodes`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postUserEpisodesBodyItem,
+  })
+}
 
+export const getPostUserEpisodesMutationOptions = <
+  TError = PostUserEpisodes409,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postUserEpisodes>>,
+    TError,
+    { data: PostUserEpisodesBodyItem[] },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postUserEpisodes>>,
+  TError,
+  { data: PostUserEpisodesBodyItem[] },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getPostUserEpisodesMutationOptions = <TError = PostUserEpisodes409,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserEpisodes>>, TError,{data: PostUserEpisodesBodyItem[]}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postUserEpisodes>>, TError,{data: PostUserEpisodesBodyItem[]}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postUserEpisodes>>,
+    { data: PostUserEpisodesBodyItem[] }
+  > = props => {
+    const { data } = props ?? {}
 
-      
+    return postUserEpisodes(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUserEpisodes>>, {data: PostUserEpisodesBodyItem[]}> = (props) => {
-          const {data} = props ?? {};
+export type PostUserEpisodesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postUserEpisodes>>
+>
+export type PostUserEpisodesMutationBody = PostUserEpisodesBodyItem[]
+export type PostUserEpisodesMutationError = PostUserEpisodes409
 
-          return  postUserEpisodes(data,)
-        }
+export const usePostUserEpisodes = <
+  TError = PostUserEpisodes409,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postUserEpisodes>>,
+    TError,
+    { data: PostUserEpisodesBodyItem[] },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postUserEpisodes>>,
+  TError,
+  { data: PostUserEpisodesBodyItem[] },
+  TContext
+> => {
+  const mutationOptions = getPostUserEpisodesMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostUserEpisodesMutationResult = NonNullable<Awaited<ReturnType<typeof postUserEpisodes>>>
-    export type PostUserEpisodesMutationBody = PostUserEpisodesBodyItem[]
-    export type PostUserEpisodesMutationError = PostUserEpisodes409
-
-    export const usePostUserEpisodes = <TError = PostUserEpisodes409,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserEpisodes>>, TError,{data: PostUserEpisodesBodyItem[]}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof postUserEpisodes>>,
-        TError,
-        {data: PostUserEpisodesBodyItem[]},
-        TContext
-      > => {
-
-      const mutationOptions = getPostUserEpisodesMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions)
+}
+/**
  * Get user episode
  */
 export const getUserEpisodes = (
-    params: GetUserEpisodesParams,
- signal?: AbortSignal
+  params: GetUserEpisodesParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return axiosInstance<GetUserEpisodes200Item[]>(
-      {url: `/user/episodes`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-  
-
-export const getGetUserEpisodesQueryKey = (params: GetUserEpisodesParams,) => {
-    return [`/user/episodes`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetUserEpisodesQueryOptions = <TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(params: GetUserEpisodesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetUserEpisodesQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEpisodes>>> = ({ signal }) => getUserEpisodes(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData> & { queryKey: QueryKey }
+  return axiosInstance<GetUserEpisodes200Item[]>({
+    url: `/user/episodes`,
+    method: 'GET',
+    params,
+    signal,
+  })
 }
 
-export type GetUserEpisodesQueryResult = NonNullable<Awaited<ReturnType<typeof getUserEpisodes>>>
+export const getGetUserEpisodesQueryKey = (params: GetUserEpisodesParams) => {
+  return [`/user/episodes`, ...(params ? [params] : [])] as const
+}
+
+export const getGetUserEpisodesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetUserEpisodesQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEpisodes>>> = ({
+    signal,
+  }) => getUserEpisodes(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUserEpisodes>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetUserEpisodesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserEpisodes>>
+>
 export type GetUserEpisodesQueryError = unknown
 
-
-export function useGetUserEpisodes<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>> & Pick<
+export function useGetUserEpisodes<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserEpisodes>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUserEpisodes<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  }
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserEpisodes<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserEpisodes>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
+        >,
+        'initialData'
+      >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserEpisodes<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUserEpisodes<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+export function useGetUserEpisodes<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetUserEpisodesQueryOptions(params, options)
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
 
-export function useGetUserEpisodes<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+  query.queryKey = queryOptions.queryKey
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetUserEpisodesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+  return query
 }
 
-
-
-export const getGetUserEpisodesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(params: GetUserEpisodesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+export const getGetUserEpisodesSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
 ) => {
+  const { query: queryOptions } = options ?? {}
 
-const {query: queryOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUserEpisodesQueryKey(params)
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserEpisodesQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEpisodes>>> = ({
+    signal,
+  }) => getUserEpisodes(params, signal)
 
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEpisodes>>> = ({ signal }) => getUserEpisodes(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData> & { queryKey: QueryKey }
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof getUserEpisodes>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
 }
 
-export type GetUserEpisodesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserEpisodes>>>
+export type GetUserEpisodesSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserEpisodes>>
+>
 export type GetUserEpisodesSuspenseQueryError = unknown
 
+export function useGetUserEpisodesSuspense<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserEpisodesSuspense<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserEpisodesSuspense<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
-export function useGetUserEpisodesSuspense<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+export function useGetUserEpisodesSuspense<
+  TData = Awaited<ReturnType<typeof getUserEpisodes>>,
+  TError = unknown,
+>(
+  params: GetUserEpisodesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof getUserEpisodes>>,
+        TError,
+        TData
+      >
+    >
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetUserEpisodesSuspenseQueryOptions(params, options)
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUserEpisodesSuspense<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey }
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useGetUserEpisodesSuspense<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
+  query.queryKey = queryOptions.queryKey
 
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-export function useGetUserEpisodesSuspense<TData = Awaited<ReturnType<typeof getUserEpisodes>>, TError = unknown>(
- params: GetUserEpisodesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserEpisodes>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetUserEpisodesSuspenseQueryOptions(params,options)
-
-  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+  return query
 }
-
-
 
 /**
  * Delete user episodes
  */
 export const deleteUserEpisodes = (
-    deleteUserEpisodesBody: DeleteUserEpisodesBody,
- ) => {
-      
-      
-      return axiosInstance<DeleteUserEpisodes204>(
-      {url: `/user/episodes`, method: 'DELETE',
-      headers: {'Content-Type': 'application/json', },
-      data: deleteUserEpisodesBody
-    },
-      );
-    }
-  
+  deleteUserEpisodesBody: DeleteUserEpisodesBody
+) => {
+  return axiosInstance<DeleteUserEpisodes204>({
+    url: `/user/episodes`,
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    data: deleteUserEpisodesBody,
+  })
+}
 
+export const getDeleteUserEpisodesMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUserEpisodes>>,
+    TError,
+    { data: DeleteUserEpisodesBody },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteUserEpisodes>>,
+  TError,
+  { data: DeleteUserEpisodesBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getDeleteUserEpisodesMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserEpisodes>>, TError,{data: DeleteUserEpisodesBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteUserEpisodes>>, TError,{data: DeleteUserEpisodesBody}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteUserEpisodes>>,
+    { data: DeleteUserEpisodesBody }
+  > = props => {
+    const { data } = props ?? {}
 
-      
+    return deleteUserEpisodes(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserEpisodes>>, {data: DeleteUserEpisodesBody}> = (props) => {
-          const {data} = props ?? {};
+export type DeleteUserEpisodesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteUserEpisodes>>
+>
+export type DeleteUserEpisodesMutationBody = DeleteUserEpisodesBody
+export type DeleteUserEpisodesMutationError = unknown
 
-          return  deleteUserEpisodes(data,)
-        }
+export const useDeleteUserEpisodes = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUserEpisodes>>,
+    TError,
+    { data: DeleteUserEpisodesBody },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteUserEpisodes>>,
+  TError,
+  { data: DeleteUserEpisodesBody },
+  TContext
+> => {
+  const mutationOptions = getDeleteUserEpisodesMutationOptions(options)
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteUserEpisodesMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserEpisodes>>>
-    export type DeleteUserEpisodesMutationBody = DeleteUserEpisodesBody
-    export type DeleteUserEpisodesMutationError = unknown
-
-    export const useDeleteUserEpisodes = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserEpisodes>>, TError,{data: DeleteUserEpisodesBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof deleteUserEpisodes>>,
-        TError,
-        {data: DeleteUserEpisodesBody},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteUserEpisodesMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

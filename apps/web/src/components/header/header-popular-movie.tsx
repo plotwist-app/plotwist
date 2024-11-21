@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 

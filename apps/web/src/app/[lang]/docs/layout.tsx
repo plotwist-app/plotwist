@@ -1,12 +1,12 @@
 'use client'
 
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { usePathname, useRouter } from 'next/navigation'
-import { PropsWithChildren, useState } from 'react'
-import { buildNavigation } from './_navigation'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
 import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { type PropsWithChildren, useState } from 'react'
+import { buildNavigation } from './_navigation'
 
 function NavigationDesktop() {
   const pathname = usePathname()
@@ -16,7 +16,7 @@ function NavigationDesktop() {
     <aside className="sticky top-14 hidden h-[calc(100dvh-theme(spacing.16))] w-[220px] shrink-0 pt-8 md:block">
       <ScrollArea className="h-full w-full">
         <nav>
-          <ul role="list" className="h-full">
+          <ul className="h-full">
             {buildNavigation(dictionary).map((item, index) => {
               return (
                 <li className="mb-6" key={`${item.name}-${index}`}>
@@ -24,11 +24,8 @@ function NavigationDesktop() {
                     {item.name}
                   </div>
 
-                  <ul
-                    role="list"
-                    className="mt-4 space-y-3.5 border-l border-zinc-200 dark:border-zinc-800"
-                  >
-                    {item.children.map((child) => {
+                  <ul className="mt-4 space-y-3.5 border-l border-zinc-200 dark:border-zinc-800">
+                    {item.children.map(child => {
                       const isActive = pathname.includes(child.href)
 
                       return (
@@ -41,7 +38,7 @@ function NavigationDesktop() {
                                 'text-zinc-950 before:absolute before:inset-y-0 before:left-[-1.5px] before:w-[2px] before:rounded-full before:bg-zinc-950 dark:text-white dark:before:bg-white',
 
                               child.isDisabled &&
-                                'opacity-50 cursor-default pointer-events-none',
+                                'opacity-50 cursor-default pointer-events-none'
                             )}
                             href={`/${language}${child.href}`}
                           >
@@ -86,10 +83,10 @@ function NavigationMobile() {
         value={selectedHref}
         onChange={handleChange}
       >
-        {buildNavigation(dictionary).map((item) => {
+        {buildNavigation(dictionary).map(item => {
           return (
             <optgroup label={item.name} key={item.name}>
-              {item.children.map((child) => (
+              {item.children.map(child => (
                 <option
                   key={child.href}
                   value={child.href}

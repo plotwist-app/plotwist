@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { Grid, Table as LucideTable } from 'lucide-react'
+import { useState } from 'react'
 
+import { useLanguage } from '@/context/language'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Table,
@@ -12,11 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from '@plotwist/ui/components/ui/table'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { useLanguage } from '@/context/language'
 
+import type { Episode } from '@/services/tmdb'
 import { TvSerieEpisodeCard } from './tv-serie-season-episode-card'
-import { Episode } from '@/services/tmdb'
 
 type TvSerieSeasonDetailsContentProps = {
   episodes: Episode[]
@@ -40,7 +40,7 @@ export const TvSerieSeasonDetailsContent = ({
   const contentByLayout: Record<Layout, JSX.Element> = {
     grid: (
       <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
-        {episodes.map((episode) => (
+        {episodes.map(episode => (
           <TvSerieEpisodeCard episode={episode} key={episode.id} />
         ))}
       </div>
@@ -50,7 +50,7 @@ export const TvSerieSeasonDetailsContent = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[1ch]"></TableHead>
+            <TableHead className="w-[1ch]" />
             <TableHead className="w-[200px]">{name}</TableHead>
             <TableHead className="w-[400px]">{overview}</TableHead>
             <TableHead>{runtime}</TableHead>

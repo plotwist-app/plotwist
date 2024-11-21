@@ -1,7 +1,8 @@
 import { tmdb } from '@/services/tmdb'
-import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
+import { useFormContext } from 'react-hook-form'
 
+import { useLanguage } from '@/context/language'
 import {
   FormControl,
   FormField,
@@ -18,8 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
-import { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
-import { useLanguage } from '@/context/language'
+import type { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 
 export const LanguageField = () => {
   const { dictionary } = useLanguage()
@@ -31,7 +31,7 @@ export const LanguageField = () => {
 
   const { control } = useFormContext<MoviesListFiltersFormValues>()
 
-  const options = data?.map((language) => ({
+  const options = data?.map(language => ({
     value: language.iso_639_1,
     label: language.english_name,
   }))
@@ -62,7 +62,7 @@ export const LanguageField = () => {
                     {dictionary.movies_list_filters.language_field.label}
                   </SelectLabel>
 
-                  {options?.map((option) => (
+                  {options?.map(option => (
                     <SelectItem value={option.value} key={option.value}>
                       {option.label}
                     </SelectItem>

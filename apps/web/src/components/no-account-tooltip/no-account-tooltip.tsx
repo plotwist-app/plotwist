@@ -1,12 +1,12 @@
 'use client'
 
-import { PropsWithChildren } from 'react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
+import type { PropsWithChildren } from 'react'
 
 import { useLanguage } from '@/context/language'
 import { TooltipPortal } from '@radix-ui/react-tooltip'

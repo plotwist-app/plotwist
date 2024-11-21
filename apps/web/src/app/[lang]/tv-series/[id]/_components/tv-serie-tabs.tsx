@@ -1,20 +1,20 @@
 import { getDictionary } from '@/utils/dictionaries'
-import { TvSerieDetails } from '@plotwist_app/tmdb'
+import type { TvSerieDetails } from '@plotwist_app/tmdb'
 
+import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import { WhereToWatch } from '@/components/where-to-watch'
+import type { Language } from '@/types/languages'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { Reviews } from '@/components/reviews'
-import { WhereToWatch } from '@/components/where-to-watch'
-import { Language } from '@/types/languages'
-import { TvSerieSeasons } from './tv-serie-seasons'
-import { Credits } from '@/components/credits'
 import { TvSerieRelated } from './tv-serie-related'
-import { Images } from '@/components/images'
-import { Videos } from '@/components/videos'
+import { TvSerieSeasons } from './tv-serie-seasons'
 
 type TvSerieTabsProps = {
   tvSerie: TvSerieDetails

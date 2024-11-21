@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
@@ -16,13 +16,13 @@ export async function middleware(req: NextRequest) {
     req.headers.get('accept-language')?.split(',')[0] ?? 'en'
 
   const language =
-    appLanguages.find((language) => language.startsWith(browserLanguage)) ??
+    appLanguages.find(language => language.startsWith(browserLanguage)) ??
     DEFAULT_LOCALE
 
   const { pathname } = req.nextUrl
 
   const pathnameHasLocale = appLanguages.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
 
   if (!pathnameHasLocale) {

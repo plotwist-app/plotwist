@@ -7,6 +7,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { Image } from '@/services/tmdb'
+import { v4 } from 'uuid'
 type ImagesMasonryProps = {
   images: Image[]
   onSelect?: (image: Image) => void
@@ -22,7 +23,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
       }}
       data-testid="images-masonry"
     >
-      {images.map((image) => {
+      {images.map(image => {
         const { file_path: filePath, aspect_ratio: aspectRatio } = image
 
         const previewURL = tmdbImage(filePath, 'w500')
@@ -35,6 +36,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
               key={filePath}
               style={{ aspectRatio }}
               onClick={() => onSelect(image)}
+              onKeyDown={() => onSelect(image)}
             >
               <NextImage
                 fill
@@ -87,10 +89,10 @@ export const ReactMasonrySkeleton = ({ count }: ReactMasonrySkeletonProps) => {
         1080: 2,
       }}
     >
-      {Array.from({ length: count }, (_, index) => (
+      {Array.from({ length: count }, _ => (
         <div
           className="mb-4 flex w-full overflow-hidden rounded-md bg-background/50"
-          key={index}
+          key={v4()}
           style={{
             aspectRatio:
               aspectRatios[Math.floor(Math.random() * aspectRatios.length)],

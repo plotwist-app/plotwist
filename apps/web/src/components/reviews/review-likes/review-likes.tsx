@@ -13,6 +13,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLanguage } from '@/context/language'
 
 import { cn } from '@/lib/utils'
+import { v4 } from 'uuid'
 
 type ReviewLikes = {
   reviewId: string
@@ -33,7 +34,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       <div
         className={cn(
           'absolute -bottom-3 right-2 h-6 w-11 animate-pulse rounded-full border bg-muted z-20',
-          className,
+          className
         )}
       />
     )
@@ -46,7 +47,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
       <DialogTrigger
         className={cn(
           'absolute -bottom-3.5 right-2 rounded-full border bg-muted px-3 py-1 text-xs hover:bg-muted/60 z-20',
-          className,
+          className
         )}
       >
         ❤ <span className="ml-1">{likes.count}</span>
@@ -59,7 +60,7 @@ export function ReviewLikes({ reviewId, className }: ReviewLikes) {
 
         {!likes.data &&
           Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="flex items-center gap-3">
+            <div key={v4()} className="flex items-center gap-3">
               <Skeleton className="size-10 rounded-full" />
               <Skeleton className="h-5 w-40" />
               <Skeleton className="ml-auto h-4 w-20" />

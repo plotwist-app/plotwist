@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
-import { Images, ImagesProps } from '.'
+import { afterEach, describe, expect, it } from 'vitest'
+import { Images, type ImagesProps } from '.'
 
 const PROPS: ImagesProps = {
   tmdbId: 673, // Harry Potter and the Prisoner of Azkaban

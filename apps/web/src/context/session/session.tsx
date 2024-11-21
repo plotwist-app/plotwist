@@ -1,11 +1,11 @@
 'use client'
 
-import { verifySession } from '@/app/lib/dal'
+import type { verifySession } from '@/app/lib/dal'
 import { AXIOS_INSTANCE } from '@/services/axios-instance'
-import { User } from '@/types/user'
+import type { User } from '@/types/user'
 import {
+  type PropsWithChildren,
   createContext,
-  PropsWithChildren,
   useContext,
   useEffect,
   useState,

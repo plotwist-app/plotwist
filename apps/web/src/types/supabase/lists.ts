@@ -1,8 +1,8 @@
-import {
+import type {
   GetListById200List,
   GetListItemsByListId200Item,
 } from '@/api/endpoints.schemas'
-import { Profile } from './profile'
+import type { Profile } from './profile'
 
 export type List = GetListById200List
 export type ListItem = GetListItemsByListId200Item

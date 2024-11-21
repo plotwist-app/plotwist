@@ -10,18 +10,18 @@ export const getTvSeriesIds = async (pages: number = DEFAULT_PAGES) => {
       async (_, index) =>
         await Promise.all(
           types.map(
-            async (type) =>
+            async type =>
               await tmdb.tv.list({
                 language: 'en-US',
                 list: type,
                 page: index + 1,
-              }),
-          ),
-        ),
-    ),
+              })
+          )
+        )
+    )
   )
-  const results = lists.flatMap((list) => list.map((list) => list.results))
-  const ids = results.flatMap((result) => result.map((tv) => tv.id))
+  const results = lists.flatMap(list => list.map(list => list.results))
+  const ids = results.flatMap(result => result.map(tv => tv.id))
 
   const uniqueIds = Array.from(new Set(ids))
 

@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
-import { Videos, VideosProps } from '.'
+import { afterEach, describe, expect, it } from 'vitest'
+import { Videos, type VideosProps } from '.'
 
 const PROPS: VideosProps = {
   tmdbId: 673, // // Harry Potter and the Prisoner of Azkaban

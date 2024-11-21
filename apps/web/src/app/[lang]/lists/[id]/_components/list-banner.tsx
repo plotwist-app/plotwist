@@ -1,6 +1,6 @@
 'use client'
 
-import { GetListById200List } from '@/api/endpoints.schemas'
+import type { GetListById200List } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, usePatchListBanner } from '@/api/list'
 import { ImagePicker } from '@/components/image-picker'
 import { APP_QUERY_CLIENT } from '@/context/app'
@@ -43,10 +43,10 @@ export function ListBanner({ list }: ListBannerProps) {
                 onClose()
 
                 toast.success(
-                  dictionary.list_item_actions.cover_changed_successfully,
+                  dictionary.list_item_actions.cover_changed_successfully
                 )
               },
-            },
+            }
           )
         }}
       >
@@ -54,7 +54,7 @@ export function ListBanner({ list }: ListBannerProps) {
           <section
             className={cn(
               'group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg',
-              !list.bannerPath && 'border-dashed',
+              !list.bannerPath && 'border-dashed'
             )}
           >
             {list.bannerPath && (

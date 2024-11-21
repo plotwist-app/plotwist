@@ -17,7 +17,7 @@ export const PersonCard = ({ person }: PersonCardProps) => {
   const { profile_path: profilePath, name, known_for: knownFor } = person
 
   const credits = knownFor
-    .map((item) => {
+    .map(item => {
       return (
         (item as MovieWithMediaType).title ??
         (item as TvSerieWithMediaType).name

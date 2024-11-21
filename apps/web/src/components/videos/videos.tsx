@@ -1,4 +1,4 @@
-import { type Video, tmdb } from '@/services/tmdb'
+import { type Video as VideoType, tmdb } from '@/services/tmdb'
 
 export type VideosProps = {
   tmdbId: number
@@ -6,7 +6,7 @@ export type VideosProps = {
 }
 
 type VideoProps = {
-  video: Video
+  video: VideoType
 }
 
 const Video = ({ video }: VideoProps) => {
@@ -21,6 +21,7 @@ const Video = ({ video }: VideoProps) => {
         src={videoUrlBySite[video.site]}
         className="h-full w-full"
         allowFullScreen
+        title={video.name}
       />
     </div>
   )
@@ -31,7 +32,7 @@ export const Videos = async ({ tmdbId, variant }: VideosProps) => {
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2" data-testid="videos">
-      {results.map((video) => (
+      {results.map(video => (
         <Video key={video.id} video={video} />
       ))}
     </div>

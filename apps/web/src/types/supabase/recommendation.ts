@@ -1,6 +1,6 @@
-import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
-import { MediaType } from './media-type'
-import { Profile } from './profile'
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
+import type { MediaType } from './media-type'
+import type { Profile } from './profile'
 
 export type Recommendation = {
   id: string

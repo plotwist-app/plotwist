@@ -1,7 +1,7 @@
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
+import type { Dictionary } from '@/utils/dictionaries'
 import Link from 'next/link'
 import { Logo } from '../logo'
-import { Dictionary } from '@/utils/dictionaries'
 
 type FooterProps = { language: Language; dictionary: Dictionary }
 

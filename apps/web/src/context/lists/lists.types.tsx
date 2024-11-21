@@ -1,5 +1,5 @@
-import { GetLists200ListsItem } from '@/api/endpoints.schemas'
-import { ReactNode } from 'react'
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import type { ReactNode } from 'react'
 
 export type ListsContextType = {
   lists: GetLists200ListsItem[]

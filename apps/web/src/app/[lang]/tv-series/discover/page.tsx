@@ -1,8 +1,8 @@
 import { TvSeriesList } from '@/components/tv-series-list'
 import { TvSeriesListFilters } from '@/components/tv-series-list-filters'
-import { PageProps } from '@/types/languages'
+import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata({

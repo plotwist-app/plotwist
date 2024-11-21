@@ -2,8 +2,8 @@ import { tmdb } from '@/services/tmdb'
 
 import { Banner } from '@/components/banner'
 
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Language } from '@/types/languages'
 
 import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'

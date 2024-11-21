@@ -1,6 +1,6 @@
 'use client'
 
-import { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
@@ -54,14 +54,14 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
               closeModal()
               toast.success(dictionary.profile_image_changed_successfully)
             },
-          },
+          }
         )
       }
     >
       <ImagePicker.Trigger>
         <div
           className={cn(
-            'group relative z-40 flex w-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl aspect-square -mt-20',
+            'group relative z-40 flex w-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl aspect-square -mt-20'
           )}
         >
           {profile.imagePath ? (

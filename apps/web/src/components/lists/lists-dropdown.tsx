@@ -1,10 +1,10 @@
 'use client'
 
-import { ComponentProps, useCallback } from 'react'
-import { toast } from 'sonner'
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { Plus } from 'lucide-react'
-import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { useRouter } from 'next/navigation'
+import { type ComponentProps, useCallback } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -16,19 +16,19 @@ import {
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
-import { useLists } from '@/context/lists'
+import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
-import { ListForm } from '@/app/[lang]/lists/_components/list-form'
+import { useLists } from '@/context/lists'
 
-import { List } from '@/types/supabase/lists'
+import type { List } from '@/types/supabase/lists'
 
+import { getGetListsQueryKey } from '@/api/list'
+import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
+import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import { useSession } from '@/context/session'
-import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { ProFeatureTooltip } from '../pro-feature-tooltip'
-import { getGetListsQueryKey } from '@/api/list'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -70,10 +70,10 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
 
             toast.success(removedSuccessfully)
           },
-        },
+        }
       )
     },
-    [removedSuccessfully, deleteListItem, user],
+    [removedSuccessfully, deleteListItem, user]
   )
 
   const handleAdd = useCallback(
@@ -101,10 +101,10 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
               },
             })
           },
-        },
+        }
       )
     },
-    [addedSuccessfully, item, language, postListItem, push, seeList, user],
+    [addedSuccessfully, item, language, postListItem, push, seeList, user]
   )
 
   const Content = () => {
@@ -113,7 +113,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         <NoAccountTooltip>
           <div
             className={cn(
-              'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-2 text-sm opacity-50',
+              'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-2 text-sm opacity-50'
             )}
           >
             {createNewList}
@@ -125,9 +125,9 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
     if (lists?.length > 0) {
       return (
         <>
-          {lists.map((list) => {
+          {lists.map(list => {
             const itemIncluded = list.items.find(
-              ({ tmdbId }) => tmdbId === item.id,
+              ({ tmdbId }) => tmdbId === item.id
             )
 
             return (

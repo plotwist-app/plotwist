@@ -1,8 +1,8 @@
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 
 export const formatCurrency = (
   amount: number,
-  language: Language = 'en-US',
+  language: Language = 'en-US'
 ) => {
   const commonOptions = {
     style: 'currency' as const,

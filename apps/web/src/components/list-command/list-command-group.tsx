@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 const Root = (props: PropsWithChildren) => (
   <div className="space-y-2 p-4" {...props} />

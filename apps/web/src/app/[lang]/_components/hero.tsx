@@ -1,10 +1,10 @@
 'use client'
 
-import { Button } from '@plotwist/ui/components/ui/button'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
+import { Button } from '@plotwist/ui/components/ui/button'
 
-import { useLanguage } from '@/context/language'
 import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
 import {
@@ -49,6 +49,7 @@ export const Hero = () => {
               })
             }}
             className="flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs"
+            type="button"
           >
             {dictionary.discover_advantages} <ProBadge />
           </button>
@@ -122,6 +123,7 @@ export const Hero = () => {
                     behavior: 'smooth',
                   })
                 }}
+                type="button"
               >
                 {dictionary.keep_exploring}
               </button>

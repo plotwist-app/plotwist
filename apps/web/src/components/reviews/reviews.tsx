@@ -1,16 +1,17 @@
 'use client'
 
-import { MovieDetails, TvSerieDetails } from '@/services/tmdb'
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
+import { ReviewForm } from '@/components/reviews/review-form'
 import {
   ReviewItem,
   ReviewItemSkeleton,
 } from '@/components/reviews/review-item'
-import { ReviewForm } from '@/components/reviews/review-form'
 
-import { MediaType } from '@/types/supabase/media-type'
-import { useLanguage } from '@/context/language'
 import { useGetReviews } from '@/api/reviews'
+import { useLanguage } from '@/context/language'
+import type { MediaType } from '@/types/supabase/media-type'
+import { v4 } from 'uuid'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -32,7 +33,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
     return (
       <section className="space-y-8">
         {Array.from({ length: 5 }).map((_, index) => (
-          <ReviewItemSkeleton key={index} />
+          <ReviewItemSkeleton key={v4()} />
         ))}
       </section>
     )
@@ -42,7 +43,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
   return (
     <section className="space-y-8">
-      {data.map((review) => (
+      {data.map(review => (
         <ReviewItem
           key={review.id}
           review={review}

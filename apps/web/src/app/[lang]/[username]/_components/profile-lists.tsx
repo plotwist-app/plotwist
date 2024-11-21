@@ -2,18 +2,19 @@
 
 import Link from 'next/link'
 
+import { useGetLists } from '@/api/list'
 import { ListCard, ListCardSkeleton } from '@/components/list-card'
-import { ListForm } from '../../lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { useGetLists } from '@/api/list'
-import { LockKeyhole } from 'lucide-react'
 import {
-  TooltipContent,
   Tooltip,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
+import { LockKeyhole } from 'lucide-react'
+import { v4 } from 'uuid'
+import { ListForm } from '../../lists/_components/list-form'
 
 type ProfileListsProps = {
   userId: string
@@ -28,7 +29,7 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
     return (
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, index) => (
-          <ListCardSkeleton key={index} />
+          <ListCardSkeleton key={v4()} />
         ))}
       </div>
     )
@@ -41,7 +42,11 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
     return (
       <div className="justify flex w-full flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.profile.no_lists}</p>
-        <Link href={`/lists`} className="text-sm text-muted-foreground">
+
+        <Link
+          href={`/${language}/lists`}
+          className="text-sm text-muted-foreground"
+        >
           {dictionary.profile.explore_popular_lists}
         </Link>
       </div>
@@ -51,14 +56,17 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {data.lists.map((list) => (
+        {data.lists.map(list => (
           <ListCard list={list} key={list.id} />
         ))}
 
         {isOwner && isPro && (
           <ListForm
             trigger={
-              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+              <button
+                className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground"
+                type="button"
+              >
                 {dictionary.list_form.create_new_list}
               </button>
             }
@@ -68,7 +76,10 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
         {isOwner && !isPro && data.lists.length === 0 && (
           <ListForm
             trigger={
-              <button className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground">
+              <button
+                className="aspect-video text-sm rounded-md border border-dashed text-muted-foreground"
+                type="button"
+              >
                 {dictionary.list_form.create_new_list}
               </button>
             }

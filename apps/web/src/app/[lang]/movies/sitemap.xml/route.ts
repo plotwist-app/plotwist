@@ -1,5 +1,5 @@
+import type { Language } from '@/services/tmdb'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
-import { Language } from '@/services/tmdb'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export async function GET(request: Request) {
@@ -13,13 +13,14 @@ export async function GET(request: Request) {
   const xmlPromise = streamToPromise(sitemapStream)
 
   const moviesIds = await getMoviesIds()
-  moviesIds.forEach((id) => {
+
+  for (const movieId of moviesIds) {
     sitemapStream.write({
-      url: `/${language}/movies/${id}`,
+      url: `/${language}/movies/${movieId}`,
       changefreq: 'weekly',
       lastmodISO: new Date().toISOString(),
     })
-  })
+  }
 
   sitemapStream.end()
   const xml = await xmlPromise

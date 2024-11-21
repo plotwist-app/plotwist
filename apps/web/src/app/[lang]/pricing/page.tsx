@@ -1,8 +1,8 @@
-import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
 import { Pattern } from '@/components/pattern'
-import { Metadata } from 'next'
 import { Pricing } from '@/components/pricing'
+import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import type { Metadata } from 'next'
 
 export async function generateMetadata({
   params: { lang },

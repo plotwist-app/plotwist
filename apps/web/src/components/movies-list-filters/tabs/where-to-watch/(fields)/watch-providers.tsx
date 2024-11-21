@@ -1,19 +1,15 @@
 'use client'
 
-import { KeyboardEvent, useCallback, useMemo, useRef } from 'react'
-import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
 import { Eye, X } from 'lucide-react'
+import Image from 'next/image'
+import { type KeyboardEvent, useCallback, useMemo, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@plotwist/ui/components/ui/form'
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -22,18 +18,22 @@ import {
   CommandItem,
   CommandSeparator,
 } from '@plotwist/ui/components/ui/command'
-import { Badge } from '@plotwist/ui/components/ui/badge'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@plotwist/ui/components/ui/form'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@plotwist/ui/components/ui/popover'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { Button } from '@plotwist/ui/components/ui/button'
 
-import { tmdbImage } from '@/utils/tmdb/image'
-import { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
+import type { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type Option = {
   value: number
@@ -61,24 +61,24 @@ export const WatchProvidersField = () => {
   const watchProvidersOptions: Option[] = useMemo(
     () =>
       watchProviders
-        ? watchProviders.map((watchProvider) => ({
+        ? watchProviders.map(watchProvider => ({
             label: watchProvider.provider_name,
             value: watchProvider.provider_id,
             logo: watchProvider.logo_path,
           }))
         : [],
-    [watchProviders],
+    [watchProviders]
   )
 
   const handleUnselect = useCallback(
     (option: Option) => {
       const newSelectedWatchProviders = watch('with_watch_providers').filter(
-        (genre) => genre !== option.value,
+        genre => genre !== option.value
       )
 
       setValue('with_watch_providers', newSelectedWatchProviders)
     },
-    [setValue, watch],
+    [setValue, watch]
   )
 
   const handleSelect = useCallback(
@@ -91,9 +91,10 @@ export const WatchProvidersField = () => {
 
       setValue('with_watch_providers', newSelectedWatchProviders)
     },
-    [setValue, watch],
+    [setValue, watch]
   )
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       const input = inputRef.current
@@ -114,18 +115,16 @@ export const WatchProvidersField = () => {
         }
       }
     },
-    [setValue, watch, inputRef],
+    [setValue, watch, inputRef]
   )
 
-  const selectedWatchProviders = watchProvidersOptions.filter((genreOption) =>
-    watch('with_watch_providers')?.includes(genreOption.value),
+  const selectedWatchProviders = watchProvidersOptions.filter(genreOption =>
+    watch('with_watch_providers')?.includes(genreOption.value)
   )
 
   const selectableWatchProviders = watchProvidersOptions.filter(
-    (option) =>
-      !selectedWatchProviders
-        .map((option) => option.value)
-        .includes(option.value),
+    option =>
+      !selectedWatchProviders.map(option => option.value).includes(option.value)
   )
 
   return (
@@ -149,13 +148,13 @@ export const WatchProvidersField = () => {
                 >
                   {selectedWatchProviders.length > 0 ? (
                     <div className="flex flex-wrap gap-1">
-                      {selectedWatchProviders.map((selectedWatchProvider) => {
+                      {selectedWatchProviders.map(selectedWatchProvider => {
                         return (
                           <Badge
                             key={selectedWatchProvider.value}
                             variant="secondary"
                             className="gap-1"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={e => e.preventDefault()}
                           >
                             <div className="relative h-5 w-5 overflow-hidden rounded-md">
                               <Image
@@ -170,19 +169,20 @@ export const WatchProvidersField = () => {
 
                             <button
                               className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                              onKeyDown={(e) => {
+                              onKeyDown={e => {
                                 if (e.key === 'Enter') {
                                   handleUnselect(selectedWatchProvider)
                                 }
                               }}
-                              onMouseDown={(e) => {
+                              onMouseDown={e => {
                                 e.preventDefault()
                                 e.stopPropagation()
                               }}
-                              onClick={(e) => {
+                              onClick={e => {
                                 e.preventDefault()
                                 handleUnselect(selectedWatchProvider)
                               }}
+                              type="button"
                             >
                               <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                             </button>
@@ -221,30 +221,28 @@ export const WatchProvidersField = () => {
                     </CommandEmpty>
 
                     <CommandGroup>
-                      {selectableWatchProviders.map(
-                        (selectableWatchProvider) => {
-                          return (
-                            <CommandItem
-                              key={selectableWatchProvider.value}
-                              className="flex cursor-pointer gap-2"
-                              onSelect={() =>
-                                handleSelect(selectableWatchProvider)
-                              }
-                            >
-                              <div className="relative h-5 w-5 overflow-hidden rounded-md">
-                                <Image
-                                  src={tmdbImage(selectableWatchProvider.logo)}
-                                  alt={selectableWatchProvider.label}
-                                  fill
-                                  quality={25}
-                                />
-                              </div>
+                      {selectableWatchProviders.map(selectableWatchProvider => {
+                        return (
+                          <CommandItem
+                            key={selectableWatchProvider.value}
+                            className="flex cursor-pointer gap-2"
+                            onSelect={() =>
+                              handleSelect(selectableWatchProvider)
+                            }
+                          >
+                            <div className="relative h-5 w-5 overflow-hidden rounded-md">
+                              <Image
+                                src={tmdbImage(selectableWatchProvider.logo)}
+                                alt={selectableWatchProvider.label}
+                                fill
+                                quality={25}
+                              />
+                            </div>
 
-                              {selectableWatchProvider.label}
-                            </CommandItem>
-                          )
-                        },
-                      )}
+                            {selectableWatchProvider.label}
+                          </CommandItem>
+                        )
+                      })}
                     </CommandGroup>
                   </ScrollArea>
 

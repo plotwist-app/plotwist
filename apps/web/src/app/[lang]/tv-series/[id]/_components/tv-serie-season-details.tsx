@@ -1,6 +1,6 @@
 import { tmdb } from '@/services/tmdb'
 
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { TvSerieSeasonDetailsContent } from './tv-serie-season-details-content'
 
 type TvSerieSeasonDetailsProps = {

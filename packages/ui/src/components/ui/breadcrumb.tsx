@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { ChevronRightIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Slot } from '@radix-ui/react-slot'
+import * as React from 'react'
 
 import { cn } from '@plotwist/ui/lib/utils'
 
@@ -20,7 +20,7 @@ const BreadcrumbList = React.forwardRef<
     ref={ref}
     className={cn(
       'flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5',
-      className,
+      className
     )}
     {...props}
   />
@@ -63,7 +63,6 @@ const BreadcrumbPage = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <span
     ref={ref}
-    role="link"
     aria-disabled="true"
     aria-current="page"
     className={cn('font-normal text-foreground', className)}

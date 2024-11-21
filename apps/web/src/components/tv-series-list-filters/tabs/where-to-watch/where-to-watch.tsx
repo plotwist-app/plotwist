@@ -1,4 +1,4 @@
-import { WatchRegion, WatchProvidersField } from './(fields)'
+import { WatchProvidersField, WatchRegion } from './(fields)'
 
 export const WhereToWatch = () => {
   return (

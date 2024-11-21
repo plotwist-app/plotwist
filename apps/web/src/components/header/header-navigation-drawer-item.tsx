@@ -1,17 +1,17 @@
 'use client'
 
-import { useMemo } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
+import { useMemo } from 'react'
 
-import { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
+import { cn } from '@/lib/utils'
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@plotwist/ui/components/ui/accordion'
-import { cn } from '@/lib/utils'
 
 export type Item = {
   label: string
@@ -51,7 +51,7 @@ export const HeaderNavigationDrawerItem = ({
           </AccordionTrigger>
 
           <AccordionContent className="ml-3 space-y-1 px-3 pb-0">
-            {items.map((item) => (
+            {items.map(item => (
               <HeaderNavigationDrawerItem {...item} key={item.label} />
             ))}
           </AccordionContent>
@@ -66,7 +66,7 @@ export const HeaderNavigationDrawerItem = ({
         'flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm',
         isActive
           ? 'bg-muted font-bold'
-          : 'font-normal text-muted-foreground hover:bg-muted',
+          : 'font-normal text-muted-foreground hover:bg-muted'
       )}
       key={href}
     >

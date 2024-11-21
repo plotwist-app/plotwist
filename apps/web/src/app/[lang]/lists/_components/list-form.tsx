@@ -1,11 +1,12 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -23,19 +24,18 @@ import {
 } from '@plotwist/ui/components/ui/form'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { Button } from '@plotwist/ui/components/ui/button'
 
 import { useLanguage } from '@/context/language'
 
-import { List } from '@/types/supabase/lists'
+import type { List } from '@/types/supabase/lists'
 
-import { ListFormValues, listFormSchema } from './list-form-schema'
+import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
+import { APP_QUERY_CLIENT } from '@/context/app'
 import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
-import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
-import { APP_QUERY_CLIENT } from '@/context/app'
+import { type ListFormValues, listFormSchema } from './list-form-schema'
 
 type ListFormProps = { trigger: JSX.Element; list?: List }
 
@@ -66,7 +66,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             setOpen(false)
             toast.success(dictionary.list_edited_successfully)
           },
-        },
+        }
       )
     }
 
@@ -92,7 +92,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
         onError: () => {
           toast.error(dictionary.unable_to_create_list)
         },
-      },
+      }
     )
   }
 

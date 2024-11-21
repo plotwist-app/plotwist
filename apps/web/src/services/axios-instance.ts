@@ -1,4 +1,4 @@
-import Axios, { AxiosRequestConfig } from 'axios'
+import Axios, { type AxiosRequestConfig } from 'axios'
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -11,7 +11,6 @@ export const axiosInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
     cancelToken: source.token,
   }).then(({ data }) => data)
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   promise.cancel = () => {
     source.cancel('Query was cancelled')

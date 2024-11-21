@@ -18,8 +18,8 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 
+import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 import { useLanguage } from '@/context/language'
-import { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 import { tmdb } from '@/services/tmdb'
 
 export const LanguageField = () => {
@@ -32,7 +32,7 @@ export const LanguageField = () => {
 
   const { control } = useFormContext<TvSeriesListFiltersFormValues>()
 
-  const options = data?.map((language) => ({
+  const options = data?.map(language => ({
     value: language.iso_639_1,
     label: language.english_name,
   }))
@@ -63,7 +63,7 @@ export const LanguageField = () => {
                     {dictionary.movies_list_filters.language_field.label}
                   </SelectLabel>
 
-                  {options?.map((option) => (
+                  {options?.map(option => (
                     <SelectItem value={option.value} key={option.value}>
                       {option.label}
                     </SelectItem>

@@ -1,6 +1,6 @@
 'use client'
 
-import { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
+import type { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
 import {
   useDeleteUserItemId,
   useGetUserItem,
@@ -10,7 +10,7 @@ import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { MediaType } from '@/types/supabase/media-type'
+import type { MediaType } from '@/types/supabase/media-type'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
@@ -49,11 +49,11 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       mediaType,
       tmdbId: String(tmdbId),
     },
-    { query: { enabled: Boolean(user), select: (data) => data.userItem } },
+    { query: { enabled: Boolean(user), select: data => data.userItem } }
   )
 
   const handleStatusChange = async (
-    newStatus: GetUserItem200UserItemStatus,
+    newStatus: GetUserItem200UserItemStatus
   ) => {
     if (!user) {
       return push(`/${language}/sign-in`)
@@ -68,7 +68,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
               queryKey,
             })
           },
-        },
+        }
       )
       return
     }
@@ -78,12 +78,12 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
         data: { mediaType, tmdbId, status: newStatus },
       },
       {
-        onSettled: (response) => {
+        onSettled: response => {
           if (response) {
             APP_QUERY_CLIENT.setQueryData(queryKey, response)
           }
         },
-      },
+      }
     )
   }
 
@@ -180,7 +180,10 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
     <Drawer>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
 
-      <DrawerContent aria-describedby="" className="text-center">
+      <DrawerContent
+        aria-describedby={dictionary.update_status}
+        className="text-center"
+      >
         <DrawerTitle className="my-4">{dictionary.update_status}</DrawerTitle>
 
         <div className="grid grid-cols-3 gap-2 px-4 mb-4">

@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/context/language'
 
-import { ReviewItemProps } from '../review-item'
+import type { ReviewItemProps } from '../review-item'
 
 type ReviewReplyProps = {
   openReplies: boolean

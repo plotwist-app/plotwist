@@ -1,10 +1,10 @@
-import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { Pattern } from '@/components/pattern'
-import { Metadata } from 'next'
-import { SignUpForm } from './_components/sign-up-form'
-import Link from 'next/link'
 import { signUp } from '@/actions/auth/sign-up'
+import { Pattern } from '@/components/pattern'
+import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { SignUpForm } from './_components/sign-up-form'
 
 export async function generateMetadata({
   params,

@@ -1,6 +1,6 @@
 'use server'
 
-import { Language } from '@plotwist_app/tmdb'
+import type { Language } from '@plotwist_app/tmdb'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 

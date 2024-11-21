@@ -1,10 +1,10 @@
-import { ResetPasswordForm } from './_components/reset-password-form'
-import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { Pattern } from '@/components/pattern'
-import { Metadata } from 'next'
-import { AnimatedLink } from '@/components/animated-link'
 import { resetPassword } from '@/actions/auth/reset-password'
+import { AnimatedLink } from '@/components/animated-link'
+import { Pattern } from '@/components/pattern'
+import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import type { Metadata } from 'next'
+import { ResetPasswordForm } from './_components/reset-password-form'
 
 export async function generateMetadata({
   params,

@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 import { APP_URL } from '../../constants'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {

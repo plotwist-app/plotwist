@@ -19,6 +19,7 @@ import type {
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
 } from '@tanstack/react-query'
+import { axiosInstance } from '../services/axios-instance'
 import type {
   GetUserItem200,
   GetUserItemParams,
@@ -27,7 +28,6 @@ import type {
   PutUserItem201,
   PutUserItemBody,
 } from './endpoints.schemas'
-import { axiosInstance } from '../services/axios-instance'
 
 /**
  * Upsert user item
@@ -62,7 +62,7 @@ export const getPutUserItemMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putUserItem>>,
     { data: PutUserItemBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {}
 
     return putUserItem(data)
@@ -99,7 +99,7 @@ export const usePutUserItem = <TError = unknown, TContext = unknown>(options?: {
  */
 export const getUserItem = (
   params: GetUserItemParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetUserItem200>({
     url: `/user/item`,
@@ -122,7 +122,7 @@ export const getGetUserItemQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -161,7 +161,7 @@ export function useGetUserItem<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItem<
   TData = Awaited<ReturnType<typeof getUserItem>>,
@@ -180,7 +180,7 @@ export function useGetUserItem<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItem<
   TData = Awaited<ReturnType<typeof getUserItem>>,
@@ -191,7 +191,7 @@ export function useGetUserItem<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserItem<
@@ -203,7 +203,7 @@ export function useGetUserItem<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItem>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserItemQueryOptions(params, options)
 
@@ -229,7 +229,7 @@ export const getGetUserItemSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -264,7 +264,7 @@ export function useGetUserItemSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemSuspense<
   TData = Awaited<ReturnType<typeof getUserItem>>,
@@ -279,7 +279,7 @@ export function useGetUserItemSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemSuspense<
   TData = Awaited<ReturnType<typeof getUserItem>>,
@@ -294,7 +294,7 @@ export function useGetUserItemSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserItemSuspense<
@@ -310,7 +310,7 @@ export function useGetUserItemSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserItemSuspenseQueryOptions(params, options)
 
@@ -329,7 +329,7 @@ export function useGetUserItemSuspense<
  */
 export const getUserItems = (
   params: GetUserItemsParams,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return axiosInstance<GetUserItems200Item[]>({
     url: `/user/items`,
@@ -352,7 +352,7 @@ export const getGetUserItemsQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -391,7 +391,7 @@ export function useGetUserItems<
         >,
         'initialData'
       >
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItems<
   TData = Awaited<ReturnType<typeof getUserItems>>,
@@ -410,7 +410,7 @@ export function useGetUserItems<
         >,
         'initialData'
       >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItems<
   TData = Awaited<ReturnType<typeof getUserItems>>,
@@ -421,7 +421,7 @@ export function useGetUserItems<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserItems<
@@ -433,7 +433,7 @@ export function useGetUserItems<
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>
     >
-  },
+  }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserItemsQueryOptions(params, options)
 
@@ -459,7 +459,7 @@ export const getGetUserItemsSuspenseQueryOptions = <
         TData
       >
     >
-  },
+  }
 ) => {
   const { query: queryOptions } = options ?? {}
 
@@ -494,7 +494,7 @@ export function useGetUserItemsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemsSuspense<
   TData = Awaited<ReturnType<typeof getUserItems>>,
@@ -509,7 +509,7 @@ export function useGetUserItemsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemsSuspense<
   TData = Awaited<ReturnType<typeof getUserItems>>,
@@ -524,7 +524,7 @@ export function useGetUserItemsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserItemsSuspense<
@@ -540,7 +540,7 @@ export function useGetUserItemsSuspense<
         TData
       >
     >
-  },
+  }
 ): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserItemsSuspenseQueryOptions(params, options)
 
@@ -582,7 +582,7 @@ export const getDeleteUserItemIdMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteUserItemId>>,
     { id: string }
-  > = (props) => {
+  > = props => {
     const { id } = props ?? {}
 
     return deleteUserItemId(id)

@@ -1,21 +1,24 @@
 {
-	"name": "plotwist",
-	"private": true,
-	"version": "1.0.0",
-	"scripts": {
-		"build": "dotenv -- turbo build",
-		"build:typescript": "turbo build --filter=@plotwist/typescript-config",
-		"dev": "dotenv -- turbo dev",
-		"lint": "turbo lint -- --fix",
-		"test": "turbo test"
-	},
-	"devDependencies": {
-		"@plotwist/typescript-config": "workspace:*",
-		"dotenv-cli": "^7.4.2",
-		"turbo": "2.1.1"
-	},
-	"engines": {
-		"node": ">=18"
-	},
-	"packageManager": "pnpm@8.0.0"
+  "name": "plotwist",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "dotenv -- turbo build",
+    "build:typescript": "turbo build --filter=@plotwist/typescript-config",
+    "dev": "dotenv -- turbo dev",
+    "lint": "turbo lint -- --fix",
+    "test": "turbo test",
+    "format-and-lint": "biome check .",
+    "format-and-lint:fix": "biome check . --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@plotwist/typescript-config": "workspace:*",
+    "dotenv-cli": "^7.4.2",
+    "turbo": "2.1.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@8.0.0"
 }

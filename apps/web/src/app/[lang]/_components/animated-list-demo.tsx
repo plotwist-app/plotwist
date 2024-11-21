@@ -5,9 +5,10 @@ import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { AnimatedList } from '@plotwist/ui/components/ui/animated-list'
 import { Avatar, AvatarFallback } from '@plotwist/ui/components/ui/avatar'
-import { type Review, reviews } from './reviews-translations'
+import { v4 } from 'uuid'
+import { type Review as ReviewType, reviews } from './reviews-translations'
 
-const Review = ({ name, description, time, rating }: Review) => {
+const Review = ({ name, description, time, rating }: ReviewType) => {
   return (
     <div className="flex items-start space-x-4">
       <div>
@@ -33,7 +34,7 @@ const Review = ({ name, description, time, rating }: Review) => {
         <div className="relative">
           <div
             className={cn(
-              'relative space-y-1 rounded-md border p-4 overflow-hidden',
+              'relative space-y-1 rounded-md border p-4 overflow-hidden'
             )}
           >
             <div>
@@ -56,12 +57,12 @@ export function AnimatedListDemo({ className }: { className?: string }) {
     <div
       className={cn(
         'relative flex h-full w-full flex-col px-6 space-y-2 rounded-lg bg-background',
-        className,
+        className
       )}
     >
       <AnimatedList delay={2_500}>
-        {localizedReviews.map((item, idx) => (
-          <Review {...item} key={idx} />
+        {localizedReviews.map(item => (
+          <Review {...item} key={v4()} />
         ))}
       </AnimatedList>
     </div>

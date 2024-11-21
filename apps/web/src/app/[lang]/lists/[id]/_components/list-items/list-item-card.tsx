@@ -1,15 +1,15 @@
 'use client'
 
-import { ComponentProps } from 'react'
 import Image from 'next/image'
+import type { ComponentProps } from 'react'
 
 import { ListItemActions } from './list-item-actions'
 
 import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-import { ListItem } from '@/types/supabase/lists'
 import { useLanguage } from '@/context/language'
+import type { ListItem } from '@/types/supabase/lists'
 import Link from 'next/link'
 
 type ListItemCardProps = {
@@ -37,7 +37,7 @@ export const ListItemCard = ({ listItem }: ListItemCardProps) => {
 
         <div
           className={cn(
-            'absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100',
+            'absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100'
           )}
         >
           <ListItemActions listItem={listItem} />

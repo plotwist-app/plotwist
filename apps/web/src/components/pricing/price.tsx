@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
-import { ComponentProps, PropsWithChildren } from 'react'
+import type { ComponentProps, PropsWithChildren } from 'react'
 
 type PriceRootProps = ComponentProps<'li'> & PropsWithChildren
 const PriceRoot = ({ className, ...props }: PriceRootProps) => {
@@ -8,7 +8,7 @@ const PriceRoot = ({ className, ...props }: PriceRootProps) => {
     <li
       className={cn(
         'col-span-1 flex flex-col justify-between gap-8 rounded-md border bg-background bg-gradient-to-b from-transparent to-muted/30 px-4 py-6',
-        className,
+        className
       )}
       {...props}
     />

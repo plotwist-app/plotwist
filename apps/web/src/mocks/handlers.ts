@@ -1,4 +1,4 @@
-import { HttpResponse, http } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { credits } from './tmdb/movie/credits'
 import { images } from './tmdb/movie/images'

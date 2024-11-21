@@ -1,8 +1,8 @@
-import Image from 'next/image'
-import { Image as LucideImage } from 'lucide-react'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { ComponentProps } from 'react'
 import { cn } from '@/lib/utils'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { Image as LucideImage } from 'lucide-react'
+import Image from 'next/image'
+import type { ComponentProps } from 'react'
 
 type PosterProps = {
   url?: string
@@ -14,7 +14,7 @@ export const Poster = ({ url, alt, className, ...props }: PosterProps) => {
     <div
       className={cn(
         'relative flex aspect-poster w-full items-center justify-center overflow-hidden rounded-lg border bg-muted text-muted shadow',
-        className,
+        className
       )}
       {...props}
     >

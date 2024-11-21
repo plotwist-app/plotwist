@@ -1,5 +1,5 @@
 {
-  "home": {  
+  "home": {
     "keywords": "Filme organisieren, Serien organisieren, App für Filme und Serien, personalisierte Empfehlungen, Filmlisten erstellen, Serienverwaltung, beste Film-Apps, App für Serien-Marathons, Marathons organisieren, Serienbewertungen, Online-Filmlisten, elegante Benutzeroberfläche für Serien, Filmvorschläge, gesehenen Filme verwalten"
   },
   "home_prices": {
@@ -22,7 +22,8 @@
       "title": "Profi",
       "price": "5 €/Monat",
       "recommended": "Empfohlen",
-      "description": "Alles im kostenlosen Plan und noch viel mehr!",      "benefits": [
+      "description": "Alles im kostenlosen Plan und noch viel mehr!",
+      "benefits": [
         "Organisations- und Kontrollwerkzeuge für Unterstützte",
         "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
         "Unbegrenzte Listen",

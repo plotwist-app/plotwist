@@ -1,9 +1,9 @@
-import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps, cva } from 'class-variance-authority'
+import * as React from 'react'
 
-import { RotateCw } from 'lucide-react'
 import { cn } from '@plotwist/ui/lib/utils'
+import { RotateCw } from 'lucide-react'
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
@@ -32,7 +32,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  },
+  }
 )
 
 export interface ButtonProps
@@ -45,7 +45,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant, size, asChild = false, loading, children, ...props },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : 'button'
 
@@ -67,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {content}
       </Comp>
     )
-  },
+  }
 )
 Button.displayName = 'Button'
 

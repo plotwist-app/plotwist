@@ -1,9 +1,9 @@
-import { MetadataRoute } from 'next'
-import { SUPPORTED_LANGUAGES } from '../../languages'
+import type { MetadataRoute } from 'next'
 import { APP_URL } from '../../constants'
+import { SUPPORTED_LANGUAGES } from '../../languages'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sitemaps = SUPPORTED_LANGUAGES.map((language) => [
+  const sitemaps = SUPPORTED_LANGUAGES.flatMap(language => [
     {
       url: `${APP_URL}/${language.value}/sitemap.xml`,
       changeFrequency: 'weekly' as const,
@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date().toISOString(),
       priority: 1,
     },
-  ]).flatMap((sitemap) => sitemap)
+  ])
 
   return [...sitemaps]
 }

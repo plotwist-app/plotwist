@@ -7,12 +7,12 @@ import { Button } from '@plotwist/ui/components/ui/button'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 
-import type { ListItem } from '@/types/supabase/lists'
 import {
   getGetListItemsByListIdQueryKey,
   useDeleteListItemId,
 } from '@/api/list-item'
 import { APP_QUERY_CLIENT } from '@/context/app'
+import type { ListItem } from '@/types/supabase/lists'
 import { toast } from 'sonner'
 
 type ListItemActionsProps = {
@@ -31,7 +31,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
     <Button
       size="icon"
       className="h-6 w-6"
-      onClick={(event) => {
+      onClick={event => {
         event.stopPropagation()
         event.nativeEvent.preventDefault()
         event.nativeEvent.stopImmediatePropagation()
@@ -48,7 +48,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
 
               toast.success(dictionary.list_item_actions.removed_successfully)
             },
-          },
+          }
         )
       }}
     >

@@ -1,8 +1,8 @@
 'use client'
 
-import { PropsWithChildren, useMemo, useState } from 'react'
-import { useDebounce } from '@uidotdev/usehooks'
 import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@uidotdev/usehooks'
+import { type PropsWithChildren, useMemo, useState } from 'react'
 
 import {
   Command,
@@ -14,14 +14,18 @@ import { Separator } from '@plotwist/ui/components/ui/separator'
 
 import { useLanguage } from '@/context/language'
 
-import { tmdb, MovieWithMediaType, TvSerieWithMediaType } from '@/services/tmdb'
+import {
+  type MovieWithMediaType,
+  type TvSerieWithMediaType,
+  tmdb,
+} from '@/services/tmdb'
 
+import type { MediaType } from '@/types/supabase/media-type'
 import {
   ListCommandMovies,
   ListCommandMoviesSkeleton,
 } from './list-command-movies'
 import { ListCommandTv, ListCommandTvSkeleton } from './list-command-tv'
-import { MediaType } from '@/types/supabase/media-type'
 
 export type ListCommandProps = {
   items: Array<{ tmdbId: number; id: string }>
@@ -57,11 +61,11 @@ export const ListCommand = ({
 
     return {
       movies: results.filter(
-        (result) => result.media_type === 'movie',
+        result => result.media_type === 'movie'
       ) as MovieWithMediaType[],
 
       tv: results.filter(
-        (result) => result.media_type === 'tv',
+        result => result.media_type === 'tv'
       ) as TvSerieWithMediaType[],
     }
   }, [data])
@@ -71,7 +75,9 @@ export const ListCommand = ({
 
   return (
     <>
-      <div onClick={() => setOpen(true)}>{children}</div>
+      <div onClick={() => setOpen(true)} onKeyDown={() => setOpen(true)}>
+        {children}
+      </div>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>

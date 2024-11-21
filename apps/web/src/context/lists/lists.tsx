@@ -1,13 +1,13 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import { ListsContextProviderProps, ListsContextType } from './lists.types'
+import type { ListsContextProviderProps, ListsContextType } from './lists.types'
 
-import { useSession } from '../session'
 import { useGetLists } from '@/api/list'
+import { useSession } from '../session'
 
 export const ListsContext = createContext<ListsContextType>(
-  {} as ListsContextType,
+  {} as ListsContextType
 )
 
 export const ListsContextProvider = ({

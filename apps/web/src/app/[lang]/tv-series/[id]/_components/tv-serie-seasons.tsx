@@ -1,4 +1,4 @@
-import { Season } from '@/services/tmdb'
+import type { Season } from '@/services/tmdb'
 
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
@@ -11,7 +11,7 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 
 import { Poster } from '@/components/poster'
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 
 import { TvSerieSeasonDetails } from './tv-serie-season-details'
 
@@ -85,9 +85,9 @@ export const TvSerieSeasons = ({
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
       {seasons
         .filter(
-          (season) => season.season_number !== 0 && season.episode_count > 0,
+          season => season.season_number !== 0 && season.episode_count > 0
         )
-        .map((season) => (
+        .map(season => (
           <TvSerieSeason
             season={season}
             key={season.id}

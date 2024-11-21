@@ -1,4 +1,8 @@
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { cn } from '@/lib/utils'
 import {
   Accordion,
   AccordionContent,
@@ -10,11 +14,10 @@ import {
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
+  type DrawerProps,
   DrawerTitle,
   DrawerTrigger,
-  DrawerProps,
 } from '@plotwist/ui/components/ui/drawer'
-import { cn } from '@/lib/utils'
 import {
   Copy,
   ExternalLink,
@@ -24,12 +27,9 @@ import {
   Share,
   Twitter,
 } from 'lucide-react'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'
-import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
-import { GetLists200ListsItem } from '@/api/endpoints.schemas'
 
 type PopularListCardDrawerProps = PropsWithChildren &
   DrawerProps & {
@@ -63,10 +63,7 @@ export const PopularListCardDrawer = ({
           </div>
 
           {list.hasLiked ? (
-            <div
-              className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
-              onClick={() => {}}
-            >
+            <div className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground">
               <HeartOff className="mr-2 size-4" />
               {dictionary.remove_like}
             </div>
@@ -74,9 +71,8 @@ export const PopularListCardDrawer = ({
             <div
               className={cn(
                 'flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground',
-                !user && 'pointer-events-none opacity-50',
+                !user && 'pointer-events-none opacity-50'
               )}
-              onClick={() => {}}
             >
               <Heart className="mr-2 size-4" />
               {dictionary.like}
@@ -97,7 +93,10 @@ export const PopularListCardDrawer = ({
                   className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
                   onClick={() => {
                     navigator.clipboard.writeText(`${APP_URL}${href}`)
-
+                    toast.success(dictionary.link_copied_to_clipboard)
+                  }}
+                  onKeyDown={() => {
+                    navigator.clipboard.writeText(`${APP_URL}${href}`)
                     toast.success(dictionary.link_copied_to_clipboard)
                   }}
                 >

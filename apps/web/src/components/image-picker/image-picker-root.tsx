@@ -1,17 +1,17 @@
 'use client'
 
-import { PropsWithChildren, useMemo, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
+import { type PropsWithChildren, useMemo, useState } from 'react'
 
-import { Image } from '@/services/tmdb'
+import type { Image } from '@/services/tmdb'
 
+import { useLanguage } from '@/context/language'
 import { ChevronLeft } from 'lucide-react'
 import {
   ImagePickerInitialList,
   ImagePickerList,
   ImagePickerListResults,
 } from './image-picker-list'
-import { useLanguage } from '@/context/language'
 
 import {
   Dialog,
@@ -39,14 +39,14 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
 
   const { dictionary } = useLanguage()
 
-  const closeModal = () => setOpenDialog(false)
-
   const content = useMemo(() => {
+    const closeModal = () => setOpenDialog(false)
+
     if (selectedItem) {
       return (
         <ImagePickerList
           selectedItem={selectedItem}
-          onSelect={(image) => onSelect(image, closeModal)}
+          onSelect={image => onSelect(image, closeModal)}
         />
       )
     }
@@ -54,7 +54,7 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
     if (debouncedSearch === '') {
       return (
         <ImagePickerInitialList
-          onSelect={(selectedItem) => setSelectedItem(selectedItem)}
+          onSelect={selectedItem => setSelectedItem(selectedItem)}
         />
       )
     }
@@ -63,7 +63,7 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
       return (
         <ImagePickerListResults
           search={debouncedSearch}
-          onSelect={(selectedItem) => setSelectedItem(selectedItem)}
+          onSelect={selectedItem => setSelectedItem(selectedItem)}
         />
       )
     }

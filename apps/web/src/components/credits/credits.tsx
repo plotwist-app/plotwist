@@ -1,7 +1,7 @@
-import { CreditCard } from './credit-card'
-import { getDictionary } from '@/utils/dictionaries'
-import { Language } from '@/types/languages'
 import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import { CreditCard } from './credit-card'
 
 export type CreditsProps = {
   variant: 'movie' | 'tv'
@@ -35,7 +35,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 name={name}
                 role={character}
               />
-            ),
+            )
           )}
         </ul>
       </section>
@@ -57,7 +57,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
                 name={name}
                 role={department}
               />
-            ),
+            )
           )}
         </ul>
       </section>

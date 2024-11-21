@@ -1,14 +1,14 @@
 import { formatDateToURL } from '@/utils/date/format-date-to-url'
-import { MoviesListFiltersFormValues } from '.'
-import { ReadonlyURLSearchParams } from 'next/navigation'
+import type { ReadonlyURLSearchParams } from 'next/navigation'
+import type { MoviesListFiltersFormValues } from '.'
 
 export const formatValueForQueryString = (
   key: string,
-  value: Date | string,
+  value: Date | string
 ): string => {
   if (value instanceof Date) {
     return `${encodeURIComponent(key)}=${encodeURIComponent(
-      formatDateToURL(value),
+      formatDateToURL(value)
     )}`
   }
 
@@ -16,7 +16,7 @@ export const formatValueForQueryString = (
 }
 
 export const buildQueryStringFromValues = (
-  values: MoviesListFiltersFormValues,
+  values: MoviesListFiltersFormValues
 ): string => {
   const parts: string[] = []
 

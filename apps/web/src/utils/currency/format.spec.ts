@@ -1,6 +1,6 @@
+import type { Language } from '@/types/languages'
 import { expect, test } from 'vitest'
 import { formatCurrency } from './format'
-import { Language } from '@/types/languages'
 
 test('formatCurrency should format the amount in USD currency (default language)', () => {
   const amount = 1234567.89
@@ -25,7 +25,7 @@ test.each([
       .replaceAll(/\u202f/g, ' ')
 
     expect(formattedResult).toBe(expected)
-  },
+  }
 )
 
 test('formatCurrency should handle decimal values correctly (default language)', () => {

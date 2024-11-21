@@ -32,6 +32,7 @@ export const Globe = () => {
     }
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     let phi = 0
 
@@ -59,7 +60,7 @@ export const Globe = () => {
           { location: [35.6895, 139.6917], size: 0.07 },
         ],
         opacity: 0.8,
-        onRender: (state) => {
+        onRender: state => {
           state.phi = phi
           phi += 0.01
         },

@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Language } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
+import { tmdb } from '@/services/tmdb'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
 import { cn } from '@plotwist/ui/lib/utils'
-import { tmdb } from '@/services/tmdb'
 
 type TopMoviesProps = { language: Language }
 
@@ -31,7 +31,7 @@ export const TopMovies = async ({ language }: TopMoviesProps) => {
 
               'last:translate-x-[-60px] last:translate-y-[30px] last:rotate-[10deg] lg:last:translate-x-[-120px] lg:last:translate-y-[75px] lg:last:rotate-[10deg] ',
 
-              '[&:nth-child(2)]:z-40',
+              '[&:nth-child(2)]:z-40'
             )}
             href={`/${language}/movies/${movie.id}`}
             key={movie.id}

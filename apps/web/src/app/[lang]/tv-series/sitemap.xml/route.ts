@@ -1,5 +1,5 @@
+import type { Language } from '@/services/tmdb'
 import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
-import { Language } from '@/services/tmdb'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export async function GET(request: Request) {
@@ -13,13 +13,14 @@ export async function GET(request: Request) {
   const xmlPromise = streamToPromise(sitemapStream)
 
   const tvSeriesIds = await getTvSeriesIds()
-  tvSeriesIds.forEach((id) => {
+
+  for (const tvSerieId of tvSeriesIds) {
     sitemapStream.write({
-      url: `/${language}/tv-series/${id}`,
+      url: `/${language}/tv-series/${tvSerieId}`,
       changefreq: 'weekly',
       lastmodISO: new Date().toISOString(),
     })
-  })
+  }
 
   sitemapStream.end()
   const xml = await xmlPromise

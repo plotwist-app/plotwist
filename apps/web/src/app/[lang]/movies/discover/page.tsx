@@ -1,8 +1,8 @@
-import { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { MoviesListFilters } from '@/components/movies-list-filters'
 import { MovieList } from '@/components/movie-list'
-import { Metadata } from 'next'
+import { MoviesListFilters } from '@/components/movies-list-filters'
+import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
+import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata({

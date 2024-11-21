@@ -1,8 +1,8 @@
+import { useLanguage } from '@/context/language'
+import { type DiscoverMovieFilters, tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
-import { useLanguage } from '@/context/language'
-import { MovieListVariant } from './movie-list.types'
-import { DiscoverMovieFilters, tmdb } from '@/services/tmdb'
+import type { MovieListVariant } from './movie-list.types'
 
 const INITIAL_PAGE = 1
 
@@ -30,7 +30,7 @@ export const useMovieListQuery = (variant: MovieListVariant) => {
       variant === 'discover'
         ? tmdb.movies.discover({ filters, language, page: pageParam })
         : tmdb.movies.list({ language, list: variant, page: pageParam }),
-    getNextPageParam: (lastPage) => lastPage.page + 1,
+    getNextPageParam: lastPage => lastPage.page + 1,
     initialPageParam: INITIAL_PAGE,
   })
 }

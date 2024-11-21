@@ -1,46 +1,49 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import { Episode, SeasonDetails } from '@/services/tmdb'
+import type {
+  GetUserEpisodes200Item,
+  GetUserItem200,
+} from '@/api/endpoints.schemas'
 import {
-  AccordionContent,
+  useDeleteUserEpisodes,
+  useGetUserEpisodesSuspense,
+  usePostUserEpisodes,
+} from '@/api/user-episodes'
+import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
+import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import type { Episode, SeasonDetails } from '@/services/tmdb'
+import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionPrimitive,
 } from '@plotwist/ui/components/ui/accordion'
+import { Button } from '@plotwist/ui/components/ui/button'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
-import { Progress } from '@plotwist/ui/components/ui/progress'
-import { isBefore } from 'date-fns'
-import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
-import { useEffect, useRef } from 'react'
-import { ConfettiButton } from '@plotwist/ui/components/ui/confetti'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { Separator } from '@plotwist/ui/components/ui/separator'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Drawer,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import { useLanguage } from '@/context/language'
-import { Button } from '@plotwist/ui/components/ui/button'
-import {
-  useDeleteUserEpisodes,
-  useGetUserEpisodesSuspense,
-  usePostUserEpisodes,
-} from '@/api/user-episodes'
-import { APP_QUERY_CLIENT } from '@/context/app'
-import { GetUserEpisodes200Item, GetUserItem200 } from '@/api/endpoints.schemas'
-import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
-import { useSession } from '@/context/session'
-import { ProFeatureTooltip } from '@/components/pro-feature-tooltip'
+import { Progress } from '@plotwist/ui/components/ui/progress'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { isBefore } from 'date-fns'
+import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
@@ -72,13 +75,13 @@ export function TvSeriesProgress({
 
   const totalEpisodes = seasonsDetails.reduce(
     (acc, current) => acc + current.episodes.length,
-    0,
+    0
   )
   const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
   function findUserEpisode(episode: Episode) {
-    return userEpisodes.find((userEpisode) => {
+    return userEpisodes.find(userEpisode => {
       return (
         userEpisode.seasonNumber === episode.season_number &&
         userEpisode.episodeNumber === episode.episode_number
@@ -87,15 +90,15 @@ export function TvSeriesProgress({
   }
 
   async function handleToggleSeason(episodes: Episode[]) {
-    const allWatched = episodes.every((episode) => findUserEpisode(episode))
+    const allWatched = episodes.every(episode => findUserEpisode(episode))
 
     if (allWatched) {
       const toDelete = episodes
-        .map((episode) => {
+        .map(episode => {
           const userEpisode = findUserEpisode(episode)
           return userEpisode?.id
         })
-        .filter((id) => id !== undefined)
+        .filter(id => id !== undefined)
 
       if (toDelete.length > 0) {
         await deleteUserEpisode.mutateAsync(
@@ -108,45 +111,45 @@ export function TvSeriesProgress({
                 queryKey,
                 (userEpisodes: GetUserEpisodes200Item[]) => {
                   return userEpisodes.filter(
-                    (userEpisode) =>
+                    userEpisode =>
                       !episodes.some(
-                        (episode) =>
+                        episode =>
                           userEpisode.seasonNumber === episode.season_number &&
-                          userEpisode.episodeNumber === episode.episode_number,
-                      ),
+                          userEpisode.episodeNumber === episode.episode_number
+                      )
                   )
-                },
+                }
               )
             },
-          },
+          }
         )
       }
 
       return
     }
 
-    const toCreate = episodes.filter((episode) => !findUserEpisode(episode))
+    const toCreate = episodes.filter(episode => !findUserEpisode(episode))
     if (toCreate.length > 0) {
       await createUserEpisode.mutateAsync(
         {
-          data: toCreate.map((episode) => ({
+          data: toCreate.map(episode => ({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
           })),
         },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             if (response) {
               APP_QUERY_CLIENT.setQueryData(
                 queryKey,
                 (userEpisodes: GetUserEpisodes200Item[]) => {
                   return [...userEpisodes, ...response]
-                },
+                }
               )
             }
           },
-        },
+        }
       )
     }
   }
@@ -164,13 +167,11 @@ export function TvSeriesProgress({
             APP_QUERY_CLIENT.setQueryData(
               queryKey,
               (userEpisodes: GetUserEpisodes200Item[]) => {
-                return userEpisodes.filter(
-                  (userEpisode) => userEpisode.id !== id,
-                )
-              },
+                return userEpisodes.filter(userEpisode => userEpisode.id !== id)
+              }
             )
           },
-        },
+        }
       )
     }
 
@@ -185,17 +186,17 @@ export function TvSeriesProgress({
         ],
       },
       {
-        onSuccess: (response) => {
+        onSuccess: response => {
           if (response) {
             APP_QUERY_CLIENT.setQueryData(
               queryKey,
               (userEpisodes: GetUserEpisodes200Item[]) => {
                 return [...userEpisodes, ...response]
-              },
+              }
             )
           }
         },
-      },
+      }
     )
   }
 
@@ -215,12 +216,12 @@ export function TvSeriesProgress({
                       status: 'WATCHED',
                     },
                   }
-                },
+                }
               )
 
               confettiButtonRef.current?.click()
             },
-          },
+          }
         )
       }
     }
@@ -241,14 +242,15 @@ export function TvSeriesProgress({
                     status: 'WATCHING',
                   },
                 }
-              },
+              }
             )
           },
-        },
+        }
       )
     }
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     updateUserItemStatus()
   }, [watchedCount, totalEpisodes])
@@ -293,13 +295,13 @@ export function TvSeriesProgress({
 
       <ScrollArea className="h-[50vh] scroll-y-auto px-4">
         <Accordion type="single" collapsible>
-          {seasonsDetails.map((season) => {
-            const releasedEpisodes = season.episodes.filter((e) =>
-              isBefore(new Date(e.air_date), new Date()),
+          {seasonsDetails.map(season => {
+            const releasedEpisodes = season.episodes.filter(e =>
+              isBefore(new Date(e.air_date), new Date())
             )
 
-            const allReleasedWatched = releasedEpisodes.every((episode) =>
-              Boolean(findUserEpisode(episode)),
+            const allReleasedWatched = releasedEpisodes.every(episode =>
+              Boolean(findUserEpisode(episode))
             )
 
             return (
@@ -326,7 +328,7 @@ export function TvSeriesProgress({
 
                 <AccordionContent>
                   <ul className="space-y-4 pl-6">
-                    {season.episodes.map((episode) => {
+                    {season.episodes.map(episode => {
                       const {
                         id,
                         episode_number: number,
@@ -344,7 +346,7 @@ export function TvSeriesProgress({
                         <li
                           className={cn(
                             'flex items-center space-x-2',
-                            isDisabled && 'opacity-50',
+                            isDisabled && 'opacity-50'
                           )}
                           key={episodeId}
                         >
@@ -358,8 +360,8 @@ export function TvSeriesProgress({
                           <label
                             htmlFor={episodeId}
                             className={cn(
-                              `flex-grow cursor-pointer`,
-                              isWatched && 'line-through',
+                              'flex-grow cursor-pointer',
+                              isWatched && 'line-through'
                             )}
                           >
                             {number}. {name}
@@ -401,7 +403,11 @@ export function TvSeriesProgress({
             {dictionary.update_progress}
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-0 max-w-lg" aria-describedby="">
+
+        <DialogContent
+          className="p-0 max-w-lg"
+          aria-describedby={dictionary.update_progress}
+        >
           {content}
         </DialogContent>
       </Dialog>

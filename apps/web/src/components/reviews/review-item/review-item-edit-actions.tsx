@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { toast } from 'sonner'
-import { DialogProps } from '@radix-ui/react-dialog'
-import { MoreVertical, Pencil, Trash } from 'lucide-react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { DialogProps } from '@radix-ui/react-dialog'
+import { MoreVertical, Pencil, Trash } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { Button } from '@plotwist/ui/components/ui/button'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 import {
   Dialog,
   DialogClose,
@@ -21,13 +22,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { Label } from '@plotwist/ui/components/ui/label'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Form,
   FormControl,
@@ -37,14 +37,14 @@ import {
 } from '@plotwist/ui/components/ui/form'
 import { ReviewStars } from '../review-stars'
 
-import { ReviewFormValues, reviewFormSchema } from '../review-form'
-import { ReviewItemProps } from './review-item'
 import {
   getGetReviewsQueryKey,
   useDeleteReviewById,
   usePutReviewById,
 } from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
+import { type ReviewFormValues, reviewFormSchema } from '../review-form'
+import type { ReviewItemProps } from './review-item'
 
 export const ReviewItemEditActions = ({
   review,
@@ -115,7 +115,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
             dialogProps.onOpenChange(false)
           }
         },
-      },
+      }
     )
   }
 
@@ -190,7 +190,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
             dialogProps.onOpenChange(false)
           }
         },
-      },
+      }
     )
   }
 

@@ -11,11 +11,11 @@ import {
   SelectTrigger,
 } from '@plotwist/ui/components/ui/select'
 
-import { usePathname, useRouter } from 'next/navigation'
-import { Language } from '@/services/tmdb'
-import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '@/context/language'
+import type { Language } from '@/services/tmdb'
 import { cn } from '@plotwist/ui/lib/utils'
+import { usePathname, useRouter } from 'next/navigation'
+import ReactCountryFlag from 'react-country-flag'
 
 export const HeaderNavigationDrawerConfigs = () => {
   const { setTheme, theme } = useTheme()
@@ -29,7 +29,7 @@ export const HeaderNavigationDrawerConfigs = () => {
   const handleRedirectLanguageChange = (language: Language) => {
     const paramsArray = pathname.split('/')
     const newParamsArray = paramsArray.map((param, index) =>
-      index === 1 ? language : param,
+      index === 1 ? language : param
     )
 
     const newPathname = newParamsArray.join('/')
@@ -37,7 +37,7 @@ export const HeaderNavigationDrawerConfigs = () => {
   }
 
   const currentLanguageOption = SUPPORTED_LANGUAGES.find(
-    (lang) => lang.value === language,
+    lang => lang.value === language
   )
 
   return (
@@ -46,7 +46,7 @@ export const HeaderNavigationDrawerConfigs = () => {
         <span className="">{dictionary.theme}</span>
 
         <div className="-mr-1.5 flex rounded-full border">
-          {themes.map((i) => {
+          {themes.map(i => {
             const isActive = theme === i
 
             return (
@@ -54,9 +54,10 @@ export const HeaderNavigationDrawerConfigs = () => {
                 className={cn(
                   'hover:t cursor-pointer rounded-full p-1  transition-all hover:text-foreground',
                   isActive &&
-                    'border-x text-foreground first:border-r last:border-l',
+                    'border-x text-foreground first:border-r last:border-l'
                 )}
                 onClick={() => setTheme(i)}
+                onKeyDown={() => setTheme(i)}
                 key={i}
               >
                 {i === 'light' ? (
@@ -75,7 +76,7 @@ export const HeaderNavigationDrawerConfigs = () => {
 
         <div>
           <Select
-            onValueChange={(value) =>
+            onValueChange={value =>
               handleRedirectLanguageChange(value as Language)
             }
           >
