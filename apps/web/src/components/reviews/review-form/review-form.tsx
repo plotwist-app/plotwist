@@ -33,6 +33,7 @@ import { Label } from '@plotwist/ui/components/ui/label'
 import Link from 'next/link'
 import type { ReviewsProps } from '..'
 import { ReviewStars } from '../review-stars'
+import { getGetUserItemQueryKey, usePutUserItem } from '@/api/user-items'
 
 export const reviewFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -50,6 +51,7 @@ export type ReviewFormValues = z.infer<ReturnType<typeof reviewFormSchema>>
 
 export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
   const postReview = usePostReview()
+  const putUserItem = usePutUserItem()
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
 
@@ -96,6 +98,27 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
       {
         onSettled: async () => {
+          await putUserItem.mutateAsync(
+            {
+              data: {
+                mediaType,
+                tmdbId: tmdbItem.id,
+                status: 'WATCHED',
+              },
+            },
+            {
+              onSettled: response => {
+                APP_QUERY_CLIENT.setQueryData(
+                  getGetUserItemQueryKey({
+                    mediaType,
+                    tmdbId: String(tmdbItem.id),
+                  }),
+                  response
+                )
+              },
+            }
+          )
+
           await APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
               language,
