@@ -2,8 +2,29 @@
 
 import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import { Button } from '@plotwist/ui/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@plotwist/ui/components/ui/dropdown-menu'
 import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
-import { Activity, Check, Clock, List, Loader, Star } from 'lucide-react'
+import {
+  Activity,
+  Check,
+  Clock,
+  List,
+  Loader,
+  MoreVertical,
+  Star,
+  Trophy,
+  BarChart,
+  Share,
+  Forward,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
@@ -15,6 +36,7 @@ type ProfileTabsProps = {
 export const ProfileTabs = ({ user }: ProfileTabsProps) => {
   const { dictionary, language } = useLanguage()
   const pathname = usePathname()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const value = useMemo(() => {
     if (pathname.split('/').length === 3) {
@@ -23,6 +45,33 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
     return pathname.split('/')[3]
   }, [pathname])
+
+  const HIDDEN_TABS = [
+    {
+      label: dictionary.profile.reviews,
+      path: 'reviews',
+      icon: <Star className="mr-1" size={12} />,
+      disabled: false,
+    },
+    {
+      label: dictionary.profile.achievements,
+      path: 'achievements',
+      icon: <Trophy className="mr-1" size={12} />,
+      disabled: true,
+    },
+    {
+      label: dictionary.profile.recommendations,
+      path: 'recommendations',
+      icon: <Forward className="mr-1" size={12} />,
+      disabled: true,
+    },
+    {
+      label: dictionary.stats,
+      path: 'stats',
+      icon: <BarChart className="mr-1" size={12} />,
+      disabled: true,
+    },
+  ]
 
   return (
     <Tabs defaultValue="activity" value={value} className="w-full">
@@ -63,23 +112,53 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             </Link>
           </TabsTrigger>
 
-          <TabsTrigger value="reviews" asChild>
-            <Link href={`/${language}/${user.username}/reviews`}>
-              <Star className="mr-1" size={12} />
-              {dictionary.profile.reviews}
-            </Link>
-          </TabsTrigger>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className="hidden items-center text-sm justify-center whitespace-nowrap rounded-md px-3 py-1 font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:flex">
+                <MoreVertical size={12} />
+                {dictionary.more}
+              </div>
+            </DropdownMenuTrigger>
 
-          {/* <TabsTrigger value="achievements" disabled>
-            <Award className="mr-1" size={12} />
+            <DropdownMenuContent>
+              {HIDDEN_TABS.map(tab => (
+                <DropdownMenuItem
+                  asChild
+                  className={cn(value.includes(tab.path) && 'bg-muted')}
+                  key={tab.label}
+                  disabled={tab.disabled}
+                >
+                  <Link
+                    href={`/${language}/${user.username}/${tab.path}`}
+                    className="w-full"
+                  >
+                    {tab.icon}
+                    {tab.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-            {dictionary.profile.achievements}
-          </TabsTrigger>
-
-          <TabsTrigger value="achievements" disabled>
-            <BarChartHorizontalBig className="mr-1" size={12} />
-            {dictionary.stats}
-          </TabsTrigger> */}
+          {HIDDEN_TABS.map(tab => (
+            <TabsTrigger
+              value={tab.label}
+              key={tab.label}
+              disabled={tab.disabled}
+              asChild
+            >
+              <Link
+                href={`/${language}/${user.username}/${tab.path}`}
+                className={cn(
+                  'w-full flex lg:hidden',
+                  tab.disabled && 'opacity-50 pointer-events-none'
+                )}
+              >
+                {tab.icon}
+                {tab.label}
+              </Link>
+            </TabsTrigger>
+          ))}
         </TabsList>
       </div>
     </Tabs>

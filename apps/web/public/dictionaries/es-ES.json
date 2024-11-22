@@ -724,5 +724,6 @@
   "when_you_mark_all_episodes": "Al marcar todos los episodios como vistos, la serie/anime se actualizará automáticamente al estado de",
   "update_progress": "Actualizar progreso",
   "update_status": "Actualizar estado",
-  "feature_only_in_pro_plan": "Esta funcionalidad está disponible solo en el Plan PRO."
+  "feature_only_in_pro_plan": "Esta funcionalidad está disponible solo en el Plan PRO.",
+  "more": "Ver más"
 }
