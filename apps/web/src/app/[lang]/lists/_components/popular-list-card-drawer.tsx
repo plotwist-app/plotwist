@@ -30,6 +30,7 @@ import {
 import type { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'
+import Link from 'next/link'
 
 type PopularListCardDrawerProps = PropsWithChildren &
   DrawerProps & {
@@ -57,11 +58,15 @@ export const PopularListCardDrawer = ({
         </DrawerHeader>
 
         <div className="space-y-1 p-4">
-          <div className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground">
+          <Link
+            className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
+            href={href}
+          >
             <ExternalLink className="mr-2 size-4" />
             {dictionary.visit}
-          </div>
+          </Link>
 
+          {/* 
           {list.hasLiked ? (
             <div className="flex cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground">
               <HeartOff className="mr-2 size-4" />
@@ -77,7 +82,7 @@ export const PopularListCardDrawer = ({
               <Heart className="mr-2 size-4" />
               {dictionary.like}
             </div>
-          )}
+          )} */}
 
           <Accordion type="multiple">
             <AccordionItem value="share" className="border-none">
