@@ -105,40 +105,58 @@ export const Pricing = () => {
               </Button>
             </Price.Root>
 
-            {user ? (
-              <form
-                action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}&redirect=checkout`}
-                method="POST"
-              >
-                <Price.Root>
-                  <Price.Content>
-                    <Price.Header>
-                      <Price.Label>
-                        {dictionary.home_prices.pro_plan.title}
-                      </Price.Label>
+            <Price.Root className="relative">
+              <BorderBeam
+                duration={8}
+                delay={9}
+                colorFrom="#fff"
+                colorTo="#fff"
+                className="hidden dark:block"
+              />
 
-                      <Price.Value className="flex items-center gap-2">
-                        {dictionary.home_prices.pro_plan.price}
-                        <Badge variant="outline">
-                          {dictionary.home_prices.pro_plan.recommended}
-                        </Badge>
-                      </Price.Value>
+              <BorderBeam
+                duration={8}
+                delay={9}
+                colorFrom="#000"
+                colorTo="#000"
+                className="block dark:hidden"
+              />
 
-                      <Price.Description>
-                        {dictionary.home_prices.pro_plan.description}
-                      </Price.Description>
-                    </Price.Header>
+              <Price.Content>
+                <Price.Header>
+                  <Price.Label>
+                    {dictionary.home_prices.pro_plan.title}
+                  </Price.Label>
 
-                    <Price.Benefits>
-                      {dictionary.home_prices.pro_plan.benefits.map(benefit => (
-                        <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
-                      ))}
-                    </Price.Benefits>
-                  </Price.Content>
+                  <Price.Value className="flex items-center gap-2">
+                    {dictionary.home_prices.pro_plan.price}
+                    <Badge variant="outline">
+                      {dictionary.home_prices.pro_plan.recommended}
+                    </Badge>
+                  </Price.Value>
 
+                  <Price.Description>
+                    {dictionary.home_prices.pro_plan.description}
+                  </Price.Description>
+                </Price.Header>
+
+                <Price.Benefits>
+                  {dictionary.home_prices.pro_plan.benefits.map(benefit => (
+                    <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
+                  ))}
+                </Price.Benefits>
+              </Price.Content>
+
+              {user ? (
+                <form
+                  action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}&redirect=checkout`}
+                  method="POST"
+                  className="w-full"
+                >
                   <Button
                     type={user.subscriptionType === 'PRO' ? 'button' : 'submit'}
                     disabled={user.subscriptionType !== 'MEMBER'}
+                    className="w-full"
                   >
                     <TooltipProvider>
                       <Tooltip>
@@ -166,58 +184,15 @@ export const Pricing = () => {
                       ? dictionary.get_one_month_free
                       : dictionary.already_in_pro}
                   </Button>
-                </Price.Root>
-              </form>
-            ) : (
-              <Price.Root className="relative">
-                <BorderBeam
-                  duration={8}
-                  delay={9}
-                  colorFrom="#fff"
-                  colorTo="#fff"
-                  className="hidden dark:block"
-                />
-
-                <BorderBeam
-                  duration={8}
-                  delay={9}
-                  colorFrom="#000"
-                  colorTo="#000"
-                  className="block dark:hidden"
-                />
-
-                <Price.Content>
-                  <Price.Header>
-                    <Price.Label>
-                      {dictionary.home_prices.pro_plan.title}
-                    </Price.Label>
-
-                    <Price.Value className="flex items-center gap-2">
-                      {dictionary.home_prices.pro_plan.price}
-                      <Badge variant="outline">
-                        {dictionary.home_prices.pro_plan.recommended}
-                      </Badge>
-                    </Price.Value>
-
-                    <Price.Description>
-                      {dictionary.home_prices.pro_plan.description}
-                    </Price.Description>
-                  </Price.Header>
-
-                  <Price.Benefits>
-                    {dictionary.home_prices.pro_plan.benefits.map(benefit => (
-                      <Price.Benefit key={benefit}>{benefit}</Price.Benefit>
-                    ))}
-                  </Price.Benefits>
-                </Price.Content>
-
+                </form>
+              ) : (
                 <Button asChild type="button">
                   <Link href={`/${language}/sign-up?redirect=checkout`}>
                     {dictionary.get_one_month_free}
                   </Link>
                 </Button>
-              </Price.Root>
-            )}
+              )}
+            </Price.Root>
           </ol>
         </div>
       </section>

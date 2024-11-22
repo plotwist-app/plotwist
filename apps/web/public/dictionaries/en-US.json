@@ -10,12 +10,12 @@
     "free_plan": {
       "title": "Free",
       "price": "$0/month",
-      "description": "Discover movies and series and easily manage your personalized watchlist.",
+      "description": "Explore movies and series and manage your content.",
       "benefits": [
         "Full access to the platform",
-        "Unlimited ratings to share your opinions",
-        "Unlimited creation and customization of lists",
-        "Comprehensive tools to organize and manage what you’ve watched, are watching, or plan to watch"
+        "Unlimited ratings",
+        "Unlimited lists",
+        "Tools to manage your watched, watching, or watchlist content"
       ],
       "start_now": "Start Now!"
     },
@@ -25,9 +25,12 @@
       "recommended": "Recommended",
       "description": "Everything in the free plan and much more!",
       "benefits": [
-        "Recommendations based on your taste",
-        "Advanced personalization",
-        "Achievements and badges"
+        "Personalized recommendations based on your history",
+        "Badges and achievements",
+        "Collaborative lists",
+        "Recommend content to friends",
+        "Detailed personal statistics",
+        "Priority access to new platform features"
       ],
       "subscribe": "Subscribe"
     }

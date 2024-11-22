@@ -10,12 +10,12 @@
     "free_plan": {
       "title": "Kostenlos",
       "price": "0 €/Monat",
-      "description": "Entdecken Sie Filme und Serien und verwalten Sie ganz einfach Ihre persönliche Watchlist.",
+      "description": "Entdecken Sie Filme und Serien und verwalten Sie Ihre Inhalte.",
       "benefits": [
         "Voller Zugriff auf die Plattform",
-        "Unbegrenzte Bewertungen, um Ihre Meinungen zu teilen",
-        "Unbegrenztes Erstellen und Anpassen von Listen",
-        "Umfassende Tools zur Organisation und Verwaltung dessen, was Sie gesehen haben, sehen oder noch sehen möchten"
+        "Unbegrenzte Bewertungen",
+        "Unbegrenzte Listen",
+        "Tools zur Verwaltung Ihrer gesehenen, laufenden oder geplanten Inhalte"
       ],
       "start_now": "Jetzt starten!"
     },
@@ -25,9 +25,12 @@
       "recommended": "Empfohlen",
       "description": "Alles im kostenlosen Plan und noch viel mehr!",
       "benefits": [
-        "Persönliche Empfehlungen basierend auf Ihrem Geschmack und Ihrer Historie",
-        "Erweiterte Personalisierung",
-        "Auszeichnungen und Abzeichen"
+        "Personalisierte Empfehlungen basierend auf dem Verlauf",
+        "Abzeichen und Erfolge",
+        "Kollaborative Listen",
+        "Inhalte an Freunde weiterempfehlen",
+        "Detaillierte persönliche Statistiken",
+        "Bevorzugter Zugang zu neuen Plattformfunktionen"
       ],
       "subscribe": "Abonnieren"
     }

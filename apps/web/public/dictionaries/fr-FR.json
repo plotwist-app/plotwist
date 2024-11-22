@@ -10,12 +10,12 @@
     "free_plan": {
       "title": "Gratuit",
       "price": "0 €/mois",
-      "description": "Découvrez des films et des séries et gérez facilement votre liste personnalisée de contenus à regarder.",
+      "description": "Explorez des films et séries et gérez vos contenus.",
       "benefits": [
         "Accès complet à la plateforme",
-        "Avis illimités pour partager vos opinions",
-        "Création et personnalisation illimitées de listes",
-        "Outils complets pour organiser et gérer ce que vous avez regardé, regardez ou prévoyez de regarder"
+        "Avis illimités",
+        "Listes sans limites",
+        "Outils pour gérer vos contenus regardés, en cours ou prévus"
       ],
       "start_now": "Commencez maintenant!"
     },
@@ -23,11 +23,14 @@
       "title": "Pro",
       "price": "5 €/mois",
       "recommended": "Recommandé",
-      "description": "Tout dans le plan gratuit et bien plus encore!",
+      "description": "Tout dans le plan gratuit et bien plus encore !",
       "benefits": [
-        "Recommandations personnelles basées sur vos goûts et votre historique",
-        "Personnalisation avancée",
-        "Réalisations et badges"
+        "Recommandations personnalisées basées sur votre historique",
+        "Badges et réalisations",
+        "Listes collaboratives",
+        "Recommander des contenus à des amis",
+        "Statistiques personnelles détaillées",
+        "Accès prioritaire aux nouvelles fonctionnalités de la plateforme"
       ],
       "subscribe": "S'abonner"
     }
