@@ -15,7 +15,9 @@
         "Acceso completo a la plataforma",
         "Valoraciones ilimitadas",
         "Listas sin límites",
-        "Herramientas para gestionar tus contenidos vistos, en progreso o planeados"
+        "Herramientas para gestionar tus contenidos vistos, en progreso o planeados",
+        "Listas colaborativas",
+        "Recomendar contenido a amigos"
       ],
       "start_now": "¡Empieza ahora!"
     },
@@ -27,12 +29,10 @@
       "benefits": [
         "Recomendaciones personalizadas basadas en tu historial",
         "Distintivos y logros",
-        "Listas colaborativas",
-        "Recomendar contenido a amigos",
         "Estadísticas personales detalladas",
         "Acceso prioritario a nuevas funciones de la plataforma"
       ],
-      "subscribe": "Suscribirse"
+      "subscribe": "Suscríbete"
     }
   },
   "movies_list": {

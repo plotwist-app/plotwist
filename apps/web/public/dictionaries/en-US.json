@@ -15,7 +15,9 @@
         "Full access to the platform",
         "Unlimited ratings",
         "Unlimited lists",
-        "Tools to manage your watched, watching, or watchlist content"
+        "Tools to manage your watched, watching, or planned content",
+        "Collaborative lists",
+        "Recommend content to friends"
       ],
       "start_now": "Start Now!"
     },
@@ -27,8 +29,6 @@
       "benefits": [
         "Personalized recommendations based on your history",
         "Badges and achievements",
-        "Collaborative lists",
-        "Recommend content to friends",
         "Detailed personal statistics",
         "Priority access to new platform features"
       ],

@@ -15,20 +15,20 @@
         "Voller Zugriff auf die Plattform",
         "Unbegrenzte Bewertungen",
         "Unbegrenzte Listen",
-        "Tools zur Verwaltung Ihrer gesehenen, laufenden oder geplanten Inhalte"
+        "Tools zur Verwaltung Ihrer gesehenen, laufenden oder geplanten Inhalte",
+        "Kollaborative Listen",
+        "Inhalte an Freunde weiterempfehlen"
       ],
       "start_now": "Jetzt starten!"
     },
     "pro_plan": {
-      "title": "Profi",
+      "title": "Pro",
       "price": "5 €/Monat",
       "recommended": "Empfohlen",
       "description": "Alles im kostenlosen Plan und noch viel mehr!",
       "benefits": [
         "Personalisierte Empfehlungen basierend auf dem Verlauf",
         "Abzeichen und Erfolge",
-        "Kollaborative Listen",
-        "Inhalte an Freunde weiterempfehlen",
         "Detaillierte persönliche Statistiken",
         "Bevorzugter Zugang zu neuen Plattformfunktionen"
       ],

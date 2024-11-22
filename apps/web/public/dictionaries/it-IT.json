@@ -8,14 +8,16 @@
     "monthly": "Mensile",
     "yearly": "Annuale",
     "free_plan": {
-      "title": "Gratuito",
+      "title": "Gratis",
       "price": "0 €/mese",
-      "description": "Esplora film e serie e gestisci i tuoi contenuti.",
+      "description": "Scopri film e serie e gestisci i tuoi contenuti.",
       "benefits": [
         "Accesso completo alla piattaforma",
         "Valutazioni illimitate",
         "Liste senza limiti",
-        "Strumenti per gestire i tuoi contenuti visti, in corso o pianificati"
+        "Strumenti per gestire i tuoi contenuti visti, in corso o pianificati",
+        "Liste collaborative",
+        "Consigliare contenuti agli amici"
       ],
       "start_now": "Inizia ora!"
     },
@@ -27,12 +29,10 @@
       "benefits": [
         "Raccomandazioni personalizzate basate sulla cronologia",
         "Distintivi e risultati",
-        "Liste collaborative",
-        "Consigliare contenuti agli amici",
         "Statistiche personali dettagliate",
         "Accesso prioritario alle nuove funzionalità della piattaforma"
       ],
-      "subscribe": "Iscriviti"
+      "subscribe": "Abbonati"
     }
   },
   "movies_list": {

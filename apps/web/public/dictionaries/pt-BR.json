@@ -15,7 +15,9 @@
         "Acesso total à plataforma",
         "Avaliações ilimitadas",
         "Listas sem limites.",
-        "Ferramentas para gerenciar seus conteúdos assistidos, em andamento ou planejados."
+        "Ferramentas para gerenciar seus conteúdos assistidos, em andamento ou planejados.",
+        "Listas colaborativas",
+        "Recomendar conteúdos a amigos"
       ],
       "start_now": "Comece agora!"
     },
@@ -27,8 +29,6 @@
       "benefits": [
         "Recomendações pessoais baseadas no histórico",
         "Distintivos e conquistas",
-        "Listas colaborativas",
-        "Recomendar conteúdos a amigos",
         "Estatísticas pessoais detalhada",
         "Acesso prioritário a novas funcionalidades da plataforma"
       ],

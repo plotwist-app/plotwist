@@ -44,13 +44,13 @@ const PriceDescription = (props: PriceDescriptionProps) => {
 
 type PriceBenefitsProps = ComponentProps<'ul'>
 const PriceBenefits = (props: PriceBenefitsProps) => {
-  return <ul className="space-y-4" {...props} />
+  return <ul className="space-y-3" {...props} />
 }
 
 type PriceBenefitProps = ComponentProps<'li'>
 const PriceBenefit = ({ className, children, ...props }: PriceBenefitProps) => {
   return (
-    <li className={cn('flex items-center gap-3', className)} {...props}>
+    <li className={cn('flex items-center gap-4', className)} {...props}>
       <div className="flex h-5 w-5 items-center justify-center rounded-md bg-muted p-1 border">
         <Check className="w-3" />
       </div>

@@ -15,9 +15,11 @@
         "Accès complet à la plateforme",
         "Avis illimités",
         "Listes sans limites",
-        "Outils pour gérer vos contenus regardés, en cours ou prévus"
+        "Outils pour gérer vos contenus regardés, en cours ou prévus",
+        "Listes collaboratives",
+        "Recommander des contenus à des amis"
       ],
-      "start_now": "Commencez maintenant!"
+      "start_now": "Commencez maintenant !"
     },
     "pro_plan": {
       "title": "Pro",
@@ -27,12 +29,10 @@
       "benefits": [
         "Recommandations personnalisées basées sur votre historique",
         "Badges et réalisations",
-        "Listes collaboratives",
-        "Recommander des contenus à des amis",
         "Statistiques personnelles détaillées",
         "Accès prioritaire aux nouvelles fonctionnalités de la plateforme"
       ],
-      "subscribe": "S'abonner"
+      "subscribe": "Abonnez-vous"
     }
   },
   "movies_list": {
