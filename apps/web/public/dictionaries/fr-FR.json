@@ -10,11 +10,12 @@
     "free_plan": {
       "title": "Gratuit",
       "price": "0 €/mois",
-      "description": "Explorez des films et créez votre liste de surveillance personnelle.",
+      "description": "Découvrez des films et des séries et gérez facilement votre liste personnalisée de contenus à regarder.",
       "benefits": [
         "Accès complet à la plateforme",
-        "Évaluations illimitées",
-        "Une liste personnelle"
+        "Avis illimités pour partager vos opinions",
+        "Création et personnalisation illimitées de listes",
+        "Outils complets pour organiser et gérer ce que vous avez regardé, regardez ou prévoyez de regarder"
       ],
       "start_now": "Commencez maintenant!"
     },
@@ -24,9 +25,7 @@
       "recommended": "Recommandé",
       "description": "Tout dans le plan gratuit et bien plus encore!",
       "benefits": [
-        "Outils d'organisation et de contrôle pour les assistés",
         "Recommandations personnelles basées sur vos goûts et votre historique",
-        "Listes illimitées",
         "Personnalisation avancée",
         "Réalisations et badges"
       ],

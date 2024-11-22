@@ -10,11 +10,12 @@
     "free_plan": {
       "title": "Grátis",
       "price": "R$0/mês",
-      "description": "Explore filmes e crie sua lista de assistência pessoal.",
+      "description": "Descubra filmes e séries e gerencie facilmente sua lista personalizada de conteúdos para assistir.",
       "benefits": [
         "Acesso total à plataforma",
-        "Avaliações ilimitadas",
-        "Uma lista pessoal"
+        "Avaliações ilimitadas para compartilhar suas opiniões",
+        "Criação e personalização de listas sem limites.",
+        "Ferramentas completas para organizar e controlar o que você já assistiu, está assistindo ou planeja assistir."
       ],
       "start_now": "Comece agora!"
     },
@@ -24,9 +25,7 @@
       "recommended": "Recomendado",
       "description": "Tudo no plano gratuito e muito mais!",
       "benefits": [
-        "Ferramentas de organização e controle de assistidos",
         "Recomendações pessoais baseado no histórico",
-        "Listas ilimitadas",
         "Personalização avançada",
         "Conquistas e distintivos"
       ],
