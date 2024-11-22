@@ -16,10 +16,12 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
+import { verifySession } from '@/app/lib/dal'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
 export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
+  const session = await verifySession()
   const seasonsDetails = await Promise.all(
     tvSerie.seasons.map(
       async season =>
@@ -31,14 +33,16 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
 
-      <Suspense fallback={<div />}>
-        <TvSeriesProgress
-          seasonsDetails={seasonsDetails.filter(
-            season => season.season_number !== 0 && season.episodes.length > 0
-          )}
-          tmdbId={tvSerie.id}
-        />
-      </Suspense>
+      {session?.user && (
+        <Suspense fallback={<div />}>
+          <TvSeriesProgress
+            seasonsDetails={seasonsDetails.filter(
+              season => season.season_number !== 0 && season.episodes.length > 0
+            )}
+            tmdbId={tvSerie.id}
+          />
+        </Suspense>
+      )}
 
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
     </div>
