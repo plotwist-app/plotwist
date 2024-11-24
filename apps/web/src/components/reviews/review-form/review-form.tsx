@@ -127,7 +127,11 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
             }),
           })
 
-          form.reset()
+          form.reset({
+            review: '',
+            rating: 0,
+            hasSpoilers: false,
+          }) // forcing the form reset
           toast.success(dictionary.review_form.success)
         },
       }
