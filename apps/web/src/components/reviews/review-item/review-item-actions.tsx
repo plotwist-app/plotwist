@@ -49,7 +49,7 @@ export const ReviewItemActions = ({
   review,
 }: ReviewItemActionsProps) => {
   const { user } = useSession()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
 
   const createLike = usePostLike()
   const deleteLike = useDeleteLikeId()
@@ -69,7 +69,6 @@ export const ReviewItemActions = ({
                   onSuccess: () => {
                     APP_QUERY_CLIENT.invalidateQueries({
                       queryKey: getGetReviewsQueryKey({
-                        language: language,
                         mediaType: review.mediaType,
                         tmdbId: String(review.tmdbId),
                       }),
@@ -87,7 +86,6 @@ export const ReviewItemActions = ({
                 onSuccess: () => {
                   APP_QUERY_CLIENT.invalidateQueries({
                     queryKey: getGetReviewsQueryKey({
-                      language: language,
                       mediaType: review.mediaType,
                       tmdbId: String(review.tmdbId),
                     }),

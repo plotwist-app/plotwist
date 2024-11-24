@@ -21,12 +21,10 @@ export type ReviewsProps = {
 }
 
 export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
-  const { language } = useLanguage()
-
   const { data, isLoading } = useGetReviews({
     tmdbId: String(tmdbItem.id),
     mediaType,
-    language,
+    orderBy: 'createdAt',
   })
 
   if (isLoading) {

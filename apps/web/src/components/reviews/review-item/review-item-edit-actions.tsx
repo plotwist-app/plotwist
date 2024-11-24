@@ -94,7 +94,7 @@ type EditActionDialogProps = Pick<ReviewItemProps, 'review'> & DialogProps
 
 const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   const deleteReview = useDeleteReviewById()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
 
   function handleDeleteReviewClick() {
     deleteReview.mutate(
@@ -103,7 +103,6 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
         onSettled: async () => {
           await APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
-              language,
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),
@@ -180,7 +179,6 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
         onSettled: async () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
-              language,
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),

@@ -30,9 +30,9 @@ export type GetLikesEntityId200LikesItemEntityType = typeof GetLikesEntityId200L
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetLikesEntityId200LikesItemEntityType = {
-  LIST: 'LIST',
   REVIEW: 'REVIEW',
   REPLY: 'REPLY',
+  LIST: 'LIST',
 } as const;
 
 export type GetLikesEntityId200LikesItem = {
@@ -49,9 +49,9 @@ export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof t
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLike201LikeEntityType = {
-  LIST: 'LIST',
   REVIEW: 'REVIEW',
   REPLY: 'REPLY',
+  LIST: 'LIST',
 } as const;
 
 export type PostLike201Like = {
@@ -71,9 +71,9 @@ export type PostLikeBodyEntityType = typeof PostLikeBodyEntityType[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLikeBodyEntityType = {
-  LIST: 'LIST',
   REVIEW: 'REVIEW',
   REPLY: 'REPLY',
+  LIST: 'LIST',
 } as const;
 
 export type PostLikeBody = {
@@ -504,6 +504,16 @@ export type GetDetailedReviews200 = {
   reviews: GetDetailedReviews200ReviewsItem[];
 };
 
+/**
+ * @nullable
+ */
+export type GetDetailedReviews200ReviewsItemUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
+
 export type GetDetailedReviews200ReviewsItemUser = {
   id: string;
   /** @nullable */
@@ -545,6 +555,7 @@ export type GetDetailedReviews200ReviewsItem = {
   id: string;
   /** @nullable */
   language: GetDetailedReviews200ReviewsItemLanguage;
+  likeCount: number;
   mediaType: GetDetailedReviews200ReviewsItemMediaType;
   /** @nullable */
   posterPath: string | null;
@@ -554,7 +565,27 @@ export type GetDetailedReviews200ReviewsItem = {
   tmdbId: number;
   user: GetDetailedReviews200ReviewsItemUser;
   userId: string;
+  /** @nullable */
+  userLike: GetDetailedReviews200ReviewsItemUserLike;
 };
+
+export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetDetailedReviewsOrderBy = {
+  likeCount: 'likeCount',
+  createdAt: 'createdAt',
+} as const;
+
+export type GetDetailedReviewsMediaType = typeof GetDetailedReviewsMediaType[keyof typeof GetDetailedReviewsMediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetDetailedReviewsMediaType = {
+  MOVIE: 'MOVIE',
+  TV_SHOW: 'TV_SHOW',
+} as const;
 
 export type GetDetailedReviewsLanguage = typeof GetDetailedReviewsLanguage[keyof typeof GetDetailedReviewsLanguage];
 
@@ -571,9 +602,12 @@ export const GetDetailedReviewsLanguage = {
 } as const;
 
 export type GetDetailedReviewsParams = {
+language?: GetDetailedReviewsLanguage;
+tmdbId?: string;
 userId?: string;
 limit?: string;
-language?: GetDetailedReviewsLanguage;
+mediaType?: GetDetailedReviewsMediaType;
+orderBy?: GetDetailedReviewsOrderBy;
 };
 
 export type PutReviewById200MediaType = typeof PutReviewById200MediaType[keyof typeof PutReviewById200MediaType];
@@ -681,18 +715,13 @@ export type GetReviews200Item = {
   userLike: GetReviews200ItemUserLike;
 };
 
-export type GetReviewsLanguage = typeof GetReviewsLanguage[keyof typeof GetReviewsLanguage] | null;
+export type GetReviewsOrderBy = typeof GetReviewsOrderBy[keyof typeof GetReviewsOrderBy];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetReviewsLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'it-IT': 'it-IT',
-  'de-DE': 'de-DE',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
+export const GetReviewsOrderBy = {
+  likeCount: 'likeCount',
+  createdAt: 'createdAt',
 } as const;
 
 export type GetReviewsMediaType = typeof GetReviewsMediaType[keyof typeof GetReviewsMediaType];
@@ -700,14 +729,31 @@ export type GetReviewsMediaType = typeof GetReviewsMediaType[keyof typeof GetRev
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetReviewsMediaType = {
-  TV_SHOW: 'TV_SHOW',
   MOVIE: 'MOVIE',
+  TV_SHOW: 'TV_SHOW',
+} as const;
+
+export type GetReviewsLanguage = typeof GetReviewsLanguage[keyof typeof GetReviewsLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviewsLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
 } as const;
 
 export type GetReviewsParams = {
-mediaType: GetReviewsMediaType;
-language: GetReviewsLanguage;
-tmdbId: string;
+language?: GetReviewsLanguage;
+tmdbId?: string;
+userId?: string;
+limit?: string;
+mediaType?: GetReviewsMediaType;
+orderBy?: GetReviewsOrderBy;
 };
 
 /**
@@ -961,23 +1007,6 @@ export type GetLists404 = {
   message: string;
 };
 
-export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetLists200ListsItemVisibility = {
-  PUBLIC: 'PUBLIC',
-  NETWORK: 'NETWORK',
-  PRIVATE: 'PRIVATE',
-} as const;
-
-export type GetLists200ListsItemUser = {
-  id: string;
-  /** @nullable */
-  imagePath: string | null;
-  username: string;
-};
-
 export type GetLists200ListsItem = {
   /** @nullable */
   bannerPath: string | null;
@@ -996,6 +1025,23 @@ export type GetLists200ListsItem = {
 
 export type GetLists200 = {
   lists: GetLists200ListsItem[];
+};
+
+export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetLists200ListsItemVisibility = {
+  PUBLIC: 'PUBLIC',
+  NETWORK: 'NETWORK',
+  PRIVATE: 'PRIVATE',
+} as const;
+
+export type GetLists200ListsItemUser = {
+  id: string;
+  /** @nullable */
+  imagePath: string | null;
+  username: string;
 };
 
 export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];

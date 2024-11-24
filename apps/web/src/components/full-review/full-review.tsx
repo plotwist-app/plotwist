@@ -17,6 +17,7 @@ import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
 import { ReviewStars } from '@/components/reviews/review-stars'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import { Likes } from '../likes'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
@@ -33,6 +34,7 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     review: content,
     rating,
     user: { username, imagePath },
+    likeCount,
   } = review
 
   const usernameInitial = username.at(0)?.toUpperCase()
@@ -88,12 +90,16 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
             <div className="flex items-center gap-x-2">
               <ReviewStars rating={rating} />
 
-              {/* {likes > 0 && (
+              {likeCount > 0 && (
                 <>
                   <span className="h-1 w-1 rounded-full bg-muted" />
-                  <ReviewLikes reviewId={review.id} className="static" />
+                  <Likes
+                    entityId={review.id}
+                    className="static"
+                    likeCount={likeCount}
+                  />
                 </>
-              )} */}
+              )}
             </div>
           </div>
 
