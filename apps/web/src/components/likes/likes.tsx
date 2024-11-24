@@ -21,6 +21,7 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { ProBadge } from '../pro-badge'
+import { Heart } from 'lucide-react'
 
 type LikesProps = {
   className?: string
@@ -91,11 +92,11 @@ export function Likes({ className, likeCount, entityId }: LikesProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         className={cn(
-          'rounded-full bg-muted border px-3 py-1 text-xs z-20',
+          'rounded-full flex items-center bg-muted border px-3 py-1 text-xs z-20 gap-0.5',
           className
         )}
       >
-        ❤ <span className="ml-1">{likeCount}</span>
+        <Heart size={12} /> <span className="ml-1">{likeCount}</span>
       </DialogTrigger>
 
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">

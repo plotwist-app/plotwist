@@ -4,6 +4,7 @@ import { useGetDetailedReviews } from '@/api/reviews'
 import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { useLanguage } from '@/context/language'
 import { EmptyReview } from '../../home/_components/user-last-review'
+import { TimelineReview } from '@/components/timelinte-review/timeline-review'
 
 type ReviewsProps = {
   userId: string
@@ -24,7 +25,7 @@ export const Reviews = ({ userId }: ReviewsProps) => {
   return (
     <div className="space-y-4">
       {data.reviews.map(review => (
-        <FullReview language={language} review={review} key={review.id} />
+        <TimelineReview review={review} key={review.id} />
       ))}
     </div>
   )

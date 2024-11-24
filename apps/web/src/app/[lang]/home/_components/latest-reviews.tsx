@@ -16,10 +16,8 @@ export const LatestReviews = () => {
     language,
     userId: undefined,
     limit: '5',
-    orderBy: 'likeCount',
+    orderBy: 'createdAt',
   })
-
-  console.log
 
   if (isLoading) {
     return (

@@ -18,13 +18,13 @@ import { ReviewStars } from '@/components/reviews/review-stars'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import { Likes } from '../likes'
+import { useLanguage } from '@/context/language'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
-  language: Language
 }
 
-export const FullReview = ({ review, language }: FullReviewProps) => {
+export const FullReview = ({ review }: FullReviewProps) => {
   const {
     posterPath,
     title,
@@ -36,6 +36,8 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
     user: { username, imagePath },
     likeCount,
   } = review
+
+  const { language } = useLanguage()
 
   const usernameInitial = username.at(0)?.toUpperCase()
 
@@ -49,74 +51,91 @@ export const FullReview = ({ review, language }: FullReviewProps) => {
   const [showSpoiler, setShowSpoiler] = useState(false)
 
   return (
-    <div className="flex space-x-4" data-testid="full-review">
-      <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
-        <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
-          {posterPath && <Image src={tmdbImage(posterPath)} fill alt={title} />}
-        </figure>
-      </Link>
-
-      <div className="w-4/6 space-y-2 md:w-5/6">
-        <Link href={`${href}?review=${review.id}`} className="text-lg">
-          {title}
+    <div className="space-y-2">
+      <div className="flex space-x-4" data-testid="full-review">
+        <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
+          <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
+            {posterPath && (
+              <Image src={tmdbImage(posterPath)} fill alt={title} />
+            )}
+          </figure>
         </Link>
 
-        <div className="space-y-2">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center">
-            <div className="flex items-center gap-x-2">
-              <Link href={userProfileHref}>
-                <Avatar className="size-8 border text-[10px] shadow">
-                  {imagePath && (
-                    <AvatarImage
-                      src={tmdbImage(imagePath, 'w500')}
-                      className="object-cover"
+        <div className="w-4/6 space-y-2 md:w-5/6">
+          <Link href={`${href}?review=${review.id}`} className="text-lg">
+            {title}
+          </Link>
+
+          <div className="space-y-2">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center">
+              <div className="flex items-center gap-x-2">
+                <Link href={userProfileHref}>
+                  <Avatar className="size-8 border text-[10px] shadow">
+                    {imagePath && (
+                      <AvatarImage
+                        src={tmdbImage(imagePath, 'w500')}
+                        className="object-cover"
+                      />
+                    )}
+
+                    <AvatarFallback>{usernameInitial}</AvatarFallback>
+                  </Avatar>
+                </Link>
+
+                <Link
+                  href={userProfileHref}
+                  className="flex gap-2 text-sm text-muted-foreground"
+                >
+                  {username}
+                </Link>
+              </div>
+
+              <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
+
+              <div className="flex items-center gap-x-2">
+                <ReviewStars rating={rating} />
+
+                {likeCount > 0 && (
+                  <>
+                    <span className="h-1 w-1 rounded-full bg-muted" />
+                    <Likes
+                      entityId={review.id}
+                      className="static"
+                      likeCount={likeCount}
                     />
-                  )}
-
-                  <AvatarFallback>{usernameInitial}</AvatarFallback>
-                </Avatar>
-              </Link>
-
-              <Link
-                href={userProfileHref}
-                className="flex gap-2 text-sm text-muted-foreground"
-              >
-                {username}
-              </Link>
+                  </>
+                )}
+              </div>
             </div>
 
-            <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
-
-            <div className="flex items-center gap-x-2">
-              <ReviewStars rating={rating} />
-
-              {likeCount > 0 && (
-                <>
-                  <span className="h-1 w-1 rounded-full bg-muted" />
-                  <Likes
-                    entityId={review.id}
-                    className="static"
-                    likeCount={likeCount}
-                  />
-                </>
+            <p
+              className={cn(
+                'break-words text-muted-foreground relative xs:block hidden',
+                hasSpoilers &&
+                  'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
+                showSpoiler && 'after:bg-muted/50 after:-z-10'
               )}
-            </div>
+              onClick={() => setShowSpoiler(!showSpoiler)}
+              onKeyDown={() => setShowSpoiler(!showSpoiler)}
+            >
+              {content}
+            </p>
           </div>
-
-          <p
-            className={cn(
-              'break-words text-muted-foreground relative',
-              hasSpoilers &&
-                'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
-              showSpoiler && 'after:bg-muted/50 after:-z-10'
-            )}
-            onClick={() => setShowSpoiler(!showSpoiler)}
-            onKeyDown={() => setShowSpoiler(!showSpoiler)}
-          >
-            {content}
-          </p>
         </div>
       </div>
+
+      <p
+        className={cn(
+          'break-words text-muted-foreground relative xs:hidden block',
+          hasSpoilers &&
+            'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
+          showSpoiler && 'after:bg-muted/50 after:-z-10'
+        )}
+        onClick={() => setShowSpoiler(!showSpoiler)}
+        onKeyDown={() => setShowSpoiler(!showSpoiler)}
+      >
+        {content}
+      </p>
     </div>
   )
 }
