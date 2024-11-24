@@ -28,6 +28,7 @@ import {
   CommandSearchTvSerie,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
+import { Search } from 'lucide-react'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -84,8 +85,8 @@ export const CommandSearch = () => {
         className="flex lg:flex-1 justify-between gap-2 px-3 text-sm text-muted-foreground"
         onClick={() => setOpen(true)}
       >
+        <Search size={16} />
         {dictionary.sidebar_search.search_everything}
-
         <CommandSearchIcon />
       </Button>
 

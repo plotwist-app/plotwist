@@ -14,7 +14,7 @@ export const MovieGenres = ({ genres }: MovieGenresProps) => {
   if (!hasGenres) return null
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <>
       {genres.map(({ id, name }) => {
         return (
           <Link key={id} href={`/${language}/movies/discover?genres=${id}`}>
@@ -24,6 +24,6 @@ export const MovieGenres = ({ genres }: MovieGenresProps) => {
           </Link>
         )
       })}
-    </div>
+    </>
   )
 }

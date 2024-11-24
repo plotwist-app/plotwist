@@ -24,6 +24,30 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
     </div>
   )
 
+  const votes = (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge>
+            <Image
+              src="/assets/tmdb.svg"
+              width={50}
+              height={1}
+              alt="TMDB"
+              className="mr-2"
+            />
+
+            {movie.vote_average.toFixed(1)}
+          </Badge>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>{movie.vote_count} votes</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+
   return (
     <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
@@ -44,28 +68,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
 
           <div className="hidden flex-wrap items-center gap-2 whitespace-nowrap md:flex">
             <MovieGenres genres={movie.genres} />
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Badge>
-                    <Image
-                      src="/assets/tmdb.svg"
-                      width={50}
-                      height={1}
-                      alt="TMDB"
-                      className="mr-2"
-                    />
-
-                    {movie.vote_average.toFixed(1)}
-                  </Badge>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  <p>{movie.vote_count} votes</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {votes}
           </div>
 
           <p className="hidden text-xs leading-5 text-muted-foreground md:block md:text-sm md:leading-6">
@@ -79,7 +82,11 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
       <div className="space-y-2 md:hidden">
         {actions}
         <p className="text-sm/7 text-muted-foreground">{movie.overview}</p>
-        <MovieGenres genres={movie.genres} />
+
+        <div className="flex gap-2 flex-wrap">
+          <MovieGenres genres={movie.genres} />
+          {votes}
+        </div>
       </div>
     </main>
   )

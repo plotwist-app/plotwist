@@ -48,6 +48,30 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
     </div>
   )
 
+  const votes = (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge>
+            <Image
+              src="/assets/tmdb.svg"
+              width={55}
+              height={1}
+              alt="TMDB"
+              className="mr-2"
+            />
+
+            {tvSerie.vote_average.toFixed(1)}
+          </Badge>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>{tvSerie.vote_count} votes</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+
   return (
     <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
@@ -68,28 +92,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
 
           <div className="hidden flex-wrap items-center gap-2 whitespace-nowrap md:flex">
             <TvSeriesGenres genres={tvSerie.genres} />
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Badge>
-                    <Image
-                      src="/assets/tmdb.svg"
-                      width={55}
-                      height={1}
-                      alt="TMDB"
-                      className="mr-2"
-                    />
-
-                    {tvSerie.vote_average.toFixed(1)}
-                  </Badge>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  <p>{tvSerie.vote_count} votes</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {votes}
           </div>
 
           <p className="hidden text-xs leading-5 text-muted-foreground md:block md:text-sm md:leading-6">
@@ -103,7 +106,11 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
       <div className="space-y-2 md:hidden">
         {actions}
         <p className="text-sm/7 text-muted-foreground">{tvSerie.overview}</p>
-        <TvSeriesGenres genres={tvSerie.genres} />
+
+        <div className="flex gap-2 flex-wrap">
+          <TvSeriesGenres genres={tvSerie.genres} />
+          {votes}
+        </div>
       </div>
     </main>
   )
