@@ -210,7 +210,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
           >
             <div className="w-full space-y-2">
               <div className="flex justify-between">
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
                   <span className="text-sm text-muted-foreground">
                     {username}
                   </span>

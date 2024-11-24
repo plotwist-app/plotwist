@@ -16,7 +16,7 @@ export const ReviewItemSkeleton = () => {
         <div className="relative space-y-1 rounded-md border p-4">
           <Skeleton className="h-4 w-[30ch]" />
 
-          <Skeleton className="absolute -bottom-2 right-2 h-5 w-[6ch] rounded-full border bg-muted px-3 py-1 text-xs" />
+          <Skeleton className="absolute -bottom-2 right-2 h-5 w-[6ch] rounded-md border bg-muted px-3 py-1 text-xs" />
         </div>
 
         <Skeleton className="h-4 w-[15ch]" />

@@ -91,7 +91,7 @@ export function Likes({ className, likeCount, entityId }: LikesProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         className={cn(
-          'absolute -bottom-3.5 right-2 rounded-md border bg-muted px-3 py-1 text-xs z-20',
+          'rounded-md bg-background border px-3 py-1 text-xs z-20',
           className
         )}
       >
