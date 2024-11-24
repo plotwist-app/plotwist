@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 
-import { ReviewLikes } from '@/components/reviews/review-likes'
 import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import {
   Avatar,
@@ -30,6 +29,7 @@ import { cn } from '@/lib/utils'
 import type { GetReviews200Item } from '@/api/endpoints.schemas'
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
+import { Likes } from '@/components/likes'
 
 type TmdbItem = TvSerieDetails | MovieDetails
 
@@ -161,7 +161,8 @@ export const ReviewItem = ({
               </p>
             </div>
           </div>
-          <ReviewLikes reviewId={id} />
+
+          <Likes likeCount={review.likeCount} />
         </div>
 
         <ReviewItemActions
