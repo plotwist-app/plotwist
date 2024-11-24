@@ -4,6 +4,46 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
+};
+
+export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetLikesEntityId200LikesItemUserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const;
+
+export type GetLikesEntityId200LikesItemUser = {
+  id: string;
+  /** @nullable */
+  imagePath: string | null;
+  subscriptionType: GetLikesEntityId200LikesItemUserSubscriptionType;
+  username: string;
+};
+
+export type GetLikesEntityId200LikesItemEntityType = typeof GetLikesEntityId200LikesItemEntityType[keyof typeof GetLikesEntityId200LikesItemEntityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetLikesEntityId200LikesItemEntityType = {
+  LIST: 'LIST',
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+} as const;
+
+export type GetLikesEntityId200LikesItem = {
+  createdAt: string;
+  entityId: string;
+  entityType: GetLikesEntityId200LikesItemEntityType;
+  id: string;
+  user: GetLikesEntityId200LikesItemUser;
+  userId: string;
+};
+
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
 
 
@@ -122,6 +162,13 @@ export type PutSocialLinksBodyYOUTUBEAnyOf = string | '';
 
 export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf;
 
+export type PutSocialLinksBody = {
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
+  TIKTOK: PutSocialLinksBodyTIKTOK;
+  X: PutSocialLinksBodyX;
+  YOUTUBE: PutSocialLinksBodyYOUTUBE;
+};
+
 export type PutSocialLinksBodyXAnyOf = string | '';
 
 export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
@@ -133,13 +180,6 @@ export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
 
 export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
-
-export type PutSocialLinksBody = {
-  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
-  TIKTOK: PutSocialLinksBodyTIKTOK;
-  X: PutSocialLinksBodyX;
-  YOUTUBE: PutSocialLinksBodyYOUTUBE;
-};
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -460,6 +500,10 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[];
+};
+
 export type GetDetailedReviews200ReviewsItemUser = {
   id: string;
   /** @nullable */
@@ -510,10 +554,6 @@ export type GetDetailedReviews200ReviewsItem = {
   tmdbId: number;
   user: GetDetailedReviews200ReviewsItemUser;
   userId: string;
-};
-
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[];
 };
 
 export type GetDetailedReviewsLanguage = typeof GetDetailedReviewsLanguage[keyof typeof GetDetailedReviewsLanguage];
@@ -581,12 +621,15 @@ export type PutReviewByIdBody = {
   review: string;
 };
 
+/**
+ * @nullable
+ */
 export type GetReviews200ItemUserLike = {
   createdAt: string;
   entityId: string;
   id: string;
   userId: string;
-};
+} | null;
 
 export type GetReviews200ItemUser = {
   id: string;
@@ -634,6 +677,7 @@ export type GetReviews200Item = {
   tmdbId: number;
   user: GetReviews200ItemUser;
   userId: string;
+  /** @nullable */
   userLike: GetReviews200ItemUserLike;
 };
 
@@ -917,10 +961,6 @@ export type GetLists404 = {
   message: string;
 };
 
-export type GetLists200 = {
-  lists: GetLists200ListsItem[];
-};
-
 export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
 
 
@@ -952,6 +992,10 @@ export type GetLists200ListsItem = {
   user: GetLists200ListsItemUser;
   userId: string;
   visibility: GetLists200ListsItemVisibility;
+};
+
+export type GetLists200 = {
+  lists: GetLists200ListsItem[];
 };
 
 export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];

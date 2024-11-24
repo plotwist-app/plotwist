@@ -162,7 +162,7 @@ export const ReviewItem = ({
             </div>
           </div>
 
-          <Likes likeCount={review.likeCount} />
+          <Likes likeCount={review.likeCount} entityId={review.id} />
         </div>
 
         <ReviewItemActions

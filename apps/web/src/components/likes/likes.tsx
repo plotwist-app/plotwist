@@ -11,18 +11,84 @@ import {
 
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
+import { useGetLikesEntityId } from '@/api/like'
+import { useState } from 'react'
+import Link from 'next/link'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { ProBadge } from '../pro-badge'
 
 type LikesProps = {
   className?: string
   likeCount: number
+  entityId: string
 }
 
-export function Likes({ className, likeCount }: LikesProps) {
-  const { dictionary } = useLanguage()
+export function Likes({ className, likeCount, entityId }: LikesProps) {
+  const { dictionary, language } = useLanguage()
+  const [open, setOpen] = useState(false)
+
+  const { data, isLoading } = useGetLikesEntityId(entityId, {
+    query: { enabled: open },
+  })
+
   if (likeCount === 0) return <></>
 
+  const Content = () => {
+    if (isLoading || !data) {
+      return <p>carregando, macho..</p>
+    }
+
+    return (
+      <>
+        {data.likes.map(({ user, id }) => (
+          <div key={id} className="flex items-center">
+            <Link
+              href={`/${language}/${user.username}`}
+              className="flex items-center gap-1"
+            >
+              <Avatar className="size-10 border text-[10px]">
+                {user.imagePath && (
+                  <AvatarImage
+                    src={tmdbImage(user.imagePath, 'w500')}
+                    className="object-cover"
+                  />
+                )}
+
+                <AvatarFallback>
+                  {user.username[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+
+              <span className="ml-2 mr-2 truncate text-sm">
+                {user.username}
+              </span>
+            </Link>
+
+            {user.subscriptionType === 'PRO' && (
+              <Link href={`/${language}/pricing`}>
+                <ProBadge />
+              </Link>
+            )}
+
+            <Link
+              href={`/${language}/${user.username}`}
+              className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
+            >
+              {dictionary.review_likes.view_profile}
+            </Link>
+          </div>
+        ))}
+      </>
+    )
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         className={cn(
           'absolute -bottom-3.5 right-2 rounded-md border bg-muted px-3 py-1 text-xs z-20',
@@ -37,53 +103,7 @@ export function Likes({ className, likeCount }: LikesProps) {
           <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
         </DialogHeader>
 
-        {/* {!likes.data &&
-          Array.from({ length: 5 }).map((_, index) => (
-            <div key={v4()} className="flex items-center gap-3">
-              <Skeleton className="size-10 rounded-full" />
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="ml-auto h-4 w-20" />
-            </div>
-          ))} */}
-
-        {/* {likes.data?.map((likeInfo) => (
-          <div key={likeInfo.profiles?.id} className="flex items-center">
-            <Link
-              href={`/${language}/${likeInfo.profiles?.username}`}
-              className="flex items-center gap-1"
-            >
-              <Avatar className="size-10 border text-[10px] shadow">
-                {likeInfo.profiles?.image_path && (
-                  <AvatarImage
-                    src={tmdbImage(likeInfo.profiles?.image_path, 'w500')}
-                    className="object-cover"
-                  />
-                )}
-
-                <AvatarFallback>
-                  {likeInfo.profiles?.username?.at(0)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-
-              <span className="ml-2 mr-2 truncate text-sm">
-                {likeInfo.profiles?.username}
-              </span>
-            </Link>
-
-            {likeInfo.profiles?.subscription_type === 'PRO' && (
-              <Link href={`/${language}/pricing`}>
-                <ProBadge />
-              </Link>
-            )}
-
-            <Link
-              href={`/${language}/${likeInfo.profiles?.username}`}
-              className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
-            >
-              {dictionary.review_likes.view_profile}
-            </Link>
-          </div>
-        ))} */}
+        <Content />
       </DialogContent>
     </Dialog>
   )
