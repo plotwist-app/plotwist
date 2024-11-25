@@ -5,7 +5,7 @@ import { PosterCard } from '@/components/poster-card'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Container } from '../_components/container'
 
-import { LatestReviews } from './_components/latest-reviews'
+import { PopularReviews } from './_components/popular-reviews'
 import { UserLastReview } from './_components/user-last-review'
 
 import type { PageProps } from '@/types/languages'
@@ -69,7 +69,7 @@ const HomePage = async ({ params: { lang } }: PageProps) => {
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />
-          <LatestReviews />
+          <PopularReviews />
         </div>
 
         <div className="mt-0 space-y-8">

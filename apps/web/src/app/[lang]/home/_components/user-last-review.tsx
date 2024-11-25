@@ -31,7 +31,6 @@ export const EmptyReview = () => {
 export const UserLastReview = () => {
   const { user } = useSession()
   const { language, dictionary } = useLanguage()
-  console.log({ user })
 
   const { data, isLoading } = useGetDetailedReviews({
     language,
@@ -89,7 +88,7 @@ export const UserLastReview = () => {
         {dictionary.user_last_review.title}
       </h3>
 
-      <FullReview review={data.reviews[0]} language={language} />
+      <FullReview review={data.reviews[0]} />
     </div>
   )
 }

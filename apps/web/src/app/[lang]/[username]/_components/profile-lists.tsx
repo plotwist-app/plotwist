@@ -27,7 +27,7 @@ export const ProfileLists = ({ userId }: ProfileListsProps) => {
 
   if (!data?.lists || isLoading)
     return (
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {Array.from({ length: 3 }).map((_, index) => (
           <ListCardSkeleton key={v4()} />
         ))}

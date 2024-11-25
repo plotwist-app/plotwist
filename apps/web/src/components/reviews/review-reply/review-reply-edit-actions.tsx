@@ -30,13 +30,19 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
-import type { Reply } from '@/types/supabase/reviews'
-
+import type { GetReviewReplies200Item } from '@/api/endpoints.schemas'
+import {
+  getGetReviewRepliesQueryKey,
+  useDeleteReviewReplyById,
+  usePutReviewReplyById,
+} from '@/api/review-replies'
+import { getGetReviewsQueryKey } from '@/api/reviews'
+import { APP_QUERY_CLIENT } from '@/context/app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { type ReplyFormValues, replyFormSchema } from '../review-reply-form'
+import { type ReplyFormValues, replyFormSchema } from './review-reply-form'
 
-type ReplyEditActionsProps = { reply: Reply }
+type ReplyEditActionsProps = { reply: GetReviewReplies200Item }
 
 export const ReplyEditActions = ({ reply }: ReplyEditActionsProps) => {
   const [openEditDialog, setOpenEditDialog] = useState(false)
@@ -83,9 +89,30 @@ export const ReplyEditActions = ({ reply }: ReplyEditActionsProps) => {
 type EditActionDialogProps = Pick<ReplyEditActionsProps, 'reply'> & DialogProps
 const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
+  const handleDeleteReply = useDeleteReviewReplyById()
 
   function handleDeleteReviewClick() {
-    console.log({ reply })
+    handleDeleteReply.mutate(
+      { id: reply.id },
+      {
+        onSettled: async () => {
+          await Promise.all(
+            [
+              getGetReviewsQueryKey(),
+              getGetReviewRepliesQueryKey({ reviewId: reply.reviewId }),
+            ].map(queryKey =>
+              APP_QUERY_CLIENT.invalidateQueries({
+                queryKey,
+              })
+            )
+          )
+
+          if (dialogProps.onOpenChange) {
+            dialogProps.onOpenChange(false)
+          }
+        },
+      }
+    )
   }
 
   return (
@@ -111,7 +138,7 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
           <Button
             variant="destructive"
             onClick={() => handleDeleteReviewClick()}
-            loading={false}
+            loading={handleDeleteReply.isPending}
           >
             {dictionary.delete}
           </Button>
@@ -124,6 +151,7 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
 const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
   const { user } = useSession()
+  const handleUpdateReply = usePutReviewReplyById()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -132,8 +160,22 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
     },
   })
 
-  const onSubmit = (values: ReplyFormValues) => {
-    console.log({ values })
+  const onSubmit = async (data: ReplyFormValues) => {
+    await handleUpdateReply.mutateAsync(
+      {
+        data,
+        id: reply.id,
+      },
+      {
+        onSuccess: async () => {
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetReviewRepliesQueryKey({ reviewId: reply.reviewId }),
+          })
+
+          if (dialogProps.onOpenChange) dialogProps.onOpenChange(false)
+        },
+      }
+    )
   }
 
   const username = user?.username

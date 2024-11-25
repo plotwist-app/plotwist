@@ -94,7 +94,7 @@ type EditActionDialogProps = Pick<ReviewItemProps, 'review'> & DialogProps
 
 const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   const deleteReview = useDeleteReviewById()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
 
   function handleDeleteReviewClick() {
     deleteReview.mutate(
@@ -103,7 +103,6 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
         onSettled: async () => {
           await APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
-              language,
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),
@@ -153,7 +152,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 }
 
 const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
   const editReview = usePutReviewById()
 
@@ -180,7 +179,6 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
         onSettled: async () => {
           APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
-              language,
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),
@@ -210,7 +208,7 @@ const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
           >
             <div className="w-full space-y-2">
               <div className="flex justify-between">
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
                   <span className="text-sm text-muted-foreground">
                     {username}
                   </span>

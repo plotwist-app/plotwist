@@ -22,9 +22,9 @@ export const Reviews = ({ userId }: ReviewsProps) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {data.reviews.map(review => (
-        <FullReview language={language} review={review} key={review.id} />
+        <FullReview review={review} key={review.id} />
       ))}
     </div>
   )
