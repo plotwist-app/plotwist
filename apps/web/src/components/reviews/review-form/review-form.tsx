@@ -121,7 +121,6 @@ export const ReviewForm = ({ tmdbItem, mediaType }: ReviewsProps) => {
 
           await APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
-              language,
               tmdbId: String(tmdbItem.id),
               mediaType,
             }),

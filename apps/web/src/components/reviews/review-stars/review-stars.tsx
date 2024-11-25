@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@/lib/utils'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 import { v4 } from 'uuid'
@@ -12,8 +13,7 @@ type ReviewStarsProps = {
 export const ReviewStars = ({ onChange, rating }: ReviewStarsProps) => {
   const [hoverIndex, setHoverIndex] = useState(-1)
 
-  const filledClass = 'text-amber-400'
-  const hoverClass = 'hover:text-amber-300'
+  const filledClass = 'text-amber-300'
   const isInteractive = onChange !== undefined
 
   if (!isInteractive) {
@@ -42,9 +42,10 @@ export const ReviewStars = ({ onChange, rating }: ReviewStarsProps) => {
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
             onClick={() => onChange(starIndex)}
-            className={`${
+            className={cn(
+              'cursor-pointer transition-colors duration-100 ease-in-out hover:text-amber-300',
               isFilled && filledClass
-            } cursor-pointer transition-colors duration-100 ease-in-out ${hoverClass}`}
+            )}
           />
         )
       })}

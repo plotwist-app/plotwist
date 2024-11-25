@@ -6,6 +6,10 @@ import { cn } from '@/lib/utils'
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { useDeleteLikeId, usePostLike } from '@/api/like'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { getGetReviewRepliesQueryKey } from '@/api/review-replies'
+import type { GetReviewReplies200Item } from '@/api/endpoints.schemas'
 
 type ReplyActionProps = {
   disabled?: boolean
@@ -18,7 +22,7 @@ const ReplyAction = ({ disabled, active, ...props }: ReplyActionProps) => {
       className={cn(
         'cursor-pointer text-xs text-muted-foreground underline-offset-1 hover:underline',
         disabled && 'pointer-events-none animate-pulse opacity-50',
-        active && 'font-bold text-foreground'
+        active && 'font-medium'
       )}
       {...props}
     >
@@ -27,16 +31,57 @@ const ReplyAction = ({ disabled, active, ...props }: ReplyActionProps) => {
   )
 }
 
-export const ReviewReplyActions = () => {
+type ReviewReplyActionsProps = {
+  reply: GetReviewReplies200Item
+}
+
+export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
   const { user } = useSession()
   const { dictionary } = useLanguage()
+  const handleCreateLike = usePostLike()
+  const handleDeleteLike = useDeleteLikeId()
 
   if (!user) return <></>
+
+  function handleLike() {
+    if (reply.userLike) {
+      return handleDeleteLike.mutate(
+        { id: reply.userLike.id },
+        {
+          onSuccess: () => {
+            APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetReviewRepliesQueryKey({
+                reviewId: reply.reviewId,
+              }),
+            })
+          },
+        }
+      )
+    }
+
+    handleCreateLike.mutate(
+      {
+        data: { entityId: reply.id, entityType: 'REPLY' },
+      },
+      {
+        onSuccess: () => {
+          APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetReviewRepliesQueryKey({
+              reviewId: reply.reviewId,
+            }),
+          })
+        },
+      }
+    )
+  }
 
   return (
     <div>
       <div className="flex items-center gap-2">
-        <ReplyAction active={false} disabled={true} onClick={() => {}}>
+        <ReplyAction
+          active={Boolean(reply.userLike)}
+          onClick={() => handleLike()}
+        >
           {dictionary.review_reply_actions.like}
         </ReplyAction>
       </div>

@@ -21,12 +21,10 @@ export type ReviewsProps = {
 }
 
 export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
-  const { language } = useLanguage()
-
   const { data, isLoading } = useGetReviews({
     tmdbId: String(tmdbItem.id),
     mediaType,
-    language,
+    orderBy: 'createdAt',
   })
 
   if (isLoading) {
@@ -44,12 +42,7 @@ export const Reviews = ({ tmdbItem, mediaType }: ReviewsProps) => {
   return (
     <section className="space-y-8">
       {data.map(review => (
-        <ReviewItem
-          key={review.id}
-          review={review}
-          tmdbItem={tmdbItem}
-          mediaType={mediaType}
-        />
+        <ReviewItem key={review.id} review={review} />
       ))}
 
       <ReviewForm mediaType={mediaType} tmdbItem={tmdbItem} />

@@ -9,12 +9,13 @@ import { v4 } from 'uuid'
 
 const MAX_SKELETONS_REVIEWS = 5
 
-export const LatestReviews = () => {
+export const PopularReviews = () => {
   const { language, dictionary } = useLanguage()
   const { isLoading, data } = useGetDetailedReviews({
     language,
     userId: undefined,
     limit: '5',
+    orderBy: 'likeCount',
   })
 
   if (isLoading) {
@@ -40,15 +41,13 @@ export const LatestReviews = () => {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold">
-          {dictionary.latest_reviews.title}
-        </h3>
+        <h3 className="text-lg font-semibold">{dictionary.popular_reviews}</h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {data.reviews.length > 0 ? (
           data.reviews.map(review => (
-            <FullReview key={review.id} review={review} language={language} />
+            <FullReview key={review.id} review={review} />
           ))
         ) : (
           <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
