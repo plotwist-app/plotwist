@@ -2,23 +2,42 @@
 
 import { useLanguage } from '@/context/language'
 
-import type { ReviewItemProps } from '../review-item'
+import { useGetReviewReplies } from '@/api/review-replies'
+import { useSession } from '@/context/session'
+import Link from 'next/link'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { timeFromNow } from '@/utils/date/time-from-now'
+import { ReplyEditActions } from './review-reply-edit-actions'
+import { Likes } from '@/components/likes'
+import { ReviewReplyActions } from './review-reply-actions'
 
 type ReviewReplyProps = {
   openReplies: boolean
   setOpenReplies: (param: boolean) => void
-} & Pick<ReviewItemProps, 'review'>
+  replyCount: number
+  reviewId: string
+}
 
 export const ReviewReply = ({
-  review,
   openReplies,
   setOpenReplies,
+  replyCount,
+  reviewId,
 }: ReviewReplyProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
+  const { data, isLoading } = useGetReviewReplies(
+    { reviewId },
+    { query: { enabled: openReplies } }
+  )
+  const session = useSession()
 
-  if (!review) return <></>
-
-  const reviewRepliesCount = 0
+  if (replyCount === 0) return <></>
+  if (isLoading) return <></>
 
   return (
     <div className="pt-2">
@@ -30,22 +49,22 @@ export const ReviewReply = ({
         <div className="mr-4 w-6 border" />
 
         {!openReplies
-          ? `${dictionary.review_reply.open_replies} (${reviewRepliesCount})`
+          ? `${dictionary.review_reply.open_replies} (${replyCount})`
           : `${dictionary.review_reply.hide_replies}`}
       </button>
 
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
-          {/* {review.replies.map((reply) => {
-            const { username, image_path: imagePath } = reply.user
+          {data?.map(reply => {
+            const { username, imagePath } = reply.user
             const usernameInitial = username?.at(0)?.toUpperCase()
 
-            const mode = user?.id === reply.user.id ? 'EDIT' : 'SHOW'
+            const mode = session.user?.id === reply.userId ? 'EDIT' : 'SHOW'
 
             return (
               <li key={reply.id} className="flex items-start space-x-4">
                 <Link href={`/${language}/${username}`}>
-                  <Avatar className="size-10 border text-[10px] shadow">
+                  <Avatar className="size-10 border text-[10px]">
                     {imagePath && (
                       <AvatarImage
                         src={tmdbImage(imagePath, 'w500')}
@@ -67,7 +86,7 @@ export const ReviewReply = ({
                       <span className="h-1 w-1 rounded-full bg-muted" />
                       <span className="text-xs text-muted-foreground underline-offset-1 ">
                         {timeFromNow({
-                          date: new Date(reply.created_at),
+                          date: new Date(reply.createdAt),
                           language,
                         })}
                       </span>
@@ -76,16 +95,20 @@ export const ReviewReply = ({
                     {mode === 'EDIT' && <ReplyEditActions reply={reply} />}
                   </div>
 
-                  <div className="relative space-y-1 rounded-md border p-4 shadow">
+                  <div className="relative space-y-1 rounded-md border p-4">
                     <p className="text-sm">{reply.reply}</p>
-                    <ReviewReplyLikes replyId={reply.id} />
+                    <Likes
+                      entityId={reply.id}
+                      likeCount={reply.likeCount}
+                      className="absolute -bottom-3.5 right-2 bg-muted"
+                    />
                   </div>
 
                   <ReviewReplyActions reply={reply} />
                 </div>
               </li>
             )
-          })} */}
+          })}
         </ul>
       )}
     </div>

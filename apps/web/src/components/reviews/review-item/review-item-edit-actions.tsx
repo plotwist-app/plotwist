@@ -152,7 +152,7 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
 }
 
 const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
   const editReview = usePutReviewById()
 

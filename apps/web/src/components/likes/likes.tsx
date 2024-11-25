@@ -32,7 +32,6 @@ type LikesProps = {
 export function Likes({ className, likeCount, entityId }: LikesProps) {
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
-
   const { data, isLoading } = useGetLikesEntityId(entityId, {
     query: { enabled: open },
   })

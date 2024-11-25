@@ -29,8 +29,13 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import Link from 'next/link'
-
-type TmdbItem = TvSerieDetails | MovieDetails
+import {
+  getGetReviewRepliesQueryKey,
+  usePostReviewReply,
+} from '@/api/review-replies'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import { getGetReviewsQueryKey, getReviews } from '@/api/reviews'
+import type { ReviewItemProps } from '../review-item'
 
 export const replyFormSchema = (dictionary: Dictionary) =>
   z.object({
@@ -39,21 +44,19 @@ export const replyFormSchema = (dictionary: Dictionary) =>
 
 export type ReplyFormValues = z.infer<ReturnType<typeof replyFormSchema>>
 
-interface ReviewReplyFormProps {
-  reviewId: string
+type ReviewReplyFormProps = {
   onOpenReplyForm: (param: boolean) => void
   onOpenReplies: (param: boolean) => void
-  tmdbItem: TmdbItem
-  mediaType: MediaType
-}
+} & Pick<ReviewItemProps, 'review'>
 
 export const ReviewReplyForm = ({
-  reviewId,
+  review,
   onOpenReplyForm,
   onOpenReplies,
 }: ReviewReplyFormProps) => {
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
+  const createReply = usePostReviewReply()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -64,8 +67,26 @@ export const ReviewReplyForm = ({
 
   if (!user) return <></>
 
-  const onSubmit = async (values: ReplyFormValues) => {
-    console.log({ values, reviewId, onOpenReplyForm, onOpenReplies })
+  const onSubmit = async ({ reply }: ReplyFormValues) => {
+    await createReply.mutateAsync(
+      { data: { reply, reviewId: review.id } },
+      {
+        onSuccess: async () => {
+          form.reset()
+
+          await Promise.all(
+            [
+              getGetReviewsQueryKey(),
+              getGetReviewRepliesQueryKey({ reviewId: review.id }),
+            ].map(queryKey =>
+              APP_QUERY_CLIENT.invalidateQueries({
+                queryKey,
+              })
+            )
+          )
+        },
+      }
+    )
   }
 
   const username = user.username
@@ -78,7 +99,7 @@ export const ReviewReplyForm = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col items-start gap-2 pt-3"
       >
-        <div className="flex w-full gap-2">
+        <div className="flex w-full gap-4">
           <Link href={`/${language}/${username}`}>
             <Avatar className="size-10 border text-[10px] shadow">
               {imagePath && (

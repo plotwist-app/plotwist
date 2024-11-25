@@ -5,9 +5,6 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
-
-import { ReviewReplyForm } from '@/components/reviews/review-reply-form'
 import {
   Avatar,
   AvatarFallback,
@@ -30,20 +27,14 @@ import type { GetReviews200Item } from '@/api/endpoints.schemas'
 import { ReviewItemActions } from './review-item-actions'
 import { ReviewItemEditActions } from './review-item-edit-actions'
 import { Likes } from '@/components/likes'
-
-type TmdbItem = TvSerieDetails | MovieDetails
+import { ReviewReply } from '../review-reply'
+import { ReviewReplyForm } from '../review-reply/review-reply-form'
 
 export type ReviewItemProps = {
   review: GetReviews200Item
-  tmdbItem: TmdbItem
-  mediaType: MediaType
 }
 
-export const ReviewItem = ({
-  review,
-  tmdbItem,
-  mediaType,
-}: ReviewItemProps) => {
+export const ReviewItem = ({ review }: ReviewItemProps) => {
   const {
     review: content,
     rating,
@@ -165,7 +156,7 @@ export const ReviewItem = ({
           <Likes
             likeCount={review.likeCount}
             entityId={review.id}
-            className="absolute -bottom-3.5 right-2"
+            className="absolute -bottom-3.5 right-2 bg-muted"
           />
         </div>
 
@@ -175,19 +166,18 @@ export const ReviewItem = ({
           setOpenReplyForm={setOpenReplyForm}
         />
 
-        {/* <ReviewReply
-          review={review}
+        <ReviewReply
+          replyCount={review.replyCount}
+          reviewId={review.id}
           openReplies={openReplies}
           setOpenReplies={setOpenReplies}
-        /> */}
+        />
 
         {openReplyForm && (
           <ReviewReplyForm
-            reviewId={review.id}
             onOpenReplyForm={setOpenReplyForm}
             onOpenReplies={setOpenReplies}
-            tmdbItem={tmdbItem}
-            mediaType={mediaType}
+            review={review}
           />
         )}
       </div>

@@ -197,6 +197,16 @@ export type PutReviewReplyByIdBody = {
   reply: string;
 };
 
+/**
+ * @nullable
+ */
+export type GetReviewReplies200ItemUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
+
 export type GetReviewReplies200ItemUser = {
   id: string;
   /** @nullable */
@@ -207,15 +217,17 @@ export type GetReviewReplies200ItemUser = {
 export type GetReviewReplies200Item = {
   createdAt: string;
   id: string;
+  likeCount: number;
   reply: string;
   reviewId: string;
   user: GetReviewReplies200ItemUser;
   userId: string;
+  /** @nullable */
+  userLike: GetReviewReplies200ItemUserLike;
 };
 
 export type GetReviewRepliesParams = {
 reviewId: string;
-page?: number;
 };
 
 /**
@@ -241,11 +253,8 @@ export type PostReviewReply201 = {
 };
 
 export type PostReviewReplyBody = {
-  createdAt?: string;
-  id?: string;
   reply: string;
   reviewId: string;
-  userId: string;
 };
 
 export type GetUserItems200ItemStatus = typeof GetUserItems200ItemStatus[keyof typeof GetUserItems200ItemStatus];
@@ -560,6 +569,7 @@ export type GetDetailedReviews200ReviewsItem = {
   /** @nullable */
   posterPath: string | null;
   rating: number;
+  replyCount: number;
   review: string;
   title: string;
   tmdbId: number;
@@ -707,6 +717,7 @@ export type GetReviews200Item = {
   likeCount: number;
   mediaType: GetReviews200ItemMediaType;
   rating: number;
+  replyCount: number;
   review: string;
   tmdbId: number;
   user: GetReviews200ItemUser;

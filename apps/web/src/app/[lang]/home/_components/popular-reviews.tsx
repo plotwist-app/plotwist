@@ -9,7 +9,7 @@ import { v4 } from 'uuid'
 
 const MAX_SKELETONS_REVIEWS = 5
 
-export const LatestReviews = () => {
+export const PopularReviews = () => {
   const { language, dictionary } = useLanguage()
   const { isLoading, data } = useGetDetailedReviews({
     language,
@@ -41,9 +41,7 @@ export const LatestReviews = () => {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold">
-          {dictionary.latest_reviews.title}
-        </h3>
+        <h3 className="text-lg font-semibold">{dictionary.popular_reviews}</h3>
       </div>
 
       <div className="space-y-6">
