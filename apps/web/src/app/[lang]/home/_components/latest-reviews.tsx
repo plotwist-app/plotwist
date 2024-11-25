@@ -11,12 +11,11 @@ const MAX_SKELETONS_REVIEWS = 5
 
 export const LatestReviews = () => {
   const { language, dictionary } = useLanguage()
-
   const { isLoading, data } = useGetDetailedReviews({
     language,
     userId: undefined,
     limit: '5',
-    orderBy: 'createdAt',
+    orderBy: 'likeCount',
   })
 
   if (isLoading) {
@@ -47,10 +46,12 @@ export const LatestReviews = () => {
         </h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
+        <FullReviewSkeleton key={v4()} />
+
         {data.reviews.length > 0 ? (
           data.reviews.map(review => (
-            <FullReview key={review.id} review={review} language={language} />
+            <FullReview key={review.id} review={review} />
           ))
         ) : (
           <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
