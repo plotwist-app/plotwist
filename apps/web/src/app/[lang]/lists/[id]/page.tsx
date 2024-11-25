@@ -22,7 +22,7 @@ export async function generateMetadata({
 }: ListPageProps): Promise<Metadata> {
   const { list } = await getListById(params.id)
 
-  const title = list.id
+  const title = list.title
   const description = list.description || ''
 
   const images = list.bannerPath ? [tmdbImage(list.bannerPath)] : undefined
