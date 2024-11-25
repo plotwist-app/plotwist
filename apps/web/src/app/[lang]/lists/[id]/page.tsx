@@ -10,9 +10,40 @@ import { ListItems } from './_components/list-items'
 import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
 import { ListPrivate } from './_components/list-private'
 import { UserResume } from './_components/user-resume'
+import { Metadata } from 'next'
+import { getDictionary } from '@/utils/dictionaries'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListPageProps = {
   params: { id: string }
+}
+
+export async function generateMetadata({
+  params,
+}: ListPageProps): Promise<Metadata> {
+  const { list } = await getListById(params.id)
+
+  const title = list.id
+  const description = list.description || ''
+
+  const images = list.bannerPath ? [tmdbImage(list.bannerPath)] : undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: 'Plotwist',
+      images: images,
+    },
+    twitter: {
+      title,
+      description,
+      images: images,
+      card: 'summary_large_image',
+    },
+  }
 }
 
 export default async function ListPage({ params: { id } }: ListPageProps) {
