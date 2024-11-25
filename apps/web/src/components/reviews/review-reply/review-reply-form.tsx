@@ -84,6 +84,9 @@ export const ReviewReplyForm = ({
               })
             )
           )
+
+          onOpenReplies(true)
+          onOpenReplyForm(false)
         },
       }
     )
