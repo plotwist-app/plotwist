@@ -29,10 +29,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
           <div className="aspect-poster lg:aspect-auto col-span-1 row-span-2 border rounded-md overflow-hidden space-y-8 p-6">
             <div className="">
               <div className="space-y-2">
-                <h5 className="flex items-center gap-2 text-lg font-semibold">
-                  <span>
-                    <ProBadge />
-                  </span>
+                <h5 className="text-lg font-semibold">
                   {dictionary.elegant_control}
                 </h5>
 
@@ -47,10 +44,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
 
           <div className="row-span-1 col-span-1 border rounded-md p-6 space-y-4">
             <div className="space-y-2">
-              <h5 className="text-lg font-semibold flex gap-2 items-center">
-                <span>
-                  <ProBadge />
-                </span>
+              <h5 className="text-lg font-semibold">
                 {dictionary.recommendations}
               </h5>
 

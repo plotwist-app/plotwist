@@ -90,8 +90,6 @@ export const PopularListCardContextMenu = ({
                 <Twitter className="mr-2 size-4" />
                 {dictionary.share_to_twitter}
               </div>
-
-              <ProBadge className="ml-2" />
             </ContextMenuItem>
 
             <ContextMenuItem disabled className="flex justify-between">
@@ -99,8 +97,6 @@ export const PopularListCardContextMenu = ({
                 <Instagram className="mr-2 size-4" />
                 {dictionary.share_to_instagram}
               </div>
-
-              <ProBadge className="ml-2" />
             </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>

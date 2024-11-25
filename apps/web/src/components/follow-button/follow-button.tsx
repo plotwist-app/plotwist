@@ -26,7 +26,11 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
 
   const component = {
     OWNER: null,
-    UNAUTHENTICATED: null,
+    UNAUTHENTICATED: (
+      <Button variant="outline" disabled>
+        {dictionary.follow}
+      </Button>
+    ),
     MEMBER: (
       <Button
         variant="outline"

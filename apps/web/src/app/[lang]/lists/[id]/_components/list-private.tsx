@@ -12,15 +12,6 @@ export const ListPrivate = () => {
       <Pattern variant="checkered" />
 
       <div className="flex w-full flex-col items-center gap-4 p-4 text-center lg:w-1/3">
-        {/* <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow">
-          <Image
-            src="/images/private-list/mib.jpg"
-            alt=""
-            fill
-            className="brightness-50"
-          />
-        </div> */}
-
         <div className="space-y-2">
           <h1 className="text-3xl font-semibold lg:text-4xl">
             {dictionary.private_list.title}
