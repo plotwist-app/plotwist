@@ -59,7 +59,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
     <div className="space-y-2">
       <div className="flex space-x-4" data-testid="full-review">
         <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
-          <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted shadow">
+          <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted">
             {posterPath && (
               <Image src={tmdbImage(posterPath)} fill alt={title} />
             )}
@@ -161,7 +161,7 @@ export const FullReviewSkeleton = () => {
   return (
     <div className="flex space-x-4">
       <div className="w-2/6 md:w-1/6">
-        <Skeleton className="aspect-[2/3] rounded-md border shadow" />
+        <Skeleton className="aspect-[2/3] rounded-md border" />
       </div>
 
       <div className="w-4/6 space-y-2 md:w-5/6">

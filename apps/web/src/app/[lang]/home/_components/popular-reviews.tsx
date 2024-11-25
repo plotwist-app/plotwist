@@ -45,8 +45,6 @@ export const PopularReviews = () => {
       </div>
 
       <div className="space-y-6">
-        <FullReviewSkeleton key={v4()} />
-
         {data.reviews.length > 0 ? (
           data.reviews.map(review => (
             <FullReview key={review.id} review={review} />
