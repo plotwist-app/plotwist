@@ -10,8 +10,7 @@ import { ListItems } from './_components/list-items'
 import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
 import { ListPrivate } from './_components/list-private'
 import { UserResume } from './_components/user-resume'
-import { Metadata } from 'next'
-import { getDictionary } from '@/utils/dictionaries'
+import type { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListPageProps = {
