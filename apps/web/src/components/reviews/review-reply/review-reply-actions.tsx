@@ -82,7 +82,7 @@ export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
           active={Boolean(reply.userLike)}
           onClick={() => handleLike()}
         >
-          {dictionary.review_reply_actions.like}
+          {dictionary.like}
         </ReplyAction>
       </div>
     </div>
