@@ -90,11 +90,7 @@ export function Likes({
               </span>
             </Link>
 
-            {user.subscriptionType === 'PRO' && (
-              <Link href={`/${language}/pricing`}>
-                <ProBadge />
-              </Link>
-            )}
+            {user.subscriptionType === 'PRO' && <ProBadge />}
 
             <Link
               href={`/${language}/${user.username}`}
