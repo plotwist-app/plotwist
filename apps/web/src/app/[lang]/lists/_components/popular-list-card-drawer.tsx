@@ -18,15 +18,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import {
-  Copy,
-  ExternalLink,
-  Heart,
-  HeartOff,
-  Instagram,
-  Share,
-  Twitter,
-} from 'lucide-react'
+import { Copy, ExternalLink, Instagram, Share, Twitter } from 'lucide-react'
 import type { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { APP_URL } from '../../../../../constants'

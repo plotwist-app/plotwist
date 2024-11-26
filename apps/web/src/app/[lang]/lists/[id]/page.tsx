@@ -12,6 +12,7 @@ import { ListPrivate } from './_components/list-private'
 import { UserResume } from './_components/user-resume'
 import type { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { ListActions } from './_components/list-actions'
 
 type ListPageProps = {
   params: { id: string }
@@ -46,11 +47,10 @@ export async function generateMetadata({
 }
 
 export default async function ListPage({ params: { id } }: ListPageProps) {
-  const { list } = await getListById(id)
   const session = await verifySession()
+  const { list } = await getListById(id)
 
   const mode = session?.user.id === list.userId ? 'EDIT' : 'SHOW'
-
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (
@@ -60,6 +60,8 @@ export default async function ListPage({ params: { id } }: ListPageProps) {
 
         <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
           <div className="col-span-2 space-y-4">
+            <UserResume list={list} />
+
             <div className="flex justify-between">
               <div>
                 <h1 className="text-xl font-bold">{list.title}</h1>
@@ -88,7 +90,9 @@ export default async function ListPage({ params: { id } }: ListPageProps) {
           </div>
 
           <div className="col-span-1 space-y-4">
-            <UserResume list={list} />
+            <Suspense>
+              <ListActions list={list} />
+            </Suspense>
           </div>
         </div>
       </div>

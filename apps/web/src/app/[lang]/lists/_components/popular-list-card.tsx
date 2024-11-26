@@ -19,6 +19,7 @@ import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { PopularListCardContextMenu } from './popular-list-card-context-menu'
 import { PopularListCardDrawer } from './popular-list-card-drawer'
+import { Likes } from '@/components/likes'
 
 type PopularListCardProps = { list: GetLists200ListsItem }
 
@@ -32,35 +33,14 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
   const Trigger = () => {
     return (
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5 md:gap-4">
-        <div className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border">
-          <div
-            className={cn(
-              'absolute z-50 flex h-full w-full items-center justify-center bg-black/0 text-white transition group-hover:bg-black/75',
-              open && 'bg-black/75'
-            )}
-            onClick={() => setOpen(true)}
-            onKeyDown={() => setOpen(true)}
-          >
-            <span
-              className={cn(
-                'hidden items-center text-sm opacity-0 transition-all group-hover:opacity-100 md:flex',
-                open && 'opacity-100'
-              )}
-            >
-              <MousePointer2 className="mr-2 size-4" />
-              {dictionary.right_click_here}
-            </span>
-          </div>
-
+        <Link
+          href={href}
+          className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border"
+        >
           {list.bannerPath && (
-            <Image
-              fill
-              src={tmdbImage(list.bannerPath)}
-              alt=""
-              className="transition-all hover:scale-105"
-            />
+            <Image fill src={tmdbImage(list.bannerPath)} alt="" />
           )}
-        </div>
+        </Link>
 
         <div className="col-span-3 space-y-2">
           <div className="space-y-2">
@@ -95,6 +75,12 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
             <p className="line-clamp-3 text-sm text-muted-foreground">
               {list.description}
             </p>
+
+            {list.likeCount > 0 && (
+              <div className="flex">
+                <Likes entityId={list.id} likeCount={list.likeCount} />
+              </div>
+            )}
           </div>
         </div>
       </div>

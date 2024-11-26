@@ -14,7 +14,6 @@ import {
   Twitter,
 } from 'lucide-react'
 
-import { ProBadge } from '@/components/pro-badge'
 import {
   ContextMenu,
   ContextMenuContent,

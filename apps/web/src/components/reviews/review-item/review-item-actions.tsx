@@ -96,7 +96,7 @@ export const ReviewItemActions = ({
           active={Boolean(review.userLike)}
           onClick={() => handleLike()}
         >
-          {dictionary.review_item_actions.like}
+          {review.userLike ? dictionary.liked : dictionary.like}
         </ReviewItemAction>
 
         <span className="h-1 w-1 rounded-full bg-muted-foreground" />

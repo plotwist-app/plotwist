@@ -107,7 +107,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
 
             <p
               className={cn(
-                'break-words text-muted-foreground relative xs:block hidden mt-2',
+                'break-words text-muted-foreground relative mt-2 line-clamp-3 md:line-clamp-none',
                 hasSpoilers &&
                   'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
                 showSpoiler && 'after:bg-muted/50 after:-z-10'
@@ -119,7 +119,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
             </p>
 
             {likeCount > 0 && (
-              <div className="hidden xs:block">
+              <div className="flex">
                 <Likes
                   entityId={review.id}
                   className="static mt-4"
@@ -130,29 +130,6 @@ export const FullReview = ({ review }: FullReviewProps) => {
           </div>
         </div>
       </div>
-
-      <p
-        className={cn(
-          'break-words text-muted-foreground relative xs:hidden block',
-          hasSpoilers &&
-            'after:w-full after:h-full after:absolute after:inset-0 after:z-10 after:bg-muted dark:after:hover:brightness-110  after:rounded-sm cursor-pointer after:hover:brightness-95 after:transition-all',
-          showSpoiler && 'after:bg-muted/50 after:-z-10'
-        )}
-        onClick={() => setShowSpoiler(!showSpoiler)}
-        onKeyDown={() => setShowSpoiler(!showSpoiler)}
-      >
-        {content}
-      </p>
-
-      {likeCount > 0 && (
-        <div className="block xs:hidden">
-          <Likes
-            entityId={review.id}
-            className="static mt-2"
-            likeCount={likeCount}
-          />
-        </div>
-      )}
     </div>
   )
 }

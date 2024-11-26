@@ -159,13 +159,11 @@
     "hide_replies": "Ocultar respostas"
   },
   "review_item_actions": {
-    "like": "Curtir",
     "reply": "Responder",
     "dialog_title": "Você tem certeza absoluta?",
     "dialog_description": "Esta ação não pode ser desfeita."
   },
   "review_reply_actions": {
-    "like": "Curtir",
     "delete": "Apagar",
     "delete_success": "Resposta excluída com sucesso.",
     "dialog_title": "Você tem certeza absoluta?",
@@ -588,7 +586,6 @@
   "link_copied_to_clipboard": "Link copiado para a área de transferência.",
   "share_to_twitter": "Compartilhar no Twitter",
   "share_to_instagram": "Compartilhar no Instagram",
-  "right_click_here": "Clique com o botão direito",
   "list_cloned_successfully": "Lista clonada com sucesso!",
   "see_list": "Ver lista",
   "unable_to_clone_list": "Não foi possível clonar a lista.",
@@ -721,10 +718,11 @@
   "subscription": "Assinatura",
   "overall_progress": "Progresso geral",
   "episodes": "Episódios",
-  "when_you_mark_all_episodes": " Ao marcar todos os episódios como assistidos, a série/anime será atualizada automaticamente para o status de",
+  "when_you_mark_all_episodes": "Ao marcar todos os episódios como assistidos, a série/anime será atualizada automaticamente para o status de",
   "update_progress": "Atualizar progresso",
   "update_status": "Atualizar status",
   "feature_only_in_pro_plan": "Esta funcionalidade está disponível apenas no Plano PRO.",
   "more": "Ver mais",
-  "popular_reviews": "Avaliações populares"
+  "popular_reviews": "Avaliações populares",
+  "liked": "Curtido"
 }
