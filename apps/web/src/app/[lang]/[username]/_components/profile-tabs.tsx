@@ -1,6 +1,7 @@
 'use client'
 
 import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
@@ -36,7 +37,6 @@ type ProfileTabsProps = {
 export const ProfileTabs = ({ user }: ProfileTabsProps) => {
   const { dictionary, language } = useLanguage()
   const pathname = usePathname()
-  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const value = useMemo(() => {
     if (pathname.split('/').length === 3) {
@@ -54,22 +54,24 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
       disabled: false,
     },
     {
-      label: dictionary.profile.achievements,
-      path: 'achievements',
-      icon: <Trophy className="mr-1" size={12} />,
-      disabled: true,
-    },
-    {
       label: dictionary.profile.recommendations,
       path: 'recommendations',
       icon: <Forward className="mr-1" size={12} />,
       disabled: true,
     },
     {
+      label: dictionary.profile.achievements,
+      path: 'achievements',
+      icon: <Trophy className="mr-1" size={12} />,
+      disabled: true,
+      pro: true,
+    },
+    {
       label: dictionary.stats,
       path: 'stats',
       icon: <BarChart className="mr-1" size={12} />,
-      disabled: true,
+      disabled: user.subscriptionType !== 'PRO',
+      pro: true,
     },
   ]
 
@@ -128,6 +130,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
               >
                 {tab.icon}
                 {tab.label}
+                {tab.pro && <ProBadge className="ml-2" />}
               </Link>
             </TabsTrigger>
           ))}
@@ -140,7 +143,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
               </div>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent>
+            <DropdownMenuContent className="w-[200px]">
               {HIDDEN_TABS.map(tab => (
                 <DropdownMenuItem
                   asChild
@@ -154,6 +157,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
                   >
                     {tab.icon}
                     {tab.label}
+                    {tab.pro && <ProBadge className="ml-auto" />}
                   </Link>
                 </DropdownMenuItem>
               ))}
