@@ -30,8 +30,9 @@ export async function decrypt(session: string | undefined = '') {
 export async function createSession(payload: SessionPayload) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const session = await encrypt({ ...payload })
+  const cookieStore = await cookies()
 
-  (await cookies()).set('session', session, {
+  cookieStore.set('session', session, {
     httpOnly: true,
     secure: true,
     expires: expiresAt,

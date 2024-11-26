@@ -7,9 +7,7 @@ import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
 import { TvSerieDetails } from './_components/tv-serie-details'
 
-export type TvSeriePageProps = PageProps & {
-  params: { id: string }
-}
+export type TvSeriePageProps = PageProps<{ id: string }>
 
 export async function generateStaticParams() {
   const tvSeriesIds = await getTvSeriesIds(1)
@@ -17,13 +15,12 @@ export async function generateStaticParams() {
   return tvSeriesIds.map(id => ({ id: String(id) }))
 }
 
-export async function generateMetadata(props: TvSeriePageProps): Promise<Metadata> {
-  const params = await props.params;
+export async function generateMetadata(
+  props: TvSeriePageProps
+): Promise<Metadata> {
+  const params = await props.params
 
-  const {
-    id,
-    lang
-  } = params;
+  const { id, lang } = params
 
   const {
     name,
@@ -69,7 +66,7 @@ export async function generateMetadata(props: TvSeriePageProps): Promise<Metadat
 }
 
 const TvSeriePage = async (props: TvSeriePageProps) => {
-  const params = await props.params;
+  const params = await props.params
   return <TvSerieDetails id={Number(params.id)} language={params.lang} />
 }
 
