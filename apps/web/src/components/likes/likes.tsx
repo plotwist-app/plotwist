@@ -126,7 +126,7 @@ export function Likes({
 
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
-          <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
+          <DialogTitle>{dictionary.likes}</DialogTitle>
         </DialogHeader>
 
         <Content />

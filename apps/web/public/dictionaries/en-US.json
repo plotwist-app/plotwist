@@ -546,7 +546,6 @@
     "cta": "View other lists."
   },
   "review_likes": {
-    "title": "Likes",
     "view_profile": "View profile"
   },
   "legacy_user": {
@@ -724,5 +723,6 @@
   "feature_only_in_pro_plan": "This feature is available only in the PRO Plan.",
   "more": "View more",
   "popular_reviews": "Popular Reviews",
-  "liked": "Liked"
+  "liked": "Liked",
+  "likes": "Likes"
 }

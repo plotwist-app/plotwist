@@ -547,7 +547,6 @@
     "cta": "Ver otras listas."
   },
   "review_likes": {
-    "title": "Gustos",
     "view_profile": "Ver perfil"
   },
   "legacy_user": {
@@ -726,5 +725,6 @@
   "feature_only_in_pro_plan": "Esta funcionalidad está disponible solo en el Plan PRO.",
   "more": "Ver más",
   "popular_reviews": "Reseñas Populares",
-  "liked": "Gustado"
+  "liked": "Gustado",
+  "likes": "Gustos"
 }

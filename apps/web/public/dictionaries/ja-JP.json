@@ -547,7 +547,6 @@
     "cta": "他のリストを見る"
   },
   "review_likes": {
-    "title": "いいね！",
     "view_profile": "プロフィールを見る"
   },
   "legacy_user": {
@@ -726,5 +725,6 @@
   "feature_only_in_pro_plan": "この機能はPROプランでのみ利用可能です。",
   "more": "もっと見る",
   "popular_reviews": "人気のレビュー",
-  "liked": "気に入った"
+  "liked": "気に入った",
+  "likes": "いいね！"
 }

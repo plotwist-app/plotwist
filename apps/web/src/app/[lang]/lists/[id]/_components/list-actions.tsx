@@ -16,7 +16,7 @@ const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (
     <div
       className={cn(
-        'px-4 py-2 flex justify-between items-center hover:bg-muted cursor-pointer w-full [&:not(:first-child)]:border-t',
+        'px-4 py-2 flex justify-between items-center hover:bg-muted w-full [&:not(:first-child)]:border-t',
         className
       )}
       {...props}
@@ -33,10 +33,7 @@ const Action = {
   ),
   Complement: ({ className, ...props }: ComponentProps<'span'>) => (
     <span
-      className={cn(
-        'text-muted-foreground text-sm border-l px-4 py-2 h-full',
-        className
-      )}
+      className={cn('text-muted-foreground text-sm px-4', className)}
       {...props}
     />
   ),
@@ -49,7 +46,7 @@ type ListActionsProps = {
 export function ListActions({ list }: ListActionsProps) {
   const { refresh, push } = useRouter()
   const { user } = useSession()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const handleCreateLike = usePostLike()
   const handleDeleteLike = useDeleteLikeId()
@@ -93,7 +90,10 @@ export function ListActions({ list }: ListActionsProps) {
 
             handleLike()
           }}
-          className="cursor-pointer flex-1 px-4 py-2 hover:bg-muted"
+          className={cn(
+            'cursor-pointer flex-1 px-4 py-2 hover:bg-muted',
+            list.likeCount > 0 && 'border-r'
+          )}
           disabled={handleCreateLike.isPending || handleDeleteLike.isPending}
         >
           <Heart className={cn(list.userLike && 'fill-foreground')} size={14} />
@@ -102,8 +102,8 @@ export function ListActions({ list }: ListActionsProps) {
 
         {list.likeCount > 0 && (
           <Likes entityId={list.id} likeCount={list.likeCount}>
-            <Action.Complement className="hover:underline tabular-nums">
-              <NumberFlow value={list.likeCount} /> curtidas
+            <Action.Complement className="hover:underline tabular-nums cursor-pointer">
+              <NumberFlow value={list.likeCount} /> {dictionary.likes}
             </Action.Complement>
           </Likes>
         )}
@@ -112,49 +112,24 @@ export function ListActions({ list }: ListActionsProps) {
       <Action.Root>
         <Action.Button disabled>
           <Copy size={14} />
-          Clonar lista
+          {dictionary.clone}
         </Action.Button>
       </Action.Root>
 
       <Action.Root>
         <Action.Button disabled>
           <List size={14} />
-          Adicionar à lista
+          {dictionary.add_to_list}
         </Action.Button>
       </Action.Root>
 
       <Action.Root>
         <Action.Button disabled>
           <BarChart size={14} />
-          Estatisticas
+          {dictionary.stats}
           <ProBadge />
         </Action.Button>
       </Action.Root>
-
-      {/* 
-      <div className="p-4 flex justify-between items-center border-t">
-        <button
-          className="flex items-center gap-2 hover:bg-muted"
-          type="button"
-          onClick={() => handleLike()}
-        >
-          <Copy size={14} />
-          Clone
-        </button>
-
-        <span className="text-muted-foreground text-sm">191 likes</span>
-      </div> */}
-
-      {/* <div className="p-4 flex justify-between items-center border-t">
-        <button
-          className="flex items-center gap-2 hover:bg-muted"
-          type="button"
-          onClick={() => handleLike()}
-        >
-          <List size={14} />
-          Add to list
-        </button>
-      </div> */}
     </div>
   )
 }

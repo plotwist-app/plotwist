@@ -545,7 +545,6 @@
     "cta": "Ver outras listas."
   },
   "review_likes": {
-    "title": "Curtidas",
     "view_profile": "Ver perfil"
   },
   "legacy_user": {
@@ -724,5 +723,6 @@
   "feature_only_in_pro_plan": "Esta funcionalidade está disponível apenas no Plano PRO.",
   "more": "Ver mais",
   "popular_reviews": "Avaliações populares",
-  "liked": "Curtido"
+  "liked": "Curtido",
+  "likes": "Curtidas"
 }

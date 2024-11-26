@@ -547,7 +547,6 @@
     "cta": "Visualizza altre liste."
   },
   "review_likes": {
-    "title": "Piace",
     "view_profile": "Vedi profilo"
   },
   "legacy_user": {
@@ -726,5 +725,6 @@
   "feature_only_in_pro_plan": "Questa funzionalità è disponibile solo nel Piano PRO.",
   "more": "Vedi di più",
   "popular_reviews": "Recensioni Popolari",
-  "liked": "Piaciuto"
+  "liked": "Piaciuto",
+  "likes": "Piace"
 }
