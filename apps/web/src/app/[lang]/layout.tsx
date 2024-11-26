@@ -19,13 +19,20 @@ export const dynamic = 'force-dynamic'
 
 type RootLayoutProps = {
   children: React.ReactNode
-  params: { lang: Language }
+  params: Promise<{ lang: Language }>
 }
 
-export default async function RootLayout({
-  children,
-  params: { lang },
-}: RootLayoutProps) {
+export default async function RootLayout(props: RootLayoutProps) {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
+  const {
+    children
+  } = props;
+
   const dictionary = await getDictionary(lang)
 
   return (

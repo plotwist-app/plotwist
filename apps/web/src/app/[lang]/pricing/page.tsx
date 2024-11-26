@@ -4,9 +4,13 @@ import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import type { Metadata } from 'next'
 
-export async function generateMetadata({
-  params: { lang },
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const {
     home_prices: { title, description },
   } = await getDictionary(lang)

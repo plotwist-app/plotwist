@@ -21,13 +21,13 @@ export type UserPageProps = PageProps<Record<'username', string>> &
 
 export default async function Layout(props: UserPageProps) {
   const { params, children } = props
-  const { lang, username } = params
+  const { lang, username } = await params
 
   const { user } = await getUsersUsername(username)
   const dictionary = await getDictionary(lang)
 
   if (!user) {
-    redirect(`/${params.lang}/home`)
+    redirect(`/${lang}/home`)
   }
 
   const { socialLinks } = await getSocialLinks({ userId: user.id })

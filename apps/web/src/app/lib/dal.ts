@@ -6,7 +6,7 @@ import { AXIOS_INSTANCE } from '@/services/axios-instance'
 import { cookies } from 'next/headers'
 
 export const verifySession = async () => {
-  const cookie = cookies().get('session')?.value
+  const cookie = (await cookies()).get('session')?.value
   const session = await decrypt(cookie)
 
   if (session) {

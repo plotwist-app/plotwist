@@ -4,9 +4,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const {
     movie_pages: {
       upcoming: { title, description },
@@ -28,7 +27,13 @@ export async function generateMetadata({
   }
 }
 
-const UpcomingMoviesPage = async ({ params: { lang } }: PageProps) => {
+const UpcomingMoviesPage = async (props: PageProps) => {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const dictionary = await getDictionary(lang)
 
   return (

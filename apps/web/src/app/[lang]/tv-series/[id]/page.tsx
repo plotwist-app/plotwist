@@ -17,9 +17,14 @@ export async function generateStaticParams() {
   return tvSeriesIds.map(id => ({ id: String(id) }))
 }
 
-export async function generateMetadata({
-  params: { id, lang },
-}: TvSeriePageProps): Promise<Metadata> {
+export async function generateMetadata(props: TvSeriePageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    id,
+    lang
+  } = params;
+
   const {
     name,
     overview,
@@ -63,7 +68,8 @@ export async function generateMetadata({
   }
 }
 
-const TvSeriePage = ({ params }: TvSeriePageProps) => {
+const TvSeriePage = async (props: TvSeriePageProps) => {
+  const params = await props.params;
   return <TvSerieDetails id={Number(params.id)} language={params.lang} />
 }
 

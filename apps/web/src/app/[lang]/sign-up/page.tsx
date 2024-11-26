@@ -6,9 +6,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SignUpForm } from './_components/sign-up-form'
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const dictionary = await getDictionary(params.lang)
   const title = dictionary.start_now
 
@@ -24,7 +23,13 @@ export async function generateMetadata({
   }
 }
 
-const SignUpPage = async ({ params: { lang } }: PageProps) => {
+const SignUpPage = async (props: PageProps) => {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const dictionary = await getDictionary(lang)
 
   return (

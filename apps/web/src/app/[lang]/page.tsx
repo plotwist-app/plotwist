@@ -12,9 +12,13 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
 
-export async function generateMetadata({
-  params: { lang },
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const dictionary = await getDictionary(lang)
 
   const image = `${APP_URL}/images/lp/home.png`
@@ -64,7 +68,13 @@ export async function generateMetadata({
   }
 }
 
-export default async function Home({ params: { lang } }: PageProps) {
+export default async function Home(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   return (
     <>
       <Pattern variant="checkered" />

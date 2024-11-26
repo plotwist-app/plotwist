@@ -4,9 +4,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const {
     tv_serie_pages: {
       popular: { title, description },
@@ -28,7 +27,13 @@ export async function generateMetadata({
   }
 }
 
-const PopularTvSeriesPage = async ({ params: { lang } }: PageProps) => {
+const PopularTvSeriesPage = async (props: PageProps) => {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const {
     tv_serie_pages: {
       popular: { title, description },
