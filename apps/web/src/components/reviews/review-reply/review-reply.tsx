@@ -97,6 +97,7 @@ export const ReviewReply = ({
 
                   <div className="relative space-y-1 rounded-md border p-4">
                     <p className="text-sm">{reply.reply}</p>
+
                     <Likes
                       entityId={reply.id}
                       likeCount={reply.likeCount}

@@ -159,13 +159,11 @@
     "hide_replies": "Antworten verbergen"
   },
   "review_item_actions": {
-    "like": "Gefällt mir",
     "reply": "Antworten",
     "dialog_title": "Sind Sie sich absolut sicher?",
     "dialog_description": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "review_reply_actions": {
-    "like": "Gefällt mir",
     "delete": "Löschen",
     "delete_success": "Antwort erfolgreich gelöscht.",
     "dialog_title": "Sind Sie sich absolut sicher?",
@@ -551,7 +549,6 @@
     "cta": "Andere Listen ansehen."
   },
   "review_likes": {
-    "title": "Likes",
     "view_profile": "Profil anzeigen"
   },
   "legacy_user": {
@@ -592,7 +589,6 @@
   "link_copied_to_clipboard": "Link in die Zwischenablage kopiert",
   "share_to_twitter": "Auf Twitter teilen",
   "share_to_instagram": "Auf Instagram teilen",
-  "right_click_here": "Hier rechtsklicken",
   "list_cloned_successfully": "Liste erfolgreich geklont!",
   "see_list": "Liste anzeigen",
   "unable_to_clone_list": "Liste konnte nicht geklont werden.",
@@ -731,5 +727,7 @@
   "update_status": "Status aktualisieren",
   "feature_only_in_pro_plan": "Diese Funktion ist nur im PRO-Plan verfügbar.",
   "more": "Mehr anzeigen",
-  "popular_reviews": "Beliebte Bewertungen"
+  "popular_reviews": "Beliebte Bewertungen",
+  "liked": "Gemocht",
+  "likes": "Likes"
 }

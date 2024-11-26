@@ -12,7 +12,7 @@ import {
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { useGetLikesEntityId } from '@/api/like'
-import { useState } from 'react'
+import { type PropsWithChildren, useState } from 'react'
 import Link from 'next/link'
 import {
   Avatar,
@@ -24,14 +24,20 @@ import { ProBadge } from '../pro-badge'
 import { Heart } from 'lucide-react'
 import { v4 } from 'uuid'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import NumberFlow from '@number-flow/react'
 
 type LikesProps = {
   className?: string
   likeCount: number
   entityId: string
-}
+} & PropsWithChildren
 
-export function Likes({ className, likeCount, entityId }: LikesProps) {
+export function Likes({
+  className,
+  likeCount,
+  entityId,
+  children,
+}: LikesProps) {
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
   const { data, isLoading } = useGetLikesEntityId(entityId, {
@@ -84,11 +90,7 @@ export function Likes({ className, likeCount, entityId }: LikesProps) {
               </span>
             </Link>
 
-            {user.subscriptionType === 'PRO' && (
-              <Link href={`/${language}/pricing`}>
-                <ProBadge />
-              </Link>
-            )}
+            {user.subscriptionType === 'PRO' && <ProBadge />}
 
             <Link
               href={`/${language}/${user.username}`}
@@ -104,18 +106,23 @@ export function Likes({ className, likeCount, entityId }: LikesProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        className={cn(
-          'rounded-md flex items-center bg-background border px-3 py-1 text-xs z-20 gap-0.5',
-          className
+      <DialogTrigger asChild>
+        {children || (
+          <div
+            className={cn(
+              'rounded-md flex items-center bg-background border px-3 py-1 text-xs z-20 gap-1.5 cursor-pointer tabular-nums',
+              className
+            )}
+          >
+            <Heart size={12} className="fill-foreground" />
+            <NumberFlow value={likeCount} />
+          </div>
         )}
-      >
-        <Heart size={12} /> <span className="ml-1">{likeCount}</span>
       </DialogTrigger>
 
       <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
         <DialogHeader className="mb-2">
-          <DialogTitle>{dictionary.review_likes.title}</DialogTitle>
+          <DialogTitle>{dictionary.likes}</DialogTitle>
         </DialogHeader>
 
         <Content />

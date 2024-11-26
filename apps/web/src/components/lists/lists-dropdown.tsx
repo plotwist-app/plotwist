@@ -76,13 +76,13 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
   )
 
   const handleAdd = useCallback(
-    async (list: List) => {
+    async (listId: string) => {
       if (!user) return
 
       await postListItem.mutateAsync(
         {
           data: {
-            listId: list.id,
+            listId: listId,
             tmdbId: item.id,
             mediaType: 'title' in item ? 'MOVIE' : 'TV_SHOW',
           },
@@ -96,7 +96,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
             toast.success(addedSuccessfully, {
               action: {
                 label: seeList,
-                onClick: () => push(`/${language}/lists/${list.id}`),
+                onClick: () => push(`/${language}/lists/${listId}`),
               },
             })
           },
@@ -135,7 +135,9 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
                 key={list.id}
                 checked={Boolean(itemIncluded)}
                 onClick={() =>
-                  itemIncluded ? handleRemove(itemIncluded.id) : handleAdd(list)
+                  itemIncluded
+                    ? handleRemove(itemIncluded.id)
+                    : handleAdd(list.id)
                 }
               >
                 {list.title}

@@ -159,13 +159,11 @@
     "hide_replies": "Hide replies"
   },
   "review_item_actions": {
-    "like": "Like",
     "reply": "Reply",
     "dialog_title": "Are you absolutely sure?",
     "dialog_description": "This action cannot be undone."
   },
   "review_reply_actions": {
-    "like": "Like",
     "delete": "Delete",
     "delete_success": "Reply deleted successfully.",
     "dialog_title": "Are you absolutely sure?",
@@ -548,7 +546,6 @@
     "cta": "View other lists."
   },
   "review_likes": {
-    "title": "Likes",
     "view_profile": "View profile"
   },
   "legacy_user": {
@@ -589,7 +586,6 @@
   "link_copied_to_clipboard": "Link copied to clipboard",
   "share_to_twitter": "Share to Twitter",
   "share_to_instagram": "Share to Instagram",
-  "right_click_here": "Right Click Here",
   "list_cloned_successfully": "List cloned successfully!",
   "see_list": "See list",
   "unable_to_clone_list": "Unable to clone list.",
@@ -726,5 +722,7 @@
   "update_status": "Update Status",
   "feature_only_in_pro_plan": "This feature is available only in the PRO Plan.",
   "more": "View more",
-  "popular_reviews": "Popular Reviews"
+  "popular_reviews": "Popular Reviews",
+  "liked": "Liked",
+  "likes": "Likes"
 }

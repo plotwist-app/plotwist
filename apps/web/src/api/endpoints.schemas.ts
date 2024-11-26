@@ -892,6 +892,16 @@ export const PatchListBanner200ListVisibility = {
   PRIVATE: 'PRIVATE',
 } as const;
 
+/**
+ * @nullable
+ */
+export type PatchListBanner200ListUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
+
 export type PatchListBanner200List = {
   /** @nullable */
   bannerPath: string | null;
@@ -899,8 +909,11 @@ export type PatchListBanner200List = {
   /** @nullable */
   description: string | null;
   id: string;
+  likeCount: number;
   title: string;
   userId: string;
+  /** @nullable */
+  userLike: PatchListBanner200ListUserLike;
   visibility: PatchListBanner200ListVisibility;
 };
 
@@ -920,6 +933,10 @@ export type GetListById404 = {
   message: string;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -930,6 +947,16 @@ export const GetListById200ListVisibility = {
   PRIVATE: 'PRIVATE',
 } as const;
 
+/**
+ * @nullable
+ */
+export type GetListById200ListUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
+
 export type GetListById200List = {
   /** @nullable */
   bannerPath: string | null;
@@ -937,13 +964,12 @@ export type GetListById200List = {
   /** @nullable */
   description: string | null;
   id: string;
+  likeCount: number;
   title: string;
   userId: string;
+  /** @nullable */
+  userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
-};
-
-export type GetListById200 = {
-  list: GetListById200List;
 };
 
 /**
@@ -1018,22 +1044,6 @@ export type GetLists404 = {
   message: string;
 };
 
-export type GetLists200ListsItem = {
-  /** @nullable */
-  bannerPath: string | null;
-  createdAt: string;
-  /** @nullable */
-  description: string | null;
-  hasLiked: boolean;
-  id: string;
-  items: GetLists200ListsItemItemsItem[];
-  likeCount: number;
-  title: string;
-  user: GetLists200ListsItemUser;
-  userId: string;
-  visibility: GetLists200ListsItemVisibility;
-};
-
 export type GetLists200 = {
   lists: GetLists200ListsItem[];
 };
@@ -1053,6 +1063,22 @@ export type GetLists200ListsItemUser = {
   /** @nullable */
   imagePath: string | null;
   username: string;
+};
+
+export type GetLists200ListsItem = {
+  /** @nullable */
+  bannerPath: string | null;
+  createdAt: string;
+  /** @nullable */
+  description: string | null;
+  hasLiked: boolean;
+  id: string;
+  items: GetLists200ListsItemItemsItem[];
+  likeCount: number;
+  title: string;
+  user: GetLists200ListsItemUser;
+  userId: string;
+  visibility: GetLists200ListsItemVisibility;
 };
 
 export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];

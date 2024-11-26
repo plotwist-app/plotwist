@@ -548,7 +548,6 @@
     "cta": "Voir d'autres listes."
   },
   "review_likes": {
-    "title": "Aime",
     "view_profile": "Voir le profil"
   },
   "legacy_user": {
@@ -589,7 +588,6 @@
   "link_copied_to_clipboard": "Lien copié dans le presse-papiers",
   "share_to_twitter": "Partager sur Twitter",
   "share_to_instagram": "Partager sur Instagram",
-  "right_click_here": "Cliquez droit ici",
   "list_cloned_successfully": "Liste clonée avec succès!",
   "see_list": "Voir la liste",
   "unable_to_clone_list": "Impossible de cloner la liste.",
@@ -727,5 +725,7 @@
   "update_status": "Mettre à jour le statut",
   "feature_only_in_pro_plan": "Cette fonctionnalité est disponible uniquement dans le Plan PRO.",
   "more": "Voir plus",
-  "popular_reviews": "Avis Populaires"
+  "popular_reviews": "Avis Populaires",
+  "liked": "Aimé",
+  "likes": "Aime"
 }
