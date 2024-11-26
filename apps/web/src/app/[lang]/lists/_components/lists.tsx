@@ -7,14 +7,6 @@ import { ListCard, ListCardSkeleton } from '@/components/list-card'
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
 
 import { useSession } from '@/context/session'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
-import { LockKeyhole } from 'lucide-react'
-import Link from 'next/link'
 import { v4 } from 'uuid'
 import { ListForm } from './list-form'
 

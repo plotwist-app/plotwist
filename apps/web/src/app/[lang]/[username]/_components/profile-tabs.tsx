@@ -112,6 +112,26 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             </Link>
           </TabsTrigger>
 
+          {HIDDEN_TABS.map(tab => (
+            <TabsTrigger
+              value={tab.label}
+              key={tab.label}
+              disabled={tab.disabled}
+              asChild
+            >
+              <Link
+                href={`/${language}/${user.username}/${tab.path}`}
+                className={cn(
+                  'w-full flex lg:hidden',
+                  tab.disabled && 'opacity-50 pointer-events-none'
+                )}
+              >
+                {tab.icon}
+                {tab.label}
+              </Link>
+            </TabsTrigger>
+          ))}
+
           <DropdownMenu>
             <DropdownMenuTrigger>
               <div className="hidden items-center text-sm justify-center whitespace-nowrap rounded-md px-3 py-1 font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:flex">
@@ -139,26 +159,6 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {HIDDEN_TABS.map(tab => (
-            <TabsTrigger
-              value={tab.label}
-              key={tab.label}
-              disabled={tab.disabled}
-              asChild
-            >
-              <Link
-                href={`/${language}/${user.username}/${tab.path}`}
-                className={cn(
-                  'w-full flex lg:hidden',
-                  tab.disabled && 'opacity-50 pointer-events-none'
-                )}
-              >
-                {tab.icon}
-                {tab.label}
-              </Link>
-            </TabsTrigger>
-          ))}
         </TabsList>
       </div>
     </Tabs>

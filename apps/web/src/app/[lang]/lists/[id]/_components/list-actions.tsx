@@ -75,12 +75,8 @@ export function ListActions({ list }: ListActionsProps) {
     )
   }
 
-  console.log({
-    disabled: handleCreateLike.isPending || handleDeleteLike.isPending,
-  })
-
   return (
-    <div className="border rounded-sm">
+    <div className="border rounded-sm sticky top-4">
       <Action.Root className="hover:bg-inherit cursor-default p-0">
         <Action.Button
           onClick={() => {
@@ -97,7 +93,8 @@ export function ListActions({ list }: ListActionsProps) {
           disabled={handleCreateLike.isPending || handleDeleteLike.isPending}
         >
           <Heart className={cn(list.userLike && 'fill-foreground')} size={14} />
-          {list.userLike ? 'Curtido' : 'Curtir'}
+
+          {list.userLike ? dictionary.liked : dictionary.like}
         </Action.Button>
 
         {list.likeCount > 0 && (
