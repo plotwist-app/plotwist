@@ -157,7 +157,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
                   >
                     {tab.icon}
                     {tab.label}
-                    {tab.pro && <ProBadge className="ml-auto" />}
+                    {tab.pro && <ProBadge className="ml-auto" isLink={false} />}
                   </Link>
                 </DropdownMenuItem>
               ))}
