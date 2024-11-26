@@ -1,26 +1,24 @@
 import { Badge } from '@plotwist/ui/components/ui/badge'
+import { WatchedStats } from './_watched'
 
 export default async function StatsPage() {
   return (
     <section className="space-y-8">
-      <section>
+      <section className="space-y-2">
         <b>Totais e Resumos Gerais</b>
 
-        <ul className="list-disc ml-8 text-muted-foreground">
-          <li>
-            Total de filmes assistidos (com ícones visuais ou capas
-            representativas).
-          </li>
+        <div className="grid grid-cols-2 gap-2">
+          <WatchedStats />
 
-          <li>Total de séries concluídas (e episódios assistidos)</li>
+          {/* <li>Total de séries concluídas (e episódios assistidos)</li>
           <li>
             Tempo total gasto assistindo (em horas, dias ou semanas, com
             equivalências criativas, como "você passou 3 dias e 6 horas no
             universo Marvel").
           </li>
           <li>Número de avaliações feitas</li>
-          <li>Quantidade de listas criadas</li>
-        </ul>
+          <li>Quantidade de listas criadas</li> */}
+        </div>
       </section>
 
       {/* <section>
