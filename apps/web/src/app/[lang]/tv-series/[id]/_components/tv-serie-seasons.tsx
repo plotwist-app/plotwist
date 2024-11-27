@@ -33,7 +33,7 @@ const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger className="text-start">
         <div className="group cursor-pointer space-y-2">
           <div className="w-full">
             <Poster url={poster} alt={name} />
