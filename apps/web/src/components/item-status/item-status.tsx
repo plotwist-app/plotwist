@@ -48,8 +48,10 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       mediaType,
       tmdbId: String(tmdbId),
     },
-    { query: { enabled: Boolean(user), select: data => data.userItem } }
+    { query: { enabled: Boolean(user) } }
   )
+
+  const userItem = data?.userItem
 
   const handleStatusChange = async (
     newStatus: GetUserItem200UserItemStatus
@@ -58,9 +60,9 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       return push(`/${language}/sign-in`)
     }
 
-    if (newStatus === data?.status) {
+    if (newStatus === userItem?.status) {
       await deleteUserItem.mutateAsync(
-        { id: data.id },
+        { id: userItem.id },
         {
           onSettled: () => {
             APP_QUERY_CLIENT.resetQueries({
@@ -94,28 +96,28 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       variant={data ? 'default' : 'outline'}
       disabled={isDisabled}
     >
-      {data?.status === 'WATCHED' && (
+      {userItem?.status === 'WATCHED' && (
         <>
           <Eye className="mr-2" size={14} />
           {dictionary.watched}
         </>
       )}
 
-      {data?.status === 'WATCHING' && (
+      {userItem?.status === 'WATCHING' && (
         <>
           <Loader className="mr-2" size={14} />
           {dictionary.watching}
         </>
       )}
 
-      {data?.status === 'WATCHLIST' && (
+      {userItem?.status === 'WATCHLIST' && (
         <>
           <Clock className="mr-2" size={14} />
           {dictionary.watchlist}
         </>
       )}
 
-      {!data && (
+      {!userItem && (
         <>
           <Pen className="mr-2" size={14} />
           {dictionary.update_status}
@@ -138,7 +140,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
           <DropdownMenuCheckboxItem
             onCheckedChange={() => handleStatusChange('WATCHED')}
-            checked={data?.status === 'WATCHED'}
+            checked={userItem?.status === 'WATCHED'}
             disabled={isDisabled}
           >
             {dictionary.watched}
@@ -146,7 +148,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
           <DropdownMenuCheckboxItem
             onCheckedChange={() => handleStatusChange('WATCHING')}
-            checked={data?.status === 'WATCHING'}
+            checked={userItem?.status === 'WATCHING'}
             disabled={isDisabled}
           >
             {dictionary.watching}
@@ -154,7 +156,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
           <DropdownMenuCheckboxItem
             onCheckedChange={() => handleStatusChange('WATCHLIST')}
-            checked={data?.status === 'WATCHLIST'}
+            checked={userItem?.status === 'WATCHLIST'}
             disabled={isDisabled}
           >
             {dictionary.watchlist}
@@ -176,7 +178,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
 
         <div className="grid grid-cols-3 gap-2 px-4 mb-4">
           <Button
-            variant={data?.status === 'WATCHED' ? 'default' : 'outline'}
+            variant={userItem?.status === 'WATCHED' ? 'default' : 'outline'}
             onClick={() => handleStatusChange('WATCHED')}
             disabled={isDisabled}
           >
@@ -184,7 +186,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
           </Button>
 
           <Button
-            variant={data?.status === 'WATCHING' ? 'default' : 'outline'}
+            variant={userItem?.status === 'WATCHING' ? 'default' : 'outline'}
             onClick={() => handleStatusChange('WATCHING')}
             disabled={isDisabled}
           >
@@ -192,7 +194,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
           </Button>
 
           <Button
-            variant={data?.status === 'WATCHLIST' ? 'default' : 'outline'}
+            variant={userItem?.status === 'WATCHLIST' ? 'default' : 'outline'}
             onClick={() => handleStatusChange('WATCHLIST')}
             disabled={isDisabled}
           >

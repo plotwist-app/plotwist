@@ -109,19 +109,16 @@ export function TvSeriesProgress({
           },
           {
             onSettled: () => {
-              APP_QUERY_CLIENT.setQueryData(
-                queryKey,
-                (userEpisodes: GetUserEpisodes200Item[]) => {
-                  return userEpisodes.filter(
-                    userEpisode =>
-                      !episodes.some(
-                        episode =>
-                          userEpisode.seasonNumber === episode.season_number &&
-                          userEpisode.episodeNumber === episode.episode_number
-                      )
-                  )
-                }
-              )
+              APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
+                return userEpisodes?.filter(
+                  userEpisode =>
+                    !episodes.some(
+                      episode =>
+                        userEpisode.seasonNumber === episode.season_number &&
+                        userEpisode.episodeNumber === episode.episode_number
+                    )
+                )
+              })
             },
           }
         )
@@ -143,12 +140,9 @@ export function TvSeriesProgress({
         {
           onSuccess: response => {
             if (response) {
-              APP_QUERY_CLIENT.setQueryData(
-                queryKey,
-                (userEpisodes: GetUserEpisodes200Item[]) => {
-                  return [...userEpisodes, ...response]
-                }
-              )
+              APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
+                return [...(userEpisodes || []), ...response]
+              })
             }
           },
         }
@@ -166,12 +160,9 @@ export function TvSeriesProgress({
         { data: { ids: [id] } },
         {
           onSettled: () => {
-            APP_QUERY_CLIENT.setQueryData(
-              queryKey,
-              (userEpisodes: GetUserEpisodes200Item[]) => {
-                return userEpisodes.filter(userEpisode => userEpisode.id !== id)
-              }
-            )
+            APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
+              return userEpisodes?.filter(userEpisode => userEpisode.id !== id)
+            })
           },
         }
       )
@@ -190,12 +181,9 @@ export function TvSeriesProgress({
       {
         onSuccess: response => {
           if (response) {
-            APP_QUERY_CLIENT.setQueryData(
-              queryKey,
-              (userEpisodes: GetUserEpisodes200Item[]) => {
-                return [...userEpisodes, ...response]
-              }
-            )
+            APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
+              return [...(userEpisodes || []), ...response]
+            })
           }
         },
       }
@@ -209,17 +197,15 @@ export function TvSeriesProgress({
           { data: { mediaType: 'TV_SHOW', status: 'WATCHED', tmdbId } },
           {
             onSuccess: () => {
-              APP_QUERY_CLIENT.setQueryData(
-                userItemQueryKey,
-                (old: GetUserItem200) => {
+              APP_QUERY_CLIENT.setQueryData(userItemQueryKey, old => {
+                if (old?.userItem)
                   return {
                     userItem: {
                       ...old.userItem,
-                      status: 'WATCHED',
+                      status: 'WATCHED' as const,
                     },
                   }
-                }
-              )
+              })
 
               confettiButtonRef.current?.click()
             },
@@ -239,17 +225,16 @@ export function TvSeriesProgress({
         },
         {
           onSuccess: () => {
-            APP_QUERY_CLIENT.setQueryData(
-              userItemQueryKey,
-              (old: GetUserItem200) => {
+            APP_QUERY_CLIENT.setQueryData(userItemQueryKey, old => {
+              if (old?.userItem) {
                 return {
                   userItem: {
                     ...old.userItem,
-                    status: 'WATCHING',
+                    status: 'WATCHING' as const,
                   },
                 }
               }
-            )
+            })
           },
         }
       )
