@@ -106,6 +106,7 @@ export const ListCommand = ({
               )}
 
               {hasTv && hasMovies && <Separator />}
+
               {hasTv && (
                 <ListCommandTv
                   tv={tv}

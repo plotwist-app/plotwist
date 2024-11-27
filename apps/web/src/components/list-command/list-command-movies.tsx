@@ -48,7 +48,7 @@ export const ListCommandMovies = ({
           )
 
           return (
-            <HoverCard key={movie.id} openDelay={0} closeDelay={0}>
+            <HoverCard key={movie.id}>
               <ListCommandItem.Root>
                 <HoverCardTrigger>
                   <ListCommandItem.Label>

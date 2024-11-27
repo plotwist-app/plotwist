@@ -10,11 +10,13 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
 import {
   Drawer,
   DrawerContent,
+  DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
 import {
@@ -74,7 +76,11 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
 
-        <DialogContent>{content}</DialogContent>
+        <DialogContent>
+          <DialogTitle className="hidden" />
+
+          {content}
+        </DialogContent>
       </Dialog>
     )
   }
@@ -83,6 +89,7 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
+        <DrawerTitle className="hidden" />
         <div className="p-4">{content}</div>
       </DrawerContent>
     </Drawer>

@@ -15,6 +15,7 @@ import { ProfileTabs } from './_components/profile-tabs'
 import { SocialLinks } from './_components/social-links'
 import { UserDialog } from './_components/user-dialog'
 import { LayoutProvider } from './_context'
+import { UserResumeStats } from './_components/user-resume-stats'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
@@ -41,7 +42,7 @@ export default async function Layout(props: UserPageProps) {
           className={cn(
             'mx-auto max-w-5xl px-4',
             'flex flex-col',
-            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-8'
+            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-6'
           )}
         >
           <aside className="flex flex-col space-y-4 col-span-1 relative">
@@ -76,35 +77,7 @@ export default async function Layout(props: UserPageProps) {
                   </UserDialog>
                 </div>
 
-                <div className="grid grid-cols-4 my-2">
-                  <div className="border-r pr-4">
-                    <p className="font-bold text-md">129</p>
-                    <p className="text-xs text-muted-foreground">
-                      {dictionary.followers}
-                    </p>
-                  </div>
-
-                  <div className="border-r px-4">
-                    <p className="font-bold text-md">3</p>
-                    <p className="text-xs text-muted-foreground">
-                      {dictionary.following}
-                    </p>
-                  </div>
-
-                  <div className="border-r px-4">
-                    <p className="font-bold text-md">192</p>
-                    <p className="text-xs text-muted-foreground">
-                      {dictionary.movies}
-                    </p>
-                  </div>
-
-                  <div className="pl-4">
-                    <p className="font-bold text-md">12</p>
-                    <p className="text-xs text-muted-foreground">
-                      {dictionary.tv_series}
-                    </p>
-                  </div>
-                </div>
+                <UserResumeStats dictionary={dictionary} userId={user.id} />
 
                 <p className="text-muted-foreground mt-2 text-sm">
                   {user.biography}

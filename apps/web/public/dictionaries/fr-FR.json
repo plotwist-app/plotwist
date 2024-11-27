@@ -512,7 +512,7 @@
     "explore_popular_lists": "Cliquez ici pour explorer les listes les plus populaires"
   },
   "profile_form": {
-    "dialog_title": "Modifier le profil",
+    "dialog_title": "Modifier",
     "username_label": "Nom d'utilisateur",
     "username_placeholder": "John",
     "username_required": "Un nouveau nom d'utilisateur est requis",
@@ -561,7 +561,7 @@
   "follow": "Suivre",
   "unfollow": "Ne plus suivre",
   "followers": "Abonnés",
-  "following": "Abonnements",
+  "following": "Suivs",
   "visit": "Visiter",
   "like": "Aimer",
   "remove_like": "Ne plus aimer",
@@ -712,5 +712,5 @@
   "liked": "Aimé",
   "likes": "Aime",
   "movies": "Films",
-  "tv_series": "Séries TV"
+  "tv_series": "Séries"
 }
