@@ -82,7 +82,7 @@ export const TvSerieSeasons = ({
   language,
 }: TvSerieSeasonsProps) => {
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 items-start">
       {seasons
         .filter(
           season => season.season_number !== 0 && season.episode_count > 0

@@ -73,7 +73,6 @@ export function TvSeriesProgress({
   const confettiButtonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary } = useLanguage()
-  const { user } = useSession()
 
   const totalEpisodes = seasonsDetails.reduce(
     (acc, current) => acc + current.episodes.length,
@@ -291,17 +290,27 @@ export function TvSeriesProgress({
               isBefore(new Date(e.air_date), new Date())
             )
 
-            const allReleasedWatched = releasedEpisodes.every(episode =>
-              Boolean(findUserEpisode(episode))
-            )
+            const hasReleasedEpisodes = releasedEpisodes.length > 0
+
+            const allReleasedWatched =
+              hasReleasedEpisodes &&
+              releasedEpisodes.every(episode =>
+                Boolean(findUserEpisode(episode))
+              )
 
             return (
               <AccordionItem value={season.name} key={season.id}>
-                <div className="flex items-center justify-between py-4 text-sm font-medium transition-all [&[data-state=open]_svg]:rotate-18">
+                <div
+                  className={cn(
+                    'flex items-center justify-between py-4 text-sm font-medium transition-all [&[data-state=open]_svg]:rotate-18',
+                    !hasReleasedEpisodes && 'opacity-50'
+                  )}
+                >
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id={String(season.id)}
                       checked={allReleasedWatched}
+                      disabled={!hasReleasedEpisodes}
                       onCheckedChange={() =>
                         handleToggleSeason(releasedEpisodes)
                       }
