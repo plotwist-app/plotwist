@@ -177,7 +177,10 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
             <Button variant="outline">
               {dictionary.legacy_user.resend_email}
             </Button>
-            <Button>{dictionary.legacy_user.agree}</Button>
+
+            <Button onClick={() => setWarningDialogOpen(false)}>
+              {dictionary.legacy_user.agree}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
