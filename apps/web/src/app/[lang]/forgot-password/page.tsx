@@ -5,9 +5,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import type { Metadata } from 'next'
 import { ForgotPasswordForm } from './_components/forgot-password-form'
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const dictionary = await getDictionary(params.lang)
   const title = dictionary.access_plotwist
 
@@ -23,7 +22,13 @@ export async function generateMetadata({
   }
 }
 
-const ForgotPasswordPage = async ({ params: { lang } }: PageProps) => {
+const ForgotPasswordPage = async (props: PageProps) => {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const dictionary = await getDictionary(lang)
 
   return (

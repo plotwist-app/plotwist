@@ -29,14 +29,14 @@ export const AnimeList = () => {
           className="cursor-pointer"
           variant={type === 'tv' ? 'default' : 'outline'}
         >
-          {dictionary.animes_page.button_tv_series}
+          {dictionary.tv_series}
         </Badge>
         <Badge
           onClick={() => handleReplaceType('movies')}
           className="cursor-pointer"
           variant={type === 'movies' ? 'default' : 'outline'}
         >
-          {dictionary.animes_page.button_movies}
+          {dictionary.movies}
         </Badge>
       </div>
 

@@ -15,19 +15,20 @@ import { ProfileTabs } from './_components/profile-tabs'
 import { SocialLinks } from './_components/social-links'
 import { UserDialog } from './_components/user-dialog'
 import { LayoutProvider } from './_context'
+import { UserResumeStats } from './_components/user-resume-stats'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
 
 export default async function Layout(props: UserPageProps) {
   const { params, children } = props
-  const { lang, username } = params
+  const { lang, username } = await params
 
   const { user } = await getUsersUsername(username)
   const dictionary = await getDictionary(lang)
 
   if (!user) {
-    redirect(`/${params.lang}/home`)
+    redirect(`/${lang}/home`)
   }
 
   const { socialLinks } = await getSocialLinks({ userId: user.id })
@@ -41,7 +42,7 @@ export default async function Layout(props: UserPageProps) {
           className={cn(
             'mx-auto max-w-5xl px-4',
             'flex flex-col',
-            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-8'
+            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-6'
           )}
         >
           <aside className="flex flex-col space-y-4 col-span-1 relative">
@@ -76,6 +77,8 @@ export default async function Layout(props: UserPageProps) {
                   </UserDialog>
                 </div>
 
+                <UserResumeStats dictionary={dictionary} userId={user.id} />
+
                 <p className="text-muted-foreground mt-2 text-sm">
                   {user.biography}
                 </p>
@@ -87,9 +90,6 @@ export default async function Layout(props: UserPageProps) {
                   )}
                 >
                   {user.subscriptionType === 'PRO' && <ProBadge />}
-
-                  {/* <Badge variant="outline">375 movies</Badge> */}
-                  {/* <Badge variant="outline">375 series</Badge> */}
 
                   {/* <Badge variant="outline">Potterhead</Badge>
                 <Badge variant="outline">Marveleiro</Badge>

@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
+import { useRouter } from 'next/navigation'
 
 type UserItemsCommandProps = {
   items: GetUserItems200Item[]
@@ -27,9 +28,9 @@ export function UserItemsCommand({
 }: UserItemsCommandProps) {
   const add = usePutUserItem()
   const remove = useDeleteUserItemId()
+  const { refresh } = useRouter()
 
   const { language, dictionary } = useLanguage()
-  const { user } = useSession()
 
   const messages: Record<
     UserItemsCommandProps['status'],
@@ -66,6 +67,7 @@ export function UserItemsCommand({
               })
 
               toast.success(messages[status].add)
+              refresh()
             },
           }
         )
@@ -84,6 +86,7 @@ export function UserItemsCommand({
               })
 
               toast.success(messages[status].remove)
+              refresh()
             },
           }
         )

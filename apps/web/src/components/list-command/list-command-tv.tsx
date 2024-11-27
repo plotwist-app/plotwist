@@ -37,9 +37,7 @@ export const ListCommandTv = ({
 
   return (
     <ListCommandGroup.Root>
-      <ListCommandGroup.Label>
-        {dictionary.list_command.tv_series_label}
-      </ListCommandGroup.Label>
+      <ListCommandGroup.Label>{dictionary.tv_series}</ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
         {tv.map(tvSerie => {

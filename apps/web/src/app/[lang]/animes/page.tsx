@@ -3,7 +3,13 @@ import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Container } from '../_components/container'
 
-const DiscoverMoviesPage = async ({ params: { lang } }: PageProps) => {
+const DiscoverMoviesPage = async (props: PageProps) => {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
   const dictionary = await getDictionary(lang)
 
   return (

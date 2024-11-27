@@ -15,12 +15,11 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { ListActions } from './_components/list-actions'
 
 type ListPageProps = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({
-  params,
-}: ListPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ListPageProps): Promise<Metadata> {
+  const params = await props.params;
   const { list } = await getListById(params.id)
 
   const title = list.title
@@ -46,7 +45,13 @@ export async function generateMetadata({
   }
 }
 
-export default async function ListPage({ params: { id } }: ListPageProps) {
+export default async function ListPage(props: ListPageProps) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const session = await verifySession()
   const { list } = await getListById(id)
 

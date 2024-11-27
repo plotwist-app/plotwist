@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Find your favorite animes",
-    "button_tv_series": "TV Series",
-    "button_movies": "Movies"
+    "description": "Find your favorite animes"
   },
   "login_form": {
     "email_label": "E-mail",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "Home",
-    "movies": "Movies",
     "discover": "Discover",
     "discover_description": "Ready for something new? Let us surprise you with movies and shows you'll love.",
     "now_playing": "Now Playing",
@@ -104,7 +101,6 @@
     "top_rated_description": "Discover what have won over the hearts and minds of audiences and critics.",
     "upcoming": "Upcoming",
     "upcoming_description": "Stay tuned about the next big hits set to premiere soon.",
-    "tv_series": "TV Series",
     "tv_series_description": "Binge-worthy series. Explore new stories, unforgettable characters, and your next binge-watches.",
     "airing_today": "Airing Today",
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
@@ -119,7 +115,6 @@
     "placeholder": "Search for movies, TV Series, or people",
     "search_everything": "Search anything",
     "no_results": "No results found.",
-    "movies": "Movies",
     "tv_series": "TV Series",
     "people": "People"
   },
@@ -442,10 +437,8 @@
   "list_command": {
     "search_placeholder": "Search for anything...",
     "no_results": "No results found.",
-    "tv_series_label": "TV Series",
     "tv_added_success": "TV Series successfully added.",
     "tv_removed_success": "TV Series successfully removed.",
-    "movies_label": "Movies",
     "remove_from_list": "Remove from list",
     "view_details": "View details",
     "movie_added_success": "Movie successfully added.",
@@ -504,17 +497,6 @@
       "title": "Your Name, Your Identity",
       "description": "Feeling the need for a change? Update your username whenever you wish, keeping your digital identity aligned with your cinephile self."
     }
-  },
-  "list_recommendations": {
-    "title": "Recommendations",
-    "movies": "Movies",
-    "series": "Series",
-    "block": {
-      "first_line": "Become",
-      "second_line": "for exclusive recommendations."
-    },
-    "added_successfully": "Suggestion added successfully.",
-    "view_details": "View details"
   },
   "profile": {
     "achievements": "Achievements",
@@ -724,5 +706,7 @@
   "more": "View more",
   "popular_reviews": "Popular Reviews",
   "liked": "Liked",
-  "likes": "Likes"
+  "likes": "Likes",
+  "movies": "Movies",
+  "tv_series": "TV Series"
 }

@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Finde deine Lieblingsanimes",
-    "button_tv_series": "Serien",
-    "button_movies": "Filme"
+    "description": "Finde deine Lieblingsanimes"
   },
   "login_form": {
     "email_label": "E-Mail",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "Start",
-    "movies": "Filme",
     "discover": "Entdecken",
     "discover_description": "Bereit für etwas Neues? Lassen Sie sich von uns mit Filmen und Serien überraschen, die Sie lieben werden.",
     "now_playing": "Jetzt im Kino",
@@ -104,7 +101,6 @@
     "top_rated_description": "Entdecken Sie, was die Herzen und Köpfe von Publikum und Kritikern erobert hat.",
     "upcoming": "Demnächst",
     "upcoming_description": "Seien Sie einen Schritt voraus und bleiben Sie informiert über die nächsten großen Hits, die bald auf den Bildschirmen erscheinen werden.",
-    "tv_series": "Serien",
     "tv_series_description": "Fesselnde Serien. Entdecken Sie neue Geschichten, unvergessliche Charaktere und Ihre nächsten Serienmarathons.",
     "airing_today": "Heute ausgestrahlt",
     "airing_today_description": "Verpassen Sie nicht den Takt! Sehen Sie, welche Serien heute frische Episoden haben.",
@@ -119,7 +115,6 @@
     "placeholder": "Suchen Sie nach Filmen, Fernsehshows oder Personen",
     "search_everything": "Alles durchsuchen",
     "no_results": "Keine Ergebnisse gefunden.",
-    "movies": "Filme",
     "tv_series": "Fernsehsendungen",
     "people": "Personen"
   },
@@ -446,10 +441,8 @@
   "list_command": {
     "search_placeholder": "Suche nach allem...",
     "no_results": "Keine Ergebnisse gefunden.",
-    "tv_series_label": "TV-Serien",
     "tv_added_success": "Serie erfolgreich hinzugefügt.",
     "tv_removed_success": "Serie erfolgreich entfernt.",
-    "movies_label": "Filme",
     "remove_from_list": "Von der Liste entfernen",
     "view_details": "Details anzeigen",
     "movie_added_success": "Film erfolgreich hinzugefügt.",
@@ -507,17 +500,6 @@
       "title": "Dein Name, deine Identität",
       "description": "Brauchst du eine Veränderung? Aktualisiere deinen Benutzernamen, wann immer du möchtest, um deine digitale Identität mit deinem cineastischen Ich in Einklang zu bringen."
     }
-  },
-  "list_recommendations": {
-    "title": "Empfehlungen",
-    "movies": "Filme",
-    "series": "Serien",
-    "block": {
-      "first_line": "Werde",
-      "second_line": "für exklusive Empfehlungen."
-    },
-    "added_successfully": "Empfehlung erfolgreich hinzugefügt.",
-    "view_details": "Details ansehen"
   },
   "profile": {
     "achievements": "Errungenschaften",
@@ -578,7 +560,7 @@
   "all_time": "Gesamter Zeitraum",
   "follow": "Folgen",
   "unfollow": "Entfolgen",
-  "followers": "Follower",
+  "followers": "Anhängerin",
   "following": "Folgt",
   "visit": "Besuchen",
   "like": "Gefällt mir",
@@ -729,5 +711,7 @@
   "more": "Mehr anzeigen",
   "popular_reviews": "Beliebte Bewertungen",
   "liked": "Gemocht",
-  "likes": "Likes"
+  "likes": "Likes",
+  "movies": "Filme",
+  "tv_series": "Serien"
 }

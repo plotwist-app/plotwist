@@ -12,6 +12,7 @@ import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
   DrawerContent,
+  DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
 
@@ -42,6 +43,7 @@ export const HeaderNavigationDrawer = () => {
       </DrawerTrigger>
 
       <DrawerContent>
+        <DrawerTitle />
         <div className="flex flex-col gap-4 p-4">
           <div>
             {user ? (

@@ -24,13 +24,18 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { lang: Language }
-}) {
+export default async function RootLayout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{ lang: Language }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const session = await verifySession()
 
   return (

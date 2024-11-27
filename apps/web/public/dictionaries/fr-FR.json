@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Trouvez vos animes préférés",
-    "button_tv_series": "Séries TV",
-    "button_movies": "Films"
+    "description": "Trouvez vos animes préférés"
   },
   "login_form": {
     "email_label": "E-mail",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "Accueil",
-    "movies": "Films",
     "discover": "Découvrir",
     "discover_description": "Prêt pour quelque chose de nouveau ? Laissez-nous vous surprendre avec des films et des séries que vous allez adorer.",
     "now_playing": "À l'affiche",
@@ -104,7 +101,6 @@
     "top_rated_description": "Découvrez ce qui a conquis le cœur et l'esprit du public et des critiques.",
     "upcoming": "Prochainement",
     "upcoming_description": "Prenez une longueur d'avance et restez informé des prochains grands succès qui envahiront bientôt les écrans.",
-    "tv_series": "Séries TV",
     "tv_series_description": "Séries dignes de binge-watching. Explorez de nouvelles histoires, des personnages inoubliables et vos prochains visionnages intensifs.",
     "airing_today": "Diffusé Aujourd'hui",
     "airing_today_description": "Ne ratez pas le coche ! Voyez quelles séries diffusent des épisodes frais aujourd'hui.",
@@ -119,7 +115,6 @@
     "placeholder": "Recherchez des films, des émissions de télévision ou des personnes",
     "search_everything": "Rechercher tout",
     "no_results": "Aucun résultat trouvé.",
-    "movies": "Films",
     "tv_series": "Séries TV",
     "people": "Personnes"
   },
@@ -445,7 +440,6 @@
   "list_command": {
     "search_placeholder": "Rechercher n'importe quoi...",
     "no_results": "Aucun résultat trouvé.",
-    "tv_series_label": "Séries TV",
     "tv_added_success": "Série TV ajoutée avec succès.",
     "tv_removed_success": "Série TV retirée avec succès.",
     "movies_label": "Films",
@@ -507,17 +501,6 @@
       "description": "Vous sentez-vous le besoin de changer ? Mettez à jour votre nom d'utilisateur quand vous le souhaitez, en gardant votre identité numérique alignée avec votre moi cinéphile."
     }
   },
-  "list_recommendations": {
-    "title": "Recommandations",
-    "movies": "Films",
-    "series": "Séries",
-    "block": {
-      "first_line": "Devenez",
-      "second_line": "pour des recommandations exclusives."
-    },
-    "added_successfully": "Suggestion ajoutée avec succès.",
-    "view_details": "Voir les détails"
-  },
   "profile": {
     "achievements": "Réalisations",
     "reviews": "Critiques",
@@ -529,7 +512,7 @@
     "explore_popular_lists": "Cliquez ici pour explorer les listes les plus populaires"
   },
   "profile_form": {
-    "dialog_title": "Modifier le profil",
+    "dialog_title": "Modifier",
     "username_label": "Nom d'utilisateur",
     "username_placeholder": "John",
     "username_required": "Un nouveau nom d'utilisateur est requis",
@@ -578,7 +561,7 @@
   "follow": "Suivre",
   "unfollow": "Ne plus suivre",
   "followers": "Abonnés",
-  "following": "Abonnements",
+  "following": "Suivs",
   "visit": "Visiter",
   "like": "Aimer",
   "remove_like": "Ne plus aimer",
@@ -727,5 +710,7 @@
   "more": "Voir plus",
   "popular_reviews": "Avis Populaires",
   "liked": "Aimé",
-  "likes": "Aime"
+  "likes": "Aime",
+  "movies": "Films",
+  "tv_series": "Séries"
 }

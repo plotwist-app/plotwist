@@ -10,18 +10,20 @@ import { MovieDetails } from './_components/movie-details'
 import { APP_URL } from '../../../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../../../languages'
 
-type MoviePageProps = {
-  params: { id: string }
-} & PageProps
+type MoviePageProps = PageProps<{ id: string }>
 
 export async function generateStaticParams() {
   const moviesIds = await getMoviesIds(1)
   return moviesIds.map(id => ({ id: String(id) }))
 }
 
-export async function generateMetadata({
-  params: { lang, id },
-}: MoviePageProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: MoviePageProps
+): Promise<Metadata> {
+  const params = await props.params
+
+  const { lang, id } = params
+
   const {
     title,
     overview,
@@ -65,7 +67,8 @@ export async function generateMetadata({
   }
 }
 
-const MoviePage = ({ params }: MoviePageProps) => {
+const MoviePage = async (props: MoviePageProps) => {
+  const params = await props.params
   const { id, lang } = params
 
   return <MovieDetails id={Number(id)} language={lang} />

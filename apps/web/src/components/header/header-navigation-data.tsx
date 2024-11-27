@@ -31,7 +31,7 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
     icon: Home,
   },
   {
-    label: dictionary.navigation.movies,
+    label: dictionary.movies,
     href: '/movies',
     icon: Clapperboard,
     items: [
@@ -74,7 +74,7 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
     ],
   },
   {
-    label: dictionary.navigation.tv_series,
+    label: dictionary.tv_series,
     href: '/tv-series',
     icon: Tv,
     items: [

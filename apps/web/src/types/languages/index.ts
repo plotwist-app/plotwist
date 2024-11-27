@@ -8,10 +8,12 @@ export type Language =
   | 'ja-JP'
 
 export type PageProps<T = unknown> = {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string
-  }
-  params: {
-    lang: Language
-  } & T
+  }>
+  params: Promise<
+    {
+      lang: Language
+    } & T
+  >
 }

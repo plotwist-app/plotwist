@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Encuentra tus animes favoritos",
-    "button_tv_series": "Series",
-    "button_movies": "Películas"
+    "description": "Encuentra tus animes favoritos"
   },
   "login_form": {
     "email_label": "Correo electrónico",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "Inicio",
-    "movies": "Películas",
     "discover": "Descubrir",
     "discover_description": "¿Listo para algo nuevo? Déjanos sorprenderte con películas y series que te encantarán.",
     "now_playing": "En Cartelera",
@@ -104,7 +101,6 @@
     "top_rated_description": "Descubra qué ha conquistado los corazones y las mentes del público y la crítica.",
     "upcoming": "Próximamente",
     "upcoming_description": "Adelántate al juego y mantente informado sobre los próximos grandes éxitos que invadirán las pantallas pronto.",
-    "tv_series": "Series de Televisión",
     "tv_series_description": "Series dignas de maratón. Explora nuevas historias, personajes inolvidables y tus próximas maratones.",
     "airing_today": "Emisión Hoy",
     "airing_today_description": "¡No te pierdas nada! Mira qué series tienen episodios frescos saliendo del horno hoy.",
@@ -119,7 +115,6 @@
     "placeholder": "Busca películas, programas de TV o personas",
     "search_everything": "Buscar todo",
     "no_results": "No se encontraron resultados.",
-    "movies": "Películas",
     "tv_series": "Programas de TV",
     "people": "Personas"
   },
@@ -444,10 +439,8 @@
   "list_command": {
     "search_placeholder": "Buscar cualquier cosa...",
     "no_results": "No se encontraron resultados.",
-    "tv_series_label": "Series de TV",
     "tv_added_success": "Serie de TV añadida con éxito.",
     "tv_removed_success": "Serie de TV eliminada con éxito.",
-    "movies_label": "Películas",
     "remove_from_list": "Eliminar de la lista",
     "view_details": "Ver detalles",
     "movie_added_success": "Película añadida con éxito.",
@@ -505,17 +498,6 @@
       "title": "Tu Nombre, Tu Identidad",
       "description": "¿Sientes la necesidad de un cambio? Actualiza tu nombre de usuario cuando lo desees, manteniendo tu identidad digital alineada con tu yo cinéfilo."
     }
-  },
-  "list_recommendations": {
-    "title": "Recomendaciones",
-    "movies": "Películas",
-    "series": "Series",
-    "block": {
-      "first_line": "Hazte",
-      "second_line": "para recomendaciones exclusivas."
-    },
-    "added_successfully": "Sugerencia añadida con éxito.",
-    "view_details": "Ver detalles"
   },
   "profile": {
     "achievements": "Logros",
@@ -726,5 +708,7 @@
   "more": "Ver más",
   "popular_reviews": "Reseñas Populares",
   "liked": "Gustado",
-  "likes": "Gustos"
+  "likes": "Gustos",
+  "movies": "Películas",
+  "tv_series": "Series"
 }
