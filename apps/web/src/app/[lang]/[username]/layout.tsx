@@ -16,9 +16,40 @@ import { SocialLinks } from './_components/social-links'
 import { UserDialog } from './_components/user-dialog'
 import { LayoutProvider } from './_context'
 import { UserResumeStats } from './_components/user-resume-stats'
+import type { Metadata } from 'next'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
+
+export async function generateMetadata(
+  props: UserPageProps
+): Promise<Metadata> {
+  const params = await props.params
+  const { user } = await getUsersUsername(params.username)
+
+  const title = user.username
+  const description = user.biography || ''
+
+  const images = user.bannerPath ? [tmdbImage(user.bannerPath)] : undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: 'Plotwist',
+      images: images,
+    },
+    twitter: {
+      title,
+      description,
+      images: images,
+      card: 'summary_large_image',
+    },
+  }
+}
 
 export default async function Layout(props: UserPageProps) {
   const { params, children } = props
