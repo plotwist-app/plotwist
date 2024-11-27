@@ -76,6 +76,36 @@ export default async function Layout(props: UserPageProps) {
                   </UserDialog>
                 </div>
 
+                <div className="grid grid-cols-4 my-2">
+                  <div className="border-r pr-4">
+                    <p className="font-bold text-md">129</p>
+                    <p className="text-xs text-muted-foreground">
+                      {dictionary.followers}
+                    </p>
+                  </div>
+
+                  <div className="border-r px-4">
+                    <p className="font-bold text-md">3</p>
+                    <p className="text-xs text-muted-foreground">
+                      {dictionary.following}
+                    </p>
+                  </div>
+
+                  <div className="border-r px-4">
+                    <p className="font-bold text-md">192</p>
+                    <p className="text-xs text-muted-foreground">
+                      {dictionary.movies}
+                    </p>
+                  </div>
+
+                  <div className="pl-4">
+                    <p className="font-bold text-md">12</p>
+                    <p className="text-xs text-muted-foreground">
+                      {dictionary.tv_series}
+                    </p>
+                  </div>
+                </div>
+
                 <p className="text-muted-foreground mt-2 text-sm">
                   {user.biography}
                 </p>
@@ -87,9 +117,6 @@ export default async function Layout(props: UserPageProps) {
                   )}
                 >
                   {user.subscriptionType === 'PRO' && <ProBadge />}
-
-                  {/* <Badge variant="outline">375 movies</Badge> */}
-                  {/* <Badge variant="outline">375 series</Badge> */}
 
                   {/* <Badge variant="outline">Potterhead</Badge>
                 <Badge variant="outline">Marveleiro</Badge>

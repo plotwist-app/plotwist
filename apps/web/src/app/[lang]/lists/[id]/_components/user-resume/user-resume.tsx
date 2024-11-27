@@ -18,7 +18,7 @@ type UserResumeProps = {
 }
 
 export const UserResume = ({ list }: UserResumeProps) => {
-  const { language, dictionary } = useLanguage()
+  const { language } = useLanguage()
   const { data, isLoading } = useGetUserById(list.userId)
 
   if (isLoading || !data) {

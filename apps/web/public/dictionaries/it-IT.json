@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "Anime",
-    "description": "Trova i tuoi anime preferiti",
-    "button_tv_series": "Serie TV",
-    "button_movies": "Film"
+    "description": "Trova i tuoi anime preferiti"
   },
   "login_form": {
     "email_label": "E-mail",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "Inizio",
-    "movies": "Film",
     "discover": "Scoprire",
     "discover_description": "Pronto per qualcosa di nuovo? Lasciati sorprendere da film e serie che amerai.",
     "now_playing": "In Sala",
@@ -104,7 +101,6 @@
     "top_rated_description": "Scopri cosa ha conquistato il cuore e la mente del pubblico e della critica.",
     "upcoming": "In Arrivo",
     "upcoming_description": "Anticipa e resta informato sui prossimi successi che invaderanno presto gli schermi.",
-    "tv_series": "Serie TV",
     "tv_series_description": "Serie che ti terranno incollato. Esplora nuove storie, personaggi indimenticabili e le tue prossime maratone.",
     "airing_today": "In Onda Oggi",
     "airing_today_description": "Non perdere il ritmo! Scopri quali serie hanno episodi freschi di giornata oggi.",
@@ -119,7 +115,6 @@
     "placeholder": "Cerca film, programmi TV o persone",
     "search_everything": "Cerca tutto",
     "no_results": "Nessun risultato trovato.",
-    "movies": "Film",
     "tv_series": "Programmi TV",
     "people": "Persone"
   },
@@ -444,10 +439,8 @@
   "list_command": {
     "search_placeholder": "Cerca qualsiasi cosa...",
     "no_results": "Nessun risultato trovato.",
-    "tv_series_label": "Serie TV",
     "tv_added_success": "Serie TV aggiunta con successo.",
     "tv_removed_success": "Serie TV rimossa con successo.",
-    "movies_label": "Film",
     "remove_from_list": "Rimuovi dalla lista",
     "view_details": "Visualizza dettagli",
     "movie_added_success": "Film aggiunto con successo.",
@@ -505,17 +498,6 @@
       "title": "Il Tuo Nome, La Tua Identità",
       "description": "Senti il bisogno di un cambiamento? Aggiorna il tuo nome utente quando vuoi, mantenendo la tua identità digitale allineata con il tuo io cinefilo."
     }
-  },
-  "list_recommendations": {
-    "title": "Raccomandazioni",
-    "movies": "Film",
-    "series": "Serie",
-    "block": {
-      "first_line": "Diventa",
-      "second_line": "per raccomandazioni esclusive."
-    },
-    "added_successfully": "Suggerimento aggiunto con successo.",
-    "view_details": "Visualizza dettagli"
   },
   "profile": {
     "achievements": "Risultati",
@@ -576,7 +558,7 @@
   "all_time": "Tutto il tempo",
   "follow": "Segui",
   "unfollow": "Smetti di seguire",
-  "followers": "Follower",
+  "followers": "Seguace",
   "following": "Seguiti",
   "visit": "Visitare",
   "like": "Mi piace",
@@ -726,5 +708,7 @@
   "more": "Vedi di più",
   "popular_reviews": "Recensioni Popolari",
   "liked": "Piaciuto",
-  "likes": "Piace"
+  "likes": "Piace",
+  "movies": "Film",
+  "tv_series": "Serie TV"
 }

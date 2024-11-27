@@ -39,9 +39,7 @@ export const ListCommandMovies = ({
 
   return (
     <ListCommandGroup.Root>
-      <ListCommandGroup.Label>
-        {dictionary.list_command.movies_label}
-      </ListCommandGroup.Label>
+      <ListCommandGroup.Label>{dictionary.movies}</ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
         {movies.map(movie => {
@@ -141,9 +139,7 @@ export const ListCommandMoviesSkeleton = () => {
 
   return (
     <ListCommandGroup.Root>
-      <ListCommandGroup.Label>
-        {dictionary.list_command.movies_label}
-      </ListCommandGroup.Label>
+      <ListCommandGroup.Label>{dictionary.movies}</ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
         {Array.from({ length: 5 }).map((_, index) => (

@@ -44,9 +44,7 @@
   },
   "animes_page": {
     "title": "アニメ",
-    "description": "お気に入りのアニメを見つけよう",
-    "button_tv_series": "TVシリーズ",
-    "button_movies": "映画"
+    "description": "お気に入りのアニメを見つけよう"
   },
   "login_form": {
     "email_label": "Eメールアドレス",
@@ -93,7 +91,6 @@
   },
   "navigation": {
     "home": "ホーム",
-    "movies": "映画",
     "discover": "発見",
     "discover_description": "新しい何かに準備はできていますか？お好きになる映画やシリーズであなたを驚かせましょう。",
     "now_playing": "上映中",
@@ -104,7 +101,6 @@
     "top_rated_description": "何が観客や批評家の心を掴んだのかを発見してください。",
     "upcoming": "公開予定",
     "upcoming_description": "先を行き、まもなくスクリーンに登場する次のヒット作について情報を入手してください。",
-    "tv_series": "テレビ番組",
     "tv_series_description": "あなたを引き込むシリーズ。新しい物語、忘れられないキャラクター、そしてあなたの次のマラソンを探索してください。",
     "airing_today": "今日放送",
     "airing_today_description": "リズムを逃さないでください！今日、新鮮なエピソードが放送されるシリーズを見てください。",
@@ -119,7 +115,6 @@
     "placeholder": "映画、テレビ番組、人物を探す",
     "search_everything": "すべてを検索",
     "no_results": "結果は見つからなかった。",
-    "movies": "映画",
     "tv_series": "テレビ番組",
     "people": "人物"
   },
@@ -444,10 +439,8 @@
   "list_command": {
     "search_placeholder": "何でも検索...",
     "no_results": "結果が見つかりませんでした。",
-    "tv_series_label": "TVシリーズ",
     "tv_added_success": "TVシリーズを成功裏に追加しました。",
     "tv_removed_success": "TVシリーズを成功裏に削除しました。",
-    "movies_label": "映画",
     "remove_from_list": "リストから削除",
     "view_details": "詳細を見る",
     "movie_added_success": "映画を成功裏に追加しました。",
@@ -505,17 +498,6 @@
       "title": "あなたの名前、あなたのアイデンティティ",
       "description": "変化が必要ですか？ いつでもユーザーネームを更新して、あなたのデジタルアイデンティティを映画ファンのあなたと一致させてください。"
     }
-  },
-  "list_recommendations": {
-    "title": "おすすめ",
-    "movies": "映画",
-    "series": "シリーズ",
-    "block": {
-      "first_line": "になる",
-      "second_line": "独占的なおすすめのために。"
-    },
-    "added_successfully": "おすすめが正常に追加されました。",
-    "view_details": "詳細を見る"
   },
   "profile": {
     "achievements": "実績",
@@ -726,5 +708,7 @@
   "more": "もっと見る",
   "popular_reviews": "人気のレビュー",
   "liked": "気に入った",
-  "likes": "いいね！"
+  "likes": "いいね！",
+  "movies": "映画",
+  "tv_series": "TVシリーズ"
 }

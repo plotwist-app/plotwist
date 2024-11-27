@@ -101,7 +101,7 @@ export const CommandSearch = () => {
           <CommandList className="">
             {isLoading && (
               <div className="space-y-8">
-                <CommandSearchGroup heading={dictionary.sidebar_search.movies}>
+                <CommandSearchGroup heading={dictionary.movies}>
                   {Array.from({ length: 5 }).map(_ => (
                     <CommandSearchSkeleton key={v4()} />
                   ))}
@@ -120,9 +120,7 @@ export const CommandSearch = () => {
             {hasResults ? (
               <div className="">
                 {hasMovies && (
-                  <CommandSearchGroup
-                    heading={dictionary.sidebar_search.movies}
-                  >
+                  <CommandSearchGroup heading={dictionary.movies}>
                     {movies?.map(movie => (
                       <CommandSearchMovie
                         item={movie}
