@@ -70,7 +70,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
       label: dictionary.stats,
       path: 'stats',
       icon: <BarChart className="mr-1" size={12} />,
-      disabled: true,
+      disabled: false,
       pro: true,
     },
   ]

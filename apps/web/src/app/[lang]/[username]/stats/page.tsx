@@ -1,5 +1,9 @@
-import { WatchedMoviesStats } from './_watched-movies'
-import { WatchedSeriesStats } from './_watched-series'
+import { TotalHours } from './_total_hours'
+import { Genres } from './_genres'
+import { MostWatchedTv } from './_most_watched_tv'
+import { Reviews } from './_reviews'
+import { TopActors } from './_top_actors'
+import { Countries } from './_countries'
 
 // Dashboard Resumido: Uma visão geral no topo da página, com cartões mostrando os números principais, como filmes assistidos, reviews escritos, listas criadas, etc.
 
@@ -14,5 +18,14 @@ import { WatchedSeriesStats } from './_watched-series'
 // Seções Destacadas: Crie seções para os filmes e séries mais bem avaliados pelo usuário, ou os mais assistidos.
 
 export default async function StatsPage() {
-  return <div>em breve..</div>
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <TotalHours />
+      <Reviews />
+      <MostWatchedTv />
+      <Genres />
+      <TopActors />
+      <Countries />
+    </div>
+  )
 }
