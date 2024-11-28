@@ -1,19 +1,21 @@
 ![Screenshot_8](https://github.com/status-451/plotwist/assets/70612836/94637abe-c937-41b3-b855-18b5c983d886)
 
-# Plotwist 
+# Plotwist
+
 `[In development]`
 Open-source easy management and reviews about movies, series and animes.
 
-[Discord](https://discord.gg/NGvYPyTK5n) • [Website](https://plotwist.app/en-US)
+[Discord](https://discord.gg/ZsBJm9Qk) • [Website](https://plotwist.app/en-US)
 
 # Tech Stack
+
 - Framework: [Next.js](https://nextjs.org/)
 - Styling: [TailwindCSS](https://tailwindcss.com/)
 - UI Components: [shadcn](https://ui.shadcn.com/)
 - Payments: [Stripe](https://stripe.com/br)
 
-
 # Contributing
+
 If you are interested in contributing, feel free to read our [contributing guide](https://github.com/plotwist-app/plotwist/blob/main/CONTRIBUTING.MD).
 
 # Star History

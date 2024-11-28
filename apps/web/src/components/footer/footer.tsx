@@ -28,7 +28,7 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             </Link>
 
             <Link
-              href="https://discord.gg/5E38RcG8xj"
+              href="https://discord.gg/ZsBJm9Qk"
               className="hover:text-foreground"
             >
               Discord
