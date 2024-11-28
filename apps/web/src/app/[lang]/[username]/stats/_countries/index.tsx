@@ -9,77 +9,15 @@ import {
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
 import { BarChartHorizontal } from 'lucide-react'
+import { Tooltip } from 'react-tooltip'
 
-import React from 'react'
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup,
-} from 'react-simple-maps'
+import React, { useState } from 'react'
 
-import geography from './features.json'
-import { cn } from '@/lib/utils'
-
-const filmDistribution = {
-  'United States': 100,
-  Brazil: 50,
-  Russia: 50,
-  Canada: 50,
-  India: 25,
-  Italy: 25,
-}
-
-const maxFilms = Math.max(...Object.values(filmDistribution))
-
-function MapChart() {
-  return (
-    <>
-      <ComposableMap>
-        <ZoomableGroup>
-          <Geographies geography={geography}>
-            {({ geographies }) =>
-              geographies.map(geo => {
-                const country = geo.properties.name
-
-                const value =
-                  filmDistribution[country as keyof typeof filmDistribution] ||
-                  0
-
-                const opacityPercentage = Math.floor((value / maxFilms) * 100)
-
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    className={cn(
-                      'hover:fill-muted-foreground hover:opacity-100 relative',
-                      value ? 'fill-foreground' : 'fill-muted'
-                    )}
-                    style={{
-                      default: {
-                        opacity: value ? `${opacityPercentage}%` : '100%',
-                        outline: 'none',
-                      },
-                      pressed: {
-                        outline: 'none',
-                      },
-                      hover: {
-                        outline: 'none',
-                      },
-                    }}
-                  />
-                )
-              })
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
-    </>
-  )
-}
+import { MapChart } from './map-chart'
 
 export function Countries() {
+  const [content, setContent] = useState('')
+
   return (
     <Card className="flex flex-col overflow-hidden">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
@@ -97,7 +35,14 @@ export function Countries() {
 
       <CardContent className="mt-2 flex-1 -mx-6 -mb-6">
         <div className="border-t h-full  flex items-center justify-center">
-          <MapChart />
+          <MapChart setTooltipContent={setContent} />
+          <Tooltip
+            anchorId="map"
+            content={content}
+            float
+            className="!rounded-md !bg-primary !opacity-100 !px-3 !py-1.5 !text-xs !text-primary-foreground"
+            noArrow
+          />
         </div>
       </CardContent>
     </Card>
