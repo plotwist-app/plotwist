@@ -57,14 +57,11 @@ export function TvSeriesProgress({
     tmdbId: String(tmdbId),
   })
 
-  const {
-    data: userItemData,
-    queryKey: userItemQueryKey,
-    isLoading: isLoadingUserItem,
-  } = useGetUserItemSuspense({
-    mediaType: 'TV_SHOW',
-    tmdbId: String(tmdbId),
-  })
+  const { data: userItemData, queryKey: userItemQueryKey } =
+    useGetUserItemSuspense({
+      mediaType: 'TV_SHOW',
+      tmdbId: String(tmdbId),
+    })
 
   const putUserItem = usePutUserItem()
   const createUserEpisode = usePostUserEpisodes()
@@ -78,6 +75,7 @@ export function TvSeriesProgress({
     (acc, current) => acc + current.episodes.length,
     0
   )
+
   const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
@@ -134,6 +132,7 @@ export function TvSeriesProgress({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
+            runtime: episode.runtime,
           })),
         },
         {
@@ -174,6 +173,7 @@ export function TvSeriesProgress({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
+            runtime: episode.runtime,
           },
         ],
       },
@@ -286,8 +286,9 @@ export function TvSeriesProgress({
       <ScrollArea className="h-[50vh] scroll-y-auto px-4">
         <Accordion type="single" collapsible>
           {seasonsDetails.map(season => {
-            const releasedEpisodes = season.episodes.filter(e =>
-              isBefore(new Date(e.air_date), new Date())
+            const releasedEpisodes = season.episodes.filter(
+              ({ air_date }) =>
+                Boolean(air_date) && isBefore(new Date(air_date), new Date())
             )
 
             const hasReleasedEpisodes = releasedEpisodes.length > 0
@@ -339,7 +340,10 @@ export function TvSeriesProgress({
                       const episodeId = String(id)
                       const isWatched = Boolean(findUserEpisode(episode))
 
-                      const isReleased = isBefore(new Date(airDate), new Date())
+                      const isReleased =
+                        Boolean(airDate) &&
+                        isBefore(new Date(airDate), new Date())
+
                       const isDisabled = !isReleased
 
                       return (

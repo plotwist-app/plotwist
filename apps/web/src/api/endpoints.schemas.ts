@@ -4,7 +4,11 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
-export type GetUserStatsId200 = {
+export type GetUserIdTotalHours200 = {
+  totalHours: number;
+};
+
+export type GetUserIdStats200 = {
   followersCount: number;
   followingCount: number;
   watchedMoviesCount: number;
@@ -106,6 +110,7 @@ export type DeleteUserEpisodesBody = {
 export type GetUserEpisodes200Item = {
   episodeNumber: number;
   id: string;
+  runtime: number;
   seasonNumber: number;
   tmdbId: number;
   userId: string;
@@ -126,6 +131,7 @@ export type PostUserEpisodes409 = {
 export type PostUserEpisodes201Item = {
   episodeNumber: number;
   id: string;
+  runtime: number;
   seasonNumber: number;
   tmdbId: number;
   userId: string;
@@ -134,6 +140,7 @@ export type PostUserEpisodes201Item = {
 
 export type PostUserEpisodesBodyItem = {
   episodeNumber: number;
+  runtime?: number;
   seasonNumber: number;
   tmdbId: number;
 };
@@ -882,13 +889,6 @@ export type PostLoginBody = {
   url?: string;
 };
 
-/**
- * List not found.
- */
-export type PatchListBanner404 = {
-  message: string;
-};
-
 export type PatchListBanner200ListVisibility = typeof PatchListBanner200ListVisibility[keyof typeof PatchListBanner200ListVisibility];
 
 
@@ -899,16 +899,6 @@ export const PatchListBanner200ListVisibility = {
   PRIVATE: 'PRIVATE',
 } as const;
 
-/**
- * @nullable
- */
-export type PatchListBanner200ListUserLike = {
-  createdAt: string;
-  entityId: string;
-  id: string;
-  userId: string;
-} | null;
-
 export type PatchListBanner200List = {
   /** @nullable */
   bannerPath: string | null;
@@ -916,11 +906,8 @@ export type PatchListBanner200List = {
   /** @nullable */
   description: string | null;
   id: string;
-  likeCount: number;
   title: string;
   userId: string;
-  /** @nullable */
-  userLike: PatchListBanner200ListUserLike;
   visibility: PatchListBanner200ListVisibility;
 };
 

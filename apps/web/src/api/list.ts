@@ -33,7 +33,6 @@ import type {
   GetLists404,
   GetListsParams,
   PatchListBanner200,
-  PatchListBanner404,
   PatchListBannerBody,
   PostList201,
   PostList404,
@@ -498,7 +497,7 @@ export const patchListBanner = (
   
 
 
-export const getPatchListBannerMutationOptions = <TError = PatchListBanner404,
+export const getPatchListBannerMutationOptions = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchListBanner>>, TError,{data: PatchListBannerBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof patchListBanner>>, TError,{data: PatchListBannerBody}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
@@ -519,9 +518,9 @@ const {mutation: mutationOptions} = options ?? {};
 
     export type PatchListBannerMutationResult = NonNullable<Awaited<ReturnType<typeof patchListBanner>>>
     export type PatchListBannerMutationBody = PatchListBannerBody
-    export type PatchListBannerMutationError = PatchListBanner404
+    export type PatchListBannerMutationError = unknown
 
-    export const usePatchListBanner = <TError = PatchListBanner404,
+    export const usePatchListBanner = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchListBanner>>, TError,{data: PatchListBannerBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof patchListBanner>>,

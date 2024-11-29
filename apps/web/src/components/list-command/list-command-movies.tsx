@@ -27,13 +27,14 @@ import type { ListCommandProps } from './list-command'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]
-} & Pick<ListCommandProps, 'onAdd' | 'onRemove' | 'items'>
+} & Pick<ListCommandProps, 'onAdd' | 'onRemove' | 'items' | 'isPending'>
 
 export const ListCommandMovies = ({
   movies,
   items,
   onAdd,
   onRemove,
+  isPending,
 }: ListCommandMoviesProps) => {
   const { language, dictionary } = useLanguage()
 
@@ -67,25 +68,19 @@ export const ListCommandMovies = ({
                   </ListCommandItem.Label>
                 </HoverCardTrigger>
 
-                {includedItem ? (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => onRemove(includedItem.id)}
-                    className="size-5"
-                  >
-                    <Minus size={14} />
-                  </Button>
-                ) : (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => onAdd(movie.id, 'MOVIE')}
-                    className="size-5"
-                  >
-                    <Plus size={14} />
-                  </Button>
-                )}
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={() =>
+                    includedItem
+                      ? onRemove(includedItem.id)
+                      : onAdd(movie.id, 'MOVIE')
+                  }
+                  className="size-5"
+                  disabled={isPending}
+                >
+                  {includedItem ? <Minus size={14} /> : <Plus size={14} />}
+                </Button>
               </ListCommandItem.Root>
 
               <HoverCardPortal>

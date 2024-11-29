@@ -18,8 +18,10 @@ type ListPageProps = {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata(props: ListPageProps): Promise<Metadata> {
-  const params = await props.params;
+export async function generateMetadata(
+  props: ListPageProps
+): Promise<Metadata> {
+  const params = await props.params
   const { list } = await getListById(params.id)
 
   const title = list.title
@@ -46,11 +48,9 @@ export async function generateMetadata(props: ListPageProps): Promise<Metadata> 
 }
 
 export default async function ListPage(props: ListPageProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    id
-  } = params;
+  const { id } = params
 
   const session = await verifySession()
   const { list } = await getListById(id)
@@ -67,7 +67,7 @@ export default async function ListPage(props: ListPageProps) {
           <div className="col-span-2 space-y-4">
             <UserResume list={list} />
 
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
               <div>
                 <h1 className="text-xl font-bold">{list.title}</h1>
                 <p className="text-sm text-muted-foreground">

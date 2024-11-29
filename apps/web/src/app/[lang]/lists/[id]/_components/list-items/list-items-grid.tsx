@@ -76,6 +76,7 @@ export const ListItemsGrid = ({
               )
             }
             items={listItems}
+            isPending={postListItem.isPending || deleteListItem.isPending}
           >
             <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
               <Plus />

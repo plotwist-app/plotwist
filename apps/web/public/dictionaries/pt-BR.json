@@ -707,5 +707,9 @@
   "liked": "Curtido",
   "likes": "Curtidas",
   "movies": "Filmes",
-  "tv_series": "Séries"
+  "tv_series": "Séries",
+  "total_hours_watched": "Horas Totais Assistidas",
+  "days": "dias",
+  "and": "e",
+  "hours": "horas"
 }

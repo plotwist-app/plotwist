@@ -1,6 +1,7 @@
 'use client'
 
 import type { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
+import { getGetUserEpisodesQueryKey } from '@/api/user-episodes'
 import {
   useDeleteUserItemId,
   useGetUserItem,
@@ -64,7 +65,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       await deleteUserItem.mutateAsync(
         { id: userItem.id },
         {
-          onSettled: () => {
+          onSettled: async () => {
+            await APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetUserEpisodesQueryKey({
+                tmdbId: String(tmdbId),
+              }),
+            })
+
             APP_QUERY_CLIENT.resetQueries({
               queryKey,
             })
@@ -79,8 +86,14 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
         data: { mediaType, tmdbId, status: newStatus },
       },
       {
-        onSettled: response => {
+        onSettled: async response => {
           if (response) {
+            await APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetUserEpisodesQueryKey({
+                tmdbId: String(tmdbId),
+              }),
+            })
+
             APP_QUERY_CLIENT.setQueryData(queryKey, response)
           }
         },

@@ -31,6 +31,7 @@ export type ListCommandProps = {
   items: Array<{ tmdbId: number; id: string }>
   onAdd: (tmdbId: number, mediaType: MediaType) => void
   onRemove: (itemId: string) => void
+  isPending: boolean
 } & PropsWithChildren
 
 export const ListCommand = ({
@@ -38,6 +39,7 @@ export const ListCommand = ({
   items,
   onAdd,
   onRemove,
+  isPending,
 }: ListCommandProps) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -102,6 +104,7 @@ export const ListCommand = ({
                   items={items}
                   onAdd={onAdd}
                   onRemove={onRemove}
+                  isPending={isPending}
                 />
               )}
 
@@ -113,6 +116,7 @@ export const ListCommand = ({
                   items={items}
                   onAdd={onAdd}
                   onRemove={onRemove}
+                  isPending={isPending}
                 />
               )}
             </div>
