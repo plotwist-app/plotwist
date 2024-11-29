@@ -712,5 +712,9 @@
   "liked": "Gemocht",
   "likes": "Likes",
   "movies": "Filme",
-  "tv_series": "Serien"
+  "tv_series": "Serien",
+  "total_hours_watched": "Gesamtstunden geschaut",
+  "days": "Tage",
+  "and": "und",
+  "hours": "Stunden"
 }

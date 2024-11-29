@@ -709,5 +709,9 @@
   "liked": "Gustado",
   "likes": "Gustos",
   "movies": "Películas",
-  "tv_series": "Series"
+  "tv_series": "Series",
+  "total_hours_watched": "Horas Totales Vistas",
+  "days": "días",
+  "and": "y",
+  "hours": "horas"
 }

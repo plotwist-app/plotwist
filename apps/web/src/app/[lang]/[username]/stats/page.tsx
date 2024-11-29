@@ -1,4 +1,4 @@
-import { TotalHours } from './_total_hours'
+import { TotalHours, TotalHoursSkeleton } from './_total_hours'
 import { Genres } from './_genres'
 import { MostWatchedTv } from './_most_watched_tv'
 import { Reviews } from './_reviews'
@@ -11,7 +11,7 @@ import { Suspense } from 'react'
 export default function StatsPage() {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <Suspense fallback={<p>carregando...</p>}>
+      <Suspense fallback={<TotalHoursSkeleton />}>
         <TotalHours />
       </Suspense>
 

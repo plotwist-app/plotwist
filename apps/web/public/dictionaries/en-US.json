@@ -707,5 +707,9 @@
   "liked": "Liked",
   "likes": "Likes",
   "movies": "Movies",
-  "tv_series": "TV Series"
+  "tv_series": "TV Series",
+  "total_hours_watched": "Total Hours Watched",
+  "days": "days",
+  "and": "and",
+  "hours": "hours"
 }

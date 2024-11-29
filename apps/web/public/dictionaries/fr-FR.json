@@ -711,5 +711,9 @@
   "liked": "Aimé",
   "likes": "Aime",
   "movies": "Films",
-  "tv_series": "Séries"
+  "tv_series": "Séries",
+  "total_hours_watched": "Heures Totales Regardées",
+  "days": "jours",
+  "and": "et",
+  "hours": "heures"
 }

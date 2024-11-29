@@ -709,5 +709,9 @@
   "liked": "気に入った",
   "likes": "いいね！",
   "movies": "映画",
-  "tv_series": "シリーズ"
+  "tv_series": "シリーズ",
+  "total_hours_watched": "総視聴時間",
+  "days": "日",
+  "and": "と",
+  "hours": "時間"
 }

@@ -709,5 +709,9 @@
   "liked": "Piaciuto",
   "likes": "Piace",
   "movies": "Film",
-  "tv_series": "Serie"
+  "tv_series": "Serie",
+  "total_hours_watched": "Ore Totali Guardate",
+  "days": "giorni",
+  "and": "e",
+  "hours": "ore"
 }
