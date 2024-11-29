@@ -1,4 +1,4 @@
-import { getUserStatsId } from '@/api/user-stats'
+import { getUserIdStats } from '@/api/user-stats'
 import type { Dictionary } from '@/utils/dictionaries'
 import NumberFlow from '@number-flow/react'
 
@@ -8,7 +8,7 @@ export async function UserResumeStats({
   dictionary,
   userId,
 }: UserResumeStatsProps) {
-  const stats = await getUserStatsId(userId)
+  const stats = await getUserIdStats(userId)
 
   return (
     <div className="grid grid-cols-4 my-2 whitespace-nowrap">

@@ -4,6 +4,10 @@ import { MostWatchedTv } from './_most_watched_tv'
 import { Reviews } from './_reviews'
 import { TopActors } from './_top_actors'
 import { Countries } from './_countries'
+import { BestRated } from './_best_rated'
+import { Status } from './_status'
+import { useLayoutContext } from '../_context'
+import { Suspense } from 'react'
 
 // Dashboard Resumido: Uma visão geral no topo da página, com cartões mostrando os números principais, como filmes assistidos, reviews escritos, listas criadas, etc.
 
@@ -17,15 +21,20 @@ import { Countries } from './_countries'
 
 // Seções Destacadas: Crie seções para os filmes e séries mais bem avaliados pelo usuário, ou os mais assistidos.
 
-export default async function StatsPage() {
+export default function StatsPage() {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <TotalHours />
+      <Suspense fallback={<p>carregando...</p>}>
+        <TotalHours />
+      </Suspense>
+
       <Reviews />
       <MostWatchedTv />
       <Genres />
       <TopActors />
       <Countries />
+      <BestRated />
+      <Status />
     </div>
   )
 }

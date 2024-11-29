@@ -134,6 +134,7 @@ export function TvSeriesProgress({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
+            runtime: episode.runtime,
           })),
         },
         {
@@ -174,6 +175,7 @@ export function TvSeriesProgress({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
+            runtime: episode.runtime,
           },
         ],
       },
@@ -286,8 +288,9 @@ export function TvSeriesProgress({
       <ScrollArea className="h-[50vh] scroll-y-auto px-4">
         <Accordion type="single" collapsible>
           {seasonsDetails.map(season => {
-            const releasedEpisodes = season.episodes.filter(e =>
-              isBefore(new Date(e.air_date), new Date())
+            const releasedEpisodes = season.episodes.filter(
+              ({ air_date }) =>
+                Boolean(air_date) && isBefore(new Date(air_date), new Date())
             )
 
             const hasReleasedEpisodes = releasedEpisodes.length > 0
@@ -339,8 +342,13 @@ export function TvSeriesProgress({
                       const episodeId = String(id)
                       const isWatched = Boolean(findUserEpisode(episode))
 
-                      const isReleased = isBefore(new Date(airDate), new Date())
+                      const isReleased =
+                        Boolean(airDate) &&
+                        isBefore(new Date(airDate), new Date())
+
                       const isDisabled = !isReleased
+
+                      console.log({ airDate })
 
                       return (
                         <li
