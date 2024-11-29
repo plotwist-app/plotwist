@@ -91,6 +91,7 @@ export function UserItemsCommand({
           }
         )
       }
+      isPending={add.isPending || remove.isPending}
     >
       <div
         className={cn(

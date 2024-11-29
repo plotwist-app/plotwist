@@ -25,13 +25,14 @@ import { v4 } from 'uuid'
 
 type ListCommandTvProps = {
   tv: TvSerieWithMediaType[]
-} & Pick<ListCommandProps, 'onAdd' | 'onRemove' | 'items'>
+} & Pick<ListCommandProps, 'onAdd' | 'onRemove' | 'items' | 'isPending'>
 
 export const ListCommandTv = ({
   tv,
   items,
   onAdd,
   onRemove,
+  isPending,
 }: ListCommandTvProps) => {
   const { language, dictionary } = useLanguage()
 
@@ -65,25 +66,19 @@ export const ListCommandTv = ({
                   </ListCommandItem.Label>
                 </HoverCardTrigger>
 
-                {includedItem ? (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => onRemove(includedItem.id)}
-                    className="size-5"
-                  >
-                    <Minus size={14} />
-                  </Button>
-                ) : (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => onAdd(tvSerie.id, 'TV_SHOW')}
-                    className="size-5"
-                  >
-                    <Plus size={14} />
-                  </Button>
-                )}
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={() =>
+                    includedItem
+                      ? onRemove(includedItem.id)
+                      : onAdd(tvSerie.id, 'TV_SHOW')
+                  }
+                  className="size-5"
+                  disabled={isPending}
+                >
+                  {includedItem ? <Minus size={14} /> : <Plus size={14} />}
+                </Button>
               </ListCommandItem.Root>
 
               <HoverCardPortal>

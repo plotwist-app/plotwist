@@ -40,3 +40,5 @@ export function TotalHours() {
     </Card>
   )
 }
+
+export function TotalHoursSkeleton() {}

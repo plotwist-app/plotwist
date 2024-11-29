@@ -65,7 +65,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       await deleteUserItem.mutateAsync(
         { id: userItem.id },
         {
-          onSettled: () => {
+          onSettled: async () => {
+            await APP_QUERY_CLIENT.invalidateQueries({
+              queryKey: getGetUserEpisodesQueryKey({
+                tmdbId: String(tmdbId),
+              }),
+            })
+
             APP_QUERY_CLIENT.resetQueries({
               queryKey,
             })
