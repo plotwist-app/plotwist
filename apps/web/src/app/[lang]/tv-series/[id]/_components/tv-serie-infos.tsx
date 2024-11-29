@@ -1,7 +1,7 @@
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
-import { tmdb } from '@/services/tmdb'
+import { season, tmdb } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import type { Language, TvSerieDetails } from '@plotwist_app/tmdb'
-import { format } from 'date-fns'
+import { format, isBefore } from 'date-fns'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
@@ -29,6 +29,14 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
     )
   )
 
+  const filteredSeasons = seasonsDetails.filter(
+    season =>
+      season.season_number !== 0 &&
+      season.episodes.length > 0 &&
+      season.air_date &&
+      isBefore(new Date(season.air_date), new Date())
+  )
+
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
@@ -36,9 +44,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
       {session?.user && (
         <Suspense fallback={<div />}>
           <TvSeriesProgress
-            seasonsDetails={seasonsDetails.filter(
-              season => season.season_number !== 0 && season.episodes.length > 0
-            )}
+            seasonsDetails={filteredSeasons}
             tmdbId={tvSerie.id}
           />
         </Suspense>

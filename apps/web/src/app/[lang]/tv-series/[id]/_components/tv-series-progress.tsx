@@ -57,14 +57,11 @@ export function TvSeriesProgress({
     tmdbId: String(tmdbId),
   })
 
-  const {
-    data: userItemData,
-    queryKey: userItemQueryKey,
-    isLoading: isLoadingUserItem,
-  } = useGetUserItemSuspense({
-    mediaType: 'TV_SHOW',
-    tmdbId: String(tmdbId),
-  })
+  const { data: userItemData, queryKey: userItemQueryKey } =
+    useGetUserItemSuspense({
+      mediaType: 'TV_SHOW',
+      tmdbId: String(tmdbId),
+    })
 
   const putUserItem = usePutUserItem()
   const createUserEpisode = usePostUserEpisodes()
@@ -78,6 +75,7 @@ export function TvSeriesProgress({
     (acc, current) => acc + current.episodes.length,
     0
   )
+
   const watchedCount = userEpisodes.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
@@ -347,8 +345,6 @@ export function TvSeriesProgress({
                         isBefore(new Date(airDate), new Date())
 
                       const isDisabled = !isReleased
-
-                      console.log({ airDate })
 
                       return (
                         <li

@@ -17,7 +17,6 @@ import { MovieGenres } from './movie-genres'
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
 export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
-  console.log({ movie })
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={movie} />

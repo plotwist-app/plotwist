@@ -14,6 +14,7 @@ import { Poster } from '@/components/poster'
 import type { Language } from '@/types/languages'
 
 import { TvSerieSeasonDetails } from './tv-serie-season-details'
+import { isBefore } from 'date-fns'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]
@@ -81,20 +82,24 @@ export const TvSerieSeasons = ({
   id,
   language,
 }: TvSerieSeasonsProps) => {
+  const filteredSeasons = seasons.filter(
+    season =>
+      season.season_number !== 0 &&
+      season.episode_count > 0 &&
+      season.air_date &&
+      isBefore(new Date(season.air_date), new Date())
+  )
+
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 items-start">
-      {seasons
-        .filter(
-          season => season.season_number !== 0 && season.episode_count > 0
-        )
-        .map(season => (
-          <TvSerieSeason
-            season={season}
-            key={season.id}
-            id={id}
-            language={language}
-          />
-        ))}
+      {filteredSeasons.map(season => (
+        <TvSerieSeason
+          season={season}
+          key={season.id}
+          id={id}
+          language={language}
+        />
+      ))}
     </div>
   )
 }
