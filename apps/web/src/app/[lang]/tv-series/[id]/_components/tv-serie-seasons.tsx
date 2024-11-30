@@ -86,8 +86,7 @@ export const TvSerieSeasons = ({
     season =>
       season.season_number !== 0 &&
       season.episode_count > 0 &&
-      season.air_date &&
-      isBefore(new Date(season.air_date), new Date())
+      season.vote_average !== 0
   )
 
   return (

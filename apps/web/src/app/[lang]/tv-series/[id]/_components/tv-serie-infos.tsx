@@ -22,19 +22,19 @@ type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
 export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
   const session = await verifySession()
+
+  const filteredSeasons = tvSerie.seasons.filter(
+    season =>
+      season.season_number !== 0 &&
+      season.episode_count > 0 &&
+      season.vote_average > 0
+  )
+
   const seasonsDetails = await Promise.all(
-    tvSerie.seasons.map(
+    filteredSeasons.map(
       async season =>
         await tmdb.season.details(tvSerie.id, season.season_number, language)
     )
-  )
-
-  const filteredSeasons = seasonsDetails.filter(
-    season =>
-      season.season_number !== 0 &&
-      season.episodes.length > 0 &&
-      season.air_date &&
-      isBefore(new Date(season.air_date), new Date())
   )
 
   const actions = (
@@ -44,7 +44,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
       {session?.user && (
         <Suspense fallback={<div />}>
           <TvSeriesProgress
-            seasonsDetails={filteredSeasons}
+            seasonsDetails={seasonsDetails}
             tmdbId={tvSerie.id}
           />
         </Suspense>
