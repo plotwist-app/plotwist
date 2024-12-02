@@ -4,6 +4,10 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdReviewsCount200 = {
+  reviewsCount: number;
+};
+
 export type GetUserIdTotalHours200 = {
   totalHours: number;
 };
