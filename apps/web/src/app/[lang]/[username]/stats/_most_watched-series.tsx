@@ -13,6 +13,8 @@ import { PosterCard } from '@/components/poster-card'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useLanguage } from '@/context/language'
 import Link from 'next/link'
+import { v4 } from 'uuid'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function MostWatchedSeries() {
   const { userId } = useLayoutContext()
@@ -52,6 +54,37 @@ export function MostWatchedSeries() {
                 </p>
               </PosterCard.Root>
             </Link>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+export function MostWatchedSeriesSkeleton() {
+  const { dictionary } = useLanguage()
+
+  return (
+    <Card className="sm:col-span-1 col-span-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">
+          {dictionary.most_watched_series}
+        </CardTitle>
+
+        <Trophy className="size-4 text-muted-foreground" />
+      </CardHeader>
+
+      <CardContent>
+        <div className="grid grid-cols-3 gap-1.5">
+          {Array.from({ length: 3 }, () => (
+            <PosterCard.Root key={v4()}>
+              <PosterCard.Skeleton />
+
+              <p className="text-xs text-muted-foreground text-center lowercase flex items-center gap-2 justify-center">
+                <Skeleton className="w-[2ch] aspect-square" />{' '}
+                {dictionary.episodes}
+              </p>
+            </PosterCard.Root>
           ))}
         </div>
       </CardContent>
