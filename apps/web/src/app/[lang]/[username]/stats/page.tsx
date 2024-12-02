@@ -1,6 +1,6 @@
 import { TotalHours, TotalHoursSkeleton } from './_total_hours'
 import { Genres } from './_genres'
-import { MostWatchedTv } from './_most_watched_tv'
+import { MostWatchedSeries } from './_most_watched-series'
 import { ReviewsCount, ReviewsCountSkeleton } from './_reviews-count'
 import { TopActors } from './_top_actors'
 import { Countries } from './_countries'
@@ -19,7 +19,11 @@ export default function StatsPage() {
         <ReviewsCount />
       </Suspense>
 
-      {/* <MostWatchedTv />
+      <Suspense fallback={<ReviewsCountSkeleton />}>
+        <MostWatchedSeries />
+      </Suspense>
+
+      {/* 
 
       <Genres />
       <TopActors />

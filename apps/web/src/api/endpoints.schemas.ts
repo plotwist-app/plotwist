@@ -4,6 +4,38 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdMostWatchedSeries200MostWatchedSeriesItem = {
+  /** @nullable */
+  backdropPath: string | null;
+  episodes: number;
+  id: number;
+  /** @nullable */
+  posterPath: string | null;
+  title: string;
+};
+
+export type GetUserIdMostWatchedSeries200 = {
+  mostWatchedSeries: GetUserIdMostWatchedSeries200MostWatchedSeriesItem[];
+};
+
+export type GetUserIdMostWatchedSeriesLanguage = typeof GetUserIdMostWatchedSeriesLanguage[keyof typeof GetUserIdMostWatchedSeriesLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdMostWatchedSeriesLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdMostWatchedSeriesParams = {
+language?: GetUserIdMostWatchedSeriesLanguage;
+};
+
 export type GetUserIdReviewsCount200 = {
   reviewsCount: number;
 };
@@ -180,13 +212,6 @@ export type PutSocialLinksBodyYOUTUBEAnyOf = string | '';
 
 export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf;
 
-export type PutSocialLinksBody = {
-  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
-  TIKTOK: PutSocialLinksBodyTIKTOK;
-  X: PutSocialLinksBodyX;
-  YOUTUBE: PutSocialLinksBodyYOUTUBE;
-};
-
 export type PutSocialLinksBodyXAnyOf = string | '';
 
 export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
@@ -194,6 +219,13 @@ export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
 export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
+
+export type PutSocialLinksBody = {
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
+  TIKTOK: PutSocialLinksBodyTIKTOK;
+  X: PutSocialLinksBodyX;
+  YOUTUBE: PutSocialLinksBodyYOUTUBE;
+};
 
 export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
 
@@ -340,6 +372,10 @@ userId: string;
 language?: GetUserItemsLanguage;
 };
 
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem;
+};
+
 export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
 
 
@@ -368,10 +404,6 @@ export type GetUserItem200UserItem = {
   status: GetUserItem200UserItemStatus;
   tmdbId: number;
   userId: string;
-};
-
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem;
 };
 
 export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
@@ -527,10 +559,6 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[];
-};
-
 /**
  * @nullable
  */
@@ -595,6 +623,10 @@ export type GetDetailedReviews200ReviewsItem = {
   userId: string;
   /** @nullable */
   userLike: GetDetailedReviews200ReviewsItemUserLike;
+};
+
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[];
 };
 
 export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
@@ -1042,10 +1074,6 @@ export type GetLists404 = {
   message: string;
 };
 
-export type GetLists200 = {
-  lists: GetLists200ListsItem[];
-};
-
 export type GetLists200ListsItemVisibility = typeof GetLists200ListsItemVisibility[keyof typeof GetLists200ListsItemVisibility];
 
 
@@ -1077,6 +1105,10 @@ export type GetLists200ListsItem = {
   user: GetLists200ListsItemUser;
   userId: string;
   visibility: GetLists200ListsItemVisibility;
+};
+
+export type GetLists200 = {
+  lists: GetLists200ListsItem[];
 };
 
 export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];
