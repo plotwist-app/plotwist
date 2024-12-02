@@ -1,5 +1,5 @@
 import { TotalHours, TotalHoursSkeleton } from './_total_hours'
-import { Genres } from './_genres'
+import { Genres, GenresSkeleton } from './_genres'
 import {
   MostWatchedSeries,
   MostWatchedSeriesSkeleton,
@@ -26,7 +26,7 @@ export default function StatsPage() {
         <MostWatchedSeries />
       </Suspense>
 
-      <Suspense>
+      <Suspense fallback={<GenresSkeleton />}>
         <Genres />
       </Suspense>
 

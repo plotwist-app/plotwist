@@ -715,5 +715,7 @@
   "and": "と",
   "hours": "時間",
   "reviews_conducted": "実施されたレビュー",
-  "most_watched_series": "最も視聴されたシリーズ"
+  "most_watched_series": "最も視聴されたシリーズ",
+  "most_watched_genres": "最も視聴されたジャンル",
+  "see_all_genres": "すべてを見る"
 }

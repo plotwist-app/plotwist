@@ -715,5 +715,7 @@
   "and": "e",
   "hours": "ore",
   "reviews_conducted": "Valutazioni effettuate",
-  "most_watched_series": "Serie più viste"
+  "most_watched_series": "Serie più viste",
+  "most_watched_genres": "Generi più visti",
+  "see_all_genres": "Vedi tutti"
 }

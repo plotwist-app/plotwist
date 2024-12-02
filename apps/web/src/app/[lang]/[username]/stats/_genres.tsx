@@ -28,17 +28,19 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
+import { v4 } from 'uuid'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function Genres() {
   const { userId } = useLayoutContext()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const { data } = useGetUserIdWatchedGenresSuspense(userId, { language })
 
   const trigger = (
     <p className="mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline">
-      Ver todos
+      {dictionary.see_all_genres}
     </p>
   )
 
@@ -46,12 +48,12 @@ export function Genres() {
     <Card className="col-span-2 sm:col-span-1">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
-          Gêneros mais assistidos
+          {dictionary.most_watched_genres}
         </CardTitle>
         <BarChartHorizontal className="size-4 text-muted-foreground" />
       </CardHeader>
 
-      <CardContent className="mt-2">
+      <CardContent className="">
         <div className="space-y-4">
           {data.genres.slice(0, 3).map(({ count, name, percentage }) => (
             <div className="space-y-2" key={name}>
@@ -72,7 +74,7 @@ export function Genres() {
             <DialogTrigger asChild>{trigger}</DialogTrigger>
             <DialogContent className="p-0 gap-0 max-w-96">
               <DialogTitle className="pt-4 px-4">
-                Gêneros mais assistidos
+                {dictionary.most_watched_genres}
               </DialogTitle>
 
               <ScrollArea className="h-[50vh] p-4">
@@ -99,7 +101,7 @@ export function Genres() {
 
             <DrawerContent className="space-y-0">
               <DrawerTitle className="text-center pt-4 px-4">
-                Gêneros mais assistidos
+                {dictionary.most_watched_genres}
               </DrawerTitle>
 
               <ScrollArea className="h-[50vh] p-4">
@@ -121,6 +123,41 @@ export function Genres() {
             </DrawerContent>
           </Drawer>
         )}
+      </CardContent>
+    </Card>
+  )
+}
+
+export function GenresSkeleton() {
+  const { dictionary } = useLanguage()
+
+  return (
+    <Card className="col-span-2 sm:col-span-1">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">
+          {dictionary.most_watched_genres}
+        </CardTitle>
+
+        <BarChartHorizontal className="size-4 text-muted-foreground" />
+      </CardHeader>
+
+      <CardContent className="">
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div className="space-y-2" key={v4()}>
+              <div className="flex justify-between text-xs">
+                <Skeleton className="w-[10ch] h-[1.5ex]" />
+
+                <Skeleton className="w-[5ch] h-[1.5ex]" />
+              </div>
+              <Progress value={50} />
+            </div>
+          ))}
+
+          <p className="mt-4 text-end text-xs text-muted-foreground">
+            {dictionary.see_all_genres}
+          </p>
+        </div>
       </CardContent>
     </Card>
   )
