@@ -4,6 +4,34 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdWatchedGenres200GenresItem = {
+  count: number;
+  name: string;
+  percentage: number;
+};
+
+export type GetUserIdWatchedGenres200 = {
+  genres: GetUserIdWatchedGenres200GenresItem[];
+};
+
+export type GetUserIdWatchedGenresLanguage = typeof GetUserIdWatchedGenresLanguage[keyof typeof GetUserIdWatchedGenresLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdWatchedGenresLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdWatchedGenresParams = {
+language?: GetUserIdWatchedGenresLanguage;
+};
+
 export type GetUserIdMostWatchedSeries200MostWatchedSeriesItem = {
   /** @nullable */
   backdropPath: string | null;
@@ -51,10 +79,6 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
-export type GetLikesEntityId200 = {
-  likes: GetLikesEntityId200LikesItem[];
-};
-
 export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
 
 
@@ -89,6 +113,10 @@ export type GetLikesEntityId200LikesItem = {
   id: string;
   user: GetLikesEntityId200LikesItemUser;
   userId: string;
+};
+
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
 };
 
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
@@ -220,16 +248,16 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
+
+export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
+
 export type PutSocialLinksBody = {
   INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
   TIKTOK: PutSocialLinksBodyTIKTOK;
   X: PutSocialLinksBodyX;
   YOUTUBE: PutSocialLinksBodyYOUTUBE;
 };
-
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
-
-export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -420,10 +448,6 @@ mediaType: GetUserItemMediaType;
 tmdbId: string;
 };
 
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
-};
-
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
 
 
@@ -452,6 +476,10 @@ export type PutUserItem201UserItem = {
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   userId: string;
+};
+
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
@@ -559,6 +587,10 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[];
+};
+
 /**
  * @nullable
  */
@@ -623,10 +655,6 @@ export type GetDetailedReviews200ReviewsItem = {
   userId: string;
   /** @nullable */
   userLike: GetDetailedReviews200ReviewsItemUserLike;
-};
-
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[];
 };
 
 export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
@@ -963,10 +991,6 @@ export type GetListById404 = {
   message: string;
 };
 
-export type GetListById200 = {
-  list: GetListById200List;
-};
-
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1000,6 +1024,10 @@ export type GetListById200List = {
   /** @nullable */
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
+};
+
+export type GetListById200 = {
+  list: GetListById200List;
 };
 
 /**

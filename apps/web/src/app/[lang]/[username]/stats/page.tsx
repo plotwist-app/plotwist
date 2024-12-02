@@ -26,10 +26,11 @@ export default function StatsPage() {
         <MostWatchedSeries />
       </Suspense>
 
-      {/* 
+      <Suspense>
+        <Genres />
+      </Suspense>
 
-      <Genres />
-      <TopActors />
+      {/* <TopActors />
       <Countries />
       <BestRated />
       <Status /> */}

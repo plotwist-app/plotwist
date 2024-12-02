@@ -25,7 +25,9 @@ import type {
   GetUserIdMostWatchedSeriesParams,
   GetUserIdReviewsCount200,
   GetUserIdStats200,
-  GetUserIdTotalHours200
+  GetUserIdTotalHours200,
+  GetUserIdWatchedGenres200,
+  GetUserIdWatchedGenresParams
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -575,6 +577,154 @@ export function useGetUserIdMostWatchedSeriesSuspense<TData = Awaited<ReturnType
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getGetUserIdMostWatchedSeriesSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Get user watched genres
+ */
+export const getUserIdWatchedGenres = (
+    id: string,
+    params?: GetUserIdWatchedGenresParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUserIdWatchedGenres200>(
+      {url: `/user/${id}/watched-genres`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetUserIdWatchedGenresQueryKey = (id: string,
+    params?: GetUserIdWatchedGenresParams,) => {
+    return [`/user/${id}/watched-genres`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetUserIdWatchedGenresQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdWatchedGenresQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdWatchedGenres>>> = ({ signal }) => getUserIdWatchedGenres(id,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserIdWatchedGenresQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdWatchedGenres>>>
+export type GetUserIdWatchedGenresQueryError = unknown
+
+
+export function useGetUserIdWatchedGenres<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params: undefined |  GetUserIdWatchedGenresParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdWatchedGenres>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedGenres<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdWatchedGenres>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedGenres<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserIdWatchedGenres<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserIdWatchedGenresQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetUserIdWatchedGenresSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdWatchedGenresQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdWatchedGenres>>> = ({ signal }) => getUserIdWatchedGenres(id,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserIdWatchedGenresSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdWatchedGenres>>>
+export type GetUserIdWatchedGenresSuspenseQueryError = unknown
+
+
+export function useGetUserIdWatchedGenresSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params: undefined |  GetUserIdWatchedGenresParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedGenresSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedGenresSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserIdWatchedGenresSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedGenresParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedGenres>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserIdWatchedGenresSuspenseQueryOptions(id,params,options)
 
   const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
