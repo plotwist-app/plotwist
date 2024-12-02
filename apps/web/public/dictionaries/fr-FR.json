@@ -715,5 +715,9 @@
   "total_hours_watched": "Heures Totales Regardées",
   "days": "jours",
   "and": "et",
-  "hours": "heures"
+  "hours": "heures",
+  "reviews_conducted": "Avis réalisés",
+  "most_watched_series": "Séries les plus regardées",
+  "most_watched_genres": "Genres les plus regardés",
+  "see_all_genres": "Voir tous"
 }

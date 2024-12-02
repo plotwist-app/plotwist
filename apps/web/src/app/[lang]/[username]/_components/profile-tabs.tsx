@@ -116,7 +116,7 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
           {HIDDEN_TABS.map(tab => (
             <TabsTrigger
-              value={tab.label}
+              value={tab.path}
               key={tab.label}
               disabled={tab.disabled}
               asChild

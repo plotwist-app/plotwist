@@ -73,7 +73,7 @@ export default async function Layout(props: UserPageProps) {
           className={cn(
             'mx-auto max-w-5xl px-4',
             'flex flex-col',
-            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-6'
+            'lg:grid lg:grid-cols-3 lg:px-0 lg:gap-8'
           )}
         >
           <aside className="flex flex-col space-y-4 col-span-1 relative">

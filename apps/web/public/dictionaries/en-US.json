@@ -711,5 +711,9 @@
   "total_hours_watched": "Total Hours Watched",
   "days": "days",
   "and": "and",
-  "hours": "hours"
+  "hours": "hours",
+  "reviews_conducted": "Reviews conducted",
+  "most_watched_series": "Most Watched Series",
+  "most_watched_genres": "Most Watched Genres",
+  "see_all_genres": "See All"
 }
