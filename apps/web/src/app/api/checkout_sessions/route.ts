@@ -7,10 +7,11 @@ export async function POST(req: NextRequest) {
 
   const email = url.searchParams.get('email')
   const username = url.searchParams.get('username')
+  const redirect = url.searchParams.get('redirect')
+
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
-
-  const redirect = url.searchParams.get('redirect')
+  const country = req.headers.get('x-vercel-ip-country')
 
   const prices = await stripe.prices.list({
     product: process.env.STRIPE_PRODUCT_ID,
@@ -22,18 +23,15 @@ export async function POST(req: NextRequest) {
       return false
     }
 
-    const country = req.headers.get('x-vercel-ip-country')
-    console.log({ country })
-
-    switch (locale) {
-      case 'ja':
+    switch (country) {
+      case 'JP':
         return price.currency === 'jpy'
-      case 'pt':
+      case 'BR':
         return price.currency === 'brl'
-      case 'de':
-      case 'es':
-      case 'fr':
-      case 'it':
+      case 'DE':
+      case 'ES':
+      case 'FR':
+      case 'IT':
         return price.currency === 'eur'
       default:
         return price.currency === 'usd'
