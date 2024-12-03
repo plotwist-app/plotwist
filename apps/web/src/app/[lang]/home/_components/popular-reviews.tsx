@@ -2,20 +2,57 @@
 
 import Link from 'next/link'
 
-import {
-  useGetDetailedReviews,
-  useGetDetailedReviewsSuspense,
-} from '@/api/reviews'
+import { useGetDetailedReviewsSuspense } from '@/api/reviews'
 import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { useLanguage } from '@/context/language'
 import { v4 } from 'uuid'
 import { Badge } from '@plotwist/ui/components/ui/badge'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import type { GetDetailedReviewsInterval } from '@/api/endpoints.schemas'
 
 const MAX_SKELETONS_REVIEWS = 5
 
-export const PopularReviews = () => {
+type PopularReviewsContentProps = { interval: GetDetailedReviewsInterval }
+
+export function PopularReviewsContent({
+  interval,
+}: PopularReviewsContentProps) {
   const { language, dictionary } = useLanguage()
+
+  const { data } = useGetDetailedReviewsSuspense({
+    language,
+    userId: undefined,
+    limit: '5',
+    orderBy: 'likeCount',
+    interval: interval,
+  })
+
+  if (!data.reviews.length) {
+    return (
+      <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
+        <p>{dictionary.latest_reviews.no_reviews_found}</p>
+
+        <Link
+          className="lg:text-md text-sm text-muted-foreground hover:underline"
+          href={`/${language}/movies/popular`}
+        >
+          {dictionary.latest_reviews.explore_popular_movies}
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {data.reviews.map(review => (
+        <FullReview key={review.id} review={review} />
+      ))}
+    </>
+  )
+}
+
+export const PopularReviews = () => {
+  const { dictionary } = useLanguage()
 
   const intervals = [
     {
@@ -40,16 +77,6 @@ export const PopularReviews = () => {
     (typeof intervals)[number]['key']
   >(intervals[0].key)
 
-  const { data, isLoading } = useGetDetailedReviews({
-    language,
-    userId: undefined,
-    limit: '5',
-    orderBy: 'likeCount',
-    interval: selectedInterval,
-  })
-
-  if (!data) return null
-
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -72,28 +99,13 @@ export const PopularReviews = () => {
       </div>
 
       <div className="space-y-6">
-        {isLoading &&
-          Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
+        <Suspense
+          fallback={Array.from({ length: MAX_SKELETONS_REVIEWS }).map(_ => (
             <FullReviewSkeleton key={v4()} />
           ))}
-
-        {data.reviews.length > 0 &&
-          data.reviews.map(review => (
-            <FullReview key={review.id} review={review} />
-          ))}
-
-        {data.reviews.length === 0 && (
-          <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
-            <p>{dictionary.latest_reviews.no_reviews_found}</p>
-
-            <Link
-              className="lg:text-md text-sm text-muted-foreground hover:underline"
-              href={`/${language}/movies/popular`}
-            >
-              {dictionary.latest_reviews.explore_popular_movies}
-            </Link>
-          </div>
-        )}
+        >
+          <PopularReviewsContent interval={selectedInterval} />
+        </Suspense>
       </div>
     </div>
   )
