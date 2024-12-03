@@ -717,5 +717,7 @@
   "reviews_conducted": "実施されたレビュー",
   "most_watched_series": "最も視聴されたシリーズ",
   "most_watched_genres": "最も視聴されたジャンル",
-  "see_all_genres": "すべてを見る"
+  "see_all_genres": "すべてを見る",
+  "featured_actors": "注目の俳優",
+  "featured_actors_description": "映画やドラマの履歴に頻繁に登場する俳優を知る。"
 }

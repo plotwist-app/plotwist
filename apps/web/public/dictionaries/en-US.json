@@ -708,12 +708,14 @@
   "likes": "Likes",
   "movies": "Movies",
   "tv_series": "TV Series",
-  "total_hours_watched": "Total Hours Watched",
+  "total_hours_watched": "Hours Watched",
   "days": "days",
   "and": "and",
   "hours": "hours",
   "reviews_conducted": "Reviews conducted",
   "most_watched_series": "Most Watched Series",
   "most_watched_genres": "Most Watched Genres",
-  "see_all_genres": "See All"
+  "see_all_genres": "See All",
+  "featured_actors": "Featured Actors",
+  "featured_actors_description": "Meet the actors who frequently appear in your movie and series history."
 }

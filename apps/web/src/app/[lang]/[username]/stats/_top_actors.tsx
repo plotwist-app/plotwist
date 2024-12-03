@@ -17,20 +17,23 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 export function TopActors() {
   const { userId } = useLayoutContext()
-  const { language } = useLanguage()
-
+  const { language, dictionary } = useLanguage()
   const { data } = useGetUserIdWatchedCastSuspense(userId, { language })
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
-        <div className="space-y-1">
-          <CardTitle className="text-sm font-medium">Top 5 Atores</CardTitle>
-          <p className="text-xs text-muted-foreground">
-            Atores que mais aparecem no seu histórico
-          </p>
+    <Card className="sm:col-span-1 col-span-2">
+      <CardHeader className="space-y-0 pb-2">
+        <div className="flex justify-between gap-2">
+          <CardTitle className="text-sm font-medium">
+            {dictionary.featured_actors}
+          </CardTitle>
+
+          <User className="w-4 h-4 text-muted-foreground" />
         </div>
-        <User className="size-4 text-muted-foreground" />
+
+        <p className="text-xs text-muted-foreground">
+          {dictionary.featured_actors_description}
+        </p>
       </CardHeader>
 
       <CardContent className="">

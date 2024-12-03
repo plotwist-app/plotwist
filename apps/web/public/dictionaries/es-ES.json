@@ -717,5 +717,7 @@
   "reviews_conducted": "Reseñas realizadas",
   "most_watched_series": "Series más vistas",
   "most_watched_genres": "Géneros más vistos",
-  "see_all_genres": "Ver todos"
+  "see_all_genres": "Ver todos",
+  "featured_actors": "Actores destacados",
+  "featured_actors_description": "Conozca a los actores que aparecen con frecuencia en su historial de películas y series."
 }

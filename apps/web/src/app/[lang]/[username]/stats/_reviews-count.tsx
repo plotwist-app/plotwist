@@ -19,7 +19,7 @@ export function ReviewsCount() {
   const { data } = useGetUserIdReviewsCountSuspense(userId)
 
   return (
-    <Card>
+    <Card className="flex flex-col justify-between">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
           {dictionary.reviews}

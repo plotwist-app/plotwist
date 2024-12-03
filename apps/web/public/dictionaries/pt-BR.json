@@ -708,12 +708,14 @@
   "likes": "Curtidas",
   "movies": "Filmes",
   "tv_series": "Séries",
-  "total_hours_watched": "Horas Totais Assistidas",
+  "total_hours_watched": "Horas assistidas",
   "days": "dias",
   "and": "e",
   "hours": "horas",
   "reviews_conducted": "Avaliações feitas",
   "most_watched_series": "Séries mais assistidas",
   "most_watched_genres": "Gêneros mais assistidos",
-  "see_all_genres": "Ver todos"
+  "see_all_genres": "Ver todos",
+  "featured_actors": "Atores em destaque",
+  "featured_actors_description": "Conheça os atores que são recorrentes em seu histórico de filmes e séries."
 }
