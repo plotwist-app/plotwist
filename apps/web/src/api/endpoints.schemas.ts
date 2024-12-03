@@ -4,6 +4,37 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdWatchedCast200WatchedCastItem = {
+  count: number;
+  id: string;
+  name: string;
+  percentage: number;
+  /** @nullable */
+  profilePath: string | null;
+};
+
+export type GetUserIdWatchedCast200 = {
+  watchedCast: GetUserIdWatchedCast200WatchedCastItem[];
+};
+
+export type GetUserIdWatchedCastLanguage = typeof GetUserIdWatchedCastLanguage[keyof typeof GetUserIdWatchedCastLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdWatchedCastLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdWatchedCastParams = {
+language?: GetUserIdWatchedCastLanguage;
+};
+
 export type GetUserIdWatchedGenres200GenresItem = {
   count: number;
   name: string;
@@ -256,6 +287,8 @@ export type PutSocialLinksBody = {
   X: PutSocialLinksBodyX;
   YOUTUBE: PutSocialLinksBodyYOUTUBE;
 };
+
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
