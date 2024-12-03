@@ -721,5 +721,10 @@
   "featured_actors": "Actores destacados",
   "featured_actors_description": "Conozca a los actores que aparecen con frecuencia en su historial de películas y series.",
   "origin_countries": "Países de origen",
-  "distribution_by_countries": "Distribución por países de producción"
+  "distribution_by_countries": "Distribución por países de producción",
+  "best_reviews": "Mejores reseñas",
+  "best_reviews_description": "Tus obras mejor valoradas recientemente",
+  "title_status": "Estado de los títulos",
+  "title_status_description": "Vistos, viendo y lista de seguimiento",
+  "titles": "Títulos"
 }

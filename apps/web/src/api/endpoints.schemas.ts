@@ -4,6 +4,92 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdItemsStatus200UserItemsItemStatus = typeof GetUserIdItemsStatus200UserItemsItemStatus[keyof typeof GetUserIdItemsStatus200UserItemsItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdItemsStatus200UserItemsItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const;
+
+export type GetUserIdItemsStatus200UserItemsItem = {
+  count: number;
+  percentage: number;
+  status: GetUserIdItemsStatus200UserItemsItemStatus;
+};
+
+export type GetUserIdItemsStatus200 = {
+  userItems: GetUserIdItemsStatus200UserItemsItem[];
+};
+
+export type GetUserIdBestReviews200BestReviewsItemMediaType = typeof GetUserIdBestReviews200BestReviewsItemMediaType[keyof typeof GetUserIdBestReviews200BestReviewsItemMediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdBestReviews200BestReviewsItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+/**
+ * @nullable
+ */
+export type GetUserIdBestReviews200BestReviewsItemLanguage = typeof GetUserIdBestReviews200BestReviewsItemLanguage[keyof typeof GetUserIdBestReviews200BestReviewsItemLanguage] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdBestReviews200BestReviewsItemLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdBestReviews200BestReviewsItem = {
+  createdAt: string;
+  /** @nullable */
+  date: string | null;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetUserIdBestReviews200BestReviewsItemLanguage;
+  mediaType: GetUserIdBestReviews200BestReviewsItemMediaType;
+  /** @nullable */
+  posterPath: string | null;
+  rating: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  userId: string;
+};
+
+export type GetUserIdBestReviews200 = {
+  bestReviews: GetUserIdBestReviews200BestReviewsItem[];
+};
+
+export type GetUserIdBestReviewsLanguage = typeof GetUserIdBestReviewsLanguage[keyof typeof GetUserIdBestReviewsLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdBestReviewsLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdBestReviewsParams = {
+language?: GetUserIdBestReviewsLanguage;
+};
+
 export type GetUserIdWatchedCountries200WatchedCountriesItem = {
   count: number;
   name: string;
@@ -138,6 +224,10 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
+};
+
 export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
 
 
@@ -172,10 +262,6 @@ export type GetLikesEntityId200LikesItem = {
   id: string;
   user: GetLikesEntityId200LikesItemUser;
   userId: string;
-};
-
-export type GetLikesEntityId200 = {
-  likes: GetLikesEntityId200LikesItem[];
 };
 
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
@@ -299,13 +385,6 @@ export type PutSocialLinksBodyYOUTUBEAnyOf = string | '';
 
 export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf;
 
-export type PutSocialLinksBody = {
-  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
-  TIKTOK: PutSocialLinksBodyTIKTOK;
-  X: PutSocialLinksBodyX;
-  YOUTUBE: PutSocialLinksBodyYOUTUBE;
-};
-
 export type PutSocialLinksBodyXAnyOf = string | '';
 
 export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
@@ -317,6 +396,13 @@ export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
 
 export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
+
+export type PutSocialLinksBody = {
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
+  TIKTOK: PutSocialLinksBodyTIKTOK;
+  X: PutSocialLinksBodyX;
+  YOUTUBE: PutSocialLinksBodyYOUTUBE;
+};
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -459,10 +545,6 @@ userId: string;
 language?: GetUserItemsLanguage;
 };
 
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem;
-};
-
 export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
 
 
@@ -493,6 +575,10 @@ export type GetUserItem200UserItem = {
   userId: string;
 };
 
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem;
+};
+
 export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
 
 
@@ -505,6 +591,10 @@ export const GetUserItemMediaType = {
 export type GetUserItemParams = {
 mediaType: GetUserItemMediaType;
 tmdbId: string;
+};
+
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
@@ -535,10 +625,6 @@ export type PutUserItem201UserItem = {
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   userId: string;
-};
-
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
@@ -911,13 +997,6 @@ export type PostReview404 = {
   message: string;
 };
 
-/**
- * Review created.
- */
-export type PostReview201 = {
-  review: PostReview201Review;
-};
-
 export type PostReview201ReviewMediaType = typeof PostReview201ReviewMediaType[keyof typeof PostReview201ReviewMediaType];
 
 
@@ -955,6 +1034,13 @@ export type PostReview201Review = {
   review: string;
   tmdbId: number;
   userId: string;
+};
+
+/**
+ * Review created.
+ */
+export type PostReview201 = {
+  review: PostReview201Review;
 };
 
 export type PostReviewBodyMediaType = typeof PostReviewBodyMediaType[keyof typeof PostReviewBodyMediaType];
@@ -1050,6 +1136,10 @@ export type GetListById404 = {
   message: string;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1083,10 +1173,6 @@ export type GetListById200List = {
   /** @nullable */
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
-};
-
-export type GetListById200 = {
-  list: GetListById200List;
 };
 
 /**

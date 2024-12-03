@@ -59,7 +59,9 @@ export function TopActors() {
               <div className="flex-1 space-y-2">
                 <div className="flex justify-between text-xs">
                   <p>{actor.name}</p>
-                  <p className="text-muted-foreground">{actor.count} títulos</p>
+                  <p className="text-muted-foreground">
+                    {actor.count} {dictionary.titles}
+                  </p>
                 </div>
 
                 <Progress value={actor.percentage} />

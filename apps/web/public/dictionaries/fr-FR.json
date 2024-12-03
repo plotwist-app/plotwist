@@ -723,5 +723,10 @@
   "featured_actors": "Acteurs en vedette",
   "featured_actors_description": "Découvrez les acteurs qui reviennent souvent dans votre historique de films et séries.",
   "origin_countries": "Pays d'origine",
-  "distribution_by_countries": "Répartition par pays de production"
+  "distribution_by_countries": "Répartition par pays de production",
+  "best_reviews": "Meilleures critiques",
+  "best_reviews_description": "Vos œuvres les mieux notées récemment",
+  "title_status": "Statut des titres",
+  "title_status_description": "Vus, en cours de visionnage et liste à voir",
+  "titles": "Titres"
 }
