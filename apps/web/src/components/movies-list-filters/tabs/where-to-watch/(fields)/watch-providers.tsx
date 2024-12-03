@@ -16,6 +16,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
   CommandSeparator,
 } from '@plotwist/ui/components/ui/command'
 import {
@@ -220,30 +221,36 @@ export const WatchProvidersField = () => {
                       }
                     </CommandEmpty>
 
-                    <CommandGroup>
-                      {selectableWatchProviders.map(selectableWatchProvider => {
-                        return (
-                          <CommandItem
-                            key={selectableWatchProvider.value}
-                            className="flex cursor-pointer gap-2"
-                            onSelect={() =>
-                              handleSelect(selectableWatchProvider)
-                            }
-                          >
-                            <div className="relative h-5 w-5 overflow-hidden rounded-md">
-                              <Image
-                                src={tmdbImage(selectableWatchProvider.logo)}
-                                alt={selectableWatchProvider.label}
-                                fill
-                                quality={25}
-                              />
-                            </div>
+                    <CommandList>
+                      <CommandGroup>
+                        {selectableWatchProviders.map(
+                          selectableWatchProvider => {
+                            return (
+                              <CommandItem
+                                key={selectableWatchProvider.value}
+                                className="flex cursor-pointer gap-2"
+                                onSelect={() =>
+                                  handleSelect(selectableWatchProvider)
+                                }
+                              >
+                                <div className="relative h-5 w-5 overflow-hidden rounded-md">
+                                  <Image
+                                    src={tmdbImage(
+                                      selectableWatchProvider.logo
+                                    )}
+                                    alt={selectableWatchProvider.label}
+                                    fill
+                                    quality={25}
+                                  />
+                                </div>
 
-                            {selectableWatchProvider.label}
-                          </CommandItem>
-                        )
-                      })}
-                    </CommandGroup>
+                                {selectableWatchProvider.label}
+                              </CommandItem>
+                            )
+                          }
+                        )}
+                      </CommandGroup>
+                    </CommandList>
                   </ScrollArea>
 
                   {selectedWatchProviders.length > 0 && (

@@ -1,14 +1,99 @@
 'use client'
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import type * as React from 'react'
-import { DayPicker } from 'react-day-picker'
+import * as React from 'react'
+import { DayPicker, type DropdownProps, useNavigation } from 'react-day-picker'
 
 import { buttonVariants } from '@plotwist/ui/components/ui/button'
 import { cn } from '@plotwist/ui/lib/utils'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './select'
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  onSelect: any
+}
 
+type CustomDropdownItem = {
+  key: string
+  props: { value: number; children: string }
+}
+
+type CustomDropdownProps = DropdownProps &
+  Pick<CalendarProps, 'selected' | 'onSelect'>
+
+const CustomDropdown = (props: CustomDropdownProps) => {
+  const { caption, name, children, selected, onSelect } = props
+  const selectedDate = selected as Date
+  const { goToDate, currentMonth } = useNavigation()
+
+  const handleValueChange = (value: string) => {
+    if (name === 'months') {
+      const newDate = new Date(currentMonth)
+      newDate.setMonth(Number(value))
+
+      onSelect(newDate)
+
+      return goToDate(newDate)
+    }
+
+    if (name === 'years') {
+      const newDate = new Date(selectedDate)
+      newDate.setFullYear(Number(value))
+
+      onSelect(newDate)
+
+      return goToDate(newDate)
+    }
+  }
+
+  const defaultValue = React.useMemo(() => {
+    if (selectedDate) {
+      if (name === 'months') {
+        const month = selectedDate.getMonth()
+        return String(month)
+      }
+
+      if (name === 'years') {
+        const year = selectedDate.getFullYear()
+        return String(year)
+      }
+    }
+  }, [name, selectedDate])
+
+  const content = children as CustomDropdownItem[]
+
+  return (
+    <Select onValueChange={handleValueChange} defaultValue={defaultValue}>
+      <SelectTrigger className="">
+        <SelectValue placeholder={caption} />
+      </SelectTrigger>
+
+      <SelectContent>
+        <SelectGroup className="max-h-[300px] overflow-y-auto">
+          {content.map(item => {
+            const { props } = item
+
+            return (
+              <SelectItem
+                value={String(props.value)}
+                key={JSON.stringify(item.props)}
+              >
+                {props.children}
+              </SelectItem>
+            )
+          })}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
 function Calendar({
   className,
   classNames,
@@ -57,11 +142,22 @@ function Calendar({
         day_range_middle:
           'aria-selected:bg-accent aria-selected:text-accent-foreground',
         day_hidden: 'invisible',
+        caption_dropdowns: 'flex gap-2 w-full',
+        dropdown_month: '[&>div]:hidden',
+        dropdown_year: '[&>div]:hidden',
+        vhidden: 'hidden',
         ...classNames,
       }}
       components={{
         IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
+        Dropdown: ({ ...dropdownProps }) => (
+          <CustomDropdown
+            {...dropdownProps}
+            selected={props.selected}
+            onSelect={props.onSelect}
+          />
+        ),
       }}
       {...props}
     />
