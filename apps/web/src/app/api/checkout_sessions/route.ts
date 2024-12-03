@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         locale,
         customer_email: email,
         subscription_data: {
-          trial_period_days: 30,
+          trial_period_days: 14,
         },
       })
 

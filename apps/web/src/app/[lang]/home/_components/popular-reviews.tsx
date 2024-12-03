@@ -2,23 +2,55 @@
 
 import Link from 'next/link'
 
-import { useGetDetailedReviews } from '@/api/reviews'
+import {
+  useGetDetailedReviews,
+  useGetDetailedReviewsSuspense,
+} from '@/api/reviews'
 import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { useLanguage } from '@/context/language'
 import { v4 } from 'uuid'
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import { useState } from 'react'
 
 const MAX_SKELETONS_REVIEWS = 5
 
 export const PopularReviews = () => {
   const { language, dictionary } = useLanguage()
-  const { isLoading, data } = useGetDetailedReviews({
+
+  const intervals = [
+    {
+      label: dictionary.today,
+      key: 'TODAY',
+    },
+    {
+      label: dictionary.this_week,
+      key: 'THIS_WEEK',
+    },
+    {
+      label: dictionary.this_month,
+      key: 'THIS_MONTH',
+    },
+    {
+      label: dictionary.all_time,
+      key: 'ALL_TIME',
+    },
+  ] as const
+
+  const [selectedInterval, setSelectedInterval] = useState<
+    (typeof intervals)[number]['key']
+  >(intervals[0].key)
+
+  const { data, isLoading } = useGetDetailedReviews({
     language,
     userId: undefined,
     limit: '5',
     orderBy: 'likeCount',
+    interval: selectedInterval,
   })
 
-  if (isLoading) {
+  if (!data) return null
+
+  if (isLoading)
     return (
       <div className="space-y-4">
         <div className="space-y-2">
@@ -34,14 +66,26 @@ export const PopularReviews = () => {
         </div>
       </div>
     )
-  }
-
-  if (!data) return null
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">{dictionary.popular_reviews}</h3>
+
+        <div className="flex gap-1 flex-wrap">
+          {intervals.map(interval => (
+            <Badge
+              key={interval.label}
+              onClick={() => setSelectedInterval(interval.key)}
+              variant={
+                selectedInterval === interval.key ? 'default' : 'outline'
+              }
+              className="cursor-pointer"
+            >
+              {interval.label}
+            </Badge>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-6">

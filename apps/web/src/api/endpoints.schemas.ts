@@ -802,6 +802,17 @@ export type GetDetailedReviews200ReviewsItem = {
   userLike: GetDetailedReviews200ReviewsItemUserLike;
 };
 
+export type GetDetailedReviewsInterval = typeof GetDetailedReviewsInterval[keyof typeof GetDetailedReviewsInterval];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetDetailedReviewsInterval = {
+  TODAY: 'TODAY',
+  THIS_WEEK: 'THIS_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  ALL_TIME: 'ALL_TIME',
+} as const;
+
 export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
 
 
@@ -841,6 +852,7 @@ userId?: string;
 limit?: string;
 mediaType?: GetDetailedReviewsMediaType;
 orderBy?: GetDetailedReviewsOrderBy;
+interval?: GetDetailedReviewsInterval;
 };
 
 export type PutReviewById200MediaType = typeof PutReviewById200MediaType[keyof typeof PutReviewById200MediaType];
@@ -949,6 +961,17 @@ export type GetReviews200Item = {
   userLike: GetReviews200ItemUserLike;
 };
 
+export type GetReviewsInterval = typeof GetReviewsInterval[keyof typeof GetReviewsInterval];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviewsInterval = {
+  TODAY: 'TODAY',
+  THIS_WEEK: 'THIS_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  ALL_TIME: 'ALL_TIME',
+} as const;
+
 export type GetReviewsOrderBy = typeof GetReviewsOrderBy[keyof typeof GetReviewsOrderBy];
 
 
@@ -988,6 +1011,7 @@ userId?: string;
 limit?: string;
 mediaType?: GetReviewsMediaType;
 orderBy?: GetReviewsOrderBy;
+interval?: GetReviewsInterval;
 };
 
 /**

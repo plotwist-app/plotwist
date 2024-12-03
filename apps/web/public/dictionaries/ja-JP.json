@@ -553,9 +553,6 @@
   "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
   "lists": "リスト",
   "latest_lists": "最近のリスト",
-  "last_week": "先週",
-  "last_month": "先月",
-  "all_time": "全期間",
   "follow": "フォローする",
   "unfollow": "フォローを解除する",
   "followers": "フォロワー",
@@ -675,7 +672,6 @@
   "never_been_easier": "これほど簡単になったことはありません。",
   "most_apps_functional": "ほとんどのアプリは機能的ですが、退屈です。",
   "plotwist_incredible_interface": "Plotwistでは、リストにあるシリーズを一度も見ない場合でも、素晴らしいインターフェースを選びます。",
-  "get_one_month_free": "1か月無料で利用する",
   "keep_exploring": "探索を続ける",
   "elegant_control": "エレガントなコントロール",
   "elegant_control_description": "すべてを管理下に置きます。視聴済みのものをマークし、ステータスで整理し、マラソン中に迷子にならないようにします。",
@@ -726,5 +722,10 @@
   "best_reviews_description": "最近最も高く評価された作品",
   "title_status": "タイトルの状態",
   "title_status_description": "視聴済み、視聴中、視聴リスト",
-  "titles": "タイトル"
+  "titles": "タイトル",
+  "get_14_days_free": "14日間無料でお試し",
+  "today": "今日",
+  "this_week": "今週",
+  "this_month": "今月",
+  "all_time": "常に"
 }

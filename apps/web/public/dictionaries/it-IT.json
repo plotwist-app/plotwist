@@ -553,9 +553,6 @@
   "manage_your_lists": "Gestisci le tue liste e condividile con altri membri!",
   "lists": "Liste",
   "latest_lists": "Liste recenti",
-  "last_week": "Ultima settimana",
-  "last_month": "Ultimo mese",
-  "all_time": "Tutto il tempo",
   "follow": "Segui",
   "unfollow": "Smetti di seguire",
   "followers": "Seguace",
@@ -675,7 +672,6 @@
   "never_been_easier": "non è mai stato così facile.",
   "most_apps_functional": "La maggior parte delle app è funzionale, ma noiosa.",
   "plotwist_incredible_interface": "Su Plotwist preferiamo un'interfaccia incredibile, anche se non guarderai mai quella serie nella tua lista.",
-  "get_one_month_free": "Ottieni 1 mese gratuito",
   "keep_exploring": "Continua a esplorare",
   "elegant_control": "Controllo Elegante",
   "elegant_control_description": "Tieni tutto sotto controllo. Segna ciò che hai già visto, organizza per stato e non perderti mai nelle tue maratone.",
@@ -726,5 +722,10 @@
   "best_reviews_description": "Le tue opere più votate di recente",
   "title_status": "Stato dei titoli",
   "title_status_description": "Guardati, in visione e lista da guardare",
-  "titles": "Titoli"
+  "titles": "Titoli",
+  "get_14_days_free": "Ottieni 14 giorni gratis",
+  "today": "Oggi",
+  "this_week": "Questa settimana",
+  "this_month": "Questo mese",
+  "all_time": "Sempre"
 }

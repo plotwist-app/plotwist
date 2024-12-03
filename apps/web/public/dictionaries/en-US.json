@@ -552,9 +552,6 @@
   "manage_your_lists": "Manage your lists and share them with other members!",
   "lists": "Lists",
   "latest_lists": "Recent Lists",
-  "last_week": "Last week",
-  "last_month": "Last month",
-  "all_time": "All time",
   "follow": "Follow",
   "unfollow": "Unfollow",
   "followers": "Followers",
@@ -673,7 +670,6 @@
   "never_been_easier": "has never been easier.",
   "most_apps_functional": "Most apps are functional, but boring.",
   "plotwist_incredible_interface": "At Plotwist, we prefer an incredible interface, even if you never watch that series on your list.",
-  "get_one_month_free": "Get 1 month free",
   "keep_exploring": "Keep exploring",
   "elegant_control": "Elegant Control",
   "elegant_control_description": "Keep everything under control. Mark what you've watched, organize by status, and never get lost in your marathons.",
@@ -724,5 +720,10 @@
   "best_reviews_description": "Your most highly rated works recently",
   "title_status": "Title Status",
   "title_status_description": "Watched, watching and watchlist",
-  "titles": "Titles"
+  "titles": "Titles",
+  "get_14_days_free": "Get 14 days free",
+  "today": "Heute",
+  "this_week": "Diese Woche",
+  "this_month": "Diesen Monat",
+  "all_time": "Immer"
 }
