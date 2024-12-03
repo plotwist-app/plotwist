@@ -36,18 +36,23 @@ import {
 } from '@plotwist/ui/components/ui/drawer'
 import { format } from 'date-fns'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { cn } from '@/lib/utils'
 
 export function BestRated() {
   const { userId } = useLayoutContext()
   const { language, dictionary } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
-
   const { data } = useGetUserIdBestReviewsSuspense(userId, { language })
 
   if (!data.bestReviews.length) return <></>
 
   const trigger = (
-    <p className="mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline">
+    <p
+      className={cn(
+        'mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline',
+        data.bestReviews.length < 7 && 'hidden'
+      )}
+    >
       {dictionary.more}
     </p>
   )

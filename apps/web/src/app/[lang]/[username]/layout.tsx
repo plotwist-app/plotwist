@@ -18,6 +18,7 @@ import { LayoutProvider } from './_context'
 import { UserResumeStats } from './_components/user-resume-stats'
 import type { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { headers } from 'next/headers'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
@@ -58,8 +59,15 @@ export default async function Layout(props: UserPageProps) {
   const { user } = await getUsersUsername(username)
   const dictionary = await getDictionary(lang)
 
+  const headersList = await headers()
+  const headersURL = headersList.get('referer') || ''
+
   if (!user) {
     redirect(`/${lang}/home`)
+  }
+
+  if (headersURL.includes('stats') && user.subscriptionType === 'MEMBER') {
+    redirect(`/${lang}#pricing`)
   }
 
   const { socialLinks } = await getSocialLinks({ userId: user.id })
