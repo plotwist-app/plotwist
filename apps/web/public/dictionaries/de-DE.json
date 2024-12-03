@@ -724,5 +724,7 @@
   "featured_actors": "Herausragende Schauspieler",
   "featured_actors_description": "Lernen Sie die Schauspieler kennen, die regelmäßig in Ihrer Film- und Serienhistorie auftauchen.",
   "origin_countries": "Herkunftsländer",
-  "distribution_by_countries": "Verteilung nach Produktionsländern"
+  "distribution_by_countries": "Verteilung nach Produktionsländern",
+  "best_reviews": "Beste Bewertungen",
+  "best_reviews_description": "Ihre zuletzt am besten bewerteten Werke"
 }

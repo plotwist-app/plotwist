@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -6,50 +8,137 @@ import {
 } from '@plotwist/ui/components/ui/card'
 import { Star } from 'lucide-react'
 import { v4 } from 'uuid'
+import { useLayoutContext } from '../_context'
+import {
+  useGetUserIdBestReviews,
+  useGetUserIdBestReviewsSuspense,
+} from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { StarFilledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { useMediaQuery } from '@uidotdev/usehooks'
+import {
+  DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogHeader,
+  DialogDescription,
+} from '@plotwist/ui/components/ui/dialog'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
+import { format } from 'date-fns'
 
-export async function BestRated() {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
-        <div className="space-y-1">
-          <CardTitle className="text-sm font-medium">
-            Melhores avaliações
-          </CardTitle>
-          <p className="text-xs text-muted-foreground">
-            Suas obras mais bem avaliadas
-          </p>
-        </div>
-        <Star className="size-4 text-muted-foreground" />
-      </CardHeader>
+export function BestRated() {
+  const { userId } = useLayoutContext()
+  const { language, dictionary } = useLanguage()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
-      <CardContent className="mt-4">
-        <div className="space-y-4">
-          {[
-            { title: 'O Poderoso Chefão', rating: 5, year: '1972' },
-            { title: 'Breaking Bad', rating: 5, year: '2008' },
-            { title: 'Pulp Fiction', rating: 5, year: '1994' },
-            { title: 'Game of Thrones', rating: 5, year: '2011' },
-            { title: 'Game of Thrones', rating: 5, year: '2011' },
-            { title: 'Game of Thrones', rating: 5, year: '2011' },
-            { title: 'Game of Thrones', rating: 5, year: '2011' },
-          ].map(item => (
-            <div key={item.title} className="flex items-center justify-between">
-              <div>
-                <div className="font-medium text-sm">{item.title}</div>
-                <div className="text-xs text-muted-foreground">{item.year}</div>
+  const { data } = useGetUserIdBestReviewsSuspense(userId, { language })
+
+  const trigger = (
+    <p className="mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline">
+      {dictionary.more}
+    </p>
+  )
+
+  function renderContent(end: number) {
+    return (
+      <div className="space-y-4">
+        {data.bestReviews
+          .slice(0, end)
+          .map(({ title, rating, mediaType, id, tmdbId, date }) => (
+            <div
+              key={id}
+              className="flex text-sm items-start justify-between gap-4"
+            >
+              <div className="">
+                <Link
+                  href={`/${language}/${mediaType === 'MOVIE' ? '/movies' : '/tv-series'}/${tmdbId}?review=${id}`}
+                  className="font-medium hover:underline"
+                >
+                  {title}
+                </Link>
+
+                {date && (
+                  <p className="text-muted-foreground text-xs">
+                    {format(new Date(date), 'yyyy')}
+                  </p>
+                )}
               </div>
 
-              <div className="flex items-center">
-                {Array.from({ length: item.rating }).map(() => (
-                  <Star
-                    className="size-3 text-amber-400 fill-amber-400 mr-1"
+              <div className="flex items-center mt-1.5">
+                {Array.from({ length: rating }).map(() => (
+                  <StarFilledIcon
+                    className="size-3.5 text-amber-400 fill-amber-400 mr-0"
                     key={v4()}
                   />
                 ))}
               </div>
             </div>
           ))}
+      </div>
+    )
+  }
+
+  return (
+    <Card className="sm:col-span-1 col-span-2">
+      <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
+        <div className="space-y-1">
+          <CardTitle className="text-sm font-medium">
+            {dictionary.best_reviews}
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            {dictionary.best_reviews_description}
+          </p>
         </div>
+        <Star className="size-4 text-muted-foreground" />
+      </CardHeader>
+
+      <CardContent className="mt-2">
+        {renderContent(6)}
+
+        {isDesktop ? (
+          <Dialog>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
+            <DialogContent className="p-0 gap-0 max-w-96">
+              <DialogHeader className="pt-4 px-4">
+                <DialogTitle>{dictionary.best_reviews}</DialogTitle>
+                <DialogDescription>
+                  {dictionary.best_reviews_description}
+                </DialogDescription>
+              </DialogHeader>
+
+              <ScrollArea className="h-[50vh] p-4">
+                {renderContent(Number.POSITIVE_INFINITY)}
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <Drawer>
+            <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+
+            <DrawerContent className="space-y-0 p-0">
+              <DrawerHeader className="text-center px-4 pt-4">
+                <DrawerTitle>{dictionary.best_reviews}</DrawerTitle>
+                <DrawerDescription>
+                  {dictionary.best_reviews_description}
+                </DrawerDescription>
+              </DrawerHeader>
+
+              <ScrollArea className="h-[50vh] p-4">
+                {renderContent(Number.POSITIVE_INFINITY)}
+              </ScrollArea>
+            </DrawerContent>
+          </Drawer>
+        )}
       </CardContent>
     </Card>
   )

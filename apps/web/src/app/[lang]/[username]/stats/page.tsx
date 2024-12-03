@@ -38,12 +38,13 @@ export default function StatsPage() {
         <Countries />
       </Suspense>
 
-      {/* 
-     
-      <BestRated />
-      <Status /> */}
+      <Suspense>
+        <BestRated />
+      </Suspense>
 
-      {/*  */}
+      <Suspense>
+        <Status />
+      </Suspense>
     </div>
   )
 }

@@ -721,5 +721,7 @@
   "featured_actors": "注目の俳優",
   "featured_actors_description": "映画やドラマの履歴に頻繁に登場する俳優を知る。",
   "origin_countries": "原産国",
-  "distribution_by_countries": "生産国別の分布"
+  "distribution_by_countries": "生産国別の分布",
+  "best_reviews": "最高のレビュー",
+  "best_reviews_description": "最近最も高く評価された作品"
 }

@@ -719,5 +719,7 @@
   "featured_actors": "Featured Actors",
   "featured_actors_description": "Meet the actors who frequently appear in your movie and series history.",
   "origin_countries": "Origin countries",
-  "distribution_by_countries": "Distribution by countries of production"
+  "distribution_by_countries": "Distribution by countries of production",
+  "best_reviews": "Best reviews",
+  "best_reviews_description": "Your most highly rated works recently"
 }

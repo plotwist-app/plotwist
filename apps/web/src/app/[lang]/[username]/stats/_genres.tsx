@@ -1,9 +1,6 @@
 'use client'
 
-import {
-  useGetUserIdWatchedGenres,
-  useGetUserIdWatchedGenresSuspense,
-} from '@/api/user-stats'
+import { useGetUserIdWatchedGenresSuspense } from '@/api/user-stats'
 import {
   Card,
   CardContent,
@@ -143,7 +140,7 @@ export function GenresSkeleton() {
 
       <CardContent className="">
         <div className="space-y-4">
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: 3 }).map(_ => (
             <div className="space-y-2" key={v4()}>
               <div className="flex justify-between text-xs">
                 <Skeleton className="w-[10ch] h-[1.5ex]" />
