@@ -174,9 +174,9 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
           <p>{dictionary.legacy_user.description}</p>
 
           <DialogFooter className="sm:space-y-0 space-y-2">
-            <Button variant="outline">
+            {/* <Button variant="outline">
               {dictionary.legacy_user.resend_email}
-            </Button>
+            </Button> */}
 
             <Button onClick={() => setWarningDialogOpen(false)}>
               {dictionary.legacy_user.agree}
