@@ -646,6 +646,10 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[];
+};
+
 /**
  * @nullable
  */
@@ -655,33 +659,6 @@ export type GetDetailedReviews200ReviewsItemUserLike = {
   id: string;
   userId: string;
 } | null;
-
-export type GetDetailedReviews200ReviewsItem = {
-  /** @nullable */
-  backdropPath: string | null;
-  createdAt: string;
-  hasSpoilers: boolean;
-  id: string;
-  /** @nullable */
-  language: GetDetailedReviews200ReviewsItemLanguage;
-  likeCount: number;
-  mediaType: GetDetailedReviews200ReviewsItemMediaType;
-  /** @nullable */
-  posterPath: string | null;
-  rating: number;
-  replyCount: number;
-  review: string;
-  title: string;
-  tmdbId: number;
-  user: GetDetailedReviews200ReviewsItemUser;
-  userId: string;
-  /** @nullable */
-  userLike: GetDetailedReviews200ReviewsItemUserLike;
-};
-
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[];
-};
 
 export type GetDetailedReviews200ReviewsItemUser = {
   id: string;
@@ -715,6 +692,29 @@ export const GetDetailedReviews200ReviewsItemLanguage = {
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
 } as const;
+
+export type GetDetailedReviews200ReviewsItem = {
+  /** @nullable */
+  backdropPath: string | null;
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetDetailedReviews200ReviewsItemLanguage;
+  likeCount: number;
+  mediaType: GetDetailedReviews200ReviewsItemMediaType;
+  /** @nullable */
+  posterPath: string | null;
+  rating: number;
+  replyCount: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  user: GetDetailedReviews200ReviewsItemUser;
+  userId: string;
+  /** @nullable */
+  userLike: GetDetailedReviews200ReviewsItemUserLike;
+};
 
 export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
 
@@ -1213,7 +1213,18 @@ export type GetLists200ListsItemItemsItem = {
   tmdbId: number;
 };
 
+export type GetListsVisibility = typeof GetListsVisibility[keyof typeof GetListsVisibility];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetListsVisibility = {
+  PUBLIC: 'PUBLIC',
+  NETWORK: 'NETWORK',
+  PRIVATE: 'PRIVATE',
+} as const;
+
 export type GetListsParams = {
+visibility?: GetListsVisibility;
 userId?: string;
 limit?: number;
 };
