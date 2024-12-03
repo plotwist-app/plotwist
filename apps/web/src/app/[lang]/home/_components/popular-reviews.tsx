@@ -48,8 +48,6 @@ export const PopularReviews = () => {
     interval: selectedInterval,
   })
 
-  if (!data) return null
-
   if (isLoading)
     return (
       <div className="space-y-4">
@@ -66,6 +64,8 @@ export const PopularReviews = () => {
         </div>
       </div>
     )
+
+  if (!data) return null
 
   return (
     <div className="space-y-4">
