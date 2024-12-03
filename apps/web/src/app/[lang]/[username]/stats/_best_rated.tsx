@@ -35,6 +35,7 @@ import {
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
 import { format } from 'date-fns'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function BestRated() {
   const { userId } = useLayoutContext()
@@ -59,10 +60,10 @@ export function BestRated() {
               key={id}
               className="flex text-sm items-start justify-between gap-4"
             >
-              <div className="">
+              <div>
                 <Link
                   href={`/${language}/${mediaType === 'MOVIE' ? '/movies' : '/tv-series'}/${tmdbId}?review=${id}`}
-                  className="font-medium hover:underline"
+                  className="font-medium hover:underline line-clamp-1"
                 >
                   {title}
                 </Link>
@@ -103,7 +104,7 @@ export function BestRated() {
       </CardHeader>
 
       <CardContent className="mt-2">
-        {renderContent(6)}
+        {renderContent(7)}
 
         {isDesktop ? (
           <Dialog>
@@ -139,6 +140,59 @@ export function BestRated() {
             </DrawerContent>
           </Drawer>
         )}
+      </CardContent>
+    </Card>
+  )
+}
+
+export function BestRatedSkeleton() {
+  const { dictionary } = useLanguage()
+
+  const trigger = (
+    <p className="mt-4 text-end text-xs text-muted-foreground hover:underline opacity-50">
+      {dictionary.more}
+    </p>
+  )
+
+  return (
+    <Card className="sm:col-span-1 col-span-2">
+      <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
+        <div className="space-y-1">
+          <CardTitle className="text-sm font-medium">
+            {dictionary.best_reviews}
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            {dictionary.best_reviews_description}
+          </p>
+        </div>
+        <Star className="size-4 text-muted-foreground" />
+      </CardHeader>
+
+      <CardContent className="mt-2">
+        <div className="space-y-4">
+          {Array.from({ length: 7 }).map(() => (
+            <div
+              key={v4()}
+              className="flex text-sm items-start justify-between gap-4"
+            >
+              <div className="space-y-2">
+                <Skeleton className="w-[20ch] h-[2.5ex]" />
+                <Skeleton className="w-[4ch] h-[1.6ex]" />
+              </div>
+
+              <div className="flex items-center mt-1">
+                {Array.from({ length: 5 }).map(() => (
+                  <StarFilledIcon
+                    className="size-3.5 text-amber-400 fill-amber-400 mr-0"
+                    key={v4()}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {trigger}
       </CardContent>
     </Card>
   )

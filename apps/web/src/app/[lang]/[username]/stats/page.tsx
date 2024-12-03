@@ -7,7 +7,7 @@ import {
 import { ReviewsCount, ReviewsCountSkeleton } from './_reviews-count'
 import { TopActors, TopActorsSkeleton } from './_top_actors'
 import { Countries, CountriesSkeleton } from './_countries'
-import { BestRated } from './_best_rated'
+import { BestRated, BestRatedSkeleton } from './_best_rated'
 import { Status } from './_status'
 import { Suspense } from 'react'
 
@@ -38,7 +38,7 @@ export default function StatsPage() {
         <Countries />
       </Suspense>
 
-      <Suspense>
+      <Suspense fallback={<BestRatedSkeleton />}>
         <BestRated />
       </Suspense>
 

@@ -41,7 +41,7 @@ const chartConfig = {
 
 export function Status() {
   return (
-    <Card>
+    <Card className="sm:col-span-1 col-span-2">
       <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
         <div className="space-y-1">
           <CardTitle className="text-sm font-medium">
