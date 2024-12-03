@@ -27,7 +27,7 @@ export function Countries() {
   const [content, setContent] = useState('')
 
   return (
-    <Card className="flex flex-col overflow-hidden">
+    <Card className="col-span-2 sm:col-span-1 flex flex-col overflow-hidden">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
         <div className="space-y-1">
           <CardTitle className="text-sm font-medium">
