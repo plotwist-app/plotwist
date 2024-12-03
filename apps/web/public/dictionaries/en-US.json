@@ -721,5 +721,8 @@
   "origin_countries": "Origin countries",
   "distribution_by_countries": "Distribution by countries of production",
   "best_reviews": "Best reviews",
-  "best_reviews_description": "Your most highly rated works recently"
+  "best_reviews_description": "Your most highly rated works recently",
+  "title_status": "Title Status",
+  "title_status_description": "Watched, watching and watchlist",
+  "titles": "Titles"
 }

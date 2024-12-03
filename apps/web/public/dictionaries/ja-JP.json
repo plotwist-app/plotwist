@@ -723,5 +723,8 @@
   "origin_countries": "原産国",
   "distribution_by_countries": "生産国別の分布",
   "best_reviews": "最高のレビュー",
-  "best_reviews_description": "最近最も高く評価された作品"
+  "best_reviews_description": "最近最も高く評価された作品",
+  "title_status": "タイトルの状態",
+  "title_status_description": "視聴済み、視聴中、視聴リスト",
+  "titles": "タイトル"
 }

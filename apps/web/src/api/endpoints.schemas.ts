@@ -4,6 +4,26 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdItemsStatus200UserItemsItemStatus = typeof GetUserIdItemsStatus200UserItemsItemStatus[keyof typeof GetUserIdItemsStatus200UserItemsItemStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdItemsStatus200UserItemsItemStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+} as const;
+
+export type GetUserIdItemsStatus200UserItemsItem = {
+  count: number;
+  percentage: number;
+  status: GetUserIdItemsStatus200UserItemsItemStatus;
+};
+
+export type GetUserIdItemsStatus200 = {
+  userItems: GetUserIdItemsStatus200UserItemsItem[];
+};
+
 export type GetUserIdBestReviews200BestReviewsItemMediaType = typeof GetUserIdBestReviews200BestReviewsItemMediaType[keyof typeof GetUserIdBestReviews200BestReviewsItemMediaType];
 
 
@@ -1116,6 +1136,10 @@ export type GetListById404 = {
   message: string;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1149,10 +1173,6 @@ export type GetListById200List = {
   /** @nullable */
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
-};
-
-export type GetListById200 = {
-  list: GetListById200List;
 };
 
 /**

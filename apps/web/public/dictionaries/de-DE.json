@@ -726,5 +726,8 @@
   "origin_countries": "Herkunftsländer",
   "distribution_by_countries": "Verteilung nach Produktionsländern",
   "best_reviews": "Beste Bewertungen",
-  "best_reviews_description": "Ihre zuletzt am besten bewerteten Werke"
+  "best_reviews_description": "Ihre zuletzt am besten bewerteten Werke",
+  "title_status": "Status der Titel",
+  "title_status_description": "Gesehen, wird gesehen und Watchlist",
+  "titles": "Titel"
 }

@@ -1,6 +1,10 @@
 'use client'
 
 import {
+  useGetUserIdItemsStatus,
+  useGetUserIdItemsStatusSuspense,
+} from '@/api/user-stats'
+import {
   Card,
   CardContent,
   CardHeader,
@@ -14,41 +18,58 @@ import {
 } from '@plotwist/ui/components/ui/chart'
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { Pie, PieChart } from 'recharts'
-
-const chartData = [
-  { status: 'watched', count: 60, fill: 'var(--color-watched)' },
-  { status: 'watching', count: 5, fill: 'var(--color-watching)' },
-  { status: 'watchlist', count: 35, fill: 'var(--color-watchlist)' },
-]
+import { useLayoutContext } from '../_context'
+import { useLanguage } from '@/context/language'
+import type { GetUserIdItemsStatus200UserItemsItemStatus } from '@/api/endpoints.schemas'
 
 const chartConfig = {
   items: {
     label: 'Items',
   },
-  watched: {
-    label: 'watched',
-    color: 'hsl(var(--chart-4))',
+  WATCHED: {
+    label: 'WATCHED',
+    color: 'hsl(var(--chart-5))',
   },
-  watching: {
-    label: 'watching',
+  WATCHING: {
+    label: 'WATCHING',
     color: 'hsl(var(--chart-3))',
   },
-  watchlist: {
-    label: 'watchlist',
+  WATCHLIST: {
+    label: 'WATCHLIST',
     color: 'hsl(var(--chart-2))',
   },
 } satisfies ChartConfig
 
+type StatusType = GetUserIdItemsStatus200UserItemsItemStatus
+
 export function Status() {
+  const { userId } = useLayoutContext()
+  const { data } = useGetUserIdItemsStatusSuspense(userId)
+
+  const { dictionary } = useLanguage()
+
+  const chartData = data.userItems.map(item => {
+    return {
+      ...item,
+      fill: chartConfig[item.status].color,
+    }
+  })
+
+  const label: Record<StatusType, string> = {
+    WATCHED: dictionary.watched,
+    WATCHING: dictionary.watching,
+    WATCHLIST: dictionary.watchlist,
+  }
+
   return (
     <Card className="sm:col-span-1 col-span-2">
       <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
         <div className="space-y-1">
           <CardTitle className="text-sm font-medium">
-            Status dos Títulos
+            {dictionary.title_status}
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            Assistidos, assistindo e assistir
+            {dictionary.title_status_description}
           </p>
         </div>
         <PieChart className="size-4 text-muted-foreground" />
@@ -57,50 +78,37 @@ export function Status() {
       <CardContent className="mt-4">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[200px]"
+          className="mx-auto aspect-square max-h-[220px]"
         >
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  formatter={(value, status) =>
+                    `${label[status as StatusType]}: ${value}`
+                  }
+                />
+              }
             />
             <Pie data={chartData} dataKey="count" nameKey="status" label />
           </PieChart>
         </ChartContainer>
 
         <div className="mt-4 space-y-4">
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-sm">
-              <span>Assistidos</span>
+          {data.userItems.map(({ status, count, percentage }) => (
+            <div className="space-y-2" key={status}>
+              <div className="flex justify-between items-center text-sm">
+                <span>{label[status]}</span>
 
-              <span className="text-muted-foreground text-xs">
-                60% (60 títulos)
-              </span>
+                <span className="text-muted-foreground text-xs">
+                  {percentage.toFixed(2)}% ({count})
+                </span>
+              </div>
+              <Progress value={percentage} />
             </div>
-            <Progress value={60} />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-sm">
-              <span>Assistidos</span>
-
-              <span className="text-muted-foreground text-xs">
-                5% (5 títulos)
-              </span>
-            </div>
-            <Progress value={5} />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center text-sm">
-              <span>Assistir</span>
-
-              <span className="text-muted-foreground text-xs">
-                35% (35 títulos)
-              </span>
-            </div>
-            <Progress value={35} />
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>

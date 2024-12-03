@@ -721,5 +721,8 @@
   "origin_countries": "Países de origem",
   "distribution_by_countries": "Distribuição por países de produção",
   "best_reviews": "Melhores avaliações",
-  "best_reviews_description": "Suas obras mais bem avaliadas recentemente"
+  "best_reviews_description": "Suas obras mais bem avaliadas recentemente",
+  "title_status": "Status dos títulos",
+  "title_status_description": "Assistidos, assistindo e assistir",
+  "titles": "Títulos"
 }
