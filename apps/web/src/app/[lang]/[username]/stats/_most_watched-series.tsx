@@ -35,6 +35,14 @@ export function MostWatchedSeries() {
 
       <CardContent>
         <div className="grid grid-cols-3 gap-1.5">
+          {!data.mostWatchedSeries.length &&
+            Array.from({ length: 3 }, () => (
+              <div
+                className="border border-dashed aspect-poster rounded-md"
+                key={v4()}
+              />
+            ))}
+
           {data.mostWatchedSeries.map(({ id, title, posterPath, episodes }) => (
             <Link
               href={`/${language}/tv-series/${id}`}
