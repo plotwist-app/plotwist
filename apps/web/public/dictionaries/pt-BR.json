@@ -717,5 +717,7 @@
   "most_watched_genres": "Gêneros mais assistidos",
   "see_all_genres": "Ver todos",
   "featured_actors": "Atores em destaque",
-  "featured_actors_description": "Conheça os atores que são recorrentes em seu histórico de filmes e séries."
+  "featured_actors_description": "Conheça os atores que são recorrentes em seu histórico de filmes e séries.",
+  "origin_countries": "Países de origem",
+  "distribution_by_countries": "Distribuição por países de produção"
 }

@@ -28,6 +28,8 @@ import type {
   GetUserIdTotalHours200,
   GetUserIdWatchedCast200,
   GetUserIdWatchedCastParams,
+  GetUserIdWatchedCountries200,
+  GetUserIdWatchedCountriesParams,
   GetUserIdWatchedGenres200,
   GetUserIdWatchedGenresParams
 } from './endpoints.schemas'
@@ -875,6 +877,154 @@ export function useGetUserIdWatchedCastSuspense<TData = Awaited<ReturnType<typeo
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getGetUserIdWatchedCastSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Get user watched countries
+ */
+export const getUserIdWatchedCountries = (
+    id: string,
+    params?: GetUserIdWatchedCountriesParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUserIdWatchedCountries200>(
+      {url: `/user/${id}/watched-countries`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetUserIdWatchedCountriesQueryKey = (id: string,
+    params?: GetUserIdWatchedCountriesParams,) => {
+    return [`/user/${id}/watched-countries`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetUserIdWatchedCountriesQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdWatchedCountriesQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdWatchedCountries>>> = ({ signal }) => getUserIdWatchedCountries(id,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserIdWatchedCountriesQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdWatchedCountries>>>
+export type GetUserIdWatchedCountriesQueryError = unknown
+
+
+export function useGetUserIdWatchedCountries<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params: undefined |  GetUserIdWatchedCountriesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdWatchedCountries>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedCountries<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdWatchedCountries>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedCountries<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserIdWatchedCountries<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserIdWatchedCountriesQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetUserIdWatchedCountriesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdWatchedCountriesQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdWatchedCountries>>> = ({ signal }) => getUserIdWatchedCountries(id,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserIdWatchedCountriesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdWatchedCountries>>>
+export type GetUserIdWatchedCountriesSuspenseQueryError = unknown
+
+
+export function useGetUserIdWatchedCountriesSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params: undefined |  GetUserIdWatchedCountriesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedCountriesSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserIdWatchedCountriesSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserIdWatchedCountriesSuspense<TData = Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError = unknown>(
+ id: string,
+    params?: GetUserIdWatchedCountriesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdWatchedCountries>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserIdWatchedCountriesSuspenseQueryOptions(id,params,options)
 
   const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 

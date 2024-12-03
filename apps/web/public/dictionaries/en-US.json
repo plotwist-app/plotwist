@@ -717,5 +717,7 @@
   "most_watched_genres": "Most Watched Genres",
   "see_all_genres": "See All",
   "featured_actors": "Featured Actors",
-  "featured_actors_description": "Meet the actors who frequently appear in your movie and series history."
+  "featured_actors_description": "Meet the actors who frequently appear in your movie and series history.",
+  "origin_countries": "Origin countries",
+  "distribution_by_countries": "Distribution by countries of production"
 }

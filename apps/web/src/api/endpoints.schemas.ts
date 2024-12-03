@@ -4,6 +4,34 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserIdWatchedCountries200WatchedCountriesItem = {
+  count: number;
+  name: string;
+  percentage: number;
+};
+
+export type GetUserIdWatchedCountries200 = {
+  watchedCountries: GetUserIdWatchedCountries200WatchedCountriesItem[];
+};
+
+export type GetUserIdWatchedCountriesLanguage = typeof GetUserIdWatchedCountriesLanguage[keyof typeof GetUserIdWatchedCountriesLanguage];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserIdWatchedCountriesLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdWatchedCountriesParams = {
+language?: GetUserIdWatchedCountriesLanguage;
+};
+
 export type GetUserIdWatchedCast200WatchedCastItem = {
   count: number;
   id: string;
@@ -271,6 +299,13 @@ export type PutSocialLinksBodyYOUTUBEAnyOf = string | '';
 
 export type PutSocialLinksBodyYOUTUBE = unknown | PutSocialLinksBodyYOUTUBEAnyOf;
 
+export type PutSocialLinksBody = {
+  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
+  TIKTOK: PutSocialLinksBodyTIKTOK;
+  X: PutSocialLinksBodyX;
+  YOUTUBE: PutSocialLinksBodyYOUTUBE;
+};
+
 export type PutSocialLinksBodyXAnyOf = string | '';
 
 export type PutSocialLinksBodyX = unknown | PutSocialLinksBodyXAnyOf;
@@ -279,16 +314,9 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 
-export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
-
-export type PutSocialLinksBody = {
-  INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
-  TIKTOK: PutSocialLinksBodyTIKTOK;
-  X: PutSocialLinksBodyX;
-  YOUTUBE: PutSocialLinksBodyYOUTUBE;
-};
-
 export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
+
+export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -618,10 +646,6 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
-export type GetDetailedReviews200 = {
-  reviews: GetDetailedReviews200ReviewsItem[];
-};
-
 /**
  * @nullable
  */
@@ -631,6 +655,33 @@ export type GetDetailedReviews200ReviewsItemUserLike = {
   id: string;
   userId: string;
 } | null;
+
+export type GetDetailedReviews200ReviewsItem = {
+  /** @nullable */
+  backdropPath: string | null;
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetDetailedReviews200ReviewsItemLanguage;
+  likeCount: number;
+  mediaType: GetDetailedReviews200ReviewsItemMediaType;
+  /** @nullable */
+  posterPath: string | null;
+  rating: number;
+  replyCount: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  user: GetDetailedReviews200ReviewsItemUser;
+  userId: string;
+  /** @nullable */
+  userLike: GetDetailedReviews200ReviewsItemUserLike;
+};
+
+export type GetDetailedReviews200 = {
+  reviews: GetDetailedReviews200ReviewsItem[];
+};
 
 export type GetDetailedReviews200ReviewsItemUser = {
   id: string;
@@ -664,29 +715,6 @@ export const GetDetailedReviews200ReviewsItemLanguage = {
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
 } as const;
-
-export type GetDetailedReviews200ReviewsItem = {
-  /** @nullable */
-  backdropPath: string | null;
-  createdAt: string;
-  hasSpoilers: boolean;
-  id: string;
-  /** @nullable */
-  language: GetDetailedReviews200ReviewsItemLanguage;
-  likeCount: number;
-  mediaType: GetDetailedReviews200ReviewsItemMediaType;
-  /** @nullable */
-  posterPath: string | null;
-  rating: number;
-  replyCount: number;
-  review: string;
-  title: string;
-  tmdbId: number;
-  user: GetDetailedReviews200ReviewsItemUser;
-  userId: string;
-  /** @nullable */
-  userLike: GetDetailedReviews200ReviewsItemUserLike;
-};
 
 export type GetDetailedReviewsOrderBy = typeof GetDetailedReviewsOrderBy[keyof typeof GetDetailedReviewsOrderBy];
 
