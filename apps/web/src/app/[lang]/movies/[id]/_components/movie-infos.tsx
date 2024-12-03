@@ -13,6 +13,7 @@ import {
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { MovieGenres } from './movie-genres'
+import { ItemReview } from '@/components/item-review'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
@@ -21,6 +22,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={movie} />
       <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
+      <ItemReview />
     </div>
   )
 

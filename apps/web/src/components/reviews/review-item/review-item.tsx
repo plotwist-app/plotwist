@@ -67,8 +67,6 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     return 'SHOW'
   }, [user?.id, userId])
 
-  console.log({ openReplies })
-
   useEffect(() => {
     if (reviewToFocus === id && !focusReview && !wasFocusDisabled) {
       setFocusReview(true)
