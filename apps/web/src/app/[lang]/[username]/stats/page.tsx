@@ -30,10 +30,14 @@ export default function StatsPage() {
         <Genres />
       </Suspense>
 
-      {/* <TopActors />
+      <TopActors />
+
+      {/* 
       <Countries />
       <BestRated />
       <Status /> */}
+
+      {/*  */}
     </div>
   )
 }

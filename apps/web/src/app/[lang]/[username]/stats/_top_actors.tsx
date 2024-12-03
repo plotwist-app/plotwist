@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -8,8 +10,17 @@ import { Progress } from '@plotwist/ui/components/ui/progress'
 import { BarChartHorizontal, User } from 'lucide-react'
 import Image from 'next/image'
 import { v4 } from 'uuid'
+import { useLayoutContext } from '../_context'
+import { useGetUserIdWatchedCastSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export function TopActors() {
+  const { userId } = useLayoutContext()
+  const { language } = useLanguage()
+
+  const { data } = useGetUserIdWatchedCastSuspense(userId, { language })
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between space-y-0 pb-2">
@@ -24,115 +35,33 @@ export function TopActors() {
 
       <CardContent className="">
         <div className="space-y-4 mt-2">
-          <div className="flex gap-2" key={v4()}>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-              <Image
-                loading="lazy"
-                src="https://image.tmdb.org/t/p/w500//jPsLqiYGSofU4s6BjrxnefMfabb.jpg"
-                fill
-                className="object-cover"
-                sizes="100%"
-                alt="aaa"
-              />
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Morgan Freeman</span>
-                <span className="text-muted-foreground">20 títulos</span>
+          {data.watchedCast.map(actor => (
+            <div className="flex gap-2" key={actor.id}>
+              <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
+                {actor.profilePath ? (
+                  <Image
+                    loading="lazy"
+                    src={tmdbImage(actor.profilePath)}
+                    fill
+                    className="object-cover"
+                    sizes="100%"
+                    alt="aaa"
+                  />
+                ) : (
+                  <span>{actor.name[0]}</span>
+                )}
               </div>
 
-              <Progress value={72} />
-            </div>
-          </div>
+              <div className="flex-1 space-y-2">
+                <div className="flex justify-between text-xs">
+                  <p>{actor.name}</p>
+                  <p className="text-muted-foreground">{actor.count} títulos</p>
+                </div>
 
-          <div className="flex gap-2" key={v4()}>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-              <Image
-                loading="lazy"
-                src="https://image.tmdb.org/t/p/w500//8A4PS5iG7GWEAVFftyqMZKl3qcr.jpg"
-                fill
-                className="object-cover"
-                sizes="100%"
-                alt="aaa"
-              />
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Robert Pattinson</span>
-                <span className="text-muted-foreground">5 títulos</span>
+                <Progress value={actor.percentage} />
               </div>
-
-              <Progress value={20} />
             </div>
-          </div>
-
-          <div className="flex gap-2" key={v4()}>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-              <Image
-                loading="lazy"
-                src="https://image.tmdb.org/t/p/w500//5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg"
-                fill
-                className="object-cover"
-                sizes="100%"
-                alt="aaa"
-              />
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Dwayne Johnson</span>
-                <span className="text-muted-foreground">5 títulos</span>
-              </div>
-
-              <Progress value={20} />
-            </div>
-          </div>
-
-          <div className="flex gap-2" key={v4()}>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-              <Image
-                loading="lazy"
-                src="https://image.tmdb.org/t/p/w500//5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg"
-                fill
-                className="object-cover"
-                sizes="100%"
-                alt="aaa"
-              />
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Dwayne Johnson</span>
-                <span className="text-muted-foreground">5 títulos</span>
-              </div>
-
-              <Progress value={20} />
-            </div>
-          </div>
-
-          <div className="flex gap-2" key={v4()}>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-              <Image
-                loading="lazy"
-                src="https://image.tmdb.org/t/p/w500//5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg"
-                fill
-                className="object-cover"
-                sizes="100%"
-                alt="aaa"
-              />
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Dwayne Johnson</span>
-                <span className="text-muted-foreground">5 títulos</span>
-              </div>
-
-              <Progress value={20} />
-            </div>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>
