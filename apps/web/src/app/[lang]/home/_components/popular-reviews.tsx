@@ -48,23 +48,6 @@ export const PopularReviews = () => {
     interval: selectedInterval,
   })
 
-  if (isLoading)
-    return (
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold">
-            {dictionary.latest_reviews.title}
-          </h3>
-        </div>
-
-        <div className="space-y-4">
-          {Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
-            <FullReviewSkeleton key={v4()} />
-          ))}
-        </div>
-      </div>
-    )
-
   if (!data) return null
 
   return (
@@ -89,11 +72,17 @@ export const PopularReviews = () => {
       </div>
 
       <div className="space-y-6">
-        {data.reviews.length > 0 ? (
+        {isLoading &&
+          Array.from({ length: MAX_SKELETONS_REVIEWS }).map((_, index) => (
+            <FullReviewSkeleton key={v4()} />
+          ))}
+
+        {data.reviews.length > 0 &&
           data.reviews.map(review => (
             <FullReview key={review.id} review={review} />
-          ))
-        ) : (
+          ))}
+
+        {data.reviews.length === 0 && (
           <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
             <p>{dictionary.latest_reviews.no_reviews_found}</p>
 
