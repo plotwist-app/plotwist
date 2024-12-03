@@ -22,6 +22,9 @@ export async function POST(req: NextRequest) {
       return false
     }
 
+    const country = req.headers.get('x-vercel-ip-country')
+    console.log({ country })
+
     switch (locale) {
       case 'ja':
         return price.currency === 'jpy'
