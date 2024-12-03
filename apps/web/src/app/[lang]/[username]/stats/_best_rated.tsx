@@ -44,6 +44,8 @@ export function BestRated() {
 
   const { data } = useGetUserIdBestReviewsSuspense(userId, { language })
 
+  if (!data.bestReviews.length) return <></>
+
   const trigger = (
     <p className="mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline">
       {dictionary.more}
