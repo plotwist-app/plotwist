@@ -7,10 +7,10 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Image from 'next/image'
 import Link from 'next/link'
+import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
 import type { UserItemsProps } from './user-items'
 import { UserItemsCommand } from './user-items-command'
-import { v4 } from 'uuid'
 
 export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()

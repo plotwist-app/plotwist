@@ -1,3 +1,4 @@
+import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
@@ -13,7 +14,6 @@ import {
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { MovieGenres } from './movie-genres'
-import { ItemReview } from '@/components/item-review'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 

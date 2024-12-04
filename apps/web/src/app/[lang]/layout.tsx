@@ -23,15 +23,11 @@ type RootLayoutProps = {
 }
 
 export default async function RootLayout(props: RootLayoutProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
-  const {
-    children
-  } = props;
+  const { children } = props
 
   const dictionary = await getDictionary(lang)
 

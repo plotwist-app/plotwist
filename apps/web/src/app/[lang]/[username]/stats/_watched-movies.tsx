@@ -1,10 +1,10 @@
 'use client'
 
 import {
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from '@plotwist/ui/components/ui/chart'
 
 import {

@@ -6,11 +6,9 @@ import Link from 'next/link'
 import { SignInForm } from './_sign-in-form'
 
 export default async function SignInPage(props: PageProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dictionary = await getDictionary(lang)
 

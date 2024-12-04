@@ -1,17 +1,17 @@
 'use client'
 
 import { useGetUserIdReviewsCountSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import NumberFlow from '@number-flow/react'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Star } from 'lucide-react'
 import { useLayoutContext } from '../_context'
-import { useLanguage } from '@/context/language'
-import NumberFlow from '@number-flow/react'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function ReviewsCount() {
   const { userId } = useLayoutContext()

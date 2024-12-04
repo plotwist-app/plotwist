@@ -14,7 +14,6 @@ import { Poster } from '@/components/poster'
 import type { Language } from '@/types/languages'
 
 import { TvSerieSeasonDetails } from './tv-serie-season-details'
-import { isBefore } from 'date-fns'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]

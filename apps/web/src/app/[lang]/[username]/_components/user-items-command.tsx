@@ -9,12 +9,11 @@ import {
 import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
-import { useRouter } from 'next/navigation'
 
 type UserItemsCommandProps = {
   items: GetUserItems200Item[]

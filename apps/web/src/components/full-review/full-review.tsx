@@ -13,13 +13,13 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
-import { cn } from '@/lib/utils'
-import { useState } from 'react'
-import { Likes } from '../likes'
 import { useLanguage } from '@/context/language'
-import { format } from 'date-fns'
+import { cn } from '@/lib/utils'
 import { locale } from '@/utils/date/locale'
 import { Rating } from '@plotwist/ui/components/ui/rating'
+import { format } from 'date-fns'
+import { useState } from 'react'
+import { Likes } from '../likes'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem

@@ -20,12 +20,12 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { cn } from '@/lib/utils'
 
 import type { GetReviews200Item } from '@/api/endpoints.schemas'
-import { ReviewItemActions } from './review-item-actions'
-import { ReviewItemEditActions } from './review-item-edit-actions'
 import { Likes } from '@/components/likes'
+import { Rating } from '@plotwist/ui/components/ui/rating'
 import { ReviewReply } from '../review-reply'
 import { ReviewReplyForm } from '../review-reply/review-reply-form'
-import { Rating } from '@plotwist/ui/components/ui/rating'
+import { ReviewItemActions } from './review-item-actions'
+import { ReviewItemEditActions } from './review-item-edit-actions'
 
 export type ReviewItemProps = {
   review: GetReviews200Item

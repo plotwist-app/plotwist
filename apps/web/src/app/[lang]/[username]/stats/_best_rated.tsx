@@ -1,31 +1,22 @@
 'use client'
 
+import { useGetUserIdBestReviewsSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
-import { Star } from 'lucide-react'
-import { v4 } from 'uuid'
-import { useLayoutContext } from '../_context'
 import {
-  useGetUserIdBestReviews,
-  useGetUserIdBestReviewsSuspense,
-} from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
-import { StarFilledIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
-import { useMediaQuery } from '@uidotdev/usehooks'
-import {
-  DialogTitle,
   Dialog,
   DialogContent,
-  DialogTrigger,
-  DialogHeader,
   DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import {
   Drawer,
   DrawerContent,
@@ -34,9 +25,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-import { format } from 'date-fns'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { cn } from '@/lib/utils'
+import { StarFilledIcon } from '@radix-ui/react-icons'
+import { useMediaQuery } from '@uidotdev/usehooks'
+import { format } from 'date-fns'
+import { Star } from 'lucide-react'
+import Link from 'next/link'
+import { v4 } from 'uuid'
+import { useLayoutContext } from '../_context'
 
 export function BestRated() {
   const { userId } = useLayoutContext()

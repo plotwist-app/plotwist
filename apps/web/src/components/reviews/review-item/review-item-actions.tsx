@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
-import type { ReviewItemProps } from './review-item'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
+import { getGetReviewsQueryKey } from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { getGetReviewQueryKey, getGetReviewsQueryKey } from '@/api/reviews'
+import type { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
   openReplyForm: boolean

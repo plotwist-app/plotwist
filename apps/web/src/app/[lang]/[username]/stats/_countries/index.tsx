@@ -11,13 +11,13 @@ import {
 import { BarChartHorizontal } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { MapChart } from './map-chart'
-import { useLayoutContext } from '../../_context'
 import { useGetUserIdWatchedCountriesSuspense } from '@/api/user-stats'
 import { useLanguage } from '@/context/language'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useLayoutContext } from '../../_context'
+import { MapChart } from './map-chart'
 
 export function Countries() {
   const { userId } = useLayoutContext()

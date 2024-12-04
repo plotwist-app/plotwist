@@ -4,9 +4,9 @@ import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { AnimatedList } from '@plotwist/ui/components/ui/animated-list'
 import { Avatar, AvatarFallback } from '@plotwist/ui/components/ui/avatar'
+import { Rating } from '@plotwist/ui/components/ui/rating'
 import { v4 } from 'uuid'
 import { type Review as ReviewType, reviews } from './reviews-translations'
-import { Rating } from '@plotwist/ui/components/ui/rating'
 
 const Review = ({ name, description, time, rating }: ReviewType) => {
   return (

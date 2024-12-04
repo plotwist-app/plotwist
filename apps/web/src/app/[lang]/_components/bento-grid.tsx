@@ -1,4 +1,3 @@
-import { ProBadge } from '@/components/pro-badge'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'

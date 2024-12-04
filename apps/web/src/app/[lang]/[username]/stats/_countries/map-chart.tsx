@@ -1,3 +1,5 @@
+import type { GetUserIdWatchedCountries200WatchedCountriesItem } from '@/api/endpoints.schemas'
+import { cn } from '@/lib/utils'
 import {
   ComposableMap,
   Geographies,
@@ -5,8 +7,6 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps'
 import geography from './features.json'
-import { cn } from '@/lib/utils'
-import type { GetUserIdWatchedCountries200WatchedCountriesItem } from '@/api/endpoints.schemas'
 
 type MapChartProps = {
   setTooltipContent: (content: string) => void

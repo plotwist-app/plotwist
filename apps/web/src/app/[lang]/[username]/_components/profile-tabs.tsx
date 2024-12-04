@@ -3,9 +3,7 @@
 import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
-import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,16 +13,15 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import {
   Activity,
+  BarChart,
   Check,
   Clock,
+  Forward,
   List,
   Loader,
   MoreVertical,
   Star,
   Trophy,
-  BarChart,
-  Share,
-  Forward,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

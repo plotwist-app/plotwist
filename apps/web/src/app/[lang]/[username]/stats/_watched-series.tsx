@@ -1,10 +1,10 @@
 'use client'
 
 import {
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from '@plotwist/ui/components/ui/chart'
 
 import {
@@ -15,8 +15,8 @@ import {
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
 
-import { Label, Pie, PieChart } from 'recharts'
 import { useLanguage } from '@/context/language'
+import { Label, Pie, PieChart } from 'recharts'
 
 const chartData = [
   { genre: 'Action', series: 27, fill: 'var(--color-action)' },

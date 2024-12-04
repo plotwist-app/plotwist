@@ -10,11 +10,11 @@ import {
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
 import { Progress } from '@plotwist/ui/components/ui/progress'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { User } from 'lucide-react'
 import Image from 'next/image'
-import { useLayoutContext } from '../_context'
 import { v4 } from 'uuid'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useLayoutContext } from '../_context'
 
 export function TopActors() {
   const { userId } = useLayoutContext()

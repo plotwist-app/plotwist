@@ -28,8 +28,8 @@ import {
   useDeleteReviewById,
 } from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import type { ReviewItemProps } from './review-item'
 import { ReviewFormDialog } from '../review-form-dialog'
+import type { ReviewItemProps } from './review-item'
 
 export const ReviewItemEditActions = ({
   review,

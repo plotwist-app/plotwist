@@ -9,22 +9,22 @@ import {
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
 
+import { useGetLikesEntityId } from '@/api/like'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
-import { useGetLikesEntityId } from '@/api/like'
-import { type PropsWithChildren, useState } from 'react'
-import Link from 'next/link'
+import { tmdbImage } from '@/utils/tmdb/image'
+import NumberFlow from '@number-flow/react'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { ProBadge } from '../pro-badge'
-import { Heart } from 'lucide-react'
-import { v4 } from 'uuid'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import NumberFlow from '@number-flow/react'
+import { Heart } from 'lucide-react'
+import Link from 'next/link'
+import { type PropsWithChildren, useState } from 'react'
+import { v4 } from 'uuid'
+import { ProBadge } from '../pro-badge'
 
 type LikesProps = {
   className?: string
