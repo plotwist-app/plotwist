@@ -17,6 +17,7 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
+import { ItemReview } from '@/components/item-review'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 
@@ -40,7 +41,6 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={tvSerie} />
-
       {session?.user && (
         <Suspense fallback={<div />}>
           <TvSeriesProgress
@@ -50,6 +50,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
         </Suspense>
       )}
 
+      <ItemReview />
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
     </div>
   )

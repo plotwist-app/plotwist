@@ -7,6 +7,7 @@ import {
   usePostReview,
   usePutReviewById,
 } from '@/api/reviews'
+import { getGetUserEpisodesQueryKey } from '@/api/user-episodes'
 import { getGetUserItemQueryKey, usePutUserItem } from '@/api/user-items'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
@@ -106,14 +107,22 @@ export function ReviewFormDialog({
             },
           },
           {
-            onSettled: response => {
-              APP_QUERY_CLIENT.setQueryData(
+            onSettled: async response => {
+              await APP_QUERY_CLIENT.setQueryData(
                 getGetUserItemQueryKey({
                   mediaType,
                   tmdbId: String(tmdbId),
                 }),
                 response
               )
+
+              if (mediaType === 'TV_SHOW') {
+                await APP_QUERY_CLIENT.invalidateQueries({
+                  queryKey: getGetUserEpisodesQueryKey({
+                    tmdbId: String(tmdbId),
+                  }),
+                })
+              }
             },
           }
         )

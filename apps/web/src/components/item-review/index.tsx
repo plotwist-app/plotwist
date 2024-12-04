@@ -25,7 +25,7 @@ function ItemReviewContent() {
       mediaType={mediaType}
       review={data.review}
     >
-      <Button size="sm" variant={data.review ? 'default' : 'outline'}>
+      <Button size="sm" variant="outline">
         <Star size={14} className="mr-2" />
         {data.review ? dictionary.reviewed : dictionary.review}
       </Button>
