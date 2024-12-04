@@ -112,7 +112,7 @@ export const Hero = () => {
               <p>
                 {user?.subscriptionType === 'PRO'
                   ? dictionary.already_in_pro
-                  : dictionary.get_one_month_free}
+                  : dictionary.get_14_days_free}
               </p>
             </Button>
 

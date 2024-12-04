@@ -8,7 +8,7 @@ import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
 
 export const LatestLists = () => {
   const { dictionary } = useLanguage()
-  const { data, isLoading } = useGetLists({ limit: 5 })
+  const { data, isLoading } = useGetLists({ limit: 5, visibility: 'PUBLIC' })
 
   const content = useMemo(() => {
     if (isLoading)

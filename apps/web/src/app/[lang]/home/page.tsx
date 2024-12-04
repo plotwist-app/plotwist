@@ -15,7 +15,7 @@ import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params;
+  const params = await props.params
   const {
     app_page: { dashboard_title: title, dashboard_description: description },
   } = await getDictionary(params.lang)
@@ -36,11 +36,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 const HomePage = async (props: PageProps) => {
-  const params = await props.params;
-
-  const {
-    lang
-  } = params;
+  const params = await props.params
+  const { lang } = params
 
   const dictionary = await getDictionary(lang)
 
@@ -74,6 +71,7 @@ const HomePage = async (props: PageProps) => {
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />
+
           <PopularReviews />
         </div>
 

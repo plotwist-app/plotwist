@@ -1,3 +1,5 @@
+'use client'
+
 import { Pattern } from '@/components/pattern'
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'

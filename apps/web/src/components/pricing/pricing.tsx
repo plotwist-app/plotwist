@@ -181,14 +181,14 @@ export const Pricing = () => {
                     </TooltipProvider>
 
                     {user.subscriptionType === 'MEMBER'
-                      ? dictionary.get_one_month_free
+                      ? dictionary.get_14_days_free
                       : dictionary.already_in_pro}
                   </Button>
                 </form>
               ) : (
                 <Button asChild type="button">
                   <Link href={`/${language}/sign-up?redirect=checkout`}>
-                    {dictionary.get_one_month_free}
+                    {dictionary.get_14_days_free}
                   </Link>
                 </Button>
               )}

@@ -14,19 +14,27 @@ import { Tooltip } from 'react-tooltip'
 import React, { useState } from 'react'
 
 import { MapChart } from './map-chart'
+import { useLayoutContext } from '../../_context'
+import { useGetUserIdWatchedCountriesSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 export function Countries() {
+  const { userId } = useLayoutContext()
+  const { dictionary } = useLanguage()
+  const { data } = useGetUserIdWatchedCountriesSuspense(userId)
+
   const [content, setContent] = useState('')
 
   return (
-    <Card className="flex flex-col overflow-hidden">
+    <Card className="col-span-2 sm:col-span-1 flex flex-col overflow-hidden">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
         <div className="space-y-1">
           <CardTitle className="text-sm font-medium">
-            Países de Origem
+            {dictionary.origin_countries}
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            Distribuição por país de produção
+            {dictionary.distribution_by_countries}
           </p>
         </div>
 
@@ -34,8 +42,12 @@ export function Countries() {
       </CardHeader>
 
       <CardContent className="mt-2 flex-1 -mx-6 -mb-6">
-        <div className="border-t h-full  flex items-center justify-center">
-          <MapChart setTooltipContent={setContent} />
+        <div className="border-t h-full flex items-center justify-center">
+          <MapChart
+            setTooltipContent={setContent}
+            data={data.watchedCountries}
+          />
+
           <Tooltip
             anchorId="map"
             content={content}
@@ -44,6 +56,31 @@ export function Countries() {
             noArrow
           />
         </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+export function CountriesSkeleton() {
+  const { dictionary } = useLanguage()
+
+  return (
+    <Card className="flex flex-col overflow-hidden">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+        <div className="space-y-1">
+          <CardTitle className="text-sm font-medium">
+            {dictionary.origin_countries}
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            {dictionary.distribution_by_countries}
+          </p>
+        </div>
+
+        <BarChartHorizontal className="size-4 text-muted-foreground" />
+      </CardHeader>
+
+      <CardContent className="mt-2 flex-1 -mx-6 -mb-6">
+        <Skeleton className="border-t h-full w-full" />
       </CardContent>
     </Card>
   )

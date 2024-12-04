@@ -15,7 +15,10 @@ export async function signIn({ email, password, redirectTo }: SignInInput) {
 
   if (token) {
     await createSession({ token })
-    redirectTo && redirect(redirectTo)
+
+    if (redirectTo) {
+      redirect(redirectTo)
+    }
   }
 
   return { status }

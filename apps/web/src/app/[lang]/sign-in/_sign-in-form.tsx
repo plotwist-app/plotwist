@@ -69,17 +69,23 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      const response = await onSignIn({
+      const { status } = await onSignIn({
         ...values,
         redirectTo: `/${language}/home`,
       })
 
-      if (response?.status) {
+      if (status) {
         return setWarningDialogOpen(true)
       }
 
       return toast.success(dictionary.login_form.login_success)
     } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'NEXT_REDIRECT') {
+          return toast.success(dictionary.login_form.login_success)
+        }
+      }
+
       toast.error(dictionary.login_form.invalid_login_credentials)
     }
   }
@@ -174,9 +180,9 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
           <p>{dictionary.legacy_user.description}</p>
 
           <DialogFooter className="sm:space-y-0 space-y-2">
-            <Button variant="outline">
+            {/* <Button variant="outline">
               {dictionary.legacy_user.resend_email}
-            </Button>
+            </Button> */}
 
             <Button onClick={() => setWarningDialogOpen(false)}>
               {dictionary.legacy_user.agree}

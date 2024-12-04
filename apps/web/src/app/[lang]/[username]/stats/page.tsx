@@ -5,10 +5,10 @@ import {
   MostWatchedSeriesSkeleton,
 } from './_most_watched-series'
 import { ReviewsCount, ReviewsCountSkeleton } from './_reviews-count'
-import { TopActors } from './_top_actors'
-import { Countries } from './_countries'
-import { BestRated } from './_best_rated'
-import { Status } from './_status'
+import { TopActors, TopActorsSkeleton } from './_top_actors'
+import { Countries, CountriesSkeleton } from './_countries'
+import { BestRated, BestRatedSkeleton } from './_best_rated'
+import { Status, StatusSkeleton } from './_status'
 import { Suspense } from 'react'
 
 export default function StatsPage() {
@@ -30,14 +30,21 @@ export default function StatsPage() {
         <Genres />
       </Suspense>
 
-      <TopActors />
+      <Suspense fallback={<TopActorsSkeleton />}>
+        <TopActors />
+      </Suspense>
 
-      {/* 
-      <Countries />
-      <BestRated />
-      <Status /> */}
+      <Suspense fallback={<CountriesSkeleton />}>
+        <Countries />
+      </Suspense>
 
-      {/*  */}
+      <Suspense fallback={<BestRatedSkeleton />}>
+        <BestRated />
+      </Suspense>
+
+      <Suspense fallback={<StatusSkeleton />}>
+        <Status />
+      </Suspense>
     </div>
   )
 }

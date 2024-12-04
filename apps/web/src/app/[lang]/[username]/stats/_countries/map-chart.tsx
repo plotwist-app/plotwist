@@ -6,23 +6,16 @@ import {
 } from 'react-simple-maps'
 import geography from './features.json'
 import { cn } from '@/lib/utils'
-
-const filmDistribution = {
-  'United States': 100,
-  Brazil: 50,
-  Russia: 50,
-  Canada: 50,
-  India: 25,
-  Italy: 25,
-}
-
-const maxFilms = Math.max(...Object.values(filmDistribution))
+import type { GetUserIdWatchedCountries200WatchedCountriesItem } from '@/api/endpoints.schemas'
 
 type MapChartProps = {
   setTooltipContent: (content: string) => void
+  data: GetUserIdWatchedCountries200WatchedCountriesItem[]
 }
 
-export function MapChart({ setTooltipContent }: MapChartProps) {
+export function MapChart({ setTooltipContent, data }: MapChartProps) {
+  const highlightedCountry = data[0]?.name
+
   return (
     <div id="map" className="w-full h-full">
       <ComposableMap>
@@ -30,25 +23,23 @@ export function MapChart({ setTooltipContent }: MapChartProps) {
           <Geographies geography={geography}>
             {({ geographies }) =>
               geographies.map(geo => {
-                const country = geo.properties.name
-
-                const value =
-                  filmDistribution[country as keyof typeof filmDistribution] ||
-                  0
-
-                const opacityPercentage = Math.floor((value / maxFilms) * 100)
+                const name = geo.properties.name
+                const isHighlighted = name === highlightedCountry
+                const count =
+                  data.find(country => country.name === name)?.count || 0
 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     className={cn(
-                      'hover:fill-muted-foreground hover:opacity-100 hover:border-dashed relative',
-                      value ? 'fill-foreground' : 'fill-muted'
+                      'hover:fill-muted-foreground hover:opacity-100 hover:border-dashed relative fill-muted',
+
+                      isHighlighted && 'fill-foreground',
+                      count && !isHighlighted && 'fill-muted-foreground'
                     )}
                     style={{
                       default: {
-                        opacity: value ? `${opacityPercentage}%` : '100%',
                         outline: 'none',
                       },
                       pressed: {
@@ -59,7 +50,7 @@ export function MapChart({ setTooltipContent }: MapChartProps) {
                       },
                     }}
                     onMouseEnter={() => {
-                      setTooltipContent(`${geo.properties.name}: ${value}`)
+                      setTooltipContent(`${geo.properties.name}: ${count}`)
                     }}
                     onMouseLeave={() => {
                       setTooltipContent('')
