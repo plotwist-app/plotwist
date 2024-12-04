@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params;
+  const params = await props.params
   const {
     tv_serie_pages: {
       top_rated: { title, description },
@@ -28,11 +28,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 const TopRatedTvSeriesPage = async (props: PageProps) => {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const {
     tv_serie_pages: {

@@ -21,8 +21,6 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
 
-import type { List } from '@/types/supabase/lists'
-
 import { getGetListsQueryKey } from '@/api/list'
 import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { useSession } from '@/context/session'

@@ -1,3 +1,4 @@
+import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
@@ -20,6 +21,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={movie} />
+      <ItemReview />
       <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
     </div>
   )

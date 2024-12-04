@@ -1,5 +1,5 @@
+import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { ReviewStars } from '../review-stars'
 
 export const ReviewItemSkeleton = () => {
   return (
@@ -10,7 +10,7 @@ export const ReviewItemSkeleton = () => {
         <div className="flex items-center space-x-2">
           <Skeleton className="h-4 w-[15ch]" />
           <span className="h-1 w-1 rounded-full bg-muted" />
-          <ReviewStars rating={0} />
+          <Rating defaultRating={0} editable={false} size={14} />
         </div>
 
         <div className="relative space-y-1 rounded-md border p-4">

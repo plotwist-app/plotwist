@@ -1,6 +1,4 @@
 'use client'
-
-import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -19,8 +17,12 @@ import { useLanguage } from '@/context/language'
 
 import type { Dictionary } from '@/utils/dictionaries'
 
-import type { MediaType } from '@/types/supabase/media-type'
-
+import {
+  getGetReviewRepliesQueryKey,
+  usePostReviewReply,
+} from '@/api/review-replies'
+import { getGetReviewsQueryKey } from '@/api/reviews'
+import { APP_QUERY_CLIENT } from '@/context/app'
 import { useSession } from '@/context/session'
 import { tmdbImage } from '@/utils/tmdb/image'
 import {
@@ -29,12 +31,6 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import Link from 'next/link'
-import {
-  getGetReviewRepliesQueryKey,
-  usePostReviewReply,
-} from '@/api/review-replies'
-import { APP_QUERY_CLIENT } from '@/context/app'
-import { getGetReviewsQueryKey, getReviews } from '@/api/reviews'
 import type { ReviewItemProps } from '../review-item'
 
 export const replyFormSchema = (dictionary: Dictionary) =>

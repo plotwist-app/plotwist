@@ -1,12 +1,9 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import type { DialogProps } from '@radix-ui/react-dialog'
 import { MoreVertical, Pencil, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { Button } from '@plotwist/ui/components/ui/button'
-import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 import {
   Dialog,
   DialogClose,
@@ -22,34 +19,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-import { Label } from '@plotwist/ui/components/ui/label'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@plotwist/ui/components/ui/form'
-import { ReviewStars } from '../review-stars'
 
 import {
+  getGetReviewQueryKey,
   getGetReviewsQueryKey,
   useDeleteReviewById,
-  usePutReviewById,
 } from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import { type ReviewFormValues, reviewFormSchema } from '../review-form'
+import { ReviewFormDialog } from '../review-form-dialog'
 import type { ReviewItemProps } from './review-item'
 
 export const ReviewItemEditActions = ({
   review,
 }: Pick<ReviewItemProps, 'review'>) => {
-  const [openEditDialog, setOpenEditDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { dictionary } = useLanguage()
 
@@ -63,9 +47,17 @@ export const ReviewItemEditActions = ({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-4">
-          <DropdownMenuItem onClick={() => setOpenEditDialog(true)}>
-            <Pencil size={14} className="mr-2" />
-            {dictionary.edit}
+          <DropdownMenuItem asChild>
+            <ReviewFormDialog
+              mediaType={review.mediaType}
+              tmdbId={review.tmdbId}
+              review={review}
+            >
+              <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-muted">
+                <Pencil size={14} className="mr-2" />
+                {dictionary.edit}
+              </div>
+            </ReviewFormDialog>
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setOpenDeleteDialog(true)}>
@@ -74,12 +66,6 @@ export const ReviewItemEditActions = ({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <EditDialog
-        review={review}
-        open={openEditDialog}
-        onOpenChange={setOpenEditDialog}
-      />
 
       <DeleteDialog
         review={review}
@@ -103,6 +89,13 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
         onSettled: async () => {
           await APP_QUERY_CLIENT.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
+              mediaType: review.mediaType,
+              tmdbId: String(review.tmdbId),
+            }),
+          })
+
+          await APP_QUERY_CLIENT.invalidateQueries({
+            queryKey: getGetReviewQueryKey({
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),
@@ -144,141 +137,6 @@ const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
             loading={deleteReview.isPending}
           >
             {dictionary.delete}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-const EditDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
-  const { dictionary } = useLanguage()
-  const { user } = useSession()
-  const editReview = usePutReviewById()
-
-  const form = useForm<ReviewFormValues>({
-    resolver: zodResolver(reviewFormSchema(dictionary)),
-    defaultValues: {
-      review: review.review,
-      rating: review.rating,
-      hasSpoilers: review.hasSpoilers,
-    },
-  })
-
-  const onSubmit = (values: ReviewFormValues) => {
-    editReview.mutate(
-      {
-        id: review.id,
-        data: {
-          rating: values.rating,
-          review: values.review,
-          hasSpoilers: values.hasSpoilers,
-        },
-      },
-      {
-        onSettled: async () => {
-          APP_QUERY_CLIENT.invalidateQueries({
-            queryKey: getGetReviewsQueryKey({
-              mediaType: review.mediaType,
-              tmdbId: String(review.tmdbId),
-            }),
-          })
-
-          if (dialogProps.onOpenChange) {
-            dialogProps.onOpenChange(false)
-          }
-        },
-      }
-    )
-  }
-
-  const username = user?.username
-
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="gap-1">
-          <DialogTitle>{dictionary.edit_review}</DialogTitle>
-        </DialogHeader>
-
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex items-start space-x-4"
-          >
-            <div className="w-full space-y-2">
-              <div className="flex justify-between">
-                <div className="flex gap-2 items-center">
-                  <span className="text-sm text-muted-foreground">
-                    {username}
-                  </span>
-
-                  <span className="h-1 w-1 rounded-full bg-muted" />
-
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={({ field }) => (
-                      <ReviewStars
-                        onChange={field.onChange}
-                        rating={field.value}
-                      />
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="hasSpoilers"
-                  render={({ field }) => (
-                    <div className="flex items-center justify-center gap-2">
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        id="has_spoilers"
-                        className="border-muted-foreground text-primary-foreground/80"
-                      />
-                      <Label
-                        onClick={field.onChange}
-                        htmlFor="has_spoilers"
-                        className="text-muted-foreground hover:cursor-pointer text-sm whitespace-nowrap"
-                      >
-                        {dictionary.contain_spoilers}
-                      </Label>
-                    </div>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name="review"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea {...field} rows={4} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </form>
-        </Form>
-
-        <DialogFooter className="sm:flex-end gap-0">
-          <DialogClose asChild>
-            <Button type="button" variant="outline">
-              {dictionary.close}
-            </Button>
-          </DialogClose>
-
-          <Button
-            onClick={form.handleSubmit(onSubmit)}
-            loading={editReview.isPending}
-          >
-            {dictionary.edit}
           </Button>
         </DialogFooter>
       </DialogContent>

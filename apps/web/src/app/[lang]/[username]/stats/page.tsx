@@ -1,15 +1,15 @@
-import { TotalHours, TotalHoursSkeleton } from './_total_hours'
+import { Suspense } from 'react'
+import { BestRated, BestRatedSkeleton } from './_best_rated'
+import { Countries, CountriesSkeleton } from './_countries'
 import { Genres, GenresSkeleton } from './_genres'
 import {
   MostWatchedSeries,
   MostWatchedSeriesSkeleton,
 } from './_most_watched-series'
 import { ReviewsCount, ReviewsCountSkeleton } from './_reviews-count'
-import { TopActors, TopActorsSkeleton } from './_top_actors'
-import { Countries, CountriesSkeleton } from './_countries'
-import { BestRated, BestRatedSkeleton } from './_best_rated'
 import { Status, StatusSkeleton } from './_status'
-import { Suspense } from 'react'
+import { TopActors, TopActorsSkeleton } from './_top_actors'
+import { TotalHours, TotalHoursSkeleton } from './_total_hours'
 
 export default function StatsPage() {
   return (

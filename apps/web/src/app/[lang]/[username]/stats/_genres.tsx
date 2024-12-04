@@ -1,32 +1,32 @@
 'use client'
 
 import { useGetUserIdWatchedGenresSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
-import { Progress } from '@plotwist/ui/components/ui/progress'
-import { BarChartHorizontal } from 'lucide-react'
-import { useLayoutContext } from '../_context'
-import { useLanguage } from '@/context/language'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@plotwist/ui/components/ui/dialog'
 import {
   Drawer,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
+import { Progress } from '@plotwist/ui/components/ui/progress'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import {
-  DialogTitle,
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@plotwist/ui/components/ui/dialog'
-import { v4 } from 'uuid'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { BarChartHorizontal } from 'lucide-react'
+import { v4 } from 'uuid'
+import { useLayoutContext } from '../_context'
 
 export function Genres() {
   const { userId } = useLayoutContext()

@@ -11,8 +11,8 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Likes } from '@/components/likes'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 type PopularListCardProps = { list: GetLists200ListsItem }
 

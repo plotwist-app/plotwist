@@ -545,7 +545,6 @@
   "edit": "Editar",
   "delete": "Excluir",
   "close": "Fechar",
-  "edit_review": "Editar avaliação",
   "edit_reply": "Editar resposta",
   "lists": "Listas",
   "my_lists": "Minhas listas",
@@ -725,5 +724,11 @@
   "today": "Hoje",
   "this_week": "Essa semana",
   "this_month": "Esse mês",
-  "all_time": "Sempre"
+  "all_time": "Sempre",
+  "review": "Avaliar",
+  "reviewed": "Avaliado",
+  "what_did_you_think": "O que você achou?",
+  "share_your_opinion_here": "Compartilhe sua opinião aqui",
+  "edit_review": "Editar avaliação",
+  "submit_review": "Enviar avaliação"
 }

@@ -13,11 +13,9 @@ import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dictionary = await getDictionary(lang)
 
@@ -69,11 +67,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Home(props: PageProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   return (
     <>

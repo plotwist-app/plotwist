@@ -6,7 +6,6 @@
     "build": "dotenv -- turbo build",
     "build:typescript": "turbo build --filter=@plotwist/typescript-config",
     "dev": "dotenv -- turbo dev",
-    "lint": "turbo lint -- --fix",
     "test": "turbo test",
     "format-and-lint": "biome check .",
     "format-and-lint:fix": "biome check . --write"

@@ -6,13 +6,6 @@ import { useGetLists } from '@/api/list'
 import { ListCard, ListCardSkeleton } from '@/components/list-card'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
-import { LockKeyhole } from 'lucide-react'
 import { v4 } from 'uuid'
 import { ListForm } from '../../lists/_components/list-form'
 

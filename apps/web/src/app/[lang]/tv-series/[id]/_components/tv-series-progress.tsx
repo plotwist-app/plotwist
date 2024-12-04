@@ -1,9 +1,4 @@
 'use client'
-
-import type {
-  GetUserEpisodes200Item,
-  GetUserItem200,
-} from '@/api/endpoints.schemas'
 import {
   useDeleteUserEpisodes,
   useGetUserEpisodesSuspense,
@@ -12,7 +7,6 @@ import {
 import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 import type { Episode, SeasonDetails } from '@/services/tmdb'

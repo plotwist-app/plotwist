@@ -9,7 +9,7 @@ import { Lists } from './_components/lists'
 import { SeeAllLists } from './_components/see-all-lists'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params;
+  const params = await props.params
   const dictionary = await getDictionary(params.lang)
   const title = dictionary.lists
   const description = dictionary.manage_your_lists
@@ -30,11 +30,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 const ListsPage = async (props: PageProps) => {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dictionary = await getDictionary(lang)
 

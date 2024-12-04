@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
-import type { ReviewItemProps } from './review-item'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { getGetReviewsQueryKey } from '@/api/reviews'
+import { APP_QUERY_CLIENT } from '@/context/app'
+import type { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
   openReplyForm: boolean
@@ -60,8 +60,8 @@ export const ReviewItemActions = ({
       return handleDeleteLike.mutate(
         { id: review.userLike.id },
         {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
+          onSuccess: async () => {
+            await APP_QUERY_CLIENT.invalidateQueries({
               queryKey: getGetReviewsQueryKey({
                 mediaType: review.mediaType,
                 tmdbId: String(review.tmdbId),

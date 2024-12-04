@@ -547,7 +547,6 @@
   "edit": "編集",
   "delete": "消去",
   "close": "閉じる",
-  "edit_review": "レビューを編集する",
   "edit_reply": "返信を編集する",
   "my_lists": "マイリスト",
   "manage_your_lists": "リストを管理し、他のメンバーと共有しましょう！",
@@ -727,5 +726,11 @@
   "today": "今日",
   "this_week": "今週",
   "this_month": "今月",
-  "all_time": "常に"
+  "all_time": "常に",
+  "review": "レビュー",
+  "reviewed": "レビュー済み",
+  "what_did_you_think": "どう思いましたか？",
+  "share_your_opinion_here": "ここにあなたの意見を共有してください",
+  "edit_review": "レビューを編集する",
+  "submit_review": "レビューを送信する"
 }

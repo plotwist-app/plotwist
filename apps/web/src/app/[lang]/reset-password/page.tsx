@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import { ResetPasswordForm } from './_components/reset-password-form'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params;
+  const params = await props.params
   const dictionary = await getDictionary(params.lang)
   const title = dictionary.access_plotwist
 
@@ -24,11 +24,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 const ResetPasswordPage = async (props: PageProps) => {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dictionary = await getDictionary(lang)
 

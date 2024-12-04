@@ -10,17 +10,16 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
-import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
-import { ReviewStars } from '@/components/reviews/review-stars'
+import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
+import { locale } from '@/utils/date/locale'
+import { Rating } from '@plotwist/ui/components/ui/rating'
+import { format } from 'date-fns'
 import { useState } from 'react'
 import { Likes } from '../likes'
-import { useLanguage } from '@/context/language'
-import { format, formatDistanceToNow } from 'date-fns'
-import { locale } from '@/utils/date/locale'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
@@ -98,7 +97,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
               <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
 
               <div className="flex items-center gap-x-2">
-                <ReviewStars rating={rating} />
+                <Rating defaultRating={rating} editable={false} size={14} />
 
                 <span className="h-1 w-1 rounded-full bg-muted" />
                 <p className="text-sm text-muted-foreground">{time}</p>
@@ -149,7 +148,7 @@ export const FullReviewSkeleton = () => {
             <Skeleton className="aspect-square size-8 rounded-full border" />
             <Skeleton className="aspect-square h-[1em] w-[10ch]" />
             <span className="h-1 w-1 rounded-full bg-muted" />
-            <ReviewStars rating={0} />
+            <Rating defaultRating={0} editable />
           </div>
 
           <div className="space-y-1">

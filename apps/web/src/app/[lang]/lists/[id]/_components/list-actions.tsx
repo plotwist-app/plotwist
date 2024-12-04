@@ -7,10 +7,10 @@ import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
+import NumberFlow from '@number-flow/react'
 import { BarChart, Copy, Heart, List } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type { ComponentProps } from 'react'
-import NumberFlow from '@number-flow/react'
 
 const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (

@@ -45,7 +45,7 @@ export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
       </div>
 
       <TabsContent value="reviews" className="mt-4">
-        <Reviews tmdbItem={tvSerie} mediaType="TV_SHOW" />
+        <Reviews tmdbId={id} mediaType="TV_SHOW" />
       </TabsContent>
 
       <TabsContent value="where_to_watch">

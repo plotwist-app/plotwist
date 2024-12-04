@@ -1,7 +1,8 @@
+import { verifySession } from '@/app/lib/dal'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
-import { season, tmdb } from '@/services/tmdb'
+import { tmdb } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
@@ -11,12 +12,11 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import type { Language, TvSerieDetails } from '@plotwist_app/tmdb'
-import { format, isBefore } from 'date-fns'
+import { format } from 'date-fns'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
-import { verifySession } from '@/app/lib/dal'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 

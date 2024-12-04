@@ -1,17 +1,17 @@
 'use client'
 
 import { useGetUserIdTotalHoursSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import NumberFlow from '@number-flow/react'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Hourglass } from 'lucide-react'
 import { useLayoutContext } from '../_context'
-import NumberFlow from '@number-flow/react'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useLanguage } from '@/context/language'
 
 export function TotalHours() {
   const { userId } = useLayoutContext()
