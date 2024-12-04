@@ -24,7 +24,7 @@ export function TotalHours() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
         <CardTitle className="text-sm font-medium">
           {dictionary.total_hours_watched}
         </CardTitle>

@@ -69,17 +69,23 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      const response = await onSignIn({
+      const { status } = await onSignIn({
         ...values,
         redirectTo: `/${language}/home`,
       })
 
-      if (response?.status) {
+      if (status) {
         return setWarningDialogOpen(true)
       }
 
       return toast.success(dictionary.login_form.login_success)
     } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'NEXT_REDIRECT') {
+          return toast.success(dictionary.login_form.login_success)
+        }
+      }
+
       toast.error(dictionary.login_form.invalid_login_credentials)
     }
   }
