@@ -549,7 +549,6 @@
   "edit": "Modifier",
   "delete": "Supprimer",
   "close": "Fermer",
-  "edit_review": "Modifier l'avis",
   "edit_reply": "Modifier la réponse",
   "my_lists": "Mes listes",
   "manage_your_lists": "Gérez vos listes et partagez-les avec d'autres membres!",
@@ -729,5 +728,11 @@
   "today": "Aujourd'hui",
   "this_week": "Cette semaine",
   "this_month": "Ce mois-ci",
-  "all_time": "Toujours"
+  "all_time": "Toujours",
+  "review": "Critique",
+  "reviewed": "Critiqué",
+  "what_did_you_think": "Qu'en avez-vous pensé ?",
+  "share_your_opinion_here": "Partagez votre avis ici",
+  "edit_review": "Modifier la critique",
+  "submit_review": "Soumettre la critique"
 }

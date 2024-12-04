@@ -546,7 +546,6 @@
   "edit": "Edit",
   "delete": "Delete",
   "close": "Close",
-  "edit_review": "Edit review",
   "edit_reply": "Edit reply",
   "my_lists": "My Lists",
   "manage_your_lists": "Manage your lists and share them with other members!",
@@ -725,5 +724,11 @@
   "today": "Today",
   "this_week": "This week",
   "this_month": "This month",
-  "all_time": "All time"
+  "all_time": "All time",
+  "review": "Review",
+  "reviewed": "Reviewed",
+  "what_did_you_think": "What did you think?",
+  "share_your_opinion_here": "Share your opinion here",
+  "edit_review": "Edit review",
+  "submit_review": "Submit review"
 }

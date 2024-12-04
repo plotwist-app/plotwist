@@ -1,14 +1,21 @@
 'use client'
 
-import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Star } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface RatingProps {
+  defaultRating: number
   onChange?: (rating: number) => void
+  size?: number
+  editable?: boolean
 }
 
-export function Rating({ onChange }: RatingProps) {
+export function Rating({
+  onChange,
+  size = 24,
+  defaultRating,
+  editable = true,
+}: RatingProps) {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
 
@@ -16,6 +23,7 @@ export function Rating({ onChange }: RatingProps) {
     e: React.MouseEvent<HTMLDivElement>,
     index: number
   ) => {
+    if (!editable) return
     const { left, width } = e.currentTarget.getBoundingClientRect()
 
     const percent = (e.clientX - left) / width
@@ -23,10 +31,12 @@ export function Rating({ onChange }: RatingProps) {
   }
 
   const handleMouseLeave = () => {
+    if (!editable) return
     setHover(0)
   }
 
   const handleClick = () => {
+    if (!editable) return
     const newRating = hover === 0 ? rating : hover
     setRating(newRating)
     if (onChange) {
@@ -34,19 +44,23 @@ export function Rating({ onChange }: RatingProps) {
     }
   }
 
+  useEffect(() => {
+    setRating(defaultRating)
+  }, [defaultRating])
+
   return (
     <div className="flex">
       {[1, 2, 3, 4, 5].map(index => (
         <div
           key={index}
-          className="relative cursor-pointer"
-          onMouseMove={e => handleMouseMove(e, index - 1)}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
-          onKeyDown={handleClick}
+          className={`relative ${editable ? 'cursor-pointer' : ''}`}
+          onMouseMove={e => editable && handleMouseMove(e, index - 1)}
+          onMouseLeave={editable ? handleMouseLeave : undefined}
+          onClick={editable ? handleClick : undefined}
+          onKeyDown={editable ? handleClick : undefined}
         >
           <Star
-            size={24}
+            size={size}
             className={`fill-muted text-muted ${
               (hover || rating) >= index ? 'fill-amber-300 text-amber-300' : ''
             }`}
@@ -63,7 +77,7 @@ export function Rating({ onChange }: RatingProps) {
                     : '0%',
             }}
           >
-            <Star size={24} className="fill-amber-300 text-amber-300" />
+            <Star size={size} className="fill-amber-300 text-amber-300" />
           </div>
         </div>
       ))}

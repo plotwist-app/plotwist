@@ -21,8 +21,8 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
   const actions = (
     <div className="flex flex-wrap items-center gap-1">
       <ListsDropdown item={movie} />
-      <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
       <ItemReview />
+      <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
     </div>
   )
 

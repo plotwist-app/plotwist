@@ -393,16 +393,16 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
-
-export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
-
 export type PutSocialLinksBody = {
   INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
   TIKTOK: PutSocialLinksBodyTIKTOK;
   X: PutSocialLinksBodyX;
   YOUTUBE: PutSocialLinksBodyYOUTUBE;
 };
+
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
+
+export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -593,10 +593,6 @@ mediaType: GetUserItemMediaType;
 tmdbId: string;
 };
 
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
-};
-
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
 
 
@@ -625,6 +621,10 @@ export type PutUserItem201UserItem = {
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   userId: string;
+};
+
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
@@ -732,6 +732,29 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
+export type GetDetailedReviews200ReviewsItem = {
+  /** @nullable */
+  backdropPath: string | null;
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetDetailedReviews200ReviewsItemLanguage;
+  likeCount: number;
+  mediaType: GetDetailedReviews200ReviewsItemMediaType;
+  /** @nullable */
+  posterPath: string | null;
+  rating: number;
+  replyCount: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  user: GetDetailedReviews200ReviewsItemUser;
+  userId: string;
+  /** @nullable */
+  userLike: GetDetailedReviews200ReviewsItemUserLike;
+};
+
 export type GetDetailedReviews200 = {
   reviews: GetDetailedReviews200ReviewsItem[];
 };
@@ -778,29 +801,6 @@ export const GetDetailedReviews200ReviewsItemLanguage = {
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
 } as const;
-
-export type GetDetailedReviews200ReviewsItem = {
-  /** @nullable */
-  backdropPath: string | null;
-  createdAt: string;
-  hasSpoilers: boolean;
-  id: string;
-  /** @nullable */
-  language: GetDetailedReviews200ReviewsItemLanguage;
-  likeCount: number;
-  mediaType: GetDetailedReviews200ReviewsItemMediaType;
-  /** @nullable */
-  posterPath: string | null;
-  rating: number;
-  replyCount: number;
-  review: string;
-  title: string;
-  tmdbId: number;
-  user: GetDetailedReviews200ReviewsItemUser;
-  userId: string;
-  /** @nullable */
-  userLike: GetDetailedReviews200ReviewsItemUserLike;
-};
 
 export type GetDetailedReviewsInterval = typeof GetDetailedReviewsInterval[keyof typeof GetDetailedReviewsInterval];
 
@@ -1014,6 +1014,67 @@ orderBy?: GetReviewsOrderBy;
 interval?: GetReviewsInterval;
 };
 
+export type GetReview200 = {
+  /** @nullable */
+  review: GetReview200Review;
+};
+
+export type GetReview200ReviewMediaType = typeof GetReview200ReviewMediaType[keyof typeof GetReview200ReviewMediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReview200ReviewMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+/**
+ * @nullable
+ */
+export type GetReview200ReviewLanguage = typeof GetReview200ReviewLanguage[keyof typeof GetReview200ReviewLanguage] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReview200ReviewLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'it-IT': 'it-IT',
+  'de-DE': 'de-DE',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+/**
+ * @nullable
+ */
+export type GetReview200Review = {
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetReview200ReviewLanguage;
+  mediaType: GetReview200ReviewMediaType;
+  rating: number;
+  review: string;
+  tmdbId: number;
+  userId: string;
+} | null;
+
+export type GetReviewMediaType = typeof GetReviewMediaType[keyof typeof GetReviewMediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetReviewMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type GetReviewParams = {
+mediaType: GetReviewMediaType;
+tmdbId: string;
+};
+
 /**
  * User not found
  */
@@ -1160,10 +1221,6 @@ export type GetListById404 = {
   message: string;
 };
 
-export type GetListById200 = {
-  list: GetListById200List;
-};
-
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1199,11 +1256,19 @@ export type GetListById200List = {
   visibility: GetListById200ListVisibility;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 /**
  * List not found.
  */
 export type PutListId404 = {
   message: string;
+};
+
+export type PutListId200 = {
+  list: PutListId200List;
 };
 
 export type PutListId200ListVisibility = typeof PutListId200ListVisibility[keyof typeof PutListId200ListVisibility];
@@ -1226,10 +1291,6 @@ export type PutListId200List = {
   title: string;
   userId: string;
   visibility: PutListId200ListVisibility;
-};
-
-export type PutListId200 = {
-  list: PutListId200List;
 };
 
 export type PutListIdBodyVisibility = typeof PutListIdBodyVisibility[keyof typeof PutListIdBodyVisibility];

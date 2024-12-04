@@ -547,7 +547,6 @@
   "edit": "Modificare",
   "delete": "Eliminare",
   "close": "Chiudi",
-  "edit_review": "Modifica recensione",
   "edit_reply": "Modifica risposta",
   "my_lists": "Le mie liste",
   "manage_your_lists": "Gestisci le tue liste e condividile con altri membri!",
@@ -727,5 +726,11 @@
   "today": "Oggi",
   "this_week": "Questa settimana",
   "this_month": "Questo mese",
-  "all_time": "Sempre"
+  "all_time": "Sempre",
+  "review": "Recensione",
+  "reviewed": "Recensito",
+  "what_did_you_think": "Cosa ne pensi?",
+  "share_your_opinion_here": "Condividi qui la tua opinione",
+  "edit_review": "Modifica recensione",
+  "submit_review": "Invia recensione"
 }

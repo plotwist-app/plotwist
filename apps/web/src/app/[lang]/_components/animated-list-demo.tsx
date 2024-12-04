@@ -1,12 +1,12 @@
 'use client'
 
-import { ReviewStars } from '@/components/reviews/review-stars'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { AnimatedList } from '@plotwist/ui/components/ui/animated-list'
 import { Avatar, AvatarFallback } from '@plotwist/ui/components/ui/avatar'
 import { v4 } from 'uuid'
 import { type Review as ReviewType, reviews } from './reviews-translations'
+import { Rating } from '@plotwist/ui/components/ui/rating'
 
 const Review = ({ name, description, time, rating }: ReviewType) => {
   return (
@@ -22,7 +22,7 @@ const Review = ({ name, description, time, rating }: ReviewType) => {
           <div className="flex items-center space-x-2 whitespace-nowrap">
             <span className="text-sm text-muted-foreground ">{name}</span>
             <span className="h-1 w-1 rounded-full bg-muted" />
-            <ReviewStars rating={rating} />
+            <Rating defaultRating={rating} editable={false} />
 
             <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
             <span className="hidden text-xs text-muted-foreground underline-offset-1 md:block">

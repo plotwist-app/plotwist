@@ -549,7 +549,6 @@
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "close": "Schließen",
-  "edit_review": "Rezension bearbeiten",
   "edit_reply": "Antwort bearbeiten",
   "my_lists": "Meine Listen",
   "manage_your_lists": "Verwalten Sie Ihre Listen und teilen Sie sie mit anderen Mitgliedern!",
@@ -730,5 +729,11 @@
   "today": "Heute",
   "this_week": "Diese Woche",
   "this_month": "Diesen Monat",
-  "all_time": "Immer"
+  "all_time": "Immer",
+  "review": "Rezension",
+  "reviewed": "Rezensioniert",
+  "what_did_you_think": "Was denken Sie?",
+  "share_your_opinion_here": "Teilen Sie hier Ihre Meinung",
+  "edit_review": "Bewertung bearbeiten",
+  "submit_review": "Bewertung absenden"
 }

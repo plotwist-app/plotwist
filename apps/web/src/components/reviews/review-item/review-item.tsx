@@ -11,10 +11,6 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 
-import { ReviewStars } from '../review-stars'
-
-import type { MediaType } from '@/types/supabase/media-type'
-
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
@@ -29,6 +25,7 @@ import { ReviewItemEditActions } from './review-item-edit-actions'
 import { Likes } from '@/components/likes'
 import { ReviewReply } from '../review-reply'
 import { ReviewReplyForm } from '../review-reply/review-reply-form'
+import { Rating } from '@plotwist/ui/components/ui/rating'
 
 export type ReviewItemProps = {
   review: GetReviews200Item
@@ -98,7 +95,7 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">{username}</span>
             <span className="h-1 w-1 rounded-full bg-muted" />
-            <ReviewStars rating={rating} />
+            <Rating defaultRating={rating} size={14} editable={false} />
 
             <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
             <span className="hidden text-xs text-muted-foreground underline-offset-1 md:block">

@@ -41,7 +41,7 @@ export const MovieTabs = async ({ language, movie }: MovieTabsProps) => {
       </TabsContent>
 
       <TabsContent value="reviews" className="mt-4">
-        <Reviews tmdbItem={movie} mediaType="MOVIE" />
+        <Reviews tmdbId={movie.id} mediaType="MOVIE" />
       </TabsContent>
 
       <TabsContent value="credits" className="mt-4">
