@@ -69,7 +69,7 @@ export function BestRated() {
             >
               <div>
                 <Link
-                  href={`/${language}/${mediaType === 'MOVIE' ? '/movies' : '/tv-series'}/${tmdbId}?review=${id}`}
+                  href={`/${language}/${mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${tmdbId}?review=${id}`}
                   className="font-medium hover:underline line-clamp-1"
                 >
                   {title}
