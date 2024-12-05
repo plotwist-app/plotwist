@@ -1,10 +1,9 @@
 'use client'
 
+import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useGetUserById } from '@/api/users'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
-import type { List } from '@/types/supabase/lists'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
@@ -14,7 +13,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Link from 'next/link'
 
 type UserResumeProps = {
-  list: List
+  list: GetListById200List
 }
 
 export const UserResume = ({ list }: UserResumeProps) => {
@@ -34,11 +33,8 @@ export const UserResume = ({ list }: UserResumeProps) => {
     <div className="flex gap-2 items-center">
       <Link href={profileHref}>
         <Avatar className="size-10 border">
-          {user.imagePath && (
-            <AvatarImage
-              src={tmdbImage(user.imagePath, 'w500')}
-              className="object-cover"
-            />
+          {user.avatarUrl && (
+            <AvatarImage src={user.avatarUrl} className="object-cover" />
           )}
 
           <AvatarFallback className="uppercase">
@@ -55,8 +51,6 @@ export const UserResume = ({ list }: UserResumeProps) => {
 }
 
 export const UserResumeSkeleton = () => {
-  const { dictionary } = useLanguage()
-
   return (
     <div className="flex gap-2 items-center">
       <Skeleton className="size-10 border rounded-full" />

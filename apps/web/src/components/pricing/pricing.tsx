@@ -3,7 +3,6 @@
 import { Brush } from '@/app/[lang]/_components/hero'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
@@ -78,9 +77,9 @@ export const Pricing = () => {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                            {user.imagePath && (
+                            {user.avatarUrl && (
                               <AvatarImage
-                                src={tmdbImage(user.imagePath, 'w500')}
+                                src={user.avatarUrl}
                                 className="object-cover"
                                 alt={user.username}
                               />
@@ -162,9 +161,9 @@ export const Pricing = () => {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Avatar className="mr-2 h-6 w-6 border border-muted-foreground text-[10px]">
-                            {user.imagePath && (
+                            {user.avatarUrl && (
                               <AvatarImage
-                                src={tmdbImage(user.imagePath, 'w500')}
+                                src={user.avatarUrl}
                                 className="object-cover"
                                 alt={user.username}
                               />

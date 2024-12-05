@@ -7,7 +7,6 @@ import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -25,11 +24,12 @@ export function ListBanner({ list }: ListBannerProps) {
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
-        onSelect={(image, onClose) => {
-          patchBanner.mutateAsync(
+        variant="list"
+        onSelect={async (imageUrl, onClose) => {
+          await patchBanner.mutateAsync(
             {
               data: {
-                bannerPath: image.file_path,
+                bannerUrl: imageUrl,
                 listId: list.id,
               },
             },
@@ -53,13 +53,13 @@ export function ListBanner({ list }: ListBannerProps) {
         <ImagePicker.Trigger>
           <section
             className={cn(
-              'group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg',
-              !list.bannerPath && 'border-dashed'
+              'group relative flex aspect-banner w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg',
+              !list.bannerUrl && 'border-dashed'
             )}
           >
-            {list.bannerPath && (
+            {list.bannerUrl && (
               <Image
-                src={tmdbImage(list.bannerPath)}
+                src={list.bannerUrl}
                 alt=""
                 fill
                 className="object-cover"
@@ -78,14 +78,9 @@ export function ListBanner({ list }: ListBannerProps) {
   }
 
   return (
-    <section className="relative flex h-[30dvh] max-h-[720px] w-full items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
-      {list.bannerPath && (
-        <Image
-          src={tmdbImage(list.bannerPath)}
-          alt=""
-          fill
-          className="object-cover"
-        />
+    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg">
+      {list.bannerUrl && (
+        <Image src={list.bannerUrl} alt="" fill className="object-cover" />
       )}
     </section>
   )

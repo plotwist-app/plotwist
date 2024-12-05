@@ -15,7 +15,6 @@ import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 
 import { locale } from '@/utils/date/locale'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import { cn } from '@/lib/utils'
 
@@ -37,7 +36,7 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     rating,
     hasSpoilers,
     createdAt,
-    user: { username, imagePath },
+    user: { username, avatarUrl },
     userId,
     id,
   } = review
@@ -78,9 +77,9 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     <div ref={reviewRef} className="flex items-start space-x-4">
       <Link href={`/${language}/${username}`}>
         <Avatar className="h-10 w-10 border text-[10px] ">
-          {imagePath && (
+          {avatarUrl && (
             <AvatarImage
-              src={tmdbImage(imagePath, 'w500')}
+              src={avatarUrl}
               className="object-cover"
               alt={username}
             />

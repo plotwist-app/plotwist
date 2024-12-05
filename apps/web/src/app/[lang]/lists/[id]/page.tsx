@@ -1,7 +1,6 @@
 import { getListById } from '@/api/list'
 import { verifySession } from '@/app/lib/dal'
 import { ListModeContextProvider } from '@/context/list-mode'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Pencil } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -27,7 +26,7 @@ export async function generateMetadata(
   const title = list.title
   const description = list.description || ''
 
-  const images = list.bannerPath ? [tmdbImage(list.bannerPath)] : undefined
+  const images = list.bannerUrl ? [list.bannerUrl] : undefined
 
   return {
     title,

@@ -114,6 +114,7 @@ const config = {
       },
       aspectRatio: {
         poster: '2 / 3',
+        banner: '16 / 7.5',
       },
     },
   },

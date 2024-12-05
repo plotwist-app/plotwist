@@ -30,7 +30,6 @@ import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 type ListCardProps = { list: GetLists200ListsItem }
 
@@ -55,14 +54,14 @@ export const ListCard = ({ list }: ListCardProps) => {
           <div
             className={cn(
               'relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-md border-dashed border bg-background/50',
-              list.bannerPath && 'border border-solid'
+              list.bannerUrl && 'border border-solid'
             )}
           >
-            {list.bannerPath && (
+            {list.bannerUrl && (
               <Image
                 fill
                 className="object-cover"
-                src={tmdbImage(list.bannerPath)}
+                src={list.bannerUrl}
                 alt={list.title}
                 sizes="100%"
               />

@@ -1,4 +1,5 @@
 import { verifySession } from '@/app/lib/dal'
+import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
@@ -17,7 +18,6 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { TvSeriesGenres } from './tv-serie-genres'
 import { TvSeriesProgress } from './tv-series-progress'
-import { ItemReview } from '@/components/item-review'
 
 type TvSerieInfosProps = { tvSerie: TvSerieDetails; language: Language }
 

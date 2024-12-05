@@ -6,8 +6,6 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 
-import { tmdbImage } from '@/utils/tmdb/image'
-
 import { logout } from '@/actions/auth/logout'
 import { useLanguage } from '@/context/language'
 import type { User } from '@/types/user'
@@ -33,11 +31,8 @@ export const HeaderNavigationDrawerUser = ({
         <span className="font-medium">{user.username}</span>
 
         <Avatar className="size-10 border">
-          {user.imagePath && (
-            <AvatarImage
-              src={tmdbImage(user.imagePath, 'w500')}
-              className="object-cover"
-            />
+          {user.avatarUrl && (
+            <AvatarImage src={user.avatarUrl} className="object-cover" />
           )}
 
           <AvatarFallback>{user.username?.at(0)}</AvatarFallback>

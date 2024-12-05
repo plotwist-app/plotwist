@@ -9,14 +9,14 @@ import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
-import type { ListItem } from '@/types/supabase/lists'
 import { Plus } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ListItemCard } from './list-item-card'
+import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
 
 type ListItemsGridProps = {
-  listItems: ListItem[]
+  listItems: GetListItemsByListId200Item[]
   isEditable: boolean
 }
 

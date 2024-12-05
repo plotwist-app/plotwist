@@ -6,36 +6,32 @@ import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-type ProfileImageProps = {
-  profile: GetUsersUsername200User
+type UserAvatarProps = {
+  user: GetUsersUsername200User
 }
 
-export const ProfileImage = ({ profile }: ProfileImageProps) => {
+export const UserAvatar = ({ user }: UserAvatarProps) => {
   const { dictionary } = useLanguage()
-  const { user } = useSession()
+  const session = useSession()
   const patchUser = usePatchUser()
   const { refresh } = useRouter()
 
-  const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
+  const mode = user.id === session.user?.id ? 'EDIT' : 'SHOW'
+
+  const { avatarUrl, username } = user
 
   if (mode === 'SHOW') {
     return (
       <div className="relative z-40 flex aspect-square  items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl -mt-20 w-40">
-        {profile.imagePath ? (
-          <Image
-            src={tmdbImage(profile.imagePath)}
-            fill
-            alt=""
-            className="object-cover"
-          />
+        {avatarUrl ? (
+          <Image src={avatarUrl} fill alt="" className="object-cover" />
         ) : (
-          profile.username?.at(0)?.toUpperCase()
+          username[0].toUpperCase()
         )}
       </div>
     )
@@ -43,10 +39,11 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   return (
     <ImagePicker.Root
-      onSelect={(image, closeModal) =>
-        patchUser.mutateAsync(
+      variant="avatar"
+      onSelect={async (imageUrl, closeModal) => {
+        await patchUser.mutateAsync(
           {
-            data: { imagePath: image.file_path },
+            data: { avatarUrl: imageUrl },
           },
           {
             onSettled: () => {
@@ -56,7 +53,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
             },
           }
         )
-      }
+      }}
     >
       <ImagePicker.Trigger>
         <div
@@ -64,15 +61,10 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
             'group relative z-40 flex w-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl aspect-square -mt-20'
           )}
         >
-          {profile.imagePath ? (
-            <Image
-              src={tmdbImage(profile.imagePath)}
-              fill
-              alt=""
-              className="object-cover"
-            />
+          {avatarUrl ? (
+            <Image src={avatarUrl} fill alt="" className="object-cover" />
           ) : (
-            profile.username?.at(0)?.toUpperCase()
+            username[0].toUpperCase()
           )}
 
           <div className="absolute flex h-full w-full items-center justify-center bg-black/50 opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100">

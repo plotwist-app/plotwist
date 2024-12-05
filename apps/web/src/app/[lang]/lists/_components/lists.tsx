@@ -48,7 +48,7 @@ export const Lists = () => {
       ))}
 
       {lists.length < LIMIT &&
-        Array.from({ length: LIMIT - lists.length }).map((_, index) => {
+        Array.from({ length: LIMIT - lists.length }).map(_ => {
           return (
             <ListForm
               trigger={

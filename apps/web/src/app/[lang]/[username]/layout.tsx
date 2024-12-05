@@ -5,17 +5,16 @@ import { cn } from '@/lib/utils'
 import type { PageProps } from '@/types/languages'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
-import { ProfileBanner } from './_components/profile-banner'
-import { ProfileImage } from './_components/profile-image'
+import { UserBanner } from './_components/user-banner'
 import { ProfileTabs } from './_components/profile-tabs'
 import { SocialLinks } from './_components/social-links'
+import { UserAvatar } from './_components/user-avatar'
 import { UserDialog } from './_components/user-dialog'
 import { UserResumeStats } from './_components/user-resume-stats'
 import { LayoutProvider } from './_context'
@@ -32,7 +31,7 @@ export async function generateMetadata(
   const title = user.username
   const description = user.biography || ''
 
-  const images = user.bannerPath ? [tmdbImage(user.bannerPath)] : undefined
+  const images = user.bannerUrl ? [user.bannerUrl] : undefined
 
   return {
     title,
@@ -75,7 +74,7 @@ export default async function Layout(props: UserPageProps) {
   return (
     <LayoutProvider userId={user.id}>
       <main className="pb-16 mx-auto max-w-6xl">
-        <ProfileBanner profile={user} />
+        <UserBanner user={user} />
 
         <section
           className={cn(
@@ -91,7 +90,7 @@ export default async function Layout(props: UserPageProps) {
                 'lg:justify-start lg:flex-col lg:text-start lg:items-start'
               )}
             >
-              <ProfileImage profile={user} />
+              <UserAvatar user={user} />
 
               <div
                 className={cn(

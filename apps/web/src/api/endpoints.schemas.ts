@@ -4,6 +4,28 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type PostImage201 = {
+  url: string;
+};
+
+export type PostImageBody = {
+  file: Blob;
+};
+
+export type PostImageFolder = typeof PostImageFolder[keyof typeof PostImageFolder];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostImageFolder = {
+  banner: 'banner',
+  avatar: 'avatar',
+  list: 'list',
+} as const;
+
+export type PostImageParams = {
+folder: PostImageFolder;
+};
+
 export type GetUserIdItemsStatus200UserItemsItemStatus = typeof GetUserIdItemsStatus200UserItemsItemStatus[keyof typeof GetUserIdItemsStatus200UserItemsItemStatus];
 
 
@@ -238,9 +260,9 @@ export const GetLikesEntityId200LikesItemUserSubscriptionType = {
 } as const;
 
 export type GetLikesEntityId200LikesItemUser = {
-  id: string;
   /** @nullable */
-  imagePath: string | null;
+  avatarUrl: string | null;
+  id: string;
   subscriptionType: GetLikesEntityId200LikesItemUserSubscriptionType;
   username: string;
 };
@@ -393,16 +415,16 @@ export type PutSocialLinksBodyTIKTOKAnyOf = string | '';
 
 export type PutSocialLinksBodyTIKTOK = unknown | PutSocialLinksBodyTIKTOKAnyOf;
 
+export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
+
+export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
+
 export type PutSocialLinksBody = {
   INSTAGRAM: PutSocialLinksBodyINSTAGRAM;
   TIKTOK: PutSocialLinksBodyTIKTOK;
   X: PutSocialLinksBodyX;
   YOUTUBE: PutSocialLinksBodyYOUTUBE;
 };
-
-export type PutSocialLinksBodyINSTAGRAMAnyOf = string | '';
-
-export type PutSocialLinksBodyINSTAGRAM = unknown | PutSocialLinksBodyINSTAGRAMAnyOf;
 
 export type PutReviewReplyById200ReviewReply = {
   createdAt: string;
@@ -431,9 +453,9 @@ export type GetReviewReplies200ItemUserLike = {
 } | null;
 
 export type GetReviewReplies200ItemUser = {
-  id: string;
   /** @nullable */
-  imagePath: string | null;
+  avatarUrl: string | null;
+  id: string;
   username: string;
 };
 
@@ -593,6 +615,10 @@ mediaType: GetUserItemMediaType;
 tmdbId: string;
 };
 
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
+};
+
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
 
 
@@ -621,10 +647,6 @@ export type PutUserItem201UserItem = {
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   userId: string;
-};
-
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
@@ -732,29 +754,6 @@ export type PostListItemBody = {
   tmdbId: number;
 };
 
-export type GetDetailedReviews200ReviewsItem = {
-  /** @nullable */
-  backdropPath: string | null;
-  createdAt: string;
-  hasSpoilers: boolean;
-  id: string;
-  /** @nullable */
-  language: GetDetailedReviews200ReviewsItemLanguage;
-  likeCount: number;
-  mediaType: GetDetailedReviews200ReviewsItemMediaType;
-  /** @nullable */
-  posterPath: string | null;
-  rating: number;
-  replyCount: number;
-  review: string;
-  title: string;
-  tmdbId: number;
-  user: GetDetailedReviews200ReviewsItemUser;
-  userId: string;
-  /** @nullable */
-  userLike: GetDetailedReviews200ReviewsItemUserLike;
-};
-
 export type GetDetailedReviews200 = {
   reviews: GetDetailedReviews200ReviewsItem[];
 };
@@ -770,9 +769,9 @@ export type GetDetailedReviews200ReviewsItemUserLike = {
 } | null;
 
 export type GetDetailedReviews200ReviewsItemUser = {
-  id: string;
   /** @nullable */
-  imagePath: string | null;
+  avatarUrl: string | null;
+  id: string;
   username: string;
 };
 
@@ -801,6 +800,29 @@ export const GetDetailedReviews200ReviewsItemLanguage = {
   'pt-BR': 'pt-BR',
   'ja-JP': 'ja-JP',
 } as const;
+
+export type GetDetailedReviews200ReviewsItem = {
+  /** @nullable */
+  backdropPath: string | null;
+  createdAt: string;
+  hasSpoilers: boolean;
+  id: string;
+  /** @nullable */
+  language: GetDetailedReviews200ReviewsItemLanguage;
+  likeCount: number;
+  mediaType: GetDetailedReviews200ReviewsItemMediaType;
+  /** @nullable */
+  posterPath: string | null;
+  rating: number;
+  replyCount: number;
+  review: string;
+  title: string;
+  tmdbId: number;
+  user: GetDetailedReviews200ReviewsItemUser;
+  userId: string;
+  /** @nullable */
+  userLike: GetDetailedReviews200ReviewsItemUserLike;
+};
 
 export type GetDetailedReviewsInterval = typeof GetDetailedReviewsInterval[keyof typeof GetDetailedReviewsInterval];
 
@@ -911,9 +933,9 @@ export type GetReviews200ItemUserLike = {
 } | null;
 
 export type GetReviews200ItemUser = {
-  id: string;
   /** @nullable */
-  imagePath: string | null;
+  avatarUrl: string | null;
+  id: string;
   username: string;
 };
 
@@ -1195,7 +1217,7 @@ export const PatchListBanner200ListVisibility = {
 
 export type PatchListBanner200List = {
   /** @nullable */
-  bannerPath: string | null;
+  bannerUrl: string | null;
   createdAt: string;
   /** @nullable */
   description: string | null;
@@ -1210,7 +1232,7 @@ export type PatchListBanner200 = {
 };
 
 export type PatchListBannerBody = {
-  bannerPath: string;
+  bannerUrl: string;
   listId: string;
 };
 
@@ -1243,7 +1265,7 @@ export type GetListById200ListUserLike = {
 
 export type GetListById200List = {
   /** @nullable */
-  bannerPath: string | null;
+  bannerUrl: string | null;
   createdAt: string;
   /** @nullable */
   description: string | null;
@@ -1267,10 +1289,6 @@ export type PutListId404 = {
   message: string;
 };
 
-export type PutListId200 = {
-  list: PutListId200List;
-};
-
 export type PutListId200ListVisibility = typeof PutListId200ListVisibility[keyof typeof PutListId200ListVisibility];
 
 
@@ -1283,7 +1301,7 @@ export const PutListId200ListVisibility = {
 
 export type PutListId200List = {
   /** @nullable */
-  bannerPath: string | null;
+  bannerUrl: string | null;
   createdAt: string;
   /** @nullable */
   description: string | null;
@@ -1291,6 +1309,10 @@ export type PutListId200List = {
   title: string;
   userId: string;
   visibility: PutListId200ListVisibility;
+};
+
+export type PutListId200 = {
+  list: PutListId200List;
 };
 
 export type PutListIdBodyVisibility = typeof PutListIdBodyVisibility[keyof typeof PutListIdBodyVisibility];
@@ -1343,15 +1365,15 @@ export const GetLists200ListsItemVisibility = {
 } as const;
 
 export type GetLists200ListsItemUser = {
-  id: string;
   /** @nullable */
-  imagePath: string | null;
+  avatarUrl: string | null;
+  id: string;
   username: string;
 };
 
 export type GetLists200ListsItem = {
   /** @nullable */
-  bannerPath: string | null;
+  bannerUrl: string | null;
   createdAt: string;
   /** @nullable */
   description: string | null;
@@ -1419,7 +1441,7 @@ export const PostList201ListVisibility = {
 
 export type PostList201List = {
   /** @nullable */
-  bannerPath: string | null;
+  bannerUrl: string | null;
   createdAt: string;
   /** @nullable */
   description: string | null;
@@ -1481,14 +1503,14 @@ export const PatchUser200UserSubscriptionType = {
 
 export type PatchUser200User = {
   /** @nullable */
-  bannerPath: string | null;
+  avatarUrl: string | null;
+  /** @nullable */
+  bannerUrl: string | null;
   /** @nullable */
   biography: string | null;
   createdAt: string;
   email: string;
   id: string;
-  /** @nullable */
-  imagePath: string | null;
   /** @nullable */
   isLegacy: boolean | null;
   subscriptionType: PatchUser200UserSubscriptionType;
@@ -1500,9 +1522,9 @@ export type PatchUser200 = {
 };
 
 export type PatchUserBody = {
-  bannerPath?: string;
+  avatarUrl?: string;
+  bannerUrl?: string;
   biography?: string;
-  imagePath?: string;
   username?: string;
 };
 
@@ -1517,14 +1539,14 @@ export const GetMe200UserSubscriptionType = {
 
 export type GetMe200User = {
   /** @nullable */
-  bannerPath: string | null;
+  avatarUrl: string | null;
+  /** @nullable */
+  bannerUrl: string | null;
   /** @nullable */
   biography: string | null;
   createdAt: string;
   email: string;
   id: string;
-  /** @nullable */
-  imagePath: string | null;
   /** @nullable */
   isLegacy: boolean | null;
   subscriptionType: GetMe200UserSubscriptionType;
@@ -1560,14 +1582,14 @@ export const GetUserById201UserSubscriptionType = {
 
 export type GetUserById201User = {
   /** @nullable */
-  bannerPath?: string | null;
+  avatarUrl?: string | null;
+  /** @nullable */
+  bannerUrl?: string | null;
   /** @nullable */
   biography?: string | null;
   createdAt?: string;
   email: string;
   id?: string;
-  /** @nullable */
-  imagePath?: string | null;
   /** @nullable */
   isLegacy?: boolean | null;
   subscriptionType?: GetUserById201UserSubscriptionType;
@@ -1592,14 +1614,14 @@ export const GetUsersUsername200UserSubscriptionType = {
 
 export type GetUsersUsername200User = {
   /** @nullable */
-  bannerPath: string | null;
+  avatarUrl: string | null;
+  /** @nullable */
+  bannerUrl: string | null;
   /** @nullable */
   biography: string | null;
   createdAt: string;
   email: string;
   id: string;
-  /** @nullable */
-  imagePath: string | null;
   /** @nullable */
   isLegacy: boolean | null;
   subscriptionType: GetUsersUsername200UserSubscriptionType;
@@ -1665,14 +1687,14 @@ export const PostUsersCreate201UserSubscriptionType = {
 
 export type PostUsersCreate201User = {
   /** @nullable */
-  bannerPath?: string | null;
+  avatarUrl?: string | null;
+  /** @nullable */
+  bannerUrl?: string | null;
   /** @nullable */
   biography?: string | null;
   createdAt?: string;
   email: string;
   id?: string;
-  /** @nullable */
-  imagePath?: string | null;
   /** @nullable */
   isLegacy?: boolean | null;
   subscriptionType?: PostUsersCreate201UserSubscriptionType;
