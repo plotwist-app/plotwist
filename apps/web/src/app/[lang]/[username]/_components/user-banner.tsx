@@ -11,17 +11,19 @@ import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useRouter } from 'next/navigation'
 
-type ProfileBannerProps = {
-  profile: GetUsersUsername200User
+type UserBannerProps = {
+  user: GetUsersUsername200User
 }
 
-export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
-  const { user } = useSession()
+export const UserBanner = ({ user }: UserBannerProps) => {
+  const session = useSession()
   const { dictionary } = useLanguage()
   const { mutateAsync } = usePatchUser()
   const { refresh } = useRouter()
 
-  const mode = user?.id === profile.id ? 'EDIT' : 'SHOW'
+  const { id, bannerUrl } = user
+
+  const mode = session.user?.id === id ? 'EDIT' : 'SHOW'
 
   if (mode === 'EDIT') {
     return (
@@ -42,13 +44,8 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
       >
         <ImagePicker.Trigger>
           <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg">
-            {profile.bannerUrl && (
-              <Image
-                src={profile.bannerUrl}
-                alt=""
-                fill
-                className="object-cover"
-              />
+            {bannerUrl && (
+              <Image src={bannerUrl} alt="" fill className="object-cover" />
             )}
 
             <div className="z-5 absolute h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
@@ -64,8 +61,8 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
 
   return (
     <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border lg:rounded-lg">
-      {profile.bannerUrl && (
-        <Image src={profile.bannerUrl} alt="" fill className="object-cover" />
+      {bannerUrl && (
+        <Image src={bannerUrl} alt="" fill className="object-cover" />
       )}
     </section>
   )
