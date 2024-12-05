@@ -97,7 +97,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
               <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
 
               <div className="flex items-center gap-x-2">
-                <Rating defaultRating={rating} editable={false} size={14} />
+                <Rating defaultRating={rating} editable={false} />
 
                 <span className="h-1 w-1 rounded-full bg-muted" />
                 <p className="text-sm text-muted-foreground">{time}</p>

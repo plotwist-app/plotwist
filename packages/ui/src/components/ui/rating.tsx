@@ -12,7 +12,7 @@ interface RatingProps {
 
 export function Rating({
   onChange,
-  size = 24,
+  size = 14,
   defaultRating,
   editable = true,
 }: RatingProps) {

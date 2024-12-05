@@ -10,7 +10,7 @@ export const ReviewItemSkeleton = () => {
         <div className="flex items-center space-x-2">
           <Skeleton className="h-4 w-[15ch]" />
           <span className="h-1 w-1 rounded-full bg-muted" />
-          <Rating defaultRating={0} editable={false} size={14} />
+          <Rating defaultRating={0} editable={false} />
         </div>
 
         <div className="relative space-y-1 rounded-md border p-4">

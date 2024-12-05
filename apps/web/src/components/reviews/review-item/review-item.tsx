@@ -95,7 +95,7 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">{username}</span>
             <span className="h-1 w-1 rounded-full bg-muted" />
-            <Rating defaultRating={rating} size={14} editable={false} />
+            <Rating defaultRating={rating} editable={false} />
 
             <span className="hidden h-1 w-1 rounded-full bg-muted md:block" />
             <span className="hidden text-xs text-muted-foreground underline-offset-1 md:block">
