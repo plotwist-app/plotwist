@@ -6,8 +6,6 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 
-import { tmdbImage } from '@/utils/tmdb/image'
-
 import { logout } from '@/actions/auth/logout'
 import { useLanguage } from '@/context/language'
 import type { User } from '@/types/user'

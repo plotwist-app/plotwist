@@ -8,7 +8,6 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 
 import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { Likes } from '@/components/likes'

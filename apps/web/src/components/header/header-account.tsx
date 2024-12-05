@@ -17,7 +17,6 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
 import { logout } from '@/actions/auth/logout'

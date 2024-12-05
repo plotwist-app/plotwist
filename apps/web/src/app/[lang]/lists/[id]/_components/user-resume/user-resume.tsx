@@ -4,7 +4,6 @@ import { useGetUserById } from '@/api/users'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import type { List } from '@/types/supabase/lists'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,

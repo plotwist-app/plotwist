@@ -12,8 +12,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Tooltip,
   TooltipContent,

@@ -14,8 +14,7 @@ const nextConfig = {
     unoptimized: true,
   },
   pageExtensions: ['mdx', 'ts', 'tsx'],
-  transpilePackages: ['@plotwist/ui']
-  
+  transpilePackages: ['@plotwist/ui'],
 }
 
 export default withSentryConfig(withMDX(nextConfig), {
