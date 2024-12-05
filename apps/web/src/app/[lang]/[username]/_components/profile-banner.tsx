@@ -26,7 +26,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
-        aspectRatio="banner"
+        variant="banner"
         onSelect={async (imageSrc, onClose) => {
           await mutateAsync(
             { data: { bannerUrl: imageSrc } },

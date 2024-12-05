@@ -7,18 +7,26 @@ import { useState } from 'react'
 import Cropper, { type Area } from 'react-easy-crop'
 import type { OnSelect } from './image-picker-root'
 
+import type { PostImageFolder } from '@/api/endpoints.schemas'
+
 export type ImagePickerCropProps = {
   image: Image
   setSelectImage: (image: Image | null) => void
-  aspectRatio: 'banner' | 'square'
   onClose: () => void
   onSelect: OnSelect
+  variant: PostImageFolder
+}
+
+const aspectRatio: Record<PostImageFolder, number> = {
+  banner: 16 / 7.5,
+  list: 16 / 7.5,
+  avatar: 1 / 1,
 }
 
 export function ImagePickerCrop({
   image,
   setSelectImage,
-  aspectRatio,
+  variant,
   onSelect,
   onClose,
 }: ImagePickerCropProps) {
@@ -48,7 +56,7 @@ export function ImagePickerCrop({
             file: croppedBlob,
           },
           params: {
-            folder: aspectRatio === 'banner' ? 'banner' : 'image',
+            folder: variant,
           },
         })
 
@@ -72,7 +80,7 @@ export function ImagePickerCrop({
           image={tmdbImage(image.file_path)}
           crop={crop}
           zoom={zoom}
-          aspect={aspectRatio === 'banner' ? 16 / 7.5 : 1 / 1}
+          aspect={aspectRatio[variant]}
           onCropChange={setCrop}
           onZoomChange={setZoom}
           onCropComplete={handleCropComplete}

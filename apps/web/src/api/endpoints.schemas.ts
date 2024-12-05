@@ -18,7 +18,8 @@ export type PostImageFolder = typeof PostImageFolder[keyof typeof PostImageFolde
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostImageFolder = {
   banner: 'banner',
-  image: 'image',
+  avatar: 'avatar',
+  list: 'list',
 } as const;
 
 export type PostImageParams = {

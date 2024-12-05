@@ -24,7 +24,7 @@ export function ListBanner({ list }: ListBannerProps) {
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
-        aspectRatio="banner"
+        variant="list"
         onSelect={async (imageUrl, onClose) => {
           await patchBanner.mutateAsync(
             {

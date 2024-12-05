@@ -37,7 +37,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   return (
     <ImagePicker.Root
-      aspectRatio="square"
+      variant="avatar"
       onSelect={async (imageUrl, closeModal) => {
         await patchUser.mutateAsync(
           {

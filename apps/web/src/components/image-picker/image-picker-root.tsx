@@ -33,14 +33,14 @@ export type OnSelect = (
   closeModal: () => void
 ) => Promise<void>
 
-export type ImagePickerRootProps = Pick<ImagePickerCropProps, 'aspectRatio'> & {
+export type ImagePickerRootProps = Pick<ImagePickerCropProps, 'variant'> & {
   onSelect: OnSelect
 }
 
 export const ImagePickerRoot = (
   props: ImagePickerRootProps & PropsWithChildren
 ) => {
-  const { children, aspectRatio, onSelect } = props
+  const { children, variant, onSelect } = props
 
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState<null | SelectedItem>(null)
@@ -64,7 +64,7 @@ export const ImagePickerRoot = (
         <ImagePickerCrop
           image={selectedImage}
           setSelectImage={setSelectImage}
-          aspectRatio={aspectRatio}
+          variant={variant}
           onClose={onClose}
           onSelect={async imageURL => {
             await onSelect(imageURL, onClose)
@@ -109,14 +109,7 @@ export const ImagePickerRoot = (
         </ScrollArea>
       )
     }
-  }, [
-    debouncedSearch,
-    selectedItem,
-    selectedImage,
-    aspectRatio,
-    onSelect,
-    user,
-  ])
+  }, [debouncedSearch, selectedItem, selectedImage, variant, onSelect, user])
 
   const header = useMemo(() => {
     if (selectedImage) {
