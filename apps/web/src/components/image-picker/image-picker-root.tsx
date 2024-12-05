@@ -22,52 +22,98 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { ImagePickerCrop, type ImagePickerCropProps } from './image-picker-crop'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
-export type ImagePickerRootProps = {
-  onSelect: (image: Image, closeModal: () => void) => void
-} & PropsWithChildren
+export type ImagePickerRootProps = PropsWithChildren &
+  Pick<ImagePickerCropProps, 'aspectRatio' | 'onSelect'>
 
 export const ImagePickerRoot = (props: ImagePickerRootProps) => {
-  const { onSelect, children } = props
+  const { children, aspectRatio, onSelect } = props
 
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState<null | SelectedItem>(null)
+  const [selectedImage, setSelectImage] = useState<null | Image>(null)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
 
   const { dictionary } = useLanguage()
 
   const content = useMemo(() => {
-    const closeModal = () => setOpenDialog(false)
+    if (selectedImage) {
+      return (
+        <ImagePickerCrop
+          image={selectedImage}
+          setSelectImage={setSelectImage}
+          aspectRatio={aspectRatio}
+          onSelect={onSelect}
+          onClose={() => setOpenDialog(false)}
+        />
+      )
+    }
 
     if (selectedItem) {
       return (
-        <ImagePickerList
-          selectedItem={selectedItem}
-          onSelect={image => onSelect(image, closeModal)}
-        />
+        <ScrollArea className="h-[500px] p-4">
+          <ImagePickerList
+            selectedItem={selectedItem}
+            onSelect={image => setSelectImage(image)}
+          />
+        </ScrollArea>
       )
     }
 
     if (debouncedSearch === '') {
       return (
-        <ImagePickerInitialList
-          onSelect={selectedItem => setSelectedItem(selectedItem)}
-        />
+        <ScrollArea className="h-[500px] p-4">
+          <ImagePickerInitialList
+            onSelect={selectedItem => setSelectedItem(selectedItem)}
+          />
+        </ScrollArea>
       )
     }
 
     if (debouncedSearch !== '') {
       return (
-        <ImagePickerListResults
-          search={debouncedSearch}
-          onSelect={selectedItem => setSelectedItem(selectedItem)}
-        />
+        <ScrollArea className="h-[500px] p-4">
+          <ImagePickerListResults
+            search={debouncedSearch}
+            onSelect={selectedItem => setSelectedItem(selectedItem)}
+          />
+        </ScrollArea>
       )
     }
-  }, [debouncedSearch, onSelect, selectedItem])
+  }, [debouncedSearch, selectedItem, selectedImage, aspectRatio, onSelect])
+
+  const header = useMemo(() => {
+    if (selectedImage) {
+      return <></>
+    }
+
+    if (selectedItem) {
+      return (
+        <div className="flex gap-2">
+          <ChevronLeft
+            className="cursor-pointer"
+            onClick={() => setSelectedItem(null)}
+          />
+
+          {selectedItem.title}
+        </div>
+      )
+    }
+
+    return (
+      <Input
+        id="search"
+        type="text"
+        placeholder={dictionary.search_movies_or_series}
+        onChange={({ target: { value } }) => setSearch(value)}
+        defaultValue={search}
+      />
+    )
+  }, [selectedImage, selectedItem, dictionary, search])
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -75,29 +121,14 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
 
       <DialogContent className="gap-0 p-0">
         <DialogHeader className="items-start space-y-4 border-b p-4">
-          <DialogTitle>{dictionary.select_an_image}</DialogTitle>
+          <DialogTitle>
+            {selectedImage ? 'Editar imagem' : dictionary.select_an_image}
+          </DialogTitle>
 
-          {selectedItem ? (
-            <div className="flex gap-2">
-              <ChevronLeft
-                className="cursor-pointer"
-                onClick={() => setSelectedItem(null)}
-              />
-
-              {selectedItem.title}
-            </div>
-          ) : (
-            <Input
-              id="search"
-              type="text"
-              placeholder={dictionary.search_movies_or_series}
-              onChange={({ target: { value } }) => setSearch(value)}
-              defaultValue={search}
-            />
-          )}
+          {header}
         </DialogHeader>
 
-        <ScrollArea className="h-[500px] p-4">{content}</ScrollArea>
+        {content}
       </DialogContent>
     </Dialog>
   )

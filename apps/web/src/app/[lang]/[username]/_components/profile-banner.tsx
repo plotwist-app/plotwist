@@ -27,6 +27,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
+        aspectRatio="banner"
         onSelect={(image, onClose) =>
           mutateAsync(
             { data: { bannerPath: image.file_path } },
@@ -41,7 +42,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
         }
       >
         <ImagePicker.Trigger>
-          <section className="group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
+          <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg">
             {profile.bannerPath && (
               <Image
                 src={tmdbImage(profile.bannerPath)}
@@ -53,7 +54,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
 
             <div className="z-5 absolute h-full w-full bg-black/30 opacity-0 transition-all group-hover:opacity-100" />
 
-            <p className="spacing z-[6] scale-0 text-xs  font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
+            <p className="spacing z-[6] scale-0 text-xs font-bold uppercase tracking-wider text-white transition-all group-hover:scale-100">
               {dictionary.profile_banner.change_banner}
             </p>
           </section>
@@ -63,7 +64,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   }
 
   return (
-    <section className="relative flex h-[30dvh] max-h-[720px] w-full items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
+    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border lg:rounded-lg">
       {profile.bannerPath && (
         <Image
           src={tmdbImage(profile.bannerPath)}

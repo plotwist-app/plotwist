@@ -25,6 +25,7 @@ export function ListBanner({ list }: ListBannerProps) {
   if (mode === 'EDIT') {
     return (
       <ImagePicker.Root
+        aspectRatio="banner"
         onSelect={(image, onClose) => {
           patchBanner.mutateAsync(
             {
@@ -53,7 +54,7 @@ export function ListBanner({ list }: ListBannerProps) {
         <ImagePicker.Trigger>
           <section
             className={cn(
-              'group relative flex h-[30dvh] max-h-[720px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg',
+              'group relative flex aspect-banner w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg',
               !list.bannerPath && 'border-dashed'
             )}
           >
@@ -78,7 +79,7 @@ export function ListBanner({ list }: ListBannerProps) {
   }
 
   return (
-    <section className="relative flex h-[30dvh] max-h-[720px] w-full items-center justify-center overflow-hidden rounded-none border lg:h-[55dvh] lg:rounded-lg">
+    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg">
       {list.bannerPath && (
         <Image
           src={tmdbImage(list.bannerPath)}
