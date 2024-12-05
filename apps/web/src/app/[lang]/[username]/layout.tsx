@@ -31,7 +31,7 @@ export async function generateMetadata(
   const title = user.username
   const description = user.biography || ''
 
-  const images = user.bannerPath ? [user.bannerPath] : undefined
+  const images = user.bannerUrl ? [user.bannerUrl] : undefined
 
   return {
     title,
@@ -74,7 +74,7 @@ export default async function Layout(props: UserPageProps) {
   return (
     <LayoutProvider userId={user.id}>
       <main className="pb-16 mx-auto max-w-6xl">
-        <ProfileBanner profile={user} key={user.bannerPath} />
+        <ProfileBanner profile={user} />
 
         <section
           className={cn(

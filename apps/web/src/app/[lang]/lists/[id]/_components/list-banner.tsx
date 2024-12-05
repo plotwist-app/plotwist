@@ -7,7 +7,6 @@ import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -26,11 +25,11 @@ export function ListBanner({ list }: ListBannerProps) {
     return (
       <ImagePicker.Root
         aspectRatio="banner"
-        onSelect={(image, onClose) => {
-          patchBanner.mutateAsync(
+        onSelect={async (imageUrl, onClose) => {
+          await patchBanner.mutateAsync(
             {
               data: {
-                bannerPath: image.file_path,
+                bannerUrl: imageUrl,
                 listId: list.id,
               },
             },
@@ -55,12 +54,12 @@ export function ListBanner({ list }: ListBannerProps) {
           <section
             className={cn(
               'group relative flex aspect-banner w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg',
-              !list.bannerPath && 'border-dashed'
+              !list.bannerUrl && 'border-dashed'
             )}
           >
-            {list.bannerPath && (
+            {list.bannerUrl && (
               <Image
-                src={tmdbImage(list.bannerPath)}
+                src={list.bannerUrl}
                 alt=""
                 fill
                 className="object-cover"
@@ -80,13 +79,8 @@ export function ListBanner({ list }: ListBannerProps) {
 
   return (
     <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg">
-      {list.bannerPath && (
-        <Image
-          src={tmdbImage(list.bannerPath)}
-          alt=""
-          fill
-          className="object-cover"
-        />
+      {list.bannerUrl && (
+        <Image src={list.bannerUrl} alt="" fill className="object-cover" />
       )}
     </section>
   )

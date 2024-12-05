@@ -29,7 +29,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
         aspectRatio="banner"
         onSelect={async (imageSrc, onClose) => {
           await mutateAsync(
-            { data: { bannerPath: imageSrc } },
+            { data: { bannerUrl: imageSrc } },
             {
               onSuccess: () => {
                 onClose()
@@ -42,9 +42,9 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
       >
         <ImagePicker.Trigger>
           <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg">
-            {profile.bannerPath && (
+            {profile.bannerUrl && (
               <Image
-                src={profile.bannerPath}
+                src={profile.bannerUrl}
                 alt=""
                 fill
                 className="object-cover"
@@ -64,8 +64,8 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
 
   return (
     <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border lg:rounded-lg">
-      {profile.bannerPath && (
-        <Image src={profile.bannerPath} alt="" fill className="object-cover" />
+      {profile.bannerUrl && (
+        <Image src={profile.bannerUrl} alt="" fill className="object-cover" />
       )}
     </section>
   )

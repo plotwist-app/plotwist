@@ -26,13 +26,8 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
         href={href}
         className="group relative col-span-2 aspect-video overflow-hidden rounded-lg border"
       >
-        {list.bannerPath && (
-          <Image
-            fill
-            src={tmdbImage(list.bannerPath)}
-            alt=""
-            className="object-cover"
-          />
+        {list.bannerUrl && (
+          <Image fill src={list.bannerUrl} alt="" className="object-cover" />
         )}
       </Link>
 
