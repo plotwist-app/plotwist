@@ -55,6 +55,7 @@ export const ImagePickerRoot = (
     const onClose = () => setOpenDialog(false)
 
     const handleReset = () => {
+      onClose()
       setSelectImage(null)
       setSelectedItem(null)
     }

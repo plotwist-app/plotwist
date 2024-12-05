@@ -11,7 +11,7 @@ import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import type { MediaType } from '@/types/supabase/media-type'
+import { MediaType } from '@/types/media-type'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,

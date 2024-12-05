@@ -6,8 +6,9 @@ import {
 } from '@/components/reviews/review-item'
 
 import { useGetReviews } from '@/api/reviews'
-import type { MediaType } from '@/types/supabase/media-type'
 import { v4 } from 'uuid'
+
+import type { MediaType } from '@/types/media-type'
 
 export type ReviewsProps = {
   tmdbId: number

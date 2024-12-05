@@ -34,7 +34,6 @@ export const UserBanner = ({ user }: UserBannerProps) => {
             { data: { bannerUrl: imageSrc } },
             {
               onSuccess: () => {
-                onClose()
                 refresh()
                 toast.success(dictionary.profile_banner.changed_successfully)
               },

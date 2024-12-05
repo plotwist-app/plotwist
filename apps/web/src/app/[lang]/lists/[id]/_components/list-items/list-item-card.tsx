@@ -9,11 +9,12 @@ import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { useLanguage } from '@/context/language'
-import type { ListItem } from '@/types/supabase/lists'
 import Link from 'next/link'
 
-type ListItemCardProps = {
-  listItem: ListItem
+import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
+
+export type ListItemCardProps = {
+  listItem: GetListItemsByListId200Item
 } & ComponentProps<'div'>
 
 export const ListItemCard = ({ listItem }: ListItemCardProps) => {

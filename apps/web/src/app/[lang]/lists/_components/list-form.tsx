@@ -27,8 +27,6 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { useLanguage } from '@/context/language'
 
-import type { List } from '@/types/supabase/lists'
-
 import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import {
@@ -36,8 +34,9 @@ import {
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
+import type { GetListById200List } from '@/api/endpoints.schemas'
 
-type ListFormProps = { trigger: JSX.Element; list?: List }
+type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)

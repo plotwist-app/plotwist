@@ -12,11 +12,11 @@ import {
   useDeleteListItemId,
 } from '@/api/list-item'
 import { APP_QUERY_CLIENT } from '@/context/app'
-import type { ListItem } from '@/types/supabase/lists'
 import { toast } from 'sonner'
+import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
 
 type ListItemActionsProps = {
-  listItem: ListItem
+  listItem: GetListItemsByListId200Item
 }
 
 export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
