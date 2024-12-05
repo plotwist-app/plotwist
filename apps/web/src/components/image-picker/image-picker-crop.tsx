@@ -1,27 +1,33 @@
+import { usePostImage } from '@/api/images'
 import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@plotwist/ui/components/ui/button'
 import type { Image } from '@plotwist_app/tmdb'
 import { useState } from 'react'
 import Cropper, { type Area } from 'react-easy-crop'
+import type { OnSelect } from './image-picker-root'
 
 export type ImagePickerCropProps = {
   image: Image
   setSelectImage: (image: Image | null) => void
   aspectRatio: 'banner' | 'square'
   onClose: () => void
+  onSelect: OnSelect
 }
 
 export function ImagePickerCrop({
   image,
   setSelectImage,
   aspectRatio,
+  onSelect,
   onClose,
 }: ImagePickerCropProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
+  const createImage = usePostImage()
 
   const handleCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -32,12 +38,21 @@ export function ImagePickerCrop({
       try {
         setIsLoading(true)
 
-        const croppedBlob = await getCroppedImg(
+        const croppedBlob = (await getCroppedImg(
           tmdbImage(image.file_path),
           croppedAreaPixels
-        )
+        )) as Blob
 
-        console.log({ croppedBlob })
+        const { url } = await createImage.mutateAsync({
+          data: {
+            file: croppedBlob,
+          },
+          params: {
+            folder: aspectRatio === 'banner' ? 'banner' : 'image',
+          },
+        })
+
+        await onSelect(url, onClose)
       } catch {
       } finally {
         setIsLoading(false)
@@ -117,6 +132,6 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
       }
 
       resolve(blob)
-    }, 'image/jpeg')
+    }, 'image/webp')
   })
 }

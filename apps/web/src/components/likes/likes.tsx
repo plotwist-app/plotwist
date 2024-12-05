@@ -12,7 +12,6 @@ import {
 import { useGetLikesEntityId } from '@/api/like'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import NumberFlow from '@number-flow/react'
 import {
   Avatar,
@@ -73,11 +72,8 @@ export function Likes({
               className="flex items-center gap-1"
             >
               <Avatar className="size-10 border text-[10px]">
-                {user.imagePath && (
-                  <AvatarImage
-                    src={tmdbImage(user.imagePath, 'w500')}
-                    className="object-cover"
-                  />
+                {user.avatarUrl && (
+                  <AvatarImage src={user.avatarUrl} className="object-cover" />
                 )}
 
                 <AvatarFallback>

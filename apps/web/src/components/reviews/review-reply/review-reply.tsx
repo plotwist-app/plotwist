@@ -6,7 +6,6 @@ import { useGetReviewReplies } from '@/api/review-replies'
 import { Likes } from '@/components/likes'
 import { useSession } from '@/context/session'
 import { timeFromNow } from '@/utils/date/time-from-now'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
@@ -56,7 +55,7 @@ export const ReviewReply = ({
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
           {data?.map(reply => {
-            const { username, imagePath } = reply.user
+            const { username, avatarUrl } = reply.user
             const usernameInitial = username?.at(0)?.toUpperCase()
 
             const mode = session.user?.id === reply.userId ? 'EDIT' : 'SHOW'
@@ -65,11 +64,8 @@ export const ReviewReply = ({
               <li key={reply.id} className="flex items-start space-x-4">
                 <Link href={`/${language}/${username}`}>
                   <Avatar className="size-10 border text-[10px]">
-                    {imagePath && (
-                      <AvatarImage
-                        src={tmdbImage(imagePath, 'w500')}
-                        className="object-cover"
-                      />
+                    {avatarUrl && (
+                      <AvatarImage src={avatarUrl} className="object-cover" />
                     )}
 
                     <AvatarFallback>{usernameInitial}</AvatarFallback>

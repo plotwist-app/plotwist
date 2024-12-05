@@ -24,7 +24,6 @@ import {
 import { getGetReviewsQueryKey } from '@/api/reviews'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useSession } from '@/context/session'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Avatar,
   AvatarFallback,
@@ -90,7 +89,7 @@ export const ReviewReplyForm = ({
 
   const username = user.username
   const usernameInitial = username?.at(0)?.toUpperCase()
-  const imagePath = user.imagePath
+  const { avatarUrl } = user
 
   return (
     <Form {...form}>
@@ -101,11 +100,8 @@ export const ReviewReplyForm = ({
         <div className="flex w-full gap-4">
           <Link href={`/${language}/${username}`}>
             <Avatar className="size-10 border text-[10px] shadow">
-              {imagePath && (
-                <AvatarImage
-                  src={tmdbImage(imagePath, 'w500')}
-                  className="object-cover"
-                />
+              {avatarUrl && (
+                <AvatarImage src={avatarUrl} className="object-cover" />
               )}
 
               <AvatarFallback>{usernameInitial}</AvatarFallback>

@@ -28,8 +28,13 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
+export type OnSelect = (
+  imageUrl: string,
+  closeModal: () => void
+) => Promise<void>
+
 export type ImagePickerRootProps = Pick<ImagePickerCropProps, 'aspectRatio'> & {
-  onSelect: (imageSrc: string, closeModal: () => void) => void
+  onSelect: OnSelect
 }
 
 export const ImagePickerRoot = (
@@ -49,6 +54,11 @@ export const ImagePickerRoot = (
   const content = useMemo(() => {
     const onClose = () => setOpenDialog(false)
 
+    const handleReset = () => {
+      setSelectImage(null)
+      setSelectedItem(null)
+    }
+
     if (selectedImage) {
       return (
         <ImagePickerCrop
@@ -56,6 +66,10 @@ export const ImagePickerRoot = (
           setSelectImage={setSelectImage}
           aspectRatio={aspectRatio}
           onClose={onClose}
+          onSelect={async imageURL => {
+            await onSelect(imageURL, onClose)
+            handleReset()
+          }}
         />
       )
     }

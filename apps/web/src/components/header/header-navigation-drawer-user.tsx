@@ -33,11 +33,8 @@ export const HeaderNavigationDrawerUser = ({
         <span className="font-medium">{user.username}</span>
 
         <Avatar className="size-10 border">
-          {user.imagePath && (
-            <AvatarImage
-              src={tmdbImage(user.imagePath, 'w500')}
-              className="object-cover"
-            />
+          {user.avatarUrl && (
+            <AvatarImage src={user.avatarUrl} className="object-cover" />
           )}
 
           <AvatarFallback>{user.username?.at(0)}</AvatarFallback>

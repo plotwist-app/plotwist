@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 import type { PageProps } from '@/types/languages'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { format } from 'date-fns'
 import type { Metadata } from 'next'
@@ -75,7 +74,7 @@ export default async function Layout(props: UserPageProps) {
   return (
     <LayoutProvider userId={user.id}>
       <main className="pb-16 mx-auto max-w-6xl">
-        <ProfileBanner profile={user} />
+        <ProfileBanner profile={user} key={user.bannerPath} />
 
         <section
           className={cn(

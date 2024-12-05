@@ -34,11 +34,8 @@ export const UserResume = ({ list }: UserResumeProps) => {
     <div className="flex gap-2 items-center">
       <Link href={profileHref}>
         <Avatar className="size-10 border">
-          {user.imagePath && (
-            <AvatarImage
-              src={tmdbImage(user.imagePath, 'w500')}
-              className="object-cover"
-            />
+          {user.avatarUrl && (
+            <AvatarImage src={user.avatarUrl} className="object-cover" />
           )}
 
           <AvatarFallback className="uppercase">

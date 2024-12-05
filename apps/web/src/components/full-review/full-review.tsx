@@ -34,7 +34,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
     hasSpoilers,
     review: content,
     rating,
-    user: { username, imagePath },
+    user: { username, avatarUrl },
     likeCount,
     createdAt,
   } = review
@@ -75,11 +75,8 @@ export const FullReview = ({ review }: FullReviewProps) => {
               <div className="flex items-center gap-x-2">
                 <Link href={userProfileHref}>
                   <Avatar className="size-8 border text-[10px] shadow">
-                    {imagePath && (
-                      <AvatarImage
-                        src={tmdbImage(imagePath, 'w500')}
-                        className="object-cover"
-                      />
+                    {avatarUrl && (
+                      <AvatarImage src={avatarUrl} className="object-cover" />
                     )}
 
                     <AvatarFallback>{usernameInitial}</AvatarFallback>

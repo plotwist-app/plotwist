@@ -9,7 +9,6 @@ import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { useRouter } from 'next/navigation'
 
 type ProfileBannerProps = {
@@ -28,18 +27,18 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
     return (
       <ImagePicker.Root
         aspectRatio="banner"
-        onSelect={(imageSrc, onClose) =>
-          mutateAsync(
+        onSelect={async (imageSrc, onClose) => {
+          await mutateAsync(
             { data: { bannerPath: imageSrc } },
             {
-              onSettled: () => {
-                refresh()
+              onSuccess: () => {
                 onClose()
+                refresh()
                 toast.success(dictionary.profile_banner.changed_successfully)
               },
             }
           )
-        }
+        }}
       >
         <ImagePicker.Trigger>
           <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg">
@@ -66,12 +65,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
   return (
     <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border lg:rounded-lg">
       {profile.bannerPath && (
-        <Image
-          src={tmdbImage(profile.bannerPath)}
-          alt=""
-          fill
-          className="object-cover"
-        />
+        <Image src={profile.bannerPath} alt="" fill className="object-cover" />
       )}
     </section>
   )

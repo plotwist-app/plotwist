@@ -49,9 +49,9 @@ export const PopularListCard = ({ list }: PopularListCardProps) => {
                 className="flex items-center gap-2"
               >
                 <Avatar className="h-8 w-8 text-xs">
-                  {list.user.imagePath && (
+                  {list.user.avatarUrl && (
                     <AvatarImage
-                      src={tmdbImage(list.user.imagePath, 'w500')}
+                      src={list.user.avatarUrl}
                       className="object-cover"
                     />
                   )}

@@ -6,7 +6,6 @@ import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Pencil } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -27,13 +26,8 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   if (mode === 'SHOW') {
     return (
       <div className="relative z-40 flex aspect-square  items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl -mt-20 w-40">
-        {profile.imagePath ? (
-          <Image
-            src={tmdbImage(profile.imagePath)}
-            fill
-            alt=""
-            className="object-cover"
-          />
+        {profile.avatarUrl ? (
+          <Image src={profile.avatarUrl} fill alt="" className="object-cover" />
         ) : (
           profile.username?.at(0)?.toUpperCase()
         )}
@@ -44,10 +38,10 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   return (
     <ImagePicker.Root
       aspectRatio="square"
-      onSelect={(image, closeModal) =>
-        patchUser.mutateAsync(
+      onSelect={async (imageUrl, closeModal) => {
+        await patchUser.mutateAsync(
           {
-            data: { imagePath: image.file_path },
+            data: { avatarUrl: imageUrl },
           },
           {
             onSettled: () => {
@@ -57,7 +51,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
             },
           }
         )
-      }
+      }}
     >
       <ImagePicker.Trigger>
         <div
@@ -65,9 +59,9 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
             'group relative z-40 flex w-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border bg-muted text-3xl aspect-square -mt-20'
           )}
         >
-          {profile.imagePath ? (
+          {profile.avatarUrl ? (
             <Image
-              src={tmdbImage(profile.imagePath)}
+              src={profile.avatarUrl}
               fill
               alt=""
               className="object-cover"
