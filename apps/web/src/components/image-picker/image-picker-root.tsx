@@ -23,13 +23,18 @@ import {
 import { Input } from '@plotwist/ui/components/ui/input'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { ImagePickerCrop, type ImagePickerCropProps } from './image-picker-crop'
+import { useSession } from '@/context/session'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
-export type ImagePickerRootProps = PropsWithChildren &
-  Pick<ImagePickerCropProps, 'aspectRatio' | 'onSelect'>
+export type ImagePickerRootProps = Pick<ImagePickerCropProps, 'aspectRatio'> & {
+  onSelect: (imageSrc: string, closeModal: () => void) => void
+}
 
-export const ImagePickerRoot = (props: ImagePickerRootProps) => {
+export const ImagePickerRoot = (
+  props: ImagePickerRootProps & PropsWithChildren
+) => {
   const { children, aspectRatio, onSelect } = props
 
   const [openDialog, setOpenDialog] = useState(false)
@@ -39,16 +44,18 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
   const debouncedSearch = useDebounce(search, 500)
 
   const { dictionary } = useLanguage()
+  const { user } = useSession()
 
   const content = useMemo(() => {
+    const onClose = () => setOpenDialog(false)
+
     if (selectedImage) {
       return (
         <ImagePickerCrop
           image={selectedImage}
           setSelectImage={setSelectImage}
           aspectRatio={aspectRatio}
-          onSelect={onSelect}
-          onClose={() => setOpenDialog(false)}
+          onClose={onClose}
         />
       )
     }
@@ -58,7 +65,11 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
         <ScrollArea className="h-[500px] p-4">
           <ImagePickerList
             selectedItem={selectedItem}
-            onSelect={image => setSelectImage(image)}
+            onSelect={image =>
+              user?.subscriptionType === 'PRO'
+                ? setSelectImage(image)
+                : onSelect(tmdbImage(image.file_path, 'original'), onClose)
+            }
           />
         </ScrollArea>
       )
@@ -84,7 +95,14 @@ export const ImagePickerRoot = (props: ImagePickerRootProps) => {
         </ScrollArea>
       )
     }
-  }, [debouncedSearch, selectedItem, selectedImage, aspectRatio, onSelect])
+  }, [
+    debouncedSearch,
+    selectedItem,
+    selectedImage,
+    aspectRatio,
+    onSelect,
+    user,
+  ])
 
   const header = useMemo(() => {
     if (selectedImage) {

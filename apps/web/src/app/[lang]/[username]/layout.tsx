@@ -32,7 +32,7 @@ export async function generateMetadata(
   const title = user.username
   const description = user.biography || ''
 
-  const images = user.bannerPath ? [tmdbImage(user.bannerPath)] : undefined
+  const images = user.bannerPath ? [user.bannerPath] : undefined
 
   return {
     title,

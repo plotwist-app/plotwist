@@ -3,13 +3,12 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Button } from '@plotwist/ui/components/ui/button'
 import type { Image } from '@plotwist_app/tmdb'
 import { useState } from 'react'
-import Cropper from 'react-easy-crop'
+import Cropper, { type Area } from 'react-easy-crop'
 
 export type ImagePickerCropProps = {
   image: Image
   setSelectImage: (image: Image | null) => void
   aspectRatio: 'banner' | 'square'
-  onSelect: (image: Image, closeModal: () => void) => void
   onClose: () => void
 }
 
@@ -17,11 +16,34 @@ export function ImagePickerCrop({
   image,
   setSelectImage,
   aspectRatio,
-  onSelect,
   onClose,
 }: ImagePickerCropProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }
+
+  const handleApply = async () => {
+    if (croppedAreaPixels) {
+      try {
+        setIsLoading(true)
+
+        const croppedBlob = await getCroppedImg(
+          tmdbImage(image.file_path),
+          croppedAreaPixels
+        )
+
+        console.log({ croppedBlob })
+      } catch {
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -38,6 +60,7 @@ export function ImagePickerCrop({
           aspect={aspectRatio === 'banner' ? 16 / 7.5 : 1 / 1}
           onCropChange={setCrop}
           onZoomChange={setZoom}
+          onCropComplete={handleCropComplete}
         />
       </div>
 
@@ -46,15 +69,54 @@ export function ImagePickerCrop({
           Cancelar
         </Button>
 
-        <Button
-          onClick={() => {
-            console.log(crop)
-            // onSelect(image, onClose)
-          }}
-        >
+        <Button onClick={() => handleApply()} loading={isLoading}>
           Aplicar
         </Button>
       </div>
     </div>
   )
+}
+
+const loadImage = (src: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const image = new Image()
+    image.crossOrigin = 'anonymous'
+    image.src = src
+
+    image.onload = () => resolve(image)
+    image.onerror = err => reject(err)
+  })
+}
+
+async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
+  const image = await loadImage(`/api/proxy?url=${imageSrc}`)
+  const canvas = document.createElement('canvas')
+
+  canvas.width = pixelCrop.width
+  canvas.height = pixelCrop.height
+
+  const ctx = canvas.getContext('2d')
+
+  ctx?.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  )
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(blob => {
+      if (!blob) {
+        reject(new Error('Canvas is empty'))
+        return
+      }
+
+      resolve(blob)
+    }, 'image/jpeg')
+  })
 }

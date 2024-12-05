@@ -28,9 +28,9 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
     return (
       <ImagePicker.Root
         aspectRatio="banner"
-        onSelect={(image, onClose) =>
+        onSelect={(imageSrc, onClose) =>
           mutateAsync(
-            { data: { bannerPath: image.file_path } },
+            { data: { bannerPath: imageSrc } },
             {
               onSettled: () => {
                 refresh()
@@ -45,7 +45,7 @@ export const ProfileBanner = ({ profile }: ProfileBannerProps) => {
           <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg">
             {profile.bannerPath && (
               <Image
-                src={tmdbImage(profile.bannerPath)}
+                src={profile.bannerPath}
                 alt=""
                 fill
                 className="object-cover"
