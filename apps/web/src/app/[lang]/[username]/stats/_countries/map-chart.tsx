@@ -35,8 +35,8 @@ export function MapChart({ setTooltipContent, data }: MapChartProps) {
                     className={cn(
                       'hover:!fill-muted-foreground hover:opacity-100 hover:border-dashed relative fill-muted-foreground/50 dark:fill-muted',
 
-                      isHighlighted && 'fill-foreground',
-                      count && !isHighlighted && 'fill-muted-foreground'
+                      isHighlighted && '!fill-foreground',
+                      count && !isHighlighted && '!fill-muted-foreground'
                     )}
                     style={{
                       default: {
