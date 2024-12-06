@@ -8,6 +8,7 @@ import Cropper, { type Area } from 'react-easy-crop'
 import type { OnSelect } from './image-picker-root'
 
 import type { PostImageFolder } from '@/api/endpoints.schemas'
+import { useLanguage } from '@/context/language'
 
 export type ImagePickerCropProps = {
   image: Image
@@ -36,6 +37,7 @@ export function ImagePickerCrop({
   const [isLoading, setIsLoading] = useState(false)
 
   const createImage = usePostImage()
+  const { dictionary } = useLanguage()
 
   const handleCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -91,11 +93,11 @@ export function ImagePickerCrop({
 
       <div className="flex gap-2 p-4 justify-end">
         <Button variant="outline" onClick={() => setSelectImage(null)}>
-          Cancelar
+          {dictionary.cancel}
         </Button>
 
         <Button onClick={() => handleApply()} loading={isLoading}>
-          Aplicar
+          {dictionary.apply}
         </Button>
       </div>
     </div>

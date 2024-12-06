@@ -148,7 +148,7 @@ export const ImagePickerRoot = (
       <DialogContent className="gap-0 p-0">
         <DialogHeader className="items-start space-y-4 border-b p-4">
           <DialogTitle>
-            {selectedImage ? 'Editar imagem' : dictionary.select_an_image}
+            {selectedImage ? dictionary.edit_image : dictionary.select_an_image}
           </DialogTitle>
 
           {header}

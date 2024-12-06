@@ -734,5 +734,8 @@
   "what_did_you_think": "Qu'en avez-vous pensé ?",
   "share_your_opinion_here": "Partagez votre avis ici",
   "edit_review": "Modifier la critique",
-  "submit_review": "Soumettre la critique"
+  "submit_review": "Soumettre la critique",
+  "edit_image": "Modifier l'image",
+  "cancel": "Annuler",
+  "apply": "Appliquer"
 }

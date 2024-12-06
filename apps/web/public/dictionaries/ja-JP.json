@@ -732,5 +732,8 @@
   "what_did_you_think": "どう思いましたか？",
   "share_your_opinion_here": "ここにあなたの意見を共有してください",
   "edit_review": "レビューを編集する",
-  "submit_review": "レビューを送信する"
+  "submit_review": "レビューを送信する",
+  "edit_image": "画像を編集",
+  "cancel": "キャンセル",
+  "apply": "適用"
 }
