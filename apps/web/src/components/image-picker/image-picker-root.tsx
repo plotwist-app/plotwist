@@ -13,8 +13,6 @@ import {
   ImagePickerListResults,
 } from './image-picker-list'
 
-import { useSession } from '@/context/session'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Dialog,
   DialogContent,
@@ -49,7 +47,6 @@ export const ImagePickerRoot = (
   const debouncedSearch = useDebounce(search, 500)
 
   const { dictionary } = useLanguage()
-  const { user } = useSession()
 
   const content = useMemo(() => {
     const onClose = () => setOpenDialog(false)
@@ -80,11 +77,7 @@ export const ImagePickerRoot = (
         <ScrollArea className="h-[500px] p-4">
           <ImagePickerList
             selectedItem={selectedItem}
-            onSelect={image =>
-              user?.subscriptionType === 'PRO'
-                ? setSelectImage(image)
-                : onSelect(tmdbImage(image.file_path, 'original'), onClose)
-            }
+            onSelect={image => setSelectImage(image)}
           />
         </ScrollArea>
       )
@@ -110,7 +103,7 @@ export const ImagePickerRoot = (
         </ScrollArea>
       )
     }
-  }, [debouncedSearch, selectedItem, selectedImage, variant, onSelect, user])
+  }, [debouncedSearch, selectedItem, selectedImage, variant, onSelect])
 
   const header = useMemo(() => {
     if (selectedImage) {
