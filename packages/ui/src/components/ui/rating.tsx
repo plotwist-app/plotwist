@@ -61,7 +61,7 @@ export function Rating({
         >
           <Star
             size={size}
-            className={`fill-muted text-muted ${
+            className={`fill-muted-foreground/50 text-transparent dark:fill-muted dark:text-muted ${
               (hover || rating) >= index ? 'fill-amber-300 text-amber-300' : ''
             }`}
           />

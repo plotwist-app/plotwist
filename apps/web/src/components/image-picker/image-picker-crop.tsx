@@ -71,7 +71,9 @@ export function ImagePickerCrop({
   return (
     <div className="flex flex-col">
       <div
-        className={cn('flex-1 w-full border-b overflow-hidden relative')}
+        className={cn(
+          'flex-1 w-full border-b overflow-hidden relative max-h-[50vh]'
+        )}
         style={{
           aspectRatio: image.aspect_ratio,
         }}
