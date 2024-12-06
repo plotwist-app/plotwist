@@ -33,7 +33,7 @@ export function MapChart({ setTooltipContent, data }: MapChartProps) {
                     key={geo.rsmKey}
                     geography={geo}
                     className={cn(
-                      'hover:fill-muted-foreground hover:opacity-100 hover:border-dashed relative fill-muted',
+                      'hover:!fill-muted-foreground hover:opacity-100 hover:border-dashed relative fill-muted-foreground/50 dark:fill-muted',
 
                       isHighlighted && 'fill-foreground',
                       count && !isHighlighted && 'fill-muted-foreground'

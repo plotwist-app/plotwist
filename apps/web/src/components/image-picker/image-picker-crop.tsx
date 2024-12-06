@@ -18,7 +18,7 @@ export type ImagePickerCropProps = {
 }
 
 const aspectRatio: Record<PostImageFolder, number> = {
-  banner: 16 / 7.5,
+  banner: 16 / 6.5,
   list: 16 / 7.5,
   avatar: 1 / 1,
 }
@@ -71,7 +71,9 @@ export function ImagePickerCrop({
   return (
     <div className="flex flex-col">
       <div
-        className={cn('flex-1 w-full border-b overflow-hidden relative')}
+        className={cn(
+          'flex-1 w-full border-b overflow-hidden relative max-h-[50vh]'
+        )}
         style={{
           aspectRatio: image.aspect_ratio,
         }}
