@@ -4,6 +4,28 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type DeleteFollowBody = {
+  userId: string;
+};
+
+export type GetFollow200Follow = {
+  createdAt: string;
+  followedId: string;
+  followerId: string;
+};
+
+export type GetFollow200 = {
+  follow: GetFollow200Follow;
+};
+
+export type GetFollowParams = {
+userId: string;
+};
+
+export type PostFollowBody = {
+  userId: string;
+};
+
 export type PostImage201 = {
   url: string;
 };
@@ -246,10 +268,6 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
-export type GetLikesEntityId200 = {
-  likes: GetLikesEntityId200LikesItem[];
-};
-
 export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
 
 
@@ -284,6 +302,10 @@ export type GetLikesEntityId200LikesItem = {
   id: string;
   user: GetLikesEntityId200LikesItemUser;
   userId: string;
+};
+
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
 };
 
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
@@ -1243,6 +1265,10 @@ export type GetListById404 = {
   message: string;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1276,10 +1302,6 @@ export type GetListById200List = {
   /** @nullable */
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
-};
-
-export type GetListById200 = {
-  list: GetListById200List;
 };
 
 /**
