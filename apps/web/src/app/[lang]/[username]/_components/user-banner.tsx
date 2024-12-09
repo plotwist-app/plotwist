@@ -42,7 +42,7 @@ export const UserBanner = ({ user }: UserBannerProps) => {
         }}
       >
         <ImagePicker.Trigger>
-          <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border aspect-banner lg:rounded-lg max-h-[55dvh]">
+          <section className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none aspect-banner lg:rounded-lg border-b lg:border max-h-[55dvh]">
             {bannerUrl && (
               <Image src={bannerUrl} alt="" fill className="object-cover" />
             )}
@@ -59,7 +59,7 @@ export const UserBanner = ({ user }: UserBannerProps) => {
   }
 
   return (
-    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border lg:rounded-lg max-h-[50dvh]">
+    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border-b lg:border lg:rounded-lg max-h-[55dvh]">
       {bannerUrl && (
         <Image src={bannerUrl} alt="" fill className="object-cover" />
       )}

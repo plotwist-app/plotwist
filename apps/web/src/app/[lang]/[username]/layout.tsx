@@ -18,6 +18,7 @@ import { UserAvatar } from './_components/user-avatar'
 import { UserDialog } from './_components/user-dialog'
 import { UserResumeStats } from './_components/user-resume-stats'
 import { LayoutProvider } from './_context'
+import { FollowButton } from '@/components/follow-button'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren
@@ -113,6 +114,8 @@ export default async function Layout(props: UserPageProps) {
                       {dictionary.profile_form.dialog_title}
                     </Button>
                   </UserDialog>
+
+                  <FollowButton userId={user.id} />
                 </div>
 
                 <UserResumeStats dictionary={dictionary} userId={user.id} />
@@ -128,18 +131,9 @@ export default async function Layout(props: UserPageProps) {
                   )}
                 >
                   {user.subscriptionType === 'PRO' && <ProBadge />}
-
-                  {/* <Badge variant="outline">Potterhead</Badge>
-                <Badge variant="outline">Marveleiro</Badge>
-                <Badge variant="outline">Jedi</Badge>
-                <Badge variant="outline">Tolkienista</Badge>
-                <Badge variant="outline">Afiliado</Badge> */}
                 </div>
 
                 <SocialLinks socialLinks={socialLinks} />
-
-                {/* <FollowButton userId={user.id} /> */}
-                {/* <Followers /> */}
               </div>
             </div>
           </aside>

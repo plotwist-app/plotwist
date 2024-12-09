@@ -25,77 +25,77 @@ import { axiosInstance } from '../services/axios-instance';
 
 
 
-export const getHealthcheck = (
+export const getHealth = (
     
  signal?: AbortSignal
 ) => {
       
       
       return axiosInstance<void>(
-      {url: `/healthcheck`, method: 'GET', signal
+      {url: `/health`, method: 'GET', signal
     },
       );
     }
   
 
-export const getGetHealthcheckQueryKey = () => {
-    return [`/healthcheck`] as const;
+export const getGetHealthQueryKey = () => {
+    return [`/health`] as const;
     }
 
     
-export const getGetHealthcheckQueryOptions = <TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export const getGetHealthQueryOptions = <TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetHealthcheckQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetHealthQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({ signal }) => getHealthcheck(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealth>>> = ({ signal }) => getHealth(signal);
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetHealthcheckQueryResult = NonNullable<Awaited<ReturnType<typeof getHealthcheck>>>
-export type GetHealthcheckQueryError = unknown
+export type GetHealthQueryResult = NonNullable<Awaited<ReturnType<typeof getHealth>>>
+export type GetHealthQueryError = unknown
 
 
-export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>> & Pick<
+export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getHealthcheck>>,
+          Awaited<ReturnType<typeof getHealth>>,
           TError,
           TData
         > , 'initialData'
       >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>> & Pick<
+export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getHealthcheck>>,
+          Awaited<ReturnType<typeof getHealth>>,
           TError,
           TData
         > , 'initialData'
       >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export function useGetHealth<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetHealthcheckQueryOptions(options)
+  const queryOptions = getGetHealthQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
@@ -106,47 +106,47 @@ export function useGetHealthcheck<TData = Awaited<ReturnType<typeof getHealthche
 
 
 
-export const getGetHealthcheckSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export const getGetHealthSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetHealthcheckQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetHealthQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheck>>> = ({ signal }) => getHealthcheck(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealth>>> = ({ signal }) => getHealth(signal);
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetHealthcheckSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getHealthcheck>>>
-export type GetHealthcheckSuspenseQueryError = unknown
+export type GetHealthSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getHealth>>>
+export type GetHealthSuspenseQueryError = unknown
 
 
-export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export function useGetHealthSuspense<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export function useGetHealthSuspense<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetHealthSuspense<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetHealthcheckSuspense<TData = Awaited<ReturnType<typeof getHealthcheck>>, TError = unknown>(
-  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealthcheck>>, TError, TData>>, }
+export function useGetHealthSuspense<TData = Awaited<ReturnType<typeof getHealth>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getHealth>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetHealthcheckSuspenseQueryOptions(options)
+  const queryOptions = getGetHealthSuspenseQueryOptions(options)
 
   const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
