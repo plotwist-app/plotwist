@@ -80,7 +80,7 @@ export function UserFollows({
 
   const content = (
     <ScrollArea className="h-[500px] px-4">
-      <div className="space-y-2 py-4">
+      <div className="space-y-4 py-4">
         {flatData?.map(({ username, avatarUrl, subscriptionType }) => (
           <div key={username} className="flex items-center">
             <Link
@@ -99,6 +99,13 @@ export function UserFollows({
             </Link>
 
             {subscriptionType === 'PRO' && <ProBadge />}
+
+            <Link
+              href={`/${language}/${username}`}
+              className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
+            >
+              {dictionary.review_likes.view_profile}
+            </Link>
           </div>
         ))}
 
