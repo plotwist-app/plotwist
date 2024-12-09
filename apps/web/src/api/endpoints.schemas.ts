@@ -4,17 +4,53 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetFollowers200FollowersItemSubscriptionType = typeof GetFollowers200FollowersItemSubscriptionType[keyof typeof GetFollowers200FollowersItemSubscriptionType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetFollowers200FollowersItemSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const;
+
+export type GetFollowers200FollowersItem = {
+  /** @nullable */
+  avatarUrl: string | null;
+  createdAt: string;
+  followedId: string;
+  followerId: string;
+  subscriptionType: GetFollowers200FollowersItemSubscriptionType;
+  username: string;
+};
+
+export type GetFollowers200 = {
+  followers: GetFollowers200FollowersItem[];
+  /** @nullable */
+  nextCursor: string | null;
+};
+
+export type GetFollowersParams = {
+followedId?: string;
+followerId?: string;
+pageSize?: string;
+cursor?: string;
+};
+
 export type DeleteFollowBody = {
   userId: string;
 };
 
+/**
+ * @nullable
+ */
 export type GetFollow200Follow = {
   createdAt: string;
   followedId: string;
   followerId: string;
-};
+} | null;
 
 export type GetFollow200 = {
+  /** @nullable */
   follow: GetFollow200Follow;
 };
 
@@ -268,6 +304,10 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
+};
+
 export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
 
 
@@ -302,10 +342,6 @@ export type GetLikesEntityId200LikesItem = {
   id: string;
   user: GetLikesEntityId200LikesItemUser;
   userId: string;
-};
-
-export type GetLikesEntityId200 = {
-  likes: GetLikesEntityId200LikesItem[];
 };
 
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
@@ -637,10 +673,6 @@ mediaType: GetUserItemMediaType;
 tmdbId: string;
 };
 
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
-};
-
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
 
 
@@ -669,6 +701,10 @@ export type PutUserItem201UserItem = {
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   userId: string;
+};
+
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
 };
 
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
@@ -1265,10 +1301,6 @@ export type GetListById404 = {
   message: string;
 };
 
-export type GetListById200 = {
-  list: GetListById200List;
-};
-
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1278,16 +1310,6 @@ export const GetListById200ListVisibility = {
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
 } as const;
-
-/**
- * @nullable
- */
-export type GetListById200ListUserLike = {
-  createdAt: string;
-  entityId: string;
-  id: string;
-  userId: string;
-} | null;
 
 export type GetListById200List = {
   /** @nullable */
@@ -1303,6 +1325,20 @@ export type GetListById200List = {
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
 };
+
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
+/**
+ * @nullable
+ */
+export type GetListById200ListUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
 
 /**
  * List not found.

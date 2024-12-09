@@ -18,7 +18,16 @@ module.exports = {
           useSuspenseQuery: true,
           useSuspenseInfiniteQuery: false,
         },
+        operations: {
+          getFollowers: {
+            query: {
+              useInfinite: true,
+            }
+          }
+        }
       },
+     
+     
       // mock: true,
     },
   },

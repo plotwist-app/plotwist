@@ -1,6 +1,11 @@
 'use client'
 
-import { useDeleteFollow, useGetFollow, usePostFollow } from '@/api/follow'
+import {
+  getGetFollowersQueryKey,
+  useDeleteFollow,
+  useGetFollow,
+  usePostFollow,
+} from '@/api/follow'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -23,7 +28,7 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
 
   const getMode = () => {
     if (!user) return 'REDIRECT'
-    if (isOwner) return 'HIDDEN'
+    if (isOwner || getFollow.isLoading) return 'HIDDEN'
     if (getFollow.data?.follow) return 'FOLLOWER'
     if (user?.id !== userId) return 'MEMBER'
 
@@ -46,9 +51,14 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
             { data: { userId } },
             {
               onSuccess: async () => {
-                await APP_QUERY_CLIENT.invalidateQueries({
-                  queryKey: getFollow.queryKey,
-                })
+                await Promise.all(
+                  [getGetFollowersQueryKey(), getFollow.queryKey].map(
+                    async queryKey =>
+                      await APP_QUERY_CLIENT.invalidateQueries({
+                        queryKey,
+                      })
+                  )
+                )
 
                 refresh()
               },
@@ -68,9 +78,14 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
             { data: { userId } },
             {
               onSuccess: async () => {
-                await APP_QUERY_CLIENT.invalidateQueries({
-                  queryKey: getFollow.queryKey,
-                })
+                await Promise.all(
+                  [getGetFollowersQueryKey(), getFollow.queryKey].map(
+                    async queryKey =>
+                      await APP_QUERY_CLIENT.invalidateQueries({
+                        queryKey,
+                      })
+                  )
+                )
 
                 refresh()
               },

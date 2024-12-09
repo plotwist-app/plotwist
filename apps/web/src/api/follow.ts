@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useSuspenseQuery
@@ -12,11 +13,15 @@ import {
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -28,6 +33,8 @@ import type {
   DeleteFollowBody,
   GetFollow200,
   GetFollowParams,
+  GetFollowers200,
+  GetFollowersParams,
   PostFollowBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
@@ -280,4 +287,88 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get followers
+ */
+export const getFollowers = (
+    params?: GetFollowersParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetFollowers200>(
+      {url: `/followers`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetFollowersQueryKey = (params?: GetFollowersParams,) => {
+    return [`/followers`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetFollowersInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getFollowers>>>, TError = unknown>(params?: GetFollowersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFollowersQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFollowers>>> = ({ signal }) => getFollowers(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetFollowersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getFollowers>>>
+export type GetFollowersInfiniteQueryError = unknown
+
+
+export function useGetFollowersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getFollowers>>>, TError = unknown>(
+ params: undefined |  GetFollowersParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFollowers>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetFollowersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getFollowers>>>, TError = unknown>(
+ params?: GetFollowersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getFollowers>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetFollowersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getFollowers>>>, TError = unknown>(
+ params?: GetFollowersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData>>, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetFollowersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getFollowers>>>, TError = unknown>(
+ params?: GetFollowersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getFollowers>>, TError, TData>>, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetFollowersInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

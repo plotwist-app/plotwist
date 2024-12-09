@@ -53,7 +53,7 @@ export function ListBanner({ list }: ListBannerProps) {
         <ImagePicker.Trigger>
           <section
             className={cn(
-              'group relative flex aspect-banner w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg',
+              'group relative flex aspect-banner w-full cursor-pointer items-center justify-center overflow-hidden rounded-none border-b lg:border lg:rounded-lg',
               !list.bannerUrl && 'border-dashed'
             )}
           >
@@ -78,7 +78,7 @@ export function ListBanner({ list }: ListBannerProps) {
   }
 
   return (
-    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border  lg:rounded-lg">
+    <section className="relative flex aspect-banner w-full items-center justify-center overflow-hidden rounded-none border-b lg:border lg:rounded-lg">
       {list.bannerUrl && (
         <Image src={list.bannerUrl} alt="" fill className="object-cover" />
       )}
