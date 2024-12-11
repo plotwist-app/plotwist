@@ -82,6 +82,7 @@ export const PostImageFolder = {
 
 export type PostImageParams = {
 folder: PostImageFolder;
+fileName?: string;
 };
 
 export type GetUserIdItemsStatus200UserItemsItemStatus = typeof GetUserIdItemsStatus200UserItemsItemStatus[keyof typeof GetUserIdItemsStatus200UserItemsItemStatus];

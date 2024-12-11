@@ -9,6 +9,7 @@ import type { OnSelect } from './image-picker-root'
 
 import type { PostImageFolder } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
+import { useParams } from 'next/navigation'
 
 export type ImagePickerCropProps = {
   image: Image
@@ -38,6 +39,7 @@ export function ImagePickerCrop({
 
   const createImage = usePostImage()
   const { dictionary } = useLanguage()
+  const params = useParams()
 
   const handleCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -59,6 +61,7 @@ export function ImagePickerCrop({
           },
           params: {
             folder: variant,
+            fileName: String(params.id),
           },
         })
 
