@@ -6,8 +6,44 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
 import { Biography } from './_biography'
+import type { Metadata } from 'next'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
+
+export async function generateMetadata(
+  props: PersonPageProps
+): Promise<Metadata> {
+  const { params } = props
+  const { id, lang } = await params
+
+  const { profile_path, name, biography } = await tmdb.person.details(
+    Number(id),
+    lang
+  )
+
+  const title = name
+  const description = biography ? `${biography.slice(0, 150)}...` : ''
+  const images = profile_path
+    ? [tmdbImage(profile_path, 'original')]
+    : undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: 'Plotwist',
+      images: images,
+    },
+    twitter: {
+      title,
+      description,
+      images: images,
+      card: 'summary_large_image',
+    },
+  }
+}
 
 export default async function PersonPage({
   params,
