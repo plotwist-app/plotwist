@@ -2,6 +2,7 @@
 
 import {
   type MovieWithMediaType,
+  type PersonWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
 } from '@/services/tmdb'
@@ -21,14 +22,26 @@ import {
 
 import { Search } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { v4 } from 'uuid'
 import {
-  CommandSearchGroup,
   CommandSearchMovie,
-  CommandSearchSkeleton,
+  CommandSearchPerson,
   CommandSearchTvSerie,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
+
+const ResultCount = ({ count }: { count: number }) => {
+  return (
+    <div className="tabular-nums ml-2 text-xs bg-foreground flex items-center justify-center size-4 rounded-md text-background">
+      {count}
+    </div>
+  )
+}
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -61,7 +74,7 @@ export const CommandSearch = () => {
     if (open) setOpen(false)
   }, [pathname])
 
-  const [movies, tvSeries] = [
+  const [movies, tvSeries, people] = [
     data?.results.filter(
       result => result.media_type === 'movie'
     ) as MovieWithMediaType[],
@@ -69,14 +82,17 @@ export const CommandSearch = () => {
     data?.results.filter(
       result => result.media_type === 'tv'
     ) as TvSerieWithMediaType[],
+
+    data?.results.filter(
+      result => result.media_type === 'person'
+    ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTvSeries] = [
+  const [hasMovies, hasTvSeries, hasPeople] = [
     Boolean(movies?.length),
     Boolean(tvSeries?.length),
+    Boolean(people?.length),
   ]
-
-  const hasResults = hasMovies || hasTvSeries
 
   return (
     <>
@@ -91,66 +107,91 @@ export const CommandSearch = () => {
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <Command>
+        <Command className="max-w-xl">
           <CommandInput
-            placeholder={dictionary.sidebar_search.placeholder}
+            placeholder={dictionary.sidebar_search.search_everything}
             onValueChange={setSearch}
             defaultValue={search}
           />
 
-          <CommandList className="">
-            {isLoading && (
-              <div className="space-y-8">
-                <CommandSearchGroup heading={dictionary.movies}>
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
+          <CommandList />
 
-                <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_series}
-                >
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
-              </div>
-            )}
+          <Tabs defaultValue="movies">
+            <TabsList className="mx-4 mt-4">
+              <TabsTrigger value="movies" className="flex items-center">
+                {dictionary.movies}
+                {hasMovies && <ResultCount count={movies?.length} />}
+              </TabsTrigger>
 
-            {hasResults ? (
-              <div className="">
-                {hasMovies && (
-                  <CommandSearchGroup heading={dictionary.movies}>
-                    {movies?.map(movie => (
-                      <CommandSearchMovie
-                        item={movie}
-                        language={language}
-                        key={movie.id}
-                      />
-                    ))}
-                  </CommandSearchGroup>
+              <TabsTrigger value="tv_series">
+                {dictionary.tv_series}
+                {hasTvSeries && <ResultCount count={tvSeries?.length} />}
+              </TabsTrigger>
+
+              <TabsTrigger value="people">
+                {dictionary.people}
+                {hasPeople && <ResultCount count={people?.length} />}
+              </TabsTrigger>
+
+              <TabsTrigger value="lists" disabled>
+                {dictionary.lists}
+              </TabsTrigger>
+
+              <TabsTrigger value="members" disabled>
+                Membros
+              </TabsTrigger>
+            </TabsList>
+
+            <CommandList className="px-4 pb-4">
+              <TabsContent value="movies">
+                {hasMovies ? (
+                  movies.map(movie => (
+                    <CommandSearchMovie
+                      item={movie}
+                      language={language}
+                      key={movie.id}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center p-8 text-muted-foreground">
+                    {dictionary.list_command.no_results}
+                  </p>
                 )}
+              </TabsContent>
 
-                {hasTvSeries && (
-                  <CommandSearchGroup
-                    heading={dictionary.sidebar_search.tv_series}
-                  >
-                    {tvSeries?.map(tvSerie => (
-                      <CommandSearchTvSerie
-                        item={tvSerie}
-                        language={language}
-                        key={tvSerie.id}
-                      />
-                    ))}
-                  </CommandSearchGroup>
+              <TabsContent value="tv_series">
+                {hasTvSeries ? (
+                  tvSeries.map(tvSerie => (
+                    <CommandSearchTvSerie
+                      item={tvSerie}
+                      language={language}
+                      key={tvSerie.id}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center p-8 text-muted-foreground">
+                    {dictionary.list_command.no_results}
+                  </p>
                 )}
-              </div>
-            ) : (
-              <p className="p-8 text-center">
-                {dictionary.list_command.no_results}
-              </p>
-            )}
-          </CommandList>
+              </TabsContent>
+
+              <TabsContent value="people">
+                {hasPeople ? (
+                  people.map(person => (
+                    <CommandSearchPerson
+                      item={person}
+                      language={language}
+                      key={person.id}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center p-8 text-muted-foreground">
+                    {dictionary.list_command.no_results}
+                  </p>
+                )}
+              </TabsContent>
+            </CommandList>
+          </Tabs>
         </Command>
       </CommandDialog>
     </>

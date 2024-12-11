@@ -106,7 +106,6 @@
     "airing_today_description": "Verpassen Sie nicht den Takt! Sehen Sie, welche Serien heute frische Episoden haben.",
     "on_the_air": "Auf Sendung",
     "on_the_air_description": "Schalten Sie hier ein, um keine aktuellen Episoden der heißesten Serien des Moments zu verpassen.",
-    "people": "Personen",
     "lists": "Listen",
     "lists_description": "Ihre Auswahl, Ihre Interessen. Erstellen und teilen Sie Listen Ihrer Lieblingsfilme und -serien mit der Community.",
     "animes_description": "Entdecken Sie epische Abenteuer und atemberaubende visuelle Darstellungen."
@@ -115,8 +114,7 @@
     "placeholder": "Suchen Sie nach Filmen, Fernsehshows oder Personen",
     "search_everything": "Alles durchsuchen",
     "no_results": "Keine Ergebnisse gefunden.",
-    "tv_series": "Fernsehsendungen",
-    "people": "Personen"
+    "tv_series": "Fernsehsendungen"
   },
   "watch_providers": {
     "label": "Anbieter anschauen",
@@ -738,5 +736,6 @@
   "submit_review": "Bewertung absenden",
   "edit_image": "Bild bearbeiten",
   "cancel": "Abbrechen",
-  "apply": "Anwenden"
+  "apply": "Anwenden",
+  "people": "Personen"
 }

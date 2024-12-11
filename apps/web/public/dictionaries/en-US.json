@@ -106,7 +106,6 @@
     "airing_today_description": "Don't miss a beat! See which shows have fresh episodes coming out of the oven today.",
     "on_the_air": "On the Air",
     "on_the_air_description": "Tune in here to not miss out on current episodes of the hottest series right now.",
-    "people": "People",
     "lists": "Lists",
     "lists_description": "Your picks, your interests. Create and share lists of your favorite movies and shows with the community.",
     "animes_description": "Discover epic adventures and stunning visuals."
@@ -115,8 +114,7 @@
     "placeholder": "Search for movies, TV Series, or people",
     "search_everything": "Search anything",
     "no_results": "No results found.",
-    "tv_series": "TV Series",
-    "people": "People"
+    "tv_series": "TV Series"
   },
   "watch_providers": {
     "label": "Watch Providers",
@@ -733,5 +731,6 @@
   "submit_review": "Submit review",
   "edit_image": "Edit image",
   "cancel": "Cancel",
-  "apply": "Apply"
+  "apply": "Apply",
+  "people": "People"
 }

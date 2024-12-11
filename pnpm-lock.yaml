@@ -63,8 +63,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@plotwist_app/tmdb':
-        specifier: ^0.0.5
-        version: 0.0.5(postcss@8.4.49)
+        specifier: ^0.0.8
+        version: 0.0.8(postcss@8.4.49)
       '@radix-ui/react-accordion':
         specifier: ^1.2.0
         version: 1.2.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1)(react@18.3.1)
@@ -198,7 +198,7 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       nuqs:
-        specifier: ^2.1.1
+        specifier: ^2.2.3
         version: 2.2.3(next@15.0.3)(react@18.3.1)
       react:
         specifier: ^18.3.1
@@ -3334,8 +3334,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@plotwist_app/tmdb@0.0.5(postcss@8.4.49):
-    resolution: {integrity: sha512-FSN2/ykmq04oz1Zjgga60xnrQI4sHxgtFCNSr7mf+RC8YHgGMp4Aw2wFFduiQgpXqV/4hQ3rv554GdqvSA5fDA==}
+  /@plotwist_app/tmdb@0.0.8(postcss@8.4.49):
+    resolution: {integrity: sha512-A6u2JIKVLs4YqyIBbpqwe3zhqsMLRGV1q362Zmc3vEyyNTw9BRrIPecsWU2eMKSP1mld9t0DOLSFcPpf2GslLg==}
     dependencies:
       axios: 1.7.8
       tsup: 8.3.5(postcss@8.4.49)(typescript@5.7.2)

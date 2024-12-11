@@ -6,6 +6,7 @@ import type { Language } from '@/types/languages'
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { verifySession } from './lib/dal'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -54,7 +55,7 @@ export default async function RootLayout(props: {
 
       <body className="bg-background antialiased">
         <SessionContextProvider initialSession={session}>
-          {children}
+          <NuqsAdapter>{children}</NuqsAdapter>
         </SessionContextProvider>
       </body>
     </html>

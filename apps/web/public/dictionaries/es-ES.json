@@ -106,7 +106,6 @@
     "airing_today_description": "¡No te pierdas nada! Mira qué series tienen episodios frescos saliendo del horno hoy.",
     "on_the_air": "En Emisión",
     "on_the_air_description": "Sintoniza aquí para no perderte los episodios actuales de las series más calientes del momento.",
-    "people": "Personas",
     "lists": "Listas",
     "lists_description": "Tus elecciones, tus intereses. Crea y comparte listas de tus películas y series favoritas con la comunidad.",
     "animes_description": "Descubre aventuras épicas y visuales deslumbrantes."
@@ -115,8 +114,7 @@
     "placeholder": "Busca películas, programas de TV o personas",
     "search_everything": "Buscar todo",
     "no_results": "No se encontraron resultados.",
-    "tv_series": "Programas de TV",
-    "people": "Personas"
+    "tv_series": "Programas de TV"
   },
   "watch_providers": {
     "label": "Proveedores de visualización",
@@ -735,5 +733,6 @@
   "submit_review": "Enviar reseña",
   "edit_image": "Editar imagen",
   "cancel": "Cancelar",
-  "apply": "Aplicar"
+  "apply": "Aplicar",
+  "people": "Personas"
 }

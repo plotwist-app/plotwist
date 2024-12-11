@@ -106,7 +106,6 @@
     "airing_today_description": "Non perdere il ritmo! Scopri quali serie hanno episodi freschi di giornata oggi.",
     "on_the_air": "In Onda",
     "on_the_air_description": "Sintonizzati qui per non perdere gli episodi attuali delle serie più hot del momento.",
-    "people": "Persone",
     "lists": "Liste",
     "lists_description": "Le tue scelte, i tuoi interessi. Crea e condividi liste dei tuoi film e serie preferiti con la comunità.",
     "animes_description": "Scopri avventure epiche e visuali mozzafiato."
@@ -115,8 +114,7 @@
     "placeholder": "Cerca film, programmi TV o persone",
     "search_everything": "Cerca tutto",
     "no_results": "Nessun risultato trovato.",
-    "tv_series": "Programmi TV",
-    "people": "Persone"
+    "tv_series": "Programmi TV"
   },
   "watch_providers": {
     "label": "Fornitori di visione",
@@ -735,5 +733,6 @@
   "submit_review": "Invia recensione",
   "edit_image": "Modifica immagine",
   "cancel": "Annulla",
-  "apply": "Applica"
+  "apply": "Applica",
+  "people": "Persone"
 }
