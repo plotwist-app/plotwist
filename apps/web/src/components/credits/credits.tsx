@@ -28,12 +28,14 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
               name,
               character,
               credit_id: creditId,
+              id,
             }) => (
               <CreditCard
                 key={creditId}
                 imagePath={profilePath}
                 name={name}
                 role={character}
+                href={`/${language}/people/${id}`}
               />
             )
           )}
@@ -50,12 +52,14 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
               name,
               department,
               credit_id: creditId,
+              id,
             }) => (
               <CreditCard
                 key={creditId}
                 imagePath={profilePath}
                 name={name}
                 role={department}
+                href={`/${language}/people/${id}`}
               />
             )
           )}

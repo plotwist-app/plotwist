@@ -10,9 +10,12 @@ import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
 import { PersonTabs } from './_person_tabs'
 
-type Props = PageProps<{ id: string }> & PropsWithChildren
+type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
 
-export default async function Page({ params, children }: Props) {
+export default async function PersonPage({
+  params,
+  children,
+}: PersonPageProps) {
   const { id, lang } = await params
 
   const {
