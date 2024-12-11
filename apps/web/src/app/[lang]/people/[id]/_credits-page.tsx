@@ -3,6 +3,7 @@
 import { PosterCard } from '@/components/poster-card'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { getJobLabel } from '@/utils/tmdb/job'
 import {
   Select,
   SelectContent,
@@ -26,7 +27,7 @@ type CreditsPageProps = {
 }
 
 export function CreditsPage({ roles, credits }: CreditsPageProps) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const [selectedRole, setSelectedRole] = useQueryState('role', {
     defaultValue: roles[0],
   })
@@ -59,7 +60,7 @@ export function CreditsPage({ roles, credits }: CreditsPageProps) {
         <SelectContent>
           {roles.map(role => (
             <SelectItem value={role} key={role}>
-              {role}
+              {getJobLabel(dictionary, role)}
             </SelectItem>
           ))}
         </SelectContent>
@@ -90,7 +91,7 @@ export function CreditsPage({ roles, credits }: CreditsPageProps) {
 
                 <TooltipContent>
                   <p>
-                    {title} como {role}
+                    {title} {dictionary.as} {getJobLabel(dictionary, role)}
                   </p>
                 </TooltipContent>
               </Tooltip>

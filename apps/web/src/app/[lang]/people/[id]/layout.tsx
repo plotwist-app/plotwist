@@ -2,15 +2,10 @@ import { Banner } from '@/components/banner'
 import { cn } from '@/lib/utils'
 import { tmdb } from '@/services/tmdb'
 import type { PageProps } from '@/types/languages'
-import { locale } from '@/utils/date/locale'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { format } from 'date-fns'
 import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
-import { PersonTabs } from './_person_tabs'
-import { getDictionary } from '@/utils/dictionaries'
-import { getDepartamentLabel } from '@/utils/tmdb/department'
+import { Biography } from './_biography'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
 
@@ -19,23 +14,17 @@ export default async function PersonPage({
   children,
 }: PersonPageProps) {
   const { id, lang } = await params
-  const dictionary = await getDictionary(lang)
 
-  const {
-    profile_path,
-    name,
-    birthday,
-    known_for_department,
-    place_of_birth,
-    deathday,
-    popularity,
-  } = await tmdb.person.details(Number(id), lang)
+  const { profile_path, name, biography } = await tmdb.person.details(
+    Number(id),
+    lang
+  )
 
   const { cast, crew } = await tmdb.person.combinedCredits(Number(id), lang)
 
-  const mostPopularBackdrop = [...cast, ...crew].sort(
-    (a, b) => b.vote_count - a.vote_count
-  )[0].backdrop_path
+  const mostPopularBackdrop = [...cast, ...crew]
+    .sort((a, b) => b.vote_count - a.vote_count)
+    .filter(credit => credit.backdrop_path)[0]?.backdrop_path
 
   return (
     <main className="pb-16 mx-auto max-w-6xl">
@@ -79,47 +68,12 @@ export default async function PersonPage({
 
               <h1 className="text-3xl font-bold mt-2">{name}</h1>
 
-              <p className="text-muted-foreground mt-2 text-sm">
-                <span className="font-semibold text-foreground">
-                  {dictionary.birth}:
-                </span>{' '}
-                {format(new Date(birthday), 'PPP', {
-                  locale: locale[lang],
-                })}{' '}
-                ({place_of_birth})
-              </p>
-
-              {deathday && (
-                <p className="text-muted-foreground mt-2 text-sm">
-                  <span className="font-semibold text-foreground">
-                    {dictionary.death}:
-                  </span>{' '}
-                  {format(new Date(deathday), 'PPP', {
-                    locale: locale[lang],
-                  })}
-                </p>
-              )}
-
-              {popularity && (
-                <p className="text-muted-foreground mt-2 text-sm">
-                  <span className="font-semibold text-foreground">
-                    {dictionary.popularity}:
-                  </span>{' '}
-                  {popularity}
-                </p>
-              )}
-
-              <Badge className="mt-4">
-                {getDepartamentLabel(dictionary, known_for_department)}
-              </Badge>
+              <Biography content={biography} />
             </div>
           </div>
         </aside>
 
-        <section className="space-y-2 col-span-2 mt-8">
-          <PersonTabs personId={id} />
-          {children}
-        </section>
+        <section className="space-y-2 col-span-2 mt-8">{children}</section>
       </section>
     </main>
   )
