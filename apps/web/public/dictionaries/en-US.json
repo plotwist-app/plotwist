@@ -732,5 +732,10 @@
   "edit_image": "Edit image",
   "cancel": "Cancel",
   "apply": "Apply",
-  "people": "People"
+  "people": "People",
+  "birth": "Birth",
+  "death": "Death",
+  "popularity": "Popularity",
+  "directing": "Directing",
+  "acting": "Acting"
 }

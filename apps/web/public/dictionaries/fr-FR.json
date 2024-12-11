@@ -736,5 +736,10 @@
   "edit_image": "Modifier l'image",
   "cancel": "Annuler",
   "apply": "Appliquer",
-  "people": "Personnes"
+  "people": "Personnes",
+  "birth": "Naissance",
+  "death": "Mort",
+  "popularity": "Popularité",
+  "directing": "Réalisation",
+  "acting": "Interprétation"
 }

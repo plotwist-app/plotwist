@@ -36,7 +36,10 @@ export const CreditCard = ({
       </Link>
 
       <div className="flex flex-1 justify-between">
-        <span className="text-sm">{name}</span>
+        <Link href={href} className="text-sm">
+          {name}
+        </Link>
+
         <span className="text-xs text-muted-foreground">{role}</span>
       </div>
     </li>

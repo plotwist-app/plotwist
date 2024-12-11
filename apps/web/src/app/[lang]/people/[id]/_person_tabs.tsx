@@ -12,14 +12,14 @@ type PersonTabsProps = {
 
 export function PersonTabs({ personId }: PersonTabsProps) {
   const pathname = usePathname()
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
   const spllitedPathname = pathname.split('/')
   const minSegments = 4
 
   const value = useMemo(() => {
     if (spllitedPathname.length === minSegments) {
-      return 'biography'
+      return 'credits'
     }
 
     return spllitedPathname[spllitedPathname.length - 1]
@@ -28,13 +28,15 @@ export function PersonTabs({ personId }: PersonTabsProps) {
   return (
     <Tabs value={value}>
       <TabsList>
-        <TabsTrigger value="biography" asChild>
-          <Link href={`/${language}/people/${personId}`}>Biografia</Link>
+        <TabsTrigger value="credits" asChild>
+          <Link href={`/${language}/people/${personId}`}>
+            {dictionary.tabs.credits}
+          </Link>
         </TabsTrigger>
 
-        <TabsTrigger value="credits" asChild>
-          <Link href={`/${language}/people/${personId}/credits`}>
-            Filmes e séries
+        <TabsTrigger value="biography" asChild>
+          <Link href={`/${language}/people/${personId}/biography`}>
+            {dictionary.biography}
           </Link>
         </TabsTrigger>
       </TabsList>

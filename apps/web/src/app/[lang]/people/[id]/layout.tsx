@@ -9,6 +9,8 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
 import { PersonTabs } from './_person_tabs'
+import { getDictionary } from '@/utils/dictionaries'
+import { getDepartamentLabel } from '@/utils/tmdb/department'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
 
@@ -17,6 +19,7 @@ export default async function PersonPage({
   children,
 }: PersonPageProps) {
   const { id, lang } = await params
+  const dictionary = await getDictionary(lang)
 
   const {
     profile_path,
@@ -78,7 +81,7 @@ export default async function PersonPage({
 
               <p className="text-muted-foreground mt-2 text-sm">
                 <span className="font-semibold text-foreground">
-                  Nascimento:
+                  {dictionary.birth}:
                 </span>{' '}
                 {format(new Date(birthday), 'PPP', {
                   locale: locale[lang],
@@ -88,23 +91,27 @@ export default async function PersonPage({
 
               {deathday && (
                 <p className="text-muted-foreground mt-2 text-sm">
-                  <span className="font-semibold text-foreground">Morte:</span>{' '}
+                  <span className="font-semibold text-foreground">
+                    {dictionary.death}:
+                  </span>{' '}
                   {format(new Date(deathday), 'PPP', {
                     locale: locale[lang],
                   })}
                 </p>
               )}
 
-              {deathday && (
+              {popularity && (
                 <p className="text-muted-foreground mt-2 text-sm">
                   <span className="font-semibold text-foreground">
-                    Popularidade:
+                    {dictionary.popularity}:
                   </span>{' '}
                   {popularity}
                 </p>
               )}
 
-              <Badge className="mt-4">{known_for_department}</Badge>
+              <Badge className="mt-4">
+                {getDepartamentLabel(dictionary, known_for_department)}
+              </Badge>
             </div>
           </div>
         </aside>

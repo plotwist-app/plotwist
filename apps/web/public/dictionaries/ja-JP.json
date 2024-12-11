@@ -734,5 +734,10 @@
   "edit_image": "画像を編集",
   "cancel": "キャンセル",
   "apply": "適用",
-  "people": "人物"
+  "people": "人物",
+  "birth": "誕生",
+  "death": "死亡",
+  "popularity": "人気",
+  "directing": "監督",
+  "acting": "演技"
 }
