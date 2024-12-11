@@ -2,6 +2,7 @@
 
 import {
   type MovieWithMediaType,
+  type PersonWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
 } from '@/services/tmdb'
@@ -25,6 +26,7 @@ import { v4 } from 'uuid'
 import {
   CommandSearchGroup,
   CommandSearchMovie,
+  CommandSearchPerson,
   CommandSearchSkeleton,
   CommandSearchTvSerie,
 } from '../command-search'
@@ -61,7 +63,7 @@ export const CommandSearch = () => {
     if (open) setOpen(false)
   }, [pathname])
 
-  const [movies, tvSeries] = [
+  const [movies, tvSeries, people] = [
     data?.results.filter(
       result => result.media_type === 'movie'
     ) as MovieWithMediaType[],
@@ -69,14 +71,19 @@ export const CommandSearch = () => {
     data?.results.filter(
       result => result.media_type === 'tv'
     ) as TvSerieWithMediaType[],
+
+    data?.results.filter(
+      result => result.media_type === 'person'
+    ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTvSeries] = [
+  const [hasMovies, hasTvSeries, hasPeople] = [
     Boolean(movies?.length),
     Boolean(tvSeries?.length),
+    Boolean(people?.length),
   ]
 
-  const hasResults = hasMovies || hasTvSeries
+  const hasResults = hasMovies || hasTvSeries || hasPeople
 
   return (
     <>
@@ -140,6 +147,18 @@ export const CommandSearch = () => {
                         item={tvSerie}
                         language={language}
                         key={tvSerie.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
+
+                {hasPeople && (
+                  <CommandSearchGroup heading={dictionary.people}>
+                    {people?.map(person => (
+                      <CommandSearchPerson
+                        item={person}
+                        language={language}
+                        key={person.id}
                       />
                     ))}
                   </CommandSearchGroup>

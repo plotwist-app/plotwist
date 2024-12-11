@@ -15,6 +15,7 @@ import { User } from 'lucide-react'
 import Image from 'next/image'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
+import Link from 'next/link'
 
 export function TopActors() {
   const { userId } = useLayoutContext()
@@ -39,35 +40,43 @@ export function TopActors() {
 
       <CardContent className="">
         <div className="space-y-4 mt-2">
-          {data.watchedCast.map(actor => (
-            <div className="flex gap-2" key={actor.id}>
-              <div className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border">
-                {actor.profilePath ? (
-                  <Image
-                    loading="lazy"
-                    src={tmdbImage(actor.profilePath)}
-                    fill
-                    className="object-cover"
-                    sizes="100%"
-                    alt="aaa"
-                  />
-                ) : (
-                  <span>{actor.name[0]}</span>
-                )}
-              </div>
+          {data.watchedCast.map(actor => {
+            const href = `/${language}/people/${actor.id}`
 
-              <div className="flex-1 space-y-2">
-                <div className="flex justify-between text-xs">
-                  <p>{actor.name}</p>
-                  <p className="text-muted-foreground">
-                    {actor.count} {dictionary.titles}
-                  </p>
+            return (
+              <div className="flex gap-2" key={actor.id}>
+                <Link
+                  className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border"
+                  href={href}
+                >
+                  {actor.profilePath ? (
+                    <Image
+                      loading="lazy"
+                      src={tmdbImage(actor.profilePath)}
+                      fill
+                      className="object-cover"
+                      sizes="100%"
+                      alt="aaa"
+                    />
+                  ) : (
+                    <span>{actor.name[0]}</span>
+                  )}
+                </Link>
+
+                <div className="flex-1 space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <Link href={href}>{actor.name}</Link>
+
+                    <p className="text-muted-foreground">
+                      {actor.count} {dictionary.titles}
+                    </p>
+                  </div>
+
+                  <Progress value={actor.percentage} />
                 </div>
-
-                <Progress value={actor.percentage} />
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </CardContent>
     </Card>

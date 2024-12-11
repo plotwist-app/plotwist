@@ -149,7 +149,7 @@ export const CommandSearchPerson = ({
       className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
       href={`/${language}/people/${item.id}`}
     >
-      <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
+      <div className="relative flex w-6 h-6 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
         {item.profile_path ? (
           <Image
             fill
