@@ -22,7 +22,6 @@ export const ListItemCard = ({
 }: ListItemCardProps) => {
   const { posterPath, title, mediaType, tmdbId } = listItem
   const { language } = useLanguage()
-
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: listItem.id })
 

@@ -10,7 +10,7 @@ import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
-import { Grip, Plus } from 'lucide-react'
+import { GripVertical, Plus } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ListItemCard } from './list-item-card'
@@ -74,13 +74,14 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
         onClick={() => setIsEditingOrder(!isEditingOrder)}
         className="ml-auto"
       >
-        <Grip size={14} className="mr-1" />
+        <GripVertical size={14} className="mr-1" />
         {isEditingOrder ? dictionary.save_order : dictionary.edit_order}
       </Button>
 
       <div
         className={cn(
-          'grid grid-cols-3 gap-2 rounded-md transition-all duration-150 ease-in-out md:grid-cols-5'
+          'grid grid-cols-3 gap-2 rounded-md transition-all duration-150 ease-in-out md:grid-cols-5',
+          isEditingOrder && 'border border-dashed p-2'
         )}
       >
         {isEditingOrder ? (
