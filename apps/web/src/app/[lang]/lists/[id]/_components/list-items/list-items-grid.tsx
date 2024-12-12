@@ -4,6 +4,7 @@ import {
   getGetListItemsByListIdQueryKey,
   useDeleteListItemId,
   usePostListItem,
+  useUpdateListItemsPositions,
 } from '@/api/list-item'
 import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
@@ -33,6 +34,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
 
   const postListItem = usePostListItem()
   const deleteListItem = useDeleteListItemId()
+  const updateListItemsPositions = useUpdateListItemsPositions()
 
   const { dictionary, language } = useLanguage()
 
@@ -49,9 +51,18 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(item => item.id === active.id)
       const newIndex = items.findIndex(item => item.id === over.id)
-
       const newItems = arrayMove([...items], oldIndex, newIndex)
+
       setItems(newItems)
+
+      await updateListItemsPositions.mutateAsync({
+        data: {
+          listItems: newItems.map((item, idx) => ({
+            id: item.id,
+            position: idx,
+          })),
+        },
+      })
     }
   }
 
@@ -86,7 +97,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
           </DndContext>
         ) : (
           <>
-            {listItems.map(item => (
+            {items.map(item => (
               <ListItemCard
                 key={item.id}
                 listItem={item}

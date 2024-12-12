@@ -305,10 +305,6 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
-export type GetLikesEntityId200 = {
-  likes: GetLikesEntityId200LikesItem[];
-};
-
 export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
 
 
@@ -343,6 +339,10 @@ export type GetLikesEntityId200LikesItem = {
   id: string;
   user: GetLikesEntityId200LikesItemUser;
   userId: string;
+};
+
+export type GetLikesEntityId200 = {
+  likes: GetLikesEntityId200LikesItem[];
 };
 
 export type PostLike201LikeEntityType = typeof PostLike201LikeEntityType[keyof typeof PostLike201LikeEntityType];
@@ -674,6 +674,10 @@ mediaType: GetUserItemMediaType;
 tmdbId: string;
 };
 
+export type PutUserItem201 = {
+  userItem: PutUserItem201UserItem;
+};
+
 export type PutUserItem201UserItemStatus = typeof PutUserItem201UserItemStatus[keyof typeof PutUserItem201UserItemStatus];
 
 
@@ -704,10 +708,6 @@ export type PutUserItem201UserItem = {
   userId: string;
 };
 
-export type PutUserItem201 = {
-  userItem: PutUserItem201UserItem;
-};
-
 export type PutUserItemBodyStatus = typeof PutUserItemBodyStatus[keyof typeof PutUserItemBodyStatus];
 
 
@@ -733,6 +733,15 @@ export type PutUserItemBody = {
   tmdbId: number;
 };
 
+export type UpdateListItemsPositionsBodyListItemsItem = {
+  id: string;
+  position: number;
+};
+
+export type UpdateListItemsPositionsBody = {
+  listItems: UpdateListItemsPositionsBodyListItemsItem[];
+};
+
 export type GetListItemsByListId200ItemMediaType = typeof GetListItemsByListId200ItemMediaType[keyof typeof GetListItemsByListId200ItemMediaType];
 
 
@@ -749,8 +758,7 @@ export type GetListItemsByListId200Item = {
   id: string;
   listId: string;
   mediaType: GetListItemsByListId200ItemMediaType;
-  /** @nullable */
-  position: number | null;
+  position: number;
   /** @nullable */
   posterPath: string | null;
   title: string;
@@ -775,6 +783,10 @@ export type GetListItemsByListIdParams = {
 language?: GetListItemsByListIdLanguage;
 };
 
+export type PostListItem201 = {
+  listItem: PostListItem201ListItem;
+};
+
 export type PostListItem201ListItemMediaType = typeof PostListItem201ListItemMediaType[keyof typeof PostListItem201ListItemMediaType];
 
 
@@ -789,13 +801,8 @@ export type PostListItem201ListItem = {
   id: string;
   listId: string;
   mediaType: PostListItem201ListItemMediaType;
-  /** @nullable */
-  position: number | null;
+  position: number;
   tmdbId: number;
-};
-
-export type PostListItem201 = {
-  listItem: PostListItem201ListItem;
 };
 
 export type PostListItemBodyMediaType = typeof PostListItemBodyMediaType[keyof typeof PostListItemBodyMediaType];

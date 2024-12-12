@@ -53,14 +53,6 @@ export const ListItemCard = ({
               sizes="100%"
             />
           )}
-
-          <div
-            className={cn(
-              'absolute right-2 top-2 z-30 flex scale-0 gap-1 transition-all group-hover:scale-100'
-            )}
-          >
-            <ListItemActions listItem={listItem} />
-          </div>
         </div>
       </div>
     )
