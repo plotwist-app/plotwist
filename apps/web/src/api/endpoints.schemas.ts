@@ -758,7 +758,8 @@ export type GetListItemsByListId200Item = {
   id: string;
   listId: string;
   mediaType: GetListItemsByListId200ItemMediaType;
-  position: number;
+  /** @nullable */
+  position: number | null;
   /** @nullable */
   posterPath: string | null;
   title: string;
@@ -801,7 +802,8 @@ export type PostListItem201ListItem = {
   id: string;
   listId: string;
   mediaType: PostListItem201ListItemMediaType;
-  position: number;
+  /** @nullable */
+  position: number | null;
   tmdbId: number;
 };
 
