@@ -68,15 +68,17 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
 
   return (
     <div className="space-y-2">
-      <Button
-        size="sm"
-        variant="outline"
-        onClick={() => setIsEditingOrder(!isEditingOrder)}
-        className="ml-auto"
-      >
-        <GripVertical size={14} className="mr-1" />
-        {isEditingOrder ? dictionary.save_order : dictionary.edit_order}
-      </Button>
+      {mode === 'EDIT' && (
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setIsEditingOrder(!isEditingOrder)}
+          className="ml-auto"
+        >
+          <GripVertical size={14} className="mr-1" />
+          {isEditingOrder ? dictionary.save_order : dictionary.edit_order}
+        </Button>
+      )}
 
       <div
         className={cn(
