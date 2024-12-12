@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode, createContext, useContext, useState } from 'react'
+import { type ReactNode, createContext, useContext } from 'react'
 
 type Mode = 'EDIT' | 'SHOW'
 
@@ -9,19 +9,15 @@ type ListModeContextProviderProps = {
   mode: Mode
 }
 
-type ListModeContextType = Pick<ListModeContextProviderProps, 'mode'> & {
-  setMode: (mode: Mode) => void
-}
+type ListModeContextType = Pick<ListModeContextProviderProps, 'mode'>
 
 export const listModeContext = createContext({} as ListModeContextType)
 export const ListModeContextProvider = ({
   children,
-  mode: initialMode,
+  mode,
 }: ListModeContextProviderProps) => {
-  const [mode, setMode] = useState<Mode>(initialMode)
-
   return (
-    <listModeContext.Provider value={{ mode, setMode }}>
+    <listModeContext.Provider value={{ mode }}>
       {children}
     </listModeContext.Provider>
   )
