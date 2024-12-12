@@ -9,21 +9,25 @@ import { ListCommand } from '@/components/list-command'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
-import { Plus } from 'lucide-react'
+import { Grip, Plus } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ListItemCard } from './list-item-card'
 import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
+import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
+
+import { DndContext, type DragEndEvent } from '@dnd-kit/core'
+import { arrayMove, SortableContext } from '@dnd-kit/sortable'
+import { Button } from '@plotwist/ui/components/ui/button'
+
+type ListItem = GetListItemsByListId200Item
 
 type ListItemsGridProps = {
-  listItems: GetListItemsByListId200Item[]
-  isEditable: boolean
+  listItems: ListItem[]
 }
 
-export const ListItemsGrid = ({
-  listItems,
-  isEditable,
-}: ListItemsGridProps) => {
+export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
   const { mode } = useListMode()
   const listId = String(useParams().id)
 
@@ -32,56 +36,111 @@ export const ListItemsGrid = ({
 
   const { dictionary, language } = useLanguage()
 
+  const [items, setItems] = useState<ListItem[]>([])
+  const [isEditingOrder, setIsEditingOrder] = useState(false)
+
+  useEffect(() => {
+    setItems(listItems)
+  }, [listItems])
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = items.findIndex(item => item.id === active.id)
+      const newIndex = items.findIndex(item => item.id === over.id)
+
+      const newItems = arrayMove([...items], oldIndex, newIndex)
+      setItems(newItems)
+    }
+  }
+
   return (
-    <div>
-      <div
-        className={`grid grid-cols-3 gap-2 rounded-md ${isEditable ? 'border-2   p-1 md:grid-cols-5' : 'md:grid-cols-5'} transition-all duration-150 ease-in-out`}
+    <div className="space-y-2">
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => setIsEditingOrder(!isEditingOrder)}
+        className="ml-auto"
       >
-        {listItems.map(item => (
-          <ListItemCard key={item.id} listItem={item} />
-        ))}
+        <Grip size={14} className="mr-1" />
+        {isEditingOrder ? dictionary.save_order : dictionary.edit_order}
+      </Button>
 
-        {mode === 'EDIT' && (
-          <ListCommand
-            onAdd={(tmdbId, mediaType) =>
-              postListItem.mutate(
-                { data: { listId, mediaType, tmdbId } },
-                {
-                  onSuccess: async () => {
-                    await APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: getGetListItemsByListIdQueryKey(listId, {
-                        language,
-                      }),
-                    })
+      <div
+        className={cn(
+          'grid grid-cols-3 gap-2 rounded-md transition-all duration-150 ease-in-out md:grid-cols-5'
+        )}
+      >
+        {isEditingOrder ? (
+          <DndContext onDragEnd={handleDragEnd}>
+            <SortableContext items={items}>
+              {items.map(item => (
+                <ListItemCard
+                  key={item.id}
+                  listItem={item}
+                  isEditingOrder={isEditingOrder}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        ) : (
+          <>
+            {listItems.map(item => (
+              <ListItemCard
+                key={item.id}
+                listItem={item}
+                isEditingOrder={isEditingOrder}
+              />
+            ))}
 
-                    toast.success(dictionary.list_command.movie_added_success)
-                  },
+            {mode === 'EDIT' && (
+              <ListCommand
+                onAdd={(tmdbId, mediaType) =>
+                  postListItem.mutate(
+                    { data: { listId, mediaType, tmdbId } },
+                    {
+                      onSuccess: async () => {
+                        await APP_QUERY_CLIENT.invalidateQueries({
+                          queryKey: getGetListItemsByListIdQueryKey(listId, {
+                            language,
+                          }),
+                        })
+
+                        toast.success(
+                          dictionary.list_command.movie_added_success
+                        )
+                      },
+                    }
+                  )
                 }
-              )
-            }
-            onRemove={id =>
-              deleteListItem.mutate(
-                { id },
-                {
-                  onSuccess: async () => {
-                    await APP_QUERY_CLIENT.invalidateQueries({
-                      queryKey: getGetListItemsByListIdQueryKey(listId, {
-                        language,
-                      }),
-                    })
+                onRemove={id =>
+                  deleteListItem.mutate(
+                    { id },
+                    {
+                      onSuccess: async () => {
+                        await APP_QUERY_CLIENT.invalidateQueries({
+                          queryKey: getGetListItemsByListIdQueryKey(listId, {
+                            language,
+                          }),
+                        })
 
-                    toast.success(dictionary.list_command.movie_removed_success)
-                  },
+                        toast.success(
+                          dictionary.list_command.movie_removed_success
+                        )
+                      },
+                    }
+                  )
                 }
-              )
-            }
-            items={listItems}
-            isPending={postListItem.isPending || deleteListItem.isPending}
-          >
-            <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
-              <Plus />
-            </div>
-          </ListCommand>
+                items={listItems}
+                isPending={postListItem.isPending || deleteListItem.isPending}
+              >
+                <div className="flex aspect-poster cursor-pointer items-center justify-center rounded-md border border-dashed">
+                  <Plus />
+                </div>
+              </ListCommand>
+            )}
+          </>
         )}
       </div>
     </div>

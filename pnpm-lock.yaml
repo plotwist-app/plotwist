@@ -27,7 +27,7 @@ importers:
   apps/web:
     dependencies:
       '@dnd-kit/core':
-        specifier: ^6.1.0
+        specifier: ^6.2.0
         version: 6.2.0(react-dom@18.3.1)(react@18.3.1)
       '@dnd-kit/modifiers':
         specifier: ^7.0.0

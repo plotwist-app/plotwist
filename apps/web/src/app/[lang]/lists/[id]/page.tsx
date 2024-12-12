@@ -12,10 +12,9 @@ import { ListItems } from './_components/list-items'
 import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
 import { ListPrivate } from './_components/list-private'
 import { UserResume } from './_components/user-resume'
+import type { PageProps } from '@/types/languages'
 
-type ListPageProps = {
-  params: Promise<{ id: string }>
-}
+type ListPageProps = PageProps<{ id: string }>
 
 export async function generateMetadata(
   props: ListPageProps
@@ -46,15 +45,14 @@ export async function generateMetadata(
   }
 }
 
-export default async function ListPage(props: ListPageProps) {
-  const params = await props.params
-
-  const { id } = params
+export default async function ListPage({ params }: ListPageProps) {
+  const { id } = await params
 
   const session = await verifySession()
   const { list } = await getListById(id)
 
   const mode = session?.user.id === list.userId ? 'EDIT' : 'SHOW'
+
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (
@@ -64,32 +62,33 @@ export default async function ListPage(props: ListPageProps) {
 
         <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
           <div className="col-span-2 space-y-4">
-            <UserResume list={list} />
+            <div className="flex justify-between">
+              <UserResume list={list} />
+            </div>
 
-            <div className="flex justify-between gap-4">
-              <div>
+            <div>
+              <div className="flex gap-2 items-center">
                 <h1 className="text-xl font-bold">{list.title}</h1>
-                <p className="text-sm text-muted-foreground">
-                  {list.description}
-                </p>
-              </div>
 
-              <div className="flex gap-2">
                 {mode === 'EDIT' && (
                   <ListForm
                     trigger={
-                      <Button size="icon" variant="outline" className="h-8 w-8">
-                        <Pencil className="h-3 w-3" />
+                      <Button size="icon" variant="outline" className="h-6 w-6">
+                        <Pencil className="h-2.5 w-2.5" />
                       </Button>
                     }
                     list={list}
                   />
                 )}
               </div>
+
+              <p className="text-sm text-muted-foreground">
+                {list.description}
+              </p>
             </div>
 
             <Suspense fallback={<ListItemsSkeleton />} key={id}>
-              <ListItems ownerId={list.userId} listId={id} />
+              <ListItems listId={id} />
             </Suspense>
           </div>
 
