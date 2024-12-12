@@ -28,7 +28,8 @@ import type {
   GetListItemsByListId200Item,
   GetListItemsByListIdParams,
   PostListItem201,
-  PostListItemBody
+  PostListItemBody,
+  UpdateListItemsPositionsBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -287,6 +288,60 @@ const {mutation: mutationOptions} = options ?? {};
       > => {
 
       const mutationOptions = getDeleteListItemIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * Update list items position
+ */
+export const updateListItemsPositions = (
+    updateListItemsPositionsBody: UpdateListItemsPositionsBody,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/list-items`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateListItemsPositionsBody
+    },
+      );
+    }
+  
+
+
+export const getUpdateListItemsPositionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateListItemsPositions>>, TError,{data: UpdateListItemsPositionsBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateListItemsPositions>>, TError,{data: UpdateListItemsPositionsBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateListItemsPositions>>, {data: UpdateListItemsPositionsBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateListItemsPositions(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateListItemsPositionsMutationResult = NonNullable<Awaited<ReturnType<typeof updateListItemsPositions>>>
+    export type UpdateListItemsPositionsMutationBody = UpdateListItemsPositionsBody
+    export type UpdateListItemsPositionsMutationError = unknown
+
+    export const useUpdateListItemsPositions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateListItemsPositions>>, TError,{data: UpdateListItemsPositionsBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateListItemsPositions>>,
+        TError,
+        {data: UpdateListItemsPositionsBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateListItemsPositionsMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

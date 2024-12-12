@@ -2,14 +2,16 @@
 
 import { type ReactNode, createContext, useContext } from 'react'
 
+type Mode = 'EDIT' | 'SHOW'
+
 type ListModeContextProviderProps = {
   children: ReactNode
-  mode: 'EDIT' | 'SHOW'
+  mode: Mode
 }
 
 type ListModeContextType = Pick<ListModeContextProviderProps, 'mode'>
-export const listModeContext = createContext({} as ListModeContextType)
 
+export const listModeContext = createContext({} as ListModeContextType)
 export const ListModeContextProvider = ({
   children,
   mode,
