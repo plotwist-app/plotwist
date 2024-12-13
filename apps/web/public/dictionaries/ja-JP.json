@@ -778,5 +778,19 @@
   "costume_design": "衣装デザイン",
   "production_design": "プロダクションデザイン",
   "editor": "編集者",
-  "as": "として"
+  "as": "として",
+  "marked": "マークしました",
+  "added": "追加しました",
+  "removed": "削除しました",
+  "from": "から",
+  "created_list": "リストを作成しました",
+  "liked_list": "リストが気に入りました",
+  "followed": "フォローしました",
+  "unfollowed": "フォローを解除しました",
+  "user_reviewed": "レビューしました",
+  "liked_review": "のレビューが気に入りました",
+  "watched_episodes": "視聴しました",
+  "episode": "エピソード",
+  "replied_to_review": "のレビューに返信しました",
+  "liked_reply": "の返信が気に入りました"
 }

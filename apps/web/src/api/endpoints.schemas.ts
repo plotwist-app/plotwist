@@ -5,6 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 export type GetUserActivities200 = {
+  /** @nullable */
+  nextCursor: string | null;
   userActivities: GetUserActivities200UserActivitiesItem[];
 };
 
@@ -393,6 +395,8 @@ export const GetUserActivitiesLanguage = {
 } as const;
 
 export type GetUserActivitiesParams = {
+cursor?: string;
+pageSize?: string;
 language?: GetUserActivitiesLanguage;
 };
 

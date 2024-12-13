@@ -25,7 +25,7 @@ import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import Link from 'next/link'
-import { useMemo, type PropsWithChildren } from 'react'
+import { useEffect, type PropsWithChildren } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
 
@@ -72,7 +72,7 @@ export function UserFollows({
 
   const flatData = data?.pages.flatMap(page => page.followers)
 
-  useMemo(() => {
+  useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
     }

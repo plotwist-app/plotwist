@@ -15,7 +15,16 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 
 import { Rating } from '@plotwist/ui/components/ui/rating'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 import Link from 'next/link'
+import { v4 } from 'uuid'
+import { useLayoutContext } from '../_context'
 
 export function ChangeStatusActivity({
   activity,
@@ -23,23 +32,28 @@ export function ChangeStatusActivity({
   activity: GetUserActivities200UserActivitiesItemAnyOfThreefour
 }) {
   const { language, dictionary } = useLanguage()
+  const { username } = useLayoutContext()
+
   const { title, status, mediaType, tmdbId } = activity.additionalInfo
 
   return (
     <div>
-      Marcou{' '}
+      {dictionary.marked}{' '}
       <Link
         href={`/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`}
         className="text-foreground/80 font-medium hover:underline"
       >
         {title}
       </Link>{' '}
-      como{' '}
-      <span className="text-foreground/80 font-medium">
+      {dictionary.as}{' '}
+      <Link
+        className="text-foreground/80 font-medium hover:underline"
+        href={`/${language}/${username}/${status.toLowerCase()}`}
+      >
         {status === 'WATCHED' && dictionary.watched}
         {status === 'WATCHING' && dictionary.watching}
         {status === 'WATCHLIST' && dictionary.watchlist}
-      </span>
+      </Link>
     </div>
   )
 }
@@ -49,7 +63,7 @@ export function ListItemActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOf
 }) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const {
     activityType,
     additionalInfo: { mediaType, tmdbId, title, listId, listTitle },
@@ -57,14 +71,14 @@ export function ListItemActivity({
 
   return (
     <div>
-      {activityType === 'ADD_ITEM' ? 'Adicionou' : 'Removeu'}{' '}
+      {activityType === 'ADD_ITEM' ? dictionary.added : dictionary.removed}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`}
       >
         {title}
       </Link>{' '}
-      {activityType === 'ADD_ITEM' ? 'à' : 'de'}{' '}
+      {activityType === 'ADD_ITEM' ? dictionary.to : dictionary.from}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/lists/${listId}`}
@@ -80,7 +94,7 @@ export function ListActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOfOneone
 }) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const {
     additionalInfo: { id, title },
     activityType,
@@ -88,7 +102,9 @@ export function ListActivity({
 
   return (
     <div>
-      {activityType === 'CREATE_LIST' ? 'Criou a lista' : 'Curtiu a lista'}{' '}
+      {activityType === 'CREATE_LIST'
+        ? dictionary.created_list
+        : dictionary.liked_list}{' '}
       <Link
         href={`/${language}/lists/${id}`}
         className="text-foreground/80 font-medium hover:underline"
@@ -104,17 +120,18 @@ export function ReviewActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOfOnefive
 }) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const {
     additionalInfo: { mediaType, tmdbId, title, rating },
+    entityId,
   } = activity
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`
+  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${entityId}`
 
   return (
     <div className="flex gap-2 items-center">
       <span>
-        Avaliou{' '}
+        {dictionary.user_reviewed}{' '}
         <Link
           href={href}
           className="text-foreground/80 font-medium hover:underline"
@@ -133,7 +150,7 @@ export function FollowActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOfSix
 }) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const {
     additionalInfo: { username, avatarUrl },
     activityType,
@@ -142,7 +159,9 @@ export function FollowActivity({
   return (
     <span className="flex gap-2 items-center">
       <span>
-        {activityType === 'FOLLOW_USER' ? 'Seguiu' : 'Deixou de seguir'}
+        {activityType === 'FOLLOW_USER'
+          ? dictionary.followed
+          : dictionary.unfollowed}
       </span>
       <Link href={`/${language}/${username}`}>
         <Avatar className="size-6 border text-[12px] shadow">
@@ -163,18 +182,6 @@ export function FollowActivity({
   )
 }
 
-// export function ReplyActivity({
-//   activity,
-// }: {
-//   activity: GetUserActivities200UserActivitiesItemAnyOfTwozero
-// }) {
-//   const {
-//     additionalInfo: { reply },
-//   } = activity
-
-//   return <span>Respondeu à "{reply}"</span>
-// }
-
 export function LikeReviewActivity({
   activity,
 }: {
@@ -182,22 +189,23 @@ export function LikeReviewActivity({
 }) {
   const {
     additionalInfo: { title, mediaType, tmdbId, author },
+    entityId,
   } = activity
 
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`
+  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${entityId}`
 
   return (
     <span>
-      Curtiu a análise de{' '}
+      {dictionary.liked_review}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/${author.username}`}
       >
         <span>{author.username}</span>
       </Link>{' '}
-      sobre{' '}
+      <span className="lowercase">{dictionary.about}</span>{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={href}
@@ -217,20 +225,44 @@ export function WatchEpisodeActivity({
     additionalInfo: { episodes, title, tmdbId },
   } = activity
 
-  const { language } = useLanguage()
-
-  const href = `/${language}/TV_SHOW/${tmdbId}`
+  const { language, dictionary } = useLanguage()
+  const href = `/${language}/tv-series/${tmdbId}`
 
   return (
     <span>
-      Assistiu <span className="text-foreground/80">{episodes.length}</span>{' '}
-      {episodes.length > 1 ? 'episódios' : 'episódio'} de{' '}
+      {dictionary.marked}{' '}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="text-foreground/80">{episodes.length} </span>
+          </TooltipTrigger>
+          <TooltipContent className="p-0 m-0">
+            <ScrollArea className="h-[200px]">
+              <ul className="p-2 text-xs">
+                {episodes.map(episode => (
+                  <li key={v4()} className="whitespace-nowrap">
+                    • S{episode.seasonNumber}, EP{episode.episodeNumber}
+                  </li>
+                ))}
+              </ul>
+            </ScrollArea>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <span className="lowercase">
+        {episodes.length > 1 ? dictionary.episodes : dictionary.episode}
+      </span>{' '}
+      {dictionary.from}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={href}
       >
         {title}
-      </Link>
+      </Link>{' '}
+      {dictionary.as}{' '}
+      <span className="text-foreground/80 font-medium">
+        {dictionary.watched}
+      </span>
     </span>
   )
 }
@@ -238,28 +270,28 @@ export function WatchEpisodeActivity({
 export function CreateReviewReplyActivity({
   activity,
 }: { activity: GetUserActivities200UserActivitiesItemAnyOfTwoone }) {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const {
     additionalInfo: {
-      review: { author, title, mediaType, tmdbId },
+      review: { author, title, mediaType, tmdbId, id },
     },
     activityType,
   } = activity
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`
+  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${id}`
 
   return (
     <span className="">
       {activityType === 'CREATE_REPLY'
-        ? 'Respondeu a análise de '
-        : 'Curtiu a resposta de '}
+        ? dictionary.replied_to_review
+        : dictionary.liked_reply}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/${author.username}`}
       >
         <span>{author.username}</span>
       </Link>{' '}
-      sobre{' '}
+      <span className="lowercase">{dictionary.about}</span>{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={href}

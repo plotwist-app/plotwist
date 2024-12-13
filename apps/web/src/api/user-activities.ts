@@ -5,20 +5,18 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useQuery,
-  useSuspenseQuery
+  useInfiniteQuery
 } from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
-  DefinedUseQueryResult,
+  DefinedUseInfiniteQueryResult,
+  InfiniteData,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
-  UseQueryOptions,
-  UseQueryResult,
-  UseSuspenseQueryOptions,
-  UseSuspenseQueryResult
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult
 } from '@tanstack/react-query'
 import type {
   GetUserActivities200,
@@ -53,8 +51,8 @@ export const getGetUserActivitiesQueryKey = (userId: string,
     }
 
     
-export const getGetUserActivitiesQueryOptions = <TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
+export const getGetUserActivitiesInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUserActivities>>>, TError = unknown>(userId: string,
+    params?: GetUserActivitiesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -69,16 +67,16 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetUserActivitiesQueryResult = NonNullable<Awaited<ReturnType<typeof getUserActivities>>>
-export type GetUserActivitiesQueryError = unknown
+export type GetUserActivitiesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUserActivities>>>
+export type GetUserActivitiesInfiniteQueryError = unknown
 
 
-export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
+export function useGetUserActivitiesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserActivities>>>, TError = unknown>(
  userId: string,
-    params: undefined |  GetUserActivitiesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>> & Pick<
+    params: undefined |  GetUserActivitiesParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserActivities>>,
           TError,
@@ -86,10 +84,10 @@ export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserAc
         > , 'initialData'
       >, }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserActivitiesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserActivities>>>, TError = unknown>(
  userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>> & Pick<
+    params?: GetUserActivitiesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserActivities>>,
           TError,
@@ -97,78 +95,22 @@ export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserAc
         > , 'initialData'
       >, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserActivitiesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserActivities>>>, TError = unknown>(
  userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
+    params?: GetUserActivitiesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetUserActivities<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
+export function useGetUserActivitiesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserActivities>>>, TError = unknown>(
  userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
+    params?: GetUserActivitiesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetUserActivitiesQueryOptions(userId,params,options)
+  const queryOptions = getGetUserActivitiesInfiniteQueryOptions(userId,params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const getGetUserActivitiesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetUserActivitiesQueryKey(userId,params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserActivities>>> = ({ signal }) => getUserActivities(userId,params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type GetUserActivitiesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserActivities>>>
-export type GetUserActivitiesSuspenseQueryError = unknown
-
-
-export function useGetUserActivitiesSuspense<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
- userId: string,
-    params: undefined |  GetUserActivitiesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserActivitiesSuspense<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
- userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserActivitiesSuspense<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
- userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useGetUserActivitiesSuspense<TData = Awaited<ReturnType<typeof getUserActivities>>, TError = unknown>(
- userId: string,
-    params?: GetUserActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivities>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getGetUserActivitiesSuspenseQueryOptions(userId,params,options)
-
-  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 
