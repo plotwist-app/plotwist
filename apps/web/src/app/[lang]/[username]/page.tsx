@@ -12,6 +12,7 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import {
   ChangeStatusActivity,
+  CreateAccountActivity,
   CreateReviewReplyActivity,
   FollowActivity,
   LikeReviewActivity,
@@ -107,6 +108,10 @@ export default function ActivityPage() {
 
             if (activityType === 'WATCH_EPISODE') {
               return <WatchEpisodeActivity activity={activity} />
+            }
+
+            if (activityType === 'CREATE_ACCOUNT') {
+              return <CreateAccountActivity />
             }
           }
 

@@ -1,11 +1,11 @@
 import type {
   GetUserActivities200UserActivitiesItemAnyOf,
-  GetUserActivities200UserActivitiesItemAnyOfOnefive,
-  GetUserActivities200UserActivitiesItemAnyOfOneone,
-  GetUserActivities200UserActivitiesItemAnyOfSix,
-  GetUserActivities200UserActivitiesItemAnyOfThreefour,
-  GetUserActivities200UserActivitiesItemAnyOfTwoeight,
-  GetUserActivities200UserActivitiesItemAnyOfTwoone,
+  GetUserActivities200UserActivitiesItemAnyOfFivetwo,
+  GetUserActivities200UserActivitiesItemAnyOfFourthree,
+  GetUserActivities200UserActivitiesItemAnyOfNine,
+  GetUserActivities200UserActivitiesItemAnyOfOneseven,
+  GetUserActivities200UserActivitiesItemAnyOfThreethree,
+  GetUserActivities200UserActivitiesItemAnyOfTwofour,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import {
@@ -29,7 +29,7 @@ import { useLayoutContext } from '../_context'
 export function ChangeStatusActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfThreefour
+  activity: GetUserActivities200UserActivitiesItemAnyOfFivetwo
 }) {
   const { language, dictionary } = useLanguage()
   const { username } = useLayoutContext()
@@ -92,7 +92,7 @@ export function ListItemActivity({
 export function ListActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOneone
+  activity: GetUserActivities200UserActivitiesItemAnyOfOneseven
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -118,7 +118,7 @@ export function ListActivity({
 export function ReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOnefive
+  activity: GetUserActivities200UserActivitiesItemAnyOfTwofour
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -148,7 +148,7 @@ export function ReviewActivity({
 export function FollowActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfSix
+  activity: GetUserActivities200UserActivitiesItemAnyOfNine
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -185,7 +185,7 @@ export function FollowActivity({
 export function LikeReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOnefive
+  activity: GetUserActivities200UserActivitiesItemAnyOfTwofour
 }) {
   const {
     additionalInfo: { title, mediaType, tmdbId, author },
@@ -219,7 +219,7 @@ export function LikeReviewActivity({
 export function WatchEpisodeActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfTwoeight
+  activity: GetUserActivities200UserActivitiesItemAnyOfFourthree
 }) {
   const {
     additionalInfo: { episodes, title, tmdbId },
@@ -269,7 +269,7 @@ export function WatchEpisodeActivity({
 
 export function CreateReviewReplyActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfTwoone }) {
+}: { activity: GetUserActivities200UserActivitiesItemAnyOfThreethree }) {
   const { language, dictionary } = useLanguage()
   const {
     additionalInfo: {
@@ -300,4 +300,10 @@ export function CreateReviewReplyActivity({
       </Link>
     </span>
   )
+}
+
+export function CreateAccountActivity() {
+  const { dictionary } = useLanguage()
+
+  return <div>{dictionary.joined_plotwist}</div>
 }
