@@ -73,7 +73,11 @@ export default async function Layout(props: UserPageProps) {
   const { socialLinks } = await getSocialLinks({ userId: user.id })
 
   return (
-    <LayoutProvider userId={user.id} avatarUrl={user.avatarUrl}>
+    <LayoutProvider
+      userId={user.id}
+      avatarUrl={user.avatarUrl}
+      username={user.username}
+    >
       <main className="pb-16 mx-auto max-w-6xl">
         <UserBanner user={user} />
 

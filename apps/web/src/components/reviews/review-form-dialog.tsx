@@ -8,7 +8,11 @@ import {
   usePutReviewById,
 } from '@/api/reviews'
 import { getGetUserEpisodesQueryKey } from '@/api/user-episodes'
-import { getGetUserItemQueryKey, usePutUserItem } from '@/api/user-items'
+import {
+  getGetUserItemQueryKey,
+  useGetUserItem,
+  usePutUserItem,
+} from '@/api/user-items'
 import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
@@ -77,6 +81,10 @@ export function ReviewFormDialog({
   const postReview = usePostReview()
   const putReview = usePutReviewById()
   const putUserItem = usePutUserItem()
+  const { data: userItem } = useGetUserItem(
+    { mediaType, tmdbId: String(tmdbId) },
+    { query: { select: data => data.userItem } }
+  )
 
   const form = useForm({
     resolver: zodResolver(reviewFormDialogSchema(dictionary)),
@@ -98,34 +106,36 @@ export function ReviewFormDialog({
 
     const query = {
       onSuccess: async () => {
-        await putUserItem.mutateAsync(
-          {
-            data: {
-              mediaType,
-              tmdbId: tmdbId,
-              status: 'WATCHED',
+        if (userItem?.status !== 'WATCHED') {
+          await putUserItem.mutateAsync(
+            {
+              data: {
+                mediaType,
+                tmdbId: tmdbId,
+                status: 'WATCHED',
+              },
             },
-          },
-          {
-            onSettled: async response => {
-              await APP_QUERY_CLIENT.setQueryData(
-                getGetUserItemQueryKey({
-                  mediaType,
-                  tmdbId: String(tmdbId),
-                }),
-                response
-              )
-
-              if (mediaType === 'TV_SHOW') {
-                await APP_QUERY_CLIENT.invalidateQueries({
-                  queryKey: getGetUserEpisodesQueryKey({
+            {
+              onSettled: async response => {
+                await APP_QUERY_CLIENT.setQueryData(
+                  getGetUserItemQueryKey({
+                    mediaType,
                     tmdbId: String(tmdbId),
                   }),
-                })
-              }
-            },
-          }
-        )
+                  response
+                )
+
+                if (mediaType === 'TV_SHOW') {
+                  await APP_QUERY_CLIENT.invalidateQueries({
+                    queryKey: getGetUserEpisodesQueryKey({
+                      tmdbId: String(tmdbId),
+                    }),
+                  })
+                }
+              },
+            }
+          )
+        }
 
         await APP_QUERY_CLIENT.invalidateQueries({
           queryKey: getGetReviewsQueryKey({
