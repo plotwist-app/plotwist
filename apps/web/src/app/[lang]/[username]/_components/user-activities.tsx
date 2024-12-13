@@ -129,7 +129,7 @@ export function ReviewActivity({
   const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${entityId}`
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex flex-col  gap-1 lg:flex-row lg:gap-2 lg:items-center">
       <span>
         {dictionary.user_reviewed}{' '}
         <Link
