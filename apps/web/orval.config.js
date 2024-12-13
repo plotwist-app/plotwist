@@ -23,6 +23,11 @@ module.exports = {
             query: {
               useInfinite: true,
             }
+          },
+          getUserActivities: {
+            query: {
+              useInfinite: true
+            }
           }
         }
       },

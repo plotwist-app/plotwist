@@ -61,7 +61,7 @@ export function ImagePickerCrop({
           },
           params: {
             folder: variant,
-            fileName: String(params.id),
+            fileName: params.id ? String(params.id) : undefined,
           },
         })
 
