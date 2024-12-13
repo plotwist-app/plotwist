@@ -3,8 +3,9 @@
 import type React from 'react'
 import { createContext, useContext } from 'react'
 
-interface LayoutContextProps {
+type LayoutContextProps = {
   userId: string
+  avatarUrl: string | null
 }
 
 const LayoutContext = createContext<LayoutContextProps | undefined>(undefined)
@@ -12,12 +13,12 @@ const LayoutContext = createContext<LayoutContextProps | undefined>(undefined)
 export const LayoutProvider = ({
   children,
   userId,
+  avatarUrl,
 }: {
   children: React.ReactNode
-  userId: string
-}) => {
+} & LayoutContextProps) => {
   return (
-    <LayoutContext.Provider value={{ userId }}>
+    <LayoutContext.Provider value={{ userId, avatarUrl }}>
       {children}
     </LayoutContext.Provider>
   )

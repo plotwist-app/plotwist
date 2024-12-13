@@ -4,6 +4,308 @@
  * Plotwist
  * OpenAPI spec version: 0.1.0
  */
+export type GetUserActivities200 = {
+  userActivities: GetUserActivities200UserActivitiesItem[];
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfTwosixEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfTwosixEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfTwosixEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfTwosixEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwosixAdditionalInfo = {
+  mediaType: string;
+  status: string;
+  tmdbId: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwosixActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfTwosixActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfTwosixActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfTwosixActivityType = {
+  CHANGE_STATUS: 'CHANGE_STATUS',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwosix = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfTwosixActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfTwosixAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfTwosixEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+export type GetUserActivities200UserActivitiesItem = GetUserActivities200UserActivitiesItemAnyOf | GetUserActivities200UserActivitiesItemAnyOfFive | GetUserActivities200UserActivitiesItemAnyOfNine | GetUserActivities200UserActivitiesItemAnyOfOnethree | GetUserActivities200UserActivitiesItemAnyOfOneseven | GetUserActivities200UserActivitiesItemAnyOfTwoone | GetUserActivities200UserActivitiesItemAnyOfTwosix;
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfTwooneEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfTwooneEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfTwooneEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfTwooneEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwooneAdditionalInfoEpisodesItem = { [key: string]: unknown };
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwooneAdditionalInfo = {
+  episodes: GetUserActivities200UserActivitiesItemAnyOfTwooneAdditionalInfoEpisodesItem[];
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwooneActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfTwooneActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfTwooneActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfTwooneActivityType = {
+  WATCH_EPISODE: 'WATCH_EPISODE',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfTwoone = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfTwooneActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfTwooneAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfTwooneEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfOnesevenEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfOnesevenEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfOnesevenEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfOnesevenEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfOnesevenAdditionalInfo = {
+  id: string;
+  reply: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfOnesevenActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfOnesevenActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfOnesevenActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfOnesevenActivityType = {
+  LIKE_REPLY: 'LIKE_REPLY',
+  CREATE_REPLY: 'CREATE_REPLY',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfOneseven = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfOnesevenActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfOnesevenAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfOnesevenEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfOnethreeEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfOnethreeEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfOnethreeEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfOnethreeEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfOnethreeAdditionalInfo = {
+  id: string;
+  mediaType: string;
+  rating: number;
+  review: string;
+  tmdbId: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfOnethreeActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfOnethreeActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfOnethreeActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfOnethreeActivityType = {
+  LIKE_REVIEW: 'LIKE_REVIEW',
+  CREATE_REVIEW: 'CREATE_REVIEW',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfOnethree = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfOnethreeActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfOnethreeAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfOnethreeEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfNineEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfNineEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfNineEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfNineEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfNineAdditionalInfo = {
+  id: string;
+  title: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfNineActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfNineActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfNineActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfNineActivityType = {
+  CREATE_LIST: 'CREATE_LIST',
+  DELETE_LIST: 'DELETE_LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfNine = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfNineActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfNineAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfNineEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfFiveEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfFiveEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfFiveEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfFiveEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfFiveAdditionalInfo = {
+  /** @nullable */
+  bannerUrl: string | null;
+  id: string;
+  username: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfFiveActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfFiveActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfFiveActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfFiveActivityType = {
+  FOLLOW_USER: 'FOLLOW_USER',
+  UNFOLLOW_USER: 'UNFOLLOW_USER',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfFive = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfFiveActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfFiveAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfFiveEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetUserActivities200UserActivitiesItemAnyOfEntityType = typeof GetUserActivities200UserActivitiesItemAnyOfEntityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfEntityType] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfEntityType = {
+  REVIEW: 'REVIEW',
+  REPLY: 'REPLY',
+  LIST: 'LIST',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOfAdditionalInfo = {
+  /** @nullable */
+  listId: string | null;
+  /** @nullable */
+  listTitle: string | null;
+  mediaType: string;
+  tmdbId: string;
+};
+
+export type GetUserActivities200UserActivitiesItemAnyOfActivityType = typeof GetUserActivities200UserActivitiesItemAnyOfActivityType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfActivityType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetUserActivities200UserActivitiesItemAnyOfActivityType = {
+  ADD_ITEM: 'ADD_ITEM',
+  DELETE_ITEM: 'DELETE_ITEM',
+} as const;
+
+export type GetUserActivities200UserActivitiesItemAnyOf = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: string | null;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfEntityType;
+  id: string;
+  /** @nullable */
+  metadata: string | null;
+  userId: string;
+};
+
 export type GetFollowers200FollowersItemSubscriptionType = typeof GetFollowers200FollowersItemSubscriptionType[keyof typeof GetFollowers200FollowersItemSubscriptionType];
 
 
@@ -105,6 +407,10 @@ export type GetUserIdItemsStatus200 = {
   userItems: GetUserIdItemsStatus200UserItemsItem[];
 };
 
+export type GetUserIdBestReviews200 = {
+  bestReviews: GetUserIdBestReviews200BestReviewsItem[];
+};
+
 export type GetUserIdBestReviews200BestReviewsItemMediaType = typeof GetUserIdBestReviews200BestReviewsItemMediaType[keyof typeof GetUserIdBestReviews200BestReviewsItemMediaType];
 
 
@@ -147,10 +453,6 @@ export type GetUserIdBestReviews200BestReviewsItem = {
   title: string;
   tmdbId: number;
   userId: string;
-};
-
-export type GetUserIdBestReviews200 = {
-  bestReviews: GetUserIdBestReviews200BestReviewsItem[];
 };
 
 export type GetUserIdBestReviewsLanguage = typeof GetUserIdBestReviewsLanguage[keyof typeof GetUserIdBestReviewsLanguage];
@@ -626,6 +928,10 @@ userId: string;
 language?: GetUserItemsLanguage;
 };
 
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem;
+};
+
 export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
 
 
@@ -654,10 +960,6 @@ export type GetUserItem200UserItem = {
   status: GetUserItem200UserItemStatus;
   tmdbId: number;
   userId: string;
-};
-
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem;
 };
 
 export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
@@ -784,10 +1086,6 @@ export type GetListItemsByListIdParams = {
 language?: GetListItemsByListIdLanguage;
 };
 
-export type PostListItem201 = {
-  listItem: PostListItem201ListItem;
-};
-
 export type PostListItem201ListItemMediaType = typeof PostListItem201ListItemMediaType[keyof typeof PostListItem201ListItemMediaType];
 
 
@@ -805,6 +1103,10 @@ export type PostListItem201ListItem = {
   /** @nullable */
   position: number | null;
   tmdbId: number;
+};
+
+export type PostListItem201 = {
+  listItem: PostListItem201ListItem;
 };
 
 export type PostListItemBodyMediaType = typeof PostListItemBodyMediaType[keyof typeof PostListItemBodyMediaType];
@@ -1104,11 +1406,6 @@ orderBy?: GetReviewsOrderBy;
 interval?: GetReviewsInterval;
 };
 
-export type GetReview200 = {
-  /** @nullable */
-  review: GetReview200Review;
-};
-
 export type GetReview200ReviewMediaType = typeof GetReview200ReviewMediaType[keyof typeof GetReview200ReviewMediaType];
 
 
@@ -1150,6 +1447,11 @@ export type GetReview200Review = {
   tmdbId: number;
   userId: string;
 } | null;
+
+export type GetReview200 = {
+  /** @nullable */
+  review: GetReview200Review;
+};
 
 export type GetReviewMediaType = typeof GetReviewMediaType[keyof typeof GetReviewMediaType];
 
@@ -1311,6 +1613,10 @@ export type GetListById404 = {
   message: string;
 };
 
+export type GetListById200 = {
+  list: GetListById200List;
+};
+
 export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
 
 
@@ -1320,6 +1626,16 @@ export const GetListById200ListVisibility = {
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
 } as const;
+
+/**
+ * @nullable
+ */
+export type GetListById200ListUserLike = {
+  createdAt: string;
+  entityId: string;
+  id: string;
+  userId: string;
+} | null;
 
 export type GetListById200List = {
   /** @nullable */
@@ -1335,20 +1651,6 @@ export type GetListById200List = {
   userLike: GetListById200ListUserLike;
   visibility: GetListById200ListVisibility;
 };
-
-export type GetListById200 = {
-  list: GetListById200List;
-};
-
-/**
- * @nullable
- */
-export type GetListById200ListUserLike = {
-  createdAt: string;
-  entityId: string;
-  id: string;
-  userId: string;
-} | null;
 
 /**
  * List not found.

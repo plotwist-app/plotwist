@@ -36,7 +36,7 @@ import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { isBefore } from 'date-fns'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]
@@ -47,15 +47,22 @@ export function TvSeriesProgress({
   seasonsDetails,
   tmdbId,
 }: TvSeriesProgressProps) {
-  const { data: userEpisodes, queryKey } = useGetUserEpisodesSuspense({
+  const {
+    data: userEpisodes,
+    queryKey: userEpisodesQueryKey,
+    refetch: refetchUserEpisodes,
+  } = useGetUserEpisodesSuspense({
     tmdbId: String(tmdbId),
   })
 
-  const { data: userItemData, queryKey: userItemQueryKey } =
-    useGetUserItemSuspense({
-      mediaType: 'TV_SHOW',
-      tmdbId: String(tmdbId),
-    })
+  const {
+    data: userItemData,
+    queryKey: userItemQueryKey,
+    refetch: refetchUserItems,
+  } = useGetUserItemSuspense({
+    mediaType: 'TV_SHOW',
+    tmdbId: String(tmdbId),
+  })
 
   const putUserItem = usePutUserItem()
   const createUserEpisode = usePostUserEpisodes()
@@ -70,11 +77,23 @@ export function TvSeriesProgress({
     0
   )
 
-  const watchedCount = userEpisodes.length || 0
+  const watchedCount = userEpisodes?.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
+  async function invalidateUserEpisodes() {
+    const { data } = await refetchUserEpisodes()
+    APP_QUERY_CLIENT.setQueryData(userEpisodesQueryKey, data)
+
+    await updateUserItemStatus(data?.length || 0)
+  }
+
+  async function invalidateUserItem() {
+    const { data } = await refetchUserItems()
+    APP_QUERY_CLIENT.setQueryData(userItemQueryKey, data)
+  }
+
   function findUserEpisode(episode: Episode) {
-    return userEpisodes.find(userEpisode => {
+    return userEpisodes?.find(userEpisode => {
       return (
         userEpisode.seasonNumber === episode.season_number &&
         userEpisode.episodeNumber === episode.episode_number
@@ -83,85 +102,52 @@ export function TvSeriesProgress({
   }
 
   async function handleToggleSeason(episodes: Episode[]) {
-    const allWatched = episodes.every(episode => findUserEpisode(episode))
+    const isAllEpisodesWatched = episodes.every(episode =>
+      findUserEpisode(episode)
+    )
 
-    if (allWatched) {
-      const toDelete = episodes
-        .map(episode => {
-          const userEpisode = findUserEpisode(episode)
-          return userEpisode?.id
-        })
+    if (isAllEpisodesWatched) {
+      const episodesToDelete = episodes
+        .map(episode => findUserEpisode(episode)?.id)
         .filter(id => id !== undefined)
 
-      if (toDelete.length > 0) {
-        await deleteUserEpisode.mutateAsync(
-          {
-            data: { ids: toDelete },
-          },
-          {
-            onSettled: () => {
-              APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
-                return userEpisodes?.filter(
-                  userEpisode =>
-                    !episodes.some(
-                      episode =>
-                        userEpisode.seasonNumber === episode.season_number &&
-                        userEpisode.episodeNumber === episode.episode_number
-                    )
-                )
-              })
-            },
-          }
-        )
+      if (episodesToDelete.length > 0) {
+        await deleteUserEpisode.mutateAsync({
+          data: { ids: episodesToDelete },
+        })
       }
-
-      return
     }
 
-    const toCreate = episodes.filter(episode => !findUserEpisode(episode))
-    if (toCreate.length > 0) {
-      await createUserEpisode.mutateAsync(
-        {
-          data: toCreate.map(episode => ({
+    if (!isAllEpisodesWatched) {
+      const episodesToCreate = episodes.filter(
+        episode => !findUserEpisode(episode)
+      )
+
+      if (episodesToCreate.length > 0) {
+        await createUserEpisode.mutateAsync({
+          data: episodesToCreate.map(episode => ({
             episodeNumber: episode.episode_number,
             seasonNumber: episode.season_number,
             tmdbId: episode.show_id,
             runtime: episode.runtime,
           })),
-        },
-        {
-          onSuccess: response => {
-            if (response) {
-              APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
-                return [...(userEpisodes || []), ...response]
-              })
-            }
-          },
-        }
-      )
+        })
+      }
     }
+
+    await APP_QUERY_CLIENT.invalidateQueries({})
+    await invalidateUserEpisodes()
   }
 
   async function handleToggleEpisode(episode: Episode) {
     const userEpisode = findUserEpisode(episode)
 
     if (userEpisode) {
-      const { id } = userEpisode
-
-      return deleteUserEpisode.mutateAsync(
-        { data: { ids: [id] } },
-        {
-          onSettled: () => {
-            APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
-              return userEpisodes?.filter(userEpisode => userEpisode.id !== id)
-            })
-          },
-        }
-      )
+      await deleteUserEpisode.mutateAsync({ data: { ids: [userEpisode.id] } })
     }
 
-    await createUserEpisode.mutateAsync(
-      {
+    if (!userEpisode) {
+      await createUserEpisode.mutateAsync({
         data: [
           {
             episodeNumber: episode.episode_number,
@@ -170,35 +156,24 @@ export function TvSeriesProgress({
             runtime: episode.runtime,
           },
         ],
-      },
-      {
-        onSuccess: response => {
-          if (response) {
-            APP_QUERY_CLIENT.setQueryData(queryKey, userEpisodes => {
-              return [...(userEpisodes || []), ...response]
-            })
-          }
-        },
-      }
-    )
+      })
+    }
+
+    await invalidateUserEpisodes()
   }
 
-  const updateUserItemStatus = async () => {
-    if (watchedCount === totalEpisodes) {
-      if (userItemData?.userItem?.status !== 'WATCHED') {
+  const updateUserItemStatus = async (watchedEpisodes: number) => {
+    const watchedAllEpisodes = watchedEpisodes === totalEpisodes
+
+    if (watchedAllEpisodes) {
+      const statusIsWatched = userItemData?.userItem?.status !== 'WATCHED'
+
+      if (statusIsWatched) {
         await putUserItem.mutateAsync(
           { data: { mediaType: 'TV_SHOW', status: 'WATCHED', tmdbId } },
           {
-            onSuccess: () => {
-              APP_QUERY_CLIENT.setQueryData(userItemQueryKey, old => {
-                if (old?.userItem)
-                  return {
-                    userItem: {
-                      ...old.userItem,
-                      status: 'WATCHED' as const,
-                    },
-                  }
-              })
+            onSuccess: async () => {
+              await invalidateUserItem()
 
               confettiButtonRef.current?.click()
             },
@@ -207,37 +182,24 @@ export function TvSeriesProgress({
       }
     }
 
-    if (
-      watchedCount < totalEpisodes &&
+    const isWatching =
+      !watchedAllEpisodes &&
       watchedCount > 0 &&
       userItemData?.userItem?.status !== 'WATCHING'
-    ) {
+
+    if (isWatching) {
       await putUserItem.mutateAsync(
         {
           data: { mediaType: 'TV_SHOW', status: 'WATCHING', tmdbId },
         },
         {
-          onSuccess: () => {
-            APP_QUERY_CLIENT.setQueryData(userItemQueryKey, old => {
-              if (old?.userItem) {
-                return {
-                  userItem: {
-                    ...old.userItem,
-                    status: 'WATCHING' as const,
-                  },
-                }
-              }
-            })
+          onSuccess: async () => {
+            await invalidateUserItem()
           },
         }
       )
     }
   }
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    updateUserItemStatus()
-  }, [watchedCount, totalEpisodes])
 
   const content = (
     <div className="relative">
@@ -261,7 +223,7 @@ export function TvSeriesProgress({
           <Separator orientation="vertical" className="h-4" />
 
           <span className="text-sm text-muted-foreground ">
-            {watchedCount}/{totalEpisodes} {dictionary.episodes}
+            {userEpisodes?.length}/{totalEpisodes} {dictionary.episodes}
           </span>
         </div>
 
