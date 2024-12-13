@@ -44,6 +44,7 @@ export default function ActivityPage() {
             return await getUserActivities(userId, {
               pageSize: '20',
               cursor: pageParam as string,
+              language,
             })
           },
         },
