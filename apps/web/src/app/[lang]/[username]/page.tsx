@@ -147,7 +147,7 @@ export default function ActivityPage() {
         Array.from({ length: 20 }).map(_ => (
           <div key={v4()} className="flex items-center">
             <div className="flex items-center gap-1">
-              <Skeleton className="size-10 rounded-full" />
+              <Skeleton className="size-6 rounded-full" />
               <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2 " />
             </div>
 
@@ -158,11 +158,11 @@ export default function ActivityPage() {
       {hasNextPage && !(isFetchingNextPage || isLoading) && (
         <div className="flex items-center" ref={ref}>
           <div className="flex items-center gap-1">
-            <Skeleton className="size-10 rounded-full" />
+            <Skeleton className="size-6 rounded-full" />
             <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2 " />
           </div>
 
-          <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
+          <Skeleton className="w-[4ch] h-[2ex] ml-auto" />
         </div>
       )}
     </>
