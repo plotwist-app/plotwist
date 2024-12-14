@@ -3,7 +3,7 @@
 import { MoreVertical, Trash } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '@plotwist/ui/components/ui/button'
@@ -40,10 +40,7 @@ export const ListCard = ({ list }: ListCardProps) => {
 
   const [open, setOpen] = useState(false)
 
-  const canEdit = useMemo(() => {
-    const isOwner = user?.id === list.userId
-    return isOwner
-  }, [list.userId, user?.id])
+  const isOwner = user?.id === list.userId
 
   const href = `/${language}/lists/${list.id}`
 
@@ -70,12 +67,12 @@ export const ListCard = ({ list }: ListCardProps) => {
         </Link>
 
         <div className="space-y-1">
-          <div className="flex justify-between gap-1">
-            <Link href={href} className="hover:underline">
+          <div className="flex justify-between gap-2 items-start">
+            <Link href={href} className="hover:underline font-medium">
               {list.title}
             </Link>
 
-            {canEdit && (
+            {isOwner && (
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Button variant="outline" size="icon" className="h-6 w-6">

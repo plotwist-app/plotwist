@@ -1,11 +1,22 @@
-import { getUsersUsername } from '@/api/users'
-import { ProfileLists } from '../_components/profile-lists'
+import { Suspense } from 'react'
+import { UserLists } from '../_components/user-lists'
+import { ListCardSkeleton } from '@/components/list-card'
+import { v4 } from 'uuid'
 
 export default async function ListsPage(props: {
   params: Promise<{ username: string }>
 }) {
-  const params = await props.params
-  const { user } = await getUsersUsername(params.username)
-
-  return <ProfileLists userId={user.id} />
+  return (
+    <Suspense
+      fallback={
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <ListCardSkeleton key={v4()} />
+          ))}
+        </div>
+      }
+    >
+      <UserLists />
+    </Suspense>
+  )
 }

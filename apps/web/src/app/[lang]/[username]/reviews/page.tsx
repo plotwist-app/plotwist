@@ -1,11 +1,11 @@
-import { getUsersUsername } from '@/api/users'
+import { Suspense } from 'react'
 import { Reviews } from './_reviews'
+import { FullReviewSkeleton } from '@/components/full-review'
 
-export default async function ReviewsPage(props: {
-  params: Promise<{ username: string }>
-}) {
-  const params = await props.params
-  const { user } = await getUsersUsername(params.username)
-
-  return <Reviews userId={user.id} />
+export default async function ReviewsPage() {
+  return (
+    <Suspense fallback={<FullReviewSkeleton />}>
+      <Reviews />
+    </Suspense>
+  )
 }
