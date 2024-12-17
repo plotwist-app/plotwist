@@ -793,5 +793,7 @@
   "liked_reply": "Liked the reply of",
   "joined_plotwist": "Joined Plotwist 🎉",
   "dropped": "Dropped",
-  "collection": "Collection"
+  "collection": "Collection",
+  "dropped_add": "Added to the Dropped List.",
+  "dropped_removed": "Removed from the Dropped List."
 }

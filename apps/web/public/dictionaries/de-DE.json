@@ -798,5 +798,7 @@
   "liked_reply": "Mochte die Antwort von",
   "joined_plotwist": "Ist Plotwist beigetreten 🎉",
   "dropped": "Abgebrochen",
-  "collection": "Sammlung"
+  "collection": "Sammlung",
+  "dropped_add": "Zur Liste der Abgebrochenen hinzugefügt.",
+  "dropped_removed": "Von der Liste der Abgebrochenen entfernt."
 }

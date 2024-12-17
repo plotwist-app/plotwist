@@ -654,12 +654,12 @@
   "stats": "Estatísticas",
   "where_to_watch": "Onde assistir",
   "unavailable": "Indisponível",
-  "watchlist_added": "Adicionado à Watchlist!",
-  "watchlist_removed": "Removido da Watchlist!",
-  "watched_added": "Adicionado à Lista de Assistidos!",
-  "watched_removed": "Removido da Lista de Assistidos!",
-  "watching_added": "Adicionado à Lista de Assistindo!",
-  "watching_removed": "Removido da Lista de Assistindo!",
+  "watchlist_added": "Adicionado à Watchlist.",
+  "watchlist_removed": "Removido da Watchlist.",
+  "watched_added": "Adicionado à Lista de Assistidos.",
+  "watched_removed": "Removido da Lista de Assistidos.",
+  "watching_added": "Adicionado à Lista de Assistindo.",
+  "watching_removed": "Removido da Lista de Assistindo.",
   "contain_spoilers": "Contém spoilers",
   "no_lists_found": "Não encontramos nenhuma lista.",
   "organize": "Organizar",
@@ -793,5 +793,7 @@
   "liked_reply": "Curtiu a resposta de",
   "joined_plotwist": "Entrou para o Plotwist 🎉",
   "dropped": "Abandonado",
-  "collection": "Coleção"
+  "collection": "Coleção",
+  "dropped_add": "Adicionado à Lista de Abandonados.",
+  "dropped_removed": "Removido da Lista de Abandonados."
 }
