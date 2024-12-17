@@ -53,6 +53,7 @@ export function ChangeStatusActivity({
         {status === 'WATCHED' && dictionary.watched}
         {status === 'WATCHING' && dictionary.watching}
         {status === 'WATCHLIST' && dictionary.watchlist}
+        {status === 'DROPPED' && dictionary.dropped}
       </Link>
     </div>
   )
