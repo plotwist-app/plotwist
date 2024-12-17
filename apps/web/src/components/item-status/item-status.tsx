@@ -27,7 +27,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-import { Clock, Eye, Loader, Pen } from 'lucide-react'
+import { Clock, Eye, Loader, Pen, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 type ItemStatusProps = {
@@ -130,6 +130,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
         </>
       )}
 
+      {userItem?.status === 'DROPPED' && (
+        <>
+          <Trash className="mr-2" size={14} />
+          {dictionary.dropped}
+        </>
+      )}
+
       {!userItem && (
         <>
           <Pen className="mr-2" size={14} />
@@ -173,6 +180,14 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
             disabled={isDisabled}
           >
             {dictionary.watchlist}
+          </DropdownMenuCheckboxItem>
+
+          <DropdownMenuCheckboxItem
+            onCheckedChange={() => handleStatusChange('DROPPED')}
+            checked={userItem?.status === 'DROPPED'}
+            disabled={isDisabled}
+          >
+            {dictionary.dropped}
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -793,5 +793,7 @@
   "episode": "エピソード",
   "replied_to_review": "のレビューに返信しました",
   "liked_reply": "の返信が気に入りました",
-  "joined_plotwist": "Plotwistに参加しました 🎉"
+  "joined_plotwist": "Plotwistに参加しました 🎉",
+  "dropped": "放棄された",
+  "collection": "コレクション"
 }

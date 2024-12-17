@@ -14,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import {
   Activity,
   BarChart,
-  Check,
+  Clapperboard,
   Forward,
   List,
   MoreVertical,
@@ -70,8 +70,8 @@ export const UserTabs = ({ user }: UserTabsProps) => {
 
           <TabsTrigger value="collection" asChild>
             <Link href={`/${language}/${user.username}/collection`}>
-              <Check className="mr-1" size={12} />
-              Coleção
+              <Clapperboard className="mr-1" size={12} />
+              {dictionary.collection}
             </Link>
           </TabsTrigger>
 

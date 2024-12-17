@@ -66,9 +66,9 @@ export default async function Layout(props: UserPageProps) {
     redirect(`/${lang}/home`)
   }
 
-  if (headersURL.includes('stats') && user.subscriptionType === 'MEMBER') {
-    redirect(`/${lang}#pricing`)
-  }
+  // if (headersURL.includes('stats') && user.subscriptionType === 'MEMBER') {
+  //   redirect(`/${lang}#pricing`)
+  // }
 
   const { socialLinks } = await getSocialLinks({ userId: user.id })
 
