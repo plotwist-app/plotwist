@@ -12,7 +12,7 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 import { UserBanner } from './_components/user-banner'
-import { ProfileTabs } from './_components/profile-tabs'
+import { UserTabs } from './_components/users-tabs'
 import { SocialLinks } from './_components/social-links'
 import { UserAvatar } from './_components/user-avatar'
 import { UserDialog } from './_components/user-dialog'
@@ -142,9 +142,8 @@ export default async function Layout(props: UserPageProps) {
             </div>
           </aside>
 
-          <section className="space-y-4 col-span-2 mt-8">
-            <ProfileTabs user={user} />
-
+          <section className="space-y-2 col-span-2 mt-8">
+            <UserTabs user={user} />
             {children}
           </section>
         </section>

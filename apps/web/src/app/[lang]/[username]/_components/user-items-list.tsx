@@ -1,13 +1,11 @@
 'use client'
 
-import { useGetUserItems } from '@/api/user-items'
+import { useGetUserItemsSuspense } from '@/api/user-items'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Image from 'next/image'
 import Link from 'next/link'
-import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
 import type { UserItemsProps } from './user-items'
 import { UserItemsCommand } from './user-items-command'
@@ -15,18 +13,12 @@ import { UserItemsCommand } from './user-items-command'
 export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()
   const { userId } = useLayoutContext()
-  const { data, isLoading } = useGetUserItems({ language, status, userId })
+  const { data } = useGetUserItemsSuspense({
+    language,
+    status,
+    userId,
+  })
   const session = useSession()
-
-  if (isLoading || !data) {
-    return (
-      <>
-        {Array.from({ length: 20 }).map((_, index) => (
-          <Skeleton key={v4()} className="aspect-poster" />
-        ))}
-      </>
-    )
-  }
 
   const isOwner = session.user?.id === userId
 
