@@ -793,5 +793,9 @@
   "episode": "Episodio",
   "replied_to_review": "Respondió a la reseña de",
   "liked_reply": "Le gustó la respuesta de",
-  "joined_plotwist": "Se unió a Plotwist 🎉"
+  "joined_plotwist": "Se unió a Plotwist 🎉",
+  "dropped": "Abandonado",
+  "collection": "Colección",
+  "dropped_add": "Añadido a la Lista de Abandonados.",
+  "dropped_removed": "Eliminado de la Lista de Abandonados."
 }

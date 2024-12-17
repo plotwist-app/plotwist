@@ -47,6 +47,10 @@ export function UserItemsCommand({
       add: dictionary.watchlist_added,
       remove: dictionary.watchlist_removed,
     },
+    DROPPED: {
+      add: dictionary.dropped_add,
+      remove: dictionary.dropped_removed,
+    },
   }
 
   return (

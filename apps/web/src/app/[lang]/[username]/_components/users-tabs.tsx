@@ -14,11 +14,9 @@ import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import {
   Activity,
   BarChart,
-  Check,
-  Clock,
+  Clapperboard,
   Forward,
   List,
-  Loader,
   MoreVertical,
   Star,
   Trophy,
@@ -27,11 +25,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
-type ProfileTabsProps = {
+type UserTabsProps = {
   user: GetUsersUsername200User
 }
 
-export const ProfileTabs = ({ user }: ProfileTabsProps) => {
+export const UserTabs = ({ user }: UserTabsProps) => {
   const { dictionary, language } = useLanguage()
   const pathname = usePathname()
 
@@ -45,12 +43,6 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
 
   const HIDDEN_TABS = [
     {
-      label: dictionary.profile.reviews,
-      path: 'reviews',
-      icon: <Star className="mr-1" size={12} />,
-      disabled: false,
-    },
-    {
       label: dictionary.profile.recommendations,
       path: 'recommendations',
       icon: <Forward className="mr-1" size={12} />,
@@ -61,13 +53,6 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
       path: 'achievements',
       icon: <Trophy className="mr-1" size={12} />,
       disabled: true,
-      pro: true,
-    },
-    {
-      label: dictionary.stats,
-      path: 'stats',
-      icon: <BarChart className="mr-1" size={12} />,
-      disabled: user.subscriptionType !== 'PRO',
       pro: true,
     },
   ]
@@ -83,24 +68,10 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             </Link>
           </TabsTrigger>
 
-          <TabsTrigger value="watched" asChild>
-            <Link href={`/${language}/${user.username}/watched`}>
-              <Check className="mr-1" size={12} />
-              {dictionary.watched}
-            </Link>
-          </TabsTrigger>
-
-          <TabsTrigger value="watching" asChild>
-            <Link href={`/${language}/${user.username}/watching`}>
-              <Loader className="mr-1" size={12} />
-              {dictionary.watching}
-            </Link>
-          </TabsTrigger>
-
-          <TabsTrigger value="watchlist" asChild>
-            <Link href={`/${language}/${user.username}/watchlist`}>
-              <Clock className="mr-1" size={12} />
-              {dictionary.watchlist}
+          <TabsTrigger value="collection" asChild>
+            <Link href={`/${language}/${user.username}/collection`}>
+              <Clapperboard className="mr-1" size={12} />
+              {dictionary.collection}
             </Link>
           </TabsTrigger>
 
@@ -108,6 +79,30 @@ export const ProfileTabs = ({ user }: ProfileTabsProps) => {
             <Link href={`/${language}/${user.username}/lists`}>
               <List className="mr-1" size={12} />
               {dictionary.profile.lists}
+            </Link>
+          </TabsTrigger>
+
+          <TabsTrigger value="reviews" asChild>
+            <Link href={`/${language}/${user.username}/reviews`}>
+              <Star className="mr-1" size={12} />
+              {dictionary.profile.reviews}
+            </Link>
+          </TabsTrigger>
+
+          <TabsTrigger
+            value="stats"
+            asChild
+            className={cn(
+              user.subscriptionType === 'MEMBER' &&
+                'pointer-events-none opacity-50'
+            )}
+          >
+            <Link href={`/${language}/${user.username}/stats`}>
+              <BarChart className="mr-1" size={12} />
+              {dictionary.stats}
+              <div>
+                <ProBadge className="ml-1" />
+              </div>
             </Link>
           </TabsTrigger>
 

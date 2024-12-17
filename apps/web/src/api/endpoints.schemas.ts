@@ -604,6 +604,7 @@ export const GetUserIdItemsStatus200UserItemsItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type GetUserIdItemsStatus200UserItemsItem = {
@@ -1080,6 +1081,7 @@ export const GetUserItems200ItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type GetUserItems200ItemMediaType = typeof GetUserItems200ItemMediaType[keyof typeof GetUserItems200ItemMediaType];
@@ -1104,6 +1106,7 @@ export type GetUserItems200Item = {
   status: GetUserItems200ItemStatus;
   title: string;
   tmdbId: number;
+  updatedAt: string;
   userId: string;
 };
 
@@ -1129,6 +1132,7 @@ export const GetUserItemsStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type GetUserItemsParams = {
@@ -1145,6 +1149,7 @@ export const GetUserItem200UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type GetUserItem200UserItemMediaType = typeof GetUserItem200UserItemMediaType[keyof typeof GetUserItem200UserItemMediaType];
@@ -1164,6 +1169,7 @@ export type GetUserItem200UserItem = {
   position: number | null;
   status: GetUserItem200UserItemStatus;
   tmdbId: number;
+  updatedAt: string;
   userId: string;
 };
 
@@ -1197,6 +1203,7 @@ export const PutUserItem201UserItemStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type PutUserItem201UserItemMediaType = typeof PutUserItem201UserItemMediaType[keyof typeof PutUserItem201UserItemMediaType];
@@ -1216,6 +1223,7 @@ export type PutUserItem201UserItem = {
   position: number | null;
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
+  updatedAt: string;
   userId: string;
 };
 
@@ -1227,6 +1235,7 @@ export const PutUserItemBodyStatus = {
   WATCHLIST: 'WATCHLIST',
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
 } as const;
 
 export type PutUserItemBodyMediaType = typeof PutUserItemBodyMediaType[keyof typeof PutUserItemBodyMediaType];

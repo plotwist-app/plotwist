@@ -791,5 +791,9 @@
   "episode": "Episode",
   "replied_to_review": "Replied to the review of",
   "liked_reply": "Liked the reply of",
-  "joined_plotwist": "Joined Plotwist 🎉"
+  "joined_plotwist": "Joined Plotwist 🎉",
+  "dropped": "Dropped",
+  "collection": "Collection",
+  "dropped_add": "Added to the Dropped List.",
+  "dropped_removed": "Removed from the Dropped List."
 }

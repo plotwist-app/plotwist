@@ -29,10 +29,14 @@ const chartConfig = {
   },
   WATCHING: {
     label: 'WATCHING',
-    color: 'hsl(var(--chart-3))',
+    color: 'hsl(var(--chart-4))',
   },
   WATCHLIST: {
     label: 'WATCHLIST',
+    color: 'hsl(var(--chart-3))',
+  },
+  DROPPED: {
+    label: 'DROPPED',
     color: 'hsl(var(--chart-2))',
   },
 } satisfies ChartConfig
@@ -55,6 +59,7 @@ export function Status() {
     WATCHED: dictionary.watched,
     WATCHING: dictionary.watching,
     WATCHLIST: dictionary.watchlist,
+    DROPPED: dictionary.dropped,
   }
 
   return (
@@ -114,22 +119,28 @@ export function Status() {
 export function StatusSkeleton() {
   const data = [
     {
-      status: 'WATCHLIST',
+      status: 'WATCHED',
       count: 1,
       percentage: 33.33,
-      fill: 'hsl(var(--chart-2))',
+      fill: 'hsl(var(--chart-5))',
     },
     {
       status: 'WATCHING',
       count: 1,
       percentage: 33.33,
+      fill: 'hsl(var(--chart-4))',
+    },
+    {
+      status: 'WATCHLIST',
+      count: 1,
+      percentage: 33.33,
       fill: 'hsl(var(--chart-3))',
     },
     {
-      status: 'WATCHED',
+      status: 'DROPPED',
       count: 1,
       percentage: 33.33,
-      fill: 'hsl(var(--chart-5))',
+      fill: 'hsl(var(--chart-2))',
     },
   ] as const
 
@@ -146,6 +157,7 @@ export function StatusSkeleton() {
     WATCHED: dictionary.watched,
     WATCHING: dictionary.watching,
     WATCHLIST: dictionary.watchlist,
+    DROPPED: dictionary.dropped,
   }
 
   return (
