@@ -22,7 +22,7 @@ export default function CollectionPage() {
     {
       status: 'WATCHING',
       icon: Loader,
-      label: dictionary.watched,
+      label: dictionary.watching,
     },
     {
       status: 'WATCHLIST',
