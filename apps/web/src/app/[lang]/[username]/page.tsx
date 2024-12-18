@@ -42,7 +42,7 @@ export default function ActivityPage() {
           getNextPageParam: lastPage => lastPage.nextCursor,
           queryFn: async ({ pageParam }) => {
             return await getUserActivities(userId, {
-              pageSize: '10',
+              pageSize: '20',
               cursor: pageParam as string,
               language,
             })
