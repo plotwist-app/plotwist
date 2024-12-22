@@ -30,7 +30,7 @@ function ItemReviewContent() {
         <Star
           size={14}
           fill={data.review ? '#eab308' : 'none'} // #eab308 is the tailwind color for yellow-500
-          className={cn(data.review && 'text-yellow-500', 'mr-2')}
+          className={cn('mr-2', data.review && 'fill-amber-500 text-amber-500')}
         />
         {data.review ? dictionary.reviewed : dictionary.review}
       </Button>
