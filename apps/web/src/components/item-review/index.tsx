@@ -8,6 +8,7 @@ import { Star } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { Suspense } from 'react'
 import { ReviewFormDialog } from '../reviews/review-form-dialog'
+import { cn } from '@/lib/utils'
 
 function ItemReviewContent() {
   const pathname = usePathname()
@@ -26,7 +27,11 @@ function ItemReviewContent() {
       review={data.review}
     >
       <Button size="sm" variant="outline">
-        <Star size={14} className="mr-2" />
+        <Star
+          size={14}
+          fill={data.review ? '#eab308' : 'none'} // #eab308 is the tailwind color for yellow-500
+          className={cn(data.review && 'text-yellow-500', 'mr-2')}
+        />
         {data.review ? dictionary.reviewed : dictionary.review}
       </Button>
     </ReviewFormDialog>
