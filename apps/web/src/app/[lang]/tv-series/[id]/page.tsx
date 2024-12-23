@@ -65,6 +65,8 @@ export async function generateMetadata(
   }
 }
 
+export const dynamic = 'force-static'
+
 const TvSeriePage = async (props: TvSeriePageProps) => {
   const params = await props.params
   return <TvSerieDetails id={Number(params.id)} language={params.lang} />

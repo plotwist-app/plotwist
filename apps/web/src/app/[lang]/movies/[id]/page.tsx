@@ -67,6 +67,8 @@ export async function generateMetadata(
   }
 }
 
+export const dynamic = 'force-static'
+
 const MoviePage = async (props: MoviePageProps) => {
   const params = await props.params
   const { id, lang } = params
