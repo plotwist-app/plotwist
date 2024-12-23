@@ -19,6 +19,7 @@ import type {
   UseInfiniteQueryResult
 } from '@tanstack/react-query'
 import type {
+  GetUserActivities200,
   GetUserActivitiesParams
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
@@ -36,7 +37,7 @@ export const getUserActivities = (
 ) => {
       
       
-      return axiosInstance<void>(
+      return axiosInstance<GetUserActivities200>(
       {url: `/user/${userId}/activities`, method: 'GET',
         params, signal
     },

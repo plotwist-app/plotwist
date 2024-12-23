@@ -65,7 +65,7 @@ export default function ActivityPage() {
 
   return (
     <>
-      <div className="space-y-6">
+      <div className="space-y-4">
         {flatData?.map(activity => {
           const { activityType, id, createdAt } = activity
 
@@ -121,7 +121,7 @@ export default function ActivityPage() {
               key={id}
               className="flex gap-4 justify-between items-start lg:items-center"
             >
-              <div className="flex gap-2 text-sm text-muted-foreground items-start lg:items-center">
+              <div className="flex gap-2 text-xs text-muted-foreground items-start lg:items-center">
                 <Avatar className="size-6 border text-[12px] shadow">
                   {avatarUrl && (
                     <AvatarImage src={avatarUrl} className="object-cover" />
@@ -148,7 +148,7 @@ export default function ActivityPage() {
           <div key={v4()} className="flex items-center">
             <div className="flex items-center gap-1">
               <Skeleton className="size-6 rounded-full" />
-              <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2 " />
+              <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
             </div>
 
             <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
