@@ -1,11 +1,15 @@
 'use client'
 
-import { useGetUserItemsSuspense } from '@/api/user-items'
+import { getUserItems, useGetUserItemsInfinite } from '@/api/user-items'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
 import type { UserItemsProps } from './user-items'
 import { UserItemsCommand } from './user-items-command'
@@ -13,22 +17,47 @@ import { UserItemsCommand } from './user-items-command'
 export function UserItemsList({ status }: UserItemsProps) {
   const { language } = useLanguage()
   const { userId } = useLayoutContext()
-  const { data } = useGetUserItemsSuspense({
-    language,
-    status,
-    userId,
-  })
   const session = useSession()
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+  })
 
   const isOwner = session.user?.id === userId
 
+  const params = {
+    language,
+    status,
+    userId,
+  }
+
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } =
+    useGetUserItemsInfinite(params, {
+      query: {
+        initialPageParam: undefined,
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        queryFn: async ({ pageParam }) => {
+          return await getUserItems({
+            ...params,
+            pageSize: '20',
+            cursor: pageParam as string,
+          })
+        },
+      },
+    })
+
+  const flatData = data?.pages.flatMap(page => page.userItems) || []
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
   return (
     <>
-      {isOwner && (
-        <UserItemsCommand items={data} status={status} userId={userId} />
-      )}
+      {isOwner && <UserItemsCommand status={status} userId={userId} />}
 
-      {data?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
+      {flatData?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link
           className="border overflow-hidden border-dashed aspect-poster rounded-sm relative"
           key={id}
@@ -45,6 +74,17 @@ export function UserItemsList({ status }: UserItemsProps) {
           )}
         </Link>
       ))}
+
+      {(isFetchingNextPage || isLoading) &&
+        Array.from({ length: 5 }).map(_ => (
+          <Skeleton key={v4()} className="aspect-poster" />
+        ))}
+
+      {hasNextPage && !(isFetchingNextPage || isLoading) && (
+        <div ref={ref}>
+          <Skeleton key={v4()} />
+        </div>
+      )}
     </>
   )
 }

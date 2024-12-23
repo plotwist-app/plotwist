@@ -66,9 +66,9 @@ export default async function Layout(props: UserPageProps) {
     redirect(`/${lang}/home`)
   }
 
-  // if (headersURL.includes('stats') && user.subscriptionType === 'MEMBER') {
-  //   redirect(`/${lang}#pricing`)
-  // }
+  if (headersURL.includes('stats') && user.subscriptionType === 'MEMBER') {
+    redirect(`/${lang}#pricing`)
+  }
 
   const { socialLinks } = await getSocialLinks({ userId: user.id })
 
@@ -142,7 +142,7 @@ export default async function Layout(props: UserPageProps) {
             </div>
           </aside>
 
-          <section className="space-y-4 col-span-2 mt-8">
+          <section className="space-y-2 col-span-2 mt-8">
             <UserTabs user={user} />
             {children}
           </section>

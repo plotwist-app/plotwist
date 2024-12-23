@@ -28,6 +28,11 @@ module.exports = {
             query: {
               useInfinite: true
             }
+          },
+          getUserItems: {
+            query: {
+              useInfinite: true
+            }
           }
         }
       },

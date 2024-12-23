@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useSuspenseQuery
@@ -12,11 +13,15 @@ import {
 import type {
   DataTag,
   DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
+  InfiniteData,
   MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -25,9 +30,11 @@ import type {
   UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
+  GetAllUserItems200,
+  GetAllUserItemsParams,
   GetUserItem200,
   GetUserItemParams,
-  GetUserItems200Item,
+  GetUserItems200,
   GetUserItemsParams,
   PutUserItem201,
   PutUserItemBody
@@ -236,7 +243,7 @@ export const getUserItems = (
 ) => {
       
       
-      return axiosInstance<GetUserItems200Item[]>(
+      return axiosInstance<GetUserItems200>(
       {url: `/user/items`, method: 'GET',
         params, signal
     },
@@ -249,7 +256,7 @@ export const getGetUserItemsQueryKey = (params: GetUserItemsParams,) => {
     }
 
     
-export const getGetUserItemsQueryOptions = <TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(params: GetUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+export const getGetUserItemsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -264,15 +271,15 @@ const {query: queryOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetUserItemsQueryResult = NonNullable<Awaited<ReturnType<typeof getUserItems>>>
-export type GetUserItemsQueryError = unknown
+export type GetUserItemsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUserItems>>>
+export type GetUserItemsInfiniteQueryError = unknown
 
 
-export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
+export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
+ params: GetUserItemsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserItems>>,
           TError,
@@ -280,9 +287,9 @@ export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>
         > , 'initialData'
       >, }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
+ params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserItems>>,
           TError,
@@ -290,71 +297,20 @@ export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>
         > , 'initialData'
       >, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
+ params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetUserItems<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
+ params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetUserItemsQueryOptions(params,options)
+  const queryOptions = getGetUserItemsInfiniteQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const getGetUserItemsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(params: GetUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetUserItemsQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItems>>> = ({ signal }) => getUserItems(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type GetUserItemsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserItems>>>
-export type GetUserItemsSuspenseQueryError = unknown
-
-
-export function useGetUserItemsSuspense<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserItemsSuspense<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserItemsSuspense<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useGetUserItemsSuspense<TData = Awaited<ReturnType<typeof getUserItems>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getGetUserItemsSuspenseQueryOptions(params,options)
-
-  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 
@@ -415,4 +371,139 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get user items
+ */
+export const getAllUserItems = (
+    params: GetAllUserItemsParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetAllUserItems200>(
+      {url: `/user/items/all`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetAllUserItemsQueryKey = (params: GetAllUserItemsParams,) => {
+    return [`/user/items/all`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetAllUserItemsQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(params: GetAllUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllUserItemsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserItems>>> = ({ signal }) => getAllUserItems(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetAllUserItemsQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUserItems>>>
+export type GetAllUserItemsQueryError = unknown
+
+
+export function useGetAllUserItems<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserItems>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAllUserItems<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllUserItems>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAllUserItems<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetAllUserItems<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetAllUserItemsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetAllUserItemsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(params: GetAllUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllUserItemsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserItems>>> = ({ signal }) => getAllUserItems(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetAllUserItemsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUserItems>>>
+export type GetAllUserItemsSuspenseQueryError = unknown
+
+
+export function useGetAllUserItemsSuspense<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAllUserItemsSuspense<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAllUserItemsSuspense<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetAllUserItemsSuspense<TData = Awaited<ReturnType<typeof getAllUserItems>>, TError = unknown>(
+ params: GetAllUserItemsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAllUserItems>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetAllUserItemsSuspenseQueryOptions(params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
