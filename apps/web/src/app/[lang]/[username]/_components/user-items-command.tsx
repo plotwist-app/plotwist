@@ -1,9 +1,9 @@
 'use client'
 
-import type { GetUserItems200Item } from '@/api/endpoints.schemas'
 import {
   getGetUserItemsQueryKey,
   useDeleteUserItemId,
+  useGetAllUserItems,
   usePutUserItem,
 } from '@/api/user-items'
 import { ListCommand } from '@/components/list-command'
@@ -16,20 +16,19 @@ import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
 
 type UserItemsCommandProps = {
-  items: GetUserItems200Item[]
   userId: string
 } & Pick<UserItemsProps, 'status'>
 
-export function UserItemsCommand({
-  items,
-  status,
-  userId,
-}: UserItemsCommandProps) {
+export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
   const add = usePutUserItem()
   const remove = useDeleteUserItemId()
   const { refresh } = useRouter()
-
   const { language, dictionary } = useLanguage()
+
+  const { data, queryKey } = useGetAllUserItems({
+    status,
+    userId,
+  })
 
   const messages: Record<
     UserItemsCommandProps['status'],
@@ -53,6 +52,22 @@ export function UserItemsCommand({
     },
   }
 
+  const items = data?.userItems || []
+
+  const invalidateQueries = async () => {
+    await APP_QUERY_CLIENT.invalidateQueries({
+      queryKey: getGetUserItemsQueryKey({
+        language,
+        status,
+        userId,
+      }),
+    })
+
+    await APP_QUERY_CLIENT.invalidateQueries({
+      queryKey: queryKey,
+    })
+  }
+
   return (
     <ListCommand
       items={items}
@@ -61,14 +76,7 @@ export function UserItemsCommand({
           { data: { tmdbId, mediaType, status } },
           {
             onSuccess: async () => {
-              await APP_QUERY_CLIENT.invalidateQueries({
-                queryKey: getGetUserItemsQueryKey({
-                  language,
-                  status,
-                  userId,
-                }),
-              })
-
+              await invalidateQueries()
               toast.success(messages[status].add)
               refresh()
             },
@@ -80,14 +88,7 @@ export function UserItemsCommand({
           { id },
           {
             onSuccess: async () => {
-              await APP_QUERY_CLIENT.invalidateQueries({
-                queryKey: getGetUserItemsQueryKey({
-                  language,
-                  status,
-                  userId: items[0].userId,
-                }),
-              })
-
+              await invalidateQueries()
               toast.success(messages[status].remove)
               refresh()
             },
