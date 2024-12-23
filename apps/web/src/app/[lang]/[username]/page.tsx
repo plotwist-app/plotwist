@@ -117,11 +117,8 @@ export default function ActivityPage() {
           }
 
           return (
-            <div
-              key={id}
-              className="flex gap-4 justify-between items-start lg:items-center"
-            >
-              <div className="flex gap-2 text-xs text-muted-foreground items-start lg:items-center">
+            <div key={id} className="flex gap-4 justify-between items-center">
+              <div className="flex gap-2 text-xs text-muted-foreground items-center">
                 <Avatar className="size-6 border text-[12px] shadow">
                   {avatarUrl && (
                     <AvatarImage src={avatarUrl} className="object-cover" />
