@@ -48,7 +48,7 @@ export function ChangeStatusActivity({
       {dictionary.as}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
-        href={`/${language}/${username}/${status.toLowerCase()}`}
+        href={`/${language}/${username}/collection?status=${status}`}
       >
         {status === 'WATCHED' && dictionary.watched}
         {status === 'WATCHING' && dictionary.watching}

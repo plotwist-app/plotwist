@@ -66,6 +66,15 @@ export default function ActivityPage() {
   return (
     <>
       <div className="space-y-4">
+        <div key={v4()} className="flex items-center">
+          <div className="flex items-center">
+            <Skeleton className="size-6 rounded-full" />
+            <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
+          </div>
+
+          <Skeleton className="w-[5ch] h-[1.5ex] ml-auto" />
+        </div>
+
         {flatData?.map(activity => {
           const { activityType, id, createdAt } = activity
 
@@ -146,23 +155,23 @@ export default function ActivityPage() {
       {(isFetchingNextPage || isLoading) &&
         Array.from({ length: 20 }).map(_ => (
           <div key={v4()} className="flex items-center">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center">
               <Skeleton className="size-6 rounded-full" />
               <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
             </div>
 
-            <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
+            <Skeleton className="w-[5ch] h-[1.5ex] ml-auto" />
           </div>
         ))}
 
       {hasNextPage && !(isFetchingNextPage || isLoading) && (
         <div className="flex items-center" ref={ref}>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center">
             <Skeleton className="size-6 rounded-full" />
-            <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2 " />
+            <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
           </div>
 
-          <Skeleton className="w-[4ch] h-[2ex] ml-auto" />
+          <Skeleton className="w-[5ch] h-[1.5ex] ml-auto" />
         </div>
       )}
     </>
