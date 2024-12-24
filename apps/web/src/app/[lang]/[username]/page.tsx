@@ -10,7 +10,7 @@ import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import { v4 } from 'uuid'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { EditableUserActivity, UserActivity } from './_components/user-activity'
+import { UserActivity } from './_components/user-activity'
 import { useSession } from '@/context/session'
 
 export default function ActivityPage() {
@@ -53,13 +53,9 @@ export default function ActivityPage() {
   return (
     <>
       <div className="space-y-4">
-        {flatData?.map(activity =>
-          isOwner ? (
-            <EditableUserActivity key={activity.id} activity={activity} />
-          ) : (
-            <UserActivity key={activity.id} activity={activity} />
-          )
-        )}
+        {flatData?.map(activity => (
+          <UserActivity key={activity.id} activity={activity} />
+        ))}
 
         {(isFetchingNextPage || isLoading) &&
           Array.from({ length: 20 }).map(_ => (
