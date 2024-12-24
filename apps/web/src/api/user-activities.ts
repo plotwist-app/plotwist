@@ -5,18 +5,22 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useInfiniteQuery
+  useInfiniteQuery,
+  useMutation
 } from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseInfiniteQueryResult,
   InfiniteData,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
   UseInfiniteQueryOptions,
-  UseInfiniteQueryResult
+  UseInfiniteQueryResult,
+  UseMutationOptions,
+  UseMutationResult
 } from '@tanstack/react-query'
 import type {
   GetUserActivities200,
@@ -119,3 +123,56 @@ export function useGetUserActivitiesInfinite<TData = InfiniteData<Awaited<Return
 
 
 
+/**
+ * Delete user activity
+ */
+export const deleteUserActivity = (
+    activityId: string,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/user/activities/${activityId}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteUserActivityMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserActivity>>, TError,{activityId: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUserActivity>>, TError,{activityId: string}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserActivity>>, {activityId: string}> = (props) => {
+          const {activityId} = props ?? {};
+
+          return  deleteUserActivity(activityId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserActivityMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserActivity>>>
+    
+    export type DeleteUserActivityMutationError = unknown
+
+    export const useDeleteUserActivity = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserActivity>>, TError,{activityId: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUserActivity>>,
+        TError,
+        {activityId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteUserActivityMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

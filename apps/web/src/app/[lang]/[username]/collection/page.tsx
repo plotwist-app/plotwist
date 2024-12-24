@@ -41,7 +41,7 @@ export default function CollectionPage() {
       <div className="flex gap-1 md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         {options.map(({ status, label, icon: Icon }) => (
           <Badge
-            className="cursor-pointer"
+            className="cursor-pointer whitespace-nowrap"
             key={status}
             variant={status === statusQueryState ? 'default' : 'outline'}
             onClick={() => setStatusQueryState(status)}
