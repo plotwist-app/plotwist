@@ -29,7 +29,7 @@ function ItemReviewContent() {
       <Button size="sm" variant="outline">
         <Star
           size={14}
-          className={cn('mr-2', data.review && 'fill-amber-500 text-amber-500')}
+          className={cn('mr-2', data.review && 'fill-amber-400 text-amber-400')}
         />
         {data.review ? dictionary.reviewed : dictionary.review}
       </Button>
