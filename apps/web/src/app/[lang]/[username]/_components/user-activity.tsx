@@ -12,7 +12,7 @@ import {
   ReviewActivity,
   WatchEpisodeActivity,
 } from './user-activities'
-import { formatDistanceToNowStrict } from 'date-fns'
+import { format, formatDistanceToNowStrict } from 'date-fns'
 import { locale } from '@/utils/date/locale'
 import {
   Avatar,
@@ -32,6 +32,12 @@ import {
   useDeleteUserActivity,
 } from '@/api/user-activities'
 import { APP_QUERY_CLIENT } from '@/context/app'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 
 type UserActivityProps = {
   activity: GetUserActivities200UserActivitiesItem
@@ -151,12 +157,25 @@ export function EditableUserActivity({ activity }: UserActivityProps) {
         </div>
 
         <div className="flex gap-2 items-center">
-          <span className="text-muted-foreground text-xs whitespace-nowrap">
-            {formatDistanceToNowStrict(new Date(createdAt), {
-              addSuffix: false,
-              locale: locale[language],
-            })}
-          </span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="text-muted-foreground text-xs whitespace-nowrap">
+                  {formatDistanceToNowStrict(new Date(activity.createdAt), {
+                    addSuffix: false,
+                    locale: locale[language],
+                  })}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>
+                  {format(new Date(activity.createdAt), 'PPP', {
+                    locale: locale[language],
+                  })}
+                </span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
@@ -194,11 +213,7 @@ export function UserActivity({ activity }: UserActivityProps) {
   const { language } = useLanguage()
 
   return (
-    <div
-      className={cn(
-        'flex gap-4 justify-between items-center group z-10  transform group-hover:!-translate-x-8 transition bg-background'
-      )}
-    >
+    <div className={cn('flex gap-4 justify-between items-center')}>
       <div className="flex gap-2 text-sm lg:text-md text-muted-foreground items-center">
         <Avatar className="size-6 desktop:size-8 border text-[12px] shadow">
           {avatarUrl && (
@@ -211,12 +226,25 @@ export function UserActivity({ activity }: UserActivityProps) {
       </div>
 
       <div className="flex gap-2 items-center">
-        <span className="text-muted-foreground text-xs whitespace-nowrap">
-          {formatDistanceToNowStrict(new Date(activity.createdAt), {
-            addSuffix: false,
-            locale: locale[language],
-          })}
-        </span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <span className="text-muted-foreground text-xs whitespace-nowrap">
+                {formatDistanceToNowStrict(new Date(activity.createdAt), {
+                  addSuffix: false,
+                  locale: locale[language],
+                })}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>
+                {format(new Date(activity.createdAt), 'PPP', {
+                  locale: locale[language],
+                })}
+              </span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   )

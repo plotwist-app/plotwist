@@ -5,7 +5,6 @@ import {
   getUserActivities,
   useGetUserActivitiesInfinite,
 } from '@/api/user-activities'
-
 import { useLanguage } from '@/context/language'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
