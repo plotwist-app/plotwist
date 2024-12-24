@@ -136,9 +136,9 @@ export function EditableUserActivity({ activity }: UserActivityProps) {
     >
       <div
         className={cn(
-          'flex gap-4 justify-between items-center group z-10  bg-background',
+          'flex gap-4 justify-between items-center group z-10 bg-background transform transition',
           isSwipedLeft && '-translate-x-8',
-          isDesktop && 'transform group-hover:!-translate-x-8 transition'
+          isDesktop && 'group-hover:!-translate-x-8 transition'
         )}
         style={{
           transform: `translateX(${currentX}px)`,
@@ -181,7 +181,9 @@ export function EditableUserActivity({ activity }: UserActivityProps) {
 
       <div
         className={cn(
-          'text-sm flex absolute right-0 top-0 lg:top-1 -z-10 group-hover:z-10'
+          'text-sm flex absolute right-0 top-0 lg:top-1 -z-10 ',
+          isSwipedLeft && 'z-10',
+          isDesktop && 'lg: group-hover:z-10'
         )}
       >
         <Button
@@ -215,7 +217,7 @@ export function UserActivity({ activity }: UserActivityProps) {
   return (
     <div className={cn('flex gap-4 justify-between items-center')}>
       <div className="flex gap-2 text-sm lg:text-md text-muted-foreground items-center">
-        <Avatar className="size-6 desktop:size-8 border text-[12px] shadow">
+        <Avatar className="size-6 lg:size-8 border text-[12px] shadow">
           {avatarUrl && (
             <AvatarImage src={avatarUrl} className="object-cover" />
           )}
