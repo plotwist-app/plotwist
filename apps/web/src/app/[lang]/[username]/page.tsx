@@ -21,13 +21,19 @@ import {
   ReviewActivity,
   WatchEpisodeActivity,
 } from './_components/user-activities'
-import { formatDistanceToNowStrict } from 'date-fns'
+import { format, formatDistanceToNowStrict } from 'date-fns'
 import { useLanguage } from '@/context/language'
 import { locale } from '@/utils/date/locale'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import { v4 } from 'uuid'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
 
 export default function ActivityPage() {
   const { userId, avatarUrl, username } = useLayoutContext()
@@ -129,12 +135,25 @@ export default function ActivityPage() {
                 {getLabel()}
               </div>
 
-              <span className="text-muted-foreground text-xs whitespace-nowrap">
-                {formatDistanceToNowStrict(new Date(createdAt), {
-                  addSuffix: false,
-                  locale: locale[language],
-                })}
-              </span>
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span className="text-muted-foreground text-xs whitespace-nowrap">
+                      {formatDistanceToNowStrict(new Date(createdAt), {
+                        addSuffix: false,
+                        locale: locale[language],
+                      })}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>
+                      {format(new Date(createdAt), 'PPP', {
+                        locale: locale[language],
+                      })}
+                    </span>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           )
         })}
