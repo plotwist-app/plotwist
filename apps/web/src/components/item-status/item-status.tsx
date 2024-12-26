@@ -204,7 +204,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       >
         <DrawerTitle className="my-4">{dictionary.update_status}</DrawerTitle>
 
-        <div className="grid grid-cols-3 gap-2 px-4 mb-4">
+        <div className="grid grid-cols-2 gap-2 px-4 mb-4">
           <Button
             variant={userItem?.status === 'WATCHED' ? 'default' : 'outline'}
             onClick={() => handleStatusChange('WATCHED')}
@@ -227,6 +227,14 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
             disabled={isDisabled}
           >
             {dictionary.watchlist}
+          </Button>
+
+          <Button
+            variant={userItem?.status === 'DROPPED' ? 'default' : 'outline'}
+            onClick={() => handleStatusChange('DROPPED')}
+            disabled={isDisabled}
+          >
+            {dictionary.dropped}
           </Button>
         </div>
       </DrawerContent>
