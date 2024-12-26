@@ -23,7 +23,7 @@ export const buildQueryStringFromValues = (
   Object.entries(values).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
       if (Array.isArray(value)) {
-        if (value.length > 0) return parts.push(`${key}=${value.join(',')}`)
+        if (value.length > 0) return parts.push(`${key}=${value.join('|')}`)
       }
 
       Object.entries(value).forEach(([subKey, subValue]) => {
@@ -46,7 +46,7 @@ export const buildQueryStringFromValues = (
 export const getDefaultValues = (searchParams: ReadonlyURLSearchParams) => {
   const parseList = (param: string): number[] | undefined => {
     const value = searchParams.get(param)
-    return value ? value.split(',').map(Number) : undefined
+    return value ? value.split('|').map(Number) : undefined
   }
 
   const getDate = (param: string): Date | undefined => {
