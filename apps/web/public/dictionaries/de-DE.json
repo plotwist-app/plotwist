@@ -92,20 +92,13 @@
   "navigation": {
     "home": "Start",
     "discover": "Entdecken",
-    "discover_description": "Bereit für etwas Neues? Lassen Sie sich von uns mit Filmen und Serien überraschen, die Sie lieben werden.",
     "now_playing": "Jetzt im Kino",
-    "now_playing_description": "Bleiben Sie auf dem Laufenden über die Filme, die gerade die Kinoleinwände erobern.",
     "popular": "Beliebt",
-    "popular_description": "Sehen Sie, was angesagt ist! Dies sind die Filme und Serien, über die alle sprechen und die alle sehen.",
     "top_rated": "Bestbewertet",
-    "top_rated_description": "Entdecken Sie, was die Herzen und Köpfe von Publikum und Kritikern erobert hat.",
     "upcoming": "Demnächst",
-    "upcoming_description": "Seien Sie einen Schritt voraus und bleiben Sie informiert über die nächsten großen Hits, die bald auf den Bildschirmen erscheinen werden.",
     "tv_series_description": "Fesselnde Serien. Entdecken Sie neue Geschichten, unvergessliche Charaktere und Ihre nächsten Serienmarathons.",
     "airing_today": "Heute ausgestrahlt",
-    "airing_today_description": "Verpassen Sie nicht den Takt! Sehen Sie, welche Serien heute frische Episoden haben.",
     "on_the_air": "Auf Sendung",
-    "on_the_air_description": "Schalten Sie hier ein, um keine aktuellen Episoden der heißesten Serien des Moments zu verpassen.",
     "lists": "Listen",
     "lists_description": "Ihre Auswahl, Ihre Interessen. Erstellen und teilen Sie Listen Ihrer Lieblingsfilme und -serien mit der Community.",
     "animes_description": "Entdecken Sie epische Abenteuer und atemberaubende visuelle Darstellungen."
@@ -261,45 +254,45 @@
   "movie_pages": {
     "discover": {
       "title": "Entdecken",
-      "description": "Finden Sie Filme mit mehr als 30 Filtern und Sortieroptionen."
+      "description": "Entdecken Sie eine große Auswahl an Filmen mit personalisierten Filtern und Sortieroptionen."
     },
     "now_playing": {
       "title": "Jetzt im Kino",
-      "description": "Filme, die derzeit im Kino sind."
+      "description": "Entdecken Sie Filme, die derzeit in Kinos in Ihrer Nähe laufen."
     },
     "popular": {
       "title": "Beliebt",
-      "description": "Filme sortiert nach Beliebtheit."
+      "description": "Sehen Sie sich die Filme an, die das Publikum begeistern und die Beliebtheitslisten dominieren."
     },
     "top_rated": {
-      "title": "Top Bewertet",
-      "description": "Filme sortiert nach Bewertung."
+      "title": "Am besten bewertet",
+      "description": "Entdecken Sie die am höchsten bewerteten Filme mit den besten Kritiken von Publikum und Kritikern."
     },
     "upcoming": {
       "title": "Demnächst",
-      "description": "Filme, die bald erscheinen."
+      "description": "Bleiben Sie informiert über die am meisten erwarteten Filme, die bald erscheinen."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
-      "title": "Heute Ausgestrahlt",
-      "description": "Fernsehserien, die heute ausgestrahlt werden."
+      "title": "Heute ausgestrahlt",
+      "description": "Sehen Sie sich die TV-Serien an, die heute ausgestrahlt werden."
     },
     "on_the_air": {
-      "title": "Aktuell Ausgestrahlt",
-      "description": "Fernsehserien, die in den nächsten 7 Tagen ausgestrahlt werden."
+      "title": "Im Fernsehen",
+      "description": "Entdecken Sie TV-Serien, die in den nächsten 7 Tagen ausgestrahlt werden."
     },
     "popular": {
       "title": "Beliebt",
-      "description": "Fernsehserien, sortiert nach Beliebtheit."
+      "description": "Erkunden Sie die TV-Serien, die die Beliebtheitscharts dominieren und das Publikum begeistern."
     },
     "top_rated": {
       "title": "Am besten bewertet",
-      "description": "Fernsehserien, sortiert nach Bewertung."
+      "description": "Entdecken Sie die am meisten gefeierten TV-Serien mit den besten Bewertungen von Publikum und Kritikern."
     },
     "discover": {
       "title": "Entdecken",
-      "description": "Finde Serien mit Filtern und Sortieroptionen."
+      "description": "Erkunden Sie neue TV-Serien mit erweiterten Filtern, um genau das zu finden, was Sie lieben."
     }
   },
   "user_last_review": {

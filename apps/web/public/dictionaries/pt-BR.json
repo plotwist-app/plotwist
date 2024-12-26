@@ -257,45 +257,45 @@
   "movie_pages": {
     "discover": {
       "title": "Descubra",
-      "description": "Encontre filmes usando filtros e opções de ordenação."
+      "description": "Explore uma vasta seleção de filmes com filtros personalizados e opções de ordenação."
     },
     "now_playing": {
       "title": "Em exibição",
-      "description": "Filmes que estão atualmente nos cinemas."
+      "description": "Descubra os filmes que estão atualmente em cartaz nos cinemas próximos a você."
     },
     "popular": {
       "title": "Populares",
-      "description": "Filmes ordenados por popularidade."
+      "description": "Confira os filmes que estão conquistando o público e dominando as listas de popularidade."
     },
     "top_rated": {
       "title": "Mais bem avaliados",
-      "description": "Filmes ordenados por avaliação."
+      "description": "Explore os filmes mais aclamados, com as melhores avaliações do público e da crítica."
     },
     "upcoming": {
       "title": "Próximos lançamentos",
-      "description": "Filmes que serão lançados em breve."
+      "description": "Fique por dentro dos filmes mais aguardados que chegarão em breve às telas."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
       "title": "Transmitindo hoje",
-      "description": "Séries de TV transmitidas hoje."
+      "description": "Confira as séries de TV que estão sendo transmitidas hoje."
     },
     "on_the_air": {
       "title": "No ar",
-      "description": "Séries de TV que serão transmitidas nos próximos 7 dias."
+      "description": "Descubra as séries de TV programadas para transmissão nos próximos 7 dias."
     },
     "popular": {
       "title": "Populares",
-      "description": "Séries de TV ordenadas por popularidade."
+      "description": "Explore as séries de TV que estão dominando as listas de popularidade e conquistando o público."
     },
     "top_rated": {
       "title": "Mais bem avaliadas",
-      "description": "Séries de TV ordenadas por avaliação."
+      "description": "Descubra as séries de TV mais aclamadas com as melhores avaliações do público e da crítica."
     },
     "discover": {
       "title": "Descubra",
-      "description": "Descubra séries de tv utilizando filtros avançados."
+      "description": "Explore novas séries de TV utilizando filtros avançados para encontrar exatamente o que você gosta."
     }
   },
   "user_last_review": {

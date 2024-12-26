@@ -257,45 +257,45 @@
   "movie_pages": {
     "discover": {
       "title": "Discover",
-      "description": "Find movies using filters and sort options."
+      "description": "Explore a wide selection of movies with personalized filters and sorting options."
     },
     "now_playing": {
       "title": "Now Playing",
-      "description": "Movies that are currently in theatres."
+      "description": "Discover movies currently showing in theaters near you."
     },
     "popular": {
       "title": "Popular",
-      "description": "Movies ordered by popularity."
+      "description": "Check out the movies capturing audiences and dominating popularity charts."
     },
     "top_rated": {
       "title": "Top Rated",
-      "description": "Movies ordered by rating."
+      "description": "Explore the most acclaimed movies with the highest ratings from audiences and critics."
     },
     "upcoming": {
       "title": "Upcoming",
-      "description": "Movies that are being released soon."
+      "description": "Stay updated on the most anticipated movies hitting the screens soon."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
       "title": "Airing Today",
-      "description": "TV Series airing today."
+      "description": "Check out the TV series airing today."
     },
     "on_the_air": {
       "title": "On the Air",
-      "description": "TV Series that air in the next 7 days."
+      "description": "Discover the TV series scheduled to air in the next 7 days."
     },
     "popular": {
       "title": "Popular",
-      "description": "TV Series ordered by popularity."
+      "description": "Explore the TV series dominating popularity charts and capturing audiences."
     },
     "top_rated": {
       "title": "Top Rated",
-      "description": "TV Series ordered by rating."
+      "description": "Discover the most acclaimed TV series with the highest ratings from audiences and critics."
     },
     "discover": {
       "title": "Discover",
-      "description": "Find TV Series using filters and sort options."
+      "description": "Explore new TV series using advanced filters to find exactly what you love."
     }
   },
   "user_last_review": {

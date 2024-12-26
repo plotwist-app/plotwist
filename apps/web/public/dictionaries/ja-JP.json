@@ -258,46 +258,46 @@
   },
   "movie_pages": {
     "discover": {
-      "title": "発見",
-      "description": "30以上のフィルターとソートオプションを使用して映画を見つける。"
+      "title": "発見する",
+      "description": "パーソナライズされたフィルターと並び替えオプションで幅広い映画を探索しましょう。"
     },
     "now_playing": {
       "title": "上映中",
-      "description": "現在劇場にある映画。"
+      "description": "現在、近くの映画館で上映中の映画をチェックしましょう。"
     },
     "popular": {
       "title": "人気",
-      "description": "人気順に並べ替えられた映画。"
+      "description": "観客を魅了し、人気チャートを席巻している映画をご覧ください。"
     },
     "top_rated": {
       "title": "高評価",
-      "description": "評価順に並べ替えられた映画。"
+      "description": "観客や評論家から高い評価を得ている最も称賛されている映画を探索しましょう。"
     },
     "upcoming": {
-      "title": "公開予定",
-      "description": "近日公開の映画。"
+      "title": "近日公開",
+      "description": "まもなく公開予定の注目の映画をいち早くチェックしましょう。"
     }
   },
   "tv_serie_pages": {
     "airing_today": {
       "title": "今日放送",
-      "description": "今日放送されるテレビ番組。"
+      "description": "今日放送されるテレビシリーズをチェックしましょう。"
     },
     "on_the_air": {
       "title": "放送中",
-      "description": "次の7日間に放送されるテレビ番組。"
+      "description": "今後7日間に放送予定のテレビシリーズを発見しましょう。"
     },
     "popular": {
       "title": "人気",
-      "description": "人気順に並べられたテレビ番組。"
+      "description": "人気ランキングを席巻し、観客を魅了しているテレビシリーズを探索しましょう。"
     },
     "top_rated": {
       "title": "高評価",
-      "description": "評価順に並べられたテレビ番組。"
+      "description": "視聴者と批評家から高い評価を得ている最も評価の高いテレビシリーズを見つけましょう。"
     },
     "discover": {
-      "title": "発見",
-      "description": "フィルターや並べ替えオプションを使用してテレビ番組を探す。"
+      "title": "発見する",
+      "description": "高度なフィルターを使用して、好きなテレビシリーズを見つけましょう。"
     }
   },
   "user_last_review": {

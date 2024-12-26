@@ -260,45 +260,45 @@
   "movie_pages": {
     "discover": {
       "title": "Découvrir",
-      "description": "Trouvez des films en utilisant plus de 30 filtres et options de tri."
+      "description": "Explorez une large sélection de films avec des filtres personnalisés et des options de tri."
     },
     "now_playing": {
-      "title": "À l'affiche",
-      "description": "Films actuellement en salles."
+      "title": "En salle",
+      "description": "Découvrez les films actuellement à l'affiche dans les cinémas près de chez vous."
     },
     "popular": {
       "title": "Populaires",
-      "description": "Films classés par popularité."
+      "description": "Découvrez les films qui captivent le public et dominent les classements de popularité."
     },
     "top_rated": {
       "title": "Les mieux notés",
-      "description": "Films classés par évaluation."
+      "description": "Explorez les films les plus acclamés avec les meilleures critiques du public et des experts."
     },
     "upcoming": {
-      "title": "Prochainement",
-      "description": "Films à paraître bientôt."
+      "title": "À venir",
+      "description": "Restez informé des films les plus attendus qui arriveront bientôt sur les écrans."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
-      "title": "Diffusées Aujourd'hui",
-      "description": "Séries TV diffusées aujourd'hui."
+      "title": "Diffusé aujourd'hui",
+      "description": "Consultez les séries télévisées diffusées aujourd'hui."
     },
     "on_the_air": {
-      "title": "Actuellement Diffusées",
-      "description": "Séries TV diffusées dans les 7 prochains jours."
+      "title": "À l'antenne",
+      "description": "Découvrez les séries télévisées programmées pour être diffusées dans les 7 prochains jours."
     },
     "popular": {
       "title": "Populaires",
-      "description": "Séries TV classées par popularité."
+      "description": "Explorez les séries télévisées qui dominent les classements de popularité et captivent le public."
     },
     "top_rated": {
       "title": "Les mieux notées",
-      "description": "Séries TV classées par évaluation."
+      "description": "Découvrez les séries télévisées les plus acclamées avec les meilleures critiques du public et des experts."
     },
     "discover": {
       "title": "Découvrir",
-      "description": "Trouvez des séries télévisées en utilisant des filtres et des options de tri."
+      "description": "Explorez de nouvelles séries télévisées à l'aide de filtres avancés pour trouver exactement ce que vous aimez."
     }
   },
   "user_last_review": {

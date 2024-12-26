@@ -259,45 +259,45 @@
   "movie_pages": {
     "discover": {
       "title": "Descubrir",
-      "description": "Encuentra películas usando más de 30 filtros y opciones de orden."
+      "description": "Explora una amplia selección de películas con filtros personalizados y opciones de ordenación."
     },
     "now_playing": {
-      "title": "En Cines",
-      "description": "Películas que actualmente están en cines."
+      "title": "En cartelera",
+      "description": "Descubre las películas que actualmente se proyectan en los cines cerca de ti."
     },
     "popular": {
       "title": "Populares",
-      "description": "Películas ordenadas por popularidad."
+      "description": "Consulta las películas que están conquistando al público y dominando las listas de popularidad."
     },
     "top_rated": {
-      "title": "Más Valoradas",
-      "description": "Películas ordenadas por calificación."
+      "title": "Mejor valoradas",
+      "description": "Explora las películas más aclamadas con las mejores valoraciones del público y la crítica."
     },
     "upcoming": {
-      "title": "Próximos Estrenos",
-      "description": "Películas que se estrenarán pronto."
+      "title": "Próximos estrenos",
+      "description": "Mantente al tanto de las películas más esperadas que llegarán pronto a las pantallas."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
-      "title": "En Emisión Hoy",
-      "description": "Series de TV que se emiten hoy."
+      "title": "Transmitiendo hoy",
+      "description": "Consulta las series de TV que se están transmitiendo hoy."
     },
     "on_the_air": {
-      "title": "En Emisión",
-      "description": "Series de TV que se emitirán en los próximos 7 días."
+      "title": "En emisión",
+      "description": "Descubre las series de TV programadas para transmitirse en los próximos 7 días."
     },
     "popular": {
       "title": "Populares",
-      "description": "Series de TV ordenadas por popularidad."
+      "description": "Explora las series de TV que están dominando las listas de popularidad y cautivando al público."
     },
     "top_rated": {
-      "title": "Más valoradas",
-      "description": "Series de TV ordenadas por calificación."
+      "title": "Mejor valoradas",
+      "description": "Descubre las series de TV más aclamadas con las mejores valoraciones del público y la crítica."
     },
     "discover": {
       "title": "Descubrir",
-      "description": "Encuentra series de televisión usando filtros y opciones de ordenación."
+      "description": "Explora nuevas series de TV utilizando filtros avanzados para encontrar exactamente lo que te gusta."
     }
   },
   "user_last_review": {

@@ -259,45 +259,45 @@
   "movie_pages": {
     "discover": {
       "title": "Scopri",
-      "description": "Trova film utilizzando oltre 30 filtri e opzioni di ordinamento."
+      "description": "Esplora un'ampia selezione di film con filtri personalizzati e opzioni di ordinamento."
     },
     "now_playing": {
-      "title": "In Sala",
-      "description": "Film attualmente al cinema."
+      "title": "Ora in sala",
+      "description": "Scopri i film attualmente in programmazione nei cinema vicino a te."
     },
     "popular": {
       "title": "Popolari",
-      "description": "Film ordinati per popolarità."
+      "description": "Dai un'occhiata ai film che stanno conquistando il pubblico e dominando le classifiche di popolarità."
     },
     "top_rated": {
-      "title": "Più Votati",
-      "description": "Film ordinati per valutazione."
+      "title": "I più votati",
+      "description": "Esplora i film più acclamati con le valutazioni migliori da parte del pubblico e della critica."
     },
     "upcoming": {
-      "title": "Prossimamente",
-      "description": "Film in uscita a breve."
+      "title": "Prossime uscite",
+      "description": "Rimani aggiornato sui film più attesi in arrivo presto sul grande schermo."
     }
   },
   "tv_serie_pages": {
     "airing_today": {
-      "title": "In Onda Oggi",
-      "description": "Serie TV in onda oggi."
+      "title": "In onda oggi",
+      "description": "Scopri le serie TV in onda oggi."
     },
     "on_the_air": {
-      "title": "In Onda",
-      "description": "Serie TV che andranno in onda nei prossimi 7 giorni."
+      "title": "In onda",
+      "description": "Scopri le serie TV programmate per andare in onda nei prossimi 7 giorni."
     },
     "popular": {
       "title": "Popolari",
-      "description": "Serie TV ordinate per popolarità."
+      "description": "Esplora le serie TV che stanno dominando le classifiche di popolarità e catturando il pubblico."
     },
     "top_rated": {
       "title": "Più votate",
-      "description": "Serie TV ordinate per valutazione."
+      "description": "Scopri le serie TV più acclamate con le migliori valutazioni di pubblico e critica."
     },
     "discover": {
       "title": "Scopri",
-      "description": "Trova serie TV utilizzando filtri e opzioni di ordinamento."
+      "description": "Esplora nuove serie TV utilizzando filtri avanzati per trovare esattamente ciò che ami."
     }
   },
   "user_last_review": {

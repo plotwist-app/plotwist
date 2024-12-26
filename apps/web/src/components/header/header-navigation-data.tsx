@@ -37,31 +37,31 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
     items: [
       {
         label: dictionary.navigation.discover,
-        description: dictionary.navigation.discover_description,
+        description: dictionary.movie_pages.discover.description,
         href: '/movies/discover',
         icon: Sparkles,
       },
       {
         label: dictionary.navigation.now_playing,
-        description: dictionary.navigation.now_playing_description,
+        description: dictionary.movie_pages.now_playing.description,
         href: '/movies/now-playing',
         icon: Play,
       },
       {
         label: dictionary.navigation.popular,
-        description: dictionary.navigation.popular_description,
+        description: dictionary.movie_pages.popular.description,
         href: '/movies/popular',
         icon: Heart,
       },
       {
         label: dictionary.navigation.top_rated,
-        description: dictionary.navigation.top_rated_description,
+        description: dictionary.movie_pages.top_rated.description,
         href: '/movies/top-rated',
         icon: Star,
       },
       {
         label: dictionary.navigation.upcoming,
-        description: dictionary.navigation.upcoming_description,
+        description: dictionary.movie_pages.upcoming.description,
         href: '/movies/upcoming',
         icon: Calendar,
       },
@@ -74,31 +74,31 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
     items: [
       {
         label: dictionary.navigation.discover,
-        description: dictionary.navigation.discover_description,
+        description: dictionary.tv_serie_pages.discover.description,
         href: '/tv-series/discover',
         icon: Sparkles,
       },
       {
         label: dictionary.navigation.airing_today,
-        description: dictionary.navigation.airing_today_description,
+        description: dictionary.tv_serie_pages.airing_today.description,
         href: '/tv-series/airing-today',
         icon: Play,
       },
       {
         label: dictionary.navigation.on_the_air,
-        description: dictionary.navigation.on_the_air_description,
+        description: dictionary.tv_serie_pages.on_the_air.description,
         href: '/tv-series/on-the-air',
         icon: Tv,
       },
       {
         label: dictionary.navigation.popular,
-        description: dictionary.navigation.popular_description,
+        description: dictionary.tv_serie_pages.popular.description,
         href: '/tv-series/popular',
         icon: Heart,
       },
       {
         label: dictionary.navigation.top_rated,
-        description: dictionary.navigation.top_rated_description,
+        description: dictionary.tv_serie_pages.top_rated.description,
         href: '/tv-series/top-rated',
         icon: Star,
       },
