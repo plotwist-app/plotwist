@@ -1,7 +1,7 @@
 'use client'
 
 import { SUPPORTED_LANGUAGES } from 'languages'
-import { MoonStar, Sun } from 'lucide-react'
+import { MoonStar, Sun, Monitor } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import {
@@ -18,11 +18,11 @@ import { usePathname, useRouter } from 'next/navigation'
 import ReactCountryFlag from 'react-country-flag'
 
 export const HeaderNavigationDrawerConfigs = () => {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, theme, resolvedTheme } = useTheme()
   const { replace } = useRouter()
   const { language, dictionary } = useLanguage()
 
-  const themes = ['light', 'dark'] as const
+  const themes = ['light', 'system', 'dark'] as const
 
   const pathname = usePathname()
 
@@ -46,15 +46,17 @@ export const HeaderNavigationDrawerConfigs = () => {
         <span className="">{dictionary.theme}</span>
 
         <div className="-mr-1.5 flex rounded-full border">
-          {themes.map(i => {
-            const isActive = theme === i
+          {themes.map((i, index) => {
+            const isActive =
+              i === theme ||
+              (i === 'system' && theme === 'system' && resolvedTheme)
 
             return (
               <div
                 className={cn(
-                  'hover:t cursor-pointer rounded-full p-1  transition-all hover:text-foreground',
-                  isActive &&
-                    'border-x text-foreground first:border-r last:border-l'
+                  'cursor-pointer rounded-full p-1 transition-all hover:text-foreground border-transparent text-muted-foreground first:border-r last:border-l',
+                  isActive && 'border-border text-foreground',
+                  index === 1 && '!border-x'
                 )}
                 onClick={() => setTheme(i)}
                 onKeyDown={() => setTheme(i)}
@@ -62,8 +64,10 @@ export const HeaderNavigationDrawerConfigs = () => {
               >
                 {i === 'light' ? (
                   <Sun className="size-4" />
-                ) : (
+                ) : i === 'dark' ? (
                   <MoonStar className="size-4" />
+                ) : (
+                  <Monitor className="size-4" />
                 )}
               </div>
             )
