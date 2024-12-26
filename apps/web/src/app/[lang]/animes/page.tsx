@@ -6,10 +6,10 @@ import type { Metadata } from 'next'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
-  const { doramas, doramas_description } = await getDictionary(lang)
+  const { animes_page } = await getDictionary(lang)
 
-  const title = doramas
-  const description = doramas_description
+  const title = animes_page.title
+  const description = animes_page.description
 
   return {
     title,
