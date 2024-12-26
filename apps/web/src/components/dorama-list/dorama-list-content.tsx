@@ -22,7 +22,7 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
   })
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['animes', type],
+    queryKey: ['doramas', type, language],
     queryFn: async ({ pageParam }) => {
       const filters = {
         language,
@@ -50,7 +50,7 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
 
   if (!data)
     return (
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
+      <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
         {Array.from({ length: 20 }).map(_ => (
           <PosterCard.Skeleton key={v4()} />
         ))}
@@ -66,7 +66,7 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
     data.pages[data.pages.length - 1].total_pages
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
+    <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
       {flatData.map(item => {
         if (type === 'tv') {
           const tv = item as TvSerie
