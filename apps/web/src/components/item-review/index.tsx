@@ -20,11 +20,14 @@ function ItemReviewContent() {
   const { data } = useGetReviewSuspense({ mediaType, tmdbId: String(tmdbId) })
   const { dictionary } = useLanguage()
 
+  console.log({ data })
+
   return (
     <ReviewFormDialog
       tmdbId={tmdbId}
       mediaType={mediaType}
       review={data.review}
+      key={JSON.stringify(data.review)}
     >
       <Button size="sm" variant="outline">
         <Star

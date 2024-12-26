@@ -44,7 +44,7 @@ import {
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { type PropsWithChildren, useEffect, useState } from 'react'
+import { type PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -78,6 +78,8 @@ export function ReviewFormDialog({
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
 
+  console.log({ review })
+
   const postReview = usePostReview()
   const putReview = usePutReviewById()
   const putUserItem = usePutUserItem()
@@ -90,8 +92,8 @@ export function ReviewFormDialog({
     resolver: zodResolver(reviewFormDialogSchema(dictionary)),
 
     defaultValues: {
-      review: '',
-      rating: 0,
+      review: review?.review || '',
+      rating: review?.rating || 0,
       hasSpoilers: false,
     },
   })
@@ -149,12 +151,6 @@ export function ReviewFormDialog({
           queryKey: getGetReviewQueryKey({ mediaType, tmdbId: String(tmdbId) }),
         })
 
-        form.reset({
-          review: '',
-          rating: 0,
-          hasSpoilers: false,
-        })
-
         setOpen(false)
       },
     }
@@ -175,21 +171,12 @@ export function ReviewFormDialog({
       },
       query
     )
+    form.reset({
+      review: '',
+      rating: 0,
+      hasSpoilers: false,
+    })
   }
-
-  useEffect(() => {
-    if (review) {
-      form.setValue('hasSpoilers', review.hasSpoilers)
-      form.setValue('rating', review.rating)
-      form.setValue('review', review.review)
-
-      return
-    }
-
-    if (!review) {
-      form.reset()
-    }
-  }, [review, form])
 
   if (isDesktop) {
     return (
