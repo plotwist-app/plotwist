@@ -1,6 +1,6 @@
 'use client'
 
-import { type Movie, type TvSerie, tmdb } from '@/services/tmdb'
+import { tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -9,12 +9,9 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import Link from 'next/link'
 import { v4 } from 'uuid'
-import type { DoramaListType } from '.'
 import { PosterCard } from '../poster-card'
 
-type DoramaListContentProps = { type: DoramaListType }
-
-export const DoramaListContent = ({ type }: DoramaListContentProps) => {
+export const DoramaListContent = () => {
   const { language } = useLanguage()
 
   const { ref, inView } = useInView({
@@ -22,23 +19,18 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
   })
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['doramas', type, language],
+    queryKey: ['doramas', language],
     queryFn: async ({ pageParam }) => {
       const filters = {
         language,
         page: pageParam,
         filters: {
-          with_genres: '18,10749',
-          sort_by: 'vote_count.desc',
+          with_genres: '18',
           with_origin_country: 'KR',
         },
       } as const
 
-      if (type === 'tv') {
-        return await tmdb.tv.discover(filters)
-      }
-
-      return await tmdb.movies.discover(filters)
+      return await tmdb.tv.discover(filters)
     },
     initialPageParam: 1,
     getNextPageParam: lastPage => lastPage.page + 1,
@@ -57,9 +49,9 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
       </div>
     )
 
-  const flatData = data.pages.flatMap(
-    page => page.results as unknown as TvSerie | Movie
-  )
+  const flatData = data.pages
+    .flatMap(page => page.results)
+    .filter(result => result.backdrop_path)
 
   const isLastPage =
     data.pages[data.pages.length - 1].page >=
@@ -68,28 +60,12 @@ export const DoramaListContent = ({ type }: DoramaListContentProps) => {
   return (
     <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
       {flatData.map(item => {
-        if (type === 'tv') {
-          const tv = item as TvSerie
-
-          return (
-            <Link href={`/${language}/tv-series/${tv.id}`} key={tv.id}>
-              <PosterCard.Root>
-                <PosterCard.Image
-                  src={tmdbImage(tv.poster_path, 'w500')}
-                  alt={tv.name}
-                />
-              </PosterCard.Root>
-            </Link>
-          )
-        }
-
-        const movie = item as Movie
         return (
-          <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>
+          <Link href={`/${language}/movies/${item.id}`} key={item.id}>
             <PosterCard.Root>
               <PosterCard.Image
-                src={tmdbImage(movie.poster_path, 'w500')}
-                alt={movie.title}
+                src={tmdbImage(item.poster_path, 'w500')}
+                alt={item.name}
               />
             </PosterCard.Root>
           </Link>
