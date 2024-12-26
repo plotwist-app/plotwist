@@ -61,7 +61,7 @@ export const DoramaListContent = () => {
     <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
       {flatData.map(item => {
         return (
-          <Link href={`/${language}/movies/${item.id}`} key={item.id}>
+          <Link href={`/${language}/tv-series/${item.id}`} key={item.id}>
             <PosterCard.Root>
               <PosterCard.Image
                 src={tmdbImage(item.poster_path, 'w500')}
