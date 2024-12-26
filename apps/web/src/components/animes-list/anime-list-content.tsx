@@ -28,14 +28,14 @@ export const AnimeListContent = ({ type }: AnimeListContentProps) => {
         return await tmdb.tv.discover({
           language,
           page: pageParam,
-          filters: { with_keywords: '210024', sort_by: 'vote_count.desc' },
+          filters: { with_keywords: '210024' },
         })
       }
 
       return await tmdb.movies.discover({
         language,
         page: pageParam,
-        filters: { with_keywords: '210024', sort_by: 'vote_count.desc' },
+        filters: { with_keywords: '210024' },
       })
     },
     initialPageParam: 1,
