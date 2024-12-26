@@ -240,7 +240,7 @@ export function UserActivity({ activity }: UserActivityProps) {
             </TooltipTrigger>
             <TooltipContent>
               <span>
-                {format(new Date(activity.createdAt), 'PPP', {
+                {format(new Date(activity.createdAt), 'PPP p', {
                   locale: locale[language],
                 })}
               </span>
