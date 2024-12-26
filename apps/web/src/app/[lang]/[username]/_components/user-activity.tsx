@@ -230,7 +230,7 @@ export function UserActivity({ activity }: UserActivityProps) {
       <div className="flex gap-2 items-center">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="cursor-default">
               <span className="text-muted-foreground text-xs whitespace-nowrap">
                 {formatDistanceToNowStrict(new Date(activity.createdAt), {
                   addSuffix: false,
