@@ -44,7 +44,7 @@
   },
   "animes_page": {
     "title": "Anime",
-    "description": "Trova i tuoi anime preferiti"
+    "description": "Dai classici leggendari ai nuovi successi, trova gli anime che ami, organizza le tue liste e immergiti in storie incredibili."
   },
   "login_form": {
     "email_label": "E-mail",
@@ -797,5 +797,7 @@
   "dropped": "Abbandonato",
   "collection": "Collezione",
   "dropped_add": "Aggiunto alla lista degli abbandonati.",
-  "dropped_removed": "Rimosso dalla lista degli abbandonati."
+  "dropped_removed": "Rimosso dalla lista degli abbandonati.",
+  "doramas": "Doramas",
+  "doramas_description": "Organizza i tuoi dorama preferiti, scopri nuovi successi e condividi la tua passione con la comunità."
 }

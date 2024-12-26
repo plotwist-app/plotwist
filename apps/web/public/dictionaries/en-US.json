@@ -44,7 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Find your favorite animes"
+    "description": "From legendary classics to new hits, find the anime you love, organize your lists, and dive into incredible stories."
   },
   "login_form": {
     "email_label": "E-mail",
@@ -795,5 +795,7 @@
   "dropped": "Dropped",
   "collection": "Collection",
   "dropped_add": "Added to the Dropped List.",
-  "dropped_removed": "Removed from the Dropped List."
+  "dropped_removed": "Removed from the Dropped List.",
+  "doramas": "Doramas",
+  "doramas_description": "Organize your favorite doramas, discover new hits, and share your passion with the community."
 }

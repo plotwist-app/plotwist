@@ -1,7 +1,7 @@
-import { AnimeList } from '@/components/animes-list'
+import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Container } from '../_components/container'
-import type { PageProps } from '@/types/languages'
+import { DoramaList } from '@/components/dorama-list'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-export default async function DiscoverMoviesPage(props: PageProps) {
+export default async function (props: PageProps) {
   const { lang } = await props.params
   const dictionary = await getDictionary(lang)
 
@@ -34,14 +34,15 @@ export default async function DiscoverMoviesPage(props: PageProps) {
     <Container>
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-bold">{dictionary.animes_page.title}</h1>
+          <h1 className="text-2xl font-bold">{dictionary.doramas}</h1>
+
           <p className="text-muted-foreground">
-            {dictionary.animes_page.description}
+            {dictionary.doramas_description}
           </p>
         </div>
       </div>
 
-      <AnimeList />
+      <DoramaList />
     </Container>
   )
 }

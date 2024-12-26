@@ -44,7 +44,7 @@
   },
   "animes_page": {
     "title": "アニメ",
-    "description": "お気に入りのアニメを見つけよう"
+    "description": "伝説的なクラシックから新しいヒット作まで、あなたの好きなアニメを見つけて、リストを整理し、素晴らしい物語に没頭しましょう。"
   },
   "login_form": {
     "email_label": "Eメールアドレス",
@@ -797,5 +797,7 @@
   "dropped": "放棄された",
   "collection": "コレクション",
   "dropped_add": "放棄リストに追加されました。",
-  "dropped_removed": "放棄リストから削除されました。"
+  "dropped_removed": "放棄リストから削除されました。",
+  "doramas": "ドラマ",
+  "doramas_description": "お気に入りのドラマを整理し、新しいヒットを見つけて、コミュニティと情熱を共有しましょう。"
 }

@@ -44,7 +44,7 @@
   },
   "animes_page": {
     "title": "Animes",
-    "description": "Finde deine Lieblingsanimes"
+    "description": "Von legendären Klassikern bis hin zu neuen Erfolgen – finden Sie die Animes, die Sie lieben, organisieren Sie Ihre Listen und tauchen Sie in unglaubliche Geschichten ein."
   },
   "login_form": {
     "email_label": "E-Mail",
@@ -800,5 +800,7 @@
   "dropped": "Abgebrochen",
   "collection": "Sammlung",
   "dropped_add": "Zur Liste der Abgebrochenen hinzugefügt.",
-  "dropped_removed": "Von der Liste der Abgebrochenen entfernt."
+  "dropped_removed": "Von der Liste der Abgebrochenen entfernt.",
+  "doramas": "Doramas",
+  "doramas_description": "Organisieren Sie Ihre Lieblingsdoramas, entdecken Sie neue Erfolge und teilen Sie Ihre Leidenschaft mit der Community."
 }

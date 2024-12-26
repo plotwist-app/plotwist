@@ -5,11 +5,11 @@ import {
   Home,
   JapaneseYen,
   List,
-  type LucideIcon,
   Play,
   Sparkles,
   Star,
   Tv,
+  type LucideIcon,
 } from 'lucide-react'
 
 import type { Dictionary } from '@/utils/dictionaries'
@@ -65,12 +65,6 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
         href: '/movies/upcoming',
         icon: Calendar,
       },
-      {
-        label: dictionary.animes_page.title,
-        description: dictionary.navigation.animes_description,
-        href: '/animes?type=movies',
-        icon: JapaneseYen,
-      },
     ],
   },
   {
@@ -108,13 +102,18 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
         href: '/tv-series/top-rated',
         icon: Star,
       },
-      {
-        label: dictionary.animes_page.title,
-        description: dictionary.navigation.animes_description,
-        href: '/animes?type=tv',
-        icon: JapaneseYen,
-      },
     ],
+  },
+
+  {
+    label: dictionary.animes_page.title,
+    href: '/animes',
+    icon: JapaneseYen,
+  },
+  {
+    label: dictionary.doramas,
+    href: '/doramas',
+    icon: Heart,
   },
   {
     label: dictionary.navigation.lists,
