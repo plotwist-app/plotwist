@@ -80,7 +80,7 @@ export const MoviesListFilters = () => {
               </Button>
             </SheetTrigger>
 
-            <SheetContent className="space-y-4">
+            <SheetContent className="space-y-4 overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
               </SheetHeader>
