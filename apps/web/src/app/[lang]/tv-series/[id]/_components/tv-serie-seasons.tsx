@@ -82,10 +82,7 @@ export const TvSerieSeasons = ({
   language,
 }: TvSerieSeasonsProps) => {
   const filteredSeasons = seasons.filter(
-    season =>
-      season.season_number !== 0 &&
-      season.episode_count > 0 &&
-      season.vote_average !== 0
+    season => season.season_number !== 0 && season.episode_count > 0
   )
 
   return (
