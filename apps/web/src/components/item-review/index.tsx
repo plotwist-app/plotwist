@@ -20,8 +20,6 @@ function ItemReviewContent() {
   const { data } = useGetReviewSuspense({ mediaType, tmdbId: String(tmdbId) })
   const { dictionary } = useLanguage()
 
-  console.log({ data })
-
   return (
     <ReviewFormDialog
       tmdbId={tmdbId}
@@ -45,7 +43,7 @@ export function ItemReview() {
   if (!user) return
 
   return (
-    <Suspense fallback>
+    <Suspense>
       <ItemReviewContent />
     </Suspense>
   )

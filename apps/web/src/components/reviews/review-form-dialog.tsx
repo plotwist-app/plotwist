@@ -44,7 +44,7 @@ import {
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { type PropsWithChildren, useState } from 'react'
+import { type PropsWithChildren, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -77,8 +77,6 @@ export function ReviewFormDialog({
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
-
-  console.log({ review })
 
   const postReview = usePostReview()
   const putReview = usePutReviewById()
@@ -171,12 +169,29 @@ export function ReviewFormDialog({
       },
       query
     )
+
     form.reset({
       review: '',
       rating: 0,
       hasSpoilers: false,
     })
   }
+
+  const restoreScroll = () => {}
+
+  useEffect(() => {
+    if (!open) {
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+
+      return
+    }
+
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.width = '100%'
+  }, [open])
 
   if (isDesktop) {
     return (
