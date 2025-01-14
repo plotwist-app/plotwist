@@ -802,5 +802,8 @@
   "click_here_and_share_your_experience": "Cliquez ici et partagez votre expérience.",
   "save_preferences": "Enregistrer les préférences",
   "region": "Région",
-  "select_the_region": "Sélectionner la région"
+  "select_the_region": "Sélectionner la région",
+  "clear": "Effacer",
+  "watch_providers_label": "Services de streaming",
+  "select_the_watch_providers": "Sélectionnez les services de streaming"
 }

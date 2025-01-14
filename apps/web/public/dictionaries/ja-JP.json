@@ -800,5 +800,8 @@
   "click_here_and_share_your_experience": "ここをクリックして、体験を共有してください。",
   "save_preferences": "設定を保存",
   "region": "地域",
-  "select_the_region": "地域を選択"
+  "select_the_region": "地域を選択",
+  "clear": "クリア",
+  "watch_providers_label": "ストリーミングサービス",
+  "select_the_watch_providers": "ストリーミングサービスを選択"
 }

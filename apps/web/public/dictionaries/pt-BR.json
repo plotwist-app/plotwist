@@ -418,7 +418,8 @@
       "label": "Provedores de serviço",
       "placeholder": "Filtrar por provedores",
       "clear_filters": "Limpar filtros",
-      "no_results": "Nenhum resultado encontrado."
+      "no_results": "Nenhum resultado encontrado.",
+      "select_watch_providers": "Selecione os provedores de serviço"
     },
     "vote_average_field": {
       "label": "Pontuação média"
@@ -798,5 +799,8 @@
   "click_here_and_share_your_experience": "Clique aqui e compartilhe sua experiência.",
   "save_preferences": "Salvar preferências",
   "region": "Região",
-  "select_the_region": "Selecione a região"
+  "select_the_region": "Selecione a região",
+  "clear": "Limpar",
+  "watch_providers_label": "Serviços de streaming",
+  "select_the_watch_providers": "Selecione os serviços de streaming"
 }

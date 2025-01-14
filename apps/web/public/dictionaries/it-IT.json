@@ -800,5 +800,8 @@
   "click_here_and_share_your_experience": "Fai clic qui e condividi la tua esperienza.",
   "save_preferences": "Salva preferenze",
   "region": "Regione",
-  "select_the_region": "Seleziona la regione"
+  "select_the_region": "Seleziona la regione",
+  "clear": "Cancella",
+  "watch_providers_label": "Servizi di streaming",
+  "select_the_watch_providers": "Seleziona i servizi di streaming"
 }

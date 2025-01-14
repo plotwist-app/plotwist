@@ -18,8 +18,6 @@ import {
 } from '@plotwist/ui/components/ui/select'
 
 import { useLanguage } from '@/context/language'
-
-import type { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { tmdb } from '@/services/tmdb'
 
 type RegionOption = {
@@ -27,9 +25,13 @@ type RegionOption = {
   value: string
 }
 
+type WatchRegionFormValues = {
+  watch_region: string
+}
+
 export const WatchRegion = () => {
   const { language, dictionary } = useLanguage()
-  const { control } = useFormContext<MoviesListFiltersFormValues>()
+  const { control } = useFormContext<WatchRegionFormValues>()
 
   const { data: regions } = useQuery({
     queryKey: ['available-regions'],
@@ -54,12 +56,12 @@ export const WatchRegion = () => {
     <FormField
       control={control}
       name="watch_region"
-      render={({ field: { value } }) => (
+      render={({ field: { value, onChange } }) => (
         <FormItem>
           <FormLabel>{dictionary.region}</FormLabel>
 
           <FormControl>
-            <Select disabled value={value}>
+            <Select defaultValue={value} onValueChange={onChange}>
               <SelectTrigger>
                 <SelectValue placeholder={dictionary.select_the_region} />
               </SelectTrigger>

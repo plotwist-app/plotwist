@@ -31,8 +31,6 @@ import {
   PopoverTrigger,
 } from '@plotwist/ui/components/ui/popover'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-
-import type { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
@@ -43,7 +41,12 @@ type Option = {
 }
 
 type WatchProvidersProps = {
-  type: 'movie' | 'tv'
+  type?: 'movie' | 'tv'
+}
+
+type WatchProvidersFormValues = {
+  with_watch_providers: number[]
+  watch_region: string
 }
 
 export const WatchProviders = ({ type }: WatchProvidersProps) => {
@@ -51,16 +54,44 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { control, setValue, watch } =
-    useFormContext<MoviesListFiltersFormValues>()
+    useFormContext<WatchProvidersFormValues>()
   const watchRegion = watch('watch_region')
 
   const { data: watchProviders } = useQuery({
     queryKey: ['watch-providers', watchRegion],
-    queryFn: async () =>
-      await tmdb.watchProviders.list(type, {
-        language,
-        watch_region: watchRegion,
-      }),
+    queryFn: async () => {
+      if (type) {
+        return await tmdb.watchProviders.list(type, {
+          language,
+          watch_region: watchRegion,
+        })
+      }
+
+      const [movieProviders, tvProviders] = await Promise.all([
+        tmdb.watchProviders.list('movie', {
+          language,
+          watch_region: watchRegion,
+        }),
+        tmdb.watchProviders.list('tv', {
+          language,
+          watch_region: watchRegion,
+        }),
+      ])
+
+      const uniqueProvidersMap = new Map()
+
+      for (const provider of movieProviders) {
+        uniqueProvidersMap.set(provider.provider_id, provider)
+      }
+
+      for (const provider of tvProviders) {
+        if (!uniqueProvidersMap.has(provider.provider_id)) {
+          uniqueProvidersMap.set(provider.provider_id, provider)
+        }
+      }
+
+      return Array.from(uniqueProvidersMap.values())
+    },
   })
 
   const watchProvidersOptions: Option[] = useMemo(
@@ -138,9 +169,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
       name="with_watch_providers"
       render={() => (
         <FormItem>
-          <FormLabel>
-            {dictionary.movies_list_filters.watch_providers_field.label}
-          </FormLabel>
+          <FormLabel>{dictionary.watch_providers_label}</FormLabel>
 
           <FormControl>
             <Popover modal>
@@ -198,10 +227,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
                   ) : (
                     <>
                       <Eye className="mr-2 h-4 w-4" />
-                      {
-                        dictionary.movies_list_filters.watch_providers_field
-                          .placeholder
-                      }
+                      {dictionary.select_the_watch_providers}
                     </>
                   )}
                 </Button>
@@ -210,10 +236,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
               <PopoverContent className="max-h-none p-0" align="start">
                 <Command onKeyDown={handleKeyDown}>
                   <CommandInput
-                    placeholder={
-                      dictionary.movies_list_filters.watch_providers_field
-                        .placeholder
-                    }
+                    placeholder={dictionary.select_the_watch_providers}
                     ref={inputRef}
                   />
 
@@ -266,10 +289,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
                           onSelect={() => setValue('with_watch_providers', [])}
                           className="justify-center text-center"
                         >
-                          {
-                            dictionary.movies_list_filters.watch_providers_field
-                              .clear_filters
-                          }
+                          {dictionary.clear}
                         </CommandItem>
                       </CommandGroup>
                     </>
