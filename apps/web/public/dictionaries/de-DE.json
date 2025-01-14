@@ -358,10 +358,6 @@
       "clear_filters": "Filter löschen",
       "no_results": "Keine Ergebnisse gefunden."
     },
-    "watch_region_field": {
-      "label": "Region",
-      "placeholder": "Region auswählen"
-    },
     "vote_average_field": {
       "label": "Durchschnittliche Bewertung"
     },
@@ -797,5 +793,8 @@
   "doramas": "Doramas",
   "doramas_description": "Organisieren Sie Ihre Lieblingsdoramas, entdecken Sie neue Erfolge und teilen Sie Ihre Leidenschaft mit der Community.",
   "be_the_first_to_leave_your_opinion": "Seien Sie der Erste, der seine Meinung hinterlässt!",
-  "click_here_and_share_your_experience": "Klicken Sie hier und teilen Sie Ihre Erfahrung."
+  "click_here_and_share_your_experience": "Klicken Sie hier und teilen Sie Ihre Erfahrung.",
+  "save_preferences": "Vorlieben speichern",
+  "region": "Region",
+  "select_the_region": "Region auswählen"
 }

@@ -28,6 +28,7 @@ import {
 import { type PropsWithChildren, useState } from 'react'
 import { SocialLinksForm } from './social-links-form'
 import { UserForm } from './user-form'
+import { UserPreferences } from './user-preferences'
 
 type UserDialogProps = PropsWithChildren & {
   user: GetUsersUsername200User
@@ -50,6 +51,7 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
           <TabsTrigger value="social-links">
             {dictionary.social_links}
           </TabsTrigger>
+          <TabsTrigger value="preferences">Preferências</TabsTrigger>
           <TabsTrigger value="subscription" disabled>
             {dictionary.subscription}
           </TabsTrigger>
@@ -66,6 +68,10 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
           onClose={() => setOpen(false)}
         />
       </TabsContent>
+
+      <TabsContent value="preferences">
+        <UserPreferences />
+      </TabsContent>
     </Tabs>
   )
 
@@ -76,7 +82,7 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
 
-        <DialogContent>
+        <DialogContent className="max-w-xl">
           <DialogTitle className="hidden" />
 
           {content}

@@ -38,7 +38,9 @@ import {
   buildQueryStringFromValues,
   getDefaultValues,
 } from './movies-list-filters.utils'
-import { Filters, SortBy, WhereToWatch } from './tabs'
+import { Filters, SortBy } from './tabs'
+import { WatchRegion } from '../watch-region'
+import { WatchProviders } from '../watch-providers'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -110,7 +112,10 @@ export const MoviesListFilters = () => {
                   </TabsContent>
 
                   <TabsContent value="where-to-watch">
-                    <WhereToWatch />
+                    <div className="space-y-4">
+                      <WatchRegion />
+                      <WatchProviders type="movie" />
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
@@ -173,7 +178,10 @@ export const MoviesListFilters = () => {
                 </TabsContent>
 
                 <TabsContent value="where-to-watch">
-                  <WhereToWatch />
+                  <div className="space-y-4">
+                    <WatchRegion />
+                    <WatchProviders type="movie" />
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>

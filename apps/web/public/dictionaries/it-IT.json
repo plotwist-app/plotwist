@@ -363,10 +363,6 @@
       "clear_filters": "Cancella filtri",
       "no_results": "Nessun risultato trovato."
     },
-    "watch_region_field": {
-      "label": "Regione",
-      "placeholder": "Seleziona una regione"
-    },
     "vote_average_field": {
       "label": "Voto medio"
     },
@@ -801,5 +797,8 @@
   "doramas": "Doramas",
   "doramas_description": "Organizza i tuoi dorama preferiti, scopri nuovi successi e condividi la tua passione con la comunità.",
   "be_the_first_to_leave_your_opinion": "Sii il primo a lasciare la tua opinione!",
-  "click_here_and_share_your_experience": "Fai clic qui e condividi la tua esperienza."
+  "click_here_and_share_your_experience": "Fai clic qui e condividi la tua esperienza.",
+  "save_preferences": "Salva preferenze",
+  "region": "Regione",
+  "select_the_region": "Seleziona la regione"
 }

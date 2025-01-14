@@ -1,6 +1,5 @@
 'use client'
 
-import { tmdb } from '@/services/tmdb'
 import { useQuery } from '@tanstack/react-query'
 import { Eye, X } from 'lucide-react'
 import Image from 'next/image'
@@ -17,6 +16,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
   CommandSeparator,
 } from '@plotwist/ui/components/ui/command'
 import {
@@ -32,7 +32,8 @@ import {
 } from '@plotwist/ui/components/ui/popover'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 
-import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import type { MoviesListFiltersFormValues } from '@/components/movies-list-filters'
+import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type Option = {
@@ -41,18 +42,22 @@ type Option = {
   logo: string
 }
 
-export const WatchProvidersField = () => {
+type WatchProvidersProps = {
+  type: 'movie' | 'tv'
+}
+
+export const WatchProviders = ({ type }: WatchProvidersProps) => {
   const { language, dictionary } = useLanguage()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { control, setValue, watch } =
-    useFormContext<TvSeriesListFiltersFormValues>()
+    useFormContext<MoviesListFiltersFormValues>()
   const watchRegion = watch('watch_region')
 
   const { data: watchProviders } = useQuery({
     queryKey: ['watch-providers', watchRegion],
     queryFn: async () =>
-      await tmdb.watchProviders.list('tv', {
+      await tmdb.watchProviders.list(type, {
         language,
         watch_region: watchRegion,
       }),
@@ -220,30 +225,36 @@ export const WatchProvidersField = () => {
                       }
                     </CommandEmpty>
 
-                    <CommandGroup>
-                      {selectableWatchProviders.map(selectableWatchProvider => {
-                        return (
-                          <CommandItem
-                            key={selectableWatchProvider.value}
-                            className="flex cursor-pointer gap-2"
-                            onSelect={() =>
-                              handleSelect(selectableWatchProvider)
-                            }
-                          >
-                            <div className="relative h-5 w-5 overflow-hidden rounded-md">
-                              <Image
-                                src={tmdbImage(selectableWatchProvider.logo)}
-                                alt={selectableWatchProvider.label}
-                                fill
-                                quality={25}
-                              />
-                            </div>
+                    <CommandList>
+                      <CommandGroup>
+                        {selectableWatchProviders.map(
+                          selectableWatchProvider => {
+                            return (
+                              <CommandItem
+                                key={selectableWatchProvider.value}
+                                className="flex cursor-pointer gap-2"
+                                onSelect={() =>
+                                  handleSelect(selectableWatchProvider)
+                                }
+                              >
+                                <div className="relative h-5 w-5 overflow-hidden rounded-md">
+                                  <Image
+                                    src={tmdbImage(
+                                      selectableWatchProvider.logo
+                                    )}
+                                    alt={selectableWatchProvider.label}
+                                    fill
+                                    quality={25}
+                                  />
+                                </div>
 
-                            {selectableWatchProvider.label}
-                          </CommandItem>
-                        )
-                      })}
-                    </CommandGroup>
+                                {selectableWatchProvider.label}
+                              </CommandItem>
+                            )
+                          }
+                        )}
+                      </CommandGroup>
+                    </CommandList>
                   </ScrollArea>
 
                   {selectedWatchProviders.length > 0 && (

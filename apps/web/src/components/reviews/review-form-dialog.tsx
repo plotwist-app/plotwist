@@ -44,7 +44,7 @@ import {
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { type PropsWithChildren, useEffect, useState } from 'react'
+import { type PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -137,17 +137,21 @@ export function ReviewFormDialog({
           )
         }
 
-        await APP_QUERY_CLIENT.invalidateQueries({
-          queryKey: getGetReviewsQueryKey({
-            tmdbId: String(tmdbId),
-            mediaType,
-            orderBy: 'createdAt',
-          }),
-        })
-
-        await APP_QUERY_CLIENT.invalidateQueries({
-          queryKey: getGetReviewQueryKey({ mediaType, tmdbId: String(tmdbId) }),
-        })
+        await Promise.all(
+          [
+            getGetReviewQueryKey({ mediaType, tmdbId: String(tmdbId) }),
+            getGetReviewsQueryKey({
+              tmdbId: String(tmdbId),
+              mediaType,
+              orderBy: 'createdAt',
+            }),
+          ].map(
+            async queryKey =>
+              await APP_QUERY_CLIENT.invalidateQueries({
+                queryKey: queryKey,
+              })
+          )
+        )
 
         setOpen(false)
       },
@@ -176,22 +180,6 @@ export function ReviewFormDialog({
       hasSpoilers: false,
     })
   }
-
-  const restoreScroll = () => {}
-
-  useEffect(() => {
-    if (!open) {
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.width = ''
-
-      return
-    }
-
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.width = '100%'
-  }, [open])
 
   if (isDesktop) {
     return (

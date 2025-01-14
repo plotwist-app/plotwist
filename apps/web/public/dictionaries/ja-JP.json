@@ -363,10 +363,6 @@
       "clear_filters": "フィルターをクリア",
       "no_results": "結果が見つかりませんでした。"
     },
-    "watch_region_field": {
-      "label": "地域",
-      "placeholder": "地域を選択"
-    },
     "vote_average_field": {
       "label": "平均スコア"
     },
@@ -801,5 +797,8 @@
   "doramas": "ドラマ",
   "doramas_description": "お気に入りのドラマを整理し、新しいヒットを見つけて、コミュニティと情熱を共有しましょう。",
   "be_the_first_to_leave_your_opinion": "最初に意見を残してください！",
-  "click_here_and_share_your_experience": "ここをクリックして、体験を共有してください。"
+  "click_here_and_share_your_experience": "ここをクリックして、体験を共有してください。",
+  "save_preferences": "設定を保存",
+  "region": "地域",
+  "select_the_region": "地域を選択"
 }
