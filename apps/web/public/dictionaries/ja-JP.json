@@ -803,5 +803,6 @@
   "select_the_region": "地域を選択",
   "clear": "クリア",
   "watch_providers_label": "ストリーミングサービス",
-  "select_the_watch_providers": "ストリーミングサービスを選択"
+  "select_the_watch_providers": "ストリーミングサービスを選択",
+  "preferences_updated": "設定が正常に更新されました。"
 }

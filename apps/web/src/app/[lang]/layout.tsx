@@ -3,8 +3,8 @@ import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Toaster } from '@plotwist/ui/components/ui/sonner'
 
-import { AppWrapper } from '@/context/app'
 import { ListsContextProvider } from '@/context/lists'
+import { AppWrapper } from '@/context/app'
 
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'

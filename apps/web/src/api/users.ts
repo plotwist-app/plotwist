@@ -29,6 +29,7 @@ import type {
   GetUserById201,
   GetUserById409,
   GetUserById500,
+  GetUserPreferences200,
   GetUsersAvailableEmail200,
   GetUsersAvailableEmail409,
   GetUsersAvailableEmailParams,
@@ -43,7 +44,9 @@ import type {
   PostUsersCreate201,
   PostUsersCreate409,
   PostUsersCreate500,
-  PostUsersCreateBody
+  PostUsersCreateBody,
+  UpdateUserPreferences200,
+  UpdateUserPreferencesBody
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
 
@@ -890,4 +893,192 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Update user preferences
+ */
+export const updateUserPreferences = (
+    updateUserPreferencesBody: UpdateUserPreferencesBody,
+ ) => {
+      
+      
+      return axiosInstance<UpdateUserPreferences200>(
+      {url: `/user/preferences`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserPreferencesBody
+    },
+      );
+    }
+  
+
+
+export const getUpdateUserPreferencesMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserPreferences>>, TError,{data: UpdateUserPreferencesBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateUserPreferences>>, TError,{data: UpdateUserPreferencesBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUserPreferences>>, {data: UpdateUserPreferencesBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateUserPreferences(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateUserPreferencesMutationResult = NonNullable<Awaited<ReturnType<typeof updateUserPreferences>>>
+    export type UpdateUserPreferencesMutationBody = UpdateUserPreferencesBody
+    export type UpdateUserPreferencesMutationError = unknown
+
+    export const useUpdateUserPreferences = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserPreferences>>, TError,{data: UpdateUserPreferencesBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateUserPreferences>>,
+        TError,
+        {data: UpdateUserPreferencesBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateUserPreferencesMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * Get user preferences
+ */
+export const getUserPreferences = (
     
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUserPreferences200>(
+      {url: `/user/preferences`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetUserPreferencesQueryKey = () => {
+    return [`/user/preferences`] as const;
+    }
+
+    
+export const getGetUserPreferencesQueryOptions = <TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserPreferencesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserPreferences>>> = ({ signal }) => getUserPreferences(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserPreferencesQueryResult = NonNullable<Awaited<ReturnType<typeof getUserPreferences>>>
+export type GetUserPreferencesQueryError = unknown
+
+
+export function useGetUserPreferences<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserPreferences>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserPreferences<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserPreferences>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserPreferences<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserPreferences<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserPreferencesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetUserPreferencesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserPreferencesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserPreferences>>> = ({ signal }) => getUserPreferences(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUserPreferencesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserPreferences>>>
+export type GetUserPreferencesSuspenseQueryError = unknown
+
+
+export function useGetUserPreferencesSuspense<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserPreferencesSuspense<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUserPreferencesSuspense<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUserPreferencesSuspense<TData = Awaited<ReturnType<typeof getUserPreferences>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserPreferences>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUserPreferencesSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

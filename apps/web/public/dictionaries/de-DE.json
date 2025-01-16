@@ -799,5 +799,6 @@
   "select_the_region": "Region auswählen",
   "clear": "Löschen",
   "watch_providers_label": "Streaming-Dienste",
-  "select_the_watch_providers": "Wählen Sie die Streaming-Dienste aus"
+  "select_the_watch_providers": "Wählen Sie die Streaming-Dienste aus",
+  "preferences_updated": "Vorlieben erfolgreich aktualisiert."
 }

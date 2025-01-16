@@ -1,10 +1,19 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import type { ListsContextProviderProps, ListsContextType } from './lists.types'
 
 import { useGetLists } from '@/api/list'
-import { useSession } from '../session'
+
+import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
+import type { ReactNode } from 'react'
+import { useSession } from './session'
+
+export type ListsContextType = {
+  lists: GetLists200ListsItem[]
+  isLoading: boolean
+}
+
+export type ListsContextProviderProps = { children: ReactNode }
 
 export const ListsContext = createContext<ListsContextType>(
   {} as ListsContextType

@@ -803,5 +803,6 @@
   "select_the_region": "Seleccionar la región",
   "clear": "Limpiar",
   "watch_providers_label": "Servicios de streaming",
-  "select_the_watch_providers": "Selecciona los servicios de streaming"
+  "select_the_watch_providers": "Selecciona los servicios de streaming",
+  "preferences_updated": "Preferencias actualizadas con éxito."
 }
