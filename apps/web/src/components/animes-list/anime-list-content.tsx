@@ -16,7 +16,7 @@ import { useUserPreferences } from '@/context/user-preferences'
 type AnimeListContentProps = { type: AnimeListType }
 
 export const AnimeListContent = ({ type }: AnimeListContentProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
   const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
 
   const { ref, inView } = useInView({

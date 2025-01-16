@@ -48,7 +48,9 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   return (
     <div className="space-y-4">
       {hasPreferences && (
-        <Badge>{dictionary.available_on_streaming_services}</Badge>
+        <Badge variant="secondary">
+          {dictionary.available_on_streaming_services}
+        </Badge>
       )}
 
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
