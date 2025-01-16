@@ -26,7 +26,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'

@@ -7,6 +7,9 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { verifySession } from './lib/dal'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { getUserPreferences } from '@/api/users'
+import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
+import { UserPreferencesContextProvider } from '@/context/user-preferences'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -30,10 +33,16 @@ export default async function RootLayout(props: {
   params: Promise<{ lang: Language }>
 }) {
   const params = await props.params
-
   const { children } = props
 
   const session = await verifySession()
+
+  let userPreferences: GetUserPreferences200['userPreferences'] | undefined
+
+  if (session?.user) {
+    const { userPreferences: userPreferencesData } = await getUserPreferences()
+    userPreferences = userPreferencesData
+  }
 
   return (
     <html
@@ -55,7 +64,9 @@ export default async function RootLayout(props: {
 
       <body className="bg-background antialiased">
         <SessionContextProvider initialSession={session}>
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <UserPreferencesContextProvider userPreferences={userPreferences}>
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </UserPreferencesContextProvider>
         </SessionContextProvider>
       </body>
     </html>

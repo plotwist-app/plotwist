@@ -8,6 +8,7 @@ import { WatchRegion } from '@/components/watch-region'
 import { WatchProviders } from '@/components/watch-providers'
 import { useUpdateUserPreferences } from '@/api/users'
 import { toast } from 'sonner'
+import { useUserPreferences } from '@/context/user-preferences'
 
 const schema = z.object({
   with_watch_providers: z.array(z.number()),
@@ -19,12 +20,13 @@ type UserPreferencesFormValues = z.infer<typeof schema>
 export function UserPreferences() {
   const { dictionary, language } = useLanguage()
   const { mutateAsync: updateUserPreferences } = useUpdateUserPreferences()
+  const { userPreferences } = useUserPreferences()
 
   const form = useForm<UserPreferencesFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      with_watch_providers: [],
-      watch_region: language.split('-')[1],
+      with_watch_providers: userPreferences?.watchProvidersIds ?? [],
+      watch_region: userPreferences?.watchRegion ?? language.split('-')[1],
     },
   })
 

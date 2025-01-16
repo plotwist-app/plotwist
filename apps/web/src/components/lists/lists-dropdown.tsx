@@ -17,7 +17,7 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
+import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
 
