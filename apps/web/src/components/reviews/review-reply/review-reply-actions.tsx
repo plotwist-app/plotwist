@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils'
 import type { GetReviewReplies200Item } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
 import { getGetReviewRepliesQueryKey } from '@/api/review-replies'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ReplyActionProps = {
   disabled?: boolean
@@ -40,6 +40,7 @@ export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
   const { dictionary } = useLanguage()
   const handleCreateLike = usePostLike()
   const handleDeleteLike = useDeleteLikeId()
+  const queryClient = useQueryClient()
 
   if (!user) return <></>
 
@@ -49,7 +50,7 @@ export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
         { id: reply.userLike.id },
         {
           onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: getGetReviewRepliesQueryKey({
                 reviewId: reply.reviewId,
               }),
@@ -65,7 +66,7 @@ export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
       },
       {
         onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: getGetReviewRepliesQueryKey({
               reviewId: reply.reviewId,
             }),

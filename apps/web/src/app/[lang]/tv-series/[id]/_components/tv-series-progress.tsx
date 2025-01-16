@@ -5,7 +5,7 @@ import {
   usePostUserEpisodes,
 } from '@/api/user-episodes'
 import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
-import { APP_QUERY_CLIENT } from '@/context/app'
+import { useQueryClient } from '@tanstack/react-query'
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
@@ -80,16 +80,18 @@ export function TvSeriesProgress({
   const watchedCount = userEpisodes?.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
 
+  const queryClient = useQueryClient()
+
   async function invalidateUserEpisodes() {
     const { data } = await refetchUserEpisodes()
-    APP_QUERY_CLIENT.setQueryData(userEpisodesQueryKey, data)
+    queryClient.setQueryData(userEpisodesQueryKey, data)
 
     await updateUserItemStatus(data?.length || 0)
   }
 
   async function invalidateUserItem() {
     const { data } = await refetchUserItems()
-    APP_QUERY_CLIENT.setQueryData(userItemQueryKey, data)
+    queryClient.setQueryData(userItemQueryKey, data)
   }
 
   function findUserEpisode(episode: Episode) {
@@ -135,7 +137,7 @@ export function TvSeriesProgress({
       }
     }
 
-    await APP_QUERY_CLIENT.invalidateQueries({})
+    await queryClient.invalidateQueries({})
     await invalidateUserEpisodes()
   }
 

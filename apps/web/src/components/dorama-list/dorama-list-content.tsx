@@ -10,16 +10,18 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import Link from 'next/link'
 import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
+import { useUserPreferences } from '@/context/user-preferences'
 
 export const DoramaListContent = () => {
   const { language } = useLanguage()
+  const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
 
   const { ref, inView } = useInView({
     threshold: 0,
   })
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['doramas', language],
+    queryKey: ['doramas', language, userPreferences],
     queryFn: async ({ pageParam }) => {
       const filters = {
         language,
@@ -27,6 +29,10 @@ export const DoramaListContent = () => {
         filters: {
           with_genres: '18',
           with_origin_country: 'KR',
+          watch_region: userPreferences?.watchRegion,
+          with_watch_providers: formatWatchProvidersIds(
+            userPreferences?.watchProvidersIds ?? []
+          ),
         },
       } as const
 

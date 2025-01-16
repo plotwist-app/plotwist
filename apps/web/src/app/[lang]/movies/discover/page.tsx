@@ -30,9 +30,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 const DiscoverMoviesPage = async (props: PageProps) => {
   const params = await props.params
-
   const { lang } = params
-
   const dictionary = await getDictionary(lang)
 
   return (

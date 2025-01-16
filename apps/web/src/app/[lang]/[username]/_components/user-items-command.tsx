@@ -7,13 +7,13 @@ import {
   usePutUserItem,
 } from '@/api/user-items'
 import { ListCommand } from '@/components/list-command'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
+import { useQueryClient } from '@tanstack/react-query'
 
 type UserItemsCommandProps = {
   userId: string
@@ -24,6 +24,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
   const remove = useDeleteUserItemId()
   const { refresh } = useRouter()
   const { language, dictionary } = useLanguage()
+  const queryClient = useQueryClient()
 
   const { data, queryKey } = useGetAllUserItems({
     status,
@@ -55,7 +56,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
   const items = data?.userItems || []
 
   const invalidateQueries = async () => {
-    await APP_QUERY_CLIENT.invalidateQueries({
+    await queryClient.invalidateQueries({
       queryKey: getGetUserItemsQueryKey({
         language,
         status,
@@ -63,7 +64,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
       }),
     })
 
-    await APP_QUERY_CLIENT.invalidateQueries({
+    await queryClient.invalidateQueries({
       queryKey: queryKey,
     })
   }

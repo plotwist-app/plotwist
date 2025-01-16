@@ -26,10 +26,10 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ListCardProps = { list: GetLists200ListsItem }
 
@@ -37,6 +37,7 @@ export const ListCard = ({ list }: ListCardProps) => {
   const { language, dictionary } = useLanguage()
   const { user } = useSession()
   const deleteList = useDeleteListId()
+  const queryClient = useQueryClient()
 
   const [open, setOpen] = useState(false)
 
@@ -119,7 +120,7 @@ export const ListCard = ({ list }: ListCardProps) => {
                   { id: list.id },
                   {
                     onSuccess: async () => {
-                      await APP_QUERY_CLIENT.invalidateQueries({
+                      await queryClient.invalidateQueries({
                         queryKey: getGetListsQueryKey(),
                       })
 

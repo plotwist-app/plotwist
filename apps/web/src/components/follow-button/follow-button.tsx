@@ -6,12 +6,12 @@ import {
   useGetFollow,
   usePostFollow,
 } from '@/api/follow'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { Button } from '@plotwist/ui/components/ui/button'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 
 type FollowButtonProps = { userId: string }
 
@@ -19,6 +19,7 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
   const { refresh } = useRouter()
+  const queryClient = useQueryClient()
 
   const isOwner = user?.id === userId
 
@@ -54,7 +55,7 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
                 await Promise.all(
                   [getGetFollowersQueryKey(), getFollow.queryKey].map(
                     async queryKey =>
-                      await APP_QUERY_CLIENT.invalidateQueries({
+                      await queryClient.invalidateQueries({
                         queryKey,
                       })
                   )
@@ -81,7 +82,7 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
                 await Promise.all(
                   [getGetFollowersQueryKey(), getFollow.queryKey].map(
                     async queryKey =>
-                      await APP_QUERY_CLIENT.invalidateQueries({
+                      await queryClient.invalidateQueries({
                         queryKey,
                       })
                   )

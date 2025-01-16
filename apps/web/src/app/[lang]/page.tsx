@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 
 import { Pattern } from '@/components/pattern'
+import { Pricing } from '@/components/pricing'
 
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
 import { APP_URL } from '../../../constants'
 
-import { Pricing } from '@/components/pricing'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
@@ -67,9 +67,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Home(props: PageProps) {
-  const params = await props.params
-
-  const { lang } = params
+  const { lang } = await props.params
 
   return (
     <>
@@ -77,7 +75,6 @@ export default async function Home(props: PageProps) {
 
       <main className="">
         <Hero />
-        {/* <TopMovies language={lang} /> */}
         <BentoGrid language={lang} />
         <Pricing />
       </main>

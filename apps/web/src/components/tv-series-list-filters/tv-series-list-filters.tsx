@@ -26,7 +26,7 @@ import {
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
-import { Filters, SortBy, WhereToWatch } from './tabs'
+import { Filters, SortBy } from './tabs'
 import {
   buildQueryStringFromValues,
   getDefaultValues,
@@ -41,6 +41,9 @@ import {
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
 import type { TvSeriesListFiltersFormValues } from '.'
+import { WatchRegion } from '../watch-region'
+import { WatchProviders } from '../watch-providers'
+import { useUserPreferences } from '@/context/user-preferences'
 
 export const TvSeriesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -50,10 +53,13 @@ export const TvSeriesListFilters = () => {
   const searchParams = useSearchParams()
   const { dictionary, language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const { userPreferences } = useUserPreferences()
 
   const defaultValues = {
-    ...getDefaultValues(searchParams),
-    watch_region: language.split('-')[1],
+    ...getDefaultValues(searchParams, userPreferences),
+    watch_region: userPreferences?.watchRegion
+      ? userPreferences.watchRegion
+      : language.split('-')[1],
   }
 
   const methods = useForm<TvSeriesListFiltersFormValues>({
@@ -114,7 +120,10 @@ export const TvSeriesListFilters = () => {
                   </TabsContent>
 
                   <TabsContent value="where-to-watch">
-                    <WhereToWatch />
+                    <div className="space-y-4">
+                      <WatchRegion />
+                      <WatchProviders type="tv" />
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
@@ -177,7 +186,10 @@ export const TvSeriesListFilters = () => {
                 </TabsContent>
 
                 <TabsContent value="where-to-watch">
-                  <WhereToWatch />
+                  <div className="space-y-4">
+                    <WatchRegion />
+                    <WatchProviders type="tv" />
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>

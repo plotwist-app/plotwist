@@ -364,10 +364,6 @@
       "clear_filters": "Effacer les filtres",
       "no_results": "Aucun résultat trouvé."
     },
-    "watch_region_field": {
-      "label": "Région",
-      "placeholder": "Sélectionnez une région"
-    },
     "vote_average_field": {
       "label": "Note moyenne"
     },
@@ -803,5 +799,13 @@
   "doramas": "Doramas",
   "doramas_description": "Organisez vos doramas préférés, découvrez de nouveaux succès et partagez votre passion avec la communauté.",
   "be_the_first_to_leave_your_opinion": "Soyez le premier à laisser votre avis !",
-  "click_here_and_share_your_experience": "Cliquez ici et partagez votre expérience."
+  "click_here_and_share_your_experience": "Cliquez ici et partagez votre expérience.",
+  "save_preferences": "Enregistrer les préférences",
+  "region": "Région",
+  "select_the_region": "Sélectionner la région",
+  "clear": "Effacer",
+  "watch_providers_label": "Services de streaming",
+  "select_the_watch_providers": "Sélectionnez les services de streaming",
+  "preferences_updated": "Préférences mises à jour avec succès.",
+  "preferences_description": "Vos préférences sont utilisées pour personnaliser votre expérience sur Plotwist, comme recommandations et filtres."
 }

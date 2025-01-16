@@ -31,13 +31,13 @@ import {
   getGetUserActivitiesQueryKey,
   useDeleteUserActivity,
 } from '@/api/user-activities'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
+import { useQueryClient } from '@tanstack/react-query'
 
 type UserActivityProps = {
   activity: GetUserActivities200UserActivitiesItem
@@ -95,6 +95,8 @@ export function EditableUserActivity({ activity }: UserActivityProps) {
   const [currentX, setCurrentX] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
   const [isSwipedLeft, setIsSwipedLeft] = useState(false)
+
+  const queryClient = useQueryClient()
 
   const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     setStartX(event.touches[0].clientX)
@@ -195,7 +197,7 @@ export function EditableUserActivity({ activity }: UserActivityProps) {
               { activityId: activity.id },
               {
                 onSuccess: () => {
-                  APP_QUERY_CLIENT.invalidateQueries({
+                  queryClient.invalidateQueries({
                     queryKey: getGetUserActivitiesQueryKey(activity.userId),
                   })
                 },

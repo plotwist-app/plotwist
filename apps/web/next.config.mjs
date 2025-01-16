@@ -1,5 +1,4 @@
 import createMDX from '@next/mdx'
-import { withSentryConfig } from '@sentry/nextjs'
 
 const withMDX = createMDX()
 
@@ -17,16 +16,4 @@ const nextConfig = {
   transpilePackages: ['@plotwist/ui'],
 }
 
-export default withSentryConfig(withMDX(nextConfig), {
-  org: 'plotwist',
-  project: 'javascript-nextjs',
-  sentryUrl: 'https://sentry.io/',
-  silent: !process.env.CI,
-  widenClientFileUpload: true,
-  reactComponentAnnotation: {
-    enabled: true,
-  },
-  hideSourceMaps: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
-})
+export default withMDX(nextConfig)

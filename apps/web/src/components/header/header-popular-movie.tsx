@@ -10,19 +10,28 @@ import { tmdb } from '@/services/tmdb'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { Language } from '@/types/languages'
+import { useUserPreferences } from '@/context/user-preferences'
 
 type HeaderPopularMovieProps = {
   language: Language
 }
 
 export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
+  const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
+
   const { data, isLoading } = useQuery({
-    queryKey: ['popular-movie', language],
+    queryKey: ['popular-movie', language, userPreferences],
     queryFn: async () =>
-      await tmdb.movies.list({
+      await tmdb.movies.discover({
         language,
         page: 1,
-        list: 'popular',
+        filters: {
+          with_watch_providers: formatWatchProvidersIds(
+            userPreferences?.watchProvidersIds ?? []
+          ),
+          watch_region: userPreferences?.watchRegion,
+          sort_by: 'popularity.desc',
+        },
       }),
   })
 

@@ -17,7 +17,6 @@ import {
 } from '@plotwist/ui/components/ui/dropdown-menu'
 
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
-import { APP_QUERY_CLIENT } from '@/context/app/app'
 import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
 
@@ -26,6 +25,7 @@ import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import { NoAccountTooltip } from '../no-account-tooltip'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -53,6 +53,8 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
     language,
   } = useLanguage()
 
+  const queryClient = useQueryClient()
+
   const handleRemove = useCallback(
     async (id: string) => {
       if (!user) return
@@ -61,7 +63,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         { id },
         {
           onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: getGetListsQueryKey({ userId: user.id }),
             })
 
@@ -70,7 +72,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         }
       )
     },
-    [removedSuccessfully, deleteListItem, user]
+    [removedSuccessfully, deleteListItem, user, queryClient]
   )
 
   const handleAdd = useCallback(
@@ -87,7 +89,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         },
         {
           onSuccess: () => {
-            APP_QUERY_CLIENT.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: getGetListsQueryKey({ userId: user.id }),
             })
 
@@ -101,7 +103,16 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
         }
       )
     },
-    [addedSuccessfully, item, language, postListItem, push, seeList, user]
+    [
+      addedSuccessfully,
+      item,
+      language,
+      postListItem,
+      push,
+      seeList,
+      user,
+      queryClient,
+    ]
   )
 
   const Content = () => {

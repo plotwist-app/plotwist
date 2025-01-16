@@ -64,7 +64,7 @@
     "react-hook-form": "^7.53.0",
     "react-resizable-panels": "^2.1.2",
     "recharts": "^2.12.7",
-    "sonner": "^1.5.0",
+    "sonner": "^1.7.2",
     "tailwind-merge": "^2.5.2",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwind-variants": "^0.2.1",

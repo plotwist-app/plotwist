@@ -27,7 +27,7 @@ import {
   getGetReviewsQueryKey,
   useDeleteReviewById,
 } from '@/api/reviews'
-import { APP_QUERY_CLIENT } from '@/context/app'
+import { useQueryClient } from '@tanstack/react-query'
 import { ReviewFormDialog } from '../review-form-dialog'
 import type { ReviewItemProps } from './review-item'
 
@@ -81,20 +81,21 @@ type EditActionDialogProps = Pick<ReviewItemProps, 'review'> & DialogProps
 const DeleteDialog = ({ review, ...dialogProps }: EditActionDialogProps) => {
   const deleteReview = useDeleteReviewById()
   const { dictionary } = useLanguage()
+  const queryClient = useQueryClient()
 
   function handleDeleteReviewClick() {
     deleteReview.mutate(
       { id: review.id },
       {
         onSettled: async () => {
-          await APP_QUERY_CLIENT.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
             }),
           })
 
-          await APP_QUERY_CLIENT.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: getGetReviewQueryKey({
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),
