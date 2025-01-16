@@ -63,8 +63,7 @@ export function UserPreferences() {
           <WatchProviders />
 
           <p className="text-sm text-muted-foreground">
-            Suas preferências são usadas para personalizar sua experiência no
-            Plotwist, como recomendações e filtros.
+            {dictionary.preferences_description}
           </p>
         </div>
 

@@ -806,5 +806,6 @@
   "clear": "Effacer",
   "watch_providers_label": "Services de streaming",
   "select_the_watch_providers": "Sélectionnez les services de streaming",
-  "preferences_updated": "Préférences mises à jour avec succès."
+  "preferences_updated": "Préférences mises à jour avec succès.",
+  "preferences_description": "Vos préférences sont utilisées pour personnaliser votre expérience sur Plotwist, comme recommandations et filtres."
 }

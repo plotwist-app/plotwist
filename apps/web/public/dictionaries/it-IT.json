@@ -804,5 +804,6 @@
   "clear": "Cancella",
   "watch_providers_label": "Servizi di streaming",
   "select_the_watch_providers": "Seleziona i servizi di streaming",
-  "preferences_updated": "Preferenze aggiornate con successo."
+  "preferences_updated": "Preferenze aggiornate con successo.",
+  "preferences_description": "Le tue preferenze vengono utilizzate per personalizzare la tua esperienza su Plotwist, come suggerimenti e filtri."
 }

@@ -804,5 +804,6 @@
   "clear": "クリア",
   "watch_providers_label": "ストリーミングサービス",
   "select_the_watch_providers": "ストリーミングサービスを選択",
-  "preferences_updated": "設定が正常に更新されました。"
+  "preferences_updated": "設定が正常に更新されました。",
+  "preferences_description": "あなたの設定は、Plotwistの体験をカスタマイズするために使用されます。"
 }
