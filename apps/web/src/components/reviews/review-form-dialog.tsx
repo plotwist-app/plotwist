@@ -13,7 +13,6 @@ import {
   useGetUserItem,
   usePutUserItem,
 } from '@/api/user-items'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import type { Dictionary } from '@/utils/dictionaries'
@@ -47,6 +46,7 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { type PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const reviewFormDialogSchema = (dictionary: Dictionary) =>
   z.object({
@@ -96,6 +96,8 @@ export function ReviewFormDialog({
     },
   })
 
+  const queryClient = useQueryClient()
+
   const onSubmit = async (values: ReviewFormDialogValues) => {
     const data = {
       ...values,
@@ -117,7 +119,7 @@ export function ReviewFormDialog({
             },
             {
               onSettled: async response => {
-                await APP_QUERY_CLIENT.setQueryData(
+                await queryClient.setQueryData(
                   getGetUserItemQueryKey({
                     mediaType,
                     tmdbId: String(tmdbId),
@@ -126,7 +128,7 @@ export function ReviewFormDialog({
                 )
 
                 if (mediaType === 'TV_SHOW') {
-                  await APP_QUERY_CLIENT.invalidateQueries({
+                  await queryClient.invalidateQueries({
                     queryKey: getGetUserEpisodesQueryKey({
                       tmdbId: String(tmdbId),
                     }),
@@ -147,7 +149,7 @@ export function ReviewFormDialog({
             }),
           ].map(
             async queryKey =>
-              await APP_QUERY_CLIENT.invalidateQueries({
+              await queryClient.invalidateQueries({
                 queryKey: queryKey,
               })
           )

@@ -9,7 +9,7 @@ import { useSession } from '@/context/session'
 
 import { useDeleteLikeId, usePostLike } from '@/api/like'
 import { getGetReviewsQueryKey } from '@/api/reviews'
-import { APP_QUERY_CLIENT } from '@/context/app'
+import { useQueryClient } from '@tanstack/react-query'
 import type { ReviewItemProps } from './review-item'
 
 type ReviewItemActionsProps = {
@@ -52,6 +52,7 @@ export const ReviewItemActions = ({
   const { dictionary } = useLanguage()
   const handleCreateLike = usePostLike()
   const handleDeleteLike = useDeleteLikeId()
+  const queryClient = useQueryClient()
 
   if (!user) return null
 
@@ -61,7 +62,7 @@ export const ReviewItemActions = ({
         { id: review.userLike.id },
         {
           onSuccess: async () => {
-            await APP_QUERY_CLIENT.invalidateQueries({
+            await queryClient.invalidateQueries({
               queryKey: getGetReviewsQueryKey({
                 mediaType: review.mediaType,
                 tmdbId: String(review.tmdbId),
@@ -78,7 +79,7 @@ export const ReviewItemActions = ({
       },
       {
         onSuccess: () => {
-          APP_QUERY_CLIENT.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: getGetReviewsQueryKey({
               mediaType: review.mediaType,
               tmdbId: String(review.tmdbId),

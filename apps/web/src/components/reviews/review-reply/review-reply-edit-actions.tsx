@@ -37,10 +37,10 @@ import {
   usePutReviewReplyById,
 } from '@/api/review-replies'
 import { getGetReviewsQueryKey } from '@/api/reviews'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { type ReplyFormValues, replyFormSchema } from './review-reply-form'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ReplyEditActionsProps = { reply: GetReviewReplies200Item }
 
@@ -90,6 +90,7 @@ type EditActionDialogProps = Pick<ReplyEditActionsProps, 'reply'> & DialogProps
 const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
   const handleDeleteReply = useDeleteReviewReplyById()
+  const queryClient = useQueryClient()
 
   function handleDeleteReviewClick() {
     handleDeleteReply.mutate(
@@ -101,7 +102,7 @@ const DeleteDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
               getGetReviewsQueryKey(),
               getGetReviewRepliesQueryKey({ reviewId: reply.reviewId }),
             ].map(queryKey =>
-              APP_QUERY_CLIENT.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey,
               })
             )
@@ -152,6 +153,7 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
   const { dictionary } = useLanguage()
   const { user } = useSession()
   const handleUpdateReply = usePutReviewReplyById()
+  const queryClient = useQueryClient()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -168,7 +170,7 @@ const EditDialog = ({ reply, ...dialogProps }: EditActionDialogProps) => {
       },
       {
         onSuccess: async () => {
-          await APP_QUERY_CLIENT.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: getGetReviewRepliesQueryKey({ reviewId: reply.reviewId }),
           })
 

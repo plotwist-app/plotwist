@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -22,7 +23,6 @@ import {
   usePostReviewReply,
 } from '@/api/review-replies'
 import { getGetReviewsQueryKey } from '@/api/reviews'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useSession } from '@/context/session'
 import {
   Avatar,
@@ -52,6 +52,7 @@ export const ReviewReplyForm = ({
   const { user } = useSession()
   const { dictionary, language } = useLanguage()
   const createReply = usePostReviewReply()
+  const queryClient = useQueryClient()
 
   const form = useForm<ReplyFormValues>({
     resolver: zodResolver(replyFormSchema(dictionary)),
@@ -74,7 +75,7 @@ export const ReviewReplyForm = ({
               getGetReviewsQueryKey(),
               getGetReviewRepliesQueryKey({ reviewId: review.id }),
             ].map(queryKey =>
-              APP_QUERY_CLIENT.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey,
               })
             )

@@ -7,7 +7,6 @@ import {
   useGetUserItem,
   usePutUserItem,
 } from '@/api/user-items'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
@@ -27,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
+import { useQueryClient } from '@tanstack/react-query'
 import { Clock, Eye, Loader, Pen, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -40,6 +40,7 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
   const { user } = useSession()
   const { push } = useRouter()
   const { language, dictionary } = useLanguage()
+  const queryClient = useQueryClient()
 
   const putUserItem = usePutUserItem()
   const deleteUserItem = useDeleteUserItemId()
@@ -66,13 +67,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
         { id: userItem.id },
         {
           onSettled: async () => {
-            await APP_QUERY_CLIENT.invalidateQueries({
+            await queryClient.invalidateQueries({
               queryKey: getGetUserEpisodesQueryKey({
                 tmdbId: String(tmdbId),
               }),
             })
 
-            APP_QUERY_CLIENT.resetQueries({
+            queryClient.resetQueries({
               queryKey,
             })
           },
@@ -88,13 +89,13 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       {
         onSettled: async response => {
           if (response) {
-            await APP_QUERY_CLIENT.invalidateQueries({
+            await queryClient.invalidateQueries({
               queryKey: getGetUserEpisodesQueryKey({
                 tmdbId: String(tmdbId),
               }),
             })
 
-            APP_QUERY_CLIENT.setQueryData(queryKey, response)
+            queryClient.setQueryData(queryKey, response)
           }
         },
       }

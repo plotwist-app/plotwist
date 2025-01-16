@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -28,7 +29,6 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 import { useLanguage } from '@/context/language'
 
 import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import {
   RadioGroup,
   RadioGroupItem,
@@ -44,6 +44,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
   const { push, refresh } = useRouter()
   const createList = usePostList()
   const editList = usePutListId()
+  const queryClient = useQueryClient()
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
@@ -73,7 +74,7 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       { data: values },
       {
         onSuccess: async ({ list: { id } }) => {
-          await APP_QUERY_CLIENT.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: getGetListsQueryKey(),
           })
 

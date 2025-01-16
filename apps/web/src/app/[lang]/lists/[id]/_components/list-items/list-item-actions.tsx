@@ -11,9 +11,9 @@ import {
   getGetListItemsByListIdQueryKey,
   useDeleteListItemId,
 } from '@/api/list-item'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { toast } from 'sonner'
 import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ListItemActionsProps = {
   listItem: GetListItemsByListId200Item
@@ -21,6 +21,7 @@ type ListItemActionsProps = {
 
 export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
   const deleteListItem = useDeleteListItemId()
+  const queryClient = useQueryClient()
 
   const { dictionary, language } = useLanguage()
   const { mode } = useListMode()
@@ -40,7 +41,7 @@ export const ListItemActions = ({ listItem }: ListItemActionsProps) => {
           { id: listItem.id },
           {
             onSuccess: async () => {
-              await APP_QUERY_CLIENT.invalidateQueries({
+              await queryClient.invalidateQueries({
                 queryKey: getGetListItemsByListIdQueryKey(listItem.listId, {
                   language,
                 }),

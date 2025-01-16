@@ -41,6 +41,7 @@ import {
 import { Filters, SortBy } from './tabs'
 import { WatchRegion } from '../watch-region'
 import { WatchProviders } from '../watch-providers'
+import { useUserPreferences } from '@/context/user-preferences'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)
@@ -51,8 +52,10 @@ export const MoviesListFilters = () => {
   const { dictionary, language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
+  const { userPreferences } = useUserPreferences()
+
   const defaultValues = {
-    ...getDefaultValues(searchParams),
+    ...getDefaultValues(searchParams, userPreferences),
     watch_region: language.split('-')[1],
   }
 

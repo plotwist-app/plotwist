@@ -2,7 +2,11 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
+import { usePathname, useRouter } from 'next/navigation'
+import NextTopLoader from 'nextjs-toploader'
+import nProgress from 'nprogress'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { useEffect } from 'react'
 import { Toaster } from 'sonner'
 
 const queryClient = new QueryClient()
@@ -12,10 +16,21 @@ export function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
+  const pathname = usePathname()
+  const router = useRouter()
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    nProgress.done()
+  }, [pathname, router])
+
   return (
     <NextThemesProvider {...props}>
       <QueryClientProvider client={queryClient}>
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <NuqsAdapter>
+          <NextTopLoader color="#ccc" showSpinner={false} />
+          {children}
+        </NuqsAdapter>
       </QueryClientProvider>
     </NextThemesProvider>
   )

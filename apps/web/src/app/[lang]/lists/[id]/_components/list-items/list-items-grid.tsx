@@ -7,7 +7,6 @@ import {
   useUpdateListItemsPositions,
 } from '@/api/list-item'
 import { ListCommand } from '@/components/list-command'
-import { APP_QUERY_CLIENT } from '@/context/app'
 import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 import { GripVertical, Plus } from 'lucide-react'
@@ -21,6 +20,7 @@ import { cn } from '@/lib/utils'
 import { DndContext, type DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ListItem = GetListItemsByListId200Item
 
@@ -35,8 +35,8 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
   const postListItem = usePostListItem()
   const deleteListItem = useDeleteListItemId()
   const updateListItemsPositions = useUpdateListItemsPositions()
-
   const { dictionary, language } = useLanguage()
+  const queryClient = useQueryClient()
 
   const [items, setItems] = useState<ListItem[]>([])
   const [isEditingOrder, setIsEditingOrder] = useState(false)
@@ -115,7 +115,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
                     { data: { listId, mediaType, tmdbId } },
                     {
                       onSuccess: async () => {
-                        await APP_QUERY_CLIENT.invalidateQueries({
+                        await queryClient.invalidateQueries({
                           queryKey: getGetListItemsByListIdQueryKey(listId, {
                             language,
                           }),
@@ -133,7 +133,7 @@ export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
                     { id },
                     {
                       onSuccess: async () => {
-                        await APP_QUERY_CLIENT.invalidateQueries({
+                        await queryClient.invalidateQueries({
                           queryKey: getGetListItemsByListIdQueryKey(listId, {
                             language,
                           }),
