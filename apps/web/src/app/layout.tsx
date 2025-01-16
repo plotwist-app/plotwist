@@ -1,15 +1,12 @@
 import '@plotwist/ui/globals.css'
 
+import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
+import { getUserPreferences } from '@/api/users'
 import { GTag } from '@/components/gtag'
-import { SessionContextProvider } from '@/context/session'
 import type { Language } from '@/types/languages'
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { verifySession } from './lib/dal'
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import { getUserPreferences } from '@/api/users'
-import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
-import { UserPreferencesContextProvider } from '@/context/user-preferences'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -62,13 +59,7 @@ export default async function RootLayout(props: {
         <GTag />
       </head>
 
-      <body className="bg-background antialiased">
-        <SessionContextProvider initialSession={session}>
-          <UserPreferencesContextProvider userPreferences={userPreferences}>
-            <NuqsAdapter>{children}</NuqsAdapter>
-          </UserPreferencesContextProvider>
-        </SessionContextProvider>
-      </body>
+      <body className="bg-background antialiased">{children}</body>
     </html>
   )
 }

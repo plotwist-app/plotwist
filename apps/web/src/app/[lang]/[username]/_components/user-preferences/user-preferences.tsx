@@ -7,8 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { WatchRegion } from '@/components/watch-region'
 import { WatchProviders } from '@/components/watch-providers'
 import { useUpdateUserPreferences } from '@/api/users'
-import { toast } from 'sonner'
 import { useUserPreferences } from '@/context/user-preferences'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const schema = z.object({
   with_watch_providers: z.array(z.number()),
@@ -21,6 +22,7 @@ export function UserPreferences() {
   const { dictionary, language } = useLanguage()
   const { mutateAsync: updateUserPreferences } = useUpdateUserPreferences()
   const { userPreferences } = useUserPreferences()
+  const { refresh } = useRouter()
 
   const form = useForm<UserPreferencesFormValues>({
     resolver: zodResolver(schema),
@@ -43,7 +45,11 @@ export function UserPreferences() {
       },
       {
         onSuccess: () => {
+          refresh()
           toast.success(dictionary.preferences_updated)
+        },
+        onError: () => {
+          toast.error('Erro ao atualizar preferências')
         },
       }
     )

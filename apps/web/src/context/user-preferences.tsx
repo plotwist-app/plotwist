@@ -10,7 +10,7 @@ export type UserPreferencesContextType = {
 
 export type UserPreferencesContextProviderProps = {
   children: ReactNode
-} & UserPreferencesContextType
+} & Pick<UserPreferencesContextType, 'userPreferences'>
 
 export const UserPreferencesContext = createContext(
   {} as UserPreferencesContextType | undefined
