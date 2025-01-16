@@ -11,10 +11,13 @@ import { useMovieListQuery } from './use-movie-list-query'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { v4 } from 'uuid'
+import { useUserPreferences } from '@/context/user-preferences'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 
 export const MovieList = ({ variant }: MovieListProps) => {
-  const { language } = useLanguage()
-  const { data, fetchNextPage } = useMovieListQuery(variant)
+  const { language, dictionary } = useLanguage()
+  const { userPreferences } = useUserPreferences()
+  const { data, fetchNextPage, isLoading } = useMovieListQuery(variant)
   const { ref, inView } = useInView({
     threshold: 0,
   })
@@ -23,7 +26,7 @@ export const MovieList = ({ variant }: MovieListProps) => {
     if (inView) fetchNextPage()
   }, [fetchNextPage, inView])
 
-  if (!data)
+  if (!data || isLoading)
     return (
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {Array.from({ length: 20 }).map(_ => (
@@ -37,8 +40,16 @@ export const MovieList = ({ variant }: MovieListProps) => {
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
 
+  const hasPreferences =
+    userPreferences?.watchProvidersIds &&
+    userPreferences?.watchProvidersIds.length > 0
+
   return (
-    <div className="flex items-center justify-between">
+    <div className="space-y-4">
+      {hasPreferences && (
+        <Badge>{dictionary.available_on_streaming_services}</Badge>
+      )}
+
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {flatData.map(movie => (
           <Link href={`/${language}/movies/${movie.id}`} key={movie.id}>

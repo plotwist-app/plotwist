@@ -158,7 +158,6 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
                             variant="outline"
                             onClick={() => setShowPassword(prev => !prev)}
                             type="button"
-                            data-testid="toggle-password"
                           >
                             {showPassword ? (
                               <Eye size={16} />

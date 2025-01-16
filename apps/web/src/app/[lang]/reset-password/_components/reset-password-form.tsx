@@ -83,7 +83,6 @@ export const ResetPasswordForm = ({ onReset }: ResetPasswordFormProps) => {
                           variant="outline"
                           onClick={() => setShowPassword(prev => !prev)}
                           type="button"
-                          data-testId="toggle-password"
                         >
                           {showPassword ? (
                             <Eye size={16} />

@@ -21,7 +21,6 @@ export const Banner = ({ url, className, ...props }: BannerProps) => {
           backgroundSize: 'cover',
         }}
         className="h-full w-full"
-        data-testid="banner"
       />
     </div>
   )

@@ -11,6 +11,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
 import type { Language } from '@/types/languages'
 import { useUserPreferences } from '@/context/user-preferences'
+import { useLanguage } from '@/context/language'
 
 type HeaderPopularMovieProps = {
   language: Language
@@ -18,6 +19,7 @@ type HeaderPopularMovieProps = {
 
 export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
   const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
+  const { dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['popular-movie', language, userPreferences],
@@ -41,6 +43,13 @@ export const HeaderPopularMovie = ({ language }: HeaderPopularMovieProps) => {
     )
 
   const movie = data.results[0]
+
+  if (!movie)
+    return (
+      <div className="w-1/3 border-dashed aspect-poster border rounded-sm flex items-center justify-center text-muted-foreground text-sm">
+        <p>{dictionary.no_results}</p>
+      </div>
+    )
 
   return (
     <Link

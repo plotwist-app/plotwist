@@ -31,7 +31,7 @@ export const Videos = async ({ tmdbId, variant }: VideosProps) => {
   const { results } = await tmdb.videos(variant, tmdbId)
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2" data-testid="videos">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {results.map(video => (
         <Video key={video.id} video={video} />
       ))}

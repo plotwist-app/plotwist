@@ -805,5 +805,8 @@
   "watch_providers_label": "ストリーミングサービス",
   "select_the_watch_providers": "ストリーミングサービスを選択",
   "preferences_updated": "設定が正常に更新されました。",
-  "preferences_description": "あなたの設定は、Plotwistの体験をカスタマイズするために使用されます。"
+  "preferences_description": "あなたの設定は、Plotwistの体験をカスタマイズするために使用されます。",
+  "preferences": "設定",
+  "no_results": "結果は見つかりませんでした",
+  "available_on_streaming_services": "✨ ストリーミングサービスで利用可能なタイトル"
 }

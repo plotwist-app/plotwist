@@ -11,9 +11,12 @@ import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
 import type { TvSeriesListProps } from './tv-series-list.types'
 import { useTvSeriesListQuery } from './use-tv-series-list-query'
+import { useUserPreferences } from '@/context/user-preferences'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 
 export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
-  const { language } = useLanguage()
+  const { language, dictionary } = useLanguage()
+  const { userPreferences } = useUserPreferences()
   const { ref, inView } = useInView({
     threshold: 0,
   })
@@ -27,7 +30,7 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   if (!data)
     return (
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
-        {Array.from({ length: 20 }).map((_, index) => (
+        {Array.from({ length: 20 }).map(() => (
           <PosterCard.Skeleton key={v4()} />
         ))}
       </div>
@@ -38,8 +41,16 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
 
+  const hasPreferences =
+    userPreferences?.watchProvidersIds &&
+    userPreferences?.watchProvidersIds.length > 0
+
   return (
-    <div className="flex items-center justify-between">
+    <div className="space-y-4">
+      {hasPreferences && (
+        <Badge>{dictionary.available_on_streaming_services}</Badge>
+      )}
+
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {flatData.map(tv => (
           <Link href={`/${language}/tv-series/${tv.id}`} key={tv.id}>

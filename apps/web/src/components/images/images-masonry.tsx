@@ -21,7 +21,6 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
         default: 3,
         1080: 2,
       }}
-      data-testid="images-masonry"
     >
       {images.map(image => {
         const { file_path: filePath, aspect_ratio: aspectRatio } = image

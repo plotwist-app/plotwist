@@ -56,7 +56,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
 
   return (
     <div className="space-y-2">
-      <div className="flex space-x-4" data-testid="full-review">
+      <div className="flex space-x-4">
         <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
           <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted">
             {posterPath && (

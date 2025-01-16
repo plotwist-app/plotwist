@@ -51,7 +51,9 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
           <TabsTrigger value="social-links">
             {dictionary.social_links}
           </TabsTrigger>
-          <TabsTrigger value="preferences">Preferências</TabsTrigger>
+          <TabsTrigger value="preferences">
+            {dictionary.preferences}
+          </TabsTrigger>
           <TabsTrigger value="subscription" disabled>
             {dictionary.subscription}
           </TabsTrigger>

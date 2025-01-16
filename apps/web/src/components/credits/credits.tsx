@@ -15,10 +15,7 @@ export const Credits = async ({ variant, id, language }: CreditsProps) => {
   const dictionary = await getDictionary(language)
 
   return (
-    <div
-      className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-      data-testid="credits"
-    >
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <section className="">
         <h5 className="text-lg font-medium">{dictionary.credits.cast}</h5>
 

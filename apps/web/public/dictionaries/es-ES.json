@@ -805,5 +805,8 @@
   "watch_providers_label": "Servicios de streaming",
   "select_the_watch_providers": "Selecciona los servicios de streaming",
   "preferences_updated": "Preferencias actualizadas con éxito.",
-  "preferences_description": "Sus preferencias se utilizan para personalizar su experiencia en Plotwist, como recomendaciones y filtros."
+  "preferences_description": "Sus preferencias se utilizan para personalizar su experiencia en Plotwist, como recomendaciones y filtros.",
+  "preferences": "Preferencias",
+  "no_results": "No se encontraron resultados",
+  "available_on_streaming_services": "✨ Títulos disponibles en sus servicios de streaming"
 }

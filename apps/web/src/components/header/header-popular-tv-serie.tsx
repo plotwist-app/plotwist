@@ -11,6 +11,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { Language } from '@/types/languages'
 import { useUserPreferences } from '@/context/user-preferences'
+import { useLanguage } from '@/context/language'
 type HeaderPopularTvSerieProps = {
   language: Language
 }
@@ -19,6 +20,7 @@ export const HeaderPopularTvSerie = ({
   language,
 }: HeaderPopularTvSerieProps) => {
   const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
+  const { dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['popular-tv', language, userPreferences],
@@ -42,6 +44,13 @@ export const HeaderPopularTvSerie = ({
     )
 
   const tvSerie = data.results[0]
+
+  if (!tvSerie)
+    return (
+      <div className="w-1/3 border-dashed aspect-poster border rounded-sm flex items-center justify-center text-muted-foreground text-sm">
+        <p>{dictionary.no_results}</p>
+      </div>
+    )
 
   return (
     <Link
