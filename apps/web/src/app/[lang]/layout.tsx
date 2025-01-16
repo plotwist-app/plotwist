@@ -35,10 +35,11 @@ export default async function RootLayout({
   const dictionary = await getDictionary(lang)
   const session = await verifySession()
 
-  let userPreferences: GetUserPreferences200 | undefined = undefined
+  let userPreferences: GetUserPreferences200['userPreferences'] = null
 
   if (session) {
-    userPreferences = await getUserPreferences()
+    const { userPreferences: userPreferencesData } = await getUserPreferences()
+    userPreferences = userPreferencesData
   }
 
   return (
@@ -51,9 +52,7 @@ export default async function RootLayout({
       <SonnerProvider>
         <SessionContextProvider initialSession={session}>
           <LanguageContextProvider language={lang} dictionary={dictionary}>
-            <UserPreferencesContextProvider
-              userPreferences={userPreferences?.userPreferences}
-            >
+            <UserPreferencesContextProvider userPreferences={userPreferences}>
               <ListsContextProvider>
                 <div className="flex flex-col">
                   <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
