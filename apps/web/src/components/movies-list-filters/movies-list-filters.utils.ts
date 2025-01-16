@@ -110,7 +110,7 @@ export const getDefaultValues = (
     genres: parseList('genres'),
     with_watch_providers: defaultWatchProvidersIds,
     with_original_language: getString('with_original_language'),
-    watch_region: userPreferences?.watchRegion && getString('watch_region'),
+    watch_region: getString('watch_region'),
     release_date: {
       gte: getDate('release_date.gte'),
       lte: getDate('release_date.lte'),

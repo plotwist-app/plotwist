@@ -56,7 +56,9 @@ export const MoviesListFilters = () => {
 
   const defaultValues = {
     ...getDefaultValues(searchParams, userPreferences),
-    watch_region: language.split('-')[1],
+    watch_region: userPreferences?.watchRegion
+      ? userPreferences.watchRegion
+      : language.split('-')[1],
   }
 
   const methods = useForm<MoviesListFiltersFormValues>({

@@ -10,6 +10,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import type { Language } from '@/types/languages'
+import { useUserPreferences } from '@/context/user-preferences'
 type HeaderPopularTvSerieProps = {
   language: Language
 }
@@ -17,13 +18,21 @@ type HeaderPopularTvSerieProps = {
 export const HeaderPopularTvSerie = ({
   language,
 }: HeaderPopularTvSerieProps) => {
+  const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
+
   const { data, isLoading } = useQuery({
-    queryKey: ['popular-tv', language],
+    queryKey: ['popular-tv', language, userPreferences],
     queryFn: async () =>
-      await tmdb.tv.list({
+      await tmdb.tv.discover({
         language,
         page: 1,
-        list: 'popular',
+        filters: {
+          with_watch_providers: formatWatchProvidersIds(
+            userPreferences?.watchProvidersIds ?? []
+          ),
+          watch_region: userPreferences?.watchRegion,
+          sort_by: 'popularity.desc',
+        },
       }),
   })
 

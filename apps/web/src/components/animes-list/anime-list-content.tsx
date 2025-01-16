@@ -11,32 +11,38 @@ import Link from 'next/link'
 import { v4 } from 'uuid'
 import type { AnimeListType } from '.'
 import { PosterCard } from '../poster-card'
+import { useUserPreferences } from '@/context/user-preferences'
 
 type AnimeListContentProps = { type: AnimeListType }
 
 export const AnimeListContent = ({ type }: AnimeListContentProps) => {
   const { language } = useLanguage()
+  const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
 
   const { ref, inView } = useInView({
     threshold: 0,
   })
 
   const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['animes', type, language],
+    queryKey: ['animes', type, language, userPreferences],
     queryFn: async ({ pageParam }) => {
-      if (type === 'tv') {
-        return await tmdb.tv.discover({
-          language,
-          page: pageParam,
-          filters: { with_keywords: '210024' },
-        })
-      }
-
-      return await tmdb.movies.discover({
+      const query = {
         language,
         page: pageParam,
-        filters: { with_keywords: '210024' },
-      })
+        filters: {
+          with_keywords: '210024',
+          watch_region: userPreferences?.watchRegion,
+          with_watch_providers: formatWatchProvidersIds(
+            userPreferences?.watchProvidersIds ?? []
+          ),
+        },
+      } as const
+
+      if (type === 'tv') {
+        return await tmdb.tv.discover(query)
+      }
+
+      return await tmdb.movies.discover(query)
     },
     initialPageParam: 1,
     getNextPageParam: lastPage => lastPage.page + 1,
