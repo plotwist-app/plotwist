@@ -24,7 +24,7 @@ export const AnimeList = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center lg:flex-row-reverse flex-col gap-2">
+      <div className="flex justify-between lg:items-center lg:flex-row-reverse flex-col gap-2">
         <div className="flex gap-2 w-full lg:w-auto">
           <Button
             onClick={() => handleReplaceType('tv')}
