@@ -37,9 +37,7 @@ type UserDialogProps = PropsWithChildren & {
 }
 
 export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
-  const [tab, setTab] = useQueryState('tab', {
-    defaultValue: 'account',
-  })
+  const [tab, setTab] = useQueryState('tab')
 
   const [open, setOpen] = useState(
     tab ? ['account', 'social-links', 'preferences'].includes(tab) : false
@@ -57,7 +55,7 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
   }
 
   const content = (
-    <Tabs defaultValue={tab} onValueChange={setTab}>
+    <Tabs defaultValue={tab ?? 'account'} onValueChange={setTab}>
       <div className="md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         <TabsList>
           <TabsTrigger value="account">{dictionary.account_data}</TabsTrigger>

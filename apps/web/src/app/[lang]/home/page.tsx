@@ -14,6 +14,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getUserPreferences } from '@/api/users'
+import { verifySession } from '@/app/lib/dal'
+import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
@@ -36,16 +38,19 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-const formatWatchProvidersIds = (watchProvidersIds: string[]) => {
-  return watchProvidersIds.join('|')
-}
-
 const HomePage = async (props: PageProps) => {
   const params = await props.params
   const { lang } = params
 
   const dictionary = await getDictionary(lang)
-  const { userPreferences } = await getUserPreferences()
+  const session = await verifySession()
+
+  let userPreferences: GetUserPreferences200['userPreferences'] | null = null
+
+  if (session) {
+    const { userPreferences: userPreferencesData } = await getUserPreferences()
+    userPreferences = userPreferencesData
+  }
 
   const popularMovies = await tmdb.movies.discover({
     language: lang,
