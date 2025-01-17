@@ -4,10 +4,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { useLanguage } from '@/context/language'
 
-import { Badge } from '@plotwist/ui/components/ui/badge'
 import { AnimeListContent } from './anime-list-content'
-import { useUserPreferences } from '@/context/user-preferences'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { StreamingServicesBadge } from '../streaming-services-badge'
 
 export type AnimeListType = 'tv' | 'movies'
 
@@ -16,17 +15,12 @@ export const AnimeList = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { userPreferences } = useUserPreferences()
 
   const type = (searchParams.get('type') ?? 'tv') as AnimeListType
 
   const handleReplaceType = (type: AnimeListType) => {
     replace(`${pathname}?type=${type}`)
   }
-
-  const hasPreferences =
-    userPreferences?.watchProvidersIds &&
-    userPreferences?.watchProvidersIds.length > 0
 
   return (
     <div className="space-y-4">
@@ -51,11 +45,7 @@ export const AnimeList = () => {
           </Button>
         </div>
 
-        {hasPreferences && (
-          <Badge className="lg:w-auto w-full" variant="secondary">
-            {dictionary.available_on_streaming_services}
-          </Badge>
-        )}
+        <StreamingServicesBadge />
       </div>
 
       <AnimeListContent type={type} />

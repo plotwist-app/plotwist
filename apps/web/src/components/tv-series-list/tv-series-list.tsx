@@ -11,12 +11,10 @@ import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
 import type { TvSeriesListProps } from './tv-series-list.types'
 import { useTvSeriesListQuery } from './use-tv-series-list-query'
-import { useUserPreferences } from '@/context/user-preferences'
-import { Badge } from '@plotwist/ui/components/ui/badge'
+import { StreamingServicesBadge } from '../streaming-services-badge'
 
 export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
-  const { language, dictionary } = useLanguage()
-  const { userPreferences } = useUserPreferences()
+  const { language } = useLanguage()
   const { ref, inView } = useInView({
     threshold: 0,
   })
@@ -41,17 +39,9 @@ export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
     data.pages[data.pages.length - 1].page >=
     data.pages[data.pages.length - 1].total_pages
 
-  const hasPreferences =
-    userPreferences?.watchProvidersIds &&
-    userPreferences?.watchProvidersIds.length > 0
-
   return (
     <div className="space-y-4">
-      {hasPreferences && (
-        <Badge variant="secondary">
-          {dictionary.available_on_streaming_services}
-        </Badge>
-      )}
+      <StreamingServicesBadge />
 
       <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-6">
         {flatData.map(tv => (
