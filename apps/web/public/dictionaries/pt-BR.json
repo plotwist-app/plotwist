@@ -807,5 +807,10 @@
   "preferences_description": "Suas preferências são usadas para personalizar sua experiência no Plotwist, como recomendações e filtros.",
   "preferences": "Preferências",
   "no_results": "Nenhum resultado encontrado",
-  "available_on_streaming_services": "✨ Resultados baseados nas suas preferências"
+  "available_on_streaming_services": "✨ Resultados baseados nas suas preferências",
+  "review_summary_generated_by_ai": "Resumo de avaliações gerado por IA",
+  "reading_reviews": "Lendo avaliações...",
+  "analyzing_reviews": "Analisando avaliações...",
+  "identifying_main_points": "Identificando pontos principais...",
+  "generating_summary": "Gerando resumo..."
 }
