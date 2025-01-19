@@ -808,5 +808,10 @@
   "preferences_description": "あなたの設定は、Plotwistの体験をカスタマイズするために使用されます。",
   "preferences": "設定",
   "no_results": "結果は見つかりませんでした",
-  "available_on_streaming_services": "✨ あなたの設定に基づいた結果"
+  "available_on_streaming_services": "✨ あなたの設定に基づいた結果",
+  "review_summary_generated_by_ai": "AIによるレビュー要約",
+  "reading_reviews": "レビューを読み込んでいます...",
+  "analyzing_reviews": "レビューを分析しています...",
+  "identifying_main_points": "主なポイントを特定しています...",
+  "generating_summary": "要約を生成しています..."
 }
