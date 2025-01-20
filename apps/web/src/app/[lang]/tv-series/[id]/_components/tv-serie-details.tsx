@@ -19,10 +19,9 @@ export const TvSerieDetails = async ({ id, language }: TvSerieDetailsProps) => {
   return (
     <div className="mx-auto max-w-6xl relative">
       <Banner url={tmdbImage(tvSerie.backdrop_path)} />
+
       <section className="mx-auto my-8 max-w-4xl space-y-6">
-        <Suspense>
-          <TvSerieInfos language={language} tvSerie={tvSerie} />
-        </Suspense>
+        <TvSerieInfos language={language} tvSerie={tvSerie} />
 
         <Suspense>
           <TvSerieTabs language={language} tvSerie={tvSerie} />

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import type { ComponentProps } from 'react'
 
 type PosterProps = {
-  url?: string
+  url?: string | null
   alt: string
 } & ComponentProps<'div'>
 

@@ -25,9 +25,5 @@ export async function generateMetadata(
 export default async function TvSeriePage(props: TvSeriePageProps) {
   const { id, lang } = await props.params
 
-  return (
-    <Suspense>
-      <TvSerieDetails id={Number(id)} language={lang} />
-    </Suspense>
-  )
+  return <TvSerieDetails id={Number(id)} language={lang} />
 }

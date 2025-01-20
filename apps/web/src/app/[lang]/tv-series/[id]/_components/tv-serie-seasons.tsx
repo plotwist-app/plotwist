@@ -14,6 +14,7 @@ import { Poster } from '@/components/poster'
 import type { Language } from '@/types/languages'
 
 import { TvSerieSeasonDetails } from './tv-serie-season-details'
+import Link from 'next/link'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]
@@ -32,6 +33,12 @@ const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
   } = season
 
   return (
+    <Link href={`/tv-series/${id}/seasons/${seasonNumber}`}>
+      <Poster url={poster} alt={name} />
+    </Link>
+  )
+
+  return (
     <Dialog>
       <DialogTrigger className="text-start">
         <div className="group cursor-pointer space-y-2">
@@ -39,7 +46,7 @@ const TvSerieSeason = ({ season, id, language }: TvSerieSeasonProps) => {
             <Poster url={poster} alt={name} />
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1 hidden">
             <div className="flex justify-between space-x-2 space-y-0">
               <h6 className="underline-offset-1.5 text-sm group-hover:underline">
                 {name}
@@ -86,7 +93,7 @@ export const TvSerieSeasons = ({
   )
 
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 items-start">
+    <div className="grid grid-cols-3 gap-x-4 gap-y-8 md:grid-cols-5 items-start">
       {filteredSeasons.map(season => (
         <TvSerieSeason
           season={season}
