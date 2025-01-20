@@ -1,12 +1,9 @@
 import '@plotwist/ui/globals.css'
 
-import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
-import { getUserPreferences } from '@/api/users'
 import { GTag } from '@/components/gtag'
 import type { Language } from '@/types/languages'
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
-import { verifySession } from './lib/dal'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
 
@@ -32,15 +29,6 @@ export default async function RootLayout(props: {
   const params = await props.params
   const { children } = props
 
-  const session = await verifySession()
-
-  let userPreferences: GetUserPreferences200['userPreferences'] | undefined
-
-  if (session?.user) {
-    const { userPreferences: userPreferencesData } = await getUserPreferences()
-    userPreferences = userPreferencesData
-  }
-
   return (
     <html
       lang={params.lang}
@@ -48,12 +36,12 @@ export default async function RootLayout(props: {
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" type="image" />
+        <link rel="icon" href="/icon.ico" sizes="32x32" type="image/png" />
         <link
           rel="apple-touch-icon"
           href="/apple-icon.png"
-          type="image"
-          sizes="any"
+          type="image/png"
+          sizes="180x180"
         />
 
         <GTag />
