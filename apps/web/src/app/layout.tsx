@@ -5,7 +5,7 @@ import type { Language } from '@/types/languages'
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 
-const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'] })
+const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 
 export const metadata: Metadata = {
   title: {

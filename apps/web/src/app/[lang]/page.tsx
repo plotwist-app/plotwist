@@ -13,10 +13,7 @@ import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params
-
-  const { lang } = params
-
+  const { lang } = await props.params
   const dictionary = await getDictionary(lang)
 
   const image = `${APP_URL}/images/lp/home.png`
