@@ -12,6 +12,7 @@ import {
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
 import { MovieRelated } from './movie-related'
+import { Suspense } from 'react'
 
 type MovieTabsProps = { language: Language; movie: MovieDetails }
 
@@ -36,40 +37,52 @@ export const MovieTabs = async ({ language, movie }: MovieTabsProps) => {
         </TabsList>
       </div>
 
-      <TabsContent value="where_to_watch" className="mt-4">
-        <WhereToWatch id={movie.id} variant="movie" language={language} />
-      </TabsContent>
-
       <TabsContent value="reviews" className="mt-4">
         <Reviews tmdbId={movie.id} mediaType="MOVIE" />
       </TabsContent>
 
+      <TabsContent value="where_to_watch" className="mt-4">
+        <Suspense>
+          <WhereToWatch id={movie.id} variant="movie" language={language} />
+        </Suspense>
+      </TabsContent>
+
       <TabsContent value="credits" className="mt-4">
-        <Credits variant="movie" id={movie.id} language={language} />
+        <Suspense>
+          <Credits variant="movie" id={movie.id} language={language} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="recommendations" className="mt-4">
-        <MovieRelated
-          movieId={movie.id}
-          variant="recommendations"
-          language={language}
-        />
+        <Suspense>
+          <MovieRelated
+            movieId={movie.id}
+            variant="recommendations"
+            language={language}
+          />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="similar" className="mt-4">
-        <MovieRelated
-          movieId={movie.id}
-          variant="similar"
-          language={language}
-        />
+        <Suspense>
+          <MovieRelated
+            movieId={movie.id}
+            variant="similar"
+            language={language}
+          />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="images" className="mt-4">
-        <Images tmdbId={movie.id} variant="movie" />
+        <Suspense>
+          <Images tmdbId={movie.id} variant="movie" />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="videos" className="mt-4">
-        <Videos tmdbId={movie.id} variant="movie" />
+        <Suspense>
+          <Videos tmdbId={movie.id} variant="movie" />
+        </Suspense>
       </TabsContent>
     </Tabs>
   )

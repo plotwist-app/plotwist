@@ -8,6 +8,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'
 import { MovieTabs } from './movie-tabs'
+import { Suspense } from 'react'
 
 type MovieDetailsProps = {
   id: number
@@ -23,13 +24,19 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
 
       <section className="mx-auto my-8 max-w-4xl space-y-6">
         <MovieInfos movie={movie} language={language} />
+
         {movie.belongs_to_collection && (
-          <MovieCollection
-            collectionId={movie.belongs_to_collection.id}
-            language={language}
-          />
+          <Suspense>
+            <MovieCollection
+              collectionId={movie.belongs_to_collection.id}
+              language={language}
+            />
+          </Suspense>
         )}
-        <MovieTabs movie={movie} language={language} />
+
+        <Suspense>
+          <MovieTabs movie={movie} language={language} />
+        </Suspense>
       </section>
     </div>
   )

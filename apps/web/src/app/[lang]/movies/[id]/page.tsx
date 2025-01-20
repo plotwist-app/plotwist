@@ -6,6 +6,7 @@ import { getMoviesIds } from '@/utils/seo/get-movies-ids'
 import { getMovieMetadata } from '@/utils/seo/get-movie-metadata'
 
 import type { PageProps } from '@/types/languages'
+import { Suspense } from 'react'
 
 type MoviePageProps = PageProps<{ id: string }>
 
@@ -26,5 +27,9 @@ export async function generateMetadata(
 export default async function MoviePage(props: MoviePageProps) {
   const { id, lang } = await props.params
 
-  return <MovieDetails id={Number(id)} language={lang} />
+  return (
+    <Suspense>
+      <MovieDetails id={Number(id)} language={lang} />
+    </Suspense>
+  )
 }

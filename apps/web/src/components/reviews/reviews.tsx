@@ -60,3 +60,5 @@ export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
     </section>
   )
 }
+
+export default Reviews
