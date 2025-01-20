@@ -1,6 +1,6 @@
 import { tmdb } from '@/services/tmdb'
 
-const DEFAULT_PAGES = 20
+const DEFAULT_PAGES = 10
 
 export const getTvSeriesIds = async (pages: number = DEFAULT_PAGES) => {
   const types = ['airing_today', 'on_the_air', 'popular', 'top_rated'] as const

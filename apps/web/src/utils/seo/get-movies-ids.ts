@@ -1,6 +1,6 @@
 import { tmdb } from '@/services/tmdb'
 
-const DEFAULT_PAGES = 20
+const DEFAULT_PAGES = 10
 
 export const getMoviesIds = async (pages: number = DEFAULT_PAGES) => {
   const types = ['now_playing', 'popular', 'top_rated', 'upcoming'] as const
