@@ -10,9 +10,11 @@ type SeasonEpisodesProps = {
 }
 
 export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
+  const filteredEpisodes = episodes.filter(episode => episode.runtime !== null)
+
   return (
-    <div className="space-y-4">
-      {episodes.map(
+    <div className="space-y-6">
+      {filteredEpisodes.map(
         ({
           id,
           name,
@@ -44,7 +46,7 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
                     {episode_number}. {name}
                   </Link>
 
-                  <Badge className="mr-2">
+                  <Badge>
                     <Image
                       src="/assets/tmdb.svg"
                       width={55}
@@ -57,7 +59,9 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
                   </Badge>
                 </div>
 
-                <p className="text-sm text-muted-foreground">{overview}</p>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {overview}
+                </p>
               </div>
             </div>
           )

@@ -25,9 +25,10 @@ export function SeasonDetails({ season, language }: SeasonDetailsProps) {
           })}
         </span>
 
-        <div className="flex items-center gap-2">
-          <h1 className="text-lg font-bold md:text-4xl">{name}</h1>
-          <Badge>
+        <h1 className="text-lg font-bold md:text-4xl">{name}</h1>
+
+        <div className="flex">
+          <Badge className="shrink-0">
             <Image
               src="/assets/tmdb.svg"
               width={55}
