@@ -20,15 +20,10 @@ export async function generateStaticParams() {
 export async function generateMetadata(
   props: MoviePageProps
 ): Promise<Metadata> {
-  const params = await props.params
+  const { lang, id } = await props.params
 
-  const { lang, id } = params
-
-  const {
-    title,
-    overview,
-    backdrop_path: backdrop,
-  } = await tmdb.movies.details(Number(id), lang)
+  const { title, overview, backdrop_path, original_title } =
+    await tmdb.movies.details(Number(id), lang)
 
   const keywords = await tmdb.keywords('movie', Number(id))
 
@@ -36,8 +31,9 @@ export async function generateMetadata(
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(
     (acc, lang) => {
       if (lang.enabled) {
-        acc[lang.hreflang] = `${APP_URL}/${lang.value}`
+        acc[lang.hreflang] = `${APP_URL}/${lang.value}/movies/${id}`
       }
+
       return acc
     },
     {} as Record<string, string>
@@ -46,23 +42,44 @@ export async function generateMetadata(
   return {
     title,
     description: overview,
-    keywords: keywords?.map(keyword => keyword.name).join(','),
+    keywords: [
+      keywords?.map(keyword => keyword.name),
+      'movie',
+      'movies',
+      'streaming',
+      'online',
+      'trailers',
+      'reviews',
+      'ratings',
+      title,
+      original_title,
+    ].join(','),
     openGraph: {
-      images: [tmdbImage(backdrop)],
+      images: [tmdbImage(backdrop_path)],
       title,
       description: overview,
       siteName: 'Plotwist',
+      locale: lang,
+      url: canonicalUrl,
+      type: 'video.movie',
     },
     twitter: {
       title,
       description: overview,
-      images: tmdbImage(backdrop),
+      images: tmdbImage(backdrop_path),
       card: 'summary_large_image',
-      creator: '@lui7henrique',
     },
     alternates: {
       canonical: canonicalUrl,
       languages: languageAlternates,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
     },
   }
 }
