@@ -9,7 +9,7 @@ import { useLayoutContext } from '../_context'
 export const Reviews = () => {
   const { language } = useLanguage()
   const { userId } = useLayoutContext()
-  const { data, isLoading } = useGetDetailedReviewsSuspense({
+  const { data } = useGetDetailedReviewsSuspense({
     language,
     userId,
   })

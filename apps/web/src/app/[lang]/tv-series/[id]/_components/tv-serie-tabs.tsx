@@ -15,6 +15,7 @@ import {
 } from '@plotwist/ui/components/ui/tabs'
 import { TvSerieRelated } from './tv-serie-related'
 import { TvSerieSeasons } from './tv-serie-seasons'
+import { Suspense } from 'react'
 
 type TvSerieTabsProps = {
   tvSerie: TvSerieDetails
@@ -49,31 +50,49 @@ export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
       </TabsContent>
 
       <TabsContent value="where_to_watch">
-        <WhereToWatch id={id} variant="tv" language={language} />
+        <Suspense>
+          <WhereToWatch id={id} variant="tv" language={language} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="seasons" className="mt-4">
-        <TvSerieSeasons seasons={seasons} id={id} language={language} />
+        <Suspense>
+          <TvSerieSeasons seasons={seasons} id={id} language={language} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="credits" className="mt-4">
-        <Credits variant="tv" id={id} language={language} />
+        <Suspense>
+          <Credits variant="tv" id={id} language={language} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="recommendations" className="mt-4">
-        <TvSerieRelated id={id} variant="recommendations" language={language} />
+        <Suspense>
+          <TvSerieRelated
+            id={id}
+            variant="recommendations"
+            language={language}
+          />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="similar" className="mt-4">
-        <TvSerieRelated id={id} variant="similar" language={language} />
+        <Suspense>
+          <TvSerieRelated id={id} variant="similar" language={language} />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="images" className="mt-4">
-        <Images tmdbId={id} variant="tv" />
+        <Suspense>
+          <Images tmdbId={id} variant="tv" />
+        </Suspense>
       </TabsContent>
 
       <TabsContent value="videos" className="mt-4">
-        <Videos tmdbId={id} variant="tv" />
+        <Suspense>
+          <Videos tmdbId={id} variant="tv" />
+        </Suspense>
       </TabsContent>
     </Tabs>
   )
