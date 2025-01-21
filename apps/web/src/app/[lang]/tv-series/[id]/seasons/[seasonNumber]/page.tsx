@@ -4,6 +4,7 @@ import { SeasonDetails } from './_components/season-details'
 import { SeasonTabs } from './_components/season-tabs'
 import { SeasonNavigation } from './_components/season-navigation'
 import type { Metadata } from 'next'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type SeasonPageProps = PageProps<{
   seasonNumber: string
@@ -29,7 +30,7 @@ export async function generateMetadata({
       title: `${tvShow.name}: ${season.name}`,
       description: season.overview || `${season.name} of ${tvShow.name}`,
       images: tvShow.backdrop_path
-        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+        ? [tmdbImage(tvShow.backdrop_path, 'w500')]
         : undefined,
       siteName: 'Plotwist',
     },
@@ -37,7 +38,7 @@ export async function generateMetadata({
       title: `${tvShow.name}: ${season.name}`,
       description: season.overview || `${season.name} of ${tvShow.name}`,
       images: tvShow.backdrop_path
-        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+        ? [tmdbImage(tvShow.backdrop_path, 'w500')]
         : undefined,
       card: 'summary_large_image',
     },

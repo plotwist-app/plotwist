@@ -4,6 +4,7 @@ import { EpisodeDetails } from './_components/episode-details'
 import { EpisodeTabs } from './_components/episode-tabs'
 import { EpisodeNavigation } from './_components/episode-navigation'
 import type { Metadata } from 'next'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type EpisodePageProps = PageProps<{
   id: string
@@ -35,16 +36,16 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: tvShow.backdrop_path
-        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+      images: episode.still_path
+        ? [tmdbImage(episode.still_path, 'w500')]
         : undefined,
       siteName: 'Plotwist',
     },
     twitter: {
       title,
       description,
-      images: tvShow.backdrop_path
-        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+      images: episode.still_path
+        ? [tmdbImage(episode.still_path, 'w500')]
         : undefined,
       card: 'summary_large_image',
     },
