@@ -84,23 +84,23 @@ export async function EpisodeDetails({
           <h1 className="text-lg font-bold md:text-4xl">
             {episode_number}. {name}
           </h1>
+        </div>
+      </div>
 
-          <div className="flex">
-            <Badge className="shrink-0">
-              <Image
-                src="/assets/tmdb.svg"
-                width={55}
-                height={1}
-                alt="TMDB"
-                className="mr-2"
-              />
-              {vote_average.toFixed(1)}
-            </Badge>
-          </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-muted-foreground">{overview}</p>
 
-          <p className="text-sm text-muted-foreground line-clamp-3">
-            {overview}
-          </p>
+        <div className="flex">
+          <Badge>
+            <Image
+              src="/assets/tmdb.svg"
+              width={55}
+              height={1}
+              alt="TMDB"
+              className="mr-2"
+            />
+            {vote_average.toFixed(1)}
+          </Badge>
         </div>
       </div>
     </div>
