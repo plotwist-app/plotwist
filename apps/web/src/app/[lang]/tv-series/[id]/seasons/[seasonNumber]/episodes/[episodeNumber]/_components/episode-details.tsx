@@ -88,7 +88,7 @@ export async function EpisodeDetails({
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-muted-foreground">{overview}</p>
+        <p className="text-sm/6 text-muted-foreground">{overview}</p>
 
         <div className="flex">
           <Badge>

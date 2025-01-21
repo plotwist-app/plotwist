@@ -33,8 +33,8 @@ export const SeasonEpisodes = ({
           const href = `/${language}/tv-series/${tvId}/seasons/${season_number}/episodes/${episode_number}`
 
           return (
-            <div key={id} className="flex gap-2 flex-col md:flex-row md:gap-4">
-              <div className="w-auto md:w-[200px]">
+            <div key={id} className="flex gap-4">
+              <div className="w-1/3 md:w-[200px]">
                 <Link
                   className="block relative aspect-video rounded-md overflow-hidden shadow border"
                   href={href}
@@ -53,11 +53,11 @@ export const SeasonEpisodes = ({
                   {episode_number}. {name}
                 </Link>
 
-                <p className="text-xs text-muted-foreground line-clamp-3">
+                <p className="text-xs text-muted-foreground line-clamp-2 md:line-clamp-3">
                   {overview}
                 </p>
 
-                <div>
+                <div className="hidden">
                   <Badge>
                     <Image
                       src="/assets/tmdb.svg"
