@@ -16,9 +16,9 @@ export function SeasonDetails({ season, language }: SeasonDetailsProps) {
 
   return (
     <div className="flex items-end gap-4">
-      <Poster url={poster_path} alt={name} className="w-1/4" />
+      <Poster url={poster_path} alt={name} className="w-1/3 md:w-[200px]" />
 
-      <div className="flex flex-col gap-2 w-4/5">
+      <div className="flex flex-col gap-2 flex-1">
         <span className="text-xs text-muted-foreground">
           {format(new Date(air_date), 'PPP', {
             locale: locale[language],

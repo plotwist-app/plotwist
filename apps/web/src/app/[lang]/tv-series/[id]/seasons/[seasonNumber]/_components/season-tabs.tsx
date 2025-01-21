@@ -8,6 +8,7 @@ import { SeasonEpisodes } from './season-episodes'
 import type { SeasonDetails } from '@plotwist_app/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { Suspense } from 'react'
 
 type SeasonTabsProps = {
   seasonDetails: SeasonDetails
@@ -37,7 +38,9 @@ export async function SeasonTabs({ seasonDetails, language }: SeasonTabsProps) {
       </TabsList>
 
       <TabsContent value="episodes">
-        <SeasonEpisodes episodes={episodes} tvId={id} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SeasonEpisodes episodes={episodes} tvId={id} />
+        </Suspense>
       </TabsContent>
     </Tabs>
   )

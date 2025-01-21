@@ -27,25 +27,31 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
           const href = `/tv-series/${tvId}/seasons/${season_number}/episodes/${episode_number}`
 
           return (
-            <div key={id} className="flex gap-4">
-              <Link
-                className="w-1/4 relative aspect-video rounded-lg overflow-hidden"
-                href={href}
-              >
-                <Image
-                  src={tmdbImage(still_path)}
-                  alt={name}
-                  fill
-                  className="object-cover"
-                />
-              </Link>
+            <div key={id} className="flex gap-2 flex-col md:flex-row md:gap-4">
+              <div className="w-auto md:w-[200px]">
+                <Link
+                  className="block relative aspect-video rounded-md overflow-hidden shadow border"
+                  href={href}
+                >
+                  <Image
+                    src={tmdbImage(still_path)}
+                    alt={name}
+                    fill
+                    className="object-cover"
+                  />
+                </Link>
+              </div>
 
-              <div className="w-3/4 space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <Link href={href}>
-                    {episode_number}. {name}
-                  </Link>
+              <div className="space-y-2 flex-1">
+                <Link href={href}>
+                  {episode_number}. {name}
+                </Link>
 
+                <p className="text-xs text-muted-foreground line-clamp-3">
+                  {overview}
+                </p>
+
+                <div>
                   <Badge>
                     <Image
                       src="/assets/tmdb.svg"
@@ -58,10 +64,6 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
                     {vote_average.toFixed(1)}
                   </Badge>
                 </div>
-
-                <p className="text-sm text-muted-foreground line-clamp-3">
-                  {overview}
-                </p>
               </div>
             </div>
           )
