@@ -48,8 +48,8 @@ export const SeasonEpisodes = ({
                 </Link>
               </div>
 
-              <div className="space-y-2 flex-1">
-                <Link href={href}>
+              <div className="flex flex-col gap-1 flex-1">
+                <Link href={href} className="text-sm md:text-base">
                   {episode_number}. {name}
                 </Link>
 

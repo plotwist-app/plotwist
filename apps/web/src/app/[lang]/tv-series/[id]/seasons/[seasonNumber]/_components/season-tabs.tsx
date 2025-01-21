@@ -26,21 +26,23 @@ export async function SeasonTabs({
 
   return (
     <Tabs defaultValue="episodes" className="space-y-4">
-      <TabsList>
-        <TabsTrigger value="reviews" disabled>
-          {dictionary.reviews}
-        </TabsTrigger>
-        <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
-        <TabsTrigger value="credits" disabled>
-          {dictionary.tabs.credits}
-        </TabsTrigger>
-        <TabsTrigger value="images" disabled>
-          {dictionary.tabs.images}
-        </TabsTrigger>
-        <TabsTrigger value="videos" disabled>
-          {dictionary.tabs.videos}
-        </TabsTrigger>
-      </TabsList>
+      <div className="md:m-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
+        <TabsList>
+          <TabsTrigger value="reviews" disabled>
+            {dictionary.reviews}
+          </TabsTrigger>
+          <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
+          <TabsTrigger value="credits" disabled>
+            {dictionary.tabs.credits}
+          </TabsTrigger>
+          <TabsTrigger value="images" disabled>
+            {dictionary.tabs.images}
+          </TabsTrigger>
+          <TabsTrigger value="videos" disabled>
+            {dictionary.tabs.videos}
+          </TabsTrigger>
+        </TabsList>
+      </div>
 
       <TabsContent value="episodes">
         <Suspense fallback={<div>Loading...</div>}>
