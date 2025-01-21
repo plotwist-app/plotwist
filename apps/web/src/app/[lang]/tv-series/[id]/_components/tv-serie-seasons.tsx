@@ -35,7 +35,7 @@ export const TvSerieSeasons = ({
   )
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 gap-y-8 md:grid-cols-5 items-start">
+    <div className="grid grid-cols-3 gap-4 md:grid-cols-5 items-start">
       {filteredSeasons.map(season => (
         <TvSerieSeason
           season={season}
