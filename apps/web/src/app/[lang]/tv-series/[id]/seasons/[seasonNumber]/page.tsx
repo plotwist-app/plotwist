@@ -3,11 +3,46 @@ import type { PageProps } from '@/types/languages'
 import { SeasonDetails } from './_components/season-details'
 import { SeasonTabs } from './_components/season-tabs'
 import { SeasonNavigation } from './_components/season-navigation'
+import type { Metadata } from 'next'
 
 type SeasonPageProps = PageProps<{
   seasonNumber: string
   id: string
 }>
+
+export async function generateMetadata({
+  params,
+}: SeasonPageProps): Promise<Metadata> {
+  const { lang, seasonNumber, id } = await params
+
+  const season = await tmdb.season.details(
+    Number(id),
+    Number(seasonNumber),
+    lang
+  )
+  const tvShow = await tmdb.tv.details(Number(id), lang)
+
+  return {
+    title: `${tvShow.name}: ${season.name}`,
+    description: season.overview || `${season.name} of ${tvShow.name}`,
+    openGraph: {
+      title: `${tvShow.name}: ${season.name}`,
+      description: season.overview || `${season.name} of ${tvShow.name}`,
+      images: tvShow.backdrop_path
+        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+        : undefined,
+      siteName: 'Plotwist',
+    },
+    twitter: {
+      title: `${tvShow.name}: ${season.name}`,
+      description: season.overview || `${season.name} of ${tvShow.name}`,
+      images: tvShow.backdrop_path
+        ? [`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`]
+        : undefined,
+      card: 'summary_large_image',
+    },
+  }
+}
 
 export default async function SeasonPage({ params }: SeasonPageProps) {
   const { lang, seasonNumber, id } = await params

@@ -9,7 +9,7 @@ const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 
 export const metadata: Metadata = {
   title: {
-    template: 'Plotwist • %s',
+    template: '%s • Plotwist',
     default: 'Plotwist',
   },
 }

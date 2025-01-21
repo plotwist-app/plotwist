@@ -19,7 +19,7 @@ export const SeasonEpisodes = ({
   const filteredEpisodes = episodes.filter(episode => episode.runtime !== null)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {filteredEpisodes.map(
         ({
           id,

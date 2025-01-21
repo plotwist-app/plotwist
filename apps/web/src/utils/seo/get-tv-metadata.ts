@@ -43,7 +43,6 @@ export async function getTvMetadata(
       description: overview,
       images: tmdbImage(backdrop),
       card: 'summary_large_image',
-      creator: '@lui7henrique',
     },
     alternates: {
       canonical: canonicalUrl,
