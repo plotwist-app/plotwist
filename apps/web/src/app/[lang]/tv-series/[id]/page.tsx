@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 
 import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
 import { getTvMetadata } from '@/utils/seo/get-tv-metadata'

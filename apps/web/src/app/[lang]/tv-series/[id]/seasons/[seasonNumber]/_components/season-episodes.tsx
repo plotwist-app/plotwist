@@ -1,3 +1,4 @@
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { Episode } from '@plotwist_app/tmdb'
@@ -7,9 +8,14 @@ import Link from 'next/link'
 type SeasonEpisodesProps = {
   episodes: Episode[]
   tvId: number
+  language: Language
 }
 
-export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
+export const SeasonEpisodes = ({
+  episodes,
+  tvId,
+  language,
+}: SeasonEpisodesProps) => {
   const filteredEpisodes = episodes.filter(episode => episode.runtime !== null)
 
   return (
@@ -24,7 +30,7 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
           season_number,
           vote_average,
         }) => {
-          const href = `/tv-series/${tvId}/seasons/${season_number}/episodes/${episode_number}`
+          const href = `/${language}/tv-series/${tvId}/seasons/${season_number}/episodes/${episode_number}`
 
           return (
             <div key={id} className="flex gap-2 flex-col md:flex-row md:gap-4">
@@ -34,7 +40,7 @@ export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
                   href={href}
                 >
                   <Image
-                    src={tmdbImage(still_path)}
+                    src={tmdbImage(still_path ?? '', 'w500')}
                     alt={name}
                     fill
                     className="object-cover"

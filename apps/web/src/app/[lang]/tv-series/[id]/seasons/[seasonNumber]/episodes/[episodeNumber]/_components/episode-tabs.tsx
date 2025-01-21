@@ -4,33 +4,22 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { SeasonEpisodes } from './season-episodes'
-import type { SeasonDetails } from '@plotwist_app/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Suspense } from 'react'
+import { EpisodeReviews } from './episode-reviews'
 
-type SeasonTabsProps = {
-  seasonDetails: SeasonDetails
+type EpisodeTabsProps = {
   language: Language
-  id: number
 }
 
-export async function SeasonTabs({
-  seasonDetails,
-  language,
-  id,
-}: SeasonTabsProps) {
-  const { episodes } = seasonDetails
+export async function EpisodeTabs({ language }: EpisodeTabsProps) {
   const dictionary = await getDictionary(language)
 
   return (
-    <Tabs defaultValue="episodes" className="space-y-4">
+    <Tabs defaultValue="reviews" className="space-y-4">
       <TabsList>
-        <TabsTrigger value="reviews" disabled>
-          {dictionary.reviews}
-        </TabsTrigger>
-        <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
+        <TabsTrigger value="reviews">{dictionary.reviews}</TabsTrigger>
         <TabsTrigger value="credits" disabled>
           {dictionary.tabs.credits}
         </TabsTrigger>
@@ -42,9 +31,9 @@ export async function SeasonTabs({
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="episodes">
+      <TabsContent value="reviews">
         <Suspense fallback={<div>Loading...</div>}>
-          <SeasonEpisodes episodes={episodes} tvId={id} language={language} />
+          <EpisodeReviews />
         </Suspense>
       </TabsContent>
     </Tabs>

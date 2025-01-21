@@ -11,21 +11,10 @@ type TvSerieSeasonsProps = {
   language: Language
 }
 
-type TvSerieSeasonProps = { season: Season; id: number; language: Language }
-const TvSerieSeason = ({ season, id }: TvSerieSeasonProps) => {
-  const { poster_path: poster, name, season_number: seasonNumber } = season
-
-  return (
-    <Link href={`/tv-series/${id}/seasons/${seasonNumber}`}>
-      <Poster url={poster} alt={name} />
-    </Link>
-  )
-}
-
 export const TvSerieSeasons = ({
   seasons,
-  id,
   language,
+  id,
 }: TvSerieSeasonsProps) => {
   const filteredSeasons = seasons.filter(
     season =>
@@ -36,14 +25,16 @@ export const TvSerieSeasons = ({
 
   return (
     <div className="grid grid-cols-3 gap-4 md:grid-cols-5 items-start">
-      {filteredSeasons.map(season => (
-        <TvSerieSeason
-          season={season}
-          key={season.id}
-          id={id}
-          language={language}
-        />
-      ))}
+      {filteredSeasons.map(
+        ({ poster_path: poster, name, season_number: seasonNumber }) => (
+          <Link
+            href={`/${language}/tv-series/${id}/seasons/${seasonNumber}`}
+            key={seasonNumber}
+          >
+            <Poster url={poster} alt={name} />
+          </Link>
+        )
+      )}
     </div>
   )
 }

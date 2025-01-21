@@ -813,5 +813,8 @@
   "reading_reviews": "レビューを読み込んでいます...",
   "analyzing_reviews": "レビューを分析しています...",
   "identifying_main_points": "主なポイントを特定しています...",
-  "generating_summary": "要約を生成しています..."
+  "generating_summary": "要約を生成しています...",
+  "previous_episode": "前のエピソード",
+  "next_episode": "次のエピソード",
+  "coming_soon": "近日中に"
 }

@@ -811,5 +811,8 @@
   "reading_reviews": "Reading reviews...",
   "analyzing_reviews": "Analyzing reviews...",
   "identifying_main_points": "Identifying main points...",
-  "generating_summary": "Generating summary..."
+  "generating_summary": "Generating summary...",
+  "previous_episode": "Previous Episode",
+  "next_episode": "Next Episode",
+  "coming_soon": "Coming soon..."
 }

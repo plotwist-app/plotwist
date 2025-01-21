@@ -815,5 +815,8 @@
   "reading_reviews": "Lecture des critiques...",
   "analyzing_reviews": "Analyse des critiques...",
   "identifying_main_points": "Identification des points principaux...",
-  "generating_summary": "Génération du résumé..."
+  "generating_summary": "Génération du résumé...",
+  "previous_episode": "Épisode Précédent",
+  "next_episode": "Épisode Suivant",
+  "coming_soon": "En cours de production..."
 }

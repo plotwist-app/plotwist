@@ -813,5 +813,8 @@
   "reading_reviews": "Lettura delle recensioni...",
   "analyzing_reviews": "Analisi delle recensioni...",
   "identifying_main_points": "Identificazione dei punti principali...",
-  "generating_summary": "Generazione del riepilogo..."
+  "generating_summary": "Generazione del riepilogo...",
+  "previous_episode": "Episodio Precedente",
+  "next_episode": "Episodio Successivo",
+  "coming_soon": "In arrivo..."
 }
