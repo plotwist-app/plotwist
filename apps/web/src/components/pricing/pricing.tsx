@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { Price } from './price'
 
 export const Pricing = () => {

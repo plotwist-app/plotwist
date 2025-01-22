@@ -9,7 +9,7 @@ import {
 import { logout } from '@/actions/auth/logout'
 import { useLanguage } from '@/context/language'
 import type { User } from '@/types/user'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type HeaderNavigationDrawerUserProps = {
   user: User

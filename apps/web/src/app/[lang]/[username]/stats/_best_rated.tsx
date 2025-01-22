@@ -31,7 +31,7 @@ import { StarFilledIcon } from '@radix-ui/react-icons'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import { format } from 'date-fns'
 import { Star } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
 

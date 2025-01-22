@@ -1,5 +1,5 @@
 import { type MovieRelatedType, tmdb } from '@/services/tmdb'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import { PosterCard } from '@/components/poster-card'
 import type { Language } from '@/types/languages'

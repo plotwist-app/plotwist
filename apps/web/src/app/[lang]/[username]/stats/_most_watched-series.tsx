@@ -12,7 +12,7 @@ import {
 } from '@plotwist/ui/components/ui/card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Trophy } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
 

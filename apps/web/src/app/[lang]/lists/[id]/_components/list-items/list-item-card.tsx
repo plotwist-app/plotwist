@@ -8,7 +8,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Image from 'next/image'
 import { ListItemActions } from './list-item-actions'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 export type ListItemCardProps = {
   listItem: GetListItemsByListId200Item

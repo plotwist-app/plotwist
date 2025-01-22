@@ -20,7 +20,7 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Heart } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { type PropsWithChildren, useState } from 'react'
 import { v4 } from 'uuid'
 import { ProBadge } from '../pro-badge'

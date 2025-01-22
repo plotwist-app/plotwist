@@ -3,7 +3,7 @@
 import { useLanguage } from '@/context/language'
 import type { TvSerieDetails } from '@/services/tmdb'
 import { Badge } from '@plotwist/ui/components/ui/badge'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type TvSerieGenresProps = { genres: TvSerieDetails['genres'] }
 

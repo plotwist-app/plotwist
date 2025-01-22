@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/context/language'
 import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 

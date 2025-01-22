@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import { PosterCard } from '@/components/poster-card'
 import { Separator } from '@plotwist/ui/components/ui/separator'

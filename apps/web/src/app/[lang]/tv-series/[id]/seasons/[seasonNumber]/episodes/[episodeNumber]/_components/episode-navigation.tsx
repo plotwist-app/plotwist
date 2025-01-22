@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 async function getEpisodeDetails(
   tvId: number,

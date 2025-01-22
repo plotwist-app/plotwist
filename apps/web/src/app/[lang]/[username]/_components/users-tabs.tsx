@@ -21,7 +21,7 @@ import {
   Star,
   Trophy,
 } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
