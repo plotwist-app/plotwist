@@ -8,7 +8,8 @@ import { SeasonEpisodes } from './season-episodes'
 import type { SeasonDetails } from '@plotwist_app/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Suspense } from 'react'
+import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
 
 type SeasonTabsProps = {
   seasonDetails: SeasonDetails
@@ -21,7 +22,7 @@ export async function SeasonTabs({
   language,
   id,
 }: SeasonTabsProps) {
-  const { episodes } = seasonDetails
+  const { episodes, season_number } = seasonDetails
   const dictionary = await getDictionary(language)
 
   return (
@@ -32,12 +33,8 @@ export async function SeasonTabs({
             {dictionary.reviews}
           </TabsTrigger>
           <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
-          <TabsTrigger value="credits" disabled>
-            {dictionary.tabs.credits}
-          </TabsTrigger>
-          <TabsTrigger value="images" disabled>
-            {dictionary.tabs.images}
-          </TabsTrigger>
+          <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
+          <TabsTrigger value="images">{dictionary.tabs.images}</TabsTrigger>
           <TabsTrigger value="videos" disabled>
             {dictionary.tabs.videos}
           </TabsTrigger>
@@ -45,9 +42,20 @@ export async function SeasonTabs({
       </div>
 
       <TabsContent value="episodes">
-        <Suspense fallback={<div>Loading...</div>}>
-          <SeasonEpisodes episodes={episodes} tvId={id} language={language} />
-        </Suspense>
+        <SeasonEpisodes episodes={episodes} tvId={id} language={language} />
+      </TabsContent>
+
+      <TabsContent value="credits">
+        <Credits
+          variant="season"
+          id={id}
+          language={language}
+          seasonNumber={season_number}
+        />
+      </TabsContent>
+
+      <TabsContent value="images">
+        <Images variant="season" tmdbId={id} seasonNumber={season_number} />
       </TabsContent>
     </Tabs>
   )

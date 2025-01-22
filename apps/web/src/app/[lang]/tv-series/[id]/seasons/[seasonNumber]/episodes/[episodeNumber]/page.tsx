@@ -70,7 +70,14 @@ export default async function EpisodePage({ params }: EpisodePageProps) {
         tvId={Number(id)}
         seasonNumber={Number(seasonNumber)}
       />
-      <EpisodeTabs language={lang} />
+
+      <EpisodeTabs
+        language={lang}
+        id={Number(id)}
+        seasonNumber={Number(seasonNumber)}
+        episodeNumber={Number(episodeNumber)}
+      />
+
       <EpisodeNavigation
         tvId={Number(id)}
         seasonNumber={Number(seasonNumber)}

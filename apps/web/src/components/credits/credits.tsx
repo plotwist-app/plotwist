@@ -4,14 +4,52 @@ import { getDictionary } from '@/utils/dictionaries'
 import { CreditCard } from './credit-card'
 import { getDepartamentLabel } from '@/utils/tmdb/department'
 
-export type CreditsProps = {
-  variant: 'movie' | 'tv'
+type BaseCreditsProps = {
   id: number
   language: Language
 }
 
-export const Credits = async ({ variant, id, language }: CreditsProps) => {
-  const { cast, crew } = await tmdb.credits(variant, id, language)
+type MovieOrTVCreditsProps = BaseCreditsProps & {
+  variant: 'movie' | 'tv'
+}
+
+type SeasonCreditsProps = BaseCreditsProps & {
+  variant: 'season'
+  seasonNumber: number
+}
+
+type EpisodeCreditsProps = BaseCreditsProps & {
+  variant: 'episode'
+  seasonNumber: number
+  episodeNumber: number
+}
+
+export type CreditsProps =
+  | MovieOrTVCreditsProps
+  | SeasonCreditsProps
+  | EpisodeCreditsProps
+
+function getCredits(props: CreditsProps) {
+  const { variant, id, language } = props
+
+  if (variant === 'season') {
+    const { seasonNumber } = props
+
+    return tmdb.season.credits(id, seasonNumber)
+  }
+
+  if (variant === 'episode') {
+    const { seasonNumber, episodeNumber } = props
+    return tmdb.episodes.credits(id, seasonNumber, episodeNumber)
+  }
+
+  return tmdb.credits(variant === 'tv' ? 'tv' : 'movie', id, language)
+}
+
+export const Credits = async (props: CreditsProps) => {
+  const { language } = props
+
+  const { cast, crew } = await getCredits(props)
   const dictionary = await getDictionary(language)
 
   return (
