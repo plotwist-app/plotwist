@@ -184,6 +184,9 @@ importers:
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@18.0.0)(react@18.3.1)
+      next-view-transitions:
+        specifier: ^0.3.4
+        version: 0.3.4(next@15.1.4)(react-dom@18.0.0)(react@18.3.1)
       nextjs-toploader:
         specifier: ^1.6.4
         version: 1.6.4(next@15.1.4)(react-dom@18.0.0)(react@18.3.1)
@@ -9056,6 +9059,18 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
     dependencies:
+      react: 18.3.1
+      react-dom: 18.0.0(react@18.3.1)
+    dev: false
+
+  /next-view-transitions@0.3.4(next@15.1.4)(react-dom@18.0.0)(react@18.3.1):
+    resolution: {integrity: sha512-SSiskenQ8JkEFGzPjvFwC5LGGoqgTxM5dxexkeugxvcXFLpWI2ZUh4IsCURD3ovW+8Ue7xXlrtrpy8b7XR7IwQ==}
+    peerDependencies:
+      next: '>=14.0.0'
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      next: 15.1.4(@babel/core@7.26.0)(react-dom@18.0.0)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.0.0(react@18.3.1)
     dev: false

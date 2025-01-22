@@ -9,10 +9,10 @@ import { tmdb } from '@/services/tmdb'
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@plotwist/ui/components/ui/breadcrumb'
+import { Link } from 'next-view-transitions'
 
 type SeasonDetailsProps = {
   season: TMDBSeasonDetails
@@ -34,18 +34,16 @@ export async function SeasonDetails({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${language}/tv-series/${id}`}>
-              {series.name}
-            </BreadcrumbLink>
+            <Link href={`/${language}/tv-series/${id}`}>{series.name}</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink
+            <Link
               href={`/${language}/tv-series/${id}/seasons/${season_number}`}
               className="text-foreground"
             >
               {name}
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

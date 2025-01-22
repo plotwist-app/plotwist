@@ -1,7 +1,6 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@plotwist/ui/components/ui/breadcrumb'
@@ -14,6 +13,7 @@ import Image from 'next/image'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getDictionary } from '@/utils/dictionaries'
+import { Link } from 'next-view-transitions'
 
 type EpisodeDetailsProps = {
   episode: EpisodeDetailsType
@@ -40,26 +40,24 @@ export async function EpisodeDetails({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${language}/tv-series/${tvId}`}>
-              {series.name}
-            </BreadcrumbLink>
+            <Link href={`/${language}/tv-series/${tvId}`}>{series.name}</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink
+            <Link
               href={`/${language}/tv-series/${tvId}/seasons/${seasonNumber}`}
             >
               {season.name}
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink
+            <Link
               href={`/${language}/tv-series/${tvId}/seasons/${seasonNumber}/episodes/${episode_number}`}
               className="text-foreground capitalize"
             >
               {dictionary.episode} {episode_number}
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
