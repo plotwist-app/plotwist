@@ -13,6 +13,7 @@ import {
   BreadcrumbSeparator,
 } from '@plotwist/ui/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
+import { ItemReview } from '@/components/item-review'
 
 type SeasonDetailsProps = {
   season: TMDBSeasonDetails
@@ -59,24 +60,28 @@ export async function SeasonDetails({
           </span>
 
           <h1 className="text-lg font-bold md:text-4xl">{name}</h1>
+
+          <div>
+            <Badge className="shrink-0">
+              <Image
+                src="/assets/tmdb.svg"
+                width={55}
+                height={1}
+                alt="TMDB"
+                className="mr-2"
+              />
+
+              {vote_average.toFixed(1)}
+            </Badge>
+          </div>
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <p className="text-sm/6 text-muted-foreground">{overview}</p>
 
-        <div className="flex ">
-          <Badge className="shrink-0">
-            <Image
-              src="/assets/tmdb.svg"
-              width={55}
-              height={1}
-              alt="TMDB"
-              className="mr-2"
-            />
-
-            {vote_average.toFixed(1)}
-          </Badge>
+        <div className="flex gap-2 items-center">
+          <ItemReview />
         </div>
       </div>
     </div>
