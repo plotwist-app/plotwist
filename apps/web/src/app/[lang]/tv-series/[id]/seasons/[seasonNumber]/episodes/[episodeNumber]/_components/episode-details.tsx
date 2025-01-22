@@ -14,6 +14,7 @@ import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getDictionary } from '@/utils/dictionaries'
 import { Link } from 'next-view-transitions'
+import { ItemReview } from '@/components/item-review'
 
 type EpisodeDetailsProps = {
   episode: EpisodeDetailsType
@@ -82,6 +83,19 @@ export async function EpisodeDetails({
           <h1 className="text-lg font-bold md:text-4xl">
             {episode_number}. {name}
           </h1>
+
+          <div>
+            <Badge>
+              <Image
+                src="/assets/tmdb.svg"
+                width={55}
+                height={1}
+                alt="TMDB"
+                className="mr-2"
+              />
+              {vote_average.toFixed(1)}
+            </Badge>
+          </div>
         </div>
       </div>
 
@@ -89,16 +103,7 @@ export async function EpisodeDetails({
         <p className="text-sm/6 text-muted-foreground">{overview}</p>
 
         <div className="flex">
-          <Badge>
-            <Image
-              src="/assets/tmdb.svg"
-              width={55}
-              height={1}
-              alt="TMDB"
-              className="mr-2"
-            />
-            {vote_average.toFixed(1)}
-          </Badge>
+          <ItemReview />
         </div>
       </div>
     </div>
