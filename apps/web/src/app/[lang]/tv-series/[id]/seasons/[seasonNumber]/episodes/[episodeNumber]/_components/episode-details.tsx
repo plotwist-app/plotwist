@@ -13,7 +13,7 @@ import Image from 'next/image'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { getDictionary } from '@/utils/dictionaries'
-import { Link } from 'next-view-transitions'
+import Link from 'next/link'
 
 type EpisodeDetailsProps = {
   episode: EpisodeDetailsType

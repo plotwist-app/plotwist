@@ -12,7 +12,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@plotwist/ui/components/ui/breadcrumb'
-import { Link } from 'next-view-transitions'
+import Link from 'next/link'
 
 type SeasonDetailsProps = {
   season: TMDBSeasonDetails

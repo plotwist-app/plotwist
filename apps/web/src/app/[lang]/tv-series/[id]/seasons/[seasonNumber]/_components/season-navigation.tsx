@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { ChevronLeft } from 'lucide-react'
-import { Link } from 'next-view-transitions'
+import Link from 'next/link'
 
 async function getSeasonDetails(
   tvId: number,
