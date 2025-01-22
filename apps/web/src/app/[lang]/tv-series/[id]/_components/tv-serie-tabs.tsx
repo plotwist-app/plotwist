@@ -91,7 +91,7 @@ export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
 
       <TabsContent value="videos" className="mt-4">
         <Suspense>
-          <Videos tmdbId={id} variant="tv" />
+          <Videos tmdbId={id} variant="tv" dictionary={dictionary} />
         </Suspense>
       </TabsContent>
     </Tabs>

@@ -16,11 +16,12 @@ type ImagesMasonryProps = {
 export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
   return (
     <ReactMasonryCss
-      className="flex space-x-4"
+      className="flex gap-4"
       breakpointCols={{
         default: 3,
         1080: 2,
       }}
+      columnClassName="space-y-4"
     >
       {images.map(image => {
         const { file_path: filePath, aspect_ratio: aspectRatio } = image
@@ -51,7 +52,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
 
         return (
           <a
-            className="relative mb-4 flex w-full overflow-hidden rounded-md border bg-background/50 shadow"
+            className="relative flex w-full overflow-hidden rounded-md border bg-background/50 shadow"
             target="_blank"
             href={qualityURL}
             key={filePath}

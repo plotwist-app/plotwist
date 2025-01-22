@@ -9,7 +9,9 @@ import type { SeasonDetails } from '@plotwist_app/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { Credits } from '@/components/credits'
+import { Suspense } from 'react'
 import { Images } from '@/components/images'
+import { Videos } from '@/components/videos'
 
 type SeasonTabsProps = {
   seasonDetails: SeasonDetails
@@ -35,9 +37,7 @@ export async function SeasonTabs({
           <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
           <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
           <TabsTrigger value="images">{dictionary.tabs.images}</TabsTrigger>
-          <TabsTrigger value="videos" disabled>
-            {dictionary.tabs.videos}
-          </TabsTrigger>
+          <TabsTrigger value="videos">{dictionary.tabs.videos}</TabsTrigger>
         </TabsList>
       </div>
 
@@ -56,6 +56,17 @@ export async function SeasonTabs({
 
       <TabsContent value="images">
         <Images variant="season" tmdbId={id} seasonNumber={season_number} />
+      </TabsContent>
+
+      <TabsContent value="videos">
+        <Suspense>
+          <Videos
+            variant="season"
+            tmdbId={id}
+            seasonNumber={season_number}
+            dictionary={dictionary}
+          />
+        </Suspense>
       </TabsContent>
     </Tabs>
   )

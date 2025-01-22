@@ -816,5 +816,6 @@
   "generating_summary": "Generazione del riepilogo...",
   "previous_episode": "Episodio Precedente",
   "next_episode": "Episodio Successivo",
-  "coming_soon": "In arrivo..."
+  "coming_soon": "In arrivo...",
+  "no_videos_found": "Nessun video disponibile al momento 🎬"
 }

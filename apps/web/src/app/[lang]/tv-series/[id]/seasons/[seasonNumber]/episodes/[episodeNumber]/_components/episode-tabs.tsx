@@ -9,6 +9,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { Suspense } from 'react'
 import { EpisodeReviews } from './episode-reviews'
 import { Credits } from '@/components/credits/credits'
+import { Images } from '@/components/images'
 
 type EpisodeTabsProps = {
   language: Language
@@ -30,9 +31,7 @@ export async function EpisodeTabs({
       <TabsList>
         <TabsTrigger value="reviews">{dictionary.reviews}</TabsTrigger>
         <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
-        <TabsTrigger value="videos" disabled>
-          {dictionary.tabs.videos}
-        </TabsTrigger>
+        <TabsTrigger value="images">{dictionary.tabs.images}</TabsTrigger>
       </TabsList>
 
       <TabsContent value="reviews">
@@ -46,6 +45,15 @@ export async function EpisodeTabs({
           variant="episode"
           id={id}
           language={language}
+          seasonNumber={seasonNumber}
+          episodeNumber={episodeNumber}
+        />
+      </TabsContent>
+
+      <TabsContent value="images">
+        <Images
+          variant="episode"
+          tmdbId={id}
           seasonNumber={seasonNumber}
           episodeNumber={episodeNumber}
         />

@@ -814,5 +814,6 @@
   "generating_summary": "Generating summary...",
   "previous_episode": "Previous Episode",
   "next_episode": "Next Episode",
-  "coming_soon": "Coming soon..."
+  "coming_soon": "Coming soon...",
+  "no_videos_found": "No videos available at the moment 🎬"
 }
