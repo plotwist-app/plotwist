@@ -12,12 +12,22 @@ import { cn } from '@/lib/utils'
 
 function ItemReviewContent() {
   const pathname = usePathname()
-  const params = useParams<{ id: string }>()
+  const { id, seasonNumber, episodeNumber } = useParams<{
+    id: string
+    seasonNumber?: string
+    episodeNumber?: string
+  }>()
 
   const mediaType = pathname.includes('tv-series') ? 'TV_SHOW' : 'MOVIE'
-  const tmdbId = Number(params.id)
 
-  const { data } = useGetReviewSuspense({ mediaType, tmdbId: String(tmdbId) })
+  const tmdbId = Number(id)
+
+  const { data } = useGetReviewSuspense({
+    mediaType,
+    tmdbId: String(tmdbId),
+    seasonNumber,
+    episodeNumber,
+  })
   const { dictionary } = useLanguage()
 
   return (

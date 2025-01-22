@@ -782,6 +782,8 @@ export type GetUserIdBestReviews200BestReviewsItem = {
   createdAt: string;
   /** @nullable */
   date: string | null;
+  /** @nullable */
+  episodeNumber: number | null;
   hasSpoilers: boolean;
   id: string;
   /** @nullable */
@@ -791,6 +793,8 @@ export type GetUserIdBestReviews200BestReviewsItem = {
   posterPath: string | null;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   title: string;
   tmdbId: number;
   userId: string;
@@ -1600,6 +1604,8 @@ export type GetDetailedReviews200ReviewsItem = {
   /** @nullable */
   backdropPath: string | null;
   createdAt: string;
+  /** @nullable */
+  episodeNumber: number | null;
   hasSpoilers: boolean;
   id: string;
   /** @nullable */
@@ -1611,6 +1617,8 @@ export type GetDetailedReviews200ReviewsItem = {
   rating: number;
   replyCount: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   title: string;
   tmdbId: number;
   user: GetDetailedReviews200ReviewsItemUser;
@@ -1670,6 +1678,8 @@ limit?: string;
 mediaType?: GetDetailedReviewsMediaType;
 orderBy?: GetDetailedReviewsOrderBy;
 interval?: GetDetailedReviewsInterval;
+seasonNumber?: string;
+episodeNumber?: string;
 };
 
 export type PutReviewById200MediaType = typeof PutReviewById200MediaType[keyof typeof PutReviewById200MediaType];
@@ -1700,6 +1710,8 @@ export const PutReviewById200Language = {
 
 export type PutReviewById200 = {
   createdAt: string;
+  /** @nullable */
+  episodeNumber: number | null;
   hasSpoilers: boolean;
   id: string;
   /** @nullable */
@@ -1707,6 +1719,8 @@ export type PutReviewById200 = {
   mediaType: PutReviewById200MediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   tmdbId: number;
   userId: string;
 };
@@ -1762,6 +1776,8 @@ export const GetReviews200ItemLanguage = {
 
 export type GetReviews200Item = {
   createdAt: string;
+  /** @nullable */
+  episodeNumber: number | null;
   hasSpoilers: boolean;
   id: string;
   /** @nullable */
@@ -1771,6 +1787,8 @@ export type GetReviews200Item = {
   rating: number;
   replyCount: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   tmdbId: number;
   user: GetReviews200ItemUser;
   userId: string;
@@ -1829,6 +1847,8 @@ limit?: string;
 mediaType?: GetReviewsMediaType;
 orderBy?: GetReviewsOrderBy;
 interval?: GetReviewsInterval;
+seasonNumber?: string;
+episodeNumber?: string;
 };
 
 export type GetReview200 = {
@@ -1867,6 +1887,8 @@ export const GetReview200ReviewLanguage = {
  */
 export type GetReview200Review = {
   createdAt: string;
+  /** @nullable */
+  episodeNumber: number | null;
   hasSpoilers: boolean;
   id: string;
   /** @nullable */
@@ -1874,6 +1896,8 @@ export type GetReview200Review = {
   mediaType: GetReview200ReviewMediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   tmdbId: number;
   userId: string;
 } | null;
@@ -1890,6 +1914,8 @@ export const GetReviewMediaType = {
 export type GetReviewParams = {
 mediaType: GetReviewMediaType;
 tmdbId: string;
+seasonNumber?: string;
+episodeNumber?: string;
 };
 
 /**
@@ -1927,6 +1953,8 @@ export const PostReview201ReviewLanguage = {
 
 export type PostReview201Review = {
   createdAt?: string;
+  /** @nullable */
+  episodeNumber?: number | null;
   hasSpoilers?: boolean;
   id?: string;
   /** @nullable */
@@ -1934,6 +1962,8 @@ export type PostReview201Review = {
   mediaType: PostReview201ReviewMediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber?: number | null;
   tmdbId: number;
   userId: string;
 };
@@ -1972,12 +2002,16 @@ export const PostReviewBodyLanguage = {
 } as const;
 
 export type PostReviewBody = {
+  /** @nullable */
+  episodeNumber?: number | null;
   hasSpoilers?: boolean;
   /** @nullable */
   language?: PostReviewBodyLanguage;
   mediaType: PostReviewBodyMediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber?: number | null;
   tmdbId: number;
 };
 

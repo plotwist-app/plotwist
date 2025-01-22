@@ -65,7 +65,7 @@ export async function SeasonDetails({
       <div className="flex flex-col gap-2">
         <p className="text-sm/6 text-muted-foreground">{overview}</p>
 
-        <div className="flex">
+        <div className="flex ">
           <Badge className="shrink-0">
             <Image
               src="/assets/tmdb.svg"

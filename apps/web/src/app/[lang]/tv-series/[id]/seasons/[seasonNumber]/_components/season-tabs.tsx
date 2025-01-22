@@ -12,6 +12,7 @@ import { Credits } from '@/components/credits'
 import { Suspense } from 'react'
 import { Images } from '@/components/images'
 import { Videos } from '@/components/videos'
+import { Reviews } from '@/components/reviews'
 
 type SeasonTabsProps = {
   seasonDetails: SeasonDetails
@@ -28,18 +29,20 @@ export async function SeasonTabs({
   const dictionary = await getDictionary(language)
 
   return (
-    <Tabs defaultValue="episodes" className="space-y-4">
+    <Tabs defaultValue="reviews" className="space-y-4">
       <div className="md:m-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
         <TabsList>
-          <TabsTrigger value="reviews" disabled>
-            {dictionary.reviews}
-          </TabsTrigger>
+          <TabsTrigger value="reviews">{dictionary.reviews}</TabsTrigger>
           <TabsTrigger value="episodes">{dictionary.episodes}</TabsTrigger>
           <TabsTrigger value="credits">{dictionary.tabs.credits}</TabsTrigger>
           <TabsTrigger value="images">{dictionary.tabs.images}</TabsTrigger>
           <TabsTrigger value="videos">{dictionary.tabs.videos}</TabsTrigger>
         </TabsList>
       </div>
+
+      <TabsContent value="reviews">
+        <Reviews mediaType="TV_SHOW" tmdbId={id} seasonNumber={season_number} />
+      </TabsContent>
 
       <TabsContent value="episodes">
         <SeasonEpisodes episodes={episodes} tvId={id} />

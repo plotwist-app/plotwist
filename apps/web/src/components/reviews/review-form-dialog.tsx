@@ -66,6 +66,8 @@ type ReviewFormDialogProps = PropsWithChildren & {
   mediaType: 'MOVIE' | 'TV_SHOW'
   tmdbId: number
   review?: GetReview200Review
+  seasonNumber?: number
+  episodeNumber?: number
 }
 
 export function ReviewFormDialog({
@@ -73,6 +75,8 @@ export function ReviewFormDialog({
   mediaType,
   tmdbId,
   review,
+  seasonNumber,
+  episodeNumber,
 }: ReviewFormDialogProps) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary, language } = useLanguage()
@@ -82,7 +86,10 @@ export function ReviewFormDialog({
   const putReview = usePutReviewById()
   const putUserItem = usePutUserItem()
   const { data: userItem } = useGetUserItem(
-    { mediaType, tmdbId: String(tmdbId) },
+    {
+      mediaType,
+      tmdbId: String(tmdbId),
+    },
     { query: { select: data => data.userItem } }
   )
 
@@ -104,11 +111,13 @@ export function ReviewFormDialog({
       mediaType,
       tmdbId,
       language,
+      seasonNumber,
+      episodeNumber,
     }
 
     const query = {
       onSuccess: async () => {
-        if (userItem?.status !== 'WATCHED') {
+        if (userItem?.status !== 'WATCHED' && !seasonNumber && !episodeNumber) {
           await putUserItem.mutateAsync(
             {
               data: {

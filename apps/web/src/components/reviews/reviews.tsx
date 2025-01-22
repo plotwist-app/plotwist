@@ -15,14 +15,23 @@ import { useLanguage } from '@/context/language'
 export type ReviewsProps = {
   tmdbId: number
   mediaType: MediaType
+  seasonNumber?: number
+  episodeNumber?: number
 }
 
-export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
+export const Reviews = ({
+  tmdbId,
+  mediaType,
+  seasonNumber,
+  episodeNumber,
+}: ReviewsProps) => {
   const { dictionary } = useLanguage()
   const { data, isLoading } = useGetReviews({
     tmdbId: String(tmdbId),
     mediaType,
     orderBy: 'createdAt',
+    seasonNumber: seasonNumber ? String(seasonNumber) : undefined,
+    episodeNumber: episodeNumber ? String(episodeNumber) : undefined,
   })
 
   if (isLoading) {
@@ -37,7 +46,12 @@ export const Reviews = ({ tmdbId, mediaType }: ReviewsProps) => {
 
   if (!data || data.length === 0)
     return (
-      <ReviewFormDialog tmdbId={tmdbId} mediaType={mediaType}>
+      <ReviewFormDialog
+        tmdbId={tmdbId}
+        mediaType={mediaType}
+        seasonNumber={seasonNumber}
+        episodeNumber={episodeNumber}
+      >
         <section className="text-center border border-dashed rounded-lg py-8 cursor-pointer">
           <p className="text-sm lg:text-sm">
             {dictionary.be_the_first_to_leave_your_opinion}

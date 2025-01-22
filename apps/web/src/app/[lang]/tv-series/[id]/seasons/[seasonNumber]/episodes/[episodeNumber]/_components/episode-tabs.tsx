@@ -6,10 +6,9 @@ import {
 } from '@plotwist/ui/components/ui/tabs'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Suspense } from 'react'
-import { EpisodeReviews } from './episode-reviews'
 import { Credits } from '@/components/credits/credits'
 import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
 
 type EpisodeTabsProps = {
   language: Language
@@ -35,9 +34,12 @@ export async function EpisodeTabs({
       </TabsList>
 
       <TabsContent value="reviews">
-        <Suspense fallback={<div>Loading...</div>}>
-          <EpisodeReviews />
-        </Suspense>
+        <Reviews
+          mediaType="TV_SHOW"
+          tmdbId={id}
+          seasonNumber={seasonNumber}
+          episodeNumber={episodeNumber}
+        />
       </TabsContent>
 
       <TabsContent value="credits">

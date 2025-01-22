@@ -37,6 +37,8 @@ export const FullReview = ({ review }: FullReviewProps) => {
     user: { username, avatarUrl },
     likeCount,
     createdAt,
+    seasonNumber,
+    episodeNumber,
   } = review
 
   const { language } = useLanguage()
@@ -44,20 +46,43 @@ export const FullReview = ({ review }: FullReviewProps) => {
 
   const usernameInitial = username.at(0)?.toUpperCase()
 
-  const href =
-    mediaType === 'MOVIE'
-      ? `/${language}/movies/${tmdbId}`
-      : `/${language}/tv-series/${tmdbId}`
   const userProfileHref = `/${language}/${username}`
 
   const time = format(new Date(createdAt), 'dd/MM/yyyy', {
     locale: locale[language],
   })
 
+  function getHref() {
+    if (mediaType === 'MOVIE') {
+      return `/${language}/movies/${tmdbId}`
+    }
+
+    if (seasonNumber && episodeNumber) {
+      return `/${language}/tv-series/${tmdbId}/seasons/${seasonNumber}/episodes/${episodeNumber}`
+    }
+
+    if (seasonNumber) {
+      return `/${language}/tv-series/${tmdbId}/seasons/${seasonNumber}`
+    }
+
+    return `/${language}/tv-series/${tmdbId}`
+  }
+
+  const href = `${getHref()}?review=${review.id}`
+
+  function getBadge() {
+    if (seasonNumber && episodeNumber) {
+      return ` (S${String(seasonNumber).padStart(2, '0')}E${String(episodeNumber).padStart(2, '0')})`
+    }
+    if (seasonNumber) {
+      return ` (S${String(seasonNumber).padStart(2, '0')})`
+    }
+  }
+
   return (
     <div className="space-y-2">
       <div className="flex space-x-4">
-        <Link href={`${href}?review=${review.id}`} className="w-2/6 md:w-1/6">
+        <Link href={href} className="w-2/6 md:w-1/6">
           <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted">
             {posterPath && (
               <Image src={tmdbImage(posterPath)} fill alt={title} />
@@ -66,8 +91,14 @@ export const FullReview = ({ review }: FullReviewProps) => {
         </Link>
 
         <div className="w-4/6 space-y-2 md:w-5/6">
-          <Link href={`${href}?review=${review.id}`} className="text-lg">
+          <Link href={href} className="text-lg flex items-center">
             {title}
+
+            {(seasonNumber || episodeNumber) && (
+              <span className="text-muted-foreground text-sm ml-2">
+                {getBadge()}
+              </span>
+            )}
           </Link>
 
           <div className="">
