@@ -1,3 +1,6 @@
+'use client'
+
+import { useLanguage } from '@/context/language'
 import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
@@ -8,15 +11,18 @@ import Link from 'next/link'
 type SeasonEpisodesProps = {
   episodes: Episode[]
   tvId: number
-  language: Language
 }
 
-export const SeasonEpisodes = ({
-  episodes,
-  tvId,
-  language,
-}: SeasonEpisodesProps) => {
+export const SeasonEpisodes = ({ episodes, tvId }: SeasonEpisodesProps) => {
+  const { dictionary, language } = useLanguage()
   const filteredEpisodes = episodes.filter(episode => episode.runtime !== null)
+
+  if (filteredEpisodes.length === 0)
+    return (
+      <div className="text-center text-muted-foreground border border-dashed rounded-md p-8 text-sm">
+        {dictionary.no_episodes_found}
+      </div>
+    )
 
   return (
     <div className="space-y-4">

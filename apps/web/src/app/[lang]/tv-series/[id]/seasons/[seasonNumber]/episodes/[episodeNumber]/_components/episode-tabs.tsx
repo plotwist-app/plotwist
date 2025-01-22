@@ -56,6 +56,7 @@ export async function EpisodeTabs({
           tmdbId={id}
           seasonNumber={seasonNumber}
           episodeNumber={episodeNumber}
+          dictionary={dictionary}
         />
       </TabsContent>
     </Tabs>

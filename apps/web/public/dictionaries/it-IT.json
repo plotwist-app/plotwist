@@ -817,5 +817,7 @@
   "previous_episode": "Episodio Precedente",
   "next_episode": "Episodio Successivo",
   "coming_soon": "In arrivo...",
-  "no_videos_found": "Nessun video disponibile al momento 🎬"
+  "no_videos_found": "Nessun video disponibile al momento",
+  "no_images_found": "Nessuna immagine disponibile al momento",
+  "no_episodes_found": "Nessun episodio disponibile al momento"
 }

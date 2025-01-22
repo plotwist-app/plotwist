@@ -815,5 +815,7 @@
   "previous_episode": "Previous Episode",
   "next_episode": "Next Episode",
   "coming_soon": "Coming soon...",
-  "no_videos_found": "No videos available at the moment 🎬"
+  "no_videos_found": "No videos available at the moment",
+  "no_images_found": "No images available at the moment",
+  "no_episodes_found": "No episodes available at the moment"
 }

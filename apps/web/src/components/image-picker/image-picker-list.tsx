@@ -26,6 +26,7 @@ export const ImagePickerList = ({
   onSelect,
 }: ImagePickerListProps) => {
   const { id, type } = selectedItem
+  const { dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['images', id],

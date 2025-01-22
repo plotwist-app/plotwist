@@ -85,7 +85,7 @@ export async function TvSerieTabs({ tvSerie, language }: TvSerieTabsProps) {
 
       <TabsContent value="images" className="mt-4">
         <Suspense>
-          <Images tmdbId={id} variant="tv" />
+          <Images tmdbId={id} variant="tv" dictionary={dictionary} />
         </Suspense>
       </TabsContent>
 

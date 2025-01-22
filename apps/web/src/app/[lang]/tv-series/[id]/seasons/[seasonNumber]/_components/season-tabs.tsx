@@ -42,7 +42,7 @@ export async function SeasonTabs({
       </div>
 
       <TabsContent value="episodes">
-        <SeasonEpisodes episodes={episodes} tvId={id} language={language} />
+        <SeasonEpisodes episodes={episodes} tvId={id} />
       </TabsContent>
 
       <TabsContent value="credits">
@@ -55,7 +55,12 @@ export async function SeasonTabs({
       </TabsContent>
 
       <TabsContent value="images">
-        <Images variant="season" tmdbId={id} seasonNumber={season_number} />
+        <Images
+          variant="season"
+          tmdbId={id}
+          seasonNumber={season_number}
+          dictionary={dictionary}
+        />
       </TabsContent>
 
       <TabsContent value="videos">

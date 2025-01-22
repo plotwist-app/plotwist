@@ -1,8 +1,10 @@
 import { tmdb } from '@/services/tmdb'
 import { ImagesMasonry } from './images-masonry'
+import type { Dictionary } from '@/utils/dictionaries'
 
 type BaseImagesProps = {
   tmdbId: number
+  dictionary: Dictionary
 }
 
 type DefaultImagesProps = BaseImagesProps & {
@@ -42,7 +44,7 @@ function getImages(props: ImagesProps) {
 }
 
 export const Images = async (props: ImagesProps) => {
-  const { variant } = props
+  const { variant, dictionary } = props
   const { backdrops, posters, profiles, stills } = await getImages(props)
 
   const orderImages = () => {
@@ -63,7 +65,12 @@ export const Images = async (props: ImagesProps) => {
 
   const images = orderImages()
 
-  if (images.length === 0) return <div>No images found</div>
+  if (images.length === 0)
+    return (
+      <div className="text-center text-muted-foreground border border-dashed rounded-md p-8 text-sm">
+        {dictionary.no_images_found}
+      </div>
+    )
 
   return <ImagesMasonry images={images} />
 }
