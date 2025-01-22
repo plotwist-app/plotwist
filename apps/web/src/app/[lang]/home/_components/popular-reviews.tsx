@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import type { GetDetailedReviewsInterval } from '@/api/endpoints.schemas'
 import { useGetDetailedReviewsSuspense } from '@/api/reviews'

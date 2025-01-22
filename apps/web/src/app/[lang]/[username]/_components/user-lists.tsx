@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import { useGetListsSuspense } from '@/api/list'
 import { ListCard } from '@/components/list-card'

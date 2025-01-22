@@ -3,7 +3,7 @@ import type { Season } from '@/services/tmdb'
 import { Poster } from '@/components/poster'
 import type { Language } from '@/types/languages'
 
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]

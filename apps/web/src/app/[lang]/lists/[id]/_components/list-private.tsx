@@ -4,7 +4,7 @@ import { Pattern } from '@/components/pattern'
 import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 export const ListPrivate = () => {
   const { language, dictionary } = useLanguage()

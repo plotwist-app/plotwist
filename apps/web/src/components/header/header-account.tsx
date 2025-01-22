@@ -1,7 +1,7 @@
 'use client'
 
 import { LogIn, LogOut, User as UserIcon } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import {
   Avatar,

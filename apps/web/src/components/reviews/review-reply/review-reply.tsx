@@ -11,7 +11,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { ReviewReplyActions } from './review-reply-actions'
 import { ReplyEditActions } from './review-reply-edit-actions'
 

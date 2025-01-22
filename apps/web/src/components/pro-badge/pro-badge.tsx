@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type ProBadgeProps = { className?: string; isLink?: boolean }
 

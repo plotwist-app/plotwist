@@ -10,7 +10,7 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type UserResumeProps = {
   list: GetListById200List

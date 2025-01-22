@@ -10,7 +10,7 @@ import type { PropsWithChildren } from 'react'
 
 import { useLanguage } from '@/context/language'
 import { TooltipPortal } from '@radix-ui/react-tooltip'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 export const NoAccountTooltip = ({ children }: PropsWithChildren) => {
   const { dictionary, language } = useLanguage()

@@ -5,7 +5,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { Episode } from '@plotwist_app/tmdb'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type SeasonEpisodesProps = {
   episodes: Episode[]

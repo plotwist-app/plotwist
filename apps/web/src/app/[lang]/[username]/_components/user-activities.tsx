@@ -22,9 +22,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
+import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 
 export function ChangeStatusActivity({
   activity,
@@ -123,11 +124,27 @@ export function ReviewActivity({
 }) {
   const { language, dictionary } = useLanguage()
   const {
-    additionalInfo: { mediaType, tmdbId, title, rating },
+    additionalInfo: {
+      mediaType,
+      tmdbId,
+      title,
+      rating,
+      seasonNumber,
+      episodeNumber,
+    },
     entityId,
   } = activity
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${entityId}`
+  const baseHref = getReviewHref({
+    language,
+    mediaType,
+    tmdbId,
+    seasonNumber,
+    episodeNumber,
+  })
+
+  const href = `${baseHref}?review=${entityId}`
+  const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
     <div className="flex flex-col  gap-1 lg:flex-row lg:gap-2 lg:items-center">
@@ -138,6 +155,10 @@ export function ReviewActivity({
           className="text-foreground/80 font-medium hover:underline"
         >
           {title}
+
+          {badge && (
+            <span className="text-muted-foreground text-sm">{badge}</span>
+          )}
         </Link>
       </span>
 
@@ -189,13 +210,28 @@ export function LikeReviewActivity({
   activity: GetUserActivities200UserActivitiesItemAnyOfTwofour
 }) {
   const {
-    additionalInfo: { title, mediaType, tmdbId, author },
+    additionalInfo: {
+      title,
+      mediaType,
+      tmdbId,
+      author,
+      seasonNumber,
+      episodeNumber,
+    },
     entityId,
   } = activity
 
   const { language, dictionary } = useLanguage()
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${entityId}`
+  const baseHref = getReviewHref({
+    language,
+    mediaType,
+    tmdbId,
+    seasonNumber,
+    episodeNumber,
+  })
+  const href = `${baseHref}?review=${entityId}`
+  const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
     <span>
@@ -212,6 +248,10 @@ export function LikeReviewActivity({
         href={href}
       >
         {title}
+
+        {badge && (
+          <span className="text-muted-foreground text-sm">{badge}</span>
+        )}
       </Link>
     </span>
   )
@@ -274,12 +314,29 @@ export function CreateReviewReplyActivity({
   const { language, dictionary } = useLanguage()
   const {
     additionalInfo: {
-      review: { author, title, mediaType, tmdbId, id },
+      review: {
+        author,
+        title,
+        mediaType,
+        tmdbId,
+        id,
+        seasonNumber,
+        episodeNumber,
+      },
     },
     activityType,
   } = activity
 
-  const href = `/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}?review=${id}`
+  const baseHref = getReviewHref({
+    language,
+    mediaType,
+    tmdbId,
+    seasonNumber,
+    episodeNumber,
+  })
+  const href = `${baseHref}?review=${id}`
+
+  const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
     <span className="">
@@ -298,6 +355,10 @@ export function CreateReviewReplyActivity({
         href={href}
       >
         {title}
+
+        {badge && (
+          <span className="text-muted-foreground text-sm">{badge}</span>
+        )}
       </Link>
     </span>
   )

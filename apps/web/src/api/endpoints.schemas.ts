@@ -253,10 +253,14 @@ export type GetUserActivities200UserActivitiesItemAnyOfThreethreeAdditionalInfoR
 
 export type GetUserActivities200UserActivitiesItemAnyOfThreethreeAdditionalInfoReview = {
   author: GetUserActivities200UserActivitiesItemAnyOfThreethreeAdditionalInfoReviewAuthor;
+  /** @nullable */
+  episodeNumber: number | null;
   id: string;
   mediaType: GetUserActivities200UserActivitiesItemAnyOfThreethreeAdditionalInfoReviewMediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   title: string;
   tmdbId: number;
 };
@@ -317,10 +321,14 @@ export type GetUserActivities200UserActivitiesItemAnyOfTwofourAdditionalInfoAuth
 
 export type GetUserActivities200UserActivitiesItemAnyOfTwofourAdditionalInfo = {
   author: GetUserActivities200UserActivitiesItemAnyOfTwofourAdditionalInfoAuthor;
+  /** @nullable */
+  episodeNumber: number | null;
   id: string;
   mediaType: GetUserActivities200UserActivitiesItemAnyOfTwofourAdditionalInfoMediaType;
   rating: number;
   review: string;
+  /** @nullable */
+  seasonNumber: number | null;
   title: string;
   tmdbId: number;
 };
