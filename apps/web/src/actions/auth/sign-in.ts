@@ -5,13 +5,13 @@ import { createSession } from '@/app/lib/session'
 import { redirect } from 'next/navigation'
 
 type SignInInput = {
-  email: string
+  login: string
   password: string
   redirectTo?: string
 }
 
-export async function signIn({ email, password, redirectTo }: SignInInput) {
-  const { token, status } = await postLogin({ email, password })
+export async function signIn({ login, password, redirectTo }: SignInInput) {
+  const { token, status } = await postLogin({ login, password })
 
   if (token) {
     await createSession({ token })

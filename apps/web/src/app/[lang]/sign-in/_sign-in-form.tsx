@@ -37,10 +37,7 @@ import { z } from 'zod'
 
 const loginFormSchema = (dictionary: Dictionary) =>
   z.object({
-    email: z
-      .string()
-      .min(1, dictionary.email_required)
-      .email(dictionary.email_invalid),
+    login: z.string().min(1, dictionary.login_required),
 
     password: z
       .string()
@@ -62,7 +59,7 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema(dictionary)),
     defaultValues: {
-      email: '',
+      login: '',
       password: '',
     },
   })
@@ -99,13 +96,16 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
         >
           <FormField
             control={form.control}
-            name="email"
+            name="login"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{dictionary.email_label}</FormLabel>
+                <FormLabel>{dictionary.login_label}</FormLabel>
 
                 <FormControl>
-                  <Input placeholder="email@domain.com" {...field} />
+                  <Input
+                    placeholder={dictionary.login_placeholder}
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />

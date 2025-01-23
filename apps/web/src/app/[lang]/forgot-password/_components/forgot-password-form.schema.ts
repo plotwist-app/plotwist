@@ -3,10 +3,7 @@ import { z } from 'zod'
 
 export const forgotPasswordFormSchema = (dictionary: Dictionary) =>
   z.object({
-    email: z
-      .string()
-      .min(1, dictionary.email_required)
-      .email(dictionary.email_invalid),
+    login: z.string().min(1, dictionary.login_required),
   })
 
 export type ForgotPasswordFormValues = z.infer<

@@ -2637,7 +2637,7 @@ export type PostReviewBody = {
 };
 
 /**
- * Invalid email or password.
+ * Invalid login or password.
  */
 export type PostLogin400 = {
   message: string;
@@ -2649,7 +2649,8 @@ export type PostLogin200 = {
 };
 
 export type PostLoginBody = {
-  email: string;
+  /** @minLength 3 */
+  login: string;
   /** @minLength 8 */
   password?: string;
   url?: string;
