@@ -16,6 +16,7 @@ import { tmdbImage } from '@/utils/tmdb/image'
 import { getUserPreferences } from '@/api/users'
 import { verifySession } from '@/app/lib/dal'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
+import { NetworkActivity } from './_components/network-activity'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
@@ -90,8 +91,8 @@ const HomePage = async (props: PageProps) => {
         <div className="space-y-8">
           <UserLastReview />
           <Separator className="bg-muted/75" />
-
           <PopularReviews />
+          <NetworkActivity />
         </div>
 
         <div className="mt-0 space-y-8">

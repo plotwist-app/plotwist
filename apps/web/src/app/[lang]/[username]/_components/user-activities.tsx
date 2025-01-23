@@ -1,11 +1,11 @@
 import type {
+  GetUserActivities200UserActivitiesItemAnyOfOnenine,
+  GetUserActivities200UserActivitiesItemAnyOfFiveeight,
+  GetUserActivities200UserActivitiesItemAnyOfTwoseven,
   GetUserActivities200UserActivitiesItemAnyOf,
-  GetUserActivities200UserActivitiesItemAnyOfFivetwo,
-  GetUserActivities200UserActivitiesItemAnyOfFourthree,
-  GetUserActivities200UserActivitiesItemAnyOfNine,
-  GetUserActivities200UserActivitiesItemAnyOfOneseven,
-  GetUserActivities200UserActivitiesItemAnyOfThreethree,
-  GetUserActivities200UserActivitiesItemAnyOfTwofour,
+  GetUserActivities200UserActivitiesItemAnyOfOnezero,
+  GetUserActivities200UserActivitiesItemAnyOfFoureight,
+  GetUserActivities200UserActivitiesItemAnyOfThreeseven,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import {
@@ -24,18 +24,18 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
-import { useLayoutContext } from '../_context'
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 
 export function ChangeStatusActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfFivetwo
+  activity: GetUserActivities200UserActivitiesItemAnyOfFiveeight
 }) {
   const { language, dictionary } = useLanguage()
-  const { username } = useLayoutContext()
+  const { owner, additionalInfo } = activity
 
-  const { title, status, mediaType, tmdbId } = activity.additionalInfo
+  const { title, status, mediaType, tmdbId } = additionalInfo
+  const { username } = owner
 
   return (
     <div>
@@ -94,7 +94,7 @@ export function ListItemActivity({
 export function ListActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOneseven
+  activity: GetUserActivities200UserActivitiesItemAnyOfOnenine
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -120,7 +120,7 @@ export function ListActivity({
 export function ReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfTwofour
+  activity: GetUserActivities200UserActivitiesItemAnyOfTwoseven
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -170,7 +170,7 @@ export function ReviewActivity({
 export function FollowActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfNine
+  activity: GetUserActivities200UserActivitiesItemAnyOfOnezero
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -207,7 +207,7 @@ export function FollowActivity({
 export function LikeReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfTwofour
+  activity: GetUserActivities200UserActivitiesItemAnyOfTwoseven
 }) {
   const {
     additionalInfo: {
@@ -260,7 +260,7 @@ export function LikeReviewActivity({
 export function WatchEpisodeActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfFourthree
+  activity: GetUserActivities200UserActivitiesItemAnyOfFoureight
 }) {
   const {
     additionalInfo: { episodes, title, tmdbId },
@@ -310,7 +310,7 @@ export function WatchEpisodeActivity({
 
 export function CreateReviewReplyActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfThreethree }) {
+}: { activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven }) {
   const { language, dictionary } = useLanguage()
   const {
     additionalInfo: {
