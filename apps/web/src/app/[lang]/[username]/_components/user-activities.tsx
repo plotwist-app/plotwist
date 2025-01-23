@@ -15,7 +15,6 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 
 import { Rating } from '@plotwist/ui/components/ui/rating'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import {
   Tooltip,
   TooltipContent,
@@ -278,15 +277,13 @@ export function WatchEpisodeActivity({
             <span className="text-foreground/80">{episodes.length} </span>
           </TooltipTrigger>
           <TooltipContent className="p-0 m-0">
-            <ScrollArea className="h-[200px]">
-              <ul className="p-2 text-xs">
-                {episodes.map(episode => (
-                  <li key={v4()} className="whitespace-nowrap">
-                    • S{episode.seasonNumber}, EP{episode.episodeNumber}
-                  </li>
-                ))}
-              </ul>
-            </ScrollArea>
+            <ul className="p-2 text-xs">
+              {episodes.map(episode => (
+                <li key={v4()} className="whitespace-nowrap">
+                  • S{episode.seasonNumber}, EP{episode.episodeNumber}
+                </li>
+              ))}
+            </ul>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
