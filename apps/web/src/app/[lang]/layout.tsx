@@ -14,6 +14,9 @@ import { SessionContextProvider } from '@/context/session'
 import { getUserPreferences } from '@/api/users'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { UserPreferencesContextProvider } from '@/context/user-preferences'
+import { ProBadge } from '@/components/pro-badge'
+
+import { Link } from 'next-view-transitions'
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map(lang => ({ lang: lang.value }))
@@ -63,6 +66,17 @@ export default async function RootLayout({
 
                   <Footer dictionary={dictionary} language={lang} />
                 </div>
+
+                {session?.user.subscriptionType !== 'PRO' && (
+                  <Link
+                    href={`/${lang}/pricing`}
+                    className="fixed bottom-4 right-4 border bg-background rounded-full py-2 px-4"
+                  >
+                    <span className="flex gap-2 items-center text-center text-sm">
+                      {dictionary.get_14_days_free_pro} <ProBadge />
+                    </span>
+                  </Link>
+                )}
               </ListsContextProvider>
             </UserPreferencesContextProvider>
           </LanguageContextProvider>
