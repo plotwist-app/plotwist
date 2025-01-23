@@ -43,7 +43,7 @@ export const ForgotPasswordForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{dictionary.email_label}</FormLabel>
+              <FormLabel>{dictionary.login_label}</FormLabel>
 
               <FormControl>
                 <Input placeholder="email@domain.com" {...field} />

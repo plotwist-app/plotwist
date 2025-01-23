@@ -164,12 +164,25 @@ export const GetUserActivities200UserActivitiesItemAnyOfFourthreeEntityId = {
   null: 'null',
 } as const;
 
+export type GetUserActivities200UserActivitiesItemAnyOfFourthree = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfFourthreeActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfFourthreeAdditionalInfo;
+  createdAt: string;
+  /** @nullable */
+  entityId: GetUserActivities200UserActivitiesItemAnyOfFourthreeEntityId;
+  /** @nullable */
+  entityType: GetUserActivities200UserActivitiesItemAnyOfFourthreeEntityType;
+  id: string;
+  /** @nullable */
+  metadata: GetUserActivities200UserActivitiesItemAnyOfFourthreeMetadata;
+  userId: string;
+};
+
 export type GetUserActivities200UserActivitiesItemAnyOfFourthreeAdditionalInfoEpisodesItem = {
   episodeNumber: number;
   runtime: number;
   seasonNumber: number;
   tmdbId: number;
-  userId: string;
 };
 
 export type GetUserActivities200UserActivitiesItemAnyOfFourthreeAdditionalInfo = {
@@ -185,20 +198,6 @@ export type GetUserActivities200UserActivitiesItemAnyOfFourthreeActivityType = t
 export const GetUserActivities200UserActivitiesItemAnyOfFourthreeActivityType = {
   WATCH_EPISODE: 'WATCH_EPISODE',
 } as const;
-
-export type GetUserActivities200UserActivitiesItemAnyOfFourthree = {
-  activityType: GetUserActivities200UserActivitiesItemAnyOfFourthreeActivityType;
-  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfFourthreeAdditionalInfo;
-  createdAt: string;
-  /** @nullable */
-  entityId: GetUserActivities200UserActivitiesItemAnyOfFourthreeEntityId;
-  /** @nullable */
-  entityType: GetUserActivities200UserActivitiesItemAnyOfFourthreeEntityType;
-  id: string;
-  /** @nullable */
-  metadata: GetUserActivities200UserActivitiesItemAnyOfFourthreeMetadata;
-  userId: string;
-};
 
 export type GetUserActivities200UserActivitiesItemAnyOfThreethreeMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -463,6 +462,18 @@ export const GetUserActivities200UserActivitiesItemAnyOfEntityType = {
   LIST: 'LIST',
 } as const;
 
+export type GetUserActivities200UserActivitiesItemAnyOf = {
+  activityType: GetUserActivities200UserActivitiesItemAnyOfActivityType;
+  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfAdditionalInfo;
+  createdAt: string;
+  entityId: string;
+  entityType: GetUserActivities200UserActivitiesItemAnyOfEntityType;
+  id: string;
+  /** @nullable */
+  metadata: GetUserActivities200UserActivitiesItemAnyOfMetadata;
+  userId: string;
+};
+
 export type GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType = typeof GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType];
 
 
@@ -491,18 +502,6 @@ export const GetUserActivities200UserActivitiesItemAnyOfActivityType = {
   DELETE_ITEM: 'DELETE_ITEM',
 } as const;
 
-export type GetUserActivities200UserActivitiesItemAnyOf = {
-  activityType: GetUserActivities200UserActivitiesItemAnyOfActivityType;
-  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfAdditionalInfo;
-  createdAt: string;
-  entityId: string;
-  entityType: GetUserActivities200UserActivitiesItemAnyOfEntityType;
-  id: string;
-  /** @nullable */
-  metadata: GetUserActivities200UserActivitiesItemAnyOfMetadata;
-  userId: string;
-};
-
 export type GetUserActivitiesLanguage = typeof GetUserActivitiesLanguage[keyof typeof GetUserActivitiesLanguage];
 
 
@@ -528,18 +527,6 @@ language?: GetUserActivitiesLanguage;
  */
 export type GetImportImportId404 = {
   message: string;
-};
-
-export type GetImportImportId200 = {
-  createdAt: string;
-  id: string;
-  importStatus: GetImportImportId200ImportStatus;
-  itemsCount: number;
-  movies: GetImportImportId200MoviesItem[];
-  provider: string;
-  series: GetImportImportId200SeriesItem[];
-  updatedAt: string;
-  userId: string;
 };
 
 export type GetImportImportId200SeriesItemUserItemStatus = typeof GetImportImportId200SeriesItemUserItemStatus[keyof typeof GetImportImportId200SeriesItemUserItemStatus];
@@ -594,16 +581,6 @@ export const GetImportImportId200MoviesItemUserItemStatus = {
   DROPPED: 'DROPPED',
 } as const;
 
-export type GetImportImportId200MoviesItemImportStatus = typeof GetImportImportId200MoviesItemImportStatus[keyof typeof GetImportImportId200MoviesItemImportStatus];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetImportImportId200MoviesItemImportStatus = {
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED',
-  NOT_STARTED: 'NOT_STARTED',
-} as const;
-
 export type GetImportImportId200MoviesItem = {
   createdAt: string;
   /** @nullable */
@@ -617,6 +594,28 @@ export type GetImportImportId200MoviesItem = {
   updatedAt: string;
   userItemStatus: GetImportImportId200MoviesItemUserItemStatus;
 };
+
+export type GetImportImportId200 = {
+  createdAt: string;
+  id: string;
+  importStatus: GetImportImportId200ImportStatus;
+  itemsCount: number;
+  movies: GetImportImportId200MoviesItem[];
+  provider: string;
+  series: GetImportImportId200SeriesItem[];
+  updatedAt: string;
+  userId: string;
+};
+
+export type GetImportImportId200MoviesItemImportStatus = typeof GetImportImportId200MoviesItemImportStatus[keyof typeof GetImportImportId200MoviesItemImportStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetImportImportId200MoviesItemImportStatus = {
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  NOT_STARTED: 'NOT_STARTED',
+} as const;
 
 export type GetImportImportId200ImportStatus = typeof GetImportImportId200ImportStatus[keyof typeof GetImportImportId200ImportStatus];
 
@@ -1327,6 +1326,10 @@ cursor?: string;
 pageSize?: string;
 };
 
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem;
+};
+
 export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
 
 
@@ -1357,10 +1360,6 @@ export type GetUserItem200UserItem = {
   tmdbId: number;
   updatedAt: string;
   userId: string;
-};
-
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem;
 };
 
 export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
@@ -1526,39 +1525,6 @@ export type PostListItemBody = {
   listId: string;
   mediaType: PostListItemBodyMediaType;
   tmdbId: number;
-};
-
-export type GetReviewSummary200 = {
-  /** @nullable */
-  summary: string | null;
-};
-
-export type GetReviewSummaryLanguage = typeof GetReviewSummaryLanguage[keyof typeof GetReviewSummaryLanguage];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetReviewSummaryLanguage = {
-  'en-US': 'en-US',
-  'es-ES': 'es-ES',
-  'fr-FR': 'fr-FR',
-  'de-DE': 'de-DE',
-  'it-IT': 'it-IT',
-  'pt-BR': 'pt-BR',
-  'ja-JP': 'ja-JP',
-} as const;
-
-export type GetReviewSummaryMediaType = typeof GetReviewSummaryMediaType[keyof typeof GetReviewSummaryMediaType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetReviewSummaryMediaType = {
-  MOVIE: 'MOVIE',
-} as const;
-
-export type GetReviewSummaryParams = {
-tmdbId: string;
-mediaType: GetReviewSummaryMediaType;
-language?: GetReviewSummaryLanguage;
 };
 
 export type GetDetailedReviews200 = {
@@ -1859,11 +1825,6 @@ seasonNumber?: string;
 episodeNumber?: string;
 };
 
-export type GetReview200 = {
-  /** @nullable */
-  review: GetReview200Review;
-};
-
 export type GetReview200ReviewMediaType = typeof GetReview200ReviewMediaType[keyof typeof GetReview200ReviewMediaType];
 
 
@@ -1909,6 +1870,11 @@ export type GetReview200Review = {
   tmdbId: number;
   userId: string;
 } | null;
+
+export type GetReview200 = {
+  /** @nullable */
+  review: GetReview200Review;
+};
 
 export type GetReviewMediaType = typeof GetReviewMediaType[keyof typeof GetReviewMediaType];
 
@@ -2024,7 +1990,7 @@ export type PostReviewBody = {
 };
 
 /**
- * Invalid email or password.
+ * Invalid login or password.
  */
 export type PostLogin400 = {
   message: string;
@@ -2036,7 +2002,7 @@ export type PostLogin200 = {
 };
 
 export type PostLoginBody = {
-  email: string;
+  login?: string;
   /** @minLength 8 */
   password?: string;
   url?: string;
@@ -2208,21 +2174,6 @@ export type GetLists200ListsItemUser = {
   username: string;
 };
 
-export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetLists200ListsItemItemsItemMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const;
-
-export type GetLists200ListsItemItemsItem = {
-  id: string;
-  mediaType: GetLists200ListsItemItemsItemMediaType;
-  tmdbId: number;
-};
-
 export type GetLists200ListsItem = {
   /** @nullable */
   bannerUrl: string | null;
@@ -2241,6 +2192,21 @@ export type GetLists200ListsItem = {
 
 export type GetLists200 = {
   lists: GetLists200ListsItem[];
+};
+
+export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetLists200ListsItemItemsItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type GetLists200ListsItemItemsItem = {
+  id: string;
+  mediaType: GetLists200ListsItemItemsItemMediaType;
+  tmdbId: number;
 };
 
 export type GetListsVisibility = typeof GetListsVisibility[keyof typeof GetListsVisibility];
@@ -2266,6 +2232,13 @@ export type PostList404 = {
   message: string;
 };
 
+/**
+ * List created.
+ */
+export type PostList201 = {
+  list: PostList201List;
+};
+
 export type PostList201ListVisibility = typeof PostList201ListVisibility[keyof typeof PostList201ListVisibility];
 
 
@@ -2286,13 +2259,6 @@ export type PostList201List = {
   title: string;
   userId: string;
   visibility: PostList201ListVisibility;
-};
-
-/**
- * List created.
- */
-export type PostList201 = {
-  list: PostList201List;
 };
 
 export type PostListBodyVisibility = typeof PostListBodyVisibility[keyof typeof PostListBodyVisibility];
