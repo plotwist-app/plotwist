@@ -70,7 +70,7 @@ export const FullReview = ({ review }: FullReviewProps) => {
         </Link>
 
         <div className="w-4/6 space-y-2 md:w-5/6">
-          <Link href={href} className="text-lg flex items-center">
+          <Link href={href} className="">
             {title}
 
             {badge && (
