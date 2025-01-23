@@ -6,11 +6,14 @@
  */
 import {
   useInfiniteQuery,
-  useMutation
+  useMutation,
+  useQuery,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseInfiniteQueryResult,
+  DefinedUseQueryResult,
   InfiniteData,
   MutationFunction,
   QueryFunction,
@@ -19,9 +22,15 @@ import type {
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
+  GetNetworkActivities200,
+  GetNetworkActivitiesParams,
   GetUserActivities200,
   GetUserActivitiesParams
 } from './endpoints.schemas'
@@ -174,4 +183,139 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get network activities
+ */
+export const getNetworkActivities = (
+    params: GetNetworkActivitiesParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetNetworkActivities200>(
+      {url: `/network/activities`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetNetworkActivitiesQueryKey = (params: GetNetworkActivitiesParams,) => {
+    return [`/network/activities`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetNetworkActivitiesQueryOptions = <TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(params: GetNetworkActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetNetworkActivitiesQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNetworkActivities>>> = ({ signal }) => getNetworkActivities(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetNetworkActivitiesQueryResult = NonNullable<Awaited<ReturnType<typeof getNetworkActivities>>>
+export type GetNetworkActivitiesQueryError = unknown
+
+
+export function useGetNetworkActivities<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNetworkActivities>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNetworkActivities<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNetworkActivities>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNetworkActivities<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetNetworkActivities<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetNetworkActivitiesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetNetworkActivitiesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(params: GetNetworkActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetNetworkActivitiesQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNetworkActivities>>> = ({ signal }) => getNetworkActivities(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetNetworkActivitiesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getNetworkActivities>>>
+export type GetNetworkActivitiesSuspenseQueryError = unknown
+
+
+export function useGetNetworkActivitiesSuspense<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNetworkActivitiesSuspense<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNetworkActivitiesSuspense<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetNetworkActivitiesSuspense<TData = Awaited<ReturnType<typeof getNetworkActivities>>, TError = unknown>(
+ params: GetNetworkActivitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getNetworkActivities>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetNetworkActivitiesSuspenseQueryOptions(params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
