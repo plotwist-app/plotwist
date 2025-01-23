@@ -42,7 +42,7 @@ export const Hero = () => {
         <BlurFade delay={BLUR_FADE_DELAY}>
           <button
             onClick={() => {
-              document.getElementById('features')?.scrollIntoView({
+              document.getElementById('pricing')?.scrollIntoView({
                 behavior: 'smooth',
               })
             }}

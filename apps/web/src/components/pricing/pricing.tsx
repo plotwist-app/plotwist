@@ -28,7 +28,7 @@ export const Pricing = () => {
   const initial = username ? username?.at(0)?.toUpperCase() : ''
 
   return (
-    <section className="py-32 border-t relative" id="pricing">
+    <section className="py-32 relative" id="pricing">
       <section className="mx-auto max-w-6xl space-y-8 px-4 lg:px-0">
         <div className="mx-auto flex w-full flex-col items-center space-y-4 max-w-xl">
           <h2 className="text-center text-2xl lg:text-5xl font-semibold">

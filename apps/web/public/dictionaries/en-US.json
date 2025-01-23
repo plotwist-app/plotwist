@@ -714,7 +714,7 @@
   "title_status": "Title Status",
   "title_status_description": "Watched, watching and watchlist",
   "titles": "Titles",
-  "get_14_days_free": "Get 14 days free",
+  "get_14_days_free": "🎉 Get 14 days free of PRO plan ",
   "today": "Today",
   "this_week": "This week",
   "this_month": "This month",
@@ -817,5 +817,6 @@
   "coming_soon": "Coming soon...",
   "no_videos_found": "No videos available at the moment",
   "no_images_found": "No images available at the moment",
-  "no_episodes_found": "No episodes available at the moment"
+  "no_episodes_found": "No episodes available at the moment",
+  "get_14_days_free_pro": "🎉 Get 14 days free of the "
 }

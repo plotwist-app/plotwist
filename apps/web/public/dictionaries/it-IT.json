@@ -248,7 +248,7 @@
     "delete": "Elimina",
     "removed_successfully": "Rimosso con successo.",
     "cover_changed_successfully": "Copertina cambiata con successo.",
-    "see_details": "Guarda i detagli"
+    "see_details": "Guarda i dettagli"
   },
   "credits_columns": {
     "year": "Jahr",
@@ -819,5 +819,6 @@
   "coming_soon": "In arrivo...",
   "no_videos_found": "Nessun video disponibile al momento",
   "no_images_found": "Nessuna immagine disponibile al momento",
-  "no_episodes_found": "Nessun episodio disponibile al momento"
+  "no_episodes_found": "Nessun episodio disponibile al momento",
+  "get_14_days_free_pro": "🎉 Ottieni 14 giorni gratuiti del "
 }

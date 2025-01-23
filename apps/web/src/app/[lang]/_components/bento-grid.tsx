@@ -23,7 +23,7 @@ export const BentoGrid = async ({ language }: BentoGridProps) => {
 
   return (
     <BlurFade delay={BLUR_FADE_DELAY * 4}>
-      <section className="py-16 px-4 xl:px-0" id="features">
+      <section className="py-16 px-4 xl:px-0 border-b" id="features">
         <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 max-w-6xl mx-auto gap-4 aspect-auto lg:aspect-video">
           <div className="aspect-poster lg:aspect-auto col-span-1 row-span-2 border rounded-md overflow-hidden space-y-8 p-6">
             <div className="">
