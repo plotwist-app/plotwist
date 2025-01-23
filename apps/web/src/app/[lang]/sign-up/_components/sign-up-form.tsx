@@ -99,6 +99,12 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
 
       toast.success(dictionary.sign_up_form.sign_up_success)
     } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'NEXT_REDIRECT') {
+          return toast.success(dictionary.sign_up_form.sign_up_success)
+        }
+      }
+
       if (error instanceof AxiosError) {
         if (error.status === 409) {
           return usernameForm.setError('username', {
