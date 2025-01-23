@@ -1121,18 +1121,6 @@ export const GetUserActivities200UserActivitiesItemAnyOfEntityType = {
   LIST: 'LIST',
 } as const;
 
-export type GetUserActivities200UserActivitiesItemAnyOf = {
-  activityType: GetUserActivities200UserActivitiesItemAnyOfActivityType;
-  additionalInfo: GetUserActivities200UserActivitiesItemAnyOfAdditionalInfo;
-  createdAt: string;
-  entityId: string;
-  entityType: GetUserActivities200UserActivitiesItemAnyOfEntityType;
-  id: string;
-  /** @nullable */
-  metadata: GetUserActivities200UserActivitiesItemAnyOfMetadata;
-  userId: string;
-};
-
 export type GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType = typeof GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType[keyof typeof GetUserActivities200UserActivitiesItemAnyOfAdditionalInfoMediaType];
 
 
@@ -1252,6 +1240,16 @@ export const GetImportImportId200MoviesItemUserItemStatus = {
   DROPPED: 'DROPPED',
 } as const;
 
+export type GetImportImportId200MoviesItemImportStatus = typeof GetImportImportId200MoviesItemImportStatus[keyof typeof GetImportImportId200MoviesItemImportStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetImportImportId200MoviesItemImportStatus = {
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  NOT_STARTED: 'NOT_STARTED',
+} as const;
+
 export type GetImportImportId200MoviesItem = {
   createdAt: string;
   /** @nullable */
@@ -1265,28 +1263,6 @@ export type GetImportImportId200MoviesItem = {
   updatedAt: string;
   userItemStatus: GetImportImportId200MoviesItemUserItemStatus;
 };
-
-export type GetImportImportId200 = {
-  createdAt: string;
-  id: string;
-  importStatus: GetImportImportId200ImportStatus;
-  itemsCount: number;
-  movies: GetImportImportId200MoviesItem[];
-  provider: string;
-  series: GetImportImportId200SeriesItem[];
-  updatedAt: string;
-  userId: string;
-};
-
-export type GetImportImportId200MoviesItemImportStatus = typeof GetImportImportId200MoviesItemImportStatus[keyof typeof GetImportImportId200MoviesItemImportStatus];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetImportImportId200MoviesItemImportStatus = {
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED',
-  NOT_STARTED: 'NOT_STARTED',
-} as const;
 
 export type GetImportImportId200ImportStatus = typeof GetImportImportId200ImportStatus[keyof typeof GetImportImportId200ImportStatus];
 
@@ -1997,10 +1973,6 @@ cursor?: string;
 pageSize?: string;
 };
 
-export type GetUserItem200 = {
-  userItem?: GetUserItem200UserItem;
-};
-
 export type GetUserItem200UserItemStatus = typeof GetUserItem200UserItemStatus[keyof typeof GetUserItem200UserItemStatus];
 
 
@@ -2031,6 +2003,10 @@ export type GetUserItem200UserItem = {
   tmdbId: number;
   updatedAt: string;
   userId: string;
+};
+
+export type GetUserItem200 = {
+  userItem?: GetUserItem200UserItem;
 };
 
 export type GetUserItemMediaType = typeof GetUserItemMediaType[keyof typeof GetUserItemMediaType];
@@ -2673,7 +2649,8 @@ export type PostLogin200 = {
 };
 
 export type PostLoginBody = {
-  login?: string;
+  /** @minLength 3 */
+  login: string;
   /** @minLength 8 */
   password?: string;
   url?: string;
@@ -2880,21 +2857,6 @@ export type GetLists200ListsItemItemsItem = {
   tmdbId: number;
 };
 
-export type GetLists200ListsItemItemsItemMediaType = typeof GetLists200ListsItemItemsItemMediaType[keyof typeof GetLists200ListsItemItemsItemMediaType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetLists200ListsItemItemsItemMediaType = {
-  TV_SHOW: 'TV_SHOW',
-  MOVIE: 'MOVIE',
-} as const;
-
-export type GetLists200ListsItemItemsItem = {
-  id: string;
-  mediaType: GetLists200ListsItemItemsItemMediaType;
-  tmdbId: number;
-};
-
 export type GetListsVisibility = typeof GetListsVisibility[keyof typeof GetListsVisibility];
 
 
@@ -2918,13 +2880,6 @@ export type PostList404 = {
   message: string;
 };
 
-/**
- * List created.
- */
-export type PostList201 = {
-  list: PostList201List;
-};
-
 export type PostList201ListVisibility = typeof PostList201ListVisibility[keyof typeof PostList201ListVisibility];
 
 
@@ -2945,6 +2900,13 @@ export type PostList201List = {
   title: string;
   userId: string;
   visibility: PostList201ListVisibility;
+};
+
+/**
+ * List created.
+ */
+export type PostList201 = {
+  list: PostList201List;
 };
 
 export type PostListBodyVisibility = typeof PostListBodyVisibility[keyof typeof PostListBodyVisibility];
