@@ -38,7 +38,6 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { useQueryClient } from '@tanstack/react-query'
-import { Link } from 'next-view-transitions'
 
 type UserActivityProps = {
   activity: GetUserActivities200UserActivitiesItem
@@ -80,7 +79,7 @@ const getLabel = (activity: GetUserActivities200UserActivitiesItem) => {
   }
 
   if (activityType === 'CREATE_ACCOUNT') {
-    return <CreateAccountActivity />
+    return <CreateAccountActivity activity={activity} />
   }
 }
 
@@ -221,7 +220,7 @@ export function UserActivity({ activity }: UserActivityProps) {
 
   return (
     <div className={cn('flex gap-4 justify-between items-center')}>
-      <div className="flex gap-1 text-sm lg:text-md text-muted-foreground items-center">
+      <div className="flex gap-2 text-sm lg:text-md text-muted-foreground items-center">
         <div className="flex items-center gap-2">
           <Avatar className="size-6 lg:size-6 border text-[12px] shadow">
             {avatarUrl && (
@@ -229,13 +228,6 @@ export function UserActivity({ activity }: UserActivityProps) {
             )}
             <AvatarFallback>{username[0]}</AvatarFallback>
           </Avatar>
-
-          <Link
-            className="text-foreground/80 font-medium hover:underline"
-            href={`/${language}/${username}`}
-          >
-            {username}
-          </Link>
         </div>
 
         {getLabel(activity)}

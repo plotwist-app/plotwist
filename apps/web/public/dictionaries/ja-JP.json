@@ -820,5 +820,6 @@
   "no_videos_found": "現在利用可能なビデオはありません",
   "no_images_found": "現在利用可能な画像はありません",
   "no_episodes_found": "現在利用可能なエピソードはありません",
-  "get_14_days_free_pro": "🎉 14日間無料でお試しいただける "
+  "get_14_days_free_pro": "🎉 14日間無料でお試しいただける ",
+  "network_activity": "ネットワークアクティビティ"
 }

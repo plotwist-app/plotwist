@@ -6,6 +6,7 @@ import type {
   GetUserActivities200UserActivitiesItemAnyOfOnezero,
   GetUserActivities200UserActivitiesItemAnyOfFoureight,
   GetUserActivities200UserActivitiesItemAnyOfThreeseven,
+  GetUserActivities200UserActivitiesItemAnyOfSixeight,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import {
@@ -24,6 +25,20 @@ import {
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
+import type { PropsWithChildren } from 'react'
+
+export function Username({ children }: PropsWithChildren) {
+  const { language } = useLanguage()
+
+  return (
+    <Link
+      href={`/${language}/${children}`}
+      className="text-foreground/80 font-medium hover:underline"
+    >
+      {children}
+    </Link>
+  )
+}
 
 export function ChangeStatusActivity({
   activity,
@@ -31,14 +46,14 @@ export function ChangeStatusActivity({
   activity: GetUserActivities200UserActivitiesItemAnyOfFiveeight
 }) {
   const { language, dictionary } = useLanguage()
-  const { owner, additionalInfo } = activity
-
-  const { title, status, mediaType, tmdbId } = additionalInfo
-  const { username } = owner
+  const {
+    owner: { username },
+    additionalInfo: { title, status, mediaType, tmdbId },
+  } = activity
 
   return (
     <div>
-      {dictionary.marked}{' '}
+      <Username>{username}</Username> {dictionary.marked}{' '}
       <Link
         href={`/${language}/${mediaType === 'TV_SHOW' ? 'tv-series' : 'movies'}/${tmdbId}`}
         className="text-foreground/80 font-medium hover:underline"
@@ -67,11 +82,13 @@ export function ListItemActivity({
   const { language, dictionary } = useLanguage()
   const {
     activityType,
+    owner: { username },
     additionalInfo: { mediaType, tmdbId, title, listId, listTitle },
   } = activity
 
   return (
     <div>
+      <Username>{username}</Username>{' '}
       {activityType === 'ADD_ITEM' ? dictionary.added : dictionary.removed}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
@@ -97,12 +114,14 @@ export function ListActivity({
 }) {
   const { language, dictionary } = useLanguage()
   const {
-    additionalInfo: { id, title },
     activityType,
+    owner: { username },
+    additionalInfo: { id, title },
   } = activity
 
   return (
     <div>
+      <Username>{username}</Username>{' '}
       {activityType === 'CREATE_LIST'
         ? dictionary.created_list
         : dictionary.liked_list}{' '}
@@ -123,6 +142,7 @@ export function ReviewActivity({
 }) {
   const { language, dictionary } = useLanguage()
   const {
+    owner: { username },
     additionalInfo: {
       mediaType,
       tmdbId,
@@ -146,9 +166,9 @@ export function ReviewActivity({
   const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
-    <div className="flex flex-col  gap-1 lg:flex-row lg:gap-2 lg:items-center">
+    <div className="flex flex-col gap-1 lg:flex-row lg:gap-2 lg:items-center">
       <span>
-        {dictionary.user_reviewed}{' '}
+        <Username>{username}</Username> {dictionary.user_reviewed}{' '}
         <Link
           href={href}
           className="text-foreground/80 font-medium hover:underline"
@@ -173,12 +193,14 @@ export function FollowActivity({
 }) {
   const { language, dictionary } = useLanguage()
   const {
-    additionalInfo: { username, avatarUrl },
     activityType,
+    owner: { username: ownerUsername },
+    additionalInfo: { username, avatarUrl },
   } = activity
 
   return (
     <span className="flex gap-2 items-center">
+      <Username>{ownerUsername}</Username>{' '}
       <span>
         {activityType === 'FOLLOW_USER'
           ? dictionary.followed
@@ -192,7 +214,6 @@ export function FollowActivity({
           <AvatarFallback>{username[0]}</AvatarFallback>
         </Avatar>
       </Link>
-
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/${username}`}
@@ -208,7 +229,9 @@ export function LikeReviewActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOfTwoseven
 }) {
+  const { language, dictionary } = useLanguage()
   const {
+    owner: { username },
     additionalInfo: {
       title,
       mediaType,
@@ -219,8 +242,6 @@ export function LikeReviewActivity({
     },
     entityId,
   } = activity
-
-  const { language, dictionary } = useLanguage()
 
   const baseHref = getReviewHref({
     language,
@@ -234,7 +255,7 @@ export function LikeReviewActivity({
 
   return (
     <span>
-      {dictionary.liked_review}{' '}
+      <Username>{username}</Username> {dictionary.liked_review}{' '}
       <Link
         className="text-foreground/80 font-medium hover:underline"
         href={`/${language}/${author.username}`}
@@ -261,16 +282,17 @@ export function WatchEpisodeActivity({
 }: {
   activity: GetUserActivities200UserActivitiesItemAnyOfFoureight
 }) {
+  const { language, dictionary } = useLanguage()
   const {
+    owner: { username },
     additionalInfo: { episodes, title, tmdbId },
   } = activity
 
-  const { language, dictionary } = useLanguage()
   const href = `/${language}/tv-series/${tmdbId}`
 
   return (
     <span>
-      {dictionary.marked}{' '}
+      <Username>{username}</Username> {dictionary.marked}{' '}
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -310,6 +332,8 @@ export function CreateReviewReplyActivity({
 }: { activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven }) {
   const { language, dictionary } = useLanguage()
   const {
+    owner,
+    activityType,
     additionalInfo: {
       review: {
         author,
@@ -321,8 +345,9 @@ export function CreateReviewReplyActivity({
         episodeNumber,
       },
     },
-    activityType,
   } = activity
+
+  const { username } = owner
 
   const baseHref = getReviewHref({
     language,
@@ -332,11 +357,11 @@ export function CreateReviewReplyActivity({
     episodeNumber,
   })
   const href = `${baseHref}?review=${id}`
-
   const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
     <span className="">
+      <Username>{username}</Username>{' '}
       {activityType === 'CREATE_REPLY'
         ? dictionary.replied_to_review
         : dictionary.liked_reply}{' '}
@@ -361,8 +386,17 @@ export function CreateReviewReplyActivity({
   )
 }
 
-export function CreateAccountActivity() {
+export function CreateAccountActivity({
+  activity,
+}: { activity: GetUserActivities200UserActivitiesItemAnyOfSixeight }) {
   const { dictionary } = useLanguage()
+  const {
+    owner: { username },
+  } = activity
 
-  return <div>{dictionary.joined_plotwist}</div>
+  return (
+    <div>
+      <Username>{username}</Username> {dictionary.joined_plotwist}
+    </div>
+  )
 }
