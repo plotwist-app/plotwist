@@ -27,7 +27,7 @@ export const ForgotPasswordForm = () => {
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema(dictionary)),
     defaultValues: {
-      email: '',
+      login: '',
     },
   })
 
@@ -40,13 +40,13 @@ export const ForgotPasswordForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
           control={form.control}
-          name="email"
+          name="login"
           render={({ field }) => (
             <FormItem>
               <FormLabel>{dictionary.login_label}</FormLabel>
 
               <FormControl>
-                <Input placeholder="email@domain.com" {...field} />
+                <Input placeholder={dictionary.login_placeholder} {...field} />
               </FormControl>
 
               <FormMessage />
