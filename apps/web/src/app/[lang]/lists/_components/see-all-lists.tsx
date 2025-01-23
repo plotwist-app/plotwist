@@ -3,7 +3,7 @@
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import type { ComponentProps } from 'react'
 
 export const SeeAllLists = ({ className }: ComponentProps<'div'>) => {

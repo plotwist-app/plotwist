@@ -18,6 +18,8 @@ function ItemReviewContent() {
     episodeNumber?: string
   }>()
 
+  console.log(seasonNumber, episodeNumber)
+
   const mediaType = pathname.includes('tv-series') ? 'TV_SHOW' : 'MOVIE'
 
   const tmdbId = Number(id)
@@ -28,6 +30,7 @@ function ItemReviewContent() {
     seasonNumber,
     episodeNumber,
   })
+
   const { dictionary } = useLanguage()
 
   return (
@@ -36,6 +39,8 @@ function ItemReviewContent() {
       mediaType={mediaType}
       review={data.review}
       key={JSON.stringify(data.review)}
+      seasonNumber={seasonNumber ? Number(seasonNumber) : undefined}
+      episodeNumber={episodeNumber ? Number(episodeNumber) : undefined}
     >
       <Button size="sm" variant="outline">
         <Star

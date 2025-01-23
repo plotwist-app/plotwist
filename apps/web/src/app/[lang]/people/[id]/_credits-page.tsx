@@ -18,7 +18,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import type { MovieCast, MovieCrew, TvCast, TvCrew } from '@plotwist_app/tmdb'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { useQueryState } from 'nuqs'
 
 type CreditsPageProps = {

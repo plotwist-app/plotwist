@@ -2,7 +2,7 @@ import { PosterCard } from '@/components/poster-card'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 type TvSerieRelatedProps = {
   id: number

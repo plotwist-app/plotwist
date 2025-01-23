@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 import {
   Avatar,
@@ -20,10 +20,13 @@ import { Rating } from '@plotwist/ui/components/ui/rating'
 import { format } from 'date-fns'
 import { useState } from 'react'
 import { Likes } from '../likes'
+import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
 }
+
+type MediaType = 'MOVIE' | 'TV_SHOW'
 
 export const FullReview = ({ review }: FullReviewProps) => {
   const {
@@ -52,32 +55,8 @@ export const FullReview = ({ review }: FullReviewProps) => {
     locale: locale[language],
   })
 
-  function getHref() {
-    if (mediaType === 'MOVIE') {
-      return `/${language}/movies/${tmdbId}`
-    }
-
-    if (seasonNumber && episodeNumber) {
-      return `/${language}/tv-series/${tmdbId}/seasons/${seasonNumber}/episodes/${episodeNumber}`
-    }
-
-    if (seasonNumber) {
-      return `/${language}/tv-series/${tmdbId}/seasons/${seasonNumber}`
-    }
-
-    return `/${language}/tv-series/${tmdbId}`
-  }
-
-  const href = `${getHref()}?review=${review.id}`
-
-  function getBadge() {
-    if (seasonNumber && episodeNumber) {
-      return ` (S${String(seasonNumber).padStart(2, '0')}E${String(episodeNumber).padStart(2, '0')})`
-    }
-    if (seasonNumber) {
-      return ` (S${String(seasonNumber).padStart(2, '0')})`
-    }
-  }
+  const href = `${getReviewHref({ language, mediaType, tmdbId, seasonNumber, episodeNumber })}?review=${review.id}`
+  const badge = getEpisodeBadge({ seasonNumber, episodeNumber })
 
   return (
     <div className="space-y-2">
@@ -94,9 +73,9 @@ export const FullReview = ({ review }: FullReviewProps) => {
           <Link href={href} className="text-lg flex items-center">
             {title}
 
-            {(seasonNumber || episodeNumber) && (
+            {badge && (
               <span className="text-muted-foreground text-sm ml-2">
-                {getBadge()}
+                {badge}
               </span>
             )}
           </Link>

@@ -15,7 +15,7 @@ import { User } from 'lucide-react'
 import Image from 'next/image'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 export function TopActors() {
   const { userId } = useLayoutContext()

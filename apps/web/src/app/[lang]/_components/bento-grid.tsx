@@ -3,7 +3,7 @@ import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { BlurFade } from '@plotwist/ui/components/magicui/blur-fade'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { AnimatedListDemo } from './animated-list-demo'
 import { BentoGridIphone } from './bent-grid-iphone'
 

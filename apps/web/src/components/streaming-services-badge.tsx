@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { useSession } from '@/context/session'
 import { useLanguage } from '@/context/language'
 import { Badge } from '@plotwist/ui/components/ui/badge'

@@ -2,7 +2,7 @@
 
 import { MoreVertical, Trash } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { useState } from 'react'
 import { toast } from 'sonner'
 

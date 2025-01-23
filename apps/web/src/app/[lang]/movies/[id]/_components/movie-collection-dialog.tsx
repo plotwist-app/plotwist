@@ -1,7 +1,7 @@
 'use client'
 
 import type { DetailedCollection } from '@/services/tmdb'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { useState } from 'react'
 
 import { PosterCard } from '@/components/poster-card'

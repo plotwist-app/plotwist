@@ -29,7 +29,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import type { ReviewItemProps } from '../review-item'
 
 export const replyFormSchema = (dictionary: Dictionary) =>
