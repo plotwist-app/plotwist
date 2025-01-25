@@ -29,8 +29,10 @@ import {
   CommandSearchPerson,
   CommandSearchSkeleton,
   CommandSearchTvSerie,
+  CommandSearchUser,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
+import { getUsersSearch } from '@/api/users'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -44,6 +46,20 @@ export const CommandSearch = () => {
     queryFn: async () => await tmdb.search.multi(debouncedSearch, language),
     staleTime: 1000,
   })
+
+  // search users in API
+  // const { users, isLoading: isLoadingUsers } = getUsersSearch(
+  //   { username: debouncedSearch },
+  //   { query: { enabled: !!debouncedSearch } }
+  // )
+
+  const users = [
+    {
+      username: 'elixir2',
+      id: '1',
+      profile_path: null,
+    },
+  ]
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -77,13 +93,14 @@ export const CommandSearch = () => {
     ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTvSeries, hasPeople] = [
+  const [hasMovies, hasTvSeries, hasPeople, hasUsers] = [
     Boolean(movies?.length),
     Boolean(tvSeries?.length),
     Boolean(people?.length),
+    Boolean(users?.length),
   ]
 
-  const hasResults = hasMovies || hasTvSeries || hasPeople
+  const hasResults = hasMovies || hasTvSeries || hasPeople || hasUsers
 
   return (
     <>
@@ -159,6 +176,18 @@ export const CommandSearch = () => {
                         item={person}
                         language={language}
                         key={person.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
+
+                {hasUsers && (
+                  <CommandSearchGroup heading={dictionary.people}>
+                    {users?.map(user => (
+                      <CommandSearchUser
+                        item={user}
+                        language={language}
+                        key={user.id}
                       />
                     ))}
                   </CommandSearchGroup>

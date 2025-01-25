@@ -35,6 +35,8 @@ import type {
   GetUsersAvailableUsername200,
   GetUsersAvailableUsername409,
   GetUsersAvailableUsernameParams,
+  GetUsersSearch200,
+  GetUsersSearchParams,
   GetUsersUsername200,
   PatchUser200,
   PatchUserBody,
@@ -1070,6 +1072,142 @@ export function useGetUserPreferencesSuspense<TData = Awaited<ReturnType<typeof 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetUserPreferencesSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Get users by username
+ */
+export const getUsersSearch = (
+    params: GetUsersSearchParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUsersSearch200>(
+      {url: `/users/search`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetUsersSearchQueryKey = (params: GetUsersSearchParams,) => {
+    return [`/users/search`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetUsersSearchQueryOptions = <TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(params: GetUsersSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUsersSearchQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersSearch>>> = ({ signal }) => getUsersSearch(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUsersSearchQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersSearch>>>
+export type GetUsersSearchQueryError = unknown
+
+
+export function useGetUsersSearch<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersSearch>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUsersSearch<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersSearch>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUsersSearch<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUsersSearch<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUsersSearchQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetUsersSearchSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(params: GetUsersSearchParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUsersSearchQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersSearch>>> = ({ signal }) => getUsersSearch(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUsersSearchSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersSearch>>>
+export type GetUsersSearchSuspenseQueryError = unknown
+
+
+export function useGetUsersSearchSuspense<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUsersSearchSuspense<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUsersSearchSuspense<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUsersSearchSuspense<TData = Awaited<ReturnType<typeof getUsersSearch>>, TError = unknown>(
+ params: GetUsersSearchParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUsersSearch>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUsersSearchSuspenseQueryOptions(params,options)
 
   const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 

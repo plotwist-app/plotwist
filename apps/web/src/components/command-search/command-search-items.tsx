@@ -169,6 +169,39 @@ export const CommandSearchPerson = ({
   )
 }
 
+export const CommandSearchUser = ({
+  item,
+  language,
+}: CommandSearchItemProps<{
+  username: string
+  id: string
+  profile_path?: string | null
+}>) => {
+  return (
+    <Link
+      className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
+      href={`/${language}/${item.username}`}
+    >
+      <div className="relative flex w-6 h-6 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
+        {item.profile_path ? (
+          <Image
+            fill
+            className="object-cover"
+            src={item.profile_path}
+            alt={item.username}
+            loading="lazy"
+            sizes="100%"
+          />
+        ) : (
+          item.username[0]
+        )}
+      </div>
+
+      <span className="text-sm">{item.username}</span>
+    </Link>
+  )
+}
+
 export const CommandSearchSkeleton = () => (
   <div className="flex items-center justify-between gap-4 rounded-sm p-2">
     <Skeleton className="h-[2ex] w-[20ch]" />
