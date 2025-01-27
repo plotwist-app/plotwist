@@ -23,7 +23,7 @@ import { axiosInstance } from '../services/axios-instance';
 
 
 /**
- * User login with email or username and password
+ * User login with login and password
  */
 export const postLogin = (
     postLoginBody: PostLoginBody,

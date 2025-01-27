@@ -29,8 +29,10 @@ import {
   CommandSearchPerson,
   CommandSearchSkeleton,
   CommandSearchTvSerie,
+  CommandSearchUser,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
+import { getUsersSearch } from '@/api/users'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)
@@ -42,6 +44,12 @@ export const CommandSearch = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['search', debouncedSearch],
     queryFn: async () => await tmdb.search.multi(debouncedSearch, language),
+    staleTime: 1000,
+  })
+
+  const { data: users, isLoading: isLoadingUsers } = useQuery({
+    queryKey: ['users', debouncedSearch],
+    queryFn: async () => await getUsers(debouncedSearch),
     staleTime: 1000,
   })
 
@@ -77,13 +85,14 @@ export const CommandSearch = () => {
     ) as PersonWithMediaType[],
   ]
 
-  const [hasMovies, hasTvSeries, hasPeople] = [
+  const [hasMovies, hasTvSeries, hasPeople, hasUsers] = [
     Boolean(movies?.length),
     Boolean(tvSeries?.length),
     Boolean(people?.length),
+    Boolean(users?.length),
   ]
 
-  const hasResults = hasMovies || hasTvSeries || hasPeople
+  const hasResults = hasMovies || hasTvSeries || hasPeople || hasUsers
 
   return (
     <>
@@ -106,23 +115,24 @@ export const CommandSearch = () => {
           />
 
           <CommandList className="">
-            {isLoading && (
-              <div className="space-y-8">
-                <CommandSearchGroup heading={dictionary.movies}>
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
+            {isLoading ||
+              (isLoadingUsers && (
+                <div className="space-y-8">
+                  <CommandSearchGroup heading={dictionary.movies}>
+                    {Array.from({ length: 5 }).map(_ => (
+                      <CommandSearchSkeleton key={v4()} />
+                    ))}
+                  </CommandSearchGroup>
 
-                <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_series}
-                >
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
-              </div>
-            )}
+                  <CommandSearchGroup
+                    heading={dictionary.sidebar_search.tv_series}
+                  >
+                    {Array.from({ length: 5 }).map(_ => (
+                      <CommandSearchSkeleton key={v4()} />
+                    ))}
+                  </CommandSearchGroup>
+                </div>
+              ))}
 
             {hasResults ? (
               <div className="">
@@ -163,6 +173,18 @@ export const CommandSearch = () => {
                     ))}
                   </CommandSearchGroup>
                 )}
+
+                {hasUsers && (
+                  <CommandSearchGroup heading={dictionary.users}>
+                    {users?.map(user => (
+                      <CommandSearchUser
+                        item={user}
+                        language={language}
+                        key={user.id}
+                      />
+                    ))}
+                  </CommandSearchGroup>
+                )}
               </div>
             ) : (
               <p className="p-8 text-center">
@@ -174,4 +196,14 @@ export const CommandSearch = () => {
       </CommandDialog>
     </>
   )
+}
+
+const getUsers = async (username: string) => {
+  if (username.length >= 3) {
+    const { users } = await getUsersSearch({ username: username })
+
+    return users
+  }
+
+  return []
 }

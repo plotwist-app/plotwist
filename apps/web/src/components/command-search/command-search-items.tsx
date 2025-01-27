@@ -18,6 +18,7 @@ import {
   HoverCardTrigger,
 } from '@plotwist/ui/components/ui/hover-card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import type { GetUsersSearch200UsersItem } from '@/api/endpoints.schemas'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }
 
@@ -165,6 +166,35 @@ export const CommandSearchPerson = ({
       </div>
 
       <span className="text-sm">{item.name}</span>
+    </Link>
+  )
+}
+
+export const CommandSearchUser = ({
+  item,
+  language,
+}: CommandSearchItemProps<GetUsersSearch200UsersItem>) => {
+  return (
+    <Link
+      className="flex items-center gap-2 rounded-md px-2 py-2 hover:bg-muted"
+      href={`/${language}/${item.username}`}
+    >
+      <div className="relative flex w-6 h-6 items-center justify-center overflow-hidden rounded-full border border-muted-foreground">
+        {item.avatarUrl ? (
+          <Image
+            fill
+            className="object-cover"
+            src={item.avatarUrl}
+            alt={item.username}
+            loading="lazy"
+            sizes="100%"
+          />
+        ) : (
+          item.username?.[0]?.toUpperCase()
+        )}
+      </div>
+
+      <span className="text-sm">{item.username}</span>
     </Link>
   )
 }
