@@ -155,7 +155,7 @@ export const CommandSearchPerson = ({
           <Image
             fill
             className="object-cover"
-            src={item.profile_path}
+            src={tmdbImage(item.profile_path)}
             alt={item.name}
             loading="lazy"
             sizes="100%"
@@ -185,7 +185,7 @@ export const CommandSearchUser = ({
             fill
             className="object-cover"
             src={item.avatarUrl}
-            alt={item.username ?? ''}
+            alt={item.username}
             loading="lazy"
             sizes="100%"
           />
