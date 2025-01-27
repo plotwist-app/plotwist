@@ -2929,8 +2929,9 @@ export type PostListBody = {
 export type GetUsersSearch200UsersItem = {
   /** @nullable */
   avatarUrl: string | null;
-  id?: string;
-  username?: string;
+  id: string;
+  isFollowed: boolean;
+  username: string;
 };
 
 export type GetUsersSearch200 = {

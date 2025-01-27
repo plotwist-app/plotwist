@@ -47,19 +47,11 @@ export const CommandSearch = () => {
     staleTime: 1000,
   })
 
-  // search users in API
-  // const { users, isLoading: isLoadingUsers } = getUsersSearch(
-  //   { username: debouncedSearch },
-  //   { query: { enabled: !!debouncedSearch } }
-  // )
-
-  const users = [
-    {
-      username: 'elixir2',
-      id: '1',
-      profile_path: null,
-    },
-  ]
+  const { data: users, isLoading: isLoadingUsers } = useQuery({
+    queryKey: ['users', debouncedSearch],
+    queryFn: async () => await getUsers(debouncedSearch),
+    staleTime: 1000,
+  })
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -123,23 +115,24 @@ export const CommandSearch = () => {
           />
 
           <CommandList className="">
-            {isLoading && (
-              <div className="space-y-8">
-                <CommandSearchGroup heading={dictionary.movies}>
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
+            {isLoading ||
+              (isLoadingUsers && (
+                <div className="space-y-8">
+                  <CommandSearchGroup heading={dictionary.movies}>
+                    {Array.from({ length: 5 }).map(_ => (
+                      <CommandSearchSkeleton key={v4()} />
+                    ))}
+                  </CommandSearchGroup>
 
-                <CommandSearchGroup
-                  heading={dictionary.sidebar_search.tv_series}
-                >
-                  {Array.from({ length: 5 }).map(_ => (
-                    <CommandSearchSkeleton key={v4()} />
-                  ))}
-                </CommandSearchGroup>
-              </div>
-            )}
+                  <CommandSearchGroup
+                    heading={dictionary.sidebar_search.tv_series}
+                  >
+                    {Array.from({ length: 5 }).map(_ => (
+                      <CommandSearchSkeleton key={v4()} />
+                    ))}
+                  </CommandSearchGroup>
+                </div>
+              ))}
 
             {hasResults ? (
               <div className="">
@@ -182,7 +175,7 @@ export const CommandSearch = () => {
                 )}
 
                 {hasUsers && (
-                  <CommandSearchGroup heading={dictionary.people}>
+                  <CommandSearchGroup heading={dictionary.users}>
                     {users?.map(user => (
                       <CommandSearchUser
                         item={user}
@@ -203,4 +196,14 @@ export const CommandSearch = () => {
       </CommandDialog>
     </>
   )
+}
+
+const getUsers = async (username: string) => {
+  if (username.length >= 3) {
+    const { users } = await getUsersSearch({ username: username })
+
+    return users
+  }
+
+  return []
 }
