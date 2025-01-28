@@ -2,7 +2,7 @@ import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { CreditCard } from './credit-card'
-import { getDepartamentLabel } from '@/utils/tmdb/department'
+import { getDepartmentLabel } from '@/utils/tmdb/department'
 
 type BaseCreditsProps = {
   id: number
@@ -94,7 +94,7 @@ export const Credits = async (props: CreditsProps) => {
                 key={creditId}
                 imagePath={profilePath}
                 name={name}
-                role={getDepartamentLabel(dictionary, department)}
+                role={getDepartmentLabel(dictionary, department)}
                 href={`/${language}/people/${id}`}
               />
             )

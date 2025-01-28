@@ -1,9 +1,6 @@
 import type { Dictionary } from '../dictionaries'
 
-export function getDepartamentLabel(
-  dictionary: Dictionary,
-  department: string
-) {
+export function getDepartmentLabel(dictionary: Dictionary, department: string) {
   const label: Record<string, string> = {
     Directing: dictionary.directing,
     Acting: dictionary.acting,
