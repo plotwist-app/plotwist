@@ -825,5 +825,13 @@
   "no_images_found": "現在利用可能な画像はありません",
   "no_episodes_found": "現在利用可能なエピソードはありません",
   "get_14_days_free_pro": "🎉 14日間無料でお試しいただける ",
-  "network_activity": "ネットワークアクティビティ"
+  "network_activity": "ネットワークアクティビティ",
+  "known_for": "知られている",
+  "credits_count": "クレジット",
+  "gender": "性別",
+  "birthdate": "誕生日",
+  "also_known_as": "別名",
+  "male": "男性",
+  "female": "女性",
+  "not_specified": "未指定"
 }

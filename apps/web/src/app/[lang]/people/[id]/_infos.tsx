@@ -1,17 +1,20 @@
-import type { Dictionary } from '@/utils/dictionaries'
+'use client'
+
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
 import { getDepartmentLabel } from '@/utils/tmdb/department'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { PersonDetails } from '@plotwist_app/tmdb'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 type InfosProps = {
   personDetails: PersonDetails
-  dictionary: Dictionary
   creditsCount: number
 }
 
-export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
+export function Infos({ personDetails, creditsCount }: InfosProps) {
+  const { language, dictionary } = useLanguage()
+
   const {
     known_for_department,
     also_known_as,
@@ -23,11 +26,11 @@ export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
   const getGenderLabel = (gender: number) => {
     switch (gender) {
       case 1:
-        return 'Feminino'
+        return dictionary.female
       case 2:
-        return 'Masculino'
+        return dictionary.male
       default:
-        return 'Não especificado'
+        return dictionary.not_specified
     }
   }
 
@@ -50,7 +53,7 @@ export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between gap-4">
-        <h2 className="text-sm font-semibold">Conhecido por</h2>
+        <h2 className="text-sm font-semibold">{dictionary.known_for}</h2>
         <div className="flex flex-wrap gap-2">
           <Badge variant="outline">
             {getDepartmentLabel(dictionary, known_for_department)}
@@ -59,14 +62,14 @@ export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
       </div>
 
       <div className="flex justify-between gap-4">
-        <h2 className="text-sm font-semibold">Creditado(a) em</h2>
+        <h2 className="text-sm font-semibold">{dictionary.credits_count}</h2>
         <div className="flex flex-wrap gap-2">
           <Badge variant="outline">{creditsCount}</Badge>
         </div>
       </div>
 
       <div className="flex justify-between gap-4">
-        <h2 className="text-sm font-semibold">Gênero</h2>
+        <h2 className="text-sm font-semibold">{dictionary.gender}</h2>
         <div className="flex flex-wrap gap-2">
           <Badge variant="outline">{getGenderLabel(gender)}</Badge>
         </div>
@@ -75,13 +78,13 @@ export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
       {birthday && (
         <div className="flex justify-between gap-4">
           <h2 className="text-sm font-semibold whitespace-nowrap">
-            Nascimento
+            {dictionary.birthdate}
           </h2>
 
           <div className="flex flex-col gap-0 text-xs text-muted-foreground text-right">
             <span>
               {format(new Date(birthday), "dd 'de' MMMM 'de' yyyy", {
-                locale: ptBR,
+                locale: locale[language],
               })}{' '}
               ({calculateAge(birthday)} anos)
             </span>
@@ -94,7 +97,7 @@ export function Infos({ personDetails, dictionary, creditsCount }: InfosProps) {
       {also_known_as.length > 0 && (
         <div className="flex justify-between gap-4">
           <h2 className="text-sm font-semibold whitespace-nowrap">
-            Conhecido como
+            {dictionary.also_known_as}
           </h2>
 
           <div className="flex flex-wrap gap-2 justify-end">

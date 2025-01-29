@@ -824,5 +824,13 @@
   "no_images_found": "Nenhuma imagem disponível no momento",
   "no_episodes_found": "Nenhum episódio disponível no momento",
   "get_14_days_free_pro": "🎉 Ganhe 14 dias grátis do plano",
-  "network_activity": "Atividade da sua rede"
+  "network_activity": "Atividade da sua rede",
+  "known_for": "Conhecido por",
+  "credits_count": "Creditado(a) em",
+  "gender": "Gênero",
+  "birthdate": "Nascimento",
+  "also_known_as": "Conhecido como",
+  "male": "Masculino",
+  "female": "Feminino",
+  "not_specified": "Não especificado"
 }
