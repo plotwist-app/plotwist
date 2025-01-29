@@ -829,5 +829,6 @@
   "also_known_as": "Also known as",
   "male": "Male",
   "female": "Female",
-  "not_specified": "Not specified"
+  "not_specified": "Not specified",
+  "progress_completed": "Progress completed"
 }

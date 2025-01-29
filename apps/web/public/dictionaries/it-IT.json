@@ -830,5 +830,6 @@
   "also_known_as": "Anche conosciuto come",
   "male": "Maschio",
   "female": "Femmina",
-  "not_specified": "Non specificato"
+  "not_specified": "Non specificato",
+  "progress_completed": "Progresso completato"
 }
