@@ -7,6 +7,7 @@ import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
 import { Biography } from './_biography'
 import type { Metadata } from 'next'
+import { Infos } from './_infos'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
 
@@ -50,17 +51,18 @@ export default async function PersonPage({
   children,
 }: PersonPageProps) {
   const { id, lang } = await params
-
-  const { profile_path, name, biography } = await tmdb.person.details(
-    Number(id),
-    lang
-  )
+  const person = await tmdb.person.details(Number(id), lang)
+  const { profile_path, name, biography } = person
 
   const { cast, crew } = await tmdb.person.combinedCredits(Number(id), lang)
 
   const mostPopularBackdrop = [...cast, ...crew]
     .sort((a, b) => b.vote_count - a.vote_count)
     .filter(credit => credit.backdrop_path)[0]?.backdrop_path
+
+  const uniqueCredits = [...cast, ...crew].filter(
+    (credit, index, self) => index === self.findIndex(t => t.id === credit.id)
+  )
 
   return (
     <main className="pb-16 mx-auto max-w-6xl">
@@ -79,7 +81,7 @@ export default async function PersonPage({
         <aside className="flex flex-col space-y-4 col-span-1 relative">
           <div
             className={cn(
-              'flex flex-col items-center gap-8 text-center justify-center sticky top-24',
+              'flex flex-col items-center gap-4 text-center justify-center',
               'lg:justify-start lg:flex-col lg:text-start lg:items-start'
             )}
           >
@@ -104,7 +106,14 @@ export default async function PersonPage({
 
               <h1 className="text-3xl font-bold mt-2">{name}</h1>
 
-              <Biography content={biography} />
+              <Biography content={biography} title={name} />
+            </div>
+
+            <div className="hidden lg:block">
+              <Infos
+                personDetails={person}
+                creditsCount={uniqueCredits.length}
+              />
             </div>
           </div>
         </aside>

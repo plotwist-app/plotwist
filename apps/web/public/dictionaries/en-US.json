@@ -821,5 +821,13 @@
   "no_images_found": "No images available at the moment",
   "no_episodes_found": "No episodes available at the moment",
   "get_14_days_free_pro": "🎉 Get 14 days free of the ",
-  "network_activity": "Network activity"
+  "network_activity": "Network activity",
+  "known_for": "Known for",
+  "credits_count": "Credited in",
+  "gender": "Gender",
+  "birthdate": "Birthdate",
+  "also_known_as": "Also known as",
+  "male": "Male",
+  "female": "Female",
+  "not_specified": "Not specified"
 }
