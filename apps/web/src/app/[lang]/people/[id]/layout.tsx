@@ -8,7 +8,6 @@ import type { PropsWithChildren } from 'react'
 import { Biography } from './_biography'
 import type { Metadata } from 'next'
 import { Infos } from './_infos'
-import { getDictionary } from '@/utils/dictionaries'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren
 
@@ -65,8 +64,6 @@ export default async function PersonPage({
     (credit, index, self) => index === self.findIndex(t => t.id === credit.id)
   )
 
-  const dictionary = await getDictionary(lang)
-
   return (
     <main className="pb-16 mx-auto max-w-6xl">
       <Banner
@@ -115,7 +112,6 @@ export default async function PersonPage({
             <div className="hidden lg:block">
               <Infos
                 personDetails={person}
-                dictionary={dictionary}
                 creditsCount={uniqueCredits.length}
               />
             </div>
