@@ -79,6 +79,7 @@ export function TvSeriesProgress({
 
   const watchedCount = userEpisodes?.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
+  const isAllEpisodesWatched = watchedCount === totalEpisodes
 
   const queryClient = useQueryClient()
 
@@ -351,7 +352,9 @@ export function TvSeriesProgress({
         <DialogTrigger asChild>
           <Button size="sm" variant="outline">
             <Check className="mr-2" size={14} />
-            {dictionary.update_progress}
+            {isAllEpisodesWatched
+              ? dictionary.progress_completed
+              : dictionary.update_progress}
           </Button>
         </DialogTrigger>
 
@@ -370,7 +373,9 @@ export function TvSeriesProgress({
       <DrawerTrigger asChild>
         <Button size="sm" variant="outline">
           <Check className="mr-2" size={14} />
-          {dictionary.update_progress}
+          {isAllEpisodesWatched
+            ? dictionary.progress_completed
+            : dictionary.update_progress}{' '}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="p-0">{content}</DrawerContent>
