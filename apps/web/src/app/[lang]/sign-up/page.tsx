@@ -34,8 +34,8 @@ const SignUpPage = async (props: PageProps) => {
     <>
       <Pattern variant="checkered" />
 
-      <div className="flex h-[calc(100svh-54px-33px)] w-full flex-col items-center justify-center p-4 lg:p-0 relative">
-        <div className="space-y- w-full max-w-[450px]">
+      <div className="flex h-[calc(90svh)] w-full flex-col items-center justify-center p-4 lg:p-0 relative">
+        <div className="space-y-4 w-full max-w-[450px]">
           <div className="space-y-4">
             <div className="w-full space-y-2 text-center">
               <h1 className="text-3xl font-bold">{dictionary.start_now}</h1>
@@ -45,16 +45,16 @@ const SignUpPage = async (props: PageProps) => {
             </div>
 
             <SignUpForm onSignUp={signUp} />
-          </div>
-        </div>
 
-        <div className="absolute bottom-0 w-full border-t bg-muted dark:bg-black p-4 items-center justify-center space-x-1 flex">
-          <Link
-            href={`/${lang}/sign-in`}
-            className="text-center text-xs text-muted-foreground hover:underline"
-          >
-            {dictionary.already_have_an_account} {dictionary.access_now}
-          </Link>
+            <div className="flex justify-center">
+              <Link
+                href={`/${lang}/sign-in`}
+                className="text-center text-xs text-muted-foreground hover:underline"
+              >
+                {dictionary.already_have_an_account} {dictionary.access_now}
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </>

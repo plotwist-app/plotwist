@@ -14,16 +14,16 @@ export function PersonTabs({ personId }: PersonTabsProps) {
   const pathname = usePathname()
   const { language, dictionary } = useLanguage()
 
-  const spllitedPathname = pathname.split('/')
+  const splittedPathname = pathname.split('/')
   const minSegments = 4
 
   const value = useMemo(() => {
-    if (spllitedPathname.length === minSegments) {
+    if (splittedPathname.length === minSegments) {
       return 'credits'
     }
 
-    return spllitedPathname[spllitedPathname.length - 1]
-  }, [spllitedPathname])
+    return splittedPathname[splittedPathname.length - 1]
+  }, [splittedPathname])
 
   return (
     <Tabs value={value}>
