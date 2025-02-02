@@ -47,6 +47,7 @@ import { type PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 
 export const reviewFormDialogSchema = (dictionary: Dictionary) =>
   z.object({
@@ -66,8 +67,6 @@ type ReviewFormDialogProps = PropsWithChildren & {
   mediaType: 'MOVIE' | 'TV_SHOW'
   tmdbId: number
   review?: GetReview200Review
-  seasonNumber?: number
-  episodeNumber?: number
 }
 
 export function ReviewFormDialog({
@@ -75,9 +74,20 @@ export function ReviewFormDialog({
   mediaType,
   tmdbId,
   review,
-  seasonNumber,
-  episodeNumber,
 }: ReviewFormDialogProps) {
+  const params = useParams<{
+    seasonNumber?: string
+    episodeNumber?: string
+  }>()
+
+  const seasonNumber = params.seasonNumber
+    ? Number(params.seasonNumber)
+    : undefined
+
+  const episodeNumber = params.episodeNumber
+    ? Number(params.episodeNumber)
+    : undefined
+
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
@@ -85,6 +95,7 @@ export function ReviewFormDialog({
   const postReview = usePostReview()
   const putReview = usePutReviewById()
   const putUserItem = usePutUserItem()
+
   const { data: userItem } = useGetUserItem(
     {
       mediaType,
@@ -117,7 +128,11 @@ export function ReviewFormDialog({
 
     const query = {
       onSuccess: async () => {
-        if (userItem?.status !== 'WATCHED' && !seasonNumber && !episodeNumber) {
+        const isEpisode = seasonNumber && episodeNumber
+        const isSeason = seasonNumber && !episodeNumber
+        const isWatched = userItem?.status === 'WATCHED'
+
+        if (!isWatched && !isEpisode && !isSeason) {
           await putUserItem.mutateAsync(
             {
               data: {

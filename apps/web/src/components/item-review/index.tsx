@@ -18,10 +18,7 @@ function ItemReviewContent() {
     episodeNumber?: string
   }>()
 
-  console.log(seasonNumber, episodeNumber)
-
   const mediaType = pathname.includes('tv-series') ? 'TV_SHOW' : 'MOVIE'
-
   const tmdbId = Number(id)
 
   const { data } = useGetReviewSuspense({
@@ -39,8 +36,6 @@ function ItemReviewContent() {
       mediaType={mediaType}
       review={data.review}
       key={JSON.stringify(data.review)}
-      seasonNumber={seasonNumber ? Number(seasonNumber) : undefined}
-      episodeNumber={episodeNumber ? Number(episodeNumber) : undefined}
     >
       <Button size="sm" variant="outline">
         <Star
