@@ -46,12 +46,7 @@ export const Reviews = ({
 
   if (!data || data.length === 0)
     return (
-      <ReviewFormDialog
-        tmdbId={tmdbId}
-        mediaType={mediaType}
-        seasonNumber={seasonNumber}
-        episodeNumber={episodeNumber}
-      >
+      <ReviewFormDialog tmdbId={tmdbId} mediaType={mediaType}>
         <section className="text-center border border-dashed rounded-lg py-8 cursor-pointer">
           <p className="text-sm lg:text-sm">
             {dictionary.be_the_first_to_leave_your_opinion}
