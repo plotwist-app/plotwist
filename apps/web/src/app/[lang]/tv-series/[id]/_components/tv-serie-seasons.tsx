@@ -5,10 +5,14 @@ import type { Language } from '@/types/languages'
 import { Poster } from '@/components/poster'
 
 import { Link } from 'next-view-transitions'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Eye, Grid } from 'lucide-react'
-import { TvSerieSeasonsOverview } from './tv-serie-seasons-overview'
+import {
+  TvSerieSeasonsOverview,
+  TvSerieSeasonsOverviewSkeleton,
+} from './tv-serie-seasons-overview'
+import { useLanguage } from '@/context/language'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]
@@ -21,6 +25,7 @@ export const TvSerieSeasons = ({
   language,
   id,
 }: TvSerieSeasonsProps) => {
+  const { dictionary } = useLanguage()
   const [variant, setVariant] = useState<'grid' | 'overview'>('grid')
 
   const filteredSeasons = seasons.filter(
@@ -45,11 +50,21 @@ export const TvSerieSeasons = ({
       )
     }
 
-    return <TvSerieSeasonsOverview seasons={filteredSeasons} />
+    return (
+      <>
+        <Suspense
+          fallback={
+            <TvSerieSeasonsOverviewSkeleton seasons={filteredSeasons} />
+          }
+        >
+          <TvSerieSeasonsOverview seasons={filteredSeasons} />
+        </Suspense>
+      </>
+    )
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       <div className="flex gap-2">
         <Button
           variant={variant === 'grid' ? 'default' : 'outline'}
@@ -57,7 +72,7 @@ export const TvSerieSeasons = ({
           onClick={() => setVariant('grid')}
         >
           <Grid className="size-4 mr-2" />
-          Grid
+          {dictionary.grid}
         </Button>
 
         <Button
@@ -66,7 +81,7 @@ export const TvSerieSeasons = ({
           onClick={() => setVariant('overview')}
         >
           <Eye className="size-4 mr-2" />
-          Visão geral
+          {dictionary.overview}
         </Button>
       </div>
 

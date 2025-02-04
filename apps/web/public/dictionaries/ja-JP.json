@@ -834,5 +834,6 @@
   "male": "男性",
   "female": "女性",
   "not_specified": "未指定",
-  "progress_completed": "進捗完了"
+  "progress_completed": "進捗完了",
+  "overview": "概要"
 }

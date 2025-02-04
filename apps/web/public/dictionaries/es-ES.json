@@ -832,5 +832,6 @@
   "male": "Masculino",
   "female": "Femenino",
   "not_specified": "No especificado",
-  "progress_completed": "Progreso completado"
+  "progress_completed": "Progreso completado",
+  "overview": "Resumen"
 }
