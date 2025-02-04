@@ -24,10 +24,7 @@ export const TvSerieSeasons = ({
   const [variant, setVariant] = useState<'grid' | 'overview'>('grid')
 
   const filteredSeasons = seasons.filter(
-    season =>
-      season.season_number !== 0 &&
-      season.episode_count > 0 &&
-      season.air_date !== null
+    season => season.season_number !== 0 && season.episode_count > 0
   )
 
   const renderContent = () => {

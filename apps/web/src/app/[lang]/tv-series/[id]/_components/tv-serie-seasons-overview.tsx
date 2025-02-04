@@ -17,6 +17,7 @@ import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 
 type TvSerieSeasonsOverviewProps = {
   seasons: Season[]
@@ -50,19 +51,15 @@ export function TvSerieSeasonsOverview({
     queryFn: () => getSeasonDetails(Number(params.id), seasons, language),
   })
 
-  console.log({ data })
-
   return (
-    <div className="overflow-x-auto">
+    <ScrollArea className="overflow-y-auto relative h-[80vh]">
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="p-2 text-center w-[10px]">EP</TableHead>
+        <TableHeader className="sticky top-0 bg-background z-10 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-border ">
+          <TableRow className="border-0">
+            <TableHead className="p-2 text-center">EP</TableHead>
+
             {seasons.map(season => (
-              <TableHead
-                key={season.season_number}
-                className="p-2 text-center w-[10px]"
-              >
+              <TableHead key={season.season_number} className="p-2 text-center">
                 S{season.season_number}
               </TableHead>
             ))}
@@ -71,7 +68,7 @@ export function TvSerieSeasonsOverview({
 
         <TableBody>
           {[...Array(maxEpisodes)].map((_, episodeIndex) => (
-            <TableRow key={v4()} className="border-t">
+            <TableRow key={v4()}>
               <TableCell className="p-2 text-center font-medium">
                 {episodeIndex + 1}
               </TableCell>
@@ -105,15 +102,15 @@ export function TvSerieSeasonsOverview({
                     <Badge
                       className={cn(
                         episode.vote_average > 0 &&
-                          'bg-red-300 text-red-900 hover:bg-red-400',
+                          'bg-red-200 text-red-900 hover:bg-red-400',
                         episode.vote_average > 2 &&
-                          'bg-orange-300 text-orange-900 hover:bg-orange-400',
+                          'bg-orange-200 text-orange-900 hover:bg-orange-400',
                         episode.vote_average > 4 &&
-                          'bg-yellow-300 text-yellow-900 hover:bg-yellow-400',
+                          'bg-yellow-200 text-yellow-900 hover:bg-yellow-400',
                         episode.vote_average > 6 &&
-                          'bg-lime-300 text-lime-900 hover:bg-lime-400',
+                          'bg-lime-200 text-lime-900 hover:bg-lime-400',
                         episode.vote_average > 8 &&
-                          'bg-green-300 text-green-900 hover:bg-green-400'
+                          'bg-green-200 text-green-900 hover:bg-green-400'
                       )}
                     >
                       {episode?.vote_average.toFixed(1)}
@@ -125,6 +122,6 @@ export function TvSerieSeasonsOverview({
           ))}
         </TableBody>
       </Table>
-    </div>
+    </ScrollArea>
   )
 }
