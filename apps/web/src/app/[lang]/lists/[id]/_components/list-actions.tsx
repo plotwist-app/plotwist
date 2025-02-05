@@ -2,7 +2,7 @@
 
 import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
-import { useGetListProgressSuspense } from '@/api/list'
+import { useGetListProgress } from '@/api/list'
 import { Likes } from '@/components/likes'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
@@ -145,8 +145,12 @@ function ListProgress({ listId }: ListProgressProps) {
   const { user } = useSession()
   if (!user) return null
 
-  const { data } = useGetListProgressSuspense(listId)
+  const { data, isLoading } = useGetListProgress(listId)
   const { dictionary } = useLanguage()
+
+  const completed = data?.completed ?? 0
+  const total = data?.total ?? 0
+  const percentage = data?.percentage ?? 0
 
   return (
     <Action.Root className="border-t py-3">
@@ -156,14 +160,18 @@ function ListProgress({ listId }: ListProgressProps) {
             <Check size={14} />
             <span>{dictionary.your_progress}</span>
           </div>
+
           <span className="text-muted-foreground text-xs">
-            {data.completed}/{data.total} ({data.percentage}%)
+            <NumberFlow value={completed} />/<NumberFlow value={total} /> (
+            <NumberFlow value={percentage} />
+            %)
           </span>
         </div>
 
-        <div className="w-full space-y-1">
-          <Progress value={data.percentage} className=" [&>*]:bg-emerald-400" />
-        </div>
+        <Progress
+          value={percentage}
+          className=" [&>*]:bg-emerald-400 w-full "
+        />
       </Action.Info>
     </Action.Root>
   )
