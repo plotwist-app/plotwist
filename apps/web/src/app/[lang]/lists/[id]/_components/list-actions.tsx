@@ -146,19 +146,22 @@ function ListProgress({ listId }: ListProgressProps) {
   if (!user) return null
 
   const { data } = useGetListProgressSuspense(listId)
+  const { dictionary } = useLanguage()
 
   return (
     <Action.Root className="border-t p-4">
       <Action.Info className="space-y-2 w-full">
         <div className="flex justify-between items-center">
-          <span>Seu progresso ({data.percentage}%)</span>
+          <span>
+            {dictionary.your_progress} ({data.percentage}%)
+          </span>
           <span className="text-muted-foreground text-xs">
             {data.completed}/{data.total}
           </span>
         </div>
 
         <div className="w-full space-y-1">
-          <Progress value={data.percentage} className=" [&>*]:bg-emerald-500" />
+          <Progress value={data.percentage} className=" [&>*]:bg-emerald-400" />
         </div>
       </Action.Info>
     </Action.Root>
