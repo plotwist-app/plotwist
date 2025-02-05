@@ -6,15 +6,21 @@ import { useMemo } from 'react'
 import { v4 } from 'uuid'
 import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
 
+const LIMIT = 5
+
 export const LatestLists = () => {
   const { dictionary } = useLanguage()
-  const { data, isLoading } = useGetLists({ limit: 5, visibility: 'PUBLIC' })
+  const { data, isLoading } = useGetLists({
+    limit: LIMIT,
+    visibility: 'PUBLIC',
+    hasBanner: true,
+  })
 
   const content = useMemo(() => {
     if (isLoading)
       return (
         <li className="flex flex-col gap-6">
-          {Array.from({ length: 3 }).map(_ => (
+          {Array.from({ length: LIMIT }).map(_ => (
             <PopularListCardSkeleton key={v4()} />
           ))}
         </li>
