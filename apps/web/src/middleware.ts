@@ -12,6 +12,9 @@ const DEFAULT_LOCALE = 'en-US'
 match(languages, appLanguages, DEFAULT_LOCALE)
 
 export async function middleware(req: NextRequest) {
+  const headers = new Headers(req.headers)
+  headers.set('x-current-path', req.nextUrl.pathname)
+
   const browserLanguage =
     req.headers.get('accept-language')?.split(',')[0] ?? 'en'
 
@@ -30,7 +33,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(req.nextUrl)
   }
 
-  return NextResponse.next()
+  return NextResponse.next({ headers })
 }
 
 export const config = {

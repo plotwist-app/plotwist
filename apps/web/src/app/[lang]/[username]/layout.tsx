@@ -60,7 +60,7 @@ export default async function Layout(props: UserPageProps) {
   const dictionary = await getDictionary(lang)
 
   const headersList = await headers()
-  const headersURL = headersList.get('referer') || ''
+  const headersURL = headersList.get('x-current-path') || ''
 
   if (!user) {
     redirect(`/${lang}/home`)
