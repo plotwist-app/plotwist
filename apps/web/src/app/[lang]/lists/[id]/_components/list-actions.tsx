@@ -10,7 +10,7 @@ import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import NumberFlow from '@number-flow/react'
 import { Progress } from '@plotwist/ui/components/ui/progress'
-import { BarChart, Copy, Heart, List } from 'lucide-react'
+import { BarChart, Check, Copy, Heart, List } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Suspense, type ComponentProps } from 'react'
 
@@ -151,8 +151,11 @@ function ListProgress({ listId }: ListProgressProps) {
   return (
     <Action.Root className="border-t py-3">
       <Action.Info className="space-y-2 w-full">
-        <div className="flex justify-between items-end">
-          <span>{dictionary.your_progress}</span>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 items-center">
+            <Check size={14} />
+            <span>{dictionary.your_progress}</span>
+          </div>
           <span className="text-muted-foreground text-xs">
             {data.completed}/{data.total} ({data.percentage}%)
           </span>
