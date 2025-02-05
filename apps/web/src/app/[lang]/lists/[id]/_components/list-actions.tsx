@@ -2,15 +2,17 @@
 
 import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
+import { useGetListProgressSuspense } from '@/api/list'
 import { Likes } from '@/components/likes'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import NumberFlow from '@number-flow/react'
+import { Progress } from '@plotwist/ui/components/ui/progress'
 import { BarChart, Copy, Heart, List } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import type { ComponentProps } from 'react'
+import { Suspense, type ComponentProps } from 'react'
 
 const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (
@@ -30,6 +32,9 @@ const Action = {
       )}
       {...props}
     />
+  ),
+  Info: ({ className, ...props }: ComponentProps<'span'>) => (
+    <span className={cn('text-sm', className)} {...props} />
   ),
   Complement: ({ className, ...props }: ComponentProps<'span'>) => (
     <span
@@ -127,6 +132,35 @@ export function ListActions({ list }: ListActionsProps) {
           <ProBadge />
         </Action.Button>
       </Action.Root>
+
+      <Suspense>
+        <ListProgress listId={list.id} />
+      </Suspense>
     </div>
+  )
+}
+
+type ListProgressProps = { listId: string }
+function ListProgress({ listId }: ListProgressProps) {
+  const { user } = useSession()
+  if (!user) return null
+
+  const { data } = useGetListProgressSuspense(listId)
+
+  return (
+    <Action.Root className="border-t p-4">
+      <Action.Info className="space-y-2 w-full">
+        <div className="flex justify-between items-center">
+          <span>Seu progresso ({data.percentage}%)</span>
+          <span className="text-muted-foreground text-xs">
+            {data.completed}/{data.total}
+          </span>
+        </div>
+
+        <div className="w-full space-y-1">
+          <Progress value={data.percentage} className=" [&>*]:bg-emerald-500" />
+        </div>
+      </Action.Info>
+    </Action.Root>
   )
 }
