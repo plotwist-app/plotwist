@@ -149,9 +149,9 @@ function ListProgress({ listId }: ListProgressProps) {
   const { dictionary } = useLanguage()
 
   return (
-    <Action.Root className="border-t py-4">
+    <Action.Root className="border-t py-3">
       <Action.Info className="space-y-2 w-full">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-end">
           <span>{dictionary.your_progress}</span>
           <span className="text-muted-foreground text-xs">
             {data.completed}/{data.total} ({data.percentage}%)
