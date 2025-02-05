@@ -163,51 +163,53 @@ export function TvSerieSeasonsOverviewSkeleton({
   const maxEpisodes = Math.max(...seasons.map(season => season.episode_count))
 
   return (
-    <Table>
-      <TableHeader className="sticky top-0 bg-background z-10 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-border">
-        <TableRow className="border-0 text-xs">
-          <TableHead
-            className={cn(
-              'p-2 text-center sticky top-0 left-0 bg-background',
-              'after:absolute after:right-0 after:w-[1px] after:h-[120%] after:top-0 after:bg-border'
-            )}
-          >
-            EP
-          </TableHead>
-
-          {seasons.map(season => (
-            <TableHead key={season.season_number} className="p-2 text-center">
-              S{season.season_number}
-            </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-
-      <TableBody className="relative">
-        {Array.from({ length: maxEpisodes }).map((_, episodeIndex) => (
-          <TableRow key={v4()}>
-            <TableCell
+    <ScrollArea className="!overflow-auto relative h-[80vh] max-w-4xl">
+      <Table>
+        <TableHeader className="sticky top-0 bg-background z-10 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-border">
+          <TableRow className="border-0 text-xs">
+            <TableHead
               className={cn(
-                'p-2 text-center font-medium sticky left-0 bg-background text-muted-foreground text-xs',
+                'p-2 text-center sticky top-0 left-0 bg-background',
                 'after:absolute after:right-0 after:w-[1px] after:h-[120%] after:top-0 after:bg-border'
               )}
             >
-              {episodeIndex + 1}
-            </TableCell>
+              EP
+            </TableHead>
 
-            {seasons.map(season => {
-              return (
-                <TableCell
-                  key={season.season_number}
-                  className="p-2 text-center text-sm"
-                >
-                  <Skeleton className="w-[40px] h-[22px] m-auto" />
-                </TableCell>
-              )
-            })}
+            {seasons.map(season => (
+              <TableHead key={season.season_number} className="p-2 text-center">
+                S{season.season_number}
+              </TableHead>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+
+        <TableBody className="relative">
+          {Array.from({ length: maxEpisodes }).map((_, episodeIndex) => (
+            <TableRow key={v4()}>
+              <TableCell
+                className={cn(
+                  'p-2 text-center font-medium sticky left-0 bg-background text-muted-foreground text-xs',
+                  'after:absolute after:right-0 after:w-[1px] after:h-[120%] after:top-0 after:bg-border'
+                )}
+              >
+                {episodeIndex + 1}
+              </TableCell>
+
+              {seasons.map(season => {
+                return (
+                  <TableCell
+                    key={season.season_number}
+                    className="p-2 text-center text-sm"
+                  >
+                    <Skeleton className="w-[40px] h-[22px] m-auto" />
+                  </TableCell>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollArea>
   )
 }
