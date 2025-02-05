@@ -28,6 +28,7 @@ import type {
   DeleteListId404,
   GetListById200,
   GetListById404,
+  GetListProgress200,
   GetLists200,
   GetLists404,
   GetListsParams,
@@ -531,4 +532,138 @@ const {mutation: mutationOptions} = options ?? {};
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Get list progress
+ */
+export const getListProgress = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetListProgress200>(
+      {url: `/list/${id}/progress`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetListProgressQueryKey = (id: string,) => {
+    return [`/list/${id}/progress`] as const;
+    }
+
     
+export const getGetListProgressQueryOptions = <TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListProgressQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListProgress>>> = ({ signal }) => getListProgress(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetListProgressQueryResult = NonNullable<Awaited<ReturnType<typeof getListProgress>>>
+export type GetListProgressQueryError = unknown
+
+
+export function useGetListProgress<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getListProgress>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListProgress<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getListProgress>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListProgress<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetListProgress<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListProgressQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetListProgressSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetListProgressQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListProgress>>> = ({ signal }) => getListProgress(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetListProgressSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getListProgress>>>
+export type GetListProgressSuspenseQueryError = unknown
+
+
+export function useGetListProgressSuspense<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListProgressSuspense<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetListProgressSuspense<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetListProgressSuspense<TData = Awaited<ReturnType<typeof getListProgress>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getListProgress>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetListProgressSuspenseQueryOptions(id,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

@@ -2,15 +2,17 @@
 
 import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
+import { useGetListProgress } from '@/api/list'
 import { Likes } from '@/components/likes'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import NumberFlow from '@number-flow/react'
-import { BarChart, Copy, Heart, List } from 'lucide-react'
+import { Progress } from '@plotwist/ui/components/ui/progress'
+import { BarChart, Check, Copy, Heart, List } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import type { ComponentProps } from 'react'
+import { Suspense, type ComponentProps } from 'react'
 
 const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (
@@ -30,6 +32,9 @@ const Action = {
       )}
       {...props}
     />
+  ),
+  Info: ({ className, ...props }: ComponentProps<'span'>) => (
+    <span className={cn('text-sm', className)} {...props} />
   ),
   Complement: ({ className, ...props }: ComponentProps<'span'>) => (
     <span
@@ -127,6 +132,47 @@ export function ListActions({ list }: ListActionsProps) {
           <ProBadge />
         </Action.Button>
       </Action.Root>
+
+      <Suspense>
+        <ListProgress listId={list.id} />
+      </Suspense>
     </div>
+  )
+}
+
+type ListProgressProps = { listId: string }
+function ListProgress({ listId }: ListProgressProps) {
+  const { user } = useSession()
+  if (!user) return null
+
+  const { data, isLoading } = useGetListProgress(listId)
+  const { dictionary } = useLanguage()
+
+  const completed = data?.completed ?? 0
+  const total = data?.total ?? 0
+  const percentage = data?.percentage ?? 0
+
+  return (
+    <Action.Root className="border-t py-3">
+      <Action.Info className="space-y-2 w-full">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 items-center">
+            <Check size={14} />
+            <span>{dictionary.your_progress}</span>
+          </div>
+
+          <span className="text-muted-foreground text-xs">
+            <NumberFlow value={completed} />/<NumberFlow value={total} /> (
+            <NumberFlow value={percentage} />
+            %)
+          </span>
+        </div>
+
+        <Progress
+          value={percentage}
+          className=" [&>*]:bg-emerald-400 w-full "
+        />
+      </Action.Info>
+    </Action.Root>
   )
 }
