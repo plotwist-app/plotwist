@@ -1921,11 +1921,10 @@ export type GetUserItems200UserItemsItem = {
   addedAt: string;
   /** @nullable */
   backdropPath: string | null;
+  id: string;
   mediaType: GetUserItems200UserItemsItemMediaType;
   /** @nullable */
   posterPath: string | null;
-  /** @nullable */
-  rating: number | null;
   status: GetUserItems200UserItemsItemStatus;
   title: string;
   tmdbId: number;
@@ -2028,8 +2027,6 @@ export type GetUserItem200UserItem = {
   addedAt: string;
   id: string;
   mediaType: GetUserItem200UserItemMediaType;
-  /** @nullable */
-  position: number | null;
   status: GetUserItem200UserItemStatus;
   tmdbId: number;
   updatedAt: string;
@@ -2082,8 +2079,6 @@ export type PutUserItem201UserItem = {
   addedAt: string;
   id: string;
   mediaType: PutUserItem201UserItemMediaType;
-  /** @nullable */
-  position: number | null;
   status: PutUserItem201UserItemStatus;
   tmdbId: number;
   updatedAt: string;
