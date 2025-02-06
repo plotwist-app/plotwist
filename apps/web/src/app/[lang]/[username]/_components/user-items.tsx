@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { v4 } from 'uuid'
 
-export type UserItemsProps = { status: UserItemStatus }
+export type UserItemsProps = { status?: UserItemStatus }
 
 export function UserItems({ status }: UserItemsProps) {
   return (
