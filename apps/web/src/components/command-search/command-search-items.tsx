@@ -67,7 +67,7 @@ export const CommandSearchMovie = ({
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.title}
                   fill
-                  objectFit="cover"
+                  style={{ objectFit: 'cover' }}
                 />
               )}
             </ItemHoverCard.Poster>
@@ -124,7 +124,7 @@ export const CommandSearchTvSerie = ({
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.name}
                   fill
-                  objectFit="cover"
+                  style={{ objectFit: 'cover' }}
                 />
               )}
             </ItemHoverCard.Poster>

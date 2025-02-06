@@ -1992,7 +1992,7 @@ export const GetUserItemsStatus = {
 } as const;
 
 export type GetUserItemsParams = {
-status: GetUserItemsStatus;
+status?: GetUserItemsStatus;
 userId: string;
 rating?: number;
 mediaType?: GetUserItemsMediaType;

@@ -4,16 +4,21 @@ import { Badge } from '@plotwist/ui/components/ui/badge'
 import { UserItems } from '../_components/user-items'
 import { useQueryState } from 'nuqs'
 import type { UserItemStatus } from '@/types/user-item'
-import { Check, Clock, Loader, Trash } from 'lucide-react'
+import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 
 export default function CollectionPage() {
   const { dictionary } = useLanguage()
   const [statusQueryState, setStatusQueryState] = useQueryState('status', {
-    defaultValue: 'WATCHED',
+    defaultValue: 'ALL',
   })
 
   const options = [
+    {
+      status: 'ALL',
+      icon: List,
+      label: dictionary.all,
+    },
     {
       status: 'WATCHED',
       icon: Check,
