@@ -264,7 +264,7 @@ const {query: queryOptions} = options ?? {};
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItems>>> = ({ signal }) => getUserItems(getUserItemsBody);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItems>>> = ({ signal }) => getUserItems(getUserItemsBody, signal);
 
       
 

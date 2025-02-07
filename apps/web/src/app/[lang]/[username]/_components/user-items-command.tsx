@@ -26,10 +26,8 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
   const { language, dictionary } = useLanguage()
   const queryClient = useQueryClient()
 
-  const effectiveStatus = status ?? 'WATCHLIST'
-
   const { data, queryKey } = useGetAllUserItems({
-    status: effectiveStatus,
+    status,
     userId,
   })
 
@@ -37,6 +35,10 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
     NonNullable<UserItemsCommandProps['status']>,
     Record<'add' | 'remove', string>
   > = {
+    ALL: {
+      add: 'aa',
+      remove: 'aa',
+    },
     WATCHED: {
       add: dictionary.watched_added,
       remove: dictionary.watched_removed,
@@ -61,7 +63,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
     await queryClient.invalidateQueries({
       queryKey: getGetUserItemsQueryKey({
         language,
-        status: effectiveStatus,
+        status,
         userId,
       }),
     })
@@ -76,11 +78,11 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
       items={items}
       onAdd={(tmdbId, mediaType) =>
         add.mutate(
-          { data: { tmdbId, mediaType, status: effectiveStatus } },
+          { data: { tmdbId, mediaType, status } },
           {
             onSuccess: async () => {
               await invalidateQueries()
-              toast.success(messages[effectiveStatus].add)
+              toast.success(messages[status].add)
               refresh()
             },
           }
@@ -92,7 +94,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
           {
             onSuccess: async () => {
               await invalidateQueries()
-              toast.success(messages[effectiveStatus].remove)
+              toast.success(messages[status].remove)
               refresh()
             },
           }

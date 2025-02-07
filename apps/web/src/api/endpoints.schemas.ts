@@ -1947,6 +1947,7 @@ export const GetUserItemsBodyStatus = {
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
   DROPPED: 'DROPPED',
+  ALL: 'ALL',
 } as const;
 
 export type GetUserItemsBodyOrderBy = typeof GetUserItemsBodyOrderBy[keyof typeof GetUserItemsBodyOrderBy];
@@ -1992,7 +1993,7 @@ export type GetUserItemsBody = {
   orderBy: GetUserItemsBodyOrderBy;
   pageSize?: string;
   rating?: string[];
-  status?: GetUserItemsBodyStatus;
+  status: GetUserItemsBodyStatus;
   userId: string;
 };
 

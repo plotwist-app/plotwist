@@ -26,7 +26,7 @@ export function UserItemsList({ filters }: UserItemsProps) {
 
   const params = {
     language,
-    status: filters.status === 'ALL' ? undefined : filters.status,
+    status: filters.status,
     userId,
     mediaType: filters.mediaType,
     orderBy: filters.orderBy,
