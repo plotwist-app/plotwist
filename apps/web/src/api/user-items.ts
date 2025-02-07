@@ -34,7 +34,7 @@ import type {
   GetUserItem200,
   GetUserItemParams,
   GetUserItems200,
-  GetUserItemsParams,
+  GetUserItemsBody,
   PutUserItem201,
   PutUserItemBody
 } from './endpoints.schemas'
@@ -237,34 +237,34 @@ export function useGetUserItemSuspense<TData = Awaited<ReturnType<typeof getUser
  * Get user items
  */
 export const getUserItems = (
-    params: GetUserItemsParams,
- signal?: AbortSignal
-) => {
+    getUserItemsBody: GetUserItemsBody,
+ ) => {
       
       
       return axiosInstance<GetUserItems200>(
-      {url: `/user/items`, method: 'GET',
-        params, signal
+      {url: `/user/items`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: getUserItemsBody
     },
       );
     }
   
 
-export const getGetUserItemsQueryKey = (params: GetUserItemsParams,) => {
-    return [`/user/items`, ...(params ? [params]: [])] as const;
+export const getGetUserItemsQueryKey = (getUserItemsBody: GetUserItemsBody,) => {
+    return [`/user/items`, getUserItemsBody] as const;
     }
 
     
-export const getGetUserItemsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+export const getGetUserItemsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(getUserItemsBody: GetUserItemsBody, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserItemsQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetUserItemsQueryKey(getUserItemsBody);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItems>>> = ({ signal }) => getUserItems(params, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserItems>>> = ({ signal }) => getUserItems(getUserItemsBody);
 
       
 
@@ -278,7 +278,7 @@ export type GetUserItemsInfiniteQueryError = unknown
 
 
 export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
- params: GetUserItemsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
+ getUserItemsBody: GetUserItemsBody, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserItems>>,
           TError,
@@ -288,7 +288,7 @@ export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<
 
   ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
+ getUserItemsBody: GetUserItemsBody, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserItems>>,
           TError,
@@ -298,16 +298,16 @@ export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<
 
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+ getUserItemsBody: GetUserItemsBody, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey }
 
 export function useGetUserItemsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserItems>>>, TError = unknown>(
- params: GetUserItemsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
+ getUserItemsBody: GetUserItemsBody, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserItems>>, TError, TData>>, }
 
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetUserItemsInfiniteQueryOptions(params,options)
+  const queryOptions = getGetUserItemsInfiniteQueryOptions(getUserItemsBody,options)
 
   const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
 
