@@ -18,7 +18,10 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
-  }
+  },
+  "cSpell.ignoreWords": [
+    "nuqs"
+  ]
   // "editor.codeActionsOnSave": {
   //   "quickfix.biome": "explicit"
   // }

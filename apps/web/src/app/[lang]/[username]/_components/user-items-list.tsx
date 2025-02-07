@@ -14,7 +14,7 @@ import { useLayoutContext } from '../_context'
 import type { UserItemsProps } from './user-items'
 import { UserItemsCommand } from './user-items-command'
 
-export function UserItemsList({ status }: UserItemsProps) {
+export function UserItemsList({ filters }: UserItemsProps) {
   const { language } = useLanguage()
   const { userId } = useLayoutContext()
   const session = useSession()
@@ -22,11 +22,13 @@ export function UserItemsList({ status }: UserItemsProps) {
     threshold: 0.1,
   })
 
+  console.log(filters)
+
   const isOwner = session.user?.id === userId
 
   const params = {
     language,
-    status,
+    status: filters.status === 'ALL' ? undefined : filters.status,
     userId,
   }
 

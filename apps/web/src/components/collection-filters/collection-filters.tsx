@@ -6,7 +6,6 @@ import { Button } from '@plotwist/ui/components/ui/button'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { CollectionFiltersFormValues } from './collection-filters-schema'
 import type { UserItemStatus } from '@/types/user-item'
-import { useLayoutContext } from '@/app/[lang]/[username]/_context'
 import { TabsContent } from '@plotwist/ui/components/ui/tabs'
 import { TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
 import { Tabs } from '@plotwist/ui/components/ui/tabs'
@@ -27,30 +26,25 @@ import { SlidersHorizontal } from 'lucide-react'
 
 type CollectionFiltersProps = {
   status: UserItemStatus
+  filters: CollectionFiltersFormValues
+  setFilters: (filters: CollectionFiltersFormValues) => void
 }
 
-export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
-  const { userId } = useLayoutContext()
-
+export const CollectionFilters = ({
+  filters,
+  setFilters,
+}: CollectionFiltersProps) => {
   const [open, setOpen] = useState(false)
 
   const { dictionary } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
-  const defaultValues: CollectionFiltersFormValues = {
-    status,
-    userId,
-    rating: [0, 5],
-    mediaType: ['TV_SHOW', 'MOVIE'],
-    orderBy: 'addedAt.desc',
-  }
-
   const methods = useForm<CollectionFiltersFormValues>({
-    defaultValues,
+    defaultValues: filters,
   })
 
   const onSubmit = (values: CollectionFiltersFormValues) => {
-    console.log(values)
+    setFilters(values)
   }
 
   if (isDesktop) {
@@ -88,6 +82,18 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
                   </TabsContent>
                 </Tabs>
               </div>
+
+              <DrawerFooter className="flex-row justify-end px-0">
+                <DrawerClose asChild>
+                  <Button type="submit" variant="outline">
+                    {dictionary.collection_filters.actions.close}
+                  </Button>
+                </DrawerClose>
+
+                <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
+                  {dictionary.collection_filters.actions.save_changes}
+                </Button>
+              </DrawerFooter>
             </SheetContent>
           </Sheet>
         </form>
@@ -135,12 +141,12 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
             <DrawerFooter className="flex-row justify-end px-0">
               <DrawerClose asChild>
                 <Button type="submit" variant="outline">
-                  {dictionary.movies_list_filters.actions.close}
+                  {dictionary.collection_filters.actions.close}
                 </Button>
               </DrawerClose>
 
               <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
-                {dictionary.movies_list_filters.actions.save_changes}
+                {dictionary.collection_filters.actions.save_changes}
               </Button>
             </DrawerFooter>
           </DrawerContent>

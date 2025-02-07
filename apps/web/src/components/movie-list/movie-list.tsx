@@ -11,16 +11,14 @@ import { useMovieListQuery } from './use-movie-list-query'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { v4 } from 'uuid'
-import { useSession } from '@/context/session'
 import { StreamingServicesBadge } from '../streaming-services-badge'
 
 export const MovieList = ({ variant }: MovieListProps) => {
-  const { language, dictionary } = useLanguage()
+  const { language } = useLanguage()
   const { data, fetchNextPage, isLoading } = useMovieListQuery(variant)
   const { ref, inView } = useInView({
     threshold: 0,
   })
-  const { user } = useSession()
 
   useEffect(() => {
     if (inView) fetchNextPage()

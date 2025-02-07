@@ -7,12 +7,27 @@ import type { UserItemStatus } from '@/types/user-item'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 import { CollectionFilters } from '@/components/collection-filters/collection-filters'
+import { useState } from 'react'
+import { useLayoutContext } from '../_context'
+import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
 
 export default function CollectionPage() {
   const { dictionary } = useLanguage()
   const [statusQueryState, setStatusQueryState] = useQueryState('status', {
     defaultValue: 'ALL',
   })
+
+  const { userId } = useLayoutContext()
+  const defaultValues: CollectionFiltersFormValues = {
+    status: statusQueryState as UserItemStatus,
+    userId,
+    rating: [0, 5],
+    mediaType: ['TV_SHOW', 'MOVIE'],
+    orderBy: 'addedAt.desc',
+  }
+
+  const [filters, setFilters] =
+    useState<CollectionFiltersFormValues>(defaultValues)
 
   const options = [
     {
@@ -45,7 +60,12 @@ export default function CollectionPage() {
   return (
     <div className="space-y-2">
       <div className="flex gap-1 md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
-        <CollectionFilters status={statusQueryState as UserItemStatus} />
+        <CollectionFilters
+          status={statusQueryState as UserItemStatus}
+          filters={filters}
+          setFilters={setFilters}
+        />
+
         {options.map(({ status, label, icon: Icon }) => (
           <Badge
             className="cursor-pointer whitespace-nowrap"
@@ -59,13 +79,7 @@ export default function CollectionPage() {
         ))}
       </div>
 
-      <UserItems
-        status={
-          statusQueryState === 'ALL'
-            ? undefined
-            : (statusQueryState as UserItemStatus)
-        }
-      />
+      <UserItems filters={filters} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const collectionFiltersSchema = z.object({
-  status: z.enum(['WATCHED', 'WATCHING', 'WATCHLIST', 'DROPPED']),
+  status: z.enum(['ALL', 'WATCHED', 'WATCHING', 'WATCHLIST', 'DROPPED']),
   userId: z.string(),
   rating: z.array(z.number()),
   mediaType: z.array(z.enum(['TV_SHOW', 'MOVIE'])),
