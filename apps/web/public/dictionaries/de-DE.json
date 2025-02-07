@@ -425,6 +425,17 @@
     },
     "no_results": "Keine Ergebnisse."
   },
+  "collection_filters": {
+    "title": "Entdecken Sie Ihre Shows",
+    "tabs": {
+      "filters": "Filter",
+      "order": "Sortierung"
+    },
+    "actions": {
+      "close": "Schließen",
+      "save_changes": "Änderungen speichern"
+    }
+  },
   "list_command": {
     "search_placeholder": "Suche nach allem...",
     "no_results": "Keine Ergebnisse gefunden.",

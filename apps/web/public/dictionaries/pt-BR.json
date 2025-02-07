@@ -429,6 +429,17 @@
     },
     "no_results": "Sem resultados."
   },
+  "collection_filters": {
+    "title": "Descubra seus shows",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar"
+    },
+    "actions": {
+      "close": "Fechar",
+      "save_changes": "Salvar alterações"
+    }
+  },
   "list_command": {
     "search_placeholder": "Pesquise qualquer coisa...",
     "no_results": "Nenhum resultado encontrado.",

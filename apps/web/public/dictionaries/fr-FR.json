@@ -431,6 +431,17 @@
     },
     "no_results": "Aucun résultat."
   },
+  "collection_filters": {
+    "title": "Découvrez vos émissions",
+    "tabs": {
+      "filters": "Filtres",
+      "order": "Trier"
+    },
+    "actions": {
+      "close": "Fermer",
+      "save_changes": "Enregistrer les modifications"
+    }
+  },
   "list_command": {
     "search_placeholder": "Rechercher n'importe quoi...",
     "no_results": "Aucun résultat trouvé.",

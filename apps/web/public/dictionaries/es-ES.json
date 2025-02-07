@@ -430,6 +430,17 @@
     },
     "no_results": "Sin resultados."
   },
+  "collection_filters": {
+    "title": "Descubre tus shows",
+    "tabs": {
+      "filters": "Filtros",
+      "order": "Ordenar"
+    },
+    "actions": {
+      "close": "Cerrar",
+      "save_changes": "Guardar cambios"
+    }
+  },
   "list_command": {
     "search_placeholder": "Buscar cualquier cosa...",
     "no_results": "No se encontraron resultados.",

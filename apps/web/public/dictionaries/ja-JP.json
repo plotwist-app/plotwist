@@ -430,6 +430,17 @@
     },
     "no_results": "結果がありません。"
   },
+  "collection_filters": {
+    "title": "番組を見つける",
+    "tabs": {
+      "filters": "フィルター",
+      "order": "並び替え"
+    },
+    "actions": {
+      "close": "閉じる",
+      "save_changes": "変更を保存"
+    }
+  },
   "list_command": {
     "search_placeholder": "何でも検索...",
     "no_results": "結果が見つかりませんでした。",
