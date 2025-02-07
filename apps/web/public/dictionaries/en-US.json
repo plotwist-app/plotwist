@@ -434,6 +434,30 @@
       "filters": "Filters",
       "order": "Sort"
     },
+    "filters": {
+      "rating_field": {
+        "label": "Rating"
+      },
+      "media_type_field": {
+        "label": "Media Type",
+        "options": {
+          "TV_SHOW": "TV Show",
+          "MOVIE": "Movie"
+        }
+      }
+    },
+    "sort_by": {
+      "label": "Sort by",
+      "placeholder": "Sort by",
+      "options": {
+        "addedAt.desc": "Latest Added",
+        "added_at.asc": "Oldest Added",
+        "updatedAt.desc": "Latest Updated",
+        "updatedAt.asc": "Oldest Updated",
+        "rating.desc": "Highest Rated",
+        "rating.asc": "Lowest Rated"
+      }
+    },
     "actions": {
       "close": "Close",
       "save_changes": "Save Changes"

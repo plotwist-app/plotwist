@@ -437,6 +437,30 @@
       "filters": "Filtres",
       "order": "Trier"
     },
+    "filters": {
+      "rating_field": {
+        "label": "Note"
+      },
+      "media_type_field": {
+        "label": "Type de média",
+        "options": {
+          "TV_SHOW": "Série TV",
+          "MOVIE": "Film"
+        }
+      }
+    },
+    "sort_by": {
+      "label": "Trier par",
+      "placeholder": "Trier par",
+      "options": {
+        "addedAt.desc": "Ajoutés récemment",
+        "added_at.asc": "Ajoutés plus tôt",
+        "updatedAt.desc": "Mis à jour récemment",
+        "updatedAt.asc": "Mis à jour plus tôt",
+        "rating.desc": "Mieux notés",
+        "rating.asc": "Moins bien notés"
+      }
+    },
     "actions": {
       "close": "Fermer",
       "save_changes": "Enregistrer les modifications"

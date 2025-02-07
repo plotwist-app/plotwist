@@ -436,6 +436,30 @@
       "filters": "Filtri",
       "order": "Ordina"
     },
+    "filters": {
+      "rating_field": {
+        "label": "Valutazione"
+      },
+      "media_type_field": {
+        "label": "Tipo di media",
+        "options": {
+          "TV_SHOW": "Serie TV",
+          "MOVIE": "Film"
+        }
+      }
+    },
+    "sort_by": {
+      "label": "Ordina per",
+      "placeholder": "Ordina per",
+      "options": {
+        "addedAt.desc": "Ultimi aggiunti",
+        "added_at.asc": "Primi aggiunti",
+        "updatedAt.desc": "Ultimi aggiornati",
+        "updatedAt.asc": "Primi aggiornati",
+        "rating.desc": "Valutazione più alta",
+        "rating.asc": "Valutazione più bassa"
+      }
+    },
     "actions": {
       "close": "Chiudi",
       "save_changes": "Salva modifiche"

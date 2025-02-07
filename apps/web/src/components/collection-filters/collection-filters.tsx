@@ -17,8 +17,8 @@ import {
   SheetContent,
 } from '@plotwist/ui/components/ui/sheet'
 import { WatchRegion } from '../watch-region'
-import { SortBy } from '../movies-list-filters/tabs'
-import { Filters } from '../movies-list-filters/tabs'
+import { SortBy } from './tabs'
+import { Filters } from './tabs/filters'
 import { WatchProviders } from '../watch-providers'
 import { DrawerFooter } from '@plotwist/ui/components/ui/drawer'
 import { DrawerClose } from '@plotwist/ui/components/ui/drawer'
@@ -42,8 +42,8 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
   const defaultValues: CollectionFiltersFormValues = {
     status,
     userId,
-    rating: undefined,
-    mediaType: 'TV_SHOW',
+    rating: [0, 5],
+    mediaType: ['TV_SHOW', 'MOVIE'],
     orderBy: 'addedAt',
     orderDirection: 'asc',
   }
@@ -138,13 +138,6 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
 
                 <TabsContent value="sort-by">
                   <SortBy />
-                </TabsContent>
-
-                <TabsContent value="where-to-watch">
-                  <div className="space-y-4">
-                    <WatchRegion />
-                    <WatchProviders type="movie" />
-                  </div>
                 </TabsContent>
               </Tabs>
             </div>

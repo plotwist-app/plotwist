@@ -436,6 +436,30 @@
       "filters": "フィルター",
       "order": "並び替え"
     },
+    "filters": {
+      "rating_field": {
+        "label": "評価"
+      },
+      "media_type_field": {
+        "label": "メディアタイプ",
+        "options": {
+          "TV_SHOW": "テレビ番組",
+          "MOVIE": "映画"
+        }
+      }
+    },
+    "sort_by": {
+      "label": "並び替え",
+      "placeholder": "並び替え",
+      "options": {
+        "addedAt.desc": "最近追加",
+        "added_at.asc": "追加が古い順",
+        "updatedAt.desc": "最近更新",
+        "updatedAt.asc": "更新が古い順",
+        "rating.desc": "評価が高い順",
+        "rating.asc": "評価が低い順"
+      }
+    },
     "actions": {
       "close": "閉じる",
       "save_changes": "変更を保存"
