@@ -428,6 +428,17 @@
     },
     "no_results": "No results."
   },
+  "collection_filters": {
+    "title": "Discover your shows",
+    "tabs": {
+      "filters": "Filters",
+      "order": "Sort"
+    },
+    "actions": {
+      "close": "Close",
+      "save_changes": "Save Changes"
+    }
+  },
   "list_command": {
     "search_placeholder": "Search for anything...",
     "no_results": "No results found.",

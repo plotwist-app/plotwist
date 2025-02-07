@@ -6,6 +6,7 @@ import { useQueryState } from 'nuqs'
 import type { UserItemStatus } from '@/types/user-item'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
+import { CollectionFilters } from '@/components/collection-filters/collection-filters'
 
 export default function CollectionPage() {
   const { dictionary } = useLanguage()
@@ -55,6 +56,8 @@ export default function CollectionPage() {
             {label}
           </Badge>
         ))}
+
+        <CollectionFilters status={statusQueryState as UserItemStatus} />
       </div>
 
       <UserItems
