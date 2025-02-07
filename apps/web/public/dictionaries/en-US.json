@@ -429,7 +429,7 @@
     "no_results": "No results."
   },
   "collection_filters": {
-    "title": "Discover your shows",
+    "title": "Filter your collection",
     "tabs": {
       "filters": "Filters",
       "order": "Sort"
@@ -439,7 +439,7 @@
         "label": "Rating"
       },
       "media_type_field": {
-        "label": "Media Type",
+        "label": "Type",
         "options": {
           "TV_SHOW": "TV Show",
           "MOVIE": "Movie"

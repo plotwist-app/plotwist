@@ -432,7 +432,7 @@
     "no_results": "Aucun résultat."
   },
   "collection_filters": {
-    "title": "Découvrez vos émissions",
+    "title": "Filtrer votre collection",
     "tabs": {
       "filters": "Filtres",
       "order": "Trier"
@@ -442,7 +442,7 @@
         "label": "Note"
       },
       "media_type_field": {
-        "label": "Type de média",
+        "label": "Type",
         "options": {
           "TV_SHOW": "Série TV",
           "MOVIE": "Film"

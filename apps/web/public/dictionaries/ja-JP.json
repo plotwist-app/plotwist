@@ -431,7 +431,7 @@
     "no_results": "結果がありません。"
   },
   "collection_filters": {
-    "title": "番組を見つける",
+    "title": "コレクションをフィルター",
     "tabs": {
       "filters": "フィルター",
       "order": "並び替え"
@@ -441,7 +441,7 @@
         "label": "評価"
       },
       "media_type_field": {
-        "label": "メディアタイプ",
+        "label": "タイプ",
         "options": {
           "TV_SHOW": "テレビ番組",
           "MOVIE": "映画"

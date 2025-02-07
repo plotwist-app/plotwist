@@ -431,7 +431,7 @@
     "no_results": "Nessun risultato."
   },
   "collection_filters": {
-    "title": "Scopri i tuoi show",
+    "title": "Filtra la tua collezione",
     "tabs": {
       "filters": "Filtri",
       "order": "Ordina"
@@ -441,7 +441,7 @@
         "label": "Valutazione"
       },
       "media_type_field": {
-        "label": "Tipo di media",
+        "label": "Tipo",
         "options": {
           "TV_SHOW": "Serie TV",
           "MOVIE": "Film"
