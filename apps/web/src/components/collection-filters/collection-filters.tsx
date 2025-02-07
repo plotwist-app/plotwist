@@ -36,7 +36,7 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
 
   const [open, setOpen] = useState(false)
 
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const defaultValues: CollectionFiltersFormValues = {

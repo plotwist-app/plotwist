@@ -7,6 +7,8 @@ import { v4 } from 'uuid'
 export type UserItemsProps = { status?: UserItemStatus }
 
 export function UserItems({ status }: UserItemsProps) {
+  console.log(status)
+
   return (
     <section className="grid grid-cols-3 md:grid-cols-5 gap-2">
       <Suspense

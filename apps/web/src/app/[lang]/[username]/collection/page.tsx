@@ -16,7 +16,7 @@ export default function CollectionPage() {
 
   const options = [
     {
-      status: 'All',
+      status: 'ALL',
       icon: List,
       label: dictionary.all,
     },
@@ -62,7 +62,7 @@ export default function CollectionPage() {
 
       <UserItems
         status={
-          statusQueryState === 'All'
+          statusQueryState === 'ALL'
             ? undefined
             : (statusQueryState as UserItemStatus)
         }
