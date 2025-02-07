@@ -205,7 +205,7 @@
     "title": "Titel",
     "type": "Typ",
     "overview": "Übersicht",
-    "added_at": "Hinzugefügt am",
+    "addedAt": "Hinzugefügt am",
     "status": "Status",
     "no_results": "Keine Ergebnisse gefunden.",
     "clear_filters": "Filter löschen"
@@ -223,7 +223,7 @@
     "index": "Index",
     "title": "Titel",
     "type": "Typ",
-    "added_at": "Hinzugefügt am",
+    "addedAt": "Hinzugefügt am",
     "status": "Status",
     "actions": "Aktionen",
     "movie": "Film",
@@ -448,7 +448,7 @@
       "placeholder": "Sortieren nach",
       "options": {
         "addedAt.desc": "Zuletzt hinzugefügt",
-        "added_at.asc": "Zuerst hinzugefügt",
+        "addedAt.asc": "Zuerst hinzugefügt",
         "updatedAt.desc": "Zuletzt aktualisiert",
         "updatedAt.asc": "Zuerst aktualisiert",
         "rating.desc": "Beste Bewertung",

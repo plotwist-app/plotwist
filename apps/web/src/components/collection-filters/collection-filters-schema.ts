@@ -5,8 +5,14 @@ export const collectionFiltersSchema = z.object({
   userId: z.string(),
   rating: z.array(z.number()),
   mediaType: z.array(z.enum(['TV_SHOW', 'MOVIE'])),
-  orderBy: z.enum(['addedAt', 'updatedAt', 'rating']),
-  orderDirection: z.enum(['asc', 'desc']),
+  orderBy: z.enum([
+    'addedAt.desc',
+    'addedAt.asc',
+    'updatedAt.desc',
+    'updatedAt.asc',
+    'rating.desc',
+    'rating.asc',
+  ]),
 })
 
 export type CollectionFiltersFormValues = z.infer<

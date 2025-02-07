@@ -215,7 +215,7 @@
     "title": "Titre",
     "type": "Type",
     "overview": "Aperçu",
-    "added_at": "Ajouté le",
+    "addedAt": "Ajouté le",
     "status": "Statut",
     "no_results": "Aucun résultat trouvé.",
     "clear_filters": "Effacer les filtres"
@@ -233,7 +233,7 @@
     "index": "Indice",
     "title": "Titre",
     "type": "Type",
-    "added_at": "Ajouté le",
+    "addedAt": "Ajouté le",
     "status": "Statut",
     "actions": "Actions",
     "movie": "Film",
@@ -454,7 +454,7 @@
       "placeholder": "Trier par",
       "options": {
         "addedAt.desc": "Ajoutés récemment",
-        "added_at.asc": "Ajoutés plus tôt",
+        "addedAt.asc": "Ajoutés plus tôt",
         "updatedAt.desc": "Mis à jour récemment",
         "updatedAt.asc": "Mis à jour plus tôt",
         "rating.desc": "Mieux notés",

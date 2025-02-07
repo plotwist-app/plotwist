@@ -212,7 +212,7 @@
     "title": "Title",
     "type": "Type",
     "overview": "Overview",
-    "added_at": "Added at",
+    "addedAt": "Added at",
     "status": "Status",
     "no_results": "No results found.",
     "clear_filters": "Clear filters"
@@ -230,7 +230,7 @@
     "index": "Index",
     "title": "Title",
     "type": "Type",
-    "added_at": "Added at",
+    "addedAt": "Added at",
     "status": "Status",
     "actions": "Actions",
     "movie": "Movie",
@@ -451,7 +451,7 @@
       "placeholder": "Sort by",
       "options": {
         "addedAt.desc": "Latest Added",
-        "added_at.asc": "Oldest Added",
+        "addedAt.asc": "Oldest Added",
         "updatedAt.desc": "Latest Updated",
         "updatedAt.asc": "Oldest Updated",
         "rating.desc": "Highest Rated",

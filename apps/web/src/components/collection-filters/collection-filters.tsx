@@ -42,8 +42,7 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
     userId,
     rating: [0, 5],
     mediaType: ['TV_SHOW', 'MOVIE'],
-    orderBy: 'addedAt',
-    orderDirection: 'asc',
+    orderBy: 'addedAt.desc',
   }
 
   const methods = useForm<CollectionFiltersFormValues>({

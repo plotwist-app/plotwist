@@ -18,11 +18,11 @@ import {
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
 
-import type { CollectionFiltersFormValues } from '../..'
+import type { CollectionFiltersFormValues } from '../../collection-filters-schema'
 
 const options = [
   'addedAt.desc',
-  'added_at.asc',
+  'addedAt.asc',
   'updatedAt.desc',
   'updatedAt.asc',
   'rating.desc',
@@ -36,13 +36,11 @@ export const SortBy = () => {
   return (
     <FormField
       control={control}
-      name="sort_by"
+      name="orderBy"
       render={({ field: { value, onChange } }) => {
         return (
           <FormItem>
-            <FormLabel>
-              {dictionary.movies_list_filters.sort_by.label}
-            </FormLabel>
+            <FormLabel>{dictionary.collection_filters.sort_by.label}</FormLabel>
 
             <FormControl>
               <Select
@@ -53,7 +51,7 @@ export const SortBy = () => {
                 <SelectTrigger className="w-full">
                   <SelectValue
                     placeholder={
-                      dictionary.movies_list_filters.sort_by.placeholder
+                      dictionary.collection_filters.sort_by.placeholder
                     }
                   />
                 </SelectTrigger>

@@ -214,7 +214,7 @@
     "title": "Título",
     "type": "Tipo",
     "overview": "Resumen",
-    "added_at": "Agregado en",
+    "addedAt": "Agregado en",
     "status": "Estado",
     "no_results": "No se encontraron resultados.",
     "clear_filters": "Limpiar filtros"
@@ -232,7 +232,7 @@
     "index": "Índice",
     "title": "Título",
     "type": "Tipo",
-    "added_at": "Añadido el",
+    "addedAt": "Añadido el",
     "status": "Estado",
     "actions": "Acciones",
     "movie": "Película",
@@ -453,7 +453,7 @@
       "placeholder": "Ordenar por",
       "options": {
         "addedAt.desc": "Últimos añadidos",
-        "added_at.asc": "Primeros añadidos",
+        "addedAt.asc": "Primeros añadidos",
         "updatedAt.desc": "Últimos actualizados",
         "updatedAt.asc": "Primeros actualizados",
         "rating.desc": "Mejor valorados",
