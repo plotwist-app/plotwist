@@ -45,6 +45,7 @@ export default function CollectionPage() {
   return (
     <div className="space-y-2">
       <div className="flex gap-1 md:m-none p-none -mx-4 max-w-[100vw] overflow-x-scroll px-4 scrollbar-hide">
+        <CollectionFilters status={statusQueryState as UserItemStatus} />
         {options.map(({ status, label, icon: Icon }) => (
           <Badge
             className="cursor-pointer whitespace-nowrap"
@@ -56,8 +57,6 @@ export default function CollectionPage() {
             {label}
           </Badge>
         ))}
-
-        <CollectionFilters status={statusQueryState as UserItemStatus} />
       </div>
 
       <UserItems

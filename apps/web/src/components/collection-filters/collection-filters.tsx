@@ -16,10 +16,8 @@ import {
   SheetHeader,
   SheetContent,
 } from '@plotwist/ui/components/ui/sheet'
-import { WatchRegion } from '../watch-region'
 import { SortBy } from './tabs'
 import { Filters } from './tabs/filters'
-import { WatchProviders } from '../watch-providers'
 import { DrawerFooter } from '@plotwist/ui/components/ui/drawer'
 import { DrawerClose } from '@plotwist/ui/components/ui/drawer'
 import { Drawer } from '@plotwist/ui/components/ui/drawer'
@@ -61,6 +59,10 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Sheet open={open} onOpenChange={setOpen}>
+            <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
+              <SlidersHorizontal size={16} />
+            </Button>
+
             <SheetContent className="space-y-4 overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>{dictionary.movies_list_filters.title}</SheetTitle>
@@ -76,10 +78,6 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
                     <TabsTrigger value="sort-by">
                       {dictionary.movies_list_filters.tabs.order}
                     </TabsTrigger>
-
-                    <TabsTrigger value="where-to-watch">
-                      {dictionary.movies_list_filters.tabs.watch_providers}
-                    </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="filters">
@@ -88,13 +86,6 @@ export const CollectionFilters = ({ status }: CollectionFiltersProps) => {
 
                   <TabsContent value="sort-by">
                     <SortBy />
-                  </TabsContent>
-
-                  <TabsContent value="where-to-watch">
-                    <div className="space-y-4">
-                      <WatchRegion />
-                      <WatchProviders type="movie" />
-                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
