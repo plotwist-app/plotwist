@@ -7,7 +7,7 @@ import type { UserItemStatus } from '@/types/user-item'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 import { CollectionFilters } from '@/components/collection-filters/collection-filters'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLayoutContext } from '../_context'
 import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
 
@@ -18,16 +18,14 @@ export default function CollectionPage() {
   })
 
   const { userId } = useLayoutContext()
-  const defaultValues: CollectionFiltersFormValues = {
+
+  const [filters, setFilters] = useState<CollectionFiltersFormValues>({
     status: statusQueryState as UserItemStatus,
     userId,
     rating: [0, 5],
     mediaType: ['TV_SHOW', 'MOVIE'],
     orderBy: 'addedAt.desc',
-  }
-
-  const [filters, setFilters] =
-    useState<CollectionFiltersFormValues>(defaultValues)
+  })
 
   const options = [
     {
@@ -56,6 +54,16 @@ export default function CollectionPage() {
       label: dictionary.dropped,
     },
   ]
+
+  useEffect(() => {
+    setFilters({
+      status: statusQueryState as UserItemStatus,
+      userId,
+      rating: [0, 5],
+      mediaType: ['TV_SHOW', 'MOVIE'],
+      orderBy: 'addedAt.desc',
+    })
+  }, [statusQueryState, userId])
 
   return (
     <div className="space-y-2">

@@ -17,14 +17,17 @@ import { useQueryClient } from '@tanstack/react-query'
 
 type UserItemsCommandProps = {
   userId: string
-} & Pick<UserItemsProps, 'status'>
+  filters: UserItemsProps['filters']
+}
 
-export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
+export function UserItemsCommand({ filters, userId }: UserItemsCommandProps) {
   const add = usePutUserItem()
   const remove = useDeleteUserItemId()
   const { refresh } = useRouter()
   const { language, dictionary } = useLanguage()
   const queryClient = useQueryClient()
+
+  const status = filters.status
 
   const { data, queryKey } = useGetAllUserItems({
     status,
@@ -32,7 +35,7 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
   })
 
   const messages: Record<
-    NonNullable<UserItemsCommandProps['status']>,
+    NonNullable<UserItemsCommandProps['filters']['status']>,
     Record<'add' | 'remove', string>
   > = {
     ALL: {
@@ -65,6 +68,8 @@ export function UserItemsCommand({ status, userId }: UserItemsCommandProps) {
         language,
         status,
         userId,
+        mediaType: filters.mediaType,
+        orderBy: filters.orderBy,
       }),
     })
 

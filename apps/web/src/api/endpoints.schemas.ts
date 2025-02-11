@@ -1890,11 +1890,12 @@ export const GetAllUserItemsStatus = {
   WATCHED: 'WATCHED',
   WATCHING: 'WATCHING',
   DROPPED: 'DROPPED',
+  ALL: 'ALL',
 } as const;
 
 export type GetAllUserItemsParams = {
-status: GetAllUserItemsStatus;
 userId: string;
+status: GetAllUserItemsStatus;
 };
 
 export type GetUserItems200UserItemsItemStatus = typeof GetUserItems200UserItemsItemStatus[keyof typeof GetUserItems200UserItemsItemStatus];
