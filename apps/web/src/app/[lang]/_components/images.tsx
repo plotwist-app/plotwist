@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { v4 } from 'uuid'
+import { Reviews } from './reviews'
 
 const GET_IMAGES = (theme: string) => {
   return [
@@ -31,17 +32,7 @@ export function Images() {
 
   return (
     <section className="relative max-w-6xl mx-auto">
-      <div className="absolute left-0 bottom-0 aspect-poster w-1/5 z-40 flex flex-col justify-end gap-2">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div
-            key={v4()}
-            className="w-full h-[40px] bg-background border rounded-lg flex items-center justify-center text-sm text-muted-foreground"
-          >
-            review {index + 1}
-          </div>
-        ))}
-      </div>
-
+      <Reviews />
       <div className="border rounded-lg aspect-video relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
         {images.map((image, index) => (
           <Image
@@ -63,12 +54,20 @@ export function Images() {
         ))}
       </div>
 
-      <div className="absolute right-0 bottom-0 aspect-[9/16] border w-1/5 z-40 rounded-lg bg-background flex justify-center items-center overflow-hidden select-none">
+      <div className="absolute right-0 bottom-0 aspect-[9/16] border w-1/5 z-40 rounded-lg bg-background flex justify-center items-center overflow-hidden pointer-events-none">
         <Image
-          src="/images/landing-page/dark/mobile-movie.jpg"
-          alt="Mobile Movie"
+          src="/images/landing-page/dark/tv.jpg"
+          alt="Breaking Bad page image"
           fill
-          className="object-cover"
+          className="object-cover dark:block hidden"
+          quality={100}
+        />
+
+        <Image
+          src="/images/landing-page/light/tv.jpg"
+          alt="Breaking Bad page image"
+          fill
+          className="object-cover dark:hidden drag"
           quality={100}
         />
       </div>
