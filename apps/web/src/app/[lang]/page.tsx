@@ -9,8 +9,8 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { BentoGrid } from './_components/bento-grid'
-import { Hero } from './_components/hero'
+import { Hero2 } from './_components/hero-2'
+import { Images } from './_components/images'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
@@ -68,12 +68,11 @@ export default async function Home(props: PageProps) {
 
   return (
     <>
-      <Pattern variant="checkered" />
-
       <main className="">
-        <Hero />
-        <BentoGrid language={lang} />
-        <Pricing />
+        <Hero2 />
+        <Images />
+
+        {/* <Pricing /> */}
       </main>
     </>
   )
