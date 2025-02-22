@@ -7,7 +7,7 @@ import type { UserItemStatus } from '@/types/user-item'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 import { CollectionFilters } from '@/components/collection-filters/collection-filters'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLayoutContext } from '../_context'
 import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
 
@@ -55,15 +55,10 @@ export default function CollectionPage() {
     },
   ]
 
-  useEffect(() => {
-    setFilters({
-      status: statusQueryState as UserItemStatus,
-      userId,
-      rating: [0, 5],
-      mediaType: ['TV_SHOW', 'MOVIE'],
-      orderBy: 'addedAt.desc',
-    })
-  }, [statusQueryState, userId])
+  function handleChangeStatus(status: string) {
+    setStatusQueryState(status)
+    setFilters(prev => ({ ...prev, status: status as UserItemStatus }))
+  }
 
   return (
     <div className="space-y-2">
@@ -79,7 +74,7 @@ export default function CollectionPage() {
             className="cursor-pointer whitespace-nowrap"
             key={status}
             variant={status === statusQueryState ? 'default' : 'outline'}
-            onClick={() => setStatusQueryState(status)}
+            onClick={() => handleChangeStatus(status)}
           >
             <Icon size={12} className="mr-1" />
             {label}
