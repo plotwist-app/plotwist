@@ -1,0 +1,17 @@
+{
+  "identifier": "com.plotwist.app",
+  "name": "Plotwist",
+  "version": "1.0.0",
+  "info": {
+    "category": "Entertainment",
+    "ios": {
+      "images": {
+        "appIcon": {
+          "sources": [
+            "icons/app-icon.png"
+          ]
+        }
+      }
+    }
+  }
+}

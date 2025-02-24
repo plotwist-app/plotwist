@@ -1,0 +1,16 @@
+{
+  "name": "@plotwist/desktop",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "mobile:ios": "tauri ios dev",
+    "mobile:android": "tauri android dev"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@tauri-apps/api": "^2.0.0",
+    "dotenv-cli": "^7.4.2"
+  }
+}

@@ -8,7 +8,12 @@
     "start": "next start",
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tauri": "tauri",
+    "build:android": "tauri android build",
+    "build:ios": "tauri ios build",
+    "dev:android": "tauri android dev",
+    "dev:ios": "tauri ios dev"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.2.0",
