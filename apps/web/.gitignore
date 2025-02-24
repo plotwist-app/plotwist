@@ -1,0 +1,16 @@
+# Build output
+.next/
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Cache
+.turbo
+.cache
+
+# Logs
+*.log
+npm-debug.log* 
