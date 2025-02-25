@@ -29,6 +29,9 @@
       "app",
       "dmg"
     ],
+    "iOS": {
+      "developmentTeam": "YOUR_TEAM_ID"
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
