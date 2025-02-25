@@ -139,7 +139,7 @@ export const UserTabs = ({ user }: UserTabsProps) => {
               {HIDDEN_TABS.map(tab => (
                 <DropdownMenuItem
                   asChild
-                  className={cn(value.includes(tab.path) && 'bg-muted')}
+                  className={cn(value?.includes(tab.path) && 'bg-muted')}
                   key={tab.label}
                   disabled={tab.disabled}
                 >

@@ -53,7 +53,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
   return (
     <main className="space-y-4 p-4 lg:p-0">
       <div className="flex flex-row items-end gap-4 md:items-start">
-        <aside className="-mt-32 w-2/5 space-y-2 md:w-1/3">
+        <aside className="-mt-20 lg:-mt-32 w-2/5 space-y-2 md:w-1/3">
           <Poster url={movie.poster_path} alt={movie.title} />
         </aside>
 

@@ -41,7 +41,7 @@ export const Pattern = ({ variant }: PatternProps) => {
       <div className="absolute right-0 top-0 -z-40 h-screen w-screen bg-gradient-to-b from-transparent to-background" />
 
       <svg
-        className="absolute right-0 top-0 -z-50 h-screen w-screen opacity-10 dark:opacity-5"
+        className="absolute right-0 top-0 -z-50 h-screen w-screen opacity-[5%] dark:opacity-5"
         fill="none"
       >
         <defs>

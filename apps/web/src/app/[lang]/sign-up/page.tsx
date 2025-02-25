@@ -24,10 +24,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 const SignUpPage = async (props: PageProps) => {
-  const params = await props.params
-
-  const { lang } = params
-
+  const { lang } = await props.params
   const dictionary = await getDictionary(lang)
 
   return (
