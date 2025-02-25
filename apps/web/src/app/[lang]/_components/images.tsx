@@ -37,14 +37,14 @@ export function Images() {
 
   if (!mounted) {
     return (
-      <section className="border rounded-lg aspect-[1629/831] bg-background z-20 max-w-4xl mx-auto">
+      <section className="border rounded-lg aspect-[1629/831] bg-background z-20 max-w-6xl mx-auto hidden md:block">
         <Skeleton className="w-full h-full" />
       </section>
     )
   }
 
   return (
-    <section className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-4xl mx-auto shadow">
+    <section className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-6xl mx-auto hidden md:block">
       {images.map((image, index) => (
         <Image
           key={image}
