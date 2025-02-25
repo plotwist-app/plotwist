@@ -12,6 +12,7 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Hero } from './_components/hero'
 import { Images } from './_components/images'
 import { Separator } from '@plotwist/ui/components/ui/separator'
+import CollectionPage from './[username]/collection/page'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params

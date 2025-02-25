@@ -3,16 +3,14 @@
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { v4 } from 'uuid'
-import { Reviews } from './reviews'
 
 const GET_IMAGES = (theme: string) => {
   return [
-    `/images/lp/${theme}/activity.jpg`,
-    `/images/lp/${theme}/collection.jpg`,
-    `/images/lp/${theme}/lists.jpg`,
-    `/images/lp/${theme}/reviews.jpg`,
-    `/images/lp/${theme}/stats.jpg`,
+    `/images/landing-page/${theme}/activity.jpg`,
+    `/images/landing-page/${theme}/collection.jpg`,
+    `/images/landing-page/${theme}/reviews.jpg`,
+    `/images/landing-page/${theme}/stats.jpg`,
+    `/images/landing-page/${theme}/preferences.jpg`,
   ]
 }
 
@@ -32,7 +30,7 @@ export function Images() {
 
   return (
     <section className="relative max-w-6xl mx-auto ">
-      <div className="border rounded-lg aspect-video relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
+      <div className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
         {images.map((image, index) => (
           <Image
             key={image}
