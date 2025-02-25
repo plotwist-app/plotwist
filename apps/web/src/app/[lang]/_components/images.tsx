@@ -31,8 +31,7 @@ export function Images() {
   }, [images])
 
   return (
-    <section className="relative max-w-6xl mx-auto">
-      <Reviews />
+    <section className="relative max-w-6xl mx-auto ">
       <div className="border rounded-lg aspect-video relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
         {images.map((image, index) => (
           <Image
@@ -52,24 +51,6 @@ export function Images() {
             priority
           />
         ))}
-      </div>
-
-      <div className="absolute right-0 bottom-0 aspect-[9/16] border w-1/5 z-40 rounded-lg bg-background flex justify-center items-center overflow-hidden pointer-events-none">
-        <Image
-          src="/images/landing-page/dark/tv.jpg"
-          alt="Breaking Bad page image"
-          fill
-          className="object-cover dark:block hidden"
-          quality={100}
-        />
-
-        <Image
-          src="/images/landing-page/light/tv.jpg"
-          alt="Breaking Bad page image"
-          fill
-          className="object-cover dark:hidden drag"
-          quality={100}
-        />
       </div>
     </section>
   )

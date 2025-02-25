@@ -11,6 +11,7 @@ import { APP_URL } from '../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Hero2 } from './_components/hero-2'
 import { Images } from './_components/images'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
@@ -63,16 +64,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-export default async function Home(props: PageProps) {
-  const { lang } = await props.params
-
+export default async function Home() {
   return (
     <>
-      <main className="">
+      <Pattern variant="checkered" />
+
+      <main>
         <Hero2 />
         <Images />
-
-        {/* <Pricing /> */}
+        <Separator className="mt-32" />
+        <Pricing />
       </main>
     </>
   )
