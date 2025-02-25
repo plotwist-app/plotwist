@@ -9,8 +9,10 @@ type HeroProps = {
 
 export async function Hero({ dictionary }: HeroProps) {
   return (
-    <section className="mx-auto max-w-4xl flex flex-col gap-4 md:gap-6 items-center py-8 md:py-24 px-4 md:px-6 text-center h-[80dvh] md:h-auto justify-center">
-      <Badge variant="outline">{dictionary.community_badge}</Badge>
+    <section className="mx-auto max-w-4xl flex flex-col gap-4 items-center py-8 md:py-24 px-4 md:px-6 text-center h-[80dvh] md:h-auto justify-center">
+      <Badge variant="outline" className="bg-background">
+        {dictionary.community_badge}
+      </Badge>
 
       <h2 className="text-3xl md:text-6xl leading-tight md:leading-[1.2]">
         {dictionary.perfect_place_for_watching} <b>{dictionary.everything}</b>

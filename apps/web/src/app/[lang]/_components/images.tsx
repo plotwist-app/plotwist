@@ -18,7 +18,7 @@ export function Images() {
   const { theme } = useTheme()
 
   const [activeIndex, setActiveIndex] = useState(0)
-  const images = GET_IMAGES(theme ?? 'light')
+  const images = GET_IMAGES(theme as string)
 
   useEffect(() => {
     const interval = setInterval(() => {
