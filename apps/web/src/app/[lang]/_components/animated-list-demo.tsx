@@ -51,7 +51,7 @@ const Review = ({ name, description, time, rating }: ReviewType) => {
 
 export function AnimatedListDemo({ className }: { className?: string }) {
   const { language } = useLanguage()
-  const localizedReviews = reviews[language]
+  const localizedReviews = reviews[language] || []
 
   return (
     <div
