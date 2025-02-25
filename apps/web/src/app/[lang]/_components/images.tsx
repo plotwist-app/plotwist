@@ -1,5 +1,6 @@
 'use client'
 
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
@@ -15,10 +16,16 @@ const GET_IMAGES = (theme: string) => {
 }
 
 export function Images() {
-  const { theme } = useTheme()
-
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
-  const images = GET_IMAGES(theme as string)
+
+  const currentTheme = resolvedTheme || 'light'
+  const images = GET_IMAGES(currentTheme)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,16 +35,23 @@ export function Images() {
     return () => clearInterval(interval)
   }, [images])
 
+  if (!mounted) {
+    return (
+      <section className="border rounded-lg aspect-[1629/831] bg-background z-20 max-w-4xl mx-auto">
+        <Skeleton className="w-full h-full" />
+      </section>
+    )
+  }
+
   return (
-    <section className="relative max-w-6xl mx-auto hidden md:block">
-      <div className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
-        {images.map((image, index) => (
-          <Image
-            key={image}
-            src={image}
-            alt={`Image ${index + 1}`}
-            fill
-            className={`
+    <section className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-4xl mx-auto shadow">
+      {images.map((image, index) => (
+        <Image
+          key={image}
+          src={image}
+          alt={`Image ${index + 1}`}
+          fill
+          className={`
               object-cover 
               absolute 
               top-0 
@@ -46,10 +60,9 @@ export function Images() {
               duration-500
               ${activeIndex === index ? 'opacity-100' : 'opacity-0'}
             `}
-            priority
-          />
-        ))}
-      </div>
+          priority
+        />
+      ))}
     </section>
   )
 }
