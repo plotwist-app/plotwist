@@ -29,7 +29,7 @@ export function Images() {
   }, [images])
 
   return (
-    <section className="relative max-w-6xl mx-auto ">
+    <section className="relative max-w-6xl mx-auto hidden md:block">
       <div className="border rounded-lg aspect-[1629/831] relative overflow-hidden bg-background z-20 max-w-3xl mx-auto">
         {images.map((image, index) => (
           <Image
