@@ -70,8 +70,6 @@ export default async function Layout(props: UserPageProps) {
     redirect(`/${lang}#pricing`)
   }
 
-  console.log(user)
-
   const { socialLinks } = await getSocialLinks({ userId: user.id })
 
   return (

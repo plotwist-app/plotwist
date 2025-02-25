@@ -12,13 +12,12 @@ import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Hero } from './_components/hero'
 import { Images } from './_components/images'
 import { Separator } from '@plotwist/ui/components/ui/separator'
-import CollectionPage from './[username]/collection/page'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
   const dictionary = await getDictionary(lang)
 
-  const image = `${APP_URL}/images/lp/home.png`
+  const image = `${APP_URL}/images/landing-page.jpg`
   const canonicalUrl = `${APP_URL}/${lang}`
 
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(
@@ -31,9 +30,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     {} as Record<string, string>
   )
 
-  const title = `${dictionary.organize} ${dictionary.movies_and_series} ${dictionary.never_been_easier}`
-
-  const description = `${dictionary.most_apps_functional} ${dictionary.plotwist_incredible_interface}`
+  const title = `${dictionary.perfect_place_for_watching} ${dictionary.everything}`
+  const description = dictionary.manage_rate_discover
 
   return {
     title,
