@@ -9,7 +9,7 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { Hero2 } from './_components/hero-2'
+import { Hero } from './_components/hero'
 import { Images } from './_components/images'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 
@@ -64,13 +64,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-export default async function Home() {
+export default async function Home(props: PageProps) {
+  const { lang } = await props.params
+  const dictionary = await getDictionary(lang)
+
   return (
     <>
       <Pattern variant="checkered" />
 
       <main>
-        <Hero2 />
+        <Hero dictionary={dictionary} />
         <Images />
         <Separator className="mt-32" />
         <Pricing />
