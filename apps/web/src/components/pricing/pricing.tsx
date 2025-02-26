@@ -1,6 +1,5 @@
 'use client'
 
-import { Brush } from '@/app/[lang]/_components/hero'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import {
@@ -31,11 +30,10 @@ export const Pricing = () => {
     <section className="py-32 relative" id="pricing">
       <section className="mx-auto max-w-6xl space-y-8 px-4 lg:px-0">
         <div className="mx-auto flex w-full flex-col items-center space-y-4 max-w-xl">
-          <h2 className="text-center text-2xl lg:text-5xl font-semibold">
+          <h2 className="text-center text-2xl lg:text-5xl font-normal">
             {dictionary.choose_the}{' '}
             <span className="relative font-bold">
               {dictionary.perfect_plan}
-              <Brush />
             </span>{' '}
             {dictionary.for_you}
           </h2>

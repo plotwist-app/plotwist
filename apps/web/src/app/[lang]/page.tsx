@@ -9,14 +9,15 @@ import { getDictionary } from '@/utils/dictionaries'
 import { APP_URL } from '../../../constants'
 
 import { SUPPORTED_LANGUAGES } from '../../../languages'
-import { BentoGrid } from './_components/bento-grid'
 import { Hero } from './_components/hero'
+import { Images } from './_components/images'
+import { Separator } from '@plotwist/ui/components/ui/separator'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
   const dictionary = await getDictionary(lang)
 
-  const image = `${APP_URL}/images/lp/home.png`
+  const image = `${APP_URL}/images/landing-page.jpg`
   const canonicalUrl = `${APP_URL}/${lang}`
 
   const languageAlternates = SUPPORTED_LANGUAGES.reduce(
@@ -29,9 +30,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     {} as Record<string, string>
   )
 
-  const title = `${dictionary.organize} ${dictionary.movies_and_series} ${dictionary.never_been_easier}`
-
-  const description = `${dictionary.most_apps_functional} ${dictionary.plotwist_incredible_interface}`
+  const title = `${dictionary.perfect_place_for_watching} ${dictionary.everything}`
+  const description = dictionary.manage_rate_discover
 
   return {
     title,
@@ -65,14 +65,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function Home(props: PageProps) {
   const { lang } = await props.params
+  const dictionary = await getDictionary(lang)
 
   return (
     <>
       <Pattern variant="checkered" />
 
-      <main className="">
-        <Hero />
-        <BentoGrid language={lang} />
+      <main>
+        <Hero dictionary={dictionary} />
+        <Images />
+        <Separator className="mt-32" />
         <Pricing />
       </main>
     </>

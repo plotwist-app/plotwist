@@ -595,7 +595,7 @@
   "explore": "Erkunden",
   "save_order": "Ordnung speichern",
   "edit_order": "Ordnung bearbeiten",
-  "start_now": "Jetzt starten!",
+  "start_now": "Jetzt starten",
   "start_your_journey": "Beginnen Sie Ihre Reise in nur wenigen Schritten.",
   "already_have_an_account": "Haben Sie schon ein Konto?",
   "continue_with_google": "Weiter mit Google",
@@ -830,5 +830,9 @@
   "not_specified": "Nicht spezifiziert",
   "progress_completed": "Fortschritt abgeschlossen",
   "overview": "Übersicht",
-  "your_progress": "Ihr Fortschritt"
+  "your_progress": "Ihr Fortschritt",
+  "community_badge": "✨ Werden Sie Teil einer Gemeinschaft von +400 Benutzern",
+  "perfect_place_for_watching": "Der perfekte Ort für alle, die",
+  "everything": "alles",
+  "manage_rate_discover": "Verwalten, bewerten, entdecken und teilen Sie Ihre Lieblingsinhalte. Erstellen Sie Listen, erhalten Sie Empfehlungen und behalten Sie den Überblick über alles, was Sie gesehen haben."
 }
