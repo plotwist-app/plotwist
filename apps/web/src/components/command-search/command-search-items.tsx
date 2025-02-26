@@ -3,7 +3,6 @@ import type {
   PersonWithMediaType,
   TvSerieWithMediaType,
 } from '@/services/tmdb'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 
@@ -28,7 +27,7 @@ export const CommandSearchMovie = ({
 }: CommandSearchItemProps<MovieWithMediaType>) => {
   return (
     <HoverCard>
-      <HoverCardTrigger>
+      <HoverCardTrigger asChild>
         <Link
           href={`/${language}/movies/${item.id}`}
           className="flex cursor-pointer items-center justify-between gap-4 rounded-sm p-2 hover:bg-muted"
@@ -44,42 +43,36 @@ export const CommandSearchMovie = ({
         </Link>
       </HoverCardTrigger>
 
-      <HoverCardPortal>
-        <HoverCardContent
-          className="w-[320px] overflow-hidden rounded-lg p-0"
-          side="top"
-          align="start"
-        >
-          <ItemHoverCard.Banner>
-            {item.backdrop_path && (
+      <HoverCardContent
+        className="w-[320px] overflow-hidden rounded-lg p-0"
+        side="top"
+        align="start"
+      >
+        <ItemHoverCard.Banner>
+          {item.backdrop_path && (
+            <Image src={tmdbImage(item.backdrop_path)} alt={item.title} fill />
+          )}
+        </ItemHoverCard.Banner>
+
+        <ItemHoverCard.Information>
+          <ItemHoverCard.Poster>
+            {item.poster_path && (
               <Image
-                src={tmdbImage(item.backdrop_path)}
+                src={tmdbImage(item.poster_path, 'w500')}
                 alt={item.title}
                 fill
+                objectFit="cover"
               />
             )}
-          </ItemHoverCard.Banner>
+          </ItemHoverCard.Poster>
 
-          <ItemHoverCard.Information>
-            <ItemHoverCard.Poster>
-              {item.poster_path && (
-                <Image
-                  src={tmdbImage(item.poster_path, 'w500')}
-                  alt={item.title}
-                  fill
-                  objectFit="cover"
-                />
-              )}
-            </ItemHoverCard.Poster>
+          <ItemHoverCard.Summary>
+            <ItemHoverCard.Title>{item.title}</ItemHoverCard.Title>
 
-            <ItemHoverCard.Summary>
-              <ItemHoverCard.Title>{item.title}</ItemHoverCard.Title>
-
-              <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
-            </ItemHoverCard.Summary>
-          </ItemHoverCard.Information>
-        </HoverCardContent>
-      </HoverCardPortal>
+            <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
+          </ItemHoverCard.Summary>
+        </ItemHoverCard.Information>
+      </HoverCardContent>
     </HoverCard>
   )
 }
@@ -90,7 +83,7 @@ export const CommandSearchTvSerie = ({
 }: CommandSearchItemProps<TvSerieWithMediaType>) => {
   return (
     <HoverCard>
-      <HoverCardTrigger>
+      <HoverCardTrigger asChild>
         <Link
           className="flex cursor-pointer items-center justify-between gap-4 rounded-sm p-2 hover:bg-muted"
           href={`/${language}/tv-series/${item.id}`}
@@ -105,38 +98,36 @@ export const CommandSearchTvSerie = ({
         </Link>
       </HoverCardTrigger>
 
-      <HoverCardPortal>
-        <HoverCardContent
-          className="w-[320px] overflow-hidden rounded-lg p-0"
-          side="top"
-          align="start"
-        >
-          <ItemHoverCard.Banner>
-            {item.backdrop_path && (
-              <Image src={tmdbImage(item.backdrop_path)} alt={item.name} fill />
+      <HoverCardContent
+        className="w-[320px] overflow-hidden rounded-lg p-0"
+        side="top"
+        align="start"
+      >
+        <ItemHoverCard.Banner>
+          {item.backdrop_path && (
+            <Image src={tmdbImage(item.backdrop_path)} alt={item.name} fill />
+          )}
+        </ItemHoverCard.Banner>
+
+        <ItemHoverCard.Information>
+          <ItemHoverCard.Poster>
+            {item.poster_path && (
+              <Image
+                src={tmdbImage(item.poster_path, 'w500')}
+                alt={item.name}
+                fill
+                objectFit="cover"
+              />
             )}
-          </ItemHoverCard.Banner>
+          </ItemHoverCard.Poster>
 
-          <ItemHoverCard.Information>
-            <ItemHoverCard.Poster>
-              {item.poster_path && (
-                <Image
-                  src={tmdbImage(item.poster_path, 'w500')}
-                  alt={item.name}
-                  fill
-                  objectFit="cover"
-                />
-              )}
-            </ItemHoverCard.Poster>
+          <ItemHoverCard.Summary>
+            <ItemHoverCard.Title>{item.name}</ItemHoverCard.Title>
 
-            <ItemHoverCard.Summary>
-              <ItemHoverCard.Title>{item.name}</ItemHoverCard.Title>
-
-              <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
-            </ItemHoverCard.Summary>
-          </ItemHoverCard.Information>
-        </HoverCardContent>
-      </HoverCardPortal>
+            <ItemHoverCard.Overview>{item.overview}</ItemHoverCard.Overview>
+          </ItemHoverCard.Summary>
+        </ItemHoverCard.Information>
+      </HoverCardContent>
     </HoverCard>
   )
 }
