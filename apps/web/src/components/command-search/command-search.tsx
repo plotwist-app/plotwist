@@ -111,7 +111,7 @@ export const CommandSearch = () => {
           <CommandInput
             placeholder={dictionary.sidebar_search.placeholder}
             onValueChange={setSearch}
-            defaultValue={search}
+            value={search}
           />
 
           <CommandList className="">
