@@ -634,7 +634,6 @@
   "explore": "Explorar",
   "save_order": "Guardar orden",
   "edit_order": "Editar orden",
-  "start_now": "¡Empieza ahora!",
   "start_your_journey": "Comienza tu viaje en solo unos pocos pasos.",
   "already_have_an_account": "¿Ya tienes una cuenta?",
   "continue_with_google": "Continuar con Google",
@@ -870,5 +869,10 @@
   "not_specified": "No especificado",
   "progress_completed": "Progreso completado",
   "overview": "Resumen",
-  "your_progress": "Tu progreso"
+  "your_progress": "Tu progreso",
+  "community_badge": "✨ Sé parte de una comunidad de +400 usuarios",
+  "perfect_place_for_watching": "El lugar perfecto para quien ve",
+  "everything": "todo",
+  "manage_rate_discover": "Gestiona, califica, descubre y comparte tu contenido favorito. Crea listas, recibe recomendaciones y mantén un registro de todo lo que has visto.",
+  "start_now": "Empezar ahora"
 }
