@@ -1,20 +1,20 @@
+import { ItemReview } from '@/components/item-review'
+import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { locale } from '@/utils/date/locale'
+import { getDictionary } from '@/utils/dictionaries'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@plotwist/ui/components/ui/breadcrumb'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import type { Language } from '@/types/languages'
 import type { EpisodeDetails as EpisodeDetailsType } from '@plotwist_app/tmdb'
-import { locale } from '@/utils/date/locale'
 import { format } from 'date-fns'
-import Image from 'next/image'
-import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { getDictionary } from '@/utils/dictionaries'
 import { Link } from 'next-view-transitions'
-import { ItemReview } from '@/components/item-review'
+import Image from 'next/image'
 
 type EpisodeDetailsProps = {
   episode: EpisodeDetailsType

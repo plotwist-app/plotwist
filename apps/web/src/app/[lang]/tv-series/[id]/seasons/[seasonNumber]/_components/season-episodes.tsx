@@ -4,8 +4,8 @@ import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { Episode } from '@plotwist_app/tmdb'
-import Image from 'next/image'
 import { Link } from 'next-view-transitions'
+import Image from 'next/image'
 
 type SeasonEpisodesProps = {
   episodes: Episode[]

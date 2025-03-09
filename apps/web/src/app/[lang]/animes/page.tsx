@@ -1,8 +1,8 @@
 import { AnimeList } from '@/components/animes-list'
-import { getDictionary } from '@/utils/dictionaries'
-import { Container } from '../_components/container'
 import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import type { Metadata } from 'next'
+import { Container } from '../_components/container'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params

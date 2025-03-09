@@ -1,11 +1,11 @@
 'use client'
 
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { UserItems } from '../_components/user-items'
-import { useQueryState } from 'nuqs'
-import type { UserItemStatus } from '@/types/user-item'
-import { Check, Clock, Loader, Trash } from 'lucide-react'
 import { useLanguage } from '@/context/language'
+import type { UserItemStatus } from '@/types/user-item'
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import { Check, Clock, Loader, Trash } from 'lucide-react'
+import { useQueryState } from 'nuqs'
+import { UserItems } from '../_components/user-items'
 
 export default function CollectionPage() {
   const { dictionary } = useLanguage()

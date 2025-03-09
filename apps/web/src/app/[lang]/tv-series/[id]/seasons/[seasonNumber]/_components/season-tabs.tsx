@@ -1,18 +1,18 @@
+import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { SeasonEpisodes } from './season-episodes'
 import type { SeasonDetails } from '@plotwist_app/tmdb'
-import type { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-import { Credits } from '@/components/credits'
 import { Suspense } from 'react'
-import { Images } from '@/components/images'
-import { Videos } from '@/components/videos'
-import { Reviews } from '@/components/reviews'
+import { SeasonEpisodes } from './season-episodes'
 
 type SeasonTabsProps = {
   seasonDetails: SeasonDetails

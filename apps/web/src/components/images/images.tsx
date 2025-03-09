@@ -1,6 +1,6 @@
 import { tmdb } from '@/services/tmdb'
-import { ImagesMasonry } from './images-masonry'
 import type { Dictionary } from '@/utils/dictionaries'
+import { ImagesMasonry } from './images-masonry'
 
 type BaseImagesProps = {
   tmdbId: number

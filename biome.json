@@ -33,6 +33,12 @@
     }
   },
   "files": {
-    "ignore": ["node_modules", ".turbo", ".next", "apps/web/src/api/*.ts"]
+    "ignore": [
+      "node_modules",
+      ".turbo",
+      ".next",
+      "apps/web/src/api/*.ts",
+      "packages/ui"
+    ]
   }
 }

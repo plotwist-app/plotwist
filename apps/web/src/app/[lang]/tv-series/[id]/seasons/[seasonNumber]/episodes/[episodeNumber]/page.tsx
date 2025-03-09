@@ -1,10 +1,10 @@
 import { tmdb } from '@/services/tmdb'
 import type { PageProps } from '@/types/languages'
-import { EpisodeDetails } from './_components/episode-details'
-import { EpisodeTabs } from './_components/episode-tabs'
-import { EpisodeNavigation } from './_components/episode-navigation'
-import type { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
+import type { Metadata } from 'next'
+import { EpisodeDetails } from './_components/episode-details'
+import { EpisodeNavigation } from './_components/episode-navigation'
+import { EpisodeTabs } from './_components/episode-tabs'
 
 type EpisodePageProps = PageProps<{
   id: string

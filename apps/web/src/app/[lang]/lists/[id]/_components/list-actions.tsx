@@ -12,7 +12,7 @@ import NumberFlow from '@number-flow/react'
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { BarChart, Check, Copy, Heart, List } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { Suspense, type ComponentProps } from 'react'
+import { type ComponentProps, Suspense } from 'react'
 
 const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (

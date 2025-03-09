@@ -1,18 +1,18 @@
 'use client'
 
+import { Poster } from '@/components/poster'
 import type { Season } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-import { Poster } from '@/components/poster'
 
-import { Link } from 'next-view-transitions'
-import { Suspense, useState } from 'react'
+import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Eye, Grid } from 'lucide-react'
+import { Link } from 'next-view-transitions'
+import { Suspense, useState } from 'react'
 import {
   TvSerieSeasonsOverview,
   TvSerieSeasonsOverviewSkeleton,
 } from './tv-serie-seasons-overview'
-import { useLanguage } from '@/context/language'
 
 type TvSerieSeasonsProps = {
   seasons: Season[]

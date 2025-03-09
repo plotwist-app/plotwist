@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
-import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
-import { getTvMetadata } from '@/utils/seo/get-tv-metadata'
 import type { PageProps } from '@/types/languages'
+import { getTvMetadata } from '@/utils/seo/get-tv-metadata'
+import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
 import { TvSerieDetails } from './_components/tv-serie-details'
 
 export type TvSeriePageProps = PageProps<{ id: string }>

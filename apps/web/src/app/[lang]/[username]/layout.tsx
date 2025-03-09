@@ -1,5 +1,6 @@
 import { getSocialLinks } from '@/api/social-links'
 import { getUsersUsername } from '@/api/users'
+import { FollowButton } from '@/components/follow-button'
 import { ProBadge } from '@/components/pro-badge'
 import { cn } from '@/lib/utils'
 import type { PageProps } from '@/types/languages'
@@ -11,14 +12,13 @@ import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
-import { UserBanner } from './_components/user-banner'
-import { UserTabs } from './_components/users-tabs'
 import { SocialLinks } from './_components/social-links'
 import { UserAvatar } from './_components/user-avatar'
+import { UserBanner } from './_components/user-banner'
 import { UserDialog } from './_components/user-dialog'
 import { UserResumeStats } from './_components/user-resume-stats'
+import { UserTabs } from './_components/users-tabs'
 import { LayoutProvider } from './_context'
-import { FollowButton } from '@/components/follow-button'
 
 export type UserPageProps = PageProps<Record<'username', string>> &
   PropsWithChildren

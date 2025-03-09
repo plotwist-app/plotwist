@@ -22,22 +22,21 @@ module.exports = {
           getFollowers: {
             query: {
               useInfinite: true,
-            }
+            },
           },
           getUserActivities: {
             query: {
-              useInfinite: true
-            }
+              useInfinite: true,
+            },
           },
           getUserItems: {
             query: {
-              useInfinite: true
-            }
-          }
-        }
+              useInfinite: true,
+            },
+          },
+        },
       },
-     
-     
+
       // mock: true,
     },
   },

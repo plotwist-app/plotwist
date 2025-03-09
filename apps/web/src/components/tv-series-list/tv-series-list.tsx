@@ -9,9 +9,9 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
+import { StreamingServicesBadge } from '../streaming-services-badge'
 import type { TvSeriesListProps } from './tv-series-list.types'
 import { useTvSeriesListQuery } from './use-tv-series-list-query'
-import { StreamingServicesBadge } from '../streaming-services-badge'
 
 export const TvSeriesList = ({ variant }: TvSeriesListProps) => {
   const { language } = useLanguage()

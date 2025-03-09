@@ -1,7 +1,6 @@
 'use client'
 
 import { useLanguage } from '@/context/language'
-import { useState } from 'react'
 import {
   Credenza,
   CredenzaBody,
@@ -10,6 +9,7 @@ import {
   CredenzaTitle,
 } from '@plotwist/ui/components/ui/credenza'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { useState } from 'react'
 
 type BiographyProps = {
   content: string

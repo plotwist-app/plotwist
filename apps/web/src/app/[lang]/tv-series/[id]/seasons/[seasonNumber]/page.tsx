@@ -1,10 +1,10 @@
 import { tmdb } from '@/services/tmdb'
 import type { PageProps } from '@/types/languages'
-import { SeasonDetails } from './_components/season-details'
-import { SeasonTabs } from './_components/season-tabs'
-import { SeasonNavigation } from './_components/season-navigation'
-import type { Metadata } from 'next'
 import { tmdbImage } from '@/utils/tmdb/image'
+import type { Metadata } from 'next'
+import { SeasonDetails } from './_components/season-details'
+import { SeasonNavigation } from './_components/season-navigation'
+import { SeasonTabs } from './_components/season-tabs'
 
 type SeasonPageProps = PageProps<{
   seasonNumber: string

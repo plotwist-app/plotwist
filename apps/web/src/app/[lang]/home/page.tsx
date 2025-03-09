@@ -11,11 +11,11 @@ import { UserLastReview } from './_components/user-last-review'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 
-import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
+import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
 import { verifySession } from '@/app/lib/dal'
-import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
+import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { NetworkActivity } from './_components/network-activity'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {

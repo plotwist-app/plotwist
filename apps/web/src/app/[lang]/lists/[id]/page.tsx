@@ -1,6 +1,7 @@
 import { getListById } from '@/api/list'
 import { verifySession } from '@/app/lib/dal'
 import { ListModeContextProvider } from '@/context/list-mode'
+import type { PageProps } from '@/types/languages'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Pencil } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -12,7 +13,6 @@ import { ListItems } from './_components/list-items'
 import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
 import { ListPrivate } from './_components/list-private'
 import { UserResume } from './_components/user-resume'
-import type { PageProps } from '@/types/languages'
 
 type ListPageProps = PageProps<{ id: string }>
 

@@ -12,10 +12,10 @@ import {
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { User } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { v4 } from 'uuid'
 import { useLayoutContext } from '../_context'
-import { Link } from 'next-view-transitions'
 
 export function TopActors() {
   const { userId } = useLayoutContext()

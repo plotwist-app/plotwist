@@ -3,8 +3,8 @@ import '@plotwist/ui/globals.css'
 import { GTag } from '@/components/gtag'
 import type { Language } from '@/types/languages'
 import type { Metadata, Viewport } from 'next'
-import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
+import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 

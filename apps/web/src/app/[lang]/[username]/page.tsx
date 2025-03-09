@@ -1,17 +1,17 @@
 'use client'
 
-import { useLayoutContext } from './_context'
 import {
   getUserActivities,
   useGetUserActivitiesInfinite,
 } from '@/api/user-activities'
 import { useLanguage } from '@/context/language'
-import { useInView } from 'react-intersection-observer'
-import { useEffect } from 'react'
-import { v4 } from 'uuid'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { UserActivity } from './_components/user-activity'
 import { useSession } from '@/context/session'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { v4 } from 'uuid'
+import { UserActivity } from './_components/user-activity'
+import { useLayoutContext } from './_context'
 
 export default function ActivityPage() {
   const { userId } = useLayoutContext()

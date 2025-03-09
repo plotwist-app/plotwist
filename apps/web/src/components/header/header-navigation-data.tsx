@@ -5,11 +5,11 @@ import {
   Home,
   JapaneseYen,
   List,
+  type LucideIcon,
   Play,
   Sparkles,
   Star,
   Tv,
-  type LucideIcon,
 } from 'lucide-react'
 
 import type { Dictionary } from '@/utils/dictionaries'

@@ -1,6 +1,15 @@
 'use client'
 
 import type { GetUserActivities200UserActivitiesItem } from '@/api/endpoints.schemas'
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { format, formatDistanceToNowStrict } from 'date-fns'
+import { useLayoutContext } from '../_context'
 import {
   ChangeStatusActivity,
   CreateAccountActivity,
@@ -12,25 +21,14 @@ import {
   ReviewActivity,
   WatchEpisodeActivity,
 } from './user-activities'
-import { format, formatDistanceToNowStrict } from 'date-fns'
-import { locale } from '@/utils/date/locale'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
-import { useLayoutContext } from '../_context'
-import { useLanguage } from '@/context/language'
 
-import { Button } from '@plotwist/ui/components/ui/button'
-import { Trash } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { type TouchEvent, useState } from 'react'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   getGetUserActivitiesQueryKey,
   useDeleteUserActivity,
 } from '@/api/user-activities'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
@@ -38,6 +36,8 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { useQueryClient } from '@tanstack/react-query'
+import { Trash } from 'lucide-react'
+import { type TouchEvent, useState } from 'react'
 
 type UserActivityProps = {
   activity: GetUserActivities200UserActivitiesItem

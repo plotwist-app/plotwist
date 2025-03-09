@@ -1,9 +1,9 @@
 'use client'
 
 import { useGetNetworkActivitiesSuspense } from '@/api/user-activities'
+import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { UserActivity } from '../../[username]/_components/user-activity'
-import { useLanguage } from '@/context/language'
 
 export function NetworkActivity() {
   const { user } = useSession()

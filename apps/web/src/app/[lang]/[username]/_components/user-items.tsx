@@ -1,8 +1,8 @@
 import type { UserItemStatus } from '@/types/user-item'
-import { UserItemsList } from './user-items-list'
-import { Suspense } from 'react'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { Suspense } from 'react'
 import { v4 } from 'uuid'
+import { UserItemsList } from './user-items-list'
 
 export type UserItemsProps = { status: UserItemStatus }
 

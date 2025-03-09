@@ -1,12 +1,12 @@
 import type {
-  GetUserActivities200UserActivitiesItemAnyOfOnenine,
-  GetUserActivities200UserActivitiesItemAnyOfFiveeight,
-  GetUserActivities200UserActivitiesItemAnyOfTwoseven,
   GetUserActivities200UserActivitiesItemAnyOf,
-  GetUserActivities200UserActivitiesItemAnyOfOnezero,
+  GetUserActivities200UserActivitiesItemAnyOfFiveeight,
   GetUserActivities200UserActivitiesItemAnyOfFoureight,
-  GetUserActivities200UserActivitiesItemAnyOfThreeseven,
+  GetUserActivities200UserActivitiesItemAnyOfOnenine,
+  GetUserActivities200UserActivitiesItemAnyOfOnezero,
   GetUserActivities200UserActivitiesItemAnyOfSixeight,
+  GetUserActivities200UserActivitiesItemAnyOfThreeseven,
+  GetUserActivities200UserActivitiesItemAnyOfTwoseven,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import {
@@ -15,6 +15,7 @@ import {
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 
+import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import {
   Tooltip,
@@ -23,9 +24,8 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { Link } from 'next-view-transitions'
-import { v4 } from 'uuid'
-import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 import type { PropsWithChildren } from 'react'
+import { v4 } from 'uuid'
 
 export function Username({ children }: PropsWithChildren) {
   const { language } = useLanguage()

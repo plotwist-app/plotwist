@@ -1,17 +1,17 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
 import { Link } from 'next-view-transitions'
+import Image from 'next/image'
 
 import { tmdbImage } from '@/utils/tmdb/image'
 
 import { tmdb } from '@/services/tmdb'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 
-import type { Language } from '@/types/languages'
-import { useUserPreferences } from '@/context/user-preferences'
 import { useLanguage } from '@/context/language'
+import { useUserPreferences } from '@/context/user-preferences'
+import type { Language } from '@/types/languages'
 
 type HeaderPopularMovieProps = {
   language: Language

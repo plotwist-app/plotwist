@@ -24,8 +24,8 @@ import { getGetListsQueryKey } from '@/api/list'
 import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { NoAccountTooltip } from '../no-account-tooltip'
 import { useQueryClient } from '@tanstack/react-query'
+import { NoAccountTooltip } from '../no-account-tooltip'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails

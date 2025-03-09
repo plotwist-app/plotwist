@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { Link } from 'next-view-transitions'
+import Image from 'next/image'
 
 import {
   Avatar,
@@ -16,11 +16,11 @@ import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { locale } from '@/utils/date/locale'
+import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import { format } from 'date-fns'
 import { useState } from 'react'
 import { Likes } from '../likes'
-import { getEpisodeBadge, getReviewHref } from '@/utils/review'
 
 type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem

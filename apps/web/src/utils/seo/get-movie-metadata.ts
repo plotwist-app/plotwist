@@ -1,7 +1,7 @@
 import { tmdb } from '@/services/tmdb'
 
-import type { Metadata } from 'next'
 import type { Language } from '@/types/languages'
+import type { Metadata } from 'next'
 import { tmdbImage } from '../tmdb/image'
 
 import { APP_URL } from '../../../constants'

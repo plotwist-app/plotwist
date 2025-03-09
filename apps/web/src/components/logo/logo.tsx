@@ -2,8 +2,8 @@
 
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import Image from 'next/image'
 import { Link } from 'next-view-transitions'
+import Image from 'next/image'
 
 type LogoProps = { size?: number }
 export const Logo = ({ size = 24 }: LogoProps) => {
