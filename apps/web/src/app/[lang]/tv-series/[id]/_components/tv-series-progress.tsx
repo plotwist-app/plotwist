@@ -5,7 +5,6 @@ import {
   usePostUserEpisodes,
 } from '@/api/user-episodes'
 import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
-import { useQueryClient } from '@tanstack/react-query'
 import { useLanguage } from '@/context/language'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
@@ -34,6 +33,7 @@ import {
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Separator } from '@plotwist/ui/components/ui/separator'
+import { useQueryClient } from '@tanstack/react-query'
 import { isBefore } from 'date-fns'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
 import { useRef } from 'react'

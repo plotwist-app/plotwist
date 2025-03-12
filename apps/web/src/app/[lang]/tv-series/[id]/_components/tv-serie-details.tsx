@@ -4,9 +4,9 @@ import { tmdbImage } from '@/utils/tmdb/image'
 
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
+import { Suspense } from 'react'
 import { TvSerieInfos } from './tv-serie-infos'
 import { TvSerieTabs } from './tv-serie-tabs'
-import { Suspense } from 'react'
 
 type TvSerieDetailsProps = {
   id: number

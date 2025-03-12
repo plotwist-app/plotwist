@@ -1,7 +1,7 @@
 'use client'
 
 import { SUPPORTED_LANGUAGES } from 'languages'
-import { MoonStar, Sun, Monitor } from 'lucide-react'
+import { Monitor, MoonStar, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import {

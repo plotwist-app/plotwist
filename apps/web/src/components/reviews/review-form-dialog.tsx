@@ -43,11 +43,11 @@ import {
 import { Label } from '@plotwist/ui/components/ui/label'
 import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { type PropsWithChildren, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 
 export const reviewFormDialogSchema = (dictionary: Dictionary) =>
   z.object({

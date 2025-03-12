@@ -20,6 +20,7 @@ import {
   CommandList,
 } from '@plotwist/ui/components/ui/command'
 
+import { getUsersSearch } from '@/api/users'
 import { Search } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { v4 } from 'uuid'
@@ -32,7 +33,6 @@ import {
   CommandSearchUser,
 } from '../command-search'
 import { CommandSearchIcon } from './command-search-icon'
-import { getUsersSearch } from '@/api/users'
 
 export const CommandSearch = () => {
   const [open, setOpen] = useState(false)

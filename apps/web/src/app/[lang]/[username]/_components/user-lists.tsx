@@ -6,10 +6,10 @@ import { useGetListsSuspense } from '@/api/list'
 import { ListCard } from '@/components/list-card'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { ListForm } from '../../lists/_components/list-form'
-import { useLayoutContext } from '../_context'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Plus } from 'lucide-react'
+import { ListForm } from '../../lists/_components/list-form'
+import { useLayoutContext } from '../_context'
 
 export const UserLists = () => {
   const { user } = useSession()

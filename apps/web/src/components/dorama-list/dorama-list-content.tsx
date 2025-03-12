@@ -6,11 +6,11 @@ import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { useLanguage } from '@/context/language'
+import { useUserPreferences } from '@/context/user-preferences'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
-import { useUserPreferences } from '@/context/user-preferences'
 
 export const DoramaListContent = () => {
   const { language } = useLanguage()

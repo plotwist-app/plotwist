@@ -3,10 +3,10 @@ import { cn } from '@/lib/utils'
 import { tmdb } from '@/services/tmdb'
 import type { PageProps } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
 import { Biography } from './_biography'
-import type { Metadata } from 'next'
 import { Infos } from './_infos'
 
 type PersonPageProps = PageProps<Record<'id', string>> & PropsWithChildren

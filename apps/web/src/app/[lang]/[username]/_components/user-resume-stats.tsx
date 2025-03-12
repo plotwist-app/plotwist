@@ -1,8 +1,8 @@
 import { getUserIdStats } from '@/api/user-stats'
+import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/utils/dictionaries'
 import NumberFlow from '@number-flow/react'
 import { UserFollows } from './user-follows'
-import { cn } from '@/lib/utils'
 
 type UserResumeStatsProps = { dictionary: Dictionary; userId: string }
 

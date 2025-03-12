@@ -8,9 +8,9 @@ import {
 import { useGetReviews } from '@/api/reviews'
 import { v4 } from 'uuid'
 
+import { useLanguage } from '@/context/language'
 import type { MediaType } from '@/types/media-type'
 import { ReviewFormDialog } from './review-form-dialog'
-import { useLanguage } from '@/context/language'
 
 export type ReviewsProps = {
   tmdbId: number

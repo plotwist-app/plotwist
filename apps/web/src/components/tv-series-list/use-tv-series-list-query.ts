@@ -1,9 +1,9 @@
 import { useLanguage } from '@/context/language'
+import { useUserPreferences } from '@/context/user-preferences'
 import { type DiscoverTvSeriesFilters, tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import type { TvSeriesListVariant } from './tv-series-list.types'
-import { useUserPreferences } from '@/context/user-preferences'
 
 const INITIAL_PAGE = 1
 const MINIMUM_VOTE_COUNT = 200

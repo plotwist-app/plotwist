@@ -7,8 +7,8 @@
     "build:typescript": "turbo build --filter=@plotwist/typescript-config",
     "dev": "dotenv -- turbo dev",
     "test": "turbo test",
-    "format-and-lint": "biome check .",
-    "format-and-lint:fix": "biome check . --write"
+    "biome:check": "biome check --write .",
+    "biome:format": "biome format --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

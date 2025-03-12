@@ -11,8 +11,8 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-import { MovieRelated } from './movie-related'
 import { Suspense } from 'react'
+import { MovieRelated } from './movie-related'
 
 type MovieTabsProps = { language: Language; movie: MovieDetails }
 

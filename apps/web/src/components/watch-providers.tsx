@@ -8,6 +8,8 @@ import { useFormContext } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 
+import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -31,8 +33,6 @@ import {
   PopoverTrigger,
 } from '@plotwist/ui/components/ui/popover'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
 
 type Option = {
   value: number

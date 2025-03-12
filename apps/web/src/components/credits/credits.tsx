@@ -1,8 +1,8 @@
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { CreditCard } from './credit-card'
 import { getDepartmentLabel } from '@/utils/tmdb/department'
+import { CreditCard } from './credit-card'
 
 type BaseCreditsProps = {
   id: number

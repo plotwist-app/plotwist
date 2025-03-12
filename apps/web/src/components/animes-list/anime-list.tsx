@@ -4,9 +4,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { useLanguage } from '@/context/language'
 
-import { AnimeListContent } from './anime-list-content'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { StreamingServicesBadge } from '../streaming-services-badge'
+import { AnimeListContent } from './anime-list-content'
 
 export type AnimeListType = 'tv' | 'movies'
 

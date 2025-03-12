@@ -1,11 +1,11 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useQueryClient } from '@tanstack/react-query'
 
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -28,13 +28,13 @@ import { Textarea } from '@plotwist/ui/components/ui/textarea'
 
 import { useLanguage } from '@/context/language'
 
+import type { GetListById200List } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
 import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
-import type { GetListById200List } from '@/api/endpoints.schemas'
 
 type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
 

@@ -9,9 +9,9 @@ import {
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { Button } from '@plotwist/ui/components/ui/button'
+import { useQueryClient } from '@tanstack/react-query'
 import { Link } from 'next-view-transitions'
 import { useRouter } from 'next/navigation'
-import { useQueryClient } from '@tanstack/react-query'
 
 type FollowButtonProps = { userId: string }
 

@@ -5,10 +5,10 @@ import { Banner } from '@/components/banner'
 import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 
+import { Suspense } from 'react'
 import { MovieCollection } from './movie-collection'
 import { MovieInfos } from './movie-infos'
 import { MovieTabs } from './movie-tabs'
-import { Suspense } from 'react'
 
 type MovieDetailsProps = {
   id: number

@@ -32,6 +32,7 @@ import {
   getDefaultValues,
 } from './tv-series-list-filters.utils'
 
+import { useUserPreferences } from '@/context/user-preferences'
 import {
   Drawer,
   DrawerClose,
@@ -41,9 +42,8 @@ import {
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
 import type { TvSeriesListFiltersFormValues } from '.'
-import { WatchRegion } from '../watch-region'
 import { WatchProviders } from '../watch-providers'
-import { useUserPreferences } from '@/context/user-preferences'
+import { WatchRegion } from '../watch-region'
 
 export const TvSeriesListFilters = () => {
   const [open, setOpen] = useState(false)

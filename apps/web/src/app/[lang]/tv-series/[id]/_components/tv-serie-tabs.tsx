@@ -13,9 +13,9 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import { Suspense } from 'react'
 import { TvSerieRelated } from './tv-serie-related'
 import { TvSerieSeasons } from './tv-serie-seasons'
-import { Suspense } from 'react'
 
 type TvSerieTabsProps = {
   tvSerie: TvSerieDetails

@@ -20,12 +20,12 @@ import {
   tmdb,
 } from '@/services/tmdb'
 
+import type { MediaType } from '@/types/media-type'
 import {
   ListCommandMovies,
   ListCommandMoviesSkeleton,
 } from './list-command-movies'
 import { ListCommandTv, ListCommandTvSkeleton } from './list-command-tv'
-import type { MediaType } from '@/types/media-type'
 
 export type ListCommandProps = {
   items: Array<{ tmdbId: number; id: string }>

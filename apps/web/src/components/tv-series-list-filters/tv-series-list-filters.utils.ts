@@ -1,7 +1,7 @@
+import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { formatDateToURL } from '@/utils/date/format-date-to-url'
 import type { ReadonlyURLSearchParams } from 'next/navigation'
 import type { TvSeriesListFiltersFormValues } from '.'
-import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 
 export const formatValueForQueryString = (
   key: string,

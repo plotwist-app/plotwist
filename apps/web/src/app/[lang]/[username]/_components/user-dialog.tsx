@@ -25,11 +25,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useState } from 'react'
 import { SocialLinksForm } from './social-links-form'
 import { UserForm } from './user-form'
 import { UserPreferences } from './user-preferences'
-import { useQueryState } from 'nuqs'
 
 type UserDialogProps = PropsWithChildren & {
   user: GetUsersUsername200User

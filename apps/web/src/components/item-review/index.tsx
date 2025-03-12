@@ -3,12 +3,12 @@
 import { useGetReviewSuspense } from '@/api/reviews'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import { cn } from '@/lib/utils'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Star } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { Suspense } from 'react'
 import { ReviewFormDialog } from '../reviews/review-form-dialog'
-import { cn } from '@/lib/utils'
 
 function ItemReviewContent() {
   const pathname = usePathname()

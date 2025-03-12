@@ -32,16 +32,16 @@ import {
 
 import { useLanguage } from '@/context/language'
 
+import { useUserPreferences } from '@/context/user-preferences'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { WatchProviders } from '../watch-providers'
+import { WatchRegion } from '../watch-region'
 import type { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import {
   buildQueryStringFromValues,
   getDefaultValues,
 } from './movies-list-filters.utils'
 import { Filters, SortBy } from './tabs'
-import { WatchRegion } from '../watch-region'
-import { WatchProviders } from '../watch-providers'
-import { useUserPreferences } from '@/context/user-preferences'
 
 export const MoviesListFilters = () => {
   const [open, setOpen] = useState(false)

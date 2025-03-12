@@ -1,7 +1,7 @@
 'use client'
 
-import { DoramaListContent } from './dorama-list-content'
 import { StreamingServicesBadge } from '../streaming-services-badge'
+import { DoramaListContent } from './dorama-list-content'
 
 export const DoramaList = () => {
   return (

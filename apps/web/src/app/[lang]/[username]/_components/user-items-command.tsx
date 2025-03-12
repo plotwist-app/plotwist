@@ -9,11 +9,11 @@ import {
 import { ListCommand } from '@/components/list-command'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
-import { useQueryClient } from '@tanstack/react-query'
 
 type UserItemsCommandProps = {
   userId: string

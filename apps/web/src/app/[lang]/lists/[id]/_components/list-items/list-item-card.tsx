@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { ListItemActions } from './list-item-actions'
-import { Link } from 'next-view-transitions'
 
 export type ListItemCardProps = {
   listItem: GetListItemsByListId200Item

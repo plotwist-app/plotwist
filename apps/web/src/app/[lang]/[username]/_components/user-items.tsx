@@ -1,9 +1,8 @@
-import { UserItemsList } from './user-items-list'
-import { Suspense } from 'react'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { Suspense } from 'react'
 import { v4 } from 'uuid'
+import { UserItemsList } from './user-items-list'
 import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
-
 export type UserItemsProps = {
   filters: CollectionFiltersFormValues
 }
