@@ -8,12 +8,12 @@ export function AnualSummary() {
   if (!user) return null
 
   const { data } = useGetUserActivitiesAnualSummarySuspense(user.id, {
-    year: new Date().getFullYear().toString(),
+    year: '2025',
   })
 
   return (
     <div className="">
-      <Heatmap data={data.userActivities} />
+      <Heatmap data={data.userActivities} year={2025} />
     </div>
   )
 }

@@ -12,7 +12,8 @@ import { v4 } from 'uuid'
 import { UserActivity } from './_components/user-activity'
 import { useLayoutContext } from './_context'
 import { AnualSummary } from './_components/anual-summary'
-
+import { Separator } from '@plotwist/ui/components/ui/separator'
+import { Suspense } from 'react'
 export default function ActivityPage() {
   const { userId } = useLayoutContext()
   const { language } = useLanguage()
@@ -51,7 +52,11 @@ export default function ActivityPage() {
   return (
     <>
       <div className="space-y-4">
-        <AnualSummary />
+        <Suspense fallback={<Skeleton className="w-full h-[100px]" />}>
+          <AnualSummary />
+        </Suspense>
+
+        <Separator />
 
         {flatData?.map(activity => (
           <UserActivity key={activity.id} activity={activity} />
