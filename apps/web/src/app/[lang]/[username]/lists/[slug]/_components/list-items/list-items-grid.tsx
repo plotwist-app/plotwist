@@ -12,7 +12,6 @@ import { useLanguage } from '@/context/language'
 import { useListMode } from '@/context/list-mode'
 import { cn } from '@/lib/utils'
 import { GripVertical, Plus } from 'lucide-react'
-import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { ListItemCard } from './list-item-card'
@@ -26,11 +25,11 @@ type ListItem = GetListItemsByListId200Item
 
 type ListItemsGridProps = {
   listItems: ListItem[]
+  listId: string
 }
 
-export const ListItemsGrid = ({ listItems }: ListItemsGridProps) => {
+export const ListItemsGrid = ({ listItems, listId }: ListItemsGridProps) => {
   const { mode } = useListMode()
-  const listId = String(useParams().id)
 
   const postListItem = usePostListItem()
   const deleteListItem = useDeleteListItemId()

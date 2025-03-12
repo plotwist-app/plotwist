@@ -62,6 +62,8 @@ export default async function Layout(props: UserPageProps) {
   const headersList = await headers()
   const headersURL = headersList.get('x-current-path') || ''
 
+  console.log({ headersURL })
+
   if (!user) {
     redirect(`/${lang}/home`)
   }

@@ -35,16 +35,19 @@ import {
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
+import { useSession } from '@/context/session'
 
 type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)
   const { dictionary, language } = useLanguage()
-  const { push, refresh } = useRouter()
+  const { push } = useRouter()
+
   const createList = usePostList()
   const editList = usePutListId()
   const queryClient = useQueryClient()
+  const { user } = useSession()
 
   const form = useForm<ListFormValues>({
     resolver: zodResolver(listFormSchema(dictionary)),
@@ -60,9 +63,8 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
       return editList.mutateAsync(
         { data: values, id: list.id },
         {
-          onSuccess: async () => {
-            refresh()
-
+          onSuccess: async ({ list: { slug } }) => {
+            push(`/${language}/${user?.username}/lists/${slug}`)
             setOpen(false)
             toast.success(dictionary.list_edited_successfully)
           },

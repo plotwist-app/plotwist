@@ -48,7 +48,6 @@ export default function ActivityPage() {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
   const flatData = data?.pages.flatMap(page => page.userActivities)
-  const isOwner = session.user?.id === userId
 
   return (
     <>
