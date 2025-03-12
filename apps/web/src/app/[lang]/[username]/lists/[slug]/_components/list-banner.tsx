@@ -1,6 +1,6 @@
 'use client'
 
-import type { GetListBySlug200List } from '@/api/endpoints.schemas'
+import type { GetListById200List } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, usePatchListBanner } from '@/api/list'
 import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 type ListBannerProps = {
-  list: GetListBySlug200List
+  list: GetListById200List
 }
 
 export function ListBanner({ list }: ListBannerProps) {

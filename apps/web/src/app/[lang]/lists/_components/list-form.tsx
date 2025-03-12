@@ -36,6 +36,7 @@ import {
 } from '@plotwist/ui/components/ui/radio-group'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
 import { useSession } from '@/context/session'
+import { AxiosError } from 'axios'
 
 type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
 
@@ -68,6 +69,18 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
             setOpen(false)
             toast.success(dictionary.list_edited_successfully)
           },
+
+          onError: error => {
+            if (error instanceof AxiosError) {
+              if (
+                error.response?.data.message === 'List slug already exists.'
+              ) {
+                return form.setError('title', {
+                  message: dictionary.list_slug_already_exists,
+                })
+              }
+            }
+          },
         }
       )
     }
@@ -91,7 +104,15 @@ export const ListForm = ({ trigger, list }: ListFormProps) => {
           })
         },
 
-        onError: () => {
+        onError: error => {
+          if (error instanceof AxiosError) {
+            if (error.response?.data.message === 'List slug already exists.') {
+              return form.setError('title', {
+                message: dictionary.list_slug_already_exists,
+              })
+            }
+          }
+
           toast.error(dictionary.unable_to_create_list)
         },
       }

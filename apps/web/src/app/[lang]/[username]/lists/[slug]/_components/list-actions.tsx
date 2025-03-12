@@ -1,6 +1,6 @@
 'use client'
 
-import type { GetListBySlug200List } from '@/api/endpoints.schemas'
+import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
 import { useGetListProgress } from '@/api/list'
 import { Likes } from '@/components/likes'
@@ -45,7 +45,7 @@ const Action = {
 }
 
 type ListActionsProps = {
-  list: GetListBySlug200List
+  list: GetListById200List
 }
 
 export function ListActions({ list }: ListActionsProps) {

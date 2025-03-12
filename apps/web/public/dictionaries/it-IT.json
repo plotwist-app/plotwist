@@ -837,5 +837,6 @@
   "community_badge": "✨ Fai parte di una comunità di +400 utenti",
   "perfect_place_for_watching": "Il posto perfetto per chi guarda",
   "everything": "tutto",
-  "manage_rate_discover": "Gestisci, valuta, scopri e condividi i tuoi contenuti preferiti. Crea liste, ricevi consigli e tieni traccia di tutto ciò che hai guardato."
+  "manage_rate_discover": "Gestisci, valuta, scopri e condividi i tuoi contenuti preferiti. Crea liste, ricevi consigli e tieni traccia di tutto ciò che hai guardato.",
+  "list_slug_already_exists": "Hai già una lista con questo nome."
 }

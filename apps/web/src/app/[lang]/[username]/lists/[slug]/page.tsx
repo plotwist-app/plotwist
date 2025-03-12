@@ -71,7 +71,7 @@ export default async function Page(props: ListPageProps) {
   return (
     <ListModeContextProvider mode={mode}>
       <div className="mx-auto max-w-6xl space-y-4 pb-16  min-h-screen">
-        <ListBanner list={list} />
+        <ListBanner list={listById} />
 
         <div className="grid grid-cols-1 gap-y-8 px-4 lg:grid-cols-3 lg:gap-x-16 lg:p-0">
           <div className="col-span-2 space-y-4">

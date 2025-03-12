@@ -836,5 +836,6 @@
   "perfect_place_for_watching": "The perfect place for who watch",
   "everything": "everything",
   "manage_rate_discover": "Manage, rate, discover, and share your favorite content. Create lists, receive recommendations, and keep track of everything you've watched.",
-  "start_now": "Start now"
+  "start_now": "Start now",
+  "list_slug_already_exists": "You already have a list with this name."
 }

@@ -38,6 +38,7 @@ import type {
   PatchListBannerBody,
   PostList201,
   PostList404,
+  PostList409,
   PostListBody,
   PutListId200,
   PutListId404,
@@ -66,7 +67,7 @@ export const postList = (
   
 
 
-export const getPostListMutationOptions = <TError = PostList404,
+export const getPostListMutationOptions = <TError = PostList404 | PostList409,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
@@ -87,9 +88,9 @@ const {mutation: mutationOptions} = options ?? {};
 
     export type PostListMutationResult = NonNullable<Awaited<ReturnType<typeof postList>>>
     export type PostListMutationBody = PostListBody
-    export type PostListMutationError = PostList404
+    export type PostListMutationError = PostList404 | PostList409
 
-    export const usePostList = <TError = PostList404,
+    export const usePostList = <TError = PostList404 | PostList409,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postList>>, TError,{data: PostListBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof postList>>,

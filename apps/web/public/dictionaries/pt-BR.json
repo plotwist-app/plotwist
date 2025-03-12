@@ -839,5 +839,6 @@
   "perfect_place_for_watching": "O lugar perfeito para quem assiste de",
   "everything": "tudo",
   "manage_rate_discover": "Gerencie, avalie, descubra e compartilhe seus conteúdos favoritos. Crie listas, receba recomendações e acompanhe tudo o que já assistiu.",
-  "start_now": "Comece agora"
+  "start_now": "Comece agora",
+  "list_slug_already_exists": "Você já possui uma lista com este nome."
 }
