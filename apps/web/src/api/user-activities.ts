@@ -32,6 +32,8 @@ import type {
   GetNetworkActivities200,
   GetNetworkActivitiesParams,
   GetUserActivities200,
+  GetUserActivitiesAnualSummary200,
+  GetUserActivitiesAnualSummaryParams,
   GetUserActivitiesParams
 } from './endpoints.schemas'
 import { axiosInstance } from '../services/axios-instance';
@@ -309,6 +311,154 @@ export function useGetNetworkActivitiesSuspense<TData = Awaited<ReturnType<typeo
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetNetworkActivitiesSuspenseQueryOptions(params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Get user activities anual summary
+ */
+export const getUserActivitiesAnualSummary = (
+    userId: string,
+    params: GetUserActivitiesAnualSummaryParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<GetUserActivitiesAnualSummary200>(
+      {url: `/user/${userId}/activities/anual-summary`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetUserActivitiesAnualSummaryQueryKey = (userId: string,
+    params: GetUserActivitiesAnualSummaryParams,) => {
+    return [`/user/${userId}/activities/anual-summary`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetUserActivitiesAnualSummaryQueryOptions = <TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserActivitiesAnualSummaryQueryKey(userId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>> = ({ signal }) => getUserActivitiesAnualSummary(userId,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserActivitiesAnualSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>>
+export type GetUserActivitiesAnualSummaryQueryError = unknown
+
+
+export function useGetUserActivitiesAnualSummary<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserActivitiesAnualSummary<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserActivitiesAnualSummary<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUserActivitiesAnualSummary<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserActivitiesAnualSummaryQueryOptions(userId,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetUserActivitiesAnualSummarySuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserActivitiesAnualSummaryQueryKey(userId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>> = ({ signal }) => getUserActivitiesAnualSummary(userId,params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserActivitiesAnualSummarySuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>>
+export type GetUserActivitiesAnualSummarySuspenseQueryError = unknown
+
+
+export function useGetUserActivitiesAnualSummarySuspense<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserActivitiesAnualSummarySuspense<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserActivitiesAnualSummarySuspense<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+
+export function useGetUserActivitiesAnualSummarySuspense<TData = Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError = unknown>(
+ userId: string,
+    params: GetUserActivitiesAnualSummaryParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserActivitiesAnualSummary>>, TError, TData>>, }
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserActivitiesAnualSummarySuspenseQueryOptions(userId,params,options)
 
   const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 

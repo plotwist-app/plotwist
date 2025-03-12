@@ -5,18 +5,17 @@ import {
   useGetUserActivitiesInfinite,
 } from '@/api/user-activities'
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
 import { UserActivity } from './_components/user-activity'
 import { useLayoutContext } from './_context'
+import { AnualSummary } from './_components/anual-summary'
 
 export default function ActivityPage() {
   const { userId } = useLayoutContext()
   const { language } = useLanguage()
-  const session = useSession()
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } =
     useGetUserActivitiesInfinite(
@@ -48,11 +47,12 @@ export default function ActivityPage() {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
   const flatData = data?.pages.flatMap(page => page.userActivities)
-  const isOwner = session.user?.id === userId
 
   return (
     <>
       <div className="space-y-4">
+        <AnualSummary />
+
         {flatData?.map(activity => (
           <UserActivity key={activity.id} activity={activity} />
         ))}
