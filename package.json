@@ -17,9 +17,9 @@
     "turbo": "2.4.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=23"
   },
-  "packageManager": "pnpm@8.0.0",
+  "packageManager": "pnpm@10.0.0",
   "resolutions": {
     "react-is": "^19.0.0-beta-26f2496093-20240514"
   }
