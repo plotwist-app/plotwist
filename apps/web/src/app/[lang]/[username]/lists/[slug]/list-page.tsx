@@ -1,58 +1,33 @@
-import { getListById } from '@/api/list'
-import { verifySession } from '@/app/lib/dal'
+'use client'
+
+import { useGetListBySlugSuspense } from '@/api/list'
+import { useLayoutContext } from '../../_context'
+import { ListPrivate } from './_components/list-private'
 import { ListModeContextProvider } from '@/context/list-mode'
-import type { PageProps } from '@/types/languages'
+import { useSession } from '@/context/session'
+import { UserResume } from './_components/user-resume'
+import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Pencil } from 'lucide-react'
-import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { ListForm } from '../_components/list-form'
+import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
+import { ListItems } from './_components/list-items'
 import { ListActions } from './_components/list-actions'
 import { ListBanner } from './_components/list-banner'
-import { ListItems } from './_components/list-items'
-import { ListItemsSkeleton } from './_components/list-items/list-items-skeleton'
-import { ListPrivate } from './_components/list-private'
-import { UserResume } from './_components/user-resume'
 
-type ListPageProps = PageProps<{ id: string }>
-
-export async function generateMetadata(
-  props: ListPageProps
-): Promise<Metadata> {
-  const params = await props.params
-  const { list } = await getListById(params.id)
-
-  const title = list.title
-  const description = list.description || ''
-
-  const images = list.bannerUrl ? [list.bannerUrl] : undefined
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      siteName: 'Plotwist',
-      images: images,
-    },
-    twitter: {
-      title,
-      description,
-      images: images,
-      card: 'summary_large_image',
-    },
-  }
+type ListPageComponent = {
+  slug: string
 }
 
-export default async function ListPage({ params }: ListPageProps) {
-  const { id } = await params
+export function ListPageComponent({ slug }: ListPageComponent) {
+  const { userId } = useLayoutContext()
+  const { user } = useSession()
 
-  const session = await verifySession()
-  const { list } = await getListById(id)
+  const {
+    data: { list },
+  } = useGetListBySlugSuspense({ slug, userId })
 
-  const mode = session?.user.id === list.userId ? 'EDIT' : 'SHOW'
-
+  const mode = user?.id === list.userId ? 'EDIT' : 'SHOW'
   if (list.visibility === 'PRIVATE' && mode === 'SHOW') return <ListPrivate />
 
   return (
@@ -87,8 +62,8 @@ export default async function ListPage({ params }: ListPageProps) {
               </p>
             </div>
 
-            <Suspense fallback={<ListItemsSkeleton />} key={id}>
-              <ListItems listId={id} />
+            <Suspense fallback={<ListItemsSkeleton />} key={list.id}>
+              <ListItems listId={list.id} />
             </Suspense>
           </div>
 

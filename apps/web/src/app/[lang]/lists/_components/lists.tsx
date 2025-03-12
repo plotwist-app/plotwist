@@ -14,7 +14,7 @@ const LIMIT = 3
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
 
   if (!user) {

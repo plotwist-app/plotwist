@@ -2705,6 +2705,7 @@ export type PatchListBanner200List = {
   /** @nullable */
   description: string | null;
   id: string;
+  slug: string;
   title: string;
   userId: string;
   visibility: PatchListBanner200ListVisibility;
@@ -2722,19 +2723,19 @@ export type PatchListBannerBody = {
 /**
  * List not found.
  */
-export type GetListById404 = {
+export type GetListBySlug404 = {
   message: string;
 };
 
-export type GetListById200 = {
-  list: GetListById200List;
+export type GetListBySlug200 = {
+  list: GetListBySlug200List;
 };
 
-export type GetListById200ListVisibility = typeof GetListById200ListVisibility[keyof typeof GetListById200ListVisibility];
+export type GetListBySlug200ListVisibility = typeof GetListBySlug200ListVisibility[keyof typeof GetListBySlug200ListVisibility];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetListById200ListVisibility = {
+export const GetListBySlug200ListVisibility = {
   PUBLIC: 'PUBLIC',
   NETWORK: 'NETWORK',
   PRIVATE: 'PRIVATE',
@@ -2743,14 +2744,14 @@ export const GetListById200ListVisibility = {
 /**
  * @nullable
  */
-export type GetListById200ListUserLike = {
+export type GetListBySlug200ListUserLike = {
   createdAt: string;
   entityId: string;
   id: string;
   userId: string;
 } | null;
 
-export type GetListById200List = {
+export type GetListBySlug200List = {
   /** @nullable */
   bannerUrl: string | null;
   createdAt: string;
@@ -2758,11 +2759,17 @@ export type GetListById200List = {
   description: string | null;
   id: string;
   likeCount: number;
+  slug: string;
   title: string;
   userId: string;
   /** @nullable */
-  userLike: GetListById200ListUserLike;
-  visibility: GetListById200ListVisibility;
+  userLike: GetListBySlug200ListUserLike;
+  visibility: GetListBySlug200ListVisibility;
+};
+
+export type GetListBySlugParams = {
+slug: string;
+userId: string;
 };
 
 /**
@@ -2789,6 +2796,7 @@ export type PutListId200List = {
   /** @nullable */
   description: string | null;
   id: string;
+  slug: string;
   title: string;
   userId: string;
   visibility: PutListId200ListVisibility;
@@ -2811,6 +2819,7 @@ export const PutListIdBodyVisibility = {
 export type PutListIdBody = {
   /** @nullable */
   description?: string | null;
+  slug: string;
   title: string;
   visibility: PutListIdBodyVisibility;
 };
@@ -2883,6 +2892,7 @@ export type GetLists200ListsItem = {
   id: string;
   items: GetLists200ListsItemItemsItem[];
   likeCount: number;
+  slug: string;
   title: string;
   user: GetLists200ListsItemUser;
   userId: string;
@@ -2930,6 +2940,7 @@ export type PostList201List = {
   /** @nullable */
   description: string | null;
   id: string;
+  slug: string;
   title: string;
   userId: string;
   visibility: PostList201ListVisibility;

@@ -70,6 +70,18 @@ export default async function Layout(props: UserPageProps) {
     redirect(`/${lang}#pricing`)
   }
 
+  if (headersURL.includes('lists/')) {
+    return (
+      <LayoutProvider
+        userId={user.id}
+        avatarUrl={user.avatarUrl}
+        username={user.username}
+      >
+        {children}
+      </LayoutProvider>
+    )
+  }
+
   const { socialLinks } = await getSocialLinks({ userId: user.id })
 
   return (

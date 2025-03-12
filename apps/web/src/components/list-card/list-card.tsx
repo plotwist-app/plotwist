@@ -43,7 +43,7 @@ export const ListCard = ({ list }: ListCardProps) => {
 
   const isOwner = user?.id === list.userId
 
-  const href = `/${language}/lists/${list.id}`
+  const href = `/${language}/${list.user.username}/lists/${list.slug}`
 
   return (
     <>
