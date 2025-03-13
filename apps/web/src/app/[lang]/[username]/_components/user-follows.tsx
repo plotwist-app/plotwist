@@ -23,9 +23,8 @@ import {
 } from '@plotwist/ui/components/ui/drawer'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { Link } from 'next-view-transitions'
-import { type PropsWithChildren, useEffect } from 'react'
+import { type PropsWithChildren, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
 
@@ -45,7 +44,7 @@ export function UserFollows({
   const { ref, inView } = useInView({
     threshold: 0.1,
   })
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useGetFollowersInfinite(
@@ -77,6 +76,22 @@ export function UserFollows({
       fetchNextPage()
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  useEffect(() => {
+    const checkMediaQuery = () => {
+      const mediaQuery = window.matchMedia('(min-width: 768px)')
+      setIsDesktop(mediaQuery.matches)
+
+      const handleChange = (e: MediaQueryListEvent) => {
+        setIsDesktop(e.matches)
+      }
+
+      mediaQuery.addEventListener('change', handleChange)
+      return () => mediaQuery.removeEventListener('change', handleChange)
+    }
+
+    checkMediaQuery()
+  }, [])
 
   const content = (
     <ScrollArea className="h-[500px] px-4">

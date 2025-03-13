@@ -90,7 +90,13 @@ export const CollectionFilters = ({
                   </Button>
                 </DrawerClose>
 
-                <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    methods.handleSubmit(onSubmit)()
+                    setOpen(false)
+                  }}
+                >
                   {dictionary.collection_filters.actions.save_changes}
                 </Button>
               </DrawerFooter>
