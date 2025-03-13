@@ -444,6 +444,9 @@
           "TV_SHOW": "TV Show",
           "MOVIE": "Movie"
         }
+      },
+      "only_items_without_review_field": {
+        "label": "Show only items without review"
       }
     },
     "sort_by": {

@@ -25,6 +25,7 @@ export default function CollectionPage() {
     rating: [0, 5],
     mediaType: ['TV_SHOW', 'MOVIE'],
     orderBy: 'addedAt.desc',
+    onlyItemsWithoutReview: false,
   })
 
   const options = [

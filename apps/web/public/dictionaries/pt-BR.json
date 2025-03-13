@@ -445,6 +445,9 @@
           "TV_SHOW": "Série de TV",
           "MOVIE": "Filme"
         }
+      },
+      "only_items_without_review_field": {
+        "label": "Mostrar apenas itens sem avaliação"
       }
     },
     "sort_by": {

@@ -31,6 +31,7 @@ export function UserItemsList({ filters }: UserItemsProps) {
     mediaType: filters.mediaType,
     orderBy: filters.orderBy,
     rating: filters.rating.map(r => r.toString()),
+    onlyItemsWithoutReview: filters.onlyItemsWithoutReview,
   }
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } =

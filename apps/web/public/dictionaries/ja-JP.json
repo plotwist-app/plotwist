@@ -446,6 +446,9 @@
           "TV_SHOW": "テレビ番組",
           "MOVIE": "映画"
         }
+      },
+      "only_items_without_review_field": {
+        "label": "レビューがないものを表示"
       }
     },
     "sort_by": {

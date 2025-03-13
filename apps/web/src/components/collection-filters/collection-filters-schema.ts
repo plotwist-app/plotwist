@@ -13,6 +13,7 @@ export const collectionFiltersSchema = z.object({
     'rating.desc',
     'rating.asc',
   ]),
+  onlyItemsWithoutReview: z.boolean().default(false),
 })
 
 export type CollectionFiltersFormValues = z.infer<

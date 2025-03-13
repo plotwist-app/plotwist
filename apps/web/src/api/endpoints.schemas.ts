@@ -1306,7 +1306,7 @@ export type GetUserItemsBody = {
   rating?: string[];
   mediaType: GetUserItemsBodyMediaTypeItem[];
   orderBy: GetUserItemsBodyOrderBy;
-  onlyShowItemsWithoutReview?: boolean;
+  onlyItemsWithoutReview?: boolean;
   language?: GetUserItemsBodyLanguage;
   cursor?: string;
   pageSize?: string;
