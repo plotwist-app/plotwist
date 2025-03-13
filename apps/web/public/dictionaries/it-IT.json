@@ -214,7 +214,7 @@
     "title": "Titolo",
     "type": "Tipo",
     "overview": "Panoramica",
-    "addedAt": "Aggiunto il",
+    "added_at": "Aggiunto il",
     "status": "Stato",
     "no_results": "Nessun risultato trovato.",
     "clear_filters": "Cancella filtri"
@@ -232,7 +232,7 @@
     "index": "Indice",
     "title": "Titolo",
     "type": "Tipo",
-    "addedAt": "Aggiunto il",
+    "added_at": "Aggiunto il",
     "status": "Stato",
     "actions": "Azioni",
     "movie": "Film",

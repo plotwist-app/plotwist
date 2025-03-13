@@ -205,7 +205,7 @@
     "title": "Titel",
     "type": "Typ",
     "overview": "Übersicht",
-    "addedAt": "Hinzugefügt am",
+    "added_at": "Hinzugefügt am",
     "status": "Status",
     "no_results": "Keine Ergebnisse gefunden.",
     "clear_filters": "Filter löschen"
@@ -223,7 +223,7 @@
     "index": "Index",
     "title": "Titel",
     "type": "Typ",
-    "addedAt": "Hinzugefügt am",
+    "added_at": "Hinzugefügt am",
     "status": "Status",
     "actions": "Aktionen",
     "movie": "Film",

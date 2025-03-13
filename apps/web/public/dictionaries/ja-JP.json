@@ -214,7 +214,7 @@
     "title": "タイトル",
     "type": "タイプ",
     "overview": "概要",
-    "addedAt": "追加日",
+    "added_at": "追加日",
     "status": "ステータス",
     "no_results": "結果が見つかりませんでした。",
     "clear_filters": "フィルターをクリア"
@@ -232,7 +232,7 @@
     "index": "インデックス",
     "title": "タイトル",
     "type": "タイプ",
-    "addedAt": "追加日",
+    "added_at": "追加日",
     "status": "ステータス",
     "actions": "アクション",
     "movie": "映画",

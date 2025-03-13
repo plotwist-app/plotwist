@@ -14,6 +14,7 @@ import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import type { UserItemsProps } from './user-items'
+import type { PutUserItemBodyStatus } from '@/api/endpoints.schemas'
 
 type UserItemsCommandProps = {
   userId: string
@@ -38,9 +39,10 @@ export function UserItemsCommand({ filters, userId }: UserItemsCommandProps) {
     NonNullable<UserItemsCommandProps['filters']['status']>,
     Record<'add' | 'remove', string>
   > = {
+    // check that later
     ALL: {
-      add: 'aa',
-      remove: 'aa',
+      add: 'Item added to collection',
+      remove: 'Item removed from collection',
     },
     WATCHED: {
       add: dictionary.watched_added,
@@ -83,7 +85,13 @@ export function UserItemsCommand({ filters, userId }: UserItemsCommandProps) {
       items={items}
       onAdd={(tmdbId, mediaType) =>
         add.mutate(
-          { data: { tmdbId, mediaType, status } },
+          {
+            data: {
+              tmdbId,
+              mediaType,
+              status: status as PutUserItemBodyStatus,
+            },
+          },
           {
             onSuccess: async () => {
               await invalidateQueries()

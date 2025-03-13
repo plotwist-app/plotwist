@@ -212,7 +212,7 @@
     "title": "Title",
     "type": "Type",
     "overview": "Overview",
-    "addedAt": "Added at",
+    "added_at": "Added at",
     "status": "Status",
     "no_results": "No results found.",
     "clear_filters": "Clear filters"
@@ -230,7 +230,7 @@
     "index": "Index",
     "title": "Title",
     "type": "Type",
-    "addedAt": "Added at",
+    "added_at": "Added at",
     "status": "Status",
     "actions": "Actions",
     "movie": "Movie",
