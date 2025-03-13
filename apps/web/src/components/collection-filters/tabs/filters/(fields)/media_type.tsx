@@ -2,9 +2,9 @@ import type { CollectionFiltersFormValues } from '@/components/collection-filter
 import { useLanguage } from '@/context/language'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
+  FormControl,
   FormItem,
   FormLabel,
-  FormControl,
 } from '@plotwist/ui/components/ui/form'
 import { useFormContext } from 'react-hook-form'
 

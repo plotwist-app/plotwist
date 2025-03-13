@@ -2,9 +2,9 @@ import type { CollectionFiltersFormValues } from '@/components/collection-filter
 import { useLanguage } from '@/context/language'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 import {
+  FormControl,
   FormItem,
   FormLabel,
-  FormControl,
 } from '@plotwist/ui/components/ui/form'
 import { useFormContext } from 'react-hook-form'
 
