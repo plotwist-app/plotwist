@@ -67,7 +67,12 @@ export default function CollectionPage() {
         <CollectionFilters
           status={statusQueryState as UserItemStatus}
           filters={filters}
-          setFilters={setFilters}
+          setFilters={newFilters => {
+            setFilters({
+              ...newFilters,
+              status: statusQueryState as UserItemStatus,
+            })
+          }}
         />
 
         {options.map(({ status, label, icon: Icon }) => (

@@ -59,7 +59,9 @@ export function UserItemsList({ filters }: UserItemsProps) {
 
   return (
     <>
-      {isOwner && <UserItemsCommand filters={filters} userId={userId} />}
+      {isOwner && filters.status !== 'ALL' && (
+        <UserItemsCommand filters={filters} userId={userId} />
+      )}
 
       {flatData?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link
