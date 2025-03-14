@@ -11,19 +11,13 @@ import { v4 } from 'uuid'
 
 export const RatingField = () => {
   const {
-    dictionary: {
-      collection_filters: {
-        filters: {
-          rating_field: { label },
-        },
-      },
-    },
+    dictionary: { collection_filters },
   } = useLanguage()
   const { setValue, watch } = useFormContext<CollectionFiltersFormValues>()
 
   return (
     <FormItem>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>{collection_filters.rating_field_label}</FormLabel>
 
       <FormControl>
         <div className="space-y-2">

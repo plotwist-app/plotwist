@@ -430,41 +430,25 @@
   },
   "collection_filters": {
     "title": "Filter your collection",
-    "tabs": {
-      "filters": "Filters",
-      "order": "Sort"
+    "filters_tab": "Filters",
+    "order_tab": "Order",
+    "rating_field_label": "Rating",
+    "media_type_field_label": "Type",
+    "media_type_TV_SHOW": "TV Show",
+    "media_type_MOVIE": "Movie",
+    "only_items_without_review_field_label": "Show only items without review",
+    "sort_by_label": "Sort by",
+    "sort_by_placeholder": "Sort by",
+    "sort_by_options": {
+      "addedAt.desc": "Latest Added",
+      "addedAt.asc": "Oldest Added",
+      "updatedAt.desc": "Latest Updated",
+      "updatedAt.asc": "Oldest Updated",
+      "rating.desc": "Highest Rated",
+      "rating.asc": "Lowest Rated"
     },
-    "filters": {
-      "rating_field": {
-        "label": "Rating"
-      },
-      "media_type_field": {
-        "label": "Type",
-        "options": {
-          "TV_SHOW": "TV Show",
-          "MOVIE": "Movie"
-        }
-      },
-      "only_items_without_review_field": {
-        "label": "Show only items without review"
-      }
-    },
-    "sort_by": {
-      "label": "Sort by",
-      "placeholder": "Sort by",
-      "options": {
-        "addedAt.desc": "Latest Added",
-        "addedAt.asc": "Oldest Added",
-        "updatedAt.desc": "Latest Updated",
-        "updatedAt.asc": "Oldest Updated",
-        "rating.desc": "Highest Rated",
-        "rating.asc": "Lowest Rated"
-      }
-    },
-    "actions": {
-      "close": "Close",
-      "save_changes": "Save Changes"
-    }
+    "close_button": "Close",
+    "save_changes_button": "Save Changes"
   },
   "list_command": {
     "search_placeholder": "Search for anything...",

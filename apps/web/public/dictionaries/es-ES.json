@@ -432,41 +432,25 @@
   },
   "collection_filters": {
     "title": "Filtrar tu colección",
-    "tabs": {
-      "filters": "Filtros",
-      "order": "Ordenar"
+    "filters_tab": "Filtros",
+    "order_tab": "Ordenar",
+    "rating_field_label": "Calificación",
+    "media_type_field_label": "Tipo",
+    "media_type_TV_SHOW": "Serie de TV",
+    "media_type_MOVIE": "Película",
+    "only_items_without_review_field_label": "Mostrar solo elementos sin reseña",
+    "sort_by_label": "Ordenar por",
+    "sort_by_placeholder": "Ordenar por",
+    "sort_by_options": {
+      "addedAt.desc": "Añadidos recientemente",
+      "addedAt.asc": "Añadidos primero",
+      "updatedAt.desc": "Actualizados recientemente",
+      "updatedAt.asc": "Actualizados primero",
+      "rating.desc": "Mejor calificación",
+      "rating.asc": "Peor calificación"
     },
-    "filters": {
-      "rating_field": {
-        "label": "Calificación"
-      },
-      "media_type_field": {
-        "label": "Tipo",
-        "options": {
-          "TV_SHOW": "Serie de TV",
-          "MOVIE": "Película"
-        }
-      },
-      "only_items_without_review_field": {
-        "label": "Mostrar solo elementos sin reseña"
-      }
-    },
-    "sort_by": {
-      "label": "Ordenar por",
-      "placeholder": "Ordenar por",
-      "options": {
-        "addedAt.desc": "Últimos añadidos",
-        "addedAt.asc": "Primeros añadidos",
-        "updatedAt.desc": "Últimos actualizados",
-        "updatedAt.asc": "Primeros actualizados",
-        "rating.desc": "Mejor valorados",
-        "rating.asc": "Peor valorados"
-      }
-    },
-    "actions": {
-      "close": "Cerrar",
-      "save_changes": "Guardar cambios"
-    }
+    "close_button": "Cerrar",
+    "save_changes_button": "Guardar cambios"
   },
   "list_command": {
     "search_placeholder": "Buscar cualquier cosa...",

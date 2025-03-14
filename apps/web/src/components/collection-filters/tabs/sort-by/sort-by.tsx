@@ -40,7 +40,7 @@ export const SortBy = () => {
       render={({ field: { value, onChange } }) => {
         return (
           <FormItem>
-            <FormLabel>{dictionary.collection_filters.sort_by.label}</FormLabel>
+            <FormLabel>{dictionary.collection_filters.sort_by_label}</FormLabel>
 
             <FormControl>
               <Select
@@ -51,7 +51,7 @@ export const SortBy = () => {
                 <SelectTrigger className="w-full">
                   <SelectValue
                     placeholder={
-                      dictionary.collection_filters.sort_by.placeholder
+                      dictionary.collection_filters.sort_by_placeholder
                     }
                   />
                 </SelectTrigger>
@@ -68,7 +68,7 @@ export const SortBy = () => {
                           )}
 
                           {
-                            dictionary.collection_filters.sort_by.options[
+                            dictionary.collection_filters.sort_by_options[
                               option
                             ]
                           }

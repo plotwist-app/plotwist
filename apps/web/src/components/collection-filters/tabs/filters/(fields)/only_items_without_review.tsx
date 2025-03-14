@@ -11,16 +11,14 @@ import { useFormContext } from 'react-hook-form'
 export const OnlyItemsWithoutReviewField = () => {
   const { setValue, watch } = useFormContext<CollectionFiltersFormValues>()
   const {
-    dictionary: {
-      collection_filters: {
-        filters: { only_items_without_review_field },
-      },
-    },
+    dictionary: { collection_filters },
   } = useLanguage()
 
   return (
     <FormItem>
-      <FormLabel>{only_items_without_review_field.label}</FormLabel>
+      <FormLabel>
+        {collection_filters.only_items_without_review_field_label}
+      </FormLabel>
 
       <FormControl>
         <div className="flex flex-wrap gap-1">

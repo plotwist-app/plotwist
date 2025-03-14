@@ -10,13 +10,7 @@ import { useFormContext } from 'react-hook-form'
 
 export const MediaTypeField = () => {
   const {
-    dictionary: {
-      collection_filters: {
-        filters: {
-          media_type_field: { label, options },
-        },
-      },
-    },
+    dictionary: { collection_filters },
   } = useLanguage()
   const { setValue, watch } = useFormContext<CollectionFiltersFormValues>()
 
@@ -24,11 +18,11 @@ export const MediaTypeField = () => {
 
   return (
     <FormItem>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>{collection_filters.media_type_field_label}</FormLabel>
 
       <FormControl>
         <div className="flex flex-wrap gap-1">
-          {Object.entries(options).map(([key, value]) => {
+          {Object.entries(['TV_SHOW', 'MOVIE']).map(([key, value]) => {
             const mediaType = key as 'TV_SHOW' | 'MOVIE'
             const isSelected = selectedMediaTypes.includes(mediaType)
 
