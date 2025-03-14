@@ -7,9 +7,27 @@ import type { UserItemStatus } from '@/types/user-item'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useQueryState } from 'nuqs'
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { UserItems } from '../_components/user-items'
 import { useLayoutContext } from '../_context'
+
+type FilterAction =
+  | { type: 'SET_STATUS'; payload: UserItemStatus }
+  | { type: 'UPDATE_FILTERS'; payload: Partial<CollectionFiltersFormValues> }
+
+function filtersReducer(
+  state: CollectionFiltersFormValues,
+  action: FilterAction
+): CollectionFiltersFormValues {
+  switch (action.type) {
+    case 'SET_STATUS':
+      return { ...state, status: action.payload }
+    case 'UPDATE_FILTERS':
+      return { ...state, ...action.payload }
+    default:
+      return state
+  }
+}
 
 export default function CollectionPage() {
   const { dictionary } = useLanguage()
@@ -19,7 +37,7 @@ export default function CollectionPage() {
 
   const { userId } = useLayoutContext()
 
-  const [filters, setFilters] = useState<CollectionFiltersFormValues>({
+  const [filters, dispatch] = useReducer(filtersReducer, {
     status: statusQueryState as UserItemStatus,
     userId,
     rating: [0, 5],
@@ -58,7 +76,7 @@ export default function CollectionPage() {
 
   function handleChangeStatus(status: string) {
     setStatusQueryState(status)
-    setFilters(prev => ({ ...prev, status: status as UserItemStatus }))
+    dispatch({ type: 'SET_STATUS', payload: status as UserItemStatus })
   }
 
   return (
@@ -68,9 +86,12 @@ export default function CollectionPage() {
           status={statusQueryState as UserItemStatus}
           filters={filters}
           setFilters={newFilters => {
-            setFilters({
-              ...newFilters,
-              status: statusQueryState as UserItemStatus,
+            dispatch({
+              type: 'UPDATE_FILTERS',
+              payload: {
+                ...newFilters,
+                status: statusQueryState as UserItemStatus,
+              },
             })
           }}
         />
