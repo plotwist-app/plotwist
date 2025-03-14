@@ -22,7 +22,7 @@ export const MediaTypeField = () => {
 
       <FormControl>
         <div className="flex flex-wrap gap-1">
-          {Object.entries(['TV_SHOW', 'MOVIE']).map(([key, value]) => {
+          {Object.entries(collection_filters.options).map(([key, value]) => {
             const mediaType = key as 'TV_SHOW' | 'MOVIE'
             const isSelected = selectedMediaTypes.includes(mediaType)
 

@@ -315,7 +315,7 @@
     "explore_popular_movies": "Explora películas populares y danos tu opinión."
   },
   "movies_list_filters": {
-    "title": "Descubrir Películas",
+    "title": "Filtrar películas",
     "tabs": {
       "filters": "Filtros",
       "order": "Ordenar",
@@ -450,7 +450,12 @@
       "rating.asc": "Peor calificación"
     },
     "close_button": "Cerrar",
-    "save_changes_button": "Guardar cambios"
+    "save_changes_button": "Guardar cambios",
+    "rating_disabled_message": "La calificación no puede ser ajustada cuando 'Mostrar solo elementos sin reseña' está seleccionado",
+    "options": {
+      "TV_SHOW": "Serie de TV",
+      "MOVIE": "Película"
+    }
   },
   "list_command": {
     "search_placeholder": "Buscar cualquier cosa...",

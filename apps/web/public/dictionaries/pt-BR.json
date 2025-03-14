@@ -313,7 +313,7 @@
     "explore_popular_movies": "Explore filmes populares e nos dê sua opinião."
   },
   "movies_list_filters": {
-    "title": "Descubra Filmes",
+    "title": "Filtre sua coleção",
     "tabs": {
       "filters": "Filtros",
       "order": "Ordenar",
@@ -449,7 +449,12 @@
       "rating.asc": "Pior avaliação"
     },
     "close_button": "Fechar",
-    "save_changes_button": "Salvar alterações"
+    "save_changes_button": "Salvar alterações",
+    "rating_disabled_message": "A avaliação não pode ser ajustada quando 'Mostrar apenas itens sem avaliação' está selecionado",
+    "options": {
+      "TV_SHOW": "Série de TV",
+      "MOVIE": "Filme"
+    }
   },
   "list_command": {
     "search_placeholder": "Pesquise qualquer coisa...",

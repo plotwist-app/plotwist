@@ -439,6 +439,7 @@
     "only_items_without_review_field_label": "Show only items without review",
     "sort_by_label": "Sort by",
     "sort_by_placeholder": "Sort by",
+    "rating_disabled_message": "Rating cannot be adjusted when 'Show only items without review' is selected",
     "sort_by_options": {
       "addedAt.desc": "Latest Added",
       "addedAt.asc": "Oldest Added",
@@ -446,6 +447,10 @@
       "updatedAt.asc": "Oldest Updated",
       "rating.desc": "Highest Rated",
       "rating.asc": "Lowest Rated"
+    },
+    "options": {
+      "TV_SHOW": "TV Show",
+      "MOVIE": "Movie"
     },
     "close_button": "Close",
     "save_changes_button": "Save Changes"

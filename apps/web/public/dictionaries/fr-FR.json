@@ -451,7 +451,12 @@
       "rating.asc": "Pires évaluations"
     },
     "close_button": "Fermer",
-    "save_changes_button": "Enregistrer les modifications"
+    "save_changes_button": "Enregistrer les modifications",
+    "rating_disabled_message": "La note ne peut pas être ajustée lorsque 'Afficher uniquement les éléments sans avis' est sélectionné",
+    "options": {
+      "TV_SHOW": "Série TV",
+      "MOVIE": "Film"
+    }
   },
   "list_command": {
     "search_placeholder": "Rechercher n'importe quoi...",

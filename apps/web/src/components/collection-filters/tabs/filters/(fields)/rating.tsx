@@ -4,8 +4,10 @@ import {
   FormControl,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@plotwist/ui/components/ui/form'
 import { Slider } from '@plotwist/ui/components/ui/slider'
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { v4 } from 'uuid'
 
@@ -14,6 +16,14 @@ export const RatingField = () => {
     dictionary: { collection_filters },
   } = useLanguage()
   const { setValue, watch } = useFormContext<CollectionFiltersFormValues>()
+
+  const isDisabled = watch('onlyItemsWithoutReview') === true
+
+  useEffect(() => {
+    if (isDisabled) {
+      setValue('rating', [0, 5])
+    }
+  }, [isDisabled, setValue])
 
   return (
     <FormItem>
@@ -30,6 +40,7 @@ export const RatingField = () => {
             onValueChange={value => {
               setValue('rating', value)
             }}
+            disabled={isDisabled}
           />
 
           <div className="flex w-full justify-between border-t">
@@ -45,6 +56,12 @@ export const RatingField = () => {
           </div>
         </div>
       </FormControl>
+
+      {isDisabled && (
+        <FormMessage className="text-amber-500">
+          {collection_filters.rating_disabled_message}
+        </FormMessage>
+      )}
     </FormItem>
   )
 }

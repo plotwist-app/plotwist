@@ -431,7 +431,7 @@
     "no_results": "結果がありません。"
   },
   "collection_filters": {
-    "title": "コレクションをフィルタリング",
+    "title": "コレクションをフィルター",
     "filters_tab": "フィルター",
     "order_tab": "並び替え",
     "rating_field_label": "評価",
@@ -450,7 +450,12 @@
       "rating.asc": "評価低い順"
     },
     "close_button": "閉じる",
-    "save_changes_button": "変更を保存"
+    "save_changes_button": "変更を保存",
+    "rating_disabled_message": "評価はレビューのないアイテムのみ表示が選択されている場合は変更できません。",
+    "options": {
+      "TV_SHOW": "テレビ番組",
+      "MOVIE": "映画"
+    }
   },
   "list_command": {
     "search_placeholder": "何でも検索...",

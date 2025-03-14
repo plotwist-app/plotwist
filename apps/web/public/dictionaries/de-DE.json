@@ -445,7 +445,12 @@
       "rating.asc": "Schlechteste Bewertung"
     },
     "close_button": "Schließen",
-    "save_changes_button": "Änderungen speichern"
+    "save_changes_button": "Änderungen speichern",
+    "rating_disabled_message": "Die Bewertung kann nicht angepasst werden, wenn 'Nur Elemente ohne Bewertung anzeigen' ausgewählt ist",
+    "options": {
+      "TV_SHOW": "TV-Serie",
+      "MOVIE": "Film"
+    }
   },
   "list_command": {
     "search_placeholder": "Suche nach allem...",

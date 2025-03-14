@@ -450,7 +450,12 @@
       "rating.asc": "Valutazione più bassa"
     },
     "close_button": "Chiudi",
-    "save_changes_button": "Salva modifiche"
+    "save_changes_button": "Salva modifiche",
+    "rating_disabled_message": "La valutazione non può essere modificata quando 'Mostra solo elementi senza recensione' è selezionato",
+    "options": {
+      "TV_SHOW": "Serie TV",
+      "MOVIE": "Film"
+    }
   },
   "list_command": {
     "search_placeholder": "Cerca qualsiasi cosa...",
