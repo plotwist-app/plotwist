@@ -86,7 +86,7 @@ export const CollectionFilters = ({
               <DrawerFooter className="flex-row justify-end px-0">
                 <DrawerClose asChild>
                   <Button type="submit" variant="outline">
-                    {dictionary.collection_filters.actions.close}
+                    {dictionary.collection_filters.close_button}
                   </Button>
                 </DrawerClose>
 
@@ -97,7 +97,7 @@ export const CollectionFilters = ({
                     setOpen(false)
                   }}
                 >
-                  {dictionary.collection_filters.actions.save_changes}
+                  {dictionary.collection_filters.save_changes_button}
                 </Button>
               </DrawerFooter>
             </SheetContent>
@@ -126,11 +126,11 @@ export const CollectionFilters = ({
               <Tabs defaultValue="filters">
                 <TabsList>
                   <TabsTrigger value="filters">
-                    {dictionary.collection_filters.tabs.filters}
+                    {dictionary.collection_filters.filters_tab}
                   </TabsTrigger>
 
                   <TabsTrigger value="sort-by">
-                    {dictionary.collection_filters.tabs.order}
+                    {dictionary.collection_filters.order_tab}
                   </TabsTrigger>
                 </TabsList>
 
@@ -147,12 +147,12 @@ export const CollectionFilters = ({
             <DrawerFooter className="flex-row justify-end px-0">
               <DrawerClose asChild>
                 <Button type="submit" variant="outline">
-                  {dictionary.collection_filters.actions.close}
+                  {dictionary.collection_filters.close_button}
                 </Button>
               </DrawerClose>
 
               <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
-                {dictionary.collection_filters.actions.save_changes}
+                {dictionary.collection_filters.save_changes_button}
               </Button>
             </DrawerFooter>
           </DrawerContent>
