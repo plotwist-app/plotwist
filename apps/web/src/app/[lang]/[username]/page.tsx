@@ -5,7 +5,6 @@ import {
   useGetUserActivitiesInfinite,
 } from '@/api/user-activities'
 import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -16,7 +15,6 @@ import { useLayoutContext } from './_context'
 export default function ActivityPage() {
   const { userId } = useLayoutContext()
   const { language } = useLanguage()
-  const session = useSession()
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } =
     useGetUserActivitiesInfinite(
