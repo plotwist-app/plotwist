@@ -425,6 +425,33 @@
     },
     "no_results": "Keine Ergebnisse."
   },
+  "collection_filters": {
+    "title": "Filtern Sie Ihre Sammlung",
+    "filters_tab": "Filter",
+    "order_tab": "Sortierung",
+    "rating_field_label": "Bewertung",
+    "media_type_field_label": "Typ",
+    "media_type_TV_SHOW": "TV-Serie",
+    "media_type_MOVIE": "Film",
+    "only_items_without_review_field_label": "Nur Elemente ohne Bewertung anzeigen",
+    "sort_by_label": "Sortieren nach",
+    "sort_by_placeholder": "Sortieren nach",
+    "sort_by_options": {
+      "addedAt.desc": "Zuletzt hinzugefügt",
+      "addedAt.asc": "Zuerst hinzugefügt",
+      "updatedAt.desc": "Zuletzt aktualisiert",
+      "updatedAt.asc": "Zuerst aktualisiert",
+      "rating.desc": "Beste Bewertung",
+      "rating.asc": "Schlechteste Bewertung"
+    },
+    "close_button": "Schließen",
+    "save_changes_button": "Änderungen speichern",
+    "rating_disabled_message": "Die Bewertung kann nicht angepasst werden, wenn 'Nur Elemente ohne Bewertung anzeigen' ausgewählt ist",
+    "options": {
+      "TV_SHOW": "TV-Serie",
+      "MOVIE": "Film"
+    }
+  },
   "list_command": {
     "search_placeholder": "Suche nach allem...",
     "no_results": "Keine Ergebnisse gefunden.",
@@ -646,6 +673,7 @@
   "watched": "Gesehen",
   "watching": "Ansehen",
   "watchlist": "Watchlist",
+  "all": "Alle",
   "stats": "Statistiken",
   "where_to_watch": "Wo zu sehen",
   "unavailable": "Nicht verfügbar",

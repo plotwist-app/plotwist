@@ -14,7 +14,7 @@ import { useLayoutContext } from '../_context'
 import type { UserItemsProps } from './user-items'
 import { UserItemsCommand } from './user-items-command'
 
-export function UserItemsList({ status }: UserItemsProps) {
+export function UserItemsList({ filters }: UserItemsProps) {
   const { language } = useLanguage()
   const { userId } = useLayoutContext()
   const session = useSession()
@@ -26,8 +26,12 @@ export function UserItemsList({ status }: UserItemsProps) {
 
   const params = {
     language,
-    status,
+    status: filters.status,
     userId,
+    mediaType: filters.mediaType,
+    orderBy: filters.orderBy,
+    rating: filters.rating.map(r => r.toString()),
+    onlyItemsWithoutReview: filters.onlyItemsWithoutReview,
   }
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading } =
@@ -55,7 +59,9 @@ export function UserItemsList({ status }: UserItemsProps) {
 
   return (
     <>
-      {isOwner && <UserItemsCommand status={status} userId={userId} />}
+      {isOwner && filters.status !== 'ALL' && (
+        <UserItemsCommand filters={filters} userId={userId} />
+      )}
 
       {flatData?.map(({ id, posterPath, title, tmdbId, mediaType }) => (
         <Link

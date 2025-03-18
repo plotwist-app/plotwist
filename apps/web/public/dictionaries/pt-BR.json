@@ -313,7 +313,7 @@
     "explore_popular_movies": "Explore filmes populares e nos dê sua opinião."
   },
   "movies_list_filters": {
-    "title": "Descubra Filmes",
+    "title": "Filtre sua coleção",
     "tabs": {
       "filters": "Filtros",
       "order": "Ordenar",
@@ -428,6 +428,33 @@
       "label": "Votos mínimos"
     },
     "no_results": "Sem resultados."
+  },
+  "collection_filters": {
+    "title": "Filtrar sua coleção",
+    "filters_tab": "Filtros",
+    "order_tab": "Ordenar",
+    "rating_field_label": "Avaliação",
+    "media_type_field_label": "Tipo",
+    "media_type_TV_SHOW": "Série de TV",
+    "media_type_MOVIE": "Filme",
+    "only_items_without_review_field_label": "Mostrar apenas itens sem avaliação",
+    "sort_by_label": "Ordenar por",
+    "sort_by_placeholder": "Ordenar por",
+    "sort_by_options": {
+      "addedAt.desc": "Adicionados recentemente",
+      "addedAt.asc": "Adicionados primeiro",
+      "updatedAt.desc": "Atualizados recentemente",
+      "updatedAt.asc": "Atualizados primeiro",
+      "rating.desc": "Melhor avaliação",
+      "rating.asc": "Pior avaliação"
+    },
+    "close_button": "Fechar",
+    "save_changes_button": "Salvar alterações",
+    "rating_disabled_message": "A avaliação não pode ser ajustada quando 'Mostrar apenas itens sem avaliação' está selecionado",
+    "options": {
+      "TV_SHOW": "Série de TV",
+      "MOVIE": "Filme"
+    }
   },
   "list_command": {
     "search_placeholder": "Pesquise qualquer coisa...",
@@ -648,6 +675,7 @@
   "upgrade_list_message": "Assine o plano PRO para ter listas ilimitadas.",
   "activity": "Atividade",
   "watched": "Assistido",
+  "all": "Todos",
   "watchlist": "Assistir",
   "watching": "Assistindo",
   "stats": "Estatísticas",

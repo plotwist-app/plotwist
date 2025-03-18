@@ -315,7 +315,7 @@
     "explore_popular_movies": "Explora películas populares y danos tu opinión."
   },
   "movies_list_filters": {
-    "title": "Descubrir Películas",
+    "title": "Filtrar películas",
     "tabs": {
       "filters": "Filtros",
       "order": "Ordenar",
@@ -429,6 +429,33 @@
       "label": "Votos mínimos"
     },
     "no_results": "Sin resultados."
+  },
+  "collection_filters": {
+    "title": "Filtrar tu colección",
+    "filters_tab": "Filtros",
+    "order_tab": "Ordenar",
+    "rating_field_label": "Calificación",
+    "media_type_field_label": "Tipo",
+    "media_type_TV_SHOW": "Serie de TV",
+    "media_type_MOVIE": "Película",
+    "only_items_without_review_field_label": "Mostrar solo elementos sin reseña",
+    "sort_by_label": "Ordenar por",
+    "sort_by_placeholder": "Ordenar por",
+    "sort_by_options": {
+      "addedAt.desc": "Añadidos recientemente",
+      "addedAt.asc": "Añadidos primero",
+      "updatedAt.desc": "Actualizados recientemente",
+      "updatedAt.asc": "Actualizados primero",
+      "rating.desc": "Mejor calificación",
+      "rating.asc": "Peor calificación"
+    },
+    "close_button": "Cerrar",
+    "save_changes_button": "Guardar cambios",
+    "rating_disabled_message": "La calificación no puede ser ajustada cuando 'Mostrar solo elementos sin reseña' está seleccionado",
+    "options": {
+      "TV_SHOW": "Serie de TV",
+      "MOVIE": "Película"
+    }
   },
   "list_command": {
     "search_placeholder": "Buscar cualquier cosa...",
@@ -649,6 +676,7 @@
   "watched": "Vistos",
   "watching": "Viendo",
   "watchlist": "Watchlist",
+  "all": "Todos",
   "stats": "Estadísticas",
   "where_to_watch": "Dónde ver",
   "unavailable": "No disponible",

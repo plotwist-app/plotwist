@@ -430,6 +430,33 @@
     },
     "no_results": "結果がありません。"
   },
+  "collection_filters": {
+    "title": "コレクションをフィルター",
+    "filters_tab": "フィルター",
+    "order_tab": "並び替え",
+    "rating_field_label": "評価",
+    "media_type_field_label": "タイプ",
+    "media_type_TV_SHOW": "テレビ番組",
+    "media_type_MOVIE": "映画",
+    "only_items_without_review_field_label": "レビューのないアイテムのみ表示",
+    "sort_by_label": "並び替え",
+    "sort_by_placeholder": "並び替え",
+    "sort_by_options": {
+      "addedAt.desc": "最近追加",
+      "addedAt.asc": "最初に追加",
+      "updatedAt.desc": "最近更新",
+      "updatedAt.asc": "最初に更新",
+      "rating.desc": "評価高い順",
+      "rating.asc": "評価低い順"
+    },
+    "close_button": "閉じる",
+    "save_changes_button": "変更を保存",
+    "rating_disabled_message": "評価はレビューのないアイテムのみ表示が選択されている場合は変更できません。",
+    "options": {
+      "TV_SHOW": "テレビ番組",
+      "MOVIE": "映画"
+    }
+  },
   "list_command": {
     "search_placeholder": "何でも検索...",
     "no_results": "結果が見つかりませんでした。",
@@ -652,6 +679,7 @@
   "watched": "視聴済み",
   "watching": "視聴中",
   "watchlist": "ウォッチリスト",
+  "all": "すべて",
   "stats": "統計",
   "where_to_watch": "視聴可能な場所",
   "unavailable": "利用不可",

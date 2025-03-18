@@ -430,6 +430,33 @@
     },
     "no_results": "Nessun risultato."
   },
+  "collection_filters": {
+    "title": "Filtra la tua collezione",
+    "filters_tab": "Filtri",
+    "order_tab": "Ordina",
+    "rating_field_label": "Valutazione",
+    "media_type_field_label": "Tipo",
+    "media_type_TV_SHOW": "Serie TV",
+    "media_type_MOVIE": "Film",
+    "only_items_without_review_field_label": "Mostra solo elementi senza recensione",
+    "sort_by_label": "Ordina per",
+    "sort_by_placeholder": "Ordina per",
+    "sort_by_options": {
+      "addedAt.desc": "Aggiunti di recente",
+      "addedAt.asc": "Aggiunti per primi",
+      "updatedAt.desc": "Aggiornati di recente",
+      "updatedAt.asc": "Aggiornati per primi",
+      "rating.desc": "Valutazione più alta",
+      "rating.asc": "Valutazione più bassa"
+    },
+    "close_button": "Chiudi",
+    "save_changes_button": "Salva modifiche",
+    "rating_disabled_message": "La valutazione non può essere modificata quando 'Mostra solo elementi senza recensione' è selezionato",
+    "options": {
+      "TV_SHOW": "Serie TV",
+      "MOVIE": "Film"
+    }
+  },
   "list_command": {
     "search_placeholder": "Cerca qualsiasi cosa...",
     "no_results": "Nessun risultato trovato.",
@@ -646,9 +673,10 @@
   "list_edited_successfully": "Elenco modificato con successo.",
   "upgrade_list_message": "Abbonati al piano PRO per ottenere liste illimitate.",
   "activity": "Attività",
-  "watched": "Visti",
+  "watched": "Guardati",
   "watching": "Guardando",
   "watchlist": "Lista di controllo",
+  "all": "Tutti",
   "stats": "Statistiche",
   "where_to_watch": "Dove guardare",
   "unavailable": "Non disponibile",

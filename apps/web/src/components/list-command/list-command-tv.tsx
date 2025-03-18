@@ -104,7 +104,7 @@ export const ListCommandTv = ({
                           src={tmdbImage(tvSerie.poster_path, 'w500')}
                           alt={tvSerie.name}
                           fill
-                          objectFit="cover"
+                          style={{ objectFit: 'cover' }}
                         />
                       )}
                     </ItemHoverCard.Poster>

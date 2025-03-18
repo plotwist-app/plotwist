@@ -1,12 +1,13 @@
-import type { UserItemStatus } from '@/types/user-item'
+import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Suspense } from 'react'
 import { v4 } from 'uuid'
 import { UserItemsList } from './user-items-list'
+export type UserItemsProps = {
+  filters: CollectionFiltersFormValues
+}
 
-export type UserItemsProps = { status: UserItemStatus }
-
-export function UserItems({ status }: UserItemsProps) {
+export function UserItems({ filters }: UserItemsProps) {
   return (
     <section className="grid grid-cols-3 md:grid-cols-5 gap-2">
       <Suspense
@@ -14,7 +15,7 @@ export function UserItems({ status }: UserItemsProps) {
           <Skeleton key={v4()} className="aspect-poster" />
         ))}
       >
-        <UserItemsList status={status} />
+        <UserItemsList filters={filters} />
       </Suspense>
     </section>
   )
