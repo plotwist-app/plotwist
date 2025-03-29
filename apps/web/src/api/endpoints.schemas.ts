@@ -12,21 +12,11 @@ export type PostUsersCreateBody = {
   password: string;
 };
 
-export type PostUsersCreate201UserSubscriptionType = typeof PostUsersCreate201UserSubscriptionType[keyof typeof PostUsersCreate201UserSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostUsersCreate201UserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type PostUsersCreate201User = {
   id?: string;
   username: string;
   email: string;
   createdAt?: string;
-  subscriptionType?: PostUsersCreate201UserSubscriptionType;
   /** @nullable */
   bannerUrl?: string | null;
   /** @nullable */
@@ -102,7 +92,6 @@ export type GetUsersUsername200User = {
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: GetUsersUsername200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -111,27 +100,18 @@ export type GetUsersUsername200User = {
   isLegacy: boolean | null;
   /** @nullable */
   biography: string | null;
+  subscriptionType: GetUsersUsername200UserSubscriptionType;
 };
 
 export type GetUsersUsername200 = {
   user: GetUsersUsername200User;
 };
 
-export type GetUserById201UserSubscriptionType = typeof GetUserById201UserSubscriptionType[keyof typeof GetUserById201UserSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetUserById201UserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type GetUserById201User = {
   id?: string;
   username: string;
   email: string;
   createdAt?: string;
-  subscriptionType?: GetUserById201UserSubscriptionType;
   /** @nullable */
   bannerUrl?: string | null;
   /** @nullable */
@@ -177,7 +157,6 @@ export type GetMe200User = {
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: GetMe200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -186,6 +165,7 @@ export type GetMe200User = {
   isLegacy: boolean | null;
   /** @nullable */
   biography: string | null;
+  subscriptionType: GetMe200UserSubscriptionType;
 };
 
 export type GetMe200 = {
@@ -199,21 +179,11 @@ export type PatchUserBody = {
   biography?: string;
 };
 
-export type PatchUser200UserSubscriptionType = typeof PatchUser200UserSubscriptionType[keyof typeof PatchUser200UserSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchUser200UserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type PatchUser200User = {
   id: string;
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: PatchUser200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -1615,21 +1585,11 @@ export const GetLikesEntityId200LikesItemEntityType = {
   LIST: 'LIST',
 } as const;
 
-export type GetLikesEntityId200LikesItemUserSubscriptionType = typeof GetLikesEntityId200LikesItemUserSubscriptionType[keyof typeof GetLikesEntityId200LikesItemUserSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetLikesEntityId200LikesItemUserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type GetLikesEntityId200LikesItemUser = {
   id: string;
   username: string;
   /** @nullable */
   avatarUrl: string | null;
-  subscriptionType: GetLikesEntityId200LikesItemUserSubscriptionType;
 };
 
 export type GetLikesEntityId200LikesItem = {
@@ -1926,15 +1886,6 @@ pageSize?: string;
 cursor?: string;
 };
 
-export type GetFollowers200FollowersItemSubscriptionType = typeof GetFollowers200FollowersItemSubscriptionType[keyof typeof GetFollowers200FollowersItemSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetFollowers200FollowersItemSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type GetFollowers200FollowersItem = {
   followerId: string;
   followedId: string;
@@ -1942,7 +1893,6 @@ export type GetFollowers200FollowersItem = {
   username: string;
   /** @nullable */
   avatarUrl: string | null;
-  subscriptionType: GetFollowers200FollowersItemSubscriptionType;
 };
 
 export type GetFollowers200 = {
