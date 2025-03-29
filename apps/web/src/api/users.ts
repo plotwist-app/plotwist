@@ -26,9 +26,7 @@ import type {
 } from '@tanstack/react-query'
 import type {
   GetMe200,
-  GetUserById201,
-  GetUserById409,
-  GetUserById500,
+  GetUserById200,
   GetUserPreferences200,
   GetUsersAvailableEmail200,
   GetUsersAvailableEmail409,
@@ -532,7 +530,7 @@ export const getUserById = (
 ) => {
       
       
-      return axiosInstance<GetUserById201>(
+      return axiosInstance<GetUserById200>(
       {url: `/user/by/${id}`, method: 'GET', signal
     },
       );
@@ -544,7 +542,7 @@ export const getGetUserByIdQueryKey = (id: string,) => {
     }
 
     
-export const getGetUserByIdQueryOptions = <TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
+export const getGetUserByIdQueryOptions = <TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -563,10 +561,10 @@ const {query: queryOptions} = options ?? {};
 }
 
 export type GetUserByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getUserById>>>
-export type GetUserByIdQueryError = GetUserById409 | GetUserById500
+export type GetUserByIdQueryError = unknown
 
 
-export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserById>>,
@@ -576,7 +574,7 @@ export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, 
       >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserById>>,
@@ -586,12 +584,12 @@ export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, 
       >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
@@ -607,7 +605,7 @@ export function useGetUserById<TData = Awaited<ReturnType<typeof getUserById>>, 
 
 
 
-export const getGetUserByIdSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
+export const getGetUserByIdSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -626,23 +624,23 @@ const {query: queryOptions} = options ?? {};
 }
 
 export type GetUserByIdSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserById>>>
-export type GetUserByIdSuspenseQueryError = GetUserById409 | GetUserById500
+export type GetUserByIdSuspenseQueryError = unknown
 
 
-export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = GetUserById409 | GetUserById500>(
+export function useGetUserByIdSuspense<TData = Awaited<ReturnType<typeof getUserById>>, TError = unknown>(
  id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserById>>, TError, TData>>, }
 
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
