@@ -26,7 +26,6 @@ export type PostUsersCreate201User = {
   username: string;
   email: string;
   createdAt?: string;
-  subscriptionType?: PostUsersCreate201UserSubscriptionType;
   /** @nullable */
   bannerUrl?: string | null;
   /** @nullable */
@@ -35,6 +34,7 @@ export type PostUsersCreate201User = {
   isLegacy?: boolean | null;
   /** @nullable */
   biography?: string | null;
+  subscriptionType: PostUsersCreate201UserSubscriptionType;
 };
 
 /**
@@ -102,7 +102,6 @@ export type GetUsersUsername200User = {
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: GetUsersUsername200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -111,56 +110,40 @@ export type GetUsersUsername200User = {
   isLegacy: boolean | null;
   /** @nullable */
   biography: string | null;
+  subscriptionType: GetUsersUsername200UserSubscriptionType;
 };
 
 export type GetUsersUsername200 = {
   user: GetUsersUsername200User;
 };
 
-export type GetUserById201UserSubscriptionType = typeof GetUserById201UserSubscriptionType[keyof typeof GetUserById201UserSubscriptionType];
+export type GetUserById200UserSubscriptionType = typeof GetUserById200UserSubscriptionType[keyof typeof GetUserById200UserSubscriptionType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetUserById201UserSubscriptionType = {
+export const GetUserById200UserSubscriptionType = {
   MEMBER: 'MEMBER',
   PRO: 'PRO',
 } as const;
 
-export type GetUserById201User = {
-  id?: string;
+export type GetUserById200User = {
+  id: string;
   username: string;
   email: string;
-  createdAt?: string;
-  subscriptionType?: GetUserById201UserSubscriptionType;
+  createdAt: string;
   /** @nullable */
-  bannerUrl?: string | null;
+  bannerUrl: string | null;
   /** @nullable */
-  avatarUrl?: string | null;
+  avatarUrl: string | null;
   /** @nullable */
-  isLegacy?: boolean | null;
+  isLegacy: boolean | null;
   /** @nullable */
-  biography?: string | null;
+  biography: string | null;
+  subscriptionType: GetUserById200UserSubscriptionType;
 };
 
-/**
- * User created.
- */
-export type GetUserById201 = {
-  user: GetUserById201User;
-};
-
-/**
- * Email or username is already registered.
- */
-export type GetUserById409 = {
-  message: string;
-};
-
-/**
- * Fail to hash password.
- */
-export type GetUserById500 = {
-  message: string;
+export type GetUserById200 = {
+  user: GetUserById200User;
 };
 
 export type GetMe200UserSubscriptionType = typeof GetMe200UserSubscriptionType[keyof typeof GetMe200UserSubscriptionType];
@@ -177,7 +160,6 @@ export type GetMe200User = {
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: GetMe200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -186,6 +168,7 @@ export type GetMe200User = {
   isLegacy: boolean | null;
   /** @nullable */
   biography: string | null;
+  subscriptionType: GetMe200UserSubscriptionType;
 };
 
 export type GetMe200 = {
@@ -199,21 +182,11 @@ export type PatchUserBody = {
   biography?: string;
 };
 
-export type PatchUser200UserSubscriptionType = typeof PatchUser200UserSubscriptionType[keyof typeof PatchUser200UserSubscriptionType];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchUser200UserSubscriptionType = {
-  MEMBER: 'MEMBER',
-  PRO: 'PRO',
-} as const;
-
 export type PatchUser200User = {
   id: string;
   username: string;
   email: string;
   createdAt: string;
-  subscriptionType: PatchUser200UserSubscriptionType;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -1931,8 +1904,8 @@ export type GetFollowers200FollowersItemSubscriptionType = typeof GetFollowers20
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFollowers200FollowersItemSubscriptionType = {
-  MEMBER: 'MEMBER',
   PRO: 'PRO',
+  MEMBER: 'MEMBER',
 } as const;
 
 export type GetFollowers200FollowersItem = {
