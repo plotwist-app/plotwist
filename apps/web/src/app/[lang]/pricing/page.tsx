@@ -14,15 +14,15 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   } = await getDictionary(lang)
 
   return {
-    title,
+    title: `${title} • Plotwist`,
     description,
     openGraph: {
-      title,
+      title: `${title} • Plotwist`,
       description,
       siteName: 'Plotwist',
     },
     twitter: {
-      title,
+      title: `${title} • Plotwist`,
       description,
     },
   }

@@ -9,10 +9,8 @@ import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 
 export const metadata: Metadata = {
-  title: {
-    template: '%s • Plotwist',
-    default: 'Plotwist',
-  },
+  title: 'Plotwist',
+  metadataBase: new URL('https://plotwist.app'),
 }
 
 export const viewport: Viewport = {

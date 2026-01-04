@@ -28,16 +28,16 @@ export async function generateMetadata(
   const images = list.bannerUrl ? [list.bannerUrl] : undefined
 
   return {
-    title,
+    title: `${title} • Plotwist`,
     description,
     openGraph: {
-      title,
+      title: `${title} • Plotwist`,
       description,
       siteName: 'Plotwist',
       images: images,
     },
     twitter: {
-      title,
+      title: `${title} • Plotwist`,
       description,
       images: images,
       card: 'summary_large_image',

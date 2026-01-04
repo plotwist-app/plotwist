@@ -34,7 +34,7 @@ export async function getMovieMetadata(
   )
 
   return {
-    title,
+    title: `${title} • Plotwist`,
     description: overview,
     keywords: [
       keywords?.map(keyword => keyword.name),
@@ -53,7 +53,7 @@ export async function getMovieMetadata(
     ].join(','),
     openGraph: {
       images: [tmdbImage(backdrop_path)],
-      title,
+      title: `${title} • Plotwist`,
       description: overview,
       siteName: 'Plotwist',
       locale: language,
@@ -61,7 +61,7 @@ export async function getMovieMetadata(
       type: 'video.movie',
     },
     twitter: {
-      title,
+      title: `${title} • Plotwist`,
       description: overview,
       images: tmdbImage(backdrop_path),
       card: 'summary_large_image',

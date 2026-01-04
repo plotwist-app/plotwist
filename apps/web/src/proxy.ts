@@ -11,7 +11,7 @@ const DEFAULT_LOCALE = 'en-US'
 
 match(languages, appLanguages, DEFAULT_LOCALE)
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const headers = new Headers(req.headers)
   headers.set('x-current-path', req.nextUrl.pathname)
 
@@ -39,3 +39,4 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: '/((?!api|static|.*\\..*|_next).*)',
 }
+
