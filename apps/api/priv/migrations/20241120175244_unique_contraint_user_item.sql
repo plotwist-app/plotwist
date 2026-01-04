@@ -1,0 +1,2 @@
+ALTER TABLE "user_items" ALTER COLUMN "id" SET DEFAULT gen_random_uuid();--> statement-breakpoint
+ALTER TABLE "user_items" ADD CONSTRAINT "user_items_userid_tmdbid_media_type_unique" UNIQUE("user_id","tmdb_id","media_type");

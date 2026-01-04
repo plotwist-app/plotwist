@@ -1,0 +1,1 @@
+ALTER TABLE "lists" RENAME COLUMN "banner_path" TO "banner_url";

@@ -1,0 +1,1 @@
+ALTER TABLE "lists" RENAME COLUMN "cover_path" TO "banner_path";

@@ -1,0 +1,1 @@
+ALTER TYPE "activity_type" ADD VALUE 'CREATE_ACCOUNT';

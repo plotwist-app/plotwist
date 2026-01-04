@@ -1,0 +1,1 @@
+ALTER TABLE "reviews" ALTER COLUMN "has_spoilers" SET NOT NULL;

@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "idx_entity_id" ON "likes" USING btree ("entity_id");

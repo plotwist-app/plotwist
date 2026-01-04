@@ -1,0 +1,1 @@
+ALTER TABLE "user_episodes" ADD COLUMN "runtime" integer DEFAULT 0 NOT NULL;

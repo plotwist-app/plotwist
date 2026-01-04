@@ -1,0 +1,1 @@
+ALTER TABLE "lists" RENAME COLUMN "name" TO "title";
