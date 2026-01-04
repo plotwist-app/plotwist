@@ -4,8 +4,7 @@ export const loginBodySchema = z.object({
   login: z.string().min(3, 'Login must be at least 3 characters long'),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters long')
-    .default('password123'),
+    .min(8, 'Password must be at least 8 characters long'),
   url: z.string().optional(),
 })
 

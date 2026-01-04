@@ -5,6 +5,13 @@ import type { SessionPayload } from './definitions'
 import { cookies } from 'next/headers'
 
 const secretKey = process.env.SESSION_SECRET
+
+if (!secretKey) {
+  throw new Error(
+    'SESSION_SECRET environment variable is not set. Please add it to your .env file.'
+  )
+}
+
 const encodedKey = new TextEncoder().encode(secretKey)
 
 export async function encrypt(payload: SessionPayload) {
