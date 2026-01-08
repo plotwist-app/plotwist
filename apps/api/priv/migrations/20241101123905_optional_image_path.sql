@@ -1,0 +1,1 @@
+ALTER TABLE "users" ALTER COLUMN "image_path" DROP NOT NULL;

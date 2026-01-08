@@ -1,0 +1,1 @@
+ALTER TABLE "user_items" DROP COLUMN IF EXISTS "position";

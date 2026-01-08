@@ -3,7 +3,7 @@ import { getUsersUsername } from '@/api/users'
 import { FollowButton } from '@/components/follow-button'
 import { ProBadge } from '@/components/pro-badge'
 import { cn } from '@/lib/utils'
-import type { PageProps } from '@/types/languages'
+import type { Language } from '@/types/languages'
 import { locale } from '@/utils/date/locale'
 import { getDictionary } from '@/utils/dictionaries'
 import { Button } from '@plotwist/ui/components/ui/button'
@@ -20,11 +20,15 @@ import { UserResumeStats } from './_components/user-resume-stats'
 import { UserTabs } from './_components/users-tabs'
 import { LayoutProvider } from './_context'
 
-export type UserPageProps = PageProps<Record<'username', string>> &
-  PropsWithChildren
+export type UserLayoutProps = PropsWithChildren<{
+  params: Promise<{
+    lang: string
+    username: string
+  }>
+}>
 
 export async function generateMetadata(
-  props: UserPageProps
+  props: UserLayoutProps
 ): Promise<Metadata> {
   const params = await props.params
   const { user } = await getUsersUsername(params.username)
@@ -35,16 +39,16 @@ export async function generateMetadata(
   const images = user.bannerUrl ? [user.bannerUrl] : undefined
 
   return {
-    title,
+    title: `${title} • Plotwist`,
     description,
     openGraph: {
-      title,
+      title: `${title} • Plotwist`,
       description,
       siteName: 'Plotwist',
       images: images,
     },
     twitter: {
-      title,
+      title: `${title} • Plotwist`,
       description,
       images: images,
       card: 'summary_large_image',
@@ -52,12 +56,12 @@ export async function generateMetadata(
   }
 }
 
-export default async function Layout(props: UserPageProps) {
+export default async function Layout(props: UserLayoutProps) {
   const { params, children } = props
   const { lang, username } = await params
 
   const { user } = await getUsersUsername(username)
-  const dictionary = await getDictionary(lang)
+  const dictionary = await getDictionary(lang as Language)
 
   const headersList = await headers()
   const headersURL = headersList.get('x-current-path') || ''
@@ -106,7 +110,7 @@ export default async function Layout(props: UserPageProps) {
                 <p className="text-xs text-muted-foreground">
                   {dictionary.member_since}{' '}
                   {format(new Date(user.createdAt), 'MMM/yyyy', {
-                    locale: locale[lang],
+                    locale: locale[lang as Language],
                   })}
                 </p>
 

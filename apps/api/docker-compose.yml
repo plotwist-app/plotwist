@@ -1,0 +1,71 @@
+name: plotwist
+
+services:
+  app:
+    container_name: plotwist_app
+    image: plotwist-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3333:3333
+    depends_on:
+      - db
+      - redis
+      - localstack
+    env_file:
+      - .env
+    networks:
+      - plotwist_network
+
+  db:
+    container_name: plotwist_db
+    image: bitnami/postgresql:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: POSTGRES_DB
+      POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./priv/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    ports:
+      - 5432:5432
+    networks:
+      - plotwist_network
+
+  redis:
+    container_name: plotwist_redis
+    image: bitnami/redis:latest
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - plotwist_network
+
+  localstack:
+    image: localstack/localstack
+    container_name: plotwist_localstack
+    ports:
+      - "4566:4566"
+      - "4576:4576"
+    environment:
+      - SERVICES=sqs
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - localstack_data:/var/lib/localstack
+    networks:
+      - plotwist_network
+
+volumes:
+  postgres_data:
+  redis-data:
+  localstack_data:
+    driver: local
+
+networks:
+  plotwist_network:
+    driver: bridge

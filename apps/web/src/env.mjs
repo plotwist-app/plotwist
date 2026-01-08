@@ -3,15 +3,20 @@ import { z } from 'zod'
 
 export const env = createEnv({
   shared: {},
-  server: {},
+  server: {
+    SESSION_SECRET: z.string().min(32),
+  },
   client: {
     // Client-side variables (accessible from the browser)
+    NEXT_PUBLIC_API_URL: z.string(),
     NEXT_PUBLIC_TMDB_API_KEY: z.string(),
     NEXT_PUBLIC_MEASUREMENT_ID: z.string().optional(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
   },
   runtimeEnv: {
     // Destructure all variables from `process.env` to ensure they aren't tree-shaken away
+    SESSION_SECRET: process.env.SESSION_SECRET,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_TMDB_API_KEY: process.env.NEXT_PUBLIC_TMDB_API_KEY,
     NEXT_PUBLIC_MEASUREMENT_ID: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:

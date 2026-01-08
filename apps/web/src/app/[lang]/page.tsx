@@ -31,10 +31,13 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   )
 
   const title = `${dictionary.perfect_place_for_watching} ${dictionary.everything}`
+  const fullTitle = `${title} • Plotwist`
   const description = dictionary.manage_rate_discover
 
   return {
-    title,
+    title: {
+      absolute: fullTitle,
+    },
     description,
     keywords: dictionary.home.keywords,
     openGraph: {

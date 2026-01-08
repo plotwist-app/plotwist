@@ -1,0 +1,1 @@
+ALTER TYPE "like_entity" ADD VALUE 'LIST';

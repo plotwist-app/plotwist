@@ -11,10 +11,10 @@
     "biome:format": "biome format --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.3.11",
     "@plotwist/typescript-config": "workspace:*",
-    "dotenv-cli": "^7.4.2",
-    "turbo": "2.4.0"
+    "dotenv-cli": "^11.0.0",
+    "turbo": "2.7.2"
   },
   "engines": {
     "node": ">=23"

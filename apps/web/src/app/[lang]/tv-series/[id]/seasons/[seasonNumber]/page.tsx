@@ -22,12 +22,13 @@ export async function generateMetadata({
     lang
   )
   const tvShow = await tmdb.tv.details(Number(id), lang)
+  const title = `${tvShow.name}: ${season.name}`
 
   return {
-    title: `${tvShow.name}: ${season.name}`,
+    title: `${title} • Plotwist`,
     description: season.overview || `${season.name} of ${tvShow.name}`,
     openGraph: {
-      title: `${tvShow.name}: ${season.name}`,
+      title: `${title} • Plotwist`,
       description: season.overview || `${season.name} of ${tvShow.name}`,
       images: tvShow.backdrop_path
         ? [tmdbImage(tvShow.backdrop_path, 'w500')]
@@ -35,7 +36,7 @@ export async function generateMetadata({
       siteName: 'Plotwist',
     },
     twitter: {
-      title: `${tvShow.name}: ${season.name}`,
+      title: `${title} • Plotwist`,
       description: season.overview || `${season.name} of ${tvShow.name}`,
       images: tvShow.backdrop_path
         ? [tmdbImage(tvShow.backdrop_path, 'w500')]

@@ -1,0 +1,1 @@
+ALTER TABLE "list_items" ALTER COLUMN "position" SET NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "list_items" ADD COLUMN "backdrop_path" varchar;

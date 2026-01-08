@@ -28,18 +28,18 @@ export async function getTvMetadata(
   )
 
   return {
-    title: name,
+    title: `${name} • Plotwist`,
     description: overview,
     keywords: keywords?.map(keyword => keyword.name).join(','),
     openGraph: {
       images: [tmdbImage(backdrop)],
-      title: name,
+      title: `${name} • Plotwist`,
       description: overview,
       siteName: 'Plotwist',
       type: 'video.tv_show',
     },
     twitter: {
-      title: name,
+      title: `${name} • Plotwist`,
       description: overview,
       images: tmdbImage(backdrop),
       card: 'summary_large_image',

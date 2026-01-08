@@ -1,0 +1,384 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1730200762725,
+      "tag": "20241029111922_create_followers_and_profile_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1730200977499,
+      "tag": "20241029112257_create_likes_and_list_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730296761959,
+      "tag": "20241030135921_create_users_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1730382068115,
+      "tag": "20241031134108_alter_profiles_add_username_and_email_idx",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1730464492698,
+      "tag": "20241101123452_replace_profiles_relations_by_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730464556731,
+      "tag": "20241101123556_drop_profiles_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1730464745942,
+      "tag": "20241101123905_optional_image_path",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1730502912413,
+      "tag": "20241101231512_rename_lists_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1730732446991,
+      "tag": "20241104150046_alter_reviews_set_non_null_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1730818600024,
+      "tag": "20241105145640_list_item_id_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1730822300140,
+      "tag": "20241105155820_list_item_title_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1730824538795,
+      "tag": "20241105163538_list_item_backdrop",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1730854566757,
+      "tag": "20241106005606_list_items_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1730854660889,
+      "tag": "20241106005740_list_item_position_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1730855820887,
+      "tag": "20241106011700_rename_list_banner",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1730860820498,
+      "tag": "20241106024020_list_item_position_nullable",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1730897798039,
+      "tag": "20241106125638_user_default_subscription_type",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1731279733386,
+      "tag": "20241110230213_update_followers_coloumn_createdAt_to_created_at",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1731361519047,
+      "tag": "20241111214519_add_legacy_flag_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1731376247086,
+      "tag": "20241112015047_user_item",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1731423347377,
+      "tag": "20241112145547_remove_review_tmdb_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1731424272183,
+      "tag": "20241112151112_tmdb_id_media_type_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1731429929254,
+      "tag": "20241112164529_has_spoilers_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1731511294313,
+      "tag": "20241113152134_magic_tokens_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1731936104831,
+      "tag": "20241118132144_socials_links_and_user_bio",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1732105558375,
+      "tag": "20241120122558_user_episode",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1732125164987,
+      "tag": "20241120175244_unique_contraint_user_item",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1732416738804,
+      "tag": "20241124025218_likes_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1732418424350,
+      "tag": "20241124032024_setup_new_likes_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1732450291030,
+      "tag": "20241124121131_likes_table_entity_type",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1732549321764,
+      "tag": "20241125154201_likes_idx_entity_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1732898105398,
+      "tag": "20241129163505_runtime_in_user_episodes",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1733284935022,
+      "tag": "20241204040215_real_rating",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1733339403493,
+      "tag": "20241204191003_add_case_insensitive_indexes_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1733432283129,
+      "tag": "20241205205803_rename_users_images_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1733432371823,
+      "tag": "20241205205931_rename_list_banner_column",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1734018963133,
+      "tag": "20241212155603_not_null_list_item_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1734024102065,
+      "tag": "20241212172142_nullable_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1734033086147,
+      "tag": "20241212195126_initial_user_activities",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1734124747806,
+      "tag": "20241213211907_jsonb_metadata",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1734127478240,
+      "tag": "20241213220438_create_account_activity_type",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1734317579125,
+      "tag": "20241216025259_update_at_user_item",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1734392885839,
+      "tag": "20241216234805_dropped_status",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1734516990504,
+      "tag": "20241218101630_create_import_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1734958033691,
+      "tag": "20241223124713_alter-import-table-add-metadata-field",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1736819259261,
+      "tag": "20250114014739_user_preferences_fk_key",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1736819809335,
+      "tag": "20250114015649_unique_user_preferences",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1736862365230,
+      "tag": "20250114134605_watch_providers_ids",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1737212488035,
+      "tag": "20250118150128_set_metadata_fields_as_required",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1737568696188,
+      "tag": "20250122175816_season_and_episodes_reviews",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1738767719053,
+      "tag": "20250205150159_remove_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1743270615032,
+      "tag": "20250329175015_alter_users_remove_subscription_type",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1743463502207,
+      "tag": "20250331232502_alter_subscription_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "7",
+      "when": 1743464364062,
+      "tag": "20250331233924_alter_subscription_table",
+      "breakpoints": true
+    }
+  ]
+}

@@ -9,6 +9,10 @@
       "env": ["NEXT_PUBLIC_MEASUREMENT_ID"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "api#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },
