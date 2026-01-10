@@ -1,5 +1,9 @@
 'use client'
 
+import { Button } from '@plotwist/ui/components/ui/button'
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { Link } from 'next-view-transitions'
 import {
   getGetFollowersQueryKey,
   useDeleteFollow,
@@ -8,10 +12,6 @@ import {
 } from '@/api/follow'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { Button } from '@plotwist/ui/components/ui/button'
-import { useQueryClient } from '@tanstack/react-query'
-import { Link } from 'next-view-transitions'
-import { useRouter } from 'next/navigation'
 
 type FollowButtonProps = { userId: string }
 

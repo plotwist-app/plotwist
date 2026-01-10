@@ -1,8 +1,8 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import { postLogin } from '@/api/auth'
 import { createSession } from '@/app/lib/session'
-import { redirect } from 'next/navigation'
 
 type SignInInput = {
   login: string

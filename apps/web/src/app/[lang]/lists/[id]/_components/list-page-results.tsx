@@ -1,5 +1,5 @@
-import type { Dictionary } from '@/utils/dictionaries'
 import { Link } from 'next-view-transitions'
+import type { Dictionary } from '@/utils/dictionaries'
 
 export type ListPageEmptyResultsProps = { dictionary: Dictionary }
 export const ListPageEmptyResults = ({

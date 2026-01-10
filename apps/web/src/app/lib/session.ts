@@ -1,8 +1,7 @@
 import 'server-only'
-import { SignJWT, jwtVerify } from 'jose'
-import type { SessionPayload } from './definitions'
-
+import { jwtVerify, SignJWT } from 'jose'
 import { cookies } from 'next/headers'
+import type { SessionPayload } from './definitions'
 
 const secretKey = process.env.SESSION_SECRET
 
@@ -29,7 +28,7 @@ export async function decrypt(session: string | undefined = '') {
     })
 
     return payload as SessionPayload
-  } catch (error) {
+  } catch (_error) {
     console.log('Failed to verify session')
   }
 }

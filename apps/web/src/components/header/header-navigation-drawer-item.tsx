@@ -1,17 +1,15 @@
 'use client'
 
-import { Link } from 'next-view-transitions'
-import { useParams, usePathname } from 'next/navigation'
-import { useMemo } from 'react'
-
-import type { LucideIcon } from 'lucide-react'
-
-import { cn } from '@/lib/utils'
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@plotwist/ui/components/ui/accordion'
+import type { LucideIcon } from 'lucide-react'
+import { useParams, usePathname } from 'next/navigation'
+import { Link } from 'next-view-transitions'
+import { useMemo } from 'react'
+import { cn } from '@/lib/utils'
 
 export type Item = {
   label: string

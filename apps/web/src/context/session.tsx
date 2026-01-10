@@ -1,15 +1,15 @@
 'use client'
 
-import type { verifySession } from '@/app/lib/dal'
-import { AXIOS_INSTANCE } from '@/services/axios-instance'
-import type { User } from '@/types/user'
 import {
-  type PropsWithChildren,
   createContext,
+  type PropsWithChildren,
   useContext,
   useEffect,
   useState,
 } from 'react'
+import type { verifySession } from '@/app/lib/dal'
+import { AXIOS_INSTANCE } from '@/services/axios-instance'
+import type { User } from '@/types/user'
 
 type SessionContextProviderProps = PropsWithChildren & {
   initialSession: Awaited<ReturnType<typeof verifySession>>

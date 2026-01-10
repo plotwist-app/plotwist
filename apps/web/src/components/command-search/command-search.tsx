@@ -1,17 +1,5 @@
 'use client'
 
-import {
-  type MovieWithMediaType,
-  type PersonWithMediaType,
-  type TvSerieWithMediaType,
-  tmdb,
-} from '@/services/tmdb'
-import { useQuery } from '@tanstack/react-query'
-import { useDebounce } from '@uidotdev/usehooks'
-import { useEffect, useState } from 'react'
-
-import { useLanguage } from '@/context/language'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Command,
@@ -19,11 +7,20 @@ import {
   CommandInput,
   CommandList,
 } from '@plotwist/ui/components/ui/command'
-
-import { getUsersSearch } from '@/api/users'
+import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@uidotdev/usehooks'
 import { Search } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
+import { getUsersSearch } from '@/api/users'
+import { useLanguage } from '@/context/language'
+import {
+  type MovieWithMediaType,
+  type PersonWithMediaType,
+  type TvSerieWithMediaType,
+  tmdb,
+} from '@/services/tmdb'
 import {
   CommandSearchGroup,
   CommandSearchMovie,
@@ -66,7 +63,7 @@ export const CommandSearch = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Close command search when navigating to new page
   useEffect(() => {
     if (open) setOpen(false)
   }, [pathname])

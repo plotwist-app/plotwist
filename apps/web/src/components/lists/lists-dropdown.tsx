@@ -1,11 +1,5 @@
 'use client'
 
-import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
-import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { type ComponentProps, useCallback } from 'react'
-import { toast } from 'sonner'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   DropdownMenu,
@@ -15,16 +9,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-
+import { useQueryClient } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { type ComponentProps, useCallback } from 'react'
+import { toast } from 'sonner'
+import { getGetListsQueryKey } from '@/api/list'
+import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { ListForm } from '@/app/[lang]/lists/_components/list-form'
 import { useLanguage } from '@/context/language'
 import { useLists } from '@/context/lists'
-
-import { getGetListsQueryKey } from '@/api/list'
-import { useDeleteListItemId, usePostListItem } from '@/api/list-item'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { useQueryClient } from '@tanstack/react-query'
+import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { NoAccountTooltip } from '../no-account-tooltip'
 
 type ListsDropdownProps = {

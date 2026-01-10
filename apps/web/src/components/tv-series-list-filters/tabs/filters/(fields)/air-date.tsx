@@ -1,8 +1,5 @@
 'use client'
 
-import { CalendarIcon } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Calendar } from '@plotwist/ui/components/ui/calendar'
 import {
@@ -19,6 +16,8 @@ import {
 } from '@plotwist/ui/components/ui/popover'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { CalendarIcon } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
 
 import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
 import { useLanguage } from '@/context/language'

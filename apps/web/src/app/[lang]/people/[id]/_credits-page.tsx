@@ -1,9 +1,5 @@
 'use client'
 
-import { PosterCard } from '@/components/poster-card'
-import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
-import { getJobLabel } from '@/utils/tmdb/job'
 import {
   Select,
   SelectContent,
@@ -20,6 +16,10 @@ import {
 import type { MovieCast, MovieCrew, TvCast, TvCrew } from '@plotwist_app/tmdb'
 import { Link } from 'next-view-transitions'
 import { useQueryState } from 'nuqs'
+import { PosterCard } from '@/components/poster-card'
+import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { getJobLabel } from '@/utils/tmdb/job'
 
 type CreditsPageProps = {
   roles: string[]

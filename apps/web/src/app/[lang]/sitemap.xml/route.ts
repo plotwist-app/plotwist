@@ -1,5 +1,5 @@
-import type { Language } from '@/types/languages'
 import { SitemapStream, streamToPromise } from 'sitemap'
+import type { Language } from '@/types/languages'
 
 export const dynamic = 'force-dynamic'
 

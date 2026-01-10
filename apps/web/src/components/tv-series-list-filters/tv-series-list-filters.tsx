@@ -1,12 +1,14 @@
 'use client'
 
-import { SlidersHorizontal } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-
 import { Button } from '@plotwist/ui/components/ui/button'
-
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import {
   Sheet,
   SheetClose,
@@ -22,28 +24,21 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
-
+import { SlidersHorizontal } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useLanguage } from '@/context/language'
+import { useUserPreferences } from '@/context/user-preferences'
 import { useMediaQuery } from '@/hooks/use-media-query'
-
+import { WatchProviders } from '../watch-providers'
+import { WatchRegion } from '../watch-region'
+import type { TvSeriesListFiltersFormValues } from '.'
 import { Filters, SortBy } from './tabs'
 import {
   buildQueryStringFromValues,
   getDefaultValues,
 } from './tv-series-list-filters.utils'
-
-import { useUserPreferences } from '@/context/user-preferences'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTrigger,
-} from '@plotwist/ui/components/ui/drawer'
-import type { TvSeriesListFiltersFormValues } from '.'
-import { WatchProviders } from '../watch-providers'
-import { WatchRegion } from '../watch-region'
 
 export const TvSeriesListFilters = () => {
   const [open, setOpen] = useState(false)

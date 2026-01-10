@@ -1,18 +1,5 @@
 'use client'
 
-import { useDebounce } from '@uidotdev/usehooks'
-import { type PropsWithChildren, useMemo, useState } from 'react'
-
-import type { Image } from '@/services/tmdb'
-
-import { useLanguage } from '@/context/language'
-import { ChevronLeft } from 'lucide-react'
-import {
-  ImagePickerInitialList,
-  ImagePickerList,
-  ImagePickerListResults,
-} from './image-picker-list'
-
 import {
   Dialog,
   DialogContent,
@@ -22,7 +9,17 @@ import {
 } from '@plotwist/ui/components/ui/dialog'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { useDebounce } from '@uidotdev/usehooks'
+import { ChevronLeft } from 'lucide-react'
+import { type PropsWithChildren, useMemo, useState } from 'react'
+import { useLanguage } from '@/context/language'
+import type { Image } from '@/services/tmdb'
 import { ImagePickerCrop, type ImagePickerCropProps } from './image-picker-crop'
+import {
+  ImagePickerInitialList,
+  ImagePickerList,
+  ImagePickerListResults,
+} from './image-picker-list'
 
 export type SelectedItem = { id: number; type: 'tv' | 'movie'; title: string }
 
@@ -107,7 +104,7 @@ export const ImagePickerRoot = (
 
   const header = useMemo(() => {
     if (selectedImage) {
-      return <></>
+      return null
     }
 
     if (selectedItem) {

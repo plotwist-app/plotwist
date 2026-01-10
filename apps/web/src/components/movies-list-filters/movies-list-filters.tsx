@@ -1,10 +1,5 @@
 'use client'
 
-import { SlidersHorizontal } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
@@ -29,6 +24,10 @@ import {
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import { SlidersHorizontal } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 
@@ -36,11 +35,11 @@ import { useUserPreferences } from '@/context/user-preferences'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { WatchProviders } from '../watch-providers'
 import { WatchRegion } from '../watch-region'
-import type { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import {
   buildQueryStringFromValues,
   getDefaultValues,
 } from './movies-list-filters.utils'
+import type { MoviesListFiltersFormValues } from './movies-list-filters-schema'
 import { Filters, SortBy } from './tabs'
 
 export const MoviesListFilters = () => {

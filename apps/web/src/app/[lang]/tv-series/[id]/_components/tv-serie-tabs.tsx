@@ -1,19 +1,18 @@
-import { getDictionary } from '@/utils/dictionaries'
-import type { TvSerieDetails } from '@plotwist_app/tmdb'
-
-import { Credits } from '@/components/credits'
-import { Images } from '@/components/images'
-import { Reviews } from '@/components/reviews'
-import { Videos } from '@/components/videos'
-import { WhereToWatch } from '@/components/where-to-watch'
-import type { Language } from '@/types/languages'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import type { TvSerieDetails } from '@plotwist_app/tmdb'
 import { Suspense } from 'react'
+import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import { WhereToWatch } from '@/components/where-to-watch'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { TvSerieRelated } from './tv-serie-related'
 import { TvSerieSeasons } from './tv-serie-seasons'
 

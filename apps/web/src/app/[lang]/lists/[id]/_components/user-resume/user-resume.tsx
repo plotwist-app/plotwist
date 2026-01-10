@@ -1,9 +1,5 @@
 'use client'
 
-import type { GetListById200List } from '@/api/endpoints.schemas'
-import { useGetUserById } from '@/api/users'
-import { ProBadge } from '@/components/pro-badge'
-import { useLanguage } from '@/context/language'
 import {
   Avatar,
   AvatarFallback,
@@ -11,6 +7,10 @@ import {
 } from '@plotwist/ui/components/ui/avatar'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Link } from 'next-view-transitions'
+import type { GetListById200List } from '@/api/endpoints.schemas'
+import { useGetUserById } from '@/api/users'
+import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
 
 type UserResumeProps = {
   list: GetListById200List

@@ -1,8 +1,8 @@
+import type { Metadata } from 'next'
 import { Pattern } from '@/components/pattern'
 import { Pricing } from '@/components/pricing'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import type { Metadata } from 'next'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params

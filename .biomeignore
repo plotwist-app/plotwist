@@ -1,0 +1,5 @@
+node_modules
+.turbo
+.next
+apps/web/src/api/*.ts
+packages/ui

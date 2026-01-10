@@ -1,11 +1,9 @@
-import { tmdb } from '@/services/tmdb'
-
-import type { Language } from '@/types/languages'
 import type { Metadata } from 'next'
-import { tmdbImage } from '../tmdb/image'
-
+import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
 import { APP_URL } from '../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { tmdbImage } from '../tmdb/image'
 
 export async function getMovieMetadata(
   id: number,

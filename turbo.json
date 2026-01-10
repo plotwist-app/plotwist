@@ -9,7 +9,7 @@
       "env": ["NEXT_PUBLIC_MEASUREMENT_ID"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
-    "api#build": {
+    "backend#build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },

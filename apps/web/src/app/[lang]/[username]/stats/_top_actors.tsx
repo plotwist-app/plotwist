@@ -1,8 +1,5 @@
 'use client'
 
-import { useGetUserIdWatchedCastSuspense } from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Card,
   CardContent,
@@ -12,9 +9,12 @@ import {
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { User } from 'lucide-react'
-import { Link } from 'next-view-transitions'
 import Image from 'next/image'
+import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
+import { useGetUserIdWatchedCastSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { useLayoutContext } from '../_context'
 
 export function TopActors() {

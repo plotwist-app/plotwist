@@ -1,6 +1,6 @@
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Link } from 'next-view-transitions'
 import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type CreditCardProps = {
   imagePath: string

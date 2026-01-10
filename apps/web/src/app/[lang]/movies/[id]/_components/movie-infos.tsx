@@ -1,9 +1,3 @@
-import { ItemReview } from '@/components/item-review'
-import { ItemStatus } from '@/components/item-status'
-import { ListsDropdown } from '@/components/lists'
-import { Poster } from '@/components/poster'
-import type { Language, MovieDetails } from '@/services/tmdb'
-import { locale } from '@/utils/date/locale'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Tooltip,
@@ -13,6 +7,12 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import { ItemReview } from '@/components/item-review'
+import { ItemStatus } from '@/components/item-status'
+import { ListsDropdown } from '@/components/lists'
+import { Poster } from '@/components/poster'
+import type { Language, MovieDetails } from '@/services/tmdb'
+import { locale } from '@/utils/date/locale'
 import { MovieGenres } from './movie-genres'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }

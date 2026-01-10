@@ -1,15 +1,14 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-
-import { ImagePicker } from '@/components/image-picker'
 
 import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
+import { ImagePicker } from '@/components/image-picker'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { useRouter } from 'next/navigation'
 
 type UserBannerProps = {
   user: GetUsersUsername200User
@@ -29,7 +28,7 @@ export const UserBanner = ({ user }: UserBannerProps) => {
     return (
       <ImagePicker.Root
         variant="banner"
-        onSelect={async (imageSrc, onClose) => {
+        onSelect={async imageSrc => {
           await mutateAsync(
             { data: { bannerUrl: imageSrc } },
             {

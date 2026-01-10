@@ -1,8 +1,7 @@
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import type { Metadata } from 'next'
-
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Container } from '../_components/container'
 import { LatestLists } from './_components/latest-lists'
 import { Lists } from './_components/lists'

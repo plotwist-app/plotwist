@@ -1,20 +1,18 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import { useLists } from '@/context/lists'
-
+import { v4 } from 'uuid'
 import { ListCard, ListCardSkeleton } from '@/components/list-card'
 import { NoAccountTooltip } from '@/components/no-account-tooltip'
-
+import { useLanguage } from '@/context/language'
+import { useLists } from '@/context/lists'
 import { useSession } from '@/context/session'
-import { v4 } from 'uuid'
 import { ListForm } from './list-form'
 
 const LIMIT = 3
 
 export const Lists = () => {
   const { lists, isLoading } = useLists()
-  const { dictionary, language } = useLanguage()
+  const { dictionary } = useLanguage()
   const { user } = useSession()
 
   if (!user) {

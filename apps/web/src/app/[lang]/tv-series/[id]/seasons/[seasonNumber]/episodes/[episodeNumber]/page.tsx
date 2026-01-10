@@ -1,7 +1,7 @@
+import type { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
 import type { PageProps } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
-import type { Metadata } from 'next'
 import { EpisodeDetails } from './_components/episode-details'
 import { EpisodeNavigation } from './_components/episode-navigation'
 import { EpisodeTabs } from './_components/episode-tabs'

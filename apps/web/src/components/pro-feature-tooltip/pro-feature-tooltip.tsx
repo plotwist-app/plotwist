@@ -1,4 +1,3 @@
-import { useLanguage } from '@/context/language'
 import {
   Tooltip,
   TooltipContent,
@@ -7,6 +6,7 @@ import {
 } from '@plotwist/ui/components/ui/tooltip'
 import { Link } from 'next-view-transitions'
 import type { PropsWithChildren } from 'react'
+import { useLanguage } from '@/context/language'
 
 export function ProFeatureTooltip({ children }: PropsWithChildren) {
   const { language, dictionary } = useLanguage()

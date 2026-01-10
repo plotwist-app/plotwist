@@ -1,12 +1,9 @@
 import type { Metadata } from 'next'
-
-import { MovieDetails } from './_components/movie-details'
-
+import { Suspense } from 'react'
+import type { PageProps } from '@/types/languages'
 import { getMovieMetadata } from '@/utils/seo/get-movie-metadata'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
-
-import type { PageProps } from '@/types/languages'
-import { Suspense } from 'react'
+import { MovieDetails } from './_components/movie-details'
 
 type MoviePageProps = PageProps<{ id: string }>
 

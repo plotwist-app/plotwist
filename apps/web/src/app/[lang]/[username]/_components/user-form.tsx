@@ -1,12 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
 import { Button } from '@plotwist/ui/components/ui/button'
-import { Input } from '@plotwist/ui/components/ui/input'
-
 import {
   Form,
   FormControl,
@@ -15,16 +10,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-
-import { useLanguage } from '@/context/language'
-
-import type { Dictionary } from '@/utils/dictionaries'
+import { Input } from '@plotwist/ui/components/ui/input'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
 import { usePatchUser } from '@/api/users'
+import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { useRouter } from 'next/navigation'
+import type { Dictionary } from '@/utils/dictionaries'
 
 const nameRegex = /^[a-zA-Z0-9-]+$/
 

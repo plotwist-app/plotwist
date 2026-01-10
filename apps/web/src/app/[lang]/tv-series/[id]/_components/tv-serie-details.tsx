@@ -1,10 +1,9 @@
+import { Suspense } from 'react'
 import { Banner } from '@/components/banner'
-
-import { tmdbImage } from '@/utils/tmdb/image'
 
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-import { Suspense } from 'react'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { TvSerieInfos } from './tv-serie-infos'
 import { TvSerieTabs } from './tv-serie-tabs'
 

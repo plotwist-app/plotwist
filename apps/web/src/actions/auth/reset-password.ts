@@ -1,7 +1,7 @@
 'use server'
 
-import { patchUserPassword } from '@/api/users'
 import { redirect } from 'next/navigation'
+import { patchUserPassword } from '@/api/users'
 
 type ResetPassword = {
   token: string

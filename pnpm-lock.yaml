@@ -24,7 +24,7 @@ importers:
         specifier: 2.7.2
         version: 2.7.2
 
-  apps/api:
+  apps/backend:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.962.0

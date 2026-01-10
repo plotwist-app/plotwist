@@ -1,19 +1,18 @@
 'use client'
 
 import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@plotwist/ui/components/ui/chart'
-
-import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@plotwist/ui/components/ui/chart'
 
 import { Label, Pie, PieChart } from 'recharts'
 

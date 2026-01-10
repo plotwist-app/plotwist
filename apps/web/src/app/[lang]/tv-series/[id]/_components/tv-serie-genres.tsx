@@ -1,9 +1,9 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import type { TvSerieDetails } from '@/services/tmdb'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Link } from 'next-view-transitions'
+import { useLanguage } from '@/context/language'
+import type { TvSerieDetails } from '@/services/tmdb'
 
 type TvSerieGenresProps = { genres: TvSerieDetails['genres'] }
 

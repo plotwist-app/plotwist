@@ -1,5 +1,3 @@
-import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
-import { useLanguage } from '@/context/language'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   FormControl,
@@ -7,6 +5,8 @@ import {
   FormLabel,
 } from '@plotwist/ui/components/ui/form'
 import { useFormContext } from 'react-hook-form'
+import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
+import { useLanguage } from '@/context/language'
 
 export const MediaTypeField = () => {
   const {

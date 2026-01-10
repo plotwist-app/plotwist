@@ -1,13 +1,13 @@
 'use client'
 
-import { CollectionFilters } from '@/components/collection-filters/collection-filters'
-import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
-import { useLanguage } from '@/context/language'
-import type { UserItemStatus } from '@/types/user-item'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Check, Clock, List, Loader, Trash } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { useReducer } from 'react'
+import { CollectionFilters } from '@/components/collection-filters/collection-filters'
+import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
+import { useLanguage } from '@/context/language'
+import type { UserItemStatus } from '@/types/user-item'
 import { UserItems } from '../_components/user-items'
 import { useLayoutContext } from '../_context'
 

@@ -1,15 +1,13 @@
-import { LogOut } from 'lucide-react'
-
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-
+import { LogOut } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 import { logout } from '@/actions/auth/logout'
 import { useLanguage } from '@/context/language'
 import type { User } from '@/types/user'
-import { Link } from 'next-view-transitions'
 
 type HeaderNavigationDrawerUserProps = {
   user: User

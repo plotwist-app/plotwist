@@ -1,16 +1,6 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { X } from 'lucide-react'
-import {
-  type KeyboardEvent,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { useFormContext } from 'react-hook-form'
-
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Command,
   CommandInput,
@@ -23,11 +13,18 @@ import {
   FormItem,
   FormLabel,
 } from '@plotwist/ui/components/ui/form'
-
+import { useQuery } from '@tanstack/react-query'
+import { X } from 'lucide-react'
+import {
+  type KeyboardEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { useFormContext } from 'react-hook-form'
 import { useLanguage } from '@/context/language'
-
 import { tmdb } from '@/services/tmdb'
-import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 
 type Option = {

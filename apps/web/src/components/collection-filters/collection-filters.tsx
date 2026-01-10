@@ -1,25 +1,30 @@
-import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
-import { useMediaQuery } from '@plotwist/ui/hooks/use-media-query'
-import { useState } from 'react'
-
-import type { UserItemStatus } from '@/types/user-item'
-import { DrawerFooter } from '@plotwist/ui/components/ui/drawer'
-import { DrawerClose } from '@plotwist/ui/components/ui/drawer'
-import { Drawer } from '@plotwist/ui/components/ui/drawer'
-import { DrawerHeader, DrawerTrigger } from '@plotwist/ui/components/ui/drawer'
-import { DrawerContent } from '@plotwist/ui/components/ui/drawer'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from '@plotwist/ui/components/ui/sheet'
-import { TabsContent } from '@plotwist/ui/components/ui/tabs'
-import { TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
-import { Tabs } from '@plotwist/ui/components/ui/tabs'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@plotwist/ui/components/ui/tabs'
+import { useMediaQuery } from '@plotwist/ui/hooks/use-media-query'
 import { SlidersHorizontal } from 'lucide-react'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useLanguage } from '@/context/language'
+import type { UserItemStatus } from '@/types/user-item'
 import type { CollectionFiltersFormValues } from './collection-filters-schema'
 import { SortBy } from './tabs'
 import { Filters } from './tabs/filters'

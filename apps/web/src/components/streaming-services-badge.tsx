@@ -1,9 +1,9 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Link } from 'next-view-transitions'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 
 export function StreamingServicesBadge() {
   const { user } = useSession()

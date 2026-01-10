@@ -1,3 +1,18 @@
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@plotwist/ui/components/ui/avatar'
+import { Rating } from '@plotwist/ui/components/ui/rating'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
+import { Link } from 'next-view-transitions'
+import type { PropsWithChildren } from 'react'
+import { v4 } from 'uuid'
 import type {
   GetUserActivities200UserActivitiesItemAnyOf,
   GetUserActivities200UserActivitiesItemAnyOfFiveeight,
@@ -9,23 +24,7 @@ import type {
   GetUserActivities200UserActivitiesItemAnyOfTwoseven,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@plotwist/ui/components/ui/avatar'
-
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
-import { Rating } from '@plotwist/ui/components/ui/rating'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
-import { Link } from 'next-view-transitions'
-import type { PropsWithChildren } from 'react'
-import { v4 } from 'uuid'
 
 export function Username({ children }: PropsWithChildren) {
   const { language } = useLanguage()
@@ -329,7 +328,9 @@ export function WatchEpisodeActivity({
 
 export function CreateReviewReplyActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven }) {
+}: {
+  activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven
+}) {
   const { language, dictionary } = useLanguage()
   const {
     owner,
@@ -388,7 +389,9 @@ export function CreateReviewReplyActivity({
 
 export function CreateAccountActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfSixeight }) {
+}: {
+  activity: GetUserActivities200UserActivitiesItemAnyOfSixeight
+}) {
   const { dictionary } = useLanguage()
   const {
     owner: { username },

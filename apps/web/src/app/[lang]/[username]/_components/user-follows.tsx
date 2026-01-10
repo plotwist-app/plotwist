@@ -1,8 +1,5 @@
 'use client'
 
-import { getFollowers, useGetFollowersInfinite } from '@/api/follow'
-import { ProBadge } from '@/components/pro-badge'
-import { useLanguage } from '@/context/language'
 import {
   Avatar,
   AvatarFallback,
@@ -27,6 +24,9 @@ import { Link } from 'next-view-transitions'
 import { type PropsWithChildren, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
+import { getFollowers, useGetFollowersInfinite } from '@/api/follow'
+import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
 
 type UserFollowsProps = {
   variant: 'following' | 'followers'

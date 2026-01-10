@@ -1,8 +1,8 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Link } from 'next-view-transitions'
 
 async function getEpisodeDetails(
   tvId: number,
@@ -18,7 +18,7 @@ async function getEpisodeDetails(
       lang
     )
     return episode
-  } catch (error) {
+  } catch (_error) {
     return null
   }
 }
