@@ -10,7 +10,7 @@ enum L10n {
     
     private static let strings: [Language: Strings] = [
         .enUS: Strings(
-            accessPlotwist: "Welcome back 👋",
+            // Login
             loginLabel: "Email or username",
             loginPlaceholder: "Email or username",
             passwordLabel: "Password",
@@ -24,10 +24,27 @@ enum L10n {
             invalidCredentials: "Invalid login credentials.",
             continueWithGoogle: "Continue with Google",
             continueWithApple: "Continue with Apple",
-            or: "or"
+            or: "or",
+            // Sign Up
+            startNow: "Start now",
+            startYourJourney: "Start your journey in just a few steps.",
+            emailLabel: "Email",
+            emailPlaceholder: "email@domain.com",
+            continueButton: "Continue",
+            alreadyHaveAccount: "Already have an account?",
+            accessNow: "Access now",
+            selectUsername: "Select your username",
+            selectUsernameDescription: "Choose your username and finish your sign-up to start using the platform.",
+            usernamePlaceholder: "john-doe",
+            finishSignUp: "Finish sign-up",
+            emailRequired: "Please enter your email.",
+            emailInvalid: "Please enter a valid email.",
+            usernameRequired: "Please enter a username.",
+            emailAlreadyTaken: "This email is already in use.",
+            usernameAlreadyTaken: "This username is already taken.",
+            signUpSuccess: "Registration successful. Welcome! 🎉"
         ),
         .ptBR: Strings(
-            accessPlotwist: "Bem-vindo de volta 👋",
             loginLabel: "E-mail ou nome de usuário",
             loginPlaceholder: "E-mail ou nome de usuário",
             passwordLabel: "Senha",
@@ -41,10 +58,26 @@ enum L10n {
             invalidCredentials: "Credenciais de login inválidas.",
             continueWithGoogle: "Continuar com Google",
             continueWithApple: "Continuar com Apple",
-            or: "ou"
+            or: "ou",
+            startNow: "Comece agora",
+            startYourJourney: "Comece sua jornada em poucos passos.",
+            emailLabel: "E-mail",
+            emailPlaceholder: "email@dominio.com",
+            continueButton: "Continuar",
+            alreadyHaveAccount: "Já tem uma conta?",
+            accessNow: "Acesse agora",
+            selectUsername: "Escolha seu nome de usuário",
+            selectUsernameDescription: "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
+            usernamePlaceholder: "joao-silva",
+            finishSignUp: "Finalizar cadastro",
+            emailRequired: "Por favor, insira seu e-mail.",
+            emailInvalid: "Por favor, insira um e-mail válido.",
+            usernameRequired: "Por favor, insira um nome de usuário.",
+            emailAlreadyTaken: "Este e-mail já está em uso.",
+            usernameAlreadyTaken: "Este nome de usuário já está em uso.",
+            signUpSuccess: "Cadastro realizado com sucesso. Bem-vindo! 🎉"
         ),
         .esES: Strings(
-            accessPlotwist: "Bienvenido de nuevo 👋",
             loginLabel: "Correo electrónico o nombre de usuario",
             loginPlaceholder: "Correo electrónico o nombre de usuario",
             passwordLabel: "Contraseña",
@@ -58,10 +91,26 @@ enum L10n {
             invalidCredentials: "Credenciales de inicio de sesión no válidas.",
             continueWithGoogle: "Continuar con Google",
             continueWithApple: "Continuar con Apple",
-            or: "o"
+            or: "o",
+            startNow: "Empieza ahora",
+            startYourJourney: "Comienza tu viaje en unos pocos pasos.",
+            emailLabel: "Correo electrónico",
+            emailPlaceholder: "email@dominio.com",
+            continueButton: "Continuar",
+            alreadyHaveAccount: "¿Ya tienes una cuenta?",
+            accessNow: "Accede ahora",
+            selectUsername: "Selecciona tu nombre de usuario",
+            selectUsernameDescription: "Elige tu nombre de usuario y finaliza tu registro para comenzar a usar la plataforma.",
+            usernamePlaceholder: "juan-perez",
+            finishSignUp: "Finalizar registro",
+            emailRequired: "Por favor, introduce tu correo electrónico.",
+            emailInvalid: "Por favor, introduce un correo electrónico válido.",
+            usernameRequired: "Por favor, introduce un nombre de usuario.",
+            emailAlreadyTaken: "Este correo electrónico ya está en uso.",
+            usernameAlreadyTaken: "Este nombre de usuario ya está en uso.",
+            signUpSuccess: "Registro exitoso. ¡Bienvenido! 🎉"
         ),
         .frFR: Strings(
-            accessPlotwist: "Bon retour 👋",
             loginLabel: "E-mail ou nom d'utilisateur",
             loginPlaceholder: "E-mail ou nom d'utilisateur",
             passwordLabel: "Mot de passe",
@@ -75,10 +124,26 @@ enum L10n {
             invalidCredentials: "Identifiants de connexion invalides.",
             continueWithGoogle: "Continuer avec Google",
             continueWithApple: "Continuer avec Apple",
-            or: "ou"
+            or: "ou",
+            startNow: "Commencez maintenant",
+            startYourJourney: "Commencez votre voyage en quelques étapes.",
+            emailLabel: "E-mail",
+            emailPlaceholder: "email@domaine.com",
+            continueButton: "Continuer",
+            alreadyHaveAccount: "Vous avez déjà un compte?",
+            accessNow: "Connectez-vous",
+            selectUsername: "Choisissez votre nom d'utilisateur",
+            selectUsernameDescription: "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
+            usernamePlaceholder: "jean-dupont",
+            finishSignUp: "Terminer l'inscription",
+            emailRequired: "Veuillez entrer votre e-mail.",
+            emailInvalid: "Veuillez entrer un e-mail valide.",
+            usernameRequired: "Veuillez entrer un nom d'utilisateur.",
+            emailAlreadyTaken: "Cet e-mail est déjà utilisé.",
+            usernameAlreadyTaken: "Ce nom d'utilisateur est déjà utilisé.",
+            signUpSuccess: "Inscription réussie. Bienvenue! 🎉"
         ),
         .deDE: Strings(
-            accessPlotwist: "Willkommen zurück 👋",
             loginLabel: "E-Mail oder Benutzername",
             loginPlaceholder: "E-Mail oder Benutzername",
             passwordLabel: "Passwort",
@@ -92,10 +157,26 @@ enum L10n {
             invalidCredentials: "Ungültige Anmeldeinformationen.",
             continueWithGoogle: "Weiter mit Google",
             continueWithApple: "Weiter mit Apple",
-            or: "oder"
+            or: "oder",
+            startNow: "Jetzt starten",
+            startYourJourney: "Beginnen Sie Ihre Reise in wenigen Schritten.",
+            emailLabel: "E-Mail",
+            emailPlaceholder: "email@domain.de",
+            continueButton: "Weiter",
+            alreadyHaveAccount: "Haben Sie bereits ein Konto?",
+            accessNow: "Jetzt anmelden",
+            selectUsername: "Wählen Sie Ihren Benutzernamen",
+            selectUsernameDescription: "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
+            usernamePlaceholder: "max-mustermann",
+            finishSignUp: "Registrierung abschließen",
+            emailRequired: "Bitte geben Sie Ihre E-Mail-Adresse ein.",
+            emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+            usernameRequired: "Bitte geben Sie einen Benutzernamen ein.",
+            emailAlreadyTaken: "Diese E-Mail-Adresse wird bereits verwendet.",
+            usernameAlreadyTaken: "Dieser Benutzername ist bereits vergeben.",
+            signUpSuccess: "Registrierung erfolgreich. Willkommen! 🎉"
         ),
         .itIT: Strings(
-            accessPlotwist: "Bentornato 👋",
             loginLabel: "E-mail o nome utente",
             loginPlaceholder: "E-mail o nome utente",
             passwordLabel: "Password",
@@ -109,10 +190,26 @@ enum L10n {
             invalidCredentials: "Credenziali di accesso non valide.",
             continueWithGoogle: "Continua con Google",
             continueWithApple: "Continua con Apple",
-            or: "o"
+            or: "o",
+            startNow: "Inizia ora",
+            startYourJourney: "Inizia il tuo viaggio in pochi passi.",
+            emailLabel: "E-mail",
+            emailPlaceholder: "email@dominio.com",
+            continueButton: "Continua",
+            alreadyHaveAccount: "Hai già un account?",
+            accessNow: "Accedi ora",
+            selectUsername: "Scegli il tuo nome utente",
+            selectUsernameDescription: "Scegli il tuo nome utente e completa la registrazione per iniziare a usare la piattaforma.",
+            usernamePlaceholder: "mario-rossi",
+            finishSignUp: "Completa registrazione",
+            emailRequired: "Inserisci la tua e-mail.",
+            emailInvalid: "Inserisci un'e-mail valida.",
+            usernameRequired: "Inserisci un nome utente.",
+            emailAlreadyTaken: "Questa email è già in uso.",
+            usernameAlreadyTaken: "Questo nome utente è già in uso.",
+            signUpSuccess: "Registrazione completata. Benvenuto! 🎉"
         ),
         .jaJP: Strings(
-            accessPlotwist: "おかえりなさい 👋",
             loginLabel: "メールアドレスまたはユーザー名",
             loginPlaceholder: "メールアドレスまたはユーザー名",
             passwordLabel: "パスワード",
@@ -126,13 +223,30 @@ enum L10n {
             invalidCredentials: "ログイン認証情報が無効です。",
             continueWithGoogle: "Googleで続ける",
             continueWithApple: "Appleで続ける",
-            or: "または"
+            or: "または",
+            startNow: "今すぐ始める",
+            startYourJourney: "数ステップで旅を始めましょう。",
+            emailLabel: "メールアドレス",
+            emailPlaceholder: "email@domain.com",
+            continueButton: "続ける",
+            alreadyHaveAccount: "すでにアカウントをお持ちですか？",
+            accessNow: "ログイン",
+            selectUsername: "ユーザー名を選択",
+            selectUsernameDescription: "ユーザー名を選択し、プラットフォームの利用を開始するためにサインアップを完了してください。",
+            usernamePlaceholder: "taro-yamada",
+            finishSignUp: "登録を完了",
+            emailRequired: "メールアドレスを入力してください。",
+            emailInvalid: "有効なメールアドレスを入力してください。",
+            usernameRequired: "ユーザー名を入力してください。",
+            emailAlreadyTaken: "このメールアドレスは既に使用されています。",
+            usernameAlreadyTaken: "このユーザー名は既に使用されています。",
+            signUpSuccess: "登録が完了しました。ようこそ！🎉"
         )
     ]
 }
 
 struct Strings {
-    let accessPlotwist: String
+    // Login
     let loginLabel: String
     let loginPlaceholder: String
     let passwordLabel: String
@@ -147,4 +261,22 @@ struct Strings {
     let continueWithGoogle: String
     let continueWithApple: String
     let or: String
+    // Sign Up
+    let startNow: String
+    let startYourJourney: String
+    let emailLabel: String
+    let emailPlaceholder: String
+    let continueButton: String
+    let alreadyHaveAccount: String
+    let accessNow: String
+    let selectUsername: String
+    let selectUsernameDescription: String
+    let usernamePlaceholder: String
+    let finishSignUp: String
+    let emailRequired: String
+    let emailInvalid: String
+    let usernameRequired: String
+    let emailAlreadyTaken: String
+    let usernameAlreadyTaken: String
+    let signUpSuccess: String
 }

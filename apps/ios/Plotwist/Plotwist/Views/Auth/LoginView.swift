@@ -11,34 +11,15 @@ struct LoginView: View {
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var error: String?
-  @State private var strings = L10n.current
-  @ObservedObject private var themeManager = ThemeManager.shared
+    @State private var strings = L10n.current
 
   var body: some View {
     NavigationView {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        VStack(spacing: 24) {
-          // Theme toggle button (temporary)
-          HStack {
-            Spacer()
-            Button {
-              themeManager.toggle()
-            } label: {
-              Image(systemName: themeManager.current.icon)
-                .font(.system(size: 20))
-                .foregroundColor(.appForegroundAdaptive)
-                .frame(width: 44, height: 44)
-                .background(Color.clear)
-                .overlay(
-                  RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                )
-            }
-          }
-
-          Spacer()
+                VStack(spacing: 24) {
+                    Spacer()
 
           VStack(spacing: 16) {
             // Login Field
@@ -122,12 +103,12 @@ struct LoginView: View {
 
           Spacer()
 
-          NavigationLink(destination: Text("Sign Up - Coming Soon")) {
-            Text("\(strings.doNotHaveAccount) \(strings.createNow)")
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-          .padding(.bottom, 16)
+                    NavigationLink(destination: SignUpView()) {
+                        Text("\(strings.doNotHaveAccount) \(strings.createNow)")
+                            .font(.caption)
+                            .foregroundColor(.appMutedForegroundAdaptive)
+                    }
+                    .padding(.bottom, 16)
         }
         .padding(.horizontal, 24)
         .frame(maxWidth: 400)
