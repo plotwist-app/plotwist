@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest'
-
-import { makeUser } from '@/test/factories/make-user'
-
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
+import { makeUser } from '@/test/factories/make-user'
 import { makeUserImport } from '@/test/factories/make-user-import'
 import { getDetailedUserImportById } from './get-detailed-user-import-by-id'
 

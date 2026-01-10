@@ -1,9 +1,9 @@
-import { makeUser } from '@/test/factories/make-user'
-import { scheduleCancellation } from './schedule-subscription-cancellation'
-import { makeSubscription } from '@/test/factories/make-subscription'
-
 import { stripe } from '@/adapters/stripe'
 import { getSubscriptionById } from '@/db/repositories/subscription-repository'
+import { makeSubscription } from '@/test/factories/make-subscription'
+import { makeUser } from '@/test/factories/make-user'
+import { scheduleCancellation } from './schedule-subscription-cancellation'
+
 vi.mock('@/adapters/stripe', () => ({
   stripe: {
     subscriptions: {

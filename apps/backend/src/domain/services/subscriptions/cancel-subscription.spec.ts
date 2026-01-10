@@ -1,11 +1,11 @@
-import { makeUser } from '@/test/factories/make-user'
-import { cancelSubscription } from './cancel-subscription'
-import { makeSubscription } from '@/test/factories/make-subscription'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it, type Mock } from 'vitest'
 import { stripe } from '@/adapters/stripe'
 import { getSubscriptionById } from '@/db/repositories/subscription-repository'
 import { getUserById } from '@/db/repositories/user-repository'
+import { makeSubscription } from '@/test/factories/make-subscription'
+import { makeUser } from '@/test/factories/make-user'
+import { cancelSubscription } from './cancel-subscription'
 
 vi.mock('@/adapters/stripe', () => ({
   stripe: {

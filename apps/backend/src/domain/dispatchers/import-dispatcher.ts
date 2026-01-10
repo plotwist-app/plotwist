@@ -1,9 +1,8 @@
 import type { MultipartFile } from '@fastify/multipart'
-import type { DetailedUserImport } from '../entities/import'
-import type { DomainError } from '../errors/domain-error'
-
 import type { ProvidersEnum } from '@/@types/media-type-enum'
+import type { DetailedUserImport } from '../entities/import'
 import { CannotProcessImportFileError } from '../errors/cannot-process-file'
+import type { DomainError } from '../errors/domain-error'
 import { decodeLetterboxd } from '../services/imports/decoder/decode-letterboxd'
 import { decodeMyAnimeList } from '../services/imports/decoder/decode-my-anime-list'
 

@@ -1,11 +1,10 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { createContext, useContext } from 'react'
 
-import { useGetLists } from '@/api/list'
-
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
-import type { ReactNode } from 'react'
+import { useGetLists } from '@/api/list'
 import { useSession } from './session'
 
 export type ListsContextType = {

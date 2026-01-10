@@ -1,7 +1,7 @@
+import { and, desc, eq, or } from 'drizzle-orm'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertSubscriptionModel } from '@/domain/entities/subscription'
-import { and, eq, desc, or } from 'drizzle-orm'
 
 export async function insertSubscription(params: InsertSubscriptionModel) {
   return db.insert(schema.subscriptions).values(params).returning()

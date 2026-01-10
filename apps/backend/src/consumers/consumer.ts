@@ -1,5 +1,5 @@
-import { SQSAdapter } from '@/adapters/sqs'
 import type { Message } from '@aws-sdk/client-sqs'
+import { SQSAdapter } from '@/adapters/sqs'
 
 export async function consumeMessages(
   queueUrl: string,

@@ -1,10 +1,8 @@
+import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
-
+import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error'
 import { makeRawUser, makeUser } from '@/test/factories/make-user'
 import { hashPassword } from '@/utils/password'
-import { faker } from '@faker-js/faker'
-
-import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error'
 import { loginService } from './login'
 
 describe('login', () => {

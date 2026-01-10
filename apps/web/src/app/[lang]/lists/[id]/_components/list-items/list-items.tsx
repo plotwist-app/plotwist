@@ -1,8 +1,7 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-
 import { useGetListItemsByListIdSuspense } from '@/api/list-item'
+import { useLanguage } from '@/context/language'
 import { ListItemsGrid } from './list-items-grid'
 
 type ListItemsProps = {

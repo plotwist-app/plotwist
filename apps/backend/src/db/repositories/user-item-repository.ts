@@ -1,10 +1,3 @@
-import type {
-  InsertUserItem,
-  SelectAllUserItems,
-  SelectUserItems,
-} from '@/domain/entities/user-item'
-import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
-
 import {
   and,
   asc,
@@ -17,9 +10,15 @@ import {
   lte,
   sql,
 } from 'drizzle-orm'
+import type { UserItemStatus } from '@/@types/item-status-enum'
+import type {
+  InsertUserItem,
+  SelectAllUserItems,
+  SelectUserItems,
+} from '@/domain/entities/user-item'
+import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
 import { db } from '..'
 import { schema } from '../schema'
-import type { UserItemStatus } from '@/@types/item-status-enum'
 
 export async function upsertUserItem({
   mediaType,

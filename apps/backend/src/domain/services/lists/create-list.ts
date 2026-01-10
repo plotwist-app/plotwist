@@ -1,8 +1,8 @@
+import type { InferInsertModel } from 'drizzle-orm'
+import postgres from 'postgres'
 import { insertList } from '@/db/repositories/list-repository'
 import type { schema } from '@/db/schema'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
-import type { InferInsertModel } from 'drizzle-orm'
-import postgres from 'postgres'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>

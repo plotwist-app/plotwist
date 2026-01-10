@@ -1,8 +1,9 @@
 // @ts-nocheck
-import * as pulumi from '@pulumi/pulumi'
-import * as docker_build from '@pulumi/docker-build'
+
 import * as aws from '@pulumi/aws'
 import * as awsx from '@pulumi/awsx'
+import * as docker_build from '@pulumi/docker-build'
+import * as pulumi from '@pulumi/pulumi'
 
 const zone = aws.route53.getZone({
   name: 'plotwist.app',

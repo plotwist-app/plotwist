@@ -1,6 +1,6 @@
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { getSocialLinksService } from '@/domain/services/social-links/get-social-links'
 import { upsertSocialLinksService } from '@/domain/services/social-links/upsert-social-links'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   getSocialLinksQuerySchema,
   socialLinksBodySchema,

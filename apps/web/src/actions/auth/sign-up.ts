@@ -1,10 +1,10 @@
 'use server'
 
+import type { Language } from '@plotwist_app/tmdb'
+import { redirect } from 'next/navigation'
 import type { PostUsersCreateBody } from '@/api/endpoints.schemas'
 import { postUsersCreate } from '@/api/users'
 import { api } from '@/services/api'
-import type { Language } from '@plotwist_app/tmdb'
-import { redirect } from 'next/navigation'
 import { signIn } from './sign-in'
 
 type SignUpParams = PostUsersCreateBody & {

@@ -1,7 +1,7 @@
 'use client'
 
-import type { PageProps } from '@/types/languages'
 import { notFound } from 'next/navigation'
+import type { PageProps } from '@/types/languages'
 
 export default async function Page(props: PageProps) {
   const params = await props.params

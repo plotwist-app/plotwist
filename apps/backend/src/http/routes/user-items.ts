@@ -1,5 +1,12 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import {
+  deleteUserItemController,
+  getAllUserItemsController,
+  getUserItemController,
+  getUserItemsController,
+  upsertUserItemController,
+} from '../controllers/user-items-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   deleteUserItemParamsSchema,
@@ -12,14 +19,6 @@ import {
   upsertUserItemBodySchema,
   upsertUserItemResponseSchema,
 } from '../schemas/user-items'
-
-import {
-  deleteUserItemController,
-  getAllUserItemsController,
-  getUserItemController,
-  getUserItemsController,
-  upsertUserItemController,
-} from '../controllers/user-items-controller'
 
 const USER_ITEMS_TAGS = ['User items']
 

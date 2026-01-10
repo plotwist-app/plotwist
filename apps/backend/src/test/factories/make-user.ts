@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
+import { faker } from '@faker-js/faker'
 import { insertUser } from '@/db/repositories/user-repository'
 import type { InsertUserModel, User } from '@/domain/entities/user'
-import { faker } from '@faker-js/faker'
 
 type Overrides = Partial<InsertUserModel>
 

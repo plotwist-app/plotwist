@@ -1,14 +1,14 @@
-import { Credits } from '@/components/credits/credits'
-import { Images } from '@/components/images'
-import { Reviews } from '@/components/reviews'
-import type { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
+import { Credits } from '@/components/credits/credits'
+import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 
 type EpisodeTabsProps = {
   language: Language

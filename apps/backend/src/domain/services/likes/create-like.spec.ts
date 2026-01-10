@@ -1,14 +1,12 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-
-import { createLikeService } from './create-like'
+import type { User } from '@/domain/entities/user'
 
 import { makeRawLike } from '@/test/factories/make-like'
-import { makeReview } from '@/test/factories/make-review'
-import { makeUser } from '@/test/factories/make-user'
-
-import type { User } from '@/domain/entities/user'
 import { makeList } from '@/test/factories/make-list'
+import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
+import { makeUser } from '@/test/factories/make-user'
+import { createLikeService } from './create-like'
 
 let user: User
 

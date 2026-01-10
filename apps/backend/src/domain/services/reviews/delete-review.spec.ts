@@ -1,7 +1,6 @@
-import { describe, expect, it } from 'vitest'
-
-import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { faker } from '@faker-js/faker'
+import { describe, expect, it } from 'vitest'
+import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { deleteReviewService } from './delete-review'
 
 describe('delete review', () => {

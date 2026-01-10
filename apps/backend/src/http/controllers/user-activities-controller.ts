@@ -1,17 +1,16 @@
-import { deleteUserActivityByIdService } from '@/domain/services/user-activities/delete-user-activity'
-import { formatUserActivitiesService } from '@/domain/services/user-activities/format-user-activities'
-import { getUserActivitiesService } from '@/domain/services/user-activities/get-user-activities'
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { deleteUserActivityByIdService } from '@/domain/services/user-activities/delete-user-activity'
+import { formatUserActivitiesService } from '@/domain/services/user-activities/format-user-activities'
+import { getUserNetworkActivitiesService } from '@/domain/services/user-activities/get-network-activities'
+import { getUserActivitiesService } from '@/domain/services/user-activities/get-user-activities'
 import {
-  type GetUserActivitiesResponseType,
   deleteUserActivityParamsSchema,
+  type GetUserActivitiesResponseType,
   getUserActivitiesParamsSchema,
   getUserActivitiesQuerySchema,
   getUserNetworkActivitiesQuerySchema,
 } from '../schemas/user-activities'
-
-import { getUserNetworkActivitiesService } from '@/domain/services/user-activities/get-network-activities'
 
 export async function getUserActivitiesController(
   request: FastifyRequest,

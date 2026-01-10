@@ -1,11 +1,11 @@
+import { DeleteQueueCommand, ReceiveMessageCommand } from '@aws-sdk/client-sqs'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createSqsClient, initializeSQS } from '@/adapters/sqs'
 import { config } from '@/config'
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserImport } from '@/test/factories/make-user-import'
-import { DeleteQueueCommand, ReceiveMessageCommand } from '@aws-sdk/client-sqs'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { publishToQueue } from './publish-import-to-queue'
 
 describe('publishToQueue', () => {

@@ -1,10 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-
-import { makeUser } from '@/test/factories/make-user'
-import { deleteFollowService } from './delete-follow'
-
 import type { User } from '@/domain/entities/user'
 import { makeFollow } from '@/test/factories/make-follow'
+import { makeUser } from '@/test/factories/make-user'
+import { deleteFollowService } from './delete-follow'
 
 let follower: User
 let followed: User

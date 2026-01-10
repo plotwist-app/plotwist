@@ -1,16 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
-import { Eye, EyeOff } from 'lucide-react'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
@@ -20,14 +10,20 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-
 import { Input } from '@plotwist/ui/components/ui/input'
-
-import type { resetPassword } from '@/actions/auth/reset-password'
-import { useLanguage } from '@/context/language'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@plotwist/ui/components/ui/tooltip'
+import { Eye, EyeOff } from 'lucide-react'
 import { redirect, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import type { resetPassword } from '@/actions/auth/reset-password'
+import { useLanguage } from '@/context/language'
 import {
   type ResetPasswordFormValues,
   resetPasswordFormSchema,

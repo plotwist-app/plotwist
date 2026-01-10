@@ -1,6 +1,6 @@
-import type { Dictionary } from '@/utils/dictionaries'
 import * as icons from 'lucide-react'
 import { v4 } from 'uuid'
+import type { Dictionary } from '@/utils/dictionaries'
 
 const RandomIcon = () => {
   const iconNames = Object.keys(icons)

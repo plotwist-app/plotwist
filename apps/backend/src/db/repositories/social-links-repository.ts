@@ -1,5 +1,5 @@
-import type { InsertSocialLink } from '@/domain/entities/social-link'
 import { and, eq, sql } from 'drizzle-orm'
+import type { InsertSocialLink } from '@/domain/entities/social-link'
 import { db } from '..'
 import { schema } from '../schema'
 

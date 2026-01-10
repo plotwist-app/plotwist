@@ -1,8 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Form,
@@ -12,8 +10,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-
 import { Input } from '@plotwist/ui/components/ui/input'
+import { useForm } from 'react-hook-form'
 
 import { useLanguage } from '@/context/language'
 import {

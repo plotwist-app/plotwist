@@ -1,5 +1,5 @@
-import type { InsertLike } from '@/domain/entities/likes'
 import { eq, getTableColumns, sql } from 'drizzle-orm'
+import type { InsertLike } from '@/domain/entities/likes'
 import { db } from '..'
 import { schema } from '../schema'
 

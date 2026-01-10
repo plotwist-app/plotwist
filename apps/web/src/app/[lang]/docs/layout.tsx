@@ -1,11 +1,11 @@
 'use client'
 
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { usePathname, useRouter } from 'next/navigation'
+import { Link } from 'next-view-transitions'
+import { type PropsWithChildren, useState } from 'react'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { Link } from 'next-view-transitions'
-import { usePathname, useRouter } from 'next/navigation'
-import { type PropsWithChildren, useState } from 'react'
 import { buildNavigation } from './_navigation'
 
 function NavigationDesktop() {

@@ -1,8 +1,5 @@
 'use client'
 
-import { LogIn, LogOut, User as UserIcon } from 'lucide-react'
-import { Link } from 'next-view-transitions'
-
 import {
   Avatar,
   AvatarFallback,
@@ -15,13 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
-
-import { useLanguage } from '@/context/language'
-import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
-
+import { LogIn, LogOut, User as UserIcon } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 import { logout } from '@/actions/auth/logout'
+import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import type { User } from '@/types/user'
+import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
 type AvatarContentProps = {
   user: User

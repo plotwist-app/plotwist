@@ -1,5 +1,5 @@
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import type { FastifyRedis } from '@fastify/redis'
+import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 
 type GetUserWatchedCastServiceInput = {

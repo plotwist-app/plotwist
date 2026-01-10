@@ -1,5 +1,5 @@
-import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it } from 'vitest'
+import { makeUser } from '@/test/factories/make-user'
 import { getUserPreferencesService } from './get-user-preferences'
 import { updateUserPreferencesService } from './update-user-preferences'
 

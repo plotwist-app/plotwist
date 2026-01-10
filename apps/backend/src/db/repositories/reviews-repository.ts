@@ -1,11 +1,4 @@
-import { db } from '@/db'
-import { schema } from '@/db/schema'
-import type { InsertReviewModel } from '@/domain/entities/review'
-import type { GetReviewInput } from '@/domain/services/reviews/get-review'
-import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
-import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import {
-  type SQL,
   and,
   count,
   desc,
@@ -13,8 +6,15 @@ import {
   getTableColumns,
   gte,
   lte,
+  type SQL,
   sql,
 } from 'drizzle-orm'
+import { db } from '@/db'
+import { schema } from '@/db/schema'
+import type { InsertReviewModel } from '@/domain/entities/review'
+import type { GetReviewInput } from '@/domain/services/reviews/get-review'
+import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 
 export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()

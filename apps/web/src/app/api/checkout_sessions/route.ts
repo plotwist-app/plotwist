@@ -1,6 +1,6 @@
-import { stripe } from '@/services/stripe'
 import type { NextRequest } from 'next/server'
 import type { Stripe } from 'stripe'
+import { stripe } from '@/services/stripe'
 
 export async function POST(req: NextRequest) {
   const url = new URL(req.url)

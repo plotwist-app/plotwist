@@ -1,17 +1,15 @@
-import fastifySwagger from '@fastify/swagger'
-import fastify from 'fastify'
-import type { FastifyInstance } from 'fastify/types/instance'
-
 import * as fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-
-import { logger } from '@/adapters/logger'
+import fastifySwagger from '@fastify/swagger'
+import fastify from 'fastify'
+import type { FastifyInstance } from 'fastify/types/instance'
 import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
+import { logger } from '@/adapters/logger'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'

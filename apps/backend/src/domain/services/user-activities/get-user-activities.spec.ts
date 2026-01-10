@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
-import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it } from 'vitest'
+import { makeUser } from '@/test/factories/make-user'
 import { createUserActivity } from './create-user-activity'
 import { getUserActivitiesService } from './get-user-activities'
 

@@ -1,6 +1,6 @@
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import type { UserItemStatus } from '@/@types/item-status-enum'
 import type { schema } from '@/db/schema'
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 
 export type UserItem = InferSelectModel<typeof schema.userItems>
 export type InsertUserItem = Pick<

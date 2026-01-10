@@ -1,14 +1,13 @@
-import { describe, expect, it } from 'vitest'
-
-import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
+import { describe, expect, it } from 'vitest'
+import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
+import { DomainError } from '@/domain/errors/domain-error'
+import { makeUser } from '@/test/factories/make-user'
 import { createSubscription } from './create-subscription'
 import {
   getLastestActiveSubscription,
   getSubscription,
 } from './get-subscription'
-import { DomainError } from '@/domain/errors/domain-error'
-import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
 
 describe('get subscription', () => {
   it('should be able to get subscription', async () => {

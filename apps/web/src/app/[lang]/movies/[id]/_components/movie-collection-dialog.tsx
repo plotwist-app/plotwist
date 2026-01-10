@@ -1,10 +1,5 @@
 'use client'
 
-import type { DetailedCollection } from '@/services/tmdb'
-import { Link } from 'next-view-transitions'
-import { useState } from 'react'
-
-import { PosterCard } from '@/components/poster-card'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
@@ -12,8 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
-
+import { Link } from 'next-view-transitions'
+import { useState } from 'react'
+import { PosterCard } from '@/components/poster-card'
 import { useLanguage } from '@/context/language'
+import type { DetailedCollection } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
 type MovieCollectionDialogProps = { collection: DetailedCollection }

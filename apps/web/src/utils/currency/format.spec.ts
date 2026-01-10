@@ -1,5 +1,5 @@
-import type { Language } from '@/types/languages'
 import { expect, test } from 'vitest'
+import type { Language } from '@/types/languages'
 import { formatCurrency } from './format'
 
 test('formatCurrency should format the amount in USD currency (default language)', () => {

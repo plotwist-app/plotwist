@@ -1,11 +1,11 @@
+import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import type {
   DeleteFollowUserActivity,
   DeleteUserActivity,
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
-import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
-import { alias } from 'drizzle-orm/pg-core'
 import { db } from '..'
 import { schema } from '../schema'
 

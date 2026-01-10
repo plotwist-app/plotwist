@@ -1,5 +1,5 @@
-import { schema } from '@/db/schema'
 import { or, sql } from 'drizzle-orm'
+import { schema } from '@/db/schema'
 import { db } from '..'
 
 export async function findUserByEmailOrUsername(login?: string) {

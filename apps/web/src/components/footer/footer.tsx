@@ -1,6 +1,6 @@
+import { Link } from 'next-view-transitions'
 import type { Language } from '@/types/languages'
 import type { Dictionary } from '@/utils/dictionaries'
-import { Link } from 'next-view-transitions'
 import { Logo } from '../logo'
 
 type FooterProps = { language: Language; dictionary: Dictionary }

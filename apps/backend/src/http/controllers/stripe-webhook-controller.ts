@@ -1,9 +1,8 @@
-import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
-
-import { stripe } from '@/adapters/stripe'
-import { config } from '@/config'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
+import { stripe } from '@/adapters/stripe'
+import { config } from '@/config'
+import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
 
 export async function stripeWebhookController(
   request: FastifyRequest,

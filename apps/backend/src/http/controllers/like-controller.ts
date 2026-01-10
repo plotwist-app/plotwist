@@ -1,10 +1,10 @@
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { likeAcvityType } from '@/@types/user-activity'
 import { createLikeService } from '@/domain/services/likes/create-like'
 import { deleteLikeService } from '@/domain/services/likes/delete-like'
 import { getLikesService } from '@/domain/services/likes/get-likes'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createLikeBodySchema,
   deleteLikeParamsSchema,

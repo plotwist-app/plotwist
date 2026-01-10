@@ -1,6 +1,6 @@
-import { schema } from '@/db/schema'
 import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { schema } from '@/db/schema'
 
 export const createFollowBodySchema = z.object({
   userId: z.string(),

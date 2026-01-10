@@ -1,6 +1,6 @@
+import { faker } from '@faker-js/faker'
 import { insertUserEpisodes } from '@/db/repositories/user-episode'
 import type { InsertUserEpisode } from '@/domain/entities/user-episode'
-import { faker } from '@faker-js/faker'
 
 type Overrides = Partial<InsertUserEpisode> & {
   userId: string

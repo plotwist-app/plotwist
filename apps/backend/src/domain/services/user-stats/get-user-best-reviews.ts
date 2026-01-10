@@ -1,6 +1,6 @@
-import { selectBestReviews } from '@/db/repositories/reviews-repository'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
+import { selectBestReviews } from '@/db/repositories/reviews-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 

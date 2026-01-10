@@ -1,25 +1,22 @@
 'use client'
 
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
+import { Rating } from '@plotwist/ui/components/ui/rating'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-
-import { tmdbImage } from '@/utils/tmdb/image'
-
+import { format } from 'date-fns'
+import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import { useState } from 'react'
 import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { locale } from '@/utils/date/locale'
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
-import { Rating } from '@plotwist/ui/components/ui/rating'
-import { format } from 'date-fns'
-import { useState } from 'react'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { Likes } from '../likes'
 
 type FullReviewProps = {

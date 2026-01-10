@@ -1,14 +1,12 @@
+import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
-
+import type { List } from '@/domain/entities/lists'
+import type { User } from '@/domain/entities/user'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
 import { makeList } from '@/test/factories/make-list'
 import { makeListItem } from '@/test/factories/make-list-item'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
 import { deleteListItemService } from './delete-list-item'
-
-import type { List } from '@/domain/entities/lists'
-import type { User } from '@/domain/entities/user'
 
 let list: List
 let user: User

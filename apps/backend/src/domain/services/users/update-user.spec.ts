@@ -1,8 +1,8 @@
-import { makeUser } from '@/test/factories/make-user'
+import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import type { User } from '@/domain/entities/user'
-import { faker } from '@faker-js/faker'
+import { makeUser } from '@/test/factories/make-user'
 import { updateUserService } from './update-user'
 
 let user: User

@@ -1,7 +1,6 @@
 import { DomainError } from '@/domain/errors/domain-error'
-import { getUserByEmailService } from '../users/get-user-by-email'
-
 import { createSubscription } from '../subscriptions/create-subscription'
+import { getUserByEmailService } from '../users/get-user-by-email'
 import { getLastestActiveSubscription } from './get-subscription'
 
 export async function completeSubscription(email: string | null) {

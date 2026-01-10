@@ -1,9 +1,3 @@
-import { Credits } from '@/components/credits'
-import { Images } from '@/components/images'
-import { Reviews } from '@/components/reviews'
-import { Videos } from '@/components/videos'
-import type { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
 import {
   Tabs,
   TabsContent,
@@ -12,6 +6,12 @@ import {
 } from '@plotwist/ui/components/ui/tabs'
 import type { SeasonDetails } from '@plotwist_app/tmdb'
 import { Suspense } from 'react'
+import { Credits } from '@/components/credits'
+import { Images } from '@/components/images'
+import { Reviews } from '@/components/reviews'
+import { Videos } from '@/components/videos'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { SeasonEpisodes } from './season-episodes'
 
 type SeasonTabsProps = {

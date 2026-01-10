@@ -1,10 +1,10 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
 import { Tabs, TabsList, TabsTrigger } from '@plotwist/ui/components/ui/tabs'
-import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
+import { Link } from 'next-view-transitions'
 import { useMemo } from 'react'
+import { useLanguage } from '@/context/language'
 
 type PersonTabsProps = {
   personId: string

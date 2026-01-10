@@ -1,8 +1,7 @@
 import 'server-only'
-import { SignJWT, jwtVerify } from 'jose'
-import type { SessionPayload } from './definitions'
-
+import { jwtVerify, SignJWT } from 'jose'
 import { cookies } from 'next/headers'
+import type { SessionPayload } from './definitions'
 
 const secretKey = process.env.SESSION_SECRET
 

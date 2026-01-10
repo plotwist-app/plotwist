@@ -1,20 +1,19 @@
+import type { MultipartFile } from '@fastify/multipart'
+import {
+  type MALAnimes,
+  type MyAnimeListImport,
+  SeriesType,
+} from '@/@types/my-anime-list-import'
 import type {
   DetailedUserImport,
   InsertUserImportWithItems,
 } from '@/domain/entities/import'
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
-import { MALtoDomain } from '@/domain/helpers/convert_status'
-import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
-
-import {
-  type MALAnimes,
-  type MyAnimeListImport,
-  SeriesType,
-} from '@/@types/my-anime-list-import'
 import { DomainError } from '@/domain/errors/domain-error'
+import { MALtoDomain } from '@/domain/helpers/convert_status'
 import { unzipFile } from '@/domain/helpers/decompress-gzip-file'
-import type { MultipartFile } from '@fastify/multipart'
+import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
 import { createUserImport } from '../create-user-import'
 
 export async function decodeMyAnimeList(

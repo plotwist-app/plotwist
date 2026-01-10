@@ -1,6 +1,6 @@
-import { tmdb } from '@/adapters/tmdb'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language, MovieDetails } from '@plotwist_app/tmdb'
+import { tmdb } from '@/adapters/tmdb'
 
 type GetTMDBMovieServiceInput = {
   tmdbId: number

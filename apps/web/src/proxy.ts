@@ -1,7 +1,6 @@
-import { type NextRequest, NextResponse } from 'next/server'
-
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
+import { type NextRequest, NextResponse } from 'next/server'
 import { languages as appLanguages } from '../languages'
 
 const headers = { 'accept-language': 'en-US' }

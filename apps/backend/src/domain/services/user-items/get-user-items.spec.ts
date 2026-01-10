@@ -1,12 +1,11 @@
-import { makeUser } from '@/test/factories/make-user'
-import { makeUserItem } from '@/test/factories/make-user-item'
+import { eq } from 'drizzle-orm'
 import { describe, expect, it } from 'vitest'
-
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { UserItem } from '@/domain/entities/user-item'
 import { makeReview } from '@/test/factories/make-review'
-import { eq } from 'drizzle-orm'
+import { makeUser } from '@/test/factories/make-user'
+import { makeUserItem } from '@/test/factories/make-user-item'
 import { getUserItemsService } from './get-user-items'
 
 describe('get user items', () => {

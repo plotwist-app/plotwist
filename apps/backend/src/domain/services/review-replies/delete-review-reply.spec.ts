@@ -1,9 +1,9 @@
+import { faker } from '@faker-js/faker'
+import { describe, expect, it } from 'vitest'
 import { ReviewReplyNotFoundError } from '@/domain/errors/review-reply-not-found-error'
 import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
-import { describe, expect, it } from 'vitest'
 import { deleteReviewReply } from './delete-review-reply'
 
 describe('delete review reply', () => {

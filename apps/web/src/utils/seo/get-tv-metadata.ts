@@ -1,6 +1,6 @@
+import type { Metadata } from 'next'
 import { type Language, tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
-import type { Metadata } from 'next'
 import { APP_URL } from '../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 

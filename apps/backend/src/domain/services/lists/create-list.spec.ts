@@ -1,8 +1,7 @@
+import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
-
 import { makeRawList } from '@/test/factories/make-list'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
 import { UserNotFoundError } from '../../errors/user-not-found'
 import { createList } from './create-list'
 

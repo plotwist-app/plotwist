@@ -1,7 +1,7 @@
+import postgres from 'postgres'
 import { insertUser } from '@/db/repositories/user-repository'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
-import postgres from 'postgres'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../../errors/hash-password-error'
 

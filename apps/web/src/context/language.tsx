@@ -1,8 +1,8 @@
 'use client'
 
+import { createContext, type ReactNode, useContext } from 'react'
 import type { Language } from '@/types/languages'
 import type { Dictionary } from '@/utils/dictionaries'
-import { type ReactNode, createContext, useContext } from 'react'
 
 type LanguageContextProviderProps = {
   children: ReactNode

@@ -1,10 +1,8 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-
-import { useLanguage } from '@/context/language'
-
 import { Button } from '@plotwist/ui/components/ui/button'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useLanguage } from '@/context/language'
 import { StreamingServicesBadge } from '../streaming-services-badge'
 import { AnimeListContent } from './anime-list-content'
 

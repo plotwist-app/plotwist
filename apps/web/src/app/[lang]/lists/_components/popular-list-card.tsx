@@ -1,17 +1,15 @@
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
-
-import { useLanguage } from '@/context/language'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import Image from 'next/image'
+import { Link } from 'next-view-transitions'
 
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { Likes } from '@/components/likes'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useLanguage } from '@/context/language'
 
 type PopularListCardProps = { list: GetLists200ListsItem }
 

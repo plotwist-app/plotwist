@@ -1,17 +1,16 @@
 'use client'
 
-import { type Movie, type TvSerie, tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { Link } from 'next-view-transitions'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-
+import { v4 } from 'uuid'
 import { useLanguage } from '@/context/language'
 import { useUserPreferences } from '@/context/user-preferences'
+import { type Movie, type TvSerie, tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { Link } from 'next-view-transitions'
-import { v4 } from 'uuid'
-import type { AnimeListType } from '.'
 import { PosterCard } from '../poster-card'
+import type { AnimeListType } from '.'
 
 type AnimeListContentProps = { type: AnimeListType }
 

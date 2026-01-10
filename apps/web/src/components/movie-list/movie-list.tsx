@@ -3,15 +3,13 @@
 import { Link } from 'next-view-transitions'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-
-import { PosterCard } from '../poster-card'
-import type { MovieListProps } from './movie-list.types'
-import { useMovieListQuery } from './use-movie-list-query'
-
+import { v4 } from 'uuid'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { v4 } from 'uuid'
+import { PosterCard } from '../poster-card'
 import { StreamingServicesBadge } from '../streaming-services-badge'
+import type { MovieListProps } from './movie-list.types'
+import { useMovieListQuery } from './use-movie-list-query'
 
 export const MovieList = ({ variant }: MovieListProps) => {
   const { language } = useLanguage()

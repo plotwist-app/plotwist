@@ -1,14 +1,13 @@
 'use client'
 
+import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Link } from 'next-view-transitions'
-
+import { Suspense, useState } from 'react'
+import { v4 } from 'uuid'
 import type { GetDetailedReviewsInterval } from '@/api/endpoints.schemas'
 import { useGetDetailedReviewsSuspense } from '@/api/reviews'
 import { FullReview, FullReviewSkeleton } from '@/components/full-review'
 import { useLanguage } from '@/context/language'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import { Suspense, useState } from 'react'
-import { v4 } from 'uuid'
 
 const MAX_SKELETONS_REVIEWS = 5
 

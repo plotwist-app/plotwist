@@ -1,5 +1,5 @@
-import type { InsertMagicTokenModel } from '@/domain/entities/magic-token'
 import { eq } from 'drizzle-orm'
+import type { InsertMagicTokenModel } from '@/domain/entities/magic-token'
 import { db } from '..'
 import { schema } from '../schema'
 

@@ -1,29 +1,24 @@
 'use client'
 
-import { Minus, Plus } from 'lucide-react'
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-
+import { Button } from '@plotwist/ui/components/ui/button'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@plotwist/ui/components/ui/hover-card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-
-import { ItemHoverCard } from '@/components/item-hover-card'
-
-import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
-
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
+import { Minus, Plus } from 'lucide-react'
+import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import { v4 } from 'uuid'
+import { ItemHoverCard } from '@/components/item-hover-card'
+import { useLanguage } from '@/context/language'
+import type { MovieWithMediaType } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
+import type { ListCommandProps } from './list-command'
 import { ListCommandGroup } from './list-command-group'
 import { ListCommandItem } from './list-command-item'
-
-import type { MovieWithMediaType } from '@/services/tmdb'
-import { Button } from '@plotwist/ui/components/ui/button'
-import { v4 } from 'uuid'
-import type { ListCommandProps } from './list-command'
 
 type ListCommandMoviesProps = {
   movies: MovieWithMediaType[]

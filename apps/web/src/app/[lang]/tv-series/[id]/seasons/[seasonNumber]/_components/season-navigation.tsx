@@ -1,9 +1,7 @@
-import { ChevronRight } from 'lucide-react'
-
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-import { ChevronLeft } from 'lucide-react'
-import { Link } from 'next-view-transitions'
 
 async function getSeasonDetails(
   tvId: number,

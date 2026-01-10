@@ -1,6 +1,6 @@
-import { tmdb } from '@/adapters/tmdb'
 import type { FastifyRedis } from '@fastify/redis'
 import type { WatchLocale } from '@plotwist_app/tmdb'
+import { tmdb } from '@/adapters/tmdb'
 import { SIX_MONTHS_IN_SECONDS } from './common'
 
 type GetTMDBMovieWatchProvidersParams = {

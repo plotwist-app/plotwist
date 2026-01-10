@@ -1,11 +1,5 @@
 'use client'
 
-import type {
-  GetSocialLinks200SocialLinksItem,
-  PutSocialLinksBody,
-} from '@/api/endpoints.schemas'
-import { usePutSocialLinks } from '@/api/social-links'
-import { useLanguage } from '@/context/language'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -20,6 +14,12 @@ import { Input } from '@plotwist/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import type {
+  GetSocialLinks200SocialLinksItem,
+  PutSocialLinksBody,
+} from '@/api/endpoints.schemas'
+import { usePutSocialLinks } from '@/api/social-links'
+import { useLanguage } from '@/context/language'
 
 const socialLinksSchema = z.object({
   TIKTOK: z.string().url('Enter a valid URL').or(z.literal('')).optional(),

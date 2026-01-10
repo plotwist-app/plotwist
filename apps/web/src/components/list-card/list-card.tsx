@@ -1,11 +1,5 @@
 'use client'
 
-import { MoreVertical, Trash } from 'lucide-react'
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-import { useState } from 'react'
-import { toast } from 'sonner'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
@@ -23,13 +17,17 @@ import {
   DropdownMenuTrigger,
 } from '@plotwist/ui/components/ui/dropdown-menu'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-
+import { useQueryClient } from '@tanstack/react-query'
+import { MoreVertical, Trash } from 'lucide-react'
+import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import type { GetLists200ListsItem } from '@/api/endpoints.schemas'
 import { getGetListsQueryKey, useDeleteListId } from '@/api/list'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import { useQueryClient } from '@tanstack/react-query'
 
 type ListCardProps = { list: GetLists200ListsItem }
 

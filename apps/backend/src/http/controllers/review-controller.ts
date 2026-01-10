@@ -1,5 +1,14 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { DomainError } from '@/domain/errors/domain-error'
+import { createReviewService } from '@/domain/services/reviews/create-review'
+import { deleteReviewService } from '@/domain/services/reviews/delete-review'
+import { getReviewService } from '@/domain/services/reviews/get-review'
+import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import { updateReviewService } from '@/domain/services/reviews/update-review'
+import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 import {
   createReviewBodySchema,
   getReviewQuerySchema,
@@ -7,17 +16,6 @@ import {
   reviewParamsSchema,
   updateReviewBodySchema,
 } from '../schemas/reviews'
-
-import { DomainError } from '@/domain/errors/domain-error'
-import { createReviewService } from '@/domain/services/reviews/create-review'
-import { deleteReviewService } from '@/domain/services/reviews/delete-review'
-
-import { getReviewService } from '@/domain/services/reviews/get-review'
-import { getReviewsService } from '@/domain/services/reviews/get-reviews'
-import { updateReviewService } from '@/domain/services/reviews/update-review'
-import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
-import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
-import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createReviewController(
   request: FastifyRequest,

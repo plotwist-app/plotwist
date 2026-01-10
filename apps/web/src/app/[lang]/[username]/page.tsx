@@ -1,15 +1,15 @@
 'use client'
 
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { v4 } from 'uuid'
 import {
   getUserActivities,
   useGetUserActivitiesInfinite,
 } from '@/api/user-activities'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useEffect } from 'react'
-import { useInView } from 'react-intersection-observer'
-import { v4 } from 'uuid'
 import { UserActivity } from './_components/user-activity'
 import { useLayoutContext } from './_context'
 

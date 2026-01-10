@@ -1,12 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
-
 import {
   createLikeController,
   deleteLikeController,
   getLikesController,
 } from '../controllers/like-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createLikeBodySchema,
   createLikeResponseSchema,

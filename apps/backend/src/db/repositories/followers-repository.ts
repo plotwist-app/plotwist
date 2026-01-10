@@ -1,8 +1,8 @@
+import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 import type { CreateFollowServiceInput } from '@/domain/services/follows/create-follow'
 import type { DeleteFollowServiceInput } from '@/domain/services/follows/delete-follow'
 import type { GetFollowServiceInput } from '@/domain/services/follows/get-follow'
 import type { GetFollowersInput } from '@/domain/services/follows/get-followers'
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 

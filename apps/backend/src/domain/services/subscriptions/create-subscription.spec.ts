@@ -1,11 +1,11 @@
-import { describe, expect, it } from 'vitest'
-
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
-import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
-import { createSubscription } from './create-subscription'
-import { makeSubscription } from '@/test/factories/make-subscription'
+import { describe, expect, it } from 'vitest'
 import { AlreadyHaveActiveSubscriptionError } from '@/domain/errors/already-have-active-subscription'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { makeSubscription } from '@/test/factories/make-subscription'
+import { makeUser } from '@/test/factories/make-user'
+import { createSubscription } from './create-subscription'
+
 describe('create subscription', () => {
   it('should be able to create subscription', async () => {
     const user = await makeUser()

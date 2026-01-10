@@ -1,6 +1,6 @@
+import type { ComponentProps, ReactElement } from 'react'
 import type { GetSocialLinks200SocialLinksItem } from '@/api/endpoints.schemas'
 import { cn } from '@/lib/utils'
-import type { ComponentProps, ReactElement } from 'react'
 
 const SocialLink = {
   Root: (props: ComponentProps<'a'>) => (

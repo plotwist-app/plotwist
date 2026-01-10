@@ -1,11 +1,10 @@
-import { makeUser } from '@/test/factories/make-user'
-import { makeUserItem } from '@/test/factories/make-user-item'
 import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
-
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'
 import { UserItemNotFoundError } from '@/domain/errors/user-item-not-found-error'
+import { makeUser } from '@/test/factories/make-user'
+import { makeUserItem } from '@/test/factories/make-user-item'
 import { deleteUserItemService } from './delete-user-item'
 
 let user: User

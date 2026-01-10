@@ -1,6 +1,6 @@
+import { and, count, desc, eq, inArray } from 'drizzle-orm'
 import type { InsertUserEpisode } from '@/domain/entities/user-episode'
 import type { GetUserEpisodesInput } from '@/domain/services/user-episodes/get-user-episodes'
-import { and, count, desc, eq, inArray } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 

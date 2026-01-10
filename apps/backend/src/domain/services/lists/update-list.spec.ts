@@ -1,11 +1,9 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-
+import type { List } from '@/domain/entities/lists'
+import type { User } from '@/domain/entities/user'
 import { makeList } from '@/test/factories/make-list'
 import { makeUser } from '@/test/factories/make-user'
 import { updateListService } from './update-list'
-
-import type { List } from '@/domain/entities/lists'
-import type { User } from '@/domain/entities/user'
 
 let user: User
 let list: List

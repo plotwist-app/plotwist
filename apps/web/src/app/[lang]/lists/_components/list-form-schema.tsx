@@ -1,5 +1,5 @@
-import type { Dictionary } from '@/utils/dictionaries'
 import { z } from 'zod'
+import type { Dictionary } from '@/utils/dictionaries'
 
 export const listFormSchema = (dictionary: Dictionary) =>
   z.object({

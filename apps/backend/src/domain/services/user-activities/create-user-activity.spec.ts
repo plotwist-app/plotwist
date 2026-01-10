@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto'
+import { eq } from 'drizzle-orm'
+import { describe, expect, it } from 'vitest'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserActivity } from '@/domain/entities/user-activity'
 import { makeUser } from '@/test/factories/make-user'
-import { eq } from 'drizzle-orm'
-import { describe, expect, it } from 'vitest'
 import { createUserActivity } from './create-user-activity'
 
 describe('createUserActivity', () => {

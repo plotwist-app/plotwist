@@ -1,9 +1,9 @@
-import { tmdb } from '@/services/tmdb'
-import { getDictionary } from '@/utils/dictionaries'
-import { tmdbImage } from '@/utils/tmdb/image'
 import type { Buy, Language, Rent } from '@plotwist_app/tmdb'
 import { X } from 'lucide-react'
 import Image from 'next/image'
+import { tmdb } from '@/services/tmdb'
+import { getDictionary } from '@/utils/dictionaries'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type WhereToWatchProps = {
   id: number

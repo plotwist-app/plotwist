@@ -1,11 +1,9 @@
-import { describe, expect, it } from 'vitest'
-
-import { getUserById } from './get-by-id'
-
 import { randomUUID } from 'node:crypto'
+import { describe, expect, it } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
 import { UserNotFoundError } from '../../errors/user-not-found'
 import { completeSubscription } from '../subscriptions/complete-subscription'
+import { getUserById } from './get-by-id'
 
 describe('get user by id', () => {
   it('should be able to get an user by id', async () => {

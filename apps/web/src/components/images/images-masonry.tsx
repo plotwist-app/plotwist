@@ -1,13 +1,13 @@
 'use client'
 
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import NextImage from 'next/image'
 import ReactMasonryCss from 'react-masonry-css'
-
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { v4 } from 'uuid'
 
 import type { Image } from '@/services/tmdb'
-import { v4 } from 'uuid'
+import { tmdbImage } from '@/utils/tmdb/image'
+
 type ImagesMasonryProps = {
   images: Image[]
   onSelect?: (image: Image) => void

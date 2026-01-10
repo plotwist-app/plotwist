@@ -1,7 +1,7 @@
+import { Resend } from 'resend'
 import { config } from '@/config'
 import type { EmailMessage } from '@/domain/entities/email-message'
 import type { EmailService } from '@/ports/email-service'
-import { Resend } from 'resend'
 
 const resend = new Resend(config.services.RESEND_API_KEY)
 

@@ -1,6 +1,6 @@
-import { schema } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { schema } from '@/db/schema'
 import { languageQuerySchema } from './common'
 
 export const createReviewBodySchema = createInsertSchema(schema.reviews).omit({

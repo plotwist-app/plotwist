@@ -1,7 +1,7 @@
+import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
-import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm'
 
 export async function insertReviewReply(params: InsertReviewReplyModel) {
   return db.insert(schema.reviewReplies).values(params).returning()

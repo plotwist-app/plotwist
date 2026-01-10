@@ -1,10 +1,10 @@
+import postgres from 'postgres'
 import { updateUser } from '@/db/repositories/user-repository'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
 import type { updateUserBodySchema } from '@/http/schemas/users'
-import postgres from 'postgres'
 
 export type UpdateUserInput = typeof updateUserBodySchema._type
 

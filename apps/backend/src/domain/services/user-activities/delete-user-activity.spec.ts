@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest'
-
 import { randomUUID } from 'node:crypto'
+import { describe, expect, it } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
 import { createUserActivity } from './create-user-activity'
 import {

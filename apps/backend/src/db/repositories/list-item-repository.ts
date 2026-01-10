@@ -1,6 +1,6 @@
+import { eq } from 'drizzle-orm'
 import type { InsertListItem } from '@/domain/entities/list-item'
 import type { UpdateListItemsServiceInput } from '@/domain/services/list-item/update-list-items'
-import { eq } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 

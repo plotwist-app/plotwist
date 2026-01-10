@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
 import { makeListItem } from '@/test/factories/make-list-item'
+import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-user-item'
 import { getListProgressService } from './get-list-progress'
 

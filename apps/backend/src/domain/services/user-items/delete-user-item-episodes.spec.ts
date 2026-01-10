@@ -1,10 +1,9 @@
-import { makeUser } from '@/test/factories/make-user'
-import { makeUserItem } from '@/test/factories/make-user-item'
 import { beforeAll, describe, expect, it } from 'vitest'
-
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'
+import { makeUser } from '@/test/factories/make-user'
 import { makeUserEpisode } from '@/test/factories/make-user-episode'
+import { makeUserItem } from '@/test/factories/make-user-item'
 import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
 import { deleteUserItemEpisodesService } from './delete-user-item-episodes'
 

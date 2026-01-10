@@ -1,28 +1,26 @@
 'use client'
 
-import { DialogTitle } from '@radix-ui/react-dialog'
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from '@plotwist/ui/components/ui/dialog'
-
-import { useGetLikesEntityId } from '@/api/like'
-import { useLanguage } from '@/context/language'
-import { cn } from '@/lib/utils'
 import NumberFlow from '@number-flow/react'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from '@plotwist/ui/components/ui/dialog'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { DialogTitle } from '@radix-ui/react-dialog'
 import { Heart } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 import { type PropsWithChildren, useState } from 'react'
 import { v4 } from 'uuid'
+import { useGetLikesEntityId } from '@/api/like'
+import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
 import { ProBadge } from '../pro-badge'
 
 type LikesProps = {

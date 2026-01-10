@@ -1,7 +1,7 @@
-import type { User } from '@/domain/entities/user'
-import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
+import type { User } from '@/domain/entities/user'
+import { makeUser } from '@/test/factories/make-user'
 import { getSocialLinksService } from './get-social-links'
 import { upsertSocialLinksService } from './upsert-social-links'
 

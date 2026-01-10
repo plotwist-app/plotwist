@@ -1,7 +1,7 @@
 'use client'
 
+import { createContext, type ReactNode, useContext } from 'react'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
-import { type ReactNode, createContext, useContext } from 'react'
 
 export type UserPreferencesContextType = {
   userPreferences: GetUserPreferences200['userPreferences'] | undefined

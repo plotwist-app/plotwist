@@ -1,6 +1,6 @@
+import axios from 'axios'
 import type { AnimeDetails } from '@/@types/my-anime-list-request'
 import { config } from '@/config'
-import axios from 'axios'
 
 const BASE_URL = 'https://api.myanimelist.net/v2'
 

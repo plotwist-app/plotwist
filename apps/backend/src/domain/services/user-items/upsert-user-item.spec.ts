@@ -1,8 +1,7 @@
+import { beforeAll, describe, expect, it } from 'vitest'
+import type { User } from '@/domain/entities/user'
 import { makeUser } from '@/test/factories/make-user'
 import { makeRawUserItem, makeUserItem } from '@/test/factories/make-user-item'
-import { beforeAll, describe, expect, it } from 'vitest'
-
-import type { User } from '@/domain/entities/user'
 import { upsertUserItemService } from './upsert-user-item'
 
 let user: User

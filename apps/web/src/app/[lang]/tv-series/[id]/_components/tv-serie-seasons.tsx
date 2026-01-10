@@ -1,14 +1,13 @@
 'use client'
 
-import { Poster } from '@/components/poster'
-import type { Season } from '@/services/tmdb'
-import type { Language } from '@/types/languages'
-
-import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Eye, Grid } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 import { Suspense, useState } from 'react'
+import { Poster } from '@/components/poster'
+import { useLanguage } from '@/context/language'
+import type { Season } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
 import {
   TvSerieSeasonsOverview,
   TvSerieSeasonsOverviewSkeleton,

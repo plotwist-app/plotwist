@@ -42,9 +42,9 @@
       "!node_modules",
       "!.turbo",
       "!.next",
-      "!apps/web/src/api/**",
+      "!apps/web/src/api",
       "!packages/ui",
-      "!apps/backend/priv/**"
+      "!apps/backend/priv"
     ]
   }
 }

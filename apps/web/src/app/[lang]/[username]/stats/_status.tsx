@@ -1,8 +1,5 @@
 'use client'
 
-import type { GetUserIdItemsStatus200UserItemsItemStatus } from '@/api/endpoints.schemas'
-import { useGetUserIdItemsStatusSuspense } from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
 import {
   Card,
   CardContent,
@@ -17,6 +14,9 @@ import {
 } from '@plotwist/ui/components/ui/chart'
 import { Progress } from '@plotwist/ui/components/ui/progress'
 import { Pie, PieChart } from 'recharts'
+import type { GetUserIdItemsStatus200UserItemsItemStatus } from '@/api/endpoints.schemas'
+import { useGetUserIdItemsStatusSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
 import { useLayoutContext } from '../_context'
 
 const chartConfig = {

@@ -1,10 +1,10 @@
 import type { FastifyInstance } from 'fastify'
+import { deleteSubscriptionController } from '../controllers/subscriptions-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   deleteSubscriptionBodySchema,
   deleteSubscriptionResponseSchema,
 } from '../schemas/subscriptions'
-import { deleteSubscriptionController } from '../controllers/subscriptions-controller'
 
 export const subscriptionsRoutes = (app: FastifyInstance) =>
   app.route({

@@ -1,8 +1,8 @@
+import type { Metadata } from 'next'
 import { AnimatedLink } from '@/components/animated-link'
 import { Pattern } from '@/components/pattern'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import type { Metadata } from 'next'
 import { ForgotPasswordForm } from './_components/forgot-password-form'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {

@@ -1,16 +1,15 @@
+import type { FastifyRedis } from '@fastify/redis'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
 import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
+import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
+import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
 import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
-
-import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
-import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
-import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
-import type { FastifyRedis } from '@fastify/redis'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,

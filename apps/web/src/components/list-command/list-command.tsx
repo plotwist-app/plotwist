@@ -1,9 +1,5 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { useDebounce } from '@uidotdev/usehooks'
-import { type PropsWithChildren, useMemo, useState } from 'react'
-
 import {
   Command,
   CommandDialog,
@@ -11,6 +7,9 @@ import {
   CommandList,
 } from '@plotwist/ui/components/ui/command'
 import { Separator } from '@plotwist/ui/components/ui/separator'
+import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@uidotdev/usehooks'
+import { type PropsWithChildren, useMemo, useState } from 'react'
 
 import { useLanguage } from '@/context/language'
 

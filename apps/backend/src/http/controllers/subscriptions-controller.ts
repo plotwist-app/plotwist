@@ -1,9 +1,9 @@
-import type { FastifyRequest, FastifyReply } from 'fastify'
-import { deleteSubscriptionBodySchema } from '../schemas/subscriptions'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { DomainError } from '@/domain/errors/domain-error'
-import { getSubscription } from '@/domain/services/subscriptions/get-subscription'
 import { cancelSubscription } from '@/domain/services/subscriptions/cancel-subscription'
+import { getSubscription } from '@/domain/services/subscriptions/get-subscription'
 import { scheduleCancellation } from '@/domain/services/subscriptions/schedule-subscription-cancellation'
+import { deleteSubscriptionBodySchema } from '../schemas/subscriptions'
 export async function deleteSubscriptionController(
   request: FastifyRequest,
   reply: FastifyReply

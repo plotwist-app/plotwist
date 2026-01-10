@@ -1,7 +1,7 @@
-import { schema } from '@/db/schema'
-import { UserEpisodeAlreadyRegisteredError } from '@/domain/errors/user-episode-already-registered-error'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { schema } from '@/db/schema'
+import { UserEpisodeAlreadyRegisteredError } from '@/domain/errors/user-episode-already-registered-error'
 
 export const createUserEpisodesBodySchema = z.array(
   createInsertSchema(schema.userEpisodes).omit({

@@ -1,5 +1,5 @@
-import type { schema } from '@/db/schema'
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
+import type { schema } from '@/db/schema'
 
 type NonNullableRequired<T> = {
   [K in keyof T]-?: NonNullable<T[K]>

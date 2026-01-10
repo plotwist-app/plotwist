@@ -1,9 +1,8 @@
-import { DomainError } from '@/domain/errors/domain-error'
-
 import {
   getActiveSubscriptionByUserId,
   getLastestActiveSubscription as getLatest,
 } from '@/db/repositories/subscription-repository'
+import { DomainError } from '@/domain/errors/domain-error'
 
 export async function getSubscription(id: string) {
   const subscription = await getActiveSubscriptionByUserId(id)

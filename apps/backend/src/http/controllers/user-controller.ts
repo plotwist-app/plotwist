@@ -1,16 +1,4 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import {
-  checkAvailableUsernameQuerySchema,
-  createUserBodySchema,
-  getUserByIdParamsSchema,
-  getUserByUsernameParamsSchema,
-  isEmailAvailableQuerySchema,
-  searchUsersByUsernameQuerySchema,
-  updateUserBodySchema,
-  updateUserPasswordBodySchema,
-  updateUserPreferencesBodySchema,
-} from '../schemas/users'
-
 import { DomainError } from '@/domain/errors/domain-error'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
@@ -23,6 +11,17 @@ import { checkAvailableUsername } from '@/domain/services/users/is-username-avai
 import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
+import {
+  checkAvailableUsernameQuerySchema,
+  createUserBodySchema,
+  getUserByIdParamsSchema,
+  getUserByUsernameParamsSchema,
+  isEmailAvailableQuerySchema,
+  searchUsersByUsernameQuerySchema,
+  updateUserBodySchema,
+  updateUserPasswordBodySchema,
+  updateUserPreferencesBodySchema,
+} from '../schemas/users'
 
 export async function createUserController(
   request: FastifyRequest,

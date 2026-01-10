@@ -1,12 +1,13 @@
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { DomainError } from '@/domain/errors/domain-error'
 import { createList } from '@/domain/services/lists/create-list'
 import { deleteListService } from '@/domain/services/lists/delete-list'
 import { getListService } from '@/domain/services/lists/get-list'
+import { getListProgressService } from '@/domain/services/lists/get-list-progress'
 import { getListsServices } from '@/domain/services/lists/get-lists'
 import { updateListService } from '@/domain/services/lists/update-list'
 import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createListBodySchema,
   deleteListParamsSchema,
@@ -16,7 +17,6 @@ import {
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
-import { getListProgressService } from '@/domain/services/lists/get-list-progress'
 
 export async function createListController(
   request: FastifyRequest,

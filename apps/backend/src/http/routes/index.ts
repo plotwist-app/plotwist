@@ -18,13 +18,13 @@ import { loginRoute } from './login'
 import { reviewRepliesRoute } from './review-replies'
 import { reviewsRoute } from './reviews'
 import { socialLinksRoute } from './social-links'
+import { subscriptionsRoutes } from './subscriptions'
 import { userActivitiesRoutes } from './user-activities'
 import { userEpisodesRoutes } from './user-episodes'
 import { userItemsRoutes } from './user-items'
 import { userStatsRoutes } from './user-stats'
 import { usersRoute } from './users'
 import { webhookRoutes } from './webhook'
-import { subscriptionsRoutes } from './subscriptions'
 
 export function routes(app: FastifyInstance) {
   if (config.app.APP_ENV === 'dev') {

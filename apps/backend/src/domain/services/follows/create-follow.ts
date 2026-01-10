@@ -1,7 +1,7 @@
+import postgres from 'postgres'
 import { insertFollow } from '@/db/repositories/followers-repository'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { FollowAlreadyRegisteredError } from '@/domain/errors/follow-already-registered'
-import postgres from 'postgres'
 
 export type CreateFollowServiceInput = {
   followerId: string

@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
-
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeUser } from '@/test/factories/make-user'
 import { completeSubscription } from './complete-subscription'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
 describe('complete subscription', () => {
   it('should be able to complete subscription', async () => {

@@ -1,6 +1,6 @@
-import { schema } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { schema } from '@/db/schema'
 
 export const createListBodySchema = createInsertSchema(schema.lists).omit({
   id: true,

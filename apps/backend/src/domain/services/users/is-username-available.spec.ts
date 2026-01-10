@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest'
-
 import { faker } from '@faker-js/faker'
+import { describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 import { UsernameAlreadyRegisteredError } from '../../errors/username-already-registered'

@@ -1,12 +1,12 @@
-import type { UploadImageInput } from '@/@types/r2-storage'
-import { config } from '@/config'
-import type { CloudStorage } from '@/ports/cloud-storage'
 import {
   DeleteObjectsCommand,
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
+import type { UploadImageInput } from '@/@types/r2-storage'
+import { config } from '@/config'
+import type { CloudStorage } from '@/ports/cloud-storage'
 
 const r2Storage = new S3Client({
   region: 'auto',

@@ -1,6 +1,6 @@
-import { schema } from '@/db/schema'
 import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { schema } from '@/db/schema'
 import { languageQuerySchema } from './common'
 
 const userSchema = z.object({

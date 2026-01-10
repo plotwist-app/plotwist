@@ -1,12 +1,5 @@
 'use client'
 
-import type {
-  GetSocialLinks200SocialLinksItem,
-  GetUsersUsername200User,
-} from '@/api/endpoints.schemas'
-import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Dialog,
   DialogContent,
@@ -27,6 +20,13 @@ import {
 } from '@plotwist/ui/components/ui/tabs'
 import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useState } from 'react'
+import type {
+  GetSocialLinks200SocialLinksItem,
+  GetUsersUsername200User,
+} from '@/api/endpoints.schemas'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { SocialLinksForm } from './social-links-form'
 import { UserForm } from './user-form'
 import { UserPreferences } from './user-preferences'

@@ -1,3 +1,5 @@
+import type { FastifyRedis } from '@fastify/redis'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { getUserBestReviewsService } from '@/domain/services/user-stats/get-user-best-reviews'
 import { getUserItemsStatusService } from '@/domain/services/user-stats/get-user-items-status'
 import { getUserMostWatchedSeriesService } from '@/domain/services/user-stats/get-user-most-watched-series'
@@ -7,8 +9,6 @@ import { getUserTotalHoursService } from '@/domain/services/user-stats/get-user-
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
-import type { FastifyRedis } from '@fastify/redis'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import { languageQuerySchema } from '../schemas/common'
 import { getUserDefaultSchema } from '../schemas/user-stats'
 

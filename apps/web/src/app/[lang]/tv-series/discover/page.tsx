@@ -1,8 +1,8 @@
+import type { Metadata } from 'next'
 import { TvSeriesList } from '@/components/tv-series-list'
 import { TvSeriesListFilters } from '@/components/tv-series-list-filters'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import type { Metadata } from 'next'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {

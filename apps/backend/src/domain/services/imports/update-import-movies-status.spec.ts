@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest'
-
-import { makeUser } from '@/test/factories/make-user'
-
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
+import { makeUser } from '@/test/factories/make-user'
 import { makeUserImport } from '@/test/factories/make-user-import'
 import { updateImportMoviesStatus } from './update-import-movies-status'
 

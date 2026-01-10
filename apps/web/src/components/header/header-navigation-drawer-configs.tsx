@@ -1,21 +1,19 @@
 'use client'
 
-import { SUPPORTED_LANGUAGES } from 'languages'
-import { Monitor, MoonStar, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
-
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
 } from '@plotwist/ui/components/ui/select'
-
+import { cn } from '@plotwist/ui/lib/utils'
+import { SUPPORTED_LANGUAGES } from 'languages'
+import { Monitor, MoonStar, Sun } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '@/context/language'
 import type { Language } from '@/services/tmdb'
-import { cn } from '@plotwist/ui/lib/utils'
-import { usePathname, useRouter } from 'next/navigation'
-import ReactCountryFlag from 'react-country-flag'
 
 export const HeaderNavigationDrawerConfigs = () => {
   const { setTheme, theme, resolvedTheme } = useTheme()

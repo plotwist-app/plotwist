@@ -1,11 +1,11 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import { locale } from '@/utils/date/locale'
-import { getDepartmentLabel } from '@/utils/tmdb/department'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import type { PersonDetails } from '@plotwist_app/tmdb'
 import { format } from 'date-fns'
+import { useLanguage } from '@/context/language'
+import { locale } from '@/utils/date/locale'
+import { getDepartmentLabel } from '@/utils/tmdb/department'
 
 type InfosProps = {
   personDetails: PersonDetails

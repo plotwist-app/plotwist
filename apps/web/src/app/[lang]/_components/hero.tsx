@@ -1,7 +1,7 @@
-import type { Dictionary } from '@/utils/dictionaries'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Link } from 'next-view-transitions'
+import type { Dictionary } from '@/utils/dictionaries'
 
 type HeroProps = {
   dictionary: Dictionary

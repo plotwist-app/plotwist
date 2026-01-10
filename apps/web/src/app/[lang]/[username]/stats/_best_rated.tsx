@@ -1,8 +1,5 @@
 'use client'
 
-import { useGetUserIdBestReviewsSuspense } from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
-import { cn } from '@/lib/utils'
 import {
   Card,
   CardContent,
@@ -33,6 +30,9 @@ import { format } from 'date-fns'
 import { Star } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
+import { useGetUserIdBestReviewsSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
 import { useLayoutContext } from '../_context'
 
 export function BestRated() {

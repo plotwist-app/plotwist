@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import type { ComponentProps, PropsWithChildren } from 'react'
+import { cn } from '@/lib/utils'
 
 type PriceRootProps = ComponentProps<'li'> & PropsWithChildren
 const PriceRoot = ({ className, ...props }: PriceRootProps) => {

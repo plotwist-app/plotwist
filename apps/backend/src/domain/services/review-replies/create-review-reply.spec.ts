@@ -1,12 +1,11 @@
-import { beforeAll, describe, expect, it } from 'vitest'
-
 import { randomUUID } from 'node:crypto'
+import { faker } from '@faker-js/faker'
+import { beforeAll, describe, expect, it } from 'vitest'
 import type { User } from '@/domain/entities/user'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
 import { createReviewReplyService } from './create-review-reply'
 
 let user: User

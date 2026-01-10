@@ -1,13 +1,13 @@
 'use client'
 
-import { tmdb } from '@/services/tmdb'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { v4 } from 'uuid'
 
 import { PersonCard, PersonCardSkeleton } from '@/components/person-card'
 import { useLanguage } from '@/context/language'
-import { v4 } from 'uuid'
+import { tmdb } from '@/services/tmdb'
 
 const INITIAL_PAGE = 1
 const MAX_PAGE = 500

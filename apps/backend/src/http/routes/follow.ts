@@ -10,10 +10,10 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createFollowBodySchema,
   deleteFollowBodySchema,
-  getFollowQuerySchema,
-  getFollowResponseSchema,
   getFollowersQuerySchema,
   getFollowersResponseSchema,
+  getFollowQuerySchema,
+  getFollowResponseSchema,
 } from '../schemas/follow'
 
 const TAGS = ['Follows']

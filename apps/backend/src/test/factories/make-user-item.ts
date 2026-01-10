@@ -1,7 +1,7 @@
-import { upsertUserItem } from '@/db/repositories/user-item-repository'
-import type { InsertUserItem, UserItem } from '@/domain/entities/user-item'
 import { faker } from '@faker-js/faker'
 import * as changeKeys from 'change-case/keys'
+import { upsertUserItem } from '@/db/repositories/user-item-repository'
+import type { InsertUserItem, UserItem } from '@/domain/entities/user-item'
 
 type Overrides = Partial<InsertUserItem> & {
   userId: string

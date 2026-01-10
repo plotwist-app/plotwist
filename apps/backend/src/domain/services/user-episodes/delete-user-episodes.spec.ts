@@ -1,8 +1,8 @@
+import { beforeAll, describe, expect, it } from 'vitest'
 import type { User } from '@/domain/entities/user'
 import type { UserEpisode } from '@/domain/entities/user-episode'
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserEpisode } from '@/test/factories/make-user-episode'
-import { beforeAll, describe, expect, it } from 'vitest'
 import { deleteUserEpisodesService } from './delete-user-episodes'
 import { getUserEpisodesService } from './get-user-episodes'
 

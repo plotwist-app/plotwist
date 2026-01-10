@@ -1,6 +1,3 @@
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
-
 import {
   FormControl,
   FormField,
@@ -8,8 +5,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
-
-import { useLanguage } from '@/context/language'
 import {
   Select,
   SelectContent,
@@ -17,6 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
+import { useLanguage } from '@/context/language'
 
 import type { MoviesListFiltersFormValues } from '../..'
 
