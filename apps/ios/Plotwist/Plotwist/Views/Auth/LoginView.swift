@@ -19,6 +19,39 @@ struct LoginView: View {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
                 VStack(spacing: 24) {
+                    // Temporary Language Switcher
+                    HStack {
+                        Spacer()
+                        Menu {
+                            ForEach(Language.allCases, id: \.self) { lang in
+                                Button {
+                                    Language.current = lang
+                                } label: {
+                                    HStack {
+                                        Text(lang.displayName)
+                                        if Language.current == lang {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: "globe")
+                                Text(Language.current.displayName)
+                                    .font(.subheadline)
+                            }
+                            .foregroundColor(.appMutedForegroundAdaptive)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.clear)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                            )
+                        }
+                    }
+                    
                     Spacer()
 
           VStack(spacing: 16) {
