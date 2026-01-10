@@ -34,8 +34,8 @@ export const ReviewReply = ({
   )
   const session = useSession()
 
-  if (replyCount === 0) return <></>
-  if (isLoading) return <></>
+  if (replyCount === 0) return null
+  if (isLoading) return null
 
   return (
     <div className="pt-2">

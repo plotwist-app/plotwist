@@ -58,7 +58,7 @@ export const ReviewReplyForm = ({
     },
   })
 
-  if (!user) return <></>
+  if (!user) return null
 
   const onSubmit = async ({ reply }: ReplyFormValues) => {
     await createReply.mutateAsync(

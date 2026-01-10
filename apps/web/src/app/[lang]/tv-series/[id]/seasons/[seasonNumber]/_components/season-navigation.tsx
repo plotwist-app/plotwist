@@ -19,7 +19,7 @@ async function getSeasonDetails(
       return null
 
     return season
-  } catch (error) {
+  } catch (_error) {
     return null
   }
 }

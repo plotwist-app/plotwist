@@ -33,7 +33,7 @@ export async function SocialLinks({ socialLinks }: SocialLinksProps) {
     YOUTUBE: 'YouTube',
   }
 
-  if (socialLinks.length === 0) return <></>
+  if (socialLinks.length === 0) return null
 
   return (
     <div

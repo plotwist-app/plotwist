@@ -6,7 +6,7 @@ import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 export async function createListItemService(
   values: InsertListItem,
-  userId: string
+  _userId: string
 ) {
   try {
     const [listItem] = await insertListItem(values)

@@ -23,8 +23,6 @@ type FullReviewProps = {
   review: GetDetailedReviews200ReviewsItem
 }
 
-type MediaType = 'MOVIE' | 'TV_SHOW'
-
 export const FullReview = ({ review }: FullReviewProps) => {
   const {
     posterPath,

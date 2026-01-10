@@ -142,11 +142,8 @@ export function ListActions({ list }: ListActionsProps) {
 
 type ListProgressProps = { listId: string }
 function ListProgress({ listId }: ListProgressProps) {
-  const { user } = useSession()
-  if (!user) return null
-
-  const { data, isLoading } = useGetListProgress(listId)
   const { dictionary } = useLanguage()
+  const { data } = useGetListProgress(listId)
 
   const completed = data?.completed ?? 0
   const total = data?.total ?? 0

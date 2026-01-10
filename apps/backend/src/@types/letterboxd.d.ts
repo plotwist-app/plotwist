@@ -36,7 +36,7 @@ type ReviewsRecord = RatingsRecord & {
   'Watched Date': string
 }
 
-type LetterboxdImport = {
+export type LetterboxdImport = {
   'profile.csv': ProfileRecord[]
   'watched.csv': WatchlistRecord[]
   'watchlist.csv': WatchedRecord[]

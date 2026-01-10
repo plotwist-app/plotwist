@@ -50,15 +50,11 @@ export const TvSerieSeasons = ({
     }
 
     return (
-      <>
-        <Suspense
-          fallback={
-            <TvSerieSeasonsOverviewSkeleton seasons={filteredSeasons} />
-          }
-        >
-          <TvSerieSeasonsOverview seasons={filteredSeasons} />
-        </Suspense>
-      </>
+      <Suspense
+        fallback={<TvSerieSeasonsOverviewSkeleton seasons={filteredSeasons} />}
+      >
+        <TvSerieSeasonsOverview seasons={filteredSeasons} />
+      </Suspense>
     )
   }
 

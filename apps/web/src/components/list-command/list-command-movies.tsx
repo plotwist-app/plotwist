@@ -132,7 +132,7 @@ export const ListCommandMoviesSkeleton = () => {
       <ListCommandGroup.Label>{dictionary.movies}</ListCommandGroup.Label>
 
       <ListCommandGroup.Items>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {Array.from({ length: 5 }).map((_, _index) => (
           <ListCommandItem.Root key={v4()}>
             <ListCommandItem.Label>
               <Skeleton className="h-[1.5ex] w-[30ch]" />

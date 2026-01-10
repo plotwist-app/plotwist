@@ -25,7 +25,7 @@ export const HeaderNavigationDrawer = () => {
   const pathname = usePathname()
   const { language, dictionary } = useLanguage()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Close drawer when navigating to new page
   useEffect(() => {
     setOpen(false)
   }, [pathname])

@@ -9,6 +9,9 @@ export default async function Page(props: PageProps) {
     const Content = (await import(`./_content/${params.lang}.mdx`)).default
     return <Content />
   } catch (error) {
+    console.error({
+      error: error instanceof Error ? error.message : String(error),
+    })
     notFound()
   }
 }

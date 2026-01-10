@@ -36,7 +36,7 @@ export const PeopleList = () => {
   if (!data)
     return (
       <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-6">
-        {Array.from({ length: 6 }).map((_, index) => (
+        {Array.from({ length: 6 }).map((_, _index) => (
           <PersonCardSkeleton key={v4()} />
         ))}
       </div>

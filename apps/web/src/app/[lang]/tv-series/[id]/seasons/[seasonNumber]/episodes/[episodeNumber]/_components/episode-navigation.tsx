@@ -18,7 +18,7 @@ async function getEpisodeDetails(
       lang
     )
     return episode
-  } catch (error) {
+  } catch (_error) {
     return null
   }
 }

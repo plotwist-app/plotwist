@@ -4,7 +4,7 @@ export const healthCheck = (app: FastifyInstance) =>
   app.route({
     method: 'GET',
     url: '/health',
-    handler: (request, reply) => {
+    handler: (_request, reply) => {
       reply.send({ alive: true })
     },
   })

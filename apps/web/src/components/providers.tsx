@@ -19,7 +19,7 @@ export function ThemeProvider({
   const pathname = usePathname()
   const router = useRouter()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Complete progress bar when page navigation changes
   useEffect(() => {
     nProgress.done()
   }, [pathname, router])

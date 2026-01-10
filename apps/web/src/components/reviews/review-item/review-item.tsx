@@ -102,10 +102,12 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
 
         <div className="relative">
           <div
-            onMouseEnter={() => {
+            onPointerEnter={() => {
               setFocusReview(false)
               setFocusWasDisabled(true)
             }}
+            role="presentation"
+            tabIndex={-1}
             className={cn(
               'relative space-y-1 rounded-md border p-4 overflow-hidden',
               focusReview && 'border-none p-0'

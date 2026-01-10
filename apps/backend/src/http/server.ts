@@ -10,6 +10,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
 import { logger } from '@/adapters/logger'
+import { DomainError } from '@/domain/errors/domain-error'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
@@ -47,6 +48,10 @@ export function startServer() {
       try {
         return transformSwaggerSchema(schema)
       } catch (err) {
+        if (err instanceof Error) {
+          console.error({ error: err.message })
+        }
+
         return schema
       }
     },
@@ -59,7 +64,7 @@ export function startServer() {
         .send({ message: 'Validation error.', issues: error.format() })
     }
 
-    if (error.statusCode === 429) {
+    if (error instanceof DomainError && error.status === 429) {
       return reply
         .code(429)
         .send({ message: 'You hit the rate limit! Slow down please!' })

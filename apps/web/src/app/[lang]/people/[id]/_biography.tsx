@@ -20,7 +20,7 @@ export function Biography({ content, title }: BiographyProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { dictionary } = useLanguage()
 
-  if (!content.length) return <></>
+  if (!content.length) return null
 
   return (
     <>

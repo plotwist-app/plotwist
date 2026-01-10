@@ -37,9 +37,9 @@ export async function createImportController(
 
     return reply.status(200).send({ message: 'File processed successfully.' })
   } catch (error) {
-    return reply
-      .status(500)
-      .send({ message: 'An error occurred while processing the file.' })
+    return reply.status(500).send({
+      message: `An error occurred while processing the file: ${error instanceof Error ? error.message : String(error)}`,
+    })
   }
 }
 

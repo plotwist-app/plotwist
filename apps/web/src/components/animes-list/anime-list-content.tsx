@@ -15,7 +15,7 @@ import type { AnimeListType } from '.'
 type AnimeListContentProps = { type: AnimeListType }
 
 export const AnimeListContent = ({ type }: AnimeListContentProps) => {
-  const { language, dictionary } = useLanguage()
+  const { language } = useLanguage()
   const { userPreferences, formatWatchProvidersIds } = useUserPreferences()
 
   const { ref, inView } = useInView({

@@ -5,7 +5,7 @@ type DeleteListItemInput = { id: string; userId: string }
 
 export async function deleteListItemService({
   id,
-  userId,
+  userId: _userId,
 }: DeleteListItemInput) {
   const [deletedListItem] = await deleteListItem(id)
 

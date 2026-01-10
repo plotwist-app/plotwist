@@ -128,7 +128,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
     [setValue, watch]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: setValue and watch from react-hook-form are stable, inputRef is a stable ref object
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       const input = inputRef.current

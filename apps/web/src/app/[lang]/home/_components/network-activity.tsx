@@ -5,14 +5,10 @@ import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { UserActivity } from '../../[username]/_components/user-activity'
 
-export function NetworkActivity() {
-  const { user } = useSession()
+function NetworkActivityContent({ userId }: { userId: string }) {
   const { dictionary } = useLanguage()
-
-  if (!user) return null
-
   const { data } = useGetNetworkActivitiesSuspense({
-    userId: user.id,
+    userId,
     pageSize: '15',
   })
 
@@ -29,4 +25,12 @@ export function NetworkActivity() {
       </div>
     </div>
   )
+}
+
+export function NetworkActivity() {
+  const { user } = useSession()
+
+  if (!user) return null
+
+  return <NetworkActivityContent userId={user.id} />
 }

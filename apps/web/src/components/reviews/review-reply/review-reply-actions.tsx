@@ -41,7 +41,7 @@ export const ReviewReplyActions = ({ reply }: ReviewReplyActionsProps) => {
   const handleDeleteLike = useDeleteLikeId()
   const queryClient = useQueryClient()
 
-  if (!user) return <></>
+  if (!user) return null
 
   function handleLike() {
     if (reply.userLike) {

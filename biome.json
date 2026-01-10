@@ -43,6 +43,8 @@
       "!.turbo",
       "!apps/web/.next",
       "!.next",
+      "!apps/backend/coverage",
+      "!apps/backend/dist",
       "!apps/web/src/api",
       "!packages/ui",
       "!apps/backend/priv"

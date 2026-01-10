@@ -28,7 +28,7 @@ export const UserBanner = ({ user }: UserBannerProps) => {
     return (
       <ImagePicker.Root
         variant="banner"
-        onSelect={async (imageSrc, onClose) => {
+        onSelect={async imageSrc => {
           await mutateAsync(
             { data: { bannerUrl: imageSrc } },
             {

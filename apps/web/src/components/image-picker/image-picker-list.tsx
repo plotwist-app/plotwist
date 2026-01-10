@@ -25,7 +25,6 @@ export const ImagePickerList = ({
   onSelect,
 }: ImagePickerListProps) => {
   const { id, type } = selectedItem
-  const { dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['images', id],
@@ -97,7 +96,7 @@ export const ImagePickerListResults = ({
   if (isLoading || !data) {
     return (
       <div className="flex flex-col gap-4">
-        {Array.from({ length: 10 }).map((_, index) => (
+        {Array.from({ length: 10 }).map(() => (
           <ImagePickerItemSkeleton key={v4()} />
         ))}
       </div>

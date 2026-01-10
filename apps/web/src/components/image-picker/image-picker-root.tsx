@@ -104,7 +104,7 @@ export const ImagePickerRoot = (
 
   const header = useMemo(() => {
     if (selectedImage) {
-      return <></>
+      return null
     }
 
     if (selectedItem) {

@@ -122,7 +122,7 @@ async function handleMyAnimeList(
   series: ImportSeries,
   tmdbResult: ListResponse<TvSerieWithMediaType>
 ) {
-  const { series_animedb_id, series_episodes } = series.__metadata as MALAnimes
+  const { series_animedb_id } = series.__metadata as MALAnimes
 
   const anime = await searchAnimeById(series_animedb_id.toString())
 

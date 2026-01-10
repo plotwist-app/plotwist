@@ -32,7 +32,7 @@ describe('create user import', () => {
       importStatus: 'NOT_STARTED',
       userId: userId,
       series: expect.arrayContaining(
-        rawImport.series.map(item =>
+        rawImport.series.map(() =>
           expect.objectContaining({
             importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
@@ -41,7 +41,7 @@ describe('create user import', () => {
         )
       ),
       movies: expect.arrayContaining(
-        rawImport.movies.map(item =>
+        rawImport.movies.map(() =>
           expect.objectContaining({
             importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
@@ -75,7 +75,7 @@ describe('create user import', () => {
       provider: rawImport.provider,
       series: [],
       movies: expect.arrayContaining(
-        rawImport.movies.map(item =>
+        rawImport.movies.map(() =>
           expect.objectContaining({
             importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
@@ -109,7 +109,7 @@ describe('create user import', () => {
       userId: userId,
       movies: [],
       series: expect.arrayContaining(
-        rawImport.movies.map(item =>
+        rawImport.series.map(() =>
           expect.objectContaining({
             importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),

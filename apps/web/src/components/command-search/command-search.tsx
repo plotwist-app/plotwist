@@ -63,7 +63,7 @@ export const CommandSearch = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Close command search when navigating to new page
   useEffect(() => {
     if (open) setOpen(false)
   }, [pathname])

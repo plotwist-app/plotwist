@@ -133,7 +133,7 @@ export const listItems = pgTable(
   }
 )
 
-export const listItemsRelations = relations(listItems, ({ one, many }) => ({
+export const listItemsRelations = relations(listItems, ({ one }) => ({
   lists: one(lists, {
     fields: [listItems.listId],
     references: [lists.id],
@@ -187,19 +187,16 @@ export const reviewReplies = pgTable('review_replies', {
     .notNull(),
 })
 
-export const reviewsRepliesRelations = relations(
-  reviewReplies,
-  ({ one, many }) => ({
-    users: one(users, {
-      fields: [reviewReplies.userId],
-      references: [users.id],
-    }),
-    reviews: one(reviews, {
-      fields: [reviewReplies.reviewId],
-      references: [reviews.id],
-    }),
-  })
-)
+export const reviewsRepliesRelations = relations(reviewReplies, ({ one }) => ({
+  users: one(users, {
+    fields: [reviewReplies.userId],
+    references: [users.id],
+  }),
+  reviews: one(reviews, {
+    fields: [reviewReplies.reviewId],
+    references: [reviews.id],
+  }),
+}))
 
 export const reviews = pgTable('reviews', {
   id: uuid('id')
@@ -219,7 +216,7 @@ export const reviews = pgTable('reviews', {
   episodeNumber: integer('episode_number'),
 })
 
-export const reviewsRelations = relations(reviews, ({ one, many }) => ({
+export const reviewsRelations = relations(reviews, ({ one }) => ({
   users: one(users, {
     fields: [reviews.userId],
     references: [users.id],
@@ -253,7 +250,7 @@ export const users = pgTable(
   }
 )
 
-export const usersRelations = relations(users, ({ one, many }) => ({
+export const usersRelations = relations(users, ({ many }) => ({
   subscriptions: many(subscriptions),
   lists: many(lists),
   reviewReplies: many(reviewReplies),

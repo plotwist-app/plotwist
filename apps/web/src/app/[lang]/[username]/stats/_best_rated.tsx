@@ -41,7 +41,7 @@ export function BestRated() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { data } = useGetUserIdBestReviewsSuspense(userId, { language })
 
-  if (!data.bestReviews.length) return <></>
+  if (!data.bestReviews.length) return null
 
   const trigger = (
     <p

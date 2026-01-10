@@ -31,7 +31,10 @@ export async function scheduleCancellation(
 
     return scheduledCancellation
   } catch (error) {
-    return new DomainError('Failed to schedule subscription cancellation', 500)
+    return new DomainError(
+      `Failed to schedule subscription cancellation, ${error instanceof Error ? error.message : String(error)}`,
+      500
+    )
   }
 }
 

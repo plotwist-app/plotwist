@@ -15,7 +15,7 @@ export async function formatUserActivitiesService({
   language,
 }: FormatUserActivitiesInput) {
   const formatted = await Promise.all(
-    userActivities.map(async activity => {
+    userActivities.map(async (activity: (typeof userActivities)[number]) => {
       try {
         if (
           activity.activityType === 'ADD_ITEM' ||
@@ -89,6 +89,9 @@ export async function formatUserActivitiesService({
 
         return activity
       } catch (error) {
+        console.error({
+          error: error instanceof Error ? error.message : String(error),
+        })
         return activity
       }
     })

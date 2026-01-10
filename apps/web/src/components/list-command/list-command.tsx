@@ -76,9 +76,19 @@ export const ListCommand = ({
 
   return (
     <>
-      <div onClick={() => setOpen(true)} onKeyDown={() => setOpen(true)}>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        onKeyDown={event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            setOpen(true)
+          }
+        }}
+        className="w-full text-left"
+      >
         {children}
-      </div>
+      </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>

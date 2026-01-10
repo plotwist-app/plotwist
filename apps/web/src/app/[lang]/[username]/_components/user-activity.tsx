@@ -83,8 +83,6 @@ const getLabel = (activity: GetUserActivities200UserActivitiesItem) => {
 }
 
 export function EditableUserActivity({ activity }: UserActivityProps) {
-  const { createdAt } = activity
-
   const { avatarUrl, username } = useLayoutContext()
   const { language } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')

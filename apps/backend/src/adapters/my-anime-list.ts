@@ -12,7 +12,9 @@ export async function searchAnime(query: string) {
     })
     return response.data
   } catch (error) {
-    throw new Error('Failed to fetch informations')
+    throw new Error(
+      `Failed to fetch informations, error: ${error instanceof Error ? error.message : String(error)}`
+    )
   }
 }
 
@@ -29,6 +31,8 @@ export async function searchAnimeById(animedbId: string) {
     })
     return response.data as AnimeDetails
   } catch (error) {
-    throw new Error('Failed to fetch informations')
+    throw new Error(
+      `Failed to fetch informations, error: ${error instanceof Error ? error.message : String(error)}`
+    )
   }
 }

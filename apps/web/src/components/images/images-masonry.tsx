@@ -31,12 +31,18 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
 
         if (onSelect) {
           return (
-            <div
+            <button
+              type="button"
               className="relative mb-4 flex w-full cursor-pointer overflow-hidden rounded-md border bg-background/50 shadow hover:shadow-lg"
               key={filePath}
               style={{ aspectRatio }}
               onClick={() => onSelect(image)}
-              onKeyDown={() => onSelect(image)}
+              onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  onSelect(image)
+                }
+              }}
             >
               <NextImage
                 fill
@@ -46,7 +52,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
                 loading="lazy"
                 sizes="100%"
               />
-            </div>
+            </button>
           )
         }
 

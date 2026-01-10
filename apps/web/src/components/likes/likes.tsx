@@ -41,7 +41,7 @@ export function Likes({
     query: { enabled: open },
   })
 
-  if (likeCount === 0) return <></>
+  if (likeCount === 0) return null
 
   const Content = () => {
     if (isLoading || !data) {

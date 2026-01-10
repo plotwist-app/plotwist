@@ -50,15 +50,22 @@ export const HeaderNavigationDrawerConfigs = () => {
               (i === 'system' && theme === 'system' && resolvedTheme)
 
             return (
-              <div
+              <button
+                type="button"
                 className={cn(
                   'cursor-pointer rounded-full p-1 transition-all hover:text-foreground border-transparent text-muted-foreground first:border-r last:border-l',
                   isActive && 'border-border text-foreground',
                   index === 1 && '!border-x'
                 )}
                 onClick={() => setTheme(i)}
-                onKeyDown={() => setTheme(i)}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    setTheme(i)
+                  }
+                }}
                 key={i}
+                aria-label={`Set theme to ${i}`}
               >
                 {i === 'light' ? (
                   <Sun className="size-4" />
@@ -67,7 +74,7 @@ export const HeaderNavigationDrawerConfigs = () => {
                 ) : (
                   <Monitor className="size-4" />
                 )}
-              </div>
+              </button>
             )
           })}
         </div>

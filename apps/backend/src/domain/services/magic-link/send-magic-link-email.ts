@@ -11,7 +11,7 @@ type SendMagicLinkEmailServiceInput = {
 export async function sendMagicLinkEmailService({
   email,
   token,
-  url,
+  url: _url,
 }: SendMagicLinkEmailServiceInput) {
   const link = `${config.app.CLIENT_URL}/reset-password?token=${token}`
 

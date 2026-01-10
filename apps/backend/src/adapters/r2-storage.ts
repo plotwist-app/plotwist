@@ -44,7 +44,9 @@ async function deleteOldImages(prefix: string) {
 
     await r2Storage.send(deleteCommand)
   } catch (error) {
-    throw new Error(`Unable to delete old images for user: prefix: ${prefix}}`)
+    throw new Error(
+      `Unable to delete old images for user: prefix: ${prefix}, error: ${error instanceof Error ? error.message : String(error)}`
+    )
   }
 }
 

@@ -73,7 +73,9 @@ async function saveMovies(
 
     return []
   } catch (error) {
-    throw new CannotInsertIntoImportTableError()
+    throw new CannotInsertIntoImportTableError(
+      `Error saving series: ${error instanceof Error ? error.message : String(error)}`
+    )
   }
 }
 
@@ -106,7 +108,9 @@ async function saveSeries(
 
     return []
   } catch (error) {
-    throw new CannotInsertIntoImportTableError()
+    throw new CannotInsertIntoImportTableError(
+      `Error saving series: ${error instanceof Error ? error.message : String(error)}`
+    )
   }
 }
 
