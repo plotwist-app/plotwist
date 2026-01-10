@@ -30,6 +30,7 @@ Este documento contém o mapeamento completo das funcionalidades do site web e a
 ## 1. Setup Inicial
 
 ### 1.1 Configuração do Projeto
+
 - [ ] Criar projeto Xcode com SwiftUI
 - [ ] Configurar versões mínimas (iOS 16+)
 - [ ] Configurar SwiftLint para linting
@@ -38,10 +39,12 @@ Este documento contém o mapeamento completo das funcionalidades do site web e a
 - [ ] Configurar Code Signing & Capabilities
 
 ### 1.2 Gerenciador de Dependências
+
 - [ ] Escolher Swift Package Manager (SPM) como principal
 - [ ] Configurar estrutura de dependências
 
 ### 1.3 Dependências Principais
+
 - [ ] **Alamofire** - Requisições HTTP
 - [ ] **Kingfisher** - Cache e carregamento de imagens
 - [ ] **KeychainAccess** - Armazenamento seguro de tokens
@@ -50,23 +53,27 @@ Este documento contém o mapeamento completo das funcionalidades do site web e a
 - [ ] **SwiftUICharts** ou **Charts (Apple)** - Gráficos para estatísticas
 
 ### 1.4 Arquitetura
+
 - [ ] **Padrão MVVM** (Model-View-ViewModel)
 - [ ] **Combine** para gerenciamento de estado reativo
 - [ ] **async/await** para operações assíncronas
 - [ ] **Protocol-oriented programming** para abstrações
 
 ### 1.5 Configuração de Ambiente
+
 - [ ] Criar arquivo de configuração `Configuration.swift`
 - [ ] Configurar variáveis: `API_BASE_URL`, `TMDB_API_KEY`
 - [ ] Criar diferentes configurações para Debug/Release
 - [ ] Usar `xcconfig` files para variáveis de ambiente
 
 ### 1.6 Estrutura de Pastas
+
 ```
 Plotwist/
 ├── App/
-│   ├── PlottwistApp.swift       # Entry point
-│   └── AppDelegate.swift        # Lifecycle
+│   ├── PlotwistApp.swift       # Entry point ✅
+│   └── RootView.swift          # Root navigation ✅
+│   └── AppDelegate.swift       # Lifecycle
 ├── Core/
 │   ├── Network/                 # Networking layer
 │   │   ├── APIClient.swift
@@ -79,20 +86,31 @@ Plotwist/
 │   └── Extensions/              # Swift extensions
 ├── Models/                      # Modelos de dados (Codable)
 ├── ViewModels/                  # ViewModels (ObservableObject)
+│   └── LoginViewModel.swift    # ✅
 ├── Views/                       # SwiftUI Views
-│   ├── Auth/
+│   ├── Auth/                    # ✅
+│   │   ├── LoginView.swift     # ✅
+│   │   └── SignUpView.swift    # ✅ (placeholder)
+│   ├── Home/                    # ✅
+│   │   └── HomeView.swift      # ✅
 │   ├── Movies/
 │   ├── Series/
 │   ├── Profile/
 │   ├── Lists/
 │   └── Components/              # Componentes reutilizáveis
 ├── Services/                    # Serviços de negócio
-│   ├── AuthService.swift
+│   └── AuthService.swift        # ✅
 │   ├── MovieService.swift
 │   ├── ReviewService.swift
 │   └── ...
-├── Utils/                       # Utilitários
-│   ├── Constants.swift
+├── Models/                      # ✅
+│   └── User.swift              # ✅
+├── Extensions/                  # ✅
+│   ├── NotificationName+Extensions.swift  # ✅
+│   └── View+Extensions.swift   # ✅
+├── Utils/                       # Utilitários ✅
+│   ├── Constants.swift         # ✅
+│   ├── Localizable.swift       # ✅
 │   ├── Formatters.swift
 │   └── Validators.swift
 ├── Resources/
@@ -109,15 +127,18 @@ Plotwist/
 ## 2. Autenticação
 
 ### 2.1 Views de Auth
-- [ ] **LoginView**
-  - [ ] TextField para login (email ou username)
-  - [ ] SecureField para senha com botão de toggle
-  - [ ] Botão de login com loading state
-  - [ ] NavigationLink para "Esqueci a senha"
-  - [ ] NavigationLink para cadastro
-  - [ ] Validação com Property Wrappers
 
-- [ ] **SignUpView**
+- [x] **LoginView** ✅
+
+  - [x] TextField para login (email ou username)
+  - [x] SecureField para senha com botão de toggle
+  - [x] Botão de login com loading state
+  - [ ] NavigationLink para "Esqueci a senha"
+  - [x] NavigationLink para cadastro
+  - [x] Validação com Property Wrappers
+
+- [ ] **SignUpView** (placeholder criado)
+
   - [ ] TextField para username com validação em tempo real
   - [ ] TextField para email com validação
   - [ ] SecureField para senha (mínimo 8 caracteres)
@@ -126,6 +147,7 @@ Plotwist/
   - [ ] Validação inline
 
 - [ ] **ForgotPasswordView**
+
   - [ ] TextField para email
   - [ ] Botão de envio com confirmação
   - [ ] Feedback de sucesso/erro
@@ -136,22 +158,28 @@ Plotwist/
   - [ ] Validação de token via deep link
 
 ### 2.2 ViewModels
-- [ ] **AuthViewModel**
-  - [ ] `@Published var isAuthenticated: Bool`
-  - [ ] `@Published var currentUser: User?`
-  - [ ] `@Published var isLoading: Bool`
-  - [ ] `@Published var errorMessage: String?`
-  - [ ] Métodos: `login()`, `signUp()`, `logout()`, `refreshToken()`
+
+- [x] **LoginViewModel** ✅
+  - [x] `@Published var isLoading: Bool`
+  - [x] `@Published var errorMessage: String?`
+  - [x] Validação de campos
+  - [x] Método: `login()`
+  - [ ] Método: `signUp()`
 
 ### 2.3 Gerenciamento de Sessão
-- [ ] Armazenar JWT no Keychain via KeychainAccess
-- [ ] Criar `AuthenticationManager` singleton
+
+- [x] **AuthService** (singleton criado) ✅
+  - [x] Armazenar JWT no UserDefaults (migrar para Keychain)
+  - [x] Métodos: `signIn()`, `signOut()`, `getToken()`, `isAuthenticated()`
+  - [x] Integração com API
+  - [x] NotificationCenter para mudanças de estado
+- [ ] Armazenar JWT no Keychain via KeychainAccess (recomendado)
 - [ ] Implementar auto-refresh de token
-- [ ] Implementar logout com limpeza de dados
-- [ ] Interceptor Alamofire para adicionar token automaticamente
+- [ ] Interceptor para adicionar token automaticamente
 - [ ] Proteção de rotas com `@EnvironmentObject`
 
 ### 2.4 Biometria (Opcional)
+
 - [ ] Face ID / Touch ID para login rápido
 - [ ] LocalAuthentication framework
 - [ ] Salvar preferência no UserDefaults
@@ -161,7 +189,9 @@ Plotwist/
 ## 3. Navegação
 
 ### 3.1 Estrutura de Navegação
+
 - [ ] **TabView Principal**
+
   - [ ] Home
   - [ ] Filmes
   - [ ] Séries
@@ -176,6 +206,7 @@ Plotwist/
   - [ ] Stack de Perfil
 
 ### 3.2 Deep Linking
+
 - [ ] Configurar URL Schemes no Info.plist
 - [ ] Configurar Universal Links (Associated Domains)
 - [ ] Implementar `.onOpenURL()` modifier
@@ -186,6 +217,7 @@ Plotwist/
   - [ ] `plotwist://user/:username`
 
 ### 3.3 Coordenação
+
 - [ ] Criar `Router` ou `Coordinator` para navegação complexa
 - [ ] Implementar `NavigationPath` gerenciado
 
@@ -194,23 +226,28 @@ Plotwist/
 ## 4. Home/Dashboard
 
 ### 4.1 Componentes da Home
+
 - [ ] **Header**
+
   - [ ] Logo (SF Symbol ou custom)
   - [ ] Botão de busca (magnifyingglass.circle)
   - [ ] AsyncImage para avatar do usuário
 
 - [ ] **LastUserReviewSection**
+
   - [ ] Card customizado com última review
   - [ ] NavigationLink para o item
   - [ ] Skeleton loading
 
 - [ ] **PopularReviewsSection**
+
   - [ ] ScrollView horizontal com LazyHStack
   - [ ] Picker para filtros (hoje, semana, mês, todos)
   - [ ] Pull to refresh
   - [ ] Infinite scroll com `.onAppear` no último item
 
 - [ ] **NetworkActivityFeedSection**
+
   - [ ] LazyVStack com atividades
   - [ ] Tipos de atividade:
     - [ ] Status change
@@ -221,6 +258,7 @@ Plotwist/
     - [ ] Likes
 
 - [ ] **SidebarPopularMovies** (iPad)
+
   - [ ] Grid 3x1 de posters
   - [ ] NavigationLink para lista completa
 
@@ -229,6 +267,7 @@ Plotwist/
   - [ ] NavigationLink para lista completa
 
 ### 4.2 ViewModel
+
 - [ ] **HomeViewModel**
   - [ ] Carregar dados em paralelo com `async let`
   - [ ] Gerenciar estados de loading/error
@@ -239,21 +278,26 @@ Plotwist/
 ## 5. Catálogo de Filmes
 
 ### 5.1 Views de Listagem
+
 - [ ] **PopularMoviesView**
+
   - [ ] LazyVGrid com posters
   - [ ] Pull to refresh
   - [ ] Infinite scroll
   - [ ] Skeleton placeholders
 
 - [ ] **NowPlayingMoviesView**
+
   - [ ] Lista de filmes em cartaz
   - [ ] Badge "Em Cartaz"
 
 - [ ] **UpcomingMoviesView**
+
   - [ ] Lista de lançamentos futuros
   - [ ] Data de lançamento em destaque
 
 - [ ] **TopRatedMoviesView**
+
   - [ ] Lista ordenada por rating
   - [ ] Rating TMDB visível
 
@@ -267,7 +311,9 @@ Plotwist/
     - [ ] Picker de região
 
 ### 5.2 Componentes de Filme
+
 - [ ] **MoviePosterCard**
+
   - [ ] KFImage (Kingfisher) para poster
   - [ ] VStack com título, ano, rating
   - [ ] Gradient overlay
@@ -281,6 +327,7 @@ Plotwist/
   - [ ] Botões "Aplicar" e "Limpar"
 
 ### 5.3 ViewModels
+
 - [ ] **MoviesListViewModel**
   - [ ] `@Published var movies: [Movie]`
   - [ ] `@Published var filters: MovieFilters`
@@ -291,19 +338,24 @@ Plotwist/
 ## 6. Catálogo de Séries
 
 ### 6.1 Views de Listagem
+
 - [ ] **PopularSeriesView**
+
   - [ ] LazyVGrid com posters
   - [ ] Infinite scroll
 
 - [ ] **AiringTodaySeriesView**
+
   - [ ] Séries com episódios hoje
   - [ ] Badge "Hoje"
 
 - [ ] **OnTheAirSeriesView**
+
   - [ ] Séries em exibição
   - [ ] Status de exibição
 
 - [ ] **TopRatedSeriesView**
+
   - [ ] Lista ordenada por rating
 
 - [ ] **DiscoverSeriesView**
@@ -311,14 +363,15 @@ Plotwist/
   - [ ] Filtro adicional: status (em andamento, finalizada)
 
 ### 6.2 Categorias Especiais
+
 - [ ] **AnimesView**
   - [ ] Filtro pré-aplicado para animação japonesa
   - [ ] Estilo visual customizado (opcional)
-  
 - [ ] **DoramasView**
   - [ ] Filtro pré-aplicado para séries coreanas
 
 ### 6.3 ViewModels
+
 - [ ] **SeriesListViewModel**
   - [ ] Similar ao MoviesListViewModel
   - [ ] Filtros específicos de séries
@@ -328,13 +381,16 @@ Plotwist/
 ## 7. Detalhes de Mídia
 
 ### 7.1 MovieDetailView
+
 - [ ] **Header com Backdrop**
+
   - [ ] ZStack com KFImage
   - [ ] LinearGradient overlay
   - [ ] Botão de voltar customizado
   - [ ] Parallax scroll effect (opcional)
 
 - [ ] **Informações Principais**
+
   - [ ] HStack com poster + info
   - [ ] Títulos (original e traduzido)
   - [ ] Year, runtime, genres
@@ -342,12 +398,14 @@ Plotwist/
   - [ ] Rating TMDB com SF Symbols (star.fill)
 
 - [ ] **Ações do Usuário**
+
   - [ ] Menu de Status (Watchlist, Watching, Watched, Dropped)
   - [ ] Botão "Adicionar à Lista"
   - [ ] Botão "Escrever Review"
   - [ ] Animações de feedback
 
 - [ ] **Informações Adicionais**
+
   - [ ] Diretor
   - [ ] Elenco - ScrollView horizontal
   - [ ] Orçamento e Receita formatados
@@ -355,6 +413,7 @@ Plotwist/
   - [ ] Países de produção
 
 - [ ] **TabView para Seções**
+
   - [ ] Reviews do app
   - [ ] Elenco completo (List)
   - [ ] Galeria de imagens (LazyVGrid)
@@ -367,8 +426,10 @@ Plotwist/
   - [ ] ScrollView horizontal
 
 ### 7.2 SeriesDetailView
+
 - [ ] Todos os itens de MovieDetailView +
 - [ ] **Lista de Temporadas**
+
   - [ ] List ou LazyVStack
   - [ ] SeasonCard com número de episódios
   - [ ] ProgressView do assistidos
@@ -379,6 +440,7 @@ Plotwist/
   - [ ] Texto "X de Y episódios"
 
 ### 7.3 SeasonDetailView
+
 - [ ] Header com informações da temporada
 - [ ] Lista de episódios (List)
 - [ ] EpisodeRow com:
@@ -390,6 +452,7 @@ Plotwist/
 - [ ] Picker de navegação entre temporadas
 
 ### 7.4 EpisodeDetailView
+
 - [ ] Banner do episódio
 - [ ] Informações (número, título, duração)
 - [ ] Sinopse
@@ -399,6 +462,7 @@ Plotwist/
 - [ ] Botões de navegação (anterior/próximo)
 
 ### 7.5 PersonDetailView (Ator/Diretor)
+
 - [ ] Header com foto
 - [ ] Nome
 - [ ] Biografia (Text expandível)
@@ -410,6 +474,7 @@ Plotwist/
   - [ ] Ordenado por data
 
 ### 7.6 ViewModels
+
 - [ ] **MovieDetailViewModel**
 - [ ] **SeriesDetailViewModel**
 - [ ] **SeasonDetailViewModel**
@@ -421,7 +486,9 @@ Plotwist/
 ## 8. Sistema de Reviews
 
 ### 8.1 Componentes de Review
+
 - [ ] **ReviewRowView**
+
   - [ ] HStack com AsyncImage do avatar
   - [ ] VStack com username (NavigationLink)
   - [ ] RatingView (estrelas ou 0-10)
@@ -435,6 +502,7 @@ Plotwist/
     - [ ] Menu de ações (…)
 
 - [ ] **ReviewFormSheet**
+
   - [ ] Sheet presentation
   - [ ] RatingPicker customizado (Slider ou Stepper)
   - [ ] TextEditor para review
@@ -449,6 +517,7 @@ Plotwist/
   - [ ] Like em respostas
 
 ### 8.2 Listagem de Reviews
+
 - [ ] ReviewsListView genérico
 - [ ] Filtros:
   - [ ] Picker de idioma
@@ -457,6 +526,7 @@ Plotwist/
 - [ ] Infinite scroll
 
 ### 8.3 ViewModels
+
 - [ ] **ReviewsViewModel**
 - [ ] **ReviewFormViewModel**
 
@@ -465,13 +535,16 @@ Plotwist/
 ## 9. Listas Personalizadas
 
 ### 9.1 Views de Listas
+
 - [ ] **MyListsView**
+
   - [ ] LazyVGrid de ListCard
   - [ ] Botão + (plus.circle.fill) para criar
   - [ ] Pull to refresh
   - [ ] Empty state customizado
 
 - [ ] **DiscoverListsView**
+
   - [ ] LazyVStack de listas públicas
   - [ ] Toggle "Apenas com banner"
   - [ ] Infinite scroll
@@ -489,6 +562,7 @@ Plotwist/
   - [ ] Botão + para adicionar item
 
 ### 9.2 Formulário de Lista
+
 - [ ] **ListFormView**
   - [ ] TextField para título
   - [ ] TextEditor para descrição
@@ -498,6 +572,7 @@ Plotwist/
   - [ ] Botões "Cancelar" e "Salvar"
 
 ### 9.3 Adicionar Item à Lista
+
 - [ ] **AddItemToListView**
   - [ ] SearchBar
   - [ ] Resultados de busca (filmes/séries)
@@ -505,6 +580,7 @@ Plotwist/
   - [ ] Quick add via context menu na tela de detalhes
 
 ### 9.4 ViewModels
+
 - [ ] **ListsViewModel**
 - [ ] **ListDetailViewModel**
 - [ ] **ListFormViewModel**
@@ -514,7 +590,9 @@ Plotwist/
 ## 10. Perfil do Usuário
 
 ### 10.1 ProfileView
+
 - [ ] **Header**
+
   - [ ] Banner (KFImage ou cor sólida)
   - [ ] Avatar (Circle overlay)
   - [ ] Username
@@ -525,6 +603,7 @@ Plotwist/
     - [ ] Editar (próprio perfil)
 
 - [ ] **Estatísticas Resumidas**
+
   - [ ] HStack com VStacks:
     - [ ] Filmes assistidos
     - [ ] Séries assistidas
@@ -532,6 +611,7 @@ Plotwist/
     - [ ] Seguindo (NavigationLink)
 
 - [ ] **Links Sociais**
+
   - [ ] HStack de ícones clicáveis
   - [ ] SF Symbols ou custom icons
   - [ ] Abrir com `.openURL()`
@@ -544,6 +624,7 @@ Plotwist/
   - [ ] Estatísticas
 
 ### 10.2 Edição de Perfil
+
 - [ ] **EditProfileView**
   - [ ] PhotosPicker para avatar
   - [ ] ImageCropper circular
@@ -554,6 +635,7 @@ Plotwist/
   - [ ] Botão "Salvar" com loading
 
 ### 10.3 ViewModels
+
 - [ ] **ProfileViewModel**
 - [ ] **EditProfileViewModel**
 
@@ -562,7 +644,9 @@ Plotwist/
 ## 11. Coleção do Usuário
 
 ### 11.1 CollectionView
+
 - [ ] **Filtros**
+
   - [ ] Picker de Status (Todos, Watchlist, Watching, Watched, Dropped)
   - [ ] Picker de Tipo (Filmes, Séries, Ambos)
   - [ ] Filtro de rating (Slider)
@@ -582,6 +666,7 @@ Plotwist/
   - [ ] Infinite scroll
 
 ### 11.2 ViewModels
+
 - [ ] **CollectionViewModel**
 
 ---
@@ -589,33 +674,41 @@ Plotwist/
 ## 12. Estatísticas
 
 ### 12.1 StatsView
+
 - [ ] **Total de Horas**
+
   - [ ] Seção com ícone
   - [ ] Cálculo de runtime total
   - [ ] Formatação amigável (ex: "120h 30min")
 
 - [ ] **Contagem de Reviews**
+
   - [ ] Número total de reviews
 
 - [ ] **Séries Mais Assistidas**
+
   - [ ] Chart com BarMark (Apple Charts)
   - [ ] Top 5 séries
   - [ ] Ordenado por episódios
 
 - [ ] **Distribuição de Gêneros**
+
   - [ ] PieChart ou BarChart
   - [ ] Cores distintas
   - [ ] Legenda
 
 - [ ] **Atores Mais Vistos**
+
   - [ ] List ou LazyVStack
   - [ ] Foto + nome + contagem
 
 - [ ] **Países de Produção**
+
   - [ ] Map (MapKit) com pins (opcional)
   - [ ] Ou lista simples com bandeiras (emoji ou SF Symbols)
 
 - [ ] **Melhores Avaliações**
+
   - [ ] ScrollView horizontal de itens nota 10
   - [ ] Média geral do usuário
 
@@ -624,6 +717,7 @@ Plotwist/
   - [ ] Porcentagens
 
 ### 12.2 ViewModels
+
 - [ ] **StatsViewModel**
   - [ ] Cálculos complexos
   - [ ] Cache de dados pesados
@@ -633,7 +727,9 @@ Plotwist/
 ## 13. Sistema Social
 
 ### 13.1 Followers/Following
+
 - [ ] **FollowersListView**
+
   - [ ] List de UserRowView
   - [ ] Botão "Seguir de volta"
   - [ ] Pull to refresh
@@ -645,6 +741,7 @@ Plotwist/
   - [ ] Confirmação de unfollow
 
 ### 13.2 Busca de Usuários
+
 - [ ] **UserSearchView**
   - [ ] SearchBar com debounce
   - [ ] Resultados em tempo real
@@ -652,12 +749,14 @@ Plotwist/
   - [ ] NavigationLink para perfil
 
 ### 13.3 Likes
+
 - [ ] LikeButton com animação
 - [ ] Heart animation (scaleEffect + spring)
 - [ ] Haptic feedback
 - [ ] Sheet de "Curtido por" (lista de usuários)
 
 ### 13.4 ViewModels
+
 - [ ] **FollowersViewModel**
 - [ ] **FollowingViewModel**
 - [ ] **UserSearchViewModel**
@@ -667,7 +766,9 @@ Plotwist/
 ## 14. Busca
 
 ### 14.1 SearchView
+
 - [ ] **SearchBar**
+
   - [ ] TextField com debounce (300ms)
   - [ ] Botão de limpar (xmark.circle)
   - [ ] SearchSuggestionsView com histórico
@@ -680,11 +781,13 @@ Plotwist/
   - [ ] NavigationLink "Ver todos" para cada seção
 
 ### 14.2 Command Search (iOS Spotlight-like)
+
 - [ ] Implementar via `.searchable()` modifier
 - [ ] Sugestões inline
 - [ ] Navegação por teclado (iPad + teclado externo)
 
 ### 14.3 ViewModels
+
 - [ ] **SearchViewModel**
   - [ ] Combine para debounce
   - [ ] Gerenciar múltiplas queries
@@ -694,12 +797,15 @@ Plotwist/
 ## 15. Configurações
 
 ### 15.1 SettingsView
+
 - [ ] **Preferências de Streaming**
+
   - [ ] NavigationLink para StreamingProvidersView
   - [ ] MultiSelector de provedores
   - [ ] Picker de região
 
 - [ ] **Preferências de Exibição**
+
   - [ ] Picker de tema (Light, Dark, System)
   - [ ] Picker de idioma do app
   - [ ] Picker de idioma TMDB
@@ -712,6 +818,7 @@ Plotwist/
   - [ ] Botão "Logout"
 
 ### 15.2 ViewModels
+
 - [ ] **SettingsViewModel**
 
 ---
@@ -719,6 +826,7 @@ Plotwist/
 ## 16. Internacionalização
 
 ### 16.1 Idiomas Suportados
+
 - [ ] Português (pt-BR)
 - [ ] Inglês (en-US)
 - [ ] Espanhol (es-ES)
@@ -728,6 +836,7 @@ Plotwist/
 - [ ] Japonês (ja-JP)
 
 ### 16.2 Implementação
+
 - [ ] Criar `Localizable.strings` para cada idioma
 - [ ] Converter JSON dos dicionários web para .strings
 - [ ] Usar `NSLocalizedString()` ou String interpolation
@@ -736,6 +845,7 @@ Plotwist/
 - [ ] Criar `LanguageManager` para troca em runtime
 
 ### 16.3 Formatação
+
 - [ ] `NumberFormatter` para moeda
 - [ ] `DateFormatter` para datas
 - [ ] `RelativeDateTimeFormatter` para datas relativas
@@ -746,16 +856,20 @@ Plotwist/
 ## 17. Funcionalidades Premium (PRO)
 
 ### 17.1 Features PRO
+
 - [ ] Badge PRO no perfil
 - [ ] Importação de dados externos
 - [ ] [Outras features a definir]
 
 ### 17.2 Integração com In-App Purchase
+
 - [ ] **Configurar no App Store Connect**
+
   - [ ] Criar produtos (assinatura mensal/anual)
   - [ ] Configurar preços
 
 - [ ] **StoreKit 2**
+
   - [ ] Implementar `StoreKitManager`
   - [ ] Exibir produtos disponíveis
   - [ ] Processar compras
@@ -769,6 +883,7 @@ Plotwist/
   - [ ] Loading states
 
 ### 17.3 ViewModels
+
 - [ ] **SubscriptionViewModel**
 
 ---
@@ -776,7 +891,9 @@ Plotwist/
 ## 18. Importação de Dados
 
 ### 18.1 Provedores Suportados
+
 - [ ] **MyAnimeList**
+
   - [ ] UIDocumentPickerViewController para XML
   - [ ] Parse XML com XMLParser
   - [ ] Mapeamento para modelo interno
@@ -787,6 +904,7 @@ Plotwist/
   - [ ] Mapeamento para modelo interno
 
 ### 18.2 ImportView
+
 - [ ] Picker de provedor (Segmented Control)
 - [ ] Botão "Selecionar Arquivo"
 - [ ] ProgressView durante importação
@@ -794,6 +912,7 @@ Plotwist/
 - [ ] List de itens importados/falhados
 
 ### 18.3 ViewModels
+
 - [ ] **ImportViewModel**
   - [ ] Processar arquivo em background
   - [ ] Progress tracking
@@ -803,6 +922,7 @@ Plotwist/
 ## 🎨 Componentes UI Reutilizáveis (SwiftUI)
 
 ### Componentes Base
+
 - [ ] **CustomButton** (variantes: primary, secondary, outline, destructive)
 - [ ] **CustomTextField**
 - [ ] **CustomSecureField**
@@ -820,6 +940,7 @@ Plotwist/
 - [ ] **ErrorView**
 
 ### Componentes de Mídia
+
 - [ ] **PosterCard**
 - [ ] **PosterGrid** (LazyVGrid wrapper)
 - [ ] **BannerView**
@@ -829,6 +950,7 @@ Plotwist/
 - [ ] **GenreChip**
 
 ### Componentes de Interação
+
 - [ ] **LikeButton** (com animação de coração)
 - [ ] **FollowButton**
 - [ ] **StatusMenu** (Menu com opções)
@@ -836,6 +958,7 @@ Plotwist/
 - [ ] **ShareButton** (usar UIActivityViewController)
 
 ### Layouts Customizados
+
 - [ ] **FlowLayout** (para chips de gêneros)
 - [ ] **WaterfallLayout** (para grids irregulares)
 
@@ -844,18 +967,22 @@ Plotwist/
 ## 📱 Considerações iOS-Specific
 
 ### UX Nativa
+
 - [ ] **Gestos Nativos**
+
   - [ ] Swipe back para navegação
   - [ ] Pull to refresh em Lists
   - [ ] Context menus (long press)
   - [ ] Drag & drop para reordenar
 
 - [ ] **Haptic Feedback**
+
   - [ ] `UIImpactFeedbackGenerator` para ações
   - [ ] `UINotificationFeedbackGenerator` para sucesso/erro
   - [ ] `UISelectionFeedbackGenerator` para seleções
 
 - [ ] **Launch Screen**
+
   - [ ] Storyboard ou Asset
   - [ ] Logo centralizado
 
@@ -864,15 +991,19 @@ Plotwist/
   - [ ] Design consistente
 
 ### Performance
+
 - [ ] **Lazy Loading**
+
   - [ ] LazyVStack/LazyHStack/LazyVGrid
   - [ ] `.task()` modifier para carregar dados
 
 - [ ] **Image Caching**
+
   - [ ] Kingfisher com configurações otimizadas
   - [ ] Downsampling automático
 
 - [ ] **List Optimization**
+
   - [ ] Identificadores estáveis (.id())
   - [ ] Evitar renders desnecessários
 
@@ -881,7 +1012,9 @@ Plotwist/
   - [ ] Deallocação adequada
 
 ### Offline
+
 - [ ] **Cache Strategy**
+
   - [ ] URLCache configurado
   - [ ] Core Data ou Realm para persistência offline
   - [ ] Queue de ações offline para sincronizar
@@ -892,11 +1025,14 @@ Plotwist/
   - [ ] Retry automático quando conectar
 
 ### Push Notifications (Futuro)
+
 - [ ] **APNs Setup**
+
   - [ ] Certificados no Apple Developer
   - [ ] Backend: enviar device token
 
 - [ ] **Notificações**
+
   - [ ] Novo seguidor
   - [ ] Like na review
   - [ ] Resposta na review
@@ -907,6 +1043,7 @@ Plotwist/
   - [ ] Lembrete de filme estreando
 
 ### Widgets (iOS 14+)
+
 - [ ] **WidgetKit**
   - [ ] Widget de estatísticas
   - [ ] Widget de próximos lançamentos
@@ -914,10 +1051,12 @@ Plotwist/
   - [ ] Timelines para atualização
 
 ### App Clips (Opcional)
+
 - [ ] App Clip para visualização rápida de filme/série
 - [ ] QR Codes para compartilhamento
 
 ### Siri Shortcuts (Opcional)
+
 - [ ] Adicionar à watchlist via Siri
 - [ ] Marcar como assistido via Siri
 - [ ] Buscar filme/série via Siri
@@ -926,31 +1065,32 @@ Plotwist/
 
 ## 📊 Estimativa de Complexidade
 
-| Módulo | Complexidade | Prioridade |
-|--------|--------------|------------|
-| Setup Inicial | Baixa | Alta |
-| Autenticação | Média | Alta |
-| Navegação | Média | Alta |
-| Catálogo de Filmes | Média | Alta |
-| Catálogo de Séries | Média | Alta |
-| Detalhes de Mídia | Alta | Alta |
-| Sistema de Reviews | Alta | Alta |
-| Listas | Alta | Média |
-| Perfil | Média | Alta |
-| Coleção | Média | Média |
-| Estatísticas | Alta | Baixa |
-| Sistema Social | Média | Média |
-| Busca | Baixa | Alta |
-| Configurações | Baixa | Baixa |
-| i18n | Média | Média |
-| Premium/IAP | Alta | Baixa |
-| Importação | Alta | Baixa |
+| Módulo             | Complexidade | Prioridade |
+| ------------------ | ------------ | ---------- |
+| Setup Inicial      | Baixa        | Alta       |
+| Autenticação       | Média        | Alta       |
+| Navegação          | Média        | Alta       |
+| Catálogo de Filmes | Média        | Alta       |
+| Catálogo de Séries | Média        | Alta       |
+| Detalhes de Mídia  | Alta         | Alta       |
+| Sistema de Reviews | Alta         | Alta       |
+| Listas             | Alta         | Média      |
+| Perfil             | Média        | Alta       |
+| Coleção            | Média        | Média      |
+| Estatísticas       | Alta         | Baixa      |
+| Sistema Social     | Média        | Média      |
+| Busca              | Baixa        | Alta       |
+| Configurações      | Baixa        | Baixa      |
+| i18n               | Média        | Média      |
+| Premium/IAP        | Alta         | Baixa      |
+| Importação         | Alta         | Baixa      |
 
 ---
 
 ## 🚀 Sugestão de Sprints
 
 ### Sprint 1 - MVP Base (2-3 semanas)
+
 - Setup inicial do projeto Xcode
 - Arquitetura base (MVVM + Network Layer)
 - Autenticação (login/cadastro)
@@ -959,6 +1099,7 @@ Plotwist/
 - Busca simples
 
 ### Sprint 2 - Core Features (2-3 semanas)
+
 - Catálogo de séries
 - Sistema de status (watchlist, watched, etc)
 - Perfil básico
@@ -966,6 +1107,7 @@ Plotwist/
 - Deep linking
 
 ### Sprint 3 - Social Features (2 semanas)
+
 - Sistema de reviews completo
 - Likes com animações
 - Follow/Unfollow
@@ -973,6 +1115,7 @@ Plotwist/
 - Review replies
 
 ### Sprint 4 - Listas e Polish (2 semanas)
+
 - Listas personalizadas (criar, editar, adicionar itens)
 - Detalhes de temporadas/episódios
 - Internacionalização
@@ -980,6 +1123,7 @@ Plotwist/
 - Dark mode polish
 
 ### Sprint 5 - Extras (1-2 semanas)
+
 - Estatísticas com gráficos
 - Configurações avançadas
 - In-App Purchases (PRO)
@@ -987,6 +1131,7 @@ Plotwist/
 - Widgets básicos
 
 ### Sprint 6 - QA & Publicação (1 semana)
+
 - Testes em dispositivos reais
 - Correção de bugs
 - App Store assets (screenshots, descrição)
@@ -997,20 +1142,24 @@ Plotwist/
 ## 📚 Referências
 
 ### Backend
+
 - **API Backend**: `apps/api/` - Mesma API usada pelo web
 - **Schemas Gerados**: `apps/web/src/api/endpoints.schemas.ts` (referência para modelos Codable)
 
 ### Web (Referência UI/UX)
+
 - **Dicionários i18n**: `apps/web/public/dictionaries/` → converter para .strings
 - **Componentes Web**: `apps/web/src/components/` (referência de design)
 - **Serviços TMDB**: `apps/web/src/services/tmdb.ts` (referência de lógica)
 
 ### iOS Resources
+
 - **Human Interface Guidelines**: https://developer.apple.com/design/human-interface-guidelines/
 - **Swift Style Guide**: https://google.github.io/swift/
 - **SwiftUI by Example**: https://www.hackingwithswift.com/quick-start/swiftui
 
 ### Bibliotecas Recomendadas
+
 - **Alamofire**: https://github.com/Alamofire/Alamofire
 - **Kingfisher**: https://github.com/onevcat/Kingfisher
 - **KeychainAccess**: https://github.com/kishikawakatsumi/KeychainAccess
@@ -1021,25 +1170,28 @@ Plotwist/
 ## 🛠 Ferramentas de Desenvolvimento
 
 ### Xcode Tools
+
 - [ ] Configurar Instruments para profiling
 - [ ] Usar Memory Graph Debugger
 - [ ] View Hierarchy Debugger para debug de UI
 
 ### Testing
+
 - [ ] XCTest para testes unitários
 - [ ] XCUITest para testes de UI
 - [ ] Quick + Nimble (opcional)
 - [ ] Code coverage mínima de 70%
 
 ### CI/CD
+
 - [ ] Xcode Cloud ou Fastlane
 - [ ] Automação de builds
 - [ ] TestFlight para beta testing
 
 ---
 
-*Documento gerado em: Janeiro 2026*
-*Versão do projeto web: 0.1.0*
-*Plataforma: iOS 16.0+*
-*Linguagem: Swift 5.9+*
-*Framework: SwiftUI*
+_Documento gerado em: Janeiro 2026_
+_Versão do projeto web: 0.1.0_
+_Plataforma: iOS 16.0+_
+_Linguagem: Swift 5.9+_
+_Framework: SwiftUI_
