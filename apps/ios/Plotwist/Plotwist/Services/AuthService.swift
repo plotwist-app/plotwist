@@ -102,6 +102,28 @@ class AuthService {
     return http.statusCode == 200
   }
 
+  // MARK: - Get Current User
+  func getCurrentUser() async throws -> User {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+      let url = URL(string: "\(API.baseURL)/me")
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(User.self, from: data)
+  }
+
   // MARK: - Sign Out
   func signOut() {
     UserDefaults.standard.removeObject(forKey: "token")
@@ -111,6 +133,14 @@ class AuthService {
   var isAuthenticated: Bool {
     UserDefaults.standard.string(forKey: "token") != nil
   }
+}
+
+// MARK: - Models
+struct User: Codable {
+  let id: String
+  let username: String
+  let email: String
+  let imagePath: String?
 }
 
 struct LoginResponse: Codable {

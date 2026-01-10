@@ -6,277 +6,414 @@
 import Foundation
 
 enum L10n {
-    static var current: Strings { strings[Language.current] ?? strings[.enUS]! }
-    
-    private static let strings: [Language: Strings] = [
-        .enUS: Strings(
-            // Login
-            loginLabel: "Email or username",
-            loginPlaceholder: "Email or username",
-            passwordLabel: "Password",
-            passwordPlaceholder: "*********",
-            accessButton: "Access",
-            doNotHaveAccount: "Don't have an account?",
-            createNow: "Create now",
-            loginRequired: "Please enter your email or username.",
-            passwordRequired: "Please enter your password.",
-            passwordLength: "Your password must be at least 8 characters long.",
-            invalidCredentials: "Invalid login credentials.",
-            continueWithGoogle: "Continue with Google",
-            continueWithApple: "Continue with Apple",
-            or: "or",
-            // Sign Up
-            startNow: "Start now",
-            startYourJourney: "Start your journey in just a few steps.",
-            emailLabel: "Email",
-            emailPlaceholder: "email@domain.com",
-            continueButton: "Continue",
-            alreadyHaveAccount: "Already have an account?",
-            accessNow: "Access now",
-            selectUsername: "Select your username",
-            selectUsernameDescription: "Choose your username and finish your sign-up to start using the platform.",
-            usernamePlaceholder: "john-doe",
-            finishSignUp: "Finish sign-up",
-            emailRequired: "Please enter your email.",
-            emailInvalid: "Please enter a valid email.",
-            usernameRequired: "Please enter a username.",
-            emailAlreadyTaken: "This email is already in use.",
-            usernameAlreadyTaken: "This username is already taken.",
-            signUpSuccess: "Registration successful. Welcome! 🎉"
-        ),
-        .ptBR: Strings(
-            loginLabel: "E-mail ou nome de usuário",
-            loginPlaceholder: "E-mail ou nome de usuário",
-            passwordLabel: "Senha",
-            passwordPlaceholder: "*********",
-            accessButton: "Acessar",
-            doNotHaveAccount: "Não tem uma conta?",
-            createNow: "Crie agora",
-            loginRequired: "Por favor, insira seu e-mail ou nome de usuário.",
-            passwordRequired: "Por favor, insira sua senha.",
-            passwordLength: "Sua senha deve ter pelo menos 8 caracteres.",
-            invalidCredentials: "Credenciais de login inválidas.",
-            continueWithGoogle: "Continuar com Google",
-            continueWithApple: "Continuar com Apple",
-            or: "ou",
-            startNow: "Comece agora",
-            startYourJourney: "Comece sua jornada em poucos passos.",
-            emailLabel: "E-mail",
-            emailPlaceholder: "email@dominio.com",
-            continueButton: "Continuar",
-            alreadyHaveAccount: "Já tem uma conta?",
-            accessNow: "Acesse agora",
-            selectUsername: "Escolha seu nome de usuário",
-            selectUsernameDescription: "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
-            usernamePlaceholder: "joao-silva",
-            finishSignUp: "Finalizar cadastro",
-            emailRequired: "Por favor, insira seu e-mail.",
-            emailInvalid: "Por favor, insira um e-mail válido.",
-            usernameRequired: "Por favor, insira um nome de usuário.",
-            emailAlreadyTaken: "Este e-mail já está em uso.",
-            usernameAlreadyTaken: "Este nome de usuário já está em uso.",
-            signUpSuccess: "Cadastro realizado com sucesso. Bem-vindo! 🎉"
-        ),
-        .esES: Strings(
-            loginLabel: "Correo electrónico o nombre de usuario",
-            loginPlaceholder: "Correo electrónico o nombre de usuario",
-            passwordLabel: "Contraseña",
-            passwordPlaceholder: "*********",
-            accessButton: "Acceder",
-            doNotHaveAccount: "¿No tienes una cuenta?",
-            createNow: "Crea una ahora",
-            loginRequired: "Por favor, introduce tu correo electrónico o nombre de usuario.",
-            passwordRequired: "Por favor, introduce tu contraseña.",
-            passwordLength: "Tu contraseña debe tener al menos 8 caracteres.",
-            invalidCredentials: "Credenciales de inicio de sesión no válidas.",
-            continueWithGoogle: "Continuar con Google",
-            continueWithApple: "Continuar con Apple",
-            or: "o",
-            startNow: "Empieza ahora",
-            startYourJourney: "Comienza tu viaje en unos pocos pasos.",
-            emailLabel: "Correo electrónico",
-            emailPlaceholder: "email@dominio.com",
-            continueButton: "Continuar",
-            alreadyHaveAccount: "¿Ya tienes una cuenta?",
-            accessNow: "Accede ahora",
-            selectUsername: "Selecciona tu nombre de usuario",
-            selectUsernameDescription: "Elige tu nombre de usuario y finaliza tu registro para comenzar a usar la plataforma.",
-            usernamePlaceholder: "juan-perez",
-            finishSignUp: "Finalizar registro",
-            emailRequired: "Por favor, introduce tu correo electrónico.",
-            emailInvalid: "Por favor, introduce un correo electrónico válido.",
-            usernameRequired: "Por favor, introduce un nombre de usuario.",
-            emailAlreadyTaken: "Este correo electrónico ya está en uso.",
-            usernameAlreadyTaken: "Este nombre de usuario ya está en uso.",
-            signUpSuccess: "Registro exitoso. ¡Bienvenido! 🎉"
-        ),
-        .frFR: Strings(
-            loginLabel: "E-mail ou nom d'utilisateur",
-            loginPlaceholder: "E-mail ou nom d'utilisateur",
-            passwordLabel: "Mot de passe",
-            passwordPlaceholder: "*********",
-            accessButton: "Accéder",
-            doNotHaveAccount: "Vous n'avez pas de compte?",
-            createNow: "Créez-en un maintenant",
-            loginRequired: "Veuillez entrer votre e-mail ou nom d'utilisateur.",
-            passwordRequired: "Veuillez entrer votre mot de passe.",
-            passwordLength: "Votre mot de passe doit contenir au moins 8 caractères.",
-            invalidCredentials: "Identifiants de connexion invalides.",
-            continueWithGoogle: "Continuer avec Google",
-            continueWithApple: "Continuer avec Apple",
-            or: "ou",
-            startNow: "Commencez maintenant",
-            startYourJourney: "Commencez votre voyage en quelques étapes.",
-            emailLabel: "E-mail",
-            emailPlaceholder: "email@domaine.com",
-            continueButton: "Continuer",
-            alreadyHaveAccount: "Vous avez déjà un compte?",
-            accessNow: "Connectez-vous",
-            selectUsername: "Choisissez votre nom d'utilisateur",
-            selectUsernameDescription: "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
-            usernamePlaceholder: "jean-dupont",
-            finishSignUp: "Terminer l'inscription",
-            emailRequired: "Veuillez entrer votre e-mail.",
-            emailInvalid: "Veuillez entrer un e-mail valide.",
-            usernameRequired: "Veuillez entrer un nom d'utilisateur.",
-            emailAlreadyTaken: "Cet e-mail est déjà utilisé.",
-            usernameAlreadyTaken: "Ce nom d'utilisateur est déjà utilisé.",
-            signUpSuccess: "Inscription réussie. Bienvenue! 🎉"
-        ),
-        .deDE: Strings(
-            loginLabel: "E-Mail oder Benutzername",
-            loginPlaceholder: "E-Mail oder Benutzername",
-            passwordLabel: "Passwort",
-            passwordPlaceholder: "*********",
-            accessButton: "Zugreifen",
-            doNotHaveAccount: "Haben Sie kein Konto?",
-            createNow: "Jetzt erstellen",
-            loginRequired: "Bitte geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein.",
-            passwordRequired: "Bitte geben Sie Ihr Passwort ein.",
-            passwordLength: "Ihr Passwort muss mindestens 8 Zeichen lang sein.",
-            invalidCredentials: "Ungültige Anmeldeinformationen.",
-            continueWithGoogle: "Weiter mit Google",
-            continueWithApple: "Weiter mit Apple",
-            or: "oder",
-            startNow: "Jetzt starten",
-            startYourJourney: "Beginnen Sie Ihre Reise in wenigen Schritten.",
-            emailLabel: "E-Mail",
-            emailPlaceholder: "email@domain.de",
-            continueButton: "Weiter",
-            alreadyHaveAccount: "Haben Sie bereits ein Konto?",
-            accessNow: "Jetzt anmelden",
-            selectUsername: "Wählen Sie Ihren Benutzernamen",
-            selectUsernameDescription: "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
-            usernamePlaceholder: "max-mustermann",
-            finishSignUp: "Registrierung abschließen",
-            emailRequired: "Bitte geben Sie Ihre E-Mail-Adresse ein.",
-            emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-            usernameRequired: "Bitte geben Sie einen Benutzernamen ein.",
-            emailAlreadyTaken: "Diese E-Mail-Adresse wird bereits verwendet.",
-            usernameAlreadyTaken: "Dieser Benutzername ist bereits vergeben.",
-            signUpSuccess: "Registrierung erfolgreich. Willkommen! 🎉"
-        ),
-        .itIT: Strings(
-            loginLabel: "E-mail o nome utente",
-            loginPlaceholder: "E-mail o nome utente",
-            passwordLabel: "Password",
-            passwordPlaceholder: "*********",
-            accessButton: "Accedi",
-            doNotHaveAccount: "Non hai un account?",
-            createNow: "Crea ora",
-            loginRequired: "Inserisci il tuo indirizzo e-mail o nome utente.",
-            passwordRequired: "Inserisci la tua password.",
-            passwordLength: "La tua password deve contenere almeno 8 caratteri.",
-            invalidCredentials: "Credenziali di accesso non valide.",
-            continueWithGoogle: "Continua con Google",
-            continueWithApple: "Continua con Apple",
-            or: "o",
-            startNow: "Inizia ora",
-            startYourJourney: "Inizia il tuo viaggio in pochi passi.",
-            emailLabel: "E-mail",
-            emailPlaceholder: "email@dominio.com",
-            continueButton: "Continua",
-            alreadyHaveAccount: "Hai già un account?",
-            accessNow: "Accedi ora",
-            selectUsername: "Scegli il tuo nome utente",
-            selectUsernameDescription: "Scegli il tuo nome utente e completa la registrazione per iniziare a usare la piattaforma.",
-            usernamePlaceholder: "mario-rossi",
-            finishSignUp: "Completa registrazione",
-            emailRequired: "Inserisci la tua e-mail.",
-            emailInvalid: "Inserisci un'e-mail valida.",
-            usernameRequired: "Inserisci un nome utente.",
-            emailAlreadyTaken: "Questa email è già in uso.",
-            usernameAlreadyTaken: "Questo nome utente è già in uso.",
-            signUpSuccess: "Registrazione completata. Benvenuto! 🎉"
-        ),
-        .jaJP: Strings(
-            loginLabel: "メールアドレスまたはユーザー名",
-            loginPlaceholder: "メールアドレスまたはユーザー名",
-            passwordLabel: "パスワード",
-            passwordPlaceholder: "*********",
-            accessButton: "アクセス",
-            doNotHaveAccount: "アカウントをお持ちではありませんか？",
-            createNow: "今すぐ作成",
-            loginRequired: "メールアドレスまたはユーザー名を入力してください。",
-            passwordRequired: "パスワードを入力してください。",
-            passwordLength: "パスワードは8文字以上でなければなりません。",
-            invalidCredentials: "ログイン認証情報が無効です。",
-            continueWithGoogle: "Googleで続ける",
-            continueWithApple: "Appleで続ける",
-            or: "または",
-            startNow: "今すぐ始める",
-            startYourJourney: "数ステップで旅を始めましょう。",
-            emailLabel: "メールアドレス",
-            emailPlaceholder: "email@domain.com",
-            continueButton: "続ける",
-            alreadyHaveAccount: "すでにアカウントをお持ちですか？",
-            accessNow: "ログイン",
-            selectUsername: "ユーザー名を選択",
-            selectUsernameDescription: "ユーザー名を選択し、プラットフォームの利用を開始するためにサインアップを完了してください。",
-            usernamePlaceholder: "taro-yamada",
-            finishSignUp: "登録を完了",
-            emailRequired: "メールアドレスを入力してください。",
-            emailInvalid: "有効なメールアドレスを入力してください。",
-            usernameRequired: "ユーザー名を入力してください。",
-            emailAlreadyTaken: "このメールアドレスは既に使用されています。",
-            usernameAlreadyTaken: "このユーザー名は既に使用されています。",
-            signUpSuccess: "登録が完了しました。ようこそ！🎉"
-        )
-    ]
+  static var current: Strings { strings[Language.current] ?? strings[.enUS]! }
+
+  private static let strings: [Language: Strings] = [
+    .enUS: Strings(
+      // Login
+      loginLabel: "Email or username",
+      loginPlaceholder: "Email or username",
+      passwordLabel: "Password",
+      passwordPlaceholder: "*********",
+      accessButton: "Access",
+      doNotHaveAccount: "Don't have an account?",
+      createNow: "Create now",
+      loginRequired: "Please enter your email or username.",
+      passwordRequired: "Please enter your password.",
+      passwordLength: "Your password must be at least 8 characters long.",
+      invalidCredentials: "Invalid login credentials.",
+      continueWithGoogle: "Continue with Google",
+      continueWithApple: "Continue with Apple",
+      or: "or",
+      // Sign Up
+      startNow: "Start now",
+      startYourJourney: "Start your journey in just a few steps.",
+      emailLabel: "Email",
+      emailPlaceholder: "email@domain.com",
+      continueButton: "Continue",
+      alreadyHaveAccount: "Already have an account?",
+      accessNow: "Access now",
+      selectUsername: "Select your username",
+      selectUsernameDescription:
+        "Choose your username and finish your sign-up to start using the platform.",
+      usernamePlaceholder: "john-doe",
+      finishSignUp: "Finish sign-up",
+      emailRequired: "Please enter your email.",
+      emailInvalid: "Please enter a valid email.",
+      usernameRequired: "Please enter a username.",
+      emailAlreadyTaken: "This email is already in use.",
+      usernameAlreadyTaken: "This username is already taken.",
+      signUpSuccess: "Registration successful. Welcome! 🎉",
+      // Search
+      searchPlaceholder: "Search movies, series, people...",
+      movies: "Movies",
+      tvSeries: "TV Series",
+      people: "People",
+      noResults: "No results found.",
+      cancel: "Cancel",
+      popularMovies: "Popular Movies",
+      popularTVSeries: "Popular TV Series",
+      settings: "Settings",
+      theme: "Theme",
+      themeSystem: "System",
+      themeLight: "Light",
+      themeDark: "Dark",
+      language: "Language",
+      done: "Done",
+      signOut: "Sign Out"
+    ),
+    .ptBR: Strings(
+      loginLabel: "E-mail ou nome de usuário",
+      loginPlaceholder: "E-mail ou nome de usuário",
+      passwordLabel: "Senha",
+      passwordPlaceholder: "*********",
+      accessButton: "Acessar",
+      doNotHaveAccount: "Não tem uma conta?",
+      createNow: "Crie agora",
+      loginRequired: "Por favor, insira seu e-mail ou nome de usuário.",
+      passwordRequired: "Por favor, insira sua senha.",
+      passwordLength: "Sua senha deve ter pelo menos 8 caracteres.",
+      invalidCredentials: "Credenciais de login inválidas.",
+      continueWithGoogle: "Continuar com Google",
+      continueWithApple: "Continuar com Apple",
+      or: "ou",
+      startNow: "Comece agora",
+      startYourJourney: "Comece sua jornada em poucos passos.",
+      emailLabel: "E-mail",
+      emailPlaceholder: "email@dominio.com",
+      continueButton: "Continuar",
+      alreadyHaveAccount: "Já tem uma conta?",
+      accessNow: "Acesse agora",
+      selectUsername: "Escolha seu nome de usuário",
+      selectUsernameDescription:
+        "Escolha seu nome de usuário e finalize seu cadastro para começar a usar a plataforma.",
+      usernamePlaceholder: "joao-silva",
+      finishSignUp: "Finalizar cadastro",
+      emailRequired: "Por favor, insira seu e-mail.",
+      emailInvalid: "Por favor, insira um e-mail válido.",
+      usernameRequired: "Por favor, insira um nome de usuário.",
+      emailAlreadyTaken: "Este e-mail já está em uso.",
+      usernameAlreadyTaken: "Este nome de usuário já está em uso.",
+      signUpSuccess: "Cadastro realizado com sucesso. Bem-vindo! 🎉",
+      searchPlaceholder: "Buscar filmes, séries, pessoas...",
+      movies: "Filmes",
+      tvSeries: "Séries de TV",
+      people: "Pessoas",
+      noResults: "Nenhum resultado encontrado.",
+      cancel: "Cancelar",
+      popularMovies: "Filmes Populares",
+      popularTVSeries: "Séries Populares",
+      settings: "Configurações",
+      theme: "Tema",
+      themeSystem: "Sistema",
+      themeLight: "Claro",
+      themeDark: "Escuro",
+      language: "Idioma",
+      done: "Concluído",
+      signOut: "Sair"
+    ),
+    .esES: Strings(
+      loginLabel: "Correo electrónico o nombre de usuario",
+      loginPlaceholder: "Correo electrónico o nombre de usuario",
+      passwordLabel: "Contraseña",
+      passwordPlaceholder: "*********",
+      accessButton: "Acceder",
+      doNotHaveAccount: "¿No tienes una cuenta?",
+      createNow: "Crea una ahora",
+      loginRequired: "Por favor, introduce tu correo electrónico o nombre de usuario.",
+      passwordRequired: "Por favor, introduce tu contraseña.",
+      passwordLength: "Tu contraseña debe tener al menos 8 caracteres.",
+      invalidCredentials: "Credenciales de inicio de sesión no válidas.",
+      continueWithGoogle: "Continuar con Google",
+      continueWithApple: "Continuar con Apple",
+      or: "o",
+      startNow: "Empieza ahora",
+      startYourJourney: "Comienza tu viaje en unos pocos pasos.",
+      emailLabel: "Correo electrónico",
+      emailPlaceholder: "email@dominio.com",
+      continueButton: "Continuar",
+      alreadyHaveAccount: "¿Ya tienes una cuenta?",
+      accessNow: "Accede ahora",
+      selectUsername: "Selecciona tu nombre de usuario",
+      selectUsernameDescription:
+        "Elige tu nombre de usuario y finaliza tu registro para comenzar a usar la plataforma.",
+      usernamePlaceholder: "juan-perez",
+      finishSignUp: "Finalizar registro",
+      emailRequired: "Por favor, introduce tu correo electrónico.",
+      emailInvalid: "Por favor, introduce un correo electrónico válido.",
+      usernameRequired: "Por favor, introduce un nombre de usuario.",
+      emailAlreadyTaken: "Este correo electrónico ya está en uso.",
+      usernameAlreadyTaken: "Este nombre de usuario ya está en uso.",
+      signUpSuccess: "Registro exitoso. ¡Bienvenido! 🎉",
+      searchPlaceholder: "Buscar películas, series, personas...",
+      movies: "Películas",
+      tvSeries: "Series de TV",
+      people: "Personas",
+      noResults: "No se encontraron resultados.",
+      cancel: "Cancelar",
+      popularMovies: "Películas Populares",
+      popularTVSeries: "Series Populares",
+      settings: "Configuración",
+      theme: "Tema",
+      themeSystem: "Sistema",
+      themeLight: "Claro",
+      themeDark: "Oscuro",
+      language: "Idioma",
+      done: "Listo",
+      signOut: "Cerrar sesión"
+    ),
+    .frFR: Strings(
+      loginLabel: "E-mail ou nom d'utilisateur",
+      loginPlaceholder: "E-mail ou nom d'utilisateur",
+      passwordLabel: "Mot de passe",
+      passwordPlaceholder: "*********",
+      accessButton: "Accéder",
+      doNotHaveAccount: "Vous n'avez pas de compte?",
+      createNow: "Créez-en un maintenant",
+      loginRequired: "Veuillez entrer votre e-mail ou nom d'utilisateur.",
+      passwordRequired: "Veuillez entrer votre mot de passe.",
+      passwordLength: "Votre mot de passe doit contenir au moins 8 caractères.",
+      invalidCredentials: "Identifiants de connexion invalides.",
+      continueWithGoogle: "Continuer avec Google",
+      continueWithApple: "Continuer avec Apple",
+      or: "ou",
+      startNow: "Commencez maintenant",
+      startYourJourney: "Commencez votre voyage en quelques étapes.",
+      emailLabel: "E-mail",
+      emailPlaceholder: "email@domaine.com",
+      continueButton: "Continuer",
+      alreadyHaveAccount: "Vous avez déjà un compte?",
+      accessNow: "Connectez-vous",
+      selectUsername: "Choisissez votre nom d'utilisateur",
+      selectUsernameDescription:
+        "Choisissez votre nom d'utilisateur et terminez votre inscription pour commencer à utiliser la plateforme.",
+      usernamePlaceholder: "jean-dupont",
+      finishSignUp: "Terminer l'inscription",
+      emailRequired: "Veuillez entrer votre e-mail.",
+      emailInvalid: "Veuillez entrer un e-mail valide.",
+      usernameRequired: "Veuillez entrer un nom d'utilisateur.",
+      emailAlreadyTaken: "Cet e-mail est déjà utilisé.",
+      usernameAlreadyTaken: "Ce nom d'utilisateur est déjà utilisé.",
+      signUpSuccess: "Inscription réussie. Bienvenue! 🎉",
+      searchPlaceholder: "Rechercher films, séries, personnes...",
+      movies: "Films",
+      tvSeries: "Séries TV",
+      people: "Personnes",
+      noResults: "Aucun résultat trouvé.",
+      cancel: "Annuler",
+      popularMovies: "Films Populaires",
+      popularTVSeries: "Séries Populaires",
+      settings: "Paramètres",
+      theme: "Thème",
+      themeSystem: "Système",
+      themeLight: "Clair",
+      themeDark: "Sombre",
+      language: "Langue",
+      done: "Terminé",
+      signOut: "Déconnexion"
+    ),
+    .deDE: Strings(
+      loginLabel: "E-Mail oder Benutzername",
+      loginPlaceholder: "E-Mail oder Benutzername",
+      passwordLabel: "Passwort",
+      passwordPlaceholder: "*********",
+      accessButton: "Zugreifen",
+      doNotHaveAccount: "Haben Sie kein Konto?",
+      createNow: "Jetzt erstellen",
+      loginRequired: "Bitte geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein.",
+      passwordRequired: "Bitte geben Sie Ihr Passwort ein.",
+      passwordLength: "Ihr Passwort muss mindestens 8 Zeichen lang sein.",
+      invalidCredentials: "Ungültige Anmeldeinformationen.",
+      continueWithGoogle: "Weiter mit Google",
+      continueWithApple: "Weiter mit Apple",
+      or: "oder",
+      startNow: "Jetzt starten",
+      startYourJourney: "Beginnen Sie Ihre Reise in wenigen Schritten.",
+      emailLabel: "E-Mail",
+      emailPlaceholder: "email@domain.de",
+      continueButton: "Weiter",
+      alreadyHaveAccount: "Haben Sie bereits ein Konto?",
+      accessNow: "Jetzt anmelden",
+      selectUsername: "Wählen Sie Ihren Benutzernamen",
+      selectUsernameDescription:
+        "Wählen Sie Ihren Benutzernamen und schließen Sie Ihre Registrierung ab, um die Plattform zu nutzen.",
+      usernamePlaceholder: "max-mustermann",
+      finishSignUp: "Registrierung abschließen",
+      emailRequired: "Bitte geben Sie Ihre E-Mail-Adresse ein.",
+      emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      usernameRequired: "Bitte geben Sie einen Benutzernamen ein.",
+      emailAlreadyTaken: "Diese E-Mail-Adresse wird bereits verwendet.",
+      usernameAlreadyTaken: "Dieser Benutzername ist bereits vergeben.",
+      signUpSuccess: "Registrierung erfolgreich. Willkommen! 🎉",
+      searchPlaceholder: "Filme, Serien, Personen suchen...",
+      movies: "Filme",
+      tvSeries: "TV-Serien",
+      people: "Personen",
+      noResults: "Keine Ergebnisse gefunden.",
+      cancel: "Abbrechen",
+      popularMovies: "Beliebte Filme",
+      popularTVSeries: "Beliebte Serien",
+      settings: "Einstellungen",
+      theme: "Design",
+      themeSystem: "System",
+      themeLight: "Hell",
+      themeDark: "Dunkel",
+      language: "Sprache",
+      done: "Fertig",
+      signOut: "Abmelden"
+    ),
+    .itIT: Strings(
+      loginLabel: "E-mail o nome utente",
+      loginPlaceholder: "E-mail o nome utente",
+      passwordLabel: "Password",
+      passwordPlaceholder: "*********",
+      accessButton: "Accedi",
+      doNotHaveAccount: "Non hai un account?",
+      createNow: "Crea ora",
+      loginRequired: "Inserisci il tuo indirizzo e-mail o nome utente.",
+      passwordRequired: "Inserisci la tua password.",
+      passwordLength: "La tua password deve contenere almeno 8 caratteri.",
+      invalidCredentials: "Credenziali di accesso non valide.",
+      continueWithGoogle: "Continua con Google",
+      continueWithApple: "Continua con Apple",
+      or: "o",
+      startNow: "Inizia ora",
+      startYourJourney: "Inizia il tuo viaggio in pochi passi.",
+      emailLabel: "E-mail",
+      emailPlaceholder: "email@dominio.com",
+      continueButton: "Continua",
+      alreadyHaveAccount: "Hai già un account?",
+      accessNow: "Accedi ora",
+      selectUsername: "Scegli il tuo nome utente",
+      selectUsernameDescription:
+        "Scegli il tuo nome utente e completa la registrazione per iniziare a usare la piattaforma.",
+      usernamePlaceholder: "mario-rossi",
+      finishSignUp: "Completa registrazione",
+      emailRequired: "Inserisci la tua e-mail.",
+      emailInvalid: "Inserisci un'e-mail valida.",
+      usernameRequired: "Inserisci un nome utente.",
+      emailAlreadyTaken: "Questa email è già in uso.",
+      usernameAlreadyTaken: "Questo nome utente è già in uso.",
+      signUpSuccess: "Registrazione completata. Benvenuto! 🎉",
+      searchPlaceholder: "Cerca film, serie, persone...",
+      movies: "Film",
+      tvSeries: "Serie TV",
+      people: "Persone",
+      noResults: "Nessun risultato trovato.",
+      cancel: "Annulla",
+      popularMovies: "Film Popolari",
+      popularTVSeries: "Serie Popolari",
+      settings: "Impostazioni",
+      theme: "Tema",
+      themeSystem: "Sistema",
+      themeLight: "Chiaro",
+      themeDark: "Scuro",
+      language: "Lingua",
+      done: "Fatto",
+      signOut: "Esci"
+    ),
+    .jaJP: Strings(
+      loginLabel: "メールアドレスまたはユーザー名",
+      loginPlaceholder: "メールアドレスまたはユーザー名",
+      passwordLabel: "パスワード",
+      passwordPlaceholder: "*********",
+      accessButton: "アクセス",
+      doNotHaveAccount: "アカウントをお持ちではありませんか？",
+      createNow: "今すぐ作成",
+      loginRequired: "メールアドレスまたはユーザー名を入力してください。",
+      passwordRequired: "パスワードを入力してください。",
+      passwordLength: "パスワードは8文字以上でなければなりません。",
+      invalidCredentials: "ログイン認証情報が無効です。",
+      continueWithGoogle: "Googleで続ける",
+      continueWithApple: "Appleで続ける",
+      or: "または",
+      startNow: "今すぐ始める",
+      startYourJourney: "数ステップで旅を始めましょう。",
+      emailLabel: "メールアドレス",
+      emailPlaceholder: "email@domain.com",
+      continueButton: "続ける",
+      alreadyHaveAccount: "すでにアカウントをお持ちですか？",
+      accessNow: "ログイン",
+      selectUsername: "ユーザー名を選択",
+      selectUsernameDescription: "ユーザー名を選択し、プラットフォームの利用を開始するためにサインアップを完了してください。",
+      usernamePlaceholder: "taro-yamada",
+      finishSignUp: "登録を完了",
+      emailRequired: "メールアドレスを入力してください。",
+      emailInvalid: "有効なメールアドレスを入力してください。",
+      usernameRequired: "ユーザー名を入力してください。",
+      emailAlreadyTaken: "このメールアドレスは既に使用されています。",
+      usernameAlreadyTaken: "このユーザー名は既に使用されています。",
+      signUpSuccess: "登録が完了しました。ようこそ！🎉",
+      searchPlaceholder: "映画、シリーズ、人物を検索...",
+      movies: "映画",
+      tvSeries: "テレビシリーズ",
+      people: "人物",
+      noResults: "結果が見つかりません。",
+      cancel: "キャンセル",
+      popularMovies: "人気の映画",
+      popularTVSeries: "人気のテレビシリーズ",
+      settings: "設定",
+      theme: "テーマ",
+      themeSystem: "システム",
+      themeLight: "ライト",
+      themeDark: "ダーク",
+      language: "言語",
+      done: "完了",
+      signOut: "サインアウト"
+    ),
+  ]
 }
 
 struct Strings {
-    // Login
-    let loginLabel: String
-    let loginPlaceholder: String
-    let passwordLabel: String
-    let passwordPlaceholder: String
-    let accessButton: String
-    let doNotHaveAccount: String
-    let createNow: String
-    let loginRequired: String
-    let passwordRequired: String
-    let passwordLength: String
-    let invalidCredentials: String
-    let continueWithGoogle: String
-    let continueWithApple: String
-    let or: String
-    // Sign Up
-    let startNow: String
-    let startYourJourney: String
-    let emailLabel: String
-    let emailPlaceholder: String
-    let continueButton: String
-    let alreadyHaveAccount: String
-    let accessNow: String
-    let selectUsername: String
-    let selectUsernameDescription: String
-    let usernamePlaceholder: String
-    let finishSignUp: String
-    let emailRequired: String
-    let emailInvalid: String
-    let usernameRequired: String
-    let emailAlreadyTaken: String
-    let usernameAlreadyTaken: String
-    let signUpSuccess: String
+  // Login
+  let loginLabel: String
+  let loginPlaceholder: String
+  let passwordLabel: String
+  let passwordPlaceholder: String
+  let accessButton: String
+  let doNotHaveAccount: String
+  let createNow: String
+  let loginRequired: String
+  let passwordRequired: String
+  let passwordLength: String
+  let invalidCredentials: String
+  let continueWithGoogle: String
+  let continueWithApple: String
+  let or: String
+  // Sign Up
+  let startNow: String
+  let startYourJourney: String
+  let emailLabel: String
+  let emailPlaceholder: String
+  let continueButton: String
+  let alreadyHaveAccount: String
+  let accessNow: String
+  let selectUsername: String
+  let selectUsernameDescription: String
+  let usernamePlaceholder: String
+  let finishSignUp: String
+  let emailRequired: String
+  let emailInvalid: String
+  let usernameRequired: String
+  let emailAlreadyTaken: String
+  let usernameAlreadyTaken: String
+  let signUpSuccess: String
+  // Search
+  let searchPlaceholder: String
+  let movies: String
+  let tvSeries: String
+  let people: String
+  let noResults: String
+  let cancel: String
+  let popularMovies: String
+  let popularTVSeries: String
+  // Settings
+  let settings: String
+  let theme: String
+  let themeSystem: String
+  let themeLight: String
+  let themeDark: String
+  let language: String
+  let done: String
+  let signOut: String
 }
