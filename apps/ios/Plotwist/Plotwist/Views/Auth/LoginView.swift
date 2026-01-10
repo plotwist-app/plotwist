@@ -32,28 +32,28 @@ struct LoginView: View {
                 .frame(width: 44, height: 44)
                 .background(Color.clear)
                 .overlay(
-                  RoundedRectangle(cornerRadius: 8)
+                  RoundedRectangle(cornerRadius: 12)
                     .stroke(Color.appBorderAdaptive, lineWidth: 1)
                 )
             }
           }
 
-                    Spacer()
-                    
-                    VStack(spacing: 16) {
+          Spacer()
+
+          VStack(spacing: 16) {
             // Login Field
             VStack(alignment: .leading, spacing: 6) {
               Text(strings.loginLabel)
                 .font(.subheadline.weight(.medium))
-                            TextField(strings.loginPlaceholder, text: $login)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .padding(12)
-                                .background(Color.clear)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                                )
+              TextField(strings.loginPlaceholder, text: $login)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.clear)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                )
             }
 
             // Password Field
@@ -68,27 +68,27 @@ struct LoginView: View {
                     SecureField(strings.passwordPlaceholder, text: $password)
                   }
                 }
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled()
-                                .padding(12)
-                                .background(Color.clear)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                                )
-                                
-                                Button {
-                                    showPassword.toggle()
-                                } label: {
-                                    Image(systemName: showPassword ? "eye" : "eye.slash")
-                                        .foregroundColor(.appMutedForegroundAdaptive)
-                                        .frame(width: 48, height: 48)
-                                        .background(Color.clear)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                                        )
-                                }
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.clear)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                )
+
+                Button {
+                  showPassword.toggle()
+                } label: {
+                  Image(systemName: showPassword ? "eye" : "eye.slash")
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .frame(width: 48, height: 48)
+                    .background(Color.clear)
+                    .overlay(
+                      RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                    )
+                }
               }
             }
 

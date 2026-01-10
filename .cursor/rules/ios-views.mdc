@@ -101,7 +101,7 @@ TextField("Placeholder", text: $value)
     .padding(12)
     .background(Color.clear)
     .overlay(
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: 12)
             .stroke(Color.appBorderAdaptive, lineWidth: 1)
     )
 ```
