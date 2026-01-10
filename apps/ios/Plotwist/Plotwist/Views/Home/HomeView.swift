@@ -13,21 +13,18 @@ struct HomeView: View {
             HomeTabView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Home")
                 }
                 .tag(0)
             
             SearchTabView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")
-                    Text("Search")
                 }
                 .tag(1)
             
             ProfileTabView()
                 .tabItem {
                     Image(systemName: "person.fill")
-                    Text("Profile")
                 }
                 .tag(2)
         }
