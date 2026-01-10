@@ -41,6 +41,7 @@
       "**",
       "!node_modules",
       "!.turbo",
+      "!apps/web/.next",
       "!.next",
       "!apps/web/src/api",
       "!packages/ui",
