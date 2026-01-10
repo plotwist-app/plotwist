@@ -12,9 +12,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals"]
   },
-  "exclude": [
-    "deploy/index.ts"  
-  ]
+  "exclude": ["deploy/index.ts"]
 }

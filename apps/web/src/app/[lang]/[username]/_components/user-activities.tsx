@@ -329,7 +329,9 @@ export function WatchEpisodeActivity({
 
 export function CreateReviewReplyActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven }) {
+}: {
+  activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven
+}) {
   const { language, dictionary } = useLanguage()
   const {
     owner,
@@ -388,7 +390,9 @@ export function CreateReviewReplyActivity({
 
 export function CreateAccountActivity({
   activity,
-}: { activity: GetUserActivities200UserActivitiesItemAnyOfSixeight }) {
+}: {
+  activity: GetUserActivities200UserActivitiesItemAnyOfSixeight
+}) {
   const { dictionary } = useLanguage()
   const {
     owner: { username },

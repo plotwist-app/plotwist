@@ -35,5 +35,16 @@
         "noUnusedImports": "error"
       }
     }
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.turbo",
+      "!.next",
+      "!apps/web/src/api/**",
+      "!packages/ui",
+      "!apps/backend/priv/**"
+    ]
   }
 }
