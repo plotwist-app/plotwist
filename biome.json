@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "formatter": {
     "indentStyle": "space",
@@ -31,14 +35,5 @@
         "noUnusedImports": "error"
       }
     }
-  },
-  "files": {
-    "ignore": [
-      "node_modules",
-      ".turbo",
-      ".next",
-      "apps/web/src/api/*.ts",
-      "packages/ui"
-    ]
   }
 }
