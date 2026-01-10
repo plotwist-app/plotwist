@@ -83,6 +83,102 @@ class TMDBService {
     let result = try decoder.decode(PopularResponse.self, from: data)
     return result.results.map { $0.toSearchResult(mediaType: "tv") }
   }
+
+  // MARK: - Movie Details
+  func getMovieDetails(id: Int, language: String = "en-US") async throws -> MovieDetails {
+    guard let url = URL(string: "\(baseURL)/movie/\(id)?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(MovieDetails.self, from: data)
+  }
+
+  // MARK: - TV Series Details
+  func getTVSeriesDetails(id: Int, language: String = "en-US") async throws -> MovieDetails {
+    guard let url = URL(string: "\(baseURL)/tv/\(id)?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(MovieDetails.self, from: data)
+  }
+}
+
+// MARK: - Movie Details Model
+struct MovieDetails: Codable, Identifiable {
+  let id: Int
+  let title: String?
+  let name: String?
+  let overview: String?
+  let posterPath: String?
+  let backdropPath: String?
+  let releaseDate: String?
+  let firstAirDate: String?
+  let voteAverage: Double?
+  let runtime: Int?
+  let genres: [Genre]?
+
+  var displayTitle: String {
+    title ?? name ?? "Unknown"
+  }
+
+  var year: String? {
+    let date = releaseDate ?? firstAirDate
+    guard let date, date.count >= 4 else { return nil }
+    return String(date.prefix(4))
+  }
+
+  func formattedReleaseDate(locale: String) -> String? {
+    let dateString = releaseDate ?? firstAirDate
+    guard let dateString else { return nil }
+
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    guard let date = formatter.date(from: dateString) else { return nil }
+
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateStyle = .long
+    outputFormatter.locale = Locale(identifier: locale.replacingOccurrences(of: "-", with: "_"))
+    return outputFormatter.string(from: date)
+  }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w1280\(backdropPath)")
+  }
+}
+
+struct Genre: Codable, Identifiable {
+  let id: Int
+  let name: String
 }
 
 // MARK: - Popular Response

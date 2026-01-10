@@ -178,11 +178,13 @@ struct SearchTabView: View {
             ScrollView {
               LazyVStack(alignment: .leading, spacing: 24) {
                 if !popularMovies.isEmpty {
-                  SearchSection(title: strings.popularMovies, results: popularMovies)
+                  SearchSection(
+                    title: strings.popularMovies, results: popularMovies)
                 }
 
                 if !popularTVSeries.isEmpty {
-                  SearchSection(title: strings.popularTVSeries, results: popularTVSeries)
+                  SearchSection(
+                    title: strings.popularTVSeries, results: popularTVSeries)
                 }
               }
               .padding(.horizontal, 24)
@@ -268,7 +270,19 @@ struct SearchSection: View {
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(results.prefix(9)) { result in
-          PosterCard(result: result)
+          if result.mediaType != "person" {
+            NavigationLink {
+              MediaDetailView(
+                mediaId: result.id,
+                mediaType: result.mediaType ?? "movie"
+              )
+            } label: {
+              PosterCard(result: result)
+            }
+            .buttonStyle(.plain)
+          } else {
+            PosterCard(result: result)
+          }
         }
       }
     }
@@ -283,26 +297,26 @@ struct PosterCard: View {
     AsyncImage(url: result.imageURL) { phase in
       switch phase {
       case .empty:
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: 12)
           .fill(Color.appBorderAdaptive)
       case .success(let image):
         image
           .resizable()
           .aspectRatio(contentMode: .fill)
       case .failure:
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: 12)
           .fill(Color.appBorderAdaptive)
           .overlay(
             Image(systemName: result.mediaType == "person" ? "person.fill" : "film")
               .foregroundColor(.appMutedForegroundAdaptive)
           )
       @unknown default:
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: 12)
           .fill(Color.appBorderAdaptive)
       }
     }
     .aspectRatio(2 / 3, contentMode: .fit)
-    .clipShape(RoundedRectangle(cornerRadius: 8))
+    .clipShape(RoundedRectangle(cornerRadius: 12))
     .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
   }
 }
@@ -334,7 +348,7 @@ struct SearchSkeletonSection: View {
 
 struct PosterSkeletonCard: View {
   var body: some View {
-    RoundedRectangle(cornerRadius: 8)
+    RoundedRectangle(cornerRadius: 12)
       .fill(Color.appBorderAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
       .shimmer()
