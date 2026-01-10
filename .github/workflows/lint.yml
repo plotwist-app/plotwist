@@ -40,6 +40,3 @@ jobs:
 
       - name: 🔍 Run Biome check
         run: npx biome check .
-
-      - name: 🔍 Run lint (turbo)
-        run: pnpm turbo lint
