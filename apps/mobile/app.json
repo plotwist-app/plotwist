@@ -10,21 +10,23 @@
     "newArchEnabled": true,
     "backgroundColor": "#000000",
     "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.plotwist.mobile",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#000000",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "app.plotwist.mobile"
+      "package": "app.plotwist.mobile",
+      "backgroundColor": "#000000"
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +35,13 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-system-ui",
+        {
+          "backgroundColor": "#000000"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
