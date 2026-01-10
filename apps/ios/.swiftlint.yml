@@ -1,0 +1,50 @@
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+  - force_cast
+  - force_try
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - closure_spacing
+  - contains_over_first_not_nil
+  - first_where
+  - sorted_first_last
+  - modifier_order
+  - redundant_type_annotation
+
+excluded:
+  - Pods
+  - .build
+  - DerivedData
+
+line_length:
+  warning: 120
+  error: 200
+  ignores_comments: true
+
+file_length:
+  warning: 500
+  error: 1000
+
+type_body_length:
+  warning: 300
+  error: 500
+
+function_body_length:
+  warning: 50
+  error: 100
+
+identifier_name:
+  min_length:
+    warning: 2
+  max_length:
+    warning: 40
+    error: 50
+  excluded:
+    - id
+    - URL
+    - url
+
+reporter: "xcode"
