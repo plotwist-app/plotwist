@@ -22,11 +22,19 @@ let localstackConfig: {
   container: StartedTestContainer
 }
 
+let redisConfig: {
+  host: string
+  port: number
+  container: StartedTestContainer
+}
+
 declare global {
   // eslint-disable-next-line no-var
   var __DB_CONFIG__: typeof dbConfig
   // eslint-disable-next-line no-var
   var __LOCALSTACK_CONFIG__: typeof localstackConfig
+  // eslint-disable-next-line no-var
+  var __REDIS_CONFIG__: typeof redisConfig
 }
 
 export async function setup() {
@@ -39,9 +47,6 @@ export async function setup() {
 
   // TMDB
   process.env.TMDB_ACCESS_TOKEN = 'sda'
-
-  // Redis (using mock in tests, but setting URL for consistency)
-  process.env.REDIS_URL = 'redis://default:redis@127.0.0.1:6379'
 
   // Client
   process.env.CLIENT_URL = 'http://localhost:3000'
@@ -66,7 +71,6 @@ export async function setup() {
   process.env.MAL_CLIENT_ID = 'banana'
 
   // Feature Flags
-  process.env.ENABLE_CERTS = 'false'
   process.env.ENABLE_SQS = 'true'
   process.env.ENABLE_IMPORT_MOVIES = 'true'
   process.env.ENABLE_IMPORT_SERIES = 'true'
@@ -77,8 +81,10 @@ export async function setup() {
 
   await setupDatabase()
   await setupLocalStack()
+  await setupRedis()
 
   return async () => {
+    await global.__REDIS_CONFIG__?.container?.stop()
     await global.__LOCALSTACK_CONFIG__?.container?.stop()
     await global.__DB_CONFIG__?.container?.stop()
   }
@@ -153,4 +159,22 @@ async function setupLocalStack() {
   process.env.LOCALSTACK_ENDPOINT = localstackEndpoint
 
   global.__LOCALSTACK_CONFIG__ = localstackConfig
+}
+
+async function setupRedis() {
+  const container = await new GenericContainer('redis:latest')
+    .withExposedPorts(6379)
+    .withWaitStrategy(Wait.forLogMessage(/Ready to accept connections/i))
+    .start()
+
+  redisConfig = {
+    host: container.getHost(),
+    port: container.getMappedPort(6379),
+    container,
+  }
+
+  const redisUrl = `redis://${redisConfig.host}:${redisConfig.port}`
+  process.env.REDIS_URL = redisUrl
+
+  global.__REDIS_CONFIG__ = redisConfig
 }

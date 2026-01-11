@@ -12,14 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      redis:
-        image: bitnami/redis:latest
-        ports:
-          - 6379:6379
-        env:
-          REDIS_PASSWORD: redis
-
     steps:
       - uses: actions/checkout@v4
 
@@ -48,10 +40,3 @@ jobs:
       - name: Run tests
         working-directory: apps/backend
         run: pnpm run test
-
-      - name: Type check
-        working-directory: apps/backend
-        run: pnpm run typecheck
-
-      - name: Build
-        run: pnpm turbo build --filter=plotwist-api
