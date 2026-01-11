@@ -1,6 +1,5 @@
-import postgres from 'postgres'
 import { insertReview } from '@/db/repositories/reviews-repository'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isForeignKeyViolation } from '@/db/utils/postgres-errors'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import type { InsertReviewModel } from '../../entities/review'
 
@@ -10,10 +9,8 @@ export async function createReviewService(params: InsertReviewModel) {
 
     return { review }
   } catch (error) {
-    if (error instanceof postgres.PostgresError) {
-      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
-        return new UserNotFoundError()
-      }
+    if (isForeignKeyViolation(error)) {
+      return new UserNotFoundError()
     }
 
     throw error

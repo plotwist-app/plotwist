@@ -1,6 +1,5 @@
-import postgres from 'postgres'
 import { insertUser } from '@/db/repositories/user-repository'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../../errors/hash-password-error'
@@ -35,11 +34,7 @@ export async function createUser({
 
     return { user: { ...formattedUser, subscriptionType: 'MEMBER' } }
   } catch (error) {
-    const isEmailOrUsernameAlreadyRegistered =
-      error instanceof postgres.PostgresError &&
-      error.code === PgIntegrityConstraintViolation.UniqueViolation
-
-    if (isEmailOrUsernameAlreadyRegistered) {
+    if (isUniqueViolation(error)) {
       return new EmailOrUsernameAlreadyRegisteredError()
     }
 
