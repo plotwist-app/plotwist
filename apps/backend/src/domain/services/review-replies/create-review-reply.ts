@@ -1,8 +1,8 @@
+import { insertReviewReply } from '@/db/repositories/review-replies-repository'
 import {
   getPostgresError,
   isForeignKeyViolation,
 } from '@/db/utils/postgres-errors'
-import { insertReviewReply } from '@/db/repositories/review-replies-repository'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
@@ -15,7 +15,9 @@ export async function createReviewReplyService(params: InsertReviewReplyModel) {
   } catch (error) {
     if (isForeignKeyViolation(error)) {
       const pgError = getPostgresError(error)
-      if (pgError?.constraint_name === 'review_replies_review_id_reviews_id_fk') {
+      if (
+        pgError?.constraint_name === 'review_replies_review_id_reviews_id_fk'
+      ) {
         return new ReviewNotFoundError()
       }
 

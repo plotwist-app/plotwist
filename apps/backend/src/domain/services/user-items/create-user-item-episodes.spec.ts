@@ -1,4 +1,12 @@
-import { beforeAll, beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  type Mock,
+  vi,
+} from 'vitest'
 import { tmdb } from '@/adapters/tmdb'
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'

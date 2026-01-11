@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 import { tmdb } from '@/adapters/tmdb'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
