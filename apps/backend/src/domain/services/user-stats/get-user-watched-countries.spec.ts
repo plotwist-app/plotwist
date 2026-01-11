@@ -1,12 +1,36 @@
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import { tmdb } from '@/adapters/tmdb'
 import { makeUser } from '@/test/factories/make-user'
-
 import { makeUserItem } from '@/test/factories/make-user-item'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserWatchedCountriesService } from './get-user-watched-countries'
 
+vi.mock('@/adapters/tmdb', () => ({
+  tmdb: {
+    movies: {
+      details: vi.fn(),
+    },
+  },
+}))
+
 const SCIENCE_FICTION_MOVIES = [157336] // Interestellar
 
 describe('get user watched countries', () => {
+  beforeEach(() => {
+    ;(tmdb.movies.details as Mock).mockResolvedValue({
+      id: 157336,
+      title: 'Interstellar',
+      overview: '',
+      poster_path: '/poster.jpg',
+      backdrop_path: '/backdrop.jpg',
+      release_date: '2014-11-05',
+      production_countries: [
+        { iso_3166_1: 'US', name: 'United States of America' },
+        { iso_3166_1: 'GB', name: 'United Kingdom' },
+      ],
+    })
+  })
+
   it('should be able to get user watched countries with right values', async () => {
     const user = await makeUser()
 
