@@ -23,6 +23,8 @@ import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { NoAccountTooltip } from '../no-account-tooltip'
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@plotwist/ui/components/ui/drawer'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
@@ -112,7 +114,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
     ]
   )
 
-  const Content = () => {
+  const DesktopContent = () => {
     if (!user) {
       return (
         <NoAccountTooltip>
@@ -169,38 +171,147 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
     )
   }
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="outline" {...props}>
-          <Plus className="mr-2" size={14} />
-          {addToList}
-        </Button>
-      </DropdownMenuTrigger>
+  const MobileContent = () => {
+    if (!user) {
+      return (
+        <NoAccountTooltip>
+          <div
+            className={cn(
+              'flex cursor-not-allowed items-center justify-center rounded-md border border-dashed p-4 text-sm opacity-50'
+            )}
+          >
+            {createNewList}
+          </div>
+        </NoAccountTooltip>
+      )
+    }
 
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className="flex justify-between">
-          {myLists}
+    if (lists?.length > 0) {
+      return (
+        <div className="space-y-2">
+          {lists.map(list => {
+            const itemIncluded = list.items.find(
+              ({ tmdbId }) => tmdbId === item.id
+            )
 
-          <ListForm
-            trigger={
-              <Button
-                size="icon"
-                className="h-6 w-6"
-                variant="outline"
-                disabled={
-                  user?.subscriptionType === 'MEMBER' && lists.length === 1
+            return (
+              <div
+                key={list.id}
+                onClick={() =>
+                  itemIncluded
+                    ? handleRemove(itemIncluded.id)
+                    : handleAdd(list.id)
                 }
+                className="flex cursor-pointer items-center space-x-3 rounded-lg border p-3 transition-colors hover:bg-accent"
               >
-                <Plus className="size-4" />
-              </Button>
-            }
-          />
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+                <Checkbox
+                  checked={Boolean(itemIncluded)}
+                  className="h-5 w-5"
+                />
+                <span
+                  className="flex-1 text-sm font-medium"
+                >
+                  {list.title}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
 
-        <Content />
-      </DropdownMenuContent>
-    </DropdownMenu>
+    return (
+      <ListForm
+        trigger={
+          <div
+            className={
+              'flex cursor-pointer items-center justify-center rounded-md border border-dashed p-4 text-sm'
+            }
+          >
+            {createNewList}
+          </div>
+        }
+      />
+    )
+  }
+
+  return (
+    <>
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button
+            size="sm"
+            variant="outline"
+            className="md:hidden"
+            {...props}
+          >
+            <Plus className="mr-2" size={14} />
+            {addToList}
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent className="max-h-[80vh]">
+          <DrawerHeader>
+            <DrawerTitle className="flex items-center justify-between">
+              {myLists}
+              <ListForm
+                trigger={
+                  <Button
+                    size="icon"
+                    className="h-8 w-8"
+                    variant="outline"
+                    disabled={
+                      user?.subscriptionType === 'MEMBER' && lists.length === 1
+                    }
+                  >
+                    <Plus className="size-4" />
+                  </Button>
+                }
+              />
+            </DrawerTitle>
+          </DrawerHeader>
+          <div className="overflow-y-auto px-4 pb-4">
+            <MobileContent />
+          </div>
+        </DrawerContent>
+      </Drawer>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size="sm"
+            variant="outline"
+            className="hidden md:inline-flex"
+            {...props}
+          >
+            <Plus className="mr-2" size={14} />
+            {addToList}
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel className="flex justify-between">
+            {myLists}
+
+            <ListForm
+              trigger={
+                <Button
+                  size="icon"
+                  className="h-6 w-6"
+                  variant="outline"
+                  disabled={
+                    user?.subscriptionType === 'MEMBER' && lists.length === 1
+                  }
+                >
+                  <Plus className="size-4" />
+                </Button>
+              }
+            />
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+
+          <DesktopContent />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   )
 }
