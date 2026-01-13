@@ -77,7 +77,7 @@ struct MediaDetailView: View {
               }
               .frame(width: 140, height: 210)
               .clipShape(RoundedRectangle(cornerRadius: 16))
-              .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+              .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
 
               // Info
               VStack(alignment: .leading, spacing: 4) {
@@ -108,17 +108,17 @@ struct MediaDetailView: View {
                 .padding(.top, -54)
             }
 
-            // Genres and Rating Badges
+            // Rating and Genres Badges
             ScrollView(.horizontal, showsIndicators: false) {
               HStack(spacing: 8) {
+                if let rating = details.voteAverage, rating > 0 {
+                  RatingBadge(rating: rating)
+                }
+
                 if let genres = details.genres {
                   ForEach(genres) { genre in
                     BadgeView(text: genre.name)
                   }
-                }
-
-                if let rating = details.voteAverage, rating > 0 {
-                  RatingBadge(rating: rating)
                 }
               }
               .padding(.horizontal, 24)
