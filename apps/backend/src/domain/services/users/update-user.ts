@@ -1,6 +1,5 @@
-import postgres from 'postgres'
 import { updateUser } from '@/db/repositories/user-repository'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
@@ -31,11 +30,7 @@ export async function updateUserService({
 
     return { user }
   } catch (error) {
-    const isUsernameAlreadyRegistered =
-      error instanceof postgres.PostgresError &&
-      error.code === PgIntegrityConstraintViolation.UniqueViolation
-
-    if (isUsernameAlreadyRegistered) {
+    if (isUniqueViolation(error)) {
       return new UsernameAlreadyRegisteredError()
     }
 

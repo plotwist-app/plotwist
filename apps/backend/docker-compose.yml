@@ -24,11 +24,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: POSTGRES_DB
+      POSTGRES_DB: plotwist_db
       POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./priv/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
       - 5432:5432
     networks:

@@ -1,6 +1,5 @@
-import postgres from 'postgres'
 import { insertFollow } from '@/db/repositories/followers-repository'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { FollowAlreadyRegisteredError } from '@/domain/errors/follow-already-registered'
 
 export type CreateFollowServiceInput = {
@@ -17,10 +16,8 @@ export async function createFollowService({
 
     return { follow }
   } catch (error) {
-    if (error instanceof postgres.PostgresError) {
-      if (error.code === PgIntegrityConstraintViolation.UniqueViolation) {
-        return new FollowAlreadyRegisteredError()
-      }
+    if (isUniqueViolation(error)) {
+      return new FollowAlreadyRegisteredError()
     }
 
     throw error
