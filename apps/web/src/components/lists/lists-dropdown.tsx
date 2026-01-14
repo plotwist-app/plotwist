@@ -23,7 +23,13 @@ import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@plotwist/ui/components/ui/drawer'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 
 type ListsDropdownProps = {
@@ -195,25 +201,19 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
             )
 
             return (
-              <div
+              <Button
+                variant="outline"
                 key={list.id}
                 onClick={() =>
                   itemIncluded
                     ? handleRemove(itemIncluded.id)
                     : handleAdd(list.id)
                 }
-                className="flex cursor-pointer items-center space-x-3 rounded-lg border p-3 transition-colors hover:bg-accent"
+                className="flex text-left w-full cursor-pointer items-center space-x-3 rounded-lg border p-3 transition-colors hover:bg-accent"
               >
-                <Checkbox
-                  checked={Boolean(itemIncluded)}
-                  className="h-5 w-5"
-                />
-                <span
-                  className="flex-1 text-sm font-medium"
-                >
-                  {list.title}
-                </span>
-              </div>
+                <Checkbox checked={Boolean(itemIncluded)} className="h-5 w-5" />
+                <span className="flex-1 text-sm font-medium">{list.title}</span>
+              </Button>
             )
           })}
         </div>
@@ -239,12 +239,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
     <>
       <Drawer>
         <DrawerTrigger asChild>
-          <Button
-            size="sm"
-            variant="outline"
-            className="md:hidden"
-            {...props}
-          >
+          <Button size="sm" variant="outline" className="md:hidden" {...props}>
             <Plus className="mr-2" size={14} />
             {addToList}
           </Button>
