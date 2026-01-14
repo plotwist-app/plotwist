@@ -1,6 +1,14 @@
 'use client'
 
 import { Button } from '@plotwist/ui/components/ui/button'
+import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -23,14 +31,6 @@ import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
 import type { MovieDetails, TvSerieDetails } from '@/services/tmdb'
 import { NoAccountTooltip } from '../no-account-tooltip'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@plotwist/ui/components/ui/drawer'
-import { Checkbox } from '@plotwist/ui/components/ui/checkbox'
 
 type ListsDropdownProps = {
   item: MovieDetails | TvSerieDetails
