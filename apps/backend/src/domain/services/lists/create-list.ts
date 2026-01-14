@@ -1,8 +1,7 @@
 import type { InferInsertModel } from 'drizzle-orm'
-import postgres from 'postgres'
 import { insertList } from '@/db/repositories/list-repository'
 import type { schema } from '@/db/schema'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isForeignKeyViolation } from '@/db/utils/postgres-errors'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>
@@ -18,10 +17,8 @@ export async function createList({
 
     return { list }
   } catch (error) {
-    if (error instanceof postgres.PostgresError) {
-      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
-        return new UserNotFoundError()
-      }
+    if (isForeignKeyViolation(error)) {
+      return new UserNotFoundError()
     }
 
     throw error

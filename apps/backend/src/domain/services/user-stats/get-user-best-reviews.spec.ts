@@ -1,9 +1,52 @@
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
+import { tmdb } from '@/adapters/tmdb'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserBestReviewsService } from './get-user-best-reviews'
 
+vi.mock('@/adapters/tmdb', () => ({
+  tmdb: {
+    tv: {
+      details: vi.fn(),
+    },
+    movies: {
+      details: vi.fn(),
+    },
+  },
+}))
+
 describe('get user best reviews', () => {
+  beforeEach(() => {
+    ;(tmdb.tv.details as Mock).mockImplementation((tmdbId: number) => {
+      if (tmdbId === 2316) {
+        return Promise.resolve({
+          id: 2316,
+          name: 'The Office',
+          overview: '',
+          poster_path: '/poster.jpg',
+          backdrop_path: '/backdrop.jpg',
+          first_air_date: '2005-03-24',
+        })
+      }
+      return Promise.resolve({})
+    })
+
+    ;(tmdb.movies.details as Mock).mockImplementation((tmdbId: number) => {
+      if (tmdbId === 414906) {
+        return Promise.resolve({
+          id: 414906,
+          title: 'The Batman',
+          overview: '',
+          poster_path: '/poster.jpg',
+          backdrop_path: '/backdrop.jpg',
+          release_date: '2022-03-04',
+        })
+      }
+      return Promise.resolve({})
+    })
+  })
+
   it('should be able to get user best reviews', async () => {
     const user = await makeUser()
 

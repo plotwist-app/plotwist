@@ -383,3 +383,61 @@ export enum PgInternalError {
   DataCorrupted = 'XX001',
   IndexCorrupted = 'XX002',
 }
+
+// Utility functions to handle Drizzle-wrapped PostgresErrors
+
+import postgres from 'postgres'
+
+/**
+ * Extracts PostgresError from either the error itself or its cause.
+ * Drizzle ORM wraps PostgresError in a DrizzleQueryError with the original in `cause`.
+ */
+export function getPostgresError(
+  error: unknown
+): postgres.PostgresError | null {
+  if (error instanceof postgres.PostgresError) {
+    return error
+  }
+
+  const cause = (error as { cause?: unknown })?.cause
+  if (cause instanceof postgres.PostgresError) {
+    return cause
+  }
+
+  return null
+}
+
+/**
+ * Checks if the error is a unique constraint violation (duplicate key).
+ */
+export function isUniqueViolation(error: unknown): boolean {
+  const pgError = getPostgresError(error)
+  return pgError?.code === PgIntegrityConstraintViolation.UniqueViolation
+}
+
+/**
+ * Checks if the error is a foreign key constraint violation.
+ */
+export function isForeignKeyViolation(error: unknown): boolean {
+  const pgError = getPostgresError(error)
+  return pgError?.code === PgIntegrityConstraintViolation.ForeignKeyViolation
+}
+
+/**
+ * Checks if the error is a not null constraint violation.
+ */
+export function isNotNullViolation(error: unknown): boolean {
+  const pgError = getPostgresError(error)
+  return pgError?.code === PgIntegrityConstraintViolation.NotNullViolation
+}
+
+/**
+ * Checks if the error matches a specific constraint name.
+ */
+export function isConstraintViolation(
+  error: unknown,
+  constraintName: string
+): boolean {
+  const pgError = getPostgresError(error)
+  return pgError?.constraint_name === constraintName
+}

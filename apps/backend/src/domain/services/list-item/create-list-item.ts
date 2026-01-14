@@ -1,6 +1,5 @@
-import postgres from 'postgres'
 import { insertListItem } from '@/db/repositories/list-item-repository'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { isForeignKeyViolation } from '@/db/utils/postgres-errors'
 import type { InsertListItem } from '../../entities/list-item'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 
@@ -13,10 +12,8 @@ export async function createListItemService(
 
     return { listItem }
   } catch (error) {
-    if (error instanceof postgres.PostgresError) {
-      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
-        return new ListNotFoundError()
-      }
+    if (isForeignKeyViolation(error)) {
+      return new ListNotFoundError()
     }
 
     throw error

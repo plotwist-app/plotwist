@@ -1,6 +1,3 @@
-import * as fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
 import type { FastifyInstance } from 'fastify/types/instance'
@@ -15,7 +12,7 @@ import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
-const app: FastifyInstance = buildFastifyInstance()
+const app: FastifyInstance = fastify()
 
 export function startServer() {
   app.setValidatorCompiler(validatorCompiler)
@@ -84,27 +81,4 @@ export function startServer() {
     .then(() => {
       logger.info(`HTTP server running at ${config.app.BASE_URL}`)
     })
-}
-
-export function buildFastifyInstance() {
-  if (config.featureFlags.ENABLE_CERTS === 'true') {
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
-
-    const CERT_CA = path.join(__dirname, '../../certs/ca.pem')
-    const CERT_KEY = path.join(__dirname, '../../certs/server.key')
-    const CERT_CRT = path.join(__dirname, '../../certs/server.crt')
-
-    return fastify({
-      https: {
-        key: fs.readFileSync(CERT_KEY),
-        cert: fs.readFileSync(CERT_CRT),
-        ca: fs.readFileSync(CERT_CA),
-        requestCert: true,
-        rejectUnauthorized: true,
-      },
-    })
-  }
-
-  return fastify()
 }
