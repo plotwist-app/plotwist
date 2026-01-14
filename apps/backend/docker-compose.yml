@@ -1,22 +1,22 @@
 name: plotwist
 
 services:
-  app:
-    container_name: plotwist_app
-    image: plotwist-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 3333:3333
-    depends_on:
-      - db
-      - redis
-      - localstack
-    env_file:
-      - .env
-    networks:
-      - plotwist_network
+  # app:
+  #   container_name: plotwist_app
+  #   image: plotwist-app
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3333:3333
+  #   depends_on:
+  #     - db
+  #     - redis
+  #     - localstack
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - plotwist_network
 
   db:
     container_name: plotwist_db
