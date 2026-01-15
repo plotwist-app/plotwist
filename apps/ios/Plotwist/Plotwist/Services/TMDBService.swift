@@ -41,8 +41,8 @@ class TMDBService {
   }
 
   // MARK: - Popular Movies
-  func getPopularMovies(language: String = "en-US") async throws -> [SearchResult] {
-    guard let url = URL(string: "\(baseURL)/movie/popular?language=\(language)") else {
+  func getPopularMovies(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult {
+    guard let url = URL(string: "\(baseURL)/movie/popular?language=\(language)&page=\(page)") else {
       throw TMDBError.invalidURL
     }
 
@@ -59,12 +59,17 @@ class TMDBService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(PopularResponse.self, from: data)
-    return result.results.map { $0.toSearchResult(mediaType: "movie") }
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "movie") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
   }
 
   // MARK: - Popular TV Series
-  func getPopularTVSeries(language: String = "en-US") async throws -> [SearchResult] {
-    guard let url = URL(string: "\(baseURL)/tv/popular?language=\(language)") else {
+  func getPopularTVSeries(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult
+  {
+    guard let url = URL(string: "\(baseURL)/tv/popular?language=\(language)&page=\(page)") else {
       throw TMDBError.invalidURL
     }
 
@@ -81,15 +86,19 @@ class TMDBService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(PopularResponse.self, from: data)
-    return result.results.map { $0.toSearchResult(mediaType: "tv") }
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
   }
 
   // MARK: - Popular Animes (Animation genre from Japan)
-  func getPopularAnimes(language: String = "en-US") async throws -> [SearchResult] {
+  func getPopularAnimes(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult {
     // Genre 16 = Animation, origin_country = JP
     guard let url = URL(
       string:
-        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP"
+        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP&page=\(page)"
     ) else {
       throw TMDBError.invalidURL
     }
@@ -107,15 +116,19 @@ class TMDBService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(PopularResponse.self, from: data)
-    return result.results.map { $0.toSearchResult(mediaType: "tv") }
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
   }
 
   // MARK: - Popular Doramas (Korean dramas)
-  func getPopularDoramas(language: String = "en-US") async throws -> [SearchResult] {
+  func getPopularDoramas(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult {
     // origin_country = KR (Korean dramas)
     guard let url = URL(
       string:
-        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_origin_country=KR"
+        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_origin_country=KR&page=\(page)"
     ) else {
       throw TMDBError.invalidURL
     }
@@ -133,7 +146,11 @@ class TMDBService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(PopularResponse.self, from: data)
-    return result.results.map { $0.toSearchResult(mediaType: "tv") }
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
   }
 
   // MARK: - Movie Details
@@ -233,9 +250,22 @@ struct Genre: Codable, Identifiable {
   let name: String
 }
 
+// MARK: - Paginated Result
+struct PaginatedResult {
+  let results: [SearchResult]
+  let page: Int
+  let totalPages: Int
+
+  var hasMorePages: Bool {
+    page < totalPages
+  }
+}
+
 // MARK: - Popular Response
 struct PopularResponse: Codable {
   let results: [PopularItem]
+  let page: Int
+  let totalPages: Int
 }
 
 struct PopularItem: Codable {
