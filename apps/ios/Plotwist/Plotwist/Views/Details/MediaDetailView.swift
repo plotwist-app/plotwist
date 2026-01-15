@@ -14,6 +14,7 @@ struct MediaDetailView: View {
   @State private var isLoading = true
   @State private var userReview: Review?
   @State private var showReviewSheet = false
+  @State private var reviewsRefreshId = UUID()
   @ObservedObject private var themeManager = ThemeManager.shared
 
   // Layout constants
@@ -153,7 +154,8 @@ struct MediaDetailView: View {
             // Rating Section (Airbnb style)
             RatingSectionView(
               mediaId: mediaId,
-              mediaType: mediaType
+              mediaType: mediaType,
+              refreshId: reviewsRefreshId
             )
             .offset(y: contentOffset)
           }
@@ -178,6 +180,8 @@ struct MediaDetailView: View {
         Task {
           await loadUserReview()
         }
+        // Refresh the reviews list
+        reviewsRefreshId = UUID()
       }
     }
   }
@@ -219,6 +223,7 @@ struct MediaDetailView: View {
 struct RatingSectionView: View {
   let mediaId: Int
   let mediaType: String
+  let refreshId: UUID
 
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
@@ -232,6 +237,11 @@ struct RatingSectionView: View {
 
   private var reviewsWithText: [ReviewListItem] {
     reviews.filter { !$0.review.isEmpty }
+  }
+
+  // Show featured rating (with film strips) only for highly rated content with many reviews
+  private var isFeaturedRating: Bool {
+    reviews.count >= 10 && averageRating >= 4.5
   }
 
   var body: some View {
@@ -269,80 +279,136 @@ struct RatingSectionView: View {
           )
           .padding(.horizontal, 24)
           .padding(.top, 24)
-        } else {
-          // Rating display
-          VStack(spacing: 4) {
-            // Large rating number
-            Text(String(format: "%.1f", averageRating))
-              .font(.system(size: 56, weight: .semibold, design: .rounded))
-              .foregroundColor(.appForegroundAdaptive)
+        } else if isFeaturedRating {
+          // Featured rating display with film strips (10+ reviews AND rating >= 4.5)
+          HStack(spacing: 8) {
+            // Left film strip
+            Image("FilmStrip")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(height: 140)
+              .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
+              .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
 
-            // Stars
-            HStack(spacing: 4) {
-              ForEach(1...5, id: \.self) { index in
-                Image(systemName: starIcon(for: index))
-                  .font(.system(size: 14))
-                  .foregroundColor(starColor(for: index))
+            // Rating content
+            VStack(spacing: 4) {
+              // Large rating number
+              Text(String(format: "%.1f", averageRating))
+                .font(.system(size: 56, weight: .semibold, design: .rounded))
+                .foregroundColor(.appForegroundAdaptive)
+
+              // Stars
+              HStack(spacing: 4) {
+                ForEach(1...5, id: \.self) { index in
+                  Image(systemName: starIcon(for: index))
+                    .font(.system(size: 14))
+                    .foregroundColor(starColor(for: index))
+                }
               }
+
+              // Reviews count
+              Text(
+                "\(reviews.count) \(reviews.count == 1 ? L10n.current.review.lowercased() : L10n.current.tabReviews.lowercased())"
+              )
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .padding(.top, 4)
             }
 
-            // Reviews count
+            // Right film strip (mirrored)
+            Image("FilmStrip")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(height: 140)
+              .scaleEffect(x: -1, y: 1)
+              .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
+              .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
+          }
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 24)
+        } else {
+          // Simple rating display (star + rating + dot + reviews count)
+          HStack(spacing: 6) {
+            Image(systemName: "star.fill")
+              .font(.system(size: 16))
+              .foregroundColor(.appForegroundAdaptive)
+
+            Text(String(format: "%.1f", averageRating))
+              .font(.system(size: 18, weight: .semibold, design: .rounded))
+              .foregroundColor(.appForegroundAdaptive)
+
+            Circle()
+              .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
+              .frame(width: 4, height: 4)
+
             Text(
               "\(reviews.count) \(reviews.count == 1 ? L10n.current.review.lowercased() : L10n.current.tabReviews.lowercased())"
             )
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
-            .padding(.top, 4)
           }
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 24)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
         }
       }
 
       // Horizontal scrolling reviews
       if !isLoading && !reviewsWithText.isEmpty {
         ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 0) {
+          HStack(alignment: .top, spacing: 0) {
             ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
-              HStack(spacing: 0) {
+              HStack(alignment: .top, spacing: 0) {
+                // Gap before first item
+                if index == 0 {
+                  Spacer()
+                    .frame(width: 24)
+                }
+
                 ReviewCardView(review: review)
-                  .frame(width: UIScreen.main.bounds.width * 0.8)
+                  .frame(width: UIScreen.main.bounds.width * 0.75)
 
                 // Vertical divider (except for last item)
                 if index < reviewsWithText.count - 1 {
                   Rectangle()
                     .fill(Color.appBorderAdaptive)
                     .frame(width: 1)
-                    .padding(.vertical, 16)
-                    .padding(.trailing, 16)
+                    .frame(height: 160)
+                    .padding(.horizontal, 24)
                 }
               }
             }
           }
-          .padding(.leading, 8)
         }
         .padding(.top, 8)
 
-        // See all button
-        Button(action: {
-          // TODO: Navigate to all reviews
-        }) {
-          Text(L10n.current.seeAll)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .background(Color.appInputFilled)
-            .cornerRadius(12)
+        // See all button (only show if 10+ reviews)
+        if reviews.count >= 10 {
+          Button(action: {
+            // TODO: Navigate to all reviews
+          }) {
+            Text(L10n.current.seeAll)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 14)
+              .background(Color.appInputFilled)
+              .cornerRadius(12)
+          }
+          .disabled(true)
+          .opacity(0.5)
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
         }
-        .disabled(true)
-        .opacity(0.5)
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
       }
     }
     .task {
       await loadReviews()
+    }
+    .onChange(of: refreshId) { _, _ in
+      Task {
+        await loadReviews()
+      }
     }
   }
 
@@ -518,8 +584,6 @@ struct ReviewCardView: View {
     }
     .frame(height: cardHeight)
     .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.leading, 16)
-    .padding(.trailing, 24)
   }
 
   private var avatarFallback: some View {
