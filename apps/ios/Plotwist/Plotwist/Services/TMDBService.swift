@@ -84,6 +84,58 @@ class TMDBService {
     return result.results.map { $0.toSearchResult(mediaType: "tv") }
   }
 
+  // MARK: - Popular Animes (Animation genre from Japan)
+  func getPopularAnimes(language: String = "en-US") async throws -> [SearchResult] {
+    // Genre 16 = Animation, origin_country = JP
+    guard let url = URL(
+      string:
+        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP"
+    ) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return result.results.map { $0.toSearchResult(mediaType: "tv") }
+  }
+
+  // MARK: - Popular Doramas (Korean dramas)
+  func getPopularDoramas(language: String = "en-US") async throws -> [SearchResult] {
+    // origin_country = KR (Korean dramas)
+    guard let url = URL(
+      string:
+        "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_origin_country=KR"
+    ) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return result.results.map { $0.toSearchResult(mediaType: "tv") }
+  }
+
   // MARK: - Movie Details
   func getMovieDetails(id: Int, language: String = "en-US") async throws -> MovieDetails {
     guard let url = URL(string: "\(baseURL)/movie/\(id)?language=\(language)") else {
