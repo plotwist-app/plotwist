@@ -43,42 +43,36 @@ struct ReviewItemView: View {
         }
         .frame(width: 40, height: 40)
         .clipShape(Circle())
-        .overlay(Circle().stroke(Color.appBorderAdaptive, lineWidth: 1))
       } else {
         avatarFallback
       }
 
       // Content
-      VStack(alignment: .leading, spacing: 8) {
-        // Header
-        HStack(spacing: 6) {
+      VStack(alignment: .leading, spacing: 0) {
+        // Header: Username + Time (aligned to top)
+        HStack(alignment: .top) {
           Text(review.user.username)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
+            .font(.subheadline.weight(.medium))
+            .foregroundColor(.appForegroundAdaptive)
 
-          Circle()
-            .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-            .frame(width: 4, height: 4)
-
-          // Rating stars
-          HStack(spacing: 2) {
-            ForEach(1...5, id: \.self) { index in
-              Image(systemName: ratingIcon(for: index))
-                .font(.system(size: 10))
-                .foregroundColor(ratingColor(for: index))
-            }
-          }
-
-          Circle()
-            .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-            .frame(width: 4, height: 4)
+          Spacer()
 
           Text(timeAgo)
             .font(.caption)
             .foregroundColor(.appMutedForegroundAdaptive)
         }
 
-        // Review content
+        // Rating stars (below username)
+        HStack(spacing: 2) {
+          ForEach(1...5, id: \.self) { index in
+            Image(systemName: ratingIcon(for: index))
+              .font(.system(size: 14))
+              .foregroundColor(ratingColor(for: index))
+          }
+        }
+        .padding(.top, 4)
+
+        // Review content (below stars)
         if !review.review.isEmpty {
           ZStack(alignment: .topLeading) {
             Text(review.review)
@@ -97,48 +91,22 @@ struct ReviewItemView: View {
                 .cornerRadius(6)
             }
           }
-          .padding(12)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .background(Color.appInputFilled.opacity(0.5))
-          .overlay(
-            RoundedRectangle(cornerRadius: 8)
-              .stroke(Color.appBorderAdaptive, lineWidth: 1)
-          )
-          .cornerRadius(8)
-        }
-
-        // Actions
-        HStack(spacing: 16) {
-          HStack(spacing: 4) {
-            Image(systemName: "heart")
-              .font(.system(size: 12))
-            Text("\(review.likeCount)")
-              .font(.caption)
-          }
-          .foregroundColor(.appMutedForegroundAdaptive)
-
-          HStack(spacing: 4) {
-            Image(systemName: "bubble.right")
-              .font(.system(size: 12))
-            Text("\(review.replyCount)")
-              .font(.caption)
-          }
-          .foregroundColor(.appMutedForegroundAdaptive)
+          .padding(.top, 8)
         }
       }
     }
+    .frame(maxWidth: .infinity, alignment: .leading)
   }
 
   private var avatarFallback: some View {
     Circle()
-      .fill(Color.appInputFilled)
+      .fill(Color.appForegroundAdaptive)
       .frame(width: 40, height: 40)
       .overlay(
         Text(usernameInitial)
           .font(.subheadline.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
+          .foregroundColor(.appBackgroundAdaptive)
       )
-      .overlay(Circle().stroke(Color.appBorderAdaptive, lineWidth: 1))
   }
 
   private func ratingIcon(for index: Int) -> String {
@@ -163,7 +131,7 @@ struct ReviewItemView: View {
 }
 
 #Preview {
-  VStack(spacing: 16) {
+  VStack(spacing: 32) {
     ReviewItemView(
       review: ReviewListItem(
         id: "1",

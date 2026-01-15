@@ -80,7 +80,9 @@ enum L10n {
       tabSimilar: "Similar",
       tabImages: "Images",
       tabVideos: "Videos",
-      beFirstToReview: "Be the first to leave your opinion"
+      beFirstToReview: "Be the first to leave your opinion",
+      seeAll: "See all reviews",
+      showMore: "Show more"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -149,7 +151,9 @@ enum L10n {
       tabSimilar: "Similares",
       tabImages: "Imagens",
       tabVideos: "Vídeos",
-      beFirstToReview: "Seja o primeiro a deixar sua opinião"
+      beFirstToReview: "Seja o primeiro a deixar sua opinião",
+      seeAll: "Ver todas as avaliações",
+      showMore: "Ver mais"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -218,7 +222,9 @@ enum L10n {
       tabSimilar: "Similares",
       tabImages: "Imágenes",
       tabVideos: "Videos",
-      beFirstToReview: "Sé el primero en dejar tu opinión"
+      beFirstToReview: "Sé el primero en dejar tu opinión",
+      seeAll: "Ver todas las reseñas",
+      showMore: "Ver más"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -287,7 +293,9 @@ enum L10n {
       tabSimilar: "Similaires",
       tabImages: "Images",
       tabVideos: "Vidéos",
-      beFirstToReview: "Soyez le premier à donner votre avis"
+      beFirstToReview: "Soyez le premier à donner votre avis",
+      seeAll: "Voir tous les avis",
+      showMore: "Voir plus"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -356,7 +364,9 @@ enum L10n {
       tabSimilar: "Ähnliche",
       tabImages: "Bilder",
       tabVideos: "Videos",
-      beFirstToReview: "Sei der Erste, der seine Meinung teilt"
+      beFirstToReview: "Sei der Erste, der seine Meinung teilt",
+      seeAll: "Alle Bewertungen anzeigen",
+      showMore: "Mehr anzeigen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -425,7 +435,9 @@ enum L10n {
       tabSimilar: "Simili",
       tabImages: "Immagini",
       tabVideos: "Video",
-      beFirstToReview: "Sii il primo a lasciare la tua opinione"
+      beFirstToReview: "Sii il primo a lasciare la tua opinione",
+      seeAll: "Vedi tutte le recensioni",
+      showMore: "Mostra di più"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -493,7 +505,9 @@ enum L10n {
       tabSimilar: "類似作品",
       tabImages: "画像",
       tabVideos: "動画",
-      beFirstToReview: "最初にレビューを書いてください"
+      beFirstToReview: "最初にレビューを書いてください",
+      seeAll: "すべてのレビューを見る",
+      showMore: "もっと見る"
     ),
   ]
 }
@@ -572,4 +586,6 @@ struct Strings {
   let tabVideos: String
   // Review List
   let beFirstToReview: String
+  let seeAll: String
+  let showMore: String
 }

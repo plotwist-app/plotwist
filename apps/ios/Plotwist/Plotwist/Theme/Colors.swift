@@ -57,3 +57,24 @@ extension Color {
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
 }
+
+// MARK: - Layered Shadow Modifier
+extension View {
+  /// Applies a smooth layered shadow effect similar to iOS app icons
+  /// Based on the "Derek Briggs" shadow style with multiple stacked layers
+  func posterShadow() -> some View {
+    self
+      // Base border shadow (spread: 1px simulated with small radius)
+      .shadow(color: Color.black.opacity(0.05), radius: 0.5, x: 0, y: 0)
+      // Layer 1: Y: 1px, Blur: 1px
+      .shadow(color: Color.black.opacity(0.05), radius: 0.5, x: 0, y: 1)
+      // Layer 2: Y: 2px, Blur: 2px
+      .shadow(color: Color.black.opacity(0.05), radius: 1, x: 0, y: 2)
+      // Layer 3: Y: 4px, Blur: 4px
+      .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 4)
+      // Layer 4: Y: 8px, Blur: 8px
+      .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 8)
+      // Layer 5: Y: 16px, Blur: 16px
+      .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 16)
+  }
+}

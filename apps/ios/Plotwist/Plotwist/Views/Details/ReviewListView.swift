@@ -56,13 +56,21 @@ struct ReviewListView: View {
         .padding(.top, 16)
       } else {
         // Reviews list
-        LazyVStack(spacing: 24) {
-          ForEach(reviews.filter { !$0.review.isEmpty }) { review in
-            ReviewItemView(review: review)
+        LazyVStack(spacing: 0) {
+          ForEach(Array(reviews.filter { !$0.review.isEmpty }.enumerated()), id: \.element.id) { index, review in
+            VStack(spacing: 0) {
+              ReviewItemView(review: review)
+                .padding(.vertical, 16)
+              
+              // Divider (except for last item)
+              if index < reviews.filter({ !$0.review.isEmpty }).count - 1 {
+                Divider()
+                  .background(Color.appBorderAdaptive.opacity(0.5))
+              }
+            }
           }
         }
         .padding(.horizontal, 24)
-        .padding(.top, 16)
       }
     }
     .task {
@@ -97,19 +105,31 @@ struct ReviewItemSkeleton: View {
         .fill(Color.appInputFilled)
         .frame(width: 40, height: 40)
       
-      VStack(alignment: .leading, spacing: 8) {
-        // Header skeleton
-        HStack(spacing: 8) {
+      VStack(alignment: .leading, spacing: 0) {
+        // Header: username + time
+        HStack {
           RoundedRectangle(cornerRadius: 4)
             .fill(Color.appInputFilled)
-            .frame(width: 80, height: 14)
+            .frame(width: 100, height: 14)
+          
+          Spacer()
           
           RoundedRectangle(cornerRadius: 4)
             .fill(Color.appInputFilled)
-            .frame(width: 60, height: 14)
+            .frame(width: 40, height: 12)
         }
         
-        // Content skeleton
+        // Stars skeleton
+        HStack(spacing: 2) {
+          ForEach(0..<5, id: \.self) { _ in
+            RoundedRectangle(cornerRadius: 2)
+              .fill(Color.appInputFilled)
+              .frame(width: 14, height: 14)
+          }
+        }
+        .padding(.top, 4)
+        
+        // Review text skeleton
         VStack(alignment: .leading, spacing: 4) {
           RoundedRectangle(cornerRadius: 4)
             .fill(Color.appInputFilled)
@@ -118,12 +138,10 @@ struct ReviewItemSkeleton: View {
             .fill(Color.appInputFilled)
             .frame(width: 200, height: 14)
         }
-        .padding(12)
-        .background(Color.appInputFilled.opacity(0.3))
-        .cornerRadius(8)
+        .padding(.top, 8)
       }
     }
-    .redacted(reason: .placeholder)
+    .shimmer()
   }
 }
 
