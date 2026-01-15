@@ -159,6 +159,52 @@ class ReviewService {
       throw ReviewError.invalidResponse
     }
   }
+
+  // MARK: - Get Reviews List
+  func getReviews(
+    tmdbId: Int,
+    mediaType: String,
+    orderBy: String = "createdAt",
+    limit: Int = 50,
+    seasonNumber: Int? = nil,
+    episodeNumber: Int? = nil
+  ) async throws -> [ReviewListItem] {
+    var urlString =
+      "\(API.baseURL)/reviews?tmdbId=\(tmdbId)&mediaType=\(mediaType)&orderBy=\(orderBy)&limit=\(limit)"
+
+    if let seasonNumber = seasonNumber {
+      urlString += "&seasonNumber=\(seasonNumber)"
+    }
+
+    if let episodeNumber = episodeNumber {
+      urlString += "&episodeNumber=\(episodeNumber)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw ReviewError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+
+    // Add token if available (optional auth)
+    if let token = UserDefaults.standard.string(forKey: "token") {
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw ReviewError.invalidResponse
+    }
+
+    guard http.statusCode == 200 else {
+      throw ReviewError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode([ReviewListItem].self, from: data)
+  }
 }
 
 // MARK: - Models
@@ -172,13 +218,43 @@ struct Review: Codable, Identifiable {
   let hasSpoilers: Bool
   let seasonNumber: Int?
   let episodeNumber: Int?
-  let language: String
+  let language: String?
   let createdAt: String
-  let updatedAt: String
 }
 
 struct ReviewResponse: Codable {
   let review: Review?
+}
+
+struct ReviewUser: Codable {
+  let id: String
+  let username: String
+  let avatarUrl: String?
+}
+
+struct UserLike: Codable {
+  let id: String
+  let entityId: String
+  let userId: String
+  let createdAt: String
+}
+
+struct ReviewListItem: Codable, Identifiable {
+  let id: String
+  let userId: String
+  let tmdbId: Int
+  let mediaType: String
+  let review: String
+  let rating: Double
+  let hasSpoilers: Bool
+  let seasonNumber: Int?
+  let episodeNumber: Int?
+  let language: String?
+  let createdAt: String
+  let user: ReviewUser
+  let likeCount: Int
+  let replyCount: Int
+  let userLike: UserLike?
 }
 
 struct ReviewData: Codable {

@@ -289,10 +289,7 @@ struct MediaTabsView: View {
       VStack(spacing: 0) {
         switch selectedTab {
         case .reviews:
-          Text("Reviews list")
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .padding(.top, 32)
+          ReviewListView(mediaId: mediaId, mediaType: mediaType)
         case .whereToWatch:
           Text("Where to Watch")
             .font(.subheadline)

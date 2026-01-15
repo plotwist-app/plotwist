@@ -79,7 +79,8 @@ enum L10n {
       tabRecommendations: "Recommendations",
       tabSimilar: "Similar",
       tabImages: "Images",
-      tabVideos: "Videos"
+      tabVideos: "Videos",
+      beFirstToReview: "Be the first to leave your opinion"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -147,7 +148,8 @@ enum L10n {
       tabRecommendations: "Recomendações",
       tabSimilar: "Similares",
       tabImages: "Imagens",
-      tabVideos: "Vídeos"
+      tabVideos: "Vídeos",
+      beFirstToReview: "Seja o primeiro a deixar sua opinião"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -215,7 +217,8 @@ enum L10n {
       tabRecommendations: "Recomendaciones",
       tabSimilar: "Similares",
       tabImages: "Imágenes",
-      tabVideos: "Videos"
+      tabVideos: "Videos",
+      beFirstToReview: "Sé el primero en dejar tu opinión"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -283,7 +286,8 @@ enum L10n {
       tabRecommendations: "Recommandations",
       tabSimilar: "Similaires",
       tabImages: "Images",
-      tabVideos: "Vidéos"
+      tabVideos: "Vidéos",
+      beFirstToReview: "Soyez le premier à donner votre avis"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -351,7 +355,8 @@ enum L10n {
       tabRecommendations: "Empfehlungen",
       tabSimilar: "Ähnliche",
       tabImages: "Bilder",
-      tabVideos: "Videos"
+      tabVideos: "Videos",
+      beFirstToReview: "Sei der Erste, der seine Meinung teilt"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -419,7 +424,8 @@ enum L10n {
       tabRecommendations: "Raccomandazioni",
       tabSimilar: "Simili",
       tabImages: "Immagini",
-      tabVideos: "Video"
+      tabVideos: "Video",
+      beFirstToReview: "Sii il primo a lasciare la tua opinione"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -486,7 +492,8 @@ enum L10n {
       tabRecommendations: "おすすめ",
       tabSimilar: "類似作品",
       tabImages: "画像",
-      tabVideos: "動画"
+      tabVideos: "動画",
+      beFirstToReview: "最初にレビューを書いてください"
     ),
   ]
 }
@@ -563,4 +570,6 @@ struct Strings {
   let tabSimilar: String
   let tabImages: String
   let tabVideos: String
+  // Review List
+  let beFirstToReview: String
 }
