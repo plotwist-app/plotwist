@@ -8,12 +8,12 @@ import SwiftUI
 extension Color {
   // MARK: - Adaptive Colors (Light/Dark mode)
 
-  // #09090B for dark mode, white for light mode
+  // #121212 for dark mode (Spotify-style), white for light mode
   static var appBackgroundAdaptive: Color {
     Color(
       UIColor {
         $0.userInterfaceStyle == .dark
-          ? UIColor(red: 9 / 255, green: 9 / 255, blue: 11 / 255, alpha: 1)
+          ? UIColor(red: 18 / 255, green: 18 / 255, blue: 18 / 255, alpha: 1)
           : UIColor(hue: 0, saturation: 0, brightness: 1, alpha: 1)
       })
   }

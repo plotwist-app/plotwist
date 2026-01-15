@@ -60,7 +60,7 @@ struct ReviewSheet: View {
             VStack(alignment: .leading, spacing: 8) {
               ZStack(alignment: .topLeading) {
                 TextEditor(text: $reviewText)
-                  .frame(minHeight: 120)
+                  .frame(height: 120)
                   .padding(.horizontal, 12)
                   .padding(.vertical, 8)
                   .background(Color.appInputFilled)
