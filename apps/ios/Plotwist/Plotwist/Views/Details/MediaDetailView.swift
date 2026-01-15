@@ -109,11 +109,7 @@ struct MediaDetailView: View {
               // Review Button
               if AuthService.shared.isAuthenticated {
                 HStack {
-                  ActionButton(
-                    userReview != nil ? L10n.current.reviewed : L10n.current.review,
-                    icon: userReview != nil ? "star.fill" : "star",
-                    iconColor: userReview != nil ? .yellow : nil
-                  ) {
+                  ReviewButton(hasReview: userReview != nil) {
                     showReviewSheet = true
                   }
 
