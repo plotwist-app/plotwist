@@ -465,9 +465,7 @@ struct ProfileTabView: View {
     }
     .sheet(isPresented: $showSettings) {
       SettingsSheet()
-        .presentationDetents([.medium])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(24)
+        .standardSheetStyle(detents: [.medium])
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current

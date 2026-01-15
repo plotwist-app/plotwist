@@ -60,7 +60,19 @@ enum L10n {
       themeDark: "Dark",
       language: "Language",
       done: "Done",
-      signOut: "Sign Out"
+      signOut: "Sign Out",
+      // Reviews
+      whatDidYouThink: "What did you think?",
+      review: "Review",
+      reviewed: "Reviewed",
+      shareYourOpinion: "Share your opinion here...",
+      containSpoilers: "Contains spoilers",
+      submitReview: "Submit review",
+      editReview: "Edit review",
+      reviewRequired: "Please write your review.",
+      reviewSuccess: "Review submitted successfully!",
+      reviewUpdateSuccess: "Review updated successfully!",
+      reviewDeleteSuccess: "Review deleted successfully!"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -110,7 +122,18 @@ enum L10n {
       themeDark: "Escuro",
       language: "Idioma",
       done: "Concluído",
-      signOut: "Sair"
+      signOut: "Sair",
+      whatDidYouThink: "O que você achou?",
+      review: "Avaliar",
+      reviewed: "Avaliado",
+      shareYourOpinion: "Compartilhe sua opinião aqui...",
+      containSpoilers: "Contém spoilers",
+      submitReview: "Enviar avaliação",
+      editReview: "Editar avaliação",
+      reviewRequired: "Por favor, escreva sua avaliação.",
+      reviewSuccess: "Avaliação enviada com sucesso!",
+      reviewUpdateSuccess: "Avaliação atualizada com sucesso!",
+      reviewDeleteSuccess: "Avaliação excluída com sucesso!"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -160,7 +183,18 @@ enum L10n {
       themeDark: "Oscuro",
       language: "Idioma",
       done: "Listo",
-      signOut: "Cerrar sesión"
+      signOut: "Cerrar sesión",
+      whatDidYouThink: "¿Qué te pareció?",
+      review: "Reseñar",
+      reviewed: "Reseñado",
+      shareYourOpinion: "Comparte tu opinión aquí...",
+      containSpoilers: "Contiene spoilers",
+      submitReview: "Enviar reseña",
+      editReview: "Editar reseña",
+      reviewRequired: "Por favor, escribe tu reseña.",
+      reviewSuccess: "¡Reseña enviada con éxito!",
+      reviewUpdateSuccess: "¡Reseña actualizada con éxito!",
+      reviewDeleteSuccess: "¡Reseña eliminada con éxito!"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -210,7 +244,18 @@ enum L10n {
       themeDark: "Sombre",
       language: "Langue",
       done: "Terminé",
-      signOut: "Déconnexion"
+      signOut: "Déconnexion",
+      whatDidYouThink: "Qu'en avez-vous pensé?",
+      review: "Évaluer",
+      reviewed: "Évalué",
+      shareYourOpinion: "Partagez votre opinion ici...",
+      containSpoilers: "Contient des spoilers",
+      submitReview: "Soumettre l'avis",
+      editReview: "Modifier l'avis",
+      reviewRequired: "Veuillez écrire votre avis.",
+      reviewSuccess: "Avis soumis avec succès!",
+      reviewUpdateSuccess: "Avis mis à jour avec succès!",
+      reviewDeleteSuccess: "Avis supprimé avec succès!"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -260,7 +305,18 @@ enum L10n {
       themeDark: "Dunkel",
       language: "Sprache",
       done: "Fertig",
-      signOut: "Abmelden"
+      signOut: "Abmelden",
+      whatDidYouThink: "Was haben Sie gedacht?",
+      review: "Bewerten",
+      reviewed: "Bewertet",
+      shareYourOpinion: "Teilen Sie Ihre Meinung hier...",
+      containSpoilers: "Enthält Spoiler",
+      submitReview: "Bewertung abschicken",
+      editReview: "Bewertung bearbeiten",
+      reviewRequired: "Bitte schreiben Sie Ihre Bewertung.",
+      reviewSuccess: "Bewertung erfolgreich eingereicht!",
+      reviewUpdateSuccess: "Bewertung erfolgreich aktualisiert!",
+      reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -310,7 +366,18 @@ enum L10n {
       themeDark: "Scuro",
       language: "Lingua",
       done: "Fatto",
-      signOut: "Esci"
+      signOut: "Esci",
+      whatDidYouThink: "Cosa ne pensi?",
+      review: "Recensire",
+      reviewed: "Recensito",
+      shareYourOpinion: "Condividi la tua opinione qui...",
+      containSpoilers: "Contiene spoiler",
+      submitReview: "Invia recensione",
+      editReview: "Modifica recensione",
+      reviewRequired: "Scrivi la tua recensione.",
+      reviewSuccess: "Recensione inviata con successo!",
+      reviewUpdateSuccess: "Recensione aggiornata con successo!",
+      reviewDeleteSuccess: "Recensione eliminata con successo!"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -359,7 +426,18 @@ enum L10n {
       themeDark: "ダーク",
       language: "言語",
       done: "完了",
-      signOut: "サインアウト"
+      signOut: "サインアウト",
+      whatDidYouThink: "どう思いましたか？",
+      review: "レビュー",
+      reviewed: "レビュー済み",
+      shareYourOpinion: "ここにあなたの意見を共有してください...",
+      containSpoilers: "ネタバレを含む",
+      submitReview: "レビューを送信",
+      editReview: "レビューを編集",
+      reviewRequired: "レビューを書いてください。",
+      reviewSuccess: "レビューが正常に送信されました！",
+      reviewUpdateSuccess: "レビューが正常に更新されました！",
+      reviewDeleteSuccess: "レビューが正常に削除されました！"
     ),
   ]
 }
@@ -416,4 +494,16 @@ struct Strings {
   let language: String
   let done: String
   let signOut: String
+  // Reviews
+  let whatDidYouThink: String
+  let review: String
+  let reviewed: String
+  let shareYourOpinion: String
+  let containSpoilers: String
+  let submitReview: String
+  let editReview: String
+  let reviewRequired: String
+  let reviewSuccess: String
+  let reviewUpdateSuccess: String
+  let reviewDeleteSuccess: String
 }

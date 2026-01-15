@@ -12,6 +12,8 @@ struct MediaDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var details: MovieDetails?
   @State private var isLoading = true
+  @State private var userReview: Review?
+  @State private var showReviewSheet = false
   @ObservedObject private var themeManager = ThemeManager.shared
 
   var body: some View {
@@ -124,6 +126,27 @@ struct MediaDetailView: View {
               .padding(.horizontal, 24)
             }
             .padding(.top, 16)
+
+            // Review Button
+            if AuthService.shared.isAuthenticated {
+              Button(action: { showReviewSheet = true }) {
+                HStack(spacing: 8) {
+                  Image(systemName: userReview != nil ? "star.fill" : "star")
+                    .font(.system(size: 14))
+                    .foregroundColor(userReview != nil ? .yellow : .appForegroundAdaptive)
+
+                  Text(userReview != nil ? L10n.current.reviewed : L10n.current.review)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(Color.appInputFilled)
+                .cornerRadius(8)
+              }
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+            }
           }
           .padding(.bottom, 100)
         }
@@ -132,8 +155,21 @@ struct MediaDetailView: View {
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
+    .sheet(isPresented: $showReviewSheet) {
+      ReviewSheet(mediaId: mediaId, mediaType: mediaType, existingReview: userReview)
+    }
     .task {
       await loadDetails()
+      if AuthService.shared.isAuthenticated {
+        await loadUserReview()
+      }
+    }
+    .onChange(of: showReviewSheet) { _, isPresented in
+      if !isPresented && AuthService.shared.isAuthenticated {
+        Task {
+          await loadUserReview()
+        }
+      }
     }
   }
 
@@ -155,6 +191,17 @@ struct MediaDetailView: View {
       }
     } catch {
       details = nil
+    }
+  }
+
+  private func loadUserReview() async {
+    do {
+      userReview = try await ReviewService.shared.getUserReview(
+        tmdbId: mediaId,
+        mediaType: mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+      )
+    } catch {
+      userReview = nil
     }
   }
 }

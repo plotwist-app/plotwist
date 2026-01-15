@@ -119,8 +119,7 @@ struct SignUpView: View {
         password: password,
         onError: { self.error = $0 }
       )
-      .presentationDetents([.height(320)])
-      .presentationDragIndicator(.visible)
+      .standardSheetStyle(detents: [.height(320)])
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
