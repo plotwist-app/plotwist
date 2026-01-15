@@ -16,7 +16,8 @@ struct ReviewSheet: View {
   @State private var reviewText: String = ""
   @State private var hasSpoilers: Bool = false
   @State private var isLoading: Bool = false
-  @State private var errorMessage: String?
+  @State private var showErrorAlert: Bool = false
+  @State private var errorMessage: String = ""
 
   init(mediaId: Int, mediaType: String, existingReview: Review? = nil) {
     self.mediaId = mediaId
@@ -43,30 +44,21 @@ struct ReviewSheet: View {
           .padding(.bottom, 8)
 
         ScrollView {
-          VStack(spacing: 20) {
+          VStack(spacing: 16) {
             // Title
             Text(L10n.current.whatDidYouThink)
               .font(.title3.bold())
               .foregroundColor(.appForegroundAdaptive)
               .frame(maxWidth: .infinity, alignment: .center)
-              .padding(.top, 8)
+              .padding(.top, 4)
 
             // Rating
-            VStack(spacing: 12) {
-              StarRatingView(rating: $rating, size: 36)
-                .frame(maxWidth: .infinity)
-            }
+            StarRatingView(rating: $rating, size: 36)
+              .frame(maxWidth: .infinity)
 
             // Review Text
             VStack(alignment: .leading, spacing: 8) {
               ZStack(alignment: .topLeading) {
-                if reviewText.isEmpty {
-                  Text(L10n.current.shareYourOpinion)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                }
-
                 TextEditor(text: $reviewText)
                   .frame(minHeight: 120)
                   .padding(.horizontal, 12)
@@ -75,6 +67,14 @@ struct ReviewSheet: View {
                   .cornerRadius(12)
                   .foregroundColor(.appForegroundAdaptive)
                   .scrollContentBackground(.hidden)
+
+                if reviewText.isEmpty {
+                  Text(L10n.current.shareYourOpinion)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .allowsHitTesting(false)
+                }
               }
             }
 
@@ -85,7 +85,7 @@ struct ReviewSheet: View {
                   Image(systemName: hasSpoilers ? "checkmark.square.fill" : "square")
                     .font(.system(size: 20))
                     .foregroundColor(hasSpoilers ? .accentColor : .gray)
-                  
+
                   Text(L10n.current.containSpoilers)
                     .font(.subheadline)
                     .foregroundColor(.appMutedForegroundAdaptive)
@@ -94,14 +94,6 @@ struct ReviewSheet: View {
               .frame(maxWidth: .infinity)
             }
             .padding(.vertical, 4)
-
-            // Error Message
-            if let errorMessage = errorMessage {
-              Text(errorMessage)
-                .font(.caption)
-                .foregroundColor(.red)
-                .frame(maxWidth: .infinity, alignment: .center)
-            }
 
             // Submit Button
             Button(action: submitReview) {
@@ -124,12 +116,19 @@ struct ReviewSheet: View {
             .opacity(!isFormValid || isLoading ? 0.5 : 1)
           }
           .padding(.horizontal, 24)
-          .padding(.bottom, 24)
+          .padding(.bottom, 16)
         }
       }
     }
-    .standardSheetStyle()
+    .presentationDetents([.height(420)])
+    .presentationCornerRadius(24)
+    .presentationDragIndicator(.hidden)
     .preferredColorScheme(themeManager.current.colorScheme)
+    .alert("Error", isPresented: $showErrorAlert) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text(errorMessage)
+    }
   }
 
   private var isFormValid: Bool {
@@ -139,11 +138,11 @@ struct ReviewSheet: View {
   private func submitReview() {
     guard isFormValid else {
       errorMessage = L10n.current.reviewRequired
+      showErrorAlert = true
       return
     }
 
     isLoading = true
-    errorMessage = nil
 
     Task {
       do {
@@ -172,6 +171,7 @@ struct ReviewSheet: View {
         await MainActor.run {
           isLoading = false
           errorMessage = error.localizedDescription
+          showErrorAlert = true
         }
       }
     }

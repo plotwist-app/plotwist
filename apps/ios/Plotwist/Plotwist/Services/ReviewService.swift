@@ -68,17 +68,37 @@ class ReviewService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    let encoder = JSONEncoder()
-    encoder.keyEncodingStrategy = .convertToSnakeCase
-    request.httpBody = try encoder.encode(reviewData)
+    // Create JSON dictionary with camelCase keys (as expected by Drizzle schema)
+    var jsonDict: [String: Any] = [
+      "tmdbId": reviewData.tmdbId,
+      "mediaType": reviewData.mediaType,
+      "review": reviewData.review,
+      "rating": reviewData.rating,
+      "hasSpoilers": reviewData.hasSpoilers,
+      "language": reviewData.language,
+    ]
 
-    let (_, response) = try await URLSession.shared.data(for: request)
+    // Only add optional values if they exist
+    if let seasonNumber = reviewData.seasonNumber {
+      jsonDict["seasonNumber"] = seasonNumber
+    }
+    if let episodeNumber = reviewData.episodeNumber {
+      jsonDict["episodeNumber"] = episodeNumber
+    }
+
+    let jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: [])
+    request.httpBody = jsonData
+
+    let (data, response) = try await URLSession.shared.data(for: request)
 
     guard let http = response as? HTTPURLResponse else {
       throw ReviewError.invalidResponse
     }
 
     guard http.statusCode == 200 || http.statusCode == 201 else {
+      if let errorString = String(data: data, encoding: .utf8) {
+        throw ReviewError.serverError(errorString)
+      }
       throw ReviewError.invalidResponse
     }
   }
@@ -96,9 +116,15 @@ class ReviewService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    let encoder = JSONEncoder()
-    encoder.keyEncodingStrategy = .convertToSnakeCase
-    request.httpBody = try encoder.encode(reviewData)
+    // For update, we only send the fields that can be updated (camelCase)
+    let jsonDict: [String: Any] = [
+      "rating": reviewData.rating,
+      "review": reviewData.review,
+      "hasSpoilers": reviewData.hasSpoilers,
+    ]
+
+    let jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: [])
+    request.httpBody = jsonData
 
     let (_, response) = try await URLSession.shared.data(for: request)
 
@@ -164,18 +190,49 @@ struct ReviewData: Codable {
   let seasonNumber: Int?
   let episodeNumber: Int?
   let language: String
+
+  enum CodingKeys: String, CodingKey {
+    case tmdbId = "tmdb_id"
+    case mediaType = "media_type"
+    case review
+    case rating
+    case hasSpoilers = "has_spoilers"
+    case seasonNumber = "season_number"
+    case episodeNumber = "episode_number"
+    case language
+  }
+
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(tmdbId, forKey: .tmdbId)
+    try container.encode(mediaType, forKey: .mediaType)
+    try container.encode(review, forKey: .review)
+    try container.encode(rating, forKey: .rating)
+    try container.encode(hasSpoilers, forKey: .hasSpoilers)
+    try container.encode(language, forKey: .language)
+
+    // Only encode optional values if they're not nil
+    if let seasonNumber = seasonNumber {
+      try container.encode(seasonNumber, forKey: .seasonNumber)
+    }
+    if let episodeNumber = episodeNumber {
+      try container.encode(episodeNumber, forKey: .episodeNumber)
+    }
+  }
 }
 
 enum ReviewError: LocalizedError {
   case invalidURL
   case invalidResponse
   case notFound
+  case serverError(String)
 
   var errorDescription: String? {
     switch self {
     case .invalidURL: return "Invalid URL"
-    case .invalidResponse: return "Invalid response"
+    case .invalidResponse: return "Invalid response from server"
     case .notFound: return "Review not found"
+    case .serverError(let message): return "Server error: \(message)"
     }
   }
 }

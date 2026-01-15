@@ -38,15 +38,15 @@ struct PrimaryButton: View {
             .fontWeight(.semibold)
         }
       }
-            .frame(maxWidth: .infinity)
-            .frame(height: 48)
-            .background(variant == .filled ? Color.appForegroundAdaptive : Color.clear)
-            .foregroundColor(variant == .filled ? .appBackgroundAdaptive : .appForegroundAdaptive)
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(variant == .filled ? Color.clear : Color.appBorderAdaptive, lineWidth: 1)
-            )
+      .frame(maxWidth: .infinity)
+      .frame(height: 48)
+      .background(variant == .filled ? Color.appForegroundAdaptive : Color.clear)
+      .foregroundColor(variant == .filled ? .appBackgroundAdaptive : .appForegroundAdaptive)
+      .cornerRadius(12)
+      .overlay(
+        RoundedRectangle(cornerRadius: 12)
+          .stroke(variant == .filled ? Color.clear : Color.appBorderAdaptive, lineWidth: 1)
+      )
     }
     .disabled(isLoading || isDisabled)
     .opacity(isDisabled ? 0.5 : 1)
@@ -73,17 +73,54 @@ struct SocialButton: View {
         Text(title)
           .fontWeight(.medium)
       }
-            .frame(maxWidth: .infinity)
-            .frame(height: 48)
-            .background(Color.clear)
-            .foregroundColor(.appForegroundAdaptive)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
-            )
+      .frame(maxWidth: .infinity)
+      .frame(height: 48)
+      .background(Color.clear)
+      .foregroundColor(.appForegroundAdaptive)
+      .overlay(
+        RoundedRectangle(cornerRadius: 12)
+          .stroke(Color.appBorderAdaptive, lineWidth: 1)
+      )
     }
     .disabled(isDisabled)
     .opacity(isDisabled ? 0.5 : 1)
+  }
+}
+
+struct ActionButton: View {
+  let title: String
+  let icon: String
+  let iconColor: Color?
+  let action: () -> Void
+
+  init(
+    _ title: String,
+    icon: String,
+    iconColor: Color? = nil,
+    action: @escaping () -> Void
+  ) {
+    self.title = title
+    self.icon = icon
+    self.iconColor = iconColor
+    self.action = action
+  }
+
+  var body: some View {
+    Button(action: action) {
+      HStack(spacing: 8) {
+        Image(systemName: icon)
+          .font(.system(size: 14))
+          .foregroundColor(iconColor ?? .appForegroundAdaptive)
+
+        Text(title)
+          .font(.subheadline.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .background(Color.appInputFilled)
+      .cornerRadius(12)
+    }
   }
 }
 
@@ -95,6 +132,12 @@ struct SocialButton: View {
     PrimaryButton("Disabled", isDisabled: true) {}
     SocialButton("Continue with Google", icon: "globe") {}
     SocialButton("Continue with Apple", icon: "apple.logo", isDisabled: true) {}
+
+    HStack {
+      ActionButton("Review", icon: "star") {}
+      ActionButton("Reviewed", icon: "star.fill", iconColor: .yellow) {}
+      Spacer()
+    }
   }
   .padding()
 }

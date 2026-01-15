@@ -72,7 +72,14 @@ enum L10n {
       reviewRequired: "Please write your review.",
       reviewSuccess: "Review submitted successfully!",
       reviewUpdateSuccess: "Review updated successfully!",
-      reviewDeleteSuccess: "Review deleted successfully!"
+      reviewDeleteSuccess: "Review deleted successfully!",
+      tabReviews: "Reviews",
+      tabWhereToWatch: "Where to Watch",
+      tabCredits: "Credits",
+      tabRecommendations: "Recommendations",
+      tabSimilar: "Similar",
+      tabImages: "Images",
+      tabVideos: "Videos"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -133,7 +140,14 @@ enum L10n {
       reviewRequired: "Por favor, escreva sua avaliação.",
       reviewSuccess: "Avaliação enviada com sucesso!",
       reviewUpdateSuccess: "Avaliação atualizada com sucesso!",
-      reviewDeleteSuccess: "Avaliação excluída com sucesso!"
+      reviewDeleteSuccess: "Avaliação excluída com sucesso!",
+      tabReviews: "Avaliações",
+      tabWhereToWatch: "Onde Assistir",
+      tabCredits: "Elenco",
+      tabRecommendations: "Recomendações",
+      tabSimilar: "Similares",
+      tabImages: "Imagens",
+      tabVideos: "Vídeos"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -194,7 +208,14 @@ enum L10n {
       reviewRequired: "Por favor, escribe tu reseña.",
       reviewSuccess: "¡Reseña enviada con éxito!",
       reviewUpdateSuccess: "¡Reseña actualizada con éxito!",
-      reviewDeleteSuccess: "¡Reseña eliminada con éxito!"
+      reviewDeleteSuccess: "¡Reseña eliminada con éxito!",
+      tabReviews: "Reseñas",
+      tabWhereToWatch: "Dónde Ver",
+      tabCredits: "Créditos",
+      tabRecommendations: "Recomendaciones",
+      tabSimilar: "Similares",
+      tabImages: "Imágenes",
+      tabVideos: "Videos"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -255,7 +276,14 @@ enum L10n {
       reviewRequired: "Veuillez écrire votre avis.",
       reviewSuccess: "Avis soumis avec succès!",
       reviewUpdateSuccess: "Avis mis à jour avec succès!",
-      reviewDeleteSuccess: "Avis supprimé avec succès!"
+      reviewDeleteSuccess: "Avis supprimé avec succès!",
+      tabReviews: "Avis",
+      tabWhereToWatch: "Où Regarder",
+      tabCredits: "Crédits",
+      tabRecommendations: "Recommandations",
+      tabSimilar: "Similaires",
+      tabImages: "Images",
+      tabVideos: "Vidéos"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -316,7 +344,14 @@ enum L10n {
       reviewRequired: "Bitte schreiben Sie Ihre Bewertung.",
       reviewSuccess: "Bewertung erfolgreich eingereicht!",
       reviewUpdateSuccess: "Bewertung erfolgreich aktualisiert!",
-      reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!"
+      reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!",
+      tabReviews: "Bewertungen",
+      tabWhereToWatch: "Wo Ansehen",
+      tabCredits: "Besetzung",
+      tabRecommendations: "Empfehlungen",
+      tabSimilar: "Ähnliche",
+      tabImages: "Bilder",
+      tabVideos: "Videos"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -377,7 +412,14 @@ enum L10n {
       reviewRequired: "Scrivi la tua recensione.",
       reviewSuccess: "Recensione inviata con successo!",
       reviewUpdateSuccess: "Recensione aggiornata con successo!",
-      reviewDeleteSuccess: "Recensione eliminata con successo!"
+      reviewDeleteSuccess: "Recensione eliminata con successo!",
+      tabReviews: "Recensioni",
+      tabWhereToWatch: "Dove Guardare",
+      tabCredits: "Cast",
+      tabRecommendations: "Raccomandazioni",
+      tabSimilar: "Simili",
+      tabImages: "Immagini",
+      tabVideos: "Video"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -437,7 +479,14 @@ enum L10n {
       reviewRequired: "レビューを書いてください。",
       reviewSuccess: "レビューが正常に送信されました！",
       reviewUpdateSuccess: "レビューが正常に更新されました！",
-      reviewDeleteSuccess: "レビューが正常に削除されました！"
+      reviewDeleteSuccess: "レビューが正常に削除されました！",
+      tabReviews: "レビュー",
+      tabWhereToWatch: "視聴方法",
+      tabCredits: "キャスト",
+      tabRecommendations: "おすすめ",
+      tabSimilar: "類似作品",
+      tabImages: "画像",
+      tabVideos: "動画"
     ),
   ]
 }
@@ -506,4 +555,12 @@ struct Strings {
   let reviewSuccess: String
   let reviewUpdateSuccess: String
   let reviewDeleteSuccess: String
+  // Tabs
+  let tabReviews: String
+  let tabWhereToWatch: String
+  let tabCredits: String
+  let tabRecommendations: String
+  let tabSimilar: String
+  let tabImages: String
+  let tabVideos: String
 }

@@ -92,7 +92,9 @@ struct LoginView: View {
                 )
 
                 Button {
-                  showPassword.toggle()
+                  withAnimation(.none) {
+                    showPassword.toggle()
+                  }
                 } label: {
                   Image(systemName: showPassword ? "eye" : "eye.slash")
                     .foregroundColor(.appMutedForegroundAdaptive)
@@ -103,6 +105,7 @@ struct LoginView: View {
                         .stroke(Color.appBorderAdaptive, lineWidth: 1)
                     )
                 }
+                .transaction { $0.animation = nil }
               }
             }
 
