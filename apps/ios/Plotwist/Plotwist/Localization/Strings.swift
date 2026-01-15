@@ -53,6 +53,8 @@ enum L10n {
       cancel: "Cancel",
       popularMovies: "Popular Movies",
       popularTVSeries: "Popular TV Series",
+      animes: "Animes",
+      doramas: "Doramas",
       settings: "Settings",
       theme: "Theme",
       themeSystem: "System",
@@ -125,6 +127,8 @@ enum L10n {
       cancel: "Cancelar",
       popularMovies: "Filmes Populares",
       popularTVSeries: "Séries Populares",
+      animes: "Animes",
+      doramas: "Doramas",
       settings: "Configurações",
       theme: "Tema",
       themeSystem: "Sistema",
@@ -196,6 +200,8 @@ enum L10n {
       cancel: "Cancelar",
       popularMovies: "Películas Populares",
       popularTVSeries: "Series Populares",
+      animes: "Animes",
+      doramas: "Doramas",
       settings: "Configuración",
       theme: "Tema",
       themeSystem: "Sistema",
@@ -267,6 +273,8 @@ enum L10n {
       cancel: "Annuler",
       popularMovies: "Films Populaires",
       popularTVSeries: "Séries Populaires",
+      animes: "Animes",
+      doramas: "Doramas",
       settings: "Paramètres",
       theme: "Thème",
       themeSystem: "Système",
@@ -338,6 +346,8 @@ enum L10n {
       cancel: "Abbrechen",
       popularMovies: "Beliebte Filme",
       popularTVSeries: "Beliebte Serien",
+      animes: "Animes",
+      doramas: "Doramas",
       settings: "Einstellungen",
       theme: "Design",
       themeSystem: "System",
@@ -409,6 +419,8 @@ enum L10n {
       cancel: "Annulla",
       popularMovies: "Film Popolari",
       popularTVSeries: "Serie Popolari",
+      animes: "Anime",
+      doramas: "Dorama",
       settings: "Impostazioni",
       theme: "Tema",
       themeSystem: "Sistema",
@@ -479,6 +491,8 @@ enum L10n {
       cancel: "キャンセル",
       popularMovies: "人気の映画",
       popularTVSeries: "人気のテレビシリーズ",
+      animes: "アニメ",
+      doramas: "ドラマ",
       settings: "設定",
       theme: "テーマ",
       themeSystem: "システム",
@@ -555,6 +569,8 @@ struct Strings {
   let cancel: String
   let popularMovies: String
   let popularTVSeries: String
+  let animes: String
+  let doramas: String
   // Settings
   let settings: String
   let theme: String

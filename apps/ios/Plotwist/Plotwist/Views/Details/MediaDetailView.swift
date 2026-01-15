@@ -155,7 +155,12 @@ struct MediaDetailView: View {
             RatingSectionView(
               mediaId: mediaId,
               mediaType: mediaType,
-              refreshId: reviewsRefreshId
+              refreshId: reviewsRefreshId,
+              onEmptyStateTapped: {
+                if AuthService.shared.isAuthenticated {
+                  showReviewSheet = true
+                }
+              }
             )
             .offset(y: contentOffset)
           }
@@ -224,6 +229,7 @@ struct RatingSectionView: View {
   let mediaId: Int
   let mediaType: String
   let refreshId: UUID
+  var onEmptyStateTapped: (() -> Void)?
 
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
@@ -261,22 +267,27 @@ struct RatingSectionView: View {
           .shimmer()
           .padding(.vertical, 24)
         } else if reviews.isEmpty {
-          // Empty state
-          VStack(spacing: 8) {
-            Text(L10n.current.beFirstToReview)
-              .font(.subheadline)
-              .foregroundColor(.appForegroundAdaptive)
-            Text(L10n.current.shareYourOpinion)
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
+          // Empty state - tappable to open review sheet
+          Button(action: {
+            onEmptyStateTapped?()
+          }) {
+            VStack(spacing: 8) {
+              Text(L10n.current.beFirstToReview)
+                .font(.subheadline)
+                .foregroundColor(.appForegroundAdaptive)
+              Text(L10n.current.shareYourOpinion)
+                .font(.caption)
+                .foregroundColor(.appMutedForegroundAdaptive)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 32)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                .foregroundColor(.appBorderAdaptive)
+            )
           }
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 32)
-          .overlay(
-            RoundedRectangle(cornerRadius: 12)
-              .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-              .foregroundColor(.appBorderAdaptive)
-          )
+          .buttonStyle(.plain)
           .padding(.horizontal, 24)
           .padding(.top, 24)
         } else if isFeaturedRating {

@@ -251,6 +251,7 @@ struct SearchTabView: View {
   }
 }
 
+
 // MARK: - Search Section
 struct SearchSection: View {
   let title: String
