@@ -99,7 +99,12 @@ enum L10n {
       discover: "Discover",
       // TV Series Categories
       airingToday: "Airing Today",
-      onTheAir: "On The Air"
+      onTheAir: "On The Air",
+      // Images
+      images: "Images",
+      backdrops: "Backdrops",
+      posters: "Posters",
+      noImagesFound: "No images found."
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -185,7 +190,11 @@ enum L10n {
       upcoming: "Em Breve",
       discover: "Descobrir",
       airingToday: "No Ar Hoje",
-      onTheAir: "Em Exibição"
+      onTheAir: "Em Exibição",
+      images: "Imagens",
+      backdrops: "Backdrops",
+      posters: "Pôsteres",
+      noImagesFound: "Nenhuma imagem encontrada."
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -271,7 +280,11 @@ enum L10n {
       upcoming: "Próximamente",
       discover: "Descubrir",
       airingToday: "En Emisión Hoy",
-      onTheAir: "En Emisión"
+      onTheAir: "En Emisión",
+      images: "Imágenes",
+      backdrops: "Fondos",
+      posters: "Pósters",
+      noImagesFound: "No se encontraron imágenes."
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -357,7 +370,11 @@ enum L10n {
       upcoming: "Prochainement",
       discover: "Découvrir",
       airingToday: "Diffusé Aujourd'hui",
-      onTheAir: "En Cours"
+      onTheAir: "En Cours",
+      images: "Images",
+      backdrops: "Fonds d'écran",
+      posters: "Affiches",
+      noImagesFound: "Aucune image trouvée."
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -443,7 +460,11 @@ enum L10n {
       upcoming: "Demnächst",
       discover: "Entdecken",
       airingToday: "Heute im TV",
-      onTheAir: "Auf Sendung"
+      onTheAir: "Auf Sendung",
+      images: "Bilder",
+      backdrops: "Hintergründe",
+      posters: "Poster",
+      noImagesFound: "Keine Bilder gefunden."
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -529,7 +550,11 @@ enum L10n {
       upcoming: "Prossimamente",
       discover: "Scopri",
       airingToday: "In Onda Oggi",
-      onTheAir: "In Onda"
+      onTheAir: "In Onda",
+      images: "Immagini",
+      backdrops: "Sfondi",
+      posters: "Locandine",
+      noImagesFound: "Nessuna immagine trovata."
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -614,7 +639,11 @@ enum L10n {
       upcoming: "近日公開",
       discover: "発見",
       airingToday: "本日放送",
-      onTheAir: "放送中"
+      onTheAir: "放送中",
+      images: "画像",
+      backdrops: "背景",
+      posters: "ポスター",
+      noImagesFound: "画像が見つかりません。"
     ),
   ]
 }
@@ -712,4 +741,9 @@ struct Strings {
   // TV Series Categories
   let airingToday: String
   let onTheAir: String
+  // Images
+  let images: String
+  let backdrops: String
+  let posters: String
+  let noImagesFound: String
 }

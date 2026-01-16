@@ -405,6 +405,28 @@ class TMDBService {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return try decoder.decode(MovieDetails.self, from: data)
   }
+
+  // MARK: - Get Images
+  func getImages(id: Int, mediaType: String) async throws -> MediaImages {
+    let type = mediaType == "movie" ? "movie" : "tv"
+    guard let url = URL(string: "\(baseURL)/\(type)/\(id)/images") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(MediaImages.self, from: data)
+  }
 }
 
 // MARK: - Movie Details Model
@@ -552,5 +574,42 @@ enum TMDBError: LocalizedError {
     case .invalidURL: return "Invalid URL"
     case .invalidResponse: return "Invalid response"
     }
+  }
+}
+
+// MARK: - Media Images
+struct MediaImages: Codable {
+  let backdrops: [TMDBImage]
+  let posters: [TMDBImage]
+
+  var sortedBackdrops: [TMDBImage] {
+    backdrops.sorted { $0.voteCount > $1.voteCount }
+  }
+
+  var sortedPosters: [TMDBImage] {
+    posters.sorted { $0.voteCount > $1.voteCount }
+  }
+}
+
+struct TMDBImage: Codable, Identifiable {
+  let aspectRatio: Double
+  let filePath: String
+  let height: Int
+  let width: Int
+  let voteAverage: Double
+  let voteCount: Int
+
+  var id: String { filePath }
+
+  var thumbnailURL: URL? {
+    URL(string: "https://image.tmdb.org/t/p/w500\(filePath)")
+  }
+
+  var fullURL: URL? {
+    URL(string: "https://image.tmdb.org/t/p/original\(filePath)")
+  }
+
+  var backdropURL: URL? {
+    URL(string: "https://image.tmdb.org/t/p/w1280\(filePath)")
   }
 }

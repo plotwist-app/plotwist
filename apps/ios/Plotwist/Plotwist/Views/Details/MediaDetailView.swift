@@ -15,6 +15,8 @@ struct MediaDetailView: View {
   @State private var userReview: Review?
   @State private var showReviewSheet = false
   @State private var reviewsRefreshId = UUID()
+  @State private var backdropImages: [TMDBImage] = []
+  @State private var currentBackdropIndex = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
   // Layout constants
@@ -30,22 +32,66 @@ struct MediaDetailView: View {
       } else if let details {
         ScrollView(showsIndicators: false) {
           VStack(alignment: .leading, spacing: 0) {
-            // Backdrop
+            // Backdrop Carousel
             ZStack(alignment: .topLeading) {
-              AsyncImage(url: details.backdropURL) { phase in
-                switch phase {
-                case .success(let image):
-                  image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                default:
-                  Rectangle()
-                    .fill(Color.appBorderAdaptive)
+              if backdropImages.isEmpty {
+                // Fallback to single backdrop
+                AsyncImage(url: details.backdropURL) { phase in
+                  switch phase {
+                  case .success(let image):
+                    image
+                      .resizable()
+                      .aspectRatio(contentMode: .fill)
+                  default:
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive)
+                  }
+                }
+                .frame(height: 240)
+                .frame(maxWidth: .infinity)
+                .clipped()
+              } else {
+                // Carousel
+                ZStack(alignment: .bottomTrailing) {
+                  NavigationLink(
+                    destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
+                  ) {
+                    TabView(selection: $currentBackdropIndex) {
+                      ForEach(Array(backdropImages.prefix(10).enumerated()), id: \.element.id) {
+                        index, backdrop in
+                        AsyncImage(url: backdrop.backdropURL) { phase in
+                          switch phase {
+                          case .success(let image):
+                            image
+                              .resizable()
+                              .aspectRatio(contentMode: .fill)
+                          default:
+                            Rectangle()
+                              .fill(Color.appBorderAdaptive)
+                          }
+                        }
+                        .tag(index)
+                      }
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(height: 240)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                  }
+                  .buttonStyle(.plain)
+
+                  // Image counter
+                  Text("\(currentBackdropIndex + 1)/\(min(backdropImages.count, 10))")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color.black.opacity(0.6))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 12)
                 }
               }
-              .frame(height: 240)
-              .frame(maxWidth: .infinity)
-              .clipped()
 
               // Back button
               Button {
@@ -176,6 +222,7 @@ struct MediaDetailView: View {
     }
     .task {
       await loadDetails()
+      await loadImages()
       if AuthService.shared.isAuthenticated {
         await loadUserReview()
       }
@@ -220,6 +267,15 @@ struct MediaDetailView: View {
       )
     } catch {
       userReview = nil
+    }
+  }
+
+  private func loadImages() async {
+    do {
+      let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
+      backdropImages = images.sortedBackdrops
+    } catch {
+      backdropImages = []
     }
   }
 }
