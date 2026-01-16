@@ -30,193 +30,198 @@ struct MediaDetailView: View {
       if isLoading {
         ProgressView()
       } else if let details {
-        ScrollView(showsIndicators: false) {
-          VStack(alignment: .leading, spacing: 0) {
-            // Backdrop Carousel
-            ZStack(alignment: .topLeading) {
-              if backdropImages.isEmpty {
-                // Fallback to single backdrop
-                AsyncImage(url: details.backdropURL) { phase in
+        GeometryReader { geometry in
+          let backdropHeight = geometry.size.height * 0.40
+
+          ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+              // Backdrop Carousel
+              ZStack(alignment: .topLeading) {
+                if backdropImages.isEmpty {
+                  // Fallback to single backdrop
+                  AsyncImage(url: details.backdropURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                      image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    default:
+                      Rectangle()
+                        .fill(Color.appBorderAdaptive)
+                    }
+                  }
+                  .frame(height: backdropHeight)
+                  .frame(maxWidth: .infinity)
+                  .clipped()
+                } else {
+                  // Carousel
+                  ZStack(alignment: .bottomTrailing) {
+                    NavigationLink(
+                      destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
+                    ) {
+                      TabView(selection: $currentBackdropIndex) {
+                        ForEach(Array(backdropImages.prefix(10).enumerated()), id: \.element.id) {
+                          index, backdrop in
+                          AsyncImage(url: backdrop.backdropURL) { phase in
+                            switch phase {
+                            case .success(let image):
+                              image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                            default:
+                              Rectangle()
+                                .fill(Color.appBorderAdaptive)
+                            }
+                          }
+                          .tag(index)
+                        }
+                      }
+                      .tabViewStyle(.page(indexDisplayMode: .never))
+                      .frame(height: backdropHeight)
+                      .frame(maxWidth: .infinity)
+                      .clipped()
+                    }
+                    .buttonStyle(.plain)
+
+                    // Image counter
+                    Text("\(currentBackdropIndex + 1)/\(min(backdropImages.count, 10))")
+                      .font(.caption.weight(.semibold))
+                      .foregroundColor(.white)
+                      .padding(.horizontal, 10)
+                      .padding(.vertical, 6)
+                      .background(Color.black.opacity(0.6))
+                      .clipShape(RoundedRectangle(cornerRadius: 6))
+                      .padding(.trailing, 16)
+                      .padding(.bottom, 12)
+                  }
+                }
+
+                // Back button
+                Button {
+                  dismiss()
+                } label: {
+                  Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 40, height: 40)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                }
+                .padding(.top, 60)
+                .padding(.leading, 24)
+              }
+              .overlay(
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(height: 1),
+                alignment: .bottom
+              )
+
+              // Content with poster overlap
+              HStack(alignment: .bottom, spacing: 16) {
+                // Poster
+                AsyncImage(url: details.posterURL) { phase in
                   switch phase {
                   case .success(let image):
                     image
                       .resizable()
                       .aspectRatio(contentMode: .fill)
                   default:
-                    Rectangle()
+                    RoundedRectangle(cornerRadius: 16)
                       .fill(Color.appBorderAdaptive)
                   }
                 }
-                .frame(height: 300)
-                .frame(maxWidth: .infinity)
-                .clipped()
-              } else {
-                // Carousel
-                ZStack(alignment: .bottomTrailing) {
-                  NavigationLink(
-                    destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
-                  ) {
-                    TabView(selection: $currentBackdropIndex) {
-                      ForEach(Array(backdropImages.prefix(10).enumerated()), id: \.element.id) {
-                        index, backdrop in
-                        AsyncImage(url: backdrop.backdropURL) { phase in
-                          switch phase {
-                          case .success(let image):
-                            image
-                              .resizable()
-                              .aspectRatio(contentMode: .fill)
-                          default:
-                            Rectangle()
-                              .fill(Color.appBorderAdaptive)
-                          }
-                        }
-                        .tag(index)
+                .frame(width: 140, height: 210)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .posterShadow()
+
+                // Info
+                VStack(alignment: .leading, spacing: 4) {
+                  if let releaseDate = details.formattedReleaseDate(
+                    locale: Language.current.rawValue)
+                  {
+                    Text(releaseDate)
+                      .font(.caption)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                  }
+
+                  Text(details.displayTitle)
+                    .font(.headline)
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              .offset(y: posterOverlapOffset)
+
+              // Content Section
+              VStack(alignment: .leading, spacing: 20) {
+                // Review Button
+                if AuthService.shared.isAuthenticated {
+                  HStack {
+                    ReviewButton(hasReview: userReview != nil) {
+                      showReviewSheet = true
+                    }
+
+                    Spacer()
+                  }
+                }
+
+                // Overview
+                if let overview = details.overview, !overview.isEmpty {
+                  Text(overview)
+                    .font(.subheadline)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .lineSpacing(4)
+                }
+
+                // Genres Badges
+                if let genres = details.genres, !genres.isEmpty {
+                  ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                      ForEach(genres) { genre in
+                        BadgeView(text: genre.name)
                       }
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 300)
-                    .frame(maxWidth: .infinity)
-                    .clipped()
-                  }
-                  .buttonStyle(.plain)
-
-                  // Image counter
-                  Text("\(currentBackdropIndex + 1)/\(min(backdropImages.count, 10))")
-                    .font(.caption.weight(.semibold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.black.opacity(0.6))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                    .padding(.trailing, 16)
-                    .padding(.bottom, 12)
-                }
-              }
-
-              // Back button
-              Button {
-                dismiss()
-              } label: {
-                Image(systemName: "chevron.left")
-                  .font(.system(size: 18, weight: .semibold))
-                  .foregroundColor(.white)
-                  .frame(width: 40, height: 40)
-                  .background(.ultraThinMaterial)
-                  .clipShape(Circle())
-              }
-              .padding(.top, 60)
-              .padding(.leading, 24)
-            }
-            .overlay(
-              Rectangle()
-                .fill(Color.appBorderAdaptive.opacity(0.5))
-                .frame(height: 1),
-              alignment: .bottom
-            )
-
-            // Content with poster overlap
-            HStack(alignment: .bottom, spacing: 16) {
-              // Poster
-              AsyncImage(url: details.posterURL) { phase in
-                switch phase {
-                case .success(let image):
-                  image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                default:
-                  RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.appBorderAdaptive)
-                }
-              }
-              .frame(width: 140, height: 210)
-              .clipShape(RoundedRectangle(cornerRadius: 16))
-              .posterShadow()
-
-              // Info
-              VStack(alignment: .leading, spacing: 4) {
-                if let releaseDate = details.formattedReleaseDate(locale: Language.current.rawValue)
-                {
-                  Text(releaseDate)
-                    .font(.caption)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                }
-
-                Text(details.displayTitle)
-                  .font(.headline)
-                  .foregroundColor(.appForegroundAdaptive)
-              }
-
-              Spacer()
-            }
-            .padding(.horizontal, 24)
-            .offset(y: posterOverlapOffset)
-
-            // Content Section
-            VStack(alignment: .leading, spacing: 20) {
-              // Review Button
-              if AuthService.shared.isAuthenticated {
-                HStack {
-                  ReviewButton(hasReview: userReview != nil) {
-                    showReviewSheet = true
-                  }
-
-                  Spacer()
-                }
-              }
-
-              // Overview
-              if let overview = details.overview, !overview.isEmpty {
-                Text(overview)
-                  .font(.subheadline)
-                  .foregroundColor(.appMutedForegroundAdaptive)
-                  .lineSpacing(4)
-              }
-
-              // Genres Badges
-              if let genres = details.genres, !genres.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                  HStack(spacing: 8) {
-                    ForEach(genres) { genre in
-                      BadgeView(text: genre.name)
-                    }
                   }
                 }
               }
-            }
-            .padding(.horizontal, 24)
-            .offset(y: contentOffset)
-
-            Spacer()
-              .frame(height: 32)
-              .offset(y: contentOffset)
-
-            // Divider
-            Rectangle()
-              .fill(Color.appBorderAdaptive.opacity(0.5))
-              .frame(height: 1)
               .padding(.horizontal, 24)
               .offset(y: contentOffset)
 
-            Spacer()
-              .frame(height: 16)
-              .offset(y: contentOffset)
+              Spacer()
+                .frame(height: 32)
+                .offset(y: contentOffset)
 
-            // Rating Section (Airbnb style)
-            RatingSectionView(
-              mediaId: mediaId,
-              mediaType: mediaType,
-              refreshId: reviewsRefreshId,
-              onEmptyStateTapped: {
-                if AuthService.shared.isAuthenticated {
-                  showReviewSheet = true
+              // Divider
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.5))
+                .frame(height: 1)
+                .padding(.horizontal, 24)
+                .offset(y: contentOffset)
+
+              Spacer()
+                .frame(height: 16)
+                .offset(y: contentOffset)
+
+              // Rating Section (Airbnb style)
+              RatingSectionView(
+                mediaId: mediaId,
+                mediaType: mediaType,
+                refreshId: reviewsRefreshId,
+                onEmptyStateTapped: {
+                  if AuthService.shared.isAuthenticated {
+                    showReviewSheet = true
+                  }
                 }
-              }
-            )
-            .offset(y: contentOffset)
+              )
+              .offset(y: contentOffset)
+            }
+            .padding(.bottom, 80)
           }
-          .padding(.bottom, 80)
+          .ignoresSafeArea(edges: .top)
         }
-        .ignoresSafeArea(edges: .top)
       }
     }
     .navigationBarHidden(true)
