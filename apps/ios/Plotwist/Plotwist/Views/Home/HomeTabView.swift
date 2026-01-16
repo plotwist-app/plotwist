@@ -126,11 +126,11 @@ struct HomeSectionView: View {
       } label: {
         HStack(spacing: 6) {
           Text(title)
-            .font(.title3.bold())
+            .font(.headline)
             .foregroundColor(.appForegroundAdaptive)
 
           Image(systemName: "chevron.right")
-            .font(.system(size: 14, weight: .semibold))
+            .font(.system(size: 12, weight: .semibold))
             .foregroundColor(.appForegroundAdaptive)
 
           Spacer()

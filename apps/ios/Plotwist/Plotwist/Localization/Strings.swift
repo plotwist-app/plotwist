@@ -90,7 +90,13 @@ enum L10n {
       tabVideos: "Videos",
       beFirstToReview: "Be the first to leave your opinion",
       seeAll: "See all reviews",
-      showMore: "Show more"
+      showMore: "Show more",
+      // Movie Categories
+      nowPlaying: "Now Playing",
+      popular: "Popular",
+      topRated: "Top Rated",
+      upcoming: "Upcoming",
+      discover: "Discover"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -169,7 +175,12 @@ enum L10n {
       tabVideos: "Vídeos",
       beFirstToReview: "Seja o primeiro a deixar sua opinião",
       seeAll: "Ver todas as avaliações",
-      showMore: "Ver mais"
+      showMore: "Ver mais",
+      nowPlaying: "Em Cartaz",
+      popular: "Popular",
+      topRated: "Mais Bem Avaliados",
+      upcoming: "Em Breve",
+      discover: "Descobrir"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -248,7 +259,12 @@ enum L10n {
       tabVideos: "Videos",
       beFirstToReview: "Sé el primero en dejar tu opinión",
       seeAll: "Ver todas las reseñas",
-      showMore: "Ver más"
+      showMore: "Ver más",
+      nowPlaying: "En Cartelera",
+      popular: "Popular",
+      topRated: "Mejor Valoradas",
+      upcoming: "Próximamente",
+      discover: "Descubrir"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -327,7 +343,12 @@ enum L10n {
       tabVideos: "Vidéos",
       beFirstToReview: "Soyez le premier à donner votre avis",
       seeAll: "Voir tous les avis",
-      showMore: "Voir plus"
+      showMore: "Voir plus",
+      nowPlaying: "À l'Affiche",
+      popular: "Populaire",
+      topRated: "Mieux Notés",
+      upcoming: "Prochainement",
+      discover: "Découvrir"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -406,7 +427,12 @@ enum L10n {
       tabVideos: "Videos",
       beFirstToReview: "Sei der Erste, der seine Meinung teilt",
       seeAll: "Alle Bewertungen anzeigen",
-      showMore: "Mehr anzeigen"
+      showMore: "Mehr anzeigen",
+      nowPlaying: "Jetzt im Kino",
+      popular: "Beliebt",
+      topRated: "Bestbewertet",
+      upcoming: "Demnächst",
+      discover: "Entdecken"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -485,7 +511,12 @@ enum L10n {
       tabVideos: "Video",
       beFirstToReview: "Sii il primo a lasciare la tua opinione",
       seeAll: "Vedi tutte le recensioni",
-      showMore: "Mostra di più"
+      showMore: "Mostra di più",
+      nowPlaying: "In Sala",
+      popular: "Popolari",
+      topRated: "Più Votati",
+      upcoming: "Prossimamente",
+      discover: "Scopri"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -563,7 +594,12 @@ enum L10n {
       tabVideos: "動画",
       beFirstToReview: "最初にレビューを書いてください",
       seeAll: "すべてのレビューを見る",
-      showMore: "もっと見る"
+      showMore: "もっと見る",
+      nowPlaying: "上映中",
+      popular: "人気",
+      topRated: "高評価",
+      upcoming: "近日公開",
+      discover: "発見"
     ),
   ]
 }
@@ -652,4 +688,10 @@ struct Strings {
   let beFirstToReview: String
   let seeAll: String
   let showMore: String
+  // Movie Categories
+  let nowPlaying: String
+  let popular: String
+  let topRated: String
+  let upcoming: String
+  let discover: String
 }
