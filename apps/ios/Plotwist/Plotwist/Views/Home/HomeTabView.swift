@@ -120,7 +120,7 @@ struct HomeSectionView: View {
   let categoryType: HomeCategoryType
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
+    VStack(alignment: .leading, spacing: 12) {
       NavigationLink {
         CategoryListView(categoryType: categoryType)
       } label: {

@@ -62,16 +62,18 @@ struct CategoryListView: View {
     currentPage < totalPages
   }
 
-  private var stickyTabBar: some View {
+  private func stickyTabBar(scrollProxy: ScrollViewProxy) -> some View {
     SegmentedTabBar(selectedTab: $selectedMovieSubcategory) {
+      withAnimation {
+        scrollProxy.scrollTo("content-top", anchor: .top)
+      }
       Task {
         await loadItems()
       }
     }
-    .padding(.vertical, 16)
+    .id("content-top")
+    .padding(.vertical, 12)
     .padding(.horizontal, 24)
-    .frame(maxWidth: .infinity)
-    .background(Color.appBackgroundAdaptive)
   }
 
   private let columns = [
@@ -118,61 +120,69 @@ struct CategoryListView: View {
 
         // Content
         if isLoading && items.isEmpty {
-          ScrollView {
-            LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : []) {
-              Section {
-                LazyVGrid(columns: columns, spacing: 16) {
-                  ForEach(0..<12, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 16)
-                      .fill(Color.appBorderAdaptive)
-                      .aspectRatio(2 / 3, contentMode: .fit)
-                      .shimmer()
-                  }
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 24)
-              } header: {
-                if categoryType == .movies {
-                  stickyTabBar
-                }
-              }
-            }
-          }
-        } else {
-          ScrollView {
-            LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : []) {
-              Section {
-                LazyVGrid(columns: columns, spacing: 16) {
-                  ForEach(items) { item in
-                    NavigationLink {
-                      MediaDetailView(mediaId: item.id, mediaType: mediaType)
-                    } label: {
-                      CategoryPosterCard(item: item)
-                    }
-                    .buttonStyle(.plain)
-                    .onAppear {
-                      if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
-                        Task {
-                          await loadMoreItems()
-                        }
-                      }
-                    }
-                  }
-
-                  if isLoadingMore {
-                    ForEach(0..<3, id: \.self) { _ in
+          ScrollViewReader { proxy in
+            ScrollView {
+              LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : [])
+              {
+                Section {
+                  LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(0..<12, id: \.self) { _ in
                       RoundedRectangle(cornerRadius: 16)
                         .fill(Color.appBorderAdaptive)
                         .aspectRatio(2 / 3, contentMode: .fit)
                         .shimmer()
                     }
                   }
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
+                  .padding(.bottom, 24)
+                } header: {
+                  if categoryType == .movies {
+                    stickyTabBar(scrollProxy: proxy)
+                  }
                 }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 24)
-              } header: {
-                if categoryType == .movies {
-                  stickyTabBar
+              }
+            }
+          }
+        } else {
+          ScrollViewReader { proxy in
+            ScrollView {
+              LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : [])
+              {
+                Section {
+                  LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(items) { item in
+                      NavigationLink {
+                        MediaDetailView(mediaId: item.id, mediaType: mediaType)
+                      } label: {
+                        CategoryPosterCard(item: item)
+                      }
+                      .buttonStyle(.plain)
+                      .onAppear {
+                        if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
+                          Task {
+                            await loadMoreItems()
+                          }
+                        }
+                      }
+                    }
+
+                    if isLoadingMore {
+                      ForEach(0..<3, id: \.self) { _ in
+                        RoundedRectangle(cornerRadius: 16)
+                          .fill(Color.appBorderAdaptive)
+                          .aspectRatio(2 / 3, contentMode: .fit)
+                          .shimmer()
+                      }
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
+                  .padding(.bottom, 24)
+                } header: {
+                  if categoryType == .movies {
+                    stickyTabBar(scrollProxy: proxy)
+                  }
                 }
               }
             }
