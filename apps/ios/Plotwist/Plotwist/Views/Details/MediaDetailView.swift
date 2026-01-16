@@ -47,7 +47,7 @@ struct MediaDetailView: View {
                       .fill(Color.appBorderAdaptive)
                   }
                 }
-                .frame(height: 240)
+                .frame(height: 300)
                 .frame(maxWidth: .infinity)
                 .clipped()
               } else {
@@ -74,7 +74,7 @@ struct MediaDetailView: View {
                       }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 240)
+                    .frame(height: 300)
                     .frame(maxWidth: .infinity)
                     .clipped()
                   }
@@ -109,7 +109,7 @@ struct MediaDetailView: View {
             }
             .overlay(
               Rectangle()
-                .fill(Color.appBorderAdaptive)
+                .fill(Color.appBorderAdaptive.opacity(0.5))
                 .frame(height: 1),
               alignment: .bottom
             )
@@ -187,14 +187,18 @@ struct MediaDetailView: View {
             .offset(y: contentOffset)
 
             Spacer()
-              .frame(height: 24)
+              .frame(height: 32)
               .offset(y: contentOffset)
 
             // Divider
             Rectangle()
-              .fill(Color.appBorderAdaptive)
+              .fill(Color.appBorderAdaptive.opacity(0.5))
               .frame(height: 1)
               .padding(.horizontal, 24)
+              .offset(y: contentOffset)
+
+            Spacer()
+              .frame(height: 16)
               .offset(y: contentOffset)
 
             // Rating Section (Airbnb style)
@@ -341,7 +345,6 @@ struct RatingSectionView: View {
               .frame(width: 100, height: 16)
           }
           .shimmer()
-          .padding(.vertical, 24)
         } else if reviews.isEmpty {
           // Empty state - tappable to open review sheet
           Button(action: {
@@ -365,7 +368,6 @@ struct RatingSectionView: View {
           }
           .buttonStyle(.plain)
           .padding(.horizontal, 24)
-          .padding(.top, 24)
         } else if isFeaturedRating {
           // Featured rating display with film strips (10+ reviews AND rating >= 4.5)
           HStack(spacing: 8) {
@@ -458,7 +460,7 @@ struct RatingSectionView: View {
                 // Vertical divider (except for last item)
                 if index < reviewsWithText.count - 1 {
                   Rectangle()
-                    .fill(Color.appBorderAdaptive)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
                     .frame(width: 1)
                     .frame(height: 160)
                     .padding(.horizontal, 24)
@@ -467,7 +469,6 @@ struct RatingSectionView: View {
             }
           }
         }
-        .padding(.top, 8)
 
         // See all button (only show if 10+ reviews)
         if reviews.count >= 10 {
@@ -485,7 +486,6 @@ struct RatingSectionView: View {
           .disabled(true)
           .opacity(0.5)
           .padding(.horizontal, 24)
-          .padding(.top, 16)
         }
       }
     }
