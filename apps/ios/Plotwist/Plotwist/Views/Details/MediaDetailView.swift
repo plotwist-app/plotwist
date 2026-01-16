@@ -274,8 +274,28 @@ struct MediaDetailView: View {
     do {
       let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
       backdropImages = images.sortedBackdrops
+
+      // Preload backdrop images in background
+      await preloadBackdropImages()
     } catch {
       backdropImages = []
+    }
+  }
+
+  private func preloadBackdropImages() async {
+    let imagesToPreload = Array(backdropImages.prefix(10))
+
+    await withTaskGroup(of: Void.self) { group in
+      for image in imagesToPreload {
+        guard let url = image.backdropURL else { continue }
+        group.addTask {
+          do {
+            let (_, _) = try await URLSession.shared.data(from: url)
+          } catch {
+            // Silently ignore preload failures
+          }
+        }
+      }
     }
   }
 }
