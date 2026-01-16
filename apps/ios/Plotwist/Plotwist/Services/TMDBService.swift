@@ -178,7 +178,94 @@ class TMDBService {
     )
   }
 
-  // MARK: - Popular Animes (Animation genre from Japan)
+  // MARK: - Airing Today TV Series
+  func getAiringTodayTVSeries(language: String = "en-US", page: Int = 1) async throws
+    -> PaginatedResult
+  {
+    guard let url = URL(string: "\(baseURL)/tv/airing_today?language=\(language)&page=\(page)")
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - On The Air TV Series
+  func getOnTheAirTVSeries(language: String = "en-US", page: Int = 1) async throws
+    -> PaginatedResult
+  {
+    guard let url = URL(string: "\(baseURL)/tv/on_the_air?language=\(language)&page=\(page)")
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Top Rated TV Series
+  func getTopRatedTVSeries(language: String = "en-US", page: Int = 1) async throws
+    -> PaginatedResult
+  {
+    guard let url = URL(string: "\(baseURL)/tv/top_rated?language=\(language)&page=\(page)")
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Popular Animes TV (Animation genre from Japan)
   func getPopularAnimes(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult {
     // Genre 16 = Animation, origin_country = JP
     guard
@@ -205,6 +292,40 @@ class TMDBService {
     let result = try decoder.decode(PopularResponse.self, from: data)
     return PaginatedResult(
       results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Popular Anime Movies (Animation genre from Japan)
+  func getPopularAnimeMovies(language: String = "en-US", page: Int = 1) async throws
+    -> PaginatedResult
+  {
+    // Genre 16 = Animation, origin_country = JP
+    guard
+      let url = URL(
+        string:
+          "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP&page=\(page)"
+      )
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "movie") },
       page: result.page,
       totalPages: result.totalPages
     )

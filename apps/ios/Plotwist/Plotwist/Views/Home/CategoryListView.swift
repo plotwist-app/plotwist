@@ -29,6 +29,48 @@ enum MovieSubcategory: CaseIterable, SegmentedTab {
   }
 }
 
+// MARK: - TV Series Subcategory
+enum TVSeriesSubcategory: CaseIterable, SegmentedTab {
+  case airingToday
+  case onTheAir
+  case popular
+  case topRated
+  case discover
+
+  var title: String {
+    let strings = L10n.current
+    switch self {
+    case .airingToday: return strings.airingToday
+    case .onTheAir: return strings.onTheAir
+    case .popular: return strings.popular
+    case .topRated: return strings.topRated
+    case .discover: return strings.discover
+    }
+  }
+
+  var isDisabled: Bool {
+    self == .discover
+  }
+}
+
+// MARK: - Anime Type
+enum AnimeType: CaseIterable, SegmentedTab {
+  case tvSeries
+  case movies
+
+  var title: String {
+    let strings = L10n.current
+    switch self {
+    case .tvSeries: return strings.tvSeries
+    case .movies: return strings.movies
+    }
+  }
+
+  var isDisabled: Bool {
+    false
+  }
+}
+
 struct CategoryListView: View {
   let categoryType: HomeCategoryType
 
@@ -40,6 +82,8 @@ struct CategoryListView: View {
   @State private var totalPages = 1
   @State private var strings = L10n.current
   @State private var selectedMovieSubcategory: MovieSubcategory = .nowPlaying
+  @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .airingToday
+  @State private var selectedAnimeType: AnimeType = .tvSeries
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private var title: String {
@@ -54,26 +98,13 @@ struct CategoryListView: View {
   private var mediaType: String {
     switch categoryType {
     case .movies: return "movie"
-    case .tvSeries, .animes, .doramas: return "tv"
+    case .tvSeries, .doramas: return "tv"
+    case .animes: return selectedAnimeType == .movies ? "movie" : "tv"
     }
   }
 
   private var hasMorePages: Bool {
     currentPage < totalPages
-  }
-
-  private func stickyTabBar(scrollProxy: ScrollViewProxy) -> some View {
-    SegmentedTabBar(selectedTab: $selectedMovieSubcategory) {
-      withAnimation {
-        scrollProxy.scrollTo("content-top", anchor: .top)
-      }
-      Task {
-        await loadItems()
-      }
-    }
-    .id("content-top")
-    .padding(.vertical, 12)
-    .padding(.horizontal, 24)
   }
 
   private let columns = [
@@ -88,104 +119,112 @@ struct CategoryListView: View {
 
       VStack(spacing: 0) {
         // Header
-        HStack {
-          Button {
-            dismiss()
-          } label: {
-            Image(systemName: "chevron.left")
-              .font(.system(size: 18, weight: .semibold))
+        VStack(spacing: 0) {
+          HStack {
+            Button {
+              dismiss()
+            } label: {
+              Image(systemName: "chevron.left")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+                .frame(width: 40, height: 40)
+                .background(Color.appInputFilled)
+                .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text(title)
+              .font(.headline)
               .foregroundColor(.appForegroundAdaptive)
+
+            Spacer()
+
+            Color.clear
               .frame(width: 40, height: 40)
-              .background(Color.appInputFilled)
-              .clipShape(Circle())
           }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
 
-          Spacer()
-
-          Text(title)
-            .font(.headline)
-            .foregroundColor(.appForegroundAdaptive)
-
-          Spacer()
-
-          Color.clear
-            .frame(width: 40, height: 40)
+          // Tabs in header
+          if categoryType == .movies {
+            UnderlineTabBar(
+              selectedTab: $selectedMovieSubcategory,
+              onTabChange: {
+                Task {
+                  await loadItems()
+                }
+              }
+            )
+          } else if categoryType == .tvSeries {
+            UnderlineTabBar(
+              selectedTab: $selectedTVSeriesSubcategory,
+              onTabChange: {
+                Task {
+                  await loadItems()
+                }
+              }
+            )
+          } else if categoryType == .animes {
+            UnderlineTabBar(
+              selectedTab: $selectedAnimeType,
+              onTabChange: {
+                Task {
+                  await loadItems()
+                }
+              }
+            )
+          } else {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+          }
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
-
-        Rectangle()
-          .fill(Color.appBorderAdaptive)
-          .frame(height: 1)
 
         // Content
         if isLoading && items.isEmpty {
-          ScrollViewReader { proxy in
-            ScrollView {
-              LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : [])
-              {
-                Section {
-                  LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(0..<12, id: \.self) { _ in
-                      RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.appBorderAdaptive)
-                        .aspectRatio(2 / 3, contentMode: .fit)
-                        .shimmer()
-                    }
-                  }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                  .padding(.bottom, 24)
-                } header: {
-                  if categoryType == .movies {
-                    stickyTabBar(scrollProxy: proxy)
-                  }
-                }
+          ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+              ForEach(0..<12, id: \.self) { _ in
+                RoundedRectangle(cornerRadius: 16)
+                  .fill(Color.appBorderAdaptive)
+                  .aspectRatio(2 / 3, contentMode: .fit)
+                  .shimmer()
               }
             }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 24)
           }
         } else {
-          ScrollViewReader { proxy in
-            ScrollView {
-              LazyVStack(spacing: 0, pinnedViews: categoryType == .movies ? [.sectionHeaders] : [])
-              {
-                Section {
-                  LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(items) { item in
-                      NavigationLink {
-                        MediaDetailView(mediaId: item.id, mediaType: mediaType)
-                      } label: {
-                        CategoryPosterCard(item: item)
-                      }
-                      .buttonStyle(.plain)
-                      .onAppear {
-                        if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
-                          Task {
-                            await loadMoreItems()
-                          }
-                        }
-                      }
+          ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+              ForEach(items) { item in
+                NavigationLink {
+                  MediaDetailView(mediaId: item.id, mediaType: mediaType)
+                } label: {
+                  CategoryPosterCard(item: item)
+                }
+                .buttonStyle(.plain)
+                .onAppear {
+                  if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
+                    Task {
+                      await loadMoreItems()
                     }
-
-                    if isLoadingMore {
-                      ForEach(0..<3, id: \.self) { _ in
-                        RoundedRectangle(cornerRadius: 16)
-                          .fill(Color.appBorderAdaptive)
-                          .aspectRatio(2 / 3, contentMode: .fit)
-                          .shimmer()
-                      }
-                    }
-                  }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                  .padding(.bottom, 24)
-                } header: {
-                  if categoryType == .movies {
-                    stickyTabBar(scrollProxy: proxy)
                   }
                 }
               }
+
+              if isLoadingMore {
+                ForEach(0..<3, id: \.self) { _ in
+                  RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.appBorderAdaptive)
+                    .aspectRatio(2 / 3, contentMode: .fit)
+                    .shimmer()
+                }
+              }
             }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 24)
           }
         }
       }
@@ -209,9 +248,9 @@ struct CategoryListView: View {
       case .movies:
         result = try await loadMoviesForSubcategory(language: language, page: 1)
       case .tvSeries:
-        result = try await TMDBService.shared.getPopularTVSeries(language: language, page: 1)
+        result = try await loadTVSeriesForSubcategory(language: language, page: 1)
       case .animes:
-        result = try await TMDBService.shared.getPopularAnimes(language: language, page: 1)
+        result = try await loadAnimesForType(language: language, page: 1)
       case .doramas:
         result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
       }
@@ -242,6 +281,33 @@ struct CategoryListView: View {
     }
   }
 
+  private func loadTVSeriesForSubcategory(language: String, page: Int) async throws
+    -> PaginatedResult
+  {
+    switch selectedTVSeriesSubcategory {
+    case .airingToday:
+      return try await TMDBService.shared.getAiringTodayTVSeries(language: language, page: page)
+    case .onTheAir:
+      return try await TMDBService.shared.getOnTheAirTVSeries(language: language, page: page)
+    case .popular:
+      return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
+    case .topRated:
+      return try await TMDBService.shared.getTopRatedTVSeries(language: language, page: page)
+    case .discover:
+      // Discover is disabled, fallback to popular
+      return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
+    }
+  }
+
+  private func loadAnimesForType(language: String, page: Int) async throws -> PaginatedResult {
+    switch selectedAnimeType {
+    case .tvSeries:
+      return try await TMDBService.shared.getPopularAnimes(language: language, page: page)
+    case .movies:
+      return try await TMDBService.shared.getPopularAnimeMovies(language: language, page: page)
+    }
+  }
+
   private func loadMoreItems() async {
     guard hasMorePages && !isLoadingMore else { return }
 
@@ -255,9 +321,9 @@ struct CategoryListView: View {
       case .movies:
         result = try await loadMoviesForSubcategory(language: language, page: nextPage)
       case .tvSeries:
-        result = try await TMDBService.shared.getPopularTVSeries(language: language, page: nextPage)
+        result = try await loadTVSeriesForSubcategory(language: language, page: nextPage)
       case .animes:
-        result = try await TMDBService.shared.getPopularAnimes(language: language, page: nextPage)
+        result = try await loadAnimesForType(language: language, page: nextPage)
       case .doramas:
         result = try await TMDBService.shared.getPopularDoramas(language: language, page: nextPage)
       }

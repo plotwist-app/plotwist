@@ -96,7 +96,10 @@ enum L10n {
       popular: "Popular",
       topRated: "Top Rated",
       upcoming: "Upcoming",
-      discover: "Discover"
+      discover: "Discover",
+      // TV Series Categories
+      airingToday: "Airing Today",
+      onTheAir: "On The Air"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -180,7 +183,9 @@ enum L10n {
       popular: "Popular",
       topRated: "Mais Bem Avaliados",
       upcoming: "Em Breve",
-      discover: "Descobrir"
+      discover: "Descobrir",
+      airingToday: "No Ar Hoje",
+      onTheAir: "Em Exibição"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -264,7 +269,9 @@ enum L10n {
       popular: "Popular",
       topRated: "Mejor Valoradas",
       upcoming: "Próximamente",
-      discover: "Descubrir"
+      discover: "Descubrir",
+      airingToday: "En Emisión Hoy",
+      onTheAir: "En Emisión"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -348,7 +355,9 @@ enum L10n {
       popular: "Populaire",
       topRated: "Mieux Notés",
       upcoming: "Prochainement",
-      discover: "Découvrir"
+      discover: "Découvrir",
+      airingToday: "Diffusé Aujourd'hui",
+      onTheAir: "En Cours"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -432,7 +441,9 @@ enum L10n {
       popular: "Beliebt",
       topRated: "Bestbewertet",
       upcoming: "Demnächst",
-      discover: "Entdecken"
+      discover: "Entdecken",
+      airingToday: "Heute im TV",
+      onTheAir: "Auf Sendung"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -516,7 +527,9 @@ enum L10n {
       popular: "Popolari",
       topRated: "Più Votati",
       upcoming: "Prossimamente",
-      discover: "Scopri"
+      discover: "Scopri",
+      airingToday: "In Onda Oggi",
+      onTheAir: "In Onda"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -599,7 +612,9 @@ enum L10n {
       popular: "人気",
       topRated: "高評価",
       upcoming: "近日公開",
-      discover: "発見"
+      discover: "発見",
+      airingToday: "本日放送",
+      onTheAir: "放送中"
     ),
   ]
 }
@@ -694,4 +709,7 @@ struct Strings {
   let topRated: String
   let upcoming: String
   let discover: String
+  // TV Series Categories
+  let airingToday: String
+  let onTheAir: String
 }
