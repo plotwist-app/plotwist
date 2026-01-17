@@ -187,9 +187,8 @@ struct CategoryListView: View {
             LazyVGrid(columns: columns, spacing: 16) {
               ForEach(0..<12, id: \.self) { _ in
                 RoundedRectangle(cornerRadius: 16)
-                  .fill(Color.appBorderAdaptive)
+                  .fill(Color.appSkeletonAdaptive)
                   .aspectRatio(2 / 3, contentMode: .fit)
-                  .shimmer()
               }
             }
             .padding(.horizontal, 24)
@@ -217,9 +216,8 @@ struct CategoryListView: View {
               if isLoadingMore {
                 ForEach(0..<3, id: \.self) { _ in
                   RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.appBorderAdaptive)
+                    .fill(Color.appSkeletonAdaptive)
                     .aspectRatio(2 / 3, contentMode: .fit)
-                    .shimmer()
                 }
               }
             }

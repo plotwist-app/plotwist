@@ -56,6 +56,16 @@ extension Color {
   }
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
+
+  // #222224 for dark mode, light gray for light mode - used for skeletons
+  static var appSkeletonAdaptive: Color {
+    Color(
+      UIColor {
+        $0.userInterfaceStyle == .dark
+          ? UIColor(red: 34 / 255, green: 34 / 255, blue: 36 / 255, alpha: 1)  // #222224
+          : UIColor(red: 229 / 255, green: 231 / 255, blue: 235 / 255, alpha: 1)  // #E5E7EB
+      })
+  }
 }
 
 // MARK: - Layered Shadow Modifier

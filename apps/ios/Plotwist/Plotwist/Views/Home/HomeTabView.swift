@@ -121,18 +121,16 @@ struct HomeSectionSkeleton: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appBorderAdaptive)
+        .fill(Color.appSkeletonAdaptive)
         .frame(width: 140, height: 20)
         .padding(.horizontal, 24)
-        .shimmer()
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 16)
-              .fill(Color.appBorderAdaptive)
+              .fill(Color.appSkeletonAdaptive)
               .frame(width: 120, height: 180)
-              .shimmer()
           }
         }
         .padding(.horizontal, 24)

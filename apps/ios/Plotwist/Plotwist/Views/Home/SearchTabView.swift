@@ -78,7 +78,7 @@ struct SearchTabView: View {
           }
 
           // Results
-          if isLoading {
+          if isLoading || isLoadingPopular {
             ScrollView {
               LazyVStack(alignment: .leading, spacing: 24) {
                 SearchSkeletonSection()
@@ -111,18 +111,6 @@ struct SearchTabView: View {
                 .padding(.horizontal, 24)
                 .padding(.vertical, 24)
               }
-            }
-          } else if isLoadingPopular {
-            // Show skeleton for popular content
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 32) {
-                HomeSectionSkeleton()
-                HomeSectionSkeleton()
-                HomeSectionSkeleton()
-                HomeSectionSkeleton()
-              }
-              .padding(.top, 24)
-              .padding(.bottom, 80)
             }
           } else {
             // Show popular content with horizontal scroll sections
@@ -310,9 +298,8 @@ struct SearchSkeletonSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appBorderAdaptive)
+        .fill(Color.appSkeletonAdaptive)
         .frame(width: 80, height: 16)
-        .shimmer()
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(0..<6, id: \.self) { _ in
@@ -326,44 +313,7 @@ struct SearchSkeletonSection: View {
 struct PosterSkeletonCard: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 12)
-      .fill(Color.appBorderAdaptive)
+      .fill(Color.appSkeletonAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
-      .shimmer()
-  }
-}
-
-// MARK: - Shimmer Effect
-struct ShimmerModifier: ViewModifier {
-  @State private var phase: CGFloat = 0
-
-  func body(content: Content) -> some View {
-    content
-      .overlay(
-        GeometryReader { geometry in
-          LinearGradient(
-            gradient: Gradient(colors: [
-              Color.clear,
-              Color.white.opacity(0.3),
-              Color.clear,
-            ]),
-            startPoint: .leading,
-            endPoint: .trailing
-          )
-          .frame(width: geometry.size.width * 2)
-          .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
-        }
-        .mask(content)
-      )
-      .onAppear {
-        withAnimation(.linear(duration: 1.5).repeatForever(autoreverses: false)) {
-          phase = 1
-        }
-      }
-  }
-}
-
-extension View {
-  func shimmer() -> some View {
-    modifier(ShimmerModifier())
   }
 }
