@@ -60,13 +60,14 @@ struct ReviewSheet: View {
             StarRatingView(rating: $rating, size: 36)
               .frame(maxWidth: .infinity)
 
-            // Review Text
-            VStack(alignment: .leading, spacing: 8) {
+            // Review Text with Spoilers Toggle
+            ZStack(alignment: .bottomTrailing) {
               ZStack(alignment: .topLeading) {
                 TextEditor(text: $reviewText)
                   .frame(height: 120)
                   .padding(.horizontal, 12)
-                  .padding(.vertical, 8)
+                  .padding(.top, 8)
+                  .padding(.bottom, 36)
                   .background(Color.appInputFilled)
                   .cornerRadius(12)
                   .foregroundColor(.appForegroundAdaptive)
@@ -80,24 +81,22 @@ struct ReviewSheet: View {
                     .allowsHitTesting(false)
                 }
               }
-            }
-
-            // Spoilers Checkbox
-            HStack(spacing: 12) {
+              
+              // Spoilers Toggle inside the text field
               Button(action: { hasSpoilers.toggle() }) {
-                HStack(spacing: 8) {
+                HStack(spacing: 6) {
                   Image(systemName: hasSpoilers ? "checkmark.square.fill" : "square")
-                    .font(.system(size: 20))
-                    .foregroundColor(hasSpoilers ? .accentColor : .gray)
+                    .font(.system(size: 16))
+                    .foregroundColor(hasSpoilers ? .appForegroundAdaptive : .gray)
 
                   Text(L10n.current.containSpoilers)
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundColor(.appMutedForegroundAdaptive)
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
               }
-              .frame(maxWidth: .infinity)
             }
-            .padding(.vertical, 4)
 
             // Submit Button
             Button(action: submitReview) {
@@ -147,7 +146,7 @@ struct ReviewSheet: View {
         }
       }
     }
-    .presentationDetents([.height(existingReview != nil ? 480 : 420)])
+    .presentationDetents([.height(existingReview != nil ? 440 : 380)])
     .presentationCornerRadius(24)
     .presentationDragIndicator(.hidden)
     .preferredColorScheme(themeManager.current.colorScheme)
