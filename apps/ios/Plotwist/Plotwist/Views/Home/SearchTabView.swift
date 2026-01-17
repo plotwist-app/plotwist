@@ -10,6 +10,8 @@ struct SearchTabView: View {
   @State private var results: [SearchResult] = []
   @State private var popularMovies: [SearchResult] = []
   @State private var popularTVSeries: [SearchResult] = []
+  @State private var popularAnimes: [SearchResult] = []
+  @State private var popularDoramas: [SearchResult] = []
   @State private var isLoading = false
   @State private var isLoadingPopular = true
   @State private var strings = L10n.current
@@ -76,7 +78,7 @@ struct SearchTabView: View {
           }
 
           // Results
-          if isLoading || isLoadingPopular {
+          if isLoading {
             ScrollView {
               LazyVStack(alignment: .leading, spacing: 24) {
                 SearchSkeletonSection()
@@ -110,22 +112,52 @@ struct SearchTabView: View {
                 .padding(.vertical, 24)
               }
             }
-          } else {
-            // Show popular content
-            ScrollView {
-              LazyVStack(alignment: .leading, spacing: 24) {
-                if !popularMovies.isEmpty {
-                  SearchSection(
-                    title: strings.popularMovies, results: popularMovies)
-                }
-
-                if !popularTVSeries.isEmpty {
-                  SearchSection(
-                    title: strings.popularTVSeries, results: popularTVSeries)
-                }
+          } else if isLoadingPopular {
+            // Show skeleton for popular content
+            ScrollView(showsIndicators: false) {
+              VStack(spacing: 32) {
+                HomeSectionSkeleton()
+                HomeSectionSkeleton()
+                HomeSectionSkeleton()
+                HomeSectionSkeleton()
               }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
+              .padding(.top, 24)
+              .padding(.bottom, 80)
+            }
+          } else {
+            // Show popular content with horizontal scroll sections
+            ScrollView(showsIndicators: false) {
+              VStack(spacing: 32) {
+                HomeSectionView(
+                  title: strings.popularMovies,
+                  items: popularMovies,
+                  mediaType: "movie",
+                  categoryType: .movies
+                )
+
+                HomeSectionView(
+                  title: strings.popularTVSeries,
+                  items: popularTVSeries,
+                  mediaType: "tv",
+                  categoryType: .tvSeries
+                )
+
+                HomeSectionView(
+                  title: strings.popularAnimes,
+                  items: popularAnimes,
+                  mediaType: "tv",
+                  categoryType: .animes
+                )
+
+                HomeSectionView(
+                  title: strings.popularDoramas,
+                  items: popularDoramas,
+                  mediaType: "tv",
+                  categoryType: .doramas
+                )
+              }
+              .padding(.top, 24)
+              .padding(.bottom, 80)
             }
           }
         }
@@ -145,6 +177,9 @@ struct SearchTabView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
+      Task {
+        await loadPopularContent()
+      }
     }
   }
 
@@ -156,14 +191,20 @@ struct SearchTabView: View {
 
     async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
     async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
+    async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
+    async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
 
     do {
-      let (movies, tv) = try await (moviesTask, tvTask)
+      let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
       popularMovies = movies.results
       popularTVSeries = tv.results
+      popularAnimes = animes.results
+      popularDoramas = doramas.results
     } catch {
       popularMovies = []
       popularTVSeries = []
+      popularAnimes = []
+      popularDoramas = []
     }
   }
 

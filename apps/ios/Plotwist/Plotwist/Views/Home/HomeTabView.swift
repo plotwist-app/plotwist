@@ -6,100 +6,24 @@
 import SwiftUI
 
 struct HomeTabView: View {
-  @State private var popularMovies: [SearchResult] = []
-  @State private var popularTVSeries: [SearchResult] = []
-  @State private var popularAnimes: [SearchResult] = []
-  @State private var popularDoramas: [SearchResult] = []
-  @State private var isLoading = true
-  @State private var strings = L10n.current
-
   var body: some View {
     NavigationView {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        if isLoading {
-          ScrollView {
-            VStack(spacing: 32) {
-              HomeSectionSkeleton()
-              HomeSectionSkeleton()
-              HomeSectionSkeleton()
-              HomeSectionSkeleton()
-            }
-            .padding(.top, 24)
-            .padding(.bottom, 80)
-          }
-        } else {
-          ScrollView(showsIndicators: false) {
-            VStack(spacing: 32) {
-              HomeSectionView(
-                title: strings.popularMovies,
-                items: popularMovies,
-                mediaType: "movie",
-                categoryType: .movies
-              )
+        VStack(spacing: 24) {
+          Spacer()
 
-              HomeSectionView(
-                title: strings.popularTVSeries,
-                items: popularTVSeries,
-                mediaType: "tv",
-                categoryType: .tvSeries
-              )
+          Image("logo-white")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 120, height: 120)
+            .opacity(0.3)
 
-              HomeSectionView(
-                title: strings.popularAnimes,
-                items: popularAnimes,
-                mediaType: "tv",
-                categoryType: .animes
-              )
-
-              HomeSectionView(
-                title: strings.popularDoramas,
-                items: popularDoramas,
-                mediaType: "tv",
-                categoryType: .doramas
-              )
-            }
-            .padding(.top, 24)
-            .padding(.bottom, 80)
-          }
+          Spacer()
         }
       }
       .navigationBarHidden(true)
-    }
-    .task {
-      await loadContent()
-    }
-    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
-      strings = L10n.current
-      Task {
-        await loadContent()
-      }
-    }
-  }
-
-  private func loadContent() async {
-    isLoading = true
-    defer { isLoading = false }
-
-    let language = Language.current.rawValue
-
-    async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
-    async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
-    async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
-    async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
-
-    do {
-      let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-      popularMovies = movies.results
-      popularTVSeries = tv.results
-      popularAnimes = animes.results
-      popularDoramas = doramas.results
-    } catch {
-      popularMovies = []
-      popularTVSeries = []
-      popularAnimes = []
-      popularDoramas = []
     }
   }
 }

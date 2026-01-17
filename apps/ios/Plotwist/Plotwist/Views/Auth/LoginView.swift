@@ -11,49 +11,48 @@ struct LoginView: View {
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var error: String?
-    @State private var strings = L10n.current
+  @State private var strings = L10n.current
 
   var body: some View {
     NavigationView {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
-                VStack(spacing: 24) {
-                    // Temporary Language Switcher
-                    HStack {
-                        Spacer()
-                        Menu {
-                            ForEach(Language.allCases, id: \.self) { lang in
-                                Button {
-                                    Language.current = lang
-                                } label: {
-                                    HStack {
-                                        Text(lang.displayName)
-                                        if Language.current == lang {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
-                            }
-                        } label: {
-                            HStack(spacing: 6) {
-                                Image(systemName: "globe")
-                                Text(Language.current.displayName)
-                                    .font(.subheadline)
-                            }
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(Color.clear)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                            )
-                        }
-                    }
-                    
-                    Spacer()
+        VStack(spacing: 0) {
+          // Language Switcher at top (centered)
+          Menu {
+            ForEach(Language.allCases, id: \.self) { lang in
+              Button {
+                Language.current = lang
+              } label: {
+                HStack {
+                  Text(lang.displayName)
+                  if Language.current == lang {
+                    Image(systemName: "checkmark")
+                  }
+                }
+              }
+            }
+          } label: {
+            HStack(spacing: 6) {
+              Image(systemName: "globe")
+              Text(Language.current.displayName)
+                .font(.subheadline)
+            }
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color.clear)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.appBorderAdaptive, lineWidth: 1)
+            )
+          }
+          .padding(.top, 16)
 
+          Spacer()
+
+          // Centered form content
           VStack(spacing: 16) {
             // Login Field
             VStack(alignment: .leading, spacing: 6) {
@@ -75,12 +74,11 @@ struct LoginView: View {
               Text(strings.passwordLabel)
                 .font(.subheadline.weight(.medium))
               HStack(spacing: 8) {
-                Group {
-                  if showPassword {
-                    TextField(strings.passwordPlaceholder, text: $password)
-                  } else {
-                    SecureField(strings.passwordPlaceholder, text: $password)
-                  }
+                ZStack {
+                  TextField(strings.passwordPlaceholder, text: $password)
+                    .opacity(showPassword ? 1 : 0)
+                  SecureField(strings.passwordPlaceholder, text: $password)
+                    .opacity(showPassword ? 0 : 1)
                 }
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -92,9 +90,7 @@ struct LoginView: View {
                 )
 
                 Button {
-                  withAnimation(.none) {
-                    showPassword.toggle()
-                  }
+                  showPassword.toggle()
                 } label: {
                   Image(systemName: showPassword ? "eye" : "eye.slash")
                     .foregroundColor(.appMutedForegroundAdaptive)
@@ -105,7 +101,7 @@ struct LoginView: View {
                         .stroke(Color.appBorderAdaptive, lineWidth: 1)
                     )
                 }
-                .transaction { $0.animation = nil }
+                .buttonStyle(.plain)
               }
             }
 
@@ -136,18 +132,19 @@ struct LoginView: View {
             SocialButton(strings.continueWithGoogle, icon: "globe", isDisabled: true) {}
             SocialButton(strings.continueWithApple, icon: "apple.logo", isDisabled: true) {}
           }
+          .padding(.horizontal, 24)
+          .frame(maxWidth: 400)
 
           Spacer()
 
-                    NavigationLink(destination: SignUpView()) {
-                        Text("\(strings.doNotHaveAccount) \(strings.createNow)")
-                            .font(.caption)
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                    }
-                    .padding(.bottom, 16)
+          // Bottom link
+          NavigationLink(destination: SignUpView()) {
+            Text("\(strings.doNotHaveAccount) \(strings.createNow)")
+              .font(.caption)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+          .padding(.bottom, 32)
         }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: 400)
       }
       .navigationBarHidden(true)
     }

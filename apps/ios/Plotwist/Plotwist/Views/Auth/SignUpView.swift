@@ -17,13 +17,32 @@ struct SignUpView: View {
   @State private var strings = L10n.current
 
   var body: some View {
-    NavigationView {
-      ZStack {
-        Color.appBackgroundAdaptive.ignoresSafeArea()
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        VStack(spacing: 24) {
+      VStack(spacing: 0) {
+        // Header with back button (same as CategoryListView)
+        HStack {
+          Button {
+            dismiss()
+          } label: {
+            Image(systemName: "chevron.left")
+              .font(.system(size: 18, weight: .semibold))
+              .foregroundColor(.appForegroundAdaptive)
+              .frame(width: 40, height: 40)
+              .background(Color.appInputFilled)
+              .clipShape(Circle())
+          }
+
           Spacer()
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
 
+        Spacer()
+
+        // Centered form content
+        VStack(spacing: 24) {
           // Header
           VStack(spacing: 8) {
             Text(strings.startNow)
@@ -56,12 +75,11 @@ struct SignUpView: View {
               Text(strings.passwordLabel)
                 .font(.subheadline.weight(.medium))
               HStack(spacing: 8) {
-                Group {
-                  if showPassword {
-                    TextField(strings.passwordPlaceholder, text: $password)
-                  } else {
-                    SecureField(strings.passwordPlaceholder, text: $password)
-                  }
+                ZStack {
+                  TextField(strings.passwordPlaceholder, text: $password)
+                    .opacity(showPassword ? 1 : 0)
+                  SecureField(strings.passwordPlaceholder, text: $password)
+                    .opacity(showPassword ? 0 : 1)
                 }
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -72,18 +90,19 @@ struct SignUpView: View {
                     .stroke(Color.appBorderAdaptive, lineWidth: 1)
                 )
 
-                Button {
-                  showPassword.toggle()
-                } label: {
-                  Image(systemName: showPassword ? "eye" : "eye.slash")
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .frame(width: 48, height: 48)
-                    .background(Color.clear)
-                    .overlay(
-                      RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                    )
-                }
+                  Button {
+                    showPassword.toggle()
+                  } label: {
+                    Image(systemName: showPassword ? "eye" : "eye.slash")
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                      .frame(width: 48, height: 48)
+                      .background(Color.clear)
+                      .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                          .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                      )
+                  }
+                  .buttonStyle(.plain)
               }
             }
 
@@ -97,21 +116,23 @@ struct SignUpView: View {
               Task { await checkEmailAndContinue() }
             }
           }
-
-          Spacer()
-
-          NavigationLink(destination: LoginView()) {
-            Text("\(strings.alreadyHaveAccount) \(strings.accessNow)")
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-          .padding(.bottom, 16)
         }
         .padding(.horizontal, 24)
-        .frame(maxWidth: 400)
+
+        Spacer()
+
+        // Bottom link
+        Button {
+          dismiss()
+        } label: {
+          Text("\(strings.alreadyHaveAccount) \(strings.accessNow)")
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+        .padding(.bottom, 32)
       }
-      .navigationBarHidden(true)
     }
+    .navigationBarHidden(true)
     .sheet(isPresented: $showUsernameSheet) {
       UsernameSheetView(
         username: $username,
