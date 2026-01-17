@@ -9,6 +9,7 @@ struct ReviewSheet: View {
   let mediaId: Int
   let mediaType: String
   let existingReview: Review?
+  let onDeleted: (() -> Void)?
   @Environment(\.dismiss) private var dismiss
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -16,13 +17,16 @@ struct ReviewSheet: View {
   @State private var reviewText: String = ""
   @State private var hasSpoilers: Bool = false
   @State private var isLoading: Bool = false
+  @State private var isDeleting: Bool = false
   @State private var showErrorAlert: Bool = false
+  @State private var showDeleteConfirmation: Bool = false
   @State private var errorMessage: String = ""
 
-  init(mediaId: Int, mediaType: String, existingReview: Review? = nil) {
+  init(mediaId: Int, mediaType: String, existingReview: Review? = nil, onDeleted: (() -> Void)? = nil) {
     self.mediaId = mediaId
     self.mediaType = mediaType
     self.existingReview = existingReview
+    self.onDeleted = onDeleted
 
     if let existingReview = existingReview {
       _rating = State(initialValue: existingReview.rating)
@@ -112,15 +116,38 @@ struct ReviewSheet: View {
               .foregroundColor(.appBackgroundAdaptive)
               .cornerRadius(12)
             }
-            .disabled(!isFormValid || isLoading)
-            .opacity(!isFormValid || isLoading ? 0.5 : 1)
+            .disabled(!isFormValid || isLoading || isDeleting)
+            .opacity(!isFormValid || isLoading || isDeleting ? 0.5 : 1)
+            
+            // Delete Button (only when editing)
+            if existingReview != nil {
+              Button(action: { showDeleteConfirmation = true }) {
+                Group {
+                  if isDeleting {
+                    ProgressView()
+                      .tint(.red)
+                  } else {
+                    HStack(spacing: 8) {
+                      Image(systemName: "trash")
+                      Text(L10n.current.deleteReview)
+                        .fontWeight(.semibold)
+                    }
+                  }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 48)
+                .foregroundColor(.red)
+              }
+              .disabled(isLoading || isDeleting)
+              .opacity(isLoading || isDeleting ? 0.5 : 1)
+            }
           }
           .padding(.horizontal, 24)
           .padding(.bottom, 16)
         }
       }
     }
-    .presentationDetents([.height(420)])
+    .presentationDetents([.height(existingReview != nil ? 480 : 420)])
     .presentationCornerRadius(24)
     .presentationDragIndicator(.hidden)
     .preferredColorScheme(themeManager.current.colorScheme)
@@ -128,6 +155,14 @@ struct ReviewSheet: View {
       Button("OK", role: .cancel) {}
     } message: {
       Text(errorMessage)
+    }
+    .alert(L10n.current.deleteReview, isPresented: $showDeleteConfirmation) {
+      Button(L10n.current.cancel, role: .cancel) {}
+      Button(L10n.current.delete, role: .destructive) {
+        deleteReview()
+      }
+    } message: {
+      Text(L10n.current.deleteReviewConfirmation)
     }
   }
 
@@ -170,6 +205,30 @@ struct ReviewSheet: View {
       } catch {
         await MainActor.run {
           isLoading = false
+          errorMessage = error.localizedDescription
+          showErrorAlert = true
+        }
+      }
+    }
+  }
+  
+  private func deleteReview() {
+    guard let existingReview = existingReview else { return }
+    
+    isDeleting = true
+    
+    Task {
+      do {
+        try await ReviewService.shared.deleteReview(id: existingReview.id)
+        
+        await MainActor.run {
+          isDeleting = false
+          onDeleted?()
+          dismiss()
+        }
+      } catch {
+        await MainActor.run {
+          isDeleting = false
           errorMessage = error.localizedDescription
           showErrorAlert = true
         }

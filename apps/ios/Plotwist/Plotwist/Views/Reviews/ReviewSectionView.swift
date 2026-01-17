@@ -15,6 +15,9 @@ struct ReviewSectionView: View {
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
   @State private var error: String?
+  @State private var currentUserId: String?
+  @State private var selectedReview: ReviewListItem?
+  @State private var showEditSheet = false
 
   private var averageRating: Double {
     guard !reviews.isEmpty else { return 0 }
@@ -153,10 +156,21 @@ struct ReviewSectionView: View {
           HStack(alignment: .top, spacing: 0) {
             ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
               HStack(alignment: .top, spacing: 0) {
-                ReviewCardView(review: review)
-                  .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
-                  .padding(.leading, index == 0 ? 24 : 0)
-                  .padding(.trailing, 24)
+                Group {
+                  if review.userId == currentUserId {
+                    ReviewCardView(review: review)
+                      .contentShape(Rectangle())
+                      .onTapGesture {
+                        selectedReview = review
+                        showEditSheet = true
+                      }
+                  } else {
+                    ReviewCardView(review: review)
+                  }
+                }
+                .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
+                .padding(.leading, index == 0 ? 24 : 0)
+                .padding(.trailing, 24)
 
                 // Vertical divider (except for last item)
                 if index < reviewsWithText.count - 1 {
@@ -192,12 +206,44 @@ struct ReviewSectionView: View {
     }
     .padding(.bottom, 80)
     .task {
+      await loadCurrentUser()
       await loadReviews()
     }
     .onChange(of: refreshId) { _, _ in
       Task {
         await loadReviews()
       }
+    }
+    .sheet(isPresented: $showEditSheet) {
+      if let review = selectedReview {
+        ReviewSheet(
+          mediaId: mediaId,
+          mediaType: mediaType,
+          existingReview: review.toReview(),
+          onDeleted: {
+            Task {
+              await loadReviews()
+            }
+          }
+        )
+      }
+    }
+    .onChange(of: showEditSheet) { _, isShowing in
+      if !isShowing {
+        // Reload reviews when sheet is dismissed (in case of edit)
+        Task {
+          await loadReviews()
+        }
+      }
+    }
+  }
+
+  private func loadCurrentUser() async {
+    do {
+      let user = try await AuthService.shared.getCurrentUser()
+      currentUserId = user.id
+    } catch {
+      currentUserId = nil
     }
   }
 

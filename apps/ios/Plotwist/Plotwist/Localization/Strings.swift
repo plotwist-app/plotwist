@@ -104,7 +104,10 @@ enum L10n {
       images: "Images",
       backdrops: "Backdrops",
       posters: "Posters",
-      noImagesFound: "No images found."
+      noImagesFound: "No images found.",
+      deleteReview: "Delete Review",
+      deleteReviewConfirmation: "Are you sure you want to delete this review?",
+      delete: "Delete"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -194,7 +197,10 @@ enum L10n {
       images: "Imagens",
       backdrops: "Backdrops",
       posters: "Pôsteres",
-      noImagesFound: "Nenhuma imagem encontrada."
+      noImagesFound: "Nenhuma imagem encontrada.",
+      deleteReview: "Excluir Avaliação",
+      deleteReviewConfirmation: "Tem certeza que deseja excluir esta avaliação?",
+      delete: "Excluir"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -284,7 +290,10 @@ enum L10n {
       images: "Imágenes",
       backdrops: "Fondos",
       posters: "Pósters",
-      noImagesFound: "No se encontraron imágenes."
+      noImagesFound: "No se encontraron imágenes.",
+      deleteReview: "Eliminar Reseña",
+      deleteReviewConfirmation: "¿Estás seguro de que deseas eliminar esta reseña?",
+      delete: "Eliminar"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -374,7 +383,10 @@ enum L10n {
       images: "Images",
       backdrops: "Fonds d'écran",
       posters: "Affiches",
-      noImagesFound: "Aucune image trouvée."
+      noImagesFound: "Aucune image trouvée.",
+      deleteReview: "Supprimer l'avis",
+      deleteReviewConfirmation: "Êtes-vous sûr de vouloir supprimer cet avis?",
+      delete: "Supprimer"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -464,7 +476,10 @@ enum L10n {
       images: "Bilder",
       backdrops: "Hintergründe",
       posters: "Poster",
-      noImagesFound: "Keine Bilder gefunden."
+      noImagesFound: "Keine Bilder gefunden.",
+      deleteReview: "Bewertung löschen",
+      deleteReviewConfirmation: "Möchten Sie diese Bewertung wirklich löschen?",
+      delete: "Löschen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -554,7 +569,10 @@ enum L10n {
       images: "Immagini",
       backdrops: "Sfondi",
       posters: "Locandine",
-      noImagesFound: "Nessuna immagine trovata."
+      noImagesFound: "Nessuna immagine trovata.",
+      deleteReview: "Elimina recensione",
+      deleteReviewConfirmation: "Sei sicuro di voler eliminare questa recensione?",
+      delete: "Elimina"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -643,7 +661,10 @@ enum L10n {
       images: "画像",
       backdrops: "背景",
       posters: "ポスター",
-      noImagesFound: "画像が見つかりません。"
+      noImagesFound: "画像が見つかりません。",
+      deleteReview: "レビューを削除",
+      deleteReviewConfirmation: "このレビューを削除してもよろしいですか？",
+      delete: "削除"
     ),
   ]
 }
@@ -746,4 +767,8 @@ struct Strings {
   let backdrops: String
   let posters: String
   let noImagesFound: String
+  // Delete Review
+  let deleteReview: String
+  let deleteReviewConfirmation: String
+  let delete: String
 }

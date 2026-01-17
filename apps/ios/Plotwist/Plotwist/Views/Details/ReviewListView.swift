@@ -12,6 +12,9 @@ struct ReviewListView: View {
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
   @State private var error: String?
+  @State private var currentUserId: String?
+  @State private var selectedReview: ReviewListItem?
+  @State private var showEditSheet = false
   
   var body: some View {
     VStack(spacing: 0) {
@@ -59,8 +62,19 @@ struct ReviewListView: View {
         LazyVStack(spacing: 0) {
           ForEach(Array(reviews.filter { !$0.review.isEmpty }.enumerated()), id: \.element.id) { index, review in
             VStack(spacing: 0) {
-              ReviewItemView(review: review)
-                .padding(.vertical, 16)
+              // Make tappable only if it's the current user's review
+              if review.userId == currentUserId {
+                ReviewItemView(review: review)
+                  .padding(.vertical, 16)
+                  .contentShape(Rectangle())
+                  .onTapGesture {
+                    selectedReview = review
+                    showEditSheet = true
+                  }
+              } else {
+                ReviewItemView(review: review)
+                  .padding(.vertical, 16)
+              }
               
               // Divider (except for last item)
               if index < reviews.filter({ !$0.review.isEmpty }).count - 1 {
@@ -74,7 +88,39 @@ struct ReviewListView: View {
       }
     }
     .task {
+      await loadCurrentUser()
       await loadReviews()
+    }
+    .sheet(isPresented: $showEditSheet) {
+      if let review = selectedReview {
+        ReviewSheet(
+          mediaId: mediaId,
+          mediaType: mediaType,
+          existingReview: review.toReview(),
+          onDeleted: {
+            Task {
+              await loadReviews()
+            }
+          }
+        )
+      }
+    }
+    .onChange(of: showEditSheet) { _, isShowing in
+      if !isShowing {
+        // Reload reviews when sheet is dismissed (in case of edit)
+        Task {
+          await loadReviews()
+        }
+      }
+    }
+  }
+  
+  private func loadCurrentUser() async {
+    do {
+      let user = try await AuthService.shared.getCurrentUser()
+      currentUserId = user.id
+    } catch {
+      currentUserId = nil
     }
   }
   
@@ -93,6 +139,25 @@ struct ReviewListView: View {
       self.error = error.localizedDescription
       isLoading = false
     }
+  }
+}
+
+// MARK: - ReviewListItem Extension
+extension ReviewListItem {
+  func toReview() -> Review {
+    Review(
+      id: id,
+      userId: userId,
+      tmdbId: tmdbId,
+      mediaType: mediaType,
+      review: review,
+      rating: rating,
+      hasSpoilers: hasSpoilers,
+      seasonNumber: seasonNumber,
+      episodeNumber: episodeNumber,
+      language: language,
+      createdAt: createdAt
+    )
   }
 }
 
