@@ -157,6 +157,13 @@ struct SearchTabView: View {
     }
     .onChange(of: searchText) { newValue in
       searchTask?.cancel()
+
+      if !newValue.isEmpty {
+        isLoading = true  // Show skeleton immediately when user types
+      } else {
+        isLoading = false
+      }
+
       searchTask = Task {
         try? await Task.sleep(nanoseconds: 500_000_000)  // 500ms debounce
         guard !Task.isCancelled else { return }
