@@ -107,7 +107,7 @@ struct ReviewSectionView: View {
 
             // Reviews count
             Text(
-              "\(reviews.count) \(reviews.count == 1 ? L10n.current.review.lowercased() : L10n.current.tabReviews.lowercased())"
+              "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
             )
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
@@ -141,7 +141,7 @@ struct ReviewSectionView: View {
             .frame(width: 4, height: 4)
 
           Text(
-            "\(reviews.count) \(reviews.count == 1 ? L10n.current.review.lowercased() : L10n.current.tabReviews.lowercased())"
+            "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
           )
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)

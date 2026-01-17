@@ -82,6 +82,7 @@ enum L10n {
       reviewUpdateSuccess: "Review updated successfully!",
       reviewDeleteSuccess: "Review deleted successfully!",
       tabReviews: "Reviews",
+      reviewSingular: "Review",
       tabWhereToWatch: "Where to Watch",
       tabCredits: "Credits",
       tabRecommendations: "Recommendations",
@@ -107,7 +108,13 @@ enum L10n {
       noImagesFound: "No images found.",
       deleteReview: "Delete Review",
       deleteReviewConfirmation: "Are you sure you want to delete this review?",
-      delete: "Delete"
+      delete: "Delete",
+      // Status
+      updateStatus: "Update Status",
+      watched: "Watched",
+      watching: "Watching",
+      watchlist: "Watchlist",
+      dropped: "Dropped"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -178,6 +185,7 @@ enum L10n {
       reviewUpdateSuccess: "Avaliação atualizada com sucesso!",
       reviewDeleteSuccess: "Avaliação excluída com sucesso!",
       tabReviews: "Avaliações",
+      reviewSingular: "Avaliação",
       tabWhereToWatch: "Onde Assistir",
       tabCredits: "Elenco",
       tabRecommendations: "Recomendações",
@@ -200,7 +208,12 @@ enum L10n {
       noImagesFound: "Nenhuma imagem encontrada.",
       deleteReview: "Excluir Avaliação",
       deleteReviewConfirmation: "Tem certeza que deseja excluir esta avaliação?",
-      delete: "Excluir"
+      delete: "Excluir",
+      updateStatus: "Atualizar Status",
+      watched: "Assistido",
+      watching: "Assistindo",
+      watchlist: "Lista",
+      dropped: "Abandonado"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -271,6 +284,7 @@ enum L10n {
       reviewUpdateSuccess: "¡Reseña actualizada con éxito!",
       reviewDeleteSuccess: "¡Reseña eliminada con éxito!",
       tabReviews: "Reseñas",
+      reviewSingular: "Reseña",
       tabWhereToWatch: "Dónde Ver",
       tabCredits: "Créditos",
       tabRecommendations: "Recomendaciones",
@@ -293,7 +307,12 @@ enum L10n {
       noImagesFound: "No se encontraron imágenes.",
       deleteReview: "Eliminar Reseña",
       deleteReviewConfirmation: "¿Estás seguro de que deseas eliminar esta reseña?",
-      delete: "Eliminar"
+      delete: "Eliminar",
+      updateStatus: "Actualizar Estado",
+      watched: "Visto",
+      watching: "Viendo",
+      watchlist: "Lista",
+      dropped: "Abandonado"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -364,6 +383,7 @@ enum L10n {
       reviewUpdateSuccess: "Avis mis à jour avec succès!",
       reviewDeleteSuccess: "Avis supprimé avec succès!",
       tabReviews: "Avis",
+      reviewSingular: "Avis",
       tabWhereToWatch: "Où Regarder",
       tabCredits: "Crédits",
       tabRecommendations: "Recommandations",
@@ -386,7 +406,12 @@ enum L10n {
       noImagesFound: "Aucune image trouvée.",
       deleteReview: "Supprimer l'avis",
       deleteReviewConfirmation: "Êtes-vous sûr de vouloir supprimer cet avis?",
-      delete: "Supprimer"
+      delete: "Supprimer",
+      updateStatus: "Mettre à jour le statut",
+      watched: "Vu",
+      watching: "En cours",
+      watchlist: "À voir",
+      dropped: "Abandonné"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -457,6 +482,7 @@ enum L10n {
       reviewUpdateSuccess: "Bewertung erfolgreich aktualisiert!",
       reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!",
       tabReviews: "Bewertungen",
+      reviewSingular: "Bewertung",
       tabWhereToWatch: "Wo Ansehen",
       tabCredits: "Besetzung",
       tabRecommendations: "Empfehlungen",
@@ -479,7 +505,12 @@ enum L10n {
       noImagesFound: "Keine Bilder gefunden.",
       deleteReview: "Bewertung löschen",
       deleteReviewConfirmation: "Möchten Sie diese Bewertung wirklich löschen?",
-      delete: "Löschen"
+      delete: "Löschen",
+      updateStatus: "Status aktualisieren",
+      watched: "Gesehen",
+      watching: "Schaue ich",
+      watchlist: "Watchlist",
+      dropped: "Abgebrochen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -550,6 +581,7 @@ enum L10n {
       reviewUpdateSuccess: "Recensione aggiornata con successo!",
       reviewDeleteSuccess: "Recensione eliminata con successo!",
       tabReviews: "Recensioni",
+      reviewSingular: "Recensione",
       tabWhereToWatch: "Dove Guardare",
       tabCredits: "Cast",
       tabRecommendations: "Raccomandazioni",
@@ -572,7 +604,12 @@ enum L10n {
       noImagesFound: "Nessuna immagine trovata.",
       deleteReview: "Elimina recensione",
       deleteReviewConfirmation: "Sei sicuro di voler eliminare questa recensione?",
-      delete: "Elimina"
+      delete: "Elimina",
+      updateStatus: "Aggiorna stato",
+      watched: "Visto",
+      watching: "In visione",
+      watchlist: "Da vedere",
+      dropped: "Abbandonato"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -642,6 +679,7 @@ enum L10n {
       reviewUpdateSuccess: "レビューが正常に更新されました！",
       reviewDeleteSuccess: "レビューが正常に削除されました！",
       tabReviews: "レビュー",
+      reviewSingular: "レビュー",
       tabWhereToWatch: "視聴方法",
       tabCredits: "キャスト",
       tabRecommendations: "おすすめ",
@@ -664,7 +702,12 @@ enum L10n {
       noImagesFound: "画像が見つかりません。",
       deleteReview: "レビューを削除",
       deleteReviewConfirmation: "このレビューを削除してもよろしいですか？",
-      delete: "削除"
+      delete: "削除",
+      updateStatus: "ステータスを更新",
+      watched: "視聴済み",
+      watching: "視聴中",
+      watchlist: "ウォッチリスト",
+      dropped: "中断"
     ),
   ]
 }
@@ -743,6 +786,7 @@ struct Strings {
   let reviewDeleteSuccess: String
   // Tabs
   let tabReviews: String
+  let reviewSingular: String
   let tabWhereToWatch: String
   let tabCredits: String
   let tabRecommendations: String
@@ -771,4 +815,10 @@ struct Strings {
   let deleteReview: String
   let deleteReviewConfirmation: String
   let delete: String
+  // Status
+  let updateStatus: String
+  let watched: String
+  let watching: String
+  let watchlist: String
+  let dropped: String
 }

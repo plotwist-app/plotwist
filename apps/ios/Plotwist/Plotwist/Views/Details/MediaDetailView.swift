@@ -13,6 +13,7 @@ struct MediaDetailView: View {
   @State private var details: MovieDetails?
   @State private var isLoading = true
   @State private var userReview: Review?
+  @State private var userItem: UserItem?
   @State private var showReviewSheet = false
   @State private var reviewsRefreshId = UUID()
   @State private var backdropImages: [TMDBImage] = []
@@ -157,15 +158,20 @@ struct MediaDetailView: View {
 
               // Content Section
               VStack(alignment: .leading, spacing: 20) {
-                // Review Button
+                // Action Buttons (Review + Status)
                 if AuthService.shared.isAuthenticated {
-                  HStack {
-                    ReviewButton(hasReview: userReview != nil) {
+                  MediaDetailViewActions(
+                    mediaId: mediaId,
+                    mediaType: mediaType,
+                    userReview: userReview,
+                    userItem: userItem,
+                    onReviewTapped: {
                       showReviewSheet = true
+                    },
+                    onStatusChanged: { newItem in
+                      userItem = newItem
                     }
-
-                    Spacer()
-                  }
+                  )
                 }
 
                 // Overview
@@ -173,7 +179,7 @@ struct MediaDetailView: View {
                   Text(overview)
                     .font(.subheadline)
                     .foregroundColor(.appMutedForegroundAdaptive)
-                    .lineSpacing(4)
+                    .lineSpacing(6)
                 }
 
                 // Genres Badges
@@ -191,7 +197,7 @@ struct MediaDetailView: View {
               .offset(y: contentOffset)
 
               Spacer()
-                .frame(height: 32)
+                .frame(height: 24)
                 .offset(y: contentOffset)
 
               // Divider
@@ -202,7 +208,7 @@ struct MediaDetailView: View {
                 .offset(y: contentOffset)
 
               Spacer()
-                .frame(height: 16)
+                .frame(height: 24)
                 .offset(y: contentOffset)
 
               // Review Section
@@ -234,6 +240,7 @@ struct MediaDetailView: View {
       await loadImages()
       if AuthService.shared.isAuthenticated {
         await loadUserReview()
+        await loadUserItem()
       }
     }
     .onChange(of: showReviewSheet) { _, isPresented in
@@ -276,6 +283,17 @@ struct MediaDetailView: View {
       )
     } catch {
       userReview = nil
+    }
+  }
+
+  private func loadUserItem() async {
+    do {
+      userItem = try await UserItemService.shared.getUserItem(
+        tmdbId: mediaId,
+        mediaType: mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+      )
+    } catch {
+      userItem = nil
     }
   }
 
