@@ -204,7 +204,6 @@ struct ReviewSectionView: View {
         .padding(.horizontal, 24)
       }
     }
-    .padding(.bottom, 80)
     .task {
       await loadCurrentUser()
       await loadReviews()

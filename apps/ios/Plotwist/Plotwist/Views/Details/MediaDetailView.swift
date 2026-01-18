@@ -228,6 +228,17 @@ struct MediaDetailView: View {
                 .frame(height: 24)
                 .offset(y: contentOffset)
 
+              // Divider
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.5))
+                .frame(height: 1)
+                .padding(.horizontal, 24)
+                .offset(y: contentOffset)
+
+              Spacer()
+                .frame(height: 24)
+                .offset(y: contentOffset)
+
               // Where to Watch Section
               WhereToWatchSection(
                 mediaId: mediaId,

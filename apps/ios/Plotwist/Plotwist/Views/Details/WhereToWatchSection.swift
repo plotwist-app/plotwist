@@ -8,10 +8,17 @@ import SwiftUI
 struct WhereToWatchSection: View {
   let mediaId: Int
   let mediaType: String
-  
+
   @State private var providers: WatchProviderCountry?
   @State private var isLoading = true
-  
+
+  private var hasAnyProvider: Bool {
+    let flatrate = providers?.flatrate ?? []
+    let rent = providers?.rent ?? []
+    let buy = providers?.buy ?? []
+    return !flatrate.isEmpty || !rent.isEmpty || !buy.isEmpty
+  }
+
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       // Title
@@ -19,7 +26,7 @@ struct WhereToWatchSection: View {
         .font(.caption.weight(.semibold))
         .foregroundColor(.appMutedForegroundAdaptive)
         .padding(.horizontal, 24)
-      
+
       if isLoading {
         HStack {
           Spacer()
@@ -27,26 +34,52 @@ struct WhereToWatchSection: View {
           Spacer()
         }
         .padding(.vertical, 20)
-      } else {
-        // Content
+      } else if hasAnyProvider {
+        // Content - only show categories that have providers
         VStack(alignment: .leading, spacing: 24) {
           // Stream
-          ProviderCategory(
-            title: L10n.current.stream,
-            providers: providers?.flatrate
-          )
-          
+          if let flatrate = providers?.flatrate, !flatrate.isEmpty {
+            ProviderCategory(
+              title: L10n.current.stream,
+              providers: flatrate
+            )
+          }
+
           // Rent
-          ProviderCategory(
-            title: L10n.current.rent,
-            providers: providers?.rent
-          )
-          
+          if let rent = providers?.rent, !rent.isEmpty {
+            ProviderCategory(
+              title: L10n.current.rent,
+              providers: rent
+            )
+          }
+
           // Buy
-          ProviderCategory(
-            title: L10n.current.buy,
-            providers: providers?.buy
-          )
+          if let buy = providers?.buy, !buy.isEmpty {
+            ProviderCategory(
+              title: L10n.current.buy,
+              providers: buy
+            )
+          }
+        }
+        .padding(.horizontal, 24)
+      } else {
+        // No providers available
+        HStack(spacing: 8) {
+          ZStack {
+            RoundedRectangle(cornerRadius: 6)
+              .stroke(Color.appBorderAdaptive, lineWidth: 1)
+              .frame(width: 24, height: 24)
+
+            Image(systemName: "xmark")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+
+          Text(L10n.current.unavailable)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+
+          Spacer()
         }
         .padding(.horizontal, 24)
       }
@@ -55,11 +88,11 @@ struct WhereToWatchSection: View {
       await loadProviders()
     }
   }
-  
+
   private func loadProviders() async {
     isLoading = true
     defer { isLoading = false }
-    
+
     do {
       let response = try await TMDBService.shared.getWatchProviders(
         id: mediaId,
@@ -75,22 +108,18 @@ struct WhereToWatchSection: View {
 // MARK: - Provider Category
 struct ProviderCategory: View {
   let title: String
-  let providers: [WatchProvider]?
-  
+  let providers: [WatchProvider]
+
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       Text(title)
         .font(.subheadline.weight(.semibold))
         .foregroundColor(.appForegroundAdaptive)
-      
-      if let providers, !providers.isEmpty {
-        VStack(spacing: 0) {
-          ForEach(providers) { provider in
-            ProviderRow(provider: provider)
-          }
+
+      VStack(spacing: 0) {
+        ForEach(providers) { provider in
+          ProviderRow(provider: provider)
         }
-      } else {
-        UnavailableRow()
       }
     }
   }
@@ -99,7 +128,7 @@ struct ProviderCategory: View {
 // MARK: - Provider Row
 struct ProviderRow: View {
   let provider: WatchProvider
-  
+
   var body: some View {
     HStack(spacing: 8) {
       AsyncImage(url: provider.logoURL) { phase in
@@ -119,50 +148,14 @@ struct ProviderRow: View {
         RoundedRectangle(cornerRadius: 6)
           .stroke(Color.appBorderAdaptive, lineWidth: 0.5)
       )
-      
+
       Text(provider.providerName)
         .font(.subheadline)
         .foregroundColor(.appForegroundAdaptive)
-      
-      Spacer()
-    }
-    .padding(.vertical, 8)
-    .overlay(
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1),
-      alignment: .bottom
-    )
-  }
-}
 
-// MARK: - Unavailable Row
-struct UnavailableRow: View {
-  var body: some View {
-    HStack(spacing: 8) {
-      ZStack {
-        RoundedRectangle(cornerRadius: 6)
-          .stroke(Color.appBorderAdaptive, lineWidth: 1)
-          .frame(width: 24, height: 24)
-        
-        Image(systemName: "xmark")
-          .font(.system(size: 12, weight: .medium))
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
-      
-      Text(L10n.current.unavailable)
-        .font(.subheadline)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      
       Spacer()
     }
-    .padding(.vertical, 8)
-    .overlay(
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1),
-      alignment: .bottom
-    )
+    .padding(.vertical, 6)
   }
 }
 
