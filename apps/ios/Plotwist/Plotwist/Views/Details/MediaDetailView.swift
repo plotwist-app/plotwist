@@ -20,6 +20,11 @@ struct MediaDetailView: View {
   @State private var currentBackdropIndex = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
+  // Section visibility state
+  @State private var hasReviews = false
+  @State private var hasWhereToWatch = false
+  @State private var hasRecommendations = false
+
   // Layout constants
   private let posterOverlapOffset: CGFloat = -70
   private let contentOffset: CGFloat = -54
@@ -196,20 +201,22 @@ struct MediaDetailView: View {
               .padding(.horizontal, 24)
               .offset(y: contentOffset)
 
-              Spacer()
-                .frame(height: 24)
-                .offset(y: contentOffset)
+              // Divider before first content section (only if any section has content)
+              if hasReviews || hasWhereToWatch || hasRecommendations {
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
 
-              // Divider
-              Rectangle()
-                .fill(Color.appBorderAdaptive.opacity(0.5))
-                .frame(height: 1)
-                .padding(.horizontal, 24)
-                .offset(y: contentOffset)
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(height: 1)
+                  .padding(.horizontal, 24)
+                  .offset(y: contentOffset)
 
-              Spacer()
-                .frame(height: 24)
-                .offset(y: contentOffset)
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
+              }
 
               // Review Section
               ReviewSectionView(
@@ -220,29 +227,64 @@ struct MediaDetailView: View {
                   if AuthService.shared.isAuthenticated {
                     showReviewSheet = true
                   }
+                },
+                onContentLoaded: { hasContent in
+                  hasReviews = hasContent
                 }
               )
               .offset(y: contentOffset)
 
-              Spacer()
-                .frame(height: 24)
-                .offset(y: contentOffset)
+              // Divider after reviews (only if reviews exist and next section exists)
+              if hasReviews && (hasWhereToWatch || hasRecommendations) {
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
 
-              // Divider
-              Rectangle()
-                .fill(Color.appBorderAdaptive.opacity(0.5))
-                .frame(height: 1)
-                .padding(.horizontal, 24)
-                .offset(y: contentOffset)
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(height: 1)
+                  .padding(.horizontal, 24)
+                  .offset(y: contentOffset)
 
-              Spacer()
-                .frame(height: 24)
-                .offset(y: contentOffset)
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
+              }
 
               // Where to Watch Section
               WhereToWatchSection(
                 mediaId: mediaId,
-                mediaType: mediaType
+                mediaType: mediaType,
+                onContentLoaded: { hasContent in
+                  hasWhereToWatch = hasContent
+                }
+              )
+              .offset(y: contentOffset)
+
+              // Divider after where to watch (only if it exists and recommendations exist)
+              if hasWhereToWatch && hasRecommendations {
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
+
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(height: 1)
+                  .padding(.horizontal, 24)
+                  .offset(y: contentOffset)
+
+                Spacer()
+                  .frame(height: 24)
+                  .offset(y: contentOffset)
+              }
+
+              // Recommendations Section
+              RelatedSection(
+                mediaId: mediaId,
+                mediaType: mediaType,
+                onContentLoaded: { hasContent in
+                  hasRecommendations = hasContent
+                }
               )
               .offset(y: contentOffset)
             }
@@ -277,6 +319,12 @@ struct MediaDetailView: View {
   }
 
   private func loadDetails() async {
+    // Skip if already loaded
+    guard details == nil else {
+      isLoading = false
+      return
+    }
+
     isLoading = true
     defer { isLoading = false }
 
@@ -320,6 +368,9 @@ struct MediaDetailView: View {
   }
 
   private func loadImages() async {
+    // Skip if already loaded
+    guard backdropImages.isEmpty else { return }
+
     do {
       let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
       backdropImages = images.sortedBackdrops

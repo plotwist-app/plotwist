@@ -8,9 +8,11 @@ import SwiftUI
 struct WhereToWatchSection: View {
   let mediaId: Int
   let mediaType: String
+  var onContentLoaded: ((Bool) -> Void)?
 
   @State private var providers: WatchProviderCountry?
   @State private var isLoading = true
+  @State private var hasLoaded = false
 
   private var hasAnyProvider: Bool {
     let flatrate = providers?.flatrate ?? []
@@ -20,68 +22,61 @@ struct WhereToWatchSection: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
-      // Title
-      Text(L10n.current.tabWhereToWatch.uppercased())
-        .font(.caption.weight(.semibold))
-        .foregroundColor(.appMutedForegroundAdaptive)
-        .padding(.horizontal, 24)
-
+    Group {
       if isLoading {
-        HStack {
-          Spacer()
-          ProgressView()
-          Spacer()
+        VStack(alignment: .leading, spacing: 16) {
+          // Title
+          Text(L10n.current.tabWhereToWatch)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+            .padding(.horizontal, 24)
+
+          HStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+          }
+          .padding(.vertical, 20)
         }
-        .padding(.vertical, 20)
       } else if hasAnyProvider {
-        // Content - only show categories that have providers
-        VStack(alignment: .leading, spacing: 24) {
-          // Stream
-          if let flatrate = providers?.flatrate, !flatrate.isEmpty {
-            ProviderCategory(
-              title: L10n.current.stream,
-              providers: flatrate
-            )
-          }
+        VStack(alignment: .leading, spacing: 16) {
+          // Title
+          Text(L10n.current.tabWhereToWatch)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+            .padding(.horizontal, 24)
 
-          // Rent
-          if let rent = providers?.rent, !rent.isEmpty {
-            ProviderCategory(
-              title: L10n.current.rent,
-              providers: rent
-            )
-          }
+          // Content - only show categories that have providers
+          VStack(alignment: .leading, spacing: 24) {
+            // Stream
+            if let flatrate = providers?.flatrate, !flatrate.isEmpty {
+              ProviderCategory(
+                title: L10n.current.stream,
+                providers: flatrate
+              )
+            }
 
-          // Buy
-          if let buy = providers?.buy, !buy.isEmpty {
-            ProviderCategory(
-              title: L10n.current.buy,
-              providers: buy
-            )
+            // Rent
+            if let rent = providers?.rent, !rent.isEmpty {
+              ProviderCategory(
+                title: L10n.current.rent,
+                providers: rent
+              )
+            }
+
+            // Buy
+            if let buy = providers?.buy, !buy.isEmpty {
+              ProviderCategory(
+                title: L10n.current.buy,
+                providers: buy
+              )
+            }
           }
+          .padding(.horizontal, 24)
         }
-        .padding(.horizontal, 24)
       } else {
-        // No providers available
-        HStack(spacing: 8) {
-          ZStack {
-            RoundedRectangle(cornerRadius: 6)
-              .stroke(Color.appBorderAdaptive, lineWidth: 1)
-              .frame(width: 24, height: 24)
-
-            Image(systemName: "xmark")
-              .font(.system(size: 12, weight: .medium))
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-
-          Text(L10n.current.unavailable)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-
-          Spacer()
-        }
-        .padding(.horizontal, 24)
+        // No providers - show nothing
+        EmptyView()
       }
     }
     .task {
@@ -90,8 +85,14 @@ struct WhereToWatchSection: View {
   }
 
   private func loadProviders() async {
+    // Skip if already loaded
+    guard !hasLoaded else {
+      isLoading = false
+      onContentLoaded?(hasAnyProvider)
+      return
+    }
+
     isLoading = true
-    defer { isLoading = false }
 
     do {
       let response = try await TMDBService.shared.getWatchProviders(
@@ -99,8 +100,14 @@ struct WhereToWatchSection: View {
         mediaType: mediaType
       )
       providers = response.results.forLanguage(Language.current) ?? response.results.US
+      isLoading = false
+      hasLoaded = true
+      onContentLoaded?(hasAnyProvider)
     } catch {
       providers = nil
+      isLoading = false
+      hasLoaded = true
+      onContentLoaded?(false)
     }
   }
 }
@@ -112,9 +119,9 @@ struct ProviderCategory: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
-      Text(title)
-        .font(.subheadline.weight(.semibold))
-        .foregroundColor(.appForegroundAdaptive)
+      Text(title.uppercased())
+        .font(.caption.weight(.semibold))
+        .foregroundColor(.appMutedForegroundAdaptive)
 
       VStack(spacing: 0) {
         ForEach(providers) { provider in

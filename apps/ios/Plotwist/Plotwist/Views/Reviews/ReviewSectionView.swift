@@ -11,6 +11,7 @@ struct ReviewSectionView: View {
   let mediaType: String
   let refreshId: UUID
   var onEmptyStateTapped: (() -> Void)?
+  var onContentLoaded: ((Bool) -> Void)?
 
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
@@ -18,6 +19,7 @@ struct ReviewSectionView: View {
   @State private var currentUserId: String?
   @State private var selectedReview: ReviewListItem?
   @State private var showEditSheet = false
+  @State private var hasLoaded = false
 
   private var averageRating: Double {
     guard !reviews.isEmpty else { return 0 }
@@ -35,173 +37,160 @@ struct ReviewSectionView: View {
   }
 
   var body: some View {
-    VStack(spacing: 16) {
-      // Rating Header
+    Group {
       if isLoading {
         // Loading skeleton
-        HStack(spacing: 6) {
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
-            .frame(width: 16, height: 16)
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
-            .frame(width: 30, height: 18)
-          Circle()
-            .fill(Color.appSkeletonAdaptive)
-            .frame(width: 4, height: 4)
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
-            .frame(width: 80, height: 14)
+        VStack(spacing: 16) {
+          HStack(spacing: 6) {
+            RoundedRectangle(cornerRadius: 4)
+              .fill(Color.appSkeletonAdaptive)
+              .frame(width: 16, height: 16)
+            RoundedRectangle(cornerRadius: 4)
+              .fill(Color.appSkeletonAdaptive)
+              .frame(width: 30, height: 18)
+            Circle()
+              .fill(Color.appSkeletonAdaptive)
+              .frame(width: 4, height: 4)
+            RoundedRectangle(cornerRadius: 4)
+              .fill(Color.appSkeletonAdaptive)
+              .frame(width: 80, height: 14)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, 24)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 24)
       } else if reviews.isEmpty {
-        // Empty state - tappable to open review sheet
-        Button(action: {
-          onEmptyStateTapped?()
-        }) {
-          VStack(spacing: 8) {
-            Text(L10n.current.beFirstToReview)
-              .font(.subheadline)
-              .foregroundColor(.appForegroundAdaptive)
-            Text(L10n.current.shareYourOpinion)
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 32)
-          .overlay(
-            RoundedRectangle(cornerRadius: 12)
-              .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-              .foregroundColor(.appBorderAdaptive)
-          )
-        }
-        .buttonStyle(.plain)
-        .padding(.horizontal, 24)
-      } else if isFeaturedRating {
-        // Featured rating display with film strips (10+ reviews AND rating >= 4.5)
-        HStack(spacing: 8) {
-          // Left film strip
-          Image("FilmStrip")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 140)
-            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
-            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
-
-          // Rating content
-          VStack(spacing: 4) {
-            // Large rating number
-            Text(String(format: "%.1f", averageRating))
-              .font(.system(size: 56, weight: .semibold, design: .rounded))
-              .foregroundColor(.appForegroundAdaptive)
-
-            // Stars
-            HStack(spacing: 4) {
-              ForEach(1...5, id: \.self) { index in
-                Image(systemName: starIcon(for: index))
-                  .font(.system(size: 14))
-                  .foregroundColor(starColor(for: index))
-              }
-            }
-
-            // Reviews count
-            Text(
-              "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
-            )
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .padding(.top, 4)
-          }
-
-          // Right film strip (mirrored)
-          Image("FilmStrip")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 140)
-            .scaleEffect(x: -1, y: 1)
-            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
-            .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
+        // No reviews - show nothing
+        EmptyView()
       } else {
-        // Simple rating display (star + rating + dot + reviews count)
-        HStack(spacing: 6) {
-          Image(systemName: "star.fill")
-            .font(.system(size: 16))
-            .foregroundColor(.yellow)
+        // Has reviews - show content
+        VStack(spacing: 16) {
+          // Rating Header
+          if isFeaturedRating {
+            // Featured rating display with film strips (10+ reviews AND rating >= 4.5)
+            HStack(spacing: 8) {
+              // Left film strip
+              Image("FilmStrip")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 140)
+                .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
+                .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
 
-          Text(String(format: "%.1f", averageRating))
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(.appForegroundAdaptive)
+              // Rating content
+              VStack(spacing: 4) {
+                // Large rating number
+                Text(String(format: "%.1f", averageRating))
+                  .font(.system(size: 56, weight: .semibold, design: .rounded))
+                  .foregroundColor(.appForegroundAdaptive)
 
-          Circle()
-            .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-            .frame(width: 4, height: 4)
-
-          Text(
-            "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
-          )
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 24)
-      }
-
-      // Horizontal scrolling reviews
-      if !isLoading && !reviewsWithText.isEmpty {
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(alignment: .top, spacing: 0) {
-            ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
-              HStack(alignment: .top, spacing: 0) {
-                Group {
-                  if review.userId == currentUserId {
-                    ReviewCardView(review: review)
-                      .contentShape(Rectangle())
-                      .onTapGesture {
-                        selectedReview = review
-                        showEditSheet = true
-                      }
-                  } else {
-                    ReviewCardView(review: review)
+                // Stars
+                HStack(spacing: 4) {
+                  ForEach(1...5, id: \.self) { index in
+                    Image(systemName: starIcon(for: index))
+                      .font(.system(size: 14))
+                      .foregroundColor(starColor(for: index))
                   }
                 }
-                .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
-                .padding(.leading, index == 0 ? 24 : 0)
-                .padding(.trailing, 24)
 
-                // Vertical divider (except for last item)
-                if index < reviewsWithText.count - 1 {
-                  Rectangle()
-                    .fill(Color.appBorderAdaptive.opacity(0.5))
-                    .frame(width: 1)
-                    .frame(height: 140)
+                // Reviews count
+                Text(
+                  "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
+                )
+                .font(.subheadline)
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .padding(.top, 4)
+              }
+
+              // Right film strip (mirrored)
+              Image("FilmStrip")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 140)
+                .scaleEffect(x: -1, y: 1)
+                .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
+                .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 24)
+          } else {
+            // Simple rating display (star + rating + dot + reviews count)
+            HStack(spacing: 6) {
+              Image(systemName: "star.fill")
+                .font(.system(size: 16))
+                .foregroundColor(.yellow)
+
+              Text(String(format: "%.1f", averageRating))
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+
+              Circle()
+                .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
+                .frame(width: 4, height: 4)
+
+              Text(
+                "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
+              )
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 24)
+          }
+
+          // Horizontal scrolling reviews
+          if !reviewsWithText.isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack(alignment: .top, spacing: 0) {
+                ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
+                  HStack(alignment: .top, spacing: 0) {
+                    Group {
+                      if review.userId == currentUserId {
+                        ReviewCardView(review: review)
+                          .contentShape(Rectangle())
+                          .onTapGesture {
+                            selectedReview = review
+                            showEditSheet = true
+                          }
+                      } else {
+                        ReviewCardView(review: review)
+                      }
+                    }
+                    .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
+                    .padding(.leading, index == 0 ? 24 : 0)
                     .padding(.trailing, 24)
+
+                    // Vertical divider (except for last item)
+                    if index < reviewsWithText.count - 1 {
+                      Rectangle()
+                        .fill(Color.appBorderAdaptive.opacity(0.5))
+                        .frame(width: 1)
+                        .frame(height: 140)
+                        .padding(.trailing, 24)
+                    }
+                  }
                 }
               }
             }
           }
-        }
-      }
 
-      // See all button (show if 3+ reviews)
-      if !isLoading && reviews.count >= 3 {
-        Button(action: {
-          // TODO: Navigate to all reviews
-        }) {
-          Text(L10n.current.seeAll)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .background(Color.appInputFilled)
-            .cornerRadius(12)
+          // See all button (show if 3+ reviews)
+          if reviews.count >= 3 {
+            Button(action: {
+              // TODO: Navigate to all reviews
+            }) {
+              Text(L10n.current.seeAll)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
+            .disabled(true)
+            .opacity(0.5)
+            .padding(.horizontal, 24)
+          }
         }
-        .disabled(true)
-        .opacity(0.5)
-        .padding(.horizontal, 24)
       }
     }
     .task {
@@ -210,7 +199,7 @@ struct ReviewSectionView: View {
     }
     .onChange(of: refreshId) { _, _ in
       Task {
-        await loadReviews()
+        await loadReviews(forceReload: true)
       }
     }
     .sheet(isPresented: $showEditSheet) {
@@ -221,7 +210,7 @@ struct ReviewSectionView: View {
           existingReview: review.toReview(),
           onDeleted: {
             Task {
-              await loadReviews()
+              await loadReviews(forceReload: true)
             }
           }
         )
@@ -231,7 +220,7 @@ struct ReviewSectionView: View {
       if !isShowing {
         // Reload reviews when sheet is dismissed (in case of edit)
         Task {
-          await loadReviews()
+          await loadReviews(forceReload: true)
         }
       }
     }
@@ -246,7 +235,14 @@ struct ReviewSectionView: View {
     }
   }
 
-  private func loadReviews() async {
+  private func loadReviews(forceReload: Bool = false) async {
+    // Skip if already loaded (unless force reload)
+    guard !hasLoaded || forceReload else {
+      isLoading = false
+      onContentLoaded?(!reviews.isEmpty)
+      return
+    }
+
     isLoading = true
     error = nil
 
@@ -257,9 +253,13 @@ struct ReviewSectionView: View {
         mediaType: apiMediaType
       )
       isLoading = false
+      hasLoaded = true
+      onContentLoaded?(!reviews.isEmpty)
     } catch {
       self.error = error.localizedDescription
       isLoading = false
+      hasLoaded = true
+      onContentLoaded?(false)
     }
   }
 
