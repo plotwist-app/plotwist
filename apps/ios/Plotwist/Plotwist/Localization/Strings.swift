@@ -114,7 +114,17 @@ enum L10n {
       watched: "Watched",
       watching: "Watching",
       watchlist: "Watchlist",
-      dropped: "Dropped"
+      dropped: "Dropped",
+      // Rewatch
+      watchLog: "Watch Log",
+      addRewatch: "Add Rewatch",
+      firstTime: "1st time",
+      nthTime: "%@ time",
+      // Where to Watch
+      stream: "Stream",
+      rent: "Rent",
+      buy: "Buy",
+      unavailable: "Unavailable"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -213,7 +223,15 @@ enum L10n {
       watched: "Assistido",
       watching: "Assistindo",
       watchlist: "Lista",
-      dropped: "Abandonado"
+      dropped: "Abandonado",
+      watchLog: "Registro de visualizações",
+      addRewatch: "Adicionar rewatch",
+      firstTime: "1ª vez",
+      nthTime: "%@ vez",
+      stream: "Streaming",
+      rent: "Alugar",
+      buy: "Comprar",
+      unavailable: "Indisponível"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -312,7 +330,15 @@ enum L10n {
       watched: "Visto",
       watching: "Viendo",
       watchlist: "Lista",
-      dropped: "Abandonado"
+      dropped: "Abandonado",
+      watchLog: "Registro de visualizaciones",
+      addRewatch: "Agregar rewatch",
+      firstTime: "1ª vez",
+      nthTime: "%@ vez",
+      stream: "Streaming",
+      rent: "Alquilar",
+      buy: "Comprar",
+      unavailable: "No disponible"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -411,7 +437,15 @@ enum L10n {
       watched: "Vu",
       watching: "En cours",
       watchlist: "À voir",
-      dropped: "Abandonné"
+      dropped: "Abandonné",
+      watchLog: "Historique des visionnages",
+      addRewatch: "Ajouter un revisionnage",
+      firstTime: "1ère fois",
+      nthTime: "%@ fois",
+      stream: "Streaming",
+      rent: "Louer",
+      buy: "Acheter",
+      unavailable: "Indisponible"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -510,7 +544,15 @@ enum L10n {
       watched: "Gesehen",
       watching: "Schaue ich",
       watchlist: "Watchlist",
-      dropped: "Abgebrochen"
+      dropped: "Abgebrochen",
+      watchLog: "Wiedergabeverlauf",
+      addRewatch: "Rewatch hinzufügen",
+      firstTime: "1. Mal",
+      nthTime: "%@ Mal",
+      stream: "Streaming",
+      rent: "Leihen",
+      buy: "Kaufen",
+      unavailable: "Nicht verfügbar"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -609,7 +651,15 @@ enum L10n {
       watched: "Visto",
       watching: "In visione",
       watchlist: "Da vedere",
-      dropped: "Abbandonato"
+      dropped: "Abbandonato",
+      watchLog: "Cronologia visualizzazioni",
+      addRewatch: "Aggiungi rewatch",
+      firstTime: "1ª volta",
+      nthTime: "%@ volta",
+      stream: "Streaming",
+      rent: "Noleggia",
+      buy: "Acquista",
+      unavailable: "Non disponibile"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -707,7 +757,15 @@ enum L10n {
       watched: "視聴済み",
       watching: "視聴中",
       watchlist: "ウォッチリスト",
-      dropped: "中断"
+      dropped: "中断",
+      watchLog: "視聴履歴",
+      addRewatch: "再視聴を追加",
+      firstTime: "1回目",
+      nthTime: "%@回目",
+      stream: "配信",
+      rent: "レンタル",
+      buy: "購入",
+      unavailable: "利用不可"
     ),
   ]
 }
@@ -821,4 +879,14 @@ struct Strings {
   let watching: String
   let watchlist: String
   let dropped: String
+  // Rewatch
+  let watchLog: String
+  let addRewatch: String
+  let firstTime: String
+  let nthTime: String
+  // Where to Watch
+  let stream: String
+  let rent: String
+  let buy: String
+  let unavailable: String
 }

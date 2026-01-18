@@ -288,10 +288,33 @@ export const userItems = pgTable(
   })
 )
 
-export const userItemsRelations = relations(userItems, ({ one }) => ({
+export const userItemsRelations = relations(userItems, ({ one, many }) => ({
   user: one(users, {
     fields: [userItems.userId],
     references: [users.id],
+  }),
+  watchEntries: many(userWatchEntries),
+}))
+
+export const userWatchEntries = pgTable(
+  'user_watch_entries',
+  {
+    id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+    userItemId: uuid('user_item_id')
+      .references(() => userItems.id, { onDelete: 'cascade' })
+      .notNull(),
+    watchedAt: timestamp('watched_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => ({
+    userItemIdx: index('user_watch_entries_user_item_idx').on(table.userItemId),
+  })
+)
+
+export const userWatchEntriesRelations = relations(userWatchEntries, ({ one }) => ({
+  userItem: one(userItems, {
+    fields: [userWatchEntries.userItemId],
+    references: [userItems.id],
   }),
 }))
 
@@ -573,6 +596,7 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
 export const schema = {
   users,
   userItems,
+  userWatchEntries,
   reviews,
   reviewReplies,
   lists,

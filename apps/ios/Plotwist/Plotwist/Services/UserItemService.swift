@@ -41,7 +41,9 @@ class UserItemService {
   }
 
   // MARK: - Upsert User Item (Create or Update)
-  func upsertUserItem(tmdbId: Int, mediaType: String, status: UserItemStatus) async throws -> UserItem {
+  func upsertUserItem(tmdbId: Int, mediaType: String, status: UserItemStatus) async throws
+    -> UserItem
+  {
     guard let url = URL(string: "\(API.baseURL)/user/item"),
       let token = UserDefaults.standard.string(forKey: "token")
     else {
@@ -99,6 +101,106 @@ class UserItemService {
       throw UserItemError.invalidResponse
     }
   }
+
+  // MARK: - Add Watch Entry (Rewatch)
+  func addWatchEntry(userItemId: String, watchedAt: Date = Date()) async throws -> WatchEntry {
+    guard let url = URL(string: "\(API.baseURL)/watch-entry"),
+      let token = UserDefaults.standard.string(forKey: "token")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+    let body: [String: Any] = [
+      "userItemId": userItemId,
+      "watchedAt": formatter.string(from: watchedAt),
+    ]
+
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw UserItemError.invalidResponse
+    }
+
+    guard http.statusCode == 200 || http.statusCode == 201 else {
+      throw UserItemError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(WatchEntryResponse.self, from: data)
+    return result.watchEntry
+  }
+
+  // MARK: - Delete Watch Entry
+  func deleteWatchEntry(id: String) async throws {
+    guard let url = URL(string: "\(API.baseURL)/watch-entry/\(id)"),
+      let token = UserDefaults.standard.string(forKey: "token")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    let (_, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw UserItemError.invalidResponse
+    }
+
+    guard http.statusCode == 200 || http.statusCode == 204 else {
+      throw UserItemError.invalidResponse
+    }
+  }
+
+  // MARK: - Update Watch Entry Date
+  func updateWatchEntry(id: String, watchedAt: Date) async throws -> WatchEntry {
+    guard let url = URL(string: "\(API.baseURL)/watch-entry/\(id)"),
+      let token = UserDefaults.standard.string(forKey: "token")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "PUT"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+    let body: [String: Any] = [
+      "watchedAt": formatter.string(from: watchedAt)
+    ]
+
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw UserItemError.invalidResponse
+    }
+
+    guard http.statusCode == 200 else {
+      throw UserItemError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(WatchEntryResponse.self, from: data)
+    return result.watchEntry
+  }
 }
 
 // MARK: - Models
@@ -127,6 +229,17 @@ enum UserItemStatus: String, CaseIterable {
   }
 }
 
+struct WatchEntry: Codable, Identifiable {
+  let id: String
+  let watchedAt: String
+
+  var date: Date? {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    return formatter.date(from: watchedAt)
+  }
+}
+
 struct UserItem: Codable, Identifiable {
   let id: String
   let userId: String
@@ -135,6 +248,7 @@ struct UserItem: Codable, Identifiable {
   let status: String
   let addedAt: String
   let updatedAt: String
+  let watchEntries: [WatchEntry]?
 
   var statusEnum: UserItemStatus? {
     UserItemStatus(rawValue: status)
@@ -147,6 +261,14 @@ struct UserItemResponse: Codable {
 
 struct UpsertUserItemResponse: Codable {
   let userItem: UserItem
+}
+
+struct WatchEntryResponse: Codable {
+  let watchEntry: WatchEntry
+}
+
+struct WatchEntriesResponse: Codable {
+  let watchEntries: [WatchEntry]
 }
 
 enum UserItemError: LocalizedError {

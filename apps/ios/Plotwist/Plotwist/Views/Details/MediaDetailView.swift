@@ -223,6 +223,17 @@ struct MediaDetailView: View {
                 }
               )
               .offset(y: contentOffset)
+
+              Spacer()
+                .frame(height: 24)
+                .offset(y: contentOffset)
+
+              // Where to Watch Section
+              WhereToWatchSection(
+                mediaId: mediaId,
+                mediaType: mediaType
+              )
+              .offset(y: contentOffset)
             }
             .padding(.bottom, 80)
           }

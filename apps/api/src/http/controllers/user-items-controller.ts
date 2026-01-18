@@ -9,6 +9,11 @@ import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-
 import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
 import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
 import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
+import {
+  createWatchEntry,
+  deleteWatchEntriesByUserItemId,
+  getWatchEntriesByUserItemId,
+} from '@/db/repositories/user-watch-entries-repository'
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
@@ -45,6 +50,17 @@ export async function upsertUserItemController(
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
+  }
+
+  // Create first watch entry if status is WATCHED and no entries exist
+  if (status === 'WATCHED') {
+    const existingEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    if (existingEntries.length === 0) {
+      await createWatchEntry({ userItemId: result.userItem.id })
+    }
+  } else {
+    // If status changed from WATCHED to something else, delete watch entries
+    await deleteWatchEntriesByUserItemId(result.userItem.id)
   }
 
   await createUserActivity({
@@ -132,6 +148,20 @@ export async function getUserItemController(
     tmdbId: Number(tmdbId),
     userId: request.user.id,
   })
+
+  // Include watch entries if user item exists
+  if (result.userItem) {
+    const watchEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    return reply.status(200).send({
+      userItem: {
+        ...result.userItem,
+        watchEntries: watchEntries.map(entry => ({
+          id: entry.id,
+          watchedAt: entry.watchedAt.toISOString(),
+        })),
+      },
+    })
+  }
 
   return reply.status(200).send(result)
 }

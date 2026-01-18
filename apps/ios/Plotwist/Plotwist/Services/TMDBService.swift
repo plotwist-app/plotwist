@@ -427,6 +427,28 @@ class TMDBService {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return try decoder.decode(MediaImages.self, from: data)
   }
+
+  // MARK: - Get Watch Providers
+  func getWatchProviders(id: Int, mediaType: String) async throws -> WatchProvidersResponse {
+    let type = mediaType == "movie" ? "movie" : "tv"
+    guard let url = URL(string: "\(baseURL)/\(type)/\(id)/watch/providers") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(WatchProvidersResponse.self, from: data)
+  }
 }
 
 // MARK: - Movie Details Model
@@ -611,5 +633,51 @@ struct TMDBImage: Codable, Identifiable {
 
   var backdropURL: URL? {
     URL(string: "https://image.tmdb.org/t/p/w1280\(filePath)")
+  }
+}
+
+// MARK: - Watch Providers
+struct WatchProvidersResponse: Codable {
+  let results: WatchProvidersResults
+}
+
+struct WatchProvidersResults: Codable {
+  let BR: WatchProviderCountry?
+  let US: WatchProviderCountry?
+  let DE: WatchProviderCountry?
+  let ES: WatchProviderCountry?
+  let FR: WatchProviderCountry?
+  let IT: WatchProviderCountry?
+  let JP: WatchProviderCountry?
+
+  func forLanguage(_ language: Language) -> WatchProviderCountry? {
+    switch language {
+    case .ptBR: return BR
+    case .enUS: return US
+    case .deDE: return DE
+    case .esES: return ES
+    case .frFR: return FR
+    case .itIT: return IT
+    case .jaJP: return JP
+    }
+  }
+}
+
+struct WatchProviderCountry: Codable {
+  let flatrate: [WatchProvider]?
+  let rent: [WatchProvider]?
+  let buy: [WatchProvider]?
+}
+
+struct WatchProvider: Codable, Identifiable {
+  let providerId: Int
+  let providerName: String
+  let logoPath: String?
+
+  var id: Int { providerId }
+
+  var logoURL: URL? {
+    guard let logoPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w92\(logoPath)")
   }
 }

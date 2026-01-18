@@ -60,7 +60,18 @@ export const getUserItemQuerySchema = createSelectSchema(schema.userItems)
 
 export const getUserItemResponseSchema = {
   200: z.object({
-    userItem: createSelectSchema(schema.userItems).optional(),
+    userItem: createSelectSchema(schema.userItems)
+      .extend({
+        watchEntries: z
+          .array(
+            z.object({
+              id: z.string(),
+              watchedAt: z.string(),
+            })
+          )
+          .optional(),
+      })
+      .optional(),
   }),
 }
 

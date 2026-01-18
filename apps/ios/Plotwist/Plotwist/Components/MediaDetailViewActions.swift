@@ -12,20 +12,21 @@ struct MediaDetailViewActions: View {
   let userItem: UserItem?
   let onReviewTapped: () -> Void
   let onStatusChanged: (UserItem?) -> Void
-  
+
   @State private var showStatusSheet = false
-  
+
   var body: some View {
     HStack(spacing: 12) {
       // Review Button
       ReviewButton(hasReview: userReview != nil, action: onReviewTapped)
-      
+
       // Status Button
       StatusButton(
         currentStatus: userItem?.statusEnum,
+        rewatchCount: userItem?.watchEntries?.count ?? 0,
         action: { showStatusSheet = true }
       )
-      
+
       Spacer()
     }
     .sheet(isPresented: $showStatusSheet) {
@@ -34,8 +35,9 @@ struct MediaDetailViewActions: View {
         mediaType: mediaType,
         currentStatus: userItem?.statusEnum,
         currentItemId: userItem?.id,
-        onStatusChanged: { newStatus in
-          if let newStatus = newStatus {
+        watchEntries: userItem?.watchEntries ?? [],
+        onStatusChanged: { newStatus, _ in
+          if newStatus != nil {
             // Reload user item to get the updated data
             Task {
               await reloadUserItem()
@@ -47,7 +49,7 @@ struct MediaDetailViewActions: View {
       )
     }
   }
-  
+
   private func reloadUserItem() async {
     do {
       let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
@@ -67,17 +69,38 @@ struct MediaDetailViewActions: View {
 // MARK: - Status Button
 struct StatusButton: View {
   let currentStatus: UserItemStatus?
+  let rewatchCount: Int
   let action: () -> Void
-  
+
   var body: some View {
-    ActionButton(
-      currentStatus?.displayName(strings: L10n.current) ?? L10n.current.updateStatus,
-      icon: currentStatus?.icon ?? "pencil",
-      iconColor: currentStatus != nil ? statusIconColor : nil,
-      action: action
-    )
+    Button(action: action) {
+      HStack(spacing: 8) {
+        Image(systemName: currentStatus?.icon ?? "pencil")
+          .font(.system(size: 14))
+          .foregroundColor(statusIconColor ?? .appForegroundAdaptive)
+
+        Text(currentStatus?.displayName(strings: L10n.current) ?? L10n.current.updateStatus)
+          .font(.subheadline.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+
+        // Rewatch count badge
+        if currentStatus == .watched && rewatchCount > 1 {
+          Text("\(rewatchCount)x")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundColor(.white)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
+            .background(Color.green)
+            .clipShape(Capsule())
+        }
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .background(Color.appInputFilled)
+      .cornerRadius(12)
+    }
   }
-  
+
   private var statusIconColor: Color? {
     guard let status = currentStatus else { return nil }
     switch status {
@@ -101,7 +124,7 @@ struct StatusButton: View {
       onStatusChanged: { _ in }
     )
     .padding(.horizontal, 24)
-    
+
     MediaDetailViewActions(
       mediaId: 550,
       mediaType: "movie",
@@ -125,7 +148,8 @@ struct StatusButton: View {
         mediaType: "MOVIE",
         status: "WATCHED",
         addedAt: "2025-01-10T12:00:00.000Z",
-        updatedAt: "2025-01-10T12:00:00.000Z"
+        updatedAt: "2025-01-10T12:00:00.000Z",
+        watchEntries: [WatchEntry(id: "1", watchedAt: "2025-01-10T12:00:00.000Z")]
       ),
       onReviewTapped: {},
       onStatusChanged: { _ in }
