@@ -1,19 +1,19 @@
 'use client'
 
 import { createContext, type ReactNode, useContext } from 'react'
-import type { Language } from '@/types/languages'
+import { asLanguage, type Language } from '@/types/languages'
 import type { Dictionary } from '@/utils/dictionaries'
 
 type LanguageContextProviderProps = {
   children: ReactNode
-  language: Language
+  language: string
   dictionary: Dictionary
 }
 
-type LanguageContextType = Pick<
-  LanguageContextProviderProps,
-  'dictionary' | 'language'
->
+type LanguageContextType = {
+  dictionary: Dictionary
+  language: Language
+}
 
 export const languageContext = createContext({} as LanguageContextType)
 
@@ -22,8 +22,10 @@ export const LanguageContextProvider = ({
   language,
   dictionary,
 }: LanguageContextProviderProps) => {
+  const safeLanguage = asLanguage(language)
+
   return (
-    <languageContext.Provider value={{ language, dictionary }}>
+    <languageContext.Provider value={{ language: safeLanguage, dictionary }}>
       {children}
     </languageContext.Provider>
   )

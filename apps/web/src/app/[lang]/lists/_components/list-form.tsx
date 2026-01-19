@@ -34,7 +34,7 @@ import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
 import { useLanguage } from '@/context/language'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
 
-type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
+type ListFormProps = { trigger: React.ReactNode; list?: GetListById200List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)

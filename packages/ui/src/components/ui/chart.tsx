@@ -112,6 +112,15 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: 'line' | 'dot' | 'dashed'
       nameKey?: string
       labelKey?: string
+      // biome-ignore lint/suspicious/noExplicitAny: recharts payload type
+      payload?: any[]
+      label?: string
+      // biome-ignore lint/suspicious/noExplicitAny: recharts formatter type
+      labelFormatter?: (label: any, payload: any[]) => React.ReactNode
+      // biome-ignore lint/suspicious/noExplicitAny: recharts formatter type
+      formatter?: (value: any, name: any, item: any, index: number, payload: any) => React.ReactNode
+      color?: string
+      active?: boolean
     }
 >(
   (
@@ -261,10 +270,12 @@ const ChartLegend = RechartsPrimitive.Legend
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<'div'> &
-    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+  React.ComponentProps<'div'> & {
       hideIcon?: boolean
       nameKey?: string
+      // biome-ignore lint/suspicious/noExplicitAny: recharts payload type
+      payload?: any[]
+      verticalAlign?: 'top' | 'bottom' | 'middle'
     }
 >(
   (

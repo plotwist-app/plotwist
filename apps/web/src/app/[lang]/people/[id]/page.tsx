@@ -1,11 +1,12 @@
 import { tmdb } from '@/services/tmdb'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { CreditsPage } from './_credits-page'
 
 type Props = PageProps<{ id: string }>
 
 export default async function Page({ params }: Props) {
-  const { id, lang } = await params
+  const { id, lang: langParam } = await params
+  const lang = asLanguage(langParam)
 
   const movieCredits = await tmdb.person.movieCredits(Number(id), lang)
   const tvCredits = await tmdb.person.tvCredits(Number(id), lang)

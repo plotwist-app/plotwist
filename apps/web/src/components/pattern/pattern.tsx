@@ -32,7 +32,7 @@ const Dots = () => (
 type PatternProps = { variant: 'dots' | 'checkered' }
 
 export const Pattern = ({ variant }: PatternProps) => {
-  const pattern: Record<PatternProps['variant'], () => JSX.Element> = {
+  const pattern: Record<PatternProps['variant'], () => React.ReactNode> = {
     dots: Dots,
     checkered: Checkered,
   }

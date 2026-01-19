@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { SeasonDetails } from './_components/season-details'
 import { SeasonNavigation } from './_components/season-navigation'
@@ -14,7 +14,8 @@ type SeasonPageProps = PageProps<{
 export async function generateMetadata({
   params,
 }: SeasonPageProps): Promise<Metadata> {
-  const { lang, seasonNumber, id } = await params
+  const { lang: langParam, seasonNumber, id } = await params
+  const lang = asLanguage(langParam)
 
   const season = await tmdb.season.details(
     Number(id),
@@ -47,7 +48,8 @@ export async function generateMetadata({
 }
 
 export default async function SeasonPage({ params }: SeasonPageProps) {
-  const { lang, seasonNumber, id } = await params
+  const { lang: langParam, seasonNumber, id } = await params
+  const lang = asLanguage(langParam)
 
   const currentSeason = await tmdb.season.details(
     Number(id),

@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
-import { type Language, tmdb } from '@/services/tmdb'
+import { tmdb } from '@/services/tmdb'
+import { asLanguage } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { APP_URL } from '../../../constants'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 
 export async function getTvMetadata(
   id: number,
-  lang: Language
+  langParam: string
 ): Promise<Metadata> {
+  const lang = asLanguage(langParam)
   const {
     name,
     overview,

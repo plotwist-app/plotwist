@@ -4,7 +4,6 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
 import { GTag } from '@/components/gtag'
-import type { Language } from '@/types/languages'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 
@@ -21,17 +20,13 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
-export default async function RootLayout(props: {
-  children: React.ReactNode
-  params: Promise<{ lang: Language }>
-}) {
-  const params = await props.params
+export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
   return (
     <ViewTransitions>
       <html
-        lang={params.lang}
+        lang="en"
         className={spaceGrotesk.className}
         suppressHydrationWarning
       >
