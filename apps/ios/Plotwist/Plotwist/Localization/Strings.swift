@@ -134,7 +134,12 @@ enum L10n {
       username: "Username",
       region: "Region",
       streamingServices: "Streaming Services",
-      notSet: "Not set"
+      notSet: "Not set",
+      searchRegion: "Search region...",
+      searchStreamingServices: "Search services...",
+      selectRegionFirst: "Select a region first",
+      servicesSelected: "%d selected",
+      streamingServicesHint: "Showing services available in your selected region."
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -250,7 +255,12 @@ enum L10n {
       username: "Nome de usuário",
       region: "Região",
       streamingServices: "Serviços de Streaming",
-      notSet: "Não definido"
+      notSet: "Não definido",
+      searchRegion: "Buscar região...",
+      searchStreamingServices: "Buscar serviços...",
+      selectRegionFirst: "Selecione uma região primeiro",
+      servicesSelected: "%d selecionados",
+      streamingServicesHint: "Exibindo serviços disponíveis na região selecionada."
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -366,7 +376,12 @@ enum L10n {
       username: "Nombre de usuario",
       region: "Región",
       streamingServices: "Servicios de Streaming",
-      notSet: "No definido"
+      notSet: "No definido",
+      searchRegion: "Buscar región...",
+      searchStreamingServices: "Buscar servicios...",
+      selectRegionFirst: "Seleccione una región primero",
+      servicesSelected: "%d seleccionados",
+      streamingServicesHint: "Mostrando servicios disponibles en la región seleccionada."
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -482,7 +497,12 @@ enum L10n {
       username: "Nom d'utilisateur",
       region: "Région",
       streamingServices: "Services de Streaming",
-      notSet: "Non défini"
+      notSet: "Non défini",
+      searchRegion: "Rechercher une région...",
+      searchStreamingServices: "Rechercher des services...",
+      selectRegionFirst: "Sélectionnez d'abord une région",
+      servicesSelected: "%d sélectionnés",
+      streamingServicesHint: "Affichage des services disponibles dans la région sélectionnée."
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -598,7 +618,12 @@ enum L10n {
       username: "Benutzername",
       region: "Region",
       streamingServices: "Streaming-Dienste",
-      notSet: "Nicht festgelegt"
+      notSet: "Nicht festgelegt",
+      searchRegion: "Region suchen...",
+      searchStreamingServices: "Dienste suchen...",
+      selectRegionFirst: "Wählen Sie zuerst eine Region",
+      servicesSelected: "%d ausgewählt",
+      streamingServicesHint: "Zeigt Dienste an, die in der ausgewählten Region verfügbar sind."
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -714,7 +739,12 @@ enum L10n {
       username: "Nome utente",
       region: "Regione",
       streamingServices: "Servizi di Streaming",
-      notSet: "Non impostato"
+      notSet: "Non impostato",
+      searchRegion: "Cerca regione...",
+      searchStreamingServices: "Cerca servizi...",
+      selectRegionFirst: "Seleziona prima una regione",
+      servicesSelected: "%d selezionati",
+      streamingServicesHint: "Mostra i servizi disponibili nella regione selezionata."
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -829,7 +859,12 @@ enum L10n {
       username: "ユーザー名",
       region: "地域",
       streamingServices: "ストリーミング",
-      notSet: "未設定"
+      notSet: "未設定",
+      searchRegion: "地域を検索...",
+      searchStreamingServices: "サービスを検索...",
+      selectRegionFirst: "最初に地域を選択してください",
+      servicesSelected: "%d 件選択",
+      streamingServicesHint: "選択した地域で利用可能なサービスを表示しています。"
     ),
   ]
 }
@@ -963,4 +998,9 @@ struct Strings {
   let region: String
   let streamingServices: String
   let notSet: String
+  let searchRegion: String
+  let searchStreamingServices: String
+  let selectRegionFirst: String
+  let servicesSelected: String
+  let streamingServicesHint: String
 }

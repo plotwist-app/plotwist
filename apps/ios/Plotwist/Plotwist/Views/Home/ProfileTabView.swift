@@ -172,6 +172,9 @@ struct ProfileTabView: View {
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
       }
+      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+        Task { await loadUser() }
+      }
       .navigationBarHidden(true)
     }
   }
@@ -265,12 +268,54 @@ struct EditProfileView: View {
   @Environment(\.colorScheme) private var systemColorScheme
   @ObservedObject private var themeManager = ThemeManager.shared
   @State private var strings = L10n.current
+  @State private var userPreferences: UserPreferences?
+  @State private var isLoadingPreferences = true
+  @State private var streamingProviders: [StreamingProvider] = []
 
   // Fixed label width for alignment
   private let labelWidth: CGFloat = 100
 
   private var effectiveColorScheme: ColorScheme {
     themeManager.current.colorScheme ?? systemColorScheme
+  }
+
+  private var currentRegionName: String {
+    guard let region = userPreferences?.watchRegion else {
+      return strings.notSet
+    }
+    return regionName(for: region)
+  }
+
+  private var currentRegionFlag: String? {
+    guard let region = userPreferences?.watchRegion else {
+      return nil
+    }
+    return flagEmoji(for: region)
+  }
+
+  private func regionName(for code: String) -> String {
+    let locale = Locale(identifier: Language.current.rawValue)
+    return locale.localizedString(forRegionCode: code) ?? code
+  }
+
+  private func flagEmoji(for code: String) -> String {
+    let base: UInt32 = 127397
+    var emoji = ""
+    for scalar in code.uppercased().unicodeScalars {
+      if let unicode = UnicodeScalar(base + scalar.value) {
+        emoji.append(String(unicode))
+      }
+    }
+    return emoji
+  }
+
+  private var selectedProviders: [StreamingProvider] {
+    guard let ids = userPreferences?.watchProvidersIds else { return [] }
+    return streamingProviders.filter { ids.contains($0.providerId) }
+  }
+
+  private var canEditStreamingServices: Bool {
+    userPreferences?.watchRegion != nil
   }
 
   var body: some View {
@@ -359,12 +404,21 @@ struct EditProfileView: View {
                 .padding(.leading, 24)
 
               // Region Field
-              NavigationLink(destination: EditFieldView(fieldName: strings.region)) {
-                EditProfileRow(
-                  label: strings.region,
-                  value: strings.notSet,
-                  labelWidth: labelWidth
-                )
+              NavigationLink(
+                destination: EditRegionView(currentRegion: userPreferences?.watchRegion)
+              ) {
+                EditProfileBadgeRow(label: strings.region) {
+                  if let region = userPreferences?.watchRegion {
+                    ProfileBadge(
+                      text: currentRegionName,
+                      prefix: currentRegionFlag
+                    )
+                  } else {
+                    Text(strings.notSet)
+                      .font(.subheadline)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                  }
+                }
               }
 
               Rectangle()
@@ -373,12 +427,37 @@ struct EditProfileView: View {
                 .padding(.leading, 24)
 
               // Streaming Services Field
-              NavigationLink(destination: EditFieldView(fieldName: strings.streamingServices)) {
-                EditProfileRow(
-                  label: strings.streamingServices,
-                  value: strings.notSet,
-                  labelWidth: labelWidth
-                )
+              if canEditStreamingServices {
+                NavigationLink(
+                  destination: EditStreamingServicesView(
+                    watchRegion: userPreferences?.watchRegion ?? "",
+                    selectedIds: userPreferences?.watchProvidersIds ?? []
+                  )
+                ) {
+                  EditProfileBadgeRow(label: strings.streamingServices) {
+                    if selectedProviders.isEmpty {
+                      Text(strings.notSet)
+                        .font(.subheadline)
+                        .foregroundColor(.appMutedForegroundAdaptive)
+                    } else {
+                      FlowLayout(spacing: 6) {
+                        ForEach(selectedProviders) { provider in
+                          ProfileBadge(
+                            text: provider.providerName,
+                            logoURL: provider.logoURL
+                          )
+                        }
+                      }
+                    }
+                  }
+                }
+              } else {
+                EditProfileBadgeRow(label: strings.streamingServices) {
+                  Text(strings.selectRegionFirst)
+                    .font(.subheadline)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                }
+                .opacity(0.5)
               }
             }
           }
@@ -387,8 +466,33 @@ struct EditProfileView: View {
     }
     .navigationBarHidden(true)
     .preferredColorScheme(effectiveColorScheme)
+    .task {
+      await loadPreferences()
+    }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      Task { await loadPreferences() }
+    }
+  }
+
+  private func loadPreferences() async {
+    isLoadingPreferences = true
+    defer { isLoadingPreferences = false }
+
+    do {
+      userPreferences = try await AuthService.shared.getUserPreferences()
+
+      // Load providers if region is set
+      if let region = userPreferences?.watchRegion {
+        streamingProviders = try await TMDBService.shared.getStreamingProviders(
+          watchRegion: region,
+          language: Language.current.rawValue
+        )
+      }
+    } catch {
+      print("Error loading preferences: \(error)")
     }
   }
 }
@@ -398,6 +502,7 @@ struct EditProfileRow: View {
   let label: String
   let value: String
   let labelWidth: CGFloat
+  var prefix: String? = nil
 
   var body: some View {
     HStack(alignment: .top, spacing: 16) {
@@ -407,9 +512,41 @@ struct EditProfileRow: View {
         .frame(width: labelWidth, alignment: .topLeading)
         .multilineTextAlignment(.leading)
 
-      Text(value)
+      HStack(spacing: 8) {
+        if let prefix {
+          Text(prefix)
+            .font(.title3)
+        }
+        Text(value)
+          .font(.subheadline)
+          .foregroundColor(.appForegroundAdaptive)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+
+      Image(systemName: "chevron.right")
+        .font(.system(size: 14, weight: .medium))
+        .foregroundColor(.appMutedForegroundAdaptive)
+    }
+    .padding(.horizontal, 24)
+    .padding(.vertical, 16)
+    .contentShape(Rectangle())
+  }
+}
+
+// MARK: - Edit Profile Badge Row
+struct EditProfileBadgeRow<Content: View>: View {
+  let label: String
+  @ViewBuilder let content: Content
+
+  var body: some View {
+    HStack(alignment: .top, spacing: 16) {
+      Text(label)
         .font(.subheadline)
-        .foregroundColor(.appForegroundAdaptive)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 100, alignment: .topLeading)
+        .multilineTextAlignment(.leading)
+
+      content
         .frame(maxWidth: .infinity, alignment: .leading)
 
       Image(systemName: "chevron.right")
@@ -419,6 +556,97 @@ struct EditProfileRow: View {
     .padding(.horizontal, 24)
     .padding(.vertical, 16)
     .contentShape(Rectangle())
+  }
+}
+
+// MARK: - Profile Badge
+struct ProfileBadge: View {
+  let text: String
+  var prefix: String? = nil
+  var logoURL: URL? = nil
+
+  var body: some View {
+    HStack(spacing: 6) {
+      if let prefix {
+        Text(prefix)
+          .font(.caption)
+      }
+
+      if let logoURL {
+        AsyncImage(url: logoURL) { phase in
+          switch phase {
+          case .success(let image):
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          default:
+            Rectangle()
+              .fill(Color.appInputFilled)
+          }
+        }
+        .frame(width: 18, height: 18)
+        .cornerRadius(4)
+      }
+
+      Text(text)
+        .font(.caption)
+        .foregroundColor(.appForegroundAdaptive)
+    }
+    .padding(.horizontal, 10)
+    .padding(.vertical, 6)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 8))
+  }
+}
+
+// MARK: - Flow Layout
+struct FlowLayout: Layout {
+  var spacing: CGFloat = 8
+
+  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+    let result = FlowResult(in: proposal.width ?? 0, subviews: subviews, spacing: spacing)
+    return result.size
+  }
+
+  func placeSubviews(
+    in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()
+  ) {
+    let result = FlowResult(in: bounds.width, subviews: subviews, spacing: spacing)
+    for (index, subview) in subviews.enumerated() {
+      subview.place(
+        at: CGPoint(
+          x: bounds.minX + result.positions[index].x,
+          y: bounds.minY + result.positions[index].y),
+        proposal: .unspecified)
+    }
+  }
+
+  struct FlowResult {
+    var size: CGSize = .zero
+    var positions: [CGPoint] = []
+
+    init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat) {
+      var x: CGFloat = 0
+      var y: CGFloat = 0
+      var rowHeight: CGFloat = 0
+
+      for subview in subviews {
+        let size = subview.sizeThatFits(.unspecified)
+
+        if x + size.width > maxWidth && x > 0 {
+          x = 0
+          y += rowHeight + spacing
+          rowHeight = 0
+        }
+
+        positions.append(CGPoint(x: x, y: y))
+        rowHeight = max(rowHeight, size.height)
+        x += size.width + spacing
+        self.size.width = max(self.size.width, x - spacing)
+      }
+
+      self.size.height = y + rowHeight
+    }
   }
 }
 
@@ -519,29 +747,29 @@ struct EditUsernameView: View {
             .font(.subheadline.weight(.medium))
             .foregroundColor(.appMutedForegroundAdaptive)
 
-          HStack(spacing: 12) {
+          HStack(spacing: 0) {
             TextField(strings.usernamePlaceholder, text: $username)
               .textInputAutocapitalization(.never)
               .autocorrectionDisabled()
-              .padding(12)
-              .background(Color.appInputFilled)
-              .cornerRadius(12)
               .onChange(of: username) { newValue in
                 checkUsernameAvailability(newValue)
               }
 
-            // Availability indicator
+            // Availability indicator inside field (only show loading or error)
             if hasChanges {
               if isCheckingAvailability {
                 ProgressView()
-                  .frame(width: 24, height: 24)
-              } else if let isAvailable {
-                Image(systemName: isAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
-                  .font(.system(size: 24))
-                  .foregroundColor(isAvailable ? .green : .appDestructive)
+                  .frame(width: 20, height: 20)
+              } else if isAvailable == false {
+                Image(systemName: "xmark.circle.fill")
+                  .font(.system(size: 20))
+                  .foregroundColor(.appDestructive)
               }
             }
           }
+          .padding(12)
+          .background(Color.appInputFilled)
+          .cornerRadius(12)
 
           if let error {
             Text(error)
@@ -609,12 +837,454 @@ struct EditUsernameView: View {
 
     do {
       _ = try await AuthService.shared.updateUser(username: username)
+      NotificationCenter.default.post(name: .profileUpdated, object: nil)
       dismiss()
     } catch AuthError.alreadyExists {
       error = strings.usernameAlreadyTaken
       isAvailable = false
     } catch {
       self.error = error.localizedDescription
+    }
+  }
+}
+
+// MARK: - Edit Region View
+struct EditRegionView: View {
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var systemColorScheme
+  @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var strings = L10n.current
+  @State private var regions: [WatchRegion] = []
+  @State private var filteredRegions: [WatchRegion] = []
+  @State private var selectedRegion: String?
+  @State private var searchText = ""
+  @State private var isLoading = true
+  @State private var isSaving = false
+
+  let currentRegion: String?
+
+  init(currentRegion: String?) {
+    self.currentRegion = currentRegion
+    _selectedRegion = State(initialValue: currentRegion)
+  }
+
+  private var effectiveColorScheme: ColorScheme {
+    themeManager.current.colorScheme ?? systemColorScheme
+  }
+
+  private var hasChanges: Bool {
+    selectedRegion != currentRegion && selectedRegion != nil
+  }
+
+  var body: some View {
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        // Header
+        VStack(spacing: 0) {
+          HStack {
+            Button {
+              dismiss()
+            } label: {
+              Image(systemName: "chevron.left")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+                .frame(width: 40, height: 40)
+                .background(Color.appInputFilled)
+                .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text(strings.region)
+              .font(.title3.bold())
+              .foregroundColor(.appForegroundAdaptive)
+
+            Spacer()
+
+            // Save Button (Primary)
+            Button {
+              Task { await saveRegion() }
+            } label: {
+              if isSaving {
+                ProgressView()
+                  .tint(.appBackgroundAdaptive)
+                  .frame(width: 40, height: 40)
+                  .background(Color.appForegroundAdaptive)
+                  .clipShape(Circle())
+              } else {
+                Image(systemName: "checkmark")
+                  .font(.system(size: 18, weight: .semibold))
+                  .foregroundColor(
+                    hasChanges ? .appBackgroundAdaptive : .appMutedForegroundAdaptive
+                  )
+                  .frame(width: 40, height: 40)
+                  .background(hasChanges ? Color.appForegroundAdaptive : Color.clear)
+                  .clipShape(Circle())
+              }
+            }
+            .disabled(!hasChanges || isSaving)
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+
+          // Search Field
+          HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+              .foregroundColor(.appMutedForegroundAdaptive)
+            TextField(strings.searchRegion, text: $searchText)
+              .textInputAutocapitalization(.never)
+              .autocorrectionDisabled()
+              .onChange(of: searchText) { _ in
+                filterRegions()
+              }
+          }
+          .padding(12)
+          .background(Color.appInputFilled)
+          .cornerRadius(12)
+          .padding(.horizontal, 24)
+          .padding(.bottom, 16)
+
+          Rectangle()
+            .fill(Color.appBorderAdaptive.opacity(0.5))
+            .frame(height: 1)
+        }
+
+        // Content
+        if isLoading {
+          VStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+          }
+        } else {
+          ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: 0) {
+              ForEach(filteredRegions) { region in
+                Button {
+                  selectedRegion = region.iso31661
+                } label: {
+                  HStack(spacing: 12) {
+                    Text(region.flagEmoji)
+                      .font(.title2)
+
+                    Text(region.englishName)
+                      .font(.subheadline)
+                      .foregroundColor(.appForegroundAdaptive)
+
+                    Spacer()
+
+                    if selectedRegion == region.iso31661 {
+                      Image(systemName: "checkmark")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.appForegroundAdaptive)
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                  .padding(.vertical, 14)
+                  .background(
+                    selectedRegion == region.iso31661
+                      ? Color.appInputFilled : Color.clear
+                  )
+                }
+
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.3))
+                  .frame(height: 1)
+                  .padding(.leading, 60)
+              }
+            }
+          }
+        }
+      }
+    }
+    .navigationBarHidden(true)
+    .preferredColorScheme(effectiveColorScheme)
+    .task {
+      await loadRegions()
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
+    }
+  }
+
+  private func loadRegions() async {
+    isLoading = true
+    defer { isLoading = false }
+
+    do {
+      regions = try await TMDBService.shared.getAvailableRegions(
+        language: Language.current.rawValue)
+      filterRegions()
+    } catch {
+      print("Error loading regions: \(error)")
+    }
+  }
+
+  private func filterRegions() {
+    if searchText.isEmpty {
+      filteredRegions = regions
+    } else {
+      filteredRegions = regions.filter {
+        $0.englishName.localizedCaseInsensitiveContains(searchText)
+          || $0.nativeName.localizedCaseInsensitiveContains(searchText)
+          || $0.iso31661.localizedCaseInsensitiveContains(searchText)
+      }
+    }
+  }
+
+  private func saveRegion() async {
+    guard let selectedRegion else { return }
+
+    isSaving = true
+    defer { isSaving = false }
+
+    do {
+      try await AuthService.shared.updateUserPreferences(watchRegion: selectedRegion)
+      NotificationCenter.default.post(name: .profileUpdated, object: nil)
+      dismiss()
+    } catch {
+      print("Error saving region: \(error)")
+    }
+  }
+}
+
+// MARK: - Edit Streaming Services View
+struct EditStreamingServicesView: View {
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var systemColorScheme
+  @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var strings = L10n.current
+  @State private var providers: [StreamingProvider] = []
+  @State private var filteredProviders: [StreamingProvider] = []
+  @State private var selectedIds: Set<Int>
+  @State private var searchText = ""
+  @State private var isLoading = true
+  @State private var isSaving = false
+
+  let watchRegion: String
+  let initialSelectedIds: [Int]
+
+  init(watchRegion: String, selectedIds: [Int]) {
+    self.watchRegion = watchRegion
+    self.initialSelectedIds = selectedIds
+    _selectedIds = State(initialValue: Set(selectedIds))
+  }
+
+  private var effectiveColorScheme: ColorScheme {
+    themeManager.current.colorScheme ?? systemColorScheme
+  }
+
+  private var hasChanges: Bool {
+    Set(initialSelectedIds) != selectedIds
+  }
+
+  var body: some View {
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        // Header
+        VStack(spacing: 0) {
+          HStack {
+            Button {
+              dismiss()
+            } label: {
+              Image(systemName: "chevron.left")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+                .frame(width: 40, height: 40)
+                .background(Color.appInputFilled)
+                .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text(strings.streamingServices)
+              .font(.title3.bold())
+              .foregroundColor(.appForegroundAdaptive)
+
+            Spacer()
+
+            // Save Button (Primary)
+            Button {
+              Task { await saveServices() }
+            } label: {
+              if isSaving {
+                ProgressView()
+                  .tint(.appBackgroundAdaptive)
+                  .frame(width: 40, height: 40)
+                  .background(Color.appForegroundAdaptive)
+                  .clipShape(Circle())
+              } else {
+                Image(systemName: "checkmark")
+                  .font(.system(size: 18, weight: .semibold))
+                  .foregroundColor(
+                    hasChanges ? .appBackgroundAdaptive : .appMutedForegroundAdaptive
+                  )
+                  .frame(width: 40, height: 40)
+                  .background(hasChanges ? Color.appForegroundAdaptive : Color.clear)
+                  .clipShape(Circle())
+              }
+            }
+            .disabled(!hasChanges || isSaving)
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+
+          // Search Field
+          HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+              .foregroundColor(.appMutedForegroundAdaptive)
+            TextField(strings.searchStreamingServices, text: $searchText)
+              .textInputAutocapitalization(.never)
+              .autocorrectionDisabled()
+              .onChange(of: searchText) { _ in
+                filterProviders()
+              }
+          }
+          .padding(12)
+          .background(Color.appInputFilled)
+          .cornerRadius(12)
+          .padding(.horizontal, 24)
+
+          // Hint message
+          HStack(spacing: 8) {
+            Image(systemName: "info.circle")
+              .font(.caption)
+            Text(strings.streamingServicesHint)
+              .font(.caption)
+          }
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .padding(.horizontal, 24)
+          .padding(.bottom, 16)
+
+          Rectangle()
+            .fill(Color.appBorderAdaptive.opacity(0.5))
+            .frame(height: 1)
+        }
+
+        // Content
+        if isLoading {
+          VStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+          }
+        } else {
+          ScrollView(showsIndicators: false) {
+            LazyVStack(spacing: 0) {
+              ForEach(filteredProviders) { provider in
+                Button {
+                  toggleProvider(provider.providerId)
+                } label: {
+                  HStack(spacing: 12) {
+                    // Provider Logo
+                    AsyncImage(url: provider.logoURL) { phase in
+                      switch phase {
+                      case .success(let image):
+                        image
+                          .resizable()
+                          .aspectRatio(contentMode: .fill)
+                      default:
+                        Rectangle()
+                          .fill(Color.appInputFilled)
+                      }
+                    }
+                    .frame(width: 40, height: 40)
+                    .cornerRadius(8)
+
+                    Text(provider.providerName)
+                      .font(.subheadline)
+                      .foregroundColor(.appForegroundAdaptive)
+
+                    Spacer()
+
+                    if selectedIds.contains(provider.providerId) {
+                      Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 22))
+                        .foregroundColor(.appForegroundAdaptive)
+                    } else {
+                      Image(systemName: "circle")
+                        .font(.system(size: 22))
+                        .foregroundColor(.appMutedForegroundAdaptive)
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                  .padding(.vertical, 12)
+                  .background(
+                    selectedIds.contains(provider.providerId)
+                      ? Color.appInputFilled : Color.clear
+                  )
+                }
+
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.3))
+                  .frame(height: 1)
+                  .padding(.leading, 76)
+              }
+            }
+          }
+        }
+      }
+    }
+    .navigationBarHidden(true)
+    .preferredColorScheme(effectiveColorScheme)
+    .task {
+      await loadProviders()
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
+    }
+  }
+
+  private func toggleProvider(_ id: Int) {
+    if selectedIds.contains(id) {
+      selectedIds.remove(id)
+    } else {
+      selectedIds.insert(id)
+    }
+  }
+
+  private func loadProviders() async {
+    isLoading = true
+    defer { isLoading = false }
+
+    do {
+      providers = try await TMDBService.shared.getStreamingProviders(
+        watchRegion: watchRegion,
+        language: Language.current.rawValue
+      )
+      filterProviders()
+    } catch {
+      print("Error loading providers: \(error)")
+    }
+  }
+
+  private func filterProviders() {
+    if searchText.isEmpty {
+      filteredProviders = providers
+    } else {
+      filteredProviders = providers.filter {
+        $0.providerName.localizedCaseInsensitiveContains(searchText)
+      }
+    }
+  }
+
+  private func saveServices() async {
+    isSaving = true
+    defer { isSaving = false }
+
+    do {
+      try await AuthService.shared.updateUserPreferences(
+        watchRegion: watchRegion,
+        watchProvidersIds: Array(selectedIds)
+      )
+      NotificationCenter.default.post(name: .profileUpdated, object: nil)
+      dismiss()
+    } catch {
+      print("Error saving services: \(error)")
     }
   }
 }

@@ -193,6 +193,57 @@ class AuthService {
     return http.statusCode == 200
   }
 
+  // MARK: - Get User Preferences
+  func getUserPreferences() async throws -> UserPreferences? {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+      let url = URL(string: "\(API.baseURL)/user/preferences")
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let wrapper = try decoder.decode(UserPreferencesResponse.self, from: data)
+    return wrapper.userPreferences
+  }
+
+  // MARK: - Update User Preferences
+  func updateUserPreferences(watchRegion: String, watchProvidersIds: [Int] = []) async throws {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+      let url = URL(string: "\(API.baseURL)/user/preferences")
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "PATCH"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let body: [String: Any] = [
+      "watchRegion": watchRegion,
+      "watchProvidersIds": watchProvidersIds,
+    ]
+
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (_, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+  }
+
   // MARK: - Sign Out
   func signOut() {
     UserDefaults.standard.removeObject(forKey: "token")
@@ -244,6 +295,17 @@ struct MeResponse: Codable {
   let user: User
 }
 
+struct UserPreferencesResponse: Codable {
+  let userPreferences: UserPreferences?
+}
+
+struct UserPreferences: Codable {
+  let id: String
+  let userId: String
+  let watchProvidersIds: [Int]?
+  let watchRegion: String?
+}
+
 enum AuthError: LocalizedError {
   case invalidURL, invalidResponse, invalidCredentials, alreadyExists
 
@@ -259,4 +321,5 @@ enum AuthError: LocalizedError {
 
 extension Notification.Name {
   static let authChanged = Notification.Name("authChanged")
+  static let profileUpdated = Notification.Name("profileUpdated")
 }

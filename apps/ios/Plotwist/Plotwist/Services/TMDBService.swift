@@ -474,6 +474,80 @@ class TMDBService {
     let result = try decoder.decode(PopularResponse.self, from: data)
     return result.results.map { $0.toSearchResult(mediaType: mediaType) }
   }
+
+  // MARK: - Get Available Regions
+  func getAvailableRegions(language: String = "en-US") async throws -> [WatchRegion] {
+    guard let url = URL(string: "\(baseURL)/watch/providers/regions?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(WatchRegionsResponse.self, from: data)
+    return result.results.sorted { $0.englishName < $1.englishName }
+  }
+
+  // MARK: - Get Streaming Providers by Region
+  func getStreamingProviders(watchRegion: String, language: String = "en-US") async throws
+    -> [StreamingProvider]
+  {
+    // Fetch both movie and tv providers and merge them
+    async let movieProviders = fetchProviders(
+      type: "movie", watchRegion: watchRegion, language: language)
+    async let tvProviders = fetchProviders(type: "tv", watchRegion: watchRegion, language: language)
+
+    let (movies, tv) = try await (movieProviders, tvProviders)
+
+    // Merge and deduplicate
+    var uniqueProviders: [Int: StreamingProvider] = [:]
+    for provider in movies {
+      uniqueProviders[provider.providerId] = provider
+    }
+    for provider in tv {
+      if uniqueProviders[provider.providerId] == nil {
+        uniqueProviders[provider.providerId] = provider
+      }
+    }
+
+    return Array(uniqueProviders.values).sorted { $0.providerName < $1.providerName }
+  }
+
+  private func fetchProviders(type: String, watchRegion: String, language: String) async throws
+    -> [StreamingProvider]
+  {
+    guard
+      let url = URL(
+        string:
+          "\(baseURL)/watch/providers/\(type)?language=\(language)&watch_region=\(watchRegion)")
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(StreamingProvidersResponse.self, from: data)
+    return result.results
+  }
 }
 
 // MARK: - Movie Details Model
@@ -704,5 +778,48 @@ struct WatchProvider: Codable, Identifiable {
   var logoURL: URL? {
     guard let logoPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w92\(logoPath)")
+  }
+}
+
+// MARK: - Streaming Providers (for preferences)
+struct StreamingProvidersResponse: Codable {
+  let results: [StreamingProvider]
+}
+
+struct StreamingProvider: Codable, Identifiable {
+  let providerId: Int
+  let providerName: String
+  let logoPath: String?
+
+  var id: Int { providerId }
+
+  var logoURL: URL? {
+    guard let logoPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w92\(logoPath)")
+  }
+}
+
+// MARK: - Watch Regions
+struct WatchRegionsResponse: Codable {
+  let results: [WatchRegion]
+}
+
+struct WatchRegion: Codable, Identifiable {
+  let iso31661: String
+  let englishName: String
+  let nativeName: String
+
+  var id: String { iso31661 }
+
+  // Returns flag emoji for the country code
+  var flagEmoji: String {
+    let base: UInt32 = 127397
+    var emoji = ""
+    for scalar in iso31661.uppercased().unicodeScalars {
+      if let unicode = UnicodeScalar(base + scalar.value) {
+        emoji.append(String(unicode))
+      }
+    }
+    return emoji
   }
 }
