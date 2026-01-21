@@ -6,7 +6,11 @@
     },
     "web#build": {
       "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_MEASUREMENT_ID"],
+      "env": [
+        "NEXT_PUBLIC_MEASUREMENT_ID",
+        "SESSION_SECRET",
+        "STRIPE_PRODUCT_ID"
+      ],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "backend#build": {
@@ -25,7 +29,9 @@
   "globalEnv": [
     "NEXT_PUBLIC_TMDB_API_KEY",
     "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
-    "STRIPE_SECRET_KEY"
+    "STRIPE_SECRET_KEY",
+    "STRIPE_PRODUCT_ID",
+    "SESSION_SECRET"
   ],
   "globalDependencies": ["tsconfig.json", ".env"]
 }
