@@ -1,4 +1,4 @@
-import type { Language } from '@/types/languages'
+import { asLanguage } from '@/types/languages'
 
 const dictionaries = {
   'en-US': () =>
@@ -17,8 +17,9 @@ const dictionaries = {
     import('../../../public/dictionaries/ja-JP.json').then(r => r.default),
 } as const
 
-export const getDictionary = (lang: Language) => {
-  const langFn = dictionaries[lang]
+export const getDictionary = (lang: string) => {
+  const safeLang = asLanguage(lang)
+  const langFn = dictionaries[safeLang]
 
   return langFn ? langFn() : dictionaries['en-US']()
 }

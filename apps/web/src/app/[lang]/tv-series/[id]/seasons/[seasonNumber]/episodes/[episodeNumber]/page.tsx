@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { tmdb } from '@/services/tmdb'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { EpisodeDetails } from './_components/episode-details'
 import { EpisodeNavigation } from './_components/episode-navigation'
@@ -15,7 +15,8 @@ type EpisodePageProps = PageProps<{
 export async function generateMetadata({
   params,
 }: EpisodePageProps): Promise<Metadata> {
-  const { lang, id, seasonNumber, episodeNumber } = await params
+  const { lang: langParam, id, seasonNumber, episodeNumber } = await params
+  const lang = asLanguage(langParam)
 
   const episode = await tmdb.episodes.details(
     Number(id),
@@ -53,7 +54,8 @@ export async function generateMetadata({
 }
 
 export default async function EpisodePage({ params }: EpisodePageProps) {
-  const { lang, episodeNumber, seasonNumber, id } = await params
+  const { lang: langParam, episodeNumber, seasonNumber, id } = await params
+  const lang = asLanguage(langParam)
 
   const episode = await tmdb.episodes.details(
     Number(id),

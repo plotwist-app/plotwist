@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { getMovieMetadata } from '@/utils/seo/get-movie-metadata'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
 import { MovieDetails } from './_components/movie-details'
@@ -23,10 +23,11 @@ export async function generateMetadata(
 
 export default async function MoviePage(props: MoviePageProps) {
   const { id, lang } = await props.params
+  const language = asLanguage(lang)
 
   return (
     <Suspense>
-      <MovieDetails id={Number(id)} language={lang} />
+      <MovieDetails id={Number(id)} language={language} />
     </Suspense>
   )
 }

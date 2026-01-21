@@ -22,14 +22,15 @@ export const dynamic = 'force-dynamic'
 
 type RootLayoutProps = {
   children: React.ReactNode
-  params: Promise<{ lang: Language }>
+  params: Promise<{ lang: string }>
 }
 
 export default async function RootLayout({
   params,
   children,
 }: RootLayoutProps) {
-  const { lang } = await params
+  const { lang: langParam } = await params
+  const lang = langParam as Language
 
   const dictionary = await getDictionary(lang)
   const session = await verifySession()

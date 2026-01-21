@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { getTvMetadata } from '@/utils/seo/get-tv-metadata'
 import { getTvSeriesIds } from '@/utils/seo/get-tv-series-ids'
 import { TvSerieDetails } from './_components/tv-serie-details'
@@ -23,6 +23,7 @@ export async function generateMetadata(
 
 export default async function TvSeriePage(props: TvSeriePageProps) {
   const { id, lang } = await props.params
+  const language = asLanguage(lang)
 
-  return <TvSerieDetails id={Number(id)} language={lang} />
+  return <TvSerieDetails id={Number(id)} language={language} />
 }

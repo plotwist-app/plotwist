@@ -6,7 +6,7 @@ import { getUserPreferences } from '@/api/users'
 import { verifySession } from '@/app/lib/dal'
 import { PosterCard } from '@/components/poster-card'
 import { tmdb } from '@/services/tmdb'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Container } from '../_components/container'
@@ -49,8 +49,10 @@ const HomePage = async (props: PageProps) => {
     userPreferences = userPreferencesData
   }
 
+  const language = asLanguage(lang)
+
   const popularMovies = await tmdb.movies.discover({
-    language: lang,
+    language,
     page: 1,
     filters: {
       with_watch_providers: userPreferences?.watchProvidersIds?.join('|'),
@@ -60,7 +62,7 @@ const HomePage = async (props: PageProps) => {
   })
 
   const popularTvSeries = await tmdb.tv.discover({
-    language: lang,
+    language,
     page: 1,
     filters: {
       with_watch_providers: userPreferences?.watchProvidersIds?.join('|'),
