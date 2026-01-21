@@ -331,6 +331,196 @@ class TMDBService {
     )
   }
 
+  // MARK: - Discover Movies with Watch Providers
+  func discoverMovies(
+    language: String = "en-US",
+    page: Int = 1,
+    watchRegion: String? = nil,
+    withWatchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    var urlString =
+      "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&page=\(page)"
+
+    if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
+      urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "movie") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Discover TV with Watch Providers
+  func discoverTV(
+    language: String = "en-US",
+    page: Int = 1,
+    watchRegion: String? = nil,
+    withWatchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    var urlString =
+      "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&page=\(page)"
+
+    if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
+      urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Discover Animes with Watch Providers
+  func discoverAnimes(
+    language: String = "en-US",
+    page: Int = 1,
+    watchRegion: String? = nil,
+    withWatchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    var urlString =
+      "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP&page=\(page)"
+
+    if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
+      urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Discover Anime Movies with Watch Providers
+  func discoverAnimeMovies(
+    language: String = "en-US",
+    page: Int = 1,
+    watchRegion: String? = nil,
+    withWatchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    var urlString =
+      "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&with_genres=16&with_origin_country=JP&page=\(page)"
+
+    if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
+      urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "movie") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
+  // MARK: - Discover Doramas with Watch Providers
+  func discoverDoramas(
+    language: String = "en-US",
+    page: Int = 1,
+    watchRegion: String? = nil,
+    withWatchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    var urlString =
+      "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&with_origin_country=KR&page=\(page)"
+
+    if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
+      urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+
+    guard let url = URL(string: urlString) else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return PaginatedResult(
+      results: result.results.map { $0.toSearchResult(mediaType: "tv") },
+      page: result.page,
+      totalPages: result.totalPages
+    )
+  }
+
   // MARK: - Popular Doramas (Korean dramas)
   func getPopularDoramas(language: String = "en-US", page: Int = 1) async throws -> PaginatedResult
   {

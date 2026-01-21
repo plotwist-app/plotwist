@@ -87,6 +87,7 @@ struct CategoryListView: View {
   @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .popular
   @State private var selectedAnimeType: AnimeType = .tvSeries
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var hasAppliedInitialSubcategory = false
 
   private var title: String {
@@ -199,7 +200,17 @@ struct CategoryListView: View {
           }
         } else {
           ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
+            VStack(alignment: .leading, spacing: 0) {
+              // Preferences Badge
+              HStack {
+                PreferencesBadge()
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+              .padding(.bottom, 16)
+
+              LazyVGrid(columns: columns, spacing: 16) {
               ForEach(items) { item in
                 NavigationLink {
                   MediaDetailView(mediaId: item.id, mediaType: mediaType)
@@ -225,7 +236,8 @@ struct CategoryListView: View {
               }
             }
             .padding(.horizontal, 24)
-            .padding(.vertical, 24)
+            .padding(.bottom, 24)
+            }
           }
         }
       }
@@ -251,18 +263,45 @@ struct CategoryListView: View {
     currentPage = 1
 
     let language = Language.current.rawValue
+    let watchRegion = preferencesManager.watchRegion
+    let watchProviders =
+      preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
 
     do {
       let result: PaginatedResult
       switch categoryType {
       case .movies:
-        result = try await loadMoviesForSubcategory(language: language, page: 1)
+        result = try await loadMoviesForSubcategory(
+          language: language,
+          page: 1,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .tvSeries:
-        result = try await loadTVSeriesForSubcategory(language: language, page: 1)
+        result = try await loadTVSeriesForSubcategory(
+          language: language,
+          page: 1,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .animes:
-        result = try await loadAnimesForType(language: language, page: 1)
+        result = try await loadAnimesForType(
+          language: language,
+          page: 1,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .doramas:
-        result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
+        if let region = watchRegion, let providers = watchProviders {
+          result = try await TMDBService.shared.discoverDoramas(
+            language: language,
+            page: 1,
+            watchRegion: region,
+            withWatchProviders: providers
+          )
+        } else {
+          result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
+        }
       }
       items = result.results
       currentPage = result.page
@@ -274,8 +313,24 @@ struct CategoryListView: View {
     isLoading = false
   }
 
-  private func loadMoviesForSubcategory(language: String, page: Int) async throws -> PaginatedResult
-  {
+  private func loadMoviesForSubcategory(
+    language: String,
+    page: Int,
+    watchRegion: String? = nil,
+    watchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    // When streaming services are selected, use discover for popular
+    if let region = watchRegion, let providers = watchProviders,
+      selectedMovieSubcategory == .popular
+    {
+      return try await TMDBService.shared.discoverMovies(
+        language: language,
+        page: page,
+        watchRegion: region,
+        withWatchProviders: providers
+      )
+    }
+
     switch selectedMovieSubcategory {
     case .nowPlaying:
       return try await TMDBService.shared.getNowPlayingMovies(language: language, page: page)
@@ -291,9 +346,24 @@ struct CategoryListView: View {
     }
   }
 
-  private func loadTVSeriesForSubcategory(language: String, page: Int) async throws
-    -> PaginatedResult
-  {
+  private func loadTVSeriesForSubcategory(
+    language: String,
+    page: Int,
+    watchRegion: String? = nil,
+    watchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    // When streaming services are selected, use discover for popular
+    if let region = watchRegion, let providers = watchProviders,
+      selectedTVSeriesSubcategory == .popular
+    {
+      return try await TMDBService.shared.discoverTV(
+        language: language,
+        page: page,
+        watchRegion: region,
+        withWatchProviders: providers
+      )
+    }
+
     switch selectedTVSeriesSubcategory {
     case .airingToday:
       return try await TMDBService.shared.getAiringTodayTVSeries(language: language, page: page)
@@ -309,7 +379,31 @@ struct CategoryListView: View {
     }
   }
 
-  private func loadAnimesForType(language: String, page: Int) async throws -> PaginatedResult {
+  private func loadAnimesForType(
+    language: String,
+    page: Int,
+    watchRegion: String? = nil,
+    watchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    if let region = watchRegion, let providers = watchProviders {
+      switch selectedAnimeType {
+      case .tvSeries:
+        return try await TMDBService.shared.discoverAnimes(
+          language: language,
+          page: page,
+          watchRegion: region,
+          withWatchProviders: providers
+        )
+      case .movies:
+        return try await TMDBService.shared.discoverAnimeMovies(
+          language: language,
+          page: page,
+          watchRegion: region,
+          withWatchProviders: providers
+        )
+      }
+    }
+
     switch selectedAnimeType {
     case .tvSeries:
       return try await TMDBService.shared.getPopularAnimes(language: language, page: page)
@@ -324,18 +418,48 @@ struct CategoryListView: View {
     isLoadingMore = true
     let nextPage = currentPage + 1
     let language = Language.current.rawValue
+    let watchRegion = preferencesManager.watchRegion
+    let watchProviders =
+      preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
 
     do {
       let result: PaginatedResult
       switch categoryType {
       case .movies:
-        result = try await loadMoviesForSubcategory(language: language, page: nextPage)
+        result = try await loadMoviesForSubcategory(
+          language: language,
+          page: nextPage,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .tvSeries:
-        result = try await loadTVSeriesForSubcategory(language: language, page: nextPage)
+        result = try await loadTVSeriesForSubcategory(
+          language: language,
+          page: nextPage,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .animes:
-        result = try await loadAnimesForType(language: language, page: nextPage)
+        result = try await loadAnimesForType(
+          language: language,
+          page: nextPage,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       case .doramas:
-        result = try await TMDBService.shared.getPopularDoramas(language: language, page: nextPage)
+        if let region = watchRegion, let providers = watchProviders {
+          result = try await TMDBService.shared.discoverDoramas(
+            language: language,
+            page: nextPage,
+            watchRegion: region,
+            withWatchProviders: providers
+          )
+        } else {
+          result = try await TMDBService.shared.getPopularDoramas(
+            language: language,
+            page: nextPage
+          )
+        }
       }
 
       let newItems = result.results.filter { newItem in

@@ -16,6 +16,7 @@ struct SearchTabView: View {
   @State private var isLoadingPopular = true
   @State private var strings = L10n.current
   @State private var searchTask: Task<Void, Never>?
+  @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
   private var movies: [SearchResult] {
     results.filter { $0.mediaType == "movie" }
@@ -96,6 +97,9 @@ struct SearchTabView: View {
             } else {
               ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24) {
+                  // Preferences Badge
+                  PreferencesBadge()
+
                   if !movies.isEmpty {
                     SearchSection(title: strings.movies, results: movies)
                   }
@@ -115,7 +119,15 @@ struct SearchTabView: View {
           } else {
             // Show popular content with horizontal scroll sections
             ScrollView(showsIndicators: false) {
-              VStack(spacing: 32) {
+              VStack(spacing: 24) {
+                // Preferences Badge
+                HStack {
+                  PreferencesBadge()
+                  Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+
                 HomeSectionView(
                   title: strings.movies,
                   items: popularMovies,
@@ -146,7 +158,6 @@ struct SearchTabView: View {
                   categoryType: .doramas
                 )
               }
-              .padding(.top, 24)
               .padding(.bottom, 80)
             }
           }
@@ -178,6 +189,11 @@ struct SearchTabView: View {
         await loadPopularContent()
       }
     }
+    .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      Task {
+        await loadPopularContent()
+      }
+    }
   }
 
   private func loadPopularContent() async {
@@ -185,18 +201,52 @@ struct SearchTabView: View {
     defer { isLoadingPopular = false }
 
     let language = Language.current.rawValue
-
-    async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
-    async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
-    async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
-    async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
+    let watchRegion = preferencesManager.watchRegion
+    let watchProviders =
+      preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
 
     do {
-      let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-      popularMovies = movies.results
-      popularTVSeries = tv.results
-      popularAnimes = animes.results
-      popularDoramas = doramas.results
+      if preferencesManager.hasStreamingServices {
+        // Use discover endpoints with watch providers
+        async let moviesTask = TMDBService.shared.discoverMovies(
+          language: language,
+          watchRegion: watchRegion,
+          withWatchProviders: watchProviders
+        )
+        async let tvTask = TMDBService.shared.discoverTV(
+          language: language,
+          watchRegion: watchRegion,
+          withWatchProviders: watchProviders
+        )
+        async let animesTask = TMDBService.shared.discoverAnimes(
+          language: language,
+          watchRegion: watchRegion,
+          withWatchProviders: watchProviders
+        )
+        async let doramasTask = TMDBService.shared.discoverDoramas(
+          language: language,
+          watchRegion: watchRegion,
+          withWatchProviders: watchProviders
+        )
+
+        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
+        popularMovies = movies.results
+        popularTVSeries = tv.results
+        popularAnimes = animes.results
+        popularDoramas = doramas.results
+      } else {
+        // Use regular popular endpoints
+        async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
+        async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
+        async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
+        async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
+
+        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
+        popularMovies = movies.results
+        popularTVSeries = tv.results
+        popularAnimes = animes.results
+        popularDoramas = doramas.results
+      }
     } catch {
       popularMovies = []
       popularTVSeries = []

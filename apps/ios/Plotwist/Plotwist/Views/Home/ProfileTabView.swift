@@ -1148,6 +1148,7 @@ struct EditStreamingServicesView: View {
           .background(Color.appInputFilled)
           .cornerRadius(12)
           .padding(.horizontal, 24)
+          .padding(.bottom, 16)
 
           // Hint message
           HStack(spacing: 8) {
@@ -1157,6 +1158,7 @@ struct EditStreamingServicesView: View {
               .font(.caption)
           }
           .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
           .padding(.bottom, 16)
 

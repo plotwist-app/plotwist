@@ -139,7 +139,8 @@ enum L10n {
       searchStreamingServices: "Search services...",
       selectRegionFirst: "Select a region first",
       servicesSelected: "%d selected",
-      streamingServicesHint: "Showing services available in your selected region."
+      streamingServicesHint: "Showing services available in your selected region.",
+      resultsBasedOnPreferences: "Results based on your preferences"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -260,7 +261,8 @@ enum L10n {
       searchStreamingServices: "Buscar serviços...",
       selectRegionFirst: "Selecione uma região primeiro",
       servicesSelected: "%d selecionados",
-      streamingServicesHint: "Exibindo serviços disponíveis na região selecionada."
+      streamingServicesHint: "Exibindo serviços disponíveis na região selecionada.",
+      resultsBasedOnPreferences: "Resultados baseados nas suas preferências"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -381,7 +383,8 @@ enum L10n {
       searchStreamingServices: "Buscar servicios...",
       selectRegionFirst: "Seleccione una región primero",
       servicesSelected: "%d seleccionados",
-      streamingServicesHint: "Mostrando servicios disponibles en la región seleccionada."
+      streamingServicesHint: "Mostrando servicios disponibles en la región seleccionada.",
+      resultsBasedOnPreferences: "Resultados según tus preferencias"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -502,7 +505,8 @@ enum L10n {
       searchStreamingServices: "Rechercher des services...",
       selectRegionFirst: "Sélectionnez d'abord une région",
       servicesSelected: "%d sélectionnés",
-      streamingServicesHint: "Affichage des services disponibles dans la région sélectionnée."
+      streamingServicesHint: "Affichage des services disponibles dans la région sélectionnée.",
+      resultsBasedOnPreferences: "Résultats basés sur vos préférences"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -623,7 +627,8 @@ enum L10n {
       searchStreamingServices: "Dienste suchen...",
       selectRegionFirst: "Wählen Sie zuerst eine Region",
       servicesSelected: "%d ausgewählt",
-      streamingServicesHint: "Zeigt Dienste an, die in der ausgewählten Region verfügbar sind."
+      streamingServicesHint: "Zeigt Dienste an, die in der ausgewählten Region verfügbar sind.",
+      resultsBasedOnPreferences: "Ergebnisse basierend auf Ihren Präferenzen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -744,7 +749,8 @@ enum L10n {
       searchStreamingServices: "Cerca servizi...",
       selectRegionFirst: "Seleziona prima una regione",
       servicesSelected: "%d selezionati",
-      streamingServicesHint: "Mostra i servizi disponibili nella regione selezionata."
+      streamingServicesHint: "Mostra i servizi disponibili nella regione selezionata.",
+      resultsBasedOnPreferences: "Risultati basati sulle tue preferenze"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -864,7 +870,8 @@ enum L10n {
       searchStreamingServices: "サービスを検索...",
       selectRegionFirst: "最初に地域を選択してください",
       servicesSelected: "%d 件選択",
-      streamingServicesHint: "選択した地域で利用可能なサービスを表示しています。"
+      streamingServicesHint: "選択した地域で利用可能なサービスを表示しています。",
+      resultsBasedOnPreferences: "設定に基づいた結果"
     ),
   ]
 }
@@ -1003,4 +1010,5 @@ struct Strings {
   let selectRegionFirst: String
   let servicesSelected: String
   let streamingServicesHint: String
+  let resultsBasedOnPreferences: String
 }
