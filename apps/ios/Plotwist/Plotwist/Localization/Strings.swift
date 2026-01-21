@@ -124,7 +124,17 @@ enum L10n {
       stream: "Stream",
       rent: "Rent",
       buy: "Buy",
-      unavailable: "Unavailable"
+      unavailable: "Unavailable",
+      // Profile
+      memberSince: "Member since",
+      editProfile: "Edit",
+      accountData: "Account",
+      preferences: "Preferences",
+      editPicture: "Edit picture",
+      username: "Username",
+      region: "Region",
+      streamingServices: "Streaming Services",
+      notSet: "Not set"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -231,7 +241,16 @@ enum L10n {
       stream: "Streaming",
       rent: "Alugar",
       buy: "Comprar",
-      unavailable: "Indisponível"
+      unavailable: "Indisponível",
+      memberSince: "Membro desde",
+      editProfile: "Editar",
+      accountData: "Conta",
+      preferences: "Preferências",
+      editPicture: "Editar foto",
+      username: "Nome de usuário",
+      region: "Região",
+      streamingServices: "Serviços de Streaming",
+      notSet: "Não definido"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -338,7 +357,16 @@ enum L10n {
       stream: "Streaming",
       rent: "Alquilar",
       buy: "Comprar",
-      unavailable: "No disponible"
+      unavailable: "No disponible",
+      memberSince: "Miembro desde",
+      editProfile: "Editar",
+      accountData: "Cuenta",
+      preferences: "Preferencias",
+      editPicture: "Editar foto",
+      username: "Nombre de usuario",
+      region: "Región",
+      streamingServices: "Servicios de Streaming",
+      notSet: "No definido"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -445,7 +473,16 @@ enum L10n {
       stream: "Streaming",
       rent: "Louer",
       buy: "Acheter",
-      unavailable: "Indisponible"
+      unavailable: "Indisponible",
+      memberSince: "Membre depuis",
+      editProfile: "Modifier",
+      accountData: "Compte",
+      preferences: "Préférences",
+      editPicture: "Modifier la photo",
+      username: "Nom d'utilisateur",
+      region: "Région",
+      streamingServices: "Services de Streaming",
+      notSet: "Non défini"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -552,7 +589,16 @@ enum L10n {
       stream: "Streaming",
       rent: "Leihen",
       buy: "Kaufen",
-      unavailable: "Nicht verfügbar"
+      unavailable: "Nicht verfügbar",
+      memberSince: "Mitglied seit",
+      editProfile: "Bearbeiten",
+      accountData: "Konto",
+      preferences: "Einstellungen",
+      editPicture: "Bild bearbeiten",
+      username: "Benutzername",
+      region: "Region",
+      streamingServices: "Streaming-Dienste",
+      notSet: "Nicht festgelegt"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -659,7 +705,16 @@ enum L10n {
       stream: "Streaming",
       rent: "Noleggia",
       buy: "Acquista",
-      unavailable: "Non disponibile"
+      unavailable: "Non disponibile",
+      memberSince: "Membro dal",
+      editProfile: "Modifica",
+      accountData: "Account",
+      preferences: "Preferenze",
+      editPicture: "Modifica foto",
+      username: "Nome utente",
+      region: "Regione",
+      streamingServices: "Servizi di Streaming",
+      notSet: "Non impostato"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -765,7 +820,16 @@ enum L10n {
       stream: "配信",
       rent: "レンタル",
       buy: "購入",
-      unavailable: "利用不可"
+      unavailable: "利用不可",
+      memberSince: "メンバー登録日",
+      editProfile: "編集",
+      accountData: "アカウント",
+      preferences: "設定",
+      editPicture: "写真を編集",
+      username: "ユーザー名",
+      region: "地域",
+      streamingServices: "ストリーミング",
+      notSet: "未設定"
     ),
   ]
 }
@@ -889,4 +953,14 @@ struct Strings {
   let rent: String
   let buy: String
   let unavailable: String
+  // Profile
+  let memberSince: String
+  let editProfile: String
+  let accountData: String
+  let preferences: String
+  let editPicture: String
+  let username: String
+  let region: String
+  let streamingServices: String
+  let notSet: String
 }

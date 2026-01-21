@@ -7,8 +7,8 @@ import SwiftUI
 
 // MARK: - Movie Subcategory
 enum MovieSubcategory: CaseIterable, SegmentedTab {
-  case nowPlaying
   case popular
+  case nowPlaying
   case topRated
   case upcoming
   case discover
@@ -16,8 +16,8 @@ enum MovieSubcategory: CaseIterable, SegmentedTab {
   var title: String {
     let strings = L10n.current
     switch self {
-    case .nowPlaying: return strings.nowPlaying
     case .popular: return strings.popular
+    case .nowPlaying: return strings.nowPlaying
     case .topRated: return strings.topRated
     case .upcoming: return strings.upcoming
     case .discover: return strings.discover
@@ -31,18 +31,18 @@ enum MovieSubcategory: CaseIterable, SegmentedTab {
 
 // MARK: - TV Series Subcategory
 enum TVSeriesSubcategory: CaseIterable, SegmentedTab {
+  case popular
   case airingToday
   case onTheAir
-  case popular
   case topRated
   case discover
 
   var title: String {
     let strings = L10n.current
     switch self {
+    case .popular: return strings.popular
     case .airingToday: return strings.airingToday
     case .onTheAir: return strings.onTheAir
-    case .popular: return strings.popular
     case .topRated: return strings.topRated
     case .discover: return strings.discover
     }
@@ -73,6 +73,8 @@ enum AnimeType: CaseIterable, SegmentedTab {
 
 struct CategoryListView: View {
   let categoryType: HomeCategoryType
+  var initialMovieSubcategory: MovieSubcategory?
+  var initialTVSeriesSubcategory: TVSeriesSubcategory?
 
   @Environment(\.dismiss) private var dismiss
   @State private var items: [SearchResult] = []
@@ -81,10 +83,11 @@ struct CategoryListView: View {
   @State private var currentPage = 1
   @State private var totalPages = 1
   @State private var strings = L10n.current
-  @State private var selectedMovieSubcategory: MovieSubcategory = .nowPlaying
-  @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .airingToday
+  @State private var selectedMovieSubcategory: MovieSubcategory = .popular
+  @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .popular
   @State private var selectedAnimeType: AnimeType = .tvSeries
   @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var hasAppliedInitialSubcategory = false
 
   private var title: String {
     switch categoryType {
@@ -230,6 +233,15 @@ struct CategoryListView: View {
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
     .task {
+      if !hasAppliedInitialSubcategory {
+        if let initialMovie = initialMovieSubcategory {
+          selectedMovieSubcategory = initialMovie
+        }
+        if let initialTVSeries = initialTVSeriesSubcategory {
+          selectedTVSeriesSubcategory = initialTVSeries
+        }
+        hasAppliedInitialSubcategory = true
+      }
       await loadItems()
     }
   }

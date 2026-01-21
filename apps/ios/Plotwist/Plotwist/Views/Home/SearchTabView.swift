@@ -117,28 +117,30 @@ struct SearchTabView: View {
             ScrollView(showsIndicators: false) {
               VStack(spacing: 32) {
                 HomeSectionView(
-                  title: strings.popularMovies,
+                  title: strings.movies,
                   items: popularMovies,
                   mediaType: "movie",
-                  categoryType: .movies
+                  categoryType: .movies,
+                  initialMovieSubcategory: .popular
                 )
 
                 HomeSectionView(
-                  title: strings.popularTVSeries,
+                  title: strings.tvSeries,
                   items: popularTVSeries,
                   mediaType: "tv",
-                  categoryType: .tvSeries
+                  categoryType: .tvSeries,
+                  initialTVSeriesSubcategory: .popular
                 )
 
                 HomeSectionView(
-                  title: strings.popularAnimes,
+                  title: strings.animes,
                   items: popularAnimes,
                   mediaType: "tv",
                   categoryType: .animes
                 )
 
                 HomeSectionView(
-                  title: strings.popularDoramas,
+                  title: strings.doramas,
                   items: popularDoramas,
                   mediaType: "tv",
                   categoryType: .doramas

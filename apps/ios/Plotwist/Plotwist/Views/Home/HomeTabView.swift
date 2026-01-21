@@ -42,11 +42,17 @@ struct HomeSectionView: View {
   let items: [SearchResult]
   let mediaType: String
   let categoryType: HomeCategoryType
+  var initialMovieSubcategory: MovieSubcategory?
+  var initialTVSeriesSubcategory: TVSeriesSubcategory?
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       NavigationLink {
-        CategoryListView(categoryType: categoryType)
+        CategoryListView(
+          categoryType: categoryType,
+          initialMovieSubcategory: initialMovieSubcategory,
+          initialTVSeriesSubcategory: initialTVSeriesSubcategory
+        )
       } label: {
         HStack(spacing: 6) {
           Text(title)

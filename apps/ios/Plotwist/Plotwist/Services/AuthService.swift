@@ -121,7 +121,76 @@ class AuthService {
 
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
-    return try decoder.decode(User.self, from: data)
+    let wrapper = try decoder.decode(MeResponse.self, from: data)
+    return wrapper.user
+  }
+
+  // MARK: - Update User
+  func updateUser(
+    username: String? = nil, avatarUrl: String? = nil, bannerUrl: String? = nil,
+    biography: String? = nil
+  ) async throws -> User {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+      let url = URL(string: "\(API.baseURL)/user")
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "PATCH"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    var body: [String: Any] = [:]
+    if let username { body["username"] = username }
+    if let avatarUrl { body["avatarUrl"] = avatarUrl }
+    if let bannerUrl { body["bannerUrl"] = bannerUrl }
+    if let biography { body["biography"] = biography }
+
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw AuthError.invalidResponse
+    }
+
+    if http.statusCode == 409 {
+      throw AuthError.alreadyExists
+    }
+
+    guard http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let wrapper = try decoder.decode(MeResponse.self, from: data)
+    return wrapper.user
+  }
+
+  // MARK: - Check Username Availability
+  func isUsernameAvailable(_ username: String) async throws -> Bool {
+    guard
+      let url = URL(
+        string:
+          "\(API.baseURL)/users/available-username?username=\(username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? username)"
+      )
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+
+    let (_, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw AuthError.invalidResponse
+    }
+
+    // 200 = available, 409 = already taken
+    return http.statusCode == 200
   }
 
   // MARK: - Sign Out
@@ -140,11 +209,39 @@ struct User: Codable {
   let id: String
   let username: String
   let email: String
-  let imagePath: String?
+  let avatarUrl: String?
+  let bannerUrl: String?
+  let biography: String?
+  let createdAt: String
+  let subscriptionType: String?
+
+  var avatarImageURL: URL? {
+    guard let avatarUrl else { return nil }
+    return URL(string: avatarUrl)
+  }
+
+  var bannerImageURL: URL? {
+    guard let bannerUrl else { return nil }
+    return URL(string: bannerUrl)
+  }
+
+  var memberSinceDate: Date? {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    return formatter.date(from: createdAt)
+  }
+
+  var isPro: Bool {
+    subscriptionType == "PRO"
+  }
 }
 
 struct LoginResponse: Codable {
   let token: String
+}
+
+struct MeResponse: Codable {
+  let user: User
 }
 
 enum AuthError: LocalizedError {

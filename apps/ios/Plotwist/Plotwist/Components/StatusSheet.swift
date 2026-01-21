@@ -8,8 +8,8 @@ import SwiftUI
 struct StatusSheet: View {
   let mediaId: Int
   let mediaType: String
-  let currentStatus: UserItemStatus?
-  let currentItemId: String?
+  let initialStatus: UserItemStatus?
+  let initialItemId: String?
   let initialWatchEntries: [WatchEntry]
   let onStatusChanged: (UserItemStatus?, [WatchEntry]) -> Void
   
@@ -18,6 +18,7 @@ struct StatusSheet: View {
   @State private var isLoading = false
   @State private var isAddingRewatch = false
   @State private var selectedStatus: UserItemStatus?
+  @State private var currentItemId: String?
   @State private var watchEntries: [WatchEntry] = []
   @State private var showErrorAlert = false
   @State private var errorMessage = ""
@@ -32,11 +33,12 @@ struct StatusSheet: View {
   ) {
     self.mediaId = mediaId
     self.mediaType = mediaType
-    self.currentStatus = currentStatus
-    self.currentItemId = currentItemId
+    self.initialStatus = currentStatus
+    self.initialItemId = currentItemId
     self.initialWatchEntries = watchEntries
     self.onStatusChanged = onStatusChanged
     _selectedStatus = State(initialValue: currentStatus)
+    _currentItemId = State(initialValue: currentItemId)
     _watchEntries = State(initialValue: watchEntries)
   }
   
@@ -153,9 +155,8 @@ struct StatusSheet: View {
   
   private func handleStatusChange(_ status: UserItemStatus) {
     // If tapping the same status, remove it
-    if status == currentStatus, let itemId = currentItemId {
+    if status == selectedStatus, let itemId = currentItemId {
       isLoading = true
-      selectedStatus = status
       
       Task {
         do {
@@ -163,6 +164,8 @@ struct StatusSheet: View {
           
           await MainActor.run {
             isLoading = false
+            selectedStatus = nil
+            currentItemId = nil
             watchEntries = []
             onStatusChanged(nil, [])
             dismiss()
@@ -183,7 +186,7 @@ struct StatusSheet: View {
       Task {
         do {
           let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-          _ = try await UserItemService.shared.upsertUserItem(
+          let userItem = try await UserItemService.shared.upsertUserItem(
             tmdbId: mediaId,
             mediaType: apiMediaType,
             status: status
@@ -191,12 +194,14 @@ struct StatusSheet: View {
           
           await MainActor.run {
             isLoading = false
-            // If status is WATCHED, fetch the watch entries
+            // Update currentItemId with the newly created/updated item
+            currentItemId = userItem.id
+            
+            // If status is WATCHED, fetch the watch entries and stay on sheet
             if status == .watched {
-              // The API automatically creates the first entry
-              Task {
-                await reloadUserItem()
-              }
+              watchEntries = userItem.watchEntries ?? []
+              onStatusChanged(status, watchEntries)
+              // Don't dismiss - let user see/add rewatches
             } else {
               watchEntries = []
               onStatusChanged(status, [])
@@ -211,22 +216,6 @@ struct StatusSheet: View {
           }
         }
       }
-    }
-  }
-  
-  private func reloadUserItem() async {
-    do {
-      let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-      if let userItem = try await UserItemService.shared.getUserItem(
-        tmdbId: mediaId,
-        mediaType: apiMediaType
-      ) {
-        await MainActor.run {
-          watchEntries = userItem.watchEntries ?? []
-        }
-      }
-    } catch {
-      // Ignore errors
     }
   }
   

@@ -12,11 +12,25 @@ struct LoginView: View {
   @State private var isLoading = false
   @State private var error: String?
   @State private var strings = L10n.current
+  @State private var isKeyboardVisible = false
 
   var body: some View {
     NavigationView {
       ZStack {
-        Color.appBackgroundAdaptive.ignoresSafeArea()
+        // Gradient Background
+        LinearGradient(
+          colors: [
+            Color.appBackgroundAdaptive,
+            Color.appBackgroundAdaptive.opacity(0.95),
+            Color.appInputFilled.opacity(0.3),
+          ],
+          startPoint: .top,
+          endPoint: .bottom
+        )
+        .ignoresSafeArea()
+
+        // Noise Overlay
+        NoiseOverlay()
 
         VStack(spacing: 0) {
           // Language Switcher at top (centered)
@@ -49,6 +63,9 @@ struct LoginView: View {
             )
           }
           .padding(.top, 16)
+          .opacity(isKeyboardVisible ? 0 : 1)
+          .scaleEffect(isKeyboardVisible ? 0.8 : 1)
+          .animation(.spring(response: 0.15, dampingFraction: 0.8), value: isKeyboardVisible)
 
           Spacer()
 
@@ -151,6 +168,14 @@ struct LoginView: View {
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }
+    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification))
+    { _ in
+      isKeyboardVisible = true
+    }
+    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification))
+    { _ in
+      isKeyboardVisible = false
+    }
   }
 
   private func performLogin() async {
@@ -173,6 +198,26 @@ struct LoginView: View {
     } catch {
       self.error = strings.invalidCredentials
     }
+  }
+}
+
+// MARK: - Noise Overlay
+struct NoiseOverlay: View {
+  var body: some View {
+    Canvas { context, size in
+      for _ in 0..<Int(size.width * size.height * 0.015) {
+        let x = CGFloat.random(in: 0...size.width)
+        let y = CGFloat.random(in: 0...size.height)
+        let opacity = Double.random(in: 0.02...0.06)
+
+        context.fill(
+          Path(ellipseIn: CGRect(x: x, y: y, width: 1, height: 1)),
+          with: .color(.white.opacity(opacity))
+        )
+      }
+    }
+    .ignoresSafeArea()
+    .allowsHitTesting(false)
   }
 }
 
