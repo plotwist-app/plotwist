@@ -4,10 +4,7 @@ import { stripe } from '@/services/stripe'
 
 export async function POST(req: NextRequest) {
   if (!stripe) {
-    return Response.json(
-      { error: 'Stripe is not configured' },
-      { status: 503 }
-    )
+    return Response.json({ error: 'Stripe is not configured' }, { status: 503 })
   }
 
   const url = new URL(req.url)
