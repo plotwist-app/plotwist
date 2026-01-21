@@ -5,11 +5,31 @@
 
 import SwiftUI
 
+// MARK: - Profile Status Tab
+enum ProfileStatusTab: String, CaseIterable {
+  case watched = "WATCHED"
+  case watching = "WATCHING"
+  case watchlist = "WATCHLIST"
+  case dropped = "DROPPED"
+
+  func displayName(strings: Strings) -> String {
+    switch self {
+    case .watched: return strings.watched
+    case .watching: return strings.watching
+    case .watchlist: return strings.watchlist
+    case .dropped: return strings.dropped
+    }
+  }
+}
+
 struct ProfileTabView: View {
   @State private var user: User?
   @State private var isLoading = true
   @State private var showSettings = false
   @State private var strings = L10n.current
+  @State private var selectedTab: ProfileStatusTab = .watched
+  @State private var userItems: [UserItemSummary] = []
+  @State private var isLoadingItems = false
   @ObservedObject private var themeManager = ThemeManager.shared
 
   // Avatar size and offset calculations
@@ -136,6 +156,68 @@ struct ProfileTabView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
 
+                // Status Tabs
+                ProfileStatusTabs(selectedTab: $selectedTab, strings: strings)
+                  .padding(.top, 24)
+                  .padding(.horizontal, 24)
+                  .onChange(of: selectedTab) { _ in
+                    Task { await loadUserItems() }
+                  }
+
+                // User Items Grid
+                if isLoadingItems {
+                  LazyVGrid(
+                    columns: [
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                    ],
+                    spacing: 16
+                  ) {
+                    ForEach(0..<6, id: \.self) { _ in
+                      RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.appSkeletonAdaptive)
+                        .aspectRatio(2 / 3, contentMode: .fit)
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
+                } else if userItems.isEmpty {
+                  VStack(spacing: 12) {
+                    Image(systemName: "film.stack")
+                      .font(.system(size: 32))
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                    Text("No items yet")
+                      .font(.subheadline)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                  }
+                  .frame(maxWidth: .infinity)
+                  .padding(.vertical, 48)
+                } else {
+                  LazyVGrid(
+                    columns: [
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                    ],
+                    spacing: 16
+                  ) {
+                    ForEach(userItems) { item in
+                      NavigationLink {
+                        MediaDetailView(
+                          mediaId: item.tmdbId,
+                          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+                        )
+                      } label: {
+                        ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                      }
+                      .buttonStyle(.plain)
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
+                }
+
                 Spacer()
                   .frame(height: 100)
               }
@@ -164,6 +246,7 @@ struct ProfileTabView: View {
       }
       .task {
         await loadUser()
+        await loadUserItems()
       }
       .sheet(isPresented: $showSettings) {
         SettingsSheet()
@@ -196,6 +279,129 @@ struct ProfileTabView: View {
     formatter.dateFormat = "MMM/yyyy"
     formatter.locale = Locale(identifier: Language.current.rawValue)
     return formatter.string(from: date)
+  }
+
+  private func loadUserItems() async {
+    guard let userId = user?.id else { return }
+
+    isLoadingItems = true
+    defer { isLoadingItems = false }
+
+    do {
+      userItems = try await UserItemService.shared.getAllUserItems(
+        userId: userId,
+        status: selectedTab.rawValue
+      )
+    } catch {
+      print("Error loading user items: \(error)")
+      userItems = []
+    }
+  }
+}
+
+// MARK: - Profile Status Tabs
+struct ProfileStatusTabs: View {
+  @Binding var selectedTab: ProfileStatusTab
+  let strings: Strings
+
+  var body: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 4) {
+        ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
+          Button {
+            withAnimation(.easeInOut(duration: 0.2)) {
+              selectedTab = tab
+            }
+          } label: {
+            Text(tab.displayName(strings: strings))
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(
+                selectedTab == tab
+                  ? .appForegroundAdaptive
+                  : .appMutedForegroundAdaptive
+              )
+              .padding(.horizontal, 14)
+              .padding(.vertical, 10)
+              .background(
+                selectedTab == tab
+                  ? Color.appBackgroundAdaptive
+                  : Color.clear
+              )
+              .clipShape(RoundedRectangle(cornerRadius: 10))
+              .shadow(
+                color: selectedTab == tab ? Color.black.opacity(0.08) : Color.clear,
+                radius: 2,
+                x: 0,
+                y: 1
+              )
+          }
+          .buttonStyle(.plain)
+        }
+      }
+      .padding(4)
+      .background(Color.appInputFilled)
+      .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+  }
+}
+
+// MARK: - Profile Item Card
+struct ProfileItemCard: View {
+  let tmdbId: Int
+  let mediaType: String
+  @State private var posterURL: URL?
+  @State private var isLoading = true
+
+  var body: some View {
+    AsyncImage(url: posterURL) { phase in
+      switch phase {
+      case .empty:
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appSkeletonAdaptive)
+      case .success(let image):
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      case .failure:
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appBorderAdaptive)
+          .overlay(
+            Image(systemName: "film")
+              .foregroundColor(.appMutedForegroundAdaptive)
+          )
+      @unknown default:
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appBorderAdaptive)
+      }
+    }
+    .aspectRatio(2 / 3, contentMode: .fit)
+    .clipShape(RoundedRectangle(cornerRadius: 12))
+    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+    .task {
+      await loadPoster()
+    }
+  }
+
+  private func loadPoster() async {
+    do {
+      let type = mediaType == "MOVIE" ? "movie" : "tv"
+      if type == "movie" {
+        let details = try await TMDBService.shared.getMovieDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+      } else {
+        let details = try await TMDBService.shared.getTVSeriesDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+      }
+    } catch {
+      print("Error loading poster: \(error)")
+    }
+    isLoading = false
   }
 }
 

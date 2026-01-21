@@ -9,6 +9,28 @@ class UserItemService {
   static let shared = UserItemService()
   private init() {}
 
+  // MARK: - Get All User Items by Status
+  func getAllUserItems(userId: String, status: String) async throws -> [UserItemSummary] {
+    guard let url = URL(string: "\(API.baseURL)/user/items/all?userId=\(userId)&status=\(status)")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserItemError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(AllUserItemsResponse.self, from: data)
+    return result.userItems
+  }
+
   // MARK: - Get User Item
   func getUserItem(tmdbId: Int, mediaType: String) async throws -> UserItem? {
     guard let token = UserDefaults.standard.string(forKey: "token"),
@@ -269,6 +291,16 @@ struct WatchEntryResponse: Codable {
 
 struct WatchEntriesResponse: Codable {
   let watchEntries: [WatchEntry]
+}
+
+struct UserItemSummary: Codable, Identifiable {
+  let id: String
+  let mediaType: String
+  let tmdbId: Int
+}
+
+struct AllUserItemsResponse: Codable {
+  let userItems: [UserItemSummary]
 }
 
 enum UserItemError: LocalizedError {
