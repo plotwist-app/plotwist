@@ -143,6 +143,7 @@ struct ProfileTabView: View {
                       .foregroundColor(.appMutedForegroundAdaptive)
                       .lineSpacing(4)
                       .multilineTextAlignment(.center)
+                      .padding(.top, 4)
                   }
                 }
                 .frame(maxWidth: .infinity)
@@ -151,7 +152,7 @@ struct ProfileTabView: View {
 
                 // Status Tabs
                 ProfileStatusTabs(selectedTab: $selectedTab, strings: strings)
-                  .padding(.top, 24)
+                  .padding(.top, 20)
                   .onChange(of: selectedTab) { _ in
                     Task { await loadUserItems() }
                   }

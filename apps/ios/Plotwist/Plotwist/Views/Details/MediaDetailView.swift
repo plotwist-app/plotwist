@@ -26,25 +26,26 @@ struct MediaDetailView: View {
   @State private var hasRecommendations = false
 
   // Layout constants
+  private let cornerRadius: CGFloat = 24
   private let posterOverlapOffset: CGFloat = -70
-  private let contentOffset: CGFloat = -54
 
   var body: some View {
     ZStack {
+      // Background color
       Color.appBackgroundAdaptive.ignoresSafeArea()
 
       if isLoading {
         ProgressView()
       } else if let details {
         GeometryReader { geometry in
-          let backdropHeight = geometry.size.height * 0.40
+          let backdropHeight = geometry.size.height * 0.45
 
           ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
-              // Backdrop Carousel
+              // Backdrop Section (stays behind content)
               ZStack(alignment: .topLeading) {
+                // Backdrop Image/Carousel
                 if backdropImages.isEmpty {
-                  // Fallback to single backdrop
                   AsyncImage(url: details.backdropURL) { phase in
                     switch phase {
                     case .success(let image):
@@ -56,11 +57,10 @@ struct MediaDetailView: View {
                         .fill(Color.appBorderAdaptive)
                     }
                   }
-                  .frame(height: backdropHeight)
+                  .frame(height: backdropHeight + cornerRadius)
                   .frame(maxWidth: .infinity)
                   .clipped()
                 } else {
-                  // Carousel
                   ZStack(alignment: .bottomTrailing) {
                     NavigationLink(
                       destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
@@ -83,7 +83,7 @@ struct MediaDetailView: View {
                         }
                       }
                       .tabViewStyle(.page(indexDisplayMode: .never))
-                      .frame(height: backdropHeight)
+                      .frame(height: backdropHeight + cornerRadius)
                       .frame(maxWidth: .infinity)
                       .clipped()
                     }
@@ -98,7 +98,7 @@ struct MediaDetailView: View {
                       .background(Color.black.opacity(0.6))
                       .clipShape(RoundedRectangle(cornerRadius: 6))
                       .padding(.trailing, 16)
-                      .padding(.bottom, 12)
+                      .padding(.bottom, cornerRadius + 12)
                   }
                 }
 
@@ -116,179 +116,167 @@ struct MediaDetailView: View {
                 .padding(.top, 60)
                 .padding(.leading, 24)
               }
-              .overlay(
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.5))
-                  .frame(height: 1),
-                alignment: .bottom
-              )
 
-              // Content with poster overlap
-              HStack(alignment: .bottom, spacing: 16) {
-                // Poster
-                AsyncImage(url: details.posterURL) { phase in
-                  switch phase {
-                  case .success(let image):
-                    image
-                      .resizable()
-                      .aspectRatio(contentMode: .fill)
-                  default:
-                    RoundedRectangle(cornerRadius: 16)
-                      .fill(Color.appBorderAdaptive)
+              // Content Card (rounded, overlaps backdrop)
+              ZStack(alignment: .topLeading) {
+                // Background card with rounded corners
+                VStack(alignment: .leading, spacing: 0) {
+                  // Spacer for poster overlap area
+                  Spacer()
+                    .frame(height: 110)
+
+                  // Content Section
+                  VStack(alignment: .leading, spacing: 20) {
+                    // Action Buttons (Review + Status)
+                    if AuthService.shared.isAuthenticated {
+                      MediaDetailViewActions(
+                        mediaId: mediaId,
+                        mediaType: mediaType,
+                        userReview: userReview,
+                        userItem: userItem,
+                        onReviewTapped: {
+                          showReviewSheet = true
+                        },
+                        onStatusChanged: { newItem in
+                          userItem = newItem
+                        }
+                      )
+                    }
+
+                    // Overview
+                    if let overview = details.overview, !overview.isEmpty {
+                      Text(overview)
+                        .font(.subheadline)
+                        .foregroundColor(.appMutedForegroundAdaptive)
+                        .lineSpacing(6)
+                    }
                   }
-                }
-                .frame(width: 140, height: 210)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .posterShadow()
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
 
-                // Info
-                VStack(alignment: .leading, spacing: 4) {
-                  if let releaseDate = details.formattedReleaseDate(
-                    locale: Language.current.rawValue)
-                  {
-                    Text(releaseDate)
-                      .font(.caption)
-                      .foregroundColor(.appMutedForegroundAdaptive)
+                  // Genres Badges (outside padding for full-width scroll)
+                  if let genres = details.genres, !genres.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                      HStack(spacing: 8) {
+                        ForEach(genres) { genre in
+                          BadgeView(text: genre.name)
+                        }
+                      }
+                      .padding(.horizontal, 24)
+                    }
+                    .scrollClipDisabled()
+                    .padding(.top, 16)
                   }
 
-                  Text(details.displayTitle)
-                    .font(.headline)
-                    .foregroundColor(.appForegroundAdaptive)
-                }
+                  // Divider before first content section
+                  if hasReviews || hasWhereToWatch || hasRecommendations {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 1)
+                      .padding(.horizontal, 24)
+                      .padding(.vertical, 24)
+                  }
 
-                Spacer()
-              }
-              .padding(.horizontal, 24)
-              .offset(y: posterOverlapOffset)
-
-              // Content Section
-              VStack(alignment: .leading, spacing: 20) {
-                // Action Buttons (Review + Status)
-                if AuthService.shared.isAuthenticated {
-                  MediaDetailViewActions(
+                  // Review Section
+                  ReviewSectionView(
                     mediaId: mediaId,
                     mediaType: mediaType,
-                    userReview: userReview,
-                    userItem: userItem,
-                    onReviewTapped: {
-                      showReviewSheet = true
+                    refreshId: reviewsRefreshId,
+                    onEmptyStateTapped: {
+                      if AuthService.shared.isAuthenticated {
+                        showReviewSheet = true
+                      }
                     },
-                    onStatusChanged: { newItem in
-                      userItem = newItem
+                    onContentLoaded: { hasContent in
+                      hasReviews = hasContent
                     }
                   )
-                }
 
-                // Overview
-                if let overview = details.overview, !overview.isEmpty {
-                  Text(overview)
-                    .font(.subheadline)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .lineSpacing(6)
-                }
+                  // Divider after reviews
+                  if hasReviews && (hasWhereToWatch || hasRecommendations) {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 1)
+                      .padding(.horizontal, 24)
+                      .padding(.vertical, 24)
+                  }
 
-                // Genres Badges
-                if let genres = details.genres, !genres.isEmpty {
-                  ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                      ForEach(genres) { genre in
-                        BadgeView(text: genre.name)
-                      }
+                  // Where to Watch Section
+                  WhereToWatchSection(
+                    mediaId: mediaId,
+                    mediaType: mediaType,
+                    onContentLoaded: { hasContent in
+                      hasWhereToWatch = hasContent
+                    }
+                  )
+
+                  // Divider after where to watch
+                  if hasWhereToWatch && hasRecommendations {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 1)
+                      .padding(.horizontal, 24)
+                      .padding(.vertical, 24)
+                  }
+
+                  // Recommendations Section
+                  RelatedSection(
+                    mediaId: mediaId,
+                    mediaType: mediaType,
+                    onContentLoaded: { hasContent in
+                      hasRecommendations = hasContent
+                    }
+                  )
+
+                  Spacer()
+                    .frame(height: 80)
+                }
+                .background(Color.appBackgroundAdaptive)
+                .clipShape(
+                  RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                )
+
+                // Poster and Info (overlaid on top, outside clipShape)
+                HStack(alignment: .bottom, spacing: 16) {
+                  // Poster
+                  AsyncImage(url: details.posterURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                      image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    default:
+                      RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.appBorderAdaptive)
                     }
                   }
-                }
-              }
-              .padding(.horizontal, 24)
-              .offset(y: contentOffset)
+                  .frame(width: 120, height: 180)
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .posterShadow()
 
-              // Divider before first content section (only if any section has content)
-              if hasReviews || hasWhereToWatch || hasRecommendations {
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
+                  // Info
+                  VStack(alignment: .leading, spacing: 4) {
+                    if let releaseDate = details.formattedReleaseDate(
+                      locale: Language.current.rawValue)
+                    {
+                      Text(releaseDate)
+                        .font(.caption)
+                        .foregroundColor(.appMutedForegroundAdaptive)
+                    }
 
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.5))
-                  .frame(height: 1)
-                  .padding(.horizontal, 24)
-                  .offset(y: contentOffset)
-
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
-              }
-
-              // Review Section
-              ReviewSectionView(
-                mediaId: mediaId,
-                mediaType: mediaType,
-                refreshId: reviewsRefreshId,
-                onEmptyStateTapped: {
-                  if AuthService.shared.isAuthenticated {
-                    showReviewSheet = true
+                    Text(details.displayTitle)
+                      .font(.headline)
+                      .foregroundColor(.appForegroundAdaptive)
                   }
-                },
-                onContentLoaded: { hasContent in
-                  hasReviews = hasContent
+                  .padding(.bottom, 8)
+
+                  Spacer()
                 }
-              )
-              .offset(y: contentOffset)
-
-              // Divider after reviews (only if reviews exist and next section exists)
-              if hasReviews && (hasWhereToWatch || hasRecommendations) {
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
-
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.5))
-                  .frame(height: 1)
-                  .padding(.horizontal, 24)
-                  .offset(y: contentOffset)
-
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
+                .padding(.horizontal, 24)
+                .offset(y: -70)
               }
-
-              // Where to Watch Section
-              WhereToWatchSection(
-                mediaId: mediaId,
-                mediaType: mediaType,
-                onContentLoaded: { hasContent in
-                  hasWhereToWatch = hasContent
-                }
-              )
-              .offset(y: contentOffset)
-
-              // Divider after where to watch (only if it exists and recommendations exist)
-              if hasWhereToWatch && hasRecommendations {
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
-
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.5))
-                  .frame(height: 1)
-                  .padding(.horizontal, 24)
-                  .offset(y: contentOffset)
-
-                Spacer()
-                  .frame(height: 24)
-                  .offset(y: contentOffset)
-              }
-
-              // Recommendations Section
-              RelatedSection(
-                mediaId: mediaId,
-                mediaType: mediaType,
-                onContentLoaded: { hasContent in
-                  hasRecommendations = hasContent
-                }
-              )
-              .offset(y: contentOffset)
+              .offset(y: -cornerRadius)
             }
-            .padding(.bottom, 80)
           }
           .ignoresSafeArea(edges: .top)
         }
@@ -412,5 +400,20 @@ struct BadgeView: View {
       .padding(.vertical, 6)
       .background(Color.appInputFilled)
       .clipShape(RoundedRectangle(cornerRadius: 8))
+  }
+}
+
+// MARK: - Rounded Corner Shape
+struct RoundedCorner: Shape {
+  var radius: CGFloat = .infinity
+  var corners: UIRectCorner = .allCorners
+
+  func path(in rect: CGRect) -> Path {
+    let path = UIBezierPath(
+      roundedRect: rect,
+      byRoundingCorners: corners,
+      cornerRadii: CGSize(width: radius, height: radius)
+    )
+    return Path(path.cgPath)
   }
 }
