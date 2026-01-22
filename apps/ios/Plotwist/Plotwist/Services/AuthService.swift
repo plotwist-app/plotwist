@@ -244,6 +244,26 @@ class AuthService {
     }
   }
 
+  // MARK: - Get User Stats
+  func getUserStats(userId: String) async throws -> UserStats {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/stats") else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(UserStats.self, from: data)
+  }
+
   // MARK: - Sign Out
   func signOut() {
     UserDefaults.standard.removeObject(forKey: "token")
@@ -306,6 +326,13 @@ struct UserPreferences: Codable {
   let watchRegion: String?
 }
 
+struct UserStats: Codable {
+  let followersCount: Int
+  let followingCount: Int
+  let watchedMoviesCount: Int
+  let watchedSeriesCount: Int
+}
+
 enum AuthError: LocalizedError {
   case invalidURL, invalidResponse, invalidCredentials, alreadyExists
 
@@ -322,4 +349,5 @@ enum AuthError: LocalizedError {
 extension Notification.Name {
   static let authChanged = Notification.Name("authChanged")
   static let profileUpdated = Notification.Name("profileUpdated")
+  static let navigateToSearch = Notification.Name("navigateToSearch")
 }

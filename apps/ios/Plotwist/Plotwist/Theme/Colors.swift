@@ -2,18 +2,19 @@
 //  Colors.swift
 //  Plotwist
 //
+//  Dark theme matched to web globals.css
 
 import SwiftUI
 
 extension Color {
   // MARK: - Adaptive Colors (Light/Dark mode)
 
-  // #121212 for dark mode (Spotify-style), white for light mode
+  // Dark: --background: 240 10% 3.9% (web)
   static var appBackgroundAdaptive: Color {
     Color(
       UIColor {
         $0.userInterfaceStyle == .dark
-          ? UIColor(red: 18 / 255, green: 18 / 255, blue: 18 / 255, alpha: 1)
+          ? UIColor(hue: 240 / 360, saturation: 0.10, brightness: 0.039, alpha: 1)
           : UIColor(hue: 0, saturation: 0, brightness: 1, alpha: 1)
       })
   }
@@ -27,6 +28,7 @@ extension Color {
       })
   }
 
+  // Dark: --border: 240 3.7% 15.9% (web)
   static var appBorderAdaptive: Color {
     Color(
       UIColor {
@@ -36,6 +38,7 @@ extension Color {
       })
   }
 
+  // Dark: --muted-foreground: 240 5% 64.9% (web)
   static var appMutedForegroundAdaptive: Color {
     Color(
       UIColor {
@@ -45,25 +48,25 @@ extension Color {
       })
   }
 
-  // #F3F4F6 for light mode, darker for dark mode
+  // Dark: --secondary: 240 3.7% 15.9% (web)
   static var appInputFilled: Color {
     Color(
       UIColor {
         $0.userInterfaceStyle == .dark
-          ? UIColor(hue: 220 / 360, saturation: 0.06, brightness: 0.14, alpha: 1)
+          ? UIColor(hue: 240 / 360, saturation: 0.037, brightness: 0.159, alpha: 1)
           : UIColor(red: 243 / 255, green: 244 / 255, blue: 246 / 255, alpha: 1)
       })
   }
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
 
-  // #222224 for dark mode, light gray for light mode - used for skeletons
+  // Dark skeleton slightly lighter than input
   static var appSkeletonAdaptive: Color {
     Color(
       UIColor {
         $0.userInterfaceStyle == .dark
-          ? UIColor(red: 34 / 255, green: 34 / 255, blue: 36 / 255, alpha: 1)  // #222224
-          : UIColor(red: 229 / 255, green: 231 / 255, blue: 235 / 255, alpha: 1)  // #E5E7EB
+          ? UIColor(hue: 240 / 360, saturation: 0.037, brightness: 0.20, alpha: 1)
+          : UIColor(red: 229 / 255, green: 231 / 255, blue: 235 / 255, alpha: 1)
       })
   }
 }

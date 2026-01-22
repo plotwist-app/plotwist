@@ -115,8 +115,8 @@ struct ProfileTabView: View {
                       .foregroundColor(.appMutedForegroundAdaptive)
                   }
 
-                  // Username
-                  HStack(spacing: 8) {
+                  // Username + Edit Button
+                  HStack(spacing: 10) {
                     Text(user.username)
                       .font(.title.bold())
                       .foregroundColor(.appForegroundAdaptive)
@@ -124,23 +124,16 @@ struct ProfileTabView: View {
                     if user.isPro {
                       ProBadge()
                     }
-                  }
 
-                  // Edit Profile Button
-                  NavigationLink(destination: EditProfileView(user: user)) {
-                    HStack(spacing: 8) {
+                    // Edit Profile Button
+                    NavigationLink(destination: EditProfileView(user: user)) {
                       Image(systemName: "pencil")
-                        .font(.system(size: 14))
+                        .font(.system(size: 12))
                         .foregroundColor(.appForegroundAdaptive)
-
-                      Text(strings.editProfile)
-                        .font(.subheadline.weight(.medium))
-                        .foregroundColor(.appForegroundAdaptive)
+                        .frame(width: 32, height: 32)
+                        .background(Color.appInputFilled)
+                        .clipShape(Circle())
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(Color.appInputFilled)
-                    .cornerRadius(12)
                   }
 
                   // Biography
@@ -159,7 +152,6 @@ struct ProfileTabView: View {
                 // Status Tabs
                 ProfileStatusTabs(selectedTab: $selectedTab, strings: strings)
                   .padding(.top, 24)
-                  .padding(.horizontal, 24)
                   .onChange(of: selectedTab) { _ in
                     Task { await loadUserItems() }
                   }
@@ -183,16 +175,34 @@ struct ProfileTabView: View {
                   .padding(.horizontal, 24)
                   .padding(.top, 16)
                 } else if userItems.isEmpty {
-                  VStack(spacing: 12) {
-                    Image(systemName: "film.stack")
-                      .font(.system(size: 32))
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                    Text("No items yet")
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
+                  // Empty state - Add first item (same grid as items)
+                  LazyVGrid(
+                    columns: [
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                      GridItem(.flexible(), spacing: 12),
+                    ],
+                    spacing: 16
+                  ) {
+                    Button {
+                      NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+                    } label: {
+                      RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(
+                          style: StrokeStyle(lineWidth: 2, dash: [8, 4])
+                        )
+                        .foregroundColor(.appBorderAdaptive)
+                        .aspectRatio(2 / 3, contentMode: .fit)
+                        .overlay(
+                          Image(systemName: "plus")
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundColor(.appMutedForegroundAdaptive)
+                        )
+                    }
+                    .buttonStyle(.plain)
                   }
-                  .frame(maxWidth: .infinity)
-                  .padding(.vertical, 48)
+                  .padding(.horizontal, 24)
+                  .padding(.top, 16)
                 } else {
                   LazyVGrid(
                     columns: [
@@ -306,7 +316,7 @@ struct ProfileStatusTabs: View {
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 4) {
+      HStack(spacing: 2) {
         ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
           Button {
             withAnimation(.easeInOut(duration: 0.2)) {
@@ -314,20 +324,20 @@ struct ProfileStatusTabs: View {
             }
           } label: {
             Text(tab.displayName(strings: strings))
-              .font(.subheadline.weight(.medium))
+              .font(.footnote.weight(.medium))
               .foregroundColor(
                 selectedTab == tab
                   ? .appForegroundAdaptive
                   : .appMutedForegroundAdaptive
               )
-              .padding(.horizontal, 14)
-              .padding(.vertical, 10)
+              .padding(.horizontal, 12)
+              .padding(.vertical, 8)
               .background(
                 selectedTab == tab
                   ? Color.appBackgroundAdaptive
                   : Color.clear
               )
-              .clipShape(RoundedRectangle(cornerRadius: 10))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
               .shadow(
                 color: selectedTab == tab ? Color.black.opacity(0.08) : Color.clear,
                 radius: 2,
@@ -338,10 +348,12 @@ struct ProfileStatusTabs: View {
           .buttonStyle(.plain)
         }
       }
-      .padding(4)
+      .padding(3)
       .background(Color.appInputFilled)
-      .clipShape(RoundedRectangle(cornerRadius: 12))
+      .clipShape(RoundedRectangle(cornerRadius: 10))
+      .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
   }
 }
 

@@ -29,6 +29,9 @@ struct HomeView: View {
         .tag(2)
     }
     .tint(.appForegroundAdaptive)
+    .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
+      selectedTab = 1
+    }
     .onAppear {
       let appearance = UITabBarAppearance()
       appearance.configureWithOpaqueBackground()

@@ -107,19 +107,19 @@ struct ActionButton: View {
 
   var body: some View {
     Button(action: action) {
-      HStack(spacing: 8) {
+      HStack(spacing: 6) {
         Image(systemName: icon)
-          .font(.system(size: 14))
+          .font(.system(size: 13))
           .foregroundColor(iconColor ?? .appForegroundAdaptive)
 
         Text(title)
-          .font(.subheadline.weight(.medium))
+          .font(.footnote.weight(.medium))
           .foregroundColor(.appForegroundAdaptive)
       }
-      .padding(.horizontal, 16)
-      .padding(.vertical, 12)
+      .padding(.horizontal, 14)
+      .padding(.vertical, 10)
       .background(Color.appInputFilled)
-      .cornerRadius(12)
+      .cornerRadius(10)
     }
   }
 }
