@@ -52,6 +52,7 @@ struct ProfileTabView: View {
   @State private var userItems: [UserItemSummary] = []
   @State private var isLoadingItems = false
   @State private var totalCollectionCount: Int = 0
+  @State private var totalReviewsCount: Int = 0
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @ObservedObject private var themeManager = ThemeManager.shared
@@ -176,7 +177,8 @@ struct ProfileTabView: View {
                 ProfileMainTabs(
                   selectedTab: $selectedMainTab,
                   strings: strings,
-                  collectionCount: totalCollectionCount
+                  collectionCount: totalCollectionCount,
+                  reviewsCount: totalReviewsCount
                 )
                 .padding(.top, 20)
                 .padding(.bottom, 8)
@@ -318,6 +320,7 @@ struct ProfileTabView: View {
         await loadUser()
         await loadUserItems()
         await loadTotalCollectionCount()
+        await loadTotalReviewsCount()
       }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
@@ -402,6 +405,18 @@ struct ProfileTabView: View {
       totalCollectionCount = 0
     }
   }
+
+  private func loadTotalReviewsCount() async {
+    guard let userId = user?.id else { return }
+
+    do {
+      let count = try await ReviewService.shared.getUserReviewsCount(userId: userId)
+      totalReviewsCount = count
+    } catch {
+      print("Error loading reviews count: \(error)")
+      totalReviewsCount = 0
+    }
+  }
 }
 
 // MARK: - Profile Main Tabs (Collection / Reviews)
@@ -409,12 +424,21 @@ struct ProfileMainTabs: View {
   @Binding var selectedTab: ProfileMainTab
   let strings: Strings
   var collectionCount: Int = 0
+  var reviewsCount: Int = 0
+  @Namespace private var tabNamespace
+
+  private func badgeCount(for tab: ProfileMainTab) -> Int {
+    switch tab {
+    case .collection: return collectionCount
+    case .reviews: return reviewsCount
+    }
+  }
 
   var body: some View {
     HStack(spacing: 0) {
       ForEach(ProfileMainTab.allCases, id: \.self) { tab in
         Button {
-          withAnimation(.easeInOut(duration: 0.2)) {
+          withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
             selectedTab = tab
           }
         } label: {
@@ -428,15 +452,32 @@ struct ProfileMainTabs: View {
                     : .appMutedForegroundAdaptive
                 )
 
-              // Badge for collection count
-              if tab == .collection && collectionCount > 0 {
-                CollectionCountBadge(count: collectionCount)
+              // Animated badge
+              if badgeCount(for: tab) > 0 {
+                if selectedTab == tab {
+                  CollectionCountBadge(count: badgeCount(for: tab))
+                    .transition(.asymmetric(
+                      insertion: .move(edge: .leading).combined(with: .opacity),
+                      removal: .scale(scale: 0.8).combined(with: .opacity)
+                    ))
+                    .animation(.easeOut(duration: 0.15), value: selectedTab)
+                }
               }
             }
 
-            Rectangle()
-              .fill(selectedTab == tab ? Color.appForegroundAdaptive : Color.clear)
-              .frame(height: 3)
+            // Sliding indicator
+            ZStack {
+              Rectangle()
+                .fill(Color.clear)
+                .frame(height: 3)
+
+              if selectedTab == tab {
+                Rectangle()
+                  .fill(Color.appForegroundAdaptive)
+                  .frame(height: 3)
+                  .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
+              }
+            }
           }
         }
         .buttonStyle(.plain)
@@ -460,18 +501,19 @@ struct CollectionCountBadge: View {
 
   var body: some View {
     Text("\(count)")
-      .font(.caption2.weight(.semibold))
-      .foregroundColor(.appMutedForegroundAdaptive)
-      .padding(.horizontal, 6)
-      .padding(.vertical, 2)
-      .background(Color.appInputFilled)
+      .font(.system(size: 10, weight: .semibold))
+      .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
+      .padding(.horizontal, 8)
+      .padding(.vertical, 3)
+      .background(
+        colorScheme == .dark
+          ? Color(hex: "0a0a0f")
+          : Color(hex: "f5f5f5")
+      )
       .clipShape(Capsule())
       .overlay(
         Capsule()
-          .stroke(
-            colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
-            lineWidth: 1
-          )
+          .stroke(Color.appBorderAdaptive, lineWidth: 1)
       )
   }
 }

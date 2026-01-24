@@ -225,6 +225,24 @@ class ReviewService {
     )
   }
 
+  // MARK: - Get User Reviews Count
+  func getUserReviewsCount(userId: String) async throws -> Int {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/reviews-count") else {
+      throw ReviewError.invalidURL
+    }
+
+    let (data, response) = try await URLSession.shared.data(from: url)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw ReviewError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(ReviewsCountResponse.self, from: data)
+    return result.reviewsCount
+  }
+
   // MARK: - Get Reviews List
   func getReviews(
     tmdbId: Int,
@@ -289,6 +307,10 @@ struct Review: Codable, Identifiable {
 
 struct ReviewResponse: Codable {
   let review: Review?
+}
+
+struct ReviewsCountResponse: Codable {
+  let reviewsCount: Int
 }
 
 struct ReviewUser: Codable {
