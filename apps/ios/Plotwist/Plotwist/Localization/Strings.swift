@@ -126,6 +126,7 @@ enum L10n {
       buy: "Buy",
       unavailable: "Unavailable",
       // Profile
+      profile: "Profile",
       memberSince: "Member since",
       editProfile: "Edit",
       accountData: "Account",
@@ -251,6 +252,7 @@ enum L10n {
       rent: "Alugar",
       buy: "Comprar",
       unavailable: "Indisponível",
+      profile: "Perfil",
       memberSince: "Membro desde",
       editProfile: "Editar",
       accountData: "Conta",
@@ -376,6 +378,7 @@ enum L10n {
       rent: "Alquilar",
       buy: "Comprar",
       unavailable: "No disponible",
+      profile: "Perfil",
       memberSince: "Miembro desde",
       editProfile: "Editar",
       accountData: "Cuenta",
@@ -501,6 +504,7 @@ enum L10n {
       rent: "Louer",
       buy: "Acheter",
       unavailable: "Indisponible",
+      profile: "Profil",
       memberSince: "Membre depuis",
       editProfile: "Modifier",
       accountData: "Compte",
@@ -626,6 +630,7 @@ enum L10n {
       rent: "Leihen",
       buy: "Kaufen",
       unavailable: "Nicht verfügbar",
+      profile: "Profil",
       memberSince: "Mitglied seit",
       editProfile: "Bearbeiten",
       accountData: "Konto",
@@ -751,6 +756,7 @@ enum L10n {
       rent: "Noleggia",
       buy: "Acquista",
       unavailable: "Non disponibile",
+      profile: "Profilo",
       memberSince: "Membro dal",
       editProfile: "Modifica",
       accountData: "Account",
@@ -875,6 +881,7 @@ enum L10n {
       rent: "レンタル",
       buy: "購入",
       unavailable: "利用不可",
+      profile: "プロフィール",
       memberSince: "メンバー登録日",
       editProfile: "編集",
       accountData: "アカウント",
@@ -1017,6 +1024,7 @@ struct Strings {
   let buy: String
   let unavailable: String
   // Profile
+  let profile: String
   let memberSince: String
   let editProfile: String
   let accountData: String

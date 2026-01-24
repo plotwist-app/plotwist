@@ -9,6 +9,19 @@ class AuthService {
   static let shared = AuthService()
   private init() {}
 
+  // MARK: - Cache
+  private var preferencesCache: CachedPreferences?
+  private let cacheDuration: TimeInterval = 300  // 5 minutes
+
+  private struct CachedPreferences {
+    let preferences: UserPreferences?
+    let timestamp: Date
+  }
+
+  func invalidatePreferencesCache() {
+    preferencesCache = nil
+  }
+
   // MARK: - Sign In
   func signIn(login: String, password: String) async throws -> String {
     guard let url = URL(string: "\(API.baseURL)/login") else {
@@ -195,6 +208,12 @@ class AuthService {
 
   // MARK: - Get User Preferences
   func getUserPreferences() async throws -> UserPreferences? {
+    // Check cache
+    if let cached = preferencesCache,
+       Date().timeIntervalSince(cached.timestamp) < cacheDuration {
+      return cached.preferences
+    }
+
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user/preferences")
     else {
@@ -214,6 +233,10 @@ class AuthService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let wrapper = try decoder.decode(UserPreferencesResponse.self, from: data)
+
+    // Cache result
+    preferencesCache = CachedPreferences(preferences: wrapper.userPreferences, timestamp: Date())
+
     return wrapper.userPreferences
   }
 
@@ -242,6 +265,9 @@ class AuthService {
     guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
       throw AuthError.invalidResponse
     }
+
+    // Invalidate cache after update
+    invalidatePreferencesCache()
   }
 
   // MARK: - Get User Stats
@@ -267,6 +293,7 @@ class AuthService {
   // MARK: - Sign Out
   func signOut() {
     UserDefaults.standard.removeObject(forKey: "token")
+    invalidatePreferencesCache()
     NotificationCenter.default.post(name: .authChanged, object: nil)
   }
 

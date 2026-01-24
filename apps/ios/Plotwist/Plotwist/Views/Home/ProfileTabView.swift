@@ -46,7 +46,6 @@ enum ProfileMainTab: CaseIterable {
 struct ProfileTabView: View {
   @State private var user: User?
   @State private var isLoading = true
-  @State private var showSettings = false
   @State private var strings = L10n.current
   @State private var selectedMainTab: ProfileMainTab = .collection
   @State private var selectedStatusTab: ProfileStatusTab = .watched
@@ -102,28 +101,13 @@ struct ProfileTabView: View {
               Spacer()
 
               // Action Buttons
-              HStack(spacing: 8) {
-                // Edit Profile Button
-                NavigationLink(destination: EditProfileView(user: user)) {
-                  Image(systemName: "pencil")
-                    .font(.system(size: 14))
-                    .foregroundColor(.appForegroundAdaptive)
-                    .frame(width: 36, height: 36)
-                    .background(Color.appInputFilled)
-                    .clipShape(Circle())
-                }
-
-                // Settings Button
-                Button {
-                  showSettings = true
-                } label: {
-                  Image(systemName: "gearshape")
-                    .font(.system(size: 14))
-                    .foregroundColor(.appForegroundAdaptive)
-                    .frame(width: 36, height: 36)
-                    .background(Color.appInputFilled)
-                    .clipShape(Circle())
-                }
+              NavigationLink(destination: EditProfileView(user: user)) {
+                Image(systemName: "ellipsis")
+                  .font(.system(size: 14))
+                  .foregroundColor(.appForegroundAdaptive)
+                  .frame(width: 36, height: 36)
+                  .background(Color.appInputFilled)
+                  .clipShape(Circle())
               }
             }
             .padding(.horizontal, 24)
@@ -330,10 +314,6 @@ struct ProfileTabView: View {
         await loadUser()
         await loadUserItems()
         await loadTotalCollectionCount()
-      }
-      .sheet(isPresented: $showSettings) {
-        SettingsSheet()
-          .standardSheetStyle(detents: [.medium])
       }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
@@ -734,7 +714,7 @@ struct EditProfileView: View {
 
             Spacer()
 
-            Text(strings.editProfile)
+            Text(strings.profile)
               .font(.title3.bold())
               .foregroundColor(.appForegroundAdaptive)
 
@@ -854,7 +834,55 @@ struct EditProfileView: View {
                 }
                 .opacity(0.5)
               }
+
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+
+              // Theme Field
+              NavigationLink(destination: EditThemeView()) {
+                EditProfileBadgeRow(label: strings.theme) {
+                  ProfileBadge(
+                    text: themeDisplayName(themeManager.current), icon: themeManager.current.icon)
+                }
+              }
+
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+
+              // Language Field
+              NavigationLink(destination: EditLanguageView()) {
+                EditProfileBadgeRow(label: strings.language) {
+                  ProfileBadge(text: Language.current.displayName, prefix: Language.current.flag)
+                }
+              }
             }
+
+            // Sign Out Section
+            VStack(spacing: 0) {
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.5))
+                .frame(height: 1)
+                .padding(.top, 24)
+
+              Button {
+                AuthService.shared.signOut()
+              } label: {
+                HStack(spacing: 8) {
+                  Image(systemName: "rectangle.portrait.and.arrow.right")
+                  Text(strings.signOut)
+                }
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appDestructive)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+              }
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 40)
           }
         }
       }
@@ -888,6 +916,218 @@ struct EditProfileView: View {
       }
     } catch {
       print("Error loading preferences: \(error)")
+    }
+  }
+
+  private func themeDisplayName(_ theme: AppTheme) -> String {
+    switch theme {
+    case .system: return strings.themeSystem
+    case .light: return strings.themeLight
+    case .dark: return strings.themeDark
+    }
+  }
+}
+
+// MARK: - Edit Theme View
+struct EditThemeView: View {
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var systemColorScheme
+  @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var strings = L10n.current
+
+  private var effectiveColorScheme: ColorScheme {
+    themeManager.current.colorScheme ?? systemColorScheme
+  }
+
+  var body: some View {
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        // Header
+        VStack(spacing: 0) {
+          HStack {
+            Button {
+              dismiss()
+            } label: {
+              Image(systemName: "chevron.left")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+                .frame(width: 40, height: 40)
+                .background(Color.appInputFilled)
+                .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text(strings.theme)
+              .font(.title3.bold())
+              .foregroundColor(.appForegroundAdaptive)
+
+            Spacer()
+
+            Color.clear
+              .frame(width: 40, height: 40)
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+
+          Rectangle()
+            .fill(Color.appBorderAdaptive.opacity(0.5))
+            .frame(height: 1)
+        }
+
+        // Theme Options
+        VStack(spacing: 0) {
+          ForEach(AppTheme.allCases, id: \.self) { theme in
+            Button {
+              themeManager.current = theme
+            } label: {
+              HStack {
+                Image(systemName: theme.icon)
+                  .font(.system(size: 18))
+                  .foregroundColor(.appForegroundAdaptive)
+                  .frame(width: 32)
+
+                Text(themeDisplayName(theme))
+                  .font(.subheadline)
+                  .foregroundColor(.appForegroundAdaptive)
+
+                Spacer()
+
+                if themeManager.current == theme {
+                  Image(systemName: "checkmark")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 16)
+              .contentShape(Rectangle())
+            }
+
+            if theme != AppTheme.allCases.last {
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+            }
+          }
+        }
+        .padding(.top, 8)
+
+        Spacer()
+      }
+    }
+    .navigationBarHidden(true)
+    .preferredColorScheme(effectiveColorScheme)
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
+    }
+  }
+
+  private func themeDisplayName(_ theme: AppTheme) -> String {
+    switch theme {
+    case .system: return strings.themeSystem
+    case .light: return strings.themeLight
+    case .dark: return strings.themeDark
+    }
+  }
+}
+
+// MARK: - Edit Language View
+struct EditLanguageView: View {
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var systemColorScheme
+  @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var strings = L10n.current
+
+  private var effectiveColorScheme: ColorScheme {
+    themeManager.current.colorScheme ?? systemColorScheme
+  }
+
+  var body: some View {
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        // Header
+        VStack(spacing: 0) {
+          HStack {
+            Button {
+              dismiss()
+            } label: {
+              Image(systemName: "chevron.left")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.appForegroundAdaptive)
+                .frame(width: 40, height: 40)
+                .background(Color.appInputFilled)
+                .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text(strings.language)
+              .font(.title3.bold())
+              .foregroundColor(.appForegroundAdaptive)
+
+            Spacer()
+
+            Color.clear
+              .frame(width: 40, height: 40)
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+
+          Rectangle()
+            .fill(Color.appBorderAdaptive.opacity(0.5))
+            .frame(height: 1)
+        }
+
+        // Language Options
+        VStack(spacing: 0) {
+          ForEach(Language.allCases, id: \.self) { lang in
+            Button {
+              Language.current = lang
+            } label: {
+              HStack(spacing: 12) {
+                Text(lang.flag)
+                  .font(.title2)
+
+                Text(lang.displayName)
+                  .font(.subheadline)
+                  .foregroundColor(.appForegroundAdaptive)
+
+                Spacer()
+
+                if Language.current == lang {
+                  Image(systemName: "checkmark")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 16)
+              .contentShape(Rectangle())
+            }
+
+            if lang != Language.allCases.last {
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+            }
+          }
+        }
+        .padding(.top, 8)
+
+        Spacer()
+      }
+    }
+    .navigationBarHidden(true)
+    .preferredColorScheme(effectiveColorScheme)
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
     }
   }
 }
@@ -958,6 +1198,7 @@ struct EditProfileBadgeRow<Content: View>: View {
 struct ProfileBadge: View {
   let text: String
   var prefix: String? = nil
+  var icon: String? = nil
   var logoURL: URL? = nil
 
   var body: some View {
@@ -965,6 +1206,12 @@ struct ProfileBadge: View {
       if let prefix {
         Text(prefix)
           .font(.caption)
+      }
+
+      if let icon {
+        Image(systemName: icon)
+          .font(.system(size: 12))
+          .foregroundColor(.appForegroundAdaptive)
       }
 
       if let logoURL {
@@ -1744,139 +1991,6 @@ struct EditFieldView: View {
     }
     .navigationBarHidden(true)
     .preferredColorScheme(effectiveColorScheme)
-  }
-}
-
-// MARK: - Settings Sheet
-struct SettingsSheet: View {
-  @Environment(\.colorScheme) private var systemColorScheme
-  @ObservedObject private var themeManager = ThemeManager.shared
-  @State private var strings = L10n.current
-
-  private var effectiveColorScheme: ColorScheme {
-    themeManager.current.colorScheme ?? systemColorScheme
-  }
-
-  var body: some View {
-    ZStack {
-      Color.appBackgroundAdaptive.ignoresSafeArea()
-
-      VStack(spacing: 32) {
-        Text(strings.settings)
-          .font(.title3.bold())
-          .foregroundColor(.appForegroundAdaptive)
-          .padding(.top, 8)
-
-        // Theme Picker
-        VStack(alignment: .leading, spacing: 12) {
-          Text(strings.theme)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appForegroundAdaptive)
-
-          HStack(spacing: 12) {
-            ForEach(AppTheme.allCases, id: \.self) { theme in
-              ThemeOptionButton(
-                theme: theme,
-                isSelected: themeManager.current == theme,
-                label: themeDisplayName(theme)
-              ) {
-                themeManager.current = theme
-              }
-            }
-          }
-        }
-
-        // Language Picker
-        VStack(alignment: .leading, spacing: 12) {
-          Text(strings.language)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appForegroundAdaptive)
-
-          Menu {
-            ForEach(Language.allCases, id: \.self) { lang in
-              Button {
-                Language.current = lang
-              } label: {
-                HStack {
-                  Text(lang.displayName)
-                  if Language.current == lang {
-                    Image(systemName: "checkmark")
-                  }
-                }
-              }
-            }
-          } label: {
-            HStack {
-              Text(Language.current.displayName)
-              Spacer()
-              Image(systemName: "chevron.down")
-            }
-            .padding(12)
-            .foregroundColor(.appForegroundAdaptive)
-            .background(Color.appInputFilled)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-          }
-        }
-
-        Spacer()
-
-        // Sign Out Button
-        Button {
-          AuthService.shared.signOut()
-        } label: {
-          HStack(spacing: 8) {
-            Image(systemName: "rectangle.portrait.and.arrow.right")
-            Text(strings.signOut)
-          }
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appDestructive)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 14)
-          .background(Color.appDestructive.opacity(0.1))
-          .cornerRadius(12)
-        }
-      }
-      .padding(.horizontal, 24)
-      .padding(.top, 16)
-      .padding(.bottom, 24)
-    }
-    .preferredColorScheme(effectiveColorScheme)
-    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
-      strings = L10n.current
-    }
-  }
-
-  private func themeDisplayName(_ theme: AppTheme) -> String {
-    switch theme {
-    case .system: return strings.themeSystem
-    case .light: return strings.themeLight
-    case .dark: return strings.themeDark
-    }
-  }
-}
-
-// MARK: - Theme Option Button
-struct ThemeOptionButton: View {
-  let theme: AppTheme
-  let isSelected: Bool
-  let label: String
-  let action: () -> Void
-
-  var body: some View {
-    Button(action: action) {
-      VStack(spacing: 8) {
-        Image(systemName: theme.icon)
-          .font(.system(size: 20))
-
-        Text(label)
-          .font(.caption)
-      }
-      .frame(maxWidth: .infinity)
-      .padding(.vertical, 16)
-      .foregroundColor(isSelected ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-      .background(isSelected ? Color.appInputFilled : Color.clear)
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
   }
 }
 

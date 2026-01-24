@@ -25,6 +25,18 @@ enum Language: String, CaseIterable {
         case .jaJP: return "日本語"
         }
     }
+
+    var flag: String {
+        switch self {
+        case .enUS: return "🇺🇸"
+        case .ptBR: return "🇧🇷"
+        case .esES: return "🇪🇸"
+        case .frFR: return "🇫🇷"
+        case .deDE: return "🇩🇪"
+        case .itIT: return "🇮🇹"
+        case .jaJP: return "🇯🇵"
+        }
+    }
     
     static var current: Language {
         get {
