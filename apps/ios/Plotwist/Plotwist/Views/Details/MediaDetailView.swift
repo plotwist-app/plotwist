@@ -298,7 +298,7 @@ struct MediaDetailView: View {
         isLoadingUserReview = true
         isLoadingUserItem = true
       }
-      
+
       await loadDetails()
       await loadImages()
       if AuthService.shared.isAuthenticated {
@@ -347,7 +347,7 @@ struct MediaDetailView: View {
   private func loadUserReview() async {
     isLoadingUserReview = true
     defer { isLoadingUserReview = false }
-    
+
     do {
       userReview = try await ReviewService.shared.getUserReview(
         tmdbId: mediaId,
@@ -361,7 +361,7 @@ struct MediaDetailView: View {
   private func loadUserItem() async {
     isLoadingUserItem = true
     defer { isLoadingUserItem = false }
-    
+
     do {
       userItem = try await UserItemService.shared.getUserItem(
         tmdbId: mediaId,

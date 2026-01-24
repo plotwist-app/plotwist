@@ -144,7 +144,9 @@ enum L10n {
       resultsBasedOnPreferences: "Results based on your preferences",
       collection: "Collection",
       reviews: "Reviews",
-      soundtracks: "Soundtracks"
+      soundtracks: "Soundtracks",
+      biography: "Biography",
+      biographyPlaceholder: "Tell us about yourself..."
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -270,7 +272,9 @@ enum L10n {
       resultsBasedOnPreferences: "Resultados baseados nas suas preferências",
       collection: "Coleção",
       reviews: "Reviews",
-      soundtracks: "Trilhas"
+      soundtracks: "Trilhas",
+      biography: "Biografia",
+      biographyPlaceholder: "Conte um pouco sobre você..."
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -396,7 +400,9 @@ enum L10n {
       resultsBasedOnPreferences: "Resultados según tus preferencias",
       collection: "Colección",
       reviews: "Reseñas",
-      soundtracks: "Bandas Sonoras"
+      soundtracks: "Bandas Sonoras",
+      biography: "Biografía",
+      biographyPlaceholder: "Cuéntanos sobre ti..."
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -522,7 +528,9 @@ enum L10n {
       resultsBasedOnPreferences: "Résultats basés sur vos préférences",
       collection: "Collection",
       reviews: "Critiques",
-      soundtracks: "Bandes Sonores"
+      soundtracks: "Bandes Sonores",
+      biography: "Biographie",
+      biographyPlaceholder: "Parlez-nous de vous..."
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -648,7 +656,9 @@ enum L10n {
       resultsBasedOnPreferences: "Ergebnisse basierend auf Ihren Präferenzen",
       collection: "Sammlung",
       reviews: "Bewertungen",
-      soundtracks: "Soundtracks"
+      soundtracks: "Soundtracks",
+      biography: "Biografie",
+      biographyPlaceholder: "Erzählen Sie uns von sich..."
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -774,7 +784,9 @@ enum L10n {
       resultsBasedOnPreferences: "Risultati basati sulle tue preferenze",
       collection: "Collezione",
       reviews: "Recensioni",
-      soundtracks: "Colonne Sonore"
+      soundtracks: "Colonne Sonore",
+      biography: "Biografia",
+      biographyPlaceholder: "Raccontaci di te..."
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -899,7 +911,9 @@ enum L10n {
       resultsBasedOnPreferences: "設定に基づいた結果",
       collection: "コレクション",
       reviews: "レビュー",
-      soundtracks: "サウンドトラック"
+      soundtracks: "サウンドトラック",
+      biography: "自己紹介",
+      biographyPlaceholder: "自己紹介を書いてください..."
     ),
   ]
 }
@@ -1045,4 +1059,7 @@ struct Strings {
   let reviews: String
   // Tab Bar
   let soundtracks: String
+  // Biography
+  let biography: String
+  let biographyPlaceholder: String
 }
