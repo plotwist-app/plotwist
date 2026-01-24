@@ -162,15 +162,13 @@ struct ProfileTabView: View {
 
                 // Biography
                 if let biography = user.biography, !biography.isEmpty {
-                  HStack {
-                    Text(biography)
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                      .lineSpacing(4)
-                      .multilineTextAlignment(.leading)
-                    Spacer(minLength: 0)
-                  }
-                  .padding(.horizontal, 24)
+                  Text(biography)
+                    .font(.subheadline)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .lineSpacing(4)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 24)
                 }
 
                 // Main Tabs (Collection / Reviews)

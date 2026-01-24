@@ -27,6 +27,11 @@ struct MediaDetailView: View {
   @State private var hasWhereToWatch = false
   @State private var hasRecommendations = false
 
+  // Collection state
+  @State private var collection: MovieCollection?
+  @State private var showCollectionSheet = false
+  @State private var selectedCollectionMovieId: Int?
+
   // Layout constants
   private let cornerRadius: CGFloat = 24
   private let posterOverlapOffset: CGFloat = -70
@@ -172,6 +177,17 @@ struct MediaDetailView: View {
                     .padding(.top, 16)
                   }
 
+                  // Collection Section (only for movies that belong to a collection)
+                  if let collection = collection {
+                    MovieCollectionSection(
+                      collection: collection,
+                      onSeeCollectionTapped: {
+                        showCollectionSheet = true
+                      }
+                    )
+                    .padding(.top, 24)
+                  }
+
                   // Divider before first content section
                   if hasReviews || hasWhereToWatch || hasRecommendations {
                     Rectangle()
@@ -292,6 +308,29 @@ struct MediaDetailView: View {
     .sheet(isPresented: $showReviewSheet) {
       ReviewSheet(mediaId: mediaId, mediaType: mediaType, existingReview: userReview)
     }
+    .sheet(isPresented: $showCollectionSheet) {
+      if let collection = collection {
+        MovieCollectionSheet(collection: collection) { movieId in
+          selectedCollectionMovieId = movieId
+        }
+      }
+    }
+    .background(
+      NavigationLink(
+        destination: Group {
+          if let movieId = selectedCollectionMovieId {
+            MediaDetailView(mediaId: movieId, mediaType: "movie")
+          }
+        },
+        isActive: Binding(
+          get: { selectedCollectionMovieId != nil },
+          set: { if !$0 { selectedCollectionMovieId = nil } }
+        )
+      ) {
+        EmptyView()
+      }
+      .hidden()
+    )
     .task {
       // Start loading user data states immediately if authenticated
       if AuthService.shared.isAuthenticated {
@@ -301,6 +340,7 @@ struct MediaDetailView: View {
 
       await loadDetails()
       await loadImages()
+      await loadCollection()
       if AuthService.shared.isAuthenticated {
         await loadUserReview()
         await loadUserItem()
@@ -401,6 +441,21 @@ struct MediaDetailView: View {
           }
         }
       }
+    }
+  }
+
+  private func loadCollection() async {
+    // Only load collection for movies
+    guard mediaType == "movie" else { return }
+    guard let details = details, let belongsTo = details.belongsToCollection else { return }
+
+    do {
+      collection = try await TMDBService.shared.getCollectionDetails(
+        id: belongsTo.id,
+        language: Language.current.rawValue
+      )
+    } catch {
+      collection = nil
     }
   }
 }

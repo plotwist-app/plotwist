@@ -640,6 +640,27 @@ class TMDBService {
     return try decoder.decode(WatchProvidersResponse.self, from: data)
   }
 
+  // MARK: - Get Collection Details
+  func getCollectionDetails(id: Int, language: String = "en-US") async throws -> MovieCollection {
+    guard let url = URL(string: "\(baseURL)/collection/\(id)?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(MovieCollection.self, from: data)
+  }
+
   // MARK: - Get Related Content (Recommendations)
   func getRelatedContent(
     id: Int, mediaType: String, variant: String = "recommendations", language: String = "en-US"
@@ -753,6 +774,7 @@ struct MovieDetails: Codable, Identifiable {
   let voteAverage: Double?
   let runtime: Int?
   let genres: [Genre]?
+  let belongsToCollection: BelongsToCollection?
 
   var displayTitle: String {
     title ?? name ?? "Unknown"
@@ -786,6 +808,51 @@ struct MovieDetails: Codable, Identifiable {
   var backdropURL: URL? {
     guard let backdropPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
+  }
+}
+
+// MARK: - Belongs To Collection
+struct BelongsToCollection: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let posterPath: String?
+  let backdropPath: String?
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
+  }
+}
+
+// MARK: - Movie Collection (Detailed)
+struct MovieCollection: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let overview: String?
+  let posterPath: String?
+  let backdropPath: String?
+  let parts: [CollectionPart]
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
+  }
+}
+
+struct CollectionPart: Codable, Identifiable {
+  let id: Int
+  let title: String
+  let posterPath: String?
+  let releaseDate: String?
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+
+  var year: String? {
+    guard let releaseDate, releaseDate.count >= 4 else { return nil }
+    return String(releaseDate.prefix(4))
   }
 }
 

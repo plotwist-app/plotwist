@@ -152,7 +152,10 @@ enum L10n {
       goodAfternoon: "Good afternoon",
       goodEvening: "Good evening",
       continueWatching: "Continue Watching",
-      upNext: "Up Next"
+      upNext: "Up Next",
+      // Collection
+      partOf: "Part of",
+      seeCollection: "See Collection"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -286,7 +289,10 @@ enum L10n {
       goodAfternoon: "Boa tarde",
       goodEvening: "Boa noite",
       continueWatching: "Continuar Assistindo",
-      upNext: "Para Assistir"
+      upNext: "Para Assistir",
+      // Collection
+      partOf: "Parte de",
+      seeCollection: "Ver Coleção"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -420,7 +426,10 @@ enum L10n {
       goodAfternoon: "Buenas tardes",
       goodEvening: "Buenas noches",
       continueWatching: "Seguir Viendo",
-      upNext: "Próximos"
+      upNext: "Próximos",
+      // Collection
+      partOf: "Parte de",
+      seeCollection: "Ver Colección"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -554,7 +563,10 @@ enum L10n {
       goodAfternoon: "Bon après-midi",
       goodEvening: "Bonsoir",
       continueWatching: "Continuer à Regarder",
-      upNext: "À Suivre"
+      upNext: "À Suivre",
+      // Collection
+      partOf: "Fait partie de",
+      seeCollection: "Voir la Collection"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -688,7 +700,10 @@ enum L10n {
       goodAfternoon: "Guten Tag",
       goodEvening: "Guten Abend",
       continueWatching: "Weiterschauen",
-      upNext: "Als Nächstes"
+      upNext: "Als Nächstes",
+      // Collection
+      partOf: "Teil von",
+      seeCollection: "Sammlung ansehen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -822,7 +837,10 @@ enum L10n {
       goodAfternoon: "Buon pomeriggio",
       goodEvening: "Buonasera",
       continueWatching: "Continua a Guardare",
-      upNext: "Prossimi"
+      upNext: "Prossimi",
+      // Collection
+      partOf: "Parte di",
+      seeCollection: "Vedi Collezione"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -955,7 +973,10 @@ enum L10n {
       goodAfternoon: "こんにちは",
       goodEvening: "こんばんは",
       continueWatching: "視聴を続ける",
-      upNext: "次に見る"
+      upNext: "次に見る",
+      // Collection
+      partOf: "の一部",
+      seeCollection: "コレクションを見る"
     ),
   ]
 }
@@ -1110,4 +1131,7 @@ struct Strings {
   let goodEvening: String
   let continueWatching: String
   let upNext: String
+  // Collection
+  let partOf: String
+  let seeCollection: String
 }
