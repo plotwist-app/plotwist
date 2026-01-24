@@ -505,6 +505,7 @@ struct CategoryPosterCard: View {
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 16))
+    .posterBorder(cornerRadius: 16)
     .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
   }
 }

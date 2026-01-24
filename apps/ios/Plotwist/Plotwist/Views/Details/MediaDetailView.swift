@@ -235,6 +235,7 @@ struct MediaDetailView: View {
                 .clipShape(
                   RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
                 )
+                .topRoundedBorder(cornerRadius: cornerRadius)
 
                 // Poster and Info (overlaid on top, outside clipShape)
                 HStack(alignment: .bottom, spacing: 16) {
@@ -252,6 +253,7 @@ struct MediaDetailView: View {
                   }
                   .frame(width: 120, height: 180)
                   .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .posterBorder(cornerRadius: 12)
                   .posterShadow()
 
                   // Info

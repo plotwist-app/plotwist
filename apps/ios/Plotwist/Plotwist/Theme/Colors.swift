@@ -90,4 +90,60 @@ extension View {
       // Layer 5: Y: 16px, Blur: 16px
       .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 16)
   }
+
+  /// Applies a subtle border to poster cards (dark mode only)
+  func posterBorder(cornerRadius: CGFloat = 16) -> some View {
+    self.modifier(PosterBorderModifier(cornerRadius: cornerRadius))
+  }
+
+  /// Applies a border with custom top corners only (dark mode only)
+  func topRoundedBorder(cornerRadius: CGFloat) -> some View {
+    self.modifier(TopRoundedBorderModifier(cornerRadius: cornerRadius))
+  }
+}
+
+// MARK: - Border Modifiers (Dark Mode Only)
+struct PosterBorderModifier: ViewModifier {
+  let cornerRadius: CGFloat
+  @Environment(\.colorScheme) var colorScheme
+
+  func body(content: Content) -> some View {
+    content.overlay(
+      RoundedRectangle(cornerRadius: cornerRadius)
+        .strokeBorder(
+          colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
+          lineWidth: 1
+        )
+    )
+  }
+}
+
+struct TopRoundedBorderModifier: ViewModifier {
+  let cornerRadius: CGFloat
+  @Environment(\.colorScheme) var colorScheme
+
+  func body(content: Content) -> some View {
+    content.overlay(
+      RoundedCornerShape(radius: cornerRadius, corners: [.topLeft, .topRight])
+        .stroke(
+          colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
+          lineWidth: 1
+        )
+    )
+  }
+}
+
+// MARK: - Custom Shape for Top Rounded Corners Stroke
+struct RoundedCornerShape: Shape {
+  var radius: CGFloat
+  var corners: UIRectCorner
+
+  func path(in rect: CGRect) -> Path {
+    let path = UIBezierPath(
+      roundedRect: rect,
+      byRoundingCorners: corners,
+      cornerRadii: CGSize(width: radius, height: radius)
+    )
+    return Path(path.cgPath)
+  }
 }

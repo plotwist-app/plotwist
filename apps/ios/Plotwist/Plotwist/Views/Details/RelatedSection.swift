@@ -114,6 +114,7 @@ struct RelatedPosterCard: View {
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 16))
+    .posterBorder(cornerRadius: 16)
     .posterShadow()
   }
 }

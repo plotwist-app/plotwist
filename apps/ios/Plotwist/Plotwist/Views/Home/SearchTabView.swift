@@ -342,6 +342,7 @@ struct PosterCard: View {
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 12))
+    .posterBorder(cornerRadius: 12)
     .posterShadow()
   }
 }

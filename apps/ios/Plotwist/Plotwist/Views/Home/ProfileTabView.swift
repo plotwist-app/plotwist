@@ -389,6 +389,7 @@ struct ProfileItemCard: View {
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 12))
+    .posterBorder(cornerRadius: 12)
     .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
     .task {
       await loadPoster()
