@@ -454,10 +454,12 @@ struct ProfileMainTabs: View {
               if badgeCount(for: tab) > 0 {
                 if selectedTab == tab {
                   CollectionCountBadge(count: badgeCount(for: tab))
-                    .transition(.asymmetric(
-                      insertion: .move(edge: .leading).combined(with: .opacity),
-                      removal: .scale(scale: 0.8).combined(with: .opacity)
-                    ))
+                    .transition(
+                      .asymmetric(
+                        insertion: .move(edge: .leading).combined(with: .opacity),
+                        removal: .scale(scale: 0.8).combined(with: .opacity)
+                      )
+                    )
                     .animation(.easeOut(duration: 0.15), value: selectedTab)
                 }
               }
@@ -1213,6 +1215,7 @@ struct EditProfileRow: View {
         Text(value)
           .font(.subheadline)
           .foregroundColor(.appForegroundAdaptive)
+          .multilineTextAlignment(.leading)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
 
