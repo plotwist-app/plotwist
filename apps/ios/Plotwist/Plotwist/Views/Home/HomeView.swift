@@ -39,6 +39,9 @@ struct HomeView: View {
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
       selectedTab = 1
     }
+    .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
+      selectedTab = 2
+    }
     .onAppear {
       let appearance = UITabBarAppearance()
       appearance.configureWithOpaqueBackground()

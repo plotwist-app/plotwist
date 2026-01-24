@@ -146,7 +146,13 @@ enum L10n {
       reviews: "Reviews",
       soundtracks: "Soundtracks",
       biography: "Biography",
-      biographyPlaceholder: "Tell us about yourself..."
+      biographyPlaceholder: "Tell us about yourself...",
+      // Home
+      goodMorning: "Good morning",
+      goodAfternoon: "Good afternoon",
+      goodEvening: "Good evening",
+      continueWatching: "Continue Watching",
+      upNext: "Up Next"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -274,7 +280,13 @@ enum L10n {
       reviews: "Reviews",
       soundtracks: "Trilhas",
       biography: "Biografia",
-      biographyPlaceholder: "Conte um pouco sobre você..."
+      biographyPlaceholder: "Conte um pouco sobre você...",
+      // Home
+      goodMorning: "Bom dia",
+      goodAfternoon: "Boa tarde",
+      goodEvening: "Boa noite",
+      continueWatching: "Continuar Assistindo",
+      upNext: "Para Assistir"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -402,7 +414,13 @@ enum L10n {
       reviews: "Reseñas",
       soundtracks: "Bandas Sonoras",
       biography: "Biografía",
-      biographyPlaceholder: "Cuéntanos sobre ti..."
+      biographyPlaceholder: "Cuéntanos sobre ti...",
+      // Home
+      goodMorning: "Buenos días",
+      goodAfternoon: "Buenas tardes",
+      goodEvening: "Buenas noches",
+      continueWatching: "Seguir Viendo",
+      upNext: "Próximos"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -530,7 +548,13 @@ enum L10n {
       reviews: "Critiques",
       soundtracks: "Bandes Sonores",
       biography: "Biographie",
-      biographyPlaceholder: "Parlez-nous de vous..."
+      biographyPlaceholder: "Parlez-nous de vous...",
+      // Home
+      goodMorning: "Bonjour",
+      goodAfternoon: "Bon après-midi",
+      goodEvening: "Bonsoir",
+      continueWatching: "Continuer à Regarder",
+      upNext: "À Suivre"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -658,7 +682,13 @@ enum L10n {
       reviews: "Bewertungen",
       soundtracks: "Soundtracks",
       biography: "Biografie",
-      biographyPlaceholder: "Erzählen Sie uns von sich..."
+      biographyPlaceholder: "Erzählen Sie uns von sich...",
+      // Home
+      goodMorning: "Guten Morgen",
+      goodAfternoon: "Guten Tag",
+      goodEvening: "Guten Abend",
+      continueWatching: "Weiterschauen",
+      upNext: "Als Nächstes"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -786,7 +816,13 @@ enum L10n {
       reviews: "Recensioni",
       soundtracks: "Colonne Sonore",
       biography: "Biografia",
-      biographyPlaceholder: "Raccontaci di te..."
+      biographyPlaceholder: "Raccontaci di te...",
+      // Home
+      goodMorning: "Buongiorno",
+      goodAfternoon: "Buon pomeriggio",
+      goodEvening: "Buonasera",
+      continueWatching: "Continua a Guardare",
+      upNext: "Prossimi"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -913,7 +949,13 @@ enum L10n {
       reviews: "レビュー",
       soundtracks: "サウンドトラック",
       biography: "自己紹介",
-      biographyPlaceholder: "自己紹介を書いてください..."
+      biographyPlaceholder: "自己紹介を書いてください...",
+      // Home
+      goodMorning: "おはようございます",
+      goodAfternoon: "こんにちは",
+      goodEvening: "こんばんは",
+      continueWatching: "視聴を続ける",
+      upNext: "次に見る"
     ),
   ]
 }
@@ -1062,4 +1104,10 @@ struct Strings {
   // Biography
   let biography: String
   let biographyPlaceholder: String
+  // Home
+  let goodMorning: String
+  let goodAfternoon: String
+  let goodEvening: String
+  let continueWatching: String
+  let upNext: String
 }

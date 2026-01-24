@@ -5,8 +5,14 @@
 
 import SwiftUI
 
+// MARK: - Category Tab Protocol
+protocol CategoryTab: Hashable, CaseIterable {
+  var title: String { get }
+  var isDisabled: Bool { get }
+}
+
 // MARK: - Movie Subcategory
-enum MovieSubcategory: CaseIterable, SegmentedTab {
+enum MovieSubcategory: CaseIterable, CategoryTab {
   case popular
   case nowPlaying
   case topRated
@@ -30,7 +36,7 @@ enum MovieSubcategory: CaseIterable, SegmentedTab {
 }
 
 // MARK: - TV Series Subcategory
-enum TVSeriesSubcategory: CaseIterable, SegmentedTab {
+enum TVSeriesSubcategory: CaseIterable, CategoryTab {
   case popular
   case airingToday
   case onTheAir
@@ -54,7 +60,7 @@ enum TVSeriesSubcategory: CaseIterable, SegmentedTab {
 }
 
 // MARK: - Anime Type
-enum AnimeType: CaseIterable, SegmentedTab {
+enum AnimeType: CaseIterable, CategoryTab {
   case tvSeries
   case movies
 
@@ -68,6 +74,66 @@ enum AnimeType: CaseIterable, SegmentedTab {
 
   var isDisabled: Bool {
     false
+  }
+}
+
+// MARK: - Category Tabs View (same style as Profile tabs)
+struct CategoryTabsView<Tab: CategoryTab>: View where Tab.AllCases: RandomAccessCollection {
+  @Binding var selectedTab: Tab
+  var onTabChange: (() -> Void)?
+  @Namespace private var tabNamespace
+
+  var body: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 0) {
+        ForEach(Array(Tab.allCases), id: \.self) { tab in
+          Button {
+            if !tab.isDisabled {
+              withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                selectedTab = tab
+              }
+              onTabChange?()
+            }
+          } label: {
+            VStack(spacing: 8) {
+              Text(tab.title)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(
+                  tab.isDisabled
+                    ? .appMutedForegroundAdaptive.opacity(0.5)
+                    : (selectedTab == tab
+                        ? .appForegroundAdaptive
+                        : .appMutedForegroundAdaptive)
+                )
+                .padding(.horizontal, 16)
+
+              // Sliding indicator
+              ZStack {
+                Rectangle()
+                  .fill(Color.clear)
+                  .frame(height: 3)
+
+                if selectedTab == tab {
+                  Rectangle()
+                    .fill(Color.appForegroundAdaptive)
+                    .frame(height: 3)
+                    .matchedGeometryEffect(id: "categoryTabIndicator", in: tabNamespace)
+                }
+              }
+            }
+          }
+          .buttonStyle(.plain)
+          .disabled(tab.isDisabled)
+        }
+      }
+      .padding(.horizontal, 8)
+    }
+    .overlay(
+      Rectangle()
+        .fill(Color.appBorderAdaptive)
+        .frame(height: 1),
+      alignment: .bottom
+    )
   }
 }
 
@@ -152,7 +218,7 @@ struct CategoryListView: View {
 
           // Tabs in header
           if categoryType == .movies {
-            UnderlineTabBar(
+            CategoryTabsView(
               selectedTab: $selectedMovieSubcategory,
               onTabChange: {
                 Task {
@@ -161,7 +227,7 @@ struct CategoryListView: View {
               }
             )
           } else if categoryType == .tvSeries {
-            UnderlineTabBar(
+            CategoryTabsView(
               selectedTab: $selectedTVSeriesSubcategory,
               onTabChange: {
                 Task {
@@ -170,7 +236,7 @@ struct CategoryListView: View {
               }
             )
           } else if categoryType == .animes {
-            UnderlineTabBar(
+            CategoryTabsView(
               selectedTab: $selectedAnimeType,
               onTabChange: {
                 Task {

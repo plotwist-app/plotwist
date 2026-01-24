@@ -702,7 +702,7 @@ struct EditProfileView: View {
 
   private var currentRegionName: String {
     guard let region = userPreferences?.watchRegion else {
-      return strings.notSet
+      return "-"
     }
     return regionName(for: region)
   }
@@ -828,7 +828,7 @@ struct EditProfileView: View {
               NavigationLink(destination: EditBiographyView(currentBiography: user.biography)) {
                 EditProfileRow(
                   label: strings.biography,
-                  value: user.biography ?? strings.notSet,
+                  value: user.biography?.isEmpty == false ? user.biography! : "-",
                   labelWidth: labelWidth
                 )
               }
@@ -849,7 +849,7 @@ struct EditProfileView: View {
                       prefix: currentRegionFlag
                     )
                   } else {
-                    Text(strings.notSet)
+                    Text("-")
                       .font(.subheadline)
                       .foregroundColor(.appMutedForegroundAdaptive)
                   }
@@ -871,7 +871,7 @@ struct EditProfileView: View {
                 ) {
                   EditProfileBadgeRow(label: strings.streamingServices) {
                     if selectedProviders.isEmpty {
-                      Text(strings.notSet)
+                      Text("-")
                         .font(.subheadline)
                         .foregroundColor(.appMutedForegroundAdaptive)
                     } else {

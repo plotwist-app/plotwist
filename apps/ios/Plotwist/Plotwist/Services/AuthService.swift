@@ -377,4 +377,5 @@ extension Notification.Name {
   static let authChanged = Notification.Name("authChanged")
   static let profileUpdated = Notification.Name("profileUpdated")
   static let navigateToSearch = Notification.Name("navigateToSearch")
+  static let navigateToProfile = Notification.Name("navigateToProfile")
 }
