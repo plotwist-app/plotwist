@@ -5,6 +5,14 @@
 
 import SwiftUI
 
+// MARK: - Scroll Offset Preference Key
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+  static var defaultValue: CGFloat = 0
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    value = nextValue()
+  }
+}
+
 // MARK: - Profile Status Tab
 enum ProfileStatusTab: String, CaseIterable {
   case watched = "WATCHED"
@@ -45,10 +53,17 @@ struct ProfileTabView: View {
   @State private var userItems: [UserItemSummary] = []
   @State private var isLoadingItems = false
   @State private var totalCollectionCount: Int = 0
+  @State private var scrollOffset: CGFloat = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
   // Avatar size
   private let avatarSize: CGFloat = 56
+  // Scroll threshold to show header content
+  private let scrollThreshold: CGFloat = 50
+
+  private var isScrolled: Bool {
+    scrollOffset < -scrollThreshold
+  }
 
   var body: some View {
     NavigationView {
@@ -65,6 +80,14 @@ struct ProfileTabView: View {
           VStack(spacing: 0) {
             // Header with action buttons
             HStack {
+              // Username (appears when scrolled)
+              if isScrolled {
+                Text(user.username)
+                  .font(.headline)
+                  .foregroundColor(.appForegroundAdaptive)
+                  .transition(.opacity.combined(with: .move(edge: .leading)))
+              }
+
               Spacer()
 
               // Action Buttons
@@ -94,9 +117,28 @@ struct ProfileTabView: View {
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 12)
+            .background(Color.appBackgroundAdaptive)
+            .overlay(
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .opacity(isScrolled ? 1 : 0),
+              alignment: .bottom
+            )
+            .animation(.easeInOut(duration: 0.2), value: isScrolled)
 
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
+                // Invisible anchor for scroll tracking
+                GeometryReader { geo in
+                  Color.clear
+                    .preference(
+                      key: ScrollOffsetPreferenceKey.self,
+                      value: geo.frame(in: .global).minY
+                    )
+                }
+                .frame(height: 0)
+
                 // Profile Info - Avatar left, info right
                 HStack(alignment: .center, spacing: 12) {
                   // Avatar
@@ -249,6 +291,11 @@ struct ProfileTabView: View {
                 Spacer()
                   .frame(height: 100)
               }
+            }
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+              // Initial position is around 120 (safe area + header)
+              // When scrolled down, value decreases
+              scrollOffset = value - 120
             }
           }
         } else {

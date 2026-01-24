@@ -24,7 +24,7 @@ struct HomeView: View {
 
       SoundtracksTabView()
         .tabItem {
-          Image(systemName: "map.fill")
+          Image(systemName: "flame.fill")
         }
         .tag(2)
 

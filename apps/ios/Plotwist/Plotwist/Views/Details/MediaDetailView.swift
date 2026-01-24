@@ -14,6 +14,8 @@ struct MediaDetailView: View {
   @State private var isLoading = true
   @State private var userReview: Review?
   @State private var userItem: UserItem?
+  @State private var isLoadingUserReview = false
+  @State private var isLoadingUserItem = false
   @State private var showReviewSheet = false
   @State private var reviewsRefreshId = UUID()
   @State private var backdropImages: [TMDBImage] = []
@@ -134,6 +136,8 @@ struct MediaDetailView: View {
                         mediaType: mediaType,
                         userReview: userReview,
                         userItem: userItem,
+                        isLoadingReview: isLoadingUserReview,
+                        isLoadingStatus: isLoadingUserItem,
                         onReviewTapped: {
                           showReviewSheet = true
                         },
@@ -289,6 +293,12 @@ struct MediaDetailView: View {
       ReviewSheet(mediaId: mediaId, mediaType: mediaType, existingReview: userReview)
     }
     .task {
+      // Start loading user data states immediately if authenticated
+      if AuthService.shared.isAuthenticated {
+        isLoadingUserReview = true
+        isLoadingUserItem = true
+      }
+      
       await loadDetails()
       await loadImages()
       if AuthService.shared.isAuthenticated {
@@ -335,6 +345,9 @@ struct MediaDetailView: View {
   }
 
   private func loadUserReview() async {
+    isLoadingUserReview = true
+    defer { isLoadingUserReview = false }
+    
     do {
       userReview = try await ReviewService.shared.getUserReview(
         tmdbId: mediaId,
@@ -346,6 +359,9 @@ struct MediaDetailView: View {
   }
 
   private func loadUserItem() async {
+    isLoadingUserItem = true
+    defer { isLoadingUserItem = false }
+    
     do {
       userItem = try await UserItemService.shared.getUserItem(
         tmdbId: mediaId,

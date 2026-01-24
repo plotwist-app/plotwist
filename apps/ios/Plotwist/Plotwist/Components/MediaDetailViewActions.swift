@@ -10,6 +10,8 @@ struct MediaDetailViewActions: View {
   let mediaType: String
   let userReview: Review?
   let userItem: UserItem?
+  let isLoadingReview: Bool
+  let isLoadingStatus: Bool
   let onReviewTapped: () -> Void
   let onStatusChanged: (UserItem?) -> Void
 
@@ -18,12 +20,13 @@ struct MediaDetailViewActions: View {
   var body: some View {
     HStack(spacing: 12) {
       // Review Button
-      ReviewButton(hasReview: userReview != nil, action: onReviewTapped)
+      ReviewButton(hasReview: userReview != nil, isLoading: isLoadingReview, action: onReviewTapped)
 
       // Status Button
       StatusButton(
         currentStatus: userItem?.statusEnum,
         rewatchCount: userItem?.watchEntries?.count ?? 0,
+        isLoading: isLoadingStatus,
         action: { showStatusSheet = true }
       )
 
@@ -70,14 +73,22 @@ struct MediaDetailViewActions: View {
 struct StatusButton: View {
   let currentStatus: UserItemStatus?
   let rewatchCount: Int
+  let isLoading: Bool
   let action: () -> Void
 
   var body: some View {
     Button(action: action) {
       HStack(spacing: 6) {
-        Image(systemName: currentStatus?.icon ?? "pencil")
-          .font(.system(size: 13))
-          .foregroundColor(statusIconColor ?? .appForegroundAdaptive)
+        if isLoading {
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+            .scaleEffect(0.7)
+            .frame(width: 13, height: 13)
+        } else {
+          Image(systemName: currentStatus?.icon ?? "pencil")
+            .font(.system(size: 13))
+            .foregroundColor(statusIconColor ?? .appForegroundAdaptive)
+        }
 
         Text(currentStatus?.displayName(strings: L10n.current) ?? L10n.current.updateStatus)
           .font(.footnote.weight(.medium))
@@ -98,7 +109,9 @@ struct StatusButton: View {
       .padding(.vertical, 10)
       .background(Color.appInputFilled)
       .cornerRadius(10)
+      .opacity(isLoading ? 0.5 : 1)
     }
+    .disabled(isLoading)
   }
 
   private var statusIconColor: Color? {
@@ -120,6 +133,20 @@ struct StatusButton: View {
       mediaType: "movie",
       userReview: nil,
       userItem: nil,
+      isLoadingReview: true,
+      isLoadingStatus: true,
+      onReviewTapped: {},
+      onStatusChanged: { _ in }
+    )
+    .padding(.horizontal, 24)
+
+    MediaDetailViewActions(
+      mediaId: 550,
+      mediaType: "movie",
+      userReview: nil,
+      userItem: nil,
+      isLoadingReview: false,
+      isLoadingStatus: false,
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
@@ -151,6 +178,8 @@ struct StatusButton: View {
         updatedAt: "2025-01-10T12:00:00.000Z",
         watchEntries: [WatchEntry(id: "1", watchedAt: "2025-01-10T12:00:00.000Z")]
       ),
+      isLoadingReview: false,
+      isLoadingStatus: false,
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
