@@ -218,7 +218,13 @@ struct ReviewSheet: View {
     
     Task {
       do {
-        try await ReviewService.shared.deleteReview(id: existingReview.id)
+        try await ReviewService.shared.deleteReview(
+          id: existingReview.id,
+          tmdbId: mediaId,
+          mediaType: mediaType == "movie" ? "MOVIE" : "TV_SHOW",
+          seasonNumber: existingReview.seasonNumber,
+          episodeNumber: existingReview.episodeNumber
+        )
         
         await MainActor.run {
           isDeleting = false

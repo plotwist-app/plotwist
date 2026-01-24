@@ -9,6 +9,33 @@ class ReviewService {
   static let shared = ReviewService()
   private init() {}
 
+  // MARK: - Cache
+  private var reviewCache: [String: CachedReview] = [:]
+  private let cacheDuration: TimeInterval = 300  // 5 minutes
+
+  private struct CachedReview {
+    let review: Review?
+    let timestamp: Date
+  }
+
+  private func cacheKey(tmdbId: Int, mediaType: String, seasonNumber: Int?, episodeNumber: Int?)
+    -> String
+  {
+    var key = "\(tmdbId)-\(mediaType)"
+    if let season = seasonNumber { key += "-s\(season)" }
+    if let episode = episodeNumber { key += "-e\(episode)" }
+    return key
+  }
+
+  func invalidateCache(tmdbId: Int, mediaType: String, seasonNumber: Int? = nil, episodeNumber: Int? = nil) {
+    let key = cacheKey(tmdbId: tmdbId, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+    reviewCache.removeValue(forKey: key)
+  }
+
+  func invalidateAllCache() {
+    reviewCache.removeAll()
+  }
+
   // MARK: - Get User Review
   func getUserReview(
     tmdbId: Int,
@@ -16,6 +43,14 @@ class ReviewService {
     seasonNumber: Int? = nil,
     episodeNumber: Int? = nil
   ) async throws -> Review? {
+    let key = cacheKey(tmdbId: tmdbId, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+
+    // Check cache
+    if let cached = reviewCache[key],
+       Date().timeIntervalSince(cached.timestamp) < cacheDuration {
+      return cached.review
+    }
+
     var urlString = "\(API.baseURL)/review?tmdbId=\(tmdbId)&mediaType=\(mediaType)"
 
     if let seasonNumber = seasonNumber {
@@ -42,6 +77,8 @@ class ReviewService {
     }
 
     if http.statusCode == 404 {
+      // Cache nil result
+      reviewCache[key] = CachedReview(review: nil, timestamp: Date())
       return nil
     }
 
@@ -52,6 +89,10 @@ class ReviewService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(ReviewResponse.self, from: data)
+
+    // Cache result
+    reviewCache[key] = CachedReview(review: result.review, timestamp: Date())
+
     return result.review
   }
 
@@ -101,6 +142,14 @@ class ReviewService {
       }
       throw ReviewError.invalidResponse
     }
+
+    // Invalidate cache
+    invalidateCache(
+      tmdbId: reviewData.tmdbId,
+      mediaType: reviewData.mediaType,
+      seasonNumber: reviewData.seasonNumber,
+      episodeNumber: reviewData.episodeNumber
+    )
   }
 
   // MARK: - Update Review
@@ -135,10 +184,18 @@ class ReviewService {
     guard http.statusCode == 200 else {
       throw ReviewError.invalidResponse
     }
+
+    // Invalidate cache
+    invalidateCache(
+      tmdbId: reviewData.tmdbId,
+      mediaType: reviewData.mediaType,
+      seasonNumber: reviewData.seasonNumber,
+      episodeNumber: reviewData.episodeNumber
+    )
   }
 
   // MARK: - Delete Review
-  func deleteReview(id: String) async throws {
+  func deleteReview(id: String, tmdbId: Int, mediaType: String, seasonNumber: Int? = nil, episodeNumber: Int? = nil) async throws {
     guard let url = URL(string: "\(API.baseURL)/review/by/\(id)"),
       let token = UserDefaults.standard.string(forKey: "token")
     else {
@@ -158,6 +215,14 @@ class ReviewService {
     guard http.statusCode == 200 || http.statusCode == 204 else {
       throw ReviewError.invalidResponse
     }
+
+    // Invalidate cache
+    invalidateCache(
+      tmdbId: tmdbId,
+      mediaType: mediaType,
+      seasonNumber: seasonNumber,
+      episodeNumber: episodeNumber
+    )
   }
 
   // MARK: - Get Reviews List

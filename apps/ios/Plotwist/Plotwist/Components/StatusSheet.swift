@@ -160,7 +160,10 @@ struct StatusSheet: View {
       
       Task {
         do {
-          try await UserItemService.shared.deleteUserItem(id: itemId)
+          try await UserItemService.shared.deleteUserItem(id: itemId, tmdbId: mediaId, mediaType: mediaType)
+          
+          // Invalidate collection cache
+          CollectionCache.shared.invalidateCache()
           
           await MainActor.run {
             isLoading = false
@@ -191,6 +194,9 @@ struct StatusSheet: View {
             mediaType: apiMediaType,
             status: status
           )
+          
+          // Invalidate collection cache
+          CollectionCache.shared.invalidateCache()
           
           await MainActor.run {
             isLoading = false

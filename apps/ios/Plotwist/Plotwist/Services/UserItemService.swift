@@ -9,6 +9,28 @@ class UserItemService {
   static let shared = UserItemService()
   private init() {}
 
+  // MARK: - Cache
+  private var userItemCache: [String: CachedUserItem] = [:]
+  private let cacheDuration: TimeInterval = 300  // 5 minutes
+
+  private struct CachedUserItem {
+    let userItem: UserItem?
+    let timestamp: Date
+  }
+
+  private func cacheKey(tmdbId: Int, mediaType: String) -> String {
+    return "\(tmdbId)-\(mediaType)"
+  }
+
+  func invalidateCache(tmdbId: Int, mediaType: String) {
+    let key = cacheKey(tmdbId: tmdbId, mediaType: mediaType)
+    userItemCache.removeValue(forKey: key)
+  }
+
+  func invalidateAllCache() {
+    userItemCache.removeAll()
+  }
+
   // MARK: - Get All User Items by Status
   func getAllUserItems(userId: String, status: String) async throws -> [UserItemSummary] {
     guard let url = URL(string: "\(API.baseURL)/user/items/all?userId=\(userId)&status=\(status)")
@@ -55,6 +77,14 @@ class UserItemService {
 
   // MARK: - Get User Item
   func getUserItem(tmdbId: Int, mediaType: String) async throws -> UserItem? {
+    let key = cacheKey(tmdbId: tmdbId, mediaType: mediaType)
+
+    // Check cache
+    if let cached = userItemCache[key],
+       Date().timeIntervalSince(cached.timestamp) < cacheDuration {
+      return cached.userItem
+    }
+
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user/item?tmdbId=\(tmdbId)&mediaType=\(mediaType)")
     else {
@@ -71,6 +101,8 @@ class UserItemService {
     }
 
     if http.statusCode == 404 {
+      // Cache nil result
+      userItemCache[key] = CachedUserItem(userItem: nil, timestamp: Date())
       return nil
     }
 
@@ -81,6 +113,10 @@ class UserItemService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(UserItemResponse.self, from: data)
+
+    // Cache result
+    userItemCache[key] = CachedUserItem(userItem: result.userItem, timestamp: Date())
+
     return result.userItem
   }
 
@@ -120,11 +156,16 @@ class UserItemService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     let result = try decoder.decode(UpsertUserItemResponse.self, from: data)
+
+    // Update cache with new value
+    let key = cacheKey(tmdbId: tmdbId, mediaType: mediaType)
+    userItemCache[key] = CachedUserItem(userItem: result.userItem, timestamp: Date())
+
     return result.userItem
   }
 
   // MARK: - Delete User Item
-  func deleteUserItem(id: String) async throws {
+  func deleteUserItem(id: String, tmdbId: Int, mediaType: String) async throws {
     guard let url = URL(string: "\(API.baseURL)/user/item/\(id)"),
       let token = UserDefaults.standard.string(forKey: "token")
     else {
@@ -144,6 +185,9 @@ class UserItemService {
     guard http.statusCode == 200 || http.statusCode == 204 else {
       throw UserItemError.invalidResponse
     }
+
+    // Invalidate cache
+    invalidateCache(tmdbId: tmdbId, mediaType: mediaType)
   }
 
   // MARK: - Add Watch Entry (Rewatch)

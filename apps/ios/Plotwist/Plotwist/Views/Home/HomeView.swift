@@ -22,17 +22,18 @@ struct HomeView: View {
         }
         .tag(1)
 
-      SoundtracksTabView()
-        .tabItem {
-          Image(systemName: "flame.fill")
-        }
-        .tag(2)
+      // TODO: Re-enable when Soundtracks feature is ready
+      // SoundtracksTabView()
+      //   .tabItem {
+      //     Image(systemName: "flame.fill")
+      //   }
+      //   .tag(2)
 
       ProfileTabView()
         .tabItem {
           Image(systemName: "person.fill")
         }
-        .tag(3)
+        .tag(2)
     }
     .tint(.appForegroundAdaptive)
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in

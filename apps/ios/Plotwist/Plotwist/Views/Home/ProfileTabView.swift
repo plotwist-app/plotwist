@@ -341,6 +341,12 @@ struct ProfileTabView: View {
       .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
         Task { await loadUser() }
       }
+      .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
+        Task {
+          await loadUserItems(forceRefresh: true)
+          await loadTotalCollectionCount(forceRefresh: true)
+        }
+      }
       .navigationBarHidden(true)
     }
   }
@@ -364,28 +370,49 @@ struct ProfileTabView: View {
     return formatter.string(from: date)
   }
 
-  private func loadUserItems() async {
+  private func loadUserItems(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
+
+    // Check cache first
+    if !forceRefresh,
+      let cachedItems = CollectionCache.shared.getItems(
+        userId: userId, status: selectedStatusTab.rawValue)
+    {
+      userItems = cachedItems
+      return
+    }
 
     isLoadingItems = true
     defer { isLoadingItems = false }
 
     do {
-      userItems = try await UserItemService.shared.getAllUserItems(
+      let items = try await UserItemService.shared.getAllUserItems(
         userId: userId,
         status: selectedStatusTab.rawValue
       )
+      userItems = items
+      // Save to cache
+      CollectionCache.shared.setItems(items, userId: userId, status: selectedStatusTab.rawValue)
     } catch {
       print("Error loading user items: \(error)")
       userItems = []
     }
   }
 
-  private func loadTotalCollectionCount() async {
+  private func loadTotalCollectionCount(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
 
+    // Check cache first
+    if !forceRefresh, let cachedCount = CollectionCache.shared.getTotalCount() {
+      totalCollectionCount = cachedCount
+      return
+    }
+
     do {
-      totalCollectionCount = try await UserItemService.shared.getUserItemsCount(userId: userId)
+      let count = try await UserItemService.shared.getUserItemsCount(userId: userId)
+      totalCollectionCount = count
+      // Save to cache
+      CollectionCache.shared.setTotalCount(count)
     } catch {
       print("Error loading collection count: \(error)")
       totalCollectionCount = 0
@@ -607,20 +634,24 @@ struct ProfileAvatar: View {
 
 // MARK: - Pro Badge
 struct ProBadge: View {
+  @Environment(\.colorScheme) private var colorScheme
+
   var body: some View {
     Text("PRO")
-      .font(.system(size: 10, weight: .bold))
-      .foregroundColor(.white)
+      .font(.system(size: 10, weight: .semibold))
+      .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
       .padding(.horizontal, 8)
-      .padding(.vertical, 4)
+      .padding(.vertical, 3)
       .background(
-        LinearGradient(
-          colors: [Color.purple, Color.blue],
-          startPoint: .leading,
-          endPoint: .trailing
-        )
+        colorScheme == .dark
+          ? Color(hex: "0a0a0f")
+          : Color(hex: "f5f5f5")
       )
-      .clipShape(Capsule())
+      .clipShape(RoundedRectangle(cornerRadius: 6))
+      .overlay(
+        RoundedRectangle(cornerRadius: 6)
+          .stroke(Color.appBorderAdaptive, lineWidth: 1)
+      )
   }
 }
 
