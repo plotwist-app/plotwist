@@ -261,16 +261,13 @@ struct PreferencesItemBadge: View {
       }
 
       if let logoURL {
-        AsyncImage(url: logoURL) { phase in
-          switch phase {
-          case .success(let image):
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          default:
-            Rectangle()
-              .fill(Color.appInputFilled)
-          }
+        CachedAsyncImage(url: logoURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          Rectangle()
+            .fill(Color.appInputFilled)
         }
         .frame(width: 18, height: 18)
         .cornerRadius(4)
@@ -651,16 +648,13 @@ struct ServicesPickerSheet: View {
                   toggleProvider(provider.providerId)
                 } label: {
                   HStack(spacing: 12) {
-                    AsyncImage(url: provider.logoURL) { phase in
-                      switch phase {
-                      case .success(let image):
-                        image
-                          .resizable()
-                          .aspectRatio(contentMode: .fill)
-                      default:
-                        Rectangle()
-                          .fill(Color.appInputFilled)
-                      }
+                    CachedAsyncImage(url: provider.logoURL) { image in
+                      image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                      Rectangle()
+                        .fill(Color.appInputFilled)
                     }
                     .frame(width: 40, height: 40)
                     .cornerRadius(8)

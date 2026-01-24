@@ -48,16 +48,13 @@ struct MediaDetailView: View {
               ZStack(alignment: .topLeading) {
                 // Backdrop Image/Carousel
                 if backdropImages.isEmpty {
-                  AsyncImage(url: details.backdropURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                      image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    default:
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                    }
+                  CachedAsyncImage(url: details.backdropURL) { image in
+                    image
+                      .resizable()
+                      .aspectRatio(contentMode: .fill)
+                  } placeholder: {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive)
                   }
                   .frame(height: backdropHeight + cornerRadius)
                   .frame(maxWidth: .infinity)
@@ -70,16 +67,13 @@ struct MediaDetailView: View {
                       TabView(selection: $currentBackdropIndex) {
                         ForEach(Array(backdropImages.prefix(10).enumerated()), id: \.element.id) {
                           index, backdrop in
-                          AsyncImage(url: backdrop.backdropURL) { phase in
-                            switch phase {
-                            case .success(let image):
-                              image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                            default:
-                              Rectangle()
-                                .fill(Color.appBorderAdaptive)
-                            }
+                          CachedAsyncImage(url: backdrop.backdropURL) { image in
+                            image
+                              .resizable()
+                              .aspectRatio(contentMode: .fill)
+                          } placeholder: {
+                            Rectangle()
+                              .fill(Color.appBorderAdaptive)
                           }
                           .tag(index)
                         }
@@ -243,16 +237,13 @@ struct MediaDetailView: View {
                 // Poster and Info (overlaid on top, outside clipShape)
                 HStack(alignment: .bottom, spacing: 16) {
                   // Poster
-                  AsyncImage(url: details.posterURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                      image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    default:
-                      RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.appBorderAdaptive)
-                    }
+                  CachedAsyncImage(url: details.posterURL) { image in
+                    image
+                      .resizable()
+                      .aspectRatio(contentMode: .fill)
+                  } placeholder: {
+                    RoundedRectangle(cornerRadius: 12)
+                      .fill(Color.appBorderAdaptive)
                   }
                   .frame(width: 120, height: 180)
                   .clipShape(RoundedRectangle(cornerRadius: 12))

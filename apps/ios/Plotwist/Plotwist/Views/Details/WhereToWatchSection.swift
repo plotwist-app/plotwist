@@ -138,16 +138,13 @@ struct ProviderRow: View {
 
   var body: some View {
     HStack(spacing: 8) {
-      AsyncImage(url: provider.logoURL) { phase in
-        switch phase {
-        case .success(let image):
-          image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-        default:
-          RoundedRectangle(cornerRadius: 6)
-            .fill(Color.appBorderAdaptive)
-        }
+      CachedAsyncImage(url: provider.logoURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: 6)
+          .fill(Color.appBorderAdaptive)
       }
       .frame(width: 24, height: 24)
       .clipShape(RoundedRectangle(cornerRadius: 6))

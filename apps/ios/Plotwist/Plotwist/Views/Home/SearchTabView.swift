@@ -319,26 +319,13 @@ struct PosterCard: View {
   let result: SearchResult
 
   var body: some View {
-    AsyncImage(url: result.imageURL) { phase in
-      switch phase {
-      case .empty:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appBorderAdaptive)
-      case .success(let image):
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      case .failure:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appBorderAdaptive)
-          .overlay(
-            Image(systemName: result.mediaType == "person" ? "person.fill" : "film")
-              .foregroundColor(.appMutedForegroundAdaptive)
-          )
-      @unknown default:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appBorderAdaptive)
-      }
+    CachedAsyncImage(url: result.imageURL) { image in
+      image
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+    } placeholder: {
+      RoundedRectangle(cornerRadius: 12)
+        .fill(Color.appBorderAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 12))

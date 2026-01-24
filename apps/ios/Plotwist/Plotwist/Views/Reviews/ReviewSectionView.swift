@@ -317,15 +317,12 @@ struct ReviewCardView: View {
         if let avatarUrl = review.user.avatarUrl,
           let url = URL(string: avatarUrl)
         {
-          AsyncImage(url: url) { phase in
-            switch phase {
-            case .success(let image):
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            default:
-              avatarFallback
-            }
+          CachedAsyncImage(url: url) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } placeholder: {
+            avatarFallback
           }
           .frame(width: 40, height: 40)
           .clipShape(Circle())

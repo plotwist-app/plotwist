@@ -54,15 +54,17 @@ struct ProfileTabView: View {
   @State private var isLoadingItems = false
   @State private var totalCollectionCount: Int = 0
   @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
   @ObservedObject private var themeManager = ThemeManager.shared
 
   // Avatar size
   private let avatarSize: CGFloat = 56
-  // Scroll threshold to show header content
-  private let scrollThreshold: CGFloat = 50
+  // Scroll threshold to show header content (height of profile info section)
+  private let scrollThreshold: CGFloat = 80
 
   private var isScrolled: Bool {
-    scrollOffset < -scrollThreshold
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
   }
 
   var body: some View {
@@ -79,13 +81,22 @@ struct ProfileTabView: View {
         } else if let user {
           VStack(spacing: 0) {
             // Header with action buttons
-            HStack {
-              // Username (appears when scrolled)
+            HStack(spacing: 12) {
+              // Avatar + Username (appears when scrolled)
               if isScrolled {
-                Text(user.username)
-                  .font(.headline)
-                  .foregroundColor(.appForegroundAdaptive)
-                  .transition(.opacity.combined(with: .move(edge: .leading)))
+                HStack(spacing: 10) {
+                  ProfileAvatar(
+                    avatarURL: user.avatarImageURL,
+                    username: user.username,
+                    size: 32
+                  )
+                  .transition(.opacity.combined(with: .move(edge: .bottom)))
+
+                  Text(user.username)
+                    .font(.headline)
+                    .foregroundColor(.appForegroundAdaptive)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+                }
               }
 
               Spacer()
@@ -129,16 +140,6 @@ struct ProfileTabView: View {
 
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
-                // Invisible anchor for scroll tracking
-                GeometryReader { geo in
-                  Color.clear
-                    .preference(
-                      key: ScrollOffsetPreferenceKey.self,
-                      value: geo.frame(in: .global).minY
-                    )
-                }
-                .frame(height: 0)
-
                 // Profile Info - Avatar left, info right
                 HStack(alignment: .center, spacing: 12) {
                   // Avatar
@@ -291,11 +292,18 @@ struct ProfileTabView: View {
                 Spacer()
                   .frame(height: 100)
               }
-            }
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-              // Initial position is around 120 (safe area + header)
-              // When scrolled down, value decreases
-              scrollOffset = value - 120
+              .background(
+                GeometryReader { geo -> Color in
+                  DispatchQueue.main.async {
+                    let offset = geo.frame(in: .global).minY
+                    if initialScrollOffset == nil {
+                      initialScrollOffset = offset
+                    }
+                    scrollOffset = offset
+                  }
+                  return Color.clear
+                }
+              )
             }
           }
         } else {
@@ -513,26 +521,13 @@ struct ProfileItemCard: View {
   @State private var isLoading = true
 
   var body: some View {
-    AsyncImage(url: posterURL) { phase in
-      switch phase {
-      case .empty:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appSkeletonAdaptive)
-      case .success(let image):
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      case .failure:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appBorderAdaptive)
-          .overlay(
-            Image(systemName: "film")
-              .foregroundColor(.appMutedForegroundAdaptive)
-          )
-      @unknown default:
-        RoundedRectangle(cornerRadius: 12)
-          .fill(Color.appBorderAdaptive)
-      }
+    CachedAsyncImage(url: posterURL) { image in
+      image
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+    } placeholder: {
+      RoundedRectangle(cornerRadius: 12)
+        .fill(Color.appSkeletonAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -577,15 +572,12 @@ struct ProfileAvatar: View {
   var body: some View {
     ZStack {
       if let avatarURL {
-        AsyncImage(url: avatarURL) { phase in
-          switch phase {
-          case .success(let image):
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          default:
-            avatarPlaceholder
-          }
+        CachedAsyncImage(url: avatarURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          avatarPlaceholder
         }
       } else {
         avatarPlaceholder
@@ -945,16 +937,13 @@ struct ProfileBadge: View {
       }
 
       if let logoURL {
-        AsyncImage(url: logoURL) { phase in
-          switch phase {
-          case .success(let image):
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          default:
-            Rectangle()
-              .fill(Color.appInputFilled)
-          }
+        CachedAsyncImage(url: logoURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          Rectangle()
+            .fill(Color.appInputFilled)
         }
         .frame(width: 18, height: 18)
         .cornerRadius(4)
@@ -1555,16 +1544,13 @@ struct EditStreamingServicesView: View {
                 } label: {
                   HStack(spacing: 12) {
                     // Provider Logo
-                    AsyncImage(url: provider.logoURL) { phase in
-                      switch phase {
-                      case .success(let image):
-                        image
-                          .resizable()
-                          .aspectRatio(contentMode: .fill)
-                      default:
-                        Rectangle()
-                          .fill(Color.appInputFilled)
-                      }
+                    CachedAsyncImage(url: provider.logoURL) { image in
+                      image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                      Rectangle()
+                        .fill(Color.appInputFilled)
                     }
                     .frame(width: 40, height: 40)
                     .cornerRadius(8)

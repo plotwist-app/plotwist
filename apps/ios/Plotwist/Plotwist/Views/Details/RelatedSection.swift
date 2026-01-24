@@ -91,26 +91,13 @@ struct RelatedPosterCard: View {
   let item: SearchResult
 
   var body: some View {
-    AsyncImage(url: item.imageURL) { phase in
-      switch phase {
-      case .empty:
-        RoundedRectangle(cornerRadius: 16)
-          .fill(Color.appBorderAdaptive)
-      case .success(let image):
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      case .failure:
-        RoundedRectangle(cornerRadius: 16)
-          .fill(Color.appBorderAdaptive)
-          .overlay(
-            Image(systemName: "film")
-              .foregroundColor(.appMutedForegroundAdaptive)
-          )
-      @unknown default:
-        RoundedRectangle(cornerRadius: 16)
-          .fill(Color.appBorderAdaptive)
-      }
+    CachedAsyncImage(url: item.imageURL) { image in
+      image
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+    } placeholder: {
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 16))

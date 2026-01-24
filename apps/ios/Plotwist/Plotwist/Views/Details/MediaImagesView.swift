@@ -190,16 +190,13 @@ struct MasonryImageCell: View {
 
   var body: some View {
     Button(action: onTap) {
-      AsyncImage(url: image.thumbnailURL) { phase in
-        switch phase {
-        case .success(let loadedImage):
-          loadedImage
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-        default:
-          Rectangle()
-            .fill(Color.appBorderAdaptive)
-        }
+      CachedAsyncImage(url: image.thumbnailURL) { loadedImage in
+        loadedImage
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
       }
       .frame(width: width, height: height)
       .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -223,59 +220,56 @@ struct ImageFullScreenView: View {
     ZStack {
       Color.black.ignoresSafeArea()
 
-      AsyncImage(url: image.fullURL) { phase in
-        switch phase {
-        case .success(let loadedImage):
-          loadedImage
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .scaleEffect(scale)
-            .offset(offset)
-            .gesture(
-              MagnificationGesture()
-                .onChanged { value in
-                  let delta = value / lastScale
-                  lastScale = value
-                  scale = min(max(scale * delta, 1), 4)
-                }
-                .onEnded { _ in
-                  lastScale = 1.0
-                  if scale < 1 {
-                    withAnimation {
-                      scale = 1
-                    }
+      CachedAsyncImage(url: image.fullURL) { loadedImage in
+        loadedImage
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .scaleEffect(scale)
+          .offset(offset)
+          .gesture(
+            MagnificationGesture()
+              .onChanged { value in
+                let delta = value / lastScale
+                lastScale = value
+                scale = min(max(scale * delta, 1), 4)
+              }
+              .onEnded { _ in
+                lastScale = 1.0
+                if scale < 1 {
+                  withAnimation {
+                    scale = 1
                   }
-                }
-            )
-            .gesture(
-              DragGesture()
-                .onChanged { value in
-                  if scale > 1 {
-                    offset = CGSize(
-                      width: lastOffset.width + value.translation.width,
-                      height: lastOffset.height + value.translation.height
-                    )
-                  }
-                }
-                .onEnded { _ in
-                  lastOffset = offset
-                }
-            )
-            .onTapGesture(count: 2) {
-              withAnimation {
-                if scale > 1 {
-                  scale = 1
-                  offset = .zero
-                  lastOffset = .zero
-                } else {
-                  scale = 2
                 }
               }
+          )
+          .gesture(
+            DragGesture()
+              .onChanged { value in
+                if scale > 1 {
+                  offset = CGSize(
+                    width: lastOffset.width + value.translation.width,
+                    height: lastOffset.height + value.translation.height
+                  )
+                }
+              }
+              .onEnded { _ in
+                lastOffset = offset
+              }
+          )
+          .onTapGesture(count: 2) {
+            withAnimation {
+              if scale > 1 {
+                scale = 1
+                offset = .zero
+                lastOffset = .zero
+              } else {
+                scale = 2
+              }
             }
-        default:
-          ProgressView()
-            .tint(.white)
-        }
+          }
+      } placeholder: {
+        ProgressView()
+          .tint(.white)
       }
 
       // Close button
