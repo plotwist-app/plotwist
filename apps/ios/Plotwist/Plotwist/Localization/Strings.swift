@@ -155,7 +155,18 @@ enum L10n {
       upNext: "Up Next",
       // Collection
       partOf: "Part of",
-      seeCollection: "See Collection"
+      seeCollection: "See Collection",
+      // Seasons
+      tabSeasons: "Seasons",
+      episodesCount: "%d episodes",
+      grid: "Grid",
+      overview: "Overview",
+      // Ratings
+      ratingAwesome: "Awesome",
+      ratingGreat: "Great",
+      ratingGood: "Good",
+      ratingBad: "Bad",
+      ratingTerrible: "Terrible"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -292,7 +303,18 @@ enum L10n {
       upNext: "Para Assistir",
       // Collection
       partOf: "Parte de",
-      seeCollection: "Ver Coleção"
+      seeCollection: "Ver Coleção",
+      // Seasons
+      tabSeasons: "Temporadas",
+      episodesCount: "%d episódios",
+      grid: "Grade",
+      overview: "Visão Geral",
+      // Ratings
+      ratingAwesome: "Incrível",
+      ratingGreat: "Ótimo",
+      ratingGood: "Bom",
+      ratingBad: "Ruim",
+      ratingTerrible: "Péssimo"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -429,7 +451,18 @@ enum L10n {
       upNext: "Próximos",
       // Collection
       partOf: "Parte de",
-      seeCollection: "Ver Colección"
+      seeCollection: "Ver Colección",
+      // Seasons
+      tabSeasons: "Temporadas",
+      episodesCount: "%d episodios",
+      grid: "Cuadrícula",
+      overview: "Resumen",
+      // Ratings
+      ratingAwesome: "Increíble",
+      ratingGreat: "Genial",
+      ratingGood: "Bueno",
+      ratingBad: "Malo",
+      ratingTerrible: "Terrible"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -566,7 +599,18 @@ enum L10n {
       upNext: "À Suivre",
       // Collection
       partOf: "Fait partie de",
-      seeCollection: "Voir la Collection"
+      seeCollection: "Voir la Collection",
+      // Seasons
+      tabSeasons: "Saisons",
+      episodesCount: "%d épisodes",
+      grid: "Grille",
+      overview: "Aperçu",
+      // Ratings
+      ratingAwesome: "Incroyable",
+      ratingGreat: "Génial",
+      ratingGood: "Bon",
+      ratingBad: "Mauvais",
+      ratingTerrible: "Terrible"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -703,7 +747,18 @@ enum L10n {
       upNext: "Als Nächstes",
       // Collection
       partOf: "Teil von",
-      seeCollection: "Sammlung ansehen"
+      seeCollection: "Sammlung ansehen",
+      // Seasons
+      tabSeasons: "Staffeln",
+      episodesCount: "%d Episoden",
+      grid: "Raster",
+      overview: "Übersicht",
+      // Ratings
+      ratingAwesome: "Fantastisch",
+      ratingGreat: "Toll",
+      ratingGood: "Gut",
+      ratingBad: "Schlecht",
+      ratingTerrible: "Schrecklich"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -840,7 +895,18 @@ enum L10n {
       upNext: "Prossimi",
       // Collection
       partOf: "Parte di",
-      seeCollection: "Vedi Collezione"
+      seeCollection: "Vedi Collezione",
+      // Seasons
+      tabSeasons: "Stagioni",
+      episodesCount: "%d episodi",
+      grid: "Griglia",
+      overview: "Panoramica",
+      // Ratings
+      ratingAwesome: "Fantastico",
+      ratingGreat: "Ottimo",
+      ratingGood: "Buono",
+      ratingBad: "Cattivo",
+      ratingTerrible: "Terribile"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -976,7 +1042,18 @@ enum L10n {
       upNext: "次に見る",
       // Collection
       partOf: "の一部",
-      seeCollection: "コレクションを見る"
+      seeCollection: "コレクションを見る",
+      // Seasons
+      tabSeasons: "シーズン",
+      episodesCount: "%d 話",
+      grid: "グリッド",
+      overview: "概要",
+      // Ratings
+      ratingAwesome: "最高",
+      ratingGreat: "素晴らしい",
+      ratingGood: "良い",
+      ratingBad: "悪い",
+      ratingTerrible: "最悪"
     ),
   ]
 }
@@ -1134,4 +1211,15 @@ struct Strings {
   // Collection
   let partOf: String
   let seeCollection: String
+  // Seasons
+  let tabSeasons: String
+  let episodesCount: String
+  let grid: String
+  let overview: String
+  // Ratings
+  let ratingAwesome: String
+  let ratingGreat: String
+  let ratingGood: String
+  let ratingBad: String
+  let ratingTerrible: String
 }

@@ -596,6 +596,32 @@ class TMDBService {
     return try decoder.decode(MovieDetails.self, from: data)
   }
 
+  // MARK: - Season Details
+  func getSeasonDetails(seriesId: Int, seasonNumber: Int, language: String = "en-US") async throws
+    -> SeasonDetails
+  {
+    guard
+      let url = URL(
+        string: "\(baseURL)/tv/\(seriesId)/season/\(seasonNumber)?language=\(language)")
+    else {
+      throw TMDBError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(SeasonDetails.self, from: data)
+  }
+
   // MARK: - Get Images
   func getImages(id: Int, mediaType: String) async throws -> MediaImages {
     let type = mediaType == "movie" ? "movie" : "tv"
@@ -775,6 +801,7 @@ struct MovieDetails: Codable, Identifiable {
   let runtime: Int?
   let genres: [Genre]?
   let belongsToCollection: BelongsToCollection?
+  let seasons: [Season]?  // TV Series seasons
 
   var displayTitle: String {
     title ?? name ?? "Unknown"
@@ -808,6 +835,67 @@ struct MovieDetails: Codable, Identifiable {
   var backdropURL: URL? {
     guard let backdropPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
+  }
+
+  /// Filtered seasons for display (excludes specials with season 0 and empty seasons)
+  var displaySeasons: [Season] {
+    guard let seasons else { return [] }
+    return seasons.filter { $0.seasonNumber != 0 && $0.episodeCount > 0 }
+  }
+}
+
+// MARK: - Season Model (TV Series)
+struct Season: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let seasonNumber: Int
+  let episodeCount: Int
+  let overview: String?
+  let posterPath: String?
+  let airDate: String?
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+
+  var year: String? {
+    guard let airDate, airDate.count >= 4 else { return nil }
+    return String(airDate.prefix(4))
+  }
+}
+
+// MARK: - Season Details (with episodes)
+struct SeasonDetails: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let seasonNumber: Int
+  let episodes: [Episode]
+  let overview: String?
+  let posterPath: String?
+  let airDate: String?
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+}
+
+// MARK: - Episode Model
+struct Episode: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let episodeNumber: Int
+  let seasonNumber: Int
+  let overview: String?
+  let stillPath: String?
+  let airDate: String?
+  let voteAverage: Double
+  let voteCount: Int
+
+  var stillURL: URL? {
+    guard let stillPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(stillPath)")
   }
 }
 

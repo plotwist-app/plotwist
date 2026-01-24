@@ -25,6 +25,7 @@ struct MediaDetailView: View {
   // Section visibility state
   @State private var hasReviews = false
   @State private var hasWhereToWatch = false
+  @State private var hasSeasons = false
   @State private var hasRecommendations = false
 
   // Collection state
@@ -189,7 +190,7 @@ struct MediaDetailView: View {
                   }
 
                   // Divider before first content section
-                  if hasReviews || hasWhereToWatch || hasRecommendations {
+                  if hasReviews || hasWhereToWatch || hasSeasons || hasRecommendations {
                     Rectangle()
                       .fill(Color.appBorderAdaptive.opacity(0.5))
                       .frame(height: 1)
@@ -213,7 +214,7 @@ struct MediaDetailView: View {
                   )
 
                   // Divider after reviews
-                  if hasReviews && (hasWhereToWatch || hasRecommendations) {
+                  if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations) {
                     Rectangle()
                       .fill(Color.appBorderAdaptive.opacity(0.5))
                       .frame(height: 1)
@@ -231,7 +232,27 @@ struct MediaDetailView: View {
                   )
 
                   // Divider after where to watch
-                  if hasWhereToWatch && hasRecommendations {
+                  if hasWhereToWatch && (hasSeasons || hasRecommendations) {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 1)
+                      .padding(.horizontal, 24)
+                      .padding(.vertical, 24)
+                  }
+
+                  // Seasons Section (only for TV series)
+                  if mediaType != "movie" {
+                    SeasonsSection(
+                      seasons: details.displaySeasons,
+                      seriesId: mediaId,
+                      onContentLoaded: { hasContent in
+                        hasSeasons = hasContent
+                      }
+                    )
+                  }
+
+                  // Divider after seasons
+                  if hasSeasons && hasRecommendations {
                     Rectangle()
                       .fill(Color.appBorderAdaptive.opacity(0.5))
                       .frame(height: 1)
