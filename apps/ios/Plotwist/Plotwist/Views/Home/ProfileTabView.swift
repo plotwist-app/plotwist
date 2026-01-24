@@ -22,242 +22,259 @@ enum ProfileStatusTab: String, CaseIterable {
   }
 }
 
+// MARK: - Profile Main Tab
+enum ProfileMainTab: CaseIterable {
+  case collection
+  case reviews
+
+  func displayName(strings: Strings) -> String {
+    switch self {
+    case .collection: return strings.collection
+    case .reviews: return strings.reviews
+    }
+  }
+}
+
 struct ProfileTabView: View {
   @State private var user: User?
   @State private var isLoading = true
   @State private var showSettings = false
   @State private var strings = L10n.current
-  @State private var selectedTab: ProfileStatusTab = .watched
+  @State private var selectedMainTab: ProfileMainTab = .collection
+  @State private var selectedStatusTab: ProfileStatusTab = .watched
   @State private var userItems: [UserItemSummary] = []
   @State private var isLoadingItems = false
+  @State private var totalCollectionCount: Int = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
-  // Avatar size and offset calculations
-  private let avatarSize: CGFloat = 140
-  private var avatarOffset: CGFloat { -avatarSize * 0.7 }
+  // Avatar size
+  private let avatarSize: CGFloat = 56
 
   var body: some View {
     NavigationView {
-      GeometryReader { geometry in
-        let bannerHeight = geometry.size.height * 0.35
+      ZStack {
+        Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        ZStack {
-          Color.appBackgroundAdaptive.ignoresSafeArea()
+        if isLoading {
+          VStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+          }
+        } else if let user {
+          VStack(spacing: 0) {
+            // Header with action buttons
+            HStack {
+              Spacer()
 
-          if isLoading {
-            VStack {
-              Spacer()
-              ProgressView()
-              Spacer()
+              // Action Buttons
+              HStack(spacing: 8) {
+                // Edit Profile Button
+                NavigationLink(destination: EditProfileView(user: user)) {
+                  Image(systemName: "pencil")
+                    .font(.system(size: 14))
+                    .foregroundColor(.appForegroundAdaptive)
+                    .frame(width: 36, height: 36)
+                    .background(Color.appInputFilled)
+                    .clipShape(Circle())
+                }
+
+                // Settings Button
+                Button {
+                  showSettings = true
+                } label: {
+                  Image(systemName: "gearshape")
+                    .font(.system(size: 14))
+                    .foregroundColor(.appForegroundAdaptive)
+                    .frame(width: 36, height: 36)
+                    .background(Color.appInputFilled)
+                    .clipShape(Circle())
+                }
+              }
             }
-          } else if let user {
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
-                // Banner Section
-                ZStack(alignment: .topTrailing) {
-                  // Banner Background
-                  if let bannerURL = user.bannerImageURL {
-                    AsyncImage(url: bannerURL) { phase in
-                      switch phase {
-                      case .success(let image):
-                        image
-                          .resizable()
-                          .aspectRatio(contentMode: .fill)
-                      default:
-                        Rectangle()
-                          .fill(Color.appInputFilled)
-                      }
-                    }
-                    .frame(width: geometry.size.width, height: bannerHeight)
-                    .clipped()
-                  } else {
-                    Rectangle()
-                      .fill(Color.appInputFilled)
-                      .frame(width: geometry.size.width, height: bannerHeight)
-                  }
-
-                  // Settings Button
-                  Button {
-                    showSettings = true
-                  } label: {
-                    Image(systemName: "gearshape")
-                      .font(.system(size: 16, weight: .medium))
-                      .foregroundColor(.white)
-                      .frame(width: 40, height: 40)
-                      .background(.ultraThinMaterial)
-                      .clipShape(Circle())
-                  }
-                  .padding(.top, 60)
-                  .padding(.trailing, 24)
-                }
-                .overlay(
-                  Rectangle()
-                    .fill(Color.appBorderAdaptive.opacity(0.5))
-                    .frame(height: 1),
-                  alignment: .bottom
-                )
-
-                // Profile Content - Centered
-                VStack(spacing: 16) {
-                  // Avatar with offset
+                // Profile Info - Avatar left, info right
+                HStack(alignment: .center, spacing: 12) {
+                  // Avatar
                   ProfileAvatar(
                     avatarURL: user.avatarImageURL,
                     username: user.username,
                     size: avatarSize
                   )
-                  .offset(y: avatarOffset)
-                  .padding(.bottom, avatarOffset)
 
-                  // Member Since
-                  if let memberDate = user.memberSinceDate {
-                    Text("\(strings.memberSince) \(formattedMemberDate(memberDate))")
-                      .font(.caption)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                  }
-
-                  // Username + Edit Button
-                  HStack(spacing: 10) {
-                    Text(user.username)
-                      .font(.title.bold())
-                      .foregroundColor(.appForegroundAdaptive)
-
-                    if user.isPro {
-                      ProBadge()
-                    }
-
-                    // Edit Profile Button
-                    NavigationLink(destination: EditProfileView(user: user)) {
-                      Image(systemName: "pencil")
-                        .font(.system(size: 12))
+                  // User Info
+                  VStack(alignment: .leading, spacing: 2) {
+                    // Username + Pro Badge
+                    HStack(spacing: 8) {
+                      Text(user.username)
+                        .font(.title3.bold())
                         .foregroundColor(.appForegroundAdaptive)
-                        .frame(width: 32, height: 32)
-                        .background(Color.appInputFilled)
-                        .clipShape(Circle())
+
+                      if user.isPro {
+                        ProBadge()
+                      }
+                    }
+
+                    // Member Since
+                    if let memberDate = user.memberSinceDate {
+                      Text("\(strings.memberSince) \(formattedMemberDate(memberDate))")
+                        .font(.caption)
+                        .foregroundColor(.appMutedForegroundAdaptive)
                     }
                   }
 
-                  // Biography
-                  if let biography = user.biography, !biography.isEmpty {
-                    Text(biography)
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                      .lineSpacing(4)
-                      .multilineTextAlignment(.center)
-                      .padding(.top, 4)
-                  }
+                  Spacer()
                 }
-                .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.bottom, 12)
 
-                // Status Tabs
-                ProfileStatusTabs(selectedTab: $selectedTab, strings: strings)
-                  .padding(.top, 20)
-                  .onChange(of: selectedTab) { _ in
-                    Task { await loadUserItems() }
-                  }
+                // Biography
+                if let biography = user.biography, !biography.isEmpty {
+                  Text(biography)
+                    .font(.subheadline)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .lineSpacing(4)
+                    .padding(.horizontal, 24)
+                }
 
-                // User Items Grid
-                if isLoadingItems {
-                  LazyVGrid(
-                    columns: [
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                    ],
-                    spacing: 16
-                  ) {
-                    ForEach(0..<6, id: \.self) { _ in
-                      RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.appSkeletonAdaptive)
-                        .aspectRatio(2 / 3, contentMode: .fit)
+                // Main Tabs (Collection / Reviews)
+                ProfileMainTabs(
+                  selectedTab: $selectedMainTab,
+                  strings: strings,
+                  collectionCount: totalCollectionCount
+                )
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+
+                // Tab Content
+                switch selectedMainTab {
+                case .collection:
+                  // Status Tabs inside Collection
+                  ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
+                    .padding(.top, 8)
+                    .onChange(of: selectedStatusTab) { _ in
+                      Task { await loadUserItems() }
                     }
-                  }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                } else if userItems.isEmpty {
-                  // Empty state - Add first item (same grid as items)
-                  LazyVGrid(
-                    columns: [
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                    ],
-                    spacing: 16
-                  ) {
-                    Button {
-                      NotificationCenter.default.post(name: .navigateToSearch, object: nil)
-                    } label: {
-                      RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(
-                          style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-                        )
-                        .foregroundColor(.appBorderAdaptive)
-                        .aspectRatio(2 / 3, contentMode: .fit)
-                        .overlay(
-                          Image(systemName: "plus")
-                            .font(.system(size: 24, weight: .medium))
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                        )
+
+                  // User Items Grid
+                  if isLoadingItems {
+                    LazyVGrid(
+                      columns: [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                      ],
+                      spacing: 16
+                    ) {
+                      ForEach(0..<6, id: \.self) { _ in
+                        RoundedRectangle(cornerRadius: 12)
+                          .fill(Color.appSkeletonAdaptive)
+                          .aspectRatio(2 / 3, contentMode: .fit)
+                      }
                     }
-                    .buttonStyle(.plain)
-                  }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                } else {
-                  LazyVGrid(
-                    columns: [
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                      GridItem(.flexible(), spacing: 12),
-                    ],
-                    spacing: 16
-                  ) {
-                    ForEach(userItems) { item in
-                      NavigationLink {
-                        MediaDetailView(
-                          mediaId: item.tmdbId,
-                          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-                        )
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                  } else if userItems.isEmpty {
+                    // Empty state - Add first item
+                    LazyVGrid(
+                      columns: [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                      ],
+                      spacing: 16
+                    ) {
+                      Button {
+                        NotificationCenter.default.post(name: .navigateToSearch, object: nil)
                       } label: {
-                        ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                        RoundedRectangle(cornerRadius: 12)
+                          .strokeBorder(
+                            style: StrokeStyle(lineWidth: 2, dash: [8, 4])
+                          )
+                          .foregroundColor(.appBorderAdaptive)
+                          .aspectRatio(2 / 3, contentMode: .fit)
+                          .overlay(
+                            Image(systemName: "plus")
+                              .font(.system(size: 24, weight: .medium))
+                              .foregroundColor(.appMutedForegroundAdaptive)
+                          )
                       }
                       .buttonStyle(.plain)
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                  } else {
+                    LazyVGrid(
+                      columns: [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                      ],
+                      spacing: 16
+                    ) {
+                      ForEach(userItems) { item in
+                        NavigationLink {
+                          MediaDetailView(
+                            mediaId: item.tmdbId,
+                            mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+                          )
+                        } label: {
+                          ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                        }
+                        .buttonStyle(.plain)
+                      }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
                   }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
+
+                case .reviews:
+                  // Reviews tab content - placeholder for now
+                  VStack(spacing: 16) {
+                    Image(systemName: "text.bubble")
+                      .font(.system(size: 48))
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                    Text(strings.beFirstToReview)
+                      .font(.subheadline)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                  }
+                  .frame(maxWidth: .infinity)
+                  .padding(.top, 60)
                 }
 
                 Spacer()
                   .frame(height: 100)
               }
             }
-            .ignoresSafeArea(edges: .top)
-          } else {
-            // Error state - no user
-            VStack(spacing: 16) {
-              Spacer()
-              Image(systemName: "person.crop.circle.badge.exclamationmark")
-                .font(.system(size: 48))
-                .foregroundColor(.appMutedForegroundAdaptive)
-              Text("Could not load profile")
-                .font(.subheadline)
-                .foregroundColor(.appMutedForegroundAdaptive)
-              Button("Try again") {
-                Task {
-                  await loadUser()
-                }
+          }
+        } else {
+          // Error state - no user
+          VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: "person.crop.circle.badge.exclamationmark")
+              .font(.system(size: 48))
+              .foregroundColor(.appMutedForegroundAdaptive)
+            Text("Could not load profile")
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+            Button("Try again") {
+              Task {
+                await loadUser()
               }
-              .foregroundColor(.appForegroundAdaptive)
-              Spacer()
             }
+            .foregroundColor(.appForegroundAdaptive)
+            Spacer()
           }
         }
       }
       .task {
         await loadUser()
         await loadUserItems()
+        await loadTotalCollectionCount()
       }
       .sheet(isPresented: $showSettings) {
         SettingsSheet()
@@ -301,12 +318,95 @@ struct ProfileTabView: View {
     do {
       userItems = try await UserItemService.shared.getAllUserItems(
         userId: userId,
-        status: selectedTab.rawValue
+        status: selectedStatusTab.rawValue
       )
     } catch {
       print("Error loading user items: \(error)")
       userItems = []
     }
+  }
+
+  private func loadTotalCollectionCount() async {
+    guard let userId = user?.id else { return }
+
+    do {
+      totalCollectionCount = try await UserItemService.shared.getUserItemsCount(userId: userId)
+    } catch {
+      print("Error loading collection count: \(error)")
+      totalCollectionCount = 0
+    }
+  }
+}
+
+// MARK: - Profile Main Tabs (Collection / Reviews)
+struct ProfileMainTabs: View {
+  @Binding var selectedTab: ProfileMainTab
+  let strings: Strings
+  var collectionCount: Int = 0
+
+  var body: some View {
+    HStack(spacing: 0) {
+      ForEach(ProfileMainTab.allCases, id: \.self) { tab in
+        Button {
+          withAnimation(.easeInOut(duration: 0.2)) {
+            selectedTab = tab
+          }
+        } label: {
+          VStack(spacing: 8) {
+            HStack(spacing: 6) {
+              Text(tab.displayName(strings: strings))
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(
+                  selectedTab == tab
+                    ? .appForegroundAdaptive
+                    : .appMutedForegroundAdaptive
+                )
+
+              // Badge for collection count
+              if tab == .collection && collectionCount > 0 {
+                CollectionCountBadge(count: collectionCount)
+              }
+            }
+
+            Rectangle()
+              .fill(selectedTab == tab ? Color.appForegroundAdaptive : Color.clear)
+              .frame(height: 3)
+          }
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
+      }
+    }
+    .padding(.horizontal, 24)
+    .overlay(
+      Rectangle()
+        .fill(Color.appBorderAdaptive)
+        .frame(height: 1),
+      alignment: .bottom
+    )
+  }
+}
+
+// MARK: - Collection Count Badge
+struct CollectionCountBadge: View {
+  let count: Int
+  @Environment(\.colorScheme) var colorScheme
+
+  var body: some View {
+    Text("\(count)")
+      .font(.caption2.weight(.semibold))
+      .foregroundColor(.appMutedForegroundAdaptive)
+      .padding(.horizontal, 6)
+      .padding(.vertical, 2)
+      .background(Color.appInputFilled)
+      .clipShape(Capsule())
+      .overlay(
+        Capsule()
+          .stroke(
+            colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
+            lineWidth: 1
+          )
+      )
   }
 }
 
@@ -425,6 +525,8 @@ struct ProfileAvatar: View {
   let username: String
   let size: CGFloat
 
+  @Environment(\.colorScheme) var colorScheme
+
   var body: some View {
     ZStack {
       if let avatarURL {
@@ -446,7 +548,10 @@ struct ProfileAvatar: View {
     .clipShape(Circle())
     .overlay(
       Circle()
-        .stroke(Color.appBorderAdaptive.opacity(0.5), lineWidth: 1)
+        .stroke(
+          colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
+          lineWidth: 1
+        )
     )
   }
 

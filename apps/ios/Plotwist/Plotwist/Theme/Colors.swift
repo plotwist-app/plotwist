@@ -124,7 +124,7 @@ struct TopRoundedBorderModifier: ViewModifier {
 
   func body(content: Content) -> some View {
     content.overlay(
-      RoundedCornerShape(radius: cornerRadius, corners: [.topLeft, .topRight])
+      TopEdgeShape(cornerRadius: cornerRadius)
         .stroke(
           colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
           lineWidth: 1
@@ -133,17 +133,37 @@ struct TopRoundedBorderModifier: ViewModifier {
   }
 }
 
-// MARK: - Custom Shape for Top Rounded Corners Stroke
-struct RoundedCornerShape: Shape {
-  var radius: CGFloat
-  var corners: UIRectCorner
+// MARK: - Custom Shape for Top Edge Only (with rounded corners)
+struct TopEdgeShape: Shape {
+  var cornerRadius: CGFloat
 
   func path(in rect: CGRect) -> Path {
-    let path = UIBezierPath(
-      roundedRect: rect,
-      byRoundingCorners: corners,
-      cornerRadii: CGSize(width: radius, height: radius)
+    var path = Path()
+
+    // Start from bottom-left, go up to the curve start
+    path.move(to: CGPoint(x: 0, y: cornerRadius))
+
+    // Top-left corner curve
+    path.addArc(
+      center: CGPoint(x: cornerRadius, y: cornerRadius),
+      radius: cornerRadius,
+      startAngle: .degrees(180),
+      endAngle: .degrees(270),
+      clockwise: false
     )
-    return Path(path.cgPath)
+
+    // Top edge
+    path.addLine(to: CGPoint(x: rect.width - cornerRadius, y: 0))
+
+    // Top-right corner curve
+    path.addArc(
+      center: CGPoint(x: rect.width - cornerRadius, y: cornerRadius),
+      radius: cornerRadius,
+      startAngle: .degrees(270),
+      endAngle: .degrees(0),
+      clockwise: false
+    )
+
+    return path
   }
 }

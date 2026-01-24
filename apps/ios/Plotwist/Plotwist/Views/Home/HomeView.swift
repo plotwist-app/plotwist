@@ -22,11 +22,17 @@ struct HomeView: View {
         }
         .tag(1)
 
+      SoundtracksTabView()
+        .tabItem {
+          Image(systemName: "map.fill")
+        }
+        .tag(2)
+
       ProfileTabView()
         .tabItem {
           Image(systemName: "person.fill")
         }
-        .tag(2)
+        .tag(3)
     }
     .tint(.appForegroundAdaptive)
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in

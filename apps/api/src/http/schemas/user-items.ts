@@ -91,3 +91,13 @@ export const getAllUserItemsResponseSchema = {
     ),
   }),
 }
+
+export const getUserItemsCountQuerySchema = z.object({
+  userId: z.string(),
+})
+
+export const getUserItemsCountResponseSchema = {
+  200: z.object({
+    count: z.number(),
+  }),
+}

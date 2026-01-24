@@ -140,7 +140,10 @@ enum L10n {
       selectRegionFirst: "Select a region first",
       servicesSelected: "%d selected",
       streamingServicesHint: "Showing services available in your selected region.",
-      resultsBasedOnPreferences: "Results based on your preferences"
+      resultsBasedOnPreferences: "Results based on your preferences",
+      collection: "Collection",
+      reviews: "Reviews",
+      soundtracks: "Soundtracks"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -262,7 +265,10 @@ enum L10n {
       selectRegionFirst: "Selecione uma região primeiro",
       servicesSelected: "%d selecionados",
       streamingServicesHint: "Exibindo serviços disponíveis na região selecionada.",
-      resultsBasedOnPreferences: "Resultados baseados nas suas preferências"
+      resultsBasedOnPreferences: "Resultados baseados nas suas preferências",
+      collection: "Coleção",
+      reviews: "Reviews",
+      soundtracks: "Trilhas"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -384,7 +390,10 @@ enum L10n {
       selectRegionFirst: "Seleccione una región primero",
       servicesSelected: "%d seleccionados",
       streamingServicesHint: "Mostrando servicios disponibles en la región seleccionada.",
-      resultsBasedOnPreferences: "Resultados según tus preferencias"
+      resultsBasedOnPreferences: "Resultados según tus preferencias",
+      collection: "Colección",
+      reviews: "Reseñas",
+      soundtracks: "Bandas Sonoras"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -506,7 +515,10 @@ enum L10n {
       selectRegionFirst: "Sélectionnez d'abord une région",
       servicesSelected: "%d sélectionnés",
       streamingServicesHint: "Affichage des services disponibles dans la région sélectionnée.",
-      resultsBasedOnPreferences: "Résultats basés sur vos préférences"
+      resultsBasedOnPreferences: "Résultats basés sur vos préférences",
+      collection: "Collection",
+      reviews: "Critiques",
+      soundtracks: "Bandes Sonores"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -628,7 +640,10 @@ enum L10n {
       selectRegionFirst: "Wählen Sie zuerst eine Region",
       servicesSelected: "%d ausgewählt",
       streamingServicesHint: "Zeigt Dienste an, die in der ausgewählten Region verfügbar sind.",
-      resultsBasedOnPreferences: "Ergebnisse basierend auf Ihren Präferenzen"
+      resultsBasedOnPreferences: "Ergebnisse basierend auf Ihren Präferenzen",
+      collection: "Sammlung",
+      reviews: "Bewertungen",
+      soundtracks: "Soundtracks"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -750,7 +765,10 @@ enum L10n {
       selectRegionFirst: "Seleziona prima una regione",
       servicesSelected: "%d selezionati",
       streamingServicesHint: "Mostra i servizi disponibili nella regione selezionata.",
-      resultsBasedOnPreferences: "Risultati basati sulle tue preferenze"
+      resultsBasedOnPreferences: "Risultati basati sulle tue preferenze",
+      collection: "Collezione",
+      reviews: "Recensioni",
+      soundtracks: "Colonne Sonore"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -871,7 +889,10 @@ enum L10n {
       selectRegionFirst: "最初に地域を選択してください",
       servicesSelected: "%d 件選択",
       streamingServicesHint: "選択した地域で利用可能なサービスを表示しています。",
-      resultsBasedOnPreferences: "設定に基づいた結果"
+      resultsBasedOnPreferences: "設定に基づいた結果",
+      collection: "コレクション",
+      reviews: "レビュー",
+      soundtracks: "サウンドトラック"
     ),
   ]
 }
@@ -1011,4 +1032,9 @@ struct Strings {
   let servicesSelected: String
   let streamingServicesHint: String
   let resultsBasedOnPreferences: String
+  // Profile Tabs
+  let collection: String
+  let reviews: String
+  // Tab Bar
+  let soundtracks: String
 }

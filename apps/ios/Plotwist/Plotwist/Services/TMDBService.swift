@@ -785,7 +785,7 @@ struct MovieDetails: Codable, Identifiable {
 
   var backdropURL: URL? {
     guard let backdropPath else { return nil }
-    return URL(string: "https://image.tmdb.org/t/p/w1280\(backdropPath)")
+    return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
   }
 }
 
@@ -921,7 +921,7 @@ struct TMDBImage: Codable, Identifiable {
   }
 
   var backdropURL: URL? {
-    URL(string: "https://image.tmdb.org/t/p/w1280\(filePath)")
+    URL(string: "https://image.tmdb.org/t/p/original\(filePath)")
   }
 }
 

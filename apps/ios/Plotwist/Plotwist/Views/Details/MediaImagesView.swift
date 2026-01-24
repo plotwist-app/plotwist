@@ -203,6 +203,7 @@ struct MasonryImageCell: View {
       }
       .frame(width: width, height: height)
       .clipShape(RoundedRectangle(cornerRadius: 12))
+      .posterBorder(cornerRadius: 12)
     }
     .buttonStyle(.plain)
   }

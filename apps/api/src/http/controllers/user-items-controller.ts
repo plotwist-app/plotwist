@@ -9,6 +9,7 @@ import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-
 import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
 import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
 import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
+import { getUserItemsCountService } from '@/domain/services/user-items/get-user-items-count'
 import {
   createWatchEntry,
   deleteWatchEntriesByUserItemId,
@@ -21,6 +22,7 @@ import {
   getAllUserItemsQuerySchema,
   getUserItemQuerySchema,
   getUserItemsBodySchema,
+  getUserItemsCountQuerySchema,
   upsertUserItemBodySchema,
 } from '../schemas/user-items'
 
@@ -172,6 +174,16 @@ export async function getAllUserItemsController(
 ) {
   const { status, userId } = getAllUserItemsQuerySchema.parse(request.query)
   const result = await getAllUserItemsService({ status, userId })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserItemsCountController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { userId } = getUserItemsCountQuerySchema.parse(request.query)
+  const result = await getUserItemsCountService({ userId })
 
   return reply.status(200).send(result)
 }

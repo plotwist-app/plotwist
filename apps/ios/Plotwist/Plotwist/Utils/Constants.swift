@@ -6,5 +6,5 @@
 import Foundation
 
 enum API {
-    static let baseURL = "http://localhost:3333"
+  static let baseURL = "https://backend.plotwist.app"
 }

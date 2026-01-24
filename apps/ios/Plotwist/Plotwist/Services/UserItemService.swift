@@ -31,6 +31,28 @@ class UserItemService {
     return result.userItems
   }
 
+  // MARK: - Get User Items Count
+  func getUserItemsCount(userId: String) async throws -> Int {
+    guard let url = URL(string: "\(API.baseURL)/user/items/count?userId=\(userId)")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserItemError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(UserItemsCountResponse.self, from: data)
+    return result.count
+  }
+
   // MARK: - Get User Item
   func getUserItem(tmdbId: Int, mediaType: String) async throws -> UserItem? {
     guard let token = UserDefaults.standard.string(forKey: "token"),
@@ -301,6 +323,10 @@ struct UserItemSummary: Codable, Identifiable {
 
 struct AllUserItemsResponse: Codable {
   let userItems: [UserItemSummary]
+}
+
+struct UserItemsCountResponse: Codable {
+  let count: Int
 }
 
 enum UserItemError: LocalizedError {
