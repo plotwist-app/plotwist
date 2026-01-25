@@ -1,14 +1,10 @@
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import type { Metadata } from 'next'
-
 import { Pattern } from '@/components/pattern'
 import { Pricing } from '@/components/pricing'
-
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-
 import { APP_URL } from '../../../constants'
-
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { Hero } from './_components/hero'
 import { Images } from './_components/images'

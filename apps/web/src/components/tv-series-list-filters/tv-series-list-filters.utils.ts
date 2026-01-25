@@ -1,6 +1,6 @@
+import type { ReadonlyURLSearchParams } from 'next/navigation'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { formatDateToURL } from '@/utils/date/format-date-to-url'
-import type { ReadonlyURLSearchParams } from 'next/navigation'
 import type { TvSeriesListFiltersFormValues } from '.'
 
 export const formatValueForQueryString = (

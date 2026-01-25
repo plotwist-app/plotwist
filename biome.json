@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "formatter": {
     "indentStyle": "space",
@@ -33,12 +37,17 @@
     }
   },
   "files": {
-    "ignore": [
-      "node_modules",
-      ".turbo",
-      ".next",
-      "apps/web/src/api/*.ts",
-      "packages/ui"
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.turbo",
+      "!apps/web/.next",
+      "!.next",
+      "!apps/backend/coverage",
+      "!apps/backend/dist",
+      "!apps/web/src/api",
+      "!packages/ui",
+      "!apps/backend/src/db/migrations"
     ]
   }
 }

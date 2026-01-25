@@ -1,8 +1,8 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
 import { usePathname, useRouter } from 'next/navigation'
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
 import NextTopLoader from 'nextjs-toploader'
 import nProgress from 'nprogress'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
@@ -19,7 +19,7 @@ export function ThemeProvider({
   const pathname = usePathname()
   const router = useRouter()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Complete progress bar when page navigation changes
   useEffect(() => {
     nProgress.done()
   }, [pathname, router])

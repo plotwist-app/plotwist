@@ -1,6 +1,6 @@
-import { ListCardSkeleton } from '@/components/list-card'
 import { Suspense } from 'react'
 import { v4 } from 'uuid'
+import { ListCardSkeleton } from '@/components/list-card'
 import { UserLists } from '../_components/user-lists'
 
 export default async function ListsPage() {

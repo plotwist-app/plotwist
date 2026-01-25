@@ -1,10 +1,5 @@
 'use client'
 
-import type { Language, Season } from '@plotwist_app/tmdb'
-
-import { useLanguage } from '@/context/language'
-import { cn } from '@/lib/utils'
-import { tmdb } from '@/services/tmdb'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { ScrollArea, ScrollBar } from '@plotwist/ui/components/ui/scroll-area'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
@@ -16,9 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from '@plotwist/ui/components/ui/table'
+import type { Language, Season } from '@plotwist_app/tmdb'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { v4 } from 'uuid'
+import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
+import { tmdb } from '@/services/tmdb'
 
 type TvSerieSeasonsOverviewProps = {
   seasons: Season[]

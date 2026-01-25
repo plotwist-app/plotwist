@@ -1,16 +1,5 @@
 'use client'
 
-import type { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
-import { getGetUserEpisodesQueryKey } from '@/api/user-episodes'
-import {
-  useDeleteUserItemId,
-  useGetUserItem,
-  usePutUserItem,
-} from '@/api/user-items'
-import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import type { MediaType } from '@/types/media-type'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Drawer,
@@ -29,6 +18,17 @@ import {
 import { useQueryClient } from '@tanstack/react-query'
 import { Clock, Eye, Loader, Pen, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import type { GetUserItem200UserItemStatus } from '@/api/endpoints.schemas'
+import { getGetUserEpisodesQueryKey } from '@/api/user-episodes'
+import {
+  useDeleteUserItemId,
+  useGetUserItem,
+  usePutUserItem,
+} from '@/api/user-items'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import type { MediaType } from '@/types/media-type'
 
 type ItemStatusProps = {
   mediaType: MediaType

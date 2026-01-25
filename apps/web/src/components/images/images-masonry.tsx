@@ -1,13 +1,13 @@
 'use client'
 
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import NextImage from 'next/image'
 import ReactMasonryCss from 'react-masonry-css'
-
-import { tmdbImage } from '@/utils/tmdb/image'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { v4 } from 'uuid'
 
 import type { Image } from '@/services/tmdb'
-import { v4 } from 'uuid'
+import { tmdbImage } from '@/utils/tmdb/image'
+
 type ImagesMasonryProps = {
   images: Image[]
   onSelect?: (image: Image) => void
@@ -31,12 +31,18 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
 
         if (onSelect) {
           return (
-            <div
+            <button
+              type="button"
               className="relative mb-4 flex w-full cursor-pointer overflow-hidden rounded-md border bg-background/50 shadow hover:shadow-lg"
               key={filePath}
               style={{ aspectRatio }}
               onClick={() => onSelect(image)}
-              onKeyDown={() => onSelect(image)}
+              onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  onSelect(image)
+                }
+              }}
             >
               <NextImage
                 fill
@@ -46,7 +52,7 @@ export const ImagesMasonry = ({ images, onSelect }: ImagesMasonryProps) => {
                 loading="lazy"
                 sizes="100%"
               />
-            </div>
+            </button>
           )
         }
 

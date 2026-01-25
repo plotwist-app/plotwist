@@ -1,17 +1,16 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-
-import { useGetReviewReplies } from '@/api/review-replies'
-import { Likes } from '@/components/likes'
-import { useSession } from '@/context/session'
-import { timeFromNow } from '@/utils/date/time-from-now'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@plotwist/ui/components/ui/avatar'
 import { Link } from 'next-view-transitions'
+import { useGetReviewReplies } from '@/api/review-replies'
+import { Likes } from '@/components/likes'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
+import { timeFromNow } from '@/utils/date/time-from-now'
 import { ReviewReplyActions } from './review-reply-actions'
 import { ReplyEditActions } from './review-reply-edit-actions'
 
@@ -35,8 +34,8 @@ export const ReviewReply = ({
   )
   const session = useSession()
 
-  if (replyCount === 0) return <></>
-  if (isLoading) return <></>
+  if (replyCount === 0) return null
+  if (isLoading) return null
 
   return (
     <div className="pt-2">

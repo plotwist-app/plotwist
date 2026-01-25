@@ -1,9 +1,8 @@
-import type { Language } from '@/types/languages'
-import type { Dictionary } from '@/utils/dictionaries'
 import { Link } from 'next-view-transitions'
+import type { Dictionary } from '@/utils/dictionaries'
 import { Logo } from '../logo'
 
-type FooterProps = { language: Language; dictionary: Dictionary }
+type FooterProps = { language: string; dictionary: Dictionary }
 
 export const Footer = ({ language, dictionary }: FooterProps) => {
   return (

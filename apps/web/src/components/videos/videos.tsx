@@ -1,4 +1,4 @@
-import { type Video as VideoType, tmdb } from '@/services/tmdb'
+import { tmdb, type Video as VideoType } from '@/services/tmdb'
 import type { Dictionary } from '@/utils/dictionaries'
 
 type BaseVideosProps = {

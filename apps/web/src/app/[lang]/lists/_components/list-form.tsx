@@ -1,12 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
@@ -24,19 +18,23 @@ import {
   FormMessage,
 } from '@plotwist/ui/components/ui/form'
 import { Input } from '@plotwist/ui/components/ui/input'
-import { Textarea } from '@plotwist/ui/components/ui/textarea'
-
-import { useLanguage } from '@/context/language'
-
-import type { GetListById200List } from '@/api/endpoints.schemas'
-import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
 import {
   RadioGroup,
   RadioGroupItem,
 } from '@plotwist/ui/components/ui/radio-group'
+import { Textarea } from '@plotwist/ui/components/ui/textarea'
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+
+import type { GetListById200List } from '@/api/endpoints.schemas'
+import { getGetListsQueryKey, usePostList, usePutListId } from '@/api/list'
+import { useLanguage } from '@/context/language'
 import { type ListFormValues, listFormSchema } from './list-form-schema'
 
-type ListFormProps = { trigger: JSX.Element; list?: GetListById200List }
+type ListFormProps = { trigger: React.ReactNode; list?: GetListById200List }
 
 export const ListForm = ({ trigger, list }: ListFormProps) => {
   const [open, setOpen] = useState(false)

@@ -1,8 +1,3 @@
-import { ItemReview } from '@/components/item-review'
-import { Poster } from '@/components/poster'
-import { tmdb } from '@/services/tmdb'
-import type { Language } from '@/types/languages'
-import { locale } from '@/utils/date/locale'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import {
   Breadcrumb,
@@ -12,8 +7,13 @@ import {
 } from '@plotwist/ui/components/ui/breadcrumb'
 import type { SeasonDetails as TMDBSeasonDetails } from '@plotwist_app/tmdb'
 import { format } from 'date-fns'
-import { Link } from 'next-view-transitions'
 import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import { ItemReview } from '@/components/item-review'
+import { Poster } from '@/components/poster'
+import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { locale } from '@/utils/date/locale'
 
 type SeasonDetailsProps = {
   season: TMDBSeasonDetails

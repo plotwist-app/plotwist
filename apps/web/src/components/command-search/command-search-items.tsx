@@ -1,24 +1,21 @@
-import type {
-  MovieWithMediaType,
-  PersonWithMediaType,
-  TvSerieWithMediaType,
-} from '@/services/tmdb'
-import { HoverCardPortal } from '@radix-ui/react-hover-card'
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-
-import { ItemHoverCard } from '../item-hover-card'
-
-import type { Language } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
-
-import type { GetUsersSearch200UsersItem } from '@/api/endpoints.schemas'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '@plotwist/ui/components/ui/hover-card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { HoverCardPortal } from '@radix-ui/react-hover-card'
+import Image from 'next/image'
+import { Link } from 'next-view-transitions'
+import type { GetUsersSearch200UsersItem } from '@/api/endpoints.schemas'
+import type {
+  MovieWithMediaType,
+  PersonWithMediaType,
+  TvSerieWithMediaType,
+} from '@/services/tmdb'
+import type { Language } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
+import { ItemHoverCard } from '../item-hover-card'
 
 type CommandSearchItemProps<T> = { language: Language; item: T }
 

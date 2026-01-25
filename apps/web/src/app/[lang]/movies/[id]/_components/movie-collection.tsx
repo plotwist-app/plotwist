@@ -1,11 +1,10 @@
 import { tmdb } from '@/services/tmdb'
-
-import { MovieCollectionDialog } from './movie-collection-dialog'
+import type { Language } from '@/types/languages'
 
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { MovieCollectionDialog } from './movie-collection-dialog'
 
-import type { Language } from '@/types/languages'
 type MovieCollectionProps = {
   collectionId: number
   language: Language

@@ -1,22 +1,18 @@
-import { LanguageContextProvider } from '@/context/language'
-import type { Language } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-
-import { ListsContextProvider } from '@/context/lists'
-
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
-
+import { Link } from 'next-view-transitions'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 import { ProBadge } from '@/components/pro-badge'
 import { SonnerProvider, ThemeProvider } from '@/components/providers'
+import { LanguageContextProvider } from '@/context/language'
+import { ListsContextProvider } from '@/context/lists'
 import { SessionContextProvider } from '@/context/session'
 import { UserPreferencesContextProvider } from '@/context/user-preferences'
+import type { Language } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
 import { verifySession } from '../lib/dal'
-
-import { Link } from 'next-view-transitions'
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map(lang => ({ lang: lang.value }))
@@ -26,14 +22,15 @@ export const dynamic = 'force-dynamic'
 
 type RootLayoutProps = {
   children: React.ReactNode
-  params: Promise<{ lang: Language }>
+  params: Promise<{ lang: string }>
 }
 
 export default async function RootLayout({
   params,
   children,
 }: RootLayoutProps) {
-  const { lang } = await params
+  const { lang: langParam } = await params
+  const lang = langParam as Language
 
   const dictionary = await getDictionary(lang)
   const session = await verifySession()

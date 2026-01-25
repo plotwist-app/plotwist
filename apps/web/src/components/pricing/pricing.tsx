@@ -1,7 +1,5 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import { useSession } from '@/context/session'
 import {
   Avatar,
   AvatarFallback,
@@ -17,6 +15,8 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { Link } from 'next-view-transitions'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { Price } from './price'
 
 export const Pricing = () => {

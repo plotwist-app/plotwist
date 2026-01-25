@@ -1,9 +1,9 @@
 'use client'
 
-import { useGetLists } from '@/api/list'
-import { useLanguage } from '@/context/language'
 import { useMemo } from 'react'
 import { v4 } from 'uuid'
+import { useGetLists } from '@/api/list'
+import { useLanguage } from '@/context/language'
 import { PopularListCard, PopularListCardSkeleton } from './popular-list-card'
 
 const LIMIT = 5

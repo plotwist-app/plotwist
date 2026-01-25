@@ -1,22 +1,18 @@
+import { Separator } from '@plotwist/ui/components/ui/separator'
 import type { Metadata } from 'next'
 import { Link } from 'next-view-transitions'
-
-import { PosterCard } from '@/components/poster-card'
-import { Separator } from '@plotwist/ui/components/ui/separator'
-import { Container } from '../_components/container'
-
-import { PopularReviews } from './_components/popular-reviews'
-import { UserLastReview } from './_components/user-last-review'
-
-import type { PageProps } from '@/types/languages'
-import { getDictionary } from '@/utils/dictionaries'
-
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
 import { verifySession } from '@/app/lib/dal'
+import { PosterCard } from '@/components/poster-card'
 import { tmdb } from '@/services/tmdb'
+import { asLanguage, type PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { Container } from '../_components/container'
 import { NetworkActivity } from './_components/network-activity'
+import { PopularReviews } from './_components/popular-reviews'
+import { UserLastReview } from './_components/user-last-review'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
@@ -53,8 +49,10 @@ const HomePage = async (props: PageProps) => {
     userPreferences = userPreferencesData
   }
 
+  const language = asLanguage(lang)
+
   const popularMovies = await tmdb.movies.discover({
-    language: lang,
+    language,
     page: 1,
     filters: {
       with_watch_providers: userPreferences?.watchProvidersIds?.join('|'),
@@ -64,7 +62,7 @@ const HomePage = async (props: PageProps) => {
   })
 
   const popularTvSeries = await tmdb.tv.discover({
-    language: lang,
+    language,
     page: 1,
     filters: {
       with_watch_providers: userPreferences?.watchProvidersIds?.join('|'),

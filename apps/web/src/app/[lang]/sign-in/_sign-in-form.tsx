@@ -1,11 +1,13 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-
 import { Button } from '@plotwist/ui/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from '@plotwist/ui/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -21,19 +23,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-
-import { useLanguage } from '@/context/language'
-
-import type { signIn } from '@/actions/auth/sign-in'
-import type { Dictionary } from '@/utils/dictionaries'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-} from '@plotwist/ui/components/ui/dialog'
+import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import type { signIn } from '@/actions/auth/sign-in'
+import { useLanguage } from '@/context/language'
+import type { Dictionary } from '@/utils/dictionaries'
 
 const loginFormSchema = (dictionary: Dictionary) =>
   z.object({

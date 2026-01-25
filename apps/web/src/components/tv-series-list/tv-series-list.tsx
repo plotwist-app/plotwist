@@ -3,11 +3,9 @@
 import { Link } from 'next-view-transitions'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-
+import { v4 } from 'uuid'
 import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
-
-import { v4 } from 'uuid'
 import { PosterCard } from '../poster-card'
 import { StreamingServicesBadge } from '../streaming-services-badge'
 import type { TvSeriesListProps } from './tv-series-list.types'

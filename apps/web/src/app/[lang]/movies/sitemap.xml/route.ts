@@ -1,6 +1,6 @@
+import { SitemapStream, streamToPromise } from 'sitemap'
 import type { Language } from '@/services/tmdb'
 import { getMoviesIds } from '@/utils/seo/get-movies-ids'
-import { SitemapStream, streamToPromise } from 'sitemap'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)

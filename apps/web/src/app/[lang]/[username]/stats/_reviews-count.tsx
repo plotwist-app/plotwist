@@ -1,7 +1,5 @@
 'use client'
 
-import { useGetUserIdReviewsCountSuspense } from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
 import NumberFlow from '@number-flow/react'
 import {
   Card,
@@ -11,6 +9,8 @@ import {
 } from '@plotwist/ui/components/ui/card'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Star } from 'lucide-react'
+import { useGetUserIdReviewsCountSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
 import { useLayoutContext } from '../_context'
 
 export function ReviewsCount() {

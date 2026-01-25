@@ -4,6 +4,7 @@ const Checkered = () => (
     width="100"
     height="100"
     viewBox="0 0 100 100"
+    aria-hidden="true"
   >
     <g fillRule="evenodd">
       <g className="fill-muted-foreground">
@@ -31,7 +32,7 @@ const Dots = () => (
 type PatternProps = { variant: 'dots' | 'checkered' }
 
 export const Pattern = ({ variant }: PatternProps) => {
-  const pattern: Record<PatternProps['variant'], () => JSX.Element> = {
+  const pattern: Record<PatternProps['variant'], () => React.ReactNode> = {
     dots: Dots,
     checkered: Checkered,
   }

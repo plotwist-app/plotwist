@@ -6,11 +6,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import type { PropsWithChildren } from 'react'
-
-import { useLanguage } from '@/context/language'
 import { TooltipPortal } from '@radix-ui/react-tooltip'
 import { Link } from 'next-view-transitions'
+import type { PropsWithChildren } from 'react'
+import { useLanguage } from '@/context/language'
 
 export const NoAccountTooltip = ({ children }: PropsWithChildren) => {
   const { dictionary, language } = useLanguage()

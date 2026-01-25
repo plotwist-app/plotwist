@@ -1,5 +1,5 @@
-import type { Language } from '@/types/languages'
 import { intlFormatDistance } from 'date-fns'
+import type { Language } from '@/types/languages'
 
 type TimeFromNowParams = {
   date: Date

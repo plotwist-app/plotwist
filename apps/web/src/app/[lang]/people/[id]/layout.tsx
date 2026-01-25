@@ -1,11 +1,11 @@
-import { Banner } from '@/components/banner'
-import { cn } from '@/lib/utils'
-import { tmdb } from '@/services/tmdb'
-import type { PageProps } from '@/types/languages'
-import { tmdbImage } from '@/utils/tmdb/image'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import type { PropsWithChildren } from 'react'
+import { Banner } from '@/components/banner'
+import { cn } from '@/lib/utils'
+import { tmdb } from '@/services/tmdb'
+import { asLanguage, type PageProps } from '@/types/languages'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { Biography } from './_biography'
 import { Infos } from './_infos'
 
@@ -15,7 +15,8 @@ export async function generateMetadata(
   props: PersonPageProps
 ): Promise<Metadata> {
   const { params } = props
-  const { id, lang } = await params
+  const { id, lang: langParam } = await params
+  const lang = asLanguage(langParam)
 
   const { profile_path, name, biography } = await tmdb.person.details(
     Number(id),
@@ -50,7 +51,8 @@ export default async function PersonPage({
   params,
   children,
 }: PersonPageProps) {
-  const { id, lang } = await params
+  const { id, lang: langParam } = await params
+  const lang = asLanguage(langParam)
   const person = await tmdb.person.details(Number(id), lang)
   const { profile_path, name, biography } = person
 

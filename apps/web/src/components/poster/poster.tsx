@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Image as LucideImage } from 'lucide-react'
 import Image from 'next/image'
 import type { ComponentProps } from 'react'
+import { cn } from '@/lib/utils'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type PosterProps = {
   url?: string | null

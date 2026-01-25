@@ -1,7 +1,7 @@
 'use client'
 
-import type { PageProps } from '@/types/languages'
 import { notFound } from 'next/navigation'
+import type { PageProps } from '@/types/languages'
 
 export default async function Page(props: PageProps) {
   const params = await props.params
@@ -9,6 +9,9 @@ export default async function Page(props: PageProps) {
     const Content = (await import(`./_content/${params.lang}.mdx`)).default
     return <Content />
   } catch (error) {
+    console.error({
+      error: error instanceof Error ? error.message : String(error),
+    })
     notFound()
   }
 }

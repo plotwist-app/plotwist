@@ -1,11 +1,11 @@
 'use client'
 
+import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { usePathname, useRouter } from 'next/navigation'
+import { Link } from 'next-view-transitions'
+import { type PropsWithChildren, useState } from 'react'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
-import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
-import { Link } from 'next-view-transitions'
-import { usePathname, useRouter } from 'next/navigation'
-import { type PropsWithChildren, useState } from 'react'
 import { buildNavigation } from './_navigation'
 
 function NavigationDesktop() {
@@ -105,17 +105,15 @@ function NavigationMobile() {
 
 export default async function Layout({ children }: PropsWithChildren) {
   return (
-    <>
-      <div className="mx-auto max-w-6xl">
-        <div className="mx-auto flex w-full flex-col items-start md:flex-row md:space-x-8 px-4 xl:px-0">
-          <NavigationDesktop />
-          <NavigationMobile />
+    <div className="mx-auto max-w-6xl">
+      <div className="mx-auto flex w-full flex-col items-start md:flex-row md:space-x-8 px-4 xl:px-0">
+        <NavigationDesktop />
+        <NavigationMobile />
 
-          <main className="prose prose-zinc min-w-0 max-w-full flex-1 pb-16 pt-8 dark:prose-invert prose-h1:scroll-m-20 prose-h1:text-2xl prose-h1:font-semibold prose-h2:scroll-m-20 prose-h2:text-xl prose-h2:font-medium prose-h3:scroll-m-20 prose-h3:text-base prose-h3:font-medium prose-h4:scroll-m-20 prose-h5:scroll-m-20 prose-h6:scroll-m-20 prose-strong:font-medium prose-table:block prose-table:overflow-y-auto xl:max-w-2xl prose-blockquote:text-muted-foreground prose-blockquote:text-sm">
-            {children}
-          </main>
-        </div>
+        <main className="prose prose-zinc min-w-0 max-w-full flex-1 pb-16 pt-8 dark:prose-invert prose-h1:scroll-m-20 prose-h1:text-2xl prose-h1:font-semibold prose-h2:scroll-m-20 prose-h2:text-xl prose-h2:font-medium prose-h3:scroll-m-20 prose-h3:text-base prose-h3:font-medium prose-h4:scroll-m-20 prose-h5:scroll-m-20 prose-h6:scroll-m-20 prose-strong:font-medium prose-table:block prose-table:overflow-y-auto xl:max-w-2xl prose-blockquote:text-muted-foreground prose-blockquote:text-sm">
+          {children}
+        </main>
       </div>
-    </>
+    </div>
   )
 }

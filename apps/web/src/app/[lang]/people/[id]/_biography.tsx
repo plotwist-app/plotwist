@@ -1,6 +1,5 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
 import {
   Credenza,
   CredenzaBody,
@@ -10,6 +9,7 @@ import {
 } from '@plotwist/ui/components/ui/credenza'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { useState } from 'react'
+import { useLanguage } from '@/context/language'
 
 type BiographyProps = {
   content: string
@@ -20,7 +20,7 @@ export function Biography({ content, title }: BiographyProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { dictionary } = useLanguage()
 
-  if (!content.length) return <></>
+  if (!content.length) return null
 
   return (
     <>

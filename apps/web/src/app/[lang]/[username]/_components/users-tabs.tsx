@@ -1,9 +1,5 @@
 'use client'
 
-import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
-import { ProBadge } from '@/components/pro-badge'
-import { useLanguage } from '@/context/language'
-import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,9 +17,13 @@ import {
   Star,
   Trophy,
 } from 'lucide-react'
-import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
+import { Link } from 'next-view-transitions'
 import { useMemo } from 'react'
+import type { GetUsersUsername200User } from '@/api/endpoints.schemas'
+import { ProBadge } from '@/components/pro-badge'
+import { useLanguage } from '@/context/language'
+import { cn } from '@/lib/utils'
 
 type UserTabsProps = {
   user: GetUsersUsername200User

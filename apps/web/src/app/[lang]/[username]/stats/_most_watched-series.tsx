@@ -1,9 +1,5 @@
 'use client'
 
-import { useGetUserIdMostWatchedSeriesSuspense } from '@/api/user-stats'
-import { PosterCard } from '@/components/poster-card'
-import { useLanguage } from '@/context/language'
-import { tmdbImage } from '@/utils/tmdb/image'
 import {
   Card,
   CardContent,
@@ -14,6 +10,10 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { Trophy } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
+import { useGetUserIdMostWatchedSeriesSuspense } from '@/api/user-stats'
+import { PosterCard } from '@/components/poster-card'
+import { useLanguage } from '@/context/language'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { useLayoutContext } from '../_context'
 
 export function MostWatchedSeries() {

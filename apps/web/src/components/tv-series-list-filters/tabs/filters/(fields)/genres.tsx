@@ -1,5 +1,18 @@
 'use client'
 
+import { Badge } from '@plotwist/ui/components/ui/badge'
+import {
+  Command,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@plotwist/ui/components/ui/command'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@plotwist/ui/components/ui/form'
 import { useQuery } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import {
@@ -10,25 +23,9 @@ import {
   useState,
 } from 'react'
 import { useFormContext } from 'react-hook-form'
-
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@plotwist/ui/components/ui/form'
-
-import { useLanguage } from '@/context/language'
-
 import type { TvSeriesListFiltersFormValues } from '@/components/tv-series-list-filters'
+import { useLanguage } from '@/context/language'
 import { tmdb } from '@/services/tmdb'
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import {
-  Command,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@plotwist/ui/components/ui/command'
 
 type Option = {
   value: number

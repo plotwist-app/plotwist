@@ -1,9 +1,9 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import type { MovieDetails } from '@/services/tmdb'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Link } from 'next-view-transitions'
+import { useLanguage } from '@/context/language'
+import type { MovieDetails } from '@/services/tmdb'
 
 type MovieGenresProps = { genres: MovieDetails['genres'] }
 

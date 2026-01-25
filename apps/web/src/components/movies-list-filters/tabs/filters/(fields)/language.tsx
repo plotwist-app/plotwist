@@ -1,8 +1,3 @@
-import { tmdb } from '@/services/tmdb'
-import { useQuery } from '@tanstack/react-query'
-import { useFormContext } from 'react-hook-form'
-
-import { useLanguage } from '@/context/language'
 import {
   FormControl,
   FormField,
@@ -19,6 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@plotwist/ui/components/ui/select'
+import { useQuery } from '@tanstack/react-query'
+import { useFormContext } from 'react-hook-form'
+import { useLanguage } from '@/context/language'
+import { tmdb } from '@/services/tmdb'
 import type { MoviesListFiltersFormValues } from '../../../movies-list-filters-schema'
 
 export const LanguageField = () => {

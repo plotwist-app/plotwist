@@ -1,8 +1,8 @@
+import { Link } from 'next-view-transitions'
 import { signIn } from '@/actions/auth/sign-in'
 import { Pattern } from '@/components/pattern'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { Link } from 'next-view-transitions'
 import { SignInForm } from './_sign-in-form'
 
 export default async function SignInPage(props: PageProps) {

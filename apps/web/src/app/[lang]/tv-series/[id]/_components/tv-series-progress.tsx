@@ -1,15 +1,5 @@
 'use client'
 import {
-  useDeleteUserEpisodes,
-  useGetUserEpisodesSuspense,
-  usePostUserEpisodes,
-} from '@/api/user-episodes'
-import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
-import { useLanguage } from '@/context/language'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import { cn } from '@/lib/utils'
-import type { Episode, SeasonDetails } from '@/services/tmdb'
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -37,6 +27,16 @@ import { useQueryClient } from '@tanstack/react-query'
 import { isBefore } from 'date-fns'
 import { Check, CheckCircle2Icon, ChevronDownIcon } from 'lucide-react'
 import { useRef } from 'react'
+import {
+  useDeleteUserEpisodes,
+  useGetUserEpisodesSuspense,
+  usePostUserEpisodes,
+} from '@/api/user-episodes'
+import { useGetUserItemSuspense, usePutUserItem } from '@/api/user-items'
+import { useLanguage } from '@/context/language'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import type { Episode, SeasonDetails } from '@/services/tmdb'
 
 type TvSeriesProgressProps = {
   seasonsDetails: SeasonDetails[]

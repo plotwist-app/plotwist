@@ -1,12 +1,12 @@
 'use client'
 
+import { v4 } from 'uuid'
+
+import { useGetReviews } from '@/api/reviews'
 import {
   ReviewItem,
   ReviewItemSkeleton,
 } from '@/components/reviews/review-item'
-
-import { useGetReviews } from '@/api/reviews'
-import { v4 } from 'uuid'
 
 import { useLanguage } from '@/context/language'
 import type { MediaType } from '@/types/media-type'

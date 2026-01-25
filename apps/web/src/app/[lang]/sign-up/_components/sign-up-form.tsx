@@ -1,13 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-
-import type { signUp } from '@/actions/auth/sign-up'
-import { getUsersAvailableEmail, getUsersAvailableUsername } from '@/api/users'
-import { useLanguage } from '@/context/language'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
   Dialog,
@@ -32,12 +25,18 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { AxiosError } from 'axios'
+import { Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import type { signUp } from '@/actions/auth/sign-up'
+import { getUsersAvailableEmail, getUsersAvailableUsername } from '@/api/users'
+import { useLanguage } from '@/context/language'
 import {
   type CredentialsFormValues,
-  type UsernameFormValues,
   credentialsFormSchema,
+  type UsernameFormValues,
   usernameFormSchema,
 } from './sign-up-form.schema'
 

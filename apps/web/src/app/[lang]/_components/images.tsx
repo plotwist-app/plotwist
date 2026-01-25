@@ -1,8 +1,8 @@
 'use client'
 
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
-import { useTheme } from 'next-themes'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 const GET_IMAGES = (theme: string) => {

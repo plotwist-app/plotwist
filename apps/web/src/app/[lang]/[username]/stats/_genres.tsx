@@ -1,8 +1,5 @@
 'use client'
 
-import { useGetUserIdWatchedGenresSuspense } from '@/api/user-stats'
-import { useLanguage } from '@/context/language'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import {
   Card,
   CardContent,
@@ -26,6 +23,9 @@ import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { BarChartHorizontal } from 'lucide-react'
 import { v4 } from 'uuid'
+import { useGetUserIdWatchedGenresSuspense } from '@/api/user-stats'
+import { useLanguage } from '@/context/language'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { useLayoutContext } from '../_context'
 
 export function Genres() {

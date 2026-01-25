@@ -1,9 +1,5 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
-import { Link } from 'next-view-transitions'
-import { usePathname, useSearchParams } from 'next/navigation'
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,6 +9,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@plotwist/ui/components/ui/navigation-menu'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { Link } from 'next-view-transitions'
+import { useLanguage } from '@/context/language'
 
 import { cn } from '@/lib/utils'
 

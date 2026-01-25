@@ -1,9 +1,9 @@
 import 'server-only'
 
+import { cookies } from 'next/headers'
 import { getMe } from '@/api/users'
 import { decrypt } from '@/app/lib/session'
 import { AXIOS_INSTANCE } from '@/services/axios-instance'
-import { cookies } from 'next/headers'
 
 export const verifySession = async () => {
   const cookie = (await cookies()).get('session')?.value

@@ -1,6 +1,6 @@
+import type { ComponentProps, ReactElement } from 'react'
 import type { GetSocialLinks200SocialLinksItem } from '@/api/endpoints.schemas'
 import { cn } from '@/lib/utils'
-import type { ComponentProps, ReactElement } from 'react'
 
 const SocialLink = {
   Root: (props: ComponentProps<'a'>) => (
@@ -33,7 +33,7 @@ export async function SocialLinks({ socialLinks }: SocialLinksProps) {
     YOUTUBE: 'YouTube',
   }
 
-  if (socialLinks.length === 0) return <></>
+  if (socialLinks.length === 0) return null
 
   return (
     <div

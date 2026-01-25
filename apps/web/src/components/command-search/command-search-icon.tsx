@@ -1,6 +1,6 @@
-import { detectOperatingSystem } from '@/utils/operating-system'
 import { CommandIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { detectOperatingSystem } from '@/utils/operating-system'
 
 export const CommandSearchIcon = () => {
   const [os, setOS] = useState<string | undefined>(undefined)

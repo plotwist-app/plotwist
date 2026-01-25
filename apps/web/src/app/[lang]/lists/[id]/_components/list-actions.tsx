@@ -1,5 +1,10 @@
 'use client'
 
+import NumberFlow from '@number-flow/react'
+import { Progress } from '@plotwist/ui/components/ui/progress'
+import { BarChart, Check, Copy, Heart, List } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { type ComponentProps, Suspense } from 'react'
 import type { GetListById200List } from '@/api/endpoints.schemas'
 import { useDeleteLikeId, usePostLike } from '@/api/like'
 import { useGetListProgress } from '@/api/list'
@@ -8,11 +13,6 @@ import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { cn } from '@/lib/utils'
-import NumberFlow from '@number-flow/react'
-import { Progress } from '@plotwist/ui/components/ui/progress'
-import { BarChart, Check, Copy, Heart, List } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { type ComponentProps, Suspense } from 'react'
 
 const Action = {
   Root: ({ className, ...props }: ComponentProps<'div'>) => (
@@ -142,11 +142,8 @@ export function ListActions({ list }: ListActionsProps) {
 
 type ListProgressProps = { listId: string }
 function ListProgress({ listId }: ListProgressProps) {
-  const { user } = useSession()
-  if (!user) return null
-
-  const { data, isLoading } = useGetListProgress(listId)
   const { dictionary } = useLanguage()
+  const { data } = useGetListProgress(listId)
 
   const completed = data?.completed ?? 0
   const total = data?.total ?? 0

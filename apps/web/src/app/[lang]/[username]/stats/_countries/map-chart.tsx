@@ -1,11 +1,11 @@
-import type { GetUserIdWatchedCountries200WatchedCountriesItem } from '@/api/endpoints.schemas'
-import { cn } from '@/lib/utils'
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
 } from 'react-simple-maps'
+import type { GetUserIdWatchedCountries200WatchedCountriesItem } from '@/api/endpoints.schemas'
+import { cn } from '@/lib/utils'
 import geography from './features.json'
 
 type MapChartProps = {

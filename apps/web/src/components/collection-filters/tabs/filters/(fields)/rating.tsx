@@ -1,5 +1,3 @@
-import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
-import { useLanguage } from '@/context/language'
 import {
   FormControl,
   FormItem,
@@ -10,6 +8,8 @@ import { Slider } from '@plotwist/ui/components/ui/slider'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { v4 } from 'uuid'
+import type { CollectionFiltersFormValues } from '@/components/collection-filters/collection-filters-schema'
+import { useLanguage } from '@/context/language'
 
 export const RatingField = () => {
   const {

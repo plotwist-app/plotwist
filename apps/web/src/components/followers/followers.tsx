@@ -1,8 +1,8 @@
 'use client'
 
-import { useLanguage } from '@/context/language'
 import { Separator } from '@plotwist/ui/components/ui/separator'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
+import { useLanguage } from '@/context/language'
 
 export const Followers = () => {
   const { dictionary } = useLanguage()

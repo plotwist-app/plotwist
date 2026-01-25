@@ -1,5 +1,5 @@
-import { env } from '@/env.mjs'
 import Script from 'next/script'
+import { env } from '@/env.mjs'
 
 const GA_MEASUREMENT_ID = env.NEXT_PUBLIC_MEASUREMENT_ID
 

@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import { Link } from 'next-view-transitions'
+import { cn } from '@/lib/utils'
 
 interface AnimatedLinkProps extends React.ComponentProps<'div'> {
   href: string

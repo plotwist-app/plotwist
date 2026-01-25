@@ -1,13 +1,37 @@
-import type { Dictionary } from '@/utils/dictionaries'
-import * as icons from 'lucide-react'
+import {
+  Award,
+  Crown,
+  Flame,
+  Gem,
+  Heart,
+  type LucideIcon,
+  Medal,
+  Sparkles,
+  Star,
+  Target,
+  Trophy,
+  Zap,
+} from 'lucide-react'
 import { v4 } from 'uuid'
+import type { Dictionary } from '@/utils/dictionaries'
+
+const iconList: LucideIcon[] = [
+  Award,
+  Star,
+  Trophy,
+  Medal,
+  Target,
+  Flame,
+  Zap,
+  Heart,
+  Gem,
+  Crown,
+  Sparkles,
+]
 
 const RandomIcon = () => {
-  const iconNames = Object.keys(icons)
-  const randomIconName = iconNames[Math.floor(Math.random() * iconNames.length)]
-  const IconComponent = icons[
-    randomIconName as keyof typeof icons
-  ] as icons.LucideIcon
+  const randomIndex = Math.floor(Math.random() * iconList.length)
+  const IconComponent = iconList[randomIndex]
 
   return <IconComponent size={16} />
 }
@@ -28,7 +52,7 @@ export const ProfileAchievements = ({
       <h3 className="font-semibold">{dictionary.profile.achievements}</h3>
 
       <div className="grid grid-cols-10 gap-2">
-        {Array.from({ length: 30 }).map((_, index) => {
+        {Array.from({ length: 30 }).map(() => {
           return (
             <div
               className="flex aspect-square items-center justify-center rounded-lg bg-muted"

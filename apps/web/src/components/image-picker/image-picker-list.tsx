@@ -1,18 +1,17 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-
+import { v4 } from 'uuid'
 import { ImagesMasonry, ReactMasonrySkeleton } from '@/components/images'
+
+import { useLanguage } from '@/context/language'
 import {
   type Image,
   type MovieWithMediaType,
   type TvSerieWithMediaType,
   tmdb,
 } from '@/services/tmdb'
-
-import { useLanguage } from '@/context/language'
 import { tmdbImage } from '@/utils/tmdb/image'
-import { v4 } from 'uuid'
 import { ImagePickerItem, ImagePickerItemSkeleton } from './image-picker-item'
 import type { SelectedItem } from './image-picker-root'
 
@@ -26,7 +25,6 @@ export const ImagePickerList = ({
   onSelect,
 }: ImagePickerListProps) => {
   const { id, type } = selectedItem
-  const { dictionary } = useLanguage()
 
   const { data, isLoading } = useQuery({
     queryKey: ['images', id],
@@ -98,7 +96,7 @@ export const ImagePickerListResults = ({
   if (isLoading || !data) {
     return (
       <div className="flex flex-col gap-4">
-        {Array.from({ length: 10 }).map((_, index) => (
+        {Array.from({ length: 10 }).map(() => (
           <ImagePickerItemSkeleton key={v4()} />
         ))}
       </div>

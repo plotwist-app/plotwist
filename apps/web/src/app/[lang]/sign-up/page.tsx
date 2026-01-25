@@ -1,9 +1,9 @@
+import type { Metadata } from 'next'
+import { Link } from 'next-view-transitions'
 import { signUp } from '@/actions/auth/sign-up'
 import { Pattern } from '@/components/pattern'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import type { Metadata } from 'next'
-import { Link } from 'next-view-transitions'
 import { SignUpForm } from './_components/sign-up-form'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {

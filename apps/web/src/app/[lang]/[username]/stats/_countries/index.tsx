@@ -8,14 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@plotwist/ui/components/ui/card'
+import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { BarChartHorizontal } from 'lucide-react'
-import { Tooltip } from 'react-tooltip'
 
 import { useState } from 'react'
-
+import { Tooltip } from 'react-tooltip'
 import { useGetUserIdWatchedCountriesSuspense } from '@/api/user-stats'
 import { useLanguage } from '@/context/language'
-import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { useLayoutContext } from '../../_context'
 import { MapChart } from './map-chart'
 

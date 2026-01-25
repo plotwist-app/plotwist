@@ -1,12 +1,5 @@
 'use client'
 
-import { Menu } from 'lucide-react'
-import { Link } from 'next-view-transitions'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
-import { useLanguage } from '@/context/language'
-
 import { Accordion } from '@plotwist/ui/components/ui/accordion'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -15,13 +8,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@plotwist/ui/components/ui/drawer'
-
+import { Menu } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { Link } from 'next-view-transitions'
+import { useEffect, useState } from 'react'
+import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { buildLanguageNavigation } from './header-navigation-data'
+import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
-
-import { useSession } from '@/context/session'
-import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
 export const HeaderNavigationDrawer = () => {
   const { user } = useSession()
@@ -29,7 +25,7 @@ export const HeaderNavigationDrawer = () => {
   const pathname = usePathname()
   const { language, dictionary } = useLanguage()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Close drawer when navigating to new page
   useEffect(() => {
     setOpen(false)
   }, [pathname])

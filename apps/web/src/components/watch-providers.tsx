@@ -1,15 +1,5 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { Eye, X } from 'lucide-react'
-import Image from 'next/image'
-import { type KeyboardEvent, useCallback, useMemo, useRef } from 'react'
-import { useFormContext } from 'react-hook-form'
-
-import { useLanguage } from '@/context/language'
-
-import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Button } from '@plotwist/ui/components/ui/button'
 import {
@@ -33,6 +23,14 @@ import {
   PopoverTrigger,
 } from '@plotwist/ui/components/ui/popover'
 import { ScrollArea } from '@plotwist/ui/components/ui/scroll-area'
+import { useQuery } from '@tanstack/react-query'
+import { Eye, X } from 'lucide-react'
+import Image from 'next/image'
+import { type KeyboardEvent, useCallback, useMemo, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { useLanguage } from '@/context/language'
+import { tmdb } from '@/services/tmdb'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type Option = {
   value: number
@@ -130,7 +128,7 @@ export const WatchProviders = ({ type }: WatchProvidersProps) => {
     [setValue, watch]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: setValue and watch from react-hook-form are stable, inputRef is a stable ref object
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       const input = inputRef.current
