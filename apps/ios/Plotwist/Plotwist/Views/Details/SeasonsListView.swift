@@ -166,17 +166,17 @@ struct SeasonsListView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 60)
       } else {
-        // Color legend
-        RatingLegend()
-          .padding(.horizontal, 24)
-          .padding(.top, 16)
-
         // Episodes ratings table
         SeasonsOverviewTable(
           seasons: seasons,
           seasonsDetails: seasonsDetails
         )
         .padding(.top, 16)
+
+        // Color legend (after table)
+        RatingLegend()
+          .padding(.horizontal, 24)
+          .padding(.top, 20)
       }
     }
     .padding(.bottom, 24)
@@ -316,82 +316,100 @@ struct SeasonsOverviewTable: View {
   var body: some View {
     VStack(spacing: 0) {
       // Header row
-      HStack(spacing: 0) {
-        // EP column header
-        Text("EP")
-          .font(.caption.weight(.semibold))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .frame(width: 36)
-          .padding(.vertical, 10)
-          .overlay(
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 1),
-            alignment: .trailing
-          )
-
-        // Season column headers
-        ForEach(seasons) { season in
-          Text("S\(season.seasonNumber)")
-            .font(.caption.weight(.semibold))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 10)
-        }
-      }
-      .background(Color.appBackgroundAdaptive)
-      .overlay(
-        Rectangle()
-          .fill(Color.appBorderAdaptive)
-          .frame(height: 1),
-        alignment: .bottom
-      )
+      headerRow
 
       // Episode rows
-      VStack(spacing: 0) {
-        ForEach(1...maxEpisodes, id: \.self) { episodeNumber in
-          HStack(spacing: 0) {
-            // Episode number
-            Text("\(episodeNumber)")
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
-              .frame(width: 36)
-              .padding(.vertical, 10)
-              .overlay(
-                Rectangle()
-                  .fill(Color.appBorderAdaptive)
-                  .frame(width: 1),
-                alignment: .trailing
-              )
+      episodeRows
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 8))
+    .overlay(
+      RoundedRectangle(cornerRadius: 8)
+        .stroke(Color.appBorderAdaptive, lineWidth: 1)
+    )
+    .padding(.horizontal, 24)
+  }
 
-            // Ratings for each season
-            ForEach(seasons) { season in
-              let seasonDetail = seasonsDetails.first { $0.seasonNumber == season.seasonNumber }
-              let episode = seasonDetail?.episodes.first { $0.episodeNumber == episodeNumber }
+  // MARK: - Header Row
+  private var headerRow: some View {
+    HStack(spacing: 0) {
+      // EP column header
+      Text("EP")
+        .font(.caption.weight(.bold))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 44)
+        .padding(.vertical, 12)
+        .overlay(
+          Rectangle()
+            .fill(Color.appBorderAdaptive)
+            .frame(width: 1),
+          alignment: .trailing
+        )
 
-              if let episode = episode, episode.voteAverage > 0 {
-                RatingBadge(rating: episode.voteAverage)
-                  .frame(maxWidth: .infinity)
-                  .padding(.vertical, 6)
-              } else {
-                Text("-")
-                  .font(.caption)
-                  .foregroundColor(.appMutedForegroundAdaptive)
-                  .frame(maxWidth: .infinity)
-                  .padding(.vertical, 10)
-              }
+      // Season column headers
+      ForEach(seasons) { season in
+        Text("S\(season.seasonNumber)")
+          .font(.caption.weight(.semibold))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 12)
+      }
+    }
+    .background(Color.appInputFilled)
+    .overlay(
+      Rectangle()
+        .fill(Color.appBorderAdaptive)
+        .frame(height: 1),
+      alignment: .bottom
+    )
+  }
+
+  // MARK: - Episode Rows
+  private var episodeRows: some View {
+    VStack(spacing: 0) {
+      ForEach(1...maxEpisodes, id: \.self) { episodeNumber in
+        HStack(spacing: 0) {
+          // Episode number
+          Text("\(episodeNumber)")
+            .font(.caption.weight(.medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .frame(width: 44)
+            .padding(.vertical, 10)
+            .background(Color.appInputFilled)
+            .overlay(
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(width: 1),
+              alignment: .trailing
+            )
+
+          // Ratings for each season
+          ForEach(seasons) { season in
+            let seasonDetail = seasonsDetails.first { $0.seasonNumber == season.seasonNumber }
+            let episode = seasonDetail?.episodes.first { $0.episodeNumber == episodeNumber }
+
+            if let episode = episode, episode.voteAverage > 0 {
+              RatingBadge(rating: episode.voteAverage)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+            } else {
+              Text("–")
+                .font(.caption)
+                .foregroundColor(.appBorderAdaptive)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
             }
           }
-          .overlay(
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(height: 1),
-            alignment: .bottom
-          )
+        }
+        .background(Color.appBackgroundAdaptive)
+
+        // Divider (except for last row)
+        if episodeNumber < maxEpisodes {
+          Rectangle()
+            .fill(Color.appBorderAdaptive)
+            .frame(height: 1)
         }
       }
     }
-    .padding(.horizontal, 24)
   }
 }
 
