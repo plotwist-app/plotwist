@@ -1,3 +1,4 @@
+import { cn } from '@plotwist/ui/lib/utils'
 import type { Buy, Language, Rent } from '@plotwist_app/tmdb'
 import { X } from 'lucide-react'
 import Image from 'next/image'
@@ -41,9 +42,12 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.flatrate ? (
-            watchProvider.flatrate.map(item => (
+            watchProvider.flatrate.map((item, index, array) => (
               <div key={item.provider_id}>
-                <WhereToWatchItem item={item} />
+                <WhereToWatchItem
+                  item={item}
+                  isLast={index === array.length - 1}
+                />
               </div>
             ))
           ) : (
@@ -59,9 +63,12 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.rent ? (
-            watchProvider.rent.map(item => (
+            watchProvider.rent.map((item, index, array) => (
               <div key={item.provider_id}>
-                <WhereToWatchItem item={item} />
+                <WhereToWatchItem
+                  item={item}
+                  isLast={index === array.length - 1}
+                />
               </div>
             ))
           ) : (
@@ -77,9 +84,12 @@ export async function WhereToWatch({
 
         <div className="">
           {watchProvider?.buy ? (
-            watchProvider.buy.map(item => (
+            watchProvider.buy.map((item, index, array) => (
               <div key={item.provider_id}>
-                <WhereToWatchItem item={item} />
+                <WhereToWatchItem
+                  item={item}
+                  isLast={index === array.length - 1}
+                />
               </div>
             ))
           ) : (
@@ -91,13 +101,18 @@ export async function WhereToWatch({
   )
 }
 
-type WatchProviderItemProps = { item: Buy | Rent }
+type WatchProviderItemProps = { item: Buy | Rent; isLast: boolean }
 
-export const WhereToWatchItem = ({ item }: WatchProviderItemProps) => {
+export const WhereToWatchItem = ({ item, isLast }: WatchProviderItemProps) => {
   const src = tmdbImage(item.logo_path)
 
   return (
-    <div className="flex items-center gap-2 border-b border-dashed py-2">
+    <div
+      className={cn(
+        'flex items-center gap-2 py-2',
+        !isLast && 'border-b border-dashed'
+      )}
+    >
       <div
         className="relative aspect-square h-6 w-6 overflow-hidden rounded-lg border"
         key={item.provider_id}
@@ -118,7 +133,7 @@ export const WhereToWatchItem = ({ item }: WatchProviderItemProps) => {
 }
 function Unavailable({ message }: { message: string }) {
   return (
-    <div className="py-2 flex gap-2 border-b border-dashed items-center text-sm  text-muted-foreground">
+    <div className="py-2 flex gap-2 items-center text-sm  text-muted-foreground">
       <div className="w-6 h-6 border rounded-lg flex items-center justify-center">
         <X size="16" />
       </div>

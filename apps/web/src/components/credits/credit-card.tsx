@@ -1,3 +1,4 @@
+import { cn } from '@plotwist/ui/lib/utils'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -7,16 +8,23 @@ type CreditCardProps = {
   name: string
   role: string
   href: string
+  isLast: boolean
 }
 
 export const CreditCard = ({
+  isLast,
   imagePath,
   name,
   role,
   href,
 }: CreditCardProps) => {
   return (
-    <li className="flex items-center gap-2 border-b border-dashed py-3">
+    <li
+      className={cn(
+        'flex items-center gap-2 py-3',
+        !isLast && 'border-b border-dashed'
+      )}
+    >
       <Link
         href={href}
         className="relative flex aspect-square items-center justify-center overflow-hidden size-8 rounded-full border"

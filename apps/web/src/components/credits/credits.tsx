@@ -59,15 +59,20 @@ export const Credits = async (props: CreditsProps) => {
 
         <ul className="">
           {cast.map(
-            ({
-              profile_path: profilePath,
-              name,
-              character,
-              credit_id: creditId,
-              id,
-            }) => (
+            (
+              {
+                profile_path: profilePath,
+                name,
+                character,
+                credit_id: creditId,
+                id,
+              },
+              index,
+              array
+            ) => (
               <CreditCard
                 key={creditId}
+                isLast={index === array.length - 1}
                 imagePath={profilePath}
                 name={name}
                 role={character}
@@ -83,15 +88,20 @@ export const Credits = async (props: CreditsProps) => {
 
         <ul className="">
           {crew.map(
-            ({
-              profile_path: profilePath,
-              name,
-              department,
-              credit_id: creditId,
-              id,
-            }) => (
+            (
+              {
+                profile_path: profilePath,
+                name,
+                department,
+                credit_id: creditId,
+                id,
+              },
+              index,
+              array
+            ) => (
               <CreditCard
                 key={creditId}
+                isLast={index === array.length - 1}
                 imagePath={profilePath}
                 name={name}
                 role={getDepartmentLabel(dictionary, department)}
