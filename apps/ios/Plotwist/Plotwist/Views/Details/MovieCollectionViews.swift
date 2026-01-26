@@ -92,9 +92,7 @@ struct MovieCollectionSheet: View {
   }
 
   var body: some View {
-    ZStack {
-      Color.appBackgroundAdaptive.ignoresSafeArea()
-
+    FloatingSheetContainer {
       VStack(spacing: 0) {
         // Drag Indicator
         RoundedRectangle(cornerRadius: 2.5)
@@ -129,15 +127,14 @@ struct MovieCollectionSheet: View {
                     let index = rowIndex * 3 + colIndex
                     if index < sortedParts.count {
                       let movie = sortedParts[index]
-                      Button {
-                        dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                          onMovieSelected(movie.id)
+                      CollectionPosterCard(movie: movie)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                          dismiss()
+                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            onMovieSelected(movie.id)
+                          }
                         }
-                      } label: {
-                        CollectionPosterCard(movie: movie)
-                      }
-                      .buttonStyle(.plain)
                     } else {
                       // Empty space for incomplete rows
                       Color.clear
@@ -154,9 +151,7 @@ struct MovieCollectionSheet: View {
         }
       }
     }
-    .presentationDetents([.medium, .large])
-    .presentationCornerRadius(24)
-    .presentationDragIndicator(.hidden)
+    .floatingSheetPresentation(detents: [.medium])
     .preferredColorScheme(themeManager.current.colorScheme)
   }
 }

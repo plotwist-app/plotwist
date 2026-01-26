@@ -43,21 +43,21 @@ struct StatusSheet: View {
   }
   
   private var sheetHeight: CGFloat {
+    // Base: drag indicator (33) + title (44) + grid 2x2 (172) + bottom (24) = 273
+    let baseHeight: CGFloat = 280
+    
     if selectedStatus == .watched && !watchEntries.isEmpty {
       // Base height + rewatch section
-      let baseHeight: CGFloat = 340
       let rewatchHeaderHeight: CGFloat = 50
       let entryHeight: CGFloat = 32
       let entriesHeight = CGFloat(watchEntries.count) * entryHeight
-      return min(baseHeight + rewatchHeaderHeight + entriesHeight + 24, 624)
+      return min(baseHeight + rewatchHeaderHeight + entriesHeight + 24, 580)
     }
-    return 340
+    return baseHeight
   }
   
   var body: some View {
-    ZStack {
-      Color.appBackgroundAdaptive.ignoresSafeArea()
-      
+    FloatingSheetContainer {
       ScrollView {
         VStack(spacing: 0) {
           // Drag Indicator
@@ -142,9 +142,7 @@ struct StatusSheet: View {
         }
       }
     }
-    .presentationDetents([.height(sheetHeight)])
-    .presentationCornerRadius(24)
-    .presentationDragIndicator(.hidden)
+    .floatingSheetPresentation(height: sheetHeight)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showErrorAlert) {
       Button("OK", role: .cancel) {}

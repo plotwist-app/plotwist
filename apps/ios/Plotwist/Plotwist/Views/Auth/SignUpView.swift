@@ -140,7 +140,6 @@ struct SignUpView: View {
         password: password,
         onError: { self.error = $0 }
       )
-      .standardSheetStyle(detents: [.height(320)])
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -195,40 +194,53 @@ struct UsernameSheetView: View {
   @State private var strings = L10n.current
 
   var body: some View {
-    VStack(spacing: 24) {
-      VStack(spacing: 8) {
-        Text(strings.selectUsername)
-          .font(.system(size: 20, weight: .bold))
-        Text(strings.selectUsernameDescription)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .multilineTextAlignment(.center)
-      }
+    FloatingSheetContainer {
+      VStack(spacing: 0) {
+        // Drag Indicator
+        RoundedRectangle(cornerRadius: 2.5)
+          .fill(Color.gray.opacity(0.4))
+          .frame(width: 36, height: 5)
+          .padding(.top, 12)
+          .padding(.bottom, 16)
 
-      VStack(spacing: 16) {
-        TextField(strings.usernamePlaceholder, text: $username)
-          .textInputAutocapitalization(.never)
-          .autocorrectionDisabled()
-          .padding(12)
-          .background(Color.clear)
-          .overlay(
-            RoundedRectangle(cornerRadius: 12)
-              .stroke(Color.appBorderAdaptive, lineWidth: 1)
-          )
+        VStack(spacing: 24) {
+          VStack(spacing: 8) {
+            Text(strings.selectUsername)
+              .font(.system(size: 20, weight: .bold))
+              .foregroundColor(.appForegroundAdaptive)
+            Text(strings.selectUsernameDescription)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .multilineTextAlignment(.center)
+          }
 
-        if let error {
-          Text(error)
-            .font(.caption)
-            .foregroundColor(.appDestructive)
+          VStack(spacing: 16) {
+            TextField(strings.usernamePlaceholder, text: $username)
+              .textInputAutocapitalization(.never)
+              .autocorrectionDisabled()
+              .padding(12)
+              .background(Color.clear)
+              .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                  .stroke(Color.appBorderAdaptive, lineWidth: 1)
+              )
+
+            if let error {
+              Text(error)
+                .font(.caption)
+                .foregroundColor(.appDestructive)
+            }
+
+            PrimaryButton(strings.finishSignUp, variant: .filled, isLoading: isLoading) {
+              Task { await checkUsernameAndFinish() }
+            }
+          }
         }
-
-        PrimaryButton(strings.finishSignUp, variant: .filled, isLoading: isLoading) {
-          Task { await checkUsernameAndFinish() }
-        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
       }
     }
-    .padding(24)
-    .background(Color.appBackgroundAdaptive)
+    .floatingSheetPresentation(height: 320)
   }
 
   private func checkUsernameAndFinish() async {
