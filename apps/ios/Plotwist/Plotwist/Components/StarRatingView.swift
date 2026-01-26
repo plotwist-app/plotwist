@@ -70,9 +70,9 @@ struct StarRatingView: View {
     let fillLevel = rating - Double(index - 1)
     
     if fillLevel >= 1.0 {
-      return .yellow
+      return .appStarYellow
     } else if fillLevel >= 0.5 {
-      return .yellow
+      return .appStarYellow
     } else {
       return Color.gray.opacity(0.3)
     }

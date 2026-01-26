@@ -85,6 +85,9 @@ extension Color {
   }
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
+
+  // Star rating yellow - bright gold that works in both light and dark modes
+  static let appStarYellow = Color(hex: "FBBF24")
 }
 
 // MARK: - Layered Shadow Modifier

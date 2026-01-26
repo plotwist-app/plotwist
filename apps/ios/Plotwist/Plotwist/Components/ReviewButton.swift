@@ -27,7 +27,7 @@ struct ReviewButton: View {
         } else {
           Image(systemName: hasReview ? "star.fill" : "star")
             .font(.system(size: 13))
-            .foregroundColor(hasReview ? .yellow : .appForegroundAdaptive)
+            .foregroundColor(hasReview ? .appStarYellow : .appForegroundAdaptive)
         }
 
         Text(hasReview ? L10n.current.reviewed : L10n.current.review)

@@ -120,7 +120,7 @@ struct ReviewItemView: View {
   private func ratingColor(for index: Int) -> Color {
     let rating = review.rating
     if Double(index) <= rating || Double(index) - 0.5 <= rating {
-      return .yellow
+      return .appStarYellow
     } else {
       return .gray.opacity(0.3)
     }
