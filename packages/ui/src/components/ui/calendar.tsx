@@ -23,7 +23,7 @@ function Calendar({
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
-        month_caption: 'flex w-full justify-center gap-2 pt-1 relative items-center',
+        month_caption: 'flex justify-center gap-2 pt-1 relative items-center',
         caption_label: 'text-sm font-medium hidden',
         nav: 'space-x-1 flex items-center',
         button_previous: cn(
@@ -31,9 +31,19 @@ function Calendar({
           'absolute left-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
         ),
 
-        dropdown:'rounded-md border border-input bg-background px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring',
+        dropdown: cn(
+          buttonVariants({ variant: 'outline' }),
+          'h-auto w-full appearance-none !bg-background',
+          'hover:bg-background focus:bg-background active:bg-background',
+          'bg-[length:12px] bg-[right_10px_center] bg-no-repeat pr-8 pl-3',
+          "dark:bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23a1a1aa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]",
+          "bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%2371717a%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]"
+        ),
+        
 
-        dropdowns:'flex w-full items-center gap-2',
+        // dropdown:'rounded-md border border-input bg-background px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring',
+
+        dropdowns:'grid grid-cols-2 gap-2',
         dropdown_root:'w-full' ,
         months_dropdown: 'w-full px-3 py-2',
         years_dropdown: 'w-full px-3 py-2',
@@ -66,6 +76,15 @@ function Calendar({
         hidden: 'invisible',
         ...classNames,
       }}
+      components={{
+        Chevron: ({ orientation }) =>
+          orientation === 'left' ? (
+            <ChevronLeftIcon className="h-4 w-4" />
+          ) : (
+            <ChevronRightIcon className="h-4 w-4" />
+          ),
+      }}
+
       {...props}
     />
   )
