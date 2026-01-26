@@ -13,10 +13,14 @@ struct SearchTabView: View {
   @State private var popularAnimes: [SearchResult] = []
   @State private var popularDoramas: [SearchResult] = []
   @State private var isLoading = false
-  @State private var isLoadingPopular = true
+  @State private var isLoadingPopular = false
+  @State private var isInitialLoad = true
+  @State private var hasAppeared = false
   @State private var strings = L10n.current
   @State private var searchTask: Task<Void, Never>?
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
+
+  private let cache = SearchDataCache.shared
 
   private var movies: [SearchResult] {
     results.filter { $0.mediaType == "movie" }
@@ -79,7 +83,7 @@ struct SearchTabView: View {
           }
 
           // Results
-          if isLoading || isLoadingPopular {
+          if isLoading || (isLoadingPopular && isInitialLoad && cache.shouldShowSkeleton) {
             ScrollView {
               LazyVStack(alignment: .leading, spacing: 24) {
                 SearchSkeletonSection()
@@ -165,6 +169,12 @@ struct SearchTabView: View {
       }
       .navigationBarHidden(true)
     }
+    .onAppear {
+      if !hasAppeared {
+        hasAppeared = true
+        restoreFromCache()
+      }
+    }
     .task {
       await loadPopularContent()
     }
@@ -186,19 +196,53 @@ struct SearchTabView: View {
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
       Task {
-        await loadPopularContent()
+        await loadPopularContent(forceRefresh: true)
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task {
-        await loadPopularContent()
+        await loadPopularContent(forceRefresh: true)
+      }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .searchDataCacheInvalidated)) { _ in
+      Task {
+        await loadPopularContent(forceRefresh: true)
       }
     }
   }
 
-  private func loadPopularContent() async {
+  private func restoreFromCache() {
+    if let cachedMovies = cache.popularMovies {
+      popularMovies = cachedMovies
+    }
+    if let cachedTVSeries = cache.popularTVSeries {
+      popularTVSeries = cachedTVSeries
+    }
+    if let cachedAnimes = cache.popularAnimes {
+      popularAnimes = cachedAnimes
+    }
+    if let cachedDoramas = cache.popularDoramas {
+      popularDoramas = cachedDoramas
+    }
+  }
+
+  private func loadPopularContent(forceRefresh: Bool = false) async {
+    // Check if preferences changed
+    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)"
+    cache.setPreferencesHash(currentPreferencesHash)
+
+    // Use cache if available and not forcing refresh
+    if !forceRefresh && cache.isDataAvailable {
+      restoreFromCache()
+      isInitialLoad = false
+      return
+    }
+
     isLoadingPopular = true
-    defer { isLoadingPopular = false }
+    defer {
+      isLoadingPopular = false
+      isInitialLoad = false
+    }
 
     let language = Language.current.rawValue
     let watchRegion = preferencesManager.watchRegion
@@ -234,6 +278,12 @@ struct SearchTabView: View {
         popularTVSeries = tv.results
         popularAnimes = animes.results
         popularDoramas = doramas.results
+
+        // Save to cache
+        cache.setPopularMovies(movies.results)
+        cache.setPopularTVSeries(tv.results)
+        cache.setPopularAnimes(animes.results)
+        cache.setPopularDoramas(doramas.results)
       } else {
         // Use regular popular endpoints
         async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
@@ -246,6 +296,12 @@ struct SearchTabView: View {
         popularTVSeries = tv.results
         popularAnimes = animes.results
         popularDoramas = doramas.results
+
+        // Save to cache
+        cache.setPopularMovies(movies.results)
+        cache.setPopularTVSeries(tv.results)
+        cache.setPopularAnimes(animes.results)
+        cache.setPopularDoramas(doramas.results)
       }
     } catch {
       popularMovies = []
@@ -347,6 +403,7 @@ struct SearchSkeletonSection: View {
       RoundedRectangle(cornerRadius: 4)
         .fill(Color.appSkeletonAdaptive)
         .frame(width: 80, height: 16)
+        .shimmer()
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(0..<6, id: \.self) { _ in
@@ -362,5 +419,6 @@ struct PosterSkeletonCard: View {
     RoundedRectangle(cornerRadius: 12)
       .fill(Color.appSkeletonAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
+      .shimmer()
   }
 }
