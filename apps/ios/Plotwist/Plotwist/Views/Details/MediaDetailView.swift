@@ -52,48 +52,22 @@ struct MediaDetailView: View {
             VStack(alignment: .leading, spacing: 0) {
               // Backdrop Section (stays behind content)
               ZStack(alignment: .topLeading) {
-                // Backdrop Image/Carousel
+                // Backdrop Image/Carousel (using optimized cached loading)
                 if backdropImages.isEmpty {
-                  AsyncImage(url: details.backdropURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                      image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    default:
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                    }
-                  }
-                  .frame(height: backdropHeight + cornerRadius)
-                  .frame(maxWidth: .infinity)
-                  .clipped()
+                  BackdropImage(
+                    url: details.backdropURL,
+                    height: backdropHeight + cornerRadius
+                  )
                 } else {
                   ZStack(alignment: .bottomTrailing) {
                     NavigationLink(
                       destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
                     ) {
-                      TabView(selection: $currentBackdropIndex) {
-                        ForEach(Array(backdropImages.prefix(10).enumerated()), id: \.element.id) {
-                          index, backdrop in
-                          AsyncImage(url: backdrop.backdropURL) { phase in
-                            switch phase {
-                            case .success(let image):
-                              image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                            default:
-                              Rectangle()
-                                .fill(Color.appBorderAdaptive)
-                            }
-                          }
-                          .tag(index)
-                        }
-                      }
-                      .tabViewStyle(.page(indexDisplayMode: .never))
-                      .frame(height: backdropHeight + cornerRadius)
-                      .frame(maxWidth: .infinity)
-                      .clipped()
+                      CarouselBackdropView(
+                        images: backdropImages,
+                        height: backdropHeight + cornerRadius,
+                        currentIndex: $currentBackdropIndex
+                      )
                     }
                     .buttonStyle(.plain)
 
@@ -279,17 +253,18 @@ struct MediaDetailView: View {
 
                 // Poster and Info (overlaid on top, outside clipShape)
                 HStack(alignment: .bottom, spacing: 16) {
-                  // Poster
-                  AsyncImage(url: details.posterURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                      image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    default:
-                      RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.appBorderAdaptive)
-                    }
+                  // Poster (using cached image loading)
+                  CachedAsyncImage(
+                    url: details.posterURL,
+                    priority: .high
+                  ) { image in
+                    image
+                      .resizable()
+                      .aspectRatio(contentMode: .fill)
+                  } placeholder: {
+                    RoundedRectangle(cornerRadius: 12)
+                      .fill(Color.appBorderAdaptive)
+                      .shimmer()
                   }
                   .frame(width: 120, height: 180)
                   .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -440,28 +415,9 @@ struct MediaDetailView: View {
     do {
       let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
       backdropImages = images.sortedBackdrops
-
-      // Preload backdrop images in background
-      await preloadBackdropImages()
+      // Note: Prefetching is now handled automatically by CarouselBackdropView
     } catch {
       backdropImages = []
-    }
-  }
-
-  private func preloadBackdropImages() async {
-    let imagesToPreload = Array(backdropImages.prefix(10))
-
-    await withTaskGroup(of: Void.self) { group in
-      for image in imagesToPreload {
-        guard let url = image.backdropURL else { continue }
-        group.addTask {
-          do {
-            let (_, _) = try await URLSession.shared.data(from: url)
-          } catch {
-            // Silently ignore preload failures
-          }
-        }
-      }
     }
   }
 

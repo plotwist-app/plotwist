@@ -12,10 +12,11 @@ struct HomeTabView: View {
   @State private var user: User?
   @State private var watchingItems: [SearchResult] = []
   @State private var watchlistItems: [SearchResult] = []
-  @State private var isLoadingUser = true
-  @State private var isLoadingWatching = true
-  @State private var isLoadingWatchlist = true
+  @State private var isInitialLoad = true
   @State private var needsRefresh = false
+  @State private var hasAppeared = false
+
+  private let cache = HomeDataCache.shared
 
   private var effectiveColorScheme: ColorScheme {
     themeManager.current.colorScheme ?? systemColorScheme
@@ -32,6 +33,19 @@ struct HomeTabView: View {
     }
   }
 
+  // Only show skeleton on first load when no cached data
+  private var showWatchingSkeleton: Bool {
+    isInitialLoad && cache.shouldShowSkeleton && watchingItems.isEmpty
+  }
+
+  private var showWatchlistSkeleton: Bool {
+    isInitialLoad && cache.shouldShowSkeleton && watchlistItems.isEmpty
+  }
+
+  private var showUserSkeleton: Bool {
+    isInitialLoad && user == nil && cache.user == nil
+  }
+
   var body: some View {
     NavigationView {
       ZStack {
@@ -44,7 +58,7 @@ struct HomeTabView: View {
               greeting: greeting,
               username: user?.username,
               avatarURL: user?.avatarImageURL,
-              isLoading: isLoadingUser,
+              isLoading: showUserSkeleton,
               onAvatarTapped: {
                 NotificationCenter.default.post(name: .navigateToProfile, object: nil)
               }
@@ -53,23 +67,23 @@ struct HomeTabView: View {
             .padding(.top, 16)
 
             // Continue Watching Section
-            if !watchingItems.isEmpty {
+            if showWatchingSkeleton {
+              HomeSectionSkeleton()
+            } else if !watchingItems.isEmpty {
               ContinueWatchingSection(
                 items: watchingItems,
                 title: strings.continueWatching
               )
-            } else if isLoadingWatching {
-              HomeSectionSkeleton()
             }
 
             // Watchlist Section
-            if !watchlistItems.isEmpty {
+            if showWatchlistSkeleton {
+              HomeSectionSkeleton()
+            } else if !watchlistItems.isEmpty {
               WatchlistSection(
                 items: watchlistItems,
                 title: strings.upNext
               )
-            } else if isLoadingWatchlist {
-              HomeSectionSkeleton()
             }
 
             Spacer(minLength: 100)
@@ -79,12 +93,18 @@ struct HomeTabView: View {
       .navigationBarHidden(true)
       .preferredColorScheme(effectiveColorScheme)
       .onAppear {
+        // Restore from cache immediately on appear
+        if !hasAppeared {
+          hasAppeared = true
+          restoreFromCache()
+        }
+
         // Refresh when returning to view if needed
         if needsRefresh {
           needsRefresh = false
           Task {
-            await loadWatchingItems()
-            await loadWatchlistItems()
+            await loadWatchingItems(forceRefresh: true)
+            await loadWatchlistItems(forceRefresh: true)
           }
         }
       }
@@ -96,41 +116,69 @@ struct HomeTabView: View {
       strings = L10n.current
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
-      Task { await loadUser() }
+      Task { await loadUser(forceRefresh: true) }
     }
     .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
-      // Mark for refresh instead of immediately reloading
-      // This prevents navigation issues when the list changes while navigated
+      needsRefresh = true
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .homeDataCacheInvalidated)) { _ in
       needsRefresh = true
     }
   }
 
+  private func restoreFromCache() {
+    if let cachedUser = cache.user {
+      user = cachedUser
+    }
+    if let cachedWatching = cache.watchingItems {
+      watchingItems = cachedWatching
+    }
+    if let cachedWatchlist = cache.watchlistItems {
+      watchlistItems = cachedWatchlist
+    }
+  }
+
   private func loadData() async {
+    // If we have cached data, don't show loading state
+    if cache.isDataAvailable {
+      isInitialLoad = false
+    }
+
     await withTaskGroup(of: Void.self) { group in
       group.addTask { await loadUser() }
       group.addTask { await loadWatchingItems() }
       group.addTask { await loadWatchlistItems() }
     }
+
+    isInitialLoad = false
   }
 
   @MainActor
-  private func loadUser() async {
-    isLoadingUser = true
-    defer { isLoadingUser = false }
+  private func loadUser(forceRefresh: Bool = false) async {
+    // Use cache if available and not forcing refresh
+    if !forceRefresh, let cachedUser = cache.user {
+      user = cachedUser
+      return
+    }
 
     guard AuthService.shared.isAuthenticated else { return }
 
     do {
-      user = try await AuthService.shared.getCurrentUser()
+      let fetchedUser = try await AuthService.shared.getCurrentUser()
+      user = fetchedUser
+      cache.setUser(fetchedUser)
     } catch {
       print("Error loading user: \(error)")
     }
   }
 
   @MainActor
-  private func loadWatchingItems() async {
-    isLoadingWatching = true
-    defer { isLoadingWatching = false }
+  private func loadWatchingItems(forceRefresh: Bool = false) async {
+    // Use cache if available and not forcing refresh
+    if !forceRefresh, let cachedItems = cache.watchingItems {
+      watchingItems = cachedItems
+      return
+    }
 
     guard AuthService.shared.isAuthenticated else { return }
 
@@ -192,15 +240,19 @@ struct HomeTabView: View {
       }
 
       watchingItems = results
+      cache.setWatchingItems(results)
     } catch {
       print("Error loading watching items: \(error)")
     }
   }
 
   @MainActor
-  private func loadWatchlistItems() async {
-    isLoadingWatchlist = true
-    defer { isLoadingWatchlist = false }
+  private func loadWatchlistItems(forceRefresh: Bool = false) async {
+    // Use cache if available and not forcing refresh
+    if !forceRefresh, let cachedItems = cache.watchlistItems {
+      watchlistItems = cachedItems
+      return
+    }
 
     guard AuthService.shared.isAuthenticated else { return }
 
@@ -262,6 +314,7 @@ struct HomeTabView: View {
       }
 
       watchlistItems = results
+      cache.setWatchlistItems(results)
     } catch {
       print("Error loading watchlist items: \(error)")
     }
@@ -279,18 +332,17 @@ struct HomeHeaderView: View {
   var body: some View {
     HStack(spacing: 16) {
       if isLoading {
-        HStack(spacing: 0) {
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
-            .frame(width: 180, height: 24)
-        }
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appSkeletonAdaptive)
+          .frame(width: 180, height: 24)
+          .shimmer()
       } else if let username {
-        Text("\(greeting), ")
+        (Text("\(greeting), ")
           .font(.title2.bold())
           .foregroundColor(.appForegroundAdaptive)
           + Text("@\(username)")
           .font(.title2.bold())
-          .foregroundColor(.appMutedForegroundAdaptive)
+          .foregroundColor(.appMutedForegroundAdaptive))
       } else {
         Text(greeting)
           .font(.title2.bold())
@@ -303,6 +355,7 @@ struct HomeHeaderView: View {
         Circle()
           .fill(Color.appSkeletonAdaptive)
           .frame(width: 44, height: 44)
+          .shimmer()
       } else {
         Button {
           onAvatarTapped?()
@@ -326,7 +379,8 @@ struct HomeSectionCard: View {
         .aspectRatio(contentMode: .fill)
     } placeholder: {
       RoundedRectangle(cornerRadius: 12)
-        .fill(Color.appBorderAdaptive)
+        .fill(Color.appSkeletonAdaptive)
+        .shimmer()
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -476,7 +530,8 @@ struct HomePosterCard: View {
         .aspectRatio(contentMode: .fill)
     } placeholder: {
       RoundedRectangle(cornerRadius: 16)
-        .fill(Color.appBorderAdaptive)
+        .fill(Color.appSkeletonAdaptive)
+        .shimmer()
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -488,22 +543,25 @@ struct HomePosterCard: View {
 // MARK: - Home Section Skeleton
 struct HomeSectionSkeleton: View {
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
+    VStack(alignment: .leading, spacing: 12) {
+      // Title skeleton - matches .font(.headline) height
       RoundedRectangle(cornerRadius: 4)
         .fill(Color.appSkeletonAdaptive)
-        .frame(width: 140, height: 20)
+        .frame(width: 140, height: 17)
+        .shimmer()
         .padding(.horizontal, 24)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 12)
               .fill(Color.appSkeletonAdaptive)
               .frame(width: 120, height: 180)
+              .shimmer()
           }
         }
         .padding(.horizontal, 24)
-        .padding(.vertical, 16)
+        .padding(.vertical, 4)
       }
       .scrollClipDisabled()
     }
