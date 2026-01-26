@@ -45,7 +45,7 @@ enum ProfileMainTab: CaseIterable {
 
 struct ProfileTabView: View {
   @State private var user: User?
-  @State private var isLoading = true
+  @State private var isInitialLoad = true
   @State private var strings = L10n.current
   @State private var selectedMainTab: ProfileMainTab = .collection
   @State private var selectedStatusTab: ProfileStatusTab = .watched
@@ -55,7 +55,10 @@ struct ProfileTabView: View {
   @State private var totalReviewsCount: Int = 0
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
+  @State private var hasAppeared = false
   @ObservedObject private var themeManager = ThemeManager.shared
+
+  private let cache = CollectionCache.shared
 
   // Avatar size
   private let avatarSize: CGFloat = 56
@@ -67,12 +70,17 @@ struct ProfileTabView: View {
     return scrollOffset < initial - scrollThreshold
   }
 
+  // Only show loading on first load when no cached data
+  private var showLoading: Bool {
+    isInitialLoad && cache.shouldShowSkeleton && user == nil
+  }
+
   var body: some View {
     NavigationView {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        if isLoading {
+        if showLoading {
           VStack {
             Spacer()
             ProgressView()
@@ -314,17 +322,21 @@ struct ProfileTabView: View {
           }
         }
       }
+      .onAppear {
+        // Restore from cache immediately on appear
+        if !hasAppeared {
+          hasAppeared = true
+          restoreFromCache()
+        }
+      }
       .task {
-        await loadUser()
-        await loadUserItems()
-        await loadTotalCollectionCount()
-        await loadTotalReviewsCount()
+        await loadData()
       }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
       }
       .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
-        Task { await loadUser() }
+        Task { await loadUser(forceRefresh: true) }
       }
       .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
         Task {
@@ -336,12 +348,47 @@ struct ProfileTabView: View {
     }
   }
 
-  private func loadUser() async {
-    isLoading = true
-    defer { isLoading = false }
+  private func restoreFromCache() {
+    if let cachedUser = cache.user {
+      user = cachedUser
+    }
+    if let cachedCount = cache.getTotalCount() {
+      totalCollectionCount = cachedCount
+    }
+    if let cachedReviewsCount = cache.getReviewsCount() {
+      totalReviewsCount = cachedReviewsCount
+    }
+    if let userId = user?.id ?? cache.user?.id,
+       let cachedItems = cache.getItems(userId: userId, status: selectedStatusTab.rawValue) {
+      userItems = cachedItems
+    }
+  }
+
+  private func loadData() async {
+    // If we have cached data, don't show loading state
+    if cache.isDataAvailable {
+      isInitialLoad = false
+    }
+
+    await loadUser()
+    await loadUserItems()
+    await loadTotalCollectionCount()
+    await loadTotalReviewsCount()
+
+    isInitialLoad = false
+  }
+
+  private func loadUser(forceRefresh: Bool = false) async {
+    // Use cache if available and not forcing refresh
+    if !forceRefresh, let cachedUser = cache.user {
+      user = cachedUser
+      return
+    }
 
     do {
-      user = try await AuthService.shared.getCurrentUser()
+      let fetchedUser = try await AuthService.shared.getCurrentUser()
+      user = fetchedUser
+      cache.setUser(fetchedUser)
     } catch {
       print("Error loading user: \(error)")
       user = nil
@@ -360,8 +407,7 @@ struct ProfileTabView: View {
 
     // Check cache first
     if !forceRefresh,
-      let cachedItems = CollectionCache.shared.getItems(
-        userId: userId, status: selectedStatusTab.rawValue)
+      let cachedItems = cache.getItems(userId: userId, status: selectedStatusTab.rawValue)
     {
       userItems = cachedItems
       return
@@ -377,7 +423,7 @@ struct ProfileTabView: View {
       )
       userItems = items
       // Save to cache
-      CollectionCache.shared.setItems(items, userId: userId, status: selectedStatusTab.rawValue)
+      cache.setItems(items, userId: userId, status: selectedStatusTab.rawValue)
     } catch {
       print("Error loading user items: \(error)")
       userItems = []
@@ -388,7 +434,7 @@ struct ProfileTabView: View {
     guard let userId = user?.id else { return }
 
     // Check cache first
-    if !forceRefresh, let cachedCount = CollectionCache.shared.getTotalCount() {
+    if !forceRefresh, let cachedCount = cache.getTotalCount() {
       totalCollectionCount = cachedCount
       return
     }
@@ -397,19 +443,27 @@ struct ProfileTabView: View {
       let count = try await UserItemService.shared.getUserItemsCount(userId: userId)
       totalCollectionCount = count
       // Save to cache
-      CollectionCache.shared.setTotalCount(count)
+      cache.setTotalCount(count)
     } catch {
       print("Error loading collection count: \(error)")
       totalCollectionCount = 0
     }
   }
 
-  private func loadTotalReviewsCount() async {
+  private func loadTotalReviewsCount(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
+
+    // Check cache first
+    if !forceRefresh, let cachedCount = cache.getReviewsCount() {
+      totalReviewsCount = cachedCount
+      return
+    }
 
     do {
       let count = try await ReviewService.shared.getUserReviewsCount(userId: userId)
       totalReviewsCount = count
+      // Save to cache
+      cache.setReviewsCount(count)
     } catch {
       print("Error loading reviews count: \(error)")
       totalReviewsCount = 0
