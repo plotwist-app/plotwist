@@ -85,16 +85,6 @@ extension Color {
   }
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
-
-  // Dark skeleton slightly lighter than input
-  static var appSkeletonAdaptive: Color {
-    Color(
-      UIColor {
-        $0.userInterfaceStyle == .dark
-          ? UIColor(hue: 240 / 360, saturation: 0.037, brightness: 0.20, alpha: 1)
-          : UIColor(red: 229 / 255, green: 231 / 255, blue: 235 / 255, alpha: 1)
-      })
-  }
 }
 
 // MARK: - Layered Shadow Modifier

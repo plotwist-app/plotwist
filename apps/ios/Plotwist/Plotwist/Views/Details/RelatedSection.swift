@@ -111,7 +111,7 @@ struct RelatedSectionSkeleton: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
         .frame(width: 140, height: 20)
         .padding(.horizontal, 24)
 
@@ -119,7 +119,7 @@ struct RelatedSectionSkeleton: View {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 16)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
           }
         }

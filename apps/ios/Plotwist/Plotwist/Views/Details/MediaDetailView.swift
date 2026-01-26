@@ -264,7 +264,6 @@ struct MediaDetailView: View {
                   } placeholder: {
                     RoundedRectangle(cornerRadius: 12)
                       .fill(Color.appBorderAdaptive)
-                      .shimmer()
                   }
                   .frame(width: 120, height: 180)
                   .clipShape(RoundedRectangle(cornerRadius: 12))

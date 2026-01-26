@@ -91,7 +91,7 @@ struct SeasonsSectionSkeleton: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
         .frame(width: 100, height: 20)
         .padding(.horizontal, 24)
 
@@ -99,7 +99,7 @@ struct SeasonsSectionSkeleton: View {
         HStack(spacing: 12) {
           ForEach(0..<4, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 12)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
           }
         }

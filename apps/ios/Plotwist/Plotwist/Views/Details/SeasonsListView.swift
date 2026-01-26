@@ -137,14 +137,14 @@ struct SeasonsListView: View {
           ForEach(0..<10, id: \.self) { _ in
             HStack(spacing: 0) {
               RoundedRectangle(cornerRadius: 4)
-                .fill(Color.appSkeletonAdaptive)
+                .fill(Color.appBorderAdaptive)
                 .frame(width: 30, height: 20)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 10)
 
               ForEach(0..<min(seasons.count, 5), id: \.self) { _ in
                 RoundedRectangle(cornerRadius: 8)
-                  .fill(Color.appSkeletonAdaptive)
+                  .fill(Color.appBorderAdaptive)
                   .frame(width: 40, height: 22)
                   .frame(maxWidth: .infinity)
                   .padding(.vertical, 10)

@@ -43,16 +43,16 @@ struct ReviewSectionView: View {
         VStack(spacing: 16) {
           HStack(spacing: 6) {
             RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 16, height: 16)
             RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 30, height: 18)
             Circle()
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 4, height: 4)
             RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 80, height: 14)
           }
           .frame(maxWidth: .infinity, alignment: .leading)

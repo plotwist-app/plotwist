@@ -169,44 +169,6 @@ private actor TaskManager {
   }
 }
 
-// MARK: - Shimmer Effect
-struct ShimmerModifier: ViewModifier {
-  func body(content: Content) -> some View {
-    content
-      .overlay(
-        TimelineView(.animation(minimumInterval: 0.016, paused: false)) { timeline in
-          let phase = calculatePhase(from: timeline.date)
-          GeometryReader { geometry in
-            LinearGradient(
-              gradient: Gradient(colors: [
-                .clear,
-                Color.white.opacity(0.3),
-                .clear
-              ]),
-              startPoint: .leading,
-              endPoint: .trailing
-            )
-            .frame(width: geometry.size.width * 2)
-            .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
-          }
-        }
-        .mask(content)
-      )
-  }
-
-  private func calculatePhase(from date: Date) -> CGFloat {
-    let duration: Double = 1.2
-    let elapsed = date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: duration)
-    return CGFloat(elapsed / duration)
-  }
-}
-
-extension View {
-  func shimmer() -> some View {
-    modifier(ShimmerModifier())
-  }
-}
-
 // MARK: - Cached Async Image (Enhanced)
 struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   let url: URL?
@@ -275,10 +237,9 @@ struct BackdropImage: View {
 
   var body: some View {
     ZStack {
-      // Shimmer placeholder
+      // Solid color placeholder
       Rectangle()
         .fill(Color.appBorderAdaptive)
-        .shimmer()
         .opacity(showImage ? 0 : 1)
 
       // Actual image with fade-in

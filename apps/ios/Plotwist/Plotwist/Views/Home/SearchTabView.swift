@@ -401,9 +401,8 @@ struct SearchSkeletonSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
         .frame(width: 80, height: 16)
-        .shimmer()
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(0..<6, id: \.self) { _ in
@@ -417,8 +416,7 @@ struct SearchSkeletonSection: View {
 struct PosterSkeletonCard: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 12)
-      .fill(Color.appSkeletonAdaptive)
+      .fill(Color.appBorderAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
-      .shimmer()
   }
 }

@@ -211,7 +211,7 @@ struct ProfileTabView: View {
                     ) {
                       ForEach(0..<6, id: \.self) { _ in
                         RoundedRectangle(cornerRadius: 12)
-                          .fill(Color.appSkeletonAdaptive)
+                          .fill(Color.appBorderAdaptive)
                           .aspectRatio(2 / 3, contentMode: .fit)
                       }
                     }
@@ -634,7 +634,7 @@ struct ProfileItemCard: View {
         .aspectRatio(contentMode: .fill)
     } placeholder: {
       RoundedRectangle(cornerRadius: 12)
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: 12))

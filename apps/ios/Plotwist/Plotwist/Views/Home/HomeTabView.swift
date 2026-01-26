@@ -333,9 +333,8 @@ struct HomeHeaderView: View {
     HStack(spacing: 16) {
       if isLoading {
         RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appSkeletonAdaptive)
+          .fill(Color.appBorderAdaptive)
           .frame(width: 180, height: 24)
-          .shimmer()
       } else if let username {
         (Text("\(greeting), ")
           .font(.title2.bold())
@@ -353,9 +352,8 @@ struct HomeHeaderView: View {
 
       if isLoading {
         Circle()
-          .fill(Color.appSkeletonAdaptive)
+          .fill(Color.appBorderAdaptive)
           .frame(width: 44, height: 44)
-          .shimmer()
       } else {
         Button {
           onAvatarTapped?()
@@ -379,8 +377,7 @@ struct HomeSectionCard: View {
         .aspectRatio(contentMode: .fill)
     } placeholder: {
       RoundedRectangle(cornerRadius: 12)
-        .fill(Color.appSkeletonAdaptive)
-        .shimmer()
+        .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -530,8 +527,7 @@ struct HomePosterCard: View {
         .aspectRatio(contentMode: .fill)
     } placeholder: {
       RoundedRectangle(cornerRadius: 16)
-        .fill(Color.appSkeletonAdaptive)
-        .shimmer()
+        .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
     .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -546,18 +542,16 @@ struct HomeSectionSkeleton: View {
     VStack(alignment: .leading, spacing: 12) {
       // Title skeleton - matches .font(.headline) height
       RoundedRectangle(cornerRadius: 4)
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
         .frame(width: 140, height: 17)
-        .shimmer()
         .padding(.horizontal, 24)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 12)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
-              .shimmer()
           }
         }
         .padding(.horizontal, 24)

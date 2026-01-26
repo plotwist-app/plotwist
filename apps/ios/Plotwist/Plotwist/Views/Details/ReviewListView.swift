@@ -167,20 +167,20 @@ struct ReviewItemSkeleton: View {
     HStack(alignment: .top, spacing: 12) {
       // Avatar skeleton
       Circle()
-        .fill(Color.appSkeletonAdaptive)
+        .fill(Color.appBorderAdaptive)
         .frame(width: 40, height: 40)
 
       VStack(alignment: .leading, spacing: 0) {
         // Header: username + time
         HStack {
           RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
+            .fill(Color.appBorderAdaptive)
             .frame(width: 100, height: 14)
 
           Spacer()
 
           RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
+            .fill(Color.appBorderAdaptive)
             .frame(width: 40, height: 12)
         }
 
@@ -188,7 +188,7 @@ struct ReviewItemSkeleton: View {
         HStack(spacing: 2) {
           ForEach(0..<5, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 2)
-              .fill(Color.appSkeletonAdaptive)
+              .fill(Color.appBorderAdaptive)
               .frame(width: 14, height: 14)
           }
         }
@@ -197,10 +197,10 @@ struct ReviewItemSkeleton: View {
         // Review text skeleton
         VStack(alignment: .leading, spacing: 4) {
           RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
+            .fill(Color.appBorderAdaptive)
             .frame(height: 14)
           RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appSkeletonAdaptive)
+            .fill(Color.appBorderAdaptive)
             .frame(width: 200, height: 14)
         }
         .padding(.top, 8)
