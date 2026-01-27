@@ -48,18 +48,18 @@ struct MediaDetailView: View {
         GeometryReader { geometry in
           let backdropHeight = geometry.size.height * 0.45
 
-          ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-              // Backdrop Section (stays behind content)
-              ZStack(alignment: .topLeading) {
-                // Backdrop Image/Carousel (using optimized cached loading)
-                if backdropImages.isEmpty {
-                  BackdropImage(
-                    url: details.backdropURL,
-                    height: backdropHeight + cornerRadius
-                  )
-                } else {
-                  ZStack(alignment: .bottomTrailing) {
+          ZStack(alignment: .topLeading) {
+            ScrollView(showsIndicators: false) {
+              VStack(alignment: .leading, spacing: 0) {
+                // Backdrop Section (stays behind content)
+                ZStack(alignment: .bottomTrailing) {
+                  // Backdrop Image/Carousel (using optimized cached loading)
+                  if backdropImages.isEmpty {
+                    BackdropImage(
+                      url: details.backdropURL,
+                      height: backdropHeight + cornerRadius
+                    )
+                  } else {
                     NavigationLink(
                       destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
                     ) {
@@ -70,8 +70,10 @@ struct MediaDetailView: View {
                       )
                     }
                     .buttonStyle(.plain)
+                  }
 
-                    // Image counter
+                  // Image counter (only show when we have multiple images)
+                  if !backdropImages.isEmpty {
                     Text("\(currentBackdropIndex + 1)/\(min(backdropImages.count, 10))")
                       .font(.caption.weight(.semibold))
                       .foregroundColor(.white)
@@ -83,21 +85,6 @@ struct MediaDetailView: View {
                       .padding(.bottom, cornerRadius + 12)
                   }
                 }
-
-                // Back button
-                Button {
-                  dismiss()
-                } label: {
-                  Image(systemName: "chevron.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
-                    .background(.ultraThinMaterial)
-                    .clipShape(Circle())
-                }
-                .padding(.top, 60)
-                .padding(.leading, 24)
-              }
 
               // Content Card (rounded, overlaps backdrop)
               ZStack(alignment: .topLeading) {
@@ -295,6 +282,25 @@ struct MediaDetailView: View {
             }
           }
           .ignoresSafeArea(edges: .top)
+
+            // Sticky Back Button
+            VStack {
+              Button {
+                dismiss()
+              } label: {
+                Image(systemName: "chevron.left")
+                  .font(.system(size: 18, weight: .semibold))
+                  .foregroundColor(.white)
+                  .frame(width: 40, height: 40)
+                  .background(.ultraThinMaterial)
+                  .clipShape(Circle())
+              }
+              .padding(.leading, 24)
+              Spacer()
+            }
+            .padding(.top, 8)
+            .safeAreaPadding(.top)
+          }
         }
       }
     }
