@@ -249,6 +249,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
             <DrawerTitle className="flex items-center justify-between">
               {myLists}
               <ListForm
+                mode="drawer"
                 trigger={
                   <Button
                     size="icon"
@@ -288,6 +289,7 @@ export const ListsDropdown = ({ item, ...props }: ListsDropdownProps) => {
             {myLists}
 
             <ListForm
+              mode="dialog"
               trigger={
                 <Button
                   size="icon"
