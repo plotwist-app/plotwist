@@ -13,6 +13,9 @@ struct WhereToWatchSection: View {
   @State private var providers: WatchProviderCountry?
   @State private var isLoading = true
   @State private var hasLoaded = false
+  @State private var isExpanded = false
+  
+  @Namespace private var animationNamespace
 
   private var hasAnyProvider: Bool {
     let flatrate = providers?.flatrate ?? []
@@ -40,35 +43,60 @@ struct WhereToWatchSection: View {
         }
       } else if hasAnyProvider {
         VStack(alignment: .leading, spacing: 16) {
-          // Title
-          Text(L10n.current.tabWhereToWatch)
-            .font(.headline)
-            .foregroundColor(.appForegroundAdaptive)
+          // Header with title and expand arrow
+          Button(action: {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+              isExpanded.toggle()
+            }
+          }) {
+            HStack(spacing: 8) {
+              Text(L10n.current.tabWhereToWatch)
+                .font(.headline)
+                .foregroundColor(.appForegroundAdaptive)
+              
+              Image(systemName: "chevron.down")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+              
+              Spacer()
+            }
             .padding(.horizontal, 24)
+          }
+          .buttonStyle(.plain)
 
-          // Content - only show categories that have providers
-          VStack(alignment: .leading, spacing: 24) {
+          // Categories
+          VStack(alignment: .leading, spacing: 20) {
             // Stream
             if let flatrate = providers?.flatrate, !flatrate.isEmpty {
-              ProviderCategory(
+              ProviderCategoryAnimated(
                 title: L10n.current.stream,
-                providers: flatrate
+                providers: flatrate,
+                isExpanded: isExpanded,
+                namespace: animationNamespace,
+                categoryId: "stream"
               )
             }
 
             // Rent
             if let rent = providers?.rent, !rent.isEmpty {
-              ProviderCategory(
+              ProviderCategoryAnimated(
                 title: L10n.current.rent,
-                providers: rent
+                providers: rent,
+                isExpanded: isExpanded,
+                namespace: animationNamespace,
+                categoryId: "rent"
               )
             }
 
             // Buy
             if let buy = providers?.buy, !buy.isEmpty {
-              ProviderCategory(
+              ProviderCategoryAnimated(
                 title: L10n.current.buy,
-                providers: buy
+                providers: buy,
+                isExpanded: isExpanded,
+                namespace: animationNamespace,
+                categoryId: "buy"
               )
             }
           }
@@ -112,54 +140,101 @@ struct WhereToWatchSection: View {
   }
 }
 
-// MARK: - Provider Category
-struct ProviderCategory: View {
+// MARK: - Provider Category with Matched Geometry Animation
+struct ProviderCategoryAnimated: View {
   let title: String
   let providers: [WatchProvider]
-
+  let isExpanded: Bool
+  let namespace: Namespace.ID
+  let categoryId: String
+  
+  private let collapsedIconSize: CGFloat = 40
+  private let expandedIconSize: CGFloat = 32
+  private let overlapOffset: CGFloat = -18
+  
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
+      // Title - stays fixed
       Text(title.uppercased())
         .font(.caption.weight(.semibold))
         .foregroundColor(.appMutedForegroundAdaptive)
-
-      VStack(spacing: 0) {
-        ForEach(providers) { provider in
-          ProviderRow(provider: provider)
+      
+      if isExpanded {
+        // Expanded: vertical list
+        VStack(alignment: .leading, spacing: 2) {
+          ForEach(Array(providers.enumerated()), id: \.element.id) { index, provider in
+            HStack(spacing: 10) {
+              ProviderIconAnimated(
+                provider: provider,
+                size: expandedIconSize,
+                namespace: namespace,
+                id: "\(categoryId)-\(provider.providerId)"
+              )
+              
+              Text(provider.providerName)
+                .font(.subheadline)
+                .foregroundColor(.appForegroundAdaptive)
+              
+              Spacer()
+            }
+            .padding(.vertical, 4)
+          }
+        }
+      } else {
+        // Collapsed: stacked icons with overlap
+        HStack(spacing: overlapOffset) {
+          ForEach(Array(providers.prefix(5).enumerated()), id: \.element.id) { index, provider in
+            ProviderIconAnimated(
+              provider: provider,
+              size: collapsedIconSize,
+              namespace: namespace,
+              id: "\(categoryId)-\(provider.providerId)"
+            )
+            .zIndex(Double(5 - index))
+          }
+          
+          // Show +N if more than 5 providers
+          if providers.count > 5 {
+            Text("+\(providers.count - 5)")
+              .font(.caption.weight(.semibold))
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .frame(width: collapsedIconSize, height: collapsedIconSize)
+              .background(Color.appInputFilled)
+              .clipShape(RoundedRectangle(cornerRadius: 10))
+              .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                  .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
+              )
+          }
         }
       }
     }
   }
 }
 
-// MARK: - Provider Row
-struct ProviderRow: View {
+// MARK: - Provider Icon with Matched Geometry
+struct ProviderIconAnimated: View {
   let provider: WatchProvider
-
+  let size: CGFloat
+  let namespace: Namespace.ID
+  let id: String
+  
   var body: some View {
-    HStack(spacing: 8) {
-      CachedAsyncImage(url: provider.logoURL) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      } placeholder: {
-        RoundedRectangle(cornerRadius: 6)
-          .fill(Color.appBorderAdaptive)
-      }
-      .frame(width: 24, height: 24)
-      .clipShape(RoundedRectangle(cornerRadius: 6))
-      .overlay(
-        RoundedRectangle(cornerRadius: 6)
-          .stroke(Color.appBorderAdaptive, lineWidth: 0.5)
-      )
-
-      Text(provider.providerName)
-        .font(.subheadline)
-        .foregroundColor(.appForegroundAdaptive)
-
-      Spacer()
+    CachedAsyncImage(url: provider.logoURL) { image in
+      image
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+    } placeholder: {
+      RoundedRectangle(cornerRadius: size > 35 ? 10 : 8)
+        .fill(Color.appBorderAdaptive)
     }
-    .padding(.vertical, 6)
+    .frame(width: size, height: size)
+    .clipShape(RoundedRectangle(cornerRadius: size > 35 ? 10 : 8))
+    .overlay(
+      RoundedRectangle(cornerRadius: size > 35 ? 10 : 8)
+        .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
+    )
+    .matchedGeometryEffect(id: id, in: namespace)
   }
 }
 
