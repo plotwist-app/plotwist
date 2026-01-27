@@ -59,7 +59,7 @@ struct EpisodeRowView: View {
           } else {
             Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
               .font(.system(size: 24))
-              .foregroundColor(isWatched ? .green : .appMutedForegroundAdaptive)
+              .foregroundColor(isWatched ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
           }
         }
         .disabled(isLoading)
