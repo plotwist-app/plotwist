@@ -160,6 +160,7 @@ enum L10n {
       tabSeasons: "Seasons",
       episodes: "Episodes",
       episodesCount: "%d episodes",
+      episodesWatchedCount: "%d of %total watched",
       grid: "Grid",
       overview: "Overview",
       // Ratings
@@ -309,6 +310,7 @@ enum L10n {
       tabSeasons: "Temporadas",
       episodes: "Episódios",
       episodesCount: "%d episódios",
+      episodesWatchedCount: "%d de %total assistidos",
       grid: "Grade",
       overview: "Visão Geral",
       // Ratings
@@ -458,6 +460,7 @@ enum L10n {
       tabSeasons: "Temporadas",
       episodes: "Episodios",
       episodesCount: "%d episodios",
+      episodesWatchedCount: "%d de %total vistos",
       grid: "Cuadrícula",
       overview: "Resumen",
       // Ratings
@@ -607,6 +610,7 @@ enum L10n {
       tabSeasons: "Saisons",
       episodes: "Épisodes",
       episodesCount: "%d épisodes",
+      episodesWatchedCount: "%d sur %total vus",
       grid: "Grille",
       overview: "Aperçu",
       // Ratings
@@ -756,6 +760,7 @@ enum L10n {
       tabSeasons: "Staffeln",
       episodes: "Episoden",
       episodesCount: "%d Episoden",
+      episodesWatchedCount: "%d von %total gesehen",
       grid: "Raster",
       overview: "Übersicht",
       // Ratings
@@ -905,6 +910,7 @@ enum L10n {
       tabSeasons: "Stagioni",
       episodes: "Episodi",
       episodesCount: "%d episodi",
+      episodesWatchedCount: "%d di %total visti",
       grid: "Griglia",
       overview: "Panoramica",
       // Ratings
@@ -1053,6 +1059,7 @@ enum L10n {
       tabSeasons: "シーズン",
       episodes: "エピソード",
       episodesCount: "%d 話",
+      episodesWatchedCount: "%total話中%d話視聴済み",
       grid: "グリッド",
       overview: "概要",
       // Ratings
@@ -1222,6 +1229,7 @@ struct Strings {
   let tabSeasons: String
   let episodes: String
   let episodesCount: String
+  let episodesWatchedCount: String
   let grid: String
   let overview: String
   // Ratings

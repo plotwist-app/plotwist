@@ -86,7 +86,11 @@ struct SeasonDetailView: View {
           // Episodes Section
           if let details = seasonDetails, !details.episodes.isEmpty {
             sectionDivider
-            EpisodesSectionView(episodes: details.episodes)
+            EpisodesSectionView(
+              seriesId: seriesId,
+              seasonNumber: season.seasonNumber,
+              episodes: details.episodes
+            )
           }
 
           Spacer()
