@@ -15,7 +15,6 @@ struct WhereToWatchSection: View {
   @State private var hasLoaded = false
   @State private var isExpanded = false
   
-  @Namespace private var animationNamespace
 
   private var hasAnyProvider: Bool {
     let flatrate = providers?.flatrate ?? []
@@ -72,9 +71,7 @@ struct WhereToWatchSection: View {
               ProviderCategoryAnimated(
                 title: L10n.current.stream,
                 providers: flatrate,
-                isExpanded: isExpanded,
-                namespace: animationNamespace,
-                categoryId: "stream"
+                isExpanded: isExpanded
               )
             }
 
@@ -83,9 +80,7 @@ struct WhereToWatchSection: View {
               ProviderCategoryAnimated(
                 title: L10n.current.rent,
                 providers: rent,
-                isExpanded: isExpanded,
-                namespace: animationNamespace,
-                categoryId: "rent"
+                isExpanded: isExpanded
               )
             }
 
@@ -94,9 +89,7 @@ struct WhereToWatchSection: View {
               ProviderCategoryAnimated(
                 title: L10n.current.buy,
                 providers: buy,
-                isExpanded: isExpanded,
-                namespace: animationNamespace,
-                categoryId: "buy"
+                isExpanded: isExpanded
               )
             }
           }
@@ -140,17 +133,19 @@ struct WhereToWatchSection: View {
   }
 }
 
-// MARK: - Provider Category with Matched Geometry Animation
+// MARK: - Provider Category with Layout Animation
 struct ProviderCategoryAnimated: View {
   let title: String
   let providers: [WatchProvider]
   let isExpanded: Bool
-  let namespace: Namespace.ID
-  let categoryId: String
   
-  private let collapsedIconSize: CGFloat = 40
-  private let expandedIconSize: CGFloat = 32
-  private let overlapOffset: CGFloat = -18
+  private let iconSize: CGFloat = 36
+  private let collapsedSpacing: CGFloat = -16
+  private let expandedSpacing: CGFloat = 6
+  
+  private var displayProviders: [WatchProvider] {
+    isExpanded ? providers : Array(providers.prefix(5))
+  }
   
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
@@ -159,65 +154,73 @@ struct ProviderCategoryAnimated: View {
         .font(.caption.weight(.semibold))
         .foregroundColor(.appMutedForegroundAdaptive)
       
-      if isExpanded {
-        // Expanded: vertical list
-        VStack(alignment: .leading, spacing: 2) {
-          ForEach(Array(providers.enumerated()), id: \.element.id) { index, provider in
-            HStack(spacing: 10) {
-              ProviderIconAnimated(
-                provider: provider,
-                size: expandedIconSize,
-                namespace: namespace,
-                id: "\(categoryId)-\(provider.providerId)"
-              )
-              
-              Text(provider.providerName)
-                .font(.subheadline)
-                .foregroundColor(.appForegroundAdaptive)
-              
-              Spacer()
-            }
-            .padding(.vertical, 4)
-          }
-        }
-      } else {
-        // Collapsed: stacked icons with overlap
-        HStack(spacing: overlapOffset) {
-          ForEach(Array(providers.prefix(5).enumerated()), id: \.element.id) { index, provider in
-            ProviderIconAnimated(
-              provider: provider,
-              size: collapsedIconSize,
-              namespace: namespace,
-              id: "\(categoryId)-\(provider.providerId)"
-            )
-            .zIndex(Double(5 - index))
-          }
+      // Single layout that morphs between states
+      ProviderIconsLayout(
+        providers: displayProviders,
+        allProviders: providers,
+        isExpanded: isExpanded,
+        iconSize: iconSize,
+        collapsedSpacing: collapsedSpacing,
+        expandedSpacing: expandedSpacing
+      )
+    }
+  }
+}
+
+// MARK: - Custom Layout for Provider Icons
+struct ProviderIconsLayout: View {
+  let providers: [WatchProvider]
+  let allProviders: [WatchProvider]
+  let isExpanded: Bool
+  let iconSize: CGFloat
+  let collapsedSpacing: CGFloat
+  let expandedSpacing: CGFloat
+  
+  private let cornerRadius: CGFloat = 9
+  
+  var body: some View {
+    let layout = isExpanded 
+      ? AnyLayout(VStackLayout(alignment: .leading, spacing: expandedSpacing))
+      : AnyLayout(HStackLayout(spacing: collapsedSpacing))
+    
+    layout {
+      ForEach(Array(providers.enumerated()), id: \.element.id) { index, provider in
+        HStack(spacing: 10) {
+          ProviderIconView(provider: provider, size: iconSize, cornerRadius: cornerRadius)
+            .zIndex(Double(providers.count - index))
           
-          // Show +N if more than 5 providers
-          if providers.count > 5 {
-            Text("+\(providers.count - 5)")
-              .font(.caption.weight(.semibold))
-              .foregroundColor(.appMutedForegroundAdaptive)
-              .frame(width: collapsedIconSize, height: collapsedIconSize)
-              .background(Color.appInputFilled)
-              .clipShape(RoundedRectangle(cornerRadius: 10))
-              .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                  .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
-              )
+          if isExpanded {
+            Text(provider.providerName)
+              .font(.subheadline)
+              .foregroundColor(.appForegroundAdaptive)
+            
+            Spacer()
           }
         }
+      }
+      
+      // Show +N badge when collapsed and more than 5 providers
+      if !isExpanded && allProviders.count > 5 {
+        Text("+\(allProviders.count - 5)")
+          .font(.caption.weight(.semibold))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(width: iconSize, height: iconSize)
+          .background(Color.appInputFilled)
+          .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+          .overlay(
+            RoundedRectangle(cornerRadius: cornerRadius)
+              .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
+          )
       }
     }
   }
 }
 
-// MARK: - Provider Icon with Matched Geometry
-struct ProviderIconAnimated: View {
+// MARK: - Provider Icon View
+struct ProviderIconView: View {
   let provider: WatchProvider
   let size: CGFloat
-  let namespace: Namespace.ID
-  let id: String
+  let cornerRadius: CGFloat
   
   var body: some View {
     CachedAsyncImage(url: provider.logoURL) { image in
@@ -225,16 +228,15 @@ struct ProviderIconAnimated: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: size > 35 ? 10 : 8)
+      RoundedRectangle(cornerRadius: cornerRadius)
         .fill(Color.appBorderAdaptive)
     }
     .frame(width: size, height: size)
-    .clipShape(RoundedRectangle(cornerRadius: size > 35 ? 10 : 8))
+    .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     .overlay(
-      RoundedRectangle(cornerRadius: size > 35 ? 10 : 8)
+      RoundedRectangle(cornerRadius: cornerRadius)
         .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
     )
-    .matchedGeometryEffect(id: id, in: namespace)
   }
 }
 
