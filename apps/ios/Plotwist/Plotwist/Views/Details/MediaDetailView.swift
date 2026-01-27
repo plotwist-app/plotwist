@@ -206,6 +206,7 @@ struct MediaDetailView: View {
                     SeasonsSection(
                       seasons: details.displaySeasons,
                       seriesId: mediaId,
+                      seriesName: details.displayTitle,
                       onContentLoaded: { hasContent in
                         hasSeasons = hasContent
                       }

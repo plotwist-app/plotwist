@@ -22,6 +22,7 @@ enum SeasonsTab: CaseIterable {
 struct SeasonsListView: View {
   let seasons: [Season]
   let seriesId: Int
+  let seriesName: String
 
   @Environment(\.dismiss) private var dismiss
   @State private var selectedTab: SeasonsTab = .grid
@@ -94,33 +95,38 @@ struct SeasonsListView: View {
   private var gridContent: some View {
     LazyVGrid(columns: columns, spacing: 16) {
       ForEach(seasons) { season in
-        VStack(alignment: .leading, spacing: 8) {
-          CachedAsyncImage(url: season.posterURL) { image in
-            image
-              .resizable()
-              .aspectRatio(2 / 3, contentMode: .fill)
-          } placeholder: {
-            RoundedRectangle(cornerRadius: 12)
-              .fill(Color.appBorderAdaptive)
-              .aspectRatio(2 / 3, contentMode: .fill)
-              .overlay(
-                VStack(spacing: 4) {
-                  Image(systemName: "photo")
-                    .font(.title3)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                  Text(season.name)
-                    .font(.caption2)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .padding(.horizontal, 4)
-                }
-              )
+        NavigationLink {
+          SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season)
+        } label: {
+          VStack(alignment: .leading, spacing: 8) {
+            CachedAsyncImage(url: season.posterURL) { image in
+              image
+                .resizable()
+                .aspectRatio(2 / 3, contentMode: .fill)
+            } placeholder: {
+              RoundedRectangle(cornerRadius: 12)
+                .fill(Color.appBorderAdaptive)
+                .aspectRatio(2 / 3, contentMode: .fill)
+                .overlay(
+                  VStack(spacing: 4) {
+                    Image(systemName: "photo")
+                      .font(.title3)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                    Text(season.name)
+                      .font(.caption2)
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                      .multilineTextAlignment(.center)
+                      .lineLimit(2)
+                      .padding(.horizontal, 4)
+                  }
+                )
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .posterBorder(cornerRadius: 12)
+            .posterShadow()
           }
-          .clipShape(RoundedRectangle(cornerRadius: 12))
-          .posterBorder(cornerRadius: 12)
-          .posterShadow()
         }
+        .buttonStyle(.plain)
       }
     }
     .padding(.horizontal, 24)

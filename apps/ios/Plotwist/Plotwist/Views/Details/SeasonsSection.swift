@@ -8,6 +8,7 @@ import SwiftUI
 struct SeasonsSection: View {
   let seasons: [Season]
   let seriesId: Int
+  let seriesName: String
   var onContentLoaded: ((Bool) -> Void)?
 
   private let strings = L10n.current
@@ -17,7 +18,7 @@ struct SeasonsSection: View {
       if !seasons.isEmpty {
         // Title with navigation
         NavigationLink {
-          SeasonsListView(seasons: seasons, seriesId: seriesId)
+          SeasonsListView(seasons: seasons, seriesId: seriesId, seriesName: seriesName)
         } label: {
           HStack(spacing: 6) {
             Text(strings.tabSeasons)
@@ -38,7 +39,12 @@ struct SeasonsSection: View {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 12) {
             ForEach(seasons) { season in
-              SeasonPosterCard(season: season)
+              NavigationLink {
+                SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season)
+              } label: {
+                SeasonPosterCard(season: season)
+              }
+              .buttonStyle(.plain)
             }
           }
           .padding(.horizontal, 24)

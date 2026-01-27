@@ -8,6 +8,7 @@ import SwiftUI
 struct ReviewSheet: View {
   let mediaId: Int
   let mediaType: String
+  let seasonNumber: Int?
   let existingReview: Review?
   let onDeleted: (() -> Void)?
   @Environment(\.dismiss) private var dismiss
@@ -22,9 +23,10 @@ struct ReviewSheet: View {
   @State private var showDeleteConfirmation: Bool = false
   @State private var errorMessage: String = ""
 
-  init(mediaId: Int, mediaType: String, existingReview: Review? = nil, onDeleted: (() -> Void)? = nil) {
+  init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, existingReview: Review? = nil, onDeleted: (() -> Void)? = nil) {
     self.mediaId = mediaId
     self.mediaType = mediaType
+    self.seasonNumber = seasonNumber
     self.existingReview = existingReview
     self.onDeleted = onDeleted
 
@@ -176,7 +178,7 @@ struct ReviewSheet: View {
           review: reviewText,
           rating: rating,
           hasSpoilers: hasSpoilers,
-          seasonNumber: nil,
+          seasonNumber: seasonNumber,
           episodeNumber: nil,
           language: Language.current.rawValue
         )
