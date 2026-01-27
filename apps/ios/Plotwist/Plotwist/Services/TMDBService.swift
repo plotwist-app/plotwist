@@ -892,10 +892,21 @@ struct Episode: Codable, Identifiable {
   let airDate: String?
   let voteAverage: Double
   let voteCount: Int
+  let runtime: Int?
 
   var stillURL: URL? {
     guard let stillPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w500\(stillPath)")
+  }
+  
+  var formattedRuntime: String? {
+    guard let runtime = runtime, runtime > 0 else { return nil }
+    if runtime >= 60 {
+      let hours = runtime / 60
+      let minutes = runtime % 60
+      return minutes > 0 ? "\(hours)h \(minutes)min" : "\(hours)h"
+    }
+    return "\(runtime)min"
   }
 }
 

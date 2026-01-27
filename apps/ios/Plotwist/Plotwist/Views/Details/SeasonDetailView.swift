@@ -19,17 +19,14 @@ struct SeasonDetailView: View {
   @State private var showReviewSheet = false
   @State private var reviewsRefreshId = UUID()
   @State private var hasReviews = false
+  @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
 
-  private var formattedAirDate: String? {
-    guard let airDate = season.airDate else { return nil }
-    let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "yyyy-MM-dd"
-    guard let date = inputFormatter.date(from: airDate) else { return nil }
-    
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "d 'de' MMMM 'de' yyyy"
-    outputFormatter.locale = Locale(identifier: Language.current.rawValue)
-    return outputFormatter.string(from: date)
+  private let scrollThreshold: CGFloat = 20
+
+  private var isScrolled: Bool {
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
   }
 
   var body: some View {
@@ -39,52 +36,18 @@ struct SeasonDetailView: View {
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading, spacing: 0) {
           // Header with poster and info
-          HStack(alignment: .bottom, spacing: 16) {
-            // Poster
-            CachedAsyncImage(url: season.posterURL) { image in
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            } placeholder: {
-              RoundedRectangle(cornerRadius: 12)
-                .fill(Color.appBorderAdaptive)
-                .overlay(
-                  ProgressView()
-                    .scaleEffect(0.8)
-                )
-            }
-            .frame(width: 120, height: 180)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .posterBorder(cornerRadius: 12)
-            .posterShadow()
-
-            // Info
-            VStack(alignment: .leading, spacing: 4) {
-              if let airDate = formattedAirDate {
-                Text(airDate)
-                  .font(.caption)
-                  .foregroundColor(.appMutedForegroundAdaptive)
-              }
-
-              Text(season.name)
-                .font(.title2.bold())
-                .foregroundColor(.appForegroundAdaptive)
-            }
-            .padding(.bottom, 8)
-
-            Spacer()
-          }
-          .padding(.horizontal, 24)
-          .padding(.top, 80)
+          SeasonHeaderView(
+            season: season,
+            scrollOffset: $scrollOffset,
+            initialScrollOffset: $initialScrollOffset
+          )
 
           // Review Button
           if AuthService.shared.isAuthenticated {
             ReviewButton(
               hasReview: userReview != nil,
               isLoading: isLoadingUserReview,
-              action: {
-                showReviewSheet = true
-              }
+              action: { showReviewSheet = true }
             )
             .padding(.horizontal, 24)
             .padding(.top, 24)
@@ -100,13 +63,9 @@ struct SeasonDetailView: View {
               .padding(.top, 20)
           }
 
-          // Divider
+          // Divider before reviews
           if hasReviews {
-            Rectangle()
-              .fill(Color.appBorderAdaptive.opacity(0.5))
-              .frame(height: 1)
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
+            sectionDivider
           }
 
           // Reviews Section
@@ -124,41 +83,19 @@ struct SeasonDetailView: View {
             }
           )
 
+          // Episodes Section
+          if let details = seasonDetails, !details.episodes.isEmpty {
+            sectionDivider
+            EpisodesSectionView(episodes: details.episodes)
+          }
+
           Spacer()
             .frame(height: 80)
         }
       }
 
-      // Header overlay
-      VStack {
-        HStack {
-          Button {
-            dismiss()
-          } label: {
-            Image(systemName: "chevron.left")
-              .font(.system(size: 18, weight: .semibold))
-              .foregroundColor(.appForegroundAdaptive)
-              .frame(width: 40, height: 40)
-          }
-
-          Spacer()
-
-          Text(seriesName)
-            .font(.headline)
-            .foregroundColor(.appForegroundAdaptive)
-            .lineLimit(1)
-
-          Spacer()
-
-          Color.clear
-            .frame(width: 40, height: 40)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .background(Color.appBackgroundAdaptive)
-
-        Spacer()
-      }
+      // Navigation Header
+      navigationHeader
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
@@ -189,6 +126,57 @@ struct SeasonDetailView: View {
     }
   }
 
+  // MARK: - Section Divider
+  private var sectionDivider: some View {
+    Rectangle()
+      .fill(Color.appBorderAdaptive.opacity(0.5))
+      .frame(height: 1)
+      .padding(.horizontal, 24)
+      .padding(.vertical, 24)
+  }
+
+  // MARK: - Navigation Header
+  private var navigationHeader: some View {
+    VStack {
+      HStack {
+        Button {
+          dismiss()
+        } label: {
+          Image(systemName: "chevron.left")
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundColor(.appForegroundAdaptive)
+            .frame(width: 40, height: 40)
+        }
+
+        Spacer()
+
+        Text(seriesName)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+          .lineLimit(1)
+
+        Spacer()
+
+        Color.clear
+          .frame(width: 40, height: 40)
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .background(Color.appBackgroundAdaptive)
+      .overlay(
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+          .frame(height: 1)
+          .opacity(isScrolled ? 1 : 0),
+        alignment: .bottom
+      )
+      .animation(.easeInOut(duration: 0.2), value: isScrolled)
+
+      Spacer()
+    }
+  }
+
+  // MARK: - Load Season Details
   private func loadSeasonDetails() async {
     isLoading = true
     defer { isLoading = false }
@@ -204,6 +192,7 @@ struct SeasonDetailView: View {
     }
   }
 
+  // MARK: - Load User Review
   private func loadUserReview() async {
     isLoadingUserReview = true
     defer { isLoadingUserReview = false }
@@ -220,134 +209,73 @@ struct SeasonDetailView: View {
   }
 }
 
-// MARK: - Season Review Section View
-struct SeasonReviewSectionView: View {
-  let seriesId: Int
-  let seasonNumber: Int
-  let refreshId: UUID
-  var onEmptyStateTapped: (() -> Void)?
-  var onContentLoaded: ((Bool) -> Void)?
+// MARK: - Season Header View
+struct SeasonHeaderView: View {
+  let season: Season
+  @Binding var scrollOffset: CGFloat
+  @Binding var initialScrollOffset: CGFloat?
 
-  @State private var reviews: [ReviewListItem] = []
-  @State private var isLoading = true
-  @State private var hasLoaded = false
-
-  private var averageRating: Double {
-    guard !reviews.isEmpty else { return 0 }
-    let total = reviews.reduce(0) { $0 + $1.rating }
-    return total / Double(reviews.count)
-  }
-
-  private var reviewsWithText: [ReviewListItem] {
-    reviews.filter { !$0.review.isEmpty }
+  private var formattedAirDate: String? {
+    guard let airDate = season.airDate else { return nil }
+    let inputFormatter = DateFormatter()
+    inputFormatter.dateFormat = "yyyy-MM-dd"
+    guard let date = inputFormatter.date(from: airDate) else { return nil }
+    
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "d 'de' MMMM 'de' yyyy"
+    outputFormatter.locale = Locale(identifier: Language.current.rawValue)
+    return outputFormatter.string(from: date)
   }
 
   var body: some View {
-    Group {
-      if isLoading {
-        VStack(spacing: 16) {
-          HStack(spacing: 6) {
-            RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 16, height: 16)
-            RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 30, height: 18)
-            Circle()
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 4, height: 4)
-            RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 80, height: 14)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.horizontal, 24)
-        }
-      } else if reviews.isEmpty {
-        EmptyView()
-      } else {
-        VStack(spacing: 16) {
-          // Rating Header
-          HStack(spacing: 6) {
-            Image(systemName: "star.fill")
-              .font(.system(size: 16))
-              .foregroundColor(.appStarYellow)
+    HStack(alignment: .bottom, spacing: 16) {
+      // Poster
+      CachedAsyncImage(url: season.posterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appBorderAdaptive)
+          .overlay(
+            ProgressView()
+              .scaleEffect(0.8)
+          )
+      }
+      .frame(width: 120, height: 180)
+      .clipShape(RoundedRectangle(cornerRadius: 12))
+      .posterBorder(cornerRadius: 12)
+      .posterShadow()
 
-            Text(String(format: "%.1f", averageRating))
-              .font(.system(size: 18, weight: .semibold))
-              .foregroundColor(.appForegroundAdaptive)
-
-            Circle()
-              .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-              .frame(width: 4, height: 4)
-
-            Text(
-              "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
-            )
-            .font(.subheadline)
+      // Info
+      VStack(alignment: .leading, spacing: 4) {
+        if let airDate = formattedAirDate {
+          Text(airDate)
+            .font(.caption)
             .foregroundColor(.appMutedForegroundAdaptive)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.horizontal, 24)
-
-          // Horizontal scrolling reviews
-          if !reviewsWithText.isEmpty {
-            ScrollView(.horizontal, showsIndicators: false) {
-              HStack(alignment: .top, spacing: 0) {
-                ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
-                  HStack(alignment: .top, spacing: 0) {
-                    ReviewCardView(review: review)
-                      .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
-                      .padding(.leading, index == 0 ? 24 : 0)
-                      .padding(.trailing, 24)
-
-                    if index < reviewsWithText.count - 1 {
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive.opacity(0.5))
-                        .frame(width: 1)
-                        .frame(height: 140)
-                        .padding(.trailing, 24)
-                    }
-                  }
-                }
-              }
-            }
-          }
         }
+
+        Text(season.name)
+          .font(.title2.bold())
+          .foregroundColor(.appForegroundAdaptive)
       }
+      .padding(.bottom, 8)
+
+      Spacer()
     }
-    .task {
-      await loadReviews()
-    }
-    .onChange(of: refreshId) { _, _ in
-      Task {
-        await loadReviews(forceReload: true)
+    .padding(.horizontal, 24)
+    .padding(.top, 80)
+    .background(
+      GeometryReader { geo -> Color in
+        DispatchQueue.main.async {
+          let offset = geo.frame(in: .global).minY
+          if initialScrollOffset == nil {
+            initialScrollOffset = offset
+          }
+          scrollOffset = offset
+        }
+        return Color.clear
       }
-    }
-  }
-
-  private func loadReviews(forceReload: Bool = false) async {
-    guard !hasLoaded || forceReload else {
-      isLoading = false
-      onContentLoaded?(!reviews.isEmpty)
-      return
-    }
-
-    isLoading = true
-
-    do {
-      reviews = try await ReviewService.shared.getReviews(
-        tmdbId: seriesId,
-        mediaType: "TV_SHOW",
-        seasonNumber: seasonNumber
-      )
-      isLoading = false
-      hasLoaded = true
-      onContentLoaded?(!reviews.isEmpty)
-    } catch {
-      isLoading = false
-      hasLoaded = true
-      onContentLoaded?(false)
-    }
+    )
   }
 }

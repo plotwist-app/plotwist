@@ -158,6 +158,7 @@ enum L10n {
       seeCollection: "See Collection",
       // Seasons
       tabSeasons: "Seasons",
+      episodes: "Episodes",
       episodesCount: "%d episodes",
       grid: "Grid",
       overview: "Overview",
@@ -306,6 +307,7 @@ enum L10n {
       seeCollection: "Ver Coleção",
       // Seasons
       tabSeasons: "Temporadas",
+      episodes: "Episódios",
       episodesCount: "%d episódios",
       grid: "Grade",
       overview: "Visão Geral",
@@ -454,6 +456,7 @@ enum L10n {
       seeCollection: "Ver Colección",
       // Seasons
       tabSeasons: "Temporadas",
+      episodes: "Episodios",
       episodesCount: "%d episodios",
       grid: "Cuadrícula",
       overview: "Resumen",
@@ -602,6 +605,7 @@ enum L10n {
       seeCollection: "Voir la Collection",
       // Seasons
       tabSeasons: "Saisons",
+      episodes: "Épisodes",
       episodesCount: "%d épisodes",
       grid: "Grille",
       overview: "Aperçu",
@@ -750,6 +754,7 @@ enum L10n {
       seeCollection: "Sammlung ansehen",
       // Seasons
       tabSeasons: "Staffeln",
+      episodes: "Episoden",
       episodesCount: "%d Episoden",
       grid: "Raster",
       overview: "Übersicht",
@@ -898,6 +903,7 @@ enum L10n {
       seeCollection: "Vedi Collezione",
       // Seasons
       tabSeasons: "Stagioni",
+      episodes: "Episodi",
       episodesCount: "%d episodi",
       grid: "Griglia",
       overview: "Panoramica",
@@ -1045,6 +1051,7 @@ enum L10n {
       seeCollection: "コレクションを見る",
       // Seasons
       tabSeasons: "シーズン",
+      episodes: "エピソード",
       episodesCount: "%d 話",
       grid: "グリッド",
       overview: "概要",
@@ -1213,6 +1220,7 @@ struct Strings {
   let seeCollection: String
   // Seasons
   let tabSeasons: String
+  let episodes: String
   let episodesCount: String
   let grid: String
   let overview: String
