@@ -135,7 +135,7 @@ struct ActionButton: View {
 
     HStack {
       ActionButton("Review", icon: "star") {}
-      ActionButton("Reviewed", icon: "star.fill", iconColor: .yellow) {}
+      ActionButton("Reviewed", icon: "star.fill", iconColor: .appStarYellow) {}
       Spacer()
     }
   }

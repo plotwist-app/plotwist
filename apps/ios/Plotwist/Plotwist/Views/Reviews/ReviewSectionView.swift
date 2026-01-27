@@ -117,7 +117,7 @@ struct ReviewSectionView: View {
             HStack(spacing: 6) {
               Image(systemName: "star.fill")
                 .font(.system(size: 16))
-                .foregroundColor(.yellow)
+                .foregroundColor(.appStarYellow)
 
               Text(String(format: "%.1f", averageRating))
                 .font(.system(size: 18, weight: .semibold))
@@ -275,7 +275,7 @@ struct ReviewSectionView: View {
 
   private func starColor(for index: Int) -> Color {
     if Double(index) <= averageRating || Double(index) - 0.5 <= averageRating {
-      return .yellow
+      return .appStarYellow
     } else {
       return .gray.opacity(0.3)
     }
@@ -405,7 +405,7 @@ struct ReviewCardView: View {
   private func ratingColor(for index: Int) -> Color {
     let rating = review.rating
     if Double(index) <= rating || Double(index) - 0.5 <= rating {
-      return .yellow
+      return .appStarYellow
     } else {
       return .appMutedForegroundAdaptive.opacity(0.3)
     }
