@@ -43,7 +43,7 @@ struct MediaDetailView: View {
       Color.appBackgroundAdaptive.ignoresSafeArea()
 
       if isLoading {
-        ProgressView()
+        MediaDetailSkeletonView(cornerRadius: cornerRadius)
       } else if let details {
         GeometryReader { geometry in
           let backdropHeight = geometry.size.height * 0.45
@@ -470,5 +470,124 @@ struct RoundedCorner: Shape {
       cornerRadii: CGSize(width: radius, height: radius)
     )
     return Path(path.cgPath)
+  }
+}
+
+// MARK: - Media Detail Skeleton View
+struct MediaDetailSkeletonView: View {
+  let cornerRadius: CGFloat
+  
+  var body: some View {
+    GeometryReader { geometry in
+      let backdropHeight = geometry.size.height * 0.45
+      
+      ZStack(alignment: .topLeading) {
+        ScrollView(showsIndicators: false) {
+          VStack(alignment: .leading, spacing: 0) {
+            // Backdrop Skeleton
+            Rectangle()
+              .fill(Color.appBorderAdaptive.opacity(0.5))
+              .frame(height: backdropHeight + cornerRadius)
+            
+            // Content Card Skeleton
+            ZStack(alignment: .topLeading) {
+              VStack(alignment: .leading, spacing: 0) {
+                // Spacer for poster overlap area
+                Spacer()
+                  .frame(height: 110)
+                
+                // Content Section Skeleton
+                VStack(alignment: .leading, spacing: 20) {
+                  // Action Buttons Skeleton
+                  HStack(spacing: 12) {
+                    RoundedRectangle(cornerRadius: 12)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 48)
+                    
+                    RoundedRectangle(cornerRadius: 12)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 48)
+                  }
+                  
+                  // Overview Skeleton
+                  VStack(alignment: .leading, spacing: 8) {
+                    RoundedRectangle(cornerRadius: 4)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 14)
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(height: 14)
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(width: 200, height: 14)
+                  }
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+                
+                // Genres Skeleton
+                ScrollView(.horizontal, showsIndicators: false) {
+                  HStack(spacing: 8) {
+                    ForEach(0..<4, id: \.self) { _ in
+                      RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.appBorderAdaptive.opacity(0.5))
+                        .frame(width: 70, height: 28)
+                    }
+                  }
+                  .padding(.horizontal, 24)
+                }
+                .padding(.top, 16)
+                
+                Spacer()
+                  .frame(height: 80)
+              }
+              .background(Color.appBackgroundAdaptive)
+              .clipShape(
+                RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+              )
+              
+              // Poster and Info Skeleton
+              HStack(alignment: .bottom, spacing: 16) {
+                // Poster Skeleton
+                RoundedRectangle(cornerRadius: 12)
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(width: 120, height: 180)
+                
+                // Info Skeleton
+                VStack(alignment: .leading, spacing: 8) {
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(width: 80, height: 12)
+                  
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(width: 150, height: 18)
+                }
+                .padding(.bottom, 8)
+                
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              .offset(y: -70)
+            }
+            .offset(y: -cornerRadius)
+          }
+        }
+        .ignoresSafeArea(edges: .top)
+        
+        // Back Button Skeleton
+        VStack {
+          Circle()
+            .fill(Color.appBorderAdaptive.opacity(0.3))
+            .frame(width: 40, height: 40)
+            .padding(.leading, 24)
+          Spacer()
+        }
+        .padding(.top, 8)
+        .safeAreaPadding(.top)
+      }
+    }
   }
 }
