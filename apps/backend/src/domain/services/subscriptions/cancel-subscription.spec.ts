@@ -1,26 +1,34 @@
+import { randomUUID } from 'node:crypto'
 import { faker } from '@faker-js/faker'
-import { describe, expect, it, type Mock } from 'vitest'
-import { stripe } from '@/adapters/stripe'
+import { describe, expect, it } from 'vitest'
 import { getSubscriptionById } from '@/db/repositories/subscription-repository'
 import { getUserById } from '@/db/repositories/user-repository'
+import type { SubscriptionProvider } from '@/ports/subscription-provider'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { cancelSubscription } from './cancel-subscription'
 
-vi.mock('@/adapters/stripe', () => ({
-  stripe: {
-    subscriptions: {
-      cancel: vi.fn(),
-    },
-  },
-}))
+function uniqueProviderSubId() {
+  return `sub_${randomUUID().replace(/-/g, '')}`
+}
+
+function mockSubscriptionProvider(): SubscriptionProvider {
+  return {
+    getCurrentPeriodEnd: vi.fn(),
+    scheduleCancelAtPeriodEnd: vi.fn(),
+    cancelImmediately: vi.fn().mockResolvedValue(undefined),
+  }
+}
 
 describe('Cancel subscription', () => {
   it('should cancel the subscription', async () => {
+    const providerSubId = uniqueProviderSubId()
     const user = await makeUser()
+    const provider = mockSubscriptionProvider()
 
     const subscription = await makeSubscription({
       userId: user.id,
+      providerSubscriptionId: providerSubId,
     })
 
     expect(subscription).toMatchObject({
@@ -30,17 +38,11 @@ describe('Cancel subscription', () => {
       canceledAt: null,
     })
 
-    const mockStripeResponse = {
-      id: subscription.id,
-      status: 'canceled',
-    }
-    ;(stripe.subscriptions.cancel as Mock).mockResolvedValue(mockStripeResponse)
-
     const reason = faker.lorem.sentence(5)
 
-    await cancelSubscription(subscription, reason)
+    await cancelSubscription(subscription, reason, provider)
 
-    expect(stripe.subscriptions.cancel).toHaveBeenCalledWith(subscription.id)
+    expect(provider.cancelImmediately).toHaveBeenCalledWith(providerSubId)
 
     const updatedSubscription = await getSubscriptionById(subscription.id)
 
@@ -53,23 +55,20 @@ describe('Cancel subscription', () => {
   })
 
   it('should update user subscription status after cancel', async () => {
+    const providerSubId = uniqueProviderSubId()
     const user = await makeUser()
+    const provider = mockSubscriptionProvider()
 
     const subscription = await makeSubscription({
       userId: user.id,
+      providerSubscriptionId: providerSubId,
     })
-
-    const mockStripeResponse = {
-      id: subscription.id,
-      status: 'canceled',
-    }
-    ;(stripe.subscriptions.cancel as Mock).mockResolvedValue(mockStripeResponse)
 
     const reason = faker.lorem.sentence(5)
 
-    await cancelSubscription(subscription, reason)
+    await cancelSubscription(subscription, reason, provider)
 
-    expect(stripe.subscriptions.cancel).toHaveBeenCalledWith(subscription.id)
+    expect(provider.cancelImmediately).toHaveBeenCalledWith(providerSubId)
 
     await getSubscriptionById(subscription.id)
 
@@ -78,5 +77,23 @@ describe('Cancel subscription', () => {
     expect(updatedUser).toMatchObject({
       subscriptionType: 'MEMBER',
     })
+  })
+
+  it('should throw when subscription has no provider subscription id', async () => {
+    const user = await makeUser()
+    const provider = mockSubscriptionProvider()
+
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: null,
+    })
+
+    await expect(
+      cancelSubscription(subscription, 'reason', provider)
+    ).rejects.toThrow(
+      'Cannot cancel: subscription has no provider subscription id'
+    )
+
+    expect(provider.cancelImmediately).not.toHaveBeenCalled()
   })
 })

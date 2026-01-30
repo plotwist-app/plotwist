@@ -1,21 +1,22 @@
-import { stripe } from '@/adapters/stripe'
 import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
 import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
+import type { SubscriptionProvider } from '@/ports/subscription-provider'
 
 export async function cancelSubscription(
   { id, userId, providerSubscriptionId }: Subscription,
-  reason: string | undefined
+  reason: string | undefined,
+  provider: SubscriptionProvider
 ) {
-  const providerSubscriptionIdToCancel = providerSubscriptionId ?? id
-  try {
-    const subscription = await stripe.subscriptions.cancel(
-      providerSubscriptionIdToCancel
+  if (!providerSubscriptionId) {
+    throw new DomainError(
+      'Cannot cancel: subscription has no provider subscription id',
+      400
     )
+  }
 
-    if (!subscription || subscription.status !== 'canceled') {
-      throw new DomainError('Failed to cancel subscription', 500)
-    }
+  try {
+    await provider.cancelImmediately(providerSubscriptionId)
 
     await cancelUserSubscription({
       id,
@@ -25,17 +26,12 @@ export async function cancelSubscription(
       cancellationReason: reason,
     })
 
-    return {
-      id,
-    }
+    return { id }
   } catch (error) {
-    if (error instanceof Error) {
-      throw new DomainError(
-        `Failed to cancel subscription, ${error.message}`,
-        500
-      )
-    }
-
-    throw new DomainError('Failed to cancel subscription', 500)
+    if (error instanceof DomainError) throw error
+    throw new DomainError(
+      `Failed to cancel subscription, ${error instanceof Error ? error.message : String(error)}`,
+      500
+    )
   }
 }
