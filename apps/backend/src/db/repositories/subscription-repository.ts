@@ -16,27 +16,29 @@ export async function getActiveSubscriptionByUserId(userId: string) {
   })
 }
 
-export async function getSubscriptionById(
-  id: string,
-  providerSubscriptionId: string
-) {
+export async function getSubscriptionById(id: string) {
   return db.query.subscriptions.findFirst({
-    where: and(
-      eq(schema.subscriptions.id, id),
-      eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId)
-    ),
+    where: eq(schema.subscriptions.id, id),
   })
 }
 
-export type UpdateSubscriptionStatusByIdParams = {
+export async function getSubscriptionByProviderSubscriptionId(
+  providerSubscriptionId: string
+) {
+  return db.query.subscriptions.findFirst({
+    where: eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId),
+  })
+}
+
+export type UpdateSubscriptionStatusByProviderSubscriptionIdParams = {
   status: 'ACTIVE' | 'CANCELED' | 'PENDING_CANCELLATION'
   canceledAt: Date | null
   cancellationReason: string | null
 }
 
-export async function updateSubscriptionStatusById(
-  subscriptionId: string,
-  params: UpdateSubscriptionStatusByIdParams
+export async function updateSubscriptionStatusByProviderSubscriptionId(
+  providerSubscriptionId: string,
+  params: UpdateSubscriptionStatusByProviderSubscriptionIdParams
 ) {
   const [subscription] = await db
     .update(schema.subscriptions)
@@ -45,12 +47,7 @@ export async function updateSubscriptionStatusById(
       canceledAt: params.canceledAt,
       cancellationReason: params.cancellationReason,
     })
-    .where(
-      and(
-        eq(schema.subscriptions.id, subscriptionId),
-        eq(schema.subscriptions.providerSubscriptionId, subscriptionId)
-      )
-    )
+    .where(eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId))
     .returning()
 
   return subscription
@@ -81,17 +78,6 @@ export async function cancelUserSubscription(params: CancelSubscriptionParams) {
     .returning()
 
   return subscription
-}
-
-export async function updateSubscription(
-  userId: string,
-  type: 'PRO' | 'MEMBER'
-) {
-  return db
-    .update(schema.subscriptions)
-    .set({ type })
-    .where(eq(schema.subscriptions.userId, userId))
-    .returning()
 }
 
 export async function getLastestActiveSubscription(userId: string) {

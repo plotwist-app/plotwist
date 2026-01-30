@@ -1,7 +1,7 @@
 import type Stripe from 'stripe'
 import {
-  getSubscriptionByStripeSubscriptionId,
-  updateSubscriptionStatusByStripeId,
+  getSubscriptionByProviderSubscriptionId,
+  updateSubscriptionStatusByProviderSubscriptionId,
 } from '@/db/repositories/subscription-repository'
 
 /**
@@ -11,10 +11,10 @@ import {
 export async function handleSubscriptionDeleted(
   stripeSubscription: Stripe.Subscription
 ) {
-  const row = await getSubscriptionByStripeSubscriptionId(stripeSubscription.id)
+  const row = await getSubscriptionByProviderSubscriptionId(stripeSubscription.id)
   if (!row) return
 
-  await updateSubscriptionStatusByStripeId(stripeSubscription.id, {
+  await updateSubscriptionStatusByProviderSubscriptionId(stripeSubscription.id, {
     status: 'CANCELED',
     canceledAt: stripeSubscription.canceled_at
       ? new Date(stripeSubscription.canceled_at * 1000)
@@ -31,17 +31,17 @@ export async function handleSubscriptionDeleted(
 export async function handleSubscriptionUpdated(
   stripeSubscription: Stripe.Subscription
 ) {
-  const row = await getSubscriptionByStripeSubscriptionId(stripeSubscription.id)
+  const row = await getSubscriptionByProviderSubscriptionId(stripeSubscription.id)
   if (!row) return
 
   if (stripeSubscription.cancel_at_period_end && stripeSubscription.cancel_at) {
-    await updateSubscriptionStatusByStripeId(stripeSubscription.id, {
+    await updateSubscriptionStatusByProviderSubscriptionId(stripeSubscription.id, {
       status: 'PENDING_CANCELLATION',
       canceledAt: new Date(stripeSubscription.cancel_at * 1000),
       cancellationReason: null,
     })
   } else {
-    await updateSubscriptionStatusByStripeId(stripeSubscription.id, {
+    await updateSubscriptionStatusByProviderSubscriptionId(stripeSubscription.id, {
       status: 'ACTIVE',
       canceledAt: null,
       cancellationReason: null,

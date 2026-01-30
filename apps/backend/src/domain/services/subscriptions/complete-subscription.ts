@@ -1,15 +1,17 @@
-import type Stripe from 'stripe'
 import { DomainError } from '@/domain/errors/domain-error'
 import { createSubscription } from '../subscriptions/create-subscription'
 import { getUserByEmailService } from '../users/get-user-by-email'
 import { getLastestActiveSubscription } from './get-subscription'
 
-export async function completeSubscription(session: Stripe.Checkout.Session) {
-  const email =
-    typeof session.customer_email === 'string' ? session.customer_email : null
-  if (!email) return
+export type CompleteSubscriptionParams = {
+  email: string
+  provider: 'STRIPE' | 'APPLE'
+  providerSubscriptionId: string | null
+  type: 'PRO' | 'MEMBER'
+}
 
-  const result = await getUserByEmailService(email)
+export async function completeSubscription(params: CompleteSubscriptionParams) {
+  const result = await getUserByEmailService(params.email)
   if (result instanceof DomainError) {
     return result
   }
@@ -19,15 +21,11 @@ export async function completeSubscription(session: Stripe.Checkout.Session) {
     return { subscription: existing }
   }
 
-  const stripeSubscriptionId =
-    typeof session.subscription === 'string'
-      ? session.subscription
-      : session.subscription?.id ?? null
-
   const createSubscriptionResult = await createSubscription({
-    type: 'PRO',
+    type: params.type,
     userId: result.user.id,
-    stripeSubscriptionId,
+    provider: params.provider,
+    providerSubscriptionId: params.providerSubscriptionId,
   })
 
   if (createSubscriptionResult instanceof DomainError) {

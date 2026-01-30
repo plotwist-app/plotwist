@@ -32,7 +32,15 @@ export async function stripeWebhookController(
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      await completeSubscription(session)
+      const params = parseCheckoutSessionCompleted(session)
+      if (params) {
+        await completeSubscription({
+          email: params.email,
+          provider: 'STRIPE',
+          providerSubscriptionId: params.providerSubscriptionId,
+          type: 'PRO',
+        })
+      }
       break
     }
     case 'customer.subscription.deleted': {
@@ -50,4 +58,19 @@ export async function stripeWebhookController(
   }
 
   return reply.status(200).send({ received: true })
+}
+
+function parseCheckoutSessionCompleted(
+  object: Stripe.Checkout.Session
+): { email: string; providerSubscriptionId: string | null } | null {
+  const email =
+    typeof object.customer_email === 'string' ? object.customer_email : null
+  if (!email) return null
+
+  const providerSubscriptionId =
+    typeof object.subscription === 'string'
+      ? object.subscription
+      : (object.subscription?.id ?? null)
+
+  return { email, providerSubscriptionId }
 }
