@@ -22,6 +22,35 @@ export async function getSubscriptionById(id: string) {
   })
 }
 
+export async function getSubscriptionById(subscriptionId: string) {
+  return db.query.subscriptions.findFirst({
+    where: eq(schema.subscriptions.subscriptionId, subscriptionId),
+  })
+}
+
+export type UpdateSubscriptionStatusByIdParams = {
+  status: 'ACTIVE' | 'CANCELED' | 'PENDING_CANCELLATION'
+  canceledAt: Date | null
+  cancellationReason: string | null
+}
+
+export async function updateSubscriptionStatusById(
+  subscriptionId: string,
+  params: UpdateSubscriptionStatusByIdParams
+) {
+  const [subscription] = await db
+    .update(schema.subscriptions)
+    .set({
+      status: params.status,
+      canceledAt: params.canceledAt,
+      cancellationReason: params.cancellationReason,
+    })
+    .where(eq(schema.subscriptions.subscriptionId, subscriptionId))
+    .returning()
+
+  return subscription
+}
+
 export type CancelSubscriptionParams = {
   id: string
   userId: string

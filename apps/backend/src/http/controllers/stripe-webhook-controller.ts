@@ -3,6 +3,10 @@ import type Stripe from 'stripe'
 import { stripe } from '@/adapters/stripe'
 import { config } from '@/config'
 import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
+import {
+  handleSubscriptionDeleted,
+  handleSubscriptionUpdated,
+} from '@/domain/services/subscriptions/handle-subscription-webhook'
 
 export async function stripeWebhookController(
   request: FastifyRequest,
@@ -26,10 +30,21 @@ export async function stripeWebhookController(
   }
 
   switch (event.type) {
-    case 'checkout.session.completed':
-      await completeSubscription(event.data.object.customer_email)
+    case 'checkout.session.completed': {
+      const session = event.data.object as Stripe.Checkout.Session
+      await completeSubscription(session)
       break
-
+    }
+    case 'customer.subscription.deleted': {
+      const subscription = event.data.object as Stripe.Subscription
+      await handleSubscriptionDeleted(subscription)
+      break
+    }
+    case 'customer.subscription.updated': {
+      const subscription = event.data.object as Stripe.Subscription
+      await handleSubscriptionUpdated(subscription)
+      break
+    }
     default:
       console.error(`Unhandled event type ${event.type}`)
   }

@@ -4,11 +4,14 @@ import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
 
 export async function cancelSubscription(
-  { id, userId }: Subscription,
+  { id, userId, subscriptionId }: Subscription,
   reason: string | undefined
 ) {
+  const subscriptionIdToCancel = subscriptionId ?? id
   try {
-    const subscription = await stripe.subscriptions.cancel(id)
+    const subscription = await stripe.subscriptions.cancel(
+      subscriptionIdToCancel
+    )
 
     if (!subscription || subscription.status !== 'canceled') {
       throw new DomainError('Failed to cancel subscription', 500)

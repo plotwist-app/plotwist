@@ -379,6 +379,13 @@
       "when": 1743464364062,
       "tag": "20250331233924_alter_subscription_table",
       "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1769741240595,
+      "tag": "20260130024720_alter_subscriptions_table",
+      "breakpoints": true
     }
   ]
 }

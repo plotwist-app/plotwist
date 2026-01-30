@@ -4,15 +4,17 @@ import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
 
 export async function scheduleCancellation(
-  { id: subscriptionId, userId }: Subscription,
+  { id: subscriptionId, userId, providerSubscriptionId }: Subscription,
   paymentDay: number,
   reason: string | undefined
 ) {
+  const providerSubscriptionIdToUpdate =
+    providerSubscriptionId ?? subscriptionId
   try {
     const expirationDate = await calculateSubscriptionExpiration(paymentDay)
 
-    const subscription = await updateSubscription(
-      subscriptionId,
+    const subscription = await updateStripeSubscription(
+      providerSubscriptionIdToUpdate,
       expirationDate.getTime(),
       true
     )
@@ -38,15 +40,18 @@ export async function scheduleCancellation(
   }
 }
 
-async function updateSubscription(
-  subscriptionId: string,
+async function updateStripeSubscription(
+  providerSubscriptionId: string,
   date: number | null,
   cancelAtPeriodEnd: boolean
 ) {
-  const subscription = await stripe.subscriptions.update(subscriptionId, {
-    cancel_at: date,
-    cancel_at_period_end: cancelAtPeriodEnd,
-  })
+  const subscription = await stripe.subscriptions.update(
+    providerSubscriptionId,
+    {
+      cancel_at: date,
+      cancel_at_period_end: cancelAtPeriodEnd,
+    }
+  )
 
   return subscription
 }
