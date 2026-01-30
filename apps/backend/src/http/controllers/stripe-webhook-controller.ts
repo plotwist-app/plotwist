@@ -1,12 +1,17 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
 import { stripe } from '@/adapters/stripe'
+import { logger } from '@/adapters/logger'
 import { config } from '@/config'
+import { DomainError } from '@/domain/errors/domain-error'
 import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
 import {
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
 } from '@/domain/services/subscriptions/handle-subscription-webhook'
+
+const webhookSecret =
+  config.services.STRIPE_WEBHOOK_SECRET || config.services.STRIPE_SECRET_KEY
 
 export async function stripeWebhookController(
   request: FastifyRequest,
@@ -23,7 +28,7 @@ export async function stripeWebhookController(
     event = stripe.webhooks.constructEvent(
       request.body as string,
       stripeSignature,
-      config.services.STRIPE_SECRET_KEY
+      webhookSecret
     )
   } catch (error) {
     return reply.status(400).send(`Webhook Error: ${error}`)
@@ -35,12 +40,18 @@ export async function stripeWebhookController(
       if (session.mode !== 'subscription') break
       const params = parseCheckoutSessionCompleted(session)
       if (params) {
-        await completeSubscription({
+        const result = await completeSubscription({
           email: params.email,
           provider: 'STRIPE',
           providerSubscriptionId: params.providerSubscriptionId,
           type: 'PRO',
         })
+        if (result instanceof DomainError) {
+          logger.warn(
+            { eventId: event.id, error: result.message },
+            'checkout.session.completed: completeSubscription returned error'
+          )
+        }
       }
       break
     }
@@ -55,7 +66,7 @@ export async function stripeWebhookController(
       break
     }
     default:
-      console.error(`Unhandled event type ${event.type}`)
+      logger.info({ eventType: event.type }, 'Unhandled Stripe webhook event')
   }
 
   return reply.status(200).send({ received: true })

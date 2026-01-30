@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 import { getSubscriptionById } from '@/db/repositories/subscription-repository'
 import { getUserById } from '@/db/repositories/user-repository'
+import { SubscriptionAlreadyCanceledError } from '@/domain/errors/subscription-already-canceled-error'
 import type { SubscriptionProvider } from '@/ports/subscription-provider'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
@@ -95,5 +96,25 @@ describe('Cancel subscription', () => {
     )
 
     expect(provider.cancelImmediately).not.toHaveBeenCalled()
+  })
+
+  it('should still update DB when provider says subscription already canceled (idempotent)', async () => {
+    const providerSubId = uniqueProviderSubId()
+    const user = await makeUser()
+    const provider = mockSubscriptionProvider()
+    vi.mocked(provider.cancelImmediately).mockRejectedValueOnce(
+      new SubscriptionAlreadyCanceledError()
+    )
+
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: providerSubId,
+    })
+
+    const result = await cancelSubscription(subscription, 'reason', provider)
+
+    expect(result).toEqual({ id: subscription.id })
+    const updated = await getSubscriptionById(subscription.id)
+    expect(updated?.status).toBe('CANCELED')
   })
 })
