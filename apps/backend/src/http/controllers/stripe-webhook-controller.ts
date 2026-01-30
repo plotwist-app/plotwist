@@ -32,6 +32,7 @@ export async function stripeWebhookController(
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
+      if (session.mode !== 'subscription') break
       const params = parseCheckoutSessionCompleted(session)
       if (params) {
         await completeSubscription({
