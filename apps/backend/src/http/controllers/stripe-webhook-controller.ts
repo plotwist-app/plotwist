@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
-import { stripe } from '@/adapters/stripe'
 import { logger } from '@/adapters/logger'
+import { stripe } from '@/adapters/stripe'
 import { config } from '@/config'
 import { DomainError } from '@/domain/errors/domain-error'
 import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'

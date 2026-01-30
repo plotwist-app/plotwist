@@ -26,7 +26,10 @@ export async function getSubscriptionByProviderSubscriptionId(
   providerSubscriptionId: string
 ) {
   return db.query.subscriptions.findFirst({
-    where: eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId),
+    where: eq(
+      schema.subscriptions.providerSubscriptionId,
+      providerSubscriptionId
+    ),
   })
 }
 
@@ -47,7 +50,9 @@ export async function updateSubscriptionStatusByProviderSubscriptionId(
       canceledAt: params.canceledAt,
       cancellationReason: params.cancellationReason,
     })
-    .where(eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId))
+    .where(
+      eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId)
+    )
     .returning()
 
   return subscription

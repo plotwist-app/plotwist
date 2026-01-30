@@ -16,7 +16,9 @@ export async function scheduleCancellation(
   }
 
   try {
-    const canceledAt = await provider.getCurrentPeriodEnd(providerSubscriptionId)
+    const canceledAt = await provider.getCurrentPeriodEnd(
+      providerSubscriptionId
+    )
     await provider.scheduleCancelAtPeriodEnd(providerSubscriptionId, canceledAt)
 
     const scheduledCancellation = await cancelUserSubscription({
