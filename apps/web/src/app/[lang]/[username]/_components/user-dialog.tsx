@@ -28,6 +28,7 @@ import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { SocialLinksForm } from './social-links-form'
+import { SubscriptionForm } from './subscription-form'
 import { UserForm } from './user-form'
 import { UserPreferences } from './user-preferences'
 
@@ -40,7 +41,9 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
   const [tab, setTab] = useQueryState('tab')
 
   const [open, setOpen] = useState(
-    tab ? ['account', 'social-links', 'preferences'].includes(tab) : false
+    tab
+      ? ['account', 'social-links', 'preferences', 'subscription'].includes(tab)
+      : false
   )
 
   const { dictionary } = useLanguage()
@@ -65,7 +68,7 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
           <TabsTrigger value="preferences">
             {dictionary.preferences}
           </TabsTrigger>
-          <TabsTrigger value="subscription" disabled>
+          <TabsTrigger value="subscription">
             {dictionary.subscription}
           </TabsTrigger>
         </TabsList>
@@ -81,6 +84,10 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
 
       <TabsContent value="preferences">
         <UserPreferences />
+      </TabsContent>
+
+      <TabsContent value="subscription">
+        <SubscriptionForm user={user} />
       </TabsContent>
     </Tabs>
   )

@@ -8,7 +8,8 @@
     "start": "next start",
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:api": "orval"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
