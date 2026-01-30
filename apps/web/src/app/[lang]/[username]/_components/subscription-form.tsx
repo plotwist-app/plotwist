@@ -32,17 +32,11 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
     mutationFn: (when: 'now' | 'at_end_of_current_period') =>
       deleteSubscription({ when }),
     onSuccess: () => {
-      toast.success(
-        (dictionary as Record<string, string>).cancel_subscription_success ??
-          'Subscription cancelled'
-      )
+      toast.success(dictionary.cancel_subscription_success)
       router.refresh()
     },
     onError: () => {
-      toast.error(
-        (dictionary as Record<string, string>).cancel_subscription_error ??
-          'Failed to cancel subscription'
-      )
+      toast.error(dictionary.cancel_subscription_error)
     },
   })
 
@@ -51,47 +45,40 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
   if (!isPro) {
     return (
       <div className="space-y-2">
-        <p className="text-sm text-muted-foreground">
-          {(dictionary as Record<string, string>).subscription_plan ?? 'Plan'}:{' '}
+        <div className="text-sm text-muted-foreground">
+          {dictionary.subscription_plan}:{' '}
           <Badge variant="secondary">
-            {(dictionary as Record<string, string>).free_plan ?? 'Free'}
+            {dictionary.home_prices.free_plan.title}
           </Badge>
-        </p>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        {(dictionary as Record<string, string>).subscription_plan ?? 'Plan'}:{' '}
-        <Badge>PRO</Badge>
-      </p>
+      <div className="text-sm text-muted-foreground">
+        {dictionary.subscription_plan}: <Badge>PRO</Badge>
+      </div>
 
       <div className="flex flex-col gap-2">
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="outline" size="sm" className="w-fit">
-              {(dictionary as Record<string, string>).cancel_subscription ??
-                'Cancel subscription'}
+              {dictionary.cancel_subscription}
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                {(dictionary as Record<string, string>)
-                  .cancel_subscription_confirm_title ?? 'Cancel subscription?'}
+                {dictionary.cancel_subscription_confirm_title}
               </AlertDialogTitle>
               <AlertDialogDescription>
-                {(dictionary as Record<string, string>)
-                  .cancel_subscription_confirm_description ??
-                  'Choose when to cancel. You can keep PRO until the end of your billing period.'}
+                {dictionary.cancel_subscription_confirm_description}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>
-                {(dictionary as Record<string, string>).cancel ?? 'Cancel'}
-              </AlertDialogCancel>
+              <AlertDialogCancel>{dictionary.cancel}</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() =>
                   cancelMutation.mutate('at_end_of_current_period')
@@ -99,16 +86,14 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
                 disabled={cancelMutation.isPending}
                 className="bg-muted text-muted-foreground hover:bg-muted/90"
               >
-                {(dictionary as Record<string, string>)
-                  .cancel_at_end_of_period ?? 'At end of period'}
+                {dictionary.cancel_at_end_of_period}
               </AlertDialogAction>
               <AlertDialogAction
                 onClick={() => cancelMutation.mutate('now')}
                 disabled={cancelMutation.isPending}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                {(dictionary as Record<string, string>).cancel_now ??
-                  'Cancel now'}
+                {dictionary.cancel_now}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
