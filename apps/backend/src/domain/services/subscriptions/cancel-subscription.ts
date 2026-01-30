@@ -4,13 +4,13 @@ import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
 
 export async function cancelSubscription(
-  { id, userId, subscriptionId }: Subscription,
+  { id, userId, providerSubscriptionId }: Subscription,
   reason: string | undefined
 ) {
-  const subscriptionIdToCancel = subscriptionId ?? id
+  const providerSubscriptionIdToCancel = providerSubscriptionId ?? id
   try {
     const subscription = await stripe.subscriptions.cancel(
-      subscriptionIdToCancel
+      providerSubscriptionIdToCancel
     )
 
     if (!subscription || subscription.status !== 'canceled') {

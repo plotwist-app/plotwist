@@ -16,15 +16,15 @@ export async function getActiveSubscriptionByUserId(userId: string) {
   })
 }
 
-export async function getSubscriptionById(id: string) {
+export async function getSubscriptionById(
+  id: string,
+  providerSubscriptionId: string
+) {
   return db.query.subscriptions.findFirst({
-    where: eq(schema.subscriptions.id, id),
-  })
-}
-
-export async function getSubscriptionById(subscriptionId: string) {
-  return db.query.subscriptions.findFirst({
-    where: eq(schema.subscriptions.subscriptionId, subscriptionId),
+    where: and(
+      eq(schema.subscriptions.id, id),
+      eq(schema.subscriptions.providerSubscriptionId, providerSubscriptionId)
+    ),
   })
 }
 
@@ -45,7 +45,12 @@ export async function updateSubscriptionStatusById(
       canceledAt: params.canceledAt,
       cancellationReason: params.cancellationReason,
     })
-    .where(eq(schema.subscriptions.subscriptionId, subscriptionId))
+    .where(
+      and(
+        eq(schema.subscriptions.id, subscriptionId),
+        eq(schema.subscriptions.providerSubscriptionId, subscriptionId)
+      )
+    )
     .returning()
 
   return subscription
