@@ -425,6 +425,8 @@ struct MediaDetailView: View {
 
     do {
       let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
+      // Reset index before setting images to avoid flash
+      currentBackdropIndex = 0
       backdropImages = images.sortedBackdrops
       // Note: Prefetching is now handled automatically by CarouselBackdropView
     } catch {

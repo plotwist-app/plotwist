@@ -287,8 +287,18 @@ struct CarouselBackdropView: View {
   let height: CGFloat
   @Binding var currentIndex: Int
 
+  private var safeIndex: Binding<Int> {
+    Binding(
+      get: {
+        let maxIndex = min(images.count, 10) - 1
+        return min(max(0, currentIndex), max(0, maxIndex))
+      },
+      set: { currentIndex = $0 }
+    )
+  }
+
   var body: some View {
-    TabView(selection: $currentIndex) {
+    TabView(selection: safeIndex) {
       ForEach(Array(images.prefix(10).enumerated()), id: \.offset) { index, backdrop in
         BackdropImage(url: backdrop.backdropURL, height: height)
           .tag(index)
@@ -299,6 +309,10 @@ struct CarouselBackdropView: View {
     .frame(maxWidth: .infinity)
     .clipped()
     .onAppear {
+      // Ensure index is valid on appear
+      if currentIndex != 0 {
+        currentIndex = 0
+      }
       prefetchImages()
     }
     .onChange(of: currentIndex) { _, newIndex in
