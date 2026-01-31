@@ -288,6 +288,42 @@ class ReviewService {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return try decoder.decode([ReviewListItem].self, from: data)
   }
+  
+  // MARK: - Get User Detailed Reviews (for profile)
+  func getUserDetailedReviews(
+    userId: String,
+    language: String = Language.current.rawValue,
+    orderBy: String = "createdAt",
+    limit: Int = 100
+  ) async throws -> [DetailedReview] {
+    let urlString = "\(API.baseURL)/detailed/reviews?userId=\(userId)&language=\(language)&orderBy=\(orderBy)&limit=\(limit)"
+    
+    guard let url = URL(string: urlString) else {
+      throw ReviewError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    
+    // Add token if available (optional auth)
+    if let token = UserDefaults.standard.string(forKey: "token") {
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse else {
+      throw ReviewError.invalidResponse
+    }
+    
+    guard http.statusCode == 200 else {
+      throw ReviewError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(DetailedReviewsResponse.self, from: data)
+    return result.reviews
+  }
 }
 
 // MARK: - Models
@@ -382,6 +418,66 @@ struct ReviewData: Codable {
       try container.encode(episodeNumber, forKey: .episodeNumber)
     }
   }
+}
+
+// MARK: - Detailed Review (for profile reviews list)
+struct DetailedReview: Codable, Identifiable {
+  let id: String
+  let createdAt: String
+  let userId: String
+  let tmdbId: Int
+  let mediaType: String
+  let review: String
+  let rating: Double
+  let hasSpoilers: Bool
+  let language: String?
+  let seasonNumber: Int?
+  let episodeNumber: Int?
+  let user: ReviewUser
+  let likeCount: Int
+  let replyCount: Int
+  let userLike: UserLike?
+  let title: String
+  let posterPath: String?
+  let backdropPath: String?
+  
+  var posterURL: URL? {
+    guard let posterPath = posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+  
+  var formattedDate: String {
+    let inputFormatter = ISO8601DateFormatter()
+    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    
+    guard let date = inputFormatter.date(from: createdAt) else {
+      // Try without fractional seconds
+      inputFormatter.formatOptions = [.withInternetDateTime]
+      guard let date = inputFormatter.date(from: createdAt) else {
+        return createdAt
+      }
+      return formatDate(date)
+    }
+    return formatDate(date)
+  }
+  
+  private func formatDate(_ date: Date) -> String {
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "dd/MM/yyyy"
+    return outputFormatter.string(from: date)
+  }
+  
+  var seasonBadge: String? {
+    guard mediaType == "TV_SHOW", let season = seasonNumber else { return nil }
+    if let episode = episodeNumber {
+      return "(S\(String(format: "%02d", season))E\(String(format: "%02d", episode)))"
+    }
+    return "(S\(String(format: "%02d", season)))"
+  }
+}
+
+struct DetailedReviewsResponse: Codable {
+  let reviews: [DetailedReview]
 }
 
 enum ReviewError: LocalizedError {

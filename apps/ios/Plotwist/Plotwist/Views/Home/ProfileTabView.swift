@@ -272,17 +272,8 @@ struct ProfileTabView: View {
                   }
 
                 case .reviews:
-                  // Reviews tab content - placeholder for now
-                  VStack(spacing: 16) {
-                    Image(systemName: "text.bubble")
-                      .font(.system(size: 48))
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                    Text(strings.beFirstToReview)
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                  }
-                  .frame(maxWidth: .infinity)
-                  .padding(.top, 60)
+                  // Reviews tab content
+                  ProfileReviewsListView(userId: user.id)
                 }
 
                 Spacer()
