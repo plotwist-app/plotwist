@@ -317,6 +317,10 @@ struct MediaDetailView: View {
             await loadUserReview()
           }
           reviewsRefreshId = UUID()
+        },
+        onDeleted: {
+          userReview = nil
+          reviewsRefreshId = UUID()
         }
       )
     }
