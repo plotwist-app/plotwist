@@ -388,6 +388,11 @@ struct ProfileTabView: View {
             .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
             .foregroundColor(.appBorderAdaptive)
             .aspectRatio(2 / 3, contentMode: .fit)
+            .background(
+              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                .fill(Color.clear)
+            )
+            .contentShape(Rectangle())
             .overlay(
               Image(systemName: "plus")
                 .font(.system(size: 24, weight: .medium))
