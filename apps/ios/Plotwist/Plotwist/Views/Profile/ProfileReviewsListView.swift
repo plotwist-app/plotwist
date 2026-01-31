@@ -205,28 +205,6 @@ struct ProfileReviewItem: View {
     posterWidth * 1.5 // 2:3 aspect ratio
   }
   
-  // Pre-compute star data for better performance
-  private var starData: [(icon: String, color: Color)] {
-    (1...5).map { index in
-      let rating = review.rating
-      let isFilled = Double(index) <= rating
-      let isHalf = !isFilled && Double(index) - 0.5 <= rating
-      
-      let icon: String
-      if isFilled {
-        icon = "star.fill"
-      } else if isHalf {
-        icon = "star.leadinghalf.filled"
-      } else {
-        icon = "star"
-      }
-      
-      let color: Color = (isFilled || isHalf) ? .appStarYellow : .appMutedForegroundAdaptive.opacity(0.3)
-      
-      return (icon, color)
-    }
-  }
-  
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
       // Poster
@@ -264,13 +242,7 @@ struct ProfileReviewItem: View {
         
         // Stars + Date
         HStack(spacing: 8) {
-          HStack(spacing: 2) {
-            ForEach(0..<5, id: \.self) { index in
-              Image(systemName: starData[index].icon)
-                .font(.system(size: 14))
-                .foregroundColor(starData[index].color)
-            }
-          }
+          StarRatingView(rating: .constant(review.rating), size: 14, interactive: false)
           
           Circle()
             .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
@@ -302,7 +274,6 @@ struct ProfileReviewItem: View {
             )
         }
       }
-      .drawingGroup() // Rasterize text content for better scroll performance
     }
     .frame(maxWidth: .infinity, alignment: .leading)
   }

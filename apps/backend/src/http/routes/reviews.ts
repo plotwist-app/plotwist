@@ -100,6 +100,7 @@ export async function reviewsRoute(app: FastifyInstance) {
       method: 'GET',
       url: '/detailed/reviews',
       schema: {
+        operationId: 'getDetailedReviews',
         description: 'Get detailed reviews',
         tags: [reviewsTag],
         query: getReviewsQuerySchema,

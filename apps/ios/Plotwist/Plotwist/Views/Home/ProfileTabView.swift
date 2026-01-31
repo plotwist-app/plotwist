@@ -207,93 +207,104 @@ struct ProfileTabView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 8)
 
-                // Tab Content
-                switch selectedMainTab {
-                case .collection:
-                  // Status Tabs inside Collection
-                  ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
-                    .padding(.top, 8)
-                    .onChange(of: selectedStatusTab) { _ in
-                      Task { await loadUserItems() }
-                    }
-
-                  // User Items Grid
-                  if isLoadingItems {
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      ForEach(0..<6, id: \.self) { _ in
-                        RoundedRectangle(cornerRadius: 12)
-                          .fill(Color.appBorderAdaptive)
-                          .aspectRatio(2 / 3, contentMode: .fit)
-                      }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                  } else if userItems.isEmpty {
-                    // Empty state - Add first item
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      Button {
-                        NotificationCenter.default.post(name: .navigateToSearch, object: nil)
-                      } label: {
-                        RoundedRectangle(cornerRadius: 12)
-                          .strokeBorder(
-                            style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-                          )
-                          .foregroundColor(.appBorderAdaptive)
-                          .aspectRatio(2 / 3, contentMode: .fit)
-                          .overlay(
-                            Image(systemName: "plus")
-                              .font(.system(size: 24, weight: .medium))
-                              .foregroundColor(.appMutedForegroundAdaptive)
-                          )
-                      }
-                      .buttonStyle(.plain)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                  } else {
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      ForEach(userItems) { item in
-                        NavigationLink {
-                          MediaDetailView(
-                            mediaId: item.tmdbId,
-                            mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-                          )
-                        } label: {
-                          ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                // Tab Content with slide animation
+                Group {
+                  if selectedMainTab == .collection {
+                    VStack(spacing: 0) {
+                      // Status Tabs inside Collection
+                      ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
+                        .padding(.top, 8)
+                        .onChange(of: selectedStatusTab) { _ in
+                          Task { await loadUserItems() }
                         }
-                        .buttonStyle(.plain)
+
+                      // User Items Grid
+                      if isLoadingItems {
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          ForEach(0..<6, id: \.self) { _ in
+                            RoundedRectangle(cornerRadius: 12)
+                              .fill(Color.appBorderAdaptive)
+                              .aspectRatio(2 / 3, contentMode: .fit)
+                          }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
+                      } else if userItems.isEmpty {
+                        // Empty state - Add first item
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          Button {
+                            NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+                          } label: {
+                            RoundedRectangle(cornerRadius: 12)
+                              .strokeBorder(
+                                style: StrokeStyle(lineWidth: 2, dash: [8, 4])
+                              )
+                              .foregroundColor(.appBorderAdaptive)
+                              .aspectRatio(2 / 3, contentMode: .fit)
+                              .overlay(
+                                Image(systemName: "plus")
+                                  .font(.system(size: 24, weight: .medium))
+                                  .foregroundColor(.appMutedForegroundAdaptive)
+                              )
+                          }
+                          .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
+                      } else {
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          ForEach(userItems) { item in
+                            NavigationLink {
+                              MediaDetailView(
+                                mediaId: item.tmdbId,
+                                mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+                              )
+                            } label: {
+                              ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                            }
+                            .buttonStyle(.plain)
+                          }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
                       }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
+                    .transition(.asymmetric(
+                      insertion: .move(edge: .leading).combined(with: .opacity),
+                      removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
+                  } else {
+                    // Reviews tab content with pagination
+                    ProfileReviewsListView(userId: user.id)
+                      .padding(.bottom, 24)
+                      .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                      ))
                   }
-
-                case .reviews:
-                  // Reviews tab content with pagination
-                  ProfileReviewsListView(userId: user.id)
-                    .padding(.bottom, 24)
                 }
+                .animation(.easeInOut(duration: 0.3), value: selectedMainTab)
               }
               .padding(.bottom, 100)
               .background(
