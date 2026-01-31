@@ -270,23 +270,23 @@ struct ProfileTabView: View {
 
   // MARK: - Tab Content View
   private func tabContentView(userId: String) -> some View {
-    ZStack {
-      if selectedMainTab == .collection {
-        collectionTabContent
-          .transition(.asymmetric(
-            insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
-            removal: .move(edge: slideFromTrailing ? .leading : .trailing)
-          ))
-      } else {
-        ProfileReviewsListView(userId: userId)
-          .padding(.bottom, 24)
-          .transition(.asymmetric(
-            insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
-            removal: .move(edge: slideFromTrailing ? .leading : .trailing)
-          ))
-      }
+    let screenWidth = UIScreen.main.bounds.width
+    
+    return ZStack(alignment: .topLeading) {
+      // Collection tab
+      collectionTabContent
+        .frame(width: screenWidth)
+        .offset(x: selectedMainTab == .collection ? 0 : -screenWidth)
+      
+      // Reviews tab
+      ProfileReviewsListView(userId: userId)
+        .padding(.bottom, 24)
+        .frame(width: screenWidth)
+        .offset(x: selectedMainTab == .reviews ? 0 : screenWidth)
     }
-    .animation(.spring(response: 0.45, dampingFraction: 0.9), value: selectedMainTab)
+    .frame(width: screenWidth, alignment: .leading)
+    .clipped()
+    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
 
   // MARK: - Collection Tab Content
