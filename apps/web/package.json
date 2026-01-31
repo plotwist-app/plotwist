@@ -9,7 +9,7 @@
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
     "lint": "next lint",
-    "orval": "orval && node -e \"const fs=require('fs');const f='src/api/endpoints.schemas.ts';fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(/\\| +\\| null/g,'| null'))\""
+    "orval": "orval && sed -i '' 's/| *| null/| null/g' src/api/endpoints.schemas.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
