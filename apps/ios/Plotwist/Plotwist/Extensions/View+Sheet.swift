@@ -34,6 +34,7 @@ enum SheetStyle {
 /// Container que aplica o estilo flutuante com margem e arredondamento
 struct FloatingSheetContainer<Content: View>: View {
   let content: Content
+  @State private var keyboardVisible = false
 
   init(@ViewBuilder content: () -> Content) {
     self.content = content()
@@ -44,11 +45,25 @@ struct FloatingSheetContainer<Content: View>: View {
       Spacer()
       content
         .background(Color.appBackgroundAdaptive)
-        .clipShape(RoundedRectangle(cornerRadius: SheetStyle.cornerRadius))
-        .padding(.horizontal, SheetStyle.horizontalPadding)
-        .padding(.bottom, SheetStyle.bottomPadding)
+        .clipShape(
+          UnevenRoundedRectangle(
+            topLeadingRadius: SheetStyle.cornerRadius,
+            bottomLeadingRadius: keyboardVisible ? 0 : SheetStyle.cornerRadius,
+            bottomTrailingRadius: keyboardVisible ? 0 : SheetStyle.cornerRadius,
+            topTrailingRadius: SheetStyle.cornerRadius
+          )
+        )
+        .padding(.horizontal, keyboardVisible ? 0 : SheetStyle.horizontalPadding)
+        .padding(.bottom, keyboardVisible ? 0 : SheetStyle.bottomPadding)
+        .animation(.easeInOut(duration: 0.25), value: keyboardVisible)
     }
     .ignoresSafeArea(.container, edges: .bottom)
+    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+      keyboardVisible = true
+    }
+    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+      keyboardVisible = false
+    }
   }
 }
 
