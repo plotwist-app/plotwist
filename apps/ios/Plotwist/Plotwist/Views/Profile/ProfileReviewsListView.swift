@@ -78,8 +78,8 @@ struct ProfileReviewsListView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 60)
       } else {
-        // Reviews list
-        VStack(spacing: 24) {
+        // Reviews list - LazyVStack for better performance with large lists
+        LazyVStack(spacing: 24) {
           ForEach(reviews) { review in
             NavigationLink {
               MediaDetailView(
@@ -144,6 +144,28 @@ struct ProfileReviewItem: View {
     posterWidth * 1.5 // 2:3 aspect ratio
   }
   
+  // Pre-compute star data for better performance
+  private var starData: [(icon: String, color: Color)] {
+    (1...5).map { index in
+      let rating = review.rating
+      let isFilled = Double(index) <= rating
+      let isHalf = !isFilled && Double(index) - 0.5 <= rating
+      
+      let icon: String
+      if isFilled {
+        icon = "star.fill"
+      } else if isHalf {
+        icon = "star.leadinghalf.filled"
+      } else {
+        icon = "star"
+      }
+      
+      let color: Color = (isFilled || isHalf) ? .appStarYellow : .appMutedForegroundAdaptive.opacity(0.3)
+      
+      return (icon, color)
+    }
+  }
+  
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
       // Poster - same style as collection
@@ -181,12 +203,12 @@ struct ProfileReviewItem: View {
         
         // Stars + Date
         HStack(spacing: 8) {
-          // Stars
+          // Stars - using pre-computed data
           HStack(spacing: 2) {
-            ForEach(1...5, id: \.self) { index in
-              Image(systemName: starIcon(for: index))
+            ForEach(0..<5, id: \.self) { index in
+              Image(systemName: starData[index].icon)
                 .font(.system(size: 14))
-                .foregroundColor(starColor(for: index))
+                .foregroundColor(starData[index].color)
             }
           }
           
@@ -220,28 +242,9 @@ struct ProfileReviewItem: View {
             )
         }
       }
+      .drawingGroup() // Rasterize text content for better scroll performance
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-  }
-  
-  private func starIcon(for index: Int) -> String {
-    let rating = review.rating
-    if Double(index) <= rating {
-      return "star.fill"
-    } else if Double(index) - 0.5 <= rating {
-      return "star.leadinghalf.filled"
-    } else {
-      return "star"
-    }
-  }
-  
-  private func starColor(for index: Int) -> Color {
-    let rating = review.rating
-    if Double(index) <= rating || Double(index) - 0.5 <= rating {
-      return .appStarYellow
-    } else {
-      return .appMutedForegroundAdaptive.opacity(0.3)
-    }
   }
 }
 
