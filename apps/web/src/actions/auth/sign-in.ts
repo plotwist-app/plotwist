@@ -11,15 +11,15 @@ type SignInInput = {
 }
 
 export async function signIn({ login, password, redirectTo }: SignInInput) {
-  const { data } = await postLogin({ login, password })
+  const response = await postLogin({ login, password })
 
-  if (data.token) {
-    await createSession({ token: data.token })
+  if (response.status === 200 && response.data.token) {
+    await createSession({ token: response.data.token })
 
     if (redirectTo) {
       redirect(redirectTo)
     }
   }
 
-  return { status: data.status }
+  return { status: response.status === 200 ? response.data.status : undefined }
 }
