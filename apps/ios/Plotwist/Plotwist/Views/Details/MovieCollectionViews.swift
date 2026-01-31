@@ -68,8 +68,8 @@ struct MovieCollectionSection: View {
       .clipped()
     }
     .frame(height: 240)
-    .clipShape(RoundedRectangle(cornerRadius: 16))
-    .posterBorder(cornerRadius: 16)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .padding(.horizontal, 24)
   }
 }

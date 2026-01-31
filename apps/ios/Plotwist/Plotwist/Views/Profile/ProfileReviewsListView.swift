@@ -213,12 +213,12 @@ struct ProfileReviewItem: View {
           .resizable()
           .aspectRatio(contentMode: .fill)
       } placeholder: {
-        RoundedRectangle(cornerRadius: 12)
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           .fill(Color.appBorderAdaptive)
       }
       .frame(width: posterWidth, height: posterHeight)
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-      .posterBorder(cornerRadius: 12)
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder()
       .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
       
       // Content
@@ -290,7 +290,7 @@ struct ProfileReviewSkeletonItem: View {
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
       // Poster skeleton
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
         .frame(width: posterWidth, height: posterHeight)
       

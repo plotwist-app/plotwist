@@ -380,12 +380,12 @@ struct PosterCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
-    .clipShape(RoundedRectangle(cornerRadius: 12))
-    .posterBorder(cornerRadius: 12)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .posterShadow()
   }
 }
@@ -415,7 +415,7 @@ struct SearchSkeletonSection: View {
 
 struct PosterSkeletonCard: View {
   var body: some View {
-    RoundedRectangle(cornerRadius: 12)
+    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
       .fill(Color.appBorderAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
   }

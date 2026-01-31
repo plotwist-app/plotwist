@@ -16,6 +16,12 @@ struct HomeTabView: View {
   @State private var needsRefresh = false
   @State private var hasAppeared = false
 
+  // Discovery sections
+  @State private var popularMovies: [SearchResult] = []
+  @State private var popularTVSeries: [SearchResult] = []
+  @State private var trendingItems: [SearchResult] = []
+  @State private var isLoadingDiscovery = true
+
   private let cache = HomeDataCache.shared
 
   private var effectiveColorScheme: ColorScheme {
@@ -44,6 +50,15 @@ struct HomeTabView: View {
 
   private var showUserSkeleton: Bool {
     isInitialLoad && user == nil && cache.user == nil
+  }
+
+  private var showDiscoverySkeleton: Bool {
+    isLoadingDiscovery && popularMovies.isEmpty && popularTVSeries.isEmpty
+  }
+
+  // Show discovery sections when user has no personal content
+  private var showDiscoverySections: Bool {
+    !isLoadingDiscovery || !popularMovies.isEmpty || !popularTVSeries.isEmpty
   }
 
   var body: some View {
@@ -84,6 +99,34 @@ struct HomeTabView: View {
                 items: watchlistItems,
                 title: strings.upNext
               )
+            }
+
+            // Discovery Sections - Always show for engagement
+            if showDiscoverySkeleton {
+              HomeSectionSkeleton()
+              HomeSectionSkeleton()
+            } else {
+              // Popular Movies
+              if !popularMovies.isEmpty {
+                HomeSectionView(
+                  title: strings.popularMovies,
+                  items: popularMovies,
+                  mediaType: "movie",
+                  categoryType: .movies,
+                  initialMovieSubcategory: .popular
+                )
+              }
+
+              // Popular TV Series
+              if !popularTVSeries.isEmpty {
+                HomeSectionView(
+                  title: strings.popularTVSeries,
+                  items: popularTVSeries,
+                  mediaType: "tv",
+                  categoryType: .tvSeries,
+                  initialTVSeriesSubcategory: .popular
+                )
+              }
             }
 
             Spacer(minLength: 100)
@@ -136,6 +179,14 @@ struct HomeTabView: View {
     if let cachedWatchlist = cache.watchlistItems {
       watchlistItems = cachedWatchlist
     }
+    if let cachedMovies = cache.popularMovies {
+      popularMovies = cachedMovies
+      isLoadingDiscovery = false
+    }
+    if let cachedTVSeries = cache.popularTVSeries {
+      popularTVSeries = cachedTVSeries
+      isLoadingDiscovery = false
+    }
   }
 
   private func loadData() async {
@@ -148,9 +199,43 @@ struct HomeTabView: View {
       group.addTask { await loadUser() }
       group.addTask { await loadWatchingItems() }
       group.addTask { await loadWatchlistItems() }
+      group.addTask { await loadDiscoveryContent() }
     }
 
     isInitialLoad = false
+  }
+
+  @MainActor
+  private func loadDiscoveryContent() async {
+    // Check cache first
+    if let cachedMovies = cache.popularMovies, let cachedTVSeries = cache.popularTVSeries {
+      popularMovies = cachedMovies
+      popularTVSeries = cachedTVSeries
+      isLoadingDiscovery = false
+      return
+    }
+
+    do {
+      async let moviesTask = TMDBService.shared.getPopularMovies(
+        language: Language.current.rawValue
+      )
+      async let tvTask = TMDBService.shared.getPopularTVSeries(
+        language: Language.current.rawValue
+      )
+
+      let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+
+      popularMovies = moviesResult.results
+      popularTVSeries = tvResult.results
+
+      // Cache the results
+      cache.setPopularMovies(moviesResult.results)
+      cache.setPopularTVSeries(tvResult.results)
+    } catch {
+      print("Error loading discovery content: \(error)")
+    }
+
+    isLoadingDiscovery = false
   }
 
   @MainActor
@@ -376,12 +461,12 @@ struct HomeSectionCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
-    .clipShape(RoundedRectangle(cornerRadius: 12))
-    .posterBorder(cornerRadius: 12)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .posterShadow()
   }
 }
@@ -526,12 +611,12 @@ struct HomePosterCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 16)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
-    .clipShape(RoundedRectangle(cornerRadius: 16))
-    .posterBorder(cornerRadius: 16)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .posterShadow()
   }
 }
@@ -549,7 +634,7 @@ struct HomeSectionSkeleton: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
               .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
           }

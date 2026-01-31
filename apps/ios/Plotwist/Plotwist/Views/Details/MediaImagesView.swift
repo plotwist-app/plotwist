@@ -199,8 +199,8 @@ struct MasonryImageCell: View {
           .fill(Color.appBorderAdaptive)
       }
       .frame(width: width, height: height)
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-      .posterBorder(cornerRadius: 12)
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder()
     }
     .buttonStyle(.plain)
   }

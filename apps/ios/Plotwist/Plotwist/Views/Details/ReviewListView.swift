@@ -51,7 +51,7 @@ struct ReviewListView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 32)
         .overlay(
-          RoundedRectangle(cornerRadius: 12)
+          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
             .foregroundColor(.appBorderAdaptive)
         )

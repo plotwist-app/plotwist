@@ -109,12 +109,12 @@ struct ProfileItemCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
-    .clipShape(RoundedRectangle(cornerRadius: 12))
-    .posterBorder(cornerRadius: 12)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
     .task {
       await loadPoster()

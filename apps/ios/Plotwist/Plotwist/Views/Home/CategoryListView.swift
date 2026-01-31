@@ -256,7 +256,7 @@ struct CategoryListView: View {
           ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
               ForEach(0..<12, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
                   .fill(Color.appBorderAdaptive)
                   .aspectRatio(2 / 3, contentMode: .fit)
               }
@@ -295,7 +295,7 @@ struct CategoryListView: View {
 
               if isLoadingMore {
                 ForEach(0..<3, id: \.self) { _ in
-                  RoundedRectangle(cornerRadius: 16)
+                  RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
                     .fill(Color.appBorderAdaptive)
                     .aspectRatio(2 / 3, contentMode: .fit)
                 }
@@ -553,12 +553,12 @@ struct CategoryPosterCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 16)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .aspectRatio(2 / 3, contentMode: .fit)
-    .clipShape(RoundedRectangle(cornerRadius: 16))
-    .posterBorder(cornerRadius: 16)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
   }
 }

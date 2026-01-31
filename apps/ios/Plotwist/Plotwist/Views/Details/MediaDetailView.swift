@@ -250,12 +250,12 @@ struct MediaDetailView: View {
                       .resizable()
                       .aspectRatio(contentMode: .fill)
                   } placeholder: {
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
                       .fill(Color.appBorderAdaptive)
                   }
                   .frame(width: 120, height: 180)
-                  .clipShape(RoundedRectangle(cornerRadius: 12))
-                  .posterBorder(cornerRadius: 12)
+                  .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+                  .posterBorder()
                   .posterShadow()
 
                   // Info
@@ -558,7 +558,7 @@ struct MediaDetailSkeletonView: View {
               // Poster and Info Skeleton
               HStack(alignment: .bottom, spacing: 16) {
                 // Poster Skeleton
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
                   .fill(Color.appBorderAdaptive.opacity(0.5))
                   .frame(width: 120, height: 180)
                 

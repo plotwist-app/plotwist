@@ -318,7 +318,7 @@ struct ProfileTabView: View {
     if isLoadingItems {
       LazyVGrid(columns: columns, spacing: 16) {
         ForEach(0..<6, id: \.self) { _ in
-          RoundedRectangle(cornerRadius: 12)
+          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
             .fill(Color.appBorderAdaptive)
             .aspectRatio(2 / 3, contentMode: .fit)
         }
@@ -330,7 +330,7 @@ struct ProfileTabView: View {
         Button {
           NotificationCenter.default.post(name: .navigateToSearch, object: nil)
         } label: {
-          RoundedRectangle(cornerRadius: 12)
+          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
             .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
             .foregroundColor(.appBorderAdaptive)
             .aspectRatio(2 / 3, contentMode: .fit)

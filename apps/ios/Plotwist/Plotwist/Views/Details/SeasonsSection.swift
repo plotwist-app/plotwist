@@ -69,7 +69,7 @@ struct SeasonPosterCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 12)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
         .overlay(
           VStack(spacing: 4) {
@@ -86,8 +86,8 @@ struct SeasonPosterCard: View {
         )
     }
     .frame(width: 120, height: 180)
-    .clipShape(RoundedRectangle(cornerRadius: 12))
-    .posterBorder(cornerRadius: 12)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .posterShadow()
   }
 }
@@ -104,7 +104,7 @@ struct SeasonsSectionSkeleton: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<4, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
               .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
           }

@@ -16,10 +16,15 @@ final class HomeDataCache {
   private var watchlistItemsCache: [SearchResult]?
   // Cache for user data
   private var userCache: User?
+  // Cache for discovery content
+  private var popularMoviesCache: [SearchResult]?
+  private var popularTVSeriesCache: [SearchResult]?
   // Cache timestamp
   private var lastUpdated: Date?
-  // Cache duration (5 minutes)
+  private var discoveryLastUpdated: Date?
+  // Cache duration (5 minutes for user data, 15 minutes for discovery)
   private let cacheDuration: TimeInterval = 300
+  private let discoveryCacheDuration: TimeInterval = 900
   // Flag to track if initial load was done
   private var hasLoadedOnce = false
 
@@ -67,6 +72,34 @@ final class HomeDataCache {
     lastUpdated = Date()
   }
 
+  // MARK: - Popular Movies
+
+  var popularMovies: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else {
+      return nil
+    }
+    return popularMoviesCache
+  }
+
+  func setPopularMovies(_ items: [SearchResult]) {
+    popularMoviesCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Popular TV Series
+
+  var popularTVSeries: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else {
+      return nil
+    }
+    return popularTVSeriesCache
+  }
+
+  func setPopularTVSeries(_ items: [SearchResult]) {
+    popularTVSeriesCache = items
+    discoveryLastUpdated = Date()
+  }
+
   // MARK: - Cache State
 
   var shouldShowSkeleton: Bool {
@@ -84,12 +117,24 @@ final class HomeDataCache {
     return Date().timeIntervalSince(lastUpdated) > cacheDuration
   }
 
+  private var isDiscoveryCacheExpired: Bool {
+    guard let discoveryLastUpdated else { return true }
+    return Date().timeIntervalSince(discoveryLastUpdated) > discoveryCacheDuration
+  }
+
   func clearCache() {
     watchingItemsCache = nil
     watchlistItemsCache = nil
     userCache = nil
     lastUpdated = nil
+    // Don't clear discovery cache as it changes less frequently
     // Don't reset hasLoadedOnce to avoid showing skeleton again
+  }
+
+  func clearDiscoveryCache() {
+    popularMoviesCache = nil
+    popularTVSeriesCache = nil
+    discoveryLastUpdated = nil
   }
 
   func invalidateCache() {
@@ -99,6 +144,7 @@ final class HomeDataCache {
 
   func fullReset() {
     clearCache()
+    clearDiscoveryCache()
     hasLoadedOnce = false
   }
 }

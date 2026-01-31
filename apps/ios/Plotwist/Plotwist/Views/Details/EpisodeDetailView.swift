@@ -223,7 +223,7 @@ struct EpisodeHeaderView: View {
           .resizable()
           .aspectRatio(contentMode: .fill)
       } placeholder: {
-        RoundedRectangle(cornerRadius: 12)
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           .fill(Color.appBorderAdaptive)
           .overlay(
             ProgressView()
@@ -231,8 +231,8 @@ struct EpisodeHeaderView: View {
           )
       }
       .frame(width: 120, height: 180)
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-      .posterBorder(cornerRadius: 12)
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder()
       .posterShadow()
 
       // Info

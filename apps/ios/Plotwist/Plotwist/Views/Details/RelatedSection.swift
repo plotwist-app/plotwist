@@ -96,12 +96,12 @@ struct RelatedPosterCard: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
     } placeholder: {
-      RoundedRectangle(cornerRadius: 16)
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
         .fill(Color.appBorderAdaptive)
     }
     .frame(width: 120, height: 180)
-    .clipShape(RoundedRectangle(cornerRadius: 16))
-    .posterBorder(cornerRadius: 16)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
     .posterShadow()
   }
 }
@@ -118,7 +118,7 @@ struct RelatedSectionSkeleton: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
           ForEach(0..<5, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
               .fill(Color.appBorderAdaptive)
               .frame(width: 120, height: 180)
           }

@@ -7,6 +7,21 @@
 import SwiftUI
 import UIKit
 
+// MARK: - Design Tokens
+
+enum DesignTokens {
+  enum CornerRadius {
+    /// Standard poster corner radius (16px)
+    static let poster: CGFloat = 16
+    /// Small corner radius for thumbnails (8px)
+    static let thumbnail: CGFloat = 8
+    /// Corner radius for inputs and buttons (12px)
+    static let input: CGFloat = 12
+    /// Small corner radius for badges (6px)
+    static let badge: CGFloat = 6
+  }
+}
+
 extension Color {
   // MARK: - Hex Initializer
   init(hex: String) {
@@ -121,7 +136,7 @@ extension View {
   }
 
   /// Applies a subtle border to poster cards (dark mode only)
-  func posterBorder(cornerRadius: CGFloat = 16) -> some View {
+  func posterBorder(cornerRadius: CGFloat = DesignTokens.CornerRadius.poster) -> some View {
     self.modifier(PosterBorderModifier(cornerRadius: cornerRadius))
   }
 
