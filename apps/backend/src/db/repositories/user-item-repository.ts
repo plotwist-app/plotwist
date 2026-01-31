@@ -181,6 +181,17 @@ export async function selectAllUserItems(userId: string) {
     .where(eq(schema.userItems.userId, userId))
 }
 
+export async function selectUserItemsCount(userId: string) {
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(*)::int`,
+    })
+    .from(schema.userItems)
+    .where(eq(schema.userItems.userId, userId))
+
+  return result[0]?.count ?? 0
+}
+
 function getOrderColumn(orderBy: string) {
   switch (orderBy) {
     case 'updatedAt':

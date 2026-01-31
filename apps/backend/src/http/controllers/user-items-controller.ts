@@ -1,5 +1,10 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import {
+  createWatchEntry,
+  deleteWatchEntriesByUserItemId,
+  getWatchEntriesByUserItemId,
+} from '@/db/repositories/user-watch-entries-repository'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
@@ -9,12 +14,14 @@ import { deleteUserItemEpisodesService } from '@/domain/services/user-items/dele
 import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
 import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
+import { getUserItemsCountService } from '@/domain/services/user-items/get-user-items-count'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,
   getUserItemQuerySchema,
   getUserItemsBodySchema,
+  getUserItemsCountQuerySchema,
   upsertUserItemBodySchema,
 } from '../schemas/user-items'
 
@@ -44,6 +51,17 @@ export async function upsertUserItemController(
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
+  }
+
+  // Create first watch entry if status is WATCHED and no entries exist
+  if (status === 'WATCHED') {
+    const existingEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    if (existingEntries.length === 0) {
+      await createWatchEntry({ userItemId: result.userItem.id })
+    }
+  } else {
+    // If status changed from WATCHED to something else, delete watch entries
+    await deleteWatchEntriesByUserItemId(result.userItem.id)
   }
 
   await createUserActivity({
@@ -132,6 +150,20 @@ export async function getUserItemController(
     userId: request.user.id,
   })
 
+  // Include watch entries if user item exists
+  if (result.userItem) {
+    const watchEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    return reply.status(200).send({
+      userItem: {
+        ...result.userItem,
+        watchEntries: watchEntries.map(entry => ({
+          id: entry.id,
+          watchedAt: entry.watchedAt.toISOString(),
+        })),
+      },
+    })
+  }
+
   return reply.status(200).send(result)
 }
 
@@ -141,6 +173,16 @@ export async function getAllUserItemsController(
 ) {
   const { status, userId } = getAllUserItemsQuerySchema.parse(request.query)
   const result = await getAllUserItemsService({ status, userId })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserItemsCountController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { userId } = getUserItemsCountQuerySchema.parse(request.query)
+  const result = await getUserItemsCountService({ userId })
 
   return reply.status(200).send(result)
 }

@@ -25,6 +25,7 @@ import { userItemsRoutes } from './user-items'
 import { userStatsRoutes } from './user-stats'
 import { usersRoute } from './users'
 import { webhookRoutes } from './webhook'
+import { watchEntriesRoutes } from './watch-entries'
 
 export function routes(app: FastifyInstance) {
   if (config.app.APP_ENV === 'dev') {
@@ -65,6 +66,7 @@ export function routes(app: FastifyInstance) {
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
   app.register(subscriptionsRoutes)
+  app.register(watchEntriesRoutes)
   // app.register(userRecommendationsRoutes)
 
   return
