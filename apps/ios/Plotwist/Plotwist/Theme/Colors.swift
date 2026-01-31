@@ -45,6 +45,16 @@ extension Color {
       })
   }
 
+  // Sheet background - slightly elevated in dark mode for contrast
+  static var appSheetBackgroundAdaptive: Color {
+    Color(
+      UIColor {
+        $0.userInterfaceStyle == .dark
+          ? UIColor(hue: 240 / 360, saturation: 0.08, brightness: 0.10, alpha: 1)
+          : UIColor(hue: 0, saturation: 0, brightness: 1, alpha: 1)
+      })
+  }
+
   static var appForegroundAdaptive: Color {
     Color(
       UIColor {

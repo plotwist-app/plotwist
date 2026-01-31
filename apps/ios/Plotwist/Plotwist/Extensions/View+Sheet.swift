@@ -44,7 +44,7 @@ struct FloatingSheetContainer<Content: View>: View {
     VStack {
       Spacer()
       content
-        .background(Color.appBackgroundAdaptive)
+        .background(Color.appSheetBackgroundAdaptive)
         .clipShape(
           UnevenRoundedRectangle(
             topLeadingRadius: SheetStyle.cornerRadius,
