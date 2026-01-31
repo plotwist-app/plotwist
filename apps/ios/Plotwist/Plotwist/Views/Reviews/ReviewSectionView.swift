@@ -18,7 +18,6 @@ struct ReviewSectionView: View {
   @State private var error: String?
   @State private var currentUserId: String?
   @State private var selectedReview: ReviewListItem?
-  @State private var showEditSheet = false
   @State private var hasLoaded = false
 
   private var averageRating: Double {
@@ -149,7 +148,6 @@ struct ReviewSectionView: View {
                           .contentShape(Rectangle())
                           .onTapGesture {
                             selectedReview = review
-                            showEditSheet = true
                           }
                       } else {
                         ReviewCardView(review: review)
@@ -202,24 +200,24 @@ struct ReviewSectionView: View {
         await loadReviews(forceReload: true)
       }
     }
-    .sheet(isPresented: $showEditSheet) {
-      if let review = selectedReview {
-        ReviewSheet(
-          mediaId: mediaId,
-          mediaType: mediaType,
-          existingReview: review.toReview(),
-          onSaved: {
-            Task {
-              await loadReviews(forceReload: true)
-            }
-          },
-          onDeleted: {
-            Task {
-              await loadReviews(forceReload: true)
-            }
+    .sheet(item: $selectedReview) { review in
+      ReviewSheet(
+        mediaId: mediaId,
+        mediaType: mediaType,
+        seasonNumber: review.seasonNumber,
+        episodeNumber: review.episodeNumber,
+        existingReview: review.toReview(),
+        onSaved: {
+          Task {
+            await loadReviews(forceReload: true)
           }
-        )
-      }
+        },
+        onDeleted: {
+          Task {
+            await loadReviews(forceReload: true)
+          }
+        }
+      )
     }
   }
 
