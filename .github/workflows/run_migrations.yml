@@ -3,8 +3,6 @@ on:
   release:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize]
 
 jobs:
   run-migrations:
