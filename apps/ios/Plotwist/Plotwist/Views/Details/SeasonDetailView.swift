@@ -170,6 +170,10 @@ struct SeasonDetailView: View {
             await loadUserReview()
           }
           reviewsRefreshId = UUID()
+        },
+        onDeleted: {
+          userReview = nil
+          reviewsRefreshId = UUID()
         }
       )
     }
