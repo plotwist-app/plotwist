@@ -2372,7 +2372,7 @@ export const GetUserActivitiesLanguage = {
   'ja-JP': 'ja-JP',
 } as const;
 
-export type GetUserActivities200UserActivitiesItemOneOfMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2439,7 +2439,7 @@ export type GetUserActivities200UserActivitiesItemOneOf = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2508,7 +2508,7 @@ export type GetUserActivities200UserActivitiesItemOneOfOnezero = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfOnezeroAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfOnenineMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfOnenineMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfOnenineMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2561,7 +2561,7 @@ export type GetUserActivities200UserActivitiesItemOneOfOnenine = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfOnenineAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2639,7 +2639,7 @@ export type GetUserActivities200UserActivitiesItemOneOfTwoseven = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfTwosevenAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2723,7 +2723,7 @@ export type GetUserActivities200UserActivitiesItemOneOfThreeseven = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfThreesevenAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfFoureightMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfFoureightMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfFoureightMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2797,7 +2797,7 @@ export type GetUserActivities200UserActivitiesItemOneOfFoureight = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfFoureightAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2874,7 +2874,7 @@ export type GetUserActivities200UserActivitiesItemOneOfFiveeight = {
   additionalInfo: GetUserActivities200UserActivitiesItemOneOfFiveeightAdditionalInfo;
 };
 
-export type GetUserActivities200UserActivitiesItemOneOfSixeightMetadataAnyOf = string | number | boolean |  | null;
+export type GetUserActivities200UserActivitiesItemOneOfSixeightMetadataAnyOf = string | number | boolean | null;
 
 export type GetUserActivities200UserActivitiesItemOneOfSixeightMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -2963,7 +2963,7 @@ export const GetNetworkActivitiesLanguage = {
   'ja-JP': 'ja-JP',
 } as const;
 
-export type GetNetworkActivities200UserActivitiesItemOneOfMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3030,7 +3030,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOf = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfOnezeroMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3099,7 +3099,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfOnezero = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfOnezeroAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfOnenineMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfOnenineMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfOnenineMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3152,7 +3152,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfOnenine = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfOnenineAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfTwosevenMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3230,7 +3230,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfTwoseven = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfTwosevenAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfThreesevenMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3314,7 +3314,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfThreeseven = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfThreesevenAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfFoureightMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfFoureightMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfFoureightMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3388,7 +3388,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfFoureight = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfFoureightAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfFiveeightMetadataAnyOfTwo = {[key: string]: unknown};
 
@@ -3465,7 +3465,7 @@ export type GetNetworkActivities200UserActivitiesItemOneOfFiveeight = {
   additionalInfo: GetNetworkActivities200UserActivitiesItemOneOfFiveeightAdditionalInfo;
 };
 
-export type GetNetworkActivities200UserActivitiesItemOneOfSixeightMetadataAnyOf = string | number | boolean |  | null;
+export type GetNetworkActivities200UserActivitiesItemOneOfSixeightMetadataAnyOf = string | number | boolean | null;
 
 export type GetNetworkActivities200UserActivitiesItemOneOfSixeightMetadataAnyOfTwo = {[key: string]: unknown};
 
