@@ -9,9 +9,9 @@ type ResetPassword = {
 }
 
 export async function resetPassword({ password, token }: ResetPassword) {
-  const { status } = await patchUserPassword({ token, password })
+  const { data } = await patchUserPassword({ token, password })
 
-  if (status === 'password_set') {
+  if (data.status === 'password_set') {
     redirect('/sign-in')
   }
 }
