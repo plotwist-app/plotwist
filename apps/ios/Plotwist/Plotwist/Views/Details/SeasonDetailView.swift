@@ -162,7 +162,13 @@ struct SeasonDetailView: View {
         mediaId: seriesId,
         mediaType: "tv",
         seasonNumber: season.seasonNumber,
-        existingReview: userReview
+        existingReview: userReview,
+        onSaved: {
+          Task {
+            await loadUserReview()
+          }
+          reviewsRefreshId = UUID()
+        }
       )
     }
     .task {
@@ -173,14 +179,6 @@ struct SeasonDetailView: View {
       if AuthService.shared.isAuthenticated {
         await loadUserReview()
         await loadWatchedEpisodes()
-      }
-    }
-    .onChange(of: showReviewSheet) { _, isPresented in
-      if !isPresented && AuthService.shared.isAuthenticated {
-        Task {
-          await loadUserReview()
-        }
-        reviewsRefreshId = UUID()
       }
     }
   }

@@ -10,6 +10,7 @@ struct ReviewSheet: View {
   let mediaType: String
   let seasonNumber: Int?
   let existingReview: Review?
+  let onSaved: (() -> Void)?
   let onDeleted: (() -> Void)?
   @Environment(\.dismiss) private var dismiss
   @ObservedObject private var themeManager = ThemeManager.shared
@@ -23,11 +24,12 @@ struct ReviewSheet: View {
   @State private var showDeleteConfirmation: Bool = false
   @State private var errorMessage: String = ""
 
-  init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, existingReview: Review? = nil, onDeleted: (() -> Void)? = nil) {
+  init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, existingReview: Review? = nil, onSaved: (() -> Void)? = nil, onDeleted: (() -> Void)? = nil) {
     self.mediaId = mediaId
     self.mediaType = mediaType
     self.seasonNumber = seasonNumber
     self.existingReview = existingReview
+    self.onSaved = onSaved
     self.onDeleted = onDeleted
 
     if let existingReview = existingReview {
@@ -191,6 +193,7 @@ struct ReviewSheet: View {
 
         await MainActor.run {
           isLoading = false
+          onSaved?()
           dismiss()
         }
       } catch {

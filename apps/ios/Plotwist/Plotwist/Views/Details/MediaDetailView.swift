@@ -308,7 +308,17 @@ struct MediaDetailView: View {
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
     .sheet(isPresented: $showReviewSheet) {
-      ReviewSheet(mediaId: mediaId, mediaType: mediaType, existingReview: userReview)
+      ReviewSheet(
+        mediaId: mediaId,
+        mediaType: mediaType,
+        existingReview: userReview,
+        onSaved: {
+          Task {
+            await loadUserReview()
+          }
+          reviewsRefreshId = UUID()
+        }
+      )
     }
     .sheet(isPresented: $showCollectionSheet) {
       if let collection = collection {
@@ -346,15 +356,6 @@ struct MediaDetailView: View {
       if AuthService.shared.isAuthenticated {
         await loadUserReview()
         await loadUserItem()
-      }
-    }
-    .onChange(of: showReviewSheet) { _, isPresented in
-      if !isPresented && AuthService.shared.isAuthenticated {
-        Task {
-          await loadUserReview()
-        }
-        // Refresh the reviews list
-        reviewsRefreshId = UUID()
       }
     }
   }

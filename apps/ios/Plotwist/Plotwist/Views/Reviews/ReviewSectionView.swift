@@ -208,20 +208,17 @@ struct ReviewSectionView: View {
           mediaId: mediaId,
           mediaType: mediaType,
           existingReview: review.toReview(),
+          onSaved: {
+            Task {
+              await loadReviews(forceReload: true)
+            }
+          },
           onDeleted: {
             Task {
               await loadReviews(forceReload: true)
             }
           }
         )
-      }
-    }
-    .onChange(of: showEditSheet) { _, isShowing in
-      if !isShowing {
-        // Reload reviews when sheet is dismissed (in case of edit)
-        Task {
-          await loadReviews(forceReload: true)
-        }
       }
     }
   }
