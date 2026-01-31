@@ -144,7 +144,7 @@ struct ProviderCategoryAnimated: View {
   private let expandedSpacing: CGFloat = 6
   
   private var displayProviders: [WatchProvider] {
-    isExpanded ? providers : Array(providers.prefix(5))
+    providers
   }
   
   var body: some View {
@@ -199,19 +199,6 @@ struct ProviderIconsLayout: View {
         }
       }
       
-      // Show +N badge when collapsed and more than 5 providers
-      if !isExpanded && allProviders.count > 5 {
-        Text("+\(allProviders.count - 5)")
-          .font(.caption.weight(.semibold))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .frame(width: iconSize, height: iconSize)
-          .background(Color.appInputFilled)
-          .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-          .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-              .stroke(Color.appBorderAdaptive, lineWidth: 1.5)
-          )
-      }
     }
   }
 }

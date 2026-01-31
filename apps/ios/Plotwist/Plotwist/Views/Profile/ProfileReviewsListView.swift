@@ -79,7 +79,7 @@ struct ProfileReviewsListView: View {
         .padding(.top, 60)
       } else {
         // Reviews list
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
           ForEach(reviews) { review in
             NavigationLink {
               MediaDetailView(
@@ -145,7 +145,7 @@ struct ProfileReviewItem: View {
   }
   
   var body: some View {
-    HStack(alignment: .top, spacing: 12) {
+    HStack(alignment: .center, spacing: 12) {
       // Poster - same style as collection
       CachedAsyncImage(url: review.posterURL) { image in
         image
@@ -163,18 +163,21 @@ struct ProfileReviewItem: View {
       // Content
       VStack(alignment: .leading, spacing: 8) {
         // Title + Season badge
-        HStack(spacing: 6) {
-          Text(review.title)
-            .font(.headline)
-            .foregroundColor(.appForegroundAdaptive)
-            .lineLimit(2)
-          
+        Group {
           if let badge = review.seasonBadge {
-            Text(badge)
+            Text(review.title)
+              .font(.headline)
+              .foregroundColor(.appForegroundAdaptive)
+            + Text(" \(badge)")
               .font(.subheadline)
               .foregroundColor(.appMutedForegroundAdaptive)
+          } else {
+            Text(review.title)
+              .font(.headline)
+              .foregroundColor(.appForegroundAdaptive)
           }
         }
+        .lineLimit(2)
         
         // Stars + Date
         HStack(spacing: 8) {
@@ -216,8 +219,6 @@ struct ProfileReviewItem: View {
                 : nil
             )
         }
-        
-        Spacer(minLength: 0)
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -253,7 +254,7 @@ struct ProfileReviewSkeletonItem: View {
   }
   
   var body: some View {
-    HStack(alignment: .top, spacing: 12) {
+    HStack(alignment: .center, spacing: 12) {
       // Poster skeleton - same style as collection
       RoundedRectangle(cornerRadius: 12)
         .fill(Color.appBorderAdaptive)
@@ -291,8 +292,6 @@ struct ProfileReviewSkeletonItem: View {
             .fill(Color.appBorderAdaptive)
             .frame(width: 140, height: 14)
         }
-        
-        Spacer(minLength: 0)
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
