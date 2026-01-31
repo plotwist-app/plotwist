@@ -9,6 +9,7 @@ on:
 jobs:
   run-migrations:
     runs-on: ubuntu-latest
+    environment: CI
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
