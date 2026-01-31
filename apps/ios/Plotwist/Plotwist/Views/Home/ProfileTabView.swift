@@ -276,16 +276,18 @@ struct ProfileTabView: View {
       // Collection tab
       collectionTabContent
         .frame(width: screenWidth)
+        .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .collection ? 0 : -screenWidth)
       
       // Reviews tab
       ProfileReviewsListView(userId: userId)
         .padding(.bottom, 24)
         .frame(width: screenWidth)
+        .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .reviews ? 0 : screenWidth)
     }
     .frame(width: screenWidth, alignment: .leading)
-    .clipped()
+    .clipShape(Rectangle())
     .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
 
@@ -592,7 +594,6 @@ struct ProfileStatusTabs: View {
       }
       .padding(.horizontal, 24)
     }
-    .scrollClipDisabled()
   }
 }
 
