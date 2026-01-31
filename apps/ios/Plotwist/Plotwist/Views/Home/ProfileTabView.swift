@@ -88,6 +88,10 @@ struct ProfileTabView: View {
   private let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
   private let scrollThreshold: CGFloat = 80
+  
+  private var isGuestMode: Bool {
+    !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+  }
 
   private var isScrolled: Bool {
     guard let initial = initialScrollOffset else { return false }
@@ -95,7 +99,7 @@ struct ProfileTabView: View {
   }
 
   private var showLoading: Bool {
-    isInitialLoad && cache.shouldShowSkeleton && user == nil
+    isInitialLoad && cache.shouldShowSkeleton && user == nil && !isGuestMode
   }
 
   var body: some View {
@@ -103,7 +107,9 @@ struct ProfileTabView: View {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
-        if showLoading {
+        if isGuestMode {
+          guestModeView
+        } else if showLoading {
           loadingView
         } else if let user {
           profileContentView(user: user)
@@ -114,10 +120,16 @@ struct ProfileTabView: View {
       .onAppear {
         if !hasAppeared {
           hasAppeared = true
-          restoreFromCache()
+          if !isGuestMode {
+            restoreFromCache()
+          }
         }
       }
-      .task { await loadData() }
+      .task {
+        if !isGuestMode {
+          await loadData()
+        }
+      }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
       }
@@ -139,6 +151,48 @@ struct ProfileTabView: View {
     VStack {
       Spacer()
       ProgressView()
+      Spacer()
+    }
+  }
+  
+  // MARK: - Guest Mode View
+  private var guestModeView: some View {
+    VStack(spacing: 24) {
+      Spacer()
+      
+      Image(systemName: "person.crop.circle")
+        .font(.system(size: 64))
+        .foregroundColor(.appMutedForegroundAdaptive)
+      
+      VStack(spacing: 8) {
+        Text(strings.signInToAccessProfile)
+          .font(.title3.bold())
+          .foregroundColor(.appForegroundAdaptive)
+          .multilineTextAlignment(.center)
+        
+        Text(strings.signInToAccessProfileDescription)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 32)
+      }
+      
+      Button {
+        // Exit guest mode and go back to login screen
+        UserDefaults.standard.set(false, forKey: "isGuestMode")
+        NotificationCenter.default.post(name: .authChanged, object: nil)
+      } label: {
+        Text(strings.accessButton)
+          .font(.system(size: 16, weight: .semibold))
+          .foregroundColor(.appBackgroundAdaptive)
+          .frame(maxWidth: .infinity)
+          .frame(height: 52)
+          .background(Color.appForegroundAdaptive)
+          .cornerRadius(12)
+      }
+      .padding(.horizontal, 24)
+      .frame(maxWidth: 400)
+      
       Spacer()
     }
   }

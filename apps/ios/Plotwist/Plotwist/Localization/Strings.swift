@@ -25,6 +25,13 @@ enum L10n {
       continueWithGoogle: "Continue with Google",
       continueWithApple: "Continue with Apple",
       or: "or",
+      continueAsGuest: "Continue as guest",
+      createAccount: "Create account",
+      welcomeSubtitle: "Track movies, series, animes and doramas",
+      welcomeTitle: "All your entertainment.\nOne place.",
+      welcomeDescription: "Track, discover and share movies, series, animes and doramas. Join the community.",
+      signInToAccessProfile: "Sign in to access your profile",
+      signInToAccessProfileDescription: "Create an account to track your movies, series, and share reviews with the community.",
       // Sign Up
       startNow: "Start now",
       startYourJourney: "Start your journey in just a few steps.",
@@ -185,6 +192,13 @@ enum L10n {
       continueWithGoogle: "Continuar com Google",
       continueWithApple: "Continuar com Apple",
       or: "ou",
+      continueAsGuest: "Continuar como convidado",
+      createAccount: "Criar conta",
+      welcomeSubtitle: "Acompanhe filmes, séries, animes e doramas",
+      welcomeTitle: "Todo seu entretenimento.\nEm um só lugar.",
+      welcomeDescription: "Acompanhe, descubra e compartilhe filmes, séries, animes e doramas. Junte-se à comunidade.",
+      signInToAccessProfile: "Entre para acessar seu perfil",
+      signInToAccessProfileDescription: "Crie uma conta para acompanhar seus filmes, séries e compartilhar avaliações com a comunidade.",
       startNow: "Comece agora",
       startYourJourney: "Comece sua jornada em poucos passos.",
       emailLabel: "E-mail",
@@ -335,6 +349,13 @@ enum L10n {
       continueWithGoogle: "Continuar con Google",
       continueWithApple: "Continuar con Apple",
       or: "o",
+      continueAsGuest: "Continuar como invitado",
+      createAccount: "Crear cuenta",
+      welcomeSubtitle: "Sigue películas, series, animes y doramas",
+      welcomeTitle: "Todo tu entretenimiento.\nEn un solo lugar.",
+      welcomeDescription: "Sigue, descubre y comparte películas, series, animes y doramas. Únete a la comunidad.",
+      signInToAccessProfile: "Inicia sesión para acceder a tu perfil",
+      signInToAccessProfileDescription: "Crea una cuenta para seguir tus películas, series y compartir reseñas con la comunidad.",
       startNow: "Empieza ahora",
       startYourJourney: "Comienza tu viaje en unos pocos pasos.",
       emailLabel: "Correo electrónico",
@@ -485,6 +506,13 @@ enum L10n {
       continueWithGoogle: "Continuer avec Google",
       continueWithApple: "Continuer avec Apple",
       or: "ou",
+      continueAsGuest: "Continuer en tant qu'invité",
+      createAccount: "Créer un compte",
+      welcomeSubtitle: "Suivez films, séries, animes et doramas",
+      welcomeTitle: "Tout votre divertissement.\nEn un seul endroit.",
+      welcomeDescription: "Suivez, découvrez et partagez films, séries, animes et doramas. Rejoignez la communauté.",
+      signInToAccessProfile: "Connectez-vous pour accéder à votre profil",
+      signInToAccessProfileDescription: "Créez un compte pour suivre vos films, séries et partager des avis avec la communauté.",
       startNow: "Commencez maintenant",
       startYourJourney: "Commencez votre voyage en quelques étapes.",
       emailLabel: "E-mail",
@@ -635,6 +663,13 @@ enum L10n {
       continueWithGoogle: "Weiter mit Google",
       continueWithApple: "Weiter mit Apple",
       or: "oder",
+      continueAsGuest: "Als Gast fortfahren",
+      createAccount: "Konto erstellen",
+      welcomeSubtitle: "Verfolge Filme, Serien, Animes und Doramas",
+      welcomeTitle: "Deine Unterhaltung.\nAn einem Ort.",
+      welcomeDescription: "Verfolge, entdecke und teile Filme, Serien, Animes und Doramas. Werde Teil der Community.",
+      signInToAccessProfile: "Melden Sie sich an, um auf Ihr Profil zuzugreifen",
+      signInToAccessProfileDescription: "Erstellen Sie ein Konto, um Ihre Filme und Serien zu verfolgen und Bewertungen mit der Community zu teilen.",
       startNow: "Jetzt starten",
       startYourJourney: "Beginnen Sie Ihre Reise in wenigen Schritten.",
       emailLabel: "E-Mail",
@@ -785,6 +820,13 @@ enum L10n {
       continueWithGoogle: "Continua con Google",
       continueWithApple: "Continua con Apple",
       or: "o",
+      continueAsGuest: "Continua come ospite",
+      createAccount: "Crea account",
+      welcomeSubtitle: "Segui film, serie, anime e dorama",
+      welcomeTitle: "Tutto il tuo intrattenimento.\nIn un unico posto.",
+      welcomeDescription: "Segui, scopri e condividi film, serie, anime e dorama. Unisciti alla community.",
+      signInToAccessProfile: "Accedi per vedere il tuo profilo",
+      signInToAccessProfileDescription: "Crea un account per seguire i tuoi film, serie e condividere recensioni con la community.",
       startNow: "Inizia ora",
       startYourJourney: "Inizia il tuo viaggio in pochi passi.",
       emailLabel: "E-mail",
@@ -935,6 +977,13 @@ enum L10n {
       continueWithGoogle: "Googleで続ける",
       continueWithApple: "Appleで続ける",
       or: "または",
+      continueAsGuest: "ゲストとして続ける",
+      createAccount: "アカウント作成",
+      welcomeSubtitle: "映画、ドラマ、アニメ、韓ドラを追跡",
+      welcomeTitle: "すべてのエンタメを\nひとつの場所で。",
+      welcomeDescription: "映画、ドラマ、アニメ、韓ドラを追跡、発見、共有。コミュニティに参加しよう。",
+      signInToAccessProfile: "プロフィールにアクセスするにはログイン",
+      signInToAccessProfileDescription: "アカウントを作成して、映画やドラマを追跡し、コミュニティとレビューを共有しましょう。",
       startNow: "今すぐ始める",
       startYourJourney: "数ステップで旅を始めましょう。",
       emailLabel: "メールアドレス",
@@ -1088,6 +1137,13 @@ struct Strings {
   let continueWithGoogle: String
   let continueWithApple: String
   let or: String
+  let continueAsGuest: String
+  let createAccount: String
+  let welcomeSubtitle: String
+  let welcomeTitle: String
+  let welcomeDescription: String
+  let signInToAccessProfile: String
+  let signInToAccessProfileDescription: String
   // Sign Up
   let startNow: String
   let startYourJourney: String

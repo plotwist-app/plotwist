@@ -7,6 +7,16 @@ import SwiftUI
 
 struct HomeView: View {
   @State private var selectedTab = 0
+  @State private var previousTab = 0
+  
+  private var isGuestMode: Bool {
+    !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+  }
+  
+  private func exitGuestMode() {
+    UserDefaults.standard.set(false, forKey: "isGuestMode")
+    NotificationCenter.default.post(name: .authChanged, object: nil)
+  }
 
   var body: some View {
     TabView(selection: $selectedTab) {
@@ -36,11 +46,24 @@ struct HomeView: View {
         .tag(2)
     }
     .tint(.appForegroundAdaptive)
+    .onChange(of: selectedTab) { newTab in
+      // Intercept profile tab when in guest mode - redirect to login
+      if newTab == 2 && isGuestMode {
+        selectedTab = previousTab
+        exitGuestMode()
+      } else {
+        previousTab = newTab
+      }
+    }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
       selectedTab = 1
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
-      selectedTab = 2
+      if isGuestMode {
+        exitGuestMode()
+      } else {
+        selectedTab = 2
+      }
     }
     .onAppear {
       let appearance = UITabBarAppearance()
