@@ -19,8 +19,8 @@ export async function signUp({
   language,
   redirectToCheckout,
 }: SignUpParams) {
-  const response = await postUsersCreate({ email, password, username })
-  if (response.status !== 201) return
+  const { user } = await postUsersCreate({ email, password, username })
+  if (!user) return
 
   await signIn({
     login: email,
