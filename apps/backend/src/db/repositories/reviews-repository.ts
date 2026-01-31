@@ -50,6 +50,7 @@ export async function selectReviews({
   userId,
   authenticatedUserId,
   limit = 50,
+  page = 1,
   orderBy,
   startDate,
   endDate,
@@ -68,6 +69,8 @@ export async function selectReviews({
       : undefined,
     desc(schema.reviews.createdAt),
   ].filter(Boolean) as SQL<unknown>[]
+
+  const offset = (page - 1) * limit
 
   return db
     .select({
@@ -115,7 +118,8 @@ export async function selectReviews({
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
     .orderBy(...orderCriteria)
-    .limit(limit)
+    .limit(limit + 1) // Fetch one extra to check if there are more
+    .offset(offset)
 }
 
 export async function deleteReview(id: string) {

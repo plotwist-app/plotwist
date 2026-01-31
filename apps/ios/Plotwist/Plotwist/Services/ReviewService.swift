@@ -243,6 +243,37 @@ class ReviewService {
     return result.reviewsCount
   }
 
+  // MARK: - Get User Detailed Reviews (for profile with pagination)
+  func getUserDetailedReviews(
+    userId: String,
+    language: String = Language.current.rawValue,
+    orderBy: String = "createdAt",
+    page: Int = 1,
+    limit: Int = 20
+  ) async throws -> DetailedReviewsPageResponse {
+    let urlString = "\(API.baseURL)/detailed/reviews?userId=\(userId)&language=\(language)&orderBy=\(orderBy)&page=\(page)&limit=\(limit)"
+    
+    guard let url = URL(string: urlString) else {
+      throw ReviewError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    
+    if let token = UserDefaults.standard.string(forKey: "token") {
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw ReviewError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(DetailedReviewsPageResponse.self, from: data)
+  }
+  
   // MARK: - Get Reviews List
   func getReviews(
     tmdbId: Int,
@@ -382,6 +413,62 @@ struct ReviewData: Codable {
       try container.encode(episodeNumber, forKey: .episodeNumber)
     }
   }
+}
+
+// MARK: - Detailed Reviews (for profile)
+struct DetailedReview: Codable, Identifiable {
+  let id: String
+  let userId: String
+  let tmdbId: Int
+  let mediaType: String
+  let review: String
+  let rating: Double
+  let hasSpoilers: Bool
+  let seasonNumber: Int?
+  let episodeNumber: Int?
+  let language: String?
+  let createdAt: String
+  let user: ReviewUser
+  let likeCount: Int
+  let replyCount: Int
+  let userLike: UserLike?
+  let title: String
+  let posterPath: String?
+  let backdropPath: String?
+  
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+  
+  var formattedDate: String {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    guard let date = formatter.date(from: createdAt) else { return "" }
+    let displayFormatter = DateFormatter()
+    displayFormatter.dateStyle = .medium
+    displayFormatter.timeStyle = .none
+    return displayFormatter.string(from: date)
+  }
+  
+  var seasonBadge: String? {
+    guard let season = seasonNumber else { return nil }
+    if let episode = episodeNumber {
+      return "(S\(String(format: "%02d", season))E\(String(format: "%02d", episode)))"
+    }
+    return "(S\(String(format: "%02d", season)))"
+  }
+}
+
+struct PaginationInfo: Codable {
+  let page: Int
+  let limit: Int
+  let hasMore: Bool
+}
+
+struct DetailedReviewsPageResponse: Codable {
+  let reviews: [DetailedReview]
+  let pagination: PaginationInfo
 }
 
 enum ReviewError: LocalizedError {
