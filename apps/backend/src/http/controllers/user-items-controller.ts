@@ -54,11 +54,20 @@ export async function upsertUserItemController(
   }
 
   // Create first watch entry if status is WATCHED and no entries exist
+  let watchEntries: { id: string; watchedAt: string }[] = []
   if (status === 'WATCHED') {
-    const existingEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    const existingEntries = await getWatchEntriesByUserItemId(
+      result.userItem.id
+    )
     if (existingEntries.length === 0) {
       await createWatchEntry({ userItemId: result.userItem.id })
     }
+    // Fetch all watch entries to return in response
+    const allEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    watchEntries = allEntries.map(entry => ({
+      id: entry.id,
+      watchedAt: entry.watchedAt.toISOString(),
+    }))
   } else {
     // If status changed from WATCHED to something else, delete watch entries
     await deleteWatchEntriesByUserItemId(result.userItem.id)
@@ -75,7 +84,12 @@ export async function upsertUserItemController(
     },
   })
 
-  return reply.status(201).send({ userItem: result.userItem })
+  return reply.status(201).send({
+    userItem: {
+      ...result.userItem,
+      watchEntries,
+    },
+  })
 }
 
 export async function getUserItemsController(
