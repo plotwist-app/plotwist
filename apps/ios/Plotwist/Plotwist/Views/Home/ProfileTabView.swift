@@ -275,18 +275,21 @@ struct ProfileTabView: View {
     return ZStack(alignment: .topLeading) {
       // Collection tab
       collectionTabContent
-        .frame(width: screenWidth)
+        .frame(width: screenWidth, alignment: .top)
+        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .collection ? 0 : -screenWidth)
       
       // Reviews tab
       ProfileReviewsListView(userId: userId)
         .padding(.bottom, 24)
-        .frame(width: screenWidth)
+        .frame(width: screenWidth, alignment: .top)
+        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .reviews ? 0 : screenWidth)
     }
-    .frame(width: screenWidth, alignment: .leading)
+    .frame(width: screenWidth, alignment: .topLeading)
+    .frame(maxHeight: .infinity, alignment: .top)
     .clipShape(Rectangle())
     .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
