@@ -109,7 +109,7 @@ struct ReviewSheet: View {
           .frame(height: 48)
           .background(Color.appForegroundAdaptive)
           .foregroundColor(.appBackgroundAdaptive)
-          .cornerRadius(12)
+          .clipShape(Capsule())
         }
         .disabled(!isFormValid || isLoading || isDeleting)
         .opacity(!isFormValid || isLoading || isDeleting ? 0.5 : 1)
