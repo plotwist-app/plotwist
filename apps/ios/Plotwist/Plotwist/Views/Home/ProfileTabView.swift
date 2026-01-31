@@ -28,6 +28,24 @@ enum ProfileStatusTab: String, CaseIterable {
     case .dropped: return strings.dropped
     }
   }
+  
+  var icon: String {
+    switch self {
+    case .watched: return "eye.fill"
+    case .watching: return "play.circle.fill"
+    case .watchlist: return "clock.fill"
+    case .dropped: return "xmark.circle.fill"
+    }
+  }
+  
+  var color: Color {
+    switch self {
+    case .watched: return .green
+    case .watching: return .blue
+    case .watchlist: return .orange
+    case .dropped: return .red
+    }
+  }
 }
 
 // MARK: - Profile Main Tab
@@ -189,97 +207,106 @@ struct ProfileTabView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 8)
 
-                // Tab Content
-                switch selectedMainTab {
-                case .collection:
-                  // Status Tabs inside Collection
-                  ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
-                    .padding(.top, 8)
-                    .onChange(of: selectedStatusTab) { _ in
-                      Task { await loadUserItems() }
-                    }
-
-                  // User Items Grid
-                  if isLoadingItems {
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      ForEach(0..<6, id: \.self) { _ in
-                        RoundedRectangle(cornerRadius: 12)
-                          .fill(Color.appBorderAdaptive)
-                          .aspectRatio(2 / 3, contentMode: .fit)
-                      }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                  } else if userItems.isEmpty {
-                    // Empty state - Add first item
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      Button {
-                        NotificationCenter.default.post(name: .navigateToSearch, object: nil)
-                      } label: {
-                        RoundedRectangle(cornerRadius: 12)
-                          .strokeBorder(
-                            style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-                          )
-                          .foregroundColor(.appBorderAdaptive)
-                          .aspectRatio(2 / 3, contentMode: .fit)
-                          .overlay(
-                            Image(systemName: "plus")
-                              .font(.system(size: 24, weight: .medium))
-                              .foregroundColor(.appMutedForegroundAdaptive)
-                          )
-                      }
-                      .buttonStyle(.plain)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                  } else {
-                    LazyVGrid(
-                      columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12),
-                      ],
-                      spacing: 16
-                    ) {
-                      ForEach(userItems) { item in
-                        NavigationLink {
-                          MediaDetailView(
-                            mediaId: item.tmdbId,
-                            mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-                          )
-                        } label: {
-                          ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                // Tab Content with slide animation
+                Group {
+                  if selectedMainTab == .collection {
+                    VStack(spacing: 0) {
+                      // Status Tabs inside Collection
+                      ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
+                        .padding(.top, 8)
+                        .onChange(of: selectedStatusTab) { _ in
+                          Task { await loadUserItems() }
                         }
-                        .buttonStyle(.plain)
+
+                      // User Items Grid
+                      if isLoadingItems {
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          ForEach(0..<6, id: \.self) { _ in
+                            RoundedRectangle(cornerRadius: 12)
+                              .fill(Color.appBorderAdaptive)
+                              .aspectRatio(2 / 3, contentMode: .fit)
+                          }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
+                      } else if userItems.isEmpty {
+                        // Empty state - Add first item
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          Button {
+                            NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+                          } label: {
+                            RoundedRectangle(cornerRadius: 12)
+                              .strokeBorder(
+                                style: StrokeStyle(lineWidth: 2, dash: [8, 4])
+                              )
+                              .foregroundColor(.appBorderAdaptive)
+                              .aspectRatio(2 / 3, contentMode: .fit)
+                              .overlay(
+                                Image(systemName: "plus")
+                                  .font(.system(size: 24, weight: .medium))
+                                  .foregroundColor(.appMutedForegroundAdaptive)
+                              )
+                          }
+                          .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
+                      } else {
+                        LazyVGrid(
+                          columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12),
+                          ],
+                          spacing: 16
+                        ) {
+                          ForEach(userItems) { item in
+                            NavigationLink {
+                              MediaDetailView(
+                                mediaId: item.tmdbId,
+                                mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+                              )
+                            } label: {
+                              ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+                            }
+                            .buttonStyle(.plain)
+                          }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
                       }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
+                    .transition(.asymmetric(
+                      insertion: .move(edge: .leading).combined(with: .opacity),
+                      removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
+                  } else {
+                    // Reviews tab content with pagination
+                    ProfileReviewsListView(userId: user.id)
+                      .padding(.bottom, 24)
+                      .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                      ))
                   }
-
-                case .reviews:
-                  // Reviews tab content with pagination
-                  ProfileReviewsListView(userId: user.id)
-                    .padding(.bottom, 24)
                 }
-
-                Spacer()
-                  .frame(height: 100)
+                .animation(.easeInOut(duration: 0.3), value: selectedMainTab)
               }
+              .padding(.bottom, 100)
               .background(
                 GeometryReader { geo -> Color in
                   DispatchQueue.main.async {
@@ -571,41 +598,34 @@ struct ProfileStatusTabs: View {
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 2) {
+      HStack(spacing: 8) {
         ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
           Button {
             withAnimation(.easeInOut(duration: 0.2)) {
               selectedTab = tab
             }
           } label: {
-            Text(tab.displayName(strings: strings))
-              .font(.footnote.weight(.medium))
-              .foregroundColor(
-                selectedTab == tab
-                  ? .appForegroundAdaptive
-                  : .appMutedForegroundAdaptive
-              )
-              .padding(.horizontal, 12)
-              .padding(.vertical, 8)
-              .background(
-                selectedTab == tab
-                  ? Color.appBackgroundAdaptive
-                  : Color.clear
-              )
-              .clipShape(RoundedRectangle(cornerRadius: 8))
-              .shadow(
-                color: selectedTab == tab ? Color.black.opacity(0.08) : Color.clear,
-                radius: 2,
-                x: 0,
-                y: 1
-              )
+            HStack(spacing: 6) {
+              Image(systemName: tab.icon)
+                .font(.system(size: 12))
+                .foregroundColor(selectedTab == tab ? tab.color : .appMutedForegroundAdaptive)
+              
+              Text(tab.displayName(strings: strings))
+                .font(.footnote.weight(.medium))
+                .foregroundColor(
+                  selectedTab == tab
+                    ? .appForegroundAdaptive
+                    : .appMutedForegroundAdaptive
+                )
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
           }
           .buttonStyle(.plain)
         }
       }
-      .padding(3)
-      .background(Color.appInputFilled)
-      .clipShape(RoundedRectangle(cornerRadius: 10))
       .padding(.horizontal, 24)
     }
     .scrollClipDisabled()

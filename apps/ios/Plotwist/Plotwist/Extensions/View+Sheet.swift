@@ -5,14 +5,29 @@
 
 import SwiftUI
 
+// MARK: - UIScreen Extension for Device Corner Radius
+extension UIScreen {
+  /// Returns the display corner radius of the device screen
+  var deviceCornerRadius: CGFloat {
+    guard let cornerRadius = value(forKey: "_displayCornerRadius") as? CGFloat else {
+      return 44 // Fallback for older devices or simulator
+    }
+    return cornerRadius
+  }
+}
+
 // MARK: - Sheet Style Configuration
 enum SheetStyle {
   /// Margem horizontal do sheet flutuante
-  static let horizontalPadding: CGFloat = 16
-  /// Raio de arredondamento do sheet
-  static let cornerRadius: CGFloat = 32
-  /// Altura extra para compensar o padding (padding * 2)
-  static let heightOffset: CGFloat = 32
+  static let horizontalPadding: CGFloat = 8
+  /// Margem inferior do sheet flutuante
+  static let bottomPadding: CGFloat = 8
+  /// Raio de arredondamento do sheet - usa o raio do dispositivo
+  static var cornerRadius: CGFloat {
+    UIScreen.main.deviceCornerRadius
+  }
+  /// Altura extra para compensar o padding
+  static let heightOffset: CGFloat = 20
 }
 
 // MARK: - Floating Sheet Container
@@ -31,7 +46,9 @@ struct FloatingSheetContainer<Content: View>: View {
         .background(Color.appBackgroundAdaptive)
         .clipShape(RoundedRectangle(cornerRadius: SheetStyle.cornerRadius))
         .padding(.horizontal, SheetStyle.horizontalPadding)
+        .padding(.bottom, SheetStyle.bottomPadding)
     }
+    .ignoresSafeArea(.container, edges: .bottom)
   }
 }
 

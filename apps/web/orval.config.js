@@ -34,6 +34,11 @@ module.exports = {
               useInfinite: true,
             },
           },
+          getDetailedReviews: {
+            query: {
+              useInfinite: true,
+            },
+          },
         },
       },
 

@@ -415,7 +415,7 @@ struct ReviewData: Codable {
   }
 }
 
-// MARK: - Detailed Reviews (for profile)
+// MARK: - Detailed Review (for profile reviews list)
 struct DetailedReview: Codable, Identifiable {
   let id: String
   let userId: String
@@ -442,17 +442,28 @@ struct DetailedReview: Codable, Identifiable {
   }
   
   var formattedDate: String {
-    let formatter = ISO8601DateFormatter()
-    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    guard let date = formatter.date(from: createdAt) else { return "" }
-    let displayFormatter = DateFormatter()
-    displayFormatter.dateStyle = .medium
-    displayFormatter.timeStyle = .none
-    return displayFormatter.string(from: date)
+    let inputFormatter = ISO8601DateFormatter()
+    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    
+    guard let date = inputFormatter.date(from: createdAt) else {
+      // Try without fractional seconds
+      inputFormatter.formatOptions = [.withInternetDateTime]
+      guard let date = inputFormatter.date(from: createdAt) else {
+        return createdAt
+      }
+      return formatDate(date)
+    }
+    return formatDate(date)
+  }
+  
+  private func formatDate(_ date: Date) -> String {
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "dd/MM/yyyy"
+    return outputFormatter.string(from: date)
   }
   
   var seasonBadge: String? {
-    guard let season = seasonNumber else { return nil }
+    guard mediaType == "TV_SHOW", let season = seasonNumber else { return nil }
     if let episode = episodeNumber {
       return "(S\(String(format: "%02d", season))E\(String(format: "%02d", episode)))"
     }

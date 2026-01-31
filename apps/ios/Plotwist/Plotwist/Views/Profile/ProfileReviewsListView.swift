@@ -5,6 +5,42 @@
 
 import SwiftUI
 
+// MARK: - Reviews Cache
+class ProfileReviewsCache {
+  static let shared = ProfileReviewsCache()
+  private init() {}
+  
+  private var cache: [String: CachedReviews] = [:]
+  private let cacheDuration: TimeInterval = 300 // 5 minutes
+  
+  private struct CachedReviews {
+    let reviews: [DetailedReview]
+    let hasMore: Bool
+    let currentPage: Int
+    let timestamp: Date
+  }
+  
+  func get(userId: String) -> (reviews: [DetailedReview], hasMore: Bool, currentPage: Int)? {
+    guard let cached = cache[userId],
+          Date().timeIntervalSince(cached.timestamp) < cacheDuration else {
+      return nil
+    }
+    return (cached.reviews, cached.hasMore, cached.currentPage)
+  }
+  
+  func set(userId: String, reviews: [DetailedReview], hasMore: Bool, currentPage: Int) {
+    cache[userId] = CachedReviews(reviews: reviews, hasMore: hasMore, currentPage: currentPage, timestamp: Date())
+  }
+  
+  func invalidate(userId: String) {
+    cache.removeValue(forKey: userId)
+  }
+  
+  func invalidateAll() {
+    cache.removeAll()
+  }
+}
+
 struct ProfileReviewsListView: View {
   let userId: String
   
@@ -17,6 +53,7 @@ struct ProfileReviewsListView: View {
   @State private var hasMore = true
   
   private let pageSize = 20
+  private let cache = ProfileReviewsCache.shared
   
   // Calculate poster width: (screenWidth - 48 padding - 24 grid spacing) / 3
   private var posterWidth: CGFloat {
@@ -83,6 +120,9 @@ struct ProfileReviewsListView: View {
         .padding(.top, 16)
       }
     }
+    .onAppear {
+      restoreFromCache()
+    }
     .task {
       await loadReviews()
     }
@@ -91,8 +131,21 @@ struct ProfileReviewsListView: View {
     }
   }
   
+  private func restoreFromCache() {
+    if let cached = cache.get(userId: userId) {
+      reviews = cached.reviews
+      hasMore = cached.hasMore
+      currentPage = cached.currentPage
+      isLoading = false
+    }
+  }
+  
   private func loadReviews() async {
-    guard reviews.isEmpty else { return }
+    // Skip if already have cached data
+    if !reviews.isEmpty {
+      isLoading = false
+      return
+    }
     
     isLoading = true
     defer { isLoading = false }
@@ -106,6 +159,7 @@ struct ProfileReviewsListView: View {
       reviews = response.reviews
       currentPage = 1
       hasMore = response.pagination.hasMore
+      cache.set(userId: userId, reviews: reviews, hasMore: hasMore, currentPage: currentPage)
     } catch {
       self.error = error.localizedDescription
       reviews = []
@@ -134,6 +188,7 @@ struct ProfileReviewsListView: View {
       reviews.append(contentsOf: uniqueNewReviews)
       currentPage = nextPage
       hasMore = response.pagination.hasMore
+      cache.set(userId: userId, reviews: reviews, hasMore: hasMore, currentPage: currentPage)
     } catch {
       // Silently fail for pagination errors
       hasMore = false
@@ -148,28 +203,6 @@ struct ProfileReviewItem: View {
   
   private var posterHeight: CGFloat {
     posterWidth * 1.5 // 2:3 aspect ratio
-  }
-  
-  // Pre-compute star data for better performance
-  private var starData: [(icon: String, color: Color)] {
-    (1...5).map { index in
-      let rating = review.rating
-      let isFilled = Double(index) <= rating
-      let isHalf = !isFilled && Double(index) - 0.5 <= rating
-      
-      let icon: String
-      if isFilled {
-        icon = "star.fill"
-      } else if isHalf {
-        icon = "star.leadinghalf.filled"
-      } else {
-        icon = "star"
-      }
-      
-      let color: Color = (isFilled || isHalf) ? .appStarYellow : .appMutedForegroundAdaptive.opacity(0.3)
-      
-      return (icon, color)
-    }
   }
   
   var body: some View {
@@ -209,13 +242,7 @@ struct ProfileReviewItem: View {
         
         // Stars + Date
         HStack(spacing: 8) {
-          HStack(spacing: 2) {
-            ForEach(0..<5, id: \.self) { index in
-              Image(systemName: starData[index].icon)
-                .font(.system(size: 14))
-                .foregroundColor(starData[index].color)
-            }
-          }
+          StarRatingView(rating: .constant(review.rating), size: 14, interactive: false)
           
           Circle()
             .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
@@ -247,7 +274,6 @@ struct ProfileReviewItem: View {
             )
         }
       }
-      .drawingGroup()
     }
     .frame(maxWidth: .infinity, alignment: .leading)
   }
@@ -258,20 +284,24 @@ struct ProfileReviewSkeletonItem: View {
   let posterWidth: CGFloat
   
   private var posterHeight: CGFloat {
-    posterWidth * 1.5
+    posterWidth * 1.5 // 2:3 aspect ratio
   }
   
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
+      // Poster skeleton
       RoundedRectangle(cornerRadius: 12)
         .fill(Color.appBorderAdaptive)
         .frame(width: posterWidth, height: posterHeight)
       
+      // Content skeleton
       VStack(alignment: .leading, spacing: 8) {
+        // Title
         RoundedRectangle(cornerRadius: 4)
           .fill(Color.appBorderAdaptive)
           .frame(width: 180, height: 20)
         
+        // Stars + Date
         HStack(spacing: 8) {
           RoundedRectangle(cornerRadius: 4)
             .fill(Color.appBorderAdaptive)
@@ -282,6 +312,7 @@ struct ProfileReviewSkeletonItem: View {
             .frame(width: 70, height: 14)
         }
         
+        // Review text
         VStack(alignment: .leading, spacing: 6) {
           RoundedRectangle(cornerRadius: 4)
             .fill(Color.appBorderAdaptive)
