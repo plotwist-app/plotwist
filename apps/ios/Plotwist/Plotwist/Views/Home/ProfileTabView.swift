@@ -28,6 +28,24 @@ enum ProfileStatusTab: String, CaseIterable {
     case .dropped: return strings.dropped
     }
   }
+  
+  var icon: String {
+    switch self {
+    case .watched: return "eye.fill"
+    case .watching: return "play.circle.fill"
+    case .watchlist: return "clock.fill"
+    case .dropped: return "xmark.circle.fill"
+    }
+  }
+  
+  var color: Color {
+    switch self {
+    case .watched: return .green
+    case .watching: return .blue
+    case .watchlist: return .orange
+    case .dropped: return .red
+    }
+  }
 }
 
 // MARK: - Profile Main Tab
@@ -569,41 +587,34 @@ struct ProfileStatusTabs: View {
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 2) {
+      HStack(spacing: 8) {
         ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
           Button {
             withAnimation(.easeInOut(duration: 0.2)) {
               selectedTab = tab
             }
           } label: {
-            Text(tab.displayName(strings: strings))
-              .font(.footnote.weight(.medium))
-              .foregroundColor(
-                selectedTab == tab
-                  ? .appForegroundAdaptive
-                  : .appMutedForegroundAdaptive
-              )
-              .padding(.horizontal, 12)
-              .padding(.vertical, 8)
-              .background(
-                selectedTab == tab
-                  ? Color.appBackgroundAdaptive
-                  : Color.clear
-              )
-              .clipShape(RoundedRectangle(cornerRadius: 8))
-              .shadow(
-                color: selectedTab == tab ? Color.black.opacity(0.08) : Color.clear,
-                radius: 2,
-                x: 0,
-                y: 1
-              )
+            HStack(spacing: 6) {
+              Image(systemName: tab.icon)
+                .font(.system(size: 12))
+                .foregroundColor(selectedTab == tab ? tab.color : .appMutedForegroundAdaptive)
+              
+              Text(tab.displayName(strings: strings))
+                .font(.footnote.weight(.medium))
+                .foregroundColor(
+                  selectedTab == tab
+                    ? .appForegroundAdaptive
+                    : .appMutedForegroundAdaptive
+                )
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
           }
           .buttonStyle(.plain)
         }
       }
-      .padding(3)
-      .background(Color.appInputFilled)
-      .clipShape(RoundedRectangle(cornerRadius: 10))
       .padding(.horizontal, 24)
     }
     .scrollClipDisabled()
