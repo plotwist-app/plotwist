@@ -294,7 +294,7 @@ class ReviewService {
     userId: String,
     language: String = Language.current.rawValue,
     orderBy: String = "createdAt",
-    limit: Int = 100
+    limit: Int = 1000
   ) async throws -> [DetailedReview] {
     let urlString = "\(API.baseURL)/detailed/reviews?userId=\(userId)&language=\(language)&orderBy=\(orderBy)&limit=\(limit)"
     

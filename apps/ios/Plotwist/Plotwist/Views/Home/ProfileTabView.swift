@@ -274,11 +274,10 @@ struct ProfileTabView: View {
                 case .reviews:
                   // Reviews tab content
                   ProfileReviewsListView(userId: user.id)
+                    .padding(.bottom, 24)
                 }
-
-                Spacer()
-                  .frame(height: 100)
               }
+              .padding(.bottom, 100)
               .background(
                 GeometryReader { geo -> Color in
                   DispatchQueue.main.async {
