@@ -51,8 +51,10 @@ struct EpisodeRowView: View {
 
         Spacer()
 
-        // Watch button
-        Button(action: onToggleWatched) {
+        // Watch button - use high priority gesture to prevent NavigationLink from triggering
+        Button {
+          onToggleWatched()
+        } label: {
           if isLoading {
             ProgressView()
               .scaleEffect(0.8)
@@ -62,6 +64,7 @@ struct EpisodeRowView: View {
               .foregroundColor(isWatched ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
           }
         }
+        .buttonStyle(.borderless)
         .disabled(isLoading)
         .frame(width: 44, height: 44)
       }

@@ -9,6 +9,7 @@ struct ReviewSheet: View {
   let mediaId: Int
   let mediaType: String
   let seasonNumber: Int?
+  let episodeNumber: Int?
   let existingReview: Review?
   let onSaved: (() -> Void)?
   let onDeleted: (() -> Void)?
@@ -24,10 +25,11 @@ struct ReviewSheet: View {
   @State private var showDeleteConfirmation: Bool = false
   @State private var errorMessage: String = ""
 
-  init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, existingReview: Review? = nil, onSaved: (() -> Void)? = nil, onDeleted: (() -> Void)? = nil) {
+  init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, episodeNumber: Int? = nil, existingReview: Review? = nil, onSaved: (() -> Void)? = nil, onDeleted: (() -> Void)? = nil) {
     self.mediaId = mediaId
     self.mediaType = mediaType
     self.seasonNumber = seasonNumber
+    self.episodeNumber = episodeNumber
     self.existingReview = existingReview
     self.onSaved = onSaved
     self.onDeleted = onDeleted
@@ -181,7 +183,7 @@ struct ReviewSheet: View {
           rating: rating,
           hasSpoilers: hasSpoilers,
           seasonNumber: seasonNumber,
-          episodeNumber: nil,
+          episodeNumber: episodeNumber,
           language: Language.current.rawValue
         )
 

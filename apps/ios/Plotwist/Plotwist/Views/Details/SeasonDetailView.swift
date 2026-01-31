@@ -116,13 +116,15 @@ struct SeasonDetailView: View {
           // Episodes Section with pinned header
           if !episodes.isEmpty {
             Section {
-              EpisodesListView(
-                seriesId: seriesId,
-                seasonNumber: season.seasonNumber,
-                episodes: episodes,
-                watchedEpisodes: $watchedEpisodes,
-                loadingEpisodeIds: $loadingEpisodeIds
-              )
+            EpisodesListView(
+              seriesId: seriesId,
+              seasonNumber: season.seasonNumber,
+              seasonName: season.name,
+              seasonPosterPath: season.posterPath,
+              episodes: episodes,
+              watchedEpisodes: $watchedEpisodes,
+              loadingEpisodeIds: $loadingEpisodeIds
+            )
 
               Spacer()
                 .frame(height: 80)
@@ -369,6 +371,8 @@ struct SegmentedProgressBar: View {
 struct EpisodesListView: View {
   let seriesId: Int
   let seasonNumber: Int
+  let seasonName: String
+  let seasonPosterPath: String?
   let episodes: [Episode]
   @Binding var watchedEpisodes: [UserEpisode]
   @Binding var loadingEpisodeIds: Set<Int>
@@ -384,16 +388,24 @@ struct EpisodesListView: View {
   var body: some View {
     VStack(spacing: 16) {
       ForEach(episodes) { episode in
-        EpisodeRowView(
-          episode: episode,
-          isWatched: isEpisodeWatched(episode),
-          isLoading: loadingEpisodeIds.contains(episode.episodeNumber),
-          onToggleWatched: {
-            Task {
-              await toggleWatched(episode)
+        NavigationLink(destination: EpisodeDetailView(
+          seriesId: seriesId,
+          seasonName: seasonName,
+          seasonPosterPath: seasonPosterPath,
+          episode: episode
+        )) {
+          EpisodeRowView(
+            episode: episode,
+            isWatched: isEpisodeWatched(episode),
+            isLoading: loadingEpisodeIds.contains(episode.episodeNumber),
+            onToggleWatched: {
+              Task {
+                await toggleWatched(episode)
+              }
             }
-          }
-        )
+          )
+        }
+        .buttonStyle(.plain)
       }
     }
     .padding(.horizontal, 24)
