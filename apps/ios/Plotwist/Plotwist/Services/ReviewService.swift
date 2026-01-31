@@ -243,6 +243,37 @@ class ReviewService {
     return result.reviewsCount
   }
 
+  // MARK: - Get User Detailed Reviews (for profile with pagination)
+  func getUserDetailedReviews(
+    userId: String,
+    language: String = Language.current.rawValue,
+    orderBy: String = "createdAt",
+    page: Int = 1,
+    limit: Int = 20
+  ) async throws -> DetailedReviewsPageResponse {
+    let urlString = "\(API.baseURL)/detailed/reviews?userId=\(userId)&language=\(language)&orderBy=\(orderBy)&page=\(page)&limit=\(limit)"
+    
+    guard let url = URL(string: urlString) else {
+      throw ReviewError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    
+    if let token = UserDefaults.standard.string(forKey: "token") {
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw ReviewError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(DetailedReviewsPageResponse.self, from: data)
+  }
+  
   // MARK: - Get Reviews List
   func getReviews(
     tmdbId: Int,
@@ -287,42 +318,6 @@ class ReviewService {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return try decoder.decode([ReviewListItem].self, from: data)
-  }
-  
-  // MARK: - Get User Detailed Reviews (for profile)
-  func getUserDetailedReviews(
-    userId: String,
-    language: String = Language.current.rawValue,
-    orderBy: String = "createdAt",
-    limit: Int = 1000
-  ) async throws -> [DetailedReview] {
-    let urlString = "\(API.baseURL)/detailed/reviews?userId=\(userId)&language=\(language)&orderBy=\(orderBy)&limit=\(limit)"
-    
-    guard let url = URL(string: urlString) else {
-      throw ReviewError.invalidURL
-    }
-    
-    var request = URLRequest(url: url)
-    
-    // Add token if available (optional auth)
-    if let token = UserDefaults.standard.string(forKey: "token") {
-      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    }
-    
-    let (data, response) = try await URLSession.shared.data(for: request)
-    
-    guard let http = response as? HTTPURLResponse else {
-      throw ReviewError.invalidResponse
-    }
-    
-    guard http.statusCode == 200 else {
-      throw ReviewError.invalidResponse
-    }
-    
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try decoder.decode(DetailedReviewsResponse.self, from: data)
-    return result.reviews
   }
 }
 
@@ -423,16 +418,16 @@ struct ReviewData: Codable {
 // MARK: - Detailed Review (for profile reviews list)
 struct DetailedReview: Codable, Identifiable {
   let id: String
-  let createdAt: String
   let userId: String
   let tmdbId: Int
   let mediaType: String
   let review: String
   let rating: Double
   let hasSpoilers: Bool
-  let language: String?
   let seasonNumber: Int?
   let episodeNumber: Int?
+  let language: String?
+  let createdAt: String
   let user: ReviewUser
   let likeCount: Int
   let replyCount: Int
@@ -442,7 +437,7 @@ struct DetailedReview: Codable, Identifiable {
   let backdropPath: String?
   
   var posterURL: URL? {
-    guard let posterPath = posterPath else { return nil }
+    guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
   }
   
@@ -476,8 +471,15 @@ struct DetailedReview: Codable, Identifiable {
   }
 }
 
-struct DetailedReviewsResponse: Codable {
+struct PaginationInfo: Codable {
+  let page: Int
+  let limit: Int
+  let hasMore: Bool
+}
+
+struct DetailedReviewsPageResponse: Codable {
   let reviews: [DetailedReview]
+  let pagination: PaginationInfo
 }
 
 enum ReviewError: LocalizedError {

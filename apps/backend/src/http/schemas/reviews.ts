@@ -26,6 +26,7 @@ export const getReviewsQuerySchema = languageQuerySchema.extend({
   tmdbId: z.string().optional(),
   userId: z.string().optional(),
   limit: z.string().optional(),
+  page: z.string().optional(),
   mediaType: z.enum(['MOVIE', 'TV_SHOW']).optional(),
   orderBy: z.enum(['likeCount', 'createdAt']).optional(),
   interval: z
@@ -81,6 +82,11 @@ export const getDetailedReviewsResponseSchema = {
         backdropPath: z.string().nullable(),
       })
     ),
+    pagination: z.object({
+      page: z.number(),
+      limit: z.number(),
+      hasMore: z.boolean(),
+    }),
   }),
 }
 

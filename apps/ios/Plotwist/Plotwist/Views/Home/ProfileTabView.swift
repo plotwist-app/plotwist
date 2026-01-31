@@ -290,7 +290,7 @@ struct ProfileTabView: View {
                   }
 
                 case .reviews:
-                  // Reviews tab content
+                  // Reviews tab content with pagination
                   ProfileReviewsListView(userId: user.id)
                     .padding(.bottom, 24)
                 }

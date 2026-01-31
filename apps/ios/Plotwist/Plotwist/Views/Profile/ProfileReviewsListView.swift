@@ -15,19 +15,21 @@ class ProfileReviewsCache {
   
   private struct CachedReviews {
     let reviews: [DetailedReview]
+    let hasMore: Bool
+    let currentPage: Int
     let timestamp: Date
   }
   
-  func get(userId: String) -> (reviews: [DetailedReview], hasMore: Bool)? {
+  func get(userId: String) -> (reviews: [DetailedReview], hasMore: Bool, currentPage: Int)? {
     guard let cached = cache[userId],
           Date().timeIntervalSince(cached.timestamp) < cacheDuration else {
       return nil
     }
-    return (cached.reviews, false)
+    return (cached.reviews, cached.hasMore, cached.currentPage)
   }
   
-  func set(userId: String, reviews: [DetailedReview], hasMore: Bool = false) {
-    cache[userId] = CachedReviews(reviews: reviews, timestamp: Date())
+  func set(userId: String, reviews: [DetailedReview], hasMore: Bool, currentPage: Int) {
+    cache[userId] = CachedReviews(reviews: reviews, hasMore: hasMore, currentPage: currentPage, timestamp: Date())
   }
   
   func invalidate(userId: String) {
@@ -44,9 +46,13 @@ struct ProfileReviewsListView: View {
   
   @State private var reviews: [DetailedReview] = []
   @State private var isLoading = true
+  @State private var isLoadingMore = false
   @State private var error: String?
   @State private var strings = L10n.current
+  @State private var currentPage = 1
+  @State private var hasMore = true
   
+  private let pageSize = 20
   private let cache = ProfileReviewsCache.shared
   
   // Calculate poster width: (screenWidth - 48 padding - 24 grid spacing) / 3
@@ -78,7 +84,7 @@ struct ProfileReviewsListView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 60)
       } else {
-        // Reviews list - LazyVStack for better performance with large lists
+        // Reviews list - LazyVStack for better performance
         LazyVStack(spacing: 24) {
           ForEach(reviews) { review in
             NavigationLink {
@@ -90,6 +96,24 @@ struct ProfileReviewsListView: View {
               ProfileReviewItem(review: review, posterWidth: posterWidth)
             }
             .buttonStyle(.plain)
+            .onAppear {
+              // Load more when reaching near the end
+              if review.id == reviews.last?.id && hasMore && !isLoadingMore {
+                Task {
+                  await loadMoreReviews()
+                }
+              }
+            }
+          }
+          
+          // Loading more indicator
+          if isLoadingMore {
+            HStack {
+              Spacer()
+              ProgressView()
+              Spacer()
+            }
+            .padding(.vertical, 16)
           }
         }
         .padding(.horizontal, 24)
@@ -110,27 +134,64 @@ struct ProfileReviewsListView: View {
   private func restoreFromCache() {
     if let cached = cache.get(userId: userId) {
       reviews = cached.reviews
+      hasMore = cached.hasMore
+      currentPage = cached.currentPage
       isLoading = false
     }
   }
   
   private func loadReviews() async {
     // Skip if already have cached data
-    if !reviews.isEmpty { 
+    if !reviews.isEmpty {
       isLoading = false
-      return 
+      return
     }
     
     isLoading = true
     defer { isLoading = false }
     
     do {
-      let newReviews = try await ReviewService.shared.getUserDetailedReviews(userId: userId)
-      reviews = newReviews
-      cache.set(userId: userId, reviews: newReviews, hasMore: false)
+      let response = try await ReviewService.shared.getUserDetailedReviews(
+        userId: userId,
+        page: 1,
+        limit: pageSize
+      )
+      reviews = response.reviews
+      currentPage = 1
+      hasMore = response.pagination.hasMore
+      cache.set(userId: userId, reviews: reviews, hasMore: hasMore, currentPage: currentPage)
     } catch {
       self.error = error.localizedDescription
       reviews = []
+    }
+  }
+  
+  private func loadMoreReviews() async {
+    guard hasMore && !isLoadingMore else { return }
+    
+    isLoadingMore = true
+    defer { isLoadingMore = false }
+    
+    let nextPage = currentPage + 1
+    
+    do {
+      let response = try await ReviewService.shared.getUserDetailedReviews(
+        userId: userId,
+        page: nextPage,
+        limit: pageSize
+      )
+      
+      // Filter out duplicates
+      let existingIds = Set(reviews.map { $0.id })
+      let uniqueNewReviews = response.reviews.filter { !existingIds.contains($0.id) }
+      
+      reviews.append(contentsOf: uniqueNewReviews)
+      currentPage = nextPage
+      hasMore = response.pagination.hasMore
+      cache.set(userId: userId, reviews: reviews, hasMore: hasMore, currentPage: currentPage)
+    } catch {
+      // Silently fail for pagination errors
+      hasMore = false
     }
   }
 }
@@ -168,7 +229,7 @@ struct ProfileReviewItem: View {
   
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
-      // Poster - same style as collection
+      // Poster
       CachedAsyncImage(url: review.posterURL) { image in
         image
           .resizable()
@@ -203,7 +264,6 @@ struct ProfileReviewItem: View {
         
         // Stars + Date
         HStack(spacing: 8) {
-          // Stars - using pre-computed data
           HStack(spacing: 2) {
             ForEach(0..<5, id: \.self) { index in
               Image(systemName: starData[index].icon)
@@ -258,7 +318,7 @@ struct ProfileReviewSkeletonItem: View {
   
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
-      // Poster skeleton - same style as collection
+      // Poster skeleton
       RoundedRectangle(cornerRadius: 12)
         .fill(Color.appBorderAdaptive)
         .frame(width: posterWidth, height: posterHeight)
@@ -301,7 +361,6 @@ struct ProfileReviewSkeletonItem: View {
   }
 }
 
-// MARK: - Preview
 #Preview {
   NavigationView {
     ProfileReviewsListView(userId: "test-user-id")
