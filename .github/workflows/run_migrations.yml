@@ -12,12 +12,23 @@ jobs:
     environment: CI
     steps:
       - uses: actions/checkout@v4
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10.0.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "23"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Run migrations
         working-directory: apps/backend
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: pnpm run db:migrate
+        run: pnpm exec drizzle-kit migrate
