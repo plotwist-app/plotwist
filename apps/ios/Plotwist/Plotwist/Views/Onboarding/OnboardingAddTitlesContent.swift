@@ -263,49 +263,44 @@ struct OnboardingAddTitlesContent: View {
   private var swipeIndicators: some View {
     ZStack {
       // Want to watch (right)
-      HStack {
-        Spacer()
-        Label(strings.onboardingWantToWatch, systemImage: "bookmark.fill")
-          .font(.headline)
-          .foregroundColor(.white)
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
-          .background(Color.blue)
-          .clipShape(Capsule())
-          .rotationEffect(.degrees(-15))
-          .opacity(dragOffset.width > 50 ? min(1, dragOffset.width / 100) : 0)
-        Spacer()
-      }
+      swipeIndicatorPill(
+        icon: "bookmark.fill",
+        iconColor: .blue,
+        text: strings.onboardingWantToWatch
+      )
+      .opacity(dragOffset.width > 50 ? min(1, dragOffset.width / 100) : 0)
       
       // Not interested (left)
-      HStack {
-        Spacer()
-        Label(strings.onboardingNotInterested, systemImage: "xmark")
-          .font(.headline)
-          .foregroundColor(.white)
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
-          .background(Color.red)
-          .clipShape(Capsule())
-          .rotationEffect(.degrees(15))
-          .opacity(dragOffset.width < -50 ? min(1, -dragOffset.width / 100) : 0)
-        Spacer()
-      }
+      swipeIndicatorPill(
+        icon: "xmark",
+        iconColor: .red,
+        text: strings.onboardingNotInterested
+      )
+      .opacity(dragOffset.width < -50 ? min(1, -dragOffset.width / 100) : 0)
       
       // Already watched (up)
-      VStack {
-        Label(strings.onboardingAlreadyWatched, systemImage: "checkmark.circle.fill")
-          .font(.headline)
-          .foregroundColor(.white)
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
-          .background(Color.green)
-          .clipShape(Capsule())
-          .opacity(dragOffset.height < -50 ? min(1, -dragOffset.height / 100) : 0)
-        Spacer()
-      }
-      .padding(.top, 40)
+      swipeIndicatorPill(
+        icon: "checkmark.circle.fill",
+        iconColor: .green,
+        text: strings.onboardingAlreadyWatched
+      )
+      .opacity(dragOffset.height < -50 ? min(1, -dragOffset.height / 100) : 0)
     }
+  }
+  
+  @ViewBuilder
+  private func swipeIndicatorPill(icon: String, iconColor: Color, text: String) -> some View {
+    HStack(spacing: 6) {
+      Image(systemName: icon)
+        .foregroundColor(iconColor)
+      Text(text)
+        .foregroundColor(.white)
+    }
+    .font(.headline)
+    .padding(.horizontal, 16)
+    .padding(.vertical, 8)
+    .background(Color.black)
+    .clipShape(Capsule())
   }
   
   // MARK: - Action Buttons
