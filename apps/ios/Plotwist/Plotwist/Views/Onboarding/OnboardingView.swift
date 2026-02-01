@@ -22,6 +22,20 @@ enum OnboardingStep: Int, CaseIterable {
     case .addTitles: return 4
     }
   }
+  
+  var previous: OnboardingStep? {
+    switch self {
+    case .welcome: return nil
+    case .name: return .welcome
+    case .contentType: return .name
+    case .genres: return .contentType
+    case .addTitles: return .genres
+    }
+  }
+  
+  var canGoBack: Bool {
+    self != .welcome
+  }
 }
 
 // MARK: - Main Onboarding View
@@ -31,6 +45,7 @@ struct OnboardingView: View {
   @State private var currentPosterIndex = 0
   @State private var strings = L10n.current
   @State private var contentTypeBackdropData = ContentTypeBackdropData()
+  @State private var slideDirection: SlideDirection = .forward
   
   private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
   
@@ -47,6 +62,11 @@ struct OnboardingView: View {
   
   private var currentStepIndex: Int {
     max(0, currentStep.stepNumber - 1)
+  }
+  
+  private enum SlideDirection {
+    case forward
+    case backward
   }
   
   var body: some View {
@@ -72,12 +92,22 @@ struct OnboardingView: View {
           
           // Content Card
           VStack(spacing: 0) {
-            // Progress Bar (only show after welcome)
+            // Header with back button and progress bar (only show after welcome)
             if !isWelcomeScreen {
-              OnboardingProgressBar(
-                totalSteps: totalSteps,
-                currentStep: currentStepIndex
-              )
+              HStack(spacing: 16) {
+                // Back button
+                Button(action: goBack) {
+                  Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.appForegroundAdaptive)
+                    .frame(width: 32, height: 32)
+                }
+                
+                OnboardingProgressBar(
+                  totalSteps: totalSteps,
+                  currentStep: currentStepIndex
+                )
+              }
               .padding(.top, geometry.safeAreaInsets.top + 20)
               .padding(.horizontal, 24)
               .padding(.bottom, 24)
@@ -85,9 +115,10 @@ struct OnboardingView: View {
             
             // Step Content
             stepContent
+              .id(currentStep)
               .transition(.asymmetric(
-                insertion: .move(edge: .trailing).combined(with: .opacity),
-                removal: .move(edge: .leading).combined(with: .opacity)
+                insertion: .move(edge: slideDirection == .forward ? .trailing : .leading),
+                removal: .move(edge: slideDirection == .forward ? .leading : .trailing)
               ))
             
             if !isWelcomeScreen {
@@ -102,7 +133,7 @@ struct OnboardingView: View {
           )
         }
         .frame(maxHeight: isWelcomeScreen ? nil : .infinity, alignment: .bottom)
-        .animation(.spring(response: 0.6, dampingFraction: 0.85), value: currentStep)
+        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentStep)
       }
       .ignoresSafeArea(edges: isWelcomeScreen ? [] : .all)
     }
@@ -119,6 +150,23 @@ struct OnboardingView: View {
     .task {
       // Preload content type backdrops during welcome screen
       contentTypeBackdropData = await ContentTypeBackdropData.load()
+    }
+  }
+  
+  // MARK: - Navigation
+  
+  private func goBack() {
+    guard let previousStep = currentStep.previous else { return }
+    slideDirection = .backward
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
+      currentStep = previousStep
+    }
+  }
+  
+  private func goToStep(_ step: OnboardingStep) {
+    slideDirection = .forward
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
+      currentStep = step
     }
   }
   
@@ -176,36 +224,24 @@ struct OnboardingView: View {
     switch currentStep {
     case .welcome:
       OnboardingWelcomeContent(
-        onContinue: {
-          withAnimation(.spring(response: 0.6, dampingFraction: 0.85)) {
-            currentStep = .name
-          }
-        }
+        onContinue: { goToStep(.name) }
       )
       
     case .name:
-      OnboardingNameContent(onContinue: {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-          currentStep = .contentType
-        }
-      })
+      OnboardingNameContent(
+        onContinue: { goToStep(.contentType) }
+      )
       
     case .contentType:
       OnboardingContentTypeContent(
-        onContinue: {
-          withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-            currentStep = .genres
-          }
-        },
+        onContinue: { goToStep(.genres) },
         backdropData: contentTypeBackdropData
       )
       
     case .genres:
-      OnboardingGenresContent(onContinue: {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-          currentStep = .addTitles
-        }
-      })
+      OnboardingGenresContent(
+        onContinue: { goToStep(.addTitles) }
+      )
       
     case .addTitles:
       OnboardingAddTitlesContent(onComplete: {
