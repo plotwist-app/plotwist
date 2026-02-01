@@ -158,19 +158,11 @@ struct OnboardingAddTitlesContent: View {
     let springAnimation = Animation.spring(response: 0.4, dampingFraction: 0.8)
     
     ZStack {
-      // Fourth card (enters from back during transition)
-      if isTransitioning, let fourth = fourthItem {
-        posterCard(item: fourth)
-          .scaleEffect(CardPosition.third.scale)
-          .rotationEffect(.degrees(CardPosition.third.rotation))
-          .offset(x: CardPosition.third.offsetX, y: CardPosition.third.offsetY)
-          .zIndex(-1)
-      }
-      
       // Third card - animates to second position during transition
       if let third = thirdItem {
         let pos = isTransitioning ? CardPosition.second : CardPosition.third
         posterCard(item: third)
+          .id("card-\(third.id)")
           .scaleEffect(pos.scale)
           .rotationEffect(.degrees(pos.rotation))
           .offset(x: pos.offsetX, y: pos.offsetY)
@@ -182,6 +174,7 @@ struct OnboardingAddTitlesContent: View {
       if let next = nextItem {
         let pos = isTransitioning ? CardPosition.front : CardPosition.second
         posterCard(item: next)
+          .id("card-\(next.id)")
           .scaleEffect(pos.scale)
           .rotationEffect(.degrees(pos.rotation))
           .offset(x: pos.offsetX, y: pos.offsetY)
@@ -192,6 +185,7 @@ struct OnboardingAddTitlesContent: View {
       // Current front card (only show when not transitioning)
       if !isTransitioning, let current = currentItem {
         posterCard(item: current)
+          .id("card-\(current.id)")
           .offset(dragOffset)
           .rotationEffect(.degrees(cardRotation))
           .zIndex(2)
@@ -226,6 +220,7 @@ struct OnboardingAddTitlesContent: View {
       // Exiting card (animates off screen)
       if let exiting = exitingItem {
         posterCard(item: exiting)
+          .id("exiting-\(exiting.id)")
           .offset(exitOffset)
           .rotationEffect(.degrees(exitRotation))
           .zIndex(3)
