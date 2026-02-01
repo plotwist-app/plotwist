@@ -55,7 +55,6 @@ struct OnboardingAddTitlesContent: View {
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
-        .padding(.bottom, 16)
         
         // Card Stack
         if isLoading && deck.data.isEmpty {
@@ -95,10 +94,11 @@ struct OnboardingAddTitlesContent: View {
             handleSwipe(id: id, direction: direction)
           }
           .padding(.horizontal, 80)
+          .frame(maxHeight: UIScreen.main.bounds.height * 0.52)
           
           // Action buttons (closer to deck)
           actionButtons
-            .padding(.top, 20)
+            .padding(.top, 12)
         } else {
           Spacer()
           VStack(spacing: 12) {
