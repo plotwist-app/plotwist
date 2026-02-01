@@ -1159,6 +1159,11 @@ struct SearchResult: Codable, Identifiable {
     guard let path else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w200\(path)")
   }
+  
+  var hdPosterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w780\(posterPath)")
+  }
 }
 
 enum TMDBError: LocalizedError {
