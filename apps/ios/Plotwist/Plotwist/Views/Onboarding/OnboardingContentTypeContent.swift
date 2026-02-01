@@ -15,10 +15,11 @@ struct ContentTypeBackdropData {
     var data = ContentTypeBackdropData()
     
     do {
-      async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
-      async let seriesTask = TMDBService.shared.getPopularTVSeries(language: language)
-      async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
-      async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
+      // Use top rated content for better quality backdrops
+      async let moviesTask = TMDBService.shared.getTopRatedMovies(language: language)
+      async let seriesTask = TMDBService.shared.getTopRatedTVSeries(language: language)
+      async let animesTask = TMDBService.shared.getTopRatedAnimes(language: language)
+      async let doramasTask = TMDBService.shared.getTopRatedDoramas(language: language)
       
       let (movies, series, animes, doramas) = try await (moviesTask, seriesTask, animesTask, doramasTask)
       
@@ -76,28 +77,30 @@ struct OnboardingContentTypeContent: View {
         .foregroundColor(.appForegroundAdaptive)
         .multilineTextAlignment(.center)
         .padding(.bottom, 32)
+        .padding(.horizontal, 24)
       
       // Options - 2 column grid
-      LazyVGrid(columns: columns, spacing: 12) {
-        ForEach(ContentTypePreference.allCases, id: \.rawValue) { type in
-          ContentTypeCard(
-            type: type,
-            isSelected: selectedTypes.contains(type),
-            backdropURL: backdropData.urls[type],
-            action: {
-              withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                if selectedTypes.contains(type) {
-                  selectedTypes.remove(type)
-                } else {
-                  selectedTypes.insert(type)
-                  let impact = UIImpactFeedbackGenerator(style: .light)
-                  impact.impactOccurred()
-                }
-              }
-            }
-          )
+      GeometryReader { geometry in
+        let spacing: CGFloat = 12
+        let horizontalPadding: CGFloat = 24
+        let availableWidth = geometry.size.width - (horizontalPadding * 2) - spacing
+        let cardWidth = availableWidth / 2
+        let cardHeight = cardWidth * 0.85 // aspect ratio ~16:13.5
+        
+        LazyVGrid(columns: columns, spacing: spacing) {
+          ForEach(ContentTypePreference.allCases, id: \.rawValue) { type in
+            ContentTypeCard(
+              type: type,
+              isSelected: selectedTypes.contains(type),
+              backdropURL: backdropData.urls[type],
+              action: { toggleType(type) }
+            )
+            .frame(height: cardHeight)
+          }
         }
+        .padding(.horizontal, horizontalPadding)
       }
+      .frame(height: 320) // Fixed height for the grid area
       
       Spacer()
       
@@ -116,11 +119,22 @@ struct OnboardingContentTypeContent: View {
           .animation(.easeInOut(duration: 0.2), value: canContinue)
       }
       .disabled(!canContinue)
+      .padding(.horizontal, 24)
       .padding(.bottom, 48)
     }
-    .padding(.horizontal, 24)
-    .frame(maxWidth: 400)
     .frame(maxWidth: .infinity)
+  }
+  
+  private func toggleType(_ type: ContentTypePreference) {
+    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+      if selectedTypes.contains(type) {
+        selectedTypes.remove(type)
+      } else {
+        selectedTypes.insert(type)
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+      }
+    }
   }
 }
 
@@ -133,68 +147,65 @@ struct ContentTypeCard: View {
   
   var body: some View {
     Button(action: action) {
-      ZStack(alignment: .bottomLeading) {
-        // Backdrop image
-        CachedAsyncImage(url: backdropURL) { image in
-          image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-        } placeholder: {
-          Rectangle()
-            .fill(Color.appInputFilled)
-        }
-        .frame(height: 140)
-        .clipped()
-        
-        // Dark gradient overlay
-        LinearGradient(
-          colors: [
-            Color.black.opacity(0.1),
-            Color.black.opacity(0.7)
-          ],
-          startPoint: .top,
-          endPoint: .bottom
-        )
-        
-        // Selection overlay
-        if isSelected {
-          Color.appForegroundAdaptive.opacity(0.3)
-        }
-        
-        // Content
-        VStack(alignment: .leading, spacing: 6) {
-          Spacer()
+      GeometryReader { geometry in
+        ZStack(alignment: .bottomLeading) {
+          // Backdrop image
+          CachedAsyncImage(url: backdropURL) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } placeholder: {
+            Rectangle()
+              .fill(Color.appInputFilled)
+          }
+          .frame(width: geometry.size.width, height: geometry.size.height)
+          .clipped()
           
-          HStack(spacing: 8) {
-            Image(systemName: type.icon)
-              .font(.system(size: 16, weight: .semibold))
+          // Dark gradient overlay
+          LinearGradient(
+            colors: [
+              Color.black.opacity(0.1),
+              Color.black.opacity(0.7)
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+          
+          // Selection overlay
+          if isSelected {
+            Color.appForegroundAdaptive.opacity(0.3)
+          }
+          
+          // Content
+          VStack(alignment: .leading) {
+            Spacer()
             
             Text(type.displayName)
               .font(.system(size: 15, weight: .semibold))
+              .foregroundColor(.white)
           }
-          .foregroundColor(.white)
-        }
-        .padding(12)
-        
-        // Checkmark when selected
-        if isSelected {
-          VStack {
-            HStack {
+          .padding(12)
+          
+          // Checkmark when selected
+          if isSelected {
+            VStack {
+              HStack {
+                Spacer()
+                Image(systemName: "checkmark.circle.fill")
+                  .font(.system(size: 24))
+                  .foregroundColor(.white)
+                  .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+              }
               Spacer()
-              Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 24))
-                .foregroundColor(.white)
-                .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
             }
-            Spacer()
+            .padding(10)
           }
-          .padding(10)
         }
       }
-      .frame(height: 140)
-      .clipShape(RoundedRectangle(cornerRadius: 16))
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder(cornerRadius: DesignTokens.CornerRadius.poster)
       .overlay(
-        RoundedRectangle(cornerRadius: 16)
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           .strokeBorder(isSelected ? Color.white : Color.clear, lineWidth: 3)
       )
     }
