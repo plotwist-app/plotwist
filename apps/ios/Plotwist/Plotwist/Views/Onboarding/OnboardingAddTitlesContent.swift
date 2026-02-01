@@ -357,9 +357,11 @@ struct OnboardingAddTitlesContent: View {
       break
     }
     
-    // Load more if needed
-    if let index = deck.data.firstIndex(where: { $0.id == id }),
-       deck.data.count - index < 5 {
+    // Remove swiped item from deck
+    deck.data.removeAll { $0.id == id }
+    
+    // Load more if running low on items
+    if deck.data.count < 5 && !isLoadingMore {
       Task {
         await loadMoreContent()
       }

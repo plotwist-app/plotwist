@@ -8,6 +8,7 @@ import SwiftUI
 struct HomeTabView: View {
   @Environment(\.colorScheme) private var systemColorScheme
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var onboardingService = OnboardingService.shared
   @State private var strings = L10n.current
   @State private var user: User?
   @State private var watchingItems: [SearchResult] = []
@@ -23,6 +24,20 @@ struct HomeTabView: View {
   @State private var isLoadingDiscovery = true
 
   private let cache = HomeDataCache.shared
+  
+  // Guest mode username from onboarding
+  private var displayUsername: String? {
+    if AuthService.shared.isAuthenticated {
+      return user?.username
+    } else if !onboardingService.userName.isEmpty {
+      return onboardingService.userName
+    }
+    return nil
+  }
+  
+  private var isGuestMode: Bool {
+    !AuthService.shared.isAuthenticated && onboardingService.hasCompletedOnboarding
+  }
 
   private var effectiveColorScheme: ColorScheme {
     themeManager.current.colorScheme ?? systemColorScheme
@@ -41,15 +56,15 @@ struct HomeTabView: View {
 
   // Only show skeleton on first load when no cached data
   private var showWatchingSkeleton: Bool {
-    isInitialLoad && cache.shouldShowSkeleton && watchingItems.isEmpty
+    isInitialLoad && cache.shouldShowSkeleton && watchingItems.isEmpty && !isGuestMode
   }
 
   private var showWatchlistSkeleton: Bool {
-    isInitialLoad && cache.shouldShowSkeleton && watchlistItems.isEmpty
+    isInitialLoad && cache.shouldShowSkeleton && watchlistItems.isEmpty && !isGuestMode
   }
 
   private var showUserSkeleton: Bool {
-    isInitialLoad && user == nil && cache.user == nil
+    isInitialLoad && user == nil && cache.user == nil && !isGuestMode
   }
 
   private var showDiscoverySkeleton: Bool {
@@ -71,9 +86,10 @@ struct HomeTabView: View {
             // Header with greeting
             HomeHeaderView(
               greeting: greeting,
-              username: user?.username,
+              username: displayUsername,
               avatarURL: user?.avatarImageURL,
-              isLoading: showUserSkeleton,
+              isLoading: showUserSkeleton && !isGuestMode,
+              isGuestMode: isGuestMode,
               onAvatarTapped: {
                 NotificationCenter.default.post(name: .navigateToProfile, object: nil)
               }
@@ -358,11 +374,17 @@ struct HomeTabView: View {
   @MainActor
   private func loadWatchlistItems(forceRefresh: Bool = false) async {
     // Use cache if available and not forcing refresh
-    if !forceRefresh, let cachedItems = cache.watchlistItems {
+    if !forceRefresh, let cachedItems = cache.watchlistItems, !cachedItems.isEmpty {
       watchlistItems = cachedItems
       return
     }
 
+    // Guest mode: load from local saved titles
+    if isGuestMode {
+      await loadLocalWatchlistItems()
+      return
+    }
+    
     guard AuthService.shared.isAuthenticated else { return }
 
     let fetchedUser = try? await AuthService.shared.getCurrentUser()
@@ -430,6 +452,69 @@ struct HomeTabView: View {
       print("Error loading watchlist items: \(error)")
     }
   }
+  
+  @MainActor
+  private func loadLocalWatchlistItems() async {
+    let localTitles = onboardingService.localSavedTitles.filter { $0.status == "WATCHLIST" }
+    
+    guard !localTitles.isEmpty else {
+      watchlistItems = []
+      return
+    }
+    
+    var results: [SearchResult] = []
+    
+    for title in localTitles.prefix(10) {
+      do {
+        if title.mediaType == "movie" {
+          let details = try await TMDBService.shared.getMovieDetails(
+            id: title.tmdbId,
+            language: Language.current.rawValue
+          )
+          results.append(
+            SearchResult(
+              id: details.id,
+              mediaType: "movie",
+              title: details.title,
+              name: details.name,
+              posterPath: details.posterPath,
+              backdropPath: details.backdropPath,
+              profilePath: nil,
+              releaseDate: details.releaseDate,
+              firstAirDate: details.firstAirDate,
+              overview: details.overview,
+              voteAverage: details.voteAverage,
+              knownForDepartment: nil
+            ))
+        } else {
+          let details = try await TMDBService.shared.getTVSeriesDetails(
+            id: title.tmdbId,
+            language: Language.current.rawValue
+          )
+          results.append(
+            SearchResult(
+              id: details.id,
+              mediaType: "tv",
+              title: details.title,
+              name: details.name,
+              posterPath: details.posterPath,
+              backdropPath: details.backdropPath,
+              profilePath: nil,
+              releaseDate: details.releaseDate,
+              firstAirDate: details.firstAirDate,
+              overview: details.overview,
+              voteAverage: details.voteAverage,
+              knownForDepartment: nil
+            ))
+        }
+      } catch {
+        print("Error fetching details for local title \(title.tmdbId): \(error)")
+      }
+    }
+    
+    watchlistItems = results
+    cache.setWatchlistItems(results)
+  }
 }
 
 // MARK: - Home Header View
@@ -438,6 +523,7 @@ struct HomeHeaderView: View {
   let username: String?
   let avatarURL: URL?
   let isLoading: Bool
+  var isGuestMode: Bool = false
   var onAvatarTapped: (() -> Void)?
 
   var body: some View {
@@ -447,12 +533,23 @@ struct HomeHeaderView: View {
           .fill(Color.appBorderAdaptive)
           .frame(width: 180, height: 24)
       } else if let username {
-        (Text("\(greeting), ")
-          .font(.title2.bold())
-          .foregroundColor(.appForegroundAdaptive)
-          + Text("@\(username)")
-          .font(.title2.bold())
-          .foregroundColor(.appMutedForegroundAdaptive))
+        if isGuestMode {
+          // Guest mode: show name without @ prefix
+          (Text("\(greeting), ")
+            .font(.title2.bold())
+            .foregroundColor(.appForegroundAdaptive)
+            + Text(username)
+            .font(.title2.bold())
+            .foregroundColor(.appMutedForegroundAdaptive))
+        } else {
+          // Authenticated: show @username
+          (Text("\(greeting), ")
+            .font(.title2.bold())
+            .foregroundColor(.appForegroundAdaptive)
+            + Text("@\(username)")
+            .font(.title2.bold())
+            .foregroundColor(.appMutedForegroundAdaptive))
+        }
       } else {
         Text(greeting)
           .font(.title2.bold())
