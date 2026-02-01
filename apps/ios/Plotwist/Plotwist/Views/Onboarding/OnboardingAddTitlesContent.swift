@@ -17,8 +17,26 @@ struct OnboardingAddTitlesContent: View {
   @State private var dragOffset: CGSize = .zero
   @State private var cardRotation: Double = 0
   
+  // Animation states
+  @State private var isTransitioning = false
+  @State private var exitingItem: SearchResult? = nil
+  @State private var exitOffset: CGSize = .zero
+  @State private var exitRotation: Double = 0
+  
   // Track dismissed items to avoid showing them again
   @State private var dismissedIds: Set<Int> = []
+  
+  // Card position configurations
+  private struct CardPosition {
+    let scale: CGFloat
+    let rotation: Double
+    let offsetX: CGFloat
+    let offsetY: CGFloat
+    
+    static let front = CardPosition(scale: 1.0, rotation: 0, offsetX: 0, offsetY: 0)
+    static let second = CardPosition(scale: 0.93, rotation: 10, offsetX: 12, offsetY: 4)
+    static let third = CardPosition(scale: 0.86, rotation: -18, offsetX: -20, offsetY: 8)
+  }
   
   private var savedCount: Int {
     onboardingService.localSavedTitles.count
@@ -70,8 +88,8 @@ struct OnboardingAddTitlesContent: View {
           Spacer()
           ProgressView()
           Spacer()
-        } else if let item = currentItem {
-          cardStack(currentItem: item)
+        } else if currentItem != nil {
+          cardStack()
         } else {
           Spacer()
           VStack(spacing: 12) {
@@ -130,63 +148,88 @@ struct OnboardingAddTitlesContent: View {
     return items[currentIndex + 2]
   }
   
+  private var fourthItem: SearchResult? {
+    guard currentIndex + 3 < items.count else { return nil }
+    return items[currentIndex + 3]
+  }
+  
   @ViewBuilder
-  private func cardStack(currentItem: SearchResult) -> some View {
+  private func cardStack() -> some View {
+    let springAnimation = Animation.spring(response: 0.4, dampingFraction: 0.8)
+    
     ZStack {
-      // Third card (furthest back) - rotated to show corner
-      if let thirdItem = thirdItem {
-        posterCard(item: thirdItem)
-          .id("third-\(thirdItem.id)")
-          .scaleEffect(0.88)
-          .rotationEffect(.degrees(-12))
-          .offset(x: -16, y: 12)
-          .transition(.identity) // No animation on appear/disappear
+      // Fourth card (enters from back during transition)
+      if isTransitioning, let fourth = fourthItem {
+        posterCard(item: fourth)
+          .scaleEffect(CardPosition.third.scale)
+          .rotationEffect(.degrees(CardPosition.third.rotation))
+          .offset(x: CardPosition.third.offsetX, y: CardPosition.third.offsetY)
+          .zIndex(-1)
       }
       
-      // Second card (behind) - slightly rotated
-      if let nextItem = nextItem {
-        posterCard(item: nextItem)
-          .id("second-\(nextItem.id)")
-          .scaleEffect(0.94)
-          .rotationEffect(.degrees(6))
-          .offset(x: 8, y: 6)
-          .transition(.identity) // No animation on appear/disappear
+      // Third card - animates to second position during transition
+      if let third = thirdItem {
+        let pos = isTransitioning ? CardPosition.second : CardPosition.third
+        posterCard(item: third)
+          .scaleEffect(pos.scale)
+          .rotationEffect(.degrees(pos.rotation))
+          .offset(x: pos.offsetX, y: pos.offsetY)
+          .zIndex(0)
+          .animation(springAnimation, value: isTransitioning)
       }
       
-      // Current card (front)
-      posterCard(item: currentItem)
-        .id(currentItem.id)
-        .offset(dragOffset)
-        .rotationEffect(.degrees(cardRotation))
-        .transition(.identity) // No animation on appear/disappear
-        .gesture(
-          DragGesture()
-            .onChanged { gesture in
-              dragOffset = gesture.translation
-              cardRotation = Double(gesture.translation.width / 20)
-            }
-            .onEnded { gesture in
-              let threshold: CGFloat = 100
-              
-              if gesture.translation.width > threshold {
-                // Swiped right - Want to watch
-                swipeCard(direction: .right)
-              } else if gesture.translation.width < -threshold {
-                // Swiped left - Not interested
-                swipeCard(direction: .left)
-              } else if gesture.translation.height < -threshold {
-                // Swiped up - Already watched
-                swipeCard(direction: .up)
-              } else {
-                // Return to center
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                  dragOffset = .zero
-                  cardRotation = 0
+      // Second card - animates to front position during transition
+      if let next = nextItem {
+        let pos = isTransitioning ? CardPosition.front : CardPosition.second
+        posterCard(item: next)
+          .scaleEffect(pos.scale)
+          .rotationEffect(.degrees(pos.rotation))
+          .offset(x: pos.offsetX, y: pos.offsetY)
+          .zIndex(1)
+          .animation(springAnimation, value: isTransitioning)
+      }
+      
+      // Current front card (only show when not transitioning)
+      if !isTransitioning, let current = currentItem {
+        posterCard(item: current)
+          .offset(dragOffset)
+          .rotationEffect(.degrees(cardRotation))
+          .zIndex(2)
+          .gesture(
+            DragGesture()
+              .onChanged { gesture in
+                guard exitingItem == nil else { return }
+                dragOffset = gesture.translation
+                cardRotation = Double(gesture.translation.width / 20)
+              }
+              .onEnded { gesture in
+                guard exitingItem == nil else { return }
+                let threshold: CGFloat = 100
+                
+                if gesture.translation.width > threshold {
+                  swipeCard(direction: .right)
+                } else if gesture.translation.width < -threshold {
+                  swipeCard(direction: .left)
+                } else if gesture.translation.height < -threshold {
+                  swipeCard(direction: .up)
+                } else {
+                  withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                    dragOffset = .zero
+                    cardRotation = 0
+                  }
                 }
               }
-            }
-        )
-        .overlay(swipeIndicators)
+          )
+          .overlay(swipeIndicators)
+      }
+      
+      // Exiting card (animates off screen)
+      if let exiting = exitingItem {
+        posterCard(item: exiting)
+          .offset(exitOffset)
+          .rotationEffect(.degrees(exitRotation))
+          .zIndex(3)
+      }
     }
     .padding(.horizontal, 80)
   }
@@ -334,57 +377,70 @@ struct OnboardingAddTitlesContent: View {
   
   private func swipeCard(direction: SwipeDirection) {
     guard let item = currentItem else { return }
+    guard !isTransitioning else { return } // Prevent double swipe
     
     let impact = UIImpactFeedbackGenerator(style: .medium)
     impact.impactOccurred()
     
-    // Animate card off screen
-    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+    // Process the action
+    switch direction {
+    case .left:
+      break // Not interested - just skip
+    case .right:
+      addTitle(item, status: "WATCHLIST")
+    case .up:
+      addTitle(item, status: "WATCHED")
+    }
+    
+    dismissedIds.insert(item.id)
+    
+    // Set up exiting card with current drag position
+    exitingItem = item
+    exitOffset = dragOffset
+    exitRotation = cardRotation
+    
+    // Reset drag state
+    dragOffset = .zero
+    cardRotation = 0
+    
+    // Start transition - background cards animate to new positions
+    isTransitioning = true
+    
+    // Animate exiting card off screen
+    withAnimation(.easeOut(duration: 0.35)) {
       switch direction {
       case .left:
-        dragOffset = CGSize(width: -500, height: 0)
-        cardRotation = -30
+        exitOffset = CGSize(width: -500, height: 0)
+        exitRotation = -30
       case .right:
-        dragOffset = CGSize(width: 500, height: 0)
-        cardRotation = 30
+        exitOffset = CGSize(width: 500, height: 0)
+        exitRotation = 30
       case .up:
-        dragOffset = CGSize(width: 0, height: -600)
-        cardRotation = 0
+        exitOffset = CGSize(width: 0, height: -600)
+        exitRotation = 0
       }
     }
     
-    // Process action after animation
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-      // Process the action
-      switch direction {
-      case .left:
-        // Not interested - just skip
-        break
-      case .right:
-        // Want to watch
-        addTitle(item, status: "WATCHLIST")
-      case .up:
-        // Already watched
-        addTitle(item, status: "WATCHED")
-      }
+    // After animation completes, update index and reset state
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 400_000_000)
       
-      // Reset offset first (without animation) before changing index
+      // Update index and reset state without animation
       var transaction = Transaction()
       transaction.disablesAnimations = true
       withTransaction(transaction) {
-        dragOffset = .zero
-        cardRotation = 0
+        currentIndex += 1
+        isTransitioning = false
+        exitingItem = nil
+        exitOffset = .zero
+        exitRotation = 0
       }
-      
-      // Then move to next card
-      dismissedIds.insert(item.id)
-      currentIndex += 1
-      
-      // Load more if needed
-      if currentIndex >= items.count - 3 {
-        Task {
-          await loadMoreContent()
-        }
+    }
+    
+    // Load more if needed
+    if currentIndex >= items.count - 5 {
+      Task {
+        await loadMoreContent()
       }
     }
   }
@@ -456,13 +512,13 @@ struct OnboardingAddTitlesContent: View {
         }
       }
       
-      // Remove duplicates and shuffle
+      // Remove duplicates (keep order by popularity)
       var seen = Set<Int>()
       items = allItems.filter { item in
         if seen.contains(item.id) { return false }
         seen.insert(item.id)
         return true
-      }.shuffled()
+      }
       
       // Preload first few poster images in HD
       let posterUrls = items.prefix(5).compactMap { $0.hdPosterURL ?? $0.imageURL }
@@ -511,7 +567,7 @@ struct OnboardingAddTitlesContent: View {
       let existingIds = Set(items.map { $0.id }).union(dismissedIds)
       let uniqueNewItems = newItems.filter { !existingIds.contains($0.id) }
       
-      items.append(contentsOf: uniqueNewItems.shuffled())
+      items.append(contentsOf: uniqueNewItems)
       
       // Preload new poster images in HD
       let posterUrls = uniqueNewItems.prefix(5).compactMap { $0.hdPosterURL ?? $0.imageURL }

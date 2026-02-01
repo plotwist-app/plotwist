@@ -876,7 +876,8 @@ class TMDBService {
     let genresString = genreIds.map { String($0) }.joined(separator: ",")
     let endpoint = mediaType == "movie" ? "discover/movie" : "discover/tv"
     
-    guard let url = URL(string: "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=popularity.desc&page=\(page)") else {
+    // Sort by vote count to show most voted (well-known) content first
+    guard let url = URL(string: "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=vote_count.desc&page=\(page)") else {
       throw TMDBError.invalidURL
     }
     
