@@ -489,6 +489,16 @@ struct OnboardingAddTitlesContent: View {
         newItems.append(contentsOf: series)
       }
       
+      if contentTypes.contains(.anime) {
+        let animes = try await TMDBService.shared.getPopularAnimes(language: language, page: currentPage)
+        newItems.append(contentsOf: animes.results)
+      }
+      
+      if contentTypes.contains(.dorama) {
+        let doramas = try await TMDBService.shared.getPopularDoramas(language: language, page: currentPage)
+        newItems.append(contentsOf: doramas.results)
+      }
+      
       // Filter out already seen/dismissed items
       let existingIds = Set(deck.data.map { $0.id }).union(dismissedIds)
       let uniqueNewItems = newItems.filter { !existingIds.contains($0.id) }

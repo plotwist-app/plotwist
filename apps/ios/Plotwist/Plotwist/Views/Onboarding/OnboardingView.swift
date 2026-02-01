@@ -67,7 +67,7 @@ struct OnboardingView: View {
   var body: some View {
     GeometryReader { geometry in
       let footerHeight: CGFloat = 280
-      let posterHeight = geometry.size.height - footerHeight + cornerRadius + 100
+      let posterHeight = geometry.size.height - footerHeight + cornerRadius + 120
       
       ZStack(alignment: .bottom) {
         Color.appBackgroundAdaptive
