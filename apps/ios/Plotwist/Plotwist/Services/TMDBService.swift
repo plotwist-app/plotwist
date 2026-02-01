@@ -1123,7 +1123,7 @@ struct SearchMultiResponse: Codable {
   let results: [SearchResult]
 }
 
-struct SearchResult: Codable, Identifiable {
+struct SearchResult: Codable, Identifiable, Equatable {
   let id: Int
   let mediaType: String?
   let title: String?
