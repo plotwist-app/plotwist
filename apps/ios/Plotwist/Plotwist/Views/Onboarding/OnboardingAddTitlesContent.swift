@@ -357,11 +357,11 @@ struct OnboardingAddTitlesContent: View {
       break
     }
     
-    // Remove swiped item from deck
-    deck.data.removeAll { $0.id == id }
+    // Calculate remaining items (total - dismissed)
+    let remainingItems = deck.data.count - dismissedIds.count
     
-    // Load more if running low on items
-    if deck.data.count < 5 && !isLoadingMore {
+    // Load more if running low on items (less than 5 remaining)
+    if remainingItems < 5 && !isLoadingMore {
       Task {
         await loadMoreContent()
       }
