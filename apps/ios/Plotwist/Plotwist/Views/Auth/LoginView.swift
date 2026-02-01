@@ -70,13 +70,18 @@ struct LoginView: View {
   @ObservedObject private var themeManager = ThemeManager.shared
   
   private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
-  private var cornerRadius: CGFloat { UIScreen.main.deviceCornerRadius }
+  
+  // Use a minimum corner radius to prevent layout issues when deviceCornerRadius returns 0
+  private var cornerRadius: CGFloat {
+    let deviceRadius = UIScreen.main.deviceCornerRadius
+    return deviceRadius > 0 ? deviceRadius : 44
+  }
   
   var body: some View {
     NavigationView {
       GeometryReader { geometry in
         let footerHeight: CGFloat = 320
-        let posterHeight = geometry.size.height - footerHeight + cornerRadius + 40
+        let posterHeight = geometry.size.height - footerHeight + cornerRadius + 60 // Extra height to cover rounded corners
         
         ZStack(alignment: .bottom) {
           // Background color
@@ -198,43 +203,43 @@ struct LoginView: View {
         }
       }
       .navigationBarHidden(true)
-      .overlay(alignment: .topTrailing) {
-        // Language Switcher at top right (respects safe area)
-        Menu {
-          ForEach(Language.allCases, id: \.self) { lang in
-            Button {
-              Language.current = lang
-            } label: {
-              HStack {
-                Text(lang.displayName)
-                if Language.current == lang {
-                  Image(systemName: "checkmark")
-                }
+    }
+    .overlay(alignment: .topTrailing) {
+      // Language Switcher at top right (respects safe area)
+      Menu {
+        ForEach(Language.allCases, id: \.self) { lang in
+          Button {
+            Language.current = lang
+          } label: {
+            HStack {
+              Text(lang.displayName)
+              if Language.current == lang {
+                Image(systemName: "checkmark")
               }
             }
           }
-        } label: {
-          Image(systemName: "globe")
-            .font(.system(size: 18))
-            .foregroundColor(.white)
-            .frame(width: 44, height: 44)
-            .background(.ultraThinMaterial)
-            .clipShape(Circle())
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 8)
+      } label: {
+        Image(systemName: "globe")
+          .font(.system(size: 18))
+          .foregroundColor(.white)
+          .frame(width: 44, height: 44)
+          .background(.ultraThinMaterial)
+          .clipShape(Circle())
       }
+      .padding(.horizontal, 24)
+      .padding(.top, 8)
     }
     .preferredColorScheme(.dark)
     .lightStatusBar()
     .sheet(isPresented: $showLoginSheet) {
       LoginFormSheet()
-        .floatingSheetPresentation(height: 480)
+        .floatingSheetPresentation(height: 620)
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .sheet(isPresented: $showSignUpSheet) {
       SignUpFormSheet()
-        .floatingSheetPresentation(height: 520)
+        .floatingSheetPresentation(height: 680)
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -252,6 +257,9 @@ struct LoginView: View {
 struct PosterCarousel: View {
   let posters: [PopularPoster]
   @Binding var currentIndex: Int
+  
+  @State private var dragOffset: CGFloat = 0
+  private let swipeThreshold: CGFloat = 50
   
   var body: some View {
     GeometryReader { geometry in
@@ -271,6 +279,27 @@ struct PosterCarousel: View {
           .animation(.easeInOut(duration: 0.5), value: currentIndex)
         }
       }
+      .gesture(
+        DragGesture()
+          .onChanged { value in
+            dragOffset = value.translation.width
+          }
+          .onEnded { value in
+            let dragAmount = value.translation.width
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+              if dragAmount < -swipeThreshold {
+                // Swipe left - next poster
+                currentIndex = (currentIndex + 1) % posters.count
+              } else if dragAmount > swipeThreshold {
+                // Swipe right - previous poster
+                currentIndex = (currentIndex - 1 + posters.count) % posters.count
+              }
+            }
+            
+            dragOffset = 0
+          }
+      )
     }
   }
 }
@@ -282,6 +311,8 @@ struct LoginFormSheet: View {
   @State private var password = ""
   @State private var showPassword = false
   @State private var isLoading = false
+  @State private var isAppleLoading = false
+  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var strings = L10n.current
   
@@ -301,6 +332,40 @@ struct LoginFormSheet: View {
           .frame(maxWidth: .infinity, alignment: .center)
         
         VStack(spacing: 16) {
+          // Social Login Buttons
+          VStack(spacing: 12) {
+            SocialLoginButton(
+              provider: .apple,
+              title: strings.continueWithApple,
+              isLoading: isAppleLoading
+            ) {
+              Task { await signInWithApple() }
+            }
+            
+            SocialLoginButton(
+              provider: .google,
+              title: strings.continueWithGoogle,
+              isLoading: isGoogleLoading,
+              isDisabled: true
+            ) {
+              // Google Sign-In disabled for now
+            }
+          }
+          
+          // Divider with "or"
+          HStack {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+            Text(strings.or)
+              .font(.caption)
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .padding(.horizontal, 12)
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+          }
+          
           // Login Field
           VStack(alignment: .leading, spacing: 6) {
             Text(strings.loginLabel)
@@ -368,7 +433,7 @@ struct LoginFormSheet: View {
             .foregroundColor(.appBackgroundAdaptive)
             .clipShape(Capsule())
           }
-          .disabled(isLoading)
+          .disabled(isLoading || isAppleLoading || isGoogleLoading)
           .opacity(isLoading ? 0.5 : 1)
         }
       }
@@ -402,6 +467,35 @@ struct LoginFormSheet: View {
       self.error = strings.invalidCredentials
     }
   }
+  
+  private func signInWithApple() async {
+    error = nil
+    isAppleLoading = true
+    defer { isAppleLoading = false }
+    
+    do {
+      _ = try await SocialAuthService.shared.signInWithApple()
+      dismiss()
+    } catch let authError as SocialAuthError {
+      if case .cancelled = authError {
+        // User cancelled, don't show error
+        return
+      }
+      self.error = authError.localizedDescription
+    } catch {
+      self.error = strings.invalidCredentials
+    }
+  }
+  
+  private func signInWithGoogle() async {
+    error = nil
+    isGoogleLoading = true
+    defer { isGoogleLoading = false }
+    
+    // TODO: Implement Google Sign-In when SDK is configured
+    // For now, show a message that Google Sign-In requires additional setup
+    self.error = "Google Sign-In coming soon"
+  }
 }
 
 // MARK: - Sign Up Form Sheet
@@ -412,6 +506,8 @@ struct SignUpFormSheet: View {
   @State private var username = ""
   @State private var showPassword = false
   @State private var isLoading = false
+  @State private var isAppleLoading = false
+  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var showUsernameStep = false
   @State private var strings = L10n.current
@@ -476,6 +572,40 @@ struct SignUpFormSheet: View {
         } else {
           // Email & Password Step
           VStack(spacing: 16) {
+            // Social Login Buttons
+            VStack(spacing: 12) {
+              SocialLoginButton(
+                provider: .apple,
+                title: strings.continueWithApple,
+                isLoading: isAppleLoading
+              ) {
+                Task { await signInWithApple() }
+              }
+              
+              SocialLoginButton(
+                provider: .google,
+                title: strings.continueWithGoogle,
+                isLoading: isGoogleLoading,
+                isDisabled: true
+              ) {
+                // Google Sign-In disabled for now
+              }
+            }
+            
+            // Divider with "or"
+            HStack {
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+              Text(strings.or)
+                .font(.caption)
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .padding(.horizontal, 12)
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+            }
+            
             // Email Field
             VStack(alignment: .leading, spacing: 6) {
               Text(strings.emailLabel)
@@ -544,7 +674,7 @@ struct SignUpFormSheet: View {
               .foregroundColor(.appBackgroundAdaptive)
               .clipShape(Capsule())
             }
-            .disabled(isLoading)
+            .disabled(isLoading || isAppleLoading || isGoogleLoading)
             .opacity(isLoading ? 0.5 : 1)
           }
         }
@@ -614,6 +744,35 @@ struct SignUpFormSheet: View {
     } catch {
       self.error = strings.invalidCredentials
     }
+  }
+  
+  private func signInWithApple() async {
+    error = nil
+    isAppleLoading = true
+    defer { isAppleLoading = false }
+    
+    do {
+      _ = try await SocialAuthService.shared.signInWithApple()
+      dismiss()
+    } catch let authError as SocialAuthError {
+      if case .cancelled = authError {
+        // User cancelled, don't show error
+        return
+      }
+      self.error = authError.localizedDescription
+    } catch {
+      self.error = strings.invalidCredentials
+    }
+  }
+  
+  private func signInWithGoogle() async {
+    error = nil
+    isGoogleLoading = true
+    defer { isGoogleLoading = false }
+    
+    // TODO: Implement Google Sign-In when SDK is configured
+    // For now, show a message that Google Sign-In requires additional setup
+    self.error = "Google Sign-In coming soon"
   }
 }
 

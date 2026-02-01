@@ -17,6 +17,7 @@ import { listsRoute } from './lists'
 import { loginRoute } from './login'
 import { reviewRepliesRoute } from './review-replies'
 import { reviewsRoute } from './reviews'
+import { socialAuthRoutes } from './social-auth'
 import { socialLinksRoute } from './social-links'
 import { subscriptionsRoutes } from './subscriptions'
 import { userActivitiesRoutes } from './user-activities'
@@ -54,6 +55,7 @@ export function routes(app: FastifyInstance) {
   app.register(usersRoute)
   app.register(listsRoute)
   app.register(loginRoute)
+  app.register(socialAuthRoutes)
   app.register(healthCheck)
   app.register(reviewsRoute)
   app.register(listItemRoute)
