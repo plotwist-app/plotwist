@@ -88,7 +88,6 @@ struct OnboardingGenresContent: View {
             .frame(height: 52)
             .background(canContinue ? Color.appForegroundAdaptive : Color.appInputFilled)
             .clipShape(Capsule())
-            .animation(.easeInOut(duration: 0.2), value: canContinue)
         }
         .disabled(!canContinue)
         
@@ -135,6 +134,6 @@ struct GenreChip: View {
         )
     }
     .scaleEffect(isSelected ? 1.05 : 1.0)
-    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
   }
 }

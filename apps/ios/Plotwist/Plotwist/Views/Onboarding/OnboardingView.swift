@@ -45,6 +45,7 @@ struct OnboardingView: View {
   @State private var currentPosterIndex = 0
   @State private var strings = L10n.current
   @State private var contentTypeBackdropData = ContentTypeBackdropData()
+  @State private var isGoingBack = false
   
   private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
   
@@ -107,14 +108,14 @@ struct OnboardingView: View {
               .padding(.bottom, 24)
             }
             
-            // Step Content - using offset like ProfileTabView for synchronized animation
-            if !isWelcomeScreen {
-              stepsContainer(screenWidth: geometry.size.width)
-            } else {
-              OnboardingWelcomeContent(
-                onContinue: { goToStep(.name) }
-              )
-            }
+            // Step Content
+            stepContent
+              .drawingGroup() // Rasterize entire view including images before animation
+              .id(currentStep)
+              .transition(.asymmetric(
+                insertion: .move(edge: isGoingBack ? .leading : .trailing),
+                removal: .move(edge: isGoingBack ? .trailing : .leading)
+              ))
             
             if !isWelcomeScreen {
               Spacer(minLength: 0)
@@ -151,11 +152,17 @@ struct OnboardingView: View {
   
   private func goBack() {
     guard let previousStep = currentStep.previous else { return }
-    currentStep = previousStep
+    isGoingBack = true
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
+      currentStep = previousStep
+    }
   }
   
   private func goToStep(_ step: OnboardingStep) {
-    currentStep = step
+    isGoingBack = false
+    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
+      currentStep = step
+    }
   }
   
   // MARK: - View Components
@@ -207,31 +214,13 @@ struct OnboardingView: View {
     .padding(.bottom, 16)
   }
   
-  // MARK: - Steps Container (offset-based animation like ProfileTabView)
   @ViewBuilder
-  private func stepsContainer(screenWidth: CGFloat) -> some View {
-    let steps: [OnboardingStep] = [.name, .contentType, .genres, .addTitles]
-    let currentIndex = steps.firstIndex(of: currentStep) ?? 0
-    
-    ZStack(alignment: .topLeading) {
-      ForEach(Array(steps.enumerated()), id: \.element) { index, step in
-        stepView(for: step)
-          .frame(width: screenWidth, alignment: .top)
-          .frame(maxHeight: .infinity, alignment: .top)
-          .offset(x: CGFloat(index - currentIndex) * screenWidth)
-      }
-    }
-    .frame(width: screenWidth, alignment: .topLeading)
-    .frame(maxHeight: .infinity, alignment: .top)
-    .clipped()
-    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentStep)
-  }
-  
-  @ViewBuilder
-  private func stepView(for step: OnboardingStep) -> some View {
-    switch step {
+  private var stepContent: some View {
+    switch currentStep {
     case .welcome:
-      EmptyView()
+      OnboardingWelcomeContent(
+        onContinue: { goToStep(.name) }
+      )
       
     case .name:
       OnboardingNameContent(

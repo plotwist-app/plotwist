@@ -130,7 +130,6 @@ struct OnboardingContentTypeContent: View {
           .frame(height: 52)
           .background(canContinue ? Color.appForegroundAdaptive : Color.appInputFilled)
           .clipShape(Capsule())
-          .animation(.easeInOut(duration: 0.2), value: canContinue)
       }
       .disabled(!canContinue)
       .padding(.horizontal, 24)
@@ -231,6 +230,6 @@ struct ContentTypeCard: View {
       )
     }
     .scaleEffect(isSelected ? 0.98 : 1.0)
-    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
   }
 }
