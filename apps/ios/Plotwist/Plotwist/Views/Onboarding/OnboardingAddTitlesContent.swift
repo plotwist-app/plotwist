@@ -378,6 +378,42 @@ struct OnboardingAddTitlesContent: View {
     )
   }
   
+  // MARK: - Genre ID Mapping
+  
+  // Valid genre IDs for movies
+  private let movieGenreIds: Set<Int> = [28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 53, 10752, 37]
+  
+  // Valid genre IDs for TV shows
+  private let tvGenreIds: Set<Int> = [10759, 16, 35, 80, 18, 10765, 10768, 9648, 10751, 10764, 10749]
+  
+  // Map movie genres to equivalent TV genres
+  private let movieToTVGenreMap: [Int: Int] = [
+    28: 10759,   // Action -> Action & Adventure
+    12: 10759,   // Adventure -> Action & Adventure
+    878: 10765,  // Sci-Fi -> Sci-Fi & Fantasy
+    14: 10765,   // Fantasy -> Sci-Fi & Fantasy
+    10752: 10768 // War -> War & Politics
+  ]
+  
+  // Get compatible genre IDs for a media type
+  private func getCompatibleGenreIds(for mediaType: String, from selectedGenreIds: [Int]) -> [Int] {
+    if mediaType == "movie" {
+      // For movies, only use valid movie genre IDs
+      return selectedGenreIds.filter { movieGenreIds.contains($0) }
+    } else {
+      // For TV, map movie genres to TV equivalents and filter valid ones
+      var tvIds: [Int] = []
+      for genreId in selectedGenreIds {
+        if tvGenreIds.contains(genreId) {
+          tvIds.append(genreId)
+        } else if let mappedId = movieToTVGenreMap[genreId] {
+          tvIds.append(mappedId)
+        }
+      }
+      return Array(Set(tvIds)) // Remove duplicates
+    }
+  }
+  
   // MARK: - Data Loading
   
   private func loadContent() async {
@@ -392,10 +428,10 @@ struct OnboardingAddTitlesContent: View {
       var allItems: [SearchResult] = []
       
       // Get genre IDs if any
-      let genreIds = selectedGenres.map { $0.id }
+      let allGenreIds = selectedGenres.map { $0.id }
       
       // Load content based on selected types AND genres
-      if contentTypes.isEmpty && genreIds.isEmpty {
+      if contentTypes.isEmpty && allGenreIds.isEmpty {
         // No preferences - show trending
         allItems = try await TMDBService.shared.getTrending(
           mediaType: "all",
@@ -405,9 +441,10 @@ struct OnboardingAddTitlesContent: View {
       } else {
         // Load based on content types and genres
         if contentTypes.contains(.movies) || contentTypes.isEmpty {
+          let movieGenres = getCompatibleGenreIds(for: "movie", from: allGenreIds)
           let movies = try await loadDiscoverContent(
             mediaType: "movie",
-            genreIds: genreIds,
+            genreIds: movieGenres,
             language: language,
             page: 1
           )
@@ -415,9 +452,10 @@ struct OnboardingAddTitlesContent: View {
         }
         
         if contentTypes.contains(.series) {
+          let tvGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
           let series = try await loadDiscoverContent(
             mediaType: "tv",
-            genreIds: genreIds,
+            genreIds: tvGenres,
             language: language,
             page: 1
           )
@@ -464,15 +502,16 @@ struct OnboardingAddTitlesContent: View {
     let language = Language.current.rawValue
     let contentTypes = onboardingService.contentTypes
     let selectedGenres = onboardingService.selectedGenres
-    let genreIds = selectedGenres.map { $0.id }
+    let allGenreIds = selectedGenres.map { $0.id }
     
     do {
       var newItems: [SearchResult] = []
       
       if contentTypes.contains(.movies) || contentTypes.isEmpty {
+        let movieGenres = getCompatibleGenreIds(for: "movie", from: allGenreIds)
         let movies = try await loadDiscoverContent(
           mediaType: "movie",
-          genreIds: genreIds,
+          genreIds: movieGenres,
           language: language,
           page: currentPage
         )
@@ -480,9 +519,10 @@ struct OnboardingAddTitlesContent: View {
       }
       
       if contentTypes.contains(.series) {
+        let tvGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
         let series = try await loadDiscoverContent(
           mediaType: "tv",
-          genreIds: genreIds,
+          genreIds: tvGenres,
           language: language,
           page: currentPage
         )

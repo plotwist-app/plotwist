@@ -873,7 +873,9 @@ class TMDBService {
   
   // MARK: - Discover by Genre (for onboarding)
   func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1) async throws -> [SearchResult] {
-    let genresString = genreIds.map { String($0) }.joined(separator: ",")
+    // Use | (pipe) for OR logic - matches ANY of the selected genres (more results)
+    // Using , (comma) would be AND logic - matches ALL genres (fewer results)
+    let genresString = genreIds.map { String($0) }.joined(separator: "|")
     let endpoint = mediaType == "movie" ? "discover/movie" : "discover/tv"
     
     // Sort by vote count to show most voted (well-known) content first
