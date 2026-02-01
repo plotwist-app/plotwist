@@ -175,6 +175,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   let content: (Image) -> Content
   let placeholder: () -> Placeholder
   let priority: TaskPriority
+  let animated: Bool
 
   @State private var loadedImage: UIImage?
   @State private var isLoading = false
@@ -182,11 +183,13 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   init(
     url: URL?,
     priority: TaskPriority = .medium,
+    animated: Bool = true,
     @ViewBuilder content: @escaping (Image) -> Content,
     @ViewBuilder placeholder: @escaping () -> Placeholder
   ) {
     self.url = url
     self.priority = priority
+    self.animated = animated
     self.content = content
     self.placeholder = placeholder
   }
@@ -194,8 +197,12 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   var body: some View {
     Group {
       if let loadedImage {
-        content(Image(uiImage: loadedImage))
-          .transition(.opacity.animation(.easeIn(duration: 0.2)))
+        if animated {
+          content(Image(uiImage: loadedImage))
+            .transition(.opacity.animation(.easeIn(duration: 0.2)))
+        } else {
+          content(Image(uiImage: loadedImage))
+        }
       } else {
         placeholder()
           .task(id: url, priority: priority) {
@@ -219,7 +226,11 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
 
     // Load from network
     if let image = await ImageCache.shared.loadImage(from: url, priority: priority) {
-      withAnimation(.easeIn(duration: 0.2)) {
+      if animated {
+        withAnimation(.easeIn(duration: 0.2)) {
+          loadedImage = image
+        }
+      } else {
         loadedImage = image
       }
     }

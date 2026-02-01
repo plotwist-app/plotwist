@@ -74,6 +74,11 @@ struct OnboardingNameContent: View {
     }
     .frame(maxWidth: .infinity)
     .onAppear {
+      // Load saved name if returning to this step
+      if userName.isEmpty && !onboardingService.userName.isEmpty {
+        userName = onboardingService.userName
+      }
+      
       // Focus name field after a short delay
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
         isNameFocused = true

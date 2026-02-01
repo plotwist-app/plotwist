@@ -7,7 +7,7 @@ import SwiftUI
 
 // MARK: - Content Type Backdrop Data
 struct ContentTypeBackdropData {
-  var urls: [ContentTypePreference: URL] = [:]
+  var images: [ContentTypePreference: UIImage] = [:]
   var isLoaded: Bool = false
   
   static func load() async -> ContentTypeBackdropData {
@@ -23,22 +23,36 @@ struct ContentTypeBackdropData {
       
       let (movies, series, animes, doramas) = try await (moviesTask, seriesTask, animesTask, doramasTask)
       
+      // Load images directly into memory
+      var urls: [ContentTypePreference: URL] = [:]
       if let firstMovie = movies.results.first, let url = firstMovie.backdropURL {
-        data.urls[.movies] = url
+        urls[.movies] = url
       }
       if let firstSeries = series.results.first, let url = firstSeries.backdropURL {
-        data.urls[.series] = url
+        urls[.series] = url
       }
       if let firstAnime = animes.results.first, let url = firstAnime.backdropURL {
-        data.urls[.anime] = url
+        urls[.anime] = url
       }
       if let firstDorama = doramas.results.first, let url = firstDorama.backdropURL {
-        data.urls[.dorama] = url
+        urls[.dorama] = url
       }
       
-      // Preload images
-      let allUrls = Array(data.urls.values)
-      ImageCache.shared.prefetch(urls: allUrls, priority: .high)
+      // Load all images in parallel
+      await withTaskGroup(of: (ContentTypePreference, UIImage?).self) { group in
+        for (type, url) in urls {
+          group.addTask {
+            let image = await ImageCache.shared.loadImage(from: url, priority: .high)
+            return (type, image)
+          }
+        }
+        
+        for await (type, image) in group {
+          if let image = image {
+            data.images[type] = image
+          }
+        }
+      }
       
       data.isLoaded = true
     } catch {
@@ -92,7 +106,7 @@ struct OnboardingContentTypeContent: View {
             ContentTypeCard(
               type: type,
               isSelected: selectedTypes.contains(type),
-              backdropURL: backdropData.urls[type],
+              backdropImage: backdropData.images[type],
               action: { toggleType(type) }
             )
             .frame(height: cardHeight)
@@ -123,6 +137,12 @@ struct OnboardingContentTypeContent: View {
       .padding(.bottom, 48)
     }
     .frame(maxWidth: .infinity)
+    .onAppear {
+      // Load saved content types if returning to this step
+      if selectedTypes.isEmpty && !onboardingService.contentTypes.isEmpty {
+        selectedTypes = onboardingService.contentTypes
+      }
+    }
   }
   
   private func toggleType(_ type: ContentTypePreference) {
@@ -142,24 +162,25 @@ struct OnboardingContentTypeContent: View {
 struct ContentTypeCard: View {
   let type: ContentTypePreference
   let isSelected: Bool
-  let backdropURL: URL?
+  let backdropImage: UIImage?
   let action: () -> Void
   
   var body: some View {
     Button(action: action) {
       GeometryReader { geometry in
         ZStack(alignment: .bottomLeading) {
-          // Backdrop image
-          CachedAsyncImage(url: backdropURL) { image in
-            image
+          // Backdrop image - passed directly, no async loading
+          if let uiImage = backdropImage {
+            Image(uiImage: uiImage)
               .resizable()
               .aspectRatio(contentMode: .fill)
-          } placeholder: {
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .clipped()
+          } else {
             Rectangle()
               .fill(Color.appInputFilled)
+              .frame(width: geometry.size.width, height: geometry.size.height)
           }
-          .frame(width: geometry.size.width, height: geometry.size.height)
-          .clipped()
           
           // Dark gradient overlay
           LinearGradient(

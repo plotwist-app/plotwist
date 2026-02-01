@@ -105,6 +105,12 @@ struct OnboardingGenresContent: View {
       .padding(.bottom, 48)
     }
     .frame(maxWidth: .infinity)
+    .onAppear {
+      // Load saved genres if returning to this step
+      if selectedGenres.isEmpty && !onboardingService.selectedGenres.isEmpty {
+        selectedGenres = Set(onboardingService.selectedGenres.map { $0.id })
+      }
+    }
   }
 }
 

@@ -45,7 +45,6 @@ struct OnboardingView: View {
   @State private var currentPosterIndex = 0
   @State private var strings = L10n.current
   @State private var contentTypeBackdropData = ContentTypeBackdropData()
-  @State private var slideDirection: SlideDirection = .forward
   
   private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
   
@@ -62,11 +61,6 @@ struct OnboardingView: View {
   
   private var currentStepIndex: Int {
     max(0, currentStep.stepNumber - 1)
-  }
-  
-  private enum SlideDirection {
-    case forward
-    case backward
   }
   
   var body: some View {
@@ -113,13 +107,14 @@ struct OnboardingView: View {
               .padding(.bottom, 24)
             }
             
-            // Step Content
-            stepContent
-              .id(currentStep)
-              .transition(.asymmetric(
-                insertion: .move(edge: slideDirection == .forward ? .trailing : .leading),
-                removal: .move(edge: slideDirection == .forward ? .leading : .trailing)
-              ))
+            // Step Content - using offset like ProfileTabView for synchronized animation
+            if !isWelcomeScreen {
+              stepsContainer(screenWidth: geometry.size.width)
+            } else {
+              OnboardingWelcomeContent(
+                onContinue: { goToStep(.name) }
+              )
+            }
             
             if !isWelcomeScreen {
               Spacer(minLength: 0)
@@ -133,7 +128,6 @@ struct OnboardingView: View {
           )
         }
         .frame(maxHeight: isWelcomeScreen ? nil : .infinity, alignment: .bottom)
-        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentStep)
       }
       .ignoresSafeArea(edges: isWelcomeScreen ? [] : .all)
     }
@@ -157,17 +151,11 @@ struct OnboardingView: View {
   
   private func goBack() {
     guard let previousStep = currentStep.previous else { return }
-    slideDirection = .backward
-    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
-      currentStep = previousStep
-    }
+    currentStep = previousStep
   }
   
   private func goToStep(_ step: OnboardingStep) {
-    slideDirection = .forward
-    withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
-      currentStep = step
-    }
+    currentStep = step
   }
   
   // MARK: - View Components
@@ -219,13 +207,31 @@ struct OnboardingView: View {
     .padding(.bottom, 16)
   }
   
+  // MARK: - Steps Container (offset-based animation like ProfileTabView)
   @ViewBuilder
-  private var stepContent: some View {
-    switch currentStep {
+  private func stepsContainer(screenWidth: CGFloat) -> some View {
+    let steps: [OnboardingStep] = [.name, .contentType, .genres, .addTitles]
+    let currentIndex = steps.firstIndex(of: currentStep) ?? 0
+    
+    ZStack(alignment: .topLeading) {
+      ForEach(Array(steps.enumerated()), id: \.element) { index, step in
+        stepView(for: step)
+          .frame(width: screenWidth, alignment: .top)
+          .frame(maxHeight: .infinity, alignment: .top)
+          .offset(x: CGFloat(index - currentIndex) * screenWidth)
+      }
+    }
+    .frame(width: screenWidth, alignment: .topLeading)
+    .frame(maxHeight: .infinity, alignment: .top)
+    .clipped()
+    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentStep)
+  }
+  
+  @ViewBuilder
+  private func stepView(for step: OnboardingStep) -> some View {
+    switch step {
     case .welcome:
-      OnboardingWelcomeContent(
-        onContinue: { goToStep(.name) }
-      )
+      EmptyView()
       
     case .name:
       OnboardingNameContent(
