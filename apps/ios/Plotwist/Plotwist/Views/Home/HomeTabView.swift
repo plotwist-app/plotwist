@@ -84,6 +84,7 @@ struct HomeTabView: View {
         ScrollView(showsIndicators: false) {
           VStack(alignment: .leading, spacing: 24) {
             // Header with greeting
+            // DEBUG: Long press (3s) on avatar to reset onboarding
             HomeHeaderView(
               greeting: greeting,
               username: displayUsername,
@@ -92,31 +93,15 @@ struct HomeTabView: View {
               isGuestMode: isGuestMode,
               onAvatarTapped: {
                 NotificationCenter.default.post(name: .navigateToProfile, object: nil)
+              },
+              onAvatarLongPressed: {
+                OnboardingService.shared.reset()
+                UserDefaults.standard.set(false, forKey: "isGuestMode")
+                NotificationCenter.default.post(name: .authChanged, object: nil)
               }
             )
             .padding(.horizontal, 24)
             .padding(.top, 16)
-            
-            #if DEBUG
-            // Debug: Reset Onboarding Button
-            Button {
-              OnboardingService.shared.reset()
-              UserDefaults.standard.set(false, forKey: "isGuestMode")
-              NotificationCenter.default.post(name: .authChanged, object: nil)
-            } label: {
-              HStack(spacing: 8) {
-                Image(systemName: "arrow.counterclockwise")
-                Text("Reset Onboarding")
-              }
-              .font(.caption.weight(.medium))
-              .foregroundColor(.orange)
-              .padding(.horizontal, 12)
-              .padding(.vertical, 6)
-              .background(Color.orange.opacity(0.15))
-              .clipShape(Capsule())
-            }
-            .padding(.horizontal, 24)
-            #endif
 
             // Continue Watching Section
             if showWatchingSkeleton {
@@ -525,6 +510,7 @@ struct HomeHeaderView: View {
   let isLoading: Bool
   var isGuestMode: Bool = false
   var onAvatarTapped: (() -> Void)?
+  var onAvatarLongPressed: (() -> Void)?
 
   var body: some View {
     HStack(spacing: 16) {
@@ -563,12 +549,14 @@ struct HomeHeaderView: View {
           .fill(Color.appBorderAdaptive)
           .frame(width: 44, height: 44)
       } else {
-        Button {
-          onAvatarTapped?()
-        } label: {
-          ProfileAvatar(avatarURL: avatarURL, username: username ?? "", size: 44)
-        }
-        .buttonStyle(.plain)
+        ProfileAvatar(avatarURL: avatarURL, username: username ?? "", size: 44)
+          .onTapGesture {
+            onAvatarTapped?()
+          }
+          .onLongPressGesture(minimumDuration: 3) {
+            // Secret debug gesture: long press 3s to reset onboarding
+            onAvatarLongPressed?()
+          }
       }
     }
   }
