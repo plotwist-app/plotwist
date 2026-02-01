@@ -156,16 +156,6 @@ struct OnboardingAddTitlesContent: View {
     let springAnimation = Animation.spring(response: 0.4, dampingFraction: 0.8)
     
     ZStack {
-      // Fourth card (appears at third position during transition)
-      if isTransitioning, let fourth = fourthItem {
-        posterCard(item: fourth)
-          .id("card-\(fourth.id)")
-          .scaleEffect(CardPosition.third.scale)
-          .rotationEffect(.degrees(CardPosition.third.rotation))
-          .offset(x: CardPosition.third.offsetX, y: CardPosition.third.offsetY)
-          .zIndex(-1)
-      }
-      
       // Third card - animates from third to second position during transition
       if let third = thirdItem {
         let pos = isTransitioning ? CardPosition.second : CardPosition.third
@@ -186,18 +176,20 @@ struct OnboardingAddTitlesContent: View {
           .scaleEffect(pos.scale)
           .rotationEffect(.degrees(pos.rotation))
           .offset(x: pos.offsetX, y: pos.offsetY)
-          .zIndex(1)
+          .zIndex(isTransitioning ? 2 : 1)
           .animation(springAnimation, value: isTransitioning)
+          .allowsHitTesting(!isTransitioning)
       }
       
       // Current front card (only when not transitioning)
       if !isTransitioning, let current = currentItem {
         posterCard(item: current)
-          .id("card-\(current.id)")
+          .id("front-\(current.id)")
           .scaleEffect(CardPosition.front.scale)
           .rotationEffect(.degrees(cardRotation))
           .offset(dragOffset)
           .zIndex(2)
+          .transition(.identity)
           .gesture(
             DragGesture()
               .onChanged { gesture in
