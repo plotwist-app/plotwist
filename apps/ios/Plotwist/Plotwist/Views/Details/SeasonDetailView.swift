@@ -9,6 +9,7 @@ struct SeasonDetailView: View {
   let seriesId: Int
   let seriesName: String
   let season: Season
+  var allSeasons: [Season]?
 
   @Environment(\.dismiss) private var dismiss
   @ObservedObject private var themeManager = ThemeManager.shared
@@ -122,6 +123,7 @@ struct SeasonDetailView: View {
               seasonName: season.name,
               seasonPosterPath: season.posterPath,
               episodes: episodes,
+              allSeasons: allSeasons,
               watchedEpisodes: $watchedEpisodes,
               loadingEpisodeIds: $loadingEpisodeIds
             )
@@ -378,6 +380,7 @@ struct EpisodesListView: View {
   let seasonName: String
   let seasonPosterPath: String?
   let episodes: [Episode]
+  var allSeasons: [Season]?
   @Binding var watchedEpisodes: [UserEpisode]
   @Binding var loadingEpisodeIds: Set<Int>
 
@@ -389,6 +392,20 @@ struct EpisodesListView: View {
     watchedEpisodes.first { $0.episodeNumber == episode.episodeNumber && $0.seasonNumber == seasonNumber }?.id
   }
 
+  private func getNextEpisode(after current: Episode) -> Episode? {
+    guard let currentIndex = episodes.firstIndex(where: { $0.id == current.id }) else { return nil }
+    let nextIndex = currentIndex + 1
+    guard nextIndex < episodes.count else { return nil }
+    return episodes[nextIndex]
+  }
+
+  private func getPreviousEpisode(before current: Episode) -> Episode? {
+    guard let currentIndex = episodes.firstIndex(where: { $0.id == current.id }) else { return nil }
+    let prevIndex = currentIndex - 1
+    guard prevIndex >= 0 else { return nil }
+    return episodes[prevIndex]
+  }
+
   var body: some View {
     VStack(spacing: 16) {
       ForEach(episodes) { episode in
@@ -396,7 +413,11 @@ struct EpisodesListView: View {
           seriesId: seriesId,
           seasonName: seasonName,
           seasonPosterPath: seasonPosterPath,
-          episode: episode
+          episode: episode,
+          nextEpisode: getNextEpisode(after: episode),
+          previousEpisode: getPreviousEpisode(before: episode),
+          allEpisodes: episodes,
+          allSeasons: allSeasons
         )) {
           EpisodeRowView(
             episode: episode,

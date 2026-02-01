@@ -58,6 +58,9 @@ enum L10n {
       people: "People",
       noResults: "No results found.",
       cancel: "Cancel",
+      recentSearches: "Recent Searches",
+      clearAll: "Clear",
+      youAreLookingFor: "You are looking for:",
       popularMovies: "Popular Movies",
       popularTVSeries: "Popular TV Series",
       popularAnimes: "Popular Animes",
@@ -127,6 +130,12 @@ enum L10n {
       addRewatch: "Add Rewatch",
       firstTime: "1st time",
       nthTime: "%@ time",
+      // Episode Progress
+      markAsWatched: "Mark as watched",
+      nextEpisode: "Next episode",
+      previousEpisode: "Previous episode",
+      nextSeason: "Next season",
+      previousSeason: "Previous season",
       // Where to Watch
       stream: "Stream",
       rent: "Rent",
@@ -223,6 +232,9 @@ enum L10n {
       people: "Pessoas",
       noResults: "Nenhum resultado encontrado.",
       cancel: "Cancelar",
+      recentSearches: "Pesquisas Recentes",
+      clearAll: "Limpar",
+      youAreLookingFor: "Você está procurando por:",
       popularMovies: "Filmes Populares",
       popularTVSeries: "Séries Populares",
       popularAnimes: "Animes Populares",
@@ -286,6 +298,11 @@ enum L10n {
       addRewatch: "Adicionar rewatch",
       firstTime: "1ª vez",
       nthTime: "%@ vez",
+      markAsWatched: "Marcar como assistido",
+      nextEpisode: "Próximo episódio",
+      previousEpisode: "Episódio anterior",
+      nextSeason: "Próxima temporada",
+      previousSeason: "Temporada anterior",
       stream: "Streaming",
       rent: "Alugar",
       buy: "Comprar",
@@ -380,6 +397,9 @@ enum L10n {
       people: "Personas",
       noResults: "No se encontraron resultados.",
       cancel: "Cancelar",
+      recentSearches: "Búsquedas Recientes",
+      clearAll: "Limpiar",
+      youAreLookingFor: "Estás buscando:",
       popularMovies: "Películas Populares",
       popularTVSeries: "Series Populares",
       popularAnimes: "Animes Populares",
@@ -443,6 +463,11 @@ enum L10n {
       addRewatch: "Agregar rewatch",
       firstTime: "1ª vez",
       nthTime: "%@ vez",
+      markAsWatched: "Marcar como visto",
+      nextEpisode: "Siguiente episodio",
+      previousEpisode: "Episodio anterior",
+      nextSeason: "Siguiente temporada",
+      previousSeason: "Temporada anterior",
       stream: "Streaming",
       rent: "Alquilar",
       buy: "Comprar",
@@ -537,6 +562,9 @@ enum L10n {
       people: "Personnes",
       noResults: "Aucun résultat trouvé.",
       cancel: "Annuler",
+      recentSearches: "Recherches Récentes",
+      clearAll: "Effacer",
+      youAreLookingFor: "Vous recherchez:",
       popularMovies: "Films Populaires",
       popularTVSeries: "Séries Populaires",
       popularAnimes: "Animes Populaires",
@@ -600,6 +628,11 @@ enum L10n {
       addRewatch: "Ajouter un revisionnage",
       firstTime: "1ère fois",
       nthTime: "%@ fois",
+      markAsWatched: "Marquer comme vu",
+      nextEpisode: "Épisode suivant",
+      previousEpisode: "Épisode précédent",
+      nextSeason: "Saison suivante",
+      previousSeason: "Saison précédente",
       stream: "Streaming",
       rent: "Louer",
       buy: "Acheter",
@@ -694,6 +727,9 @@ enum L10n {
       people: "Personen",
       noResults: "Keine Ergebnisse gefunden.",
       cancel: "Abbrechen",
+      recentSearches: "Letzte Suchen",
+      clearAll: "Löschen",
+      youAreLookingFor: "Sie suchen nach:",
       popularMovies: "Beliebte Filme",
       popularTVSeries: "Beliebte Serien",
       popularAnimes: "Beliebte Animes",
@@ -757,6 +793,11 @@ enum L10n {
       addRewatch: "Rewatch hinzufügen",
       firstTime: "1. Mal",
       nthTime: "%@ Mal",
+      markAsWatched: "Als gesehen markieren",
+      nextEpisode: "Nächste Folge",
+      previousEpisode: "Vorherige Folge",
+      nextSeason: "Nächste Staffel",
+      previousSeason: "Vorherige Staffel",
       stream: "Streaming",
       rent: "Leihen",
       buy: "Kaufen",
@@ -851,6 +892,9 @@ enum L10n {
       people: "Persone",
       noResults: "Nessun risultato trovato.",
       cancel: "Annulla",
+      recentSearches: "Ricerche Recenti",
+      clearAll: "Cancella",
+      youAreLookingFor: "Stai cercando:",
       popularMovies: "Film Popolari",
       popularTVSeries: "Serie Popolari",
       popularAnimes: "Anime Popolari",
@@ -914,6 +958,11 @@ enum L10n {
       addRewatch: "Aggiungi rewatch",
       firstTime: "1ª volta",
       nthTime: "%@ volta",
+      markAsWatched: "Segna come visto",
+      nextEpisode: "Prossimo episodio",
+      previousEpisode: "Episodio precedente",
+      nextSeason: "Prossima stagione",
+      previousSeason: "Stagione precedente",
       stream: "Streaming",
       rent: "Noleggia",
       buy: "Acquista",
@@ -1007,6 +1056,9 @@ enum L10n {
       people: "人物",
       noResults: "結果が見つかりません。",
       cancel: "キャンセル",
+      recentSearches: "最近の検索",
+      clearAll: "クリア",
+      youAreLookingFor: "検索中:",
       popularMovies: "人気の映画",
       popularTVSeries: "人気のテレビシリーズ",
       popularAnimes: "人気のアニメ",
@@ -1070,6 +1122,11 @@ enum L10n {
       addRewatch: "再視聴を追加",
       firstTime: "1回目",
       nthTime: "%@回目",
+      markAsWatched: "視聴済みにする",
+      nextEpisode: "次のエピソード",
+      previousEpisode: "前のエピソード",
+      nextSeason: "次のシーズン",
+      previousSeason: "前のシーズン",
       stream: "配信",
       rent: "レンタル",
       buy: "購入",
@@ -1169,6 +1226,9 @@ struct Strings {
   let people: String
   let noResults: String
   let cancel: String
+  let recentSearches: String
+  let clearAll: String
+  let youAreLookingFor: String
   let popularMovies: String
   let popularTVSeries: String
   let popularAnimes: String
@@ -1242,6 +1302,12 @@ struct Strings {
   let addRewatch: String
   let firstTime: String
   let nthTime: String
+  // Episode Progress
+  let markAsWatched: String
+  let nextEpisode: String
+  let previousEpisode: String
+  let nextSeason: String
+  let previousSeason: String
   // Where to Watch
   let stream: String
   let rent: String

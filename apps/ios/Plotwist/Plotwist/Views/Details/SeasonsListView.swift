@@ -96,7 +96,7 @@ struct SeasonsListView: View {
     LazyVGrid(columns: columns, spacing: 16) {
       ForEach(seasons) { season in
         NavigationLink {
-          SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season)
+          SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season, allSeasons: seasons)
         } label: {
           VStack(alignment: .leading, spacing: 8) {
             CachedAsyncImage(url: season.posterURL) { image in

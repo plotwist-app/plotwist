@@ -40,7 +40,7 @@ struct SeasonsSection: View {
           HStack(spacing: 12) {
             ForEach(seasons) { season in
               NavigationLink {
-                SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season)
+                SeasonDetailView(seriesId: seriesId, seriesName: seriesName, season: season, allSeasons: seasons)
               } label: {
                 SeasonPosterCard(season: season)
               }

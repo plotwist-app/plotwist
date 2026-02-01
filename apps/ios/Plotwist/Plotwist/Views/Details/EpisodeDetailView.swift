@@ -9,9 +9,14 @@ struct EpisodeDetailView: View {
   let seasonName: String
   let seasonPosterPath: String?
   let episode: Episode
+  var nextEpisode: Episode?
+  var previousEpisode: Episode?
+  var allEpisodes: [Episode]?
+  var allSeasons: [Season]?
 
   @Environment(\.dismiss) private var dismiss
   @ObservedObject private var themeManager = ThemeManager.shared
+  @State private var strings = L10n.current
   @State private var userReview: Review?
   @State private var isLoadingUserReview = false
   @State private var showReviewSheet = false
@@ -19,8 +24,47 @@ struct EpisodeDetailView: View {
   @State private var hasReviews = false
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
+  
+  // Episode progress state
+  @State private var isWatched = false
+  @State private var watchedEpisodeId: String?
+  @State private var isLoadingWatchedStatus = false
+  @State private var isTogglingWatched = false
+  
+  // Season navigation state
+  @State private var nextSeasonDetails: SeasonDetails?
+  @State private var previousSeasonDetails: SeasonDetails?
+  @State private var isLoadingNextSeason = false
+  @State private var isLoadingPreviousSeason = false
 
   private let scrollThreshold: CGFloat = 20
+  
+  // Check if we need season navigation
+  private var needsPreviousSeasonNav: Bool {
+    previousEpisode == nil && episode.seasonNumber > 1
+  }
+  
+  private var needsNextSeasonNav: Bool {
+    nextEpisode == nil && hasNextSeason
+  }
+  
+  private var hasNextSeason: Bool {
+    guard let seasons = allSeasons else { return false }
+    return seasons.contains { $0.seasonNumber == episode.seasonNumber + 1 }
+  }
+  
+  private var hasPreviousSeason: Bool {
+    guard let seasons = allSeasons else { return false }
+    return seasons.contains { $0.seasonNumber == episode.seasonNumber - 1 }
+  }
+  
+  private var previousSeason: Season? {
+    allSeasons?.first { $0.seasonNumber == episode.seasonNumber - 1 }
+  }
+  
+  private var nextSeason: Season? {
+    allSeasons?.first { $0.seasonNumber == episode.seasonNumber + 1 }
+  }
 
   private var isScrolled: Bool {
     guard let initial = initialScrollOffset else { return false }
@@ -47,13 +91,48 @@ struct EpisodeDetailView: View {
             initialScrollOffset: $initialScrollOffset
           )
 
-          // Review Button
+          // Action Buttons Row (Watched + Review)
           if AuthService.shared.isAuthenticated {
-            ReviewButton(
-              hasReview: userReview != nil,
-              isLoading: isLoadingUserReview,
-              action: { showReviewSheet = true }
-            )
+            HStack(spacing: 8) {
+              // Mark as Watched Button
+              Button {
+                Task {
+                  await toggleWatchedStatus()
+                }
+              } label: {
+                HStack(spacing: 6) {
+                  if isTogglingWatched || isLoadingWatchedStatus {
+                    ProgressView()
+                      .progressViewStyle(CircularProgressViewStyle())
+                      .scaleEffect(0.7)
+                      .frame(width: 13, height: 13)
+                  } else {
+                    Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
+                      .font(.system(size: 13))
+                      .foregroundColor(isWatched ? .green : .appForegroundAdaptive)
+                  }
+                  
+                  Text(isWatched ? strings.watched : strings.markAsWatched)
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.appInputFilled)
+                .cornerRadius(10)
+                .opacity(isTogglingWatched || isLoadingWatchedStatus ? 0.5 : 1)
+              }
+              .buttonStyle(.plain)
+              .disabled(isTogglingWatched || isLoadingWatchedStatus)
+              
+              // Review Button
+              ReviewButton(
+                hasReview: userReview != nil,
+                isLoading: isLoadingUserReview,
+                action: { showReviewSheet = true }
+              )
+            }
+            .animation(.easeInOut(duration: 0.2), value: isWatched)
             .padding(.horizontal, 24)
             .padding(.top, 24)
           }
@@ -93,6 +172,193 @@ struct EpisodeDetailView: View {
             .frame(height: 80)
         }
       }
+      .safeAreaInset(edge: .bottom) {
+        if previousEpisode != nil || nextEpisode != nil || needsPreviousSeasonNav || needsNextSeasonNav {
+          HStack(spacing: 8) {
+            // Previous Episode Button
+            if let prev = previousEpisode {
+              NavigationLink {
+                EpisodeDetailView(
+                  seriesId: seriesId,
+                  seasonName: seasonName,
+                  seasonPosterPath: seasonPosterPath,
+                  episode: prev,
+                  nextEpisode: episode,
+                  previousEpisode: getPreviousEpisode(before: prev),
+                  allEpisodes: allEpisodes,
+                  allSeasons: allSeasons
+                )
+              } label: {
+                HStack(spacing: 6) {
+                  Image(systemName: "chevron.left")
+                    .font(.system(size: 12, weight: .medium))
+                  
+                  Text(strings.previousEpisode)
+                    .font(.footnote.weight(.medium))
+                }
+                .foregroundColor(.appForegroundAdaptive)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.appInputFilled)
+                .cornerRadius(10)
+              }
+              .buttonStyle(.plain)
+            } else if needsPreviousSeasonNav, let prevSeason = previousSeason {
+              // Previous Season Button
+              if let seasonDetails = previousSeasonDetails, let lastEpisode = seasonDetails.episodes.last {
+                NavigationLink {
+                  EpisodeDetailView(
+                    seriesId: seriesId,
+                    seasonName: prevSeason.name,
+                    seasonPosterPath: prevSeason.posterPath,
+                    episode: lastEpisode,
+                    nextEpisode: nil,
+                    previousEpisode: getEpisodeBefore(lastEpisode, in: seasonDetails.episodes),
+                    allEpisodes: seasonDetails.episodes,
+                    allSeasons: allSeasons
+                  )
+                } label: {
+                  HStack(spacing: 6) {
+                    Image(systemName: "chevron.left")
+                      .font(.system(size: 12, weight: .medium))
+                    
+                    Text(strings.previousSeason)
+                      .font(.footnote.weight(.medium))
+                  }
+                  .foregroundColor(.appForegroundAdaptive)
+                  .padding(.horizontal, 14)
+                  .padding(.vertical, 10)
+                  .background(Color.appInputFilled)
+                  .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+              } else {
+                Button {
+                  Task {
+                    await loadPreviousSeasonDetails()
+                  }
+                } label: {
+                  HStack(spacing: 6) {
+                    if isLoadingPreviousSeason {
+                      ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(0.7)
+                        .frame(width: 12, height: 12)
+                    } else {
+                      Image(systemName: "chevron.left")
+                        .font(.system(size: 12, weight: .medium))
+                    }
+                    
+                    Text(strings.previousSeason)
+                      .font(.footnote.weight(.medium))
+                  }
+                  .foregroundColor(.appForegroundAdaptive)
+                  .padding(.horizontal, 14)
+                  .padding(.vertical, 10)
+                  .background(Color.appInputFilled)
+                  .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+                .disabled(isLoadingPreviousSeason)
+              }
+            }
+            
+            Spacer()
+            
+            // Next Episode Button
+            if let next = nextEpisode {
+              NavigationLink {
+                EpisodeDetailView(
+                  seriesId: seriesId,
+                  seasonName: seasonName,
+                  seasonPosterPath: seasonPosterPath,
+                  episode: next,
+                  nextEpisode: getNextEpisode(after: next),
+                  previousEpisode: episode,
+                  allEpisodes: allEpisodes,
+                  allSeasons: allSeasons
+                )
+              } label: {
+                HStack(spacing: 6) {
+                  Text(strings.nextEpisode)
+                    .font(.footnote.weight(.medium))
+                  
+                  Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .medium))
+                }
+                .foregroundColor(.appForegroundAdaptive)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.appInputFilled)
+                .cornerRadius(10)
+              }
+              .buttonStyle(.plain)
+            } else if needsNextSeasonNav, let nextSeasonData = nextSeason {
+              // Next Season Button
+              if let seasonDetails = nextSeasonDetails, let firstEpisode = seasonDetails.episodes.first {
+                NavigationLink {
+                  EpisodeDetailView(
+                    seriesId: seriesId,
+                    seasonName: nextSeasonData.name,
+                    seasonPosterPath: nextSeasonData.posterPath,
+                    episode: firstEpisode,
+                    nextEpisode: getEpisodeAfter(firstEpisode, in: seasonDetails.episodes),
+                    previousEpisode: nil,
+                    allEpisodes: seasonDetails.episodes,
+                    allSeasons: allSeasons
+                  )
+                } label: {
+                  HStack(spacing: 6) {
+                    Text(strings.nextSeason)
+                      .font(.footnote.weight(.medium))
+                    
+                    Image(systemName: "chevron.right")
+                      .font(.system(size: 12, weight: .medium))
+                  }
+                  .foregroundColor(.appForegroundAdaptive)
+                  .padding(.horizontal, 14)
+                  .padding(.vertical, 10)
+                  .background(Color.appInputFilled)
+                  .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+              } else {
+                Button {
+                  Task {
+                    await loadNextSeasonDetails()
+                  }
+                } label: {
+                  HStack(spacing: 6) {
+                    Text(strings.nextSeason)
+                      .font(.footnote.weight(.medium))
+                    
+                    if isLoadingNextSeason {
+                      ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(0.7)
+                        .frame(width: 12, height: 12)
+                    } else {
+                      Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .medium))
+                    }
+                  }
+                  .foregroundColor(.appForegroundAdaptive)
+                  .padding(.horizontal, 14)
+                  .padding(.vertical, 10)
+                  .background(Color.appInputFilled)
+                  .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+                .disabled(isLoadingNextSeason)
+              }
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.top, 12)
+          .padding(.bottom, 8)
+          .background(Color.appBackgroundAdaptive)
+        }
+      }
 
       // Navigation Header
       navigationHeader
@@ -121,8 +387,168 @@ struct EpisodeDetailView: View {
     .task {
       if AuthService.shared.isAuthenticated {
         isLoadingUserReview = true
-        await loadUserReview()
+        async let reviewTask: () = loadUserReview()
+        async let watchedTask: () = loadWatchedStatus()
+        _ = await (reviewTask, watchedTask)
       }
+      
+      // Preload adjacent season details for smoother navigation
+      if needsPreviousSeasonNav && previousSeasonDetails == nil {
+        await loadPreviousSeasonDetails()
+      }
+      if needsNextSeasonNav && nextSeasonDetails == nil {
+        await loadNextSeasonDetails()
+      }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
+    }
+  }
+
+  // MARK: - Get Next Episode
+  private func getNextEpisode(after current: Episode) -> Episode? {
+    guard let episodes = allEpisodes else { return nil }
+    guard let currentIndex = episodes.firstIndex(where: { 
+      $0.seasonNumber == current.seasonNumber && $0.episodeNumber == current.episodeNumber 
+    }) else { return nil }
+    let nextIndex = currentIndex + 1
+    guard nextIndex < episodes.count else { return nil }
+    return episodes[nextIndex]
+  }
+
+  // MARK: - Get Previous Episode
+  private func getPreviousEpisode(before current: Episode) -> Episode? {
+    guard let episodes = allEpisodes else { return nil }
+    guard let currentIndex = episodes.firstIndex(where: { 
+      $0.seasonNumber == current.seasonNumber && $0.episodeNumber == current.episodeNumber 
+    }) else { return nil }
+    let prevIndex = currentIndex - 1
+    guard prevIndex >= 0 else { return nil }
+    return episodes[prevIndex]
+  }
+  
+  // MARK: - Get Episode Before (in a given episode list)
+  private func getEpisodeBefore(_ current: Episode, in episodes: [Episode]) -> Episode? {
+    guard let currentIndex = episodes.firstIndex(where: { 
+      $0.seasonNumber == current.seasonNumber && $0.episodeNumber == current.episodeNumber 
+    }) else { return nil }
+    let prevIndex = currentIndex - 1
+    guard prevIndex >= 0 else { return nil }
+    return episodes[prevIndex]
+  }
+  
+  // MARK: - Get Episode After (in a given episode list)
+  private func getEpisodeAfter(_ current: Episode, in episodes: [Episode]) -> Episode? {
+    guard let currentIndex = episodes.firstIndex(where: { 
+      $0.seasonNumber == current.seasonNumber && $0.episodeNumber == current.episodeNumber 
+    }) else { return nil }
+    let nextIndex = currentIndex + 1
+    guard nextIndex < episodes.count else { return nil }
+    return episodes[nextIndex]
+  }
+  
+  // MARK: - Load Previous Season Details
+  private func loadPreviousSeasonDetails() async {
+    guard let prevSeason = previousSeason else { return }
+    isLoadingPreviousSeason = true
+    defer { isLoadingPreviousSeason = false }
+    
+    do {
+      let details = try await TMDBService.shared.getSeasonDetails(
+        seriesId: seriesId,
+        seasonNumber: prevSeason.seasonNumber
+      )
+      previousSeasonDetails = details
+    } catch {
+      print("Error loading previous season details: \(error)")
+    }
+  }
+  
+  // MARK: - Load Next Season Details
+  private func loadNextSeasonDetails() async {
+    guard let nextSeasonData = nextSeason else { return }
+    isLoadingNextSeason = true
+    defer { isLoadingNextSeason = false }
+    
+    do {
+      let details = try await TMDBService.shared.getSeasonDetails(
+        seriesId: seriesId,
+        seasonNumber: nextSeasonData.seasonNumber
+      )
+      nextSeasonDetails = details
+    } catch {
+      print("Error loading next season details: \(error)")
+    }
+  }
+
+  // MARK: - Load Watched Status
+  private func loadWatchedStatus() async {
+    isLoadingWatchedStatus = true
+    defer { isLoadingWatchedStatus = false }
+    
+    do {
+      let watchedEpisodes = try await UserEpisodeService.shared.getWatchedEpisodes(tmdbId: seriesId)
+      let watched = watchedEpisodes.first { 
+        $0.seasonNumber == episode.seasonNumber && $0.episodeNumber == episode.episodeNumber 
+      }
+      isWatched = watched != nil
+      watchedEpisodeId = watched?.id
+    } catch {
+      print("Error loading watched status: \(error)")
+    }
+  }
+
+  // MARK: - Toggle Watched Status
+  private func toggleWatchedStatus() async {
+    isTogglingWatched = true
+    defer { isTogglingWatched = false }
+    
+    do {
+      if isWatched, let episodeId = watchedEpisodeId {
+        // Unmark as watched
+        try await UserEpisodeService.shared.unmarkAsWatched(id: episodeId, tmdbId: seriesId)
+        isWatched = false
+        watchedEpisodeId = nil
+      } else {
+        // Mark as watched
+        let userEpisode = try await UserEpisodeService.shared.markAsWatched(
+          tmdbId: seriesId,
+          seasonNumber: episode.seasonNumber,
+          episodeNumber: episode.episodeNumber,
+          runtime: episode.runtime
+        )
+        isWatched = true
+        watchedEpisodeId = userEpisode.id
+        
+        // Also set the series status to "WATCHING" if not already set
+        await ensureSeriesStatusIsWatching()
+      }
+      
+      // Invalidate collection cache to update profile
+      NotificationCenter.default.post(name: .collectionCacheInvalidated, object: nil)
+    } catch UserEpisodeError.alreadyExists {
+      // Episode already marked, just update UI
+      isWatched = true
+    } catch {
+      print("Error toggling watched status: \(error)")
+    }
+  }
+
+  // MARK: - Ensure Series Status is Watching
+  private func ensureSeriesStatusIsWatching() async {
+    do {
+      let userItem = try await UserItemService.shared.getUserItem(tmdbId: seriesId, mediaType: "TV_SHOW")
+      
+      // Only set to WATCHING if no status or if in WATCHLIST
+      if userItem == nil || userItem?.status == "WATCHLIST" {
+        _ = try await UserItemService.shared.upsertUserItem(
+          tmdbId: seriesId,
+          mediaType: "TV_SHOW",
+          status: .watching
+        )
+      }
+    } catch {
+      print("Error ensuring series status: \(error)")
     }
   }
 
@@ -150,10 +576,17 @@ struct EpisodeDetailView: View {
 
         Spacer()
 
-        Text(seasonName)
-          .font(.headline)
-          .foregroundColor(.appForegroundAdaptive)
-          .lineLimit(1)
+        Button {
+          dismiss()
+        } label: {
+          Text(seasonName)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+            .underline(color: .appMutedForegroundAdaptive.opacity(0.5))
+            .baselineOffset(-2)
+            .lineLimit(1)
+        }
+        .buttonStyle(.plain)
 
         Spacer()
 
