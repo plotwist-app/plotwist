@@ -80,6 +80,27 @@ struct HomeTabView: View {
             )
             .padding(.horizontal, 24)
             .padding(.top, 16)
+            
+            #if DEBUG
+            // Debug: Reset Onboarding Button
+            Button {
+              OnboardingService.shared.reset()
+              UserDefaults.standard.set(false, forKey: "isGuestMode")
+              NotificationCenter.default.post(name: .authChanged, object: nil)
+            } label: {
+              HStack(spacing: 8) {
+                Image(systemName: "arrow.counterclockwise")
+                Text("Reset Onboarding")
+              }
+              .font(.caption.weight(.medium))
+              .foregroundColor(.orange)
+              .padding(.horizontal, 12)
+              .padding(.vertical, 6)
+              .background(Color.orange.opacity(0.15))
+              .clipShape(Capsule())
+            }
+            .padding(.horizontal, 24)
+            #endif
 
             // Continue Watching Section
             if showWatchingSkeleton {

@@ -111,7 +111,7 @@ struct EditRegionView: View {
       TextField(strings.searchRegion, text: $searchText)
         .textInputAutocapitalization(.never)
         .autocorrectionDisabled()
-        .onChange(of: searchText) { _ in filterRegions() }
+        .onChange(of: searchText) { filterRegions() }
     }
     .padding(12)
     .background(Color.appInputFilled)

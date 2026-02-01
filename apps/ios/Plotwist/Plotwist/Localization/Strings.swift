@@ -184,7 +184,65 @@ enum L10n {
       ratingGreat: "Great",
       ratingGood: "Good",
       ratingBad: "Bad",
-      ratingTerrible: "Terrible"
+      ratingTerrible: "Terrible",
+      // Onboarding
+      onboardingWelcomeTitle: "Your next favorite\nis waiting 🍿",
+      onboardingWelcomeSubtitle: "Never forget what to watch next",
+      onboardingGetStarted: "Let's go!",
+      onboardingNameTitle: "First things first 👋",
+      onboardingNameSubtitle: "What should we call you?",
+      onboardingNamePlaceholder: "Your name",
+      onboardingContentTypeTitle: "Nice to meet you! 🎬\nWhat do you watch most?",
+      onboardingMovies: "Movies",
+      onboardingSeries: "TV Series",
+      onboardingAnime: "Anime",
+      onboardingDorama: "K-Drama",
+      onboardingGenresTitle: "What gets you hooked? 🎯",
+      onboardingGenresSubtitle: "Pick at least 1 genre you love",
+      onboardingSelectGenres: "Select at least 1",
+      onboardingMoreToGo: "more to go",
+      onboardingSkip: "Skip for now",
+      onboardingAddTitlesTitle: "Now the fun part! 🎬",
+      onboardingAddTitlesSubtitle: "Add 5 titles to your watchlist",
+      onboardingAdded: "added",
+      onboardingSearchPlaceholder: "Search for a title...",
+      onboardingPopularNow: "Popular right now",
+      onboardingAddMore: "Add more",
+      onboardingContinueToApp: "Let's go!",
+      onboardingCelebrationTitle: "You're all set! 🎉",
+      onboardingCelebrationSubtitle: "Your watchlist journey begins now",
+      onboardingGoToHome: "Go to Home",
+      onboardingLoginTitle: "Save your progress",
+      onboardingLoginSubtitle: "Sign in to sync across devices",
+      onboardingNotNow: "Not now",
+      // Genres
+      genreAction: "Action",
+      genreAdventure: "Adventure",
+      genreAnimation: "Animation",
+      genreComedy: "Comedy",
+      genreCrime: "Crime",
+      genreDocumentary: "Documentary",
+      genreDrama: "Drama",
+      genreFantasy: "Fantasy",
+      genreHistory: "History",
+      genreHorror: "Horror",
+      genreMusic: "Music",
+      genreRomance: "Romance",
+      genreSciFi: "Sci-Fi",
+      genreThriller: "Thriller",
+      genreWar: "War",
+      genreWestern: "Western",
+      genreActionAdventure: "Action & Adventure",
+      genreSciFiFantasy: "Sci-Fi & Fantasy",
+      genreWarPolitics: "War & Politics",
+      genreMystery: "Mystery",
+      genreFamily: "Family",
+      genreReality: "Reality",
+      // Notifications
+      notificationPromptTitle: "Stay updated",
+      notificationPromptSeries: "Get notified when new episodes drop",
+      notificationPromptWatchlist: "Weekly reminder of your watchlist",
+      notificationAllow: "Allow notifications"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -349,7 +407,65 @@ enum L10n {
       ratingGreat: "Ótimo",
       ratingGood: "Bom",
       ratingBad: "Ruim",
-      ratingTerrible: "Péssimo"
+      ratingTerrible: "Péssimo",
+      // Onboarding
+      onboardingWelcomeTitle: "Seu próximo favorito\nte espera 🍿",
+      onboardingWelcomeSubtitle: "Nunca mais esqueça o que assistir",
+      onboardingGetStarted: "Bora!",
+      onboardingNameTitle: "Primeiro, o básico 👋",
+      onboardingNameSubtitle: "Como podemos te chamar?",
+      onboardingNamePlaceholder: "Seu nome",
+      onboardingContentTypeTitle: "Prazer em conhecer! 🎬\nO que você mais assiste?",
+      onboardingMovies: "Filmes",
+      onboardingSeries: "Séries",
+      onboardingAnime: "Anime",
+      onboardingDorama: "Doramas",
+      onboardingGenresTitle: "O que te prende? 🎯",
+      onboardingGenresSubtitle: "Escolha pelo menos 1 gênero que você ama",
+      onboardingSelectGenres: "Selecione pelo menos 1",
+      onboardingMoreToGo: "faltando",
+      onboardingSkip: "Pular por agora",
+      onboardingAddTitlesTitle: "Agora a parte divertida! 🎬",
+      onboardingAddTitlesSubtitle: "Adicione 5 títulos à sua watchlist",
+      onboardingAdded: "adicionados",
+      onboardingSearchPlaceholder: "Buscar um título...",
+      onboardingPopularNow: "Popular agora",
+      onboardingAddMore: "Adicione mais",
+      onboardingContinueToApp: "Bora!",
+      onboardingCelebrationTitle: "Tudo pronto! 🎉",
+      onboardingCelebrationSubtitle: "Sua jornada de watchlist começa agora",
+      onboardingGoToHome: "Ir para Home",
+      onboardingLoginTitle: "Salvar seu progresso",
+      onboardingLoginSubtitle: "Entre para sincronizar entre dispositivos",
+      onboardingNotNow: "Agora não",
+      // Genres
+      genreAction: "Ação",
+      genreAdventure: "Aventura",
+      genreAnimation: "Animação",
+      genreComedy: "Comédia",
+      genreCrime: "Crime",
+      genreDocumentary: "Documentário",
+      genreDrama: "Drama",
+      genreFantasy: "Fantasia",
+      genreHistory: "História",
+      genreHorror: "Terror",
+      genreMusic: "Musical",
+      genreRomance: "Romance",
+      genreSciFi: "Ficção Científica",
+      genreThriller: "Suspense",
+      genreWar: "Guerra",
+      genreWestern: "Faroeste",
+      genreActionAdventure: "Ação e Aventura",
+      genreSciFiFantasy: "Ficção e Fantasia",
+      genreWarPolitics: "Guerra e Política",
+      genreMystery: "Mistério",
+      genreFamily: "Família",
+      genreReality: "Reality",
+      // Notifications
+      notificationPromptTitle: "Fique por dentro",
+      notificationPromptSeries: "Saiba quando novos episódios saírem",
+      notificationPromptWatchlist: "Lembrete semanal da sua watchlist",
+      notificationAllow: "Permitir notificações"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -514,7 +630,65 @@ enum L10n {
       ratingGreat: "Genial",
       ratingGood: "Bueno",
       ratingBad: "Malo",
-      ratingTerrible: "Terrible"
+      ratingTerrible: "Terrible",
+      // Onboarding
+      onboardingWelcomeTitle: "Tu próximo favorito\nte espera 🍿",
+      onboardingWelcomeSubtitle: "Nunca olvides qué ver después",
+      onboardingGetStarted: "¡Vamos!",
+      onboardingNameTitle: "Primero lo primero 👋",
+      onboardingNameSubtitle: "¿Cómo te podemos llamar?",
+      onboardingNamePlaceholder: "Tu nombre",
+      onboardingContentTypeTitle: "¡Mucho gusto! 🎬\n¿Qué ves más?",
+      onboardingMovies: "Películas",
+      onboardingSeries: "Series",
+      onboardingAnime: "Anime",
+      onboardingDorama: "K-Drama",
+      onboardingGenresTitle: "¿Qué te engancha? 🎯",
+      onboardingGenresSubtitle: "Elige al menos 1 género que te encante",
+      onboardingSelectGenres: "Selecciona al menos 1",
+      onboardingMoreToGo: "más para continuar",
+      onboardingSkip: "Saltar por ahora",
+      onboardingAddTitlesTitle: "¡Ahora lo divertido! 🎬",
+      onboardingAddTitlesSubtitle: "Agrega 5 títulos a tu watchlist",
+      onboardingAdded: "agregados",
+      onboardingSearchPlaceholder: "Buscar un título...",
+      onboardingPopularNow: "Popular ahora",
+      onboardingAddMore: "Agrega más",
+      onboardingContinueToApp: "¡Vamos!",
+      onboardingCelebrationTitle: "¡Todo listo! 🎉",
+      onboardingCelebrationSubtitle: "Tu viaje de watchlist comienza ahora",
+      onboardingGoToHome: "Ir a Home",
+      onboardingLoginTitle: "Guarda tu progreso",
+      onboardingLoginSubtitle: "Inicia sesión para sincronizar entre dispositivos",
+      onboardingNotNow: "Ahora no",
+      // Genres
+      genreAction: "Acción",
+      genreAdventure: "Aventura",
+      genreAnimation: "Animación",
+      genreComedy: "Comedia",
+      genreCrime: "Crimen",
+      genreDocumentary: "Documental",
+      genreDrama: "Drama",
+      genreFantasy: "Fantasía",
+      genreHistory: "Historia",
+      genreHorror: "Terror",
+      genreMusic: "Musical",
+      genreRomance: "Romance",
+      genreSciFi: "Ciencia Ficción",
+      genreThriller: "Suspenso",
+      genreWar: "Guerra",
+      genreWestern: "Western",
+      genreActionAdventure: "Acción y Aventura",
+      genreSciFiFantasy: "Ciencia Ficción y Fantasía",
+      genreWarPolitics: "Guerra y Política",
+      genreMystery: "Misterio",
+      genreFamily: "Familia",
+      genreReality: "Reality",
+      // Notifications
+      notificationPromptTitle: "Mantente actualizado",
+      notificationPromptSeries: "Recibe avisos cuando salgan nuevos episodios",
+      notificationPromptWatchlist: "Recordatorio semanal de tu watchlist",
+      notificationAllow: "Permitir notificaciones"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -679,7 +853,65 @@ enum L10n {
       ratingGreat: "Génial",
       ratingGood: "Bon",
       ratingBad: "Mauvais",
-      ratingTerrible: "Terrible"
+      ratingTerrible: "Terrible",
+      // Onboarding
+      onboardingWelcomeTitle: "Ton prochain coup\nde cœur t'attend 🍿",
+      onboardingWelcomeSubtitle: "N'oublie plus jamais quoi regarder",
+      onboardingGetStarted: "C'est parti !",
+      onboardingNameTitle: "Commençons 👋",
+      onboardingNameSubtitle: "Comment on peut t'appeler ?",
+      onboardingNamePlaceholder: "Votre nom",
+      onboardingContentTypeTitle: "Enchanté ! 🎬\nQu'est-ce que tu regardes le plus ?",
+      onboardingMovies: "Films",
+      onboardingSeries: "Séries",
+      onboardingAnime: "Anime",
+      onboardingDorama: "K-Drama",
+      onboardingGenresTitle: "Qu'est-ce qui te captive ? 🎯",
+      onboardingGenresSubtitle: "Choisis au moins 1 genre que tu adores",
+      onboardingSelectGenres: "Sélectionnez au moins 1",
+      onboardingMoreToGo: "de plus",
+      onboardingSkip: "Passer pour l'instant",
+      onboardingAddTitlesTitle: "Maintenant le fun ! 🎬",
+      onboardingAddTitlesSubtitle: "Ajoute 5 titres à ta watchlist",
+      onboardingAdded: "ajoutés",
+      onboardingSearchPlaceholder: "Rechercher un titre...",
+      onboardingPopularNow: "Populaire en ce moment",
+      onboardingAddMore: "Ajoutez plus",
+      onboardingContinueToApp: "C'est parti !",
+      onboardingCelebrationTitle: "C'est prêt ! 🎉",
+      onboardingCelebrationSubtitle: "Ton aventure watchlist commence maintenant",
+      onboardingGoToHome: "Aller à Home",
+      onboardingLoginTitle: "Sauvegardez votre progression",
+      onboardingLoginSubtitle: "Connectez-vous pour synchroniser entre appareils",
+      onboardingNotNow: "Pas maintenant",
+      // Genres
+      genreAction: "Action",
+      genreAdventure: "Aventure",
+      genreAnimation: "Animation",
+      genreComedy: "Comédie",
+      genreCrime: "Crime",
+      genreDocumentary: "Documentaire",
+      genreDrama: "Drame",
+      genreFantasy: "Fantaisie",
+      genreHistory: "Histoire",
+      genreHorror: "Horreur",
+      genreMusic: "Musique",
+      genreRomance: "Romance",
+      genreSciFi: "Science-Fiction",
+      genreThriller: "Thriller",
+      genreWar: "Guerre",
+      genreWestern: "Western",
+      genreActionAdventure: "Action et Aventure",
+      genreSciFiFantasy: "Science-Fiction et Fantaisie",
+      genreWarPolitics: "Guerre et Politique",
+      genreMystery: "Mystère",
+      genreFamily: "Famille",
+      genreReality: "Télé-réalité",
+      // Notifications
+      notificationPromptTitle: "Restez informé",
+      notificationPromptSeries: "Soyez notifié quand de nouveaux épisodes sortent",
+      notificationPromptWatchlist: "Rappel hebdomadaire de votre watchlist",
+      notificationAllow: "Autoriser les notifications"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -844,7 +1076,65 @@ enum L10n {
       ratingGreat: "Toll",
       ratingGood: "Gut",
       ratingBad: "Schlecht",
-      ratingTerrible: "Schrecklich"
+      ratingTerrible: "Schrecklich",
+      // Onboarding
+      onboardingWelcomeTitle: "Dein nächster\nLiebling wartet 🍿",
+      onboardingWelcomeSubtitle: "Vergiss nie, was du als nächstes schauen willst",
+      onboardingGetStarted: "Los geht's!",
+      onboardingNameTitle: "Zuerst das Wichtigste 👋",
+      onboardingNameSubtitle: "Wie sollen wir dich nennen?",
+      onboardingNamePlaceholder: "Dein Name",
+      onboardingContentTypeTitle: "Freut mich! 🎬\nWas schaust du am meisten?",
+      onboardingMovies: "Filme",
+      onboardingSeries: "Serien",
+      onboardingAnime: "Anime",
+      onboardingDorama: "K-Drama",
+      onboardingGenresTitle: "Was fesselt dich? 🎯",
+      onboardingGenresSubtitle: "Wähle mindestens 1 Genre, das du liebst",
+      onboardingSelectGenres: "Mindestens 1 auswählen",
+      onboardingMoreToGo: "noch übrig",
+      onboardingSkip: "Erstmal überspringen",
+      onboardingAddTitlesTitle: "Jetzt wird's spaßig! 🎬",
+      onboardingAddTitlesSubtitle: "Füge 5 Titel zu deiner Watchlist hinzu",
+      onboardingAdded: "hinzugefügt",
+      onboardingSearchPlaceholder: "Nach einem Titel suchen...",
+      onboardingPopularNow: "Gerade beliebt",
+      onboardingAddMore: "Mehr hinzufügen",
+      onboardingContinueToApp: "Los geht's!",
+      onboardingCelebrationTitle: "Alles bereit! 🎉",
+      onboardingCelebrationSubtitle: "Deine Watchlist-Reise beginnt jetzt",
+      onboardingGoToHome: "Zu Home",
+      onboardingLoginTitle: "Fortschritt speichern",
+      onboardingLoginSubtitle: "Melde dich an, um geräteübergreifend zu synchronisieren",
+      onboardingNotNow: "Jetzt nicht",
+      // Genres
+      genreAction: "Action",
+      genreAdventure: "Abenteuer",
+      genreAnimation: "Animation",
+      genreComedy: "Komödie",
+      genreCrime: "Krimi",
+      genreDocumentary: "Dokumentation",
+      genreDrama: "Drama",
+      genreFantasy: "Fantasy",
+      genreHistory: "Geschichte",
+      genreHorror: "Horror",
+      genreMusic: "Musik",
+      genreRomance: "Romantik",
+      genreSciFi: "Sci-Fi",
+      genreThriller: "Thriller",
+      genreWar: "Krieg",
+      genreWestern: "Western",
+      genreActionAdventure: "Action & Abenteuer",
+      genreSciFiFantasy: "Sci-Fi & Fantasy",
+      genreWarPolitics: "Krieg & Politik",
+      genreMystery: "Mystery",
+      genreFamily: "Familie",
+      genreReality: "Reality",
+      // Notifications
+      notificationPromptTitle: "Bleib auf dem Laufenden",
+      notificationPromptSeries: "Erhalte Benachrichtigungen bei neuen Episoden",
+      notificationPromptWatchlist: "Wöchentliche Erinnerung an deine Watchlist",
+      notificationAllow: "Benachrichtigungen erlauben"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1009,7 +1299,65 @@ enum L10n {
       ratingGreat: "Ottimo",
       ratingGood: "Buono",
       ratingBad: "Cattivo",
-      ratingTerrible: "Terribile"
+      ratingTerrible: "Terribile",
+      // Onboarding
+      onboardingWelcomeTitle: "Il tuo prossimo\npreferito ti aspetta 🍿",
+      onboardingWelcomeSubtitle: "Non dimenticare mai cosa guardare dopo",
+      onboardingGetStarted: "Andiamo!",
+      onboardingNameTitle: "Prima di tutto 👋",
+      onboardingNameSubtitle: "Come possiamo chiamarti?",
+      onboardingNamePlaceholder: "Il tuo nome",
+      onboardingContentTypeTitle: "Piacere di conoscerti! 🎬\nCosa guardi di più?",
+      onboardingMovies: "Film",
+      onboardingSeries: "Serie TV",
+      onboardingAnime: "Anime",
+      onboardingDorama: "K-Drama",
+      onboardingGenresTitle: "Cosa ti appassiona? 🎯",
+      onboardingGenresSubtitle: "Scegli almeno 1 genere che ami",
+      onboardingSelectGenres: "Seleziona almeno 1",
+      onboardingMoreToGo: "ancora da scegliere",
+      onboardingSkip: "Salta per ora",
+      onboardingAddTitlesTitle: "Ora il bello! 🎬",
+      onboardingAddTitlesSubtitle: "Aggiungi 5 titoli alla tua watchlist",
+      onboardingAdded: "aggiunti",
+      onboardingSearchPlaceholder: "Cerca un titolo...",
+      onboardingPopularNow: "Popolari adesso",
+      onboardingAddMore: "Aggiungi altri",
+      onboardingContinueToApp: "Andiamo!",
+      onboardingCelebrationTitle: "Tutto pronto! 🎉",
+      onboardingCelebrationSubtitle: "Il tuo viaggio nella watchlist inizia ora",
+      onboardingGoToHome: "Vai alla Home",
+      onboardingLoginTitle: "Salva i tuoi progressi",
+      onboardingLoginSubtitle: "Accedi per sincronizzare tra dispositivi",
+      onboardingNotNow: "Non ora",
+      // Genres
+      genreAction: "Azione",
+      genreAdventure: "Avventura",
+      genreAnimation: "Animazione",
+      genreComedy: "Commedia",
+      genreCrime: "Crime",
+      genreDocumentary: "Documentario",
+      genreDrama: "Dramma",
+      genreFantasy: "Fantasy",
+      genreHistory: "Storico",
+      genreHorror: "Horror",
+      genreMusic: "Musica",
+      genreRomance: "Romantico",
+      genreSciFi: "Fantascienza",
+      genreThriller: "Thriller",
+      genreWar: "Guerra",
+      genreWestern: "Western",
+      genreActionAdventure: "Azione e Avventura",
+      genreSciFiFantasy: "Fantascienza e Fantasy",
+      genreWarPolitics: "Guerra e Politica",
+      genreMystery: "Mistero",
+      genreFamily: "Famiglia",
+      genreReality: "Reality",
+      // Notifications
+      notificationPromptTitle: "Resta aggiornato",
+      notificationPromptSeries: "Ricevi notifiche per i nuovi episodi",
+      notificationPromptWatchlist: "Promemoria settimanale della tua watchlist",
+      notificationAllow: "Consenti notifiche"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1173,7 +1521,65 @@ enum L10n {
       ratingGreat: "素晴らしい",
       ratingGood: "良い",
       ratingBad: "悪い",
-      ratingTerrible: "最悪"
+      ratingTerrible: "最悪",
+      // Onboarding
+      onboardingWelcomeTitle: "次のお気に入りが\n待ってるよ 🍿",
+      onboardingWelcomeSubtitle: "何を見るか、もう忘れない",
+      onboardingGetStarted: "始めよう！",
+      onboardingNameTitle: "まずは基本から 👋",
+      onboardingNameSubtitle: "なんて呼べばいい？",
+      onboardingNamePlaceholder: "お名前",
+      onboardingContentTypeTitle: "はじめまして！🎬\n何をよく見る？",
+      onboardingMovies: "映画",
+      onboardingSeries: "ドラマ",
+      onboardingAnime: "アニメ",
+      onboardingDorama: "韓国ドラマ",
+      onboardingGenresTitle: "何にハマる？🎯",
+      onboardingGenresSubtitle: "好きなジャンルを1つ以上選んでね",
+      onboardingSelectGenres: "1つ以上選択",
+      onboardingMoreToGo: "つ残り",
+      onboardingSkip: "今はスキップ",
+      onboardingAddTitlesTitle: "お楽しみの時間！🎬",
+      onboardingAddTitlesSubtitle: "ウォッチリストに5つ追加しよう",
+      onboardingAdded: "追加済み",
+      onboardingSearchPlaceholder: "タイトルを検索...",
+      onboardingPopularNow: "人気の作品",
+      onboardingAddMore: "もっと追加",
+      onboardingContinueToApp: "さあ始めよう！",
+      onboardingCelebrationTitle: "準備完了！🎉",
+      onboardingCelebrationSubtitle: "ウォッチリストの旅が始まる",
+      onboardingGoToHome: "ホームへ",
+      onboardingLoginTitle: "進捗を保存",
+      onboardingLoginSubtitle: "ログインしてデバイス間で同期",
+      onboardingNotNow: "今はしない",
+      // Genres
+      genreAction: "アクション",
+      genreAdventure: "アドベンチャー",
+      genreAnimation: "アニメーション",
+      genreComedy: "コメディ",
+      genreCrime: "犯罪",
+      genreDocumentary: "ドキュメンタリー",
+      genreDrama: "ドラマ",
+      genreFantasy: "ファンタジー",
+      genreHistory: "歴史",
+      genreHorror: "ホラー",
+      genreMusic: "音楽",
+      genreRomance: "ロマンス",
+      genreSciFi: "SF",
+      genreThriller: "スリラー",
+      genreWar: "戦争",
+      genreWestern: "西部劇",
+      genreActionAdventure: "アクション＆アドベンチャー",
+      genreSciFiFantasy: "SF＆ファンタジー",
+      genreWarPolitics: "戦争＆政治",
+      genreMystery: "ミステリー",
+      genreFamily: "ファミリー",
+      genreReality: "リアリティ",
+      // Notifications
+      notificationPromptTitle: "最新情報をチェック",
+      notificationPromptSeries: "新しいエピソードの通知を受け取る",
+      notificationPromptWatchlist: "ウォッチリストの週間リマインダー",
+      notificationAllow: "通知を許可"
     ),
   ]
 }
@@ -1360,4 +1766,62 @@ struct Strings {
   let ratingGood: String
   let ratingBad: String
   let ratingTerrible: String
+  // Onboarding
+  let onboardingWelcomeTitle: String
+  let onboardingWelcomeSubtitle: String
+  let onboardingGetStarted: String
+  let onboardingNameTitle: String
+  let onboardingNameSubtitle: String
+  let onboardingNamePlaceholder: String
+  let onboardingContentTypeTitle: String
+  let onboardingMovies: String
+  let onboardingSeries: String
+  let onboardingAnime: String
+  let onboardingDorama: String
+  let onboardingGenresTitle: String
+  let onboardingGenresSubtitle: String
+  let onboardingSelectGenres: String
+  let onboardingMoreToGo: String
+  let onboardingSkip: String
+  let onboardingAddTitlesTitle: String
+  let onboardingAddTitlesSubtitle: String
+  let onboardingAdded: String
+  let onboardingSearchPlaceholder: String
+  let onboardingPopularNow: String
+  let onboardingAddMore: String
+  let onboardingContinueToApp: String
+  let onboardingCelebrationTitle: String
+  let onboardingCelebrationSubtitle: String
+  let onboardingGoToHome: String
+  let onboardingLoginTitle: String
+  let onboardingLoginSubtitle: String
+  let onboardingNotNow: String
+  // Genres
+  let genreAction: String
+  let genreAdventure: String
+  let genreAnimation: String
+  let genreComedy: String
+  let genreCrime: String
+  let genreDocumentary: String
+  let genreDrama: String
+  let genreFantasy: String
+  let genreHistory: String
+  let genreHorror: String
+  let genreMusic: String
+  let genreRomance: String
+  let genreSciFi: String
+  let genreThriller: String
+  let genreWar: String
+  let genreWestern: String
+  let genreActionAdventure: String
+  let genreSciFiFantasy: String
+  let genreWarPolitics: String
+  let genreMystery: String
+  let genreFamily: String
+  let genreReality: String
+  // Notifications
+  let notificationPromptTitle: String
+  let notificationPromptSeries: String
+  let notificationPromptWatchlist: String
+  let notificationAllow: String
 }

@@ -416,7 +416,7 @@ struct RegionPickerSheet: View {
           TextField(strings.searchRegion, text: $searchText)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
-            .onChange(of: searchText) { _ in
+            .onChange(of: searchText) {
               filterRegions()
             }
         }
@@ -609,7 +609,7 @@ struct ServicesPickerSheet: View {
           TextField(strings.searchStreamingServices, text: $searchText)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
-            .onChange(of: searchText) { _ in
+            .onChange(of: searchText) {
               filterProviders()
             }
         }

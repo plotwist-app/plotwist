@@ -15,6 +15,13 @@ enum AnalyticsEvent {
   // App Lifecycle
   case appOpened
   
+  // Onboarding
+  case onboardingStarted
+  case onboardingContentTypeSelected(type: String)
+  case onboardingGenresSelected(count: Int)
+  case onboardingTitleAdded(tmdbId: Int, mediaType: String, status: String)
+  case onboardingCompleted(titlesAdded: Int)
+  
   // Screens
   case screenView(name: String)
   
@@ -44,6 +51,11 @@ enum AnalyticsEvent {
     case .login: return "login"
     case .logout: return "logout"
     case .appOpened: return "app_opened"
+    case .onboardingStarted: return "onboarding_started"
+    case .onboardingContentTypeSelected: return "onboarding_content_type"
+    case .onboardingGenresSelected: return "onboarding_genres"
+    case .onboardingTitleAdded: return "onboarding_title_added"
+    case .onboardingCompleted: return "onboarding_completed"
     case .screenView: return "screen_view"
     case .searchPerformed: return "search"
     case .mediaViewed: return "media_viewed"
@@ -64,8 +76,16 @@ enum AnalyticsEvent {
     switch self {
     case .signUp(let method), .login(let method):
       return ["method": method]
-    case .logout, .appOpened:
+    case .logout, .appOpened, .onboardingStarted:
       return [:]
+    case .onboardingContentTypeSelected(let type):
+      return ["content_type": type]
+    case .onboardingGenresSelected(let count):
+      return ["genres_count": count]
+    case .onboardingTitleAdded(let tmdbId, let mediaType, let status):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status]
+    case .onboardingCompleted(let titlesAdded):
+      return ["titles_added": titlesAdded]
     case .screenView(let name):
       return ["screen_name": name]
     case .searchPerformed(let query, let resultsCount):

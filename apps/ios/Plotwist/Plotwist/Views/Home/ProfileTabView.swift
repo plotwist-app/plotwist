@@ -353,7 +353,7 @@ struct ProfileTabView: View {
     VStack(spacing: 0) {
       ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
         .padding(.top, 8)
-        .onChange(of: selectedStatusTab) { _ in
+        .onChange(of: selectedStatusTab) {
           Task { await loadUserItems() }
         }
 

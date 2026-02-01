@@ -254,16 +254,17 @@ struct EditProfileBadgeRow<Content: View>: View {
 // MARK: - Flow Layout
 struct FlowLayout: Layout {
   var spacing: CGFloat = 8
+  var alignment: HorizontalAlignment = .leading
 
   func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-    let result = FlowResult(in: proposal.width ?? 0, subviews: subviews, spacing: spacing)
+    let result = FlowResult(in: proposal.width ?? 0, subviews: subviews, spacing: spacing, alignment: alignment)
     return result.size
   }
 
   func placeSubviews(
     in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()
   ) {
-    let result = FlowResult(in: bounds.width, subviews: subviews, spacing: spacing)
+    let result = FlowResult(in: bounds.width, subviews: subviews, spacing: spacing, alignment: alignment)
     for (index, subview) in subviews.enumerated() {
       subview.place(
         at: CGPoint(
@@ -277,27 +278,55 @@ struct FlowLayout: Layout {
     var size: CGSize = .zero
     var positions: [CGPoint] = []
 
-    init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat) {
+    init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat, alignment: HorizontalAlignment = .leading) {
       var x: CGFloat = 0
       var y: CGFloat = 0
       var rowHeight: CGFloat = 0
-
-      for subview in subviews {
+      var rowStartIndex = 0
+      var rowWidth: CGFloat = 0
+      
+      // First pass: calculate positions without alignment offset
+      var tempPositions: [CGPoint] = []
+      var rowInfos: [(startIndex: Int, endIndex: Int, width: CGFloat, y: CGFloat)] = []
+      
+      for (index, subview) in subviews.enumerated() {
         let size = subview.sizeThatFits(.unspecified)
 
         if x + size.width > maxWidth && x > 0 {
+          // Save row info
+          rowInfos.append((rowStartIndex, index - 1, rowWidth - spacing, y))
+          rowStartIndex = index
           x = 0
           y += rowHeight + spacing
           rowHeight = 0
+          rowWidth = 0
         }
 
-        positions.append(CGPoint(x: x, y: y))
+        tempPositions.append(CGPoint(x: x, y: y))
         rowHeight = max(rowHeight, size.height)
         x += size.width + spacing
+        rowWidth = x
         self.size.width = max(self.size.width, x - spacing)
       }
-
+      
+      // Don't forget the last row
+      if !subviews.isEmpty {
+        rowInfos.append((rowStartIndex, subviews.count - 1, rowWidth - spacing, y))
+      }
+      
       self.size.height = y + rowHeight
+      
+      // Second pass: apply alignment offset
+      if alignment == .center {
+        for rowInfo in rowInfos {
+          let offset = (maxWidth - rowInfo.width) / 2
+          for i in rowInfo.startIndex...rowInfo.endIndex {
+            tempPositions[i].x += offset
+          }
+        }
+      }
+      
+      positions = tempPositions
     }
   }
 }

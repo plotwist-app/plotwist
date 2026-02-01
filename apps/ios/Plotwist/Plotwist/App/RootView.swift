@@ -8,11 +8,15 @@ import SwiftUI
 struct RootView: View {
   @State private var isAuthenticated = AuthService.shared.isAuthenticated
   @State private var isGuestMode = UserDefaults.standard.bool(forKey: "isGuestMode")
+  @StateObject private var onboardingService = OnboardingService.shared
   @ObservedObject private var themeManager = ThemeManager.shared
 
   var body: some View {
     Group {
-      if isAuthenticated || isGuestMode {
+      if !onboardingService.hasCompletedOnboarding && !isAuthenticated {
+        // Show onboarding for new users
+        OnboardingView()
+      } else if isAuthenticated || isGuestMode {
         HomeView()
       } else {
         LoginView()
@@ -27,6 +31,13 @@ struct RootView: View {
       if isAuthenticated && isGuestMode {
         UserDefaults.standard.set(false, forKey: "isGuestMode")
         isGuestMode = false
+      }
+      
+      // Sync local onboarding data to server after login
+      if isAuthenticated {
+        Task {
+          await onboardingService.syncLocalDataToServer()
+        }
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .continueAsGuest)) { _ in

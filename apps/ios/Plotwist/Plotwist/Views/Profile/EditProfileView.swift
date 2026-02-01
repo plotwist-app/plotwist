@@ -253,6 +253,26 @@ struct EditProfileView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)
       }
+      
+      #if DEBUG
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+      
+      Button {
+        OnboardingService.shared.reset()
+        AuthService.shared.signOut()
+      } label: {
+        HStack(spacing: 8) {
+          Image(systemName: "arrow.counterclockwise")
+          Text("Reset Onboarding (Debug)")
+        }
+        .font(.subheadline.weight(.medium))
+        .foregroundColor(.orange)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 16)
+      }
+      #endif
     }
     .padding(.horizontal, 24)
     .padding(.bottom, 40)

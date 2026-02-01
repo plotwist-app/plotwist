@@ -114,7 +114,7 @@ struct EditStreamingServicesView: View {
       TextField(strings.searchStreamingServices, text: $searchText)
         .textInputAutocapitalization(.never)
         .autocorrectionDisabled()
-        .onChange(of: searchText) { _ in filterProviders() }
+        .onChange(of: searchText) { filterProviders() }
     }
     .padding(12)
     .background(Color.appInputFilled)

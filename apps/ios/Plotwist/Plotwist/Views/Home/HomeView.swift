@@ -8,6 +8,9 @@ import SwiftUI
 struct HomeView: View {
   @State private var selectedTab = 0
   @State private var previousTab = 0
+  @State private var showLoginPrompt = false
+  @State private var showNotificationPrompt = false
+  @StateObject private var onboardingService = OnboardingService.shared
   
   private var isGuestMode: Bool {
     !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
@@ -16,6 +19,11 @@ struct HomeView: View {
   private func exitGuestMode() {
     UserDefaults.standard.set(false, forKey: "isGuestMode")
     NotificationCenter.default.post(name: .authChanged, object: nil)
+  }
+  
+  // Check if user has added a series to their watchlist
+  private var hasAddedSeries: Bool {
+    onboardingService.localSavedTitles.contains { $0.mediaType == "tv" }
   }
 
   var body: some View {
@@ -47,10 +55,14 @@ struct HomeView: View {
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
-      // Intercept profile tab when in guest mode - redirect to login
+      // Intercept profile tab when in guest mode - show login prompt instead
       if newTab == 2 && isGuestMode {
         selectedTab = previousTab
-        exitGuestMode()
+        if !onboardingService.hasSeenLoginPrompt {
+          showLoginPrompt = true
+        } else {
+          exitGuestMode()
+        }
       } else {
         previousTab = newTab
       }
@@ -60,7 +72,11 @@ struct HomeView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
       if isGuestMode {
-        exitGuestMode()
+        if !onboardingService.hasSeenLoginPrompt {
+          showLoginPrompt = true
+        } else {
+          exitGuestMode()
+        }
       } else {
         selectedTab = 2
       }
@@ -80,9 +96,49 @@ struct HomeView: View {
 
       UITabBar.appearance().standardAppearance = appearance
       UITabBar.appearance().scrollEdgeAppearance = appearance
+      
+      // Show login prompt after a delay if in guest mode with local data
+      if isGuestMode && !onboardingService.hasSeenLoginPrompt && !onboardingService.localSavedTitles.isEmpty {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          showLoginPrompt = true
+        }
+      }
     }
     .safeAreaInset(edge: .bottom) {
       Color.clear.frame(height: 24)
+    }
+    .sheet(isPresented: $showLoginPrompt) {
+      LoginPromptSheet(
+        onLogin: {
+          showLoginPrompt = false
+          // Show notification prompt after login
+          if !onboardingService.hasSeenNotificationPrompt {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+              showNotificationPrompt = true
+            }
+          }
+        },
+        onSkip: {
+          showLoginPrompt = false
+          // Show notification prompt if hasn't seen it
+          if !onboardingService.hasSeenNotificationPrompt {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+              showNotificationPrompt = true
+            }
+          }
+        }
+      )
+    }
+    .sheet(isPresented: $showNotificationPrompt) {
+      NotificationPromptSheet(
+        hasSeries: hasAddedSeries,
+        onAllow: {
+          showNotificationPrompt = false
+        },
+        onSkip: {
+          showNotificationPrompt = false
+        }
+      )
     }
   }
 }

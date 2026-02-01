@@ -785,6 +785,52 @@ class TMDBService {
     let result = try decoder.decode(StreamingProvidersResponse.self, from: data)
     return result.results
   }
+  
+  // MARK: - Trending (for onboarding)
+  func getTrending(mediaType: String = "all", timeWindow: String = "week", language: String = "en-US") async throws -> [SearchResult] {
+    guard let url = URL(string: "\(baseURL)/trending/\(mediaType)/\(timeWindow)?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(SearchMultiResponse.self, from: data).results
+  }
+  
+  // MARK: - Discover by Genre (for onboarding)
+  func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1) async throws -> [SearchResult] {
+    let genresString = genreIds.map { String($0) }.joined(separator: ",")
+    let endpoint = mediaType == "movie" ? "discover/movie" : "discover/tv"
+    
+    guard let url = URL(string: "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=popularity.desc&page=\(page)") else {
+      throw TMDBError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(PopularResponse.self, from: data)
+    return result.results.map { $0.toSearchResult(mediaType: mediaType) }
+  }
 }
 
 // MARK: - Movie Details Model
