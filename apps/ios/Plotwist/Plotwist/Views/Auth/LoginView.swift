@@ -105,10 +105,10 @@ struct LoginView: View {
           VStack {
             LinearGradient(
               colors: [
-                Color.black.opacity(0.3),
                 Color.black.opacity(0.1),
-                Color.black.opacity(0.3),
-                Color.black.opacity(0.7),
+                Color.black.opacity(0.0),
+                Color.black.opacity(0.1),
+                Color.black.opacity(0.5),
               ],
               startPoint: .top,
               endPoint: .bottom

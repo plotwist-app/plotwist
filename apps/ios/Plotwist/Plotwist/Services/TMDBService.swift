@@ -1029,6 +1029,7 @@ struct PopularItem: Codable {
   let title: String?
   let name: String?
   let posterPath: String?
+  let backdropPath: String?
   let releaseDate: String?
   let firstAirDate: String?
   let overview: String?
@@ -1041,6 +1042,7 @@ struct PopularItem: Codable {
       title: title,
       name: name,
       posterPath: posterPath,
+      backdropPath: backdropPath,
       profilePath: nil,
       releaseDate: releaseDate,
       firstAirDate: firstAirDate,
@@ -1062,6 +1064,7 @@ struct SearchResult: Codable, Identifiable {
   let title: String?
   let name: String?
   let posterPath: String?
+  let backdropPath: String?
   let profilePath: String?
   let releaseDate: String?
   let firstAirDate: String?
@@ -1075,6 +1078,11 @@ struct SearchResult: Codable, Identifiable {
 
   var displayDate: String? {
     releaseDate ?? firstAirDate
+  }
+  
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w780\(backdropPath)")
   }
 
   var year: String? {
