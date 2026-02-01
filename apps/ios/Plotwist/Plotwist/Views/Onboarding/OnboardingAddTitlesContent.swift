@@ -144,13 +144,11 @@ struct OnboardingAddTitlesContent: View {
   // MARK: - Card Stack
   
   private var thirdItem: SearchResult? {
-    guard currentIndex + 2 < items.count else { return nil }
-    return items[currentIndex + 2]
+    items[safe: currentIndex + 2]
   }
   
   private var fourthItem: SearchResult? {
-    guard currentIndex + 3 < items.count else { return nil }
-    return items[currentIndex + 3]
+    items[safe: currentIndex + 3]
   }
   
   @ViewBuilder
@@ -158,7 +156,17 @@ struct OnboardingAddTitlesContent: View {
     let springAnimation = Animation.spring(response: 0.4, dampingFraction: 0.8)
     
     ZStack {
-      // Third card - animates to second position during transition
+      // Fourth card (appears at third position during transition)
+      if isTransitioning, let fourth = fourthItem {
+        posterCard(item: fourth)
+          .id("card-\(fourth.id)")
+          .scaleEffect(CardPosition.third.scale)
+          .rotationEffect(.degrees(CardPosition.third.rotation))
+          .offset(x: CardPosition.third.offsetX, y: CardPosition.third.offsetY)
+          .zIndex(-1)
+      }
+      
+      // Third card - animates from third to second position during transition
       if let third = thirdItem {
         let pos = isTransitioning ? CardPosition.second : CardPosition.third
         posterCard(item: third)
@@ -170,7 +178,7 @@ struct OnboardingAddTitlesContent: View {
           .animation(springAnimation, value: isTransitioning)
       }
       
-      // Second card - animates to front position during transition
+      // Second card - animates from second to front position during transition
       if let next = nextItem {
         let pos = isTransitioning ? CardPosition.front : CardPosition.second
         posterCard(item: next)
@@ -182,12 +190,13 @@ struct OnboardingAddTitlesContent: View {
           .animation(springAnimation, value: isTransitioning)
       }
       
-      // Current front card (only show when not transitioning)
+      // Current front card (only when not transitioning)
       if !isTransitioning, let current = currentItem {
         posterCard(item: current)
           .id("card-\(current.id)")
-          .offset(dragOffset)
+          .scaleEffect(CardPosition.front.scale)
           .rotationEffect(.degrees(cardRotation))
+          .offset(dragOffset)
           .zIndex(2)
           .gesture(
             DragGesture()
@@ -217,10 +226,11 @@ struct OnboardingAddTitlesContent: View {
           .overlay(swipeIndicators)
       }
       
-      // Exiting card (animates off screen)
+      // Exiting card (animates off screen from drag position)
       if let exiting = exitingItem {
         posterCard(item: exiting)
           .id("exiting-\(exiting.id)")
+          .scaleEffect(CardPosition.front.scale)
           .offset(exitOffset)
           .rotationEffect(.degrees(exitRotation))
           .zIndex(3)
@@ -592,5 +602,13 @@ struct OnboardingAddTitlesContent: View {
         page: page
       )
     }
+  }
+}
+
+// MARK: - Safe Array Subscript
+
+private extension Array {
+  subscript(safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
   }
 }
