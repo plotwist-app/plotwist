@@ -113,6 +113,7 @@ struct OnboardingContentTypeContent: View {
           }
         }
         .padding(.horizontal, horizontalPadding)
+        .drawingGroup() // Rasterize grid with images for smooth transition
       }
       .frame(height: 320) // Fixed height for the grid area
       

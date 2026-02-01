@@ -110,7 +110,6 @@ struct OnboardingView: View {
             
             // Step Content
             stepContent
-              .drawingGroup() // Rasterize entire view including images before animation
               .id(currentStep)
               .transition(.asymmetric(
                 insertion: .move(edge: isGoingBack ? .leading : .trailing),
