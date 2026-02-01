@@ -555,6 +555,9 @@ struct SearchTabView: View {
       )
       results = response.results
       
+      // Track search event
+      AnalyticsService.shared.track(.searchPerformed(query: query, resultsCount: response.results.count))
+      
       // Save to recent searches if we have results
       if !response.results.isEmpty {
         saveRecentSearch(query)

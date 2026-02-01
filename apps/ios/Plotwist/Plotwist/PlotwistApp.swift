@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct PlotwistApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+    
     var body: some Scene {
         WindowGroup {
             RootView()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                AnalyticsService.shared.track(.appOpened)
+            }
         }
     }
 }

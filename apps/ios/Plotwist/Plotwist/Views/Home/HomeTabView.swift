@@ -155,6 +155,7 @@ struct HomeTabView: View {
     .task {
       await loadData()
     }
+    .trackScreen("Home")
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }

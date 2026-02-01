@@ -160,6 +160,9 @@ struct StatusSheet: View {
         do {
           try await UserItemService.shared.deleteUserItem(id: itemId, tmdbId: mediaId, mediaType: mediaType)
           
+          // Track status removal
+          AnalyticsService.shared.track(.mediaStatusRemoved(tmdbId: mediaId, mediaType: mediaType))
+          
           // Invalidate collection cache
           CollectionCache.shared.invalidateCache()
           
@@ -192,6 +195,13 @@ struct StatusSheet: View {
             mediaType: apiMediaType,
             status: status
           )
+          
+          // Track status change
+          AnalyticsService.shared.track(.mediaStatusChanged(
+            tmdbId: mediaId,
+            mediaType: mediaType,
+            status: status.rawValue
+          ))
           
           // Invalidate collection cache
           CollectionCache.shared.invalidateCache()

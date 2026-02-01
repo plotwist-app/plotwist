@@ -462,6 +462,7 @@ struct LoginFormSheet: View {
     
     do {
       _ = try await AuthService.shared.signIn(login: login, password: password)
+      AnalyticsService.shared.track(.login(method: "email"))
       dismiss()
     } catch {
       self.error = strings.invalidCredentials
@@ -475,6 +476,7 @@ struct LoginFormSheet: View {
     
     do {
       _ = try await SocialAuthService.shared.signInWithApple()
+      AnalyticsService.shared.track(.login(method: "apple"))
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -493,7 +495,6 @@ struct LoginFormSheet: View {
     defer { isGoogleLoading = false }
     
     // TODO: Implement Google Sign-In when SDK is configured
-    // For now, show a message that Google Sign-In requires additional setup
     self.error = "Google Sign-In coming soon"
   }
 }
@@ -735,6 +736,7 @@ struct SignUpFormSheet: View {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
         try await AuthService.shared.signUp(email: email, password: password, username: username)
+        AnalyticsService.shared.track(.signUp(method: "email"))
         dismiss()
       } else {
         error = strings.usernameAlreadyTaken
@@ -753,6 +755,7 @@ struct SignUpFormSheet: View {
     
     do {
       _ = try await SocialAuthService.shared.signInWithApple()
+      AnalyticsService.shared.track(.signUp(method: "apple"))
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -771,7 +774,6 @@ struct SignUpFormSheet: View {
     defer { isGoogleLoading = false }
     
     // TODO: Implement Google Sign-In when SDK is configured
-    // For now, show a message that Google Sign-In requires additional setup
     self.error = "Google Sign-In coming soon"
   }
 }

@@ -197,6 +197,16 @@ class SocialAuthService {
     // Save token to UserDefaults
     UserDefaults.standard.set(authResponse.token, forKey: "token")
     NotificationCenter.default.post(name: .authChanged, object: nil)
+    
+    // Identify user for analytics
+    Task {
+      if let user = try? await AuthService.shared.getCurrentUser() {
+        AnalyticsService.shared.identify(userId: user.id, properties: [
+          "username": user.username,
+          "subscription_type": user.subscriptionType ?? "MEMBER"
+        ])
+      }
+    }
 
     return authResponse.token
   }

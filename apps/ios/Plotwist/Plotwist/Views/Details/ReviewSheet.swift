@@ -192,6 +192,14 @@ struct ReviewSheet: View {
         } else {
           try await ReviewService.shared.createReview(reviewData)
         }
+        
+        // Track review submitted
+        AnalyticsService.shared.track(.reviewSubmitted(
+          tmdbId: mediaId,
+          mediaType: mediaType,
+          rating: rating,
+          hasText: !reviewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        ))
 
         await MainActor.run {
           isLoading = false

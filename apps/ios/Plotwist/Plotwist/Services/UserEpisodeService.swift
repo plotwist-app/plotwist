@@ -135,6 +135,13 @@ class UserEpisodeService {
       throw UserEpisodeError.invalidResponse
     }
 
+    // Track episode watched
+    AnalyticsService.shared.track(.episodeWatched(
+      tmdbId: tmdbId,
+      season: seasonNumber,
+      episode: episodeNumber
+    ))
+
     // Invalidate cache
     invalidateCache(tmdbId: tmdbId)
 

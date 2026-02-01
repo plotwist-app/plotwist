@@ -386,6 +386,15 @@ struct MediaDetailView: View {
           language: Language.current.rawValue
         )
       }
+      
+      // Track media view
+      if let details = details {
+        AnalyticsService.shared.track(.mediaViewed(
+          tmdbId: mediaId,
+          mediaType: mediaType,
+          title: details.displayTitle
+        ))
+      }
     } catch {
       details = nil
     }

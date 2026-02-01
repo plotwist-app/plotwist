@@ -46,6 +46,17 @@ class AuthService {
     let result = try JSONDecoder().decode(LoginResponse.self, from: data)
     UserDefaults.standard.set(result.token, forKey: "token")
     NotificationCenter.default.post(name: .authChanged, object: nil)
+    
+    // Identify user for analytics
+    Task {
+      if let user = try? await getCurrentUser() {
+        AnalyticsService.shared.identify(userId: user.id, properties: [
+          "username": user.username,
+          "subscription_type": user.subscriptionType ?? "MEMBER"
+        ])
+      }
+    }
+    
     return result.token
   }
 
@@ -292,6 +303,8 @@ class AuthService {
 
   // MARK: - Sign Out
   func signOut() {
+    AnalyticsService.shared.track(.logout)
+    AnalyticsService.shared.reset()
     UserDefaults.standard.removeObject(forKey: "token")
     invalidatePreferencesCache()
     NotificationCenter.default.post(name: .authChanged, object: nil)
