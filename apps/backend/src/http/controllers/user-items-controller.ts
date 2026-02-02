@@ -34,7 +34,7 @@ export async function upsertUserItemController(
     request.body
   )
 
-  const result = await upsertUserItemService({
+  const upsertResult = await upsertUserItemService({
     tmdbId,
     mediaType,
     status,
@@ -49,28 +49,32 @@ export async function upsertUserItemController(
     })
   }
 
-  if (result instanceof DomainError) {
-    return reply.status(result.status).send({ message: result.message })
+  if (upsertResult instanceof DomainError) {
+    return reply
+      .status(upsertResult.status)
+      .send({ message: upsertResult.message })
   }
 
   // Create first watch entry if status is WATCHED and no entries exist
   let watchEntries: { id: string; watchedAt: string }[] = []
   if (status === 'WATCHED') {
     const existingEntries = await getWatchEntriesByUserItemId(
-      result.userItem.id
+      upsertResult.userItem.id
     )
     if (existingEntries.length === 0) {
-      await createWatchEntry({ userItemId: result.userItem.id })
+      await createWatchEntry({ userItemId: upsertResult.userItem.id })
     }
     // Fetch all watch entries to return in response
-    const allEntries = await getWatchEntriesByUserItemId(result.userItem.id)
+    const allEntries = await getWatchEntriesByUserItemId(
+      upsertResult.userItem.id
+    )
     watchEntries = allEntries.map(entry => ({
       id: entry.id,
       watchedAt: entry.watchedAt.toISOString(),
     }))
   } else {
     // If status changed from WATCHED to something else, delete watch entries
-    await deleteWatchEntriesByUserItemId(result.userItem.id)
+    await deleteWatchEntriesByUserItemId(upsertResult.userItem.id)
   }
 
   await createUserActivity({
@@ -80,8 +84,15 @@ export async function upsertUserItemController(
       tmdbId,
       mediaType,
       status,
-      userItemId: result.userItem.id,
+      userItemId: upsertResult.userItem.id,
     },
+  })
+
+  // Fetch the user item via Drizzle ORM to ensure consistent format with getUserItem
+  const result = await getUserItemService({
+    mediaType,
+    tmdbId,
+    userId: request.user.id,
   })
 
   return reply.status(201).send({

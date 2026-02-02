@@ -12,6 +12,14 @@ export const upsertUserItemResponseSchema = {
     userItem: createSelectSchema(schema.userItems).extend({
       addedAt: z.string(),
       updatedAt: z.string(),
+      watchEntries: z
+        .array(
+          z.object({
+            id: z.string(),
+            watchedAt: z.string(),
+          })
+        )
+        .optional(),
     }),
   }),
 }

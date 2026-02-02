@@ -28,7 +28,8 @@ export async function createWatchEntryController(
 
   return reply.status(201).send({
     watchEntry: {
-      ...entry,
+      id: entry.id,
+      userItemId: entry.userItemId,
       watchedAt: entry.watchedAt.toISOString(),
       createdAt: entry.createdAt.toISOString(),
     },
@@ -45,7 +46,8 @@ export async function getWatchEntriesController(
 
   return reply.status(200).send({
     watchEntries: entries.map(entry => ({
-      ...entry,
+      id: entry.id,
+      userItemId: entry.userItemId,
       watchedAt: entry.watchedAt.toISOString(),
       createdAt: entry.createdAt.toISOString(),
     })),
@@ -67,7 +69,8 @@ export async function updateWatchEntryController(
 
   return reply.status(200).send({
     watchEntry: {
-      ...entry,
+      id: entry.id,
+      userItemId: entry.userItemId,
       watchedAt: entry.watchedAt.toISOString(),
       createdAt: entry.createdAt.toISOString(),
     },
