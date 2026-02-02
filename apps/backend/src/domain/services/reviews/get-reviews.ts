@@ -11,11 +11,12 @@ import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
   typeof getReviewsQuerySchema._type,
-  'tmdbId' | 'language' | 'limit' | 'seasonNumber' | 'episodeNumber'
+  'tmdbId' | 'language' | 'limit' | 'page' | 'seasonNumber' | 'episodeNumber'
 > & {
   tmdbId?: number
   authenticatedUserId?: string
   limit?: number
+  page?: number
 
   startDate?: Date
   endDate?: Date

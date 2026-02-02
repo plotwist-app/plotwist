@@ -15,10 +15,20 @@ import {
   getUserItemQuerySchema,
   getUserItemResponseSchema,
   getUserItemsBodySchema,
+  getUserItemsCountQuerySchema,
+  getUserItemsCountResponseSchema,
   getUserItemsResponseSchema,
   upsertUserItemBodySchema,
   upsertUserItemResponseSchema,
 } from '../schemas/user-items'
+import {
+  deleteUserItemController,
+  getAllUserItemsController,
+  getUserItemController,
+  getUserItemsController,
+  getUserItemsCountController,
+  upsertUserItemController,
+} from '../controllers/user-items-controller'
 
 const USER_ITEMS_TAGS = ['User items']
 
@@ -111,6 +121,21 @@ export async function userItemsRoutes(app: FastifyInstance) {
         operationId: 'getAllUserItems',
       },
       handler: getAllUserItemsController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/items/count',
+      schema: {
+        description: 'Get user items count',
+        tags: USER_ITEMS_TAGS,
+        querystring: getUserItemsCountQuerySchema,
+        response: getUserItemsCountResponseSchema,
+        operationId: 'getUserItemsCount',
+      },
+      handler: getUserItemsCountController,
     })
   )
 }

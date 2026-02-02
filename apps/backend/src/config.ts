@@ -11,6 +11,7 @@ export const config = {
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
+  google: loadGoogleEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -106,6 +107,14 @@ function loadMALEnvs() {
 function loadOpenAIEnvs() {
   const schema = z.object({
     OPENAI_API_KEY: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadGoogleEnvs() {
+  const schema = z.object({
+    GOOGLE_CLIENT_ID: z.string().optional(),
   })
 
   return schema.parse(process.env)

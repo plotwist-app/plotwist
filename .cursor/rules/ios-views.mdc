@@ -1,0 +1,169 @@
+---
+description: Regras para criar telas iOS no projeto Plotwist
+globs:
+  - "apps/ios/**/*.swift"
+alwaysApply: false
+---
+
+# Regras para Telas iOS - Plotwist
+
+## Estrutura de Arquivos
+
+```
+apps/ios/Plotwist/Plotwist/
+├── App/                    # Entry point e RootView
+├── Components/             # Componentes reutilizáveis
+│   └── PrimaryButton.swift # Botões padrão
+├── Views/                  # Telas organizadas por feature
+│   ├── Auth/              # Login, SignUp, etc
+│   ├── Home/              # Dashboard
+│   ├── Movies/            # Catálogo de filmes
+│   └── ...
+├── Services/              # Serviços de API
+├── Theme/                 # Cores e estilos
+├── Localization/          # Multi-idioma
+│   ├── Language.swift     # Enum de idiomas
+│   └── Strings.swift      # Todas as strings traduzidas
+└── Utils/                 # Constantes
+```
+
+## Regras de Criação de Views
+
+1. **Mantenha tudo simples** - State local na View, sem ViewModel separado para telas simples
+2. **Use @State** para estados locais (loading, error, form fields)
+3. **API sempre em `localhost:3333`** - Configurado em `Utils/Constants.swift`
+4. **Use as cores do tema** - Definidas em `Theme/Colors.swift`
+5. **Use L10n.current para strings** - Todas as strings devem ser traduzidas
+
+## Localização (Multi-idioma)
+
+Use `L10n.current` para acessar strings traduzidas:
+
+```swift
+@State private var strings = L10n.current
+
+// Na view
+Text(strings.accessPlotwist)
+Text(strings.loginLabel)
+
+// Reagir a mudanças de idioma
+.onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+    strings = L10n.current
+}
+```
+
+**Idiomas suportados:** en-US, pt-BR, es-ES, fr-FR, de-DE, it-IT, ja-JP
+
+**Adicionar novas strings:** Edite `Localization/Strings.swift`
+
+## Template de View Simples
+
+```swift
+import SwiftUI
+
+struct NomeDaTelaView: View {
+    @State private var isLoading = false
+    @State private var error: String?
+
+    var body: some View {
+        ZStack {
+            Color.appBackgroundAdaptive.ignoresSafeArea()
+
+            VStack(spacing: 16) {
+                // Conteúdo
+            }
+            .padding(.horizontal, 24)
+        }
+    }
+}
+
+#Preview {
+    NomeDaTelaView()
+}
+```
+
+## Cores (use sempre estas)
+
+- `Color.appBackgroundAdaptive` - Background principal
+- `Color.appForegroundAdaptive` - Texto principal
+- `Color.appBorderAdaptive` - Bordas (inputs e botões usam transparente + borda)
+- `Color.appMutedForegroundAdaptive` - Texto secundário
+- `Color.appDestructive` - Erros e ações destrutivas
+
+## Componentes Comuns
+
+### Input Field (transparente com borda)
+
+```swift
+TextField("Placeholder", text: $value)
+    .textInputAutocapitalization(.never)
+    .autocorrectionDisabled()
+    .padding(12)
+    .background(Color.clear)
+    .overlay(
+        RoundedRectangle(cornerRadius: 12)
+            .stroke(Color.appBorderAdaptive, lineWidth: 1)
+    )
+```
+
+### Botão Primário (use o componente)
+
+```swift
+// Filled (preto)
+PrimaryButton("Access", variant: .filled, isLoading: isLoading) {
+    // ação
+}
+
+// Outline (transparente com borda)
+PrimaryButton("Cancel") {
+    // ação
+}
+```
+
+### Botão Social (desabilitado)
+
+```swift
+SocialButton("Continue with Google", icon: "globe", isDisabled: true) {}
+SocialButton("Continue with Apple", icon: "apple.logo", isDisabled: true) {}
+```
+
+### Mensagem de Erro
+
+```swift
+if let error {
+    Text(error)
+        .font(.caption)
+        .foregroundColor(.appDestructive)
+}
+```
+
+## Chamadas de API
+
+Use `AuthService.shared` para autenticação ou crie services específicos:
+
+```swift
+Task {
+    isLoading = true
+    defer { isLoading = false }
+
+    do {
+        // chamada async
+    } catch {
+        self.error = error.localizedDescription
+    }
+}
+```
+
+## Navegação
+
+- Use `NavigationView` na view raiz
+- Use `NavigationLink` para navegação
+- `RootView` gerencia auth state via `NotificationCenter`
+
+## NÃO FAZER
+
+- ❌ Criar ViewModels separados para telas simples
+- ❌ Criar arquivos de documentação (.md) desnecessários
+- ❌ Usar cores hardcoded (sempre use Theme/Colors.swift)
+- ❌ Criar abstrações desnecessárias
+- ❌ Usar URLs diferentes de localhost:3333

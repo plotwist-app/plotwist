@@ -114,18 +114,32 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { limit, language, orderBy, userId, interval } =
-    getReviewsQuerySchema.parse(request.query)
+  const {
+    limit: limitStr,
+    page: pageStr,
+    language,
+    orderBy,
+    userId,
+    interval,
+  } = getReviewsQuerySchema.parse(request.query)
+
+  const limit = Number(limitStr) || 20
+  const page = Number(pageStr) || 1
 
   const result = await getReviewsService({
     orderBy,
     userId,
     interval,
-    limit: Number(limit),
+    limit,
+    page,
   })
 
+  // Check if there are more results (we fetched limit + 1)
+  const hasMore = result.reviews.length > limit
+  const reviews = hasMore ? result.reviews.slice(0, limit) : result.reviews
+
   const mergedReviews = await Promise.all(
-    result.reviews.map(async review => {
+    reviews.map(async review => {
       const tmdbData = await getTMDBDataService(redis, {
         language: language || 'en-US',
         mediaType: review.mediaType,
@@ -136,7 +150,14 @@ export async function getDetailedReviewsController(
     })
   )
 
-  return reply.status(200).send({ reviews: mergedReviews })
+  return reply.status(200).send({
+    reviews: mergedReviews,
+    pagination: {
+      page,
+      limit,
+      hasMore,
+    },
+  })
 }
 
 export async function getReviewController(

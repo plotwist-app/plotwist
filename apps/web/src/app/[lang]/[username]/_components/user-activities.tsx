@@ -14,14 +14,14 @@ import { Link } from 'next-view-transitions'
 import type { PropsWithChildren } from 'react'
 import { v4 } from 'uuid'
 import type {
-  GetUserActivities200UserActivitiesItemAnyOf,
-  GetUserActivities200UserActivitiesItemAnyOfFiveeight,
-  GetUserActivities200UserActivitiesItemAnyOfFoureight,
-  GetUserActivities200UserActivitiesItemAnyOfOnenine,
-  GetUserActivities200UserActivitiesItemAnyOfOnezero,
-  GetUserActivities200UserActivitiesItemAnyOfSixeight,
-  GetUserActivities200UserActivitiesItemAnyOfThreeseven,
-  GetUserActivities200UserActivitiesItemAnyOfTwoseven,
+  GetUserActivities200UserActivitiesItemOneOf,
+  GetUserActivities200UserActivitiesItemOneOfFiveeight,
+  GetUserActivities200UserActivitiesItemOneOfFoureight,
+  GetUserActivities200UserActivitiesItemOneOfOnenine,
+  GetUserActivities200UserActivitiesItemOneOfOnezero,
+  GetUserActivities200UserActivitiesItemOneOfSixeight,
+  GetUserActivities200UserActivitiesItemOneOfThreeseven,
+  GetUserActivities200UserActivitiesItemOneOfTwoseven,
 } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
@@ -42,7 +42,7 @@ export function Username({ children }: PropsWithChildren) {
 export function ChangeStatusActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfFiveeight
+  activity: GetUserActivities200UserActivitiesItemOneOfFiveeight
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -76,7 +76,7 @@ export function ChangeStatusActivity({
 export function ListItemActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOf
+  activity: GetUserActivities200UserActivitiesItemOneOf
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -109,7 +109,7 @@ export function ListItemActivity({
 export function ListActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOnenine
+  activity: GetUserActivities200UserActivitiesItemOneOfOnenine
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -137,7 +137,7 @@ export function ListActivity({
 export function ReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfTwoseven
+  activity: GetUserActivities200UserActivitiesItemOneOfTwoseven
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -188,7 +188,7 @@ export function ReviewActivity({
 export function FollowActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfOnezero
+  activity: GetUserActivities200UserActivitiesItemOneOfOnezero
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -226,7 +226,7 @@ export function FollowActivity({
 export function LikeReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfTwoseven
+  activity: GetUserActivities200UserActivitiesItemOneOfTwoseven
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -279,7 +279,7 @@ export function LikeReviewActivity({
 export function WatchEpisodeActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfFoureight
+  activity: GetUserActivities200UserActivitiesItemOneOfFoureight
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -299,7 +299,7 @@ export function WatchEpisodeActivity({
           </TooltipTrigger>
           <TooltipContent className="p-0 m-0">
             <ul className="p-2 text-xs">
-              {episodes.map(episode => (
+              {episodes.map((episode: { seasonNumber: number; episodeNumber: number }) => (
                 <li key={v4()} className="whitespace-nowrap">
                   • S{episode.seasonNumber}, EP{episode.episodeNumber}
                 </li>
@@ -329,7 +329,7 @@ export function WatchEpisodeActivity({
 export function CreateReviewReplyActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfThreeseven
+  activity: GetUserActivities200UserActivitiesItemOneOfThreeseven
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -390,7 +390,7 @@ export function CreateReviewReplyActivity({
 export function CreateAccountActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemAnyOfSixeight
+  activity: GetUserActivities200UserActivitiesItemOneOfSixeight
 }) {
   const { dictionary } = useLanguage()
   const {

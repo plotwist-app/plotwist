@@ -5,6 +5,7 @@ import { Videos, type VideosProps } from '.'
 const PROPS: VideosProps = {
   tmdbId: 673, // // Harry Potter and the Prisoner of Azkaban
   variant: 'movie',
+  dictionary: {} as VideosProps['dictionary'],
 }
 
 describe('Videos', () => {

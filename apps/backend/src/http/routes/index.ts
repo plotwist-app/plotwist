@@ -17,6 +17,7 @@ import { listsRoute } from './lists'
 import { loginRoute } from './login'
 import { reviewRepliesRoute } from './review-replies'
 import { reviewsRoute } from './reviews'
+import { socialAuthRoutes } from './social-auth'
 import { socialLinksRoute } from './social-links'
 import { subscriptionsRoutes } from './subscriptions'
 import { userActivitiesRoutes } from './user-activities'
@@ -24,6 +25,7 @@ import { userEpisodesRoutes } from './user-episodes'
 import { userItemsRoutes } from './user-items'
 import { userStatsRoutes } from './user-stats'
 import { usersRoute } from './users'
+import { watchEntriesRoutes } from './watch-entries'
 import { webhookRoutes } from './webhook'
 
 export function routes(app: FastifyInstance) {
@@ -35,6 +37,9 @@ export function routes(app: FastifyInstance) {
 
   app.register(fastifyCors, {
     origin: getCorsOrigin(),
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   })
 
   app.register(fastifyJwt, {
@@ -50,6 +55,7 @@ export function routes(app: FastifyInstance) {
   app.register(usersRoute)
   app.register(listsRoute)
   app.register(loginRoute)
+  app.register(socialAuthRoutes)
   app.register(healthCheck)
   app.register(reviewsRoute)
   app.register(listItemRoute)
@@ -65,11 +71,42 @@ export function routes(app: FastifyInstance) {
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
   app.register(subscriptionsRoutes)
+  app.register(watchEntriesRoutes)
   // app.register(userRecommendationsRoutes)
 
   return
 }
 
 function getCorsOrigin() {
-  return config.app.APP_ENV === 'production' ? config.app.CLIENT_URL : '*'
+  if (config.app.APP_ENV !== 'production') {
+    return true // Permite todas as origens em dev/test
+  }
+
+  // Em produção, permite múltiplas origens
+  const allowedOrigins = [
+    config.app.CLIENT_URL,
+    'https://plotwist.app',
+    'https://www.plotwist.app',
+  ]
+
+  // Remove duplicatas caso CLIENT_URL já seja plotwist.app
+  const uniqueOrigins = [...new Set(allowedOrigins)]
+
+  return (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) => {
+    // Apps nativos (iOS/Android) podem não enviar header Origin
+    // Nesse caso, permitimos a requisição
+    if (!origin) {
+      callback(null, true)
+      return
+    }
+
+    if (uniqueOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'), false)
+    }
+  }
 }
