@@ -95,9 +95,23 @@ export async function upsertUserItemController(
     userId: request.user.id,
   })
 
+  // Ensure dates are serialized as ISO strings
+  const userItem = result.userItem!
   return reply.status(201).send({
     userItem: {
-      ...result.userItem,
+      id: userItem.id,
+      userId: userItem.userId,
+      tmdbId: userItem.tmdbId,
+      mediaType: userItem.mediaType,
+      status: userItem.status,
+      addedAt:
+        userItem.addedAt instanceof Date
+          ? userItem.addedAt.toISOString()
+          : userItem.addedAt,
+      updatedAt:
+        userItem.updatedAt instanceof Date
+          ? userItem.updatedAt.toISOString()
+          : userItem.updatedAt,
       watchEntries,
     },
   })
