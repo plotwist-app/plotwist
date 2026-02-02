@@ -308,12 +308,15 @@ export const userWatchEntries = pgTable(
   })
 )
 
-export const userWatchEntriesRelations = relations(userWatchEntries, ({ one }) => ({
-  userItem: one(userItems, {
-    fields: [userWatchEntries.userItemId],
-    references: [userItems.id],
-  }),
-}))
+export const userWatchEntriesRelations = relations(
+  userWatchEntries,
+  ({ one }) => ({
+    userItem: one(userItems, {
+      fields: [userWatchEntries.userItemId],
+      references: [userItems.id],
+    }),
+  })
+)
 
 export const magicTokens = pgTable(
   'magic_tokens',

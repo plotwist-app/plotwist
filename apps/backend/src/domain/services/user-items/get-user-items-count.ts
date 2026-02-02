@@ -4,7 +4,9 @@ type GetUserItemsCountInput = {
   userId: string
 }
 
-export async function getUserItemsCountService({ userId }: GetUserItemsCountInput) {
+export async function getUserItemsCountService({
+  userId,
+}: GetUserItemsCountInput) {
   const count = await selectUserItemsCount(userId)
 
   return {
