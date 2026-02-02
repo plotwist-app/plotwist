@@ -3608,4 +3608,3 @@ export type PutWatchEntryId200WatchEntry = {
 export type PutWatchEntryId200 = {
   watchEntry: PutWatchEntryId200WatchEntry;
 };
-
