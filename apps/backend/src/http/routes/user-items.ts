@@ -5,6 +5,7 @@ import {
   getAllUserItemsController,
   getUserItemController,
   getUserItemsController,
+  getUserItemsCountController,
   upsertUserItemController,
 } from '../controllers/user-items-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
@@ -21,14 +22,6 @@ import {
   upsertUserItemBodySchema,
   upsertUserItemResponseSchema,
 } from '../schemas/user-items'
-import {
-  deleteUserItemController,
-  getAllUserItemsController,
-  getUserItemController,
-  getUserItemsController,
-  getUserItemsCountController,
-  upsertUserItemController,
-} from '../controllers/user-items-controller'
 
 const USER_ITEMS_TAGS = ['User items']
 
@@ -85,7 +78,8 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: deleteUserItemController,
+      handler: (request, reply) =>
+        deleteUserItemController(request, reply, app.redis),
     })
   )
 

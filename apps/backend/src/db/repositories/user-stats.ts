@@ -3,18 +3,25 @@ import { db } from '..'
 import { schema } from '../schema'
 
 export async function selectUserStats(userId: string) {
-  const result = await db.transaction(async tx => {
-    const [{ count: followersCount }] = await tx
+  // Run all independent queries in parallel instead of sequential transaction
+  // This improves performance as these are all read-only operations
+  const [
+    [{ count: followersCount }],
+    [{ count: followingCount }],
+    [{ count: watchedMoviesCount }],
+    [{ count: watchedSeriesCount }],
+  ] = await Promise.all([
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(schema.followers)
-      .where(eq(schema.followers.followedId, userId))
+      .where(eq(schema.followers.followedId, userId)),
 
-    const [{ count: followingCount }] = await tx
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(schema.followers)
-      .where(eq(schema.followers.followerId, userId))
+      .where(eq(schema.followers.followerId, userId)),
 
-    const [{ count: watchedMoviesCount }] = await tx
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(schema.userItems)
       .where(
@@ -23,9 +30,9 @@ export async function selectUserStats(userId: string) {
           eq(schema.userItems.mediaType, 'MOVIE'),
           eq(schema.userItems.status, 'WATCHED')
         )
-      )
+      ),
 
-    const [{ count: watchedSeriesCount }] = await tx
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(schema.userItems)
       .where(
@@ -34,15 +41,13 @@ export async function selectUserStats(userId: string) {
           eq(schema.userItems.mediaType, 'TV_SHOW'),
           eq(schema.userItems.status, 'WATCHED')
         )
-      )
+      ),
+  ])
 
-    return {
-      followersCount,
-      followingCount,
-      watchedMoviesCount,
-      watchedSeriesCount,
-    }
-  })
-
-  return result
+  return {
+    followersCount,
+    followingCount,
+    watchedMoviesCount,
+    watchedSeriesCount,
+  }
 }

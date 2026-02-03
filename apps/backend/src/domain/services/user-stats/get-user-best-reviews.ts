@@ -3,6 +3,7 @@ import type { Language } from '@plotwist_app/tmdb'
 import { selectBestReviews } from '@/db/repositories/reviews-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 
 type GetUserBestReviewsServiceInput = {
   userId: string
@@ -15,35 +16,39 @@ export async function getUserBestReviewsService({
   language,
   redis,
 }: GetUserBestReviewsServiceInput) {
-  const bestReviews = await selectBestReviews(userId)
+  const cacheKey = getUserStatsCacheKey(userId, 'best-reviews', language)
 
-  const formattedBestReviews = await Promise.all(
-    bestReviews.map(async review => {
-      const { mediaType, tmdbId } = review
+  return getCachedStats(redis, cacheKey, async () => {
+    const bestReviews = await selectBestReviews(userId)
 
-      const { title, posterPath, date } =
-        mediaType === 'MOVIE'
-          ? await getTMDBMovieService(redis, {
-              tmdbId: tmdbId,
-              language,
-              returnDate: true,
-            })
-          : await getTMDBTvSeriesService(redis, {
-              tmdbId: tmdbId,
-              language,
-              returnDate: true,
-            })
+    const formattedBestReviews = await Promise.all(
+      bestReviews.map(async review => {
+        const { mediaType, tmdbId } = review
 
-      return {
-        ...review,
-        title,
-        posterPath,
-        date,
-      }
-    })
-  )
+        const { title, posterPath, date } =
+          mediaType === 'MOVIE'
+            ? await getTMDBMovieService(redis, {
+                tmdbId: tmdbId,
+                language,
+                returnDate: true,
+              })
+            : await getTMDBTvSeriesService(redis, {
+                tmdbId: tmdbId,
+                language,
+                returnDate: true,
+              })
 
-  return {
-    bestReviews: formattedBestReviews,
-  }
+        return {
+          ...review,
+          title,
+          posterPath,
+          date,
+        }
+      })
+    )
+
+    return {
+      bestReviews: formattedBestReviews,
+    }
+  })
 }

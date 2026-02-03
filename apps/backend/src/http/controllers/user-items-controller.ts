@@ -16,6 +16,7 @@ import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
 import { getUserItemsCountService } from '@/domain/services/user-items/get-user-items-count'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
+import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,
@@ -88,6 +89,9 @@ export async function upsertUserItemController(
     },
   })
 
+  // Invalidate user stats cache since item status changed
+  await invalidateUserStatsCache(redis, request.user.id)
+
   // Fetch the user item via Drizzle ORM to ensure consistent format with getUserItem
   const result = await getUserItemService({
     mediaType,
@@ -157,7 +161,8 @@ export async function getUserItemsController(
 
 export async function deleteUserItemController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { id } = deleteUserItemParamsSchema.parse(request.params)
 
@@ -173,6 +178,9 @@ export async function deleteUserItemController(
     tmdbId: deletedUserItem.tmdbId,
     userId: deletedUserItem.userId,
   })
+
+  // Invalidate user stats cache since item was deleted
+  await invalidateUserStatsCache(redis, deletedUserItem.userId)
 
   return reply.send(204).send()
 }
