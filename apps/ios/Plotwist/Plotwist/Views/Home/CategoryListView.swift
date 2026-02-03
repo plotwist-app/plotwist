@@ -80,8 +80,12 @@ enum AnimeType: CaseIterable, CategoryTab {
 // MARK: - Category Tabs View (same style as Profile tabs)
 struct CategoryTabsView<Tab: CategoryTab>: View where Tab.AllCases: RandomAccessCollection {
   @Binding var selectedTab: Tab
-  var onTabChange: (() -> Void)?
+  var onTabChange: ((_ fromTrailing: Bool) -> Void)?
   @Namespace private var tabNamespace
+  
+  private func index(of tab: Tab) -> Int {
+    Array(Tab.allCases).firstIndex(of: tab) ?? 0
+  }
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -89,10 +93,11 @@ struct CategoryTabsView<Tab: CategoryTab>: View where Tab.AllCases: RandomAccess
         ForEach(Array(Tab.allCases), id: \.self) { tab in
           Button {
             if !tab.isDisabled {
+              let fromTrailing = index(of: tab) > index(of: selectedTab)
               withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 selectedTab = tab
               }
-              onTabChange?()
+              onTabChange?(fromTrailing)
             }
           } label: {
             VStack(spacing: 8) {
@@ -144,6 +149,7 @@ struct CategoryListView: View {
 
   @Environment(\.dismiss) private var dismiss
   @State private var items: [SearchResult] = []
+  @State private var previousItems: [SearchResult] = []
   @State private var isLoading = true
   @State private var isLoadingMore = false
   @State private var currentPage = 1
@@ -152,6 +158,9 @@ struct CategoryListView: View {
   @State private var selectedMovieSubcategory: MovieSubcategory = .popular
   @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .popular
   @State private var selectedAnimeType: AnimeType = .tvSeries
+  @State private var currentOffset: CGFloat = 0
+  @State private var previousOffset: CGFloat = UIScreen.main.bounds.width * 2  // Start off-screen
+  @State private var isAnimating: Bool = false
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var hasAppliedInitialSubcategory = false
@@ -182,6 +191,65 @@ struct CategoryListView: View {
     GridItem(.flexible(), spacing: 12),
     GridItem(.flexible(), spacing: 12),
   ]
+  
+  @ViewBuilder
+  private func contentGrid(items gridItems: [SearchResult]) -> some View {
+    if isLoading && gridItems.isEmpty {
+      ScrollView {
+        LazyVGrid(columns: columns, spacing: 16) {
+          ForEach(0..<12, id: \.self) { _ in
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+              .fill(Color.appBorderAdaptive)
+              .aspectRatio(2 / 3, contentMode: .fit)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+      }
+    } else {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+          // Preferences Badge
+          HStack {
+            PreferencesBadge()
+            Spacer()
+          }
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
+          .padding(.bottom, 16)
+
+          LazyVGrid(columns: columns, spacing: 16) {
+            ForEach(gridItems) { item in
+              NavigationLink {
+                MediaDetailView(mediaId: item.id, mediaType: mediaType)
+              } label: {
+                CategoryPosterCard(item: item)
+              }
+              .buttonStyle(.plain)
+              .onAppear {
+                if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
+                  Task {
+                    await loadMoreItems()
+                  }
+                }
+              }
+            }
+
+            if isLoadingMore {
+              ForEach(0..<3, id: \.self) { _ in
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                  .fill(Color.appBorderAdaptive)
+                  .aspectRatio(2 / 3, contentMode: .fit)
+              }
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.bottom, 24)
+        }
+      }
+      .background(Color.appBackgroundAdaptive)
+    }
+  }
 
   var body: some View {
     ZStack {
@@ -220,28 +288,22 @@ struct CategoryListView: View {
           if categoryType == .movies {
             CategoryTabsView(
               selectedTab: $selectedMovieSubcategory,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
+              onTabChange: { fromTrailing in
+                animateContentChange(fromTrailing: fromTrailing)
               }
             )
           } else if categoryType == .tvSeries {
             CategoryTabsView(
               selectedTab: $selectedTVSeriesSubcategory,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
+              onTabChange: { fromTrailing in
+                animateContentChange(fromTrailing: fromTrailing)
               }
             )
           } else if categoryType == .animes {
             CategoryTabsView(
               selectedTab: $selectedAnimeType,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
+              onTabChange: { fromTrailing in
+                animateContentChange(fromTrailing: fromTrailing)
               }
             )
           } else {
@@ -251,62 +313,30 @@ struct CategoryListView: View {
           }
         }
 
-        // Content
-        if isLoading && items.isEmpty {
-          ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-              ForEach(0..<12, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                  .fill(Color.appBorderAdaptive)
-                  .aspectRatio(2 / 3, contentMode: .fit)
-              }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 24)
-          }
-        } else {
-          ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-              // Preferences Badge
-              HStack {
-                PreferencesBadge()
-                Spacer()
-              }
-              .padding(.horizontal, 24)
-              .padding(.top, 16)
-              .padding(.bottom, 16)
-
-              LazyVGrid(columns: columns, spacing: 16) {
-              ForEach(items) { item in
-                NavigationLink {
-                  MediaDetailView(mediaId: item.id, mediaType: mediaType)
-                } label: {
-                  CategoryPosterCard(item: item)
-                }
-                .buttonStyle(.plain)
-                .onAppear {
-                  if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
-                    Task {
-                      await loadMoreItems()
-                    }
-                  }
-                }
-              }
-
-              if isLoadingMore {
-                ForEach(0..<3, id: \.self) { _ in
-                  RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                    .fill(Color.appBorderAdaptive)
-                    .aspectRatio(2 / 3, contentMode: .fit)
-                }
-              }
-            }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
-            }
-          }
+        // Content with slide animation (like ProfileTabView)
+        let screenWidth = UIScreen.main.bounds.width
+        
+        ZStack(alignment: .topLeading) {
+          // Previous content (always rendered, controlled by offset)
+          contentGrid(items: previousItems)
+            .frame(width: screenWidth, alignment: .top)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .background(Color.appBackgroundAdaptive)
+            .offset(x: previousOffset)
+          
+          // Current content
+          contentGrid(items: items)
+            .frame(width: screenWidth, alignment: .top)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .background(Color.appBackgroundAdaptive)
+            .offset(x: currentOffset)
         }
+        .frame(width: screenWidth, alignment: .topLeading)
+        .frame(maxHeight: .infinity, alignment: .top)
       }
+      .clipShape(Rectangle())
+      .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentOffset)
+      .animation(.spring(response: 0.4, dampingFraction: 0.88), value: previousOffset)
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
@@ -321,6 +351,55 @@ struct CategoryListView: View {
         hasAppliedInitialSubcategory = true
       }
       await loadItems()
+    }
+  }
+  
+  private func animateContentChange(fromTrailing: Bool) {
+    guard !isAnimating else { return }
+    isAnimating = true
+    
+    let screenWidth = UIScreen.main.bounds.width
+    
+    // When navigating to a tab on the RIGHT (fromTrailing = true):
+    // - Previous content exits to the LEFT (negative offset)
+    // - New content enters from the RIGHT (starts positive, animates to 0)
+    let exitOffset = fromTrailing ? -screenWidth : screenWidth
+    let enterOffset = fromTrailing ? screenWidth : -screenWidth
+    
+    // Step 1: Save current items as previous and position them
+    previousItems = items
+    
+    // Set positions WITHOUT animation
+    var transaction = Transaction()
+    transaction.disablesAnimations = true
+    withTransaction(transaction) {
+      previousOffset = 0  // Previous starts at center
+      currentOffset = enterOffset  // New content starts off-screen
+    }
+    
+    // Step 2: Load new items
+    Task {
+      await loadItems()
+      
+      // Step 3: Animate both simultaneously
+      await MainActor.run {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
+          previousOffset = exitOffset  // Previous exits
+          currentOffset = 0  // New enters
+        }
+        
+        // Step 4: Clean up after animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          // Move previous off-screen and clear
+          var cleanupTransaction = Transaction()
+          cleanupTransaction.disablesAnimations = true
+          withTransaction(cleanupTransaction) {
+            previousOffset = screenWidth * 2  // Far off-screen
+            previousItems = []
+          }
+          isAnimating = false
+        }
+      }
     }
   }
 
