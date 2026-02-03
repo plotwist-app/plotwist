@@ -476,6 +476,9 @@ struct ProfileTabView: View {
       let fetchedUser = try await AuthService.shared.getCurrentUser()
       user = fetchedUser
       cache.setUser(fetchedUser)
+      
+      // Track profile viewed (own profile)
+      AnalyticsService.shared.track(.profileViewed(userId: fetchedUser.id, isOwnProfile: true))
     } catch {
       print("Error loading user: \(error)")
       user = nil

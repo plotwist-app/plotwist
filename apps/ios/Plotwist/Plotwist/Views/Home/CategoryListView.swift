@@ -372,6 +372,16 @@ struct CategoryListView: View {
       items = result.results
       currentPage = result.page
       totalPages = result.totalPages
+      
+      // Track category viewed
+      let subcategory: String
+      switch categoryType {
+      case .movies: subcategory = selectedMovieSubcategory.title
+      case .tvSeries: subcategory = selectedTVSeriesSubcategory.title
+      case .animes: subcategory = selectedAnimeType.title
+      case .doramas: subcategory = "popular"
+      }
+      AnalyticsService.shared.track(.categoryViewed(category: title, subcategory: subcategory))
     } catch {
       items = []
     }

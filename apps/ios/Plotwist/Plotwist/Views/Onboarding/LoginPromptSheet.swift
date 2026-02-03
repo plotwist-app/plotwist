@@ -93,10 +93,14 @@ struct LoginPromptSheet: View {
     defer { isAppleLoading = false }
     
     do {
-      _ = try await SocialAuthService.shared.signInWithApple()
+      let response = try await SocialAuthService.shared.signInWithApple()
       
-      // Track login
-      AnalyticsService.shared.track(.login(method: "apple"))
+      // Track sign up or login based on backend response
+      if response.isNewUser {
+        AnalyticsService.shared.track(.signUp(method: "apple"))
+      } else {
+        AnalyticsService.shared.track(.login(method: "apple"))
+      }
       
       // Sync local data to server
       await OnboardingService.shared.syncLocalDataToServer()

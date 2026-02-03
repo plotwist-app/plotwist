@@ -108,7 +108,7 @@ class SocialAuthService {
   private let appleDelegate = AppleSignInDelegate()
 
   // MARK: - Sign in with Apple
-  func signInWithApple() async throws -> String {
+  func signInWithApple() async throws -> SocialAuthResponse {
     let authorization = try await appleDelegate.signIn()
 
     guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
@@ -154,7 +154,7 @@ class SocialAuthService {
   }
 
   // MARK: - Sign in with Google
-  func signInWithGoogle(idToken: String) async throws -> String {
+  func signInWithGoogle(idToken: String) async throws -> SocialAuthResponse {
     let requestBody = GoogleAuthRequest(idToken: idToken)
 
     return try await authenticateWithBackend(
@@ -167,7 +167,7 @@ class SocialAuthService {
   private func authenticateWithBackend<T: Encodable>(
     endpoint: String,
     body: T
-  ) async throws -> String {
+  ) async throws -> SocialAuthResponse {
     guard let url = URL(string: "\(API.baseURL)\(endpoint)") else {
       throw SocialAuthError.invalidURL
     }
@@ -208,6 +208,6 @@ class SocialAuthService {
       }
     }
 
-    return authResponse.token
+    return authResponse
   }
 }

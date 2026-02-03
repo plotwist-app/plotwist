@@ -159,6 +159,12 @@ struct ReviewSheet: View {
     } message: {
       Text(L10n.current.deleteReviewConfirmation)
     }
+    .onAppear {
+      // Track review started (only for new reviews)
+      if existingReview == nil {
+        AnalyticsService.shared.track(.reviewStarted(tmdbId: mediaId, mediaType: mediaType))
+      }
+    }
   }
 
   private var isFormValid: Bool {
@@ -230,6 +236,9 @@ struct ReviewSheet: View {
           seasonNumber: existingReview.seasonNumber,
           episodeNumber: existingReview.episodeNumber
         )
+        
+        // Track review deleted
+        AnalyticsService.shared.track(.reviewDeleted(tmdbId: mediaId, mediaType: mediaType))
         
         await MainActor.run {
           isDeleting = false

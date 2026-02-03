@@ -475,8 +475,14 @@ struct LoginFormSheet: View {
     defer { isAppleLoading = false }
     
     do {
-      _ = try await SocialAuthService.shared.signInWithApple()
-      AnalyticsService.shared.track(.login(method: "apple"))
+      let response = try await SocialAuthService.shared.signInWithApple()
+      
+      // Track sign up or login based on backend response
+      if response.isNewUser {
+        AnalyticsService.shared.track(.signUp(method: "apple"))
+      } else {
+        AnalyticsService.shared.track(.login(method: "apple"))
+      }
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -754,8 +760,14 @@ struct SignUpFormSheet: View {
     defer { isAppleLoading = false }
     
     do {
-      _ = try await SocialAuthService.shared.signInWithApple()
-      AnalyticsService.shared.track(.signUp(method: "apple"))
+      let response = try await SocialAuthService.shared.signInWithApple()
+      
+      // Track sign up or login based on backend response
+      if response.isNewUser {
+        AnalyticsService.shared.track(.signUp(method: "apple"))
+      } else {
+        AnalyticsService.shared.track(.login(method: "apple"))
+      }
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {

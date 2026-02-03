@@ -246,6 +246,13 @@ struct StatusSheet: View {
           isAddingRewatch = false
           watchEntries.append(newEntry)
           onStatusChanged(selectedStatus, watchEntries)
+          
+          // Track rewatch added
+          AnalyticsService.shared.track(.rewatchAdded(
+            tmdbId: mediaId,
+            mediaType: mediaType,
+            count: watchEntries.count
+          ))
         }
       } catch {
         await MainActor.run {
