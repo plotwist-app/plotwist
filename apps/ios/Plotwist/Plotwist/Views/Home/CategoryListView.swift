@@ -313,11 +313,11 @@ struct CategoryListView: View {
           }
         }
 
-        // Content with slide animation (like ProfileTabView)
+        // Content with slide animation (exactly like ProfileTabView)
         let screenWidth = UIScreen.main.bounds.width
         
         ZStack(alignment: .topLeading) {
-          // Previous content (always rendered, controlled by offset)
+          // Previous content
           contentGrid(items: previousItems)
             .frame(width: screenWidth, alignment: .top)
             .frame(maxHeight: .infinity, alignment: .top)
@@ -333,10 +333,10 @@ struct CategoryListView: View {
         }
         .frame(width: screenWidth, alignment: .topLeading)
         .frame(maxHeight: .infinity, alignment: .top)
+        .clipShape(Rectangle())
+        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentOffset)
+        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: previousOffset)
       }
-      .clipShape(Rectangle())
-      .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentOffset)
-      .animation(.spring(response: 0.4, dampingFraction: 0.88), value: previousOffset)
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
@@ -366,35 +366,32 @@ struct CategoryListView: View {
     let exitOffset = fromTrailing ? -screenWidth : screenWidth
     let enterOffset = fromTrailing ? screenWidth : -screenWidth
     
-    // Step 1: Save current items as previous and position them
+    // Step 1: Save current items as previous
     previousItems = items
     
-    // Set positions WITHOUT animation
+    // Step 2: Set initial positions WITHOUT animation
     var transaction = Transaction()
     transaction.disablesAnimations = true
     withTransaction(transaction) {
-      previousOffset = 0  // Previous starts at center
-      currentOffset = enterOffset  // New content starts off-screen
+      previousOffset = 0
+      currentOffset = enterOffset
     }
     
-    // Step 2: Load new items
+    // Step 3: Load new items and trigger animation
     Task {
       await loadItems()
       
-      // Step 3: Animate both simultaneously
       await MainActor.run {
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.88)) {
-          previousOffset = exitOffset  // Previous exits
-          currentOffset = 0  // New enters
-        }
+        // Just change the values - implicit animation will handle it
+        previousOffset = exitOffset
+        currentOffset = 0
         
-        // Step 4: Clean up after animation
+        // Clean up after animation (0.5s for spring to settle)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-          // Move previous off-screen and clear
           var cleanupTransaction = Transaction()
           cleanupTransaction.disablesAnimations = true
           withTransaction(cleanupTransaction) {
-            previousOffset = screenWidth * 2  // Far off-screen
+            previousOffset = screenWidth * 2
             previousItems = []
           }
           isAnimating = false
