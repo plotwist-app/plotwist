@@ -194,21 +194,20 @@ struct CategoryListView: View {
   
   @ViewBuilder
   private func contentGrid(items gridItems: [SearchResult]) -> some View {
-    if isLoading && gridItems.isEmpty {
-      ScrollView {
-        LazyVGrid(columns: columns, spacing: 16) {
-          ForEach(0..<12, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-              .fill(Color.appBorderAdaptive)
-              .aspectRatio(2 / 3, contentMode: .fit)
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0) {
+        if isLoading && gridItems.isEmpty {
+          // Loading skeleton
+          LazyVGrid(columns: columns, spacing: 16) {
+            ForEach(0..<12, id: \.self) { _ in
+              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                .fill(Color.appBorderAdaptive)
+                .aspectRatio(2 / 3, contentMode: .fit)
+            }
           }
-        }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 24)
-      }
-    } else {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
+          .padding(.horizontal, 24)
+          .padding(.vertical, 24)
+        } else {
           // Preferences Badge
           HStack {
             PreferencesBadge()
@@ -226,6 +225,7 @@ struct CategoryListView: View {
                 CategoryPosterCard(item: item)
               }
               .buttonStyle(.plain)
+              .transition(.identity)
               .onAppear {
                 if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
                   Task {
@@ -234,6 +234,7 @@ struct CategoryListView: View {
                 }
               }
             }
+            .animation(nil, value: gridItems.map { $0.id })
 
             if isLoadingMore {
               ForEach(0..<3, id: \.self) { _ in
@@ -247,8 +248,9 @@ struct CategoryListView: View {
           .padding(.bottom, 24)
         }
       }
-      .background(Color.appBackgroundAdaptive)
     }
+    .background(Color.appBackgroundAdaptive)
+    .contentTransition(.identity)
   }
 
   var body: some View {
