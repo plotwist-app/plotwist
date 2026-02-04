@@ -2,6 +2,7 @@ import Axios, { type AxiosRequestConfig } from 'axios'
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  timeout: 30000, // 30 seconds timeout to prevent hanging requests
 })
 
 export const axiosInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
