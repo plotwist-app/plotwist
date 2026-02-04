@@ -1,6 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
 import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
+import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 
 type GetUserWatchedCastServiceInput = {
@@ -20,13 +21,14 @@ export async function getUserWatchedCastService({
       userId,
     })
 
-    const watchedItemsCast = await Promise.all(
-      watchedItems.map(async ({ tmdbId, mediaType }) => {
+    const watchedItemsCast = await processInBatches(
+      watchedItems,
+      async ({ tmdbId, mediaType }) => {
         const variant = mediaType === 'TV_SHOW' ? 'tv' : 'movie'
         const { cast } = await getTMDBCredits(redis, [variant, tmdbId, 'en-US'])
 
         return cast
-      })
+      }
     )
 
     const flattedCast = watchedItemsCast.flat()

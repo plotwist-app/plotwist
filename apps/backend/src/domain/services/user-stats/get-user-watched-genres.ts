@@ -3,6 +3,7 @@ import type { Language } from '@plotwist_app/tmdb'
 import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 
 type GetUserWatchedGenresServiceInput = {
@@ -25,29 +26,27 @@ export async function getUserWatchedGenresService({
     })
     const genreCount = new Map<string, number>()
 
-    await Promise.all(
-      watchedItems.map(async item => {
-        const { genres } =
-          item.mediaType === 'MOVIE'
-            ? await getTMDBMovieService(redis, {
-                tmdbId: item.tmdbId,
-                returnGenres: true,
-                language,
-              })
-            : await getTMDBTvSeriesService(redis, {
-                tmdbId: item.tmdbId,
-                returnGenres: true,
-                language,
-              })
+    await processInBatches(watchedItems, async item => {
+      const { genres } =
+        item.mediaType === 'MOVIE'
+          ? await getTMDBMovieService(redis, {
+              tmdbId: item.tmdbId,
+              returnGenres: true,
+              language,
+            })
+          : await getTMDBTvSeriesService(redis, {
+              tmdbId: item.tmdbId,
+              returnGenres: true,
+              language,
+            })
 
-        if (genres) {
-          for (const genre of genres) {
-            const currentCount = genreCount.get(genre.name) || 0
-            genreCount.set(genre.name, currentCount + 1)
-          }
+      if (genres) {
+        for (const genre of genres) {
+          const currentCount = genreCount.get(genre.name) || 0
+          genreCount.set(genre.name, currentCount + 1)
         }
-      })
-    )
+      }
+    })
 
     const genres = Array.from(genreCount)
       .map(([name, count]) => ({

@@ -3,6 +3,7 @@ import type { Language } from '@plotwist_app/tmdb'
 import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 
 type GetUserWatchedCountriesServiceInput = {
@@ -25,29 +26,27 @@ export async function getUserWatchedCountriesService({
     })
     const countryCount = new Map<string, number>()
 
-    await Promise.all(
-      watchedItems.map(async ({ tmdbId, mediaType }) => {
-        const { countries } =
-          mediaType === 'MOVIE'
-            ? await getTMDBMovieService(redis, {
-                tmdbId: tmdbId,
-                language,
-                returnCountries: true,
-              })
-            : await getTMDBTvSeriesService(redis, {
-                tmdbId: tmdbId,
-                language,
-                returnCountries: true,
-              })
+    await processInBatches(watchedItems, async ({ tmdbId, mediaType }) => {
+      const { countries } =
+        mediaType === 'MOVIE'
+          ? await getTMDBMovieService(redis, {
+              tmdbId: tmdbId,
+              language,
+              returnCountries: true,
+            })
+          : await getTMDBTvSeriesService(redis, {
+              tmdbId: tmdbId,
+              language,
+              returnCountries: true,
+            })
 
-        if (countries) {
-          for (const country of countries) {
-            const currentCount = countryCount.get(country.name) || 0
-            countryCount.set(country.name, currentCount + 1)
-          }
+      if (countries) {
+        for (const country of countries) {
+          const currentCount = countryCount.get(country.name) || 0
+          countryCount.set(country.name, currentCount + 1)
         }
-      })
-    )
+      }
+    })
 
     const countries = Array.from(countryCount)
       .map(([name, count]) => ({
