@@ -52,11 +52,13 @@ enum ProfileStatusTab: String, CaseIterable {
 enum ProfileMainTab: CaseIterable {
   case collection
   case reviews
+  case stats
 
   func displayName(strings: Strings) -> String {
     switch self {
     case .collection: return strings.collection
     case .reviews: return strings.reviews
+    case .stats: return strings.stats
     }
   }
 
@@ -64,6 +66,7 @@ enum ProfileMainTab: CaseIterable {
     switch self {
     case .collection: return 0
     case .reviews: return 1
+    case .stats: return 2
     }
   }
 }
@@ -310,6 +313,11 @@ struct ProfileTabView: View {
       .padding(.horizontal, 24)
       .padding(.bottom, 12)
 
+      // Quick stats (Movies & Series counts)
+      ProfileQuickStats(userId: user.id, strings: strings)
+        .padding(.horizontal, 24)
+        .padding(.bottom, 12)
+
       if let biography = user.biography, !biography.isEmpty {
         Text(biography)
           .font(.subheadline)
@@ -332,7 +340,7 @@ struct ProfileTabView: View {
         .frame(width: screenWidth, alignment: .top)
         .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
-        .offset(x: selectedMainTab == .collection ? 0 : -screenWidth)
+        .offset(x: selectedMainTab == .collection ? 0 : (selectedMainTab.index > ProfileMainTab.collection.index ? -screenWidth : screenWidth))
       
       // Reviews tab
       ProfileReviewsListView(userId: userId)
@@ -340,7 +348,15 @@ struct ProfileTabView: View {
         .frame(width: screenWidth, alignment: .top)
         .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
-        .offset(x: selectedMainTab == .reviews ? 0 : screenWidth)
+        .offset(x: selectedMainTab == .reviews ? 0 : (selectedMainTab.index > ProfileMainTab.reviews.index ? -screenWidth : screenWidth))
+      
+      // Stats tab
+      ProfileStatsView(userId: userId)
+        .padding(.bottom, 24)
+        .frame(width: screenWidth, alignment: .top)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Color.appBackgroundAdaptive)
+        .offset(x: selectedMainTab == .stats ? 0 : screenWidth)
     }
     .frame(width: screenWidth, alignment: .topLeading)
     .frame(maxHeight: .infinity, alignment: .top)
@@ -567,6 +583,7 @@ struct ProfileMainTabs: View {
     switch tab {
     case .collection: return collectionCount
     case .reviews: return reviewsCount
+    case .stats: return 0
     }
   }
 
@@ -659,6 +676,65 @@ struct ProfileStatusTabs: View {
       }
       .padding(.horizontal, 24)
     }
+  }
+}
+
+// MARK: - Profile Quick Stats
+struct ProfileQuickStats: View {
+  let userId: String
+  let strings: Strings
+  @State private var moviesCount: Int = 0
+  @State private var seriesCount: Int = 0
+  @State private var isLoading = true
+
+  var body: some View {
+    HStack(spacing: 0) {
+      // Movies
+      HStack(spacing: 6) {
+        Text("\(moviesCount)")
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+        
+        Text(strings.movies)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .redacted(reason: isLoading ? .placeholder : [])
+
+      // Divider
+      Rectangle()
+        .fill(Color.appBorderAdaptive)
+        .frame(width: 1, height: 14)
+        .padding(.horizontal, 12)
+
+      // Series
+      HStack(spacing: 6) {
+        Text("\(seriesCount)")
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+        
+        Text(strings.series)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .redacted(reason: isLoading ? .placeholder : [])
+
+      Spacer()
+    }
+    .task {
+      await loadStats()
+    }
+  }
+
+  private func loadStats() async {
+    do {
+      let stats = try await UserStatsService.shared.getUserStats(userId: userId)
+      moviesCount = stats.watchedMoviesCount
+      seriesCount = stats.watchedSeriesCount
+    } catch {
+      print("Error loading quick stats: \(error)")
+    }
+    isLoading = false
   }
 }
 

@@ -125,7 +125,8 @@ export async function getUserBestReviewsController(
 
 export async function getUserItemsStatusController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  _redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
 

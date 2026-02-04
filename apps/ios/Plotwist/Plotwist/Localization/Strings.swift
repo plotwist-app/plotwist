@@ -249,7 +249,18 @@ enum L10n {
       notificationPromptTitle: "Stay updated",
       notificationPromptSeries: "Get notified when new episodes drop",
       notificationPromptWatchlist: "Weekly reminder of your watchlist",
-      notificationAllow: "Allow notifications"
+      notificationAllow: "Allow notifications",
+      // Stats
+      stats: "Stats",
+      series: "Series",
+      timeWatched: "Time Watched",
+      hour: "hour",
+      hours: "hours",
+      days: "days",
+      topGenres: "Top Genres",
+      collectionBreakdown: "Collection Breakdown",
+      couldNotLoadStats: "Could not load stats",
+      tryAgain: "Try again"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -479,7 +490,18 @@ enum L10n {
       notificationPromptTitle: "Fique por dentro",
       notificationPromptSeries: "Saiba quando novos episódios saírem",
       notificationPromptWatchlist: "Lembrete semanal da sua watchlist",
-      notificationAllow: "Permitir notificações"
+      notificationAllow: "Permitir notificações",
+      // Stats
+      stats: "Estatísticas",
+      series: "Séries",
+      timeWatched: "Tempo Assistido",
+      hour: "hora",
+      hours: "horas",
+      days: "dias",
+      topGenres: "Gêneros Favoritos",
+      collectionBreakdown: "Distribuição da Coleção",
+      couldNotLoadStats: "Não foi possível carregar estatísticas",
+      tryAgain: "Tentar novamente"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -709,7 +731,18 @@ enum L10n {
       notificationPromptTitle: "Mantente actualizado",
       notificationPromptSeries: "Recibe avisos cuando salgan nuevos episodios",
       notificationPromptWatchlist: "Recordatorio semanal de tu watchlist",
-      notificationAllow: "Permitir notificaciones"
+      notificationAllow: "Permitir notificaciones",
+      // Stats
+      stats: "Estadísticas",
+      series: "Series",
+      timeWatched: "Tiempo Visto",
+      hour: "hora",
+      hours: "horas",
+      days: "días",
+      topGenres: "Géneros Favoritos",
+      collectionBreakdown: "Desglose de Colección",
+      couldNotLoadStats: "No se pudieron cargar las estadísticas",
+      tryAgain: "Intentar de nuevo"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -939,7 +972,18 @@ enum L10n {
       notificationPromptTitle: "Restez informé",
       notificationPromptSeries: "Soyez notifié quand de nouveaux épisodes sortent",
       notificationPromptWatchlist: "Rappel hebdomadaire de votre watchlist",
-      notificationAllow: "Autoriser les notifications"
+      notificationAllow: "Autoriser les notifications",
+      // Stats
+      stats: "Statistiques",
+      series: "Séries",
+      timeWatched: "Temps Regardé",
+      hour: "heure",
+      hours: "heures",
+      days: "jours",
+      topGenres: "Genres Préférés",
+      collectionBreakdown: "Répartition de Collection",
+      couldNotLoadStats: "Impossible de charger les statistiques",
+      tryAgain: "Réessayer"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1169,7 +1213,18 @@ enum L10n {
       notificationPromptTitle: "Bleib auf dem Laufenden",
       notificationPromptSeries: "Erhalte Benachrichtigungen bei neuen Episoden",
       notificationPromptWatchlist: "Wöchentliche Erinnerung an deine Watchlist",
-      notificationAllow: "Benachrichtigungen erlauben"
+      notificationAllow: "Benachrichtigungen erlauben",
+      // Stats
+      stats: "Statistiken",
+      series: "Serien",
+      timeWatched: "Gesehene Zeit",
+      hour: "Stunde",
+      hours: "Stunden",
+      days: "Tage",
+      topGenres: "Lieblingsgenres",
+      collectionBreakdown: "Sammlungsübersicht",
+      couldNotLoadStats: "Statistiken konnten nicht geladen werden",
+      tryAgain: "Erneut versuchen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1399,7 +1454,18 @@ enum L10n {
       notificationPromptTitle: "Resta aggiornato",
       notificationPromptSeries: "Ricevi notifiche per i nuovi episodi",
       notificationPromptWatchlist: "Promemoria settimanale della tua watchlist",
-      notificationAllow: "Consenti notifiche"
+      notificationAllow: "Consenti notifiche",
+      // Stats
+      stats: "Statistiche",
+      series: "Serie",
+      timeWatched: "Tempo Guardato",
+      hour: "ora",
+      hours: "ore",
+      days: "giorni",
+      topGenres: "Generi Preferiti",
+      collectionBreakdown: "Panoramica Collezione",
+      couldNotLoadStats: "Impossibile caricare le statistiche",
+      tryAgain: "Riprova"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1628,7 +1694,18 @@ enum L10n {
       notificationPromptTitle: "最新情報をチェック",
       notificationPromptSeries: "新しいエピソードの通知を受け取る",
       notificationPromptWatchlist: "ウォッチリストの週間リマインダー",
-      notificationAllow: "通知を許可"
+      notificationAllow: "通知を許可",
+      // Stats
+      stats: "統計",
+      series: "シリーズ",
+      timeWatched: "視聴時間",
+      hour: "時間",
+      hours: "時間",
+      days: "日",
+      topGenres: "お気に入りジャンル",
+      collectionBreakdown: "コレクション内訳",
+      couldNotLoadStats: "統計を読み込めませんでした",
+      tryAgain: "再試行"
     ),
   ]
 }
@@ -1880,4 +1957,15 @@ struct Strings {
   let notificationPromptSeries: String
   let notificationPromptWatchlist: String
   let notificationAllow: String
+  // Stats
+  let stats: String
+  let series: String
+  let timeWatched: String
+  let hour: String
+  let hours: String
+  let days: String
+  let topGenres: String
+  let collectionBreakdown: String
+  let couldNotLoadStats: String
+  let tryAgain: String
 }
