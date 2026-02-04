@@ -1,6 +1,8 @@
 import { tmdb } from '@/services/tmdb'
 
-const DEFAULT_PAGES = 10
+// Only pre-generate 1 page per list type (~80 unique movies)
+// Other pages are generated on-demand with ISR
+const DEFAULT_PAGES = 1
 
 export const getMoviesIds = async (pages: number = DEFAULT_PAGES) => {
   const types = ['now_playing', 'popular', 'top_rated', 'upcoming'] as const
