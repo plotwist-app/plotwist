@@ -8,7 +8,6 @@ import SwiftUI
 struct OnboardingWelcomeContent: View {
   let onContinue: () -> Void
   @State private var strings = L10n.current
-  @State private var showSkipConfirmation = false
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -43,27 +42,6 @@ struct OnboardingWelcomeContent: View {
           .background(Color.white)
           .clipShape(Capsule())
       }
-      
-      #if DEBUG
-      // Skip Onboarding Button (Dev Only)
-      Button {
-        showSkipConfirmation = true
-      } label: {
-        HStack(spacing: 6) {
-          Image(systemName: "forward.end")
-          Text("Skip")
-        }
-        .font(.caption.weight(.medium))
-        .foregroundColor(.white.opacity(0.5))
-        .frame(maxWidth: .infinity)
-      }
-      .confirmationDialog("Pular onboarding?", isPresented: $showSkipConfirmation, titleVisibility: .visible) {
-        Button("Pular", role: .destructive) {
-          OnboardingService.shared.completeOnboarding()
-        }
-        Button("Cancelar", role: .cancel) {}
-      }
-      #endif
     }
     .padding(.horizontal, 24)
     .padding(.top, 24)

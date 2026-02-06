@@ -47,7 +47,9 @@ struct OnboardingGenresContent: View {
         Text(strings.onboardingGenresSubtitle)
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
+          .multilineTextAlignment(.center)
       }
+      .padding(.horizontal, 24)
       .padding(.bottom, 32)
       
       // Genre chips - centered
