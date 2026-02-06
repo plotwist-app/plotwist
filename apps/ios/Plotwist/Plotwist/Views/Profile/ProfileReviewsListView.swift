@@ -44,13 +44,13 @@ class ProfileReviewsCache {
 struct ProfileReviewsListView: View {
   let userId: String
   
-  @State private var reviews: [DetailedReview] = []
-  @State private var isLoading = true
+  @State private var reviews: [DetailedReview]
+  @State private var isLoading: Bool
   @State private var isLoadingMore = false
   @State private var error: String?
   @State private var strings = L10n.current
-  @State private var currentPage = 1
-  @State private var hasMore = true
+  @State private var currentPage: Int
+  @State private var hasMore: Bool
   
   private let pageSize = 20
   private let cache = ProfileReviewsCache.shared
@@ -58,6 +58,22 @@ struct ProfileReviewsListView: View {
   // Calculate poster width: (screenWidth - 48 padding - 24 grid spacing) / 3
   private var posterWidth: CGFloat {
     (UIScreen.main.bounds.width - 48 - 24) / 3
+  }
+  
+  init(userId: String) {
+    self.userId = userId
+    let cache = ProfileReviewsCache.shared
+    if let cached = cache.get(userId: userId) {
+      _reviews = State(initialValue: cached.reviews)
+      _isLoading = State(initialValue: false)
+      _hasMore = State(initialValue: cached.hasMore)
+      _currentPage = State(initialValue: cached.currentPage)
+    } else {
+      _reviews = State(initialValue: [])
+      _isLoading = State(initialValue: true)
+      _hasMore = State(initialValue: true)
+      _currentPage = State(initialValue: 1)
+    }
   }
   
   var body: some View {
@@ -128,23 +144,11 @@ struct ProfileReviewsListView: View {
         .padding(.top, 16)
       }
     }
-    .onAppear {
-      restoreFromCache()
-    }
     .task {
       await loadReviews()
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
-    }
-  }
-  
-  private func restoreFromCache() {
-    if let cached = cache.get(userId: userId) {
-      reviews = cached.reviews
-      hasMore = cached.hasMore
-      currentPage = cached.currentPage
-      isLoading = false
     }
   }
   
