@@ -386,6 +386,13 @@
       "when": 1768684257805,
       "tag": "20260117211057_tearful_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 55,
+      "version": "7",
+      "when": 1769741240595,
+      "tag": "20260130024720_alter_subscriptions_table",
+      "breakpoints": true
     }
   ]
 }

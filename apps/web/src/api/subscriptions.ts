@@ -15,8 +15,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  DeleteUserSubscription200,
-  DeleteUserSubscriptionBody
+  DeleteSubscription200,
+  DeleteSubscriptionBody
 } from './endpoints.schemas';
 
 import { axiosInstance } from '../services/axios-instance';
@@ -28,26 +28,26 @@ import { axiosInstance } from '../services/axios-instance';
 /**
  * Delete user subscription
  */
-export const deleteUserSubscription = (
-    deleteUserSubscriptionBody: DeleteUserSubscriptionBody,
+export const deleteSubscription = (
+    deleteSubscriptionBody: DeleteSubscriptionBody,
  ) => {
       
       
-      return axiosInstance<DeleteUserSubscription200>(
+      return axiosInstance<DeleteSubscription200>(
       {url: `/user/subscription`, method: 'DELETE',
       headers: {'Content-Type': 'application/json', },
-      data: deleteUserSubscriptionBody
+      data: deleteSubscriptionBody
     },
       );
     }
   
 
 
-export const getDeleteUserSubscriptionMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserSubscription>>, TError,{data: DeleteUserSubscriptionBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteUserSubscription>>, TError,{data: DeleteUserSubscriptionBody}, TContext> => {
+export const getDeleteSubscriptionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubscription>>, TError,{data: DeleteSubscriptionBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteSubscription>>, TError,{data: DeleteSubscriptionBody}, TContext> => {
 
-const mutationKey = ['deleteUserSubscription'];
+const mutationKey = ['deleteSubscription'];
 const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -57,10 +57,10 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserSubscription>>, {data: DeleteUserSubscriptionBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteSubscription>>, {data: DeleteSubscriptionBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  deleteUserSubscription(data,)
+          return  deleteSubscription(data,)
         }
 
         
@@ -68,20 +68,20 @@ const {mutation: mutationOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteUserSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserSubscription>>>
-    export type DeleteUserSubscriptionMutationBody = DeleteUserSubscriptionBody
-    export type DeleteUserSubscriptionMutationError = unknown
+    export type DeleteSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteSubscription>>>
+    export type DeleteSubscriptionMutationBody = DeleteSubscriptionBody
+    export type DeleteSubscriptionMutationError = unknown
 
-    export const useDeleteUserSubscription = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserSubscription>>, TError,{data: DeleteUserSubscriptionBody}, TContext>, }
+    export const useDeleteSubscription = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubscription>>, TError,{data: DeleteSubscriptionBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteUserSubscription>>,
+        Awaited<ReturnType<typeof deleteSubscription>>,
         TError,
-        {data: DeleteUserSubscriptionBody},
+        {data: DeleteSubscriptionBody},
         TContext
       > => {
 
-      const mutationOptions = getDeleteUserSubscriptionMutationOptions(options);
+      const mutationOptions = getDeleteSubscriptionMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

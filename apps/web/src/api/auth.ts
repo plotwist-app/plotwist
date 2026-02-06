@@ -15,6 +15,14 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  PostAuthApple200,
+  PostAuthApple400,
+  PostAuthApple500,
+  PostAuthAppleBody,
+  PostAuthGoogle200,
+  PostAuthGoogle400,
+  PostAuthGoogle500,
+  PostAuthGoogleBody,
   PostLogin200,
   PostLogin400,
   PostLoginBody
@@ -84,6 +92,128 @@ const {mutation: mutationOptions} = options ?
       > => {
 
       const mutationOptions = getPostLoginMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Sign in or sign up with Apple
+ */
+export const postAuthApple = (
+    postAuthAppleBody: PostAuthAppleBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<PostAuthApple200>(
+      {url: `/auth/apple`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postAuthAppleBody, signal
+    },
+      );
+    }
+  
+
+
+export const getPostAuthAppleMutationOptions = <TError = PostAuthApple400 | PostAuthApple500,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthApple>>, TError,{data: PostAuthAppleBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthApple>>, TError,{data: PostAuthAppleBody}, TContext> => {
+
+const mutationKey = ['postAuthApple'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthApple>>, {data: PostAuthAppleBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthApple(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthAppleMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthApple>>>
+    export type PostAuthAppleMutationBody = PostAuthAppleBody
+    export type PostAuthAppleMutationError = PostAuthApple400 | PostAuthApple500
+
+    export const usePostAuthApple = <TError = PostAuthApple400 | PostAuthApple500,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthApple>>, TError,{data: PostAuthAppleBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthApple>>,
+        TError,
+        {data: PostAuthAppleBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPostAuthAppleMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Sign in or sign up with Google
+ */
+export const postAuthGoogle = (
+    postAuthGoogleBody: PostAuthGoogleBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<PostAuthGoogle200>(
+      {url: `/auth/google`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postAuthGoogleBody, signal
+    },
+      );
+    }
+  
+
+
+export const getPostAuthGoogleMutationOptions = <TError = PostAuthGoogle400 | PostAuthGoogle500,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogle>>, TError,{data: PostAuthGoogleBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogle>>, TError,{data: PostAuthGoogleBody}, TContext> => {
+
+const mutationKey = ['postAuthGoogle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthGoogle>>, {data: PostAuthGoogleBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthGoogle(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthGoogleMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthGoogle>>>
+    export type PostAuthGoogleMutationBody = PostAuthGoogleBody
+    export type PostAuthGoogleMutationError = PostAuthGoogle400 | PostAuthGoogle500
+
+    export const usePostAuthGoogle = <TError = PostAuthGoogle400 | PostAuthGoogle500,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogle>>, TError,{data: PostAuthGoogleBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthGoogle>>,
+        TError,
+        {data: PostAuthGoogleBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPostAuthGoogleMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
