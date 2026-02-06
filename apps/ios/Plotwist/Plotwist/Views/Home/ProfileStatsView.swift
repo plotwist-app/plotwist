@@ -12,7 +12,10 @@ struct ProfileStatsView: View {
   @State private var totalHours: Double = 0
   @State private var watchedGenres: [WatchedGenre] = []
   @State private var itemsStatus: [ItemStatusStat] = []
+  @State private var bestReviews: [DetailedReview] = []
   @State private var error: String?
+  @State private var showAllGenres = false
+  @State private var animatedHours: Double = 0
 
   var body: some View {
     VStack(spacing: 0) {
@@ -34,12 +37,50 @@ struct ProfileStatsView: View {
 
   // MARK: - Loading View
   private var loadingView: some View {
-    VStack(spacing: 16) {
-      ForEach(0..<3, id: \.self) { _ in
-        RoundedRectangle(cornerRadius: 12)
+    VStack(spacing: 32) {
+      // Hero stats skeleton
+      VStack(spacing: 8) {
+        RoundedRectangle(cornerRadius: 4)
           .fill(Color.appBorderAdaptive)
-          .frame(height: 100)
+          .frame(width: 120, height: 12)
+        RoundedRectangle(cornerRadius: 8)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 180, height: 72)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 100, height: 14)
       }
+      .padding(.vertical, 32)
+      
+      Divider()
+      
+      // Genres skeleton
+      VStack(alignment: .leading, spacing: 16) {
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 100, height: 12)
+        HStack(spacing: 8) {
+          ForEach(0..<4, id: \.self) { _ in
+            RoundedRectangle(cornerRadius: 20)
+              .fill(Color.appBorderAdaptive)
+              .frame(width: 80, height: 36)
+          }
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      
+      Divider()
+      
+      // Status bar skeleton
+      VStack(alignment: .leading, spacing: 16) {
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 120, height: 12)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(height: 8)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
     .padding(.horizontal, 24)
     .padding(.top, 16)
@@ -68,127 +109,287 @@ struct ProfileStatsView: View {
 
   // MARK: - Stats Content
   private var statsContent: some View {
-    VStack(spacing: 16) {
-      // Time watched
-      if totalHours > 0 {
-        timeWatchedCard
-      }
-
-      // Top genres
+    VStack(spacing: 32) {
+      // Hero Stats - Total Watch Time
+      heroStatsSection
+      
+      Divider()
+      
+      // Favorite Genres - Horizontal Chips
       if !watchedGenres.isEmpty {
-        topGenresCard
+        genresChipsSection
       }
-
-      // Status distribution
+      
+      Divider()
+      
+      // Collection Status - Stacked Bar
       if !itemsStatus.isEmpty {
-        statusDistributionCard
+        statusBarSection
+      }
+      
+      Divider()
+      
+      // Best Reviews
+      if !bestReviews.isEmpty {
+        bestReviewsSection
       }
     }
     .padding(.horizontal, 24)
     .padding(.top, 16)
     .padding(.bottom, 24)
   }
-
-  // MARK: - Time Watched Card
-  private var timeWatchedCard: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      HStack(spacing: 8) {
-        Image(systemName: "clock.fill")
-          .font(.system(size: 14))
-          .foregroundColor(.orange)
-
-        Text(strings.timeWatched)
-          .font(.subheadline.weight(.medium))
+  
+  // MARK: - Hero Stats Section
+  private var heroStatsSection: some View {
+    VStack(spacing: 8) {
+      Text(strings.timeWatched.uppercased())
+        .font(.system(size: 11, weight: .medium))
+        .tracking(1.5)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      
+      HStack(alignment: .firstTextBaseline, spacing: 8) {
+        Text(formattedAnimatedHours)
+          .font(.system(size: 72, weight: .medium))
+          .tracking(-2)
           .foregroundColor(.appForegroundAdaptive)
-      }
-
-      HStack(alignment: .firstTextBaseline, spacing: 4) {
-        Text(formattedHours)
-          .font(.system(size: 32, weight: .bold, design: .rounded))
-          .foregroundColor(.appForegroundAdaptive)
-
-        Text(hoursLabel)
-          .font(.subheadline)
+          .contentTransition(.numericText(countsDown: false))
+        
+        Text(strings.hours.lowercased())
+          .font(.system(size: 18))
           .foregroundColor(.appMutedForegroundAdaptive)
       }
-
-      if totalHours >= 24 {
-        Text(formattedDays)
-          .font(.caption)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
+      
+      Text("\(formattedAnimatedDays) \(strings.daysOfContent)")
+        .font(.system(size: 14))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .contentTransition(.numericText(countsDown: false))
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(16)
-    .background(Color.appInputFilled)
-    .cornerRadius(12)
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 24)
   }
-
-  private var formattedHours: String {
-    if totalHours >= 1000 {
-      return String(format: "%.1fk", totalHours / 1000)
-    }
-    return String(format: "%.0f", totalHours)
-  }
-
-  private var hoursLabel: String {
-    totalHours == 1 ? strings.hour : strings.hours
-  }
-
-  private var formattedDays: String {
-    let days = totalHours / 24
-    let daysStr = String(format: "%.1f", days)
-    return "≈ \(daysStr) \(strings.days)"
-  }
-
-  // MARK: - Top Genres Card
-  private var topGenresCard: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      HStack(spacing: 8) {
-        Image(systemName: "theatermasks.fill")
-          .font(.system(size: 14))
-          .foregroundColor(.pink)
-
-        Text(strings.topGenres)
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
-      }
-
-      VStack(spacing: 8) {
+  
+  // MARK: - Genres Chips Section
+  private var genresChipsSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      Text(strings.favoriteGenres.uppercased())
+        .font(.system(size: 11, weight: .medium))
+        .tracking(1.5)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      
+      FlowLayout(spacing: 8) {
         ForEach(Array(watchedGenres.prefix(5).enumerated()), id: \.element.id) { index, genre in
-          GenreRow(genre: genre, rank: index + 1)
+          StatsGenreChip(genre: genre, isFirst: index == 0)
+        }
+        
+        if watchedGenres.count > 5 {
+          Button {
+            showAllGenres = true
+          } label: {
+            HStack(spacing: 6) {
+              Text(strings.othersGenres)
+                .font(.system(size: 14, weight: .medium))
+              Image(systemName: "chevron.right")
+                .font(.system(size: 10, weight: .semibold))
+            }
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .overlay(
+              RoundedRectangle(cornerRadius: 20)
+                .strokeBorder(Color.appBorderAdaptive.opacity(0.5), lineWidth: 1, antialiased: true)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+          }
         }
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(16)
-    .background(Color.appInputFilled)
-    .cornerRadius(12)
+    .sheet(isPresented: $showAllGenres) {
+      allGenresSheet
+    }
+  }
+  
+  // MARK: - All Genres Sheet
+  private var allGenresSheet: some View {
+    FloatingSheetContainer {
+      VStack(spacing: 0) {
+        // Header
+        HStack {
+          Text(strings.favoriteGenres.uppercased())
+            .font(.system(size: 11, weight: .medium))
+            .tracking(1.5)
+            .foregroundColor(.appMutedForegroundAdaptive)
+          Spacer()
+          Button {
+            showAllGenres = false
+          } label: {
+            Image(systemName: "xmark")
+              .font(.system(size: 14, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 24)
+        .padding(.bottom, 16)
+        
+        // Genre list
+        ScrollView {
+          VStack(spacing: 0) {
+            ForEach(watchedGenres) { genre in
+              HStack {
+                Text(genre.name)
+                  .font(.system(size: 16))
+                  .foregroundColor(.appForegroundAdaptive)
+                Spacer()
+                HStack(spacing: 8) {
+                  Text("\(genre.count)")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.appForegroundAdaptive)
+                  Text(String(format: "%.0f%%", genre.percentage))
+                    .font(.system(size: 12))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .frame(width: 36, alignment: .trailing)
+                }
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 14)
+              
+              if genre.id != watchedGenres.last?.id {
+                Divider()
+                  .padding(.horizontal, 24)
+              }
+            }
+          }
+        }
+        .frame(maxHeight: 400)
+        .padding(.bottom, 24)
+      }
+    }
+    .floatingSheetPresentation(detents: [.medium])
+  }
+  
+  // MARK: - Status Bar Section
+  private var statusBarSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      Text(strings.collectionStatus.uppercased())
+        .font(.system(size: 11, weight: .medium))
+        .tracking(1.5)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      
+      // Stacked progress bar
+      GeometryReader { geo in
+        HStack(spacing: 0) {
+          ForEach(Array(itemsStatus.enumerated()), id: \.element.id) { index, item in
+            let statusInfo = getStatusInfo(item.status)
+            Rectangle()
+              .fill(statusInfo.color)
+              .frame(width: geo.size.width * CGFloat(item.percentage / 100))
+              .clipShape(
+                UnevenRoundedRectangle(
+                  topLeadingRadius: index == 0 ? 4 : 0,
+                  bottomLeadingRadius: index == 0 ? 4 : 0,
+                  bottomTrailingRadius: index == itemsStatus.count - 1 ? 4 : 0,
+                  topTrailingRadius: index == itemsStatus.count - 1 ? 4 : 0
+                )
+              )
+          }
+        }
+      }
+      .frame(height: 8)
+      .background(Color.appInputFilled)
+      .clipShape(RoundedRectangle(cornerRadius: 4))
+      
+      // Legend
+      HStack(spacing: 16) {
+        ForEach(itemsStatus) { item in
+          let statusInfo = getStatusInfo(item.status)
+          HStack(spacing: 6) {
+            Circle()
+              .fill(statusInfo.color)
+              .frame(width: 8, height: 8)
+            Text(statusInfo.name)
+              .font(.system(size: 12))
+              .foregroundColor(.appMutedForegroundAdaptive)
+            Text("\(item.count)")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundColor(.appForegroundAdaptive)
+          }
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+  
+  // MARK: - Best Reviews Section
+  private var bestReviewsSection: some View {
+    VStack(alignment: .leading, spacing: 24) {
+      Text(strings.bestReviews.uppercased())
+        .font(.system(size: 11, weight: .medium))
+        .tracking(1.5)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      
+      VStack(spacing: 24) {
+        ForEach(Array(bestReviews.prefix(3).enumerated()), id: \.element.id) { index, review in
+          BestReviewRow(review: review, rank: index + 1)
+          
+          if index < min(bestReviews.count, 3) - 1 {
+            Divider()
+              .background(Color.appBorderAdaptive.opacity(0.5))
+          }
+        }
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+  
+  // MARK: - Helpers
+  private var formattedAnimatedHours: String {
+    if animatedHours >= 1000 {
+      return String(format: "%.1fk", animatedHours / 1000)
+    }
+    return String(format: "%.0f", animatedHours)
   }
 
-  // MARK: - Status Distribution Card
-  private var statusDistributionCard: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      HStack(spacing: 8) {
-        Image(systemName: "chart.pie.fill")
-          .font(.system(size: 14))
-          .foregroundColor(.green)
-
-        Text(strings.collectionBreakdown)
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
-      }
-
-      VStack(spacing: 8) {
-        ForEach(itemsStatus) { item in
-          StatusRow(item: item, strings: strings)
+  private var formattedAnimatedDays: String {
+    let days = animatedHours / 24
+    return String(format: "%.0f", days)
+  }
+  
+  private func animateCount() {
+    animatedHours = 0
+    let target = totalHours
+    let totalDuration: Double = 1.5
+    let steps = 40
+    let stepDuration = totalDuration / Double(steps)
+    
+    for step in 1...steps {
+      let delay = stepDuration * Double(step)
+      let progress = Double(step) / Double(steps)
+      // Ease-out curve for natural deceleration
+      let eased = 1 - pow(1 - progress, 3)
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        withAnimation(.easeOut(duration: stepDuration)) {
+          animatedHours = target * eased
         }
       }
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(16)
-    .background(Color.appInputFilled)
-    .cornerRadius(12)
+  }
+  
+  private func getStatusInfo(_ status: String) -> (color: Color, name: String) {
+    switch status {
+    case "WATCHED":
+      return (Color(hex: "10B981"), strings.watched)  // emerald-500
+    case "WATCHING":
+      return (Color(hex: "3B82F6"), strings.watching)  // blue-500
+    case "WATCHLIST":
+      return (Color(hex: "F59E0B"), strings.watchlist)  // amber-500
+    case "DROPPED":
+      return (Color(hex: "EF4444"), strings.dropped)  // red-500
+    default:
+      return (Color(hex: "71717A"), status)  // zinc-500
+    }
   }
 
   // MARK: - Load Stats
@@ -203,109 +404,134 @@ struct ProfileStatsView: View {
         language: Language.current.rawValue
       )
       async let statusTask = UserStatsService.shared.getItemsStatus(userId: userId)
+      async let reviewsTask = ReviewService.shared.getUserDetailedReviews(
+        userId: userId,
+        language: Language.current.rawValue,
+        orderBy: "likeCount",
+        page: 1,
+        limit: 3
+      )
 
-      let (hours, genres, status) = try await (hoursTask, genresTask, statusTask)
+      let (hours, genres, status, reviewsResponse) = try await (hoursTask, genresTask, statusTask, reviewsTask)
 
       totalHours = hours
       watchedGenres = genres
       itemsStatus = status
+      bestReviews = reviewsResponse.reviews
+      isLoading = false
+      animateCount()
     } catch {
       self.error = error.localizedDescription
+      isLoading = false
     }
-
-    isLoading = false
   }
 }
 
-// MARK: - Genre Row
-private struct GenreRow: View {
+// MARK: - Stats Genre Chip
+private struct StatsGenreChip: View {
   let genre: WatchedGenre
-  let rank: Int
-
-  private var rankColor: Color {
-    switch rank {
-    case 1: return .yellow
-    case 2: return .gray
-    case 3: return .orange
-    default: return .appMutedForegroundAdaptive
-    }
-  }
-
+  let isFirst: Bool
+  
   var body: some View {
-    HStack(spacing: 12) {
-      Text("\(rank)")
-        .font(.caption.weight(.bold))
-        .foregroundColor(rankColor)
-        .frame(width: 20)
-
+    HStack(spacing: 8) {
       Text(genre.name)
-        .font(.subheadline)
-        .foregroundColor(.appForegroundAdaptive)
-
-      Spacer()
-
+        .font(.system(size: 14, weight: .medium))
       Text("\(genre.count)")
-        .font(.subheadline.weight(.medium))
-        .foregroundColor(.appForegroundAdaptive)
-
-      Text(String(format: "%.0f%%", genre.percentage))
-        .font(.caption)
-        .foregroundColor(.appMutedForegroundAdaptive)
-        .frame(width: 40, alignment: .trailing)
+        .font(.system(size: 12))
+        .opacity(isFirst ? 0.6 : 1)
     }
+    .foregroundColor(isFirst ? .appBackgroundAdaptive : .appForegroundAdaptive)
+    .padding(.horizontal, 16)
+    .padding(.vertical, 10)
+    .background(isFirst ? Color.appForegroundAdaptive : Color.clear)
+    .overlay(
+      RoundedRectangle(cornerRadius: 20)
+        .strokeBorder(Color.appBorderAdaptive, lineWidth: isFirst ? 0 : 1)
+    )
+    .clipShape(RoundedRectangle(cornerRadius: 20))
   }
 }
 
-// MARK: - Status Row
-private struct StatusRow: View {
-  let item: ItemStatusStat
-  let strings: Strings
-
-  private var statusInfo: (icon: String, color: Color, name: String) {
-    switch item.status {
-    case "WATCHED":
-      return ("eye.fill", .green, strings.watched)
-    case "WATCHING":
-      return ("play.circle.fill", .blue, strings.watching)
-    case "WATCHLIST":
-      return ("clock.fill", .orange, strings.watchlist)
-    case "DROPPED":
-      return ("xmark.circle.fill", .red, strings.dropped)
-    default:
-      return ("questionmark.circle.fill", .gray, item.status)
+// MARK: - Best Review Row
+private struct BestReviewRow: View {
+  let review: DetailedReview
+  let rank: Int
+  
+  var body: some View {
+    HStack(alignment: .top, spacing: 14) {
+      // Poster
+      CachedAsyncImage(url: review.posterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+          .fill(Color.appBorderAdaptive)
+          .overlay(
+            Image(systemName: "film")
+              .font(.system(size: 16))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          )
+      }
+      .frame(width: 72, height: 108)
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder()
+      .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+      
+      // Review content
+      VStack(alignment: .leading, spacing: 8) {
+        // Title and year
+        HStack(spacing: 12) {
+          Text(review.title)
+            .font(.system(size: 18, weight: .light))
+            .foregroundColor(.appForegroundAdaptive)
+            .lineLimit(1)
+          
+          if let year = extractYear(from: review) {
+            Text(year)
+              .font(.system(size: 11, weight: .medium))
+              .tracking(0.5)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+        
+        // Review text
+        Text(review.review)
+          .font(.system(size: 14))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .lineLimit(2)
+          .lineSpacing(4)
+        
+        // Rating only
+        HStack(spacing: 4) {
+          Image(systemName: "star.fill")
+            .font(.system(size: 12))
+            .foregroundColor(.appForegroundAdaptive)
+          Text(String(format: "%.1f", review.rating))
+            .font(.system(size: 14))
+            .foregroundColor(.appForegroundAdaptive)
+        }
+        .padding(.top, 4)
+      }
     }
   }
-
-  var body: some View {
-    HStack(spacing: 12) {
-      Image(systemName: statusInfo.icon)
-        .font(.system(size: 12))
-        .foregroundColor(statusInfo.color)
-        .frame(width: 20)
-
-      Text(statusInfo.name)
-        .font(.subheadline)
-        .foregroundColor(.appForegroundAdaptive)
-
-      Spacer()
-
-      Text("\(item.count)")
-        .font(.subheadline.weight(.medium))
-        .foregroundColor(.appForegroundAdaptive)
-
-      // Progress bar
-      GeometryReader { geo in
-        ZStack(alignment: .leading) {
-          RoundedRectangle(cornerRadius: 2)
-            .fill(Color.appBorderAdaptive)
-
-          RoundedRectangle(cornerRadius: 2)
-            .fill(statusInfo.color)
-            .frame(width: geo.size.width * CGFloat(item.percentage / 100))
-        }
-      }
-      .frame(width: 60, height: 4)
+  
+  private func extractYear(from review: DetailedReview) -> String? {
+    let inputFormatter = ISO8601DateFormatter()
+    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    
+    if let date = inputFormatter.date(from: review.createdAt) {
+      let calendar = Calendar.current
+      return String(calendar.component(.year, from: date))
     }
+    
+    inputFormatter.formatOptions = [.withInternetDateTime]
+    if let date = inputFormatter.date(from: review.createdAt) {
+      let calendar = Calendar.current
+      return String(calendar.component(.year, from: date))
+    }
+    
+    return nil
   }
 }
 

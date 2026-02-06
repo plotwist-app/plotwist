@@ -260,7 +260,13 @@ enum L10n {
       topGenres: "Top Genres",
       collectionBreakdown: "Collection Breakdown",
       couldNotLoadStats: "Could not load stats",
-      tryAgain: "Try again"
+      tryAgain: "Try again",
+      favoriteGenres: "Favorite Genres",
+      collectionStatus: "Collection Status",
+      itemsInCollection: "items in collection",
+      bestReviews: "Best Reviews",
+      daysOfContent: "days of content",
+      othersGenres: "Others"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -501,7 +507,13 @@ enum L10n {
       topGenres: "Gêneros Favoritos",
       collectionBreakdown: "Distribuição da Coleção",
       couldNotLoadStats: "Não foi possível carregar estatísticas",
-      tryAgain: "Tentar novamente"
+      tryAgain: "Tentar novamente",
+      favoriteGenres: "Gêneros Favoritos",
+      collectionStatus: "Status da Coleção",
+      itemsInCollection: "itens na coleção",
+      bestReviews: "Melhores Reviews",
+      daysOfContent: "dias de conteúdo",
+      othersGenres: "Outros"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -742,7 +754,13 @@ enum L10n {
       topGenres: "Géneros Favoritos",
       collectionBreakdown: "Desglose de Colección",
       couldNotLoadStats: "No se pudieron cargar las estadísticas",
-      tryAgain: "Intentar de nuevo"
+      tryAgain: "Intentar de nuevo",
+      favoriteGenres: "Géneros Favoritos",
+      collectionStatus: "Estado de la Colección",
+      itemsInCollection: "ítems en la colección",
+      bestReviews: "Mejores Reseñas",
+      daysOfContent: "días de contenido",
+      othersGenres: "Otros"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -983,7 +1001,13 @@ enum L10n {
       topGenres: "Genres Préférés",
       collectionBreakdown: "Répartition de Collection",
       couldNotLoadStats: "Impossible de charger les statistiques",
-      tryAgain: "Réessayer"
+      tryAgain: "Réessayer",
+      favoriteGenres: "Genres Préférés",
+      collectionStatus: "Statut de la Collection",
+      itemsInCollection: "éléments dans la collection",
+      bestReviews: "Meilleures Critiques",
+      daysOfContent: "jours de contenu",
+      othersGenres: "Autres"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1224,7 +1248,13 @@ enum L10n {
       topGenres: "Lieblingsgenres",
       collectionBreakdown: "Sammlungsübersicht",
       couldNotLoadStats: "Statistiken konnten nicht geladen werden",
-      tryAgain: "Erneut versuchen"
+      tryAgain: "Erneut versuchen",
+      favoriteGenres: "Lieblingsgenres",
+      collectionStatus: "Sammlungsstatus",
+      itemsInCollection: "Elemente in der Sammlung",
+      bestReviews: "Beste Bewertungen",
+      daysOfContent: "Tage an Inhalten",
+      othersGenres: "Andere"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1465,7 +1495,13 @@ enum L10n {
       topGenres: "Generi Preferiti",
       collectionBreakdown: "Panoramica Collezione",
       couldNotLoadStats: "Impossibile caricare le statistiche",
-      tryAgain: "Riprova"
+      tryAgain: "Riprova",
+      favoriteGenres: "Generi Preferiti",
+      collectionStatus: "Stato della Collezione",
+      itemsInCollection: "elementi nella collezione",
+      bestReviews: "Migliori Recensioni",
+      daysOfContent: "giorni di contenuti",
+      othersGenres: "Altri"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1705,7 +1741,13 @@ enum L10n {
       topGenres: "お気に入りジャンル",
       collectionBreakdown: "コレクション内訳",
       couldNotLoadStats: "統計を読み込めませんでした",
-      tryAgain: "再試行"
+      tryAgain: "再試行",
+      favoriteGenres: "お気に入りジャンル",
+      collectionStatus: "コレクションステータス",
+      itemsInCollection: "アイテム",
+      bestReviews: "ベストレビュー",
+      daysOfContent: "日分のコンテンツ",
+      othersGenres: "その他"
     ),
   ]
 }
@@ -1968,4 +2010,10 @@ struct Strings {
   let collectionBreakdown: String
   let couldNotLoadStats: String
   let tryAgain: String
+  let favoriteGenres: String
+  let collectionStatus: String
+  let itemsInCollection: String
+  let bestReviews: String
+  let daysOfContent: String
+  let othersGenres: String
 }

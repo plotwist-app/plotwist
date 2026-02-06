@@ -234,12 +234,12 @@ struct LoginView: View {
     .lightStatusBar()
     .sheet(isPresented: $showLoginSheet) {
       LoginFormSheet()
-        .floatingSheetPresentation(height: 620)
+        .floatingSheetPresentation(height: 560)
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .sheet(isPresented: $showSignUpSheet) {
       SignUpFormSheet()
-        .floatingSheetPresentation(height: 680)
+        .floatingSheetPresentation(height: 620)
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -332,19 +332,17 @@ struct LoginFormSheet: View {
           .frame(maxWidth: .infinity, alignment: .center)
         
         VStack(spacing: 16) {
-          // Social Login Buttons
-          VStack(spacing: 12) {
-            SocialLoginButton(
+          // Social Login Icons
+          HStack(spacing: 12) {
+            SocialLoginIconButton(
               provider: .apple,
-              title: strings.continueWithApple,
               isLoading: isAppleLoading
             ) {
               Task { await signInWithApple() }
             }
             
-            SocialLoginButton(
+            SocialLoginIconButton(
               provider: .google,
-              title: strings.continueWithGoogle,
               isLoading: isGoogleLoading,
               isDisabled: true
             ) {
@@ -579,19 +577,17 @@ struct SignUpFormSheet: View {
         } else {
           // Email & Password Step
           VStack(spacing: 16) {
-            // Social Login Buttons
-            VStack(spacing: 12) {
-              SocialLoginButton(
+            // Social Login Icons
+            HStack(spacing: 12) {
+              SocialLoginIconButton(
                 provider: .apple,
-                title: strings.continueWithApple,
                 isLoading: isAppleLoading
               ) {
                 Task { await signInWithApple() }
               }
               
-              SocialLoginButton(
+              SocialLoginIconButton(
                 provider: .google,
-                title: strings.continueWithGoogle,
                 isLoading: isGoogleLoading,
                 isDisabled: true
               ) {

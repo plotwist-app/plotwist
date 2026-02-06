@@ -8,7 +8,7 @@ import SwiftUI
 struct OnboardingWelcomeContent: View {
   let onContinue: () -> Void
   @State private var strings = L10n.current
-  @State private var showResetConfirmation = false
+  @State private var showSkipConfirmation = false
   
   var body: some View {
     VStack(spacing: 20) {
@@ -36,25 +36,25 @@ struct OnboardingWelcomeContent: View {
           .clipShape(Capsule())
       }
       
-      // Reset Onboarding Button (Dev)
+      #if DEBUG
+      // Skip Onboarding Button (Dev Only)
       Button {
-        showResetConfirmation = true
+        showSkipConfirmation = true
       } label: {
         HStack(spacing: 6) {
-          Image(systemName: "arrow.counterclockwise")
-          Text("Reset")
+          Image(systemName: "forward.end")
+          Text("Skip")
         }
         .font(.caption.weight(.medium))
         .foregroundColor(.appMutedForegroundAdaptive)
       }
-      .confirmationDialog("Resetar onboarding?", isPresented: $showResetConfirmation, titleVisibility: .visible) {
-        Button("Resetar", role: .destructive) {
-          OnboardingService.shared.reset()
-          UserDefaults.standard.set(false, forKey: "isGuestMode")
-          NotificationCenter.default.post(name: .authChanged, object: nil)
+      .confirmationDialog("Pular onboarding?", isPresented: $showSkipConfirmation, titleVisibility: .visible) {
+        Button("Pular", role: .destructive) {
+          OnboardingService.shared.completeOnboarding()
         }
         Button("Cancelar", role: .cancel) {}
       }
+      #endif
     }
     .padding(.horizontal, 24)
     .padding(.top, 28)
