@@ -7,7 +7,6 @@ import SwiftUI
 
 struct ProfileStatsView: View {
   let userId: String
-  var isSelected: Bool = true
   @State private var strings = L10n.current
   @State private var isLoading = true
   @State private var totalHours: Double = 0
@@ -18,7 +17,7 @@ struct ProfileStatsView: View {
   @State private var showAllGenres = false
   @State private var showAllReviews = false
   @State private var countStartTime: Date?
-  @State private var dataLoaded = false
+  @State private var animationTrigger = false
   
   private let countDuration: Double = 1.8
 
@@ -34,11 +33,6 @@ struct ProfileStatsView: View {
     }
     .task {
       await loadStats()
-    }
-    .onChange(of: isSelected) { _, newValue in
-      if newValue && dataLoaded {
-        countStartTime = .now
-      }
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -466,11 +460,11 @@ struct ProfileStatsView: View {
       itemsStatus = status
       bestReviews = reviews
       isLoading = false
-      dataLoaded = true
       
-      // Only start countdown animation if this tab is currently visible
-      if isSelected {
-        countStartTime = .now
+      // Start the countdown animation and keep TimelineView active
+      countStartTime = .now
+      withAnimation(.linear(duration: countDuration)) {
+        animationTrigger.toggle()
       }
     } catch {
       self.error = error.localizedDescription

@@ -73,13 +73,21 @@ struct ProfileReviewsListView: View {
         .padding(.top, 16)
       } else if reviews.isEmpty {
         // Empty state
-        VStack(spacing: 16) {
-          Image(systemName: "text.bubble")
+        VStack(spacing: 12) {
+          Image(systemName: "star.bubble")
             .font(.system(size: 48))
             .foregroundColor(.appMutedForegroundAdaptive)
-          Text(strings.beFirstToReview)
+            .padding(.bottom, 4)
+          
+          Text(strings.profileNoReviewsTitle)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+          
+          Text(strings.profileNoReviewsSubtitle)
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 32)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 60)

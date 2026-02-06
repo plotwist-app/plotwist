@@ -332,31 +332,23 @@ struct ProfileTabView: View {
 
   // MARK: - Tab Content View
   private func tabContentView(userId: String) -> some View {
-    let screenWidth = UIScreen.main.bounds.width
-    
-    return ZStack(alignment: .topLeading) {
-      // Collection tab
-      collectionTabContent
-        .frame(width: screenWidth, alignment: .top)
-        .background(Color.appBackgroundAdaptive)
-        .offset(x: selectedMainTab == .collection ? 0 : (selectedMainTab.index > ProfileMainTab.collection.index ? -screenWidth : screenWidth))
-      
-      // Reviews tab
-      ProfileReviewsListView(userId: userId)
-        .padding(.bottom, 24)
-        .frame(width: screenWidth, alignment: .top)
-        .background(Color.appBackgroundAdaptive)
-        .offset(x: selectedMainTab == .reviews ? 0 : (selectedMainTab.index > ProfileMainTab.reviews.index ? -screenWidth : screenWidth))
-      
-      // Stats tab
-      ProfileStatsView(userId: userId, isSelected: selectedMainTab == .stats)
-        .padding(.bottom, 24)
-        .frame(width: screenWidth, alignment: .top)
-        .background(Color.appBackgroundAdaptive)
-        .offset(x: selectedMainTab == .stats ? 0 : screenWidth)
+    Group {
+      switch selectedMainTab {
+      case .collection:
+        collectionTabContent
+      case .reviews:
+        ProfileReviewsListView(userId: userId)
+          .padding(.bottom, 24)
+      case .stats:
+        ProfileStatsView(userId: userId)
+          .padding(.bottom, 24)
+      }
     }
-    .frame(width: screenWidth, alignment: .topLeading)
-    .clipShape(Rectangle())
+    .frame(maxWidth: .infinity, alignment: .top)
+    .transition(.asymmetric(
+      insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
+      removal: .move(edge: slideFromTrailing ? .leading : .trailing)
+    ))
     .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
 
