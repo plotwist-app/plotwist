@@ -9,16 +9,18 @@ type GetUserBestReviewsServiceInput = {
   userId: string
   redis: FastifyRedis
   language: Language
+  limit?: number
 }
 
 export async function getUserBestReviewsService({
   userId,
   language,
   redis,
+  limit,
 }: GetUserBestReviewsServiceInput) {
   // Note: Not using cache here because createdAt Date serialization
   // causes issues when retrieved from Redis (Date becomes string)
-  const bestReviews = await selectBestReviews(userId)
+  const bestReviews = await selectBestReviews(userId, limit)
 
   const formattedBestReviews = await processInBatches(
     bestReviews,

@@ -196,7 +196,6 @@ class SocialAuthService {
 
     // Save token to UserDefaults
     UserDefaults.standard.set(authResponse.token, forKey: "token")
-    NotificationCenter.default.post(name: .authChanged, object: nil)
     
     // Identify user for analytics
     Task {

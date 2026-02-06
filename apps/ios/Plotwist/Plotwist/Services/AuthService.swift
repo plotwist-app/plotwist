@@ -45,7 +45,6 @@ class AuthService {
 
     let result = try JSONDecoder().decode(LoginResponse.self, from: data)
     UserDefaults.standard.set(result.token, forKey: "token")
-    NotificationCenter.default.post(name: .authChanged, object: nil)
     
     // Identify user for analytics
     Task {
@@ -307,6 +306,15 @@ class AuthService {
     AnalyticsService.shared.reset()
     UserDefaults.standard.removeObject(forKey: "token")
     invalidatePreferencesCache()
+    
+    // Clear all singleton caches to prevent stale data from previous account
+    HomeDataCache.shared.fullReset()
+    CollectionCache.shared.fullReset()
+    SearchDataCache.shared.fullReset()
+    ProfileReviewsCache.shared.invalidateAll()
+    UserItemService.shared.invalidateAllCache()
+    ReviewService.shared.invalidateAllCache()
+    
     NotificationCenter.default.post(name: .authChanged, object: nil)
   }
 

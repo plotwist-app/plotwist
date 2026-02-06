@@ -42,17 +42,9 @@ enum OnboardingStep: Int, CaseIterable {
 struct OnboardingView: View {
   @StateObject private var onboardingService = OnboardingService.shared
   @State private var currentStep: OnboardingStep = .welcome
-  @State private var currentPosterIndex = 0
   @State private var strings = L10n.current
   @State private var contentTypeBackdropData = ContentTypeBackdropData()
   @State private var isGoingBack = false
-  
-  private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
-  
-  private var cornerRadius: CGFloat {
-    let deviceRadius = UIScreen.main.deviceCornerRadius
-    return deviceRadius > 0 ? deviceRadius : 44
-  }
   
   private var isWelcomeScreen: Bool {
     currentStep == .welcome
@@ -66,31 +58,47 @@ struct OnboardingView: View {
   
   var body: some View {
     GeometryReader { geometry in
-      let footerHeight: CGFloat = 280
-      let posterHeight = geometry.size.height - footerHeight + cornerRadius + 120
-      
-      ZStack(alignment: .bottom) {
-        Color.appBackgroundAdaptive
-          .ignoresSafeArea()
-        
-        // Poster Carousel (only visible on welcome screen)
-        if isWelcomeScreen {
-          welcomeBackground(posterHeight: posterHeight)
-        }
-        
-        // Content Area
+      if isWelcomeScreen {
+        // Welcome screen with masonry
         VStack(spacing: 0) {
-          // Page Indicator (only on welcome screen)
-          if isWelcomeScreen {
-            pageIndicator
+          // Masonry section with gradient fade
+          ZStack(alignment: .bottom) {
+            Color.black
+            
+            PosterMasonry(posters: PopularPoster.featured)
+            
+            LinearGradient(
+              colors: [
+                Color.appBackgroundAdaptive.opacity(0),
+                Color.appBackgroundAdaptive,
+              ],
+              startPoint: .top,
+              endPoint: .bottom
+            )
+            .frame(height: 120)
           }
+          .frame(height: geometry.size.height * 0.5)
           
-          // Content Card
+          // Content section
+          stepContent
+            .id(currentStep)
+            .transition(.asymmetric(
+              insertion: .move(edge: isGoingBack ? .leading : .trailing),
+              removal: .move(edge: isGoingBack ? .trailing : .leading)
+            ))
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .background(Color.appBackgroundAdaptive)
+        }
+        .ignoresSafeArea(edges: .top)
+      } else {
+        // Other onboarding steps
+        ZStack(alignment: .bottom) {
+          Color.appBackgroundAdaptive
+            .ignoresSafeArea()
+          
           VStack(spacing: 0) {
-            // Header with back button and progress bar (only show after welcome)
-            if !isWelcomeScreen {
+            VStack(spacing: 0) {
               HStack(spacing: 16) {
-                // Back button
                 Button(action: goBack) {
                   Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .semibold))
@@ -106,36 +114,22 @@ struct OnboardingView: View {
               .padding(.top, geometry.safeAreaInsets.top + 20)
               .padding(.horizontal, 24)
               .padding(.bottom, 24)
-            }
-            
-            // Step Content
-            stepContent
-              .id(currentStep)
-              .transition(.asymmetric(
-                insertion: .move(edge: isGoingBack ? .leading : .trailing),
-                removal: .move(edge: isGoingBack ? .trailing : .leading)
-              ))
-            
-            if !isWelcomeScreen {
+              
+              stepContent
+                .id(currentStep)
+                .transition(.asymmetric(
+                  insertion: .move(edge: isGoingBack ? .leading : .trailing),
+                  removal: .move(edge: isGoingBack ? .trailing : .leading)
+                ))
+              
               Spacer(minLength: 0)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.appBackgroundAdaptive)
           }
-          .frame(maxWidth: .infinity)
-          .frame(maxHeight: isWelcomeScreen ? nil : .infinity)
-          .background(Color.appBackgroundAdaptive)
-          .clipShape(
-            RoundedCorner(radius: isWelcomeScreen ? cornerRadius : 0, corners: [.topLeft, .topRight])
-          )
+          .frame(maxHeight: .infinity, alignment: .bottom)
         }
-        .frame(maxHeight: isWelcomeScreen ? nil : .infinity, alignment: .bottom)
-      }
-      .ignoresSafeArea(edges: isWelcomeScreen ? [] : .all)
-    }
-    .onReceive(autoScrollTimer) { _ in
-      if isWelcomeScreen {
-        withAnimation(.easeInOut(duration: 0.5)) {
-          currentPosterIndex = (currentPosterIndex + 1) % PopularPoster.featured.count
-        }
+        .ignoresSafeArea(edges: .all)
       }
     }
     .onAppear {
@@ -165,53 +159,6 @@ struct OnboardingView: View {
   }
   
   // MARK: - View Components
-  
-  @ViewBuilder
-  private func welcomeBackground(posterHeight: CGFloat) -> some View {
-    VStack {
-      PosterCarousel(
-        posters: PopularPoster.featured,
-        currentIndex: $currentPosterIndex
-      )
-      .frame(height: posterHeight)
-      .clipped()
-      
-      Spacer()
-    }
-    .ignoresSafeArea(edges: .top)
-    .transition(.opacity)
-    
-    // Gradient Overlay
-    VStack {
-      LinearGradient(
-        colors: [
-          Color.black.opacity(0.1),
-          Color.black.opacity(0.0),
-          Color.black.opacity(0.1),
-          Color.black.opacity(0.5),
-        ],
-        startPoint: .top,
-        endPoint: .bottom
-      )
-      .frame(height: posterHeight)
-      
-      Spacer()
-    }
-    .ignoresSafeArea(edges: .top)
-    .transition(.opacity)
-  }
-  
-  private var pageIndicator: some View {
-    HStack(spacing: 8) {
-      ForEach(0..<PopularPoster.featured.count, id: \.self) { index in
-        Circle()
-          .fill(index == currentPosterIndex ? Color.white : Color.white.opacity(0.4))
-          .frame(width: 8, height: 8)
-          .animation(.easeInOut(duration: 0.3), value: currentPosterIndex)
-      }
-    }
-    .padding(.bottom, 16)
-  }
   
   @ViewBuilder
   private var stepContent: some View {

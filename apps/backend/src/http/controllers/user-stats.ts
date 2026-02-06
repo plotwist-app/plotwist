@@ -9,7 +9,10 @@ import { getUserTotalHoursService } from '@/domain/services/user-stats/get-user-
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
-import { languageQuerySchema } from '../schemas/common'
+import {
+  languageQuerySchema,
+  languageWithLimitQuerySchema,
+} from '../schemas/common'
 import { getUserDefaultSchema } from '../schemas/user-stats'
 
 export async function getUserStatsController(
@@ -112,12 +115,13 @@ export async function getUserBestReviewsController(
   redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
-  const { language } = languageQuerySchema.parse(request.query)
+  const { language, limit } = languageWithLimitQuerySchema.parse(request.query)
 
   const result = await getUserBestReviewsService({
     userId: id,
     redis,
     language,
+    limit,
   })
 
   return reply.status(200).send(result)

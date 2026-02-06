@@ -351,7 +351,7 @@ struct ProfileTabView: View {
         .offset(x: selectedMainTab == .reviews ? 0 : (selectedMainTab.index > ProfileMainTab.reviews.index ? -screenWidth : screenWidth))
       
       // Stats tab
-      ProfileStatsView(userId: userId)
+      ProfileStatsView(userId: userId, isSelected: selectedMainTab == .stats)
         .padding(.bottom, 24)
         .frame(width: screenWidth, alignment: .top)
         .frame(maxHeight: .infinity, alignment: .top)

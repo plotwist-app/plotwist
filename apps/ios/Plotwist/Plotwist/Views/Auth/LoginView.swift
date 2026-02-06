@@ -42,165 +42,117 @@ struct PopularPoster: Identifiable {
   
   // Popular titles across different categories
   static let featured: [PopularPoster] = [
-    // Movie - Interstellar
     PopularPoster(posterPath: "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", title: "Interstellar", category: "Movie"),
-    // TV Series - Breaking Bad
     PopularPoster(posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", title: "Breaking Bad", category: "TV"),
-    // Anime - Attack on Titan
     PopularPoster(posterPath: "/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg", title: "Attack on Titan", category: "Anime"),
-    // K-Drama - Squid Game
     PopularPoster(posterPath: "/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg", title: "Squid Game", category: "K-Drama"),
-    // Movie - Dune Part Two
     PopularPoster(posterPath: "/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg", title: "Dune: Part Two", category: "Movie"),
-    // TV Series - Stranger Things
     PopularPoster(posterPath: "/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg", title: "Stranger Things", category: "TV"),
-    // Anime - Demon Slayer
     PopularPoster(posterPath: "/xUfRZu2mi8jH6SzQEJGP6tjBuYj.jpg", title: "Demon Slayer", category: "Anime"),
-    // K-Drama - All of Us Are Dead
     PopularPoster(posterPath: "/pTEFqAjLd5YTsMD6NSUxV6Dq7A6.jpg", title: "All of Us Are Dead", category: "K-Drama"),
+    PopularPoster(posterPath: "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", title: "Oppenheimer", category: "Movie"),
+    PopularPoster(posterPath: "/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg", title: "The Last of Us", category: "TV"),
+    PopularPoster(posterPath: "/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg", title: "One Piece", category: "Anime"),
+    PopularPoster(posterPath: "/74xTEgt7R36Fpooo50r9T25onhq.jpg", title: "The Batman", category: "Movie"),
+    PopularPoster(posterPath: "/9PFonBhy4cQy7Jz20NpMygczOkv.jpg", title: "Wednesday", category: "TV"),
+    PopularPoster(posterPath: "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg", title: "Spider-Man: No Way Home", category: "Movie"),
+    PopularPoster(posterPath: "/hFtgWplMSVfMCPNYS9HBJhEQlUd.jpg", title: "Jujutsu Kaisen", category: "Anime"),
+    PopularPoster(posterPath: "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg", title: "Barbie", category: "Movie"),
   ]
 }
 
 // MARK: - Welcome View (Landing Page)
 struct LoginView: View {
   @State private var strings = L10n.current
-  @State private var currentPosterIndex = 0
   @State private var showLoginSheet = false
   @State private var showSignUpSheet = false
   @ObservedObject private var themeManager = ThemeManager.shared
   
-  private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
-  
-  // Use a minimum corner radius to prevent layout issues when deviceCornerRadius returns 0
-  private var cornerRadius: CGFloat {
-    let deviceRadius = UIScreen.main.deviceCornerRadius
-    return deviceRadius > 0 ? deviceRadius : 44
-  }
-  
   var body: some View {
     NavigationView {
       GeometryReader { geometry in
-        let footerHeight: CGFloat = 320
-        let posterHeight = geometry.size.height - footerHeight + cornerRadius + 60 // Extra height to cover rounded corners
-        
-        ZStack(alignment: .bottom) {
-          // Background color
-          Color.appBackgroundAdaptive
-            .ignoresSafeArea()
-          
-          // Poster Carousel (covers top area only)
-          VStack {
-            PosterCarousel(
-              posters: PopularPoster.featured,
-              currentIndex: $currentPosterIndex
-            )
-            .frame(height: posterHeight)
-            .clipped()
+        VStack(spacing: 0) {
+          // Masonry section with gradient fade
+          ZStack(alignment: .bottom) {
+            Color.black
             
-            Spacer()
-          }
-          .ignoresSafeArea(edges: .top)
-          
-          // Gradient Overlay on posters
-          VStack {
+            PosterMasonry(posters: PopularPoster.featured)
+            
+            // Gradient fade at bottom of masonry
             LinearGradient(
               colors: [
-                Color.black.opacity(0.1),
-                Color.black.opacity(0.0),
-                Color.black.opacity(0.1),
-                Color.black.opacity(0.5),
+                Color.appBackgroundAdaptive.opacity(0),
+                Color.appBackgroundAdaptive,
               ],
               startPoint: .top,
               endPoint: .bottom
             )
-            .frame(height: posterHeight)
+            .frame(height: 120)
+          }
+          .frame(height: geometry.size.height * 0.5)
+          
+          // Content section
+          VStack(alignment: .leading, spacing: 16) {
+            // App Icon
+            if let uiImage = UIImage(named: "AppIcon") {
+              Image(uiImage: uiImage)
+                .resizable()
+                .frame(width: 48, height: 48)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            }
+            
+            // Title
+            Text(strings.welcomeTitle)
+              .font(.system(size: 28, weight: .bold))
+              .foregroundColor(.appForegroundAdaptive)
+            
+            // Description
+            Text(strings.welcomeDescription)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
             
             Spacer()
-          }
-          .ignoresSafeArea(edges: .top)
-          
-          // Footer Content
-          VStack(spacing: 0) {
-            // Page Indicator (above the footer, on poster)
-            HStack(spacing: 8) {
-              ForEach(0..<PopularPoster.featured.count, id: \.self) { index in
-                Circle()
-                  .fill(index == currentPosterIndex ? Color.white : Color.white.opacity(0.4))
-                  .frame(width: 8, height: 8)
-                  .animation(.easeInOut(duration: 0.3), value: currentPosterIndex)
-              }
-            }
-            .padding(.bottom, 16)
             
-            // Footer Content Card (rounded with device corner radius)
-            VStack(spacing: 20) {
-              // Title & Description
-              VStack(spacing: 8) {
-                Text(strings.welcomeTitle)
-                  .font(.system(size: 26, weight: .bold))
-                  .foregroundColor(.appForegroundAdaptive)
-                  .multilineTextAlignment(.center)
-                
-                Text(strings.welcomeDescription)
-                  .font(.subheadline)
-                  .foregroundColor(.appMutedForegroundAdaptive)
-                  .multilineTextAlignment(.center)
+            // Buttons
+            VStack(spacing: 12) {
+              // Login Button
+              Button {
+                showLoginSheet = true
+              } label: {
+                Text(strings.accessButton)
+                  .font(.system(size: 16, weight: .semibold))
+                  .foregroundColor(.appBackgroundAdaptive)
+                  .frame(maxWidth: .infinity)
+                  .frame(height: 52)
+                  .background(Color.appForegroundAdaptive)
+                  .clipShape(Capsule())
               }
               
-              // Buttons
-              VStack(spacing: 12) {
-                // Login Button
-                Button {
-                  showLoginSheet = true
-                } label: {
-                  Text(strings.accessButton)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.appBackgroundAdaptive)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .background(Color.appForegroundAdaptive)
-                    .clipShape(Capsule())
-                }
-                
-                // Create Account Button
-                Button {
-                  showSignUpSheet = true
-                } label: {
-                  Text(strings.createAccount)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.appForegroundAdaptive)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .background(Color.appInputFilled)
-                    .clipShape(Capsule())
-                    .overlay(
-                      Capsule()
-                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                    )
-                }
-                
-                // Continue as Guest Button
-                Button {
-                  NotificationCenter.default.post(name: .continueAsGuest, object: nil)
-                } label: {
-                  Text(strings.continueAsGuest)
-                    .font(.subheadline)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .padding(.top, 4)
-                }
+              // Create Account Button
+              Button {
+                showSignUpSheet = true
+              } label: {
+                Text(strings.createAccount)
+                  .font(.system(size: 16, weight: .semibold))
+                  .foregroundColor(.appForegroundAdaptive)
+                  .frame(maxWidth: .infinity)
+                  .frame(height: 52)
+                  .background(Color.appInputFilled)
+                  .clipShape(Capsule())
+                  .overlay(
+                    Capsule()
+                      .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                  )
               }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 28)
-            .padding(.bottom, 40)
-            .frame(maxWidth: 400)
-            .frame(maxWidth: .infinity)
-            .background(Color.appBackgroundAdaptive)
-            .clipShape(
-              RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-            )
           }
+          .padding(.horizontal, 24)
+          .padding(.top, 24)
+          .padding(.bottom, 40)
+          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+          .background(Color.appBackgroundAdaptive)
         }
+        .ignoresSafeArea(edges: .top)
       }
       .navigationBarHidden(true)
     }
@@ -232,12 +184,12 @@ struct LoginView: View {
     }
     .preferredColorScheme(.dark)
     .lightStatusBar()
-    .sheet(isPresented: $showLoginSheet) {
+    .sheet(isPresented: $showLoginSheet, onDismiss: notifyAuthIfNeeded) {
       LoginFormSheet()
         .floatingSheetPresentation(height: 560)
         .preferredColorScheme(themeManager.current.colorScheme)
     }
-    .sheet(isPresented: $showSignUpSheet) {
+    .sheet(isPresented: $showSignUpSheet, onDismiss: notifyAuthIfNeeded) {
       SignUpFormSheet()
         .floatingSheetPresentation(height: 620)
         .preferredColorScheme(themeManager.current.colorScheme)
@@ -245,62 +197,65 @@ struct LoginView: View {
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }
-    .onReceive(autoScrollTimer) { _ in
-      withAnimation(.easeInOut(duration: 0.5)) {
-        currentPosterIndex = (currentPosterIndex + 1) % PopularPoster.featured.count
-      }
+  }
+  
+  /// Posts .authChanged only if the user is now authenticated (login/signup succeeded before sheet dismiss)
+  private func notifyAuthIfNeeded() {
+    if AuthService.shared.isAuthenticated {
+      NotificationCenter.default.post(name: .authChanged, object: nil)
     }
   }
 }
 
-// MARK: - Poster Carousel
-struct PosterCarousel: View {
+// MARK: - Poster Masonry
+struct PosterMasonry: View {
   let posters: [PopularPoster]
-  @Binding var currentIndex: Int
-  
-  @State private var dragOffset: CGFloat = 0
-  private let swipeThreshold: CGFloat = 50
+  private let columnCount = 4
+  private let spacing: CGFloat = 12
   
   var body: some View {
     GeometryReader { geometry in
-      ZStack {
-        ForEach(Array(posters.enumerated()), id: \.element.id) { index, poster in
-          CachedAsyncImage(url: poster.posterURL) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .frame(width: geometry.size.width, height: geometry.size.height)
-              .clipped()
-          } placeholder: {
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
+      let totalSpacing = spacing * CGFloat(columnCount - 1)
+      let columnWidth = (geometry.size.width - totalSpacing) / CGFloat(columnCount)
+      let posterHeight = columnWidth * 1.5
+      let columnOffsets: [CGFloat] = [
+        -posterHeight * 0.3,
+        -posterHeight * 0.65,
+        0,
+        -posterHeight * 0.45,
+      ]
+      
+      HStack(spacing: spacing) {
+        ForEach(0..<columnCount, id: \.self) { columnIndex in
+          let columnPosters = postersForColumn(columnIndex)
+          
+          VStack(spacing: spacing) {
+            ForEach(Array(columnPosters.enumerated()), id: \.offset) { _, poster in
+              CachedAsyncImage(url: poster.posterURL) { image in
+                image
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+                  .frame(width: columnWidth, height: posterHeight)
+                  .clipped()
+              } placeholder: {
+                Rectangle()
+                  .fill(Color.gray.opacity(0.3))
+                  .frame(width: columnWidth, height: posterHeight)
+              }
+              .cornerRadius(12)
+            }
           }
-          .opacity(index == currentIndex ? 1 : 0)
-          .animation(.easeInOut(duration: 0.5), value: currentIndex)
+          .offset(y: columnOffsets[columnIndex])
         }
       }
-      .gesture(
-        DragGesture()
-          .onChanged { value in
-            dragOffset = value.translation.width
-          }
-          .onEnded { value in
-            let dragAmount = value.translation.width
-            
-            withAnimation(.easeInOut(duration: 0.3)) {
-              if dragAmount < -swipeThreshold {
-                // Swipe left - next poster
-                currentIndex = (currentIndex + 1) % posters.count
-              } else if dragAmount > swipeThreshold {
-                // Swipe right - previous poster
-                currentIndex = (currentIndex - 1 + posters.count) % posters.count
-              }
-            }
-            
-            dragOffset = 0
-          }
-      )
     }
+    .clipped()
+  }
+  
+  private func postersForColumn(_ columnIndex: Int) -> [PopularPoster] {
+    posters.enumerated()
+      .filter { $0.offset % columnCount == columnIndex }
+      .map { $0.element }
   }
 }
 

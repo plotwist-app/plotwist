@@ -133,7 +133,11 @@ struct SignUpView: View {
       }
     }
     .navigationBarHidden(true)
-    .sheet(isPresented: $showUsernameSheet) {
+    .sheet(isPresented: $showUsernameSheet, onDismiss: {
+      if AuthService.shared.isAuthenticated {
+        NotificationCenter.default.post(name: .authChanged, object: nil)
+      }
+    }) {
       UsernameSheetView(
         username: $username,
         email: email,

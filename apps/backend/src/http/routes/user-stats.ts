@@ -11,7 +11,10 @@ import {
   getUserWatchedCountriesController,
   getUserWatchedGenresController,
 } from '../controllers/user-stats'
-import { languageQuerySchema } from '../schemas/common'
+import {
+  languageQuerySchema,
+  languageWithLimitQuerySchema,
+} from '../schemas/common'
 import {
   getUserBestReviewsResponseSchema,
   getUserDefaultSchema,
@@ -142,7 +145,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user best reviews',
         params: getUserDefaultSchema,
-        query: languageQuerySchema,
+        query: languageWithLimitQuerySchema,
         response: getUserBestReviewsResponseSchema,
         tags: USER_STATS_TAG,
       },

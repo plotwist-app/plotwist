@@ -7,15 +7,20 @@ import SwiftUI
 
 struct ProfileStatsView: View {
   let userId: String
+  var isSelected: Bool = true
   @State private var strings = L10n.current
   @State private var isLoading = true
   @State private var totalHours: Double = 0
   @State private var watchedGenres: [WatchedGenre] = []
   @State private var itemsStatus: [ItemStatusStat] = []
-  @State private var bestReviews: [DetailedReview] = []
+  @State private var bestReviews: [BestReview] = []
   @State private var error: String?
   @State private var showAllGenres = false
-  @State private var animatedHours: Double = 0
+  @State private var showAllReviews = false
+  @State private var countStartTime: Date?
+  @State private var dataLoaded = false
+  
+  private let countDuration: Double = 1.8
 
   var body: some View {
     VStack(spacing: 0) {
@@ -29,6 +34,11 @@ struct ProfileStatsView: View {
     }
     .task {
       await loadStats()
+    }
+    .onChange(of: isSelected) { _, newValue in
+      if newValue && dataLoaded {
+        countStartTime = .now
+      }
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -141,31 +151,38 @@ struct ProfileStatsView: View {
   
   // MARK: - Hero Stats Section
   private var heroStatsSection: some View {
-    VStack(spacing: 8) {
-      Text(strings.timeWatched.uppercased())
-        .font(.system(size: 11, weight: .medium))
-        .tracking(1.5)
-        .foregroundColor(.appMutedForegroundAdaptive)
+    TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+      let currentHours = interpolatedHours(at: timeline.date)
       
-      HStack(alignment: .firstTextBaseline, spacing: 8) {
-        Text(formattedAnimatedHours)
-          .font(.system(size: 72, weight: .medium))
-          .tracking(-2)
-          .foregroundColor(.appForegroundAdaptive)
-          .contentTransition(.numericText(countsDown: false))
-        
-        Text(strings.hours.lowercased())
-          .font(.system(size: 18))
+      VStack(spacing: 8) {
+        Text(strings.timeWatched.uppercased())
+          .font(.system(size: 11, weight: .medium))
+          .tracking(1.5)
           .foregroundColor(.appMutedForegroundAdaptive)
+        
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+          Text(formatHours(currentHours))
+            .font(.system(size: 72, weight: .medium))
+            .tracking(-2)
+            .foregroundColor(.appForegroundAdaptive)
+            .contentTransition(.numericText(countsDown: false))
+            .animation(.snappy(duration: 0.2), value: formatHours(currentHours))
+          
+          Text(strings.hours.lowercased())
+            .font(.system(size: 18))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+        
+        let daysText = "\(formatDays(currentHours)) \(strings.daysOfContent)"
+        Text(daysText)
+          .font(.system(size: 14))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .contentTransition(.numericText(countsDown: false))
+          .animation(.snappy(duration: 0.2), value: daysText)
       }
-      
-      Text("\(formattedAnimatedDays) \(strings.daysOfContent)")
-        .font(.system(size: 14))
-        .foregroundColor(.appMutedForegroundAdaptive)
-        .contentTransition(.numericText(countsDown: false))
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, 24)
     }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 24)
   }
   
   // MARK: - Genres Chips Section
@@ -300,7 +317,7 @@ struct ProfileStatsView: View {
       .clipShape(RoundedRectangle(cornerRadius: 4))
       
       // Legend
-      HStack(spacing: 16) {
+      FlowLayout(spacing: 16) {
         ForEach(itemsStatus) { item in
           let statusInfo = getStatusInfo(item.status)
           HStack(spacing: 6) {
@@ -329,7 +346,7 @@ struct ProfileStatsView: View {
         .tracking(1.5)
         .foregroundColor(.appMutedForegroundAdaptive)
       
-      VStack(spacing: 24) {
+      VStack(alignment: .leading, spacing: 24) {
         ForEach(Array(bestReviews.prefix(3).enumerated()), id: \.element.id) { index, review in
           BestReviewRow(review: review, rank: index + 1)
           
@@ -339,42 +356,85 @@ struct ProfileStatsView: View {
           }
         }
       }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-  }
-  
-  // MARK: - Helpers
-  private var formattedAnimatedHours: String {
-    if animatedHours >= 1000 {
-      return String(format: "%.1fk", animatedHours / 1000)
-    }
-    return String(format: "%.0f", animatedHours)
-  }
-
-  private var formattedAnimatedDays: String {
-    let days = animatedHours / 24
-    return String(format: "%.0f", days)
-  }
-  
-  private func animateCount() {
-    animatedHours = 0
-    let target = totalHours
-    let totalDuration: Double = 1.5
-    let steps = 40
-    let stepDuration = totalDuration / Double(steps)
-    
-    for step in 1...steps {
-      let delay = stepDuration * Double(step)
-      let progress = Double(step) / Double(steps)
-      // Ease-out curve for natural deceleration
-      let eased = 1 - pow(1 - progress, 3)
+      .frame(maxWidth: .infinity, alignment: .leading)
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-        withAnimation(.easeOut(duration: stepDuration)) {
-          animatedHours = target * eased
+      if bestReviews.count > 3 {
+        Button {
+          showAllReviews = true
+        } label: {
+          Text(strings.seeAll)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .overlay(
+              RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(Color.appBorderAdaptive.opacity(0.5), lineWidth: 1)
+            )
         }
       }
     }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .fullScreenCover(isPresented: $showAllReviews) {
+      allReviewsSheet
+    }
+  }
+  
+  // MARK: - All Reviews Sheet
+  private var allReviewsSheet: some View {
+    NavigationStack {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 24) {
+          ForEach(Array(bestReviews.enumerated()), id: \.element.id) { index, review in
+            BestReviewRow(review: review, rank: index + 1)
+            
+            if index < bestReviews.count - 1 {
+              Divider()
+                .background(Color.appBorderAdaptive.opacity(0.5))
+            }
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 8)
+        .padding(.bottom, 24)
+      }
+      .background(Color.appBackgroundAdaptive)
+      .navigationTitle(strings.bestReviews)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            showAllReviews = false
+          } label: {
+            Image(systemName: "xmark.circle.fill")
+              .font(.system(size: 20))
+              .foregroundStyle(.gray, Color(.systemGray5))
+          }
+        }
+      }
+    }
+  }
+  
+  // MARK: - Helpers
+  private func interpolatedHours(at date: Date) -> Double {
+    guard let start = countStartTime else { return 0 }
+    let elapsed = date.timeIntervalSince(start)
+    let progress = min(elapsed / countDuration, 1.0)
+    // Ease-out exponential for snappy start, smooth deceleration
+    let eased = 1 - pow(2, -10 * progress)
+    return totalHours * eased
+  }
+  
+  private func formatHours(_ hours: Double) -> String {
+    if totalHours >= 1000 {
+      return String(format: "%.1fk", hours / 1000)
+    }
+    return String(format: "%.0f", hours)
+  }
+
+  private func formatDays(_ hours: Double) -> String {
+    let days = hours / 24
+    return String(format: "%.0f", days)
   }
   
   private func getStatusInfo(_ status: String) -> (color: Color, name: String) {
@@ -404,22 +464,24 @@ struct ProfileStatsView: View {
         language: Language.current.rawValue
       )
       async let statusTask = UserStatsService.shared.getItemsStatus(userId: userId)
-      async let reviewsTask = ReviewService.shared.getUserDetailedReviews(
+      async let reviewsTask = UserStatsService.shared.getBestReviews(
         userId: userId,
-        language: Language.current.rawValue,
-        orderBy: "likeCount",
-        page: 1,
-        limit: 3
+        language: Language.current.rawValue
       )
 
-      let (hours, genres, status, reviewsResponse) = try await (hoursTask, genresTask, statusTask, reviewsTask)
+      let (hours, genres, status, reviews) = try await (hoursTask, genresTask, statusTask, reviewsTask)
 
       totalHours = hours
       watchedGenres = genres
       itemsStatus = status
-      bestReviews = reviewsResponse.reviews
+      bestReviews = reviews
       isLoading = false
-      animateCount()
+      dataLoaded = true
+      
+      // Only start countdown animation if this tab is currently visible
+      if isSelected {
+        countStartTime = .now
+      }
     } catch {
       self.error = error.localizedDescription
       isLoading = false
@@ -454,11 +516,40 @@ private struct StatsGenreChip: View {
 
 // MARK: - Best Review Row
 private struct BestReviewRow: View {
-  let review: DetailedReview
+  let review: BestReview
   let rank: Int
   
+  // Same poster sizing as ProfileReviewItem
+  private var posterWidth: CGFloat {
+    (UIScreen.main.bounds.width - 48 - 24) / 3
+  }
+  
+  private var posterHeight: CGFloat {
+    posterWidth * 1.5
+  }
+  
+  private var formattedDate: String {
+    let inputFormatter = ISO8601DateFormatter()
+    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    
+    guard let date = inputFormatter.date(from: review.createdAt) else {
+      inputFormatter.formatOptions = [.withInternetDateTime]
+      guard let date = inputFormatter.date(from: review.createdAt) else {
+        return review.createdAt
+      }
+      return formatDate(date)
+    }
+    return formatDate(date)
+  }
+  
+  private func formatDate(_ date: Date) -> String {
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "dd/MM/yyyy"
+    return outputFormatter.string(from: date)
+  }
+  
   var body: some View {
-    HStack(alignment: .top, spacing: 14) {
+    HStack(alignment: .center, spacing: 12) {
       // Poster
       CachedAsyncImage(url: review.posterURL) { image in
         image
@@ -467,71 +558,56 @@ private struct BestReviewRow: View {
       } placeholder: {
         RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           .fill(Color.appBorderAdaptive)
-          .overlay(
-            Image(systemName: "film")
-              .font(.system(size: 16))
-              .foregroundColor(.appMutedForegroundAdaptive)
-          )
       }
-      .frame(width: 72, height: 108)
+      .frame(width: posterWidth, height: posterHeight)
       .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
       .posterBorder()
       .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
       
-      // Review content
+      // Content
       VStack(alignment: .leading, spacing: 8) {
-        // Title and year
-        HStack(spacing: 12) {
-          Text(review.title)
-            .font(.system(size: 18, weight: .light))
-            .foregroundColor(.appForegroundAdaptive)
-            .lineLimit(1)
+        // Title
+        Text(review.title)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+          .lineLimit(2)
+        
+        // Stars + Date
+        HStack(spacing: 8) {
+          StarRatingView(rating: .constant(review.rating), size: 14, interactive: false)
           
-          if let year = extractYear(from: review) {
-            Text(year)
-              .font(.system(size: 11, weight: .medium))
-              .tracking(0.5)
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
+          Circle()
+            .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
+            .frame(width: 4, height: 4)
+          
+          Text(formattedDate)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
         }
         
         // Review text
-        Text(review.review)
-          .font(.system(size: 14))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .lineLimit(2)
-          .lineSpacing(4)
-        
-        // Rating only
-        HStack(spacing: 4) {
-          Image(systemName: "star.fill")
-            .font(.system(size: 12))
-            .foregroundColor(.appForegroundAdaptive)
-          Text(String(format: "%.1f", review.rating))
-            .font(.system(size: 14))
-            .foregroundColor(.appForegroundAdaptive)
+        if !review.review.isEmpty {
+          Text(review.review)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(3)
+            .multilineTextAlignment(.leading)
+            .blur(radius: review.hasSpoilers ? 4 : 0)
+            .overlay(
+              review.hasSpoilers
+                ? Text(L10n.current.containSpoilers)
+                    .font(.caption.weight(.medium))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(Color.appInputFilled)
+                    .cornerRadius(4)
+                : nil
+            )
         }
-        .padding(.top, 4)
       }
     }
-  }
-  
-  private func extractYear(from review: DetailedReview) -> String? {
-    let inputFormatter = ISO8601DateFormatter()
-    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    
-    if let date = inputFormatter.date(from: review.createdAt) {
-      let calendar = Calendar.current
-      return String(calendar.component(.year, from: date))
-    }
-    
-    inputFormatter.formatOptions = [.withInternetDateTime]
-    if let date = inputFormatter.date(from: review.createdAt) {
-      let calendar = Calendar.current
-      return String(calendar.component(.year, from: date))
-    }
-    
-    return nil
+    .frame(maxWidth: .infinity, alignment: .leading)
   }
 }
 

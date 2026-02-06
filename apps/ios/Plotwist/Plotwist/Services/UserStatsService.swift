@@ -91,6 +91,26 @@ class UserStatsService {
     let result = try decoder.decode(ItemsStatusResponse.self, from: data)
     return result.userItems
   }
+  // MARK: - Get Best Reviews
+  func getBestReviews(userId: String, language: String = "en-US", limit: Int = 50) async throws -> [BestReview] {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/best-reviews?language=\(language)&limit=\(limit)") else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(BestReviewsResponse.self, from: data)
+    return result.bestReviews
+  }
 }
 
 // MARK: - Models
@@ -122,6 +142,32 @@ struct ItemStatusStat: Codable, Identifiable {
 
 struct ItemsStatusResponse: Codable {
   let userItems: [ItemStatusStat]
+}
+
+struct BestReview: Codable, Identifiable {
+  let id: String
+  let userId: String
+  let tmdbId: Int
+  let mediaType: String
+  let review: String
+  let rating: Double
+  let hasSpoilers: Bool
+  let seasonNumber: Int?
+  let episodeNumber: Int?
+  let language: String?
+  let createdAt: String
+  let title: String
+  let posterPath: String?
+  let date: String?
+  
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct BestReviewsResponse: Codable {
+  let bestReviews: [BestReview]
 }
 
 enum UserStatsError: LocalizedError {
