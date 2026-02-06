@@ -47,6 +47,7 @@ struct OnboardingAddTitlesContent: View {
           Text(strings.onboardingDiscoverTitle)
             .font(.system(size: 24, weight: .bold))
             .foregroundColor(.appForegroundAdaptive)
+            .multilineTextAlignment(.center)
           
           Text(strings.onboardingDiscoverSubtitle)
             .font(.subheadline)
@@ -94,11 +95,12 @@ struct OnboardingAddTitlesContent: View {
             handleSwipe(id: id, direction: direction)
           }
           .padding(.horizontal, 80)
-          .frame(maxHeight: UIScreen.main.bounds.height * 0.52)
+          .padding(.top, 16)
+          .frame(maxHeight: UIScreen.main.bounds.height * 0.42)
           
-          // Action buttons (closer to deck)
+          // Action buttons
           actionButtons
-            .padding(.top, 12)
+            .padding(.top, 20)
         } else {
           Spacer()
           VStack(spacing: 12) {
