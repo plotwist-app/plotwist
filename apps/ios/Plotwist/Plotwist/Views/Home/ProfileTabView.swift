@@ -338,7 +338,6 @@ struct ProfileTabView: View {
       // Collection tab
       collectionTabContent
         .frame(width: screenWidth, alignment: .top)
-        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .collection ? 0 : (selectedMainTab.index > ProfileMainTab.collection.index ? -screenWidth : screenWidth))
       
@@ -346,7 +345,6 @@ struct ProfileTabView: View {
       ProfileReviewsListView(userId: userId)
         .padding(.bottom, 24)
         .frame(width: screenWidth, alignment: .top)
-        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .reviews ? 0 : (selectedMainTab.index > ProfileMainTab.reviews.index ? -screenWidth : screenWidth))
       
@@ -354,12 +352,10 @@ struct ProfileTabView: View {
       ProfileStatsView(userId: userId, isSelected: selectedMainTab == .stats)
         .padding(.bottom, 24)
         .frame(width: screenWidth, alignment: .top)
-        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color.appBackgroundAdaptive)
         .offset(x: selectedMainTab == .stats ? 0 : screenWidth)
     }
     .frame(width: screenWidth, alignment: .topLeading)
-    .frame(maxHeight: .infinity, alignment: .top)
     .clipShape(Rectangle())
     .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }

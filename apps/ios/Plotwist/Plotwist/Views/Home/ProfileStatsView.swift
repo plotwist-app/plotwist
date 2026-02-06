@@ -349,11 +349,6 @@ struct ProfileStatsView: View {
       VStack(alignment: .leading, spacing: 24) {
         ForEach(Array(bestReviews.prefix(3).enumerated()), id: \.element.id) { index, review in
           BestReviewRow(review: review, rank: index + 1)
-          
-          if index < min(bestReviews.count, 3) - 1 {
-            Divider()
-              .background(Color.appBorderAdaptive.opacity(0.5))
-          }
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -387,11 +382,6 @@ struct ProfileStatsView: View {
         VStack(alignment: .leading, spacing: 24) {
           ForEach(Array(bestReviews.enumerated()), id: \.element.id) { index, review in
             BestReviewRow(review: review, rank: index + 1)
-            
-            if index < bestReviews.count - 1 {
-              Divider()
-                .background(Color.appBorderAdaptive.opacity(0.5))
-            }
           }
         }
         .padding(.horizontal, 24)

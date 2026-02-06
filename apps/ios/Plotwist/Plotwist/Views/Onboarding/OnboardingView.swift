@@ -60,36 +60,39 @@ struct OnboardingView: View {
     GeometryReader { geometry in
       if isWelcomeScreen {
         // Welcome screen with masonry
-        VStack(spacing: 0) {
-          // Masonry section with gradient fade
-          ZStack(alignment: .bottom) {
-            Color.black
-            
+        ZStack {
+          // Layer 1: Masonry background
+          VStack {
             PosterMasonry(posters: PopularPoster.featured)
-            
+            Spacer()
+          }
+          .background(Color.black)
+          .ignoresSafeArea()
+          
+          // Layer 2: Gradient for readability
+          VStack {
+            Spacer()
             LinearGradient(
-              colors: [
-                Color.appBackgroundAdaptive.opacity(0),
-                Color.appBackgroundAdaptive,
+              stops: [
+                .init(color: .clear, location: 0),
+                .init(color: Color.black.opacity(0.6), location: 0.3),
+                .init(color: Color.black.opacity(0.95), location: 1),
               ],
               startPoint: .top,
               endPoint: .bottom
             )
-            .frame(height: 120)
+            .frame(height: 380)
           }
-          .frame(height: geometry.size.height * 0.5)
+          .ignoresSafeArea()
           
-          // Content section
+          // Layer 3: Content (floating, no background)
           stepContent
             .id(currentStep)
             .transition(.asymmetric(
               insertion: .move(edge: isGoingBack ? .leading : .trailing),
               removal: .move(edge: isGoingBack ? .trailing : .leading)
             ))
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .background(Color.appBackgroundAdaptive)
         }
-        .ignoresSafeArea(edges: .top)
       } else {
         // Other onboarding steps
         ZStack(alignment: .bottom) {

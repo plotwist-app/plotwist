@@ -54,10 +54,6 @@ struct PopularPoster: Identifiable {
     PopularPoster(posterPath: "/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg", title: "The Last of Us", category: "TV"),
     PopularPoster(posterPath: "/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg", title: "One Piece", category: "Anime"),
     PopularPoster(posterPath: "/74xTEgt7R36Fpooo50r9T25onhq.jpg", title: "The Batman", category: "Movie"),
-    PopularPoster(posterPath: "/9PFonBhy4cQy7Jz20NpMygczOkv.jpg", title: "Wednesday", category: "TV"),
-    PopularPoster(posterPath: "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg", title: "Spider-Man: No Way Home", category: "Movie"),
-    PopularPoster(posterPath: "/hFtgWplMSVfMCPNYS9HBJhEQlUd.jpg", title: "Jujutsu Kaisen", category: "Anime"),
-    PopularPoster(posterPath: "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg", title: "Barbie", category: "Movie"),
   ]
 }
 
@@ -70,89 +66,83 @@ struct LoginView: View {
   
   var body: some View {
     NavigationView {
-      GeometryReader { geometry in
-        VStack(spacing: 0) {
-          // Masonry section with gradient fade
-          ZStack(alignment: .bottom) {
-            Color.black
-            
-            PosterMasonry(posters: PopularPoster.featured)
-            
-            // Gradient fade at bottom of masonry
-            LinearGradient(
-              colors: [
-                Color.appBackgroundAdaptive.opacity(0),
-                Color.appBackgroundAdaptive,
-              ],
-              startPoint: .top,
-              endPoint: .bottom
-            )
-            .frame(height: 120)
-          }
-          .frame(height: geometry.size.height * 0.5)
-          
-          // Content section
-          VStack(alignment: .leading, spacing: 16) {
-            // App Icon
-            if let uiImage = UIImage(named: "AppIcon") {
-              Image(uiImage: uiImage)
-                .resizable()
-                .frame(width: 48, height: 48)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            }
-            
-            // Title
-            Text(strings.welcomeTitle)
-              .font(.system(size: 28, weight: .bold))
-              .foregroundColor(.appForegroundAdaptive)
-            
-            // Description
-            Text(strings.welcomeDescription)
-              .font(.subheadline)
-              .foregroundColor(.appMutedForegroundAdaptive)
-            
-            Spacer()
-            
-            // Buttons
-            VStack(spacing: 12) {
-              // Login Button
-              Button {
-                showLoginSheet = true
-              } label: {
-                Text(strings.accessButton)
-                  .font(.system(size: 16, weight: .semibold))
-                  .foregroundColor(.appBackgroundAdaptive)
-                  .frame(maxWidth: .infinity)
-                  .frame(height: 52)
-                  .background(Color.appForegroundAdaptive)
-                  .clipShape(Capsule())
-              }
-              
-              // Create Account Button
-              Button {
-                showSignUpSheet = true
-              } label: {
-                Text(strings.createAccount)
-                  .font(.system(size: 16, weight: .semibold))
-                  .foregroundColor(.appForegroundAdaptive)
-                  .frame(maxWidth: .infinity)
-                  .frame(height: 52)
-                  .background(Color.appInputFilled)
-                  .clipShape(Capsule())
-                  .overlay(
-                    Capsule()
-                      .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                  )
-              }
-            }
-          }
-          .padding(.horizontal, 24)
-          .padding(.top, 24)
-          .padding(.bottom, 40)
-          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-          .background(Color.appBackgroundAdaptive)
+      ZStack {
+        // Layer 1: Masonry background
+        VStack {
+          PosterMasonry(posters: PopularPoster.featured)
+          Spacer()
         }
-        .ignoresSafeArea(edges: .top)
+        .background(Color.black)
+        .ignoresSafeArea()
+        
+        // Layer 2: Gradient for readability
+        VStack {
+          Spacer()
+          LinearGradient(
+            stops: [
+              .init(color: .clear, location: 0),
+              .init(color: Color.black.opacity(0.6), location: 0.3),
+              .init(color: Color.black.opacity(0.95), location: 1),
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+          .frame(height: 380)
+        }
+        .ignoresSafeArea()
+        
+        // Layer 3: Content (floating, no background)
+        VStack(alignment: .leading, spacing: 0) {
+          Spacer()
+          
+          // App Icon
+          Image("PlotistLogo")
+            .resizable()
+            .frame(width: 48, height: 48)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .padding(.bottom, 16)
+          
+          // Title
+          Text(strings.welcomeTitle)
+            .font(.system(size: 28, weight: .bold))
+            .foregroundColor(.white)
+            .padding(.bottom, 8)
+          
+          // Description
+          Text(strings.welcomeDescription)
+            .font(.subheadline)
+            .foregroundColor(.white.opacity(0.7))
+            .padding(.bottom, 24)
+          
+          // Buttons
+          VStack(spacing: 12) {
+            // Login Button
+            Button {
+              showLoginSheet = true
+            } label: {
+              Text(strings.accessButton)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .background(Color.white)
+                .clipShape(Capsule())
+            }
+            
+            // Create Account Button
+            Button {
+              showSignUpSheet = true
+            } label: {
+              Text(strings.createAccount)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.white.opacity(0.7))
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+            }
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 0)
       }
       .navigationBarHidden(true)
     }
@@ -219,10 +209,10 @@ struct PosterMasonry: View {
       let columnWidth = (geometry.size.width - totalSpacing) / CGFloat(columnCount)
       let posterHeight = columnWidth * 1.5
       let columnOffsets: [CGFloat] = [
-        -posterHeight * 0.3,
-        -posterHeight * 0.65,
-        0,
-        -posterHeight * 0.45,
+        -posterHeight * 0.1,
+        -posterHeight * 0.35,
+        posterHeight * 0.15,
+        -posterHeight * 0.2,
       ]
       
       HStack(spacing: spacing) {
@@ -238,8 +228,7 @@ struct PosterMasonry: View {
                   .frame(width: columnWidth, height: posterHeight)
                   .clipped()
               } placeholder: {
-                Rectangle()
-                  .fill(Color.gray.opacity(0.3))
+                PosterSkeleton()
                   .frame(width: columnWidth, height: posterHeight)
               }
               .cornerRadius(12)
@@ -248,14 +237,39 @@ struct PosterMasonry: View {
           .offset(y: columnOffsets[columnIndex])
         }
       }
+      .padding(.top, 16)
     }
     .clipped()
+    .onAppear {
+      let urls = posters.compactMap { $0.posterURL }
+      ImageCache.shared.prefetch(urls: urls, priority: .high)
+    }
   }
   
   private func postersForColumn(_ columnIndex: Int) -> [PopularPoster] {
     posters.enumerated()
       .filter { $0.offset % columnCount == columnIndex }
       .map { $0.element }
+  }
+}
+
+// MARK: - Poster Skeleton
+struct PosterSkeleton: View {
+  @State private var isAnimating = false
+  
+  var body: some View {
+    Rectangle()
+      .fill(Color.gray.opacity(0.15))
+      .overlay(
+        Rectangle()
+          .fill(Color.gray.opacity(0.1))
+          .opacity(isAnimating ? 0 : 1)
+      )
+      .onAppear {
+        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+          isAnimating = true
+        }
+      }
   }
 }
 

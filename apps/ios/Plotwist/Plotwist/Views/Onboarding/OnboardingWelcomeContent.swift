@@ -11,35 +11,36 @@ struct OnboardingWelcomeContent: View {
   @State private var showSkipConfirmation = false
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 16) {
+    VStack(alignment: .leading, spacing: 0) {
+      Spacer()
+      
       // App Icon
-      if let uiImage = UIImage(named: "AppIcon") {
-        Image(uiImage: uiImage)
-          .resizable()
-          .frame(width: 48, height: 48)
-          .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-      }
+      Image("PlotistLogo")
+        .resizable()
+        .frame(width: 48, height: 48)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .padding(.bottom, 16)
       
       // Title
       Text(strings.onboardingWelcomeTitle)
         .font(.system(size: 28, weight: .bold))
-        .foregroundColor(.appForegroundAdaptive)
+        .foregroundColor(.white)
+        .padding(.bottom, 8)
       
       // Description
       Text(strings.onboardingWelcomeSubtitle)
         .font(.subheadline)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      
-      Spacer()
+        .foregroundColor(.white.opacity(0.7))
+        .padding(.bottom, 24)
       
       // CTA Button
       Button(action: onContinue) {
         Text(strings.onboardingGetStarted)
           .font(.system(size: 16, weight: .semibold))
-          .foregroundColor(.appBackgroundAdaptive)
+          .foregroundColor(.black)
           .frame(maxWidth: .infinity)
           .frame(height: 52)
-          .background(Color.appForegroundAdaptive)
+          .background(Color.white)
           .clipShape(Capsule())
       }
       
@@ -53,7 +54,7 @@ struct OnboardingWelcomeContent: View {
           Text("Skip")
         }
         .font(.caption.weight(.medium))
-        .foregroundColor(.appMutedForegroundAdaptive)
+        .foregroundColor(.white.opacity(0.5))
         .frame(maxWidth: .infinity)
       }
       .confirmationDialog("Pular onboarding?", isPresented: $showSkipConfirmation, titleVisibility: .visible) {
@@ -66,7 +67,7 @@ struct OnboardingWelcomeContent: View {
     }
     .padding(.horizontal, 24)
     .padding(.top, 24)
-    .padding(.bottom, 40)
+    .padding(.bottom, 0)
     .frame(maxWidth: .infinity, alignment: .leading)
   }
 }
