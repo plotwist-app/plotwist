@@ -25,7 +25,7 @@ struct LoginPromptSheet: View {
           .padding(.top, 12)
         
         // Icon
-        Image(systemName: "icloud.and.arrow.up")
+        Image(systemName: "person.crop.circle")
           .font(.system(size: 48))
           .foregroundColor(.appForegroundAdaptive)
           .padding(.top, 8)
@@ -79,7 +79,7 @@ struct LoginPromptSheet: View {
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 420)
+    .floatingSheetPresentation(height: 450)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showError) {
       Button("OK", role: .cancel) {}
