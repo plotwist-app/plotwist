@@ -588,13 +588,55 @@ struct HomeTabView: View {
       }
 
       // Exclude featured item to avoid repetition
-      let finalItems = unique.filter { $0.id != featuredItem?.id }
+      var filtered = unique.filter { $0.id != featuredItem?.id }
 
-      forYouItems = Array(finalItems.prefix(20))
+      // Exclude items already in the user's collection (watchlist, watching, watched, dropped)
+      let collectionIds = await loadUserCollectionIds()
+      if !collectionIds.isEmpty {
+        filtered = filtered.filter { !collectionIds.contains($0.id) }
+      }
+
+      forYouItems = Array(filtered.prefix(20))
       cache.setForYouItems(forYouItems)
     } catch {
       print("Error loading For You items: \(error)")
     }
+  }
+
+  /// Returns the set of TMDB IDs that the user already has in their collection
+  /// (watchlist, watching, watched, dropped). Used to filter "For You" recommendations.
+  private func loadUserCollectionIds() async -> Set<Int> {
+    // Guest mode: use local saved titles
+    if isGuestMode {
+      return Set(onboardingService.localSavedTitles.map { $0.tmdbId })
+    }
+
+    // Authenticated: fetch all statuses in parallel
+    guard AuthService.shared.isAuthenticated,
+          let currentUser = user ?? (try? await AuthService.shared.getCurrentUser()) else {
+      return []
+    }
+
+    var allIds = Set<Int>()
+
+    await withTaskGroup(of: [UserItemSummary].self) { group in
+      for status in UserItemStatus.allCases {
+        group.addTask {
+          (try? await UserItemService.shared.getAllUserItems(
+            userId: currentUser.id,
+            status: status.rawValue
+          )) ?? []
+        }
+      }
+
+      for await items in group {
+        for item in items {
+          allIds.insert(item.tmdbId)
+        }
+      }
+    }
+
+    return allIds
   }
 
   @MainActor
