@@ -21,6 +21,11 @@ struct HomeTabView: View {
   @State private var popularMovies: [SearchResult] = []
   @State private var popularTVSeries: [SearchResult] = []
   @State private var trendingItems: [SearchResult] = []
+  @State private var forYouItems: [SearchResult] = []
+  @State private var popularAnimes: [SearchResult] = []
+  @State private var popularDoramas: [SearchResult] = []
+  @State private var nowPlayingMovies: [SearchResult] = []
+  @State private var airingTodayTV: [SearchResult] = []
   @State private var isLoadingDiscovery = true
 
   private let cache = HomeDataCache.shared
@@ -37,6 +42,14 @@ struct HomeTabView: View {
   
   private var isGuestMode: Bool {
     !AuthService.shared.isAuthenticated && onboardingService.hasCompletedOnboarding
+  }
+
+  private var userContentTypes: Set<ContentTypePreference> {
+    onboardingService.contentTypes
+  }
+
+  private var hasContentTypePreferences: Bool {
+    !userContentTypes.isEmpty
   }
 
   private var effectiveColorScheme: ColorScheme {
@@ -68,12 +81,7 @@ struct HomeTabView: View {
   }
 
   private var showDiscoverySkeleton: Bool {
-    isLoadingDiscovery && popularMovies.isEmpty && popularTVSeries.isEmpty
-  }
-
-  // Show discovery sections when user has no personal content
-  private var showDiscoverySections: Bool {
-    !isLoadingDiscovery || !popularMovies.isEmpty || !popularTVSeries.isEmpty
+    isLoadingDiscovery && trendingItems.isEmpty && popularMovies.isEmpty && popularTVSeries.isEmpty
   }
 
   var body: some View {
@@ -123,13 +131,49 @@ struct HomeTabView: View {
               )
             }
 
-            // Discovery Sections - Always show for engagement
+            // Discovery Sections - Personalized based on onboarding
             if showDiscoverySkeleton {
               HomeSectionSkeleton()
               HomeSectionSkeleton()
+              HomeSectionSkeleton()
             } else {
-              // Popular Movies
-              if !popularMovies.isEmpty {
+              // Trending This Week
+              if !trendingItems.isEmpty {
+                HomeSectionView(
+                  title: strings.trendingThisWeek,
+                  items: trendingItems,
+                  mediaType: "movie",
+                  categoryType: .movies,
+                  initialMovieSubcategory: .popular
+                )
+              }
+
+              // For You - Personalized by onboarding genres
+              if !forYouItems.isEmpty {
+                HomeSectionView(
+                  title: strings.forYou,
+                  items: forYouItems,
+                  mediaType: "movie",
+                  categoryType: .movies,
+                  initialMovieSubcategory: .popular
+                )
+              }
+
+              // Now Playing in Theaters (conditional on movies preference)
+              if !nowPlayingMovies.isEmpty {
+                HomeSectionView(
+                  title: strings.nowPlaying,
+                  items: nowPlayingMovies,
+                  mediaType: "movie",
+                  categoryType: .movies,
+                  initialMovieSubcategory: .nowPlaying
+                )
+              }
+
+              // Popular Movies (conditional: show if user selected movies or has no preferences)
+              if !popularMovies.isEmpty &&
+                (!hasContentTypePreferences || userContentTypes.contains(.movies))
+              {
                 HomeSectionView(
                   title: strings.popularMovies,
                   items: popularMovies,
@@ -139,14 +183,47 @@ struct HomeTabView: View {
                 )
               }
 
-              // Popular TV Series
-              if !popularTVSeries.isEmpty {
+              // Popular TV Series (conditional: show if user selected series or has no preferences)
+              if !popularTVSeries.isEmpty &&
+                (!hasContentTypePreferences || userContentTypes.contains(.series))
+              {
                 HomeSectionView(
                   title: strings.popularTVSeries,
                   items: popularTVSeries,
                   mediaType: "tv",
                   categoryType: .tvSeries,
                   initialTVSeriesSubcategory: .popular
+                )
+              }
+
+              // Airing Today (conditional on series preference)
+              if !airingTodayTV.isEmpty {
+                HomeSectionView(
+                  title: strings.airingToday,
+                  items: airingTodayTV,
+                  mediaType: "tv",
+                  categoryType: .tvSeries,
+                  initialTVSeriesSubcategory: .airingToday
+                )
+              }
+
+              // Popular Animes (conditional on anime preference)
+              if !popularAnimes.isEmpty {
+                HomeSectionView(
+                  title: strings.popularAnimes,
+                  items: popularAnimes,
+                  mediaType: "tv",
+                  categoryType: .animes
+                )
+              }
+
+              // Popular Doramas (conditional on dorama preference)
+              if !popularDoramas.isEmpty {
+                HomeSectionView(
+                  title: strings.popularDoramas,
+                  items: popularDoramas,
+                  mediaType: "tv",
+                  categoryType: .doramas
                 )
               }
             }
@@ -210,6 +287,30 @@ struct HomeTabView: View {
       popularTVSeries = cachedTVSeries
       isLoadingDiscovery = false
     }
+    if let cachedTrending = cache.trendingItems {
+      trendingItems = cachedTrending
+      isLoadingDiscovery = false
+    }
+    if let cachedForYou = cache.forYouItems {
+      forYouItems = cachedForYou
+      isLoadingDiscovery = false
+    }
+    if let cachedAnimes = cache.popularAnimes {
+      popularAnimes = cachedAnimes
+      isLoadingDiscovery = false
+    }
+    if let cachedDoramas = cache.popularDoramas {
+      popularDoramas = cachedDoramas
+      isLoadingDiscovery = false
+    }
+    if let cachedNowPlaying = cache.nowPlayingMovies {
+      nowPlayingMovies = cachedNowPlaying
+      isLoadingDiscovery = false
+    }
+    if let cachedAiringToday = cache.airingTodayTV {
+      airingTodayTV = cachedAiringToday
+      isLoadingDiscovery = false
+    }
   }
 
   private func loadData() async {
@@ -230,35 +331,195 @@ struct HomeTabView: View {
 
   @MainActor
   private func loadDiscoveryContent() async {
-    // Check cache first
-    if let cachedMovies = cache.popularMovies, let cachedTVSeries = cache.popularTVSeries {
-      popularMovies = cachedMovies
-      popularTVSeries = cachedTVSeries
+    // Check if we have a full cache hit
+    let hasCachedCore = cache.popularMovies != nil && cache.popularTVSeries != nil && cache.trendingItems != nil
+    if hasCachedCore {
+      popularMovies = cache.popularMovies ?? []
+      popularTVSeries = cache.popularTVSeries ?? []
+      trendingItems = cache.trendingItems ?? []
+      forYouItems = cache.forYouItems ?? []
+      popularAnimes = cache.popularAnimes ?? []
+      popularDoramas = cache.popularDoramas ?? []
+      nowPlayingMovies = cache.nowPlayingMovies ?? []
+      airingTodayTV = cache.airingTodayTV ?? []
       isLoadingDiscovery = false
       return
     }
 
-    do {
-      async let moviesTask = TMDBService.shared.getPopularMovies(
-        language: Language.current.rawValue
-      )
-      async let tvTask = TMDBService.shared.getPopularTVSeries(
-        language: Language.current.rawValue
-      )
+    let language = Language.current.rawValue
+    let contentTypes = userContentTypes
 
-      let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+    // Load all discovery content in parallel
+    await withTaskGroup(of: Void.self) { group in
+      // Always load trending
+      group.addTask { @MainActor in
+        await self.loadTrending(language: language)
+      }
 
-      popularMovies = moviesResult.results
-      popularTVSeries = tvResult.results
+      // Load "For You" if user has genre preferences
+      group.addTask { @MainActor in
+        await self.loadForYou(language: language)
+      }
 
-      // Cache the results
-      cache.setPopularMovies(moviesResult.results)
-      cache.setPopularTVSeries(tvResult.results)
-    } catch {
-      print("Error loading discovery content: \(error)")
+      // Load popular movies (always, but conditionally shown)
+      group.addTask { @MainActor in
+        await self.loadPopularMovies(language: language)
+      }
+
+      // Load popular TV series (always, but conditionally shown)
+      group.addTask { @MainActor in
+        await self.loadPopularTVSeries(language: language)
+      }
+
+      // Load Now Playing if user likes movies
+      if !hasContentTypePreferences || contentTypes.contains(.movies) {
+        group.addTask { @MainActor in
+          await self.loadNowPlaying(language: language)
+        }
+      }
+
+      // Load Airing Today if user likes series
+      if !hasContentTypePreferences || contentTypes.contains(.series) || contentTypes.contains(.anime) {
+        group.addTask { @MainActor in
+          await self.loadAiringToday(language: language)
+        }
+      }
+
+      // Load Popular Animes if user selected anime
+      if contentTypes.contains(.anime) {
+        group.addTask { @MainActor in
+          await self.loadPopularAnimes(language: language)
+        }
+      }
+
+      // Load Popular Doramas if user selected dorama
+      if contentTypes.contains(.dorama) {
+        group.addTask { @MainActor in
+          await self.loadPopularDoramas(language: language)
+        }
+      }
     }
 
     isLoadingDiscovery = false
+  }
+
+  @MainActor
+  private func loadTrending(language: String) async {
+    do {
+      let results = try await TMDBService.shared.getTrending(
+        mediaType: "all",
+        timeWindow: "week",
+        language: language
+      )
+      trendingItems = Array(results.prefix(10))
+      cache.setTrendingItems(trendingItems)
+    } catch {
+      print("Error loading trending: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadForYou(language: String) async {
+    let genres = onboardingService.selectedGenres
+    guard !genres.isEmpty else { return }
+
+    let genreIds = genres.map { $0.id }
+    let contentTypes = userContentTypes
+
+    do {
+      var allResults: [SearchResult] = []
+
+      // Discover based on user's content type preferences
+      if contentTypes.isEmpty || contentTypes.contains(.movies) {
+        let movieResults = try await TMDBService.shared.discoverByGenres(
+          mediaType: "movie",
+          genreIds: genreIds,
+          language: language
+        )
+        allResults.append(contentsOf: movieResults)
+      }
+
+      if contentTypes.isEmpty || contentTypes.contains(.series) || contentTypes.contains(.anime) || contentTypes.contains(.dorama) {
+        let tvResults = try await TMDBService.shared.discoverByGenres(
+          mediaType: "tv",
+          genreIds: genreIds,
+          language: language
+        )
+        allResults.append(contentsOf: tvResults)
+      }
+
+      // Shuffle and take top 10 for variety
+      forYouItems = Array(allResults.shuffled().prefix(10))
+      cache.setForYouItems(forYouItems)
+    } catch {
+      print("Error loading for you: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadPopularMovies(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getPopularMovies(language: language)
+      popularMovies = result.results
+      cache.setPopularMovies(result.results)
+    } catch {
+      print("Error loading popular movies: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadPopularTVSeries(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getPopularTVSeries(language: language)
+      popularTVSeries = result.results
+      cache.setPopularTVSeries(result.results)
+    } catch {
+      print("Error loading popular TV series: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadNowPlaying(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getNowPlayingMovies(language: language)
+      nowPlayingMovies = result.results
+      cache.setNowPlayingMovies(result.results)
+    } catch {
+      print("Error loading now playing: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadAiringToday(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getAiringTodayTVSeries(language: language)
+      airingTodayTV = result.results
+      cache.setAiringTodayTV(result.results)
+    } catch {
+      print("Error loading airing today: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadPopularAnimes(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getPopularAnimes(language: language)
+      popularAnimes = result.results
+      cache.setPopularAnimes(result.results)
+    } catch {
+      print("Error loading popular animes: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadPopularDoramas(language: String) async {
+    do {
+      let result = try await TMDBService.shared.getPopularDoramas(language: language)
+      popularDoramas = result.results
+      cache.setPopularDoramas(result.results)
+    } catch {
+      print("Error loading popular doramas: \(error)")
+    }
   }
 
   @MainActor

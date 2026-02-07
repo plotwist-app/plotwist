@@ -171,6 +171,8 @@ enum L10n {
       goodEvening: "Good evening",
       continueWatching: "Continue Watching",
       upNext: "Up Next",
+      trendingThisWeek: "Trending This Week",
+      forYou: "For You",
       // Collection
       partOf: "Part of",
       seeCollection: "See Collection",
@@ -420,6 +422,8 @@ enum L10n {
       goodEvening: "Boa noite",
       continueWatching: "Continuar Assistindo",
       upNext: "Para Assistir",
+      trendingThisWeek: "Em Alta Esta Semana",
+      forYou: "Para Você",
       // Collection
       partOf: "Parte de",
       seeCollection: "Ver Coleção",
@@ -669,6 +673,8 @@ enum L10n {
       goodEvening: "Buenas noches",
       continueWatching: "Seguir Viendo",
       upNext: "Próximos",
+      trendingThisWeek: "Tendencias de la Semana",
+      forYou: "Para Ti",
       // Collection
       partOf: "Parte de",
       seeCollection: "Ver Colección",
@@ -918,6 +924,8 @@ enum L10n {
       goodEvening: "Bonsoir",
       continueWatching: "Continuer à Regarder",
       upNext: "À Suivre",
+      trendingThisWeek: "Tendances de la Semaine",
+      forYou: "Pour Vous",
       // Collection
       partOf: "Fait partie de",
       seeCollection: "Voir la Collection",
@@ -1167,6 +1175,8 @@ enum L10n {
       goodEvening: "Guten Abend",
       continueWatching: "Weiterschauen",
       upNext: "Als Nächstes",
+      trendingThisWeek: "Trends der Woche",
+      forYou: "Für Dich",
       // Collection
       partOf: "Teil von",
       seeCollection: "Sammlung ansehen",
@@ -1416,6 +1426,8 @@ enum L10n {
       goodEvening: "Buonasera",
       continueWatching: "Continua a Guardare",
       upNext: "Prossimi",
+      trendingThisWeek: "Tendenze della Settimana",
+      forYou: "Per Te",
       // Collection
       partOf: "Parte di",
       seeCollection: "Vedi Collezione",
@@ -1664,6 +1676,8 @@ enum L10n {
       goodEvening: "こんばんは",
       continueWatching: "視聴を続ける",
       upNext: "次に見る",
+      trendingThisWeek: "今週のトレンド",
+      forYou: "あなたへのおすすめ",
       // Collection
       partOf: "の一部",
       seeCollection: "コレクションを見る",
@@ -1934,6 +1948,8 @@ struct Strings {
   let goodEvening: String
   let continueWatching: String
   let upNext: String
+  let trendingThisWeek: String
+  let forYou: String
   // Collection
   let partOf: String
   let seeCollection: String
