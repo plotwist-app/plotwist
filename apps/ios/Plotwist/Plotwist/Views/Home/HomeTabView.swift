@@ -1225,7 +1225,7 @@ struct TrendingSection: View {
         }
         .scrollClipDisabled()
       }
-      .frame(height: 200)
+      .frame(height: 240)
     }
   }
 }
@@ -1308,7 +1308,7 @@ struct TrendingCard: View {
         .padding(14)
       }
     }
-    .frame(height: 190)
+    .frame(height: 230)
     .clipShape(RoundedRectangle(cornerRadius: 20))
     .posterBorder(cornerRadius: 20)
     .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 6)
