@@ -268,7 +268,15 @@ enum L10n {
       itemsInCollection: "items in collection",
       bestReviews: "Best Reviews",
       daysOfContent: "days of content",
-      othersGenres: "Others"
+      othersGenres: "Others",
+      // Home Engagement
+      forYou: "For You",
+      basedOnYourTaste: "Because you like %@",
+      trendingThisWeek: "Trending This Week",
+      inTheaters: "In Theaters",
+      topRatedMovies: "Top Rated Movies",
+      topRatedSeries: "Top Rated Series",
+      featured: "Featured"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -517,7 +525,15 @@ enum L10n {
       itemsInCollection: "itens na coleção",
       bestReviews: "Melhores Reviews",
       daysOfContent: "dias de conteúdo",
-      othersGenres: "Outros"
+      othersGenres: "Outros",
+      // Home Engagement
+      forYou: "Para Você",
+      basedOnYourTaste: "Porque você gosta de %@",
+      trendingThisWeek: "Em Alta Esta Semana",
+      inTheaters: "Nos Cinemas",
+      topRatedMovies: "Filmes Mais Bem Avaliados",
+      topRatedSeries: "Séries Mais Bem Avaliadas",
+      featured: "Destaque"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -766,7 +782,15 @@ enum L10n {
       itemsInCollection: "ítems en la colección",
       bestReviews: "Mejores Reseñas",
       daysOfContent: "días de contenido",
-      othersGenres: "Otros"
+      othersGenres: "Otros",
+      // Home Engagement
+      forYou: "Para Ti",
+      basedOnYourTaste: "Porque te gusta %@",
+      trendingThisWeek: "Tendencias de la Semana",
+      inTheaters: "En Cartelera",
+      topRatedMovies: "Películas Mejor Valoradas",
+      topRatedSeries: "Series Mejor Valoradas",
+      featured: "Destacado"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1015,7 +1039,15 @@ enum L10n {
       itemsInCollection: "éléments dans la collection",
       bestReviews: "Meilleures Critiques",
       daysOfContent: "jours de contenu",
-      othersGenres: "Autres"
+      othersGenres: "Autres",
+      // Home Engagement
+      forYou: "Pour Vous",
+      basedOnYourTaste: "Parce que vous aimez %@",
+      trendingThisWeek: "Tendances de la Semaine",
+      inTheaters: "Au Cinéma",
+      topRatedMovies: "Films les Mieux Notés",
+      topRatedSeries: "Séries les Mieux Notées",
+      featured: "À la Une"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1264,7 +1296,15 @@ enum L10n {
       itemsInCollection: "Elemente in der Sammlung",
       bestReviews: "Beste Bewertungen",
       daysOfContent: "Tage an Inhalten",
-      othersGenres: "Andere"
+      othersGenres: "Andere",
+      // Home Engagement
+      forYou: "Für Dich",
+      basedOnYourTaste: "Weil du %@ magst",
+      trendingThisWeek: "Trends dieser Woche",
+      inTheaters: "Im Kino",
+      topRatedMovies: "Bestbewertete Filme",
+      topRatedSeries: "Bestbewertete Serien",
+      featured: "Empfohlen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1513,7 +1553,15 @@ enum L10n {
       itemsInCollection: "elementi nella collezione",
       bestReviews: "Migliori Recensioni",
       daysOfContent: "giorni di contenuti",
-      othersGenres: "Altri"
+      othersGenres: "Altri",
+      // Home Engagement
+      forYou: "Per Te",
+      basedOnYourTaste: "Perché ti piace %@",
+      trendingThisWeek: "Tendenze della Settimana",
+      inTheaters: "Al Cinema",
+      topRatedMovies: "Film Più Votati",
+      topRatedSeries: "Serie Più Votate",
+      featured: "In Evidenza"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1761,7 +1809,15 @@ enum L10n {
       itemsInCollection: "アイテム",
       bestReviews: "ベストレビュー",
       daysOfContent: "日分のコンテンツ",
-      othersGenres: "その他"
+      othersGenres: "その他",
+      // Home Engagement
+      forYou: "あなたへ",
+      basedOnYourTaste: "%@が好きだから",
+      trendingThisWeek: "今週のトレンド",
+      inTheaters: "上映中",
+      topRatedMovies: "高評価の映画",
+      topRatedSeries: "高評価のシリーズ",
+      featured: "注目"
     ),
   ]
 }
@@ -2032,4 +2088,12 @@ struct Strings {
   let bestReviews: String
   let daysOfContent: String
   let othersGenres: String
+  // Home Engagement
+  let forYou: String
+  let basedOnYourTaste: String
+  let trendingThisWeek: String
+  let inTheaters: String
+  let topRatedMovies: String
+  let topRatedSeries: String
+  let featured: String
 }
