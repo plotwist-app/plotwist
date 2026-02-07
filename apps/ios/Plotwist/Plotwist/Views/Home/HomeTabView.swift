@@ -136,7 +136,7 @@ struct HomeTabView: View {
   }
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 

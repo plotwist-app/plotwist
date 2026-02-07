@@ -65,7 +65,7 @@ struct LoginView: View {
   @ObservedObject private var themeManager = ThemeManager.shared
   
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ZStack {
         // Layer 1: Masonry background
         VStack {
