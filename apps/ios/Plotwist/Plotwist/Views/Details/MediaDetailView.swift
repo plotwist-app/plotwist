@@ -32,6 +32,7 @@ struct MediaDetailView: View {
   @State private var collection: MovieCollection?
   @State private var showCollectionSheet = false
   @State private var selectedCollectionMovieId: Int?
+  @State private var showLoginPrompt = false
 
   // Layout constants
   private let cornerRadius: CGFloat = 24
@@ -97,22 +98,27 @@ struct MediaDetailView: View {
                   // Content Section
                   VStack(alignment: .leading, spacing: 20) {
                     // Action Buttons (Review + Status)
-                    if AuthService.shared.isAuthenticated {
-                      MediaDetailViewActions(
-                        mediaId: mediaId,
-                        mediaType: mediaType,
-                        userReview: userReview,
-                        userItem: userItem,
-                        isLoadingReview: isLoadingUserReview,
-                        isLoadingStatus: isLoadingUserItem,
-                        onReviewTapped: {
+                    MediaDetailViewActions(
+                      mediaId: mediaId,
+                      mediaType: mediaType,
+                      userReview: userReview,
+                      userItem: userItem,
+                      isLoadingReview: isLoadingUserReview,
+                      isLoadingStatus: isLoadingUserItem,
+                      onReviewTapped: {
+                        if AuthService.shared.isAuthenticated {
                           showReviewSheet = true
-                        },
-                        onStatusChanged: { newItem in
-                          userItem = newItem
+                        } else {
+                          showLoginPrompt = true
                         }
-                      )
-                    }
+                      },
+                      onStatusChanged: { newItem in
+                        userItem = newItem
+                      },
+                      onLoginRequired: {
+                        showLoginPrompt = true
+                      }
+                    )
 
                     // Overview
                     if let overview = details.overview, !overview.isEmpty {
@@ -167,6 +173,8 @@ struct MediaDetailView: View {
                     onEmptyStateTapped: {
                       if AuthService.shared.isAuthenticated {
                         showReviewSheet = true
+                      } else {
+                        showLoginPrompt = true
                       }
                     },
                     onContentLoaded: { hasContent in
@@ -347,6 +355,15 @@ struct MediaDetailView: View {
       }
       .hidden()
     )
+    .loginPrompt(isPresented: $showLoginPrompt) {
+      // User logged in - reload user-specific data
+      Task {
+        isLoadingUserReview = true
+        isLoadingUserItem = true
+        await loadUserReview()
+        await loadUserItem()
+      }
+    }
     .task {
       // Start loading user data states immediately if authenticated
       if AuthService.shared.isAuthenticated {

@@ -26,7 +26,7 @@ struct SeasonDetailView: View {
   // Episodes watched state (shared with header)
   @State private var watchedEpisodes: [UserEpisode] = []
   @State private var loadingEpisodeIds: Set<Int> = []
-
+  @State private var showLoginPrompt = false
 
   private let scrollThreshold: CGFloat = 20
   private let navigationHeaderHeight: CGFloat = 64
@@ -63,15 +63,19 @@ struct SeasonDetailView: View {
             )
 
             // Review Button
-            if AuthService.shared.isAuthenticated {
-              ReviewButton(
-                hasReview: userReview != nil,
-                isLoading: isLoadingUserReview,
-                action: { showReviewSheet = true }
-              )
-              .padding(.horizontal, 24)
-              .padding(.top, 24)
-            }
+            ReviewButton(
+              hasReview: userReview != nil,
+              isLoading: isLoadingUserReview,
+              action: {
+                if AuthService.shared.isAuthenticated {
+                  showReviewSheet = true
+                } else {
+                  showLoginPrompt = true
+                }
+              }
+            )
+            .padding(.horizontal, 24)
+            .padding(.top, 24)
 
             // Overview
             if let overview = seasonDetails?.overview ?? season.overview, !overview.isEmpty {
@@ -96,6 +100,8 @@ struct SeasonDetailView: View {
               onEmptyStateTapped: {
                 if AuthService.shared.isAuthenticated {
                   showReviewSheet = true
+                } else {
+                  showLoginPrompt = true
                 }
               },
               onContentLoaded: { hasContent in
@@ -125,7 +131,8 @@ struct SeasonDetailView: View {
               episodes: episodes,
               allSeasons: allSeasons,
               watchedEpisodes: $watchedEpisodes,
-              loadingEpisodeIds: $loadingEpisodeIds
+              loadingEpisodeIds: $loadingEpisodeIds,
+              onLoginRequired: { showLoginPrompt = true }
             )
 
               Spacer()
@@ -178,6 +185,13 @@ struct SeasonDetailView: View {
           reviewsRefreshId = UUID()
         }
       )
+    }
+    .loginPrompt(isPresented: $showLoginPrompt) {
+      Task {
+        isLoadingUserReview = true
+        await loadUserReview()
+        await loadWatchedEpisodes()
+      }
     }
     .task {
       if AuthService.shared.isAuthenticated {
@@ -303,17 +317,15 @@ struct EpisodesHeaderView: View {
 
           Spacer()
 
-          if AuthService.shared.isAuthenticated {
-            Text(L10n.current.episodesWatchedCount
-              .replacingOccurrences(of: "%d", with: "\(watchedCount)")
-              .replacingOccurrences(of: "%total", with: "\(episodesCount)")
-            )
-            .font(.caption)
-            .foregroundColor(.appMutedForegroundAdaptive)
-          }
+          Text(L10n.current.episodesWatchedCount
+            .replacingOccurrences(of: "%d", with: "\(watchedCount)")
+            .replacingOccurrences(of: "%total", with: "\(episodesCount)")
+          )
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
         }
 
-        if AuthService.shared.isAuthenticated && episodesCount > 0 {
+        if episodesCount > 0 {
           SegmentedProgressBar(
             totalSegments: episodesCount,
             filledSegments: watchedCount
@@ -383,6 +395,7 @@ struct EpisodesListView: View {
   var allSeasons: [Season]?
   @Binding var watchedEpisodes: [UserEpisode]
   @Binding var loadingEpisodeIds: Set<Int>
+  var onLoginRequired: (() -> Void)?
 
   private func isEpisodeWatched(_ episode: Episode) -> Bool {
     watchedEpisodes.contains { $0.episodeNumber == episode.episodeNumber && $0.seasonNumber == seasonNumber }
@@ -424,8 +437,12 @@ struct EpisodesListView: View {
             isWatched: isEpisodeWatched(episode),
             isLoading: loadingEpisodeIds.contains(episode.episodeNumber),
             onToggleWatched: {
-              Task {
-                await toggleWatched(episode)
+              if AuthService.shared.isAuthenticated {
+                Task {
+                  await toggleWatched(episode)
+                }
+              } else {
+                onLoginRequired?()
               }
             }
           )
