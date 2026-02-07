@@ -17,18 +17,17 @@ struct LoginPromptSheet: View {
   
   var body: some View {
     FloatingSheetContainer {
-      VStack(spacing: 24) {
+      VStack(spacing: 16) {
         // Drag Indicator
         RoundedRectangle(cornerRadius: 2.5)
           .fill(Color.gray.opacity(0.4))
           .frame(width: 36, height: 5)
-          .padding(.top, 12)
+          .padding(.top, 8)
         
         // Icon
         Image(systemName: "person.crop.circle")
           .font(.system(size: 48))
           .foregroundColor(.appForegroundAdaptive)
-          .padding(.top, 8)
         
         // Content
         VStack(spacing: 8) {
@@ -41,6 +40,7 @@ struct LoginPromptSheet: View {
             .font(.body)
             .foregroundColor(.appMutedForegroundAdaptive)
             .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 16)
         
@@ -75,11 +75,11 @@ struct LoginPromptSheet: View {
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
         }
-        .padding(.bottom, 24)
+        .padding(.bottom, 16)
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 390)
+    .floatingSheetPresentation(height: 410)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showError) {
       Button("OK", role: .cancel) {}

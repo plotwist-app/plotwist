@@ -24,18 +24,17 @@ struct NotificationPromptSheet: View {
   
   var body: some View {
     FloatingSheetContainer {
-      VStack(spacing: 24) {
+      VStack(spacing: 16) {
         // Drag Indicator
         RoundedRectangle(cornerRadius: 2.5)
           .fill(Color.gray.opacity(0.4))
           .frame(width: 36, height: 5)
-          .padding(.top, 12)
+          .padding(.top, 8)
         
         // Icon
         Image(systemName: "bell.badge")
           .font(.system(size: 48))
           .foregroundColor(.appForegroundAdaptive)
-          .padding(.top, 8)
         
         // Content
         VStack(spacing: 8) {
@@ -48,6 +47,7 @@ struct NotificationPromptSheet: View {
             .font(.body)
             .foregroundColor(.appMutedForegroundAdaptive)
             .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 16)
         
@@ -74,11 +74,11 @@ struct NotificationPromptSheet: View {
               .foregroundColor(.appMutedForegroundAdaptive)
           }
         }
-        .padding(.bottom, 24)
+        .padding(.bottom, 16)
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 340)
+    .floatingSheetPresentation(height: 310)
     .preferredColorScheme(themeManager.current.colorScheme)
   }
   
