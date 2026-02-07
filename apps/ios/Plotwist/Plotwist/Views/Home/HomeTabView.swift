@@ -1238,8 +1238,8 @@ struct TrendingCard: View {
   var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .bottomLeading) {
-        // Backdrop image
-        CachedAsyncImage(url: item.backdropURL ?? item.hdPosterURL) { image in
+        // Backdrop image (full resolution, same as MediaDetailView)
+        CachedAsyncImage(url: item.hdBackdropURL ?? item.backdropURL) { image in
           image
             .resizable()
             .aspectRatio(contentMode: .fill)

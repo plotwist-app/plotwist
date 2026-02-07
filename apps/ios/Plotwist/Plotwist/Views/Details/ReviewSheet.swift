@@ -48,7 +48,7 @@ struct ReviewSheet: View {
         RoundedRectangle(cornerRadius: 2.5)
           .fill(Color.gray.opacity(0.4))
           .frame(width: 36, height: 5)
-          .padding(.top, 12)
+          .padding(.top, 8)
 
         // Title
         Text(L10n.current.whatDidYouThink)
@@ -142,9 +142,9 @@ struct ReviewSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 16)
     }
-    .floatingSheetPresentation(height: existingReview != nil ? 480 : 420)
+    .floatingSheetPresentation(height: existingReview != nil ? 435 : 370)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showErrorAlert) {
       Button("OK", role: .cancel) {}
