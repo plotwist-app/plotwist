@@ -417,28 +417,10 @@ struct HomeTabView: View {
     }
 
     let language = Language.current.rawValue
-    let contentTypes = onboardingService.contentTypes
 
     do {
-      var candidates: [SearchResult] = []
-
-      // Pick featured content that matches user's content type preferences
-      if contentTypes.contains(.anime) && !contentTypes.contains(.movies) && !contentTypes.contains(.series) {
-        // Anime-only user: feature a popular anime
-        let result = try await TMDBService.shared.getPopularAnimes(language: language)
-        candidates = result.results
-      } else if contentTypes.contains(.dorama) && !contentTypes.contains(.movies) && !contentTypes.contains(.series) {
-        // Dorama-only user: feature a popular dorama
-        let result = try await TMDBService.shared.getPopularDoramas(language: language)
-        candidates = result.results
-      } else {
-        // General user or mixed preferences: use trending
-        candidates = try await TMDBService.shared.getTrending(
-          mediaType: "all",
-          timeWindow: "week",
-          language: language
-        )
-      }
+      // Load content matching user's preferences, then pick the best one
+      let candidates = try await loadContentForPreferences(language: language)
 
       // Only consider items with a backdrop image
       let withBackdrop = candidates.filter { $0.backdropPath != nil }
@@ -454,6 +436,72 @@ struct HomeTabView: View {
       }
     } catch {
       print("Error loading featured item: \(error)")
+    }
+  }
+
+  /// Loads content that matches the user's content type preferences.
+  /// Used by both Featured Hero and Trending sections for consistent filtering.
+  private func loadContentForPreferences(language: String) async throws -> [SearchResult] {
+    let contentTypes = onboardingService.contentTypes
+
+    // No preferences: show everything trending
+    guard !contentTypes.isEmpty else {
+      return try await TMDBService.shared.getTrending(
+        mediaType: "all",
+        timeWindow: "week",
+        language: language
+      )
+    }
+
+    var allItems: [SearchResult] = []
+
+    // Fetch content for each selected type in parallel
+    try await withThrowingTaskGroup(of: [SearchResult].self) { group in
+      if contentTypes.contains(.movies) {
+        group.addTask {
+          try await TMDBService.shared.getTrending(
+            mediaType: "movie",
+            timeWindow: "week",
+            language: language
+          )
+        }
+      }
+
+      if contentTypes.contains(.series) {
+        group.addTask {
+          try await TMDBService.shared.getTrending(
+            mediaType: "tv",
+            timeWindow: "week",
+            language: language
+          )
+        }
+      }
+
+      if contentTypes.contains(.anime) {
+        group.addTask {
+          let result = try await TMDBService.shared.getPopularAnimes(language: language)
+          return result.results
+        }
+      }
+
+      if contentTypes.contains(.dorama) {
+        group.addTask {
+          let result = try await TMDBService.shared.getPopularDoramas(language: language)
+          return result.results
+        }
+      }
+
+      for try await items in group {
+        allItems.append(contentsOf: items)
+      }
+    }
+
+    // Deduplicate
+    var seen = Set<Int>()
+    return allItems.filter { item in
+      if seen.contains(item.id) { return false }
+      seen.insert(item.id)
+      return true
     }
   }
 
@@ -558,13 +606,9 @@ struct HomeTabView: View {
     }
 
     do {
-      let items = try await TMDBService.shared.getTrending(
-        mediaType: "all",
-        timeWindow: "week",
-        language: Language.current.rawValue
-      )
+      let items = try await loadContentForPreferences(language: Language.current.rawValue)
 
-      // Exclude featured item
+      // Exclude featured item to avoid repetition
       let filtered = items.filter { $0.id != featuredItem?.id }
       trendingItems = Array(filtered.prefix(10))
       cache.setTrendingItems(trendingItems)
