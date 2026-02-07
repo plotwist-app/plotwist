@@ -73,7 +73,10 @@ extension View {
   func floatingSheetPresentation(height: CGFloat) -> some View {
     self
       .presentationDetents([.height(height + SheetStyle.heightOffset)])
-      .presentationBackground(.clear)
+      .presentationBackground {
+        Color.clear
+      }
+      .presentationCornerRadius(0)
       .presentationDragIndicator(.hidden)
   }
 
@@ -81,7 +84,10 @@ extension View {
   func floatingSheetPresentation(detents: Set<PresentationDetent>) -> some View {
     self
       .presentationDetents(detents)
-      .presentationBackground(.clear)
+      .presentationBackground {
+        Color.clear
+      }
+      .presentationCornerRadius(0)
       .presentationDragIndicator(.hidden)
   }
 }
