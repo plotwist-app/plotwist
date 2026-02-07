@@ -79,7 +79,7 @@ struct LoginPromptSheet: View {
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 450)
+    .floatingSheetPresentation(height: 390)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showError) {
       Button("OK", role: .cancel) {}
