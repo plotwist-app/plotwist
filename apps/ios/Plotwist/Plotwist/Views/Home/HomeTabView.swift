@@ -392,19 +392,17 @@ struct HomeTabView: View {
         language: language
       )
 
-      // Filter by user genre preferences if available
-      let genreIds = Set(onboardingService.selectedGenres.map { $0.id })
-      let filtered: [SearchResult]
-      if !genreIds.isEmpty {
-        // Pick from trending items that have a backdrop
-        filtered = trending.filter { $0.backdropPath != nil }
-      } else {
-        filtered = trending.filter { $0.backdropPath != nil }
-      }
+      // Only consider items with a backdrop image
+      let withBackdrop = trending.filter { $0.backdropPath != nil }
 
-      if let best = filtered.first {
+      if let best = withBackdrop.first {
         featuredItem = best
         cache.setFeaturedItem(best)
+
+        // Prefetch the HD backdrop for instant display
+        if let url = best.hdBackdropURL ?? best.backdropURL {
+          ImageCache.shared.prefetch(urls: [url], priority: .high)
+        }
       }
     } catch {
       print("Error loading featured item: \(error)")
@@ -881,8 +879,8 @@ struct FeaturedHeroCard: View {
     } label: {
       GeometryReader { geometry in
         ZStack(alignment: .bottomLeading) {
-          // Backdrop image
-          CachedAsyncImage(url: item.backdropURL ?? item.hdPosterURL) { image in
+          // Backdrop image (full resolution)
+          CachedAsyncImage(url: item.hdBackdropURL ?? item.backdropURL) { image in
             image
               .resizable()
               .aspectRatio(contentMode: .fill)
