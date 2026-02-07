@@ -553,30 +553,42 @@ struct HomeTabView: View {
         }
       }
 
-      // Anime: use discover with anime-compatible genres or fallback to popular
+      // Anime: use discover with user's genre preferences or fallback to popular
       if contentTypes.contains(.anime) {
         let animeGenreIds = genreIds.filter {
           [16, 10759, 35, 18, 10765, 10749, 878, 9648].contains($0)
         }
         if !animeGenreIds.isEmpty {
-          let animes = try await TMDBService.shared.discoverAnimes(
+          let animes = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: animeGenreIds,
             language: language,
-            page: 1,
-            watchRegion: nil,
-            withWatchProviders: nil
+            originCountry: "JP"
           )
-          allItems.append(contentsOf: animes.results)
+          allItems.append(contentsOf: animes)
         } else {
-          // No matching genres, just use popular animes
           let animes = try await TMDBService.shared.getPopularAnimes(language: language)
           allItems.append(contentsOf: animes.results)
         }
       }
 
-      // Dorama: use discover or fallback to popular
+      // Dorama: use discover with user's genre preferences or fallback to popular
       if contentTypes.contains(.dorama) {
-        let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
-        allItems.append(contentsOf: doramas.results)
+        let doramaGenreIds = genreIds.filter {
+          [10759, 35, 80, 18, 10765, 10768, 9648, 10751, 10764, 10749].contains($0)
+        }
+        if !doramaGenreIds.isEmpty {
+          let doramas = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: doramaGenreIds,
+            language: language,
+            originCountry: "KR"
+          )
+          allItems.append(contentsOf: doramas)
+        } else {
+          let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
+          allItems.append(contentsOf: doramas.results)
+        }
       }
 
       // Remove duplicates, keep unique by ID

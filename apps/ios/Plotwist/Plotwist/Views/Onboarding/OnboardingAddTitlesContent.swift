@@ -465,13 +465,39 @@ struct OnboardingAddTitlesContent: View {
         }
         
         if contentTypes.contains(.anime) {
-          let animes = try await TMDBService.shared.getPopularAnimes(language: language)
-          allItems.append(contentsOf: animes.results)
+          let animeGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+          if !animeGenres.isEmpty {
+            // Discover anime filtered by user's genre preferences
+            let animes = try await TMDBService.shared.discoverByGenres(
+              mediaType: "tv",
+              genreIds: animeGenres,
+              language: language,
+              page: 1,
+              originCountry: "JP"
+            )
+            allItems.append(contentsOf: animes)
+          } else {
+            let animes = try await TMDBService.shared.getPopularAnimes(language: language)
+            allItems.append(contentsOf: animes.results)
+          }
         }
         
         if contentTypes.contains(.dorama) {
-          let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
-          allItems.append(contentsOf: doramas.results)
+          let doramaGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+          if !doramaGenres.isEmpty {
+            // Discover dorama filtered by user's genre preferences
+            let doramas = try await TMDBService.shared.discoverByGenres(
+              mediaType: "tv",
+              genreIds: doramaGenres,
+              language: language,
+              page: 1,
+              originCountry: "KR"
+            )
+            allItems.append(contentsOf: doramas)
+          } else {
+            let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
+            allItems.append(contentsOf: doramas.results)
+          }
         }
       }
       
@@ -532,13 +558,37 @@ struct OnboardingAddTitlesContent: View {
       }
       
       if contentTypes.contains(.anime) {
-        let animes = try await TMDBService.shared.getPopularAnimes(language: language, page: currentPage)
-        newItems.append(contentsOf: animes.results)
+        let animeGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+        if !animeGenres.isEmpty {
+          let animes = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: animeGenres,
+            language: language,
+            page: currentPage,
+            originCountry: "JP"
+          )
+          newItems.append(contentsOf: animes)
+        } else {
+          let animes = try await TMDBService.shared.getPopularAnimes(language: language, page: currentPage)
+          newItems.append(contentsOf: animes.results)
+        }
       }
       
       if contentTypes.contains(.dorama) {
-        let doramas = try await TMDBService.shared.getPopularDoramas(language: language, page: currentPage)
-        newItems.append(contentsOf: doramas.results)
+        let doramaGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+        if !doramaGenres.isEmpty {
+          let doramas = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: doramaGenres,
+            language: language,
+            page: currentPage,
+            originCountry: "KR"
+          )
+          newItems.append(contentsOf: doramas)
+        } else {
+          let doramas = try await TMDBService.shared.getPopularDoramas(language: language, page: currentPage)
+          newItems.append(contentsOf: doramas.results)
+        }
       }
       
       // Filter out already seen/dismissed items
