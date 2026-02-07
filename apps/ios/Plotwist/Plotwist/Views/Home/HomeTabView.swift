@@ -605,6 +605,7 @@ struct HomeTabView: View {
 
   /// Returns the set of TMDB IDs that the user already has in their collection
   /// (watchlist, watching, watched, dropped). Used to filter "For You" recommendations.
+  @MainActor
   private func loadUserCollectionIds() async -> Set<Int> {
     // Guest mode: use local saved titles
     if isGuestMode {
