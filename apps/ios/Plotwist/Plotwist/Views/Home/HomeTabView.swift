@@ -108,9 +108,9 @@ struct HomeTabView: View {
   private var topRatedSectionTitle: String {
     let contentTypes = onboardingService.contentTypes
     if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
-      return strings.topRated + " " + strings.animes
+      return strings.topRatedAnimes
     } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
-      return strings.topRated + " " + strings.doramas
+      return strings.topRatedDoramas
     } else if showMoviesContent {
       return strings.topRatedMovies
     } else {

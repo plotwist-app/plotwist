@@ -276,6 +276,8 @@ enum L10n {
       inTheaters: "In theaters",
       topRatedMovies: "Top rated movies",
       topRatedSeries: "Top rated series",
+      topRatedAnimes: "Top rated animes",
+      topRatedDoramas: "Top rated doramas",
       featured: "Featured"
     ),
     .ptBR: Strings(
@@ -533,6 +535,8 @@ enum L10n {
       inTheaters: "Nos cinemas",
       topRatedMovies: "Filmes mais bem avaliados",
       topRatedSeries: "Séries mais bem avaliadas",
+      topRatedAnimes: "Animes mais bem avaliados",
+      topRatedDoramas: "Doramas mais bem avaliados",
       featured: "Destaque"
     ),
     .esES: Strings(
@@ -790,6 +794,8 @@ enum L10n {
       inTheaters: "En cartelera",
       topRatedMovies: "Películas mejor valoradas",
       topRatedSeries: "Series mejor valoradas",
+      topRatedAnimes: "Animes mejor valorados",
+      topRatedDoramas: "Doramas mejor valorados",
       featured: "Destacado"
     ),
     .frFR: Strings(
@@ -1047,6 +1053,8 @@ enum L10n {
       inTheaters: "Au cinéma",
       topRatedMovies: "Films les mieux notés",
       topRatedSeries: "Séries les mieux notées",
+      topRatedAnimes: "Animes les mieux notés",
+      topRatedDoramas: "Doramas les mieux notés",
       featured: "À la une"
     ),
     .deDE: Strings(
@@ -1304,6 +1312,8 @@ enum L10n {
       inTheaters: "Im Kino",
       topRatedMovies: "Bestbewertete Filme",
       topRatedSeries: "Bestbewertete Serien",
+      topRatedAnimes: "Bestbewertete Animes",
+      topRatedDoramas: "Bestbewertete Doramas",
       featured: "Empfohlen"
     ),
     .itIT: Strings(
@@ -1561,6 +1571,8 @@ enum L10n {
       inTheaters: "Al cinema",
       topRatedMovies: "Film più votati",
       topRatedSeries: "Serie più votate",
+      topRatedAnimes: "Anime più votati",
+      topRatedDoramas: "Dorama più votati",
       featured: "In evidenza"
     ),
     .jaJP: Strings(
@@ -1817,6 +1829,8 @@ enum L10n {
       inTheaters: "上映中",
       topRatedMovies: "高評価の映画",
       topRatedSeries: "高評価のシリーズ",
+      topRatedAnimes: "高評価のアニメ",
+      topRatedDoramas: "高評価のドラマ",
       featured: "注目"
     ),
   ]
@@ -2095,5 +2109,7 @@ struct Strings {
   let inTheaters: String
   let topRatedMovies: String
   let topRatedSeries: String
+  let topRatedAnimes: String
+  let topRatedDoramas: String
   let featured: String
 }
