@@ -1007,7 +1007,7 @@ struct ForYouSection: View {
   }
 }
 
-// MARK: - Trending Section (Apple Music ranked style)
+// MARK: - Trending Section (backdrop cards, 80% width peek)
 struct TrendingSection: View {
   let items: [SearchResult]
   let title: String
@@ -1019,57 +1019,116 @@ struct TrendingSection: View {
         .foregroundColor(.appForegroundAdaptive)
         .padding(.horizontal, 24)
 
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 4) {
-          ForEach(Array(items.prefix(10).enumerated()), id: \.element.id) { index, item in
-            NavigationLink {
-              MediaDetailView(
-                mediaId: item.id,
-                mediaType: item.mediaType ?? "movie"
-              )
-            } label: {
-              TrendingCard(item: item, rank: index + 1)
+      GeometryReader { proxy in
+        let cardWidth = proxy.size.width * 0.80
+
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 12) {
+            ForEach(Array(items.prefix(10).enumerated()), id: \.element.id) { index, item in
+              NavigationLink {
+                MediaDetailView(
+                  mediaId: item.id,
+                  mediaType: item.mediaType ?? "movie"
+                )
+              } label: {
+                TrendingCard(item: item, rank: index + 1)
+                  .frame(width: cardWidth)
+              }
+              .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
           }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 4)
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 4)
+        .scrollClipDisabled()
       }
-      .scrollClipDisabled()
+      .frame(height: 200)
     }
   }
 }
 
-// MARK: - Trending Card
+// MARK: - Trending Card (backdrop hero with rank badge)
 struct TrendingCard: View {
   let item: SearchResult
   let rank: Int
 
   var body: some View {
-    HStack(alignment: .bottom, spacing: -8) {
-      // Large ranking number
-      Text("\(rank)")
-        .font(.system(size: 80, weight: .black, design: .rounded))
-        .foregroundColor(.appMutedForegroundAdaptive.opacity(0.3))
-        .frame(width: 52, alignment: .trailing)
-        .offset(y: 10)
+    GeometryReader { geometry in
+      ZStack(alignment: .bottomLeading) {
+        // Backdrop image
+        CachedAsyncImage(url: item.backdropURL ?? item.hdPosterURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .clipped()
+        } placeholder: {
+          Rectangle()
+            .fill(Color.appInputFilled)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
 
-      // Poster
-      CachedAsyncImage(url: item.imageURL) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      } placeholder: {
-        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-          .fill(Color.appBorderAdaptive)
+        // Bottom gradient
+        LinearGradient(
+          stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.35),
+            .init(color: Color.black.opacity(0.5), location: 0.65),
+            .init(color: Color.black.opacity(0.9), location: 1),
+          ],
+          startPoint: .top,
+          endPoint: .bottom
+        )
+
+        // Content overlay
+        VStack(alignment: .leading, spacing: 4) {
+          // Rank badge
+          HStack {
+            Text("#\(rank)")
+              .font(.system(size: 12, weight: .bold, design: .rounded))
+              .foregroundColor(.white)
+              .padding(.horizontal, 8)
+              .padding(.vertical, 4)
+              .background(Color.white.opacity(0.2))
+              .clipShape(Capsule())
+
+            Spacer()
+          }
+
+          Spacer()
+
+          // Title
+          Text(item.displayTitle)
+            .font(.system(size: 17, weight: .bold))
+            .foregroundColor(.white)
+            .lineLimit(1)
+
+          // Year + type
+          if let year = item.year {
+            HStack(spacing: 5) {
+              Text(year)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+
+              if let mediaType = item.mediaType {
+                Circle()
+                  .fill(Color.white.opacity(0.4))
+                  .frame(width: 3, height: 3)
+
+                Text(mediaType == "movie" ? L10n.current.movies : L10n.current.tvSeries)
+                  .font(.system(size: 12, weight: .medium))
+                  .foregroundColor(.white.opacity(0.7))
+              }
+            }
+          }
+        }
+        .padding(14)
       }
-      .frame(width: 100, height: 150)
-      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
-      .posterBorder()
-      .posterShadow()
     }
-    .frame(width: 130)
+    .frame(height: 190)
+    .clipShape(RoundedRectangle(cornerRadius: 20))
+    .posterBorder(cornerRadius: 20)
+    .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 6)
   }
 }
 
