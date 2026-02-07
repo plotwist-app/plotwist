@@ -613,10 +613,10 @@ struct HomeTabView: View {
     }
 
     // Authenticated: fetch all statuses in parallel
-    guard AuthService.shared.isAuthenticated,
-          let currentUser = user ?? (try? await AuthService.shared.getCurrentUser()) else {
-      return []
-    }
+    guard AuthService.shared.isAuthenticated else { return [] }
+
+    let fetchedUser: User? = try? await AuthService.shared.getCurrentUser()
+    guard let currentUser = user ?? fetchedUser else { return [] }
 
     var allIds = Set<Int>()
 
