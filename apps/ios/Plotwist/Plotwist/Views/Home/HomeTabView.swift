@@ -104,6 +104,37 @@ struct HomeTabView: View {
     return String(format: strings.basedOnYourTaste, joined)
   }
 
+  // Top Rated section adapts title/type to user's content preference
+  private var topRatedSectionTitle: String {
+    let contentTypes = onboardingService.contentTypes
+    if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+      return strings.topRated + " " + strings.animes
+    } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+      return strings.topRated + " " + strings.doramas
+    } else if showMoviesContent {
+      return strings.topRatedMovies
+    } else {
+      return strings.topRatedSeries
+    }
+  }
+
+  private var topRatedMediaType: String {
+    showMoviesContent ? "movie" : "tv"
+  }
+
+  private var topRatedCategoryType: HomeCategoryType {
+    let contentTypes = onboardingService.contentTypes
+    if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+      return .animes
+    } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+      return .doramas
+    } else if showMoviesContent {
+      return .movies
+    } else {
+      return .tvSeries
+    }
+  }
+
   var body: some View {
     NavigationView {
       ZStack {
@@ -223,14 +254,14 @@ struct HomeTabView: View {
               )
             }
 
-            // Discovery Sections - Always show for engagement
-            // Skip Popular Movies if "In Theaters" is already showing (overlapping content)
-            if showDiscoverySkeleton {
+            // Discovery Sections - Show only for relevant content types
+            // Skip if contextual sections (In Theaters / Airing Today) already cover this
+            if showDiscoverySkeleton && (showMoviesContent || showSeriesContent) {
               HomeSectionSkeleton()
               HomeSectionSkeleton()
             } else {
-              // Popular Movies -- only if "In Theaters" isn't already visible
-              if !popularMovies.isEmpty && nowPlayingItems.isEmpty {
+              // Popular Movies -- only if user likes movies AND "In Theaters" isn't visible
+              if showMoviesContent && !popularMovies.isEmpty && nowPlayingItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularMovies,
                   items: popularMovies,
@@ -240,8 +271,8 @@ struct HomeTabView: View {
                 )
               }
 
-              // Popular TV Series -- only if "Airing Today" isn't already visible
-              if !popularTVSeries.isEmpty && airingTodayItems.isEmpty {
+              // Popular TV Series -- only if user likes series AND "Airing Today" isn't visible
+              if showSeriesContent && !popularTVSeries.isEmpty && airingTodayItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularTVSeries,
                   items: popularTVSeries,
@@ -252,15 +283,15 @@ struct HomeTabView: View {
               }
             }
 
-            // Top Rated
+            // Top Rated (adapts to user's content type)
             if !topRatedItems.isEmpty {
               HomeSectionView(
-                title: showMoviesContent ? strings.topRatedMovies : strings.topRatedSeries,
+                title: topRatedSectionTitle,
                 items: topRatedItems,
-                mediaType: showMoviesContent ? "movie" : "tv",
-                categoryType: showMoviesContent ? .movies : .tvSeries,
+                mediaType: topRatedMediaType,
+                categoryType: topRatedCategoryType,
                 initialMovieSubcategory: showMoviesContent ? .topRated : nil,
-                initialTVSeriesSubcategory: showMoviesContent ? nil : .topRated
+                initialTVSeriesSubcategory: !showMoviesContent ? .topRated : nil
               )
             }
 
@@ -385,16 +416,32 @@ struct HomeTabView: View {
       return
     }
 
+    let language = Language.current.rawValue
+    let contentTypes = onboardingService.contentTypes
+
     do {
-      let language = Language.current.rawValue
-      let trending = try await TMDBService.shared.getTrending(
-        mediaType: "all",
-        timeWindow: "week",
-        language: language
-      )
+      var candidates: [SearchResult] = []
+
+      // Pick featured content that matches user's content type preferences
+      if contentTypes.contains(.anime) && !contentTypes.contains(.movies) && !contentTypes.contains(.series) {
+        // Anime-only user: feature a popular anime
+        let result = try await TMDBService.shared.getPopularAnimes(language: language)
+        candidates = result.results
+      } else if contentTypes.contains(.dorama) && !contentTypes.contains(.movies) && !contentTypes.contains(.series) {
+        // Dorama-only user: feature a popular dorama
+        let result = try await TMDBService.shared.getPopularDoramas(language: language)
+        candidates = result.results
+      } else {
+        // General user or mixed preferences: use trending
+        candidates = try await TMDBService.shared.getTrending(
+          mediaType: "all",
+          timeWindow: "week",
+          language: language
+        )
+      }
 
       // Only consider items with a backdrop image
-      let withBackdrop = trending.filter { $0.backdropPath != nil }
+      let withBackdrop = candidates.filter { $0.backdropPath != nil }
 
       if let best = withBackdrop.first {
         featuredItem = best
@@ -419,14 +466,16 @@ struct HomeTabView: View {
     }
 
     let genreIds = onboardingService.selectedGenres.map { $0.id }
-    guard !genreIds.isEmpty else { return }
-
     let language = Language.current.rawValue
     let contentTypes = onboardingService.contentTypes
+
+    // Need either genre preferences or content type preferences
+    guard !genreIds.isEmpty || !contentTypes.isEmpty else { return }
 
     do {
       var allItems: [SearchResult] = []
 
+      // Movie genres
       if contentTypes.contains(.movies) || contentTypes.isEmpty {
         let movieGenreIds = genreIds.filter {
           [28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 53, 10752, 37].contains($0)
@@ -441,6 +490,7 @@ struct HomeTabView: View {
         }
       }
 
+      // TV series genres
       if contentTypes.contains(.series) || contentTypes.isEmpty {
         let tvGenreIds = genreIds.filter {
           [10759, 16, 35, 80, 18, 10765, 10768, 9648, 10751, 10764, 10749].contains($0)
@@ -453,6 +503,32 @@ struct HomeTabView: View {
           )
           allItems.append(contentsOf: series)
         }
+      }
+
+      // Anime: use discover with anime-compatible genres or fallback to popular
+      if contentTypes.contains(.anime) {
+        let animeGenreIds = genreIds.filter {
+          [16, 10759, 35, 18, 10765, 10749, 878, 9648].contains($0)
+        }
+        if !animeGenreIds.isEmpty {
+          let animes = try await TMDBService.shared.discoverAnimes(
+            language: language,
+            page: 1,
+            watchRegion: nil,
+            withWatchProviders: nil
+          )
+          allItems.append(contentsOf: animes.results)
+        } else {
+          // No matching genres, just use popular animes
+          let animes = try await TMDBService.shared.getPopularAnimes(language: language)
+          allItems.append(contentsOf: animes.results)
+        }
+      }
+
+      // Dorama: use discover or fallback to popular
+      if contentTypes.contains(.dorama) {
+        let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
+        allItems.append(contentsOf: doramas.results)
       }
 
       // Remove duplicates, keep unique by ID
@@ -575,10 +651,17 @@ struct HomeTabView: View {
     }
 
     let language = Language.current.rawValue
+    let contentTypes = onboardingService.contentTypes
 
     do {
       let result: PaginatedResult
-      if showMoviesContent {
+      if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+        // Anime-focused user
+        result = try await TMDBService.shared.getTopRatedAnimes(language: language)
+      } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+        // Dorama-focused user
+        result = try await TMDBService.shared.getTopRatedDoramas(language: language)
+      } else if showMoviesContent {
         result = try await TMDBService.shared.getTopRatedMovies(language: language)
       } else {
         result = try await TMDBService.shared.getTopRatedTVSeries(language: language)
