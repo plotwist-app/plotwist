@@ -19,6 +19,15 @@ final class HomeDataCache {
   // Cache for discovery content
   private var popularMoviesCache: [SearchResult]?
   private var popularTVSeriesCache: [SearchResult]?
+  // Cache for new personalized sections
+  private var featuredItemCache: SearchResult?
+  private var forYouItemsCache: [SearchResult]?
+  private var trendingItemsCache: [SearchResult]?
+  private var animeItemsCache: [SearchResult]?
+  private var doramaItemsCache: [SearchResult]?
+  private var nowPlayingItemsCache: [SearchResult]?
+  private var airingTodayItemsCache: [SearchResult]?
+  private var topRatedItemsCache: [SearchResult]?
   // Cache timestamp
   private var lastUpdated: Date?
   private var discoveryLastUpdated: Date?
@@ -100,6 +109,102 @@ final class HomeDataCache {
     discoveryLastUpdated = Date()
   }
 
+  // MARK: - Featured Item
+
+  var featuredItem: SearchResult? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return featuredItemCache
+  }
+
+  func setFeaturedItem(_ item: SearchResult?) {
+    featuredItemCache = item
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - For You Items
+
+  var forYouItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return forYouItemsCache
+  }
+
+  func setForYouItems(_ items: [SearchResult]) {
+    forYouItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Trending Items
+
+  var trendingItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return trendingItemsCache
+  }
+
+  func setTrendingItems(_ items: [SearchResult]) {
+    trendingItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Anime Items
+
+  var animeItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return animeItemsCache
+  }
+
+  func setAnimeItems(_ items: [SearchResult]) {
+    animeItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Dorama Items
+
+  var doramaItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return doramaItemsCache
+  }
+
+  func setDoramaItems(_ items: [SearchResult]) {
+    doramaItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Now Playing Items
+
+  var nowPlayingItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return nowPlayingItemsCache
+  }
+
+  func setNowPlayingItems(_ items: [SearchResult]) {
+    nowPlayingItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Airing Today Items
+
+  var airingTodayItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return airingTodayItemsCache
+  }
+
+  func setAiringTodayItems(_ items: [SearchResult]) {
+    airingTodayItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
+  // MARK: - Top Rated Items
+
+  var topRatedItems: [SearchResult]? {
+    guard !isDiscoveryCacheExpired else { return nil }
+    return topRatedItemsCache
+  }
+
+  func setTopRatedItems(_ items: [SearchResult]) {
+    topRatedItemsCache = items
+    discoveryLastUpdated = Date()
+  }
+
   // MARK: - Cache State
 
   var shouldShowSkeleton: Bool {
@@ -134,6 +239,14 @@ final class HomeDataCache {
   func clearDiscoveryCache() {
     popularMoviesCache = nil
     popularTVSeriesCache = nil
+    featuredItemCache = nil
+    forYouItemsCache = nil
+    trendingItemsCache = nil
+    animeItemsCache = nil
+    doramaItemsCache = nil
+    nowPlayingItemsCache = nil
+    airingTodayItemsCache = nil
+    topRatedItemsCache = nil
     discoveryLastUpdated = nil
   }
 

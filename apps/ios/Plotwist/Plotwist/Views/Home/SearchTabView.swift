@@ -308,35 +308,43 @@ struct SearchTabView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
 
-                HomeSectionView(
-                  title: strings.movies,
-                  items: popularMovies,
-                  mediaType: "movie",
-                  categoryType: .movies,
-                  initialMovieSubcategory: .popular
-                )
+                if !popularMovies.isEmpty {
+                  HomeSectionView(
+                    title: strings.movies,
+                    items: popularMovies,
+                    mediaType: "movie",
+                    categoryType: .movies,
+                    initialMovieSubcategory: .popular
+                  )
+                }
 
-                HomeSectionView(
-                  title: strings.tvSeries,
-                  items: popularTVSeries,
-                  mediaType: "tv",
-                  categoryType: .tvSeries,
-                  initialTVSeriesSubcategory: .popular
-                )
+                if !popularTVSeries.isEmpty {
+                  HomeSectionView(
+                    title: strings.tvSeries,
+                    items: popularTVSeries,
+                    mediaType: "tv",
+                    categoryType: .tvSeries,
+                    initialTVSeriesSubcategory: .popular
+                  )
+                }
 
-                HomeSectionView(
-                  title: strings.animes,
-                  items: popularAnimes,
-                  mediaType: "tv",
-                  categoryType: .animes
-                )
+                if !popularAnimes.isEmpty {
+                  HomeSectionView(
+                    title: strings.animes,
+                    items: popularAnimes,
+                    mediaType: "tv",
+                    categoryType: .animes
+                  )
+                }
 
-                HomeSectionView(
-                  title: strings.doramas,
-                  items: popularDoramas,
-                  mediaType: "tv",
-                  categoryType: .doramas
-                )
+                if !popularDoramas.isEmpty {
+                  HomeSectionView(
+                    title: strings.doramas,
+                    items: popularDoramas,
+                    mediaType: "tv",
+                    categoryType: .doramas
+                  )
+                }
               }
               .padding(.bottom, 80)
             }

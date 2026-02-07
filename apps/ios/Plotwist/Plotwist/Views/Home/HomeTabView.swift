@@ -20,8 +20,17 @@ struct HomeTabView: View {
   // Discovery sections
   @State private var popularMovies: [SearchResult] = []
   @State private var popularTVSeries: [SearchResult] = []
-  @State private var trendingItems: [SearchResult] = []
   @State private var isLoadingDiscovery = true
+
+  // New personalized sections
+  @State private var featuredItem: SearchResult?
+  @State private var forYouItems: [SearchResult] = []
+  @State private var trendingItems: [SearchResult] = []
+  @State private var animeItems: [SearchResult] = []
+  @State private var doramaItems: [SearchResult] = []
+  @State private var nowPlayingItems: [SearchResult] = []
+  @State private var airingTodayItems: [SearchResult] = []
+  @State private var topRatedItems: [SearchResult] = []
 
   private let cache = HomeDataCache.shared
   
@@ -68,12 +77,62 @@ struct HomeTabView: View {
   }
 
   private var showDiscoverySkeleton: Bool {
-    isLoadingDiscovery && popularMovies.isEmpty && popularTVSeries.isEmpty
+    isLoadingDiscovery && popularMovies.isEmpty && popularTVSeries.isEmpty && featuredItem == nil
   }
 
-  // Show discovery sections when user has no personal content
-  private var showDiscoverySections: Bool {
-    !isLoadingDiscovery || !popularMovies.isEmpty || !popularTVSeries.isEmpty
+  // Personalization helpers
+  private var showAnimeSection: Bool {
+    onboardingService.contentTypes.contains(.anime)
+  }
+
+  private var showDoramaSection: Bool {
+    onboardingService.contentTypes.contains(.dorama)
+  }
+
+  private var showMoviesContent: Bool {
+    onboardingService.contentTypes.contains(.movies) || onboardingService.contentTypes.isEmpty
+  }
+
+  private var showSeriesContent: Bool {
+    onboardingService.contentTypes.contains(.series) || onboardingService.contentTypes.isEmpty
+  }
+
+  private var forYouSubtitle: String {
+    let genreNames = onboardingService.selectedGenres.prefix(3).map { $0.name }
+    guard !genreNames.isEmpty else { return "" }
+    let joined = genreNames.joined(separator: ", ")
+    return String(format: strings.basedOnYourTaste, joined)
+  }
+
+  // Top Rated section adapts title/type to user's content preference
+  private var topRatedSectionTitle: String {
+    let contentTypes = onboardingService.contentTypes
+    if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+      return strings.topRatedAnimes
+    } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+      return strings.topRatedDoramas
+    } else if showMoviesContent {
+      return strings.topRatedMovies
+    } else {
+      return strings.topRatedSeries
+    }
+  }
+
+  private var topRatedMediaType: String {
+    showMoviesContent ? "movie" : "tv"
+  }
+
+  private var topRatedCategoryType: HomeCategoryType {
+    let contentTypes = onboardingService.contentTypes
+    if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+      return .animes
+    } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+      return .doramas
+    } else if showMoviesContent {
+      return .movies
+    } else {
+      return .tvSeries
+    }
   }
 
   var body: some View {
@@ -82,7 +141,7 @@ struct HomeTabView: View {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
         ScrollView(showsIndicators: false) {
-          VStack(alignment: .leading, spacing: 24) {
+          VStack(alignment: .leading, spacing: 32) {
             // Header with greeting
             // DEBUG: Long press (3s) on avatar to reset onboarding
             HomeHeaderView(
@@ -102,6 +161,16 @@ struct HomeTabView: View {
             )
             .padding(.horizontal, 24)
             .padding(.top, 16)
+
+            // Featured Hero Card
+            if let featured = featuredItem {
+              FeaturedHeroCard(item: featured, label: strings.featured)
+                .padding(.horizontal, 20)
+                .transition(.opacity)
+            } else if showDiscoverySkeleton {
+              FeaturedHeroSkeleton()
+                .padding(.horizontal, 20)
+            }
 
             // Continue Watching Section
             if showWatchingSkeleton {
@@ -123,13 +192,76 @@ struct HomeTabView: View {
               )
             }
 
-            // Discovery Sections - Always show for engagement
-            if showDiscoverySkeleton {
+            // For You - Personalized by genre
+            if !forYouItems.isEmpty {
+              ForYouSection(
+                items: forYouItems,
+                title: strings.forYou,
+                subtitle: forYouSubtitle
+              )
+            } else if showDiscoverySkeleton && !onboardingService.selectedGenres.isEmpty {
+              HomeSectionSkeleton()
+            }
+
+            // Trending This Week
+            if !trendingItems.isEmpty {
+              TrendingSection(
+                items: trendingItems,
+                title: strings.trendingThisWeek
+              )
+            } else if showDiscoverySkeleton {
+              HomeSectionSkeleton()
+            }
+
+            // Anime Section (conditional)
+            if showAnimeSection && !animeItems.isEmpty {
+              HomeSectionView(
+                title: strings.popularAnimes,
+                items: animeItems,
+                mediaType: "tv",
+                categoryType: .animes
+              )
+            }
+
+            // Now Playing / Airing Today (contextual)
+            if showMoviesContent && !nowPlayingItems.isEmpty {
+              HomeSectionView(
+                title: strings.inTheaters,
+                items: nowPlayingItems,
+                mediaType: "movie",
+                categoryType: .movies,
+                initialMovieSubcategory: .nowPlaying
+              )
+            }
+
+            if showSeriesContent && !airingTodayItems.isEmpty {
+              HomeSectionView(
+                title: strings.airingToday,
+                items: airingTodayItems,
+                mediaType: "tv",
+                categoryType: .tvSeries,
+                initialTVSeriesSubcategory: .airingToday
+              )
+            }
+
+            // Dorama Section (conditional)
+            if showDoramaSection && !doramaItems.isEmpty {
+              HomeSectionView(
+                title: strings.popularDoramas,
+                items: doramaItems,
+                mediaType: "tv",
+                categoryType: .doramas
+              )
+            }
+
+            // Discovery Sections - Show only for relevant content types
+            // Skip if contextual sections (In Theaters / Airing Today) already cover this
+            if showDiscoverySkeleton && (showMoviesContent || showSeriesContent) {
               HomeSectionSkeleton()
               HomeSectionSkeleton()
             } else {
-              // Popular Movies
-              if !popularMovies.isEmpty {
+              // Popular Movies -- only if user likes movies AND "In Theaters" isn't visible
+              if showMoviesContent && !popularMovies.isEmpty && nowPlayingItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularMovies,
                   items: popularMovies,
@@ -139,8 +271,8 @@ struct HomeTabView: View {
                 )
               }
 
-              // Popular TV Series
-              if !popularTVSeries.isEmpty {
+              // Popular TV Series -- only if user likes series AND "Airing Today" isn't visible
+              if showSeriesContent && !popularTVSeries.isEmpty && airingTodayItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularTVSeries,
                   items: popularTVSeries,
@@ -149,6 +281,18 @@ struct HomeTabView: View {
                   initialTVSeriesSubcategory: .popular
                 )
               }
+            }
+
+            // Top Rated (adapts to user's content type)
+            if !topRatedItems.isEmpty {
+              HomeSectionView(
+                title: topRatedSectionTitle,
+                items: topRatedItems,
+                mediaType: topRatedMediaType,
+                categoryType: topRatedCategoryType,
+                initialMovieSubcategory: showMoviesContent ? .topRated : nil,
+                initialTVSeriesSubcategory: !showMoviesContent ? .topRated : nil
+              )
             }
 
             Spacer(minLength: 100)
@@ -210,6 +354,34 @@ struct HomeTabView: View {
       popularTVSeries = cachedTVSeries
       isLoadingDiscovery = false
     }
+    // Restore new section caches
+    if let cached = cache.featuredItem {
+      featuredItem = cached
+      isLoadingDiscovery = false
+    }
+    if let cached = cache.forYouItems {
+      forYouItems = cached
+      isLoadingDiscovery = false
+    }
+    if let cached = cache.trendingItems {
+      trendingItems = cached
+      isLoadingDiscovery = false
+    }
+    if let cached = cache.animeItems {
+      animeItems = cached
+    }
+    if let cached = cache.doramaItems {
+      doramaItems = cached
+    }
+    if let cached = cache.nowPlayingItems {
+      nowPlayingItems = cached
+    }
+    if let cached = cache.airingTodayItems {
+      airingTodayItems = cached
+    }
+    if let cached = cache.topRatedItems {
+      topRatedItems = cached
+    }
   }
 
   private func loadData() async {
@@ -223,10 +395,384 @@ struct HomeTabView: View {
       group.addTask { await loadWatchingItems() }
       group.addTask { await loadWatchlistItems() }
       group.addTask { await loadDiscoveryContent() }
+      group.addTask { await loadFeaturedItem() }
+      group.addTask { await loadForYouItems() }
+      group.addTask { await loadTrendingItems() }
+      group.addTask { await loadContentTypeItems() }
+      group.addTask { await loadContextualSections() }
+      group.addTask { await loadTopRatedItems() }
     }
 
     isInitialLoad = false
   }
+
+  // MARK: - New Section Loaders
+
+  @MainActor
+  private func loadFeaturedItem() async {
+    // Check cache first
+    if let cached = cache.featuredItem {
+      featuredItem = cached
+      return
+    }
+
+    let language = Language.current.rawValue
+
+    do {
+      // Load content matching user's preferences, then pick the best one
+      let candidates = try await loadContentForPreferences(language: language)
+
+      // Only consider items with a backdrop image
+      let withBackdrop = candidates.filter { $0.backdropPath != nil }
+
+      if let best = withBackdrop.first {
+        featuredItem = best
+        cache.setFeaturedItem(best)
+
+        // Prefetch the HD backdrop for instant display
+        if let url = best.hdBackdropURL ?? best.backdropURL {
+          ImageCache.shared.prefetch(urls: [url], priority: .high)
+        }
+      }
+    } catch {
+      print("Error loading featured item: \(error)")
+    }
+  }
+
+  /// Loads content that matches the user's content type preferences.
+  /// Used by both Featured Hero and Trending sections for consistent filtering.
+  private func loadContentForPreferences(language: String) async throws -> [SearchResult] {
+    let contentTypes = onboardingService.contentTypes
+
+    // No preferences: show everything trending
+    guard !contentTypes.isEmpty else {
+      return try await TMDBService.shared.getTrending(
+        mediaType: "all",
+        timeWindow: "week",
+        language: language
+      )
+    }
+
+    var allItems: [SearchResult] = []
+
+    // Fetch content for each selected type in parallel
+    try await withThrowingTaskGroup(of: [SearchResult].self) { group in
+      if contentTypes.contains(.movies) {
+        group.addTask {
+          try await TMDBService.shared.getTrending(
+            mediaType: "movie",
+            timeWindow: "week",
+            language: language
+          )
+        }
+      }
+
+      if contentTypes.contains(.series) {
+        group.addTask {
+          try await TMDBService.shared.getTrending(
+            mediaType: "tv",
+            timeWindow: "week",
+            language: language
+          )
+        }
+      }
+
+      if contentTypes.contains(.anime) {
+        group.addTask {
+          let result = try await TMDBService.shared.getPopularAnimes(language: language)
+          return result.results
+        }
+      }
+
+      if contentTypes.contains(.dorama) {
+        group.addTask {
+          let result = try await TMDBService.shared.getPopularDoramas(language: language)
+          return result.results
+        }
+      }
+
+      for try await items in group {
+        allItems.append(contentsOf: items)
+      }
+    }
+
+    // Deduplicate
+    var seen = Set<Int>()
+    return allItems.filter { item in
+      if seen.contains(item.id) { return false }
+      seen.insert(item.id)
+      return true
+    }
+  }
+
+  @MainActor
+  private func loadForYouItems() async {
+    // Check cache first
+    if let cached = cache.forYouItems, !cached.isEmpty {
+      forYouItems = cached
+      return
+    }
+
+    let genreIds = onboardingService.selectedGenres.map { $0.id }
+    let language = Language.current.rawValue
+    let contentTypes = onboardingService.contentTypes
+
+    // Need either genre preferences or content type preferences
+    guard !genreIds.isEmpty || !contentTypes.isEmpty else { return }
+
+    do {
+      var allItems: [SearchResult] = []
+
+      // Movie genres
+      if contentTypes.contains(.movies) || contentTypes.isEmpty {
+        let movieGenreIds = genreIds.filter {
+          [28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 53, 10752, 37].contains($0)
+        }
+        if !movieGenreIds.isEmpty {
+          let movies = try await TMDBService.shared.discoverByGenres(
+            mediaType: "movie",
+            genreIds: movieGenreIds,
+            language: language
+          )
+          allItems.append(contentsOf: movies)
+        }
+      }
+
+      // TV series genres
+      if contentTypes.contains(.series) || contentTypes.isEmpty {
+        let tvGenreIds = genreIds.filter {
+          [10759, 16, 35, 80, 18, 10765, 10768, 9648, 10751, 10764, 10749].contains($0)
+        }
+        if !tvGenreIds.isEmpty {
+          let series = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: tvGenreIds,
+            language: language
+          )
+          allItems.append(contentsOf: series)
+        }
+      }
+
+      // Anime: use discover with user's genre preferences or fallback to popular
+      if contentTypes.contains(.anime) {
+        let animeGenreIds = genreIds.filter {
+          [16, 10759, 35, 18, 10765, 10749, 878, 9648].contains($0)
+        }
+        if !animeGenreIds.isEmpty {
+          let animes = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: animeGenreIds,
+            language: language,
+            originCountry: "JP"
+          )
+          allItems.append(contentsOf: animes)
+        } else {
+          let animes = try await TMDBService.shared.getPopularAnimes(language: language)
+          allItems.append(contentsOf: animes.results)
+        }
+      }
+
+      // Dorama: use discover with user's genre preferences or fallback to popular
+      if contentTypes.contains(.dorama) {
+        let doramaGenreIds = genreIds.filter {
+          [10759, 35, 80, 18, 10765, 10768, 9648, 10751, 10764, 10749].contains($0)
+        }
+        if !doramaGenreIds.isEmpty {
+          let doramas = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: doramaGenreIds,
+            language: language,
+            originCountry: "KR"
+          )
+          allItems.append(contentsOf: doramas)
+        } else {
+          let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
+          allItems.append(contentsOf: doramas.results)
+        }
+      }
+
+      // Remove duplicates, keep unique by ID
+      var seen = Set<Int>()
+      let unique = allItems.filter { item in
+        if seen.contains(item.id) { return false }
+        seen.insert(item.id)
+        return true
+      }
+
+      // Exclude featured item to avoid repetition
+      var filtered = unique.filter { $0.id != featuredItem?.id }
+
+      // Exclude items already in the user's collection (watchlist, watching, watched, dropped)
+      let collectionIds = await loadUserCollectionIds()
+      if !collectionIds.isEmpty {
+        filtered = filtered.filter { !collectionIds.contains($0.id) }
+      }
+
+      forYouItems = Array(filtered.prefix(20))
+      cache.setForYouItems(forYouItems)
+    } catch {
+      print("Error loading For You items: \(error)")
+    }
+  }
+
+  /// Returns the set of TMDB IDs that the user already has in their collection
+  /// (watchlist, watching, watched, dropped). Used to filter "For You" recommendations.
+  @MainActor
+  private func loadUserCollectionIds() async -> Set<Int> {
+    // Guest mode: use local saved titles
+    if isGuestMode {
+      return Set(onboardingService.localSavedTitles.map { $0.tmdbId })
+    }
+
+    // Authenticated: fetch all statuses in parallel
+    guard AuthService.shared.isAuthenticated else { return [] }
+
+    let fetchedUser: User? = try? await AuthService.shared.getCurrentUser()
+    guard let currentUser = user ?? fetchedUser else { return [] }
+
+    var allIds = Set<Int>()
+
+    await withTaskGroup(of: [UserItemSummary].self) { group in
+      for status in UserItemStatus.allCases {
+        group.addTask {
+          (try? await UserItemService.shared.getAllUserItems(
+            userId: currentUser.id,
+            status: status.rawValue
+          )) ?? []
+        }
+      }
+
+      for await items in group {
+        for item in items {
+          allIds.insert(item.tmdbId)
+        }
+      }
+    }
+
+    return allIds
+  }
+
+  @MainActor
+  private func loadTrendingItems() async {
+    // Check cache first
+    if let cached = cache.trendingItems, !cached.isEmpty {
+      trendingItems = cached
+      return
+    }
+
+    do {
+      let items = try await loadContentForPreferences(language: Language.current.rawValue)
+
+      // Exclude featured item to avoid repetition
+      let filtered = items.filter { $0.id != featuredItem?.id }
+      trendingItems = Array(filtered.prefix(10))
+      cache.setTrendingItems(trendingItems)
+    } catch {
+      print("Error loading trending items: \(error)")
+    }
+  }
+
+  @MainActor
+  private func loadContentTypeItems() async {
+    let language = Language.current.rawValue
+
+    // Load anime section
+    if showAnimeSection {
+      if let cached = cache.animeItems, !cached.isEmpty {
+        animeItems = cached
+      } else {
+        do {
+          let result = try await TMDBService.shared.getPopularAnimes(language: language)
+          animeItems = result.results
+          cache.setAnimeItems(animeItems)
+        } catch {
+          print("Error loading anime items: \(error)")
+        }
+      }
+    }
+
+    // Load dorama section
+    if showDoramaSection {
+      if let cached = cache.doramaItems, !cached.isEmpty {
+        doramaItems = cached
+      } else {
+        do {
+          let result = try await TMDBService.shared.getPopularDoramas(language: language)
+          doramaItems = result.results
+          cache.setDoramaItems(doramaItems)
+        } catch {
+          print("Error loading dorama items: \(error)")
+        }
+      }
+    }
+  }
+
+  @MainActor
+  private func loadContextualSections() async {
+    let language = Language.current.rawValue
+
+    // Now Playing (movies)
+    if showMoviesContent {
+      if let cached = cache.nowPlayingItems, !cached.isEmpty {
+        nowPlayingItems = cached
+      } else {
+        do {
+          let result = try await TMDBService.shared.getNowPlayingMovies(language: language)
+          nowPlayingItems = result.results
+          cache.setNowPlayingItems(nowPlayingItems)
+        } catch {
+          print("Error loading now playing items: \(error)")
+        }
+      }
+    }
+
+    // Airing Today (series)
+    if showSeriesContent {
+      if let cached = cache.airingTodayItems, !cached.isEmpty {
+        airingTodayItems = cached
+      } else {
+        do {
+          let result = try await TMDBService.shared.getAiringTodayTVSeries(language: language)
+          airingTodayItems = result.results
+          cache.setAiringTodayItems(airingTodayItems)
+        } catch {
+          print("Error loading airing today items: \(error)")
+        }
+      }
+    }
+  }
+
+  @MainActor
+  private func loadTopRatedItems() async {
+    if let cached = cache.topRatedItems, !cached.isEmpty {
+      topRatedItems = cached
+      return
+    }
+
+    let language = Language.current.rawValue
+    let contentTypes = onboardingService.contentTypes
+
+    do {
+      let result: PaginatedResult
+      if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
+        // Anime-focused user
+        result = try await TMDBService.shared.getTopRatedAnimes(language: language)
+      } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
+        // Dorama-focused user
+        result = try await TMDBService.shared.getTopRatedDoramas(language: language)
+      } else if showMoviesContent {
+        result = try await TMDBService.shared.getTopRatedMovies(language: language)
+      } else {
+        result = try await TMDBService.shared.getTopRatedTVSeries(language: language)
+      }
+      topRatedItems = result.results
+      cache.setTopRatedItems(topRatedItems)
+    } catch {
+      print("Error loading top rated items: \(error)")
+    }
+  }
+
+  // MARK: - Existing Loaders
 
   @MainActor
   private func loadDiscoveryContent() async {
@@ -502,6 +1048,273 @@ struct HomeTabView: View {
   }
 }
 
+// MARK: - Featured Hero Card (Apple TV+ style)
+struct FeaturedHeroCard: View {
+  let item: SearchResult
+  var label: String = "Featured"
+
+  var body: some View {
+    NavigationLink {
+      MediaDetailView(
+        mediaId: item.id,
+        mediaType: item.mediaType ?? "movie"
+      )
+    } label: {
+      GeometryReader { geometry in
+        ZStack(alignment: .bottomLeading) {
+          // Backdrop image (full resolution)
+          CachedAsyncImage(url: item.hdBackdropURL ?? item.backdropURL) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .clipped()
+          } placeholder: {
+            Rectangle()
+              .fill(Color.appInputFilled)
+              .frame(width: geometry.size.width, height: geometry.size.height)
+          }
+
+          // Gradient overlay
+          LinearGradient(
+            stops: [
+              .init(color: .clear, location: 0),
+              .init(color: .clear, location: 0.3),
+              .init(color: Color.black.opacity(0.4), location: 0.6),
+              .init(color: Color.black.opacity(0.85), location: 1),
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+
+          // Content overlay
+          VStack(alignment: .leading, spacing: 6) {
+            // Label pill
+            Text(label.uppercased())
+              .font(.system(size: 10, weight: .bold))
+              .tracking(1.2)
+              .foregroundColor(.white.opacity(0.8))
+              .padding(.horizontal, 8)
+              .padding(.vertical, 3)
+              .background(Color.white.opacity(0.15))
+              .clipShape(Capsule())
+
+            Spacer()
+
+            // Title
+            Text(item.displayTitle)
+              .font(.system(size: 22, weight: .bold))
+              .foregroundColor(.white)
+              .lineLimit(2)
+
+            // Year + media type
+            if let year = item.year {
+              HStack(spacing: 6) {
+                Text(year)
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundColor(.white.opacity(0.7))
+
+                if let mediaType = item.mediaType {
+                  Circle()
+                    .fill(Color.white.opacity(0.4))
+                    .frame(width: 3, height: 3)
+
+                  Text(mediaType == "movie" ? L10n.current.movies : L10n.current.tvSeries)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.white.opacity(0.7))
+                }
+              }
+            }
+          }
+          .padding(20)
+        }
+      }
+      .frame(height: 280)
+      .clipShape(RoundedRectangle(cornerRadius: 24))
+      .posterBorder(cornerRadius: 24)
+      .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 8)
+    }
+    .buttonStyle(.plain)
+  }
+}
+
+// MARK: - Featured Hero Skeleton
+struct FeaturedHeroSkeleton: View {
+  var body: some View {
+    RoundedRectangle(cornerRadius: 24)
+      .fill(Color.appBorderAdaptive)
+      .frame(height: 280)
+  }
+}
+
+// MARK: - For You Section
+struct ForYouSection: View {
+  let items: [SearchResult]
+  let title: String
+  let subtitle: String
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      VStack(alignment: .leading, spacing: 4) {
+        Text(title)
+          .font(.title3.bold())
+          .foregroundColor(.appForegroundAdaptive)
+
+        if !subtitle.isEmpty {
+          Text(subtitle)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+      .padding(.horizontal, 24)
+
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 12) {
+          ForEach(items.prefix(15)) { item in
+            NavigationLink {
+              MediaDetailView(
+                mediaId: item.id,
+                mediaType: item.mediaType ?? "movie"
+              )
+            } label: {
+              HomePosterCard(item: item)
+            }
+            .buttonStyle(.plain)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 4)
+      }
+      .scrollClipDisabled()
+    }
+  }
+}
+
+// MARK: - Trending Section (backdrop cards, 80% width peek)
+struct TrendingSection: View {
+  let items: [SearchResult]
+  let title: String
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text(title)
+        .font(.title3.bold())
+        .foregroundColor(.appForegroundAdaptive)
+        .padding(.horizontal, 24)
+
+      GeometryReader { proxy in
+        let cardWidth = proxy.size.width * 0.80
+
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 12) {
+            ForEach(Array(items.prefix(10).enumerated()), id: \.element.id) { index, item in
+              NavigationLink {
+                MediaDetailView(
+                  mediaId: item.id,
+                  mediaType: item.mediaType ?? "movie"
+                )
+              } label: {
+                TrendingCard(item: item, rank: index + 1)
+                  .frame(width: cardWidth)
+              }
+              .buttonStyle(.plain)
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 4)
+        }
+        .scrollClipDisabled()
+      }
+      .frame(height: 240)
+    }
+  }
+}
+
+// MARK: - Trending Card (backdrop hero with rank badge)
+struct TrendingCard: View {
+  let item: SearchResult
+  let rank: Int
+
+  var body: some View {
+    GeometryReader { geometry in
+      ZStack(alignment: .bottomLeading) {
+        // Backdrop image (full resolution, same as MediaDetailView)
+        CachedAsyncImage(url: item.hdBackdropURL ?? item.backdropURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .clipped()
+        } placeholder: {
+          Rectangle()
+            .fill(Color.appInputFilled)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+
+        // Bottom gradient
+        LinearGradient(
+          stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.35),
+            .init(color: Color.black.opacity(0.5), location: 0.65),
+            .init(color: Color.black.opacity(0.9), location: 1),
+          ],
+          startPoint: .top,
+          endPoint: .bottom
+        )
+
+        // Content overlay
+        VStack(alignment: .leading, spacing: 4) {
+          // Rank badge
+          HStack {
+            Text("#\(rank)")
+              .font(.system(size: 12, weight: .bold, design: .rounded))
+              .foregroundColor(.white)
+              .padding(.horizontal, 8)
+              .padding(.vertical, 4)
+              .background(Color.white.opacity(0.2))
+              .clipShape(Capsule())
+
+            Spacer()
+          }
+
+          Spacer()
+
+          // Title
+          Text(item.displayTitle)
+            .font(.system(size: 17, weight: .bold))
+            .foregroundColor(.white)
+            .lineLimit(1)
+
+          // Year + type
+          if let year = item.year {
+            HStack(spacing: 5) {
+              Text(year)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+
+              if let mediaType = item.mediaType {
+                Circle()
+                  .fill(Color.white.opacity(0.4))
+                  .frame(width: 3, height: 3)
+
+                Text(mediaType == "movie" ? L10n.current.movies : L10n.current.tvSeries)
+                  .font(.system(size: 12, weight: .medium))
+                  .foregroundColor(.white.opacity(0.7))
+              }
+            }
+          }
+        }
+        .padding(14)
+      }
+    }
+    .frame(height: 230)
+    .clipShape(RoundedRectangle(cornerRadius: 20))
+    .posterBorder(cornerRadius: 20)
+    .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 6)
+  }
+}
+
 // MARK: - Home Header View
 struct HomeHeaderView: View {
   let greeting: String
@@ -590,7 +1403,7 @@ struct ContinueWatchingSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text(title)
-        .font(.headline)
+        .font(.title3.bold())
         .foregroundColor(.appForegroundAdaptive)
         .padding(.horizontal, 24)
 
@@ -624,7 +1437,7 @@ struct WatchlistSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text(title)
-        .font(.headline)
+        .font(.title3.bold())
         .foregroundColor(.appForegroundAdaptive)
         .padding(.horizontal, 24)
 
@@ -678,12 +1491,12 @@ struct HomeSectionView: View {
       } label: {
         HStack(spacing: 6) {
           Text(title)
-            .font(.headline)
+            .font(.title3.bold())
             .foregroundColor(.appForegroundAdaptive)
 
           Image(systemName: "chevron.right")
             .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.appForegroundAdaptive)
+            .foregroundColor(.appMutedForegroundAdaptive)
 
           Spacer()
         }
@@ -736,10 +1549,10 @@ struct HomePosterCard: View {
 struct HomeSectionSkeleton: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      // Title skeleton - matches .font(.headline) height
+      // Title skeleton - matches .font(.title3) height
       RoundedRectangle(cornerRadius: 4)
         .fill(Color.appBorderAdaptive)
-        .frame(width: 140, height: 17)
+        .frame(width: 160, height: 20)
         .padding(.horizontal, 24)
 
       ScrollView(.horizontal, showsIndicators: false) {

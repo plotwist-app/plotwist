@@ -872,14 +872,18 @@ class TMDBService {
   }
   
   // MARK: - Discover by Genre (for onboarding)
-  func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1) async throws -> [SearchResult] {
+  func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1, originCountry: String? = nil) async throws -> [SearchResult] {
     // Use | (pipe) for OR logic - matches ANY of the selected genres (more results)
     // Using , (comma) would be AND logic - matches ALL genres (fewer results)
     let genresString = genreIds.map { String($0) }.joined(separator: "|")
     let endpoint = mediaType == "movie" ? "discover/movie" : "discover/tv"
     
     // Sort by vote count to show most voted (well-known) content first
-    guard let url = URL(string: "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=vote_count.desc&page=\(page)") else {
+    var urlString = "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=vote_count.desc&page=\(page)"
+    if let country = originCountry {
+      urlString += "&with_origin_country=\(country)"
+    }
+    guard let url = URL(string: urlString) else {
       throw TMDBError.invalidURL
     }
     
@@ -1166,6 +1170,11 @@ struct SearchResult: Codable, Identifiable, Equatable {
   var hdPosterURL: URL? {
     guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w780\(posterPath)")
+  }
+  
+  var hdBackdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
   }
 }
 

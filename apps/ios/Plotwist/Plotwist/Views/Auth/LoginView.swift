@@ -139,6 +139,21 @@ struct LoginView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 52)
             }
+
+            #if DEBUG
+            // Debug: Reset and open onboarding
+            Button {
+              OnboardingService.shared.reset()
+              UserDefaults.standard.set(false, forKey: "isGuestMode")
+              NotificationCenter.default.post(name: .authChanged, object: nil)
+            } label: {
+              Text("Debug: Open Onboarding")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.white.opacity(0.35))
+                .frame(maxWidth: .infinity)
+                .frame(height: 36)
+            }
+            #endif
           }
         }
         .padding(.horizontal, 24)

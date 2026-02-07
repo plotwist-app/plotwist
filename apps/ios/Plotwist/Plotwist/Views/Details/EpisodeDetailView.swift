@@ -37,6 +37,8 @@ struct EpisodeDetailView: View {
   @State private var isLoadingNextSeason = false
   @State private var isLoadingPreviousSeason = false
   
+  @State private var showLoginPrompt = false
+
   // Swipe navigation state
   @State private var dragOffset: CGFloat = 0
   @State private var showSwipeIndicator = false
@@ -157,50 +159,58 @@ struct EpisodeDetailView: View {
           )
 
           // Action Buttons Row (Watched + Review)
-          if AuthService.shared.isAuthenticated {
-            HStack(spacing: 8) {
-              // Mark as Watched Button
-              Button {
+          HStack(spacing: 8) {
+            // Mark as Watched Button
+            Button {
+              if AuthService.shared.isAuthenticated {
                 Task {
                   await toggleWatchedStatus()
                 }
-              } label: {
-                HStack(spacing: 6) {
-                  if isTogglingWatched || isLoadingWatchedStatus {
-                    ProgressView()
-                      .progressViewStyle(CircularProgressViewStyle())
-                      .scaleEffect(0.7)
-                      .frame(width: 13, height: 13)
-                  } else {
-                    Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
-                      .font(.system(size: 13))
-                      .foregroundColor(isWatched ? .green : .appForegroundAdaptive)
-                  }
-                  
-                  Text(isWatched ? strings.watched : strings.markAsWatched)
-                    .font(.footnote.weight(.medium))
-                    .foregroundColor(.appForegroundAdaptive)
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(Color.appInputFilled)
-                .cornerRadius(10)
-                .opacity(isTogglingWatched || isLoadingWatchedStatus ? 0.5 : 1)
+              } else {
+                showLoginPrompt = true
               }
-              .buttonStyle(.plain)
-              .disabled(isTogglingWatched || isLoadingWatchedStatus)
-              
-              // Review Button
-              ReviewButton(
-                hasReview: userReview != nil,
-                isLoading: isLoadingUserReview,
-                action: { showReviewSheet = true }
-              )
+            } label: {
+              HStack(spacing: 6) {
+                if isTogglingWatched || isLoadingWatchedStatus {
+                  ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(0.7)
+                    .frame(width: 13, height: 13)
+                } else {
+                  Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
+                    .font(.system(size: 13))
+                    .foregroundColor(isWatched ? .green : .appForegroundAdaptive)
+                }
+                
+                Text(isWatched ? strings.watched : strings.markAsWatched)
+                  .font(.footnote.weight(.medium))
+                  .foregroundColor(.appForegroundAdaptive)
+              }
+              .padding(.horizontal, 14)
+              .padding(.vertical, 10)
+              .background(Color.appInputFilled)
+              .cornerRadius(10)
+              .opacity(isTogglingWatched || isLoadingWatchedStatus ? 0.5 : 1)
             }
-            .animation(.easeInOut(duration: 0.2), value: isWatched)
-            .padding(.horizontal, 24)
-            .padding(.top, 24)
+            .buttonStyle(.plain)
+            .disabled(isTogglingWatched || isLoadingWatchedStatus)
+            
+            // Review Button
+            ReviewButton(
+              hasReview: userReview != nil,
+              isLoading: isLoadingUserReview,
+              action: {
+                if AuthService.shared.isAuthenticated {
+                  showReviewSheet = true
+                } else {
+                  showLoginPrompt = true
+                }
+              }
+            )
           }
+          .animation(.easeInOut(duration: 0.2), value: isWatched)
+          .padding(.horizontal, 24)
+          .padding(.top, 24)
 
           // Overview
           if let overview = episode.overview, !overview.isEmpty {
@@ -226,6 +236,8 @@ struct EpisodeDetailView: View {
             onEmptyStateTapped: {
               if AuthService.shared.isAuthenticated {
                 showReviewSheet = true
+              } else {
+                showLoginPrompt = true
               }
             },
             onContentLoaded: { hasContent in
@@ -376,6 +388,14 @@ struct EpisodeDetailView: View {
           reviewsRefreshId = UUID()
         }
       )
+    }
+    .loginPrompt(isPresented: $showLoginPrompt) {
+      Task {
+        isLoadingUserReview = true
+        async let reviewTask: () = loadUserReview()
+        async let watchedTask: () = loadWatchedStatus()
+        _ = await (reviewTask, watchedTask)
+      }
     }
     .task {
       if AuthService.shared.isAuthenticated {

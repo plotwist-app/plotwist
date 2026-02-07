@@ -61,10 +61,10 @@ enum L10n {
       recentSearches: "Recent Searches",
       clearAll: "Clear",
       youAreLookingFor: "You are looking for:",
-      popularMovies: "Popular Movies",
-      popularTVSeries: "Popular TV Series",
-      popularAnimes: "Popular Animes",
-      popularDoramas: "Popular Doramas",
+      popularMovies: "Popular movies",
+      popularTVSeries: "Popular TV series",
+      popularAnimes: "Popular animes",
+      popularDoramas: "Popular doramas",
       animes: "Animes",
       doramas: "Doramas",
       seeAllMovies: "See all movies",
@@ -103,14 +103,14 @@ enum L10n {
       seeAll: "See all reviews",
       showMore: "Show more",
       // Movie Categories
-      nowPlaying: "Now Playing",
+      nowPlaying: "Now playing",
       popular: "Popular",
-      topRated: "Top Rated",
+      topRated: "Top rated",
       upcoming: "Upcoming",
       discover: "Discover",
       // TV Series Categories
-      airingToday: "Airing Today",
-      onTheAir: "On The Air",
+      airingToday: "Airing today",
+      onTheAir: "On the air",
       // Images
       images: "Images",
       backdrops: "Backdrops",
@@ -169,8 +169,8 @@ enum L10n {
       goodMorning: "Good morning",
       goodAfternoon: "Good afternoon",
       goodEvening: "Good evening",
-      continueWatching: "Continue Watching",
-      upNext: "Up Next",
+      continueWatching: "Continue watching",
+      upNext: "Up next",
       // Collection
       partOf: "Part of",
       seeCollection: "See Collection",
@@ -221,8 +221,8 @@ enum L10n {
       onboardingCelebrationTitle: "You're all set! 🎉",
       onboardingCelebrationSubtitle: "Your personalized experience is ready. Enjoy Plotwist!",
       onboardingGoToHome: "Go to Home",
-      onboardingLoginTitle: "Save your progress",
-      onboardingLoginSubtitle: "Sign in to sync across devices",
+      onboardingLoginTitle: "Sign in to Plotwist",
+      onboardingLoginSubtitle: "Create an account to review, track your progress, and sync across all your devices.",
       onboardingNotNow: "Not now",
       // Genres
       genreAction: "Action",
@@ -268,7 +268,17 @@ enum L10n {
       itemsInCollection: "items in collection",
       bestReviews: "Best Reviews",
       daysOfContent: "days of content",
-      othersGenres: "Others"
+      othersGenres: "Others",
+      // Home Engagement
+      forYou: "For you",
+      basedOnYourTaste: "Because you like %@",
+      trendingThisWeek: "Trending this week",
+      inTheaters: "In theaters",
+      topRatedMovies: "Top rated movies",
+      topRatedSeries: "Top rated series",
+      topRatedAnimes: "Top rated animes",
+      topRatedDoramas: "Top rated doramas",
+      featured: "Featured"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -319,10 +329,10 @@ enum L10n {
       recentSearches: "Pesquisas Recentes",
       clearAll: "Limpar",
       youAreLookingFor: "Você está procurando por:",
-      popularMovies: "Filmes Populares",
-      popularTVSeries: "Séries Populares",
-      popularAnimes: "Animes Populares",
-      popularDoramas: "Doramas Populares",
+      popularMovies: "Filmes populares",
+      popularTVSeries: "Séries populares",
+      popularAnimes: "Animes populares",
+      popularDoramas: "Doramas populares",
       animes: "Animes",
       doramas: "Doramas",
       seeAllMovies: "Ver todos os filmes",
@@ -359,13 +369,13 @@ enum L10n {
       beFirstToReview: "Seja o primeiro a deixar sua opinião",
       seeAll: "Ver todas as avaliações",
       showMore: "Ver mais",
-      nowPlaying: "Em Cartaz",
+      nowPlaying: "Em cartaz",
       popular: "Popular",
-      topRated: "Mais Bem Avaliados",
-      upcoming: "Em Breve",
+      topRated: "Mais bem avaliados",
+      upcoming: "Em breve",
       discover: "Descobrir",
-      airingToday: "No Ar Hoje",
-      onTheAir: "Em Exibição",
+      airingToday: "No ar hoje",
+      onTheAir: "Em exibição",
       images: "Imagens",
       backdrops: "Backdrops",
       posters: "Pôsteres",
@@ -418,8 +428,8 @@ enum L10n {
       goodMorning: "Bom dia",
       goodAfternoon: "Boa tarde",
       goodEvening: "Boa noite",
-      continueWatching: "Continuar Assistindo",
-      upNext: "Para Assistir",
+      continueWatching: "Continuar assistindo",
+      upNext: "Para assistir",
       // Collection
       partOf: "Parte de",
       seeCollection: "Ver Coleção",
@@ -470,8 +480,8 @@ enum L10n {
       onboardingCelebrationTitle: "Tudo pronto! 🎉",
       onboardingCelebrationSubtitle: "Sua experiência personalizada está pronta. Aproveite o Plotwist!",
       onboardingGoToHome: "Ir para Home",
-      onboardingLoginTitle: "Salvar seu progresso",
-      onboardingLoginSubtitle: "Entre para sincronizar entre dispositivos",
+      onboardingLoginTitle: "Entre no Plotwist",
+      onboardingLoginSubtitle: "Crie uma conta para avaliar, acompanhar seu progresso e sincronizar em todos os seus dispositivos.",
       onboardingNotNow: "Agora não",
       // Genres
       genreAction: "Ação",
@@ -517,7 +527,17 @@ enum L10n {
       itemsInCollection: "itens na coleção",
       bestReviews: "Melhores Reviews",
       daysOfContent: "dias de conteúdo",
-      othersGenres: "Outros"
+      othersGenres: "Outros",
+      // Home Engagement
+      forYou: "Para você",
+      basedOnYourTaste: "Porque você gosta de %@",
+      trendingThisWeek: "Em alta esta semana",
+      inTheaters: "Nos cinemas",
+      topRatedMovies: "Filmes mais bem avaliados",
+      topRatedSeries: "Séries mais bem avaliadas",
+      topRatedAnimes: "Animes mais bem avaliados",
+      topRatedDoramas: "Doramas mais bem avaliados",
+      featured: "Destaque"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -568,10 +588,10 @@ enum L10n {
       recentSearches: "Búsquedas Recientes",
       clearAll: "Limpiar",
       youAreLookingFor: "Estás buscando:",
-      popularMovies: "Películas Populares",
-      popularTVSeries: "Series Populares",
-      popularAnimes: "Animes Populares",
-      popularDoramas: "Doramas Populares",
+      popularMovies: "Películas populares",
+      popularTVSeries: "Series populares",
+      popularAnimes: "Animes populares",
+      popularDoramas: "Doramas populares",
       animes: "Animes",
       doramas: "Doramas",
       seeAllMovies: "Ver todas las películas",
@@ -608,13 +628,13 @@ enum L10n {
       beFirstToReview: "Sé el primero en dejar tu opinión",
       seeAll: "Ver todas las reseñas",
       showMore: "Ver más",
-      nowPlaying: "En Cartelera",
+      nowPlaying: "En cartelera",
       popular: "Popular",
-      topRated: "Mejor Valoradas",
+      topRated: "Mejor valoradas",
       upcoming: "Próximamente",
       discover: "Descubrir",
-      airingToday: "En Emisión Hoy",
-      onTheAir: "En Emisión",
+      airingToday: "En emisión hoy",
+      onTheAir: "En emisión",
       images: "Imágenes",
       backdrops: "Fondos",
       posters: "Pósters",
@@ -667,7 +687,7 @@ enum L10n {
       goodMorning: "Buenos días",
       goodAfternoon: "Buenas tardes",
       goodEvening: "Buenas noches",
-      continueWatching: "Seguir Viendo",
+      continueWatching: "Seguir viendo",
       upNext: "Próximos",
       // Collection
       partOf: "Parte de",
@@ -719,8 +739,8 @@ enum L10n {
       onboardingCelebrationTitle: "¡Todo listo! 🎉",
       onboardingCelebrationSubtitle: "Tu experiencia personalizada está lista. ¡Disfruta Plotwist!",
       onboardingGoToHome: "Ir a Home",
-      onboardingLoginTitle: "Guarda tu progreso",
-      onboardingLoginSubtitle: "Inicia sesión para sincronizar entre dispositivos",
+      onboardingLoginTitle: "Inicia sesión en Plotwist",
+      onboardingLoginSubtitle: "Crea una cuenta para reseñar, seguir tu progreso y sincronizar en todos tus dispositivos.",
       onboardingNotNow: "Ahora no",
       // Genres
       genreAction: "Acción",
@@ -766,7 +786,17 @@ enum L10n {
       itemsInCollection: "ítems en la colección",
       bestReviews: "Mejores Reseñas",
       daysOfContent: "días de contenido",
-      othersGenres: "Otros"
+      othersGenres: "Otros",
+      // Home Engagement
+      forYou: "Para ti",
+      basedOnYourTaste: "Porque te gusta %@",
+      trendingThisWeek: "Tendencias de la semana",
+      inTheaters: "En cartelera",
+      topRatedMovies: "Películas mejor valoradas",
+      topRatedSeries: "Series mejor valoradas",
+      topRatedAnimes: "Animes mejor valorados",
+      topRatedDoramas: "Doramas mejor valorados",
+      featured: "Destacado"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -817,10 +847,10 @@ enum L10n {
       recentSearches: "Recherches Récentes",
       clearAll: "Effacer",
       youAreLookingFor: "Vous recherchez:",
-      popularMovies: "Films Populaires",
-      popularTVSeries: "Séries Populaires",
-      popularAnimes: "Animes Populaires",
-      popularDoramas: "Doramas Populaires",
+      popularMovies: "Films populaires",
+      popularTVSeries: "Séries populaires",
+      popularAnimes: "Animes populaires",
+      popularDoramas: "Doramas populaires",
       animes: "Animes",
       doramas: "Doramas",
       seeAllMovies: "Voir tous les films",
@@ -857,13 +887,13 @@ enum L10n {
       beFirstToReview: "Soyez le premier à donner votre avis",
       seeAll: "Voir tous les avis",
       showMore: "Voir plus",
-      nowPlaying: "À l'Affiche",
+      nowPlaying: "À l'affiche",
       popular: "Populaire",
-      topRated: "Mieux Notés",
+      topRated: "Mieux notés",
       upcoming: "Prochainement",
       discover: "Découvrir",
-      airingToday: "Diffusé Aujourd'hui",
-      onTheAir: "En Cours",
+      airingToday: "Diffusé aujourd'hui",
+      onTheAir: "En cours",
       images: "Images",
       backdrops: "Fonds d'écran",
       posters: "Affiches",
@@ -916,8 +946,8 @@ enum L10n {
       goodMorning: "Bonjour",
       goodAfternoon: "Bon après-midi",
       goodEvening: "Bonsoir",
-      continueWatching: "Continuer à Regarder",
-      upNext: "À Suivre",
+      continueWatching: "Continuer à regarder",
+      upNext: "À suivre",
       // Collection
       partOf: "Fait partie de",
       seeCollection: "Voir la Collection",
@@ -968,8 +998,8 @@ enum L10n {
       onboardingCelebrationTitle: "C'est prêt ! 🎉",
       onboardingCelebrationSubtitle: "Ton expérience personnalisée est prête. Profite de Plotwist !",
       onboardingGoToHome: "Aller à Home",
-      onboardingLoginTitle: "Sauvegardez votre progression",
-      onboardingLoginSubtitle: "Connectez-vous pour synchroniser entre appareils",
+      onboardingLoginTitle: "Connectez-vous à Plotwist",
+      onboardingLoginSubtitle: "Créez un compte pour évaluer, suivre votre progression et synchroniser sur tous vos appareils.",
       onboardingNotNow: "Pas maintenant",
       // Genres
       genreAction: "Action",
@@ -1015,7 +1045,17 @@ enum L10n {
       itemsInCollection: "éléments dans la collection",
       bestReviews: "Meilleures Critiques",
       daysOfContent: "jours de contenu",
-      othersGenres: "Autres"
+      othersGenres: "Autres",
+      // Home Engagement
+      forYou: "Pour vous",
+      basedOnYourTaste: "Parce que vous aimez %@",
+      trendingThisWeek: "Tendances de la semaine",
+      inTheaters: "Au cinéma",
+      topRatedMovies: "Films les mieux notés",
+      topRatedSeries: "Séries les mieux notées",
+      topRatedAnimes: "Animes les mieux notés",
+      topRatedDoramas: "Doramas les mieux notés",
+      featured: "À la une"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1217,8 +1257,8 @@ enum L10n {
       onboardingCelebrationTitle: "Alles bereit! 🎉",
       onboardingCelebrationSubtitle: "Dein personalisiertes Erlebnis ist bereit. Genieße Plotwist!",
       onboardingGoToHome: "Zu Home",
-      onboardingLoginTitle: "Fortschritt speichern",
-      onboardingLoginSubtitle: "Melde dich an, um geräteübergreifend zu synchronisieren",
+      onboardingLoginTitle: "Bei Plotwist anmelden",
+      onboardingLoginSubtitle: "Erstelle ein Konto, um zu bewerten, deinen Fortschritt zu verfolgen und auf allen Geräten zu synchronisieren.",
       onboardingNotNow: "Jetzt nicht",
       // Genres
       genreAction: "Action",
@@ -1264,7 +1304,17 @@ enum L10n {
       itemsInCollection: "Elemente in der Sammlung",
       bestReviews: "Beste Bewertungen",
       daysOfContent: "Tage an Inhalten",
-      othersGenres: "Andere"
+      othersGenres: "Andere",
+      // Home Engagement
+      forYou: "Für dich",
+      basedOnYourTaste: "Weil du %@ magst",
+      trendingThisWeek: "Trends dieser Woche",
+      inTheaters: "Im Kino",
+      topRatedMovies: "Bestbewertete Filme",
+      topRatedSeries: "Bestbewertete Serien",
+      topRatedAnimes: "Bestbewertete Animes",
+      topRatedDoramas: "Bestbewertete Doramas",
+      featured: "Empfohlen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1315,10 +1365,10 @@ enum L10n {
       recentSearches: "Ricerche Recenti",
       clearAll: "Cancella",
       youAreLookingFor: "Stai cercando:",
-      popularMovies: "Film Popolari",
-      popularTVSeries: "Serie Popolari",
-      popularAnimes: "Anime Popolari",
-      popularDoramas: "Dorama Popolari",
+      popularMovies: "Film popolari",
+      popularTVSeries: "Serie popolari",
+      popularAnimes: "Anime popolari",
+      popularDoramas: "Dorama popolari",
       animes: "Anime",
       doramas: "Dorama",
       seeAllMovies: "Vedi tutti i film",
@@ -1355,13 +1405,13 @@ enum L10n {
       beFirstToReview: "Sii il primo a lasciare la tua opinione",
       seeAll: "Vedi tutte le recensioni",
       showMore: "Mostra di più",
-      nowPlaying: "In Sala",
+      nowPlaying: "In sala",
       popular: "Popolari",
-      topRated: "Più Votati",
+      topRated: "Più votati",
       upcoming: "Prossimamente",
       discover: "Scopri",
-      airingToday: "In Onda Oggi",
-      onTheAir: "In Onda",
+      airingToday: "In onda oggi",
+      onTheAir: "In onda",
       images: "Immagini",
       backdrops: "Sfondi",
       posters: "Locandine",
@@ -1414,7 +1464,7 @@ enum L10n {
       goodMorning: "Buongiorno",
       goodAfternoon: "Buon pomeriggio",
       goodEvening: "Buonasera",
-      continueWatching: "Continua a Guardare",
+      continueWatching: "Continua a guardare",
       upNext: "Prossimi",
       // Collection
       partOf: "Parte di",
@@ -1466,8 +1516,8 @@ enum L10n {
       onboardingCelebrationTitle: "Tutto pronto! 🎉",
       onboardingCelebrationSubtitle: "La tua esperienza personalizzata è pronta. Goditi Plotwist!",
       onboardingGoToHome: "Vai alla Home",
-      onboardingLoginTitle: "Salva i tuoi progressi",
-      onboardingLoginSubtitle: "Accedi per sincronizzare tra dispositivi",
+      onboardingLoginTitle: "Accedi a Plotwist",
+      onboardingLoginSubtitle: "Crea un account per recensire, monitorare i tuoi progressi e sincronizzare su tutti i tuoi dispositivi.",
       onboardingNotNow: "Non ora",
       // Genres
       genreAction: "Azione",
@@ -1513,7 +1563,17 @@ enum L10n {
       itemsInCollection: "elementi nella collezione",
       bestReviews: "Migliori Recensioni",
       daysOfContent: "giorni di contenuti",
-      othersGenres: "Altri"
+      othersGenres: "Altri",
+      // Home Engagement
+      forYou: "Per te",
+      basedOnYourTaste: "Perché ti piace %@",
+      trendingThisWeek: "Tendenze della settimana",
+      inTheaters: "Al cinema",
+      topRatedMovies: "Film più votati",
+      topRatedSeries: "Serie più votate",
+      topRatedAnimes: "Anime più votati",
+      topRatedDoramas: "Dorama più votati",
+      featured: "In evidenza"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1714,8 +1774,8 @@ enum L10n {
       onboardingCelebrationTitle: "準備完了！🎉",
       onboardingCelebrationSubtitle: "パーソナライズされた体験の準備完了。Plotwistを楽しもう！",
       onboardingGoToHome: "ホームへ",
-      onboardingLoginTitle: "進捗を保存",
-      onboardingLoginSubtitle: "ログインしてデバイス間で同期",
+      onboardingLoginTitle: "Plotwistにログイン",
+      onboardingLoginSubtitle: "アカウントを作成して、レビュー、進捗管理、全デバイスでの同期を利用しましょう。",
       onboardingNotNow: "今はしない",
       // Genres
       genreAction: "アクション",
@@ -1761,7 +1821,17 @@ enum L10n {
       itemsInCollection: "アイテム",
       bestReviews: "ベストレビュー",
       daysOfContent: "日分のコンテンツ",
-      othersGenres: "その他"
+      othersGenres: "その他",
+      // Home Engagement
+      forYou: "あなたへ",
+      basedOnYourTaste: "%@が好きだから",
+      trendingThisWeek: "今週のトレンド",
+      inTheaters: "上映中",
+      topRatedMovies: "高評価の映画",
+      topRatedSeries: "高評価のシリーズ",
+      topRatedAnimes: "高評価のアニメ",
+      topRatedDoramas: "高評価のドラマ",
+      featured: "注目"
     ),
   ]
 }
@@ -2032,4 +2102,14 @@ struct Strings {
   let bestReviews: String
   let daysOfContent: String
   let othersGenres: String
+  // Home Engagement
+  let forYou: String
+  let basedOnYourTaste: String
+  let trendingThisWeek: String
+  let inTheaters: String
+  let topRatedMovies: String
+  let topRatedSeries: String
+  let topRatedAnimes: String
+  let topRatedDoramas: String
+  let featured: String
 }
