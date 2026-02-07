@@ -224,12 +224,13 @@ struct HomeTabView: View {
             }
 
             // Discovery Sections - Always show for engagement
+            // Skip Popular Movies if "In Theaters" is already showing (overlapping content)
             if showDiscoverySkeleton {
               HomeSectionSkeleton()
               HomeSectionSkeleton()
             } else {
-              // Popular Movies
-              if !popularMovies.isEmpty {
+              // Popular Movies -- only if "In Theaters" isn't already visible
+              if !popularMovies.isEmpty && nowPlayingItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularMovies,
                   items: popularMovies,
@@ -239,8 +240,8 @@ struct HomeTabView: View {
                 )
               }
 
-              // Popular TV Series
-              if !popularTVSeries.isEmpty {
+              // Popular TV Series -- only if "Airing Today" isn't already visible
+              if !popularTVSeries.isEmpty && airingTodayItems.isEmpty {
                 HomeSectionView(
                   title: strings.popularTVSeries,
                   items: popularTVSeries,
