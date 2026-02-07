@@ -25,6 +25,7 @@ struct SearchTabView: View {
   @State private var autocompleteTask: Task<Void, Never>?
   @FocusState private var isSearchFocused: Bool
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
+  @Namespace private var heroAnimation
 
   private let cache = SearchDataCache.shared
   private let recentSearchesKey = "recentSearches"
@@ -314,7 +315,8 @@ struct SearchTabView: View {
                     items: popularMovies,
                     mediaType: "movie",
                     categoryType: .movies,
-                    initialMovieSubcategory: .popular
+                    initialMovieSubcategory: .popular,
+                    namespace: heroAnimation
                   )
                 }
 
@@ -324,7 +326,8 @@ struct SearchTabView: View {
                     items: popularTVSeries,
                     mediaType: "tv",
                     categoryType: .tvSeries,
-                    initialTVSeriesSubcategory: .popular
+                    initialTVSeriesSubcategory: .popular,
+                    namespace: heroAnimation
                   )
                 }
 
@@ -333,7 +336,8 @@ struct SearchTabView: View {
                     title: strings.animes,
                     items: popularAnimes,
                     mediaType: "tv",
-                    categoryType: .animes
+                    categoryType: .animes,
+                    namespace: heroAnimation
                   )
                 }
 
@@ -342,7 +346,8 @@ struct SearchTabView: View {
                     title: strings.doramas,
                     items: popularDoramas,
                     mediaType: "tv",
-                    categoryType: .doramas
+                    categoryType: .doramas,
+                    namespace: heroAnimation
                   )
                 }
               }

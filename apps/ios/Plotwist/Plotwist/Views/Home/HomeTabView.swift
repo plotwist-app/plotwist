@@ -32,6 +32,7 @@ struct HomeTabView: View {
   @State private var airingTodayItems: [SearchResult] = []
   @State private var topRatedItems: [SearchResult] = []
 
+  @Namespace private var heroAnimation
   private let cache = HomeDataCache.shared
   
   // Guest mode username from onboarding
@@ -164,7 +165,7 @@ struct HomeTabView: View {
 
             // Featured Hero Card
             if let featured = featuredItem {
-              FeaturedHeroCard(item: featured, label: strings.featured)
+              FeaturedHeroCard(item: featured, label: strings.featured, namespace: heroAnimation)
                 .padding(.horizontal, 20)
                 .transition(.opacity)
             } else if showDiscoverySkeleton {
@@ -178,7 +179,8 @@ struct HomeTabView: View {
             } else if !watchingItems.isEmpty {
               ContinueWatchingSection(
                 items: watchingItems,
-                title: strings.continueWatching
+                title: strings.continueWatching,
+                namespace: heroAnimation
               )
             }
 
@@ -188,7 +190,8 @@ struct HomeTabView: View {
             } else if !watchlistItems.isEmpty {
               WatchlistSection(
                 items: watchlistItems,
-                title: strings.upNext
+                title: strings.upNext,
+                namespace: heroAnimation
               )
             }
 
@@ -197,7 +200,8 @@ struct HomeTabView: View {
               ForYouSection(
                 items: forYouItems,
                 title: strings.forYou,
-                subtitle: forYouSubtitle
+                subtitle: forYouSubtitle,
+                namespace: heroAnimation
               )
             } else if showDiscoverySkeleton && !onboardingService.selectedGenres.isEmpty {
               HomeSectionSkeleton()
@@ -207,7 +211,8 @@ struct HomeTabView: View {
             if !trendingItems.isEmpty {
               TrendingSection(
                 items: trendingItems,
-                title: strings.trendingThisWeek
+                title: strings.trendingThisWeek,
+                namespace: heroAnimation
               )
             } else if showDiscoverySkeleton {
               HomeSectionSkeleton()
@@ -219,7 +224,8 @@ struct HomeTabView: View {
                 title: strings.popularAnimes,
                 items: animeItems,
                 mediaType: "tv",
-                categoryType: .animes
+                categoryType: .animes,
+                namespace: heroAnimation
               )
             }
 
@@ -230,7 +236,8 @@ struct HomeTabView: View {
                 items: nowPlayingItems,
                 mediaType: "movie",
                 categoryType: .movies,
-                initialMovieSubcategory: .nowPlaying
+                initialMovieSubcategory: .nowPlaying,
+                namespace: heroAnimation
               )
             }
 
@@ -240,7 +247,8 @@ struct HomeTabView: View {
                 items: airingTodayItems,
                 mediaType: "tv",
                 categoryType: .tvSeries,
-                initialTVSeriesSubcategory: .airingToday
+                initialTVSeriesSubcategory: .airingToday,
+                namespace: heroAnimation
               )
             }
 
@@ -250,7 +258,8 @@ struct HomeTabView: View {
                 title: strings.popularDoramas,
                 items: doramaItems,
                 mediaType: "tv",
-                categoryType: .doramas
+                categoryType: .doramas,
+                namespace: heroAnimation
               )
             }
 
@@ -267,7 +276,8 @@ struct HomeTabView: View {
                   items: popularMovies,
                   mediaType: "movie",
                   categoryType: .movies,
-                  initialMovieSubcategory: .popular
+                  initialMovieSubcategory: .popular,
+                  namespace: heroAnimation
                 )
               }
 
@@ -278,7 +288,8 @@ struct HomeTabView: View {
                   items: popularTVSeries,
                   mediaType: "tv",
                   categoryType: .tvSeries,
-                  initialTVSeriesSubcategory: .popular
+                  initialTVSeriesSubcategory: .popular,
+                  namespace: heroAnimation
                 )
               }
             }
@@ -291,7 +302,8 @@ struct HomeTabView: View {
                 mediaType: topRatedMediaType,
                 categoryType: topRatedCategoryType,
                 initialMovieSubcategory: showMoviesContent ? .topRated : nil,
-                initialTVSeriesSubcategory: !showMoviesContent ? .topRated : nil
+                initialTVSeriesSubcategory: !showMoviesContent ? .topRated : nil,
+                namespace: heroAnimation
               )
             }
 
@@ -1052,6 +1064,7 @@ struct HomeTabView: View {
 struct FeaturedHeroCard: View {
   let item: SearchResult
   var label: String = "Featured"
+  var namespace: Namespace.ID
 
   var body: some View {
     NavigationLink {
@@ -1059,6 +1072,7 @@ struct FeaturedHeroCard: View {
         mediaId: item.id,
         mediaType: item.mediaType ?? "movie"
       )
+      .navigationTransition(.zoom(sourceID: item.id, in: namespace))
     } label: {
       GeometryReader { geometry in
         ZStack(alignment: .bottomLeading) {
@@ -1133,6 +1147,7 @@ struct FeaturedHeroCard: View {
       .clipShape(RoundedRectangle(cornerRadius: 24))
       .posterBorder(cornerRadius: 24)
       .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 8)
+      .matchedTransitionSource(id: item.id, in: namespace)
     }
     .buttonStyle(.plain)
   }
@@ -1152,6 +1167,7 @@ struct ForYouSection: View {
   let items: [SearchResult]
   let title: String
   let subtitle: String
+  var namespace: Namespace.ID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1176,8 +1192,10 @@ struct ForYouSection: View {
                 mediaId: item.id,
                 mediaType: item.mediaType ?? "movie"
               )
+              .navigationTransition(.zoom(sourceID: "foryou-\(item.id)", in: namespace))
             } label: {
               HomePosterCard(item: item)
+                .matchedTransitionSource(id: "foryou-\(item.id)", in: namespace)
             }
             .buttonStyle(.plain)
           }
@@ -1194,6 +1212,7 @@ struct ForYouSection: View {
 struct TrendingSection: View {
   let items: [SearchResult]
   let title: String
+  var namespace: Namespace.ID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1213,9 +1232,11 @@ struct TrendingSection: View {
                   mediaId: item.id,
                   mediaType: item.mediaType ?? "movie"
                 )
+                .navigationTransition(.zoom(sourceID: "trending-\(item.id)", in: namespace))
               } label: {
                 TrendingCard(item: item, rank: index + 1)
                   .frame(width: cardWidth)
+                  .matchedTransitionSource(id: "trending-\(item.id)", in: namespace)
               }
               .buttonStyle(.plain)
             }
@@ -1399,6 +1420,7 @@ struct HomeSectionCard: View {
 struct ContinueWatchingSection: View {
   let items: [SearchResult]
   let title: String
+  var namespace: Namespace.ID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1415,8 +1437,10 @@ struct ContinueWatchingSection: View {
                 mediaId: item.id,
                 mediaType: item.mediaType ?? "movie"
               )
+              .navigationTransition(.zoom(sourceID: "watching-\(item.id)", in: namespace))
             } label: {
               HomeSectionCard(item: item)
+                .matchedTransitionSource(id: "watching-\(item.id)", in: namespace)
             }
             .buttonStyle(.plain)
           }
@@ -1433,6 +1457,7 @@ struct ContinueWatchingSection: View {
 struct WatchlistSection: View {
   let items: [SearchResult]
   let title: String
+  var namespace: Namespace.ID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1449,8 +1474,10 @@ struct WatchlistSection: View {
                 mediaId: item.id,
                 mediaType: item.mediaType ?? "movie"
               )
+              .navigationTransition(.zoom(sourceID: "watchlist-\(item.id)", in: namespace))
             } label: {
               HomeSectionCard(item: item)
+                .matchedTransitionSource(id: "watchlist-\(item.id)", in: namespace)
             }
             .buttonStyle(.plain)
           }
@@ -1479,6 +1506,7 @@ struct HomeSectionView: View {
   let categoryType: HomeCategoryType
   var initialMovieSubcategory: MovieSubcategory?
   var initialTVSeriesSubcategory: TVSeriesSubcategory?
+  var namespace: Namespace.ID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -1511,8 +1539,10 @@ struct HomeSectionView: View {
                 mediaId: item.id,
                 mediaType: mediaType
               )
+              .navigationTransition(.zoom(sourceID: "\(title)-\(item.id)", in: namespace))
             } label: {
               HomePosterCard(item: item)
+                .matchedTransitionSource(id: "\(title)-\(item.id)", in: namespace)
             }
             .buttonStyle(.plain)
           }
