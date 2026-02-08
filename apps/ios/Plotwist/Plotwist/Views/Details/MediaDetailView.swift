@@ -74,20 +74,29 @@ struct MediaDetailView: View {
                     }
                     .buttonStyle(.plain)
                   } else if let url = resolvedBackdropURL {
-                    // Use CachedAsyncImage (no fade) when we have a pre-cached URL from the card,
-                    // so the image appears instantly during the zoom transition.
-                    // Once details load, the URL stays the same so no reload occurs.
-                    CachedAsyncImage(url: url, priority: .high, animated: false) { image in
-                      image
+                    // Check cache synchronously so the image is visible on the very first frame.
+                    // This avoids any placeholder flash during the zoom transition.
+                    if let cached = ImageCache.shared.image(for: url) {
+                      Image(uiImage: cached)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
+                        .frame(height: backdropHeight + cornerRadius)
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                    } else {
+                      // Fallback: image not in cache yet, load async
+                      CachedAsyncImage(url: url, priority: .high, animated: false) { image in
+                        image
+                          .resizable()
+                          .aspectRatio(contentMode: .fill)
+                      } placeholder: {
+                        Rectangle()
+                          .fill(Color.appBorderAdaptive)
+                      }
+                      .frame(height: backdropHeight + cornerRadius)
+                      .frame(maxWidth: .infinity)
+                      .clipped()
                     }
-                    .frame(height: backdropHeight + cornerRadius)
-                    .frame(maxWidth: .infinity)
-                    .clipped()
                   } else {
                     Rectangle()
                       .fill(Color.appBorderAdaptive)
