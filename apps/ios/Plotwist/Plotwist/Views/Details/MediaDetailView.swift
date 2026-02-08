@@ -39,124 +39,30 @@ struct MediaDetailView: View {
   private let cornerRadius: CGFloat = 24
   private let posterOverlapOffset: CGFloat = -70
 
+  /// Resolve the best backdrop URL: prefer details (API), fall back to initialBackdropURL (from card cache)
+  private var resolvedBackdropURL: URL? {
+    details?.backdropURL ?? initialBackdropURL
+  }
+
   var body: some View {
     ZStack {
       // Background color
       Color.appBackgroundAdaptive.ignoresSafeArea()
 
-      if isLoading && initialBackdropURL != nil {
-        // Show backdrop immediately from cache while loading details
-        GeometryReader { geometry in
-          let backdropHeight = geometry.size.height * 0.45
-
-          ZStack(alignment: .topLeading) {
-            ScrollView(showsIndicators: false) {
-              VStack(alignment: .leading, spacing: 0) {
-                // Cached backdrop from the card
-                CachedAsyncImage(url: initialBackdropURL, priority: .high, animated: false) { image in
-                  image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
-                    .clipped()
-                } placeholder: {
-                  Rectangle()
-                    .fill(Color.appBorderAdaptive)
-                    .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
-                }
-
-                // Content skeleton below backdrop
-                ZStack(alignment: .topLeading) {
-                  VStack(alignment: .leading, spacing: 0) {
-                    Spacer().frame(height: 110)
-                    VStack(alignment: .leading, spacing: 20) {
-                      HStack(spacing: 12) {
-                        RoundedRectangle(cornerRadius: 12)
-                          .fill(Color.appBorderAdaptive.opacity(0.5))
-                          .frame(height: 48)
-                        RoundedRectangle(cornerRadius: 12)
-                          .fill(Color.appBorderAdaptive.opacity(0.5))
-                          .frame(height: 48)
-                      }
-                      VStack(alignment: .leading, spacing: 8) {
-                        RoundedRectangle(cornerRadius: 4)
-                          .fill(Color.appBorderAdaptive.opacity(0.5))
-                          .frame(height: 14)
-                        RoundedRectangle(cornerRadius: 4)
-                          .fill(Color.appBorderAdaptive.opacity(0.5))
-                          .frame(height: 14)
-                        RoundedRectangle(cornerRadius: 4)
-                          .fill(Color.appBorderAdaptive.opacity(0.5))
-                          .frame(width: 200, height: 14)
-                      }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                  }
-                  .background(Color.appBackgroundAdaptive)
-                  .clipShape(
-                    RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-                  )
-
-                  // Poster skeleton
-                  HStack(alignment: .bottom, spacing: 16) {
-                    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(width: 120, height: 180)
-                    VStack(alignment: .leading, spacing: 8) {
-                      RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.appBorderAdaptive.opacity(0.5))
-                        .frame(width: 80, height: 12)
-                      RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.appBorderAdaptive.opacity(0.5))
-                        .frame(width: 150, height: 18)
-                    }
-                    .padding(.bottom, 8)
-                    Spacer()
-                  }
-                  .padding(.horizontal, 24)
-                  .offset(y: -70)
-                }
-                .offset(y: -cornerRadius)
-              }
-            }
-            .ignoresSafeArea(edges: .top)
-
-            // Back button
-            VStack {
-              Button { dismiss() } label: {
-                Image(systemName: "chevron.left")
-                  .font(.system(size: 18, weight: .semibold))
-                  .foregroundColor(.white)
-                  .frame(width: 40, height: 40)
-                  .background(.ultraThinMaterial)
-                  .clipShape(Circle())
-              }
-              .padding(.leading, 24)
-              Spacer()
-            }
-            .padding(.top, 8)
-            .safeAreaPadding(.top)
-          }
-        }
-      } else if isLoading {
+      if isLoading && initialBackdropURL == nil {
+        // No pre-cached backdrop available — show full skeleton
         MediaDetailSkeletonView(cornerRadius: cornerRadius)
-      } else if let details {
+      } else {
+        // Unified layout: backdrop stays in place, content transitions from skeleton → real
         GeometryReader { geometry in
           let backdropHeight = geometry.size.height * 0.45
 
           ZStack(alignment: .topLeading) {
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
-                // Backdrop Section (stays behind content)
+                // MARK: Backdrop Section
                 ZStack(alignment: .bottomTrailing) {
-                  // Backdrop Image/Carousel (using optimized cached loading)
-                  if backdropImages.isEmpty {
-                    BackdropImage(
-                      url: details.backdropURL,
-                      height: backdropHeight + cornerRadius
-                    )
-                  } else {
+                  if !backdropImages.isEmpty {
                     NavigationLink(
                       destination: MediaImagesView(mediaId: mediaId, mediaType: mediaType)
                     ) {
@@ -167,9 +73,18 @@ struct MediaDetailView: View {
                       )
                     }
                     .buttonStyle(.plain)
+                  } else if let url = resolvedBackdropURL {
+                    BackdropImage(
+                      url: url,
+                      height: backdropHeight + cornerRadius
+                    )
+                  } else {
+                    Rectangle()
+                      .fill(Color.appBorderAdaptive)
+                      .frame(height: backdropHeight + cornerRadius)
                   }
 
-                  // Image counter (only show when we have multiple images)
+                  // Image counter
                   if !backdropImages.isEmpty {
                     Text("\(currentBackdropIndex + 1)/\(min(backdropImages.count, 10))")
                       .font(.caption.weight(.semibold))
@@ -183,210 +98,36 @@ struct MediaDetailView: View {
                   }
                 }
 
-              // Content Card (rounded, overlaps backdrop)
-              ZStack(alignment: .topLeading) {
-                // Background card with rounded corners
-                VStack(alignment: .leading, spacing: 0) {
-                  // Spacer for poster overlap area
-                  Spacer()
-                    .frame(height: 110)
+                // MARK: Content Card (rounded, overlaps backdrop)
+                ZStack(alignment: .topLeading) {
+                  VStack(alignment: .leading, spacing: 0) {
+                    Spacer()
+                      .frame(height: 110)
 
-                  // Content Section
-                  VStack(alignment: .leading, spacing: 20) {
-                    // Action Buttons (Review + Status)
-                    MediaDetailViewActions(
-                      mediaId: mediaId,
-                      mediaType: mediaType,
-                      userReview: userReview,
-                      userItem: userItem,
-                      isLoadingReview: isLoadingUserReview,
-                      isLoadingStatus: isLoadingUserItem,
-                      onReviewTapped: {
-                        if AuthService.shared.isAuthenticated {
-                          showReviewSheet = true
-                        } else {
-                          showLoginPrompt = true
-                        }
-                      },
-                      onStatusChanged: { newItem in
-                        userItem = newItem
-                      },
-                      onLoginRequired: {
-                        showLoginPrompt = true
-                      }
-                    )
-
-                    // Overview
-                    if let overview = details.overview, !overview.isEmpty {
-                      Text(overview)
-                        .font(.subheadline)
-                        .foregroundColor(.appMutedForegroundAdaptive)
-                        .lineSpacing(6)
+                    if let details {
+                      // Loaded content
+                      detailsContent(details)
+                    } else {
+                      // Skeleton content while loading
+                      loadingContentSkeleton()
                     }
                   }
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-
-                  // Genres Badges (outside padding for full-width scroll)
-                  if let genres = details.genres, !genres.isEmpty {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                      HStack(spacing: 8) {
-                        ForEach(genres) { genre in
-                          BadgeView(text: genre.name)
-                        }
-                      }
-                      .padding(.horizontal, 24)
-                    }
-                    .scrollClipDisabled()
-                    .padding(.top, 16)
-                  }
-
-                  // Collection Section (only for movies that belong to a collection)
-                  if let collection = collection {
-                    MovieCollectionSection(
-                      collection: collection,
-                      onSeeCollectionTapped: {
-                        showCollectionSheet = true
-                      }
-                    )
-                    .padding(.top, 24)
-                  }
-
-                  // Divider before first content section
-                  if hasReviews || hasWhereToWatch || hasSeasons || hasRecommendations {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 1)
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 24)
-                  }
-
-                  // Review Section
-                  ReviewSectionView(
-                    mediaId: mediaId,
-                    mediaType: mediaType,
-                    refreshId: reviewsRefreshId,
-                    onEmptyStateTapped: {
-                      if AuthService.shared.isAuthenticated {
-                        showReviewSheet = true
-                      } else {
-                        showLoginPrompt = true
-                      }
-                    },
-                    onContentLoaded: { hasContent in
-                      hasReviews = hasContent
-                    }
+                  .background(Color.appBackgroundAdaptive)
+                  .clipShape(
+                    RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
                   )
 
-                  // Divider after reviews
-                  if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations) {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 1)
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 24)
+                  // Poster and Info
+                  if let details {
+                    posterAndInfo(details)
+                  } else {
+                    posterAndInfoSkeleton()
                   }
-
-                  // Where to Watch Section
-                  WhereToWatchSection(
-                    mediaId: mediaId,
-                    mediaType: mediaType,
-                    onContentLoaded: { hasContent in
-                      hasWhereToWatch = hasContent
-                    }
-                  )
-
-                  // Divider after where to watch
-                  if hasWhereToWatch && (hasSeasons || hasRecommendations) {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 1)
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 24)
-                  }
-
-                  // Seasons Section (only for TV series)
-                  if mediaType != "movie" {
-                    SeasonsSection(
-                      seasons: details.displaySeasons,
-                      seriesId: mediaId,
-                      seriesName: details.displayTitle,
-                      onContentLoaded: { hasContent in
-                        hasSeasons = hasContent
-                      }
-                    )
-                  }
-
-                  // Divider after seasons
-                  if hasSeasons && hasRecommendations {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 1)
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 24)
-                  }
-
-                  // Recommendations Section
-                  RelatedSection(
-                    mediaId: mediaId,
-                    mediaType: mediaType,
-                    onContentLoaded: { hasContent in
-                      hasRecommendations = hasContent
-                    }
-                  )
-
-                  Spacer()
-                    .frame(height: 80)
                 }
-                .background(Color.appBackgroundAdaptive)
-                .clipShape(
-                  RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-                )
-
-                // Poster and Info (overlaid on top, outside clipShape)
-                HStack(alignment: .bottom, spacing: 16) {
-                  // Poster (using cached image loading)
-                  CachedAsyncImage(
-                    url: details.posterURL,
-                    priority: .high
-                  ) { image in
-                    image
-                      .resizable()
-                      .aspectRatio(contentMode: .fill)
-                  } placeholder: {
-                    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                      .fill(Color.appBorderAdaptive)
-                  }
-                  .frame(width: 120, height: 180)
-                  .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
-                  .posterBorder()
-                  .posterShadow()
-
-                  // Info
-                  VStack(alignment: .leading, spacing: 4) {
-                    if let releaseDate = details.formattedReleaseDate(
-                      locale: Language.current.rawValue)
-                    {
-                      Text(releaseDate)
-                        .font(.caption)
-                        .foregroundColor(.appMutedForegroundAdaptive)
-                    }
-
-                    Text(details.displayTitle)
-                      .font(.headline)
-                      .foregroundColor(.appForegroundAdaptive)
-                  }
-                  .padding(.bottom, 8)
-
-                  Spacer()
-                }
-                .padding(.horizontal, 24)
-                .offset(y: -70)
+                .offset(y: -cornerRadius)
               }
-              .offset(y: -cornerRadius)
             }
-          }
-          .ignoresSafeArea(edges: .top)
+            .ignoresSafeArea(edges: .top)
 
             // Sticky Back Button
             VStack {
@@ -476,6 +217,265 @@ struct MediaDetailView: View {
       }
     }
   }
+
+  // MARK: - Content Subviews
+
+  @ViewBuilder
+  private func detailsContent(_ details: MovieDetails) -> some View {
+    VStack(alignment: .leading, spacing: 20) {
+      // Action Buttons (Review + Status)
+      MediaDetailViewActions(
+        mediaId: mediaId,
+        mediaType: mediaType,
+        userReview: userReview,
+        userItem: userItem,
+        isLoadingReview: isLoadingUserReview,
+        isLoadingStatus: isLoadingUserItem,
+        onReviewTapped: {
+          if AuthService.shared.isAuthenticated {
+            showReviewSheet = true
+          } else {
+            showLoginPrompt = true
+          }
+        },
+        onStatusChanged: { newItem in
+          userItem = newItem
+        },
+        onLoginRequired: {
+          showLoginPrompt = true
+        }
+      )
+
+      // Overview
+      if let overview = details.overview, !overview.isEmpty {
+        Text(overview)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .lineSpacing(6)
+      }
+    }
+    .padding(.horizontal, 24)
+    .padding(.top, 16)
+
+    // Genres Badges
+    if let genres = details.genres, !genres.isEmpty {
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 8) {
+          ForEach(genres) { genre in
+            BadgeView(text: genre.name)
+          }
+        }
+        .padding(.horizontal, 24)
+      }
+      .scrollClipDisabled()
+      .padding(.top, 16)
+    }
+
+    // Collection Section
+    if let collection = collection {
+      MovieCollectionSection(
+        collection: collection,
+        onSeeCollectionTapped: {
+          showCollectionSheet = true
+        }
+      )
+      .padding(.top, 24)
+    }
+
+    // Divider before first content section
+    if hasReviews || hasWhereToWatch || hasSeasons || hasRecommendations {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Review Section
+    ReviewSectionView(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      refreshId: reviewsRefreshId,
+      onEmptyStateTapped: {
+        if AuthService.shared.isAuthenticated {
+          showReviewSheet = true
+        } else {
+          showLoginPrompt = true
+        }
+      },
+      onContentLoaded: { hasContent in
+        hasReviews = hasContent
+      }
+    )
+
+    // Divider after reviews
+    if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations) {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Where to Watch Section
+    WhereToWatchSection(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      onContentLoaded: { hasContent in
+        hasWhereToWatch = hasContent
+      }
+    )
+
+    // Divider after where to watch
+    if hasWhereToWatch && (hasSeasons || hasRecommendations) {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Seasons Section (only for TV series)
+    if mediaType != "movie" {
+      SeasonsSection(
+        seasons: details.displaySeasons,
+        seriesId: mediaId,
+        seriesName: details.displayTitle,
+        onContentLoaded: { hasContent in
+          hasSeasons = hasContent
+        }
+      )
+    }
+
+    // Divider after seasons
+    if hasSeasons && hasRecommendations {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Recommendations Section
+    RelatedSection(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      onContentLoaded: { hasContent in
+        hasRecommendations = hasContent
+      }
+    )
+
+    Spacer()
+      .frame(height: 80)
+  }
+
+  @ViewBuilder
+  private func loadingContentSkeleton() -> some View {
+    VStack(alignment: .leading, spacing: 20) {
+      HStack(spacing: 12) {
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(height: 48)
+        RoundedRectangle(cornerRadius: 12)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(height: 48)
+      }
+      VStack(alignment: .leading, spacing: 8) {
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(height: 14)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(height: 14)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(width: 200, height: 14)
+      }
+    }
+    .padding(.horizontal, 24)
+    .padding(.top, 16)
+
+    // Genres skeleton
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 8) {
+        ForEach(0..<4, id: \.self) { _ in
+          RoundedRectangle(cornerRadius: 8)
+            .fill(Color.appBorderAdaptive.opacity(0.5))
+            .frame(width: 70, height: 28)
+        }
+      }
+      .padding(.horizontal, 24)
+    }
+    .padding(.top, 16)
+
+    Spacer()
+      .frame(height: 80)
+  }
+
+  @ViewBuilder
+  private func posterAndInfo(_ details: MovieDetails) -> some View {
+    HStack(alignment: .bottom, spacing: 16) {
+      CachedAsyncImage(
+        url: details.posterURL,
+        priority: .high
+      ) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+          .fill(Color.appBorderAdaptive)
+      }
+      .frame(width: 120, height: 180)
+      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+      .posterBorder()
+      .posterShadow()
+
+      VStack(alignment: .leading, spacing: 4) {
+        if let releaseDate = details.formattedReleaseDate(
+          locale: Language.current.rawValue)
+        {
+          Text(releaseDate)
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+
+        Text(details.displayTitle)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+      }
+      .padding(.bottom, 8)
+
+      Spacer()
+    }
+    .padding(.horizontal, 24)
+    .offset(y: -70)
+  }
+
+  @ViewBuilder
+  private func posterAndInfoSkeleton() -> some View {
+    HStack(alignment: .bottom, spacing: 16) {
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(width: 120, height: 180)
+
+      VStack(alignment: .leading, spacing: 8) {
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(width: 80, height: 12)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive.opacity(0.5))
+          .frame(width: 150, height: 18)
+      }
+      .padding(.bottom, 8)
+
+      Spacer()
+    }
+    .padding(.horizontal, 24)
+    .offset(y: -70)
+  }
+
+  // MARK: - Data Loading
 
   private func loadDetails() async {
     // Skip if already loaded
