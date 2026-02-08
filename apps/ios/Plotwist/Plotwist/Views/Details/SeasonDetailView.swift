@@ -368,20 +368,22 @@ struct SegmentedProgressBar: View {
   private let segmentSpacing: CGFloat = 2
   
   var body: some View {
-    GeometryReader { geometry in
-      let availableWidth = geometry.size.width - (CGFloat(totalSegments - 1) * segmentSpacing)
-      let segmentWidth = availableWidth / CGFloat(totalSegments)
-      
-      HStack(spacing: segmentSpacing) {
-        ForEach(0..<totalSegments, id: \.self) { index in
-          RoundedRectangle(cornerRadius: 2)
-            .fill(index < filledSegments ? Color.green : Color.appBorderAdaptive)
-            .frame(width: segmentWidth, height: segmentHeight)
-            .animation(.easeInOut(duration: 0.2), value: filledSegments)
+    if totalSegments > 0 {
+      GeometryReader { geometry in
+        let availableWidth = geometry.size.width - (CGFloat(totalSegments - 1) * segmentSpacing)
+        let segmentWidth = max(0, availableWidth / CGFloat(totalSegments))
+        
+        HStack(spacing: segmentSpacing) {
+          ForEach(0..<totalSegments, id: \.self) { index in
+            RoundedRectangle(cornerRadius: 2)
+              .fill(index < filledSegments ? Color.green : Color.appBorderAdaptive)
+              .frame(width: segmentWidth, height: segmentHeight)
+              .animation(.easeInOut(duration: 0.2), value: filledSegments)
+          }
         }
       }
+      .frame(height: segmentHeight)
     }
-    .frame(height: segmentHeight)
   }
 }
 

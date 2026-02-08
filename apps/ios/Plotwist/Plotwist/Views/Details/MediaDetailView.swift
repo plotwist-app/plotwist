@@ -276,19 +276,25 @@ struct MediaDetailView: View {
     .padding(.horizontal, 24)
     .padding(.top, 16)
 
-    // Genres Badges
-    if let genres = details.genres, !genres.isEmpty {
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 8) {
+    // Rating + Genres Badges
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 8) {
+        // Genre Badges
+        if let genres = details.genres {
           ForEach(genres) { genre in
             BadgeView(text: genre.name)
           }
         }
-        .padding(.horizontal, 24)
+
+        // TMDB Rating Badge
+        if let rating = details.voteAverage, rating > 0 {
+          TMDBRatingBadge(rating: rating)
+        }
       }
-      .scrollClipDisabled()
-      .padding(.top, 16)
+      .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
+    .padding(.top, 16)
 
     // Collection Section
     if let collection = collection {
@@ -598,6 +604,45 @@ struct MediaDetailView: View {
     } catch {
       collection = nil
     }
+  }
+}
+
+// MARK: - TMDB Rating Badge
+struct TMDBRatingBadge: View {
+  let rating: Double
+
+  private var formattedRating: String {
+    if rating == rating.rounded() {
+      return String(format: "%.0f", rating)
+    }
+    return String(format: "%.1f", rating)
+  }
+
+  private var ratingColor: Color {
+    if rating >= 7.0 {
+      return Color.green
+    } else if rating >= 5.0 {
+      return Color.yellow
+    } else {
+      return Color.red
+    }
+  }
+
+  var body: some View {
+    HStack(spacing: 6) {
+      Image("tmdb-logo")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(height: 10)
+
+      Text(formattedRating)
+        .font(.system(size: 13, weight: .bold, design: .rounded))
+        .foregroundColor(ratingColor)
+    }
+    .padding(.horizontal, 10)
+    .padding(.vertical, 6)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 8))
   }
 }
 
