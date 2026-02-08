@@ -74,10 +74,20 @@ struct MediaDetailView: View {
                     }
                     .buttonStyle(.plain)
                   } else if let url = resolvedBackdropURL {
-                    BackdropImage(
-                      url: url,
-                      height: backdropHeight + cornerRadius
-                    )
+                    // Use CachedAsyncImage (no fade) when we have a pre-cached URL from the card,
+                    // so the image appears instantly during the zoom transition.
+                    // Once details load, the URL stays the same so no reload occurs.
+                    CachedAsyncImage(url: url, priority: .high, animated: false) { image in
+                      image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                      Rectangle()
+                        .fill(Color.appBorderAdaptive)
+                    }
+                    .frame(height: backdropHeight + cornerRadius)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
                   } else {
                     Rectangle()
                       .fill(Color.appBorderAdaptive)
