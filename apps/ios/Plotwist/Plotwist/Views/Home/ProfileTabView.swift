@@ -345,11 +345,11 @@ struct ProfileTabView: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)
+    .id(selectedMainTab)
     .transition(.asymmetric(
       insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
       removal: .move(edge: slideFromTrailing ? .leading : .trailing)
     ))
-    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
 
   // MARK: - Collection Tab Content
