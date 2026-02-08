@@ -8,6 +8,7 @@ import SwiftUI
 struct MediaDetailView: View {
   let mediaId: Int
   let mediaType: String
+  var initialBackdropURL: URL? = nil
 
   @Environment(\.dismiss) private var dismiss
   @State private var details: MovieDetails?
@@ -43,7 +44,102 @@ struct MediaDetailView: View {
       // Background color
       Color.appBackgroundAdaptive.ignoresSafeArea()
 
-      if isLoading {
+      if isLoading && initialBackdropURL != nil {
+        // Show backdrop immediately from cache while loading details
+        GeometryReader { geometry in
+          let backdropHeight = geometry.size.height * 0.45
+
+          ZStack(alignment: .topLeading) {
+            ScrollView(showsIndicators: false) {
+              VStack(alignment: .leading, spacing: 0) {
+                // Cached backdrop from the card
+                CachedAsyncImage(url: initialBackdropURL, priority: .high, animated: false) { image in
+                  image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
+                    .clipped()
+                } placeholder: {
+                  Rectangle()
+                    .fill(Color.appBorderAdaptive)
+                    .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
+                }
+
+                // Content skeleton below backdrop
+                ZStack(alignment: .topLeading) {
+                  VStack(alignment: .leading, spacing: 0) {
+                    Spacer().frame(height: 110)
+                    VStack(alignment: .leading, spacing: 20) {
+                      HStack(spacing: 12) {
+                        RoundedRectangle(cornerRadius: 12)
+                          .fill(Color.appBorderAdaptive.opacity(0.5))
+                          .frame(height: 48)
+                        RoundedRectangle(cornerRadius: 12)
+                          .fill(Color.appBorderAdaptive.opacity(0.5))
+                          .frame(height: 48)
+                      }
+                      VStack(alignment: .leading, spacing: 8) {
+                        RoundedRectangle(cornerRadius: 4)
+                          .fill(Color.appBorderAdaptive.opacity(0.5))
+                          .frame(height: 14)
+                        RoundedRectangle(cornerRadius: 4)
+                          .fill(Color.appBorderAdaptive.opacity(0.5))
+                          .frame(height: 14)
+                        RoundedRectangle(cornerRadius: 4)
+                          .fill(Color.appBorderAdaptive.opacity(0.5))
+                          .frame(width: 200, height: 14)
+                      }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                  }
+                  .background(Color.appBackgroundAdaptive)
+                  .clipShape(
+                    RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                  )
+
+                  // Poster skeleton
+                  HStack(alignment: .bottom, spacing: 16) {
+                    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                      .fill(Color.appBorderAdaptive.opacity(0.5))
+                      .frame(width: 120, height: 180)
+                    VStack(alignment: .leading, spacing: 8) {
+                      RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.appBorderAdaptive.opacity(0.5))
+                        .frame(width: 80, height: 12)
+                      RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.appBorderAdaptive.opacity(0.5))
+                        .frame(width: 150, height: 18)
+                    }
+                    .padding(.bottom, 8)
+                    Spacer()
+                  }
+                  .padding(.horizontal, 24)
+                  .offset(y: -70)
+                }
+                .offset(y: -cornerRadius)
+              }
+            }
+            .ignoresSafeArea(edges: .top)
+
+            // Back button
+            VStack {
+              Button { dismiss() } label: {
+                Image(systemName: "chevron.left")
+                  .font(.system(size: 18, weight: .semibold))
+                  .foregroundColor(.white)
+                  .frame(width: 40, height: 40)
+                  .background(.ultraThinMaterial)
+                  .clipShape(Circle())
+              }
+              .padding(.leading, 24)
+              Spacer()
+            }
+            .padding(.top, 8)
+            .safeAreaPadding(.top)
+          }
+        }
+      } else if isLoading {
         MediaDetailSkeletonView(cornerRadius: cornerRadius)
       } else if let details {
         GeometryReader { geometry in
@@ -453,7 +549,17 @@ struct MediaDetailView: View {
       let images = try await TMDBService.shared.getImages(id: mediaId, mediaType: mediaType)
       // Reset index before setting images to avoid flash
       currentBackdropIndex = 0
-      backdropImages = images.sortedBackdrops
+      
+      // Ensure the main backdrop (from details) is always first in the carousel
+      var sorted = images.sortedBackdrops
+      if let mainPath = details?.backdropPath,
+         let mainIndex = sorted.firstIndex(where: { $0.filePath == mainPath }),
+         mainIndex != 0 {
+        let mainImage = sorted.remove(at: mainIndex)
+        sorted.insert(mainImage, at: 0)
+      }
+      
+      backdropImages = sorted
       // Note: Prefetching is now handled automatically by CarouselBackdropView
     } catch {
       backdropImages = []
