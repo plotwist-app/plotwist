@@ -247,23 +247,25 @@ struct BackdropImage: View {
   @State private var showImage = false
 
   var body: some View {
-    ZStack {
-      // Solid color placeholder
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .opacity(showImage ? 0 : 1)
+    GeometryReader { proxy in
+      ZStack {
+        // Solid color placeholder
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+          .opacity(showImage ? 0 : 1)
 
-      // Actual image with fade-in
-      if let loadedImage {
-        Image(uiImage: loadedImage)
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .opacity(showImage ? 1 : 0)
+        // Actual image with fade-in
+        if let loadedImage {
+          Image(uiImage: loadedImage)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .clipped()
+            .opacity(showImage ? 1 : 0)
+        }
       }
     }
     .frame(height: height)
-    .frame(maxWidth: .infinity)
-    .clipped()
     .task(id: url) {
       await loadImage()
     }

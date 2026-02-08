@@ -80,8 +80,7 @@ struct MediaDetailView: View {
                       Image(uiImage: cached)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: backdropHeight + cornerRadius)
-                        .frame(maxWidth: .infinity)
+                        .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
                         .clipped()
                     } else {
                       // Fallback: image not in cache yet, load async
@@ -93,8 +92,7 @@ struct MediaDetailView: View {
                         Rectangle()
                           .fill(Color.appBorderAdaptive)
                       }
-                      .frame(height: backdropHeight + cornerRadius)
-                      .frame(maxWidth: .infinity)
+                      .frame(width: geometry.size.width, height: backdropHeight + cornerRadius)
                       .clipped()
                     }
                   } else {
@@ -637,7 +635,7 @@ struct TMDBRatingBadge: View {
 
       Text(formattedRating)
         .font(.system(size: 13, weight: .bold, design: .rounded))
-        .foregroundColor(ratingColor)
+        .foregroundColor(.white)
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 6)
