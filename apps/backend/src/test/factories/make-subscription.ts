@@ -14,6 +14,7 @@ export function makeRawSubscription(
     type: 'MEMBER',
     userId: faker.string.uuid(),
     status: 'ACTIVE',
+    provider: 'STRIPE',
     ...overrides,
   }
 }
