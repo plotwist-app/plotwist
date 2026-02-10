@@ -1,1 +1,0 @@
-ALTER TABLE "watchlist_items" ADD COLUMN "media_type" "media_type" NOT NULL;
