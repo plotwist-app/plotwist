@@ -66,7 +66,7 @@ struct OnboardingAddTitlesContent: View {
           DeckStack(
             deck,
             option: Option(
-              allowedDirections: [.left, .top, .right],
+              allowedDirections: [.left, .top, .right, .bottom],
               numberOfVisibleCards: 3,
               maximumRotationOfCard: 12,
               judgmentThreshold: 120
@@ -241,6 +241,13 @@ struct OnboardingAddTitlesContent: View {
           iconColor: .green,
           text: strings.onboardingAlreadyWatched
         )
+      case .bottom:
+        // Watching
+        swipeIndicatorPill(
+          icon: "play.circle.fill",
+          iconColor: .blue,
+          text: strings.onboardingWatching
+        )
       default:
         EmptyView()
       }
@@ -310,6 +317,28 @@ struct OnboardingAddTitlesContent: View {
         .cornerRadius(10)
       }
       
+      // Watching (down) 
+      Button(action: {
+        if let targetID = deck.targetID {
+          deck.swipe(to: .bottom, id: targetID)
+        }
+      }) {
+        HStack(spacing: 6) {
+          Image(systemName: "play.circle.fill")
+            .font(.system(size: 13))
+            .foregroundColor(.blue)
+          
+          Text(strings.onboardingWatching)
+            .font(.footnote.weight(.medium))
+            .foregroundColor(.appForegroundAdaptive)
+            .lineLimit(1)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Color.appInputFilled)
+        .cornerRadius(10)
+      }
+      
       // Not interested (left) - last
       Button(action: {
         if let targetID = deck.targetID {
@@ -352,6 +381,9 @@ struct OnboardingAddTitlesContent: View {
     case .top:
       // Already watched
       addTitle(item, status: "WATCHED")
+    case .bottom:
+      // Watching
+      addTitle(item, status: "WATCHING")
     case .left:
       // Not interested - just skip
       break
