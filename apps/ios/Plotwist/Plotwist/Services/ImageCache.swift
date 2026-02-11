@@ -192,6 +192,11 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     self.animated = animated
     self.content = content
     self.placeholder = placeholder
+    // Pre-populate from cache so image is available from the first frame
+    // (avoids blank placeholders during view transitions)
+    if let url {
+      _loadedImage = State(initialValue: ImageCache.shared.image(for: url))
+    }
   }
 
   var body: some View {

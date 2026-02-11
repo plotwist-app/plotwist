@@ -5,6 +5,93 @@
 
 import SwiftUI
 
+// MARK: - Edit Profile Tab
+enum EditProfileTab: CaseIterable {
+  case information
+  case preferences
+  case settings
+
+  func displayName(strings: Strings) -> String {
+    switch self {
+    case .information: return strings.information
+    case .preferences: return strings.preferences
+    case .settings: return strings.settings
+    }
+  }
+
+  var icon: String {
+    switch self {
+    case .information: return "person.fill"
+    case .preferences: return "slider.horizontal.3"
+    case .settings: return "gearshape.fill"
+    }
+  }
+
+  var index: Int {
+    switch self {
+    case .information: return 0
+    case .preferences: return 1
+    case .settings: return 2
+    }
+  }
+}
+
+// MARK: - Edit Profile Tabs
+struct EditProfileTabs: View {
+  @Binding var selectedTab: EditProfileTab
+  @Binding var slideFromTrailing: Bool
+  let strings: Strings
+  @Namespace private var tabNamespace
+
+  var body: some View {
+    HStack(spacing: 0) {
+      ForEach(EditProfileTab.allCases, id: \.self) { tab in
+        Button {
+          guard selectedTab != tab else { return }
+          slideFromTrailing = tab.index > selectedTab.index
+          withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+            selectedTab = tab
+          }
+        } label: {
+          VStack(spacing: 8) {
+            HStack(spacing: 6) {
+              Image(systemName: tab.icon)
+                .font(.system(size: 12))
+                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+
+              Text(tab.displayName(strings: strings))
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+            }
+
+            ZStack {
+              Rectangle()
+                .fill(Color.clear)
+                .frame(height: 3)
+
+              if selectedTab == tab {
+                Rectangle()
+                  .fill(Color.appForegroundAdaptive)
+                  .frame(height: 3)
+                  .matchedGeometryEffect(id: "editProfileTabIndicator", in: tabNamespace)
+              }
+            }
+          }
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
+      }
+    }
+    .padding(.horizontal, 24)
+    .overlay(
+      Rectangle()
+        .fill(Color.appBorderAdaptive)
+        .frame(height: 1),
+      alignment: .bottom
+    )
+  }
+}
+
 struct EditProfileView: View {
   let user: User
 
@@ -15,6 +102,8 @@ struct EditProfileView: View {
   @State private var userPreferences: UserPreferences?
   @State private var isLoadingPreferences = true
   @State private var streamingProviders: [StreamingProvider] = []
+  @State private var selectedTab: EditProfileTab = .information
+  @State private var slideFromTrailing: Bool = true
 
   private let labelWidth: CGFloat = 100
 
@@ -63,15 +152,22 @@ struct EditProfileView: View {
 
       VStack(spacing: 0) {
         headerView
-        
+
+        profilePictureSection
+
+        EditProfileTabs(
+          selectedTab: $selectedTab,
+          slideFromTrailing: $slideFromTrailing,
+          strings: strings
+        )
+        .padding(.top, 8)
+
         ScrollView(showsIndicators: false) {
-          VStack(spacing: 0) {
-            profilePictureSection
-            Divider().background(Color.appBorderAdaptive.opacity(0.5))
-            fieldsSection
-            signOutSection
-          }
+          tabContentView
+            .id(selectedTab)
+            .padding(.bottom, 40)
         }
+        .clipped()
       }
     }
     .navigationBarHidden(true)
@@ -139,9 +235,39 @@ struct EditProfileView: View {
     .padding(.vertical, 24)
   }
 
-  // MARK: - Fields Section
-  private var fieldsSection: some View {
+  // MARK: - Tab Content View
+  private var tabContentView: some View {
+    Group {
+      switch selectedTab {
+      case .information:
+        informationSection
+      case .preferences:
+        preferencesSection
+      case .settings:
+        settingsSection
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .top)
+    .transition(.asymmetric(
+      insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
+      removal: .move(edge: slideFromTrailing ? .leading : .trailing)
+    ))
+    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedTab)
+  }
+
+  // MARK: - Information Section
+  private var informationSection: some View {
     VStack(spacing: 0) {
+      // Name
+      NavigationLink(destination: EditNameView(currentDisplayName: user.displayName)) {
+        EditProfileRow(
+          label: strings.name,
+          value: user.displayName?.isEmpty == false ? user.displayName! : "-",
+          labelWidth: labelWidth
+        )
+      }
+      fieldDivider
+
       // Username
       NavigationLink(destination: EditUsernameView(currentUsername: user.username)) {
         EditProfileRow(label: strings.username, value: user.username, labelWidth: labelWidth)
@@ -156,8 +282,12 @@ struct EditProfileView: View {
           labelWidth: labelWidth
         )
       }
-      fieldDivider
+    }
+  }
 
+  // MARK: - Preferences Section
+  private var preferencesSection: some View {
+    VStack(spacing: 0) {
       // Region
       NavigationLink(destination: EditRegionView(currentRegion: userPreferences?.watchRegion)) {
         EditProfileBadgeRow(label: strings.region) {
@@ -174,8 +304,12 @@ struct EditProfileView: View {
 
       // Streaming Services
       streamingServicesRow
-      fieldDivider
+    }
+  }
 
+  // MARK: - Settings Section
+  private var settingsSection: some View {
+    VStack(spacing: 0) {
       // Theme
       NavigationLink(destination: EditThemeView()) {
         EditProfileBadgeRow(label: strings.theme) {
@@ -190,6 +324,8 @@ struct EditProfileView: View {
           ProfileBadge(text: Language.current.displayName, prefix: Language.current.flag)
         }
       }
+
+      signOutSection
     }
   }
 
@@ -275,7 +411,6 @@ struct EditProfileView: View {
       #endif
     }
     .padding(.horizontal, 24)
-    .padding(.bottom, 40)
   }
 
   // MARK: - Helpers

@@ -138,7 +138,7 @@ struct LocalSavedTitle: Codable, Identifiable {
   let mediaType: String // "movie" or "tv"
   let title: String
   let posterPath: String?
-  let status: String // "WATCHLIST" or "WATCHED"
+  let status: String // "WATCHLIST", "WATCHED", or "WATCHING"
   let savedAt: Date
   
   var posterURL: URL? {
@@ -361,7 +361,12 @@ class OnboardingService: ObservableObject {
     for title in localSavedTitles {
       do {
         let apiMediaType = title.mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-        let status: UserItemStatus = title.status == "WATCHED" ? .watched : .watchlist
+        let status: UserItemStatus
+        switch title.status {
+        case "WATCHED": status = .watched
+        case "WATCHING": status = .watching
+        default: status = .watchlist
+        }
         
         _ = try await UserItemService.shared.upsertUserItem(
           tmdbId: title.tmdbId,

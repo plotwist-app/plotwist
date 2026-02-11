@@ -150,8 +150,8 @@ class AuthService {
 
   // MARK: - Update User
   func updateUser(
-    username: String? = nil, avatarUrl: String? = nil, bannerUrl: String? = nil,
-    biography: String? = nil
+    displayName: String? = nil, username: String? = nil, avatarUrl: String? = nil,
+    bannerUrl: String? = nil, biography: String? = nil
   ) async throws -> User {
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user")
@@ -165,6 +165,7 @@ class AuthService {
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
     var body: [String: Any] = [:]
+    if let displayName { body["displayName"] = displayName }
     if let username { body["username"] = username }
     if let avatarUrl { body["avatarUrl"] = avatarUrl }
     if let bannerUrl { body["bannerUrl"] = bannerUrl }
@@ -326,6 +327,7 @@ class AuthService {
 // MARK: - Models
 struct User: Codable {
   let id: String
+  let displayName: String?
   let username: String
   let email: String
   let avatarUrl: String?
