@@ -101,7 +101,11 @@ export const getMeResponseSchema = {
 
 export const updateUserResponseSchema = {
   200: z.object({
-    user: createSelectSchema(schema.users).omit({ password: true }),
+    user: createSelectSchema(schema.users)
+      .omit({ password: true })
+      .extend({
+        subscriptionType: z.enum(['MEMBER', 'PRO']),
+      }),
   }),
 }
 
