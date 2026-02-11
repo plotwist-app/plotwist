@@ -284,7 +284,7 @@ struct EditProfileView: View {
     VStack(spacing: 0) {
       // Media Types
       NavigationLink(destination: EditMediaTypesView(currentMediaTypes: userPreferences?.mediaTypes)) {
-        EditProfileBadgeRow(label: strings.onboardingMovies) {
+        EditProfileBadgeRow(label: strings.content) {
           if let types = userPreferences?.mediaTypes, !types.isEmpty {
             FlowLayout(spacing: 6) {
               ForEach(types, id: \.self) { type in
@@ -304,7 +304,7 @@ struct EditProfileView: View {
 
       // Genres
       NavigationLink(destination: EditGenresView(currentGenreIds: userPreferences?.genreIds)) {
-        EditProfileBadgeRow(label: strings.favoriteGenres) {
+        EditProfileBadgeRow(label: strings.genres) {
           if let ids = userPreferences?.genreIds, !ids.isEmpty {
             FlowLayout(spacing: 6) {
               ForEach(ids.prefix(5), id: \.self) { id in

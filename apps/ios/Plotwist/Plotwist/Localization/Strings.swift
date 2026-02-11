@@ -267,6 +267,8 @@ enum L10n {
       couldNotLoadStats: "Could not load stats",
       tryAgain: "Try again",
       favoriteGenres: "Favorite Genres",
+      content: "Content",
+      genres: "Genres",
       collectionStatus: "Collection Status",
       itemsInCollection: "items in collection",
       bestReviews: "Best Reviews",
@@ -529,6 +531,8 @@ enum L10n {
       couldNotLoadStats: "Não foi possível carregar estatísticas",
       tryAgain: "Tentar novamente",
       favoriteGenres: "Gêneros Favoritos",
+      content: "Conteúdo",
+      genres: "Gêneros",
       collectionStatus: "Status da Coleção",
       itemsInCollection: "itens na coleção",
       bestReviews: "Melhores Reviews",
@@ -791,6 +795,8 @@ enum L10n {
       couldNotLoadStats: "No se pudieron cargar las estadísticas",
       tryAgain: "Intentar de nuevo",
       favoriteGenres: "Géneros Favoritos",
+      content: "Contenido",
+      genres: "Géneros",
       collectionStatus: "Estado de la Colección",
       itemsInCollection: "ítems en la colección",
       bestReviews: "Mejores Reseñas",
@@ -1053,6 +1059,8 @@ enum L10n {
       couldNotLoadStats: "Impossible de charger les statistiques",
       tryAgain: "Réessayer",
       favoriteGenres: "Genres Préférés",
+      content: "Contenu",
+      genres: "Genres",
       collectionStatus: "Statut de la Collection",
       itemsInCollection: "éléments dans la collection",
       bestReviews: "Meilleures Critiques",
@@ -1315,6 +1323,8 @@ enum L10n {
       couldNotLoadStats: "Statistiken konnten nicht geladen werden",
       tryAgain: "Erneut versuchen",
       favoriteGenres: "Lieblingsgenres",
+      content: "Inhalte",
+      genres: "Genres",
       collectionStatus: "Sammlungsstatus",
       itemsInCollection: "Elemente in der Sammlung",
       bestReviews: "Beste Bewertungen",
@@ -1577,6 +1587,8 @@ enum L10n {
       couldNotLoadStats: "Impossibile caricare le statistiche",
       tryAgain: "Riprova",
       favoriteGenres: "Generi Preferiti",
+      content: "Contenuti",
+      genres: "Generi",
       collectionStatus: "Stato della Collezione",
       itemsInCollection: "elementi nella collezione",
       bestReviews: "Migliori Recensioni",
@@ -1838,6 +1850,8 @@ enum L10n {
       couldNotLoadStats: "統計を読み込めませんでした",
       tryAgain: "再試行",
       favoriteGenres: "お気に入りジャンル",
+      content: "コンテンツ",
+      genres: "ジャンル",
       collectionStatus: "コレクションステータス",
       itemsInCollection: "アイテム",
       bestReviews: "ベストレビュー",
@@ -2121,6 +2135,8 @@ struct Strings {
   let couldNotLoadStats: String
   let tryAgain: String
   let favoriteGenres: String
+  let content: String
+  let genres: String
   let collectionStatus: String
   let itemsInCollection: String
   let bestReviews: String

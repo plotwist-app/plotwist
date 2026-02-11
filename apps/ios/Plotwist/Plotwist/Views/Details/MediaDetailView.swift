@@ -622,9 +622,10 @@ struct TMDBRatingBadge: View {
 
   var body: some View {
     HStack(spacing: 4) {
-      Text("TMDB")
-        .font(.caption)
-        .foregroundColor(.appMutedForegroundAdaptive)
+      Image("tmdb-logo")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(height: 10)
 
       Image(systemName: "star.fill")
         .font(.system(size: 10))

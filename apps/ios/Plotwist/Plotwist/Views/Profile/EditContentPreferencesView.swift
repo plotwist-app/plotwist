@@ -91,11 +91,9 @@ struct EditMediaTypesView: View {
 
         Spacer()
 
-        Text(strings.onboardingContentTypeTitle.replacingOccurrences(of: "\n", with: " ").replacingOccurrences(of: " 🎬", with: ""))
+        Text(strings.content)
           .font(.title3.bold())
           .foregroundColor(.appForegroundAdaptive)
-          .lineLimit(1)
-          .minimumScaleFactor(0.7)
 
         Spacer()
 
@@ -251,7 +249,7 @@ struct EditGenresView: View {
 
         Spacer()
 
-        Text(strings.favoriteGenres)
+        Text(strings.genres)
           .font(.title3.bold())
           .foregroundColor(.appForegroundAdaptive)
 
