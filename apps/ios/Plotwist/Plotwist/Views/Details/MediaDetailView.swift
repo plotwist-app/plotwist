@@ -627,10 +627,6 @@ struct TMDBRatingBadge: View {
         .aspectRatio(contentMode: .fit)
         .frame(height: 10)
 
-      Image(systemName: "star.fill")
-        .font(.system(size: 10))
-        .foregroundColor(.appStarYellow)
-
       Text(formattedRating)
         .font(.caption)
         .foregroundColor(.appForegroundAdaptive)

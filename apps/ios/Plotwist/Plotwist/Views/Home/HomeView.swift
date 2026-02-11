@@ -40,23 +40,22 @@ struct HomeView: View {
         }
         .tag(1)
 
-      // TODO: Re-enable when Soundtracks feature is ready
-      // SoundtracksTabView()
-      //   .tabItem {
-      //     Image(systemName: "flame.fill")
-      //   }
-      //   .tag(2)
+      DiscoverTabView()
+        .tabItem {
+          Image(systemName: "sparkles")
+        }
+        .tag(2)
 
       ProfileTabView()
         .tabItem {
           Image(systemName: "person.fill")
         }
-        .tag(2)
+        .tag(3)
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
       // Intercept profile tab when in guest mode - show login prompt instead
-      if newTab == 2 && isGuestMode {
+      if newTab == 3 && isGuestMode {
         selectedTab = previousTab
         if !onboardingService.hasSeenLoginPrompt {
           showLoginPrompt = true
@@ -78,7 +77,7 @@ struct HomeView: View {
           exitGuestMode()
         }
       } else {
-        selectedTab = 2
+        selectedTab = 3
       }
     }
     .onAppear {
