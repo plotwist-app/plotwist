@@ -358,6 +358,15 @@ class OnboardingService: ObservableObject {
   func syncLocalDataToServer() async {
     guard AuthService.shared.isAuthenticated else { return }
     
+    // Sync display name from onboarding if available
+    if !userName.isEmpty {
+      do {
+        _ = try await AuthService.shared.updateUser(displayName: userName)
+      } catch {
+        print("Failed to sync display name: \(error)")
+      }
+    }
+    
     for title in localSavedTitles {
       do {
         let apiMediaType = title.mediaType == "movie" ? "MOVIE" : "TV_SHOW"

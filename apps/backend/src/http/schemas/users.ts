@@ -6,6 +6,7 @@ export const createUserBodySchema = z.object({
   username: z.string().min(3, 'Username is required.'),
   email: z.string().email('Email is invalid.'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
+  displayName: z.string().optional(),
 })
 
 export const createUserResponseSchema = {
@@ -105,6 +106,7 @@ export const updateUserResponseSchema = {
 }
 
 export const updateUserBodySchema = z.object({
+  displayName: z.string().optional(),
   bannerUrl: z.string().optional(),
   avatarUrl: z.string().optional(),
   username: z.string().optional(),

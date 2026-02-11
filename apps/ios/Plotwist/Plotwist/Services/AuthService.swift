@@ -60,7 +60,7 @@ class AuthService {
   }
 
   // MARK: - Sign Up
-  func signUp(email: String, password: String, username: String) async throws {
+  func signUp(email: String, password: String, username: String, displayName: String? = nil) async throws {
     guard let url = URL(string: "\(API.baseURL)/users/create") else {
       throw AuthError.invalidURL
     }
@@ -68,11 +68,16 @@ class AuthService {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.httpBody = try JSONEncoder().encode([
+
+    var body: [String: String] = [
       "email": email,
       "password": password,
       "username": username,
-    ])
+    ]
+    if let displayName, !displayName.isEmpty {
+      body["displayName"] = displayName
+    }
+    request.httpBody = try JSONEncoder().encode(body)
 
     let (_, response) = try await URLSession.shared.data(for: request)
 

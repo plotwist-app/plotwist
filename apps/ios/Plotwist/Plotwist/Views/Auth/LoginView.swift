@@ -721,7 +721,13 @@ struct SignUpFormSheet: View {
     do {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
-        try await AuthService.shared.signUp(email: email, password: password, username: username)
+        let onboardingName = OnboardingService.shared.userName
+        try await AuthService.shared.signUp(
+          email: email,
+          password: password,
+          username: username,
+          displayName: onboardingName.isEmpty ? nil : onboardingName
+        )
         AnalyticsService.shared.track(.signUp(method: "email"))
         dismiss()
       } else {
