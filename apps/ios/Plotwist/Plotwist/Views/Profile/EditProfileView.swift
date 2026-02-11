@@ -54,15 +54,9 @@ struct EditProfileTabs: View {
           }
         } label: {
           VStack(spacing: 8) {
-            HStack(spacing: 6) {
-              Image(systemName: tab.icon)
-                .font(.system(size: 12))
-                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-
-              Text(tab.displayName(strings: strings))
-                .font(.subheadline.weight(.medium))
-                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-            }
+            Text(tab.displayName(strings: strings))
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
 
             ZStack {
               Rectangle()

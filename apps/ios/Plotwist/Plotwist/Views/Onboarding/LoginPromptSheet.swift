@@ -13,6 +13,7 @@ struct LoginPromptSheet: View {
   @State private var login = ""
   @State private var password = ""
   @State private var username = ""
+  @State private var displayName = ""
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
@@ -47,14 +48,32 @@ struct LoginPromptSheet: View {
         .padding(.horizontal, 16)
         
         if showUsernameStep {
-          // Username Step
+          // Name & Username Step
           VStack(spacing: 16) {
-            TextField(strings.usernamePlaceholder, text: $username)
-              .textInputAutocapitalization(.never)
-              .autocorrectionDisabled()
-              .padding(12)
-              .background(Color.appInputFilled)
-              .cornerRadius(12)
+            // Name Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.name)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.onboardingNamePlaceholder, text: $displayName)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
+            
+            // Username Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.username)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.usernamePlaceholder, text: $username)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
             
             if let error {
               Text(error)
@@ -81,6 +100,11 @@ struct LoginPromptSheet: View {
             }
             .disabled(isLoading)
             .opacity(isLoading ? 0.5 : 1)
+          }
+          .onAppear {
+            if displayName.isEmpty {
+              displayName = OnboardingService.shared.userName
+            }
           }
         } else {
           VStack(spacing: 16) {
@@ -269,12 +293,11 @@ struct LoginPromptSheet: View {
     do {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
-        let onboardingName = OnboardingService.shared.userName
         try await AuthService.shared.signUp(
           email: login,
           password: password,
           username: username,
-          displayName: onboardingName.isEmpty ? nil : onboardingName
+          displayName: displayName.isEmpty ? nil : displayName
         )
         AnalyticsService.shared.track(.signUp(method: "email"))
         
