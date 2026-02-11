@@ -10,6 +10,8 @@ export const userPreferences = pgTable('user_preferences', {
     .unique(),
   watchProvidersIds: integer('watch_providers_ids').array(),
   watchRegion: text('watch_region'),
+  mediaTypes: text('media_types').array(),
+  genreIds: integer('genre_ids').array(),
 })
 
 export const insertUserPreferencesSchema = createInsertSchema(userPreferences)

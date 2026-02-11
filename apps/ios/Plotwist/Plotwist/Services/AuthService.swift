@@ -257,7 +257,12 @@ class AuthService {
   }
 
   // MARK: - Update User Preferences
-  func updateUserPreferences(watchRegion: String, watchProvidersIds: [Int] = []) async throws {
+  func updateUserPreferences(
+    watchRegion: String? = nil,
+    watchProvidersIds: [Int]? = nil,
+    mediaTypes: [String]? = nil,
+    genreIds: [Int]? = nil
+  ) async throws {
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user/preferences")
     else {
@@ -269,10 +274,11 @@ class AuthService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    let body: [String: Any] = [
-      "watchRegion": watchRegion,
-      "watchProvidersIds": watchProvidersIds,
-    ]
+    var body: [String: Any] = [:]
+    if let watchRegion { body["watchRegion"] = watchRegion }
+    if let watchProvidersIds { body["watchProvidersIds"] = watchProvidersIds }
+    if let mediaTypes { body["mediaTypes"] = mediaTypes }
+    if let genreIds { body["genreIds"] = genreIds }
 
     request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
@@ -379,6 +385,8 @@ struct UserPreferences: Codable {
   let userId: String
   let watchProvidersIds: [Int]?
   let watchRegion: String?
+  let mediaTypes: [String]?
+  let genreIds: [Int]?
 }
 
 struct UserStats: Codable {

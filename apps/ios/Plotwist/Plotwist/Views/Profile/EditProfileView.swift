@@ -282,6 +282,47 @@ struct EditProfileView: View {
   // MARK: - Preferences Section
   private var preferencesSection: some View {
     VStack(spacing: 0) {
+      // Media Types
+      NavigationLink(destination: EditMediaTypesView(currentMediaTypes: userPreferences?.mediaTypes)) {
+        EditProfileBadgeRow(label: strings.onboardingMovies) {
+          if let types = userPreferences?.mediaTypes, !types.isEmpty {
+            FlowLayout(spacing: 6) {
+              ForEach(types, id: \.self) { type in
+                if let pref = ContentTypePreference(rawValue: type) {
+                  ProfileBadge(text: pref.displayName)
+                }
+              }
+            }
+          } else {
+            Text("-")
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+      }
+      fieldDivider
+
+      // Genres
+      NavigationLink(destination: EditGenresView(currentGenreIds: userPreferences?.genreIds)) {
+        EditProfileBadgeRow(label: strings.favoriteGenres) {
+          if let ids = userPreferences?.genreIds, !ids.isEmpty {
+            FlowLayout(spacing: 6) {
+              ForEach(ids.prefix(5), id: \.self) { id in
+                ProfileBadge(text: OnboardingGenre(id: id, name: "").name)
+              }
+              if ids.count > 5 {
+                ProfileBadge(text: "+\(ids.count - 5)")
+              }
+            }
+          } else {
+            Text("-")
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+      }
+      fieldDivider
+
       // Region
       NavigationLink(destination: EditRegionView(currentRegion: userPreferences?.watchRegion)) {
         EditProfileBadgeRow(label: strings.region) {

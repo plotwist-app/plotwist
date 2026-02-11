@@ -367,6 +367,20 @@ class OnboardingService: ObservableObject {
       }
     }
     
+    // Sync content types and genres from onboarding
+    if !contentTypes.isEmpty || !selectedGenres.isEmpty {
+      do {
+        let mediaTypeStrings = contentTypes.isEmpty ? nil : contentTypes.map { $0.rawValue }
+        let genreIdInts = selectedGenres.isEmpty ? nil : selectedGenres.map { $0.id }
+        try await AuthService.shared.updateUserPreferences(
+          mediaTypes: mediaTypeStrings,
+          genreIds: genreIdInts
+        )
+      } catch {
+        print("Failed to sync content preferences: \(error)")
+      }
+    }
+    
     for title in localSavedTitles {
       do {
         let apiMediaType = title.mediaType == "movie" ? "MOVIE" : "TV_SHOW"
