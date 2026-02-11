@@ -609,33 +609,30 @@ struct MediaDetailView: View {
 struct TMDBRatingBadge: View {
   let rating: Double
 
-  private var formattedRating: String {
-    if rating == rating.rounded() {
-      return String(format: "%.0f", rating)
-    }
-    return String(format: "%.1f", rating)
+  private var ratingOutOfFive: Double {
+    rating / 2.0
   }
 
-  private var ratingColor: Color {
-    if rating >= 7.0 {
-      return Color.green
-    } else if rating >= 5.0 {
-      return Color.yellow
-    } else {
-      return Color.red
+  private var formattedRating: String {
+    if ratingOutOfFive == ratingOutOfFive.rounded() {
+      return String(format: "%.0f", ratingOutOfFive)
     }
+    return String(format: "%.1f", ratingOutOfFive)
   }
 
   var body: some View {
-    HStack(spacing: 6) {
-      Image("tmdb-logo")
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(height: 10)
+    HStack(spacing: 4) {
+      Text("TMDB")
+        .font(.caption)
+        .foregroundColor(.appMutedForegroundAdaptive)
+
+      Image(systemName: "star.fill")
+        .font(.system(size: 10))
+        .foregroundColor(.appStarYellow)
 
       Text(formattedRating)
-        .font(.system(size: 13, weight: .bold, design: .rounded))
-        .foregroundColor(.white)
+        .font(.caption)
+        .foregroundColor(.appForegroundAdaptive)
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 6)

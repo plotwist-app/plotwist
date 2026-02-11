@@ -110,7 +110,8 @@ struct ReviewSectionView: View {
                 .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
+            .padding(.top, 4)
+            .padding(.bottom, 16)
           } else {
             // Simple rating display (star + rating + dot + reviews count)
             HStack(spacing: 6) {
