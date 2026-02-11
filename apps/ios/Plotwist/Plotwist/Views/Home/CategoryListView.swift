@@ -160,7 +160,7 @@ struct CategoryListView: View {
   @State private var selectedAnimeType: AnimeType = .tvSeries
   @State private var currentOffset: CGFloat = 0
   @State private var previousOffset: CGFloat = UIScreen.main.bounds.width * 2  // Start off-screen
-  @State private var isAnimating: Bool = false
+  @State private var loadingTask: Task<Void, Never>?
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var hasAppliedInitialSubcategory = false
@@ -357,8 +357,8 @@ struct CategoryListView: View {
   }
   
   private func animateContentChange(fromTrailing: Bool) {
-    guard !isAnimating else { return }
-    isAnimating = true
+    // Cancel any in-flight loading/animation to avoid race conditions
+    loadingTask?.cancel()
     
     let screenWidth = UIScreen.main.bounds.width
     
@@ -380,8 +380,11 @@ struct CategoryListView: View {
     }
     
     // Step 3: Load new items and trigger animation
-    Task {
+    loadingTask = Task {
       await loadItems()
+      
+      // If this task was cancelled (user switched tab again), don't animate
+      guard !Task.isCancelled else { return }
       
       await MainActor.run {
         // Just change the values - implicit animation will handle it
@@ -396,7 +399,6 @@ struct CategoryListView: View {
             previousOffset = screenWidth * 2
             previousItems = []
           }
-          isAnimating = false
         }
       }
     }
@@ -447,6 +449,10 @@ struct CategoryListView: View {
           result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
         }
       }
+
+      // If task was cancelled (user switched tab), discard stale results
+      guard !Task.isCancelled else { return }
+
       items = result.results
       currentPage = result.page
       totalPages = result.totalPages
@@ -461,6 +467,7 @@ struct CategoryListView: View {
       }
       AnalyticsService.shared.track(.categoryViewed(category: title, subcategory: subcategory))
     } catch {
+      guard !Task.isCancelled else { return }
       items = []
     }
 

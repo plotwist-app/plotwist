@@ -192,12 +192,6 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     self.animated = animated
     self.content = content
     self.placeholder = placeholder
-
-    // Pre-populate from memory cache so the image is available on first render,
-    // preventing it from animating separately during parent transitions.
-    if let url {
-      _loadedImage = State(initialValue: ImageCache.shared.image(for: url))
-    }
   }
 
   var body: some View {
@@ -218,7 +212,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     guard let url, !isLoading else { return }
     isLoading = true
 
-    // Check cache synchronously first for instant display
+    // Check cache synchronously first for instant display.
     if let cached = ImageCache.shared.image(for: url) {
       loadedImage = cached
       isLoading = false
