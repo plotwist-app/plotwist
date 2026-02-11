@@ -191,12 +191,12 @@ struct LoginView: View {
     .lightStatusBar()
     .sheet(isPresented: $showLoginSheet, onDismiss: notifyAuthIfNeeded) {
       LoginFormSheet()
-        .floatingSheetPresentation(height: 560)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .sheet(isPresented: $showSignUpSheet, onDismiss: notifyAuthIfNeeded) {
       SignUpFormSheet()
-        .floatingSheetPresentation(height: 620)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -420,7 +420,7 @@ struct LoginFormSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -667,7 +667,7 @@ struct SignUpFormSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current

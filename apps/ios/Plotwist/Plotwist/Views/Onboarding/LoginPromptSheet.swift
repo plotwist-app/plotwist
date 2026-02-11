@@ -10,9 +10,14 @@ struct LoginPromptSheet: View {
   let onLogin: () -> Void
   let onSkip: () -> Void
   @State private var strings = L10n.current
+  @State private var login = ""
+  @State private var password = ""
+  @State private var showPassword = false
+  @State private var isLoading = false
   @State private var isAppleLoading = false
   @State private var showError = false
   @State private var errorMessage = ""
+  @State private var error: String?
   @ObservedObject private var themeManager = ThemeManager.shared
   
   var body: some View {
@@ -24,11 +29,6 @@ struct LoginPromptSheet: View {
           .frame(width: 36, height: 5)
           .padding(.top, 8)
         
-        // Icon
-        Image(systemName: "person.crop.circle")
-          .font(.system(size: 48))
-          .foregroundColor(.appForegroundAdaptive)
-        
         // Content
         VStack(spacing: 8) {
           Text(strings.onboardingLoginTitle)
@@ -37,33 +37,115 @@ struct LoginPromptSheet: View {
             .multilineTextAlignment(.center)
           
           Text(strings.onboardingLoginSubtitle)
-            .font(.body)
+            .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 16)
         
-        // Login buttons
-        VStack(spacing: 12) {
-          // Apple Sign In
-          SocialLoginButton(
-            provider: .apple,
-            title: strings.continueWithApple,
-            isLoading: isAppleLoading
-          ) {
-            Task { await signInWithApple() }
+        VStack(spacing: 16) {
+          // Social Login Icons
+          HStack(spacing: 12) {
+            SocialLoginIconButton(
+              provider: .apple,
+              isLoading: isAppleLoading
+            ) {
+              Task { await signInWithApple() }
+            }
+            
+            SocialLoginIconButton(
+              provider: .google,
+              isLoading: false,
+              isDisabled: true
+            ) {
+              // Google Sign-In disabled for now
+            }
           }
           
-          // Google Sign In (disabled for now)
-          SocialLoginButton(
-            provider: .google,
-            title: strings.continueWithGoogle,
-            isLoading: false,
-            isDisabled: true
-          ) {
-            // Google Sign-In disabled for now
+          // Divider with "or"
+          HStack {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+            Text(strings.or)
+              .font(.caption)
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .padding(.horizontal, 12)
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
           }
+          
+          // Login Field
+          VStack(alignment: .leading, spacing: 6) {
+            Text(strings.loginLabel)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+            TextField(strings.loginPlaceholder, text: $login)
+              .textInputAutocapitalization(.never)
+              .autocorrectionDisabled()
+              .padding(12)
+              .background(Color.appInputFilled)
+              .cornerRadius(12)
+          }
+          
+          // Password Field
+          VStack(alignment: .leading, spacing: 6) {
+            Text(strings.passwordLabel)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+            HStack(spacing: 8) {
+              ZStack {
+                TextField(strings.passwordPlaceholder, text: $password)
+                  .opacity(showPassword ? 1 : 0)
+                SecureField(strings.passwordPlaceholder, text: $password)
+                  .opacity(showPassword ? 0 : 1)
+              }
+              .textInputAutocapitalization(.never)
+              .autocorrectionDisabled()
+              .padding(12)
+              .background(Color.appInputFilled)
+              .cornerRadius(12)
+              
+              Button {
+                showPassword.toggle()
+              } label: {
+                Image(systemName: showPassword ? "eye" : "eye.slash")
+                  .foregroundColor(.appMutedForegroundAdaptive)
+                  .frame(width: 48, height: 48)
+                  .background(Color.appInputFilled)
+                  .cornerRadius(12)
+              }
+              .buttonStyle(.plain)
+            }
+          }
+          
+          if let error {
+            Text(error)
+              .font(.caption)
+              .foregroundColor(.appDestructive)
+          }
+          
+          // Submit Button
+          Button(action: { Task { await performLogin() } }) {
+            Group {
+              if isLoading {
+                ProgressView()
+                  .tint(.appBackgroundAdaptive)
+              } else {
+                Text(strings.accessButton)
+                  .fontWeight(.semibold)
+              }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 48)
+            .background(Color.appForegroundAdaptive)
+            .foregroundColor(.appBackgroundAdaptive)
+            .clipShape(Capsule())
+          }
+          .disabled(isLoading || isAppleLoading)
+          .opacity(isLoading ? 0.5 : 1)
         }
         
         // Skip button
@@ -75,16 +157,45 @@ struct LoginPromptSheet: View {
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
         }
-        .padding(.bottom, 16)
+        .padding(.bottom, 4)
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 410)
+    .floatingSheetDynamicPresentation()
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showError) {
       Button("OK", role: .cancel) {}
     } message: {
       Text(errorMessage)
+    }
+  }
+  
+  private func performLogin() async {
+    error = nil
+    
+    guard !login.isEmpty else {
+      error = strings.loginRequired
+      return
+    }
+    guard password.count >= 8 else {
+      error = strings.passwordLength
+      return
+    }
+    
+    isLoading = true
+    defer { isLoading = false }
+    
+    do {
+      _ = try await AuthService.shared.signIn(login: login, password: password)
+      AnalyticsService.shared.track(.login(method: "email"))
+      
+      // Sync local data to server
+      await OnboardingService.shared.syncLocalDataToServer()
+      
+      OnboardingService.shared.hasSeenLoginPrompt = true
+      onLogin()
+    } catch {
+      self.error = strings.invalidCredentials
     }
   }
   

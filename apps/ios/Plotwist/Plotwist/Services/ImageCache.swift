@@ -203,12 +203,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   var body: some View {
     Group {
       if let loadedImage {
-        if animated {
-          content(Image(uiImage: loadedImage))
-            .transition(.opacity.animation(.easeIn(duration: 0.2)))
-        } else {
-          content(Image(uiImage: loadedImage))
-        }
+        content(Image(uiImage: loadedImage))
       } else {
         placeholder()
           .task(id: url, priority: priority) {
