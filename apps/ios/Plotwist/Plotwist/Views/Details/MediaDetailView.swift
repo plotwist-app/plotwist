@@ -582,6 +582,13 @@ struct MediaDetailView: View {
         sorted.insert(mainImage, at: 0)
       }
       
+      // Pre-warm the cache for the first carousel image so BackdropImage
+      // can resolve it synchronously in its init, preventing any flash.
+      if let firstURL = sorted.first?.backdropURL,
+         ImageCache.shared.image(for: firstURL) == nil {
+        _ = await ImageCache.shared.loadImage(from: firstURL, priority: .high)
+      }
+      
       backdropImages = sorted
       // Note: Prefetching is now handled automatically by CarouselBackdropView
     } catch {

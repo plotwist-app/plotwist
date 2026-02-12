@@ -239,7 +239,22 @@ struct BackdropImage: View {
   let height: CGFloat
 
   @State private var loadedImage: UIImage?
-  @State private var showImage = false
+  @State private var showImage: Bool
+
+  init(url: URL?, height: CGFloat) {
+    self.url = url
+    self.height = height
+    // Pre-populate from cache synchronously so the very first frame already
+    // shows the image, avoiding any gray placeholder flash during transitions
+    // (e.g. when the single backdrop switches to the carousel).
+    if let url, let cached = ImageCache.shared.image(for: url) {
+      _loadedImage = State(initialValue: cached)
+      _showImage = State(initialValue: true)
+    } else {
+      _loadedImage = State(initialValue: nil)
+      _showImage = State(initialValue: false)
+    }
+  }
 
   var body: some View {
     GeometryReader { proxy in
@@ -268,6 +283,8 @@ struct BackdropImage: View {
 
   @MainActor
   private func loadImage() async {
+    // Skip if already loaded (from cache in init)
+    guard !showImage else { return }
     guard let url else { return }
 
     // Check cache for instant display

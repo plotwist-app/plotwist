@@ -335,6 +335,13 @@ struct LoginPromptSheet: View {
       
       OnboardingService.shared.hasSeenLoginPrompt = true
       onLogin()
+    } catch let authError as SocialAuthError {
+      if case .cancelled = authError {
+        // User cancelled, don't show error
+        return
+      }
+      errorMessage = authError.localizedDescription
+      showError = true
     } catch {
       errorMessage = error.localizedDescription
       showError = true
