@@ -287,120 +287,44 @@ struct SearchTabView: View {
     }
   }
 
-  /// Helper to build ordered popular sections based on content type preferences.
+  /// Helper to build popular sections. Only shows categories the user selected
+  /// in content type preferences. If no preferences, shows all.
   private var orderedPopularSections: [PopularSection] {
-    let userContentTypes = preferencesManager.contentTypes
     var sections: [PopularSection] = []
 
-    // If user has content type preferences, show those first in order
-    if !userContentTypes.isEmpty {
-      for type in userContentTypes {
-        switch type {
-        case .movies where !popularMovies.isEmpty:
-          sections.append(PopularSection(id: "movies") {
-            AnyView(HomeSectionView(
-              title: strings.movies, items: popularMovies,
-              mediaType: "movie", categoryType: .movies,
-              initialMovieSubcategory: .popular
-            ))
-          })
-        case .series where !popularTVSeries.isEmpty:
-          sections.append(PopularSection(id: "tv") {
-            AnyView(HomeSectionView(
-              title: strings.tvSeries, items: popularTVSeries,
-              mediaType: "tv", categoryType: .tvSeries,
-              initialTVSeriesSubcategory: .popular
-            ))
-          })
-        case .anime where !popularAnimes.isEmpty:
-          sections.append(PopularSection(id: "anime") {
-            AnyView(HomeSectionView(
-              title: strings.animes, items: popularAnimes,
-              mediaType: "tv", categoryType: .animes
-            ))
-          })
-        case .dorama where !popularDoramas.isEmpty:
-          sections.append(PopularSection(id: "dorama") {
-            AnyView(HomeSectionView(
-              title: strings.doramas, items: popularDoramas,
-              mediaType: "tv", categoryType: .doramas
-            ))
-          })
-        default: break
-        }
-      }
-      // Append remaining sections not in user preferences
-      let existingIds = Set(sections.map { $0.id })
-      if !existingIds.contains("movies") && !popularMovies.isEmpty {
-        sections.append(PopularSection(id: "movies") {
-          AnyView(HomeSectionView(
-            title: strings.movies, items: popularMovies,
-            mediaType: "movie", categoryType: .movies,
-            initialMovieSubcategory: .popular
-          ))
-        })
-      }
-      if !existingIds.contains("tv") && !popularTVSeries.isEmpty {
-        sections.append(PopularSection(id: "tv") {
-          AnyView(HomeSectionView(
-            title: strings.tvSeries, items: popularTVSeries,
-            mediaType: "tv", categoryType: .tvSeries,
-            initialTVSeriesSubcategory: .popular
-          ))
-        })
-      }
-      if !existingIds.contains("anime") && !popularAnimes.isEmpty {
-        sections.append(PopularSection(id: "anime") {
-          AnyView(HomeSectionView(
-            title: strings.animes, items: popularAnimes,
-            mediaType: "tv", categoryType: .animes
-          ))
-        })
-      }
-      if !existingIds.contains("dorama") && !popularDoramas.isEmpty {
-        sections.append(PopularSection(id: "dorama") {
-          AnyView(HomeSectionView(
-            title: strings.doramas, items: popularDoramas,
-            mediaType: "tv", categoryType: .doramas
-          ))
-        })
-      }
-    } else {
-      // No preferences: default order
-      if !popularMovies.isEmpty {
-        sections.append(PopularSection(id: "movies") {
-          AnyView(HomeSectionView(
-            title: strings.movies, items: popularMovies,
-            mediaType: "movie", categoryType: .movies,
-            initialMovieSubcategory: .popular
-          ))
-        })
-      }
-      if !popularTVSeries.isEmpty {
-        sections.append(PopularSection(id: "tv") {
-          AnyView(HomeSectionView(
-            title: strings.tvSeries, items: popularTVSeries,
-            mediaType: "tv", categoryType: .tvSeries,
-            initialTVSeriesSubcategory: .popular
-          ))
-        })
-      }
-      if !popularAnimes.isEmpty {
-        sections.append(PopularSection(id: "anime") {
-          AnyView(HomeSectionView(
-            title: strings.animes, items: popularAnimes,
-            mediaType: "tv", categoryType: .animes
-          ))
-        })
-      }
-      if !popularDoramas.isEmpty {
-        sections.append(PopularSection(id: "dorama") {
-          AnyView(HomeSectionView(
-            title: strings.doramas, items: popularDoramas,
-            mediaType: "tv", categoryType: .doramas
-          ))
-        })
-      }
+    if !popularMovies.isEmpty {
+      sections.append(PopularSection(id: "movies") {
+        AnyView(HomeSectionView(
+          title: strings.movies, items: popularMovies,
+          mediaType: "movie", categoryType: .movies,
+          initialMovieSubcategory: .popular
+        ))
+      })
+    }
+    if !popularTVSeries.isEmpty {
+      sections.append(PopularSection(id: "tv") {
+        AnyView(HomeSectionView(
+          title: strings.tvSeries, items: popularTVSeries,
+          mediaType: "tv", categoryType: .tvSeries,
+          initialTVSeriesSubcategory: .popular
+        ))
+      })
+    }
+    if !popularAnimes.isEmpty {
+      sections.append(PopularSection(id: "anime") {
+        AnyView(HomeSectionView(
+          title: strings.animes, items: popularAnimes,
+          mediaType: "tv", categoryType: .animes
+        ))
+      })
+    }
+    if !popularDoramas.isEmpty {
+      sections.append(PopularSection(id: "dorama") {
+        AnyView(HomeSectionView(
+          title: strings.doramas, items: popularDoramas,
+          mediaType: "tv", categoryType: .doramas
+        ))
+      })
     }
     return sections
   }
@@ -507,7 +431,9 @@ struct SearchTabView: View {
 
   private func loadPopularContent(forceRefresh: Bool = false) async {
     // Check if preferences changed
-    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)"
+    let contentTypesStr = preferencesManager.contentTypes.map { $0.rawValue }.sorted().joined()
+    let genreIdsStr = preferencesManager.genreIds.sorted().map { String($0) }.joined()
+    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)-\(contentTypesStr)-\(genreIdsStr)"
     cache.setPreferencesHash(currentPreferencesHash)
 
     // Use cache if available and not forcing refresh
@@ -527,60 +453,85 @@ struct SearchTabView: View {
     let watchRegion = preferencesManager.watchRegion
     let watchProviders =
       preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
+    let userContentTypes = preferencesManager.contentTypes
+
+    // Determine which categories to load based on content type preferences
+    let shouldLoadMovies = userContentTypes.isEmpty || userContentTypes.contains(.movies)
+    let shouldLoadSeries = userContentTypes.isEmpty || userContentTypes.contains(.series)
+    let shouldLoadAnimes = userContentTypes.isEmpty || userContentTypes.contains(.anime)
+    let shouldLoadDoramas = userContentTypes.isEmpty || userContentTypes.contains(.dorama)
+
+    // Clear categories that are no longer relevant
+    if !shouldLoadMovies { popularMovies = []; cache.setPopularMovies([]) }
+    if !shouldLoadSeries { popularTVSeries = []; cache.setPopularTVSeries([]) }
+    if !shouldLoadAnimes { popularAnimes = []; cache.setPopularAnimes([]) }
+    if !shouldLoadDoramas { popularDoramas = []; cache.setPopularDoramas([]) }
 
     do {
-      if preferencesManager.hasStreamingServices {
-        // Use discover endpoints with watch providers
-        async let moviesTask = TMDBService.shared.discoverMovies(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let tvTask = TMDBService.shared.discoverTV(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let animesTask = TMDBService.shared.discoverAnimes(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let doramasTask = TMDBService.shared.discoverDoramas(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
+      await withThrowingTaskGroup(of: Void.self) { group in
+        if shouldLoadMovies {
+          group.addTask {
+            let result = if preferencesManager.hasStreamingServices {
+              try await TMDBService.shared.discoverMovies(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularMovies(language: language)
+            }
+            await MainActor.run {
+              popularMovies = result.results
+              cache.setPopularMovies(result.results)
+            }
+          }
+        }
 
-        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-        popularMovies = movies.results
-        popularTVSeries = tv.results
-        popularAnimes = animes.results
-        popularDoramas = doramas.results
+        if shouldLoadSeries {
+          group.addTask {
+            let result = if preferencesManager.hasStreamingServices {
+              try await TMDBService.shared.discoverTV(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularTVSeries(language: language)
+            }
+            await MainActor.run {
+              popularTVSeries = result.results
+              cache.setPopularTVSeries(result.results)
+            }
+          }
+        }
 
-        // Save to cache
-        cache.setPopularMovies(movies.results)
-        cache.setPopularTVSeries(tv.results)
-        cache.setPopularAnimes(animes.results)
-        cache.setPopularDoramas(doramas.results)
-      } else {
-        // Use regular popular endpoints
-        async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
-        async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
-        async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
-        async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
+        if shouldLoadAnimes {
+          group.addTask {
+            let result = if preferencesManager.hasStreamingServices {
+              try await TMDBService.shared.discoverAnimes(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularAnimes(language: language)
+            }
+            await MainActor.run {
+              popularAnimes = result.results
+              cache.setPopularAnimes(result.results)
+            }
+          }
+        }
 
-        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-        popularMovies = movies.results
-        popularTVSeries = tv.results
-        popularAnimes = animes.results
-        popularDoramas = doramas.results
-
-        // Save to cache
-        cache.setPopularMovies(movies.results)
-        cache.setPopularTVSeries(tv.results)
-        cache.setPopularAnimes(animes.results)
-        cache.setPopularDoramas(doramas.results)
+        if shouldLoadDoramas {
+          group.addTask {
+            let result = if preferencesManager.hasStreamingServices {
+              try await TMDBService.shared.discoverDoramas(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularDoramas(language: language)
+            }
+            await MainActor.run {
+              popularDoramas = result.results
+              cache.setPopularDoramas(result.results)
+            }
+          }
+        }
       }
     } catch {
       popularMovies = []

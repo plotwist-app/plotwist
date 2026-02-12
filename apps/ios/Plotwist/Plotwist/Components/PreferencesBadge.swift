@@ -15,22 +15,30 @@ struct PreferencesBadge: View {
       Button {
         showPreferences = true
       } label: {
-        VStack(alignment: .leading, spacing: 8) {
-          HStack(spacing: 6) {
-            Image(systemName: "sparkles")
-              .font(.caption)
-            Text(strings.resultsBasedOnPreferences)
-              .font(.caption)
-          }
-          .foregroundColor(.appForegroundAdaptive)
+        HStack(spacing: 10) {
+          // Icon
+          Image(systemName: "slider.horizontal.3")
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
 
-          preferenceChips
+          // Summary text
+          Text(preferencesSummary)
+            .font(.system(size: 13))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(1)
+
+          Spacer()
+
+          Image(systemName: "chevron.right")
+            .font(.system(size: 11, weight: .semibold))
+            .foregroundColor(.appMutedForegroundAdaptive.opacity(0.5))
         }
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.appInputFilled)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(Color.appInputFilled)
+        )
       }
       .sheet(isPresented: $showPreferences) {
         PreferencesQuickSheet()
@@ -41,54 +49,33 @@ struct PreferencesBadge: View {
     }
   }
 
-  @ViewBuilder
-  private var preferenceChips: some View {
-    PreferencesFlowLayout(spacing: 6) {
-      // Content types
-      ForEach(preferencesManager.contentTypes, id: \.self) { type in
-        PreferencesChip(text: type.displayName, icon: contentTypeIcon(for: type))
-      }
+  /// Builds a compact, readable summary like "Movies, Series · Action, Comedy +2"
+  private var preferencesSummary: String {
+    var parts: [String] = []
 
-      // Genres (show up to 4, then "+N")
-      let genres = preferencesManager.genreIds
-      ForEach(genres.prefix(4), id: \.self) { id in
-        PreferencesChip(text: OnboardingGenre(id: id, name: "").name)
-      }
-      if genres.count > 4 {
-        PreferencesChip(text: "+\(genres.count - 4)")
-      }
+    // Content types
+    let types = preferencesManager.contentTypes
+    if !types.isEmpty {
+      let names = types.map { $0.displayName }
+      parts.append(names.joined(separator: ", "))
     }
-  }
 
-  private func contentTypeIcon(for type: ContentTypePreference) -> String {
-    switch type {
-    case .movies: return "film"
-    case .series: return "tv"
-    case .anime: return "sparkles.tv"
-    case .dorama: return "play.tv"
-    }
-  }
-}
-
-// MARK: - Preferences Chip (small inline badge)
-struct PreferencesChip: View {
-  let text: String
-  var icon: String? = nil
-
-  var body: some View {
-    HStack(spacing: 4) {
-      if let icon {
-        Image(systemName: icon)
-          .font(.system(size: 10))
+    // Genres
+    let genres = preferencesManager.genreIds
+    if !genres.isEmpty {
+      let shown = genres.prefix(2).map { OnboardingGenre(id: $0, name: "").name }
+      var genreText = shown.joined(separator: ", ")
+      if genres.count > 2 {
+        genreText += " +\(genres.count - 2)"
       }
-      Text(text)
-        .font(.system(size: 11, weight: .medium))
+      parts.append(genreText)
     }
-    .foregroundColor(.appForegroundAdaptive)
-    .padding(.horizontal, 8)
-    .padding(.vertical, 4)
-    .background(Color.appBackgroundAdaptive.opacity(0.6))
-    .clipShape(RoundedRectangle(cornerRadius: 6))
+
+    if parts.isEmpty {
+      return strings.resultsBasedOnPreferences
+    }
+
+    return parts.joined(separator: " · ")
   }
 }
 

@@ -64,7 +64,7 @@ extension HomeTabView {
   /// Loads content that matches the user's content type preferences.
   /// Used by both Featured Hero and Trending sections for consistent filtering.
   func loadContentForPreferences(language: String) async throws -> [SearchResult] {
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     // No preferences: show everything trending
     guard !contentTypes.isEmpty else {
@@ -137,9 +137,15 @@ extension HomeTabView {
       return
     }
 
-    let genreIds = onboardingService.selectedGenres.map { $0.id }
+    let genreIds: [Int]
+    if AuthService.shared.isAuthenticated {
+      let serverGenres = UserPreferencesManager.shared.genreIds
+      genreIds = serverGenres.isEmpty ? onboardingService.selectedGenres.map { $0.id } : serverGenres
+    } else {
+      genreIds = onboardingService.selectedGenres.map { $0.id }
+    }
     let language = Language.current.rawValue
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     // Need either genre preferences or content type preferences
     guard !genreIds.isEmpty || !contentTypes.isEmpty else { return }
@@ -382,7 +388,7 @@ extension HomeTabView {
     }
 
     let language = Language.current.rawValue
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     do {
       let result: PaginatedResult

@@ -82,25 +82,40 @@ struct HomeTabView: View {
     isLoadingDiscovery && popularMovies.isEmpty && popularTVSeries.isEmpty && featuredItem == nil
   }
 
-  // Personalization helpers
+  // Personalization helpers — use server preferences when authenticated,
+  // fall back to onboarding preferences for guest mode.
+  private var activeContentTypes: Set<ContentTypePreference> {
+    if AuthService.shared.isAuthenticated {
+      let serverTypes = UserPreferencesManager.shared.contentTypes
+      return serverTypes.isEmpty ? onboardingService.contentTypes : Set(serverTypes)
+    }
+    return onboardingService.contentTypes
+  }
+
   var showAnimeSection: Bool {
-    onboardingService.contentTypes.contains(.anime)
+    activeContentTypes.contains(.anime)
   }
 
   var showDoramaSection: Bool {
-    onboardingService.contentTypes.contains(.dorama)
+    activeContentTypes.contains(.dorama)
   }
 
   var showMoviesContent: Bool {
-    onboardingService.contentTypes.contains(.movies) || onboardingService.contentTypes.isEmpty
+    activeContentTypes.contains(.movies) || activeContentTypes.isEmpty
   }
 
   var showSeriesContent: Bool {
-    onboardingService.contentTypes.contains(.series) || onboardingService.contentTypes.isEmpty
+    activeContentTypes.contains(.series) || activeContentTypes.isEmpty
   }
 
   private var forYouSubtitle: String {
-    let genreNames = onboardingService.selectedGenres.prefix(3).map { $0.name }
+    let genreNames: [String]
+    if AuthService.shared.isAuthenticated {
+      let serverGenres = UserPreferencesManager.shared.genreIds
+      genreNames = serverGenres.prefix(3).map { OnboardingGenre(id: $0, name: "").name }
+    } else {
+      genreNames = onboardingService.selectedGenres.prefix(3).map { $0.name }
+    }
     guard !genreNames.isEmpty else { return "" }
     let joined = genreNames.joined(separator: ", ")
     return String(format: strings.basedOnYourTaste, joined)
@@ -108,7 +123,7 @@ struct HomeTabView: View {
 
   // Top Rated section adapts title/type to user's content preference
   private var topRatedSectionTitle: String {
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
     if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
       return strings.topRatedAnimes
     } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
@@ -125,7 +140,7 @@ struct HomeTabView: View {
   }
 
   private var topRatedCategoryType: HomeCategoryType {
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
     if contentTypes.contains(.anime) && !showMoviesContent && !showSeriesContent {
       return .animes
     } else if contentTypes.contains(.dorama) && !showMoviesContent && !showSeriesContent {
@@ -217,7 +232,7 @@ struct HomeTabView: View {
                   title: strings.forYou,
                   subtitle: forYouSubtitle
                 )
-              } else if showDiscoverySkeleton && !onboardingService.selectedGenres.isEmpty {
+              } else if showDiscoverySkeleton && (AuthService.shared.isAuthenticated ? !UserPreferencesManager.shared.genreIds.isEmpty : !onboardingService.selectedGenres.isEmpty) {
                 HomeSectionSkeleton()
               }
 
@@ -347,6 +362,8 @@ struct HomeTabView: View {
       }
       .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
         Task {
+          // Wait for updated preferences to be available before reloading
+          await UserPreferencesManager.shared.loadPreferences()
           await loadUser(forceRefresh: true)
           // Preferences may have changed (genres, content types, streaming) — reload all content
           cache.clearDiscoveryCache()
