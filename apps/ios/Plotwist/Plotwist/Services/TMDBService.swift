@@ -1105,6 +1105,7 @@ struct PopularItem: Codable {
   let firstAirDate: String?
   let overview: String?
   let voteAverage: Double?
+  let genreIds: [Int]?
 
   func toSearchResult(mediaType: String) -> SearchResult {
     SearchResult(
@@ -1119,7 +1120,8 @@ struct PopularItem: Codable {
       firstAirDate: firstAirDate,
       overview: overview,
       voteAverage: voteAverage,
-      knownForDepartment: nil
+      knownForDepartment: nil,
+      genreIds: genreIds
     )
   }
 }
@@ -1142,6 +1144,7 @@ struct SearchResult: Codable, Identifiable, Equatable {
   let overview: String?
   let voteAverage: Double?
   let knownForDepartment: String?
+  let genreIds: [Int]?
 
   var displayTitle: String {
     title ?? name ?? "Unknown"

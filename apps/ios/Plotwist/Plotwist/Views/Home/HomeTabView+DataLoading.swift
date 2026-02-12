@@ -503,7 +503,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           } else {
             let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -523,7 +524,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           }
         } catch {
@@ -587,7 +589,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           } else {
             let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -607,7 +610,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           }
         } catch {
@@ -653,7 +657,8 @@ extension HomeTabView {
               firstAirDate: details.firstAirDate,
               overview: details.overview,
               voteAverage: details.voteAverage,
-              knownForDepartment: nil
+              knownForDepartment: nil,
+              genreIds: nil
             ))
         } else {
           let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -673,7 +678,8 @@ extension HomeTabView {
               firstAirDate: details.firstAirDate,
               overview: details.overview,
               voteAverage: details.voteAverage,
-              knownForDepartment: nil
+              knownForDepartment: nil,
+              genreIds: nil
             ))
         }
       } catch {

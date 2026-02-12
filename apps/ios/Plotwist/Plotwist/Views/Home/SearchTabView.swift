@@ -157,22 +157,50 @@ struct SearchTabView: View {
             PreferencesBadge()
           }
 
-          if !movies.isEmpty {
-            SearchSection(title: strings.movies, results: movies)
-          }
-
-          if !tvSeries.isEmpty {
-            SearchSection(title: strings.tvSeries, results: tvSeries)
-          }
-
-          if !people.isEmpty {
-            SearchSection(title: strings.people, results: people)
+          ForEach(orderedResultSections, id: \.title) { section in
+            SearchSection(title: section.title, results: section.results)
           }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 24)
       }
     }
+  }
+
+  /// Orders result sections based on content type preferences.
+  private var orderedResultSections: [(title: String, results: [SearchResult])] {
+    let userContentTypes = preferencesManager.contentTypes
+    var sections: [(title: String, results: [SearchResult])] = []
+
+    if !userContentTypes.isEmpty {
+      // Add sections in preference order first
+      for type in userContentTypes {
+        switch type {
+        case .movies where !movies.isEmpty:
+          sections.append((title: strings.movies, results: movies))
+        case .series, .anime, .dorama:
+          if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
+            sections.append((title: strings.tvSeries, results: tvSeries))
+          }
+        default: break
+        }
+      }
+      // Append any missing sections
+      if !movies.isEmpty && !sections.contains(where: { $0.title == strings.movies }) {
+        sections.append((title: strings.movies, results: movies))
+      }
+      if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
+        sections.append((title: strings.tvSeries, results: tvSeries))
+      }
+    } else {
+      if !movies.isEmpty { sections.append((title: strings.movies, results: movies)) }
+      if !tvSeries.isEmpty { sections.append((title: strings.tvSeries, results: tvSeries)) }
+    }
+
+    // People always last
+    if !people.isEmpty { sections.append((title: strings.people, results: people)) }
+
+    return sections
   }
 
   private var recentSearchesView: some View {
@@ -704,6 +732,13 @@ struct SearchTabView: View {
       UserDefaults.standard.removeObject(forKey: recentSearchesKey)
     }
   }
+}
+
+// MARK: - Popular Section Helper
+struct PopularSection: Identifiable {
+  let id: String
+  let viewBuilder: () -> AnyView
+  var view: AnyView { viewBuilder() }
 }
 
 // MARK: - Search Section
