@@ -153,7 +153,9 @@ struct SearchTabView: View {
     } else {
       ScrollView {
         LazyVStack(alignment: .leading, spacing: 24) {
-          PreferencesBadge()
+          if preferencesManager.hasStreamingServices {
+            PreferencesBadge()
+          }
 
           if !movies.isEmpty {
             SearchSection(title: strings.movies, results: movies)
@@ -241,12 +243,14 @@ struct SearchTabView: View {
   private var popularContentView: some View {
     ScrollView(showsIndicators: false) {
       VStack(spacing: 24) {
-        HStack {
-          PreferencesBadge()
-          Spacer()
+        if preferencesManager.hasStreamingServices {
+          HStack {
+            PreferencesBadge()
+            Spacer()
+          }
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
 
         if !popularMovies.isEmpty {
           HomeSectionView(
