@@ -153,7 +153,7 @@ struct SearchTabView: View {
     } else {
       ScrollView {
         LazyVStack(alignment: .leading, spacing: 24) {
-          if preferencesManager.hasStreamingServices {
+          if preferencesManager.hasAnyPreference {
             PreferencesBadge()
           }
 
@@ -240,58 +240,141 @@ struct SearchTabView: View {
     }
   }
 
+  /// Returns popular content sections ordered by user's content type preferences.
+  /// If the user selected specific content types, those appear first.
   private var popularContentView: some View {
     ScrollView(showsIndicators: false) {
       VStack(spacing: 24) {
-        if preferencesManager.hasStreamingServices {
-          HStack {
-            PreferencesBadge()
-            Spacer()
-          }
-          .padding(.horizontal, 24)
-          .padding(.top, 16)
+        if preferencesManager.hasAnyPreference {
+          PreferencesBadge()
+            .padding(.horizontal, 24)
+            .padding(.top, 16)
         }
 
-        if !popularMovies.isEmpty {
-          HomeSectionView(
-            title: strings.movies,
-            items: popularMovies,
-            mediaType: "movie",
-            categoryType: .movies,
-            initialMovieSubcategory: .popular
-          )
-        }
-
-        if !popularTVSeries.isEmpty {
-          HomeSectionView(
-            title: strings.tvSeries,
-            items: popularTVSeries,
-            mediaType: "tv",
-            categoryType: .tvSeries,
-            initialTVSeriesSubcategory: .popular
-          )
-        }
-
-        if !popularAnimes.isEmpty {
-          HomeSectionView(
-            title: strings.animes,
-            items: popularAnimes,
-            mediaType: "tv",
-            categoryType: .animes
-          )
-        }
-
-        if !popularDoramas.isEmpty {
-          HomeSectionView(
-            title: strings.doramas,
-            items: popularDoramas,
-            mediaType: "tv",
-            categoryType: .doramas
-          )
+        ForEach(orderedPopularSections, id: \.id) { section in
+          section.view
         }
       }
       .padding(.bottom, 80)
     }
+  }
+
+  /// Helper to build ordered popular sections based on content type preferences.
+  private var orderedPopularSections: [PopularSection] {
+    let userContentTypes = preferencesManager.contentTypes
+    var sections: [PopularSection] = []
+
+    // If user has content type preferences, show those first in order
+    if !userContentTypes.isEmpty {
+      for type in userContentTypes {
+        switch type {
+        case .movies where !popularMovies.isEmpty:
+          sections.append(PopularSection(id: "movies") {
+            AnyView(HomeSectionView(
+              title: strings.movies, items: popularMovies,
+              mediaType: "movie", categoryType: .movies,
+              initialMovieSubcategory: .popular
+            ))
+          })
+        case .series where !popularTVSeries.isEmpty:
+          sections.append(PopularSection(id: "tv") {
+            AnyView(HomeSectionView(
+              title: strings.tvSeries, items: popularTVSeries,
+              mediaType: "tv", categoryType: .tvSeries,
+              initialTVSeriesSubcategory: .popular
+            ))
+          })
+        case .anime where !popularAnimes.isEmpty:
+          sections.append(PopularSection(id: "anime") {
+            AnyView(HomeSectionView(
+              title: strings.animes, items: popularAnimes,
+              mediaType: "tv", categoryType: .animes
+            ))
+          })
+        case .dorama where !popularDoramas.isEmpty:
+          sections.append(PopularSection(id: "dorama") {
+            AnyView(HomeSectionView(
+              title: strings.doramas, items: popularDoramas,
+              mediaType: "tv", categoryType: .doramas
+            ))
+          })
+        default: break
+        }
+      }
+      // Append remaining sections not in user preferences
+      let existingIds = Set(sections.map { $0.id })
+      if !existingIds.contains("movies") && !popularMovies.isEmpty {
+        sections.append(PopularSection(id: "movies") {
+          AnyView(HomeSectionView(
+            title: strings.movies, items: popularMovies,
+            mediaType: "movie", categoryType: .movies,
+            initialMovieSubcategory: .popular
+          ))
+        })
+      }
+      if !existingIds.contains("tv") && !popularTVSeries.isEmpty {
+        sections.append(PopularSection(id: "tv") {
+          AnyView(HomeSectionView(
+            title: strings.tvSeries, items: popularTVSeries,
+            mediaType: "tv", categoryType: .tvSeries,
+            initialTVSeriesSubcategory: .popular
+          ))
+        })
+      }
+      if !existingIds.contains("anime") && !popularAnimes.isEmpty {
+        sections.append(PopularSection(id: "anime") {
+          AnyView(HomeSectionView(
+            title: strings.animes, items: popularAnimes,
+            mediaType: "tv", categoryType: .animes
+          ))
+        })
+      }
+      if !existingIds.contains("dorama") && !popularDoramas.isEmpty {
+        sections.append(PopularSection(id: "dorama") {
+          AnyView(HomeSectionView(
+            title: strings.doramas, items: popularDoramas,
+            mediaType: "tv", categoryType: .doramas
+          ))
+        })
+      }
+    } else {
+      // No preferences: default order
+      if !popularMovies.isEmpty {
+        sections.append(PopularSection(id: "movies") {
+          AnyView(HomeSectionView(
+            title: strings.movies, items: popularMovies,
+            mediaType: "movie", categoryType: .movies,
+            initialMovieSubcategory: .popular
+          ))
+        })
+      }
+      if !popularTVSeries.isEmpty {
+        sections.append(PopularSection(id: "tv") {
+          AnyView(HomeSectionView(
+            title: strings.tvSeries, items: popularTVSeries,
+            mediaType: "tv", categoryType: .tvSeries,
+            initialTVSeriesSubcategory: .popular
+          ))
+        })
+      }
+      if !popularAnimes.isEmpty {
+        sections.append(PopularSection(id: "anime") {
+          AnyView(HomeSectionView(
+            title: strings.animes, items: popularAnimes,
+            mediaType: "tv", categoryType: .animes
+          ))
+        })
+      }
+      if !popularDoramas.isEmpty {
+        sections.append(PopularSection(id: "dorama") {
+          AnyView(HomeSectionView(
+            title: strings.doramas, items: popularDoramas,
+            mediaType: "tv", categoryType: .doramas
+          ))
+        })
+      }
+    }
+    return sections
   }
 
   // MARK: - Body
@@ -526,7 +609,7 @@ struct SearchTabView: View {
         query: query,
         language: Language.current.rawValue
       )
-      results = response.results
+      results = rankResultsByPreferences(response.results)
       
       // Track search event
       AnalyticsService.shared.track(.searchPerformed(query: query, resultsCount: response.results.count))
@@ -538,6 +621,51 @@ struct SearchTabView: View {
     } catch {
       results = []
     }
+  }
+
+  /// Ranks search results so items matching user preferences appear first.
+  /// Considers content type and genre preferences.
+  private func rankResultsByPreferences(_ items: [SearchResult]) -> [SearchResult] {
+    let userContentTypes = preferencesManager.contentTypes
+    let userGenreIds = Set(preferencesManager.genreIds)
+
+    // If no preferences, return as-is
+    guard !userContentTypes.isEmpty || !userGenreIds.isEmpty else { return items }
+
+    let preferredMediaTypes = Set(userContentTypes.map { type -> String in
+      switch type {
+      case .movies: return "movie"
+      case .series, .anime, .dorama: return "tv"
+      }
+    })
+
+    return items.sorted { a, b in
+      let scoreA = relevanceScore(for: a, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
+      let scoreB = relevanceScore(for: b, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
+      return scoreA > scoreB
+    }
+  }
+
+  /// Calculates a relevance score for a search result based on user preferences.
+  private func relevanceScore(
+    for item: SearchResult,
+    preferredMediaTypes: Set<String>,
+    userGenreIds: Set<Int>
+  ) -> Int {
+    var score = 0
+
+    // Boost for matching media type
+    if let mediaType = item.mediaType, preferredMediaTypes.contains(mediaType) {
+      score += 2
+    }
+
+    // Boost for matching genres
+    if let genreIds = item.genreIds {
+      let matchCount = Set(genreIds).intersection(userGenreIds).count
+      score += matchCount
+    }
+
+    return score
   }
 
   // MARK: - Recent Searches

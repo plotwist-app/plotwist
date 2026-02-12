@@ -70,6 +70,30 @@ class UserPreferencesManager: ObservableObject {
     return !ids.isEmpty
   }
 
+  var hasContentTypes: Bool {
+    guard let types = preferences?.mediaTypes else { return false }
+    return !types.isEmpty
+  }
+
+  var hasGenres: Bool {
+    guard let ids = preferences?.genreIds else { return false }
+    return !ids.isEmpty
+  }
+
+  /// True if the user has any preference configured (streaming, content types, or genres)
+  var hasAnyPreference: Bool {
+    hasStreamingServices || hasContentTypes || hasGenres
+  }
+
+  var contentTypes: [ContentTypePreference] {
+    guard let types = preferences?.mediaTypes else { return [] }
+    return types.compactMap { ContentTypePreference(rawValue: $0) }
+  }
+
+  var genreIds: [Int] {
+    preferences?.genreIds ?? []
+  }
+
   var watchRegion: String? {
     preferences?.watchRegion
   }
