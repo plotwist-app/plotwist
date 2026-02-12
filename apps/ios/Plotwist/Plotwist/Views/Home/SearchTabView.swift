@@ -477,6 +477,9 @@ struct SearchTabView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task {
+        // Wait for UserPreferencesManager to reload updated preferences
+        await preferencesManager.loadPreferences()
+        cache.clearCache()
         await loadPopularContent(forceRefresh: true)
       }
     }

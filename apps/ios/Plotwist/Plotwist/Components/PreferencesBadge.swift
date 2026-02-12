@@ -202,42 +202,52 @@ struct PreferencesQuickSheet: View {
   // MARK: - Content Types Row
   @ViewBuilder
   private var contentTypesRow: some View {
-    PreferencesBadgeRow(label: strings.content) {
-      let types = preferencesManager.contentTypes
-      if types.isEmpty {
-        Text("-")
-          .font(.caption)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      } else {
-        PreferencesFlowLayout(spacing: 8) {
-          ForEach(types, id: \.self) { type in
-            PreferencesItemBadge(text: type.displayName)
+    NavigationLink {
+      EditMediaTypesView(currentMediaTypes: preferencesManager.preferences?.mediaTypes)
+    } label: {
+      PreferencesBadgeRow(label: strings.content) {
+        let types = preferencesManager.contentTypes
+        if types.isEmpty {
+          Text("-")
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        } else {
+          PreferencesFlowLayout(spacing: 8) {
+            ForEach(types, id: \.self) { type in
+              PreferencesItemBadge(text: type.displayName)
+            }
           }
         }
       }
     }
+    .buttonStyle(.plain)
   }
 
   // MARK: - Genres Row
   @ViewBuilder
   private var genresRow: some View {
-    PreferencesBadgeRow(label: strings.genres) {
-      let genres = preferencesManager.genreIds
-      if genres.isEmpty {
-        Text("-")
-          .font(.caption)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      } else {
-        PreferencesFlowLayout(spacing: 8) {
-          ForEach(genres.prefix(6), id: \.self) { id in
-            PreferencesItemBadge(text: OnboardingGenre(id: id, name: "").name)
-          }
-          if genres.count > 6 {
-            PreferencesItemBadge(text: "+\(genres.count - 6)")
+    NavigationLink {
+      EditGenresView(currentGenreIds: preferencesManager.preferences?.genreIds)
+    } label: {
+      PreferencesBadgeRow(label: strings.genres) {
+        let genres = preferencesManager.genreIds
+        if genres.isEmpty {
+          Text("-")
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        } else {
+          PreferencesFlowLayout(spacing: 8) {
+            ForEach(genres.prefix(6), id: \.self) { id in
+              PreferencesItemBadge(text: OnboardingGenre(id: id, name: "").name)
+            }
+            if genres.count > 6 {
+              PreferencesItemBadge(text: "+\(genres.count - 6)")
+            }
           }
         }
       }
     }
+    .buttonStyle(.plain)
   }
 
   // MARK: - Region Row

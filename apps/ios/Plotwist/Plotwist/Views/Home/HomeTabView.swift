@@ -346,7 +346,12 @@ struct HomeTabView: View {
         strings = L10n.current
       }
       .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
-        Task { await loadUser(forceRefresh: true) }
+        Task {
+          await loadUser(forceRefresh: true)
+          // Preferences may have changed (genres, content types, streaming) — reload all content
+          cache.clearDiscoveryCache()
+          await loadData()
+        }
       }
       .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
         needsRefresh = true
