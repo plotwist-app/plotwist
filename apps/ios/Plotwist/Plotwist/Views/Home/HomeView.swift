@@ -28,34 +28,32 @@ struct HomeView: View {
 
   var body: some View {
     TabView(selection: $selectedTab) {
-      HomeTabView()
-        .tabItem {
-          Image(systemName: "house.fill")
-        }
-        .tag(0)
+      Tab(value: 0) {
+        HomeTabView()
+      } label: {
+        Image(systemName: "house.fill")
+      }
 
-      SearchTabView()
-        .tabItem {
-          Image(systemName: "magnifyingglass")
-        }
-        .tag(1)
+      Tab(value: 1) {
+        DiscoverTabView()
+      } label: {
+        Image(systemName: "sparkles")
+      }
 
-      DiscoverTabView()
-        .tabItem {
-          Image(systemName: "sparkles")
-        }
-        .tag(2)
+      Tab(value: 2) {
+        ProfileTabView()
+      } label: {
+        Image(systemName: "person.fill")
+      }
 
-      ProfileTabView()
-        .tabItem {
-          Image(systemName: "person.fill")
-        }
-        .tag(3)
+      Tab(value: 3, role: .search) {
+        SearchTabView()
+      }
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
       // Intercept profile tab when in guest mode - show login prompt instead
-      if newTab == 3 && isGuestMode {
+      if newTab == 2 && isGuestMode {
         selectedTab = previousTab
         if !onboardingService.hasSeenLoginPrompt {
           showLoginPrompt = true
@@ -67,7 +65,7 @@ struct HomeView: View {
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
-      selectedTab = 1
+      selectedTab = 3
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
       if isGuestMode {
@@ -77,7 +75,7 @@ struct HomeView: View {
           exitGuestMode()
         }
       } else {
-        selectedTab = 3
+        selectedTab = 2
       }
     }
     .onAppear {

@@ -23,7 +23,6 @@ struct SearchTabView: View {
   @State private var recentSearches: [String] = []
   @State private var hasSubmittedSearch = false
   @State private var autocompleteTask: Task<Void, Never>?
-  @FocusState private var isSearchFocused: Bool
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
   private let cache = SearchDataCache.shared
@@ -43,11 +42,11 @@ struct SearchTabView: View {
   }
 
   private var showRecentSearches: Bool {
-    isSearchFocused && searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
+    searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
   }
 
   private var showAutocomplete: Bool {
-    !searchText.isEmpty && isSearchFocused && !hasSubmittedSearch
+    !searchText.isEmpty && !hasSubmittedSearch
   }
 
   private var showResults: Bool {
@@ -60,51 +59,6 @@ struct SearchTabView: View {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
         VStack(spacing: 0) {
-          // Search Header
-          VStack(spacing: 0) {
-            HStack(spacing: 12) {
-              HStack(spacing: 12) {
-                Image(systemName: "magnifyingglass")
-                  .foregroundColor(.appMutedForegroundAdaptive)
-
-                TextField(strings.searchPlaceholder, text: $searchText)
-                  .textInputAutocapitalization(.never)
-                  .autocorrectionDisabled()
-                  .focused($isSearchFocused)
-                  .submitLabel(.search)
-                  .onSubmit {
-                    submitSearch(query: searchText)
-                  }
-              }
-              .padding(12)
-              .background(Color.appInputFilled)
-              .clipShape(RoundedRectangle(cornerRadius: 12))
-
-              if !searchText.isEmpty || hasSubmittedSearch {
-                Button {
-                  withAnimation(.easeInOut(duration: 0.2)) {
-                    searchText = ""
-                    submittedSearchText = ""
-                    results = []
-                    hasSubmittedSearch = false
-                  }
-                } label: {
-                  Text(strings.cancel)
-                    .font(.subheadline)
-                    .foregroundColor(.appForegroundAdaptive)
-                }
-                .transition(.opacity.combined(with: .move(edge: .trailing)))
-              }
-            }
-            .animation(.easeInOut(duration: 0.2), value: searchText.isEmpty)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 16)
-
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(height: 1)
-          }
-
           // Results
           if isLoadingPopular && isInitialLoad && cache.shouldShowSkeleton {
             ScrollView {
@@ -351,7 +305,10 @@ struct SearchTabView: View {
           }
         }
       }
-      .navigationBarHidden(true)
+      .searchable(text: $searchText, prompt: strings.searchPlaceholder)
+      .onSubmit(of: .search) {
+        submitSearch(query: searchText)
+      }
     }
     .onAppear {
       if !hasAppeared {
@@ -359,7 +316,6 @@ struct SearchTabView: View {
         restoreFromCache()
         loadRecentSearches()
       }
-      isSearchFocused = true
     }
     .task {
       await loadPopularContent()
@@ -384,12 +340,6 @@ struct SearchTabView: View {
           guard !Task.isCancelled else { return }
           await fetchAutocompleteSuggestions(query: newValue)
         }
-      }
-    }
-    .onChange(of: isSearchFocused) { focused in
-      // When unfocusing with text, trigger search
-      if !focused && !searchText.isEmpty && !hasSubmittedSearch {
-        submitSearch(query: searchText)
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -516,7 +466,6 @@ struct SearchTabView: View {
     searchText = query
     submittedSearchText = query
     hasSubmittedSearch = true
-    isSearchFocused = false
     autocompleteTask?.cancel()
     autocompleteSuggestions = []
     
