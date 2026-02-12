@@ -25,8 +25,6 @@ struct SearchTabView: View {
   @State private var autocompleteTask: Task<Void, Never>?
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
-  var onDismiss: () -> Void = {}
-
   private let cache = SearchDataCache.shared
   private let recentSearchesKey = "recentSearches"
   private let maxRecentSearches = 10
@@ -55,275 +53,273 @@ struct SearchTabView: View {
     hasSubmittedSearch && !submittedSearchText.isEmpty
   }
 
+  // MARK: - Sub Views
+
+  private var skeletonView: some View {
+    ScrollView {
+      LazyVStack(alignment: .leading, spacing: 24) {
+        SearchSkeletonSection()
+        SearchSkeletonSection()
+      }
+      .padding(.horizontal, 24)
+      .padding(.vertical, 24)
+    }
+  }
+
+  private var autocompleteView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 16) {
+        Text(strings.youAreLookingFor)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
+
+        VStack(spacing: 0) {
+          Button {
+            submitSearch(query: searchText)
+          } label: {
+            HStack(spacing: 12) {
+              Image(systemName: "magnifyingglass")
+                .font(.system(size: 16))
+                .foregroundColor(.appMutedForegroundAdaptive)
+
+              Text(searchText)
+                .font(.body)
+                .foregroundColor(.appForegroundAdaptive)
+                .lineLimit(1)
+
+              Spacer()
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+          }
+          .buttonStyle(.plain)
+
+          if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+              .padding(.leading, 60)
+
+            HStack {
+              Spacer()
+              ProgressView()
+                .scaleEffect(0.8)
+              Spacer()
+            }
+            .padding(.vertical, 16)
+          } else if !autocompleteSuggestions.isEmpty {
+            ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
+
+              Button {
+                submitSearch(query: suggestion.displayTitle)
+              } label: {
+                HStack(spacing: 12) {
+                  Image(systemName: "sparkles")
+                    .font(.system(size: 16))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+
+                  Text(suggestion.displayTitle)
+                    .font(.body)
+                    .foregroundColor(.appForegroundAdaptive)
+                    .lineLimit(1)
+
+                  Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+              }
+              .buttonStyle(.plain)
+            }
+          }
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  @ViewBuilder
+  private var resultsView: some View {
+    if results.isEmpty {
+      Spacer()
+      Text(strings.noResults)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      Spacer()
+    } else {
+      ScrollView {
+        LazyVStack(alignment: .leading, spacing: 24) {
+          PreferencesBadge()
+
+          if !movies.isEmpty {
+            SearchSection(title: strings.movies, results: movies)
+          }
+
+          if !tvSeries.isEmpty {
+            SearchSection(title: strings.tvSeries, results: tvSeries)
+          }
+
+          if !people.isEmpty {
+            SearchSection(title: strings.people, results: people)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+      }
+    }
+  }
+
+  private var recentSearchesView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 16) {
+        HStack {
+          Text(strings.recentSearches)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+
+          Spacer()
+
+          Button {
+            clearRecentSearches()
+          } label: {
+            Text(strings.clearAll)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+
+        VStack(spacing: 0) {
+          ForEach(recentSearches, id: \.self) { search in
+            Button {
+              submitSearch(query: search)
+            } label: {
+              HStack(spacing: 12) {
+                Image(systemName: "clock.arrow.circlepath")
+                  .font(.system(size: 16))
+                  .foregroundColor(.appMutedForegroundAdaptive)
+
+                Text(search)
+                  .font(.body)
+                  .foregroundColor(.appForegroundAdaptive)
+                  .lineLimit(1)
+
+                Spacer()
+
+                Button {
+                  removeRecentSearch(search)
+                } label: {
+                  Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .frame(width: 24, height: 24)
+                }
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 12)
+            }
+            .buttonStyle(.plain)
+
+            if search != recentSearches.last {
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
+            }
+          }
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  private var popularContentView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(spacing: 24) {
+        HStack {
+          PreferencesBadge()
+          Spacer()
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+
+        if !popularMovies.isEmpty {
+          HomeSectionView(
+            title: strings.movies,
+            items: popularMovies,
+            mediaType: "movie",
+            categoryType: .movies,
+            initialMovieSubcategory: .popular
+          )
+        }
+
+        if !popularTVSeries.isEmpty {
+          HomeSectionView(
+            title: strings.tvSeries,
+            items: popularTVSeries,
+            mediaType: "tv",
+            categoryType: .tvSeries,
+            initialTVSeriesSubcategory: .popular
+          )
+        }
+
+        if !popularAnimes.isEmpty {
+          HomeSectionView(
+            title: strings.animes,
+            items: popularAnimes,
+            mediaType: "tv",
+            categoryType: .animes
+          )
+        }
+
+        if !popularDoramas.isEmpty {
+          HomeSectionView(
+            title: strings.doramas,
+            items: popularDoramas,
+            mediaType: "tv",
+            categoryType: .doramas
+          )
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  // MARK: - Body
+
   var body: some View {
     NavigationStack {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
         VStack(spacing: 0) {
-          // Results
           if isLoadingPopular && isInitialLoad && cache.shouldShowSkeleton {
-            ScrollView {
-              LazyVStack(alignment: .leading, spacing: 24) {
-                SearchSkeletonSection()
-                SearchSkeletonSection()
-              }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
-            }
+            skeletonView
           } else if isLoading && hasSubmittedSearch {
-            // Show loading skeleton while fetching results
-            ScrollView {
-              LazyVStack(alignment: .leading, spacing: 24) {
-                SearchSkeletonSection()
-                SearchSkeletonSection()
-              }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
-            }
+            skeletonView
           } else if showAutocomplete {
-            // Show autocomplete suggestions while typing
-            ScrollView(showsIndicators: false) {
-              VStack(alignment: .leading, spacing: 16) {
-                Text(strings.youAreLookingFor)
-                  .font(.headline)
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                
-                VStack(spacing: 0) {
-                  // Always show current search text as first option
-                  Button {
-                    submitSearch(query: searchText)
-                  } label: {
-                    HStack(spacing: 12) {
-                      Image(systemName: "magnifyingglass")
-                        .font(.system(size: 16))
-                        .foregroundColor(.appMutedForegroundAdaptive)
-                      
-                      Text(searchText)
-                        .font(.body)
-                        .foregroundColor(.appForegroundAdaptive)
-                        .lineLimit(1)
-                      
-                      Spacer()
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                  }
-                  .buttonStyle(.plain)
-                  
-                  // Show loading indicator or suggestions
-                  if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive)
-                      .frame(height: 1)
-                      .padding(.leading, 60)
-                    
-                    HStack {
-                      Spacer()
-                      ProgressView()
-                        .scaleEffect(0.8)
-                      Spacer()
-                    }
-                    .padding(.vertical, 16)
-                  } else if !autocompleteSuggestions.isEmpty {
-                    // Show suggestions from API (only titles)
-                    ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                        .frame(height: 1)
-                        .padding(.leading, 60)
-                      
-                      Button {
-                        submitSearch(query: suggestion.displayTitle)
-                      } label: {
-                        HStack(spacing: 12) {
-                          Image(systemName: "sparkles")
-                            .font(.system(size: 16))
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                          
-                          Text(suggestion.displayTitle)
-                            .font(.body)
-                            .foregroundColor(.appForegroundAdaptive)
-                            .lineLimit(1)
-                          
-                          Spacer()
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 12)
-                      }
-                      .buttonStyle(.plain)
-                    }
-                  }
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            autocompleteView
           } else if showResults {
-            if results.isEmpty {
-              Spacer()
-              Text(strings.noResults)
-                .foregroundColor(.appMutedForegroundAdaptive)
-              Spacer()
-            } else {
-              ScrollView {
-                LazyVStack(alignment: .leading, spacing: 24) {
-                  // Preferences Badge
-                  PreferencesBadge()
-
-                  if !movies.isEmpty {
-                    SearchSection(title: strings.movies, results: movies)
-                  }
-
-                  if !tvSeries.isEmpty {
-                    SearchSection(title: strings.tvSeries, results: tvSeries)
-                  }
-
-                  if !people.isEmpty {
-                    SearchSection(title: strings.people, results: people)
-                  }
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 24)
-              }
-            }
+            resultsView
           } else if showRecentSearches {
-            // Show recent searches
-            ScrollView(showsIndicators: false) {
-              VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                  Text(strings.recentSearches)
-                    .font(.headline)
-                    .foregroundColor(.appForegroundAdaptive)
-                  
-                  Spacer()
-                  
-                  Button {
-                    clearRecentSearches()
-                  } label: {
-                    Text(strings.clearAll)
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                  }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-                
-                VStack(spacing: 0) {
-                  ForEach(recentSearches, id: \.self) { search in
-                    Button {
-                      submitSearch(query: search)
-                    } label: {
-                      HStack(spacing: 12) {
-                        Image(systemName: "clock.arrow.circlepath")
-                          .font(.system(size: 16))
-                          .foregroundColor(.appMutedForegroundAdaptive)
-                        
-                        Text(search)
-                          .font(.body)
-                          .foregroundColor(.appForegroundAdaptive)
-                          .lineLimit(1)
-                        
-                        Spacer()
-                        
-                        Button {
-                          removeRecentSearch(search)
-                        } label: {
-                          Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                            .frame(width: 24, height: 24)
-                        }
-                      }
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 12)
-                    }
-                    .buttonStyle(.plain)
-                    
-                    if search != recentSearches.last {
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                        .frame(height: 1)
-                        .padding(.leading, 60)
-                    }
-                  }
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            recentSearchesView
           } else {
-            // Show popular content with horizontal scroll sections
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 24) {
-                // Preferences Badge
-                HStack {
-                  PreferencesBadge()
-                  Spacer()
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-
-                if !popularMovies.isEmpty {
-                  HomeSectionView(
-                    title: strings.movies,
-                    items: popularMovies,
-                    mediaType: "movie",
-                    categoryType: .movies,
-                    initialMovieSubcategory: .popular
-                  )
-                }
-
-                if !popularTVSeries.isEmpty {
-                  HomeSectionView(
-                    title: strings.tvSeries,
-                    items: popularTVSeries,
-                    mediaType: "tv",
-                    categoryType: .tvSeries,
-                    initialTVSeriesSubcategory: .popular
-                  )
-                }
-
-                if !popularAnimes.isEmpty {
-                  HomeSectionView(
-                    title: strings.animes,
-                    items: popularAnimes,
-                    mediaType: "tv",
-                    categoryType: .animes
-                  )
-                }
-
-                if !popularDoramas.isEmpty {
-                  HomeSectionView(
-                    title: strings.doramas,
-                    items: popularDoramas,
-                    mediaType: "tv",
-                    categoryType: .doramas
-                  )
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            popularContentView
           }
         }
       }
-      .navigationBarTitleDisplayMode(.inline)
-      .searchable(text: $searchText, prompt: strings.searchPlaceholder)
+      .searchable(
+        text: $searchText,
+        placement: .navigationBarDrawer(displayMode: .always),
+        prompt: strings.searchPlaceholder
+      )
       .onSubmit(of: .search) {
         submitSearch(query: searchText)
-      }
-      .toolbar(.hidden, for: .tabBar)
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            onDismiss()
-          } label: {
-            Image(systemName: "xmark.circle.fill")
-              .font(.title3)
-              .symbolRenderingMode(.hierarchical)
-              .foregroundStyle(.appMutedForegroundAdaptive)
-          }
-        }
       }
     }
     .onAppear {
