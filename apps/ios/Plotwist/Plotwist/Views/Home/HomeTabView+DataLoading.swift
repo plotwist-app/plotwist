@@ -77,9 +77,14 @@ extension HomeTabView {
 
     var allItems: [SearchResult] = []
 
+    let hasMovies = contentTypes.contains(ContentTypePreference.movies)
+    let hasSeries = contentTypes.contains(ContentTypePreference.series)
+    let hasAnime = contentTypes.contains(ContentTypePreference.anime)
+    let hasDorama = contentTypes.contains(ContentTypePreference.dorama)
+
     // Fetch content for each selected type in parallel
     try await withThrowingTaskGroup(of: [SearchResult].self) { group in
-      if contentTypes.contains(.movies) {
+      if hasMovies {
         group.addTask {
           try await TMDBService.shared.getTrending(
             mediaType: "movie",
@@ -89,7 +94,7 @@ extension HomeTabView {
         }
       }
 
-      if contentTypes.contains(.series) {
+      if hasSeries {
         group.addTask {
           try await TMDBService.shared.getTrending(
             mediaType: "tv",
@@ -99,14 +104,14 @@ extension HomeTabView {
         }
       }
 
-      if contentTypes.contains(.anime) {
+      if hasAnime {
         group.addTask {
           let result = try await TMDBService.shared.getPopularAnimes(language: language)
           return result.results
         }
       }
 
-      if contentTypes.contains(.dorama) {
+      if hasDorama {
         group.addTask {
           let result = try await TMDBService.shared.getPopularDoramas(language: language)
           return result.results
@@ -139,8 +144,7 @@ extension HomeTabView {
 
     let genreIds: [Int]
     if AuthService.shared.isAuthenticated {
-      let serverGenres = UserPreferencesManager.shared.genreIds
-      genreIds = serverGenres.isEmpty ? onboardingService.selectedGenres.map { $0.id } : serverGenres
+      genreIds = UserPreferencesManager.shared.genreIds
     } else {
       genreIds = onboardingService.selectedGenres.map { $0.id }
     }
@@ -422,22 +426,43 @@ extension HomeTabView {
       return
     }
 
+    let language = Language.current.rawValue
+
+    // Build genre filter from preferences
+    let genreIds: [Int]
+    if AuthService.shared.isAuthenticated {
+      genreIds = UserPreferencesManager.shared.genreIds
+    } else {
+      genreIds = onboardingService.selectedGenres.map { $0.id }
+    }
+    let genresString = genreIds.isEmpty ? nil : genreIds.map { String($0) }.joined(separator: "|")
+    let hasGenres = !genreIds.isEmpty
+
     do {
-      async let moviesTask = TMDBService.shared.getPopularMovies(
-        language: Language.current.rawValue
-      )
-      async let tvTask = TMDBService.shared.getPopularTVSeries(
-        language: Language.current.rawValue
-      )
+      if hasGenres {
+        // Use discover endpoints with genre filtering
+        async let moviesTask = TMDBService.shared.discoverMovies(
+          language: language, withGenres: genresString
+        )
+        async let tvTask = TMDBService.shared.discoverTV(
+          language: language, withGenres: genresString
+        )
 
-      let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        popularMovies = moviesResult.results
+        popularTVSeries = tvResult.results
+        cache.setPopularMovies(moviesResult.results)
+        cache.setPopularTVSeries(tvResult.results)
+      } else {
+        async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
+        async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
 
-      popularMovies = moviesResult.results
-      popularTVSeries = tvResult.results
-
-      // Cache the results
-      cache.setPopularMovies(moviesResult.results)
-      cache.setPopularTVSeries(tvResult.results)
+        let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        popularMovies = moviesResult.results
+        popularTVSeries = tvResult.results
+        cache.setPopularMovies(moviesResult.results)
+        cache.setPopularTVSeries(tvResult.results)
+      }
     } catch {
       print("Error loading discovery content: \(error)")
     }

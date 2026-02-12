@@ -400,13 +400,17 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil
   ) async throws -> PaginatedResult {
     var urlString =
       "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -438,13 +442,17 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil
   ) async throws -> PaginatedResult {
     var urlString =
       "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
     }
 
     guard let url = URL(string: urlString) else {

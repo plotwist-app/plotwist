@@ -83,11 +83,10 @@ struct HomeTabView: View {
   }
 
   // Personalization helpers — use server preferences when authenticated,
-  // fall back to onboarding preferences for guest mode.
-  private var activeContentTypes: Set<ContentTypePreference> {
+  // fall back to onboarding preferences for guest mode only.
+  var activeContentTypes: Set<ContentTypePreference> {
     if AuthService.shared.isAuthenticated {
-      let serverTypes = UserPreferencesManager.shared.contentTypes
-      return serverTypes.isEmpty ? onboardingService.contentTypes : Set(serverTypes)
+      return Set(UserPreferencesManager.shared.contentTypes)
     }
     return onboardingService.contentTypes
   }
@@ -111,8 +110,7 @@ struct HomeTabView: View {
   private var forYouSubtitle: String {
     let genreNames: [String]
     if AuthService.shared.isAuthenticated {
-      let serverGenres = UserPreferencesManager.shared.genreIds
-      genreNames = serverGenres.prefix(3).map { OnboardingGenre(id: $0, name: "").name }
+      genreNames = UserPreferencesManager.shared.genreIds.prefix(3).map { OnboardingGenre(id: $0, name: "").name }
     } else {
       genreNames = onboardingService.selectedGenres.prefix(3).map { $0.name }
     }

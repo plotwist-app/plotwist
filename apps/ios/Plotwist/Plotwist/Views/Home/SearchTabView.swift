@@ -454,6 +454,9 @@ struct SearchTabView: View {
     let watchProviders =
       preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
     let userContentTypes = preferencesManager.contentTypes
+    let userGenreIds = preferencesManager.genreIds
+    let genresString = userGenreIds.isEmpty ? nil : userGenreIds.map { String($0) }.joined(separator: "|")
+    let hasFilters = preferencesManager.hasStreamingServices || !userGenreIds.isEmpty
 
     // Determine which categories to load based on content type preferences
     let shouldLoadMovies = userContentTypes.isEmpty || userContentTypes.contains(.movies)
@@ -471,9 +474,10 @@ struct SearchTabView: View {
       await withThrowingTaskGroup(of: Void.self) { group in
         if shouldLoadMovies {
           group.addTask {
-            let result = if preferencesManager.hasStreamingServices {
+            let result = if hasFilters {
               try await TMDBService.shared.discoverMovies(
-                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+                language: language, watchRegion: watchRegion,
+                withWatchProviders: watchProviders, withGenres: genresString
               )
             } else {
               try await TMDBService.shared.getPopularMovies(language: language)
@@ -487,9 +491,10 @@ struct SearchTabView: View {
 
         if shouldLoadSeries {
           group.addTask {
-            let result = if preferencesManager.hasStreamingServices {
+            let result = if hasFilters {
               try await TMDBService.shared.discoverTV(
-                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+                language: language, watchRegion: watchRegion,
+                withWatchProviders: watchProviders, withGenres: genresString
               )
             } else {
               try await TMDBService.shared.getPopularTVSeries(language: language)
@@ -503,7 +508,7 @@ struct SearchTabView: View {
 
         if shouldLoadAnimes {
           group.addTask {
-            let result = if preferencesManager.hasStreamingServices {
+            let result = if hasFilters {
               try await TMDBService.shared.discoverAnimes(
                 language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
               )
@@ -519,7 +524,7 @@ struct SearchTabView: View {
 
         if shouldLoadDoramas {
           group.addTask {
-            let result = if preferencesManager.hasStreamingServices {
+            let result = if hasFilters {
               try await TMDBService.shared.discoverDoramas(
                 language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
               )
