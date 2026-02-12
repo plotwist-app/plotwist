@@ -346,6 +346,7 @@ struct ProfileTabView: View {
     }
     .frame(maxWidth: .infinity, alignment: .top)
     .id(selectedMainTab)
+    .geometryGroup()
     .transition(.asymmetric(
       insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
       removal: .move(edge: slideFromTrailing ? .leading : .trailing)

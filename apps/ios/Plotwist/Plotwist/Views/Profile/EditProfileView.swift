@@ -242,6 +242,7 @@ struct EditProfileView: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)
+    .geometryGroup()
     .transition(.asymmetric(
       insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
       removal: .move(edge: slideFromTrailing ? .leading : .trailing)

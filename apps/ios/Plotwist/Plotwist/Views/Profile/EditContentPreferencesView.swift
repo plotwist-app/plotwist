@@ -64,6 +64,7 @@ struct EditMediaTypesView: View {
               }
             }
             .padding(.horizontal, horizontalPadding)
+            .padding(.top, horizontalPadding)
           }
           .frame(height: 340)
         }
