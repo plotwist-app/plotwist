@@ -25,6 +25,8 @@ struct SearchTabView: View {
   @State private var autocompleteTask: Task<Void, Never>?
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
+  var onDismiss: () -> Void = {}
+
   private let cache = SearchDataCache.shared
   private let recentSearchesKey = "recentSearches"
   private let maxRecentSearches = 10
@@ -305,9 +307,23 @@ struct SearchTabView: View {
           }
         }
       }
+      .navigationBarTitleDisplayMode(.inline)
       .searchable(text: $searchText, prompt: strings.searchPlaceholder)
       .onSubmit(of: .search) {
         submitSearch(query: searchText)
+      }
+      .toolbar(.hidden, for: .tabBar)
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            onDismiss()
+          } label: {
+            Image(systemName: "xmark.circle.fill")
+              .font(.title3)
+              .symbolRenderingMode(.hierarchical)
+              .foregroundStyle(.appMutedForegroundAdaptive)
+          }
+        }
       }
     }
     .onAppear {

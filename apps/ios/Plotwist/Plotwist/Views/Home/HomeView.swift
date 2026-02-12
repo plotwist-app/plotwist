@@ -46,12 +46,21 @@ struct HomeView: View {
         Image(systemName: "person.fill")
       }
 
-      Tab(value: 3, role: .search) {
-        SearchTabView()
+      Tab(value: 3) {
+        SearchTabView(onDismiss: { selectedTab = 0 })
+      } label: {
+        Image(systemName: "magnifyingglass")
       }
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
+      // When search is dismissed, always go back to home
+      if previousTab == 3 && newTab != 3 {
+        previousTab = 0
+        selectedTab = 0
+        return
+      }
+
       // Intercept profile tab when in guest mode - show login prompt instead
       if newTab == 2 && isGuestMode {
         selectedTab = previousTab
