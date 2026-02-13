@@ -31,9 +31,11 @@ struct MediaDetailView: View {
 
   // Collection state
   @State private var collection: MovieCollection?
-  @State private var showCollectionSheet = false
-  @State private var selectedCollectionMovieId: Int?
+  @State private var showCollectionDetail = false
   @State private var showLoginPrompt = false
+
+  // Namespace for collection zoom transition
+  @Namespace private var collectionAnimation
 
   // Layout constants
   private let cornerRadius: CGFloat = 24
@@ -169,6 +171,14 @@ struct MediaDetailView: View {
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
+    .fullScreenCover(isPresented: $showCollectionDetail) {
+      if let collection = collection {
+        MovieCollectionDetailView(collection: collection)
+          .navigationTransition(
+            .zoom(sourceID: "collection-\(collection.id)", in: collectionAnimation)
+          )
+      }
+    }
     .sheet(isPresented: $showReviewSheet) {
       ReviewSheet(
         mediaId: mediaId,
@@ -186,29 +196,6 @@ struct MediaDetailView: View {
         }
       )
     }
-    .sheet(isPresented: $showCollectionSheet) {
-      if let collection = collection {
-        MovieCollectionSheet(collection: collection) { movieId in
-          selectedCollectionMovieId = movieId
-        }
-      }
-    }
-    .background(
-      NavigationLink(
-        destination: Group {
-          if let movieId = selectedCollectionMovieId {
-            MediaDetailView(mediaId: movieId, mediaType: "movie")
-          }
-        },
-        isActive: Binding(
-          get: { selectedCollectionMovieId != nil },
-          set: { if !$0 { selectedCollectionMovieId = nil } }
-        )
-      ) {
-        EmptyView()
-      }
-      .hidden()
-    )
     .loginPrompt(isPresented: $showLoginPrompt) {
       // User logged in - reload user-specific data
       Task {
@@ -294,15 +281,16 @@ struct MediaDetailView: View {
     .scrollClipDisabled()
     .padding(.top, 16)
 
-    // Collection Section
+    // Collection Section (zoom transition to full-screen detail)
     if let collection = collection {
-      MovieCollectionSection(
-        collection: collection,
-        onSeeCollectionTapped: {
-          showCollectionSheet = true
+      MovieCollectionSection(collection: collection)
+        .matchedTransitionSource(
+          id: "collection-\(collection.id)", in: collectionAnimation
+        )
+        .onTapGesture {
+          showCollectionDetail = true
         }
-      )
-      .padding(.top, 24)
+        .padding(.top, 24)
     }
 
     // Divider before first content section

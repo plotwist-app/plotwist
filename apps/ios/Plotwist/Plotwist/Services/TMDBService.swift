@@ -1066,12 +1066,19 @@ struct MovieCollection: Codable, Identifiable {
 struct CollectionPart: Codable, Identifiable {
   let id: Int
   let title: String
+  let overview: String?
   let posterPath: String?
+  let backdropPath: String?
   let releaseDate: String?
 
   var posterURL: URL? {
     guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w780\(backdropPath)")
   }
 
   var year: String? {

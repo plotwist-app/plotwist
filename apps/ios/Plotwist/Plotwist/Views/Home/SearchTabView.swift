@@ -23,7 +23,7 @@ struct SearchTabView: View {
   @State private var recentSearches: [String] = []
   @State private var hasSubmittedSearch = false
   @State private var autocompleteTask: Task<Void, Never>?
-  @State private var isSearchFieldFocused = false
+  @FocusState private var isSearchFieldFocused: Bool
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
   private let cache = SearchDataCache.shared

@@ -5,177 +5,195 @@
 
 import SwiftUI
 
-// MARK: - Movie Collection Section
+// MARK: - Movie Collection Section (App Store Highlight style)
 struct MovieCollectionSection: View {
   let collection: MovieCollection
-  let onSeeCollectionTapped: () -> Void
 
   private var strings: Strings { L10n.current }
 
-  var body: some View {
+  /// Shared card backdrop + label overlay — identical in card and detail hero.
+  @ViewBuilder
+  static func cardContent(
+    collection: MovieCollection,
+    strings: Strings
+  ) -> some View {
     GeometryReader { geometry in
       ZStack(alignment: .bottomLeading) {
-        // Backdrop with darkened overlay
+        // Backdrop
         CachedAsyncImage(url: collection.backdropURL) { image in
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: geometry.size.width, height: geometry.size.height)
+            .clipped()
         } placeholder: {
           Rectangle()
             .fill(Color.appBorderAdaptive)
         }
         .overlay(
           LinearGradient(
-            colors: [
-              Color.black.opacity(0.8),
-              Color.black.opacity(0.4),
-              Color.black.opacity(0.2),
+            stops: [
+              .init(color: .clear, location: 0),
+              .init(color: .clear, location: 0.25),
+              .init(color: Color.black.opacity(0.45), location: 0.55),
+              .init(color: Color.black.opacity(0.88), location: 1),
             ],
-            startPoint: .bottom,
-            endPoint: .top
+            startPoint: .top,
+            endPoint: .bottom
           )
         )
 
-        // Content
-        VStack(alignment: .leading, spacing: 12) {
-          VStack(alignment: .leading, spacing: 4) {
-            Text(strings.partOf)
-              .font(.caption)
-              .foregroundColor(.white.opacity(0.8))
+        // Label overlay
+        VStack(alignment: .leading, spacing: 2) {
+          Text(strings.partOf.uppercased())
+            .font(.caption2.weight(.bold))
+            .tracking(0.6)
+            .foregroundStyle(.white.opacity(0.5))
 
-            Text(collection.name)
-              .font(.title3.bold())
-              .foregroundColor(.white)
-          }
-
-          Button {
-            onSeeCollectionTapped()
-          } label: {
-            Text(strings.seeCollection)
-              .font(.footnote.weight(.medium))
-              .foregroundColor(.appForegroundAdaptive)
-              .padding(.horizontal, 14)
-              .padding(.vertical, 10)
-              .background(Color.appBackgroundAdaptive)
-              .cornerRadius(10)
-          }
-          .buttonStyle(.plain)
+          Text(collection.name)
+            .font(.title2.bold())
+            .foregroundStyle(.white)
+            .lineLimit(2)
         }
         .padding(20)
       }
-      .frame(width: geometry.size.width, height: geometry.size.height)
-      .clipped()
     }
-    .frame(height: 240)
-    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
-    .posterBorder()
-    .padding(.horizontal, 24)
-  }
-}
-
-// MARK: - Movie Collection Sheet
-struct MovieCollectionSheet: View {
-  let collection: MovieCollection
-  let onMovieSelected: (Int) -> Void
-  @Environment(\.dismiss) private var dismiss
-  @ObservedObject private var themeManager = ThemeManager.shared
-
-  private let columns = [
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
-  ]
-
-  private var sortedParts: [CollectionPart] {
-    collection.parts.sorted(by: { ($0.releaseDate ?? "") < ($1.releaseDate ?? "") })
   }
 
   var body: some View {
-    FloatingSheetContainer {
-      VStack(spacing: 0) {
-        // Drag Indicator
-        RoundedRectangle(cornerRadius: 2.5)
-          .fill(Color.gray.opacity(0.4))
-          .frame(width: 36, height: 5)
-          .padding(.top, 12)
-          .padding(.bottom, 8)
+    Self.cardContent(collection: collection, strings: strings)
+      .frame(height: 260)
+      .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+      .posterBorder(cornerRadius: 24)
+      .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 8)
+      .padding(.horizontal, 24)
+  }
+}
 
-        ScrollView {
-          VStack(alignment: .leading, spacing: 8) {
-            // Title
-            Text(collection.name)
-              .font(.title3.bold())
-              .foregroundColor(.appForegroundAdaptive)
-              .frame(maxWidth: .infinity, alignment: .center)
-              .padding(.top, 4)
+// MARK: - Movie Collection Detail View (full-page, shared-element destination)
+struct MovieCollectionDetailView: View {
+  let collection: MovieCollection
 
-            // Collection overview if available
+  @Environment(\.dismiss) private var dismiss
+  @ObservedObject private var themeManager = ThemeManager.shared
+  @Namespace private var movieTransition
+
+  private var strings: Strings { L10n.current }
+
+  private var sortedParts: [CollectionPart] {
+    collection.parts.sorted { ($0.releaseDate ?? "") < ($1.releaseDate ?? "") }
+  }
+
+  var body: some View {
+    NavigationStack {
+      ScrollView(showsIndicators: false) {
+        VStack(alignment: .leading, spacing: 0) {
+          // Hero — exact same cardContent as the inline card for seamless zoom
+          MovieCollectionSection.cardContent(
+            collection: collection,
+            strings: strings
+          )
+          .frame(height: 340)
+
+          // Content
+          VStack(alignment: .leading, spacing: 24) {
+            // Collection overview
             if let overview = collection.overview, !overview.isEmpty {
               Text(overview)
                 .font(.subheadline)
                 .foregroundColor(.appMutedForegroundAdaptive)
-                .padding(.horizontal, 24)
-                .padding(.top, 8)
+                .lineSpacing(5)
             }
 
-            // Movies grid - using regular VStack + HStack for eager loading
-            VStack(spacing: 12) {
-              ForEach(0..<(sortedParts.count + 2) / 3, id: \.self) { rowIndex in
-                HStack(spacing: 12) {
-                  ForEach(0..<3) { colIndex in
-                    let index = rowIndex * 3 + colIndex
-                    if index < sortedParts.count {
-                      let movie = sortedParts[index]
-                      CollectionPosterCard(movie: movie)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                          dismiss()
-                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            onMovieSelected(movie.id)
-                          }
-                        }
-                    } else {
-                      // Empty space for incomplete rows
-                      Color.clear
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                    }
-                  }
+            // Movie list
+            VStack(spacing: 36) {
+              ForEach(Array(sortedParts.enumerated()), id: \.element.id) { index, movie in
+                NavigationLink {
+                  MediaDetailView(mediaId: movie.id, mediaType: "movie")
+                    .navigationTransition(
+                      .zoom(sourceID: "collection-movie-\(movie.id)", in: movieTransition)
+                    )
+                } label: {
+                  CollectionMovieRow(movie: movie, position: index + 1)
                 }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(
+                  id: "collection-movie-\(movie.id)", in: movieTransition
+                )
               }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
           }
-          .padding(.bottom, 24)
+          .padding(24)
         }
       }
+      .background(Color.appBackgroundAdaptive)
+      .ignoresSafeArea(edges: .top)
+      .toolbar(.hidden, for: .navigationBar)
+      .overlay(alignment: .topTrailing) {
+        Button { dismiss() } label: {
+          Image(systemName: "xmark")
+            .font(.system(size: 14, weight: .bold))
+            .foregroundStyle(.white)
+            .frame(width: 36, height: 36)
+            .background(.ultraThinMaterial)
+            .clipShape(Circle())
+        }
+        .padding(.trailing, 24)
+        .padding(.top, 8)
+        .safeAreaPadding(.top)
+      }
     }
-    .floatingSheetPresentation(detents: [.medium])
     .preferredColorScheme(themeManager.current.colorScheme)
   }
 }
 
-// MARK: - Collection Poster Card
-struct CollectionPosterCard: View {
+// MARK: - Collection Movie Row
+struct CollectionMovieRow: View {
   let movie: CollectionPart
+  let position: Int
 
   var body: some View {
-    CachedAsyncImage(url: movie.posterURL) { image in
-      image
-        .resizable()
-        .aspectRatio(2 / 3, contentMode: .fill)
-    } placeholder: {
-      RoundedRectangle(cornerRadius: 8)
-        .fill(Color.appBorderAdaptive)
-        .aspectRatio(2 / 3, contentMode: .fill)
-        .overlay(
-          ProgressView()
-            .scaleEffect(0.7)
-        )
+    VStack(alignment: .leading, spacing: 12) {
+      // Position. Title (Year)
+      HStack(alignment: .firstTextBaseline, spacing: 0) {
+        Text("\(position). ")
+          .font(.headline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+
+        Text(movie.title)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+
+        if let year = movie.year {
+          Text(" (\(year))")
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+      .lineLimit(1)
+
+      // Overview
+      if let overview = movie.overview, !overview.isEmpty {
+        Text(overview)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .lineLimit(3)
+          .lineSpacing(4)
+      }
+
+      // Backdrop
+      CachedAsyncImage(url: movie.backdropURL) { image in
+        image
+          .resizable()
+          .aspectRatio(16 / 9, contentMode: .fill)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: 20)
+          .fill(Color.appBorderAdaptive)
+          .aspectRatio(16 / 9, contentMode: .fill)
+      }
+      .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+      .posterBorder(cornerRadius: 20)
     }
-    .clipShape(RoundedRectangle(cornerRadius: 8))
-    .posterBorder(cornerRadius: 8)
-    .posterShadow()
   }
 }
+
