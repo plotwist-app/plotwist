@@ -145,6 +145,19 @@ struct ProfileTabView: View {
           await loadStatusCounts(forceRefresh: true)
         }
       }
+      .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
+        if AuthService.shared.isAuthenticated {
+          // User just logged in — reload profile data
+          Task { await loadData() }
+        } else {
+          // User logged out — clear profile state
+          user = nil
+          userItems = []
+          statusCounts = [:]
+          totalReviewsCount = 0
+          isInitialLoad = true
+        }
+      }
       .navigationBarHidden(true)
     }
   }

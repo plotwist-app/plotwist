@@ -257,6 +257,7 @@ struct LoginPromptSheet: View {
       await OnboardingService.shared.syncLocalDataToServer()
       
       OnboardingService.shared.hasSeenLoginPrompt = true
+      NotificationCenter.default.post(name: .authChanged, object: nil)
       onLogin()
     } catch {
       // If login looks like an email, check if it's a new account
@@ -305,6 +306,7 @@ struct LoginPromptSheet: View {
         await OnboardingService.shared.syncLocalDataToServer()
         
         OnboardingService.shared.hasSeenLoginPrompt = true
+        NotificationCenter.default.post(name: .authChanged, object: nil)
         onLogin()
       } else {
         error = strings.usernameAlreadyTaken
@@ -334,6 +336,7 @@ struct LoginPromptSheet: View {
       await OnboardingService.shared.syncLocalDataToServer()
       
       OnboardingService.shared.hasSeenLoginPrompt = true
+      NotificationCenter.default.post(name: .authChanged, object: nil)
       onLogin()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
