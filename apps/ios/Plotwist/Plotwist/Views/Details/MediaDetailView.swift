@@ -134,14 +134,17 @@ struct MediaDetailView: View {
                         RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
                       )
                   )
-                  .zIndex(isCollectionExpanded ? 2 : 0)
 
-                  // Poster and Info
-                  if let details {
-                    posterAndInfo(details)
-                  } else {
-                    posterAndInfoSkeleton()
+                  // Poster and Info (fades out when collection expands)
+                  Group {
+                    if let details {
+                      posterAndInfo(details)
+                    } else {
+                      posterAndInfoSkeleton()
+                    }
                   }
+                  .opacity(isCollectionExpanded ? 0 : 1)
+                  .animation(.easeOut(duration: 0.2), value: isCollectionExpanded)
                 }
                 .offset(y: -cornerRadius)
               }
