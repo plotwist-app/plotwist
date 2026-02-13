@@ -32,6 +32,7 @@ struct MediaDetailView: View {
   // Collection state
   @State private var collection: MovieCollection?
   @State private var isCollectionExpanded = false
+  @State private var collectionAbovePoster = false
   @State private var showLoginPrompt = false
 
   // Layout constants
@@ -116,26 +117,26 @@ struct MediaDetailView: View {
 
                 // MARK: Content Card (rounded, overlaps backdrop)
                 ZStack(alignment: .topLeading) {
+                  // Background layer (always behind poster)
+                  Color.appBackgroundAdaptive
+                    .clipShape(
+                      RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                    )
+
+                  // Content layer (above poster when collection is expanded)
                   VStack(alignment: .leading, spacing: 0) {
                     Spacer()
                       .frame(height: 110)
 
                     if let details {
-                      // Loaded content
                       detailsContent(details)
                     } else {
-                      // Skeleton content while loading
                       loadingContentSkeleton()
                     }
                   }
-                  .background(
-                    Color.appBackgroundAdaptive
-                      .clipShape(
-                        RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-                      )
-                  )
+                  .zIndex(collectionAbovePoster ? 2 : 0)
 
-                  // Poster and Info (fades out when collection expands)
+                  // Poster and Info (always zIndex 1)
                   Group {
                     if let details {
                       posterAndInfo(details)
@@ -143,8 +144,7 @@ struct MediaDetailView: View {
                       posterAndInfoSkeleton()
                     }
                   }
-                  .opacity(isCollectionExpanded ? 0 : 1)
-                  .animation(.easeOut(duration: 0.2), value: isCollectionExpanded)
+                  .zIndex(1)
                 }
                 .offset(y: -cornerRadius)
               }
@@ -152,6 +152,15 @@ struct MediaDetailView: View {
             .ignoresSafeArea(edges: .top)
             .scrollClipDisabled(isCollectionExpanded)
             .scrollDisabled(isCollectionExpanded)
+            .onChange(of: isCollectionExpanded) { _, expanded in
+              if expanded {
+                collectionAbovePoster = true
+              } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+                  collectionAbovePoster = false
+                }
+              }
+            }
 
             // Sticky Back Button (hidden when collection is expanded)
             if !isCollectionExpanded {
