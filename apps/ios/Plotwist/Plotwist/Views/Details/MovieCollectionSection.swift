@@ -1,107 +1,113 @@
 //
-//  MovieCollectionViews.swift
+//  MovieCollectionSection.swift
 //  Plotwist
 //
 
 import SwiftUI
 
-// MARK: - Collection Card (inline in MediaDetailView scroll)
-struct MovieCollectionCard: View {
+struct MovieCollectionSection: View {
   let collection: MovieCollection
-  private var strings: Strings { L10n.current }
+  @Binding var isExpanded: Bool
 
-  var body: some View {
-    CollectionHero(collection: collection, strings: strings)
-      .frame(height: 260)
-      .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-      .posterBorder(cornerRadius: 24)
-      .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 8)
-      .contentShape(Rectangle())
-      .padding(.horizontal, 24)
-  }
-}
-
-// MARK: - Collection Detail Page (full-screen destination for zoom transition)
-struct CollectionDetailPage: View {
-  let collection: MovieCollection
-
-  @Environment(\.dismiss) private var dismiss
-  @ObservedObject private var themeManager = ThemeManager.shared
   @Namespace private var movieTransition
-  @State private var contentVisible = false
 
   private var strings: Strings { L10n.current }
+  private let screen = UIScreen.main.bounds
+  private var safeAreaTop: CGFloat {
+    UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first?.windows.first?.safeAreaInsets.top ?? 0
+  }
 
   private var sortedParts: [CollectionPart] {
     collection.parts.sorted { ($0.releaseDate ?? "") < ($1.releaseDate ?? "") }
   }
 
+  private var spring: Animation {
+    .spring(response: 0.5, dampingFraction: 0.86)
+  }
+
   var body: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading, spacing: 0) {
-        // Same hero as the card — the zoom transition morphs between them
+        // Hero — same content in both states, just height changes
         CollectionHero(collection: collection, strings: strings)
-          .frame(height: 340)
+          .frame(height: isExpanded ? 340 + safeAreaTop : 260)
 
-        // Content section
-        VStack(alignment: .leading, spacing: 24) {
-          if let overview = collection.overview, !overview.isEmpty {
-            Text(overview)
-              .font(.subheadline)
-              .foregroundColor(.appMutedForegroundAdaptive)
-              .lineSpacing(5)
-          }
-
-          ForEach(Array(sortedParts.enumerated()), id: \.element.id) { index, movie in
-            NavigationLink {
-              MediaDetailView(mediaId: movie.id, mediaType: "movie")
-                .navigationTransition(
-                  .zoom(sourceID: "collection-movie-\(movie.id)", in: movieTransition)
-                )
-            } label: {
-              CollectionMovieRow(movie: movie, position: index + 1)
+        // Content — revealed when card grows to page size
+        if isExpanded {
+          VStack(alignment: .leading, spacing: 24) {
+            if let overview = collection.overview, !overview.isEmpty {
+              Text(overview)
+                .font(.subheadline)
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .lineSpacing(5)
             }
-            .buttonStyle(.plain)
-            .matchedTransitionSource(
-              id: "collection-movie-\(movie.id)", in: movieTransition
-            )
-          }
-        }
-        .padding(24)
-        .opacity(contentVisible ? 1 : 0)
-        .offset(y: contentVisible ? 0 : 20)
 
-        Spacer().frame(height: 60)
+            ForEach(Array(sortedParts.enumerated()), id: \.element.id) { index, movie in
+              NavigationLink {
+                MediaDetailView(mediaId: movie.id, mediaType: "movie")
+                  .navigationTransition(
+                    .zoom(sourceID: "col-movie-\(movie.id)", in: movieTransition)
+                  )
+              } label: {
+                CollectionMovieRow(movie: movie, position: index + 1)
+              }
+              .buttonStyle(.plain)
+              .matchedTransitionSource(
+                id: "col-movie-\(movie.id)", in: movieTransition
+              )
+            }
+          }
+          .padding(24)
+
+          Spacer().frame(height: 60)
+        }
       }
+      .padding(.top, isExpanded ? -safeAreaTop : 0)
     }
-    .ignoresSafeArea(edges: .top)
-    .navigationBarHidden(true)
-    .overlay(alignment: .topTrailing) {
-      Button { dismiss() } label: {
-        Image(systemName: "xmark")
-          .font(.system(size: 14, weight: .bold))
-          .foregroundStyle(.white)
-          .frame(width: 36, height: 36)
-          .background(.ultraThinMaterial)
-          .clipShape(Circle())
-      }
-      .padding(.trailing, 16)
-      .padding(.top, 8)
-      .safeAreaPadding(.top)
-      .opacity(contentVisible ? 1 : 0)
-    }
+    .scrollDisabled(!isExpanded)
+    .ignoresSafeArea(edges: isExpanded ? .top : [])
+    .frame(height: isExpanded ? screen.height + safeAreaTop : 260)
+    .clipped()
     .background(Color.appBackgroundAdaptive)
-    .preferredColorScheme(themeManager.current.colorScheme)
-    .onAppear {
-      withAnimation(.easeOut(duration: 0.35).delay(0.15)) {
-        contentVisible = true
+    .clipShape(RoundedRectangle(cornerRadius: isExpanded ? 0 : 24, style: .continuous))
+    .shadow(color: .black.opacity(isExpanded ? 0 : 0.2), radius: 16, x: 0, y: 8)
+    .padding(.horizontal, isExpanded ? 0 : 24)
+    // Close button — overlay outside the scroll, respects safe area
+    .overlay(alignment: .topTrailing) {
+      if isExpanded {
+        Button {
+          withAnimation(spring) {
+            isExpanded = false
+          }
+        } label: {
+          Image(systemName: "xmark")
+            .font(.system(size: 14, weight: .bold))
+            .foregroundStyle(.white)
+            .frame(width: 36, height: 36)
+            .background(.ultraThinMaterial)
+            .clipShape(Circle())
+        }
+        .padding(.trailing, 24)
+        .padding(.top, 8)
+        .safeAreaPadding(.top)
+        .transition(.opacity)
       }
     }
+    .contentShape(Rectangle())
+    .onTapGesture {
+      guard !isExpanded else { return }
+      withAnimation(spring) {
+        isExpanded = true
+      }
+    }
+    .offset(y: isExpanded ? -(safeAreaTop * 0.6) : 0)
   }
 }
 
-// MARK: - Collection Hero (shared backdrop + labels)
-struct CollectionHero: View {
+// MARK: - Collection Hero
+private struct CollectionHero: View {
   let collection: MovieCollection
   let strings: Strings
 
@@ -149,7 +155,7 @@ struct CollectionHero: View {
 }
 
 // MARK: - Collection Movie Row
-struct CollectionMovieRow: View {
+private struct CollectionMovieRow: View {
   let movie: CollectionPart
   let position: Int
 

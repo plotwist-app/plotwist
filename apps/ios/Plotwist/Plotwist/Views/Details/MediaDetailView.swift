@@ -31,7 +31,7 @@ struct MediaDetailView: View {
 
   // Collection state
   @State private var collection: MovieCollection?
-  @Namespace private var collectionTransition
+  @State private var isCollectionExpanded = false
   @State private var showLoginPrompt = false
 
   // Layout constants
@@ -57,6 +57,7 @@ struct MediaDetailView: View {
           let backdropHeight = geometry.size.height * 0.45
 
           ZStack(alignment: .topLeading) {
+            ScrollViewReader { scrollProxy in
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
                 // MARK: Backdrop Section
@@ -144,30 +145,43 @@ struct MediaDetailView: View {
               }
             }
             .ignoresSafeArea(edges: .top)
-
-            // Sticky Back Button
-            VStack {
-              Button {
-                dismiss()
-              } label: {
-                Image(systemName: "chevron.left")
-                  .font(.system(size: 18, weight: .semibold))
-                  .foregroundColor(.white)
-                  .frame(width: 40, height: 40)
-                  .background(.ultraThinMaterial)
-                  .clipShape(Circle())
+            .scrollDisabled(isCollectionExpanded)
+            .onChange(of: isCollectionExpanded) { _, expanded in
+              if expanded {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.86)) {
+                  scrollProxy.scrollTo("collectionSection", anchor: .top)
+                }
               }
-              .padding(.leading, 24)
-              Spacer()
             }
-            .padding(.top, 8)
-            .safeAreaPadding(.top)
+            } // ScrollViewReader
+
+            // Sticky Back Button (hidden when collection is expanded)
+            if !isCollectionExpanded {
+              VStack {
+                Button {
+                  dismiss()
+                } label: {
+                  Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 40, height: 40)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                }
+                .padding(.leading, 24)
+                Spacer()
+              }
+              .padding(.top, 16)
+            }
+
           }
         }
       }
 
     }
-    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .toolbar(.hidden, for: .navigationBar)
+    .background { ForceHideNavigationBar() }
     .preferredColorScheme(themeManager.current.colorScheme)
     .sheet(isPresented: $showReviewSheet) {
       ReviewSheet(
@@ -271,20 +285,15 @@ struct MediaDetailView: View {
     .scrollClipDisabled()
     .padding(.top, 16)
 
-    // Collection Section
+    // Collection Section (expandable card)
     if let collection = collection {
-      NavigationLink {
-        CollectionDetailPage(collection: collection)
-          .navigationTransition(
-            .zoom(sourceID: "collectionCard", in: collectionTransition)
-          )
-      } label: {
-        MovieCollectionCard(collection: collection)
-          .matchedTransitionSource(
-            id: "collectionCard", in: collectionTransition
-          )
-      }
-      .buttonStyle(.plain)
+      MovieCollectionSection(
+        collection: collection,
+        isExpanded: $isCollectionExpanded
+      )
+      .id("collectionSection")
+      .frame(height: 260, alignment: .top)
+      .zIndex(1)
       .padding(.top, 24)
     }
 
@@ -592,6 +601,30 @@ struct MediaDetailView: View {
     } catch {
       collection = nil
     }
+  }
+
+}
+
+// MARK: - Force Hide Navigation Bar (UIKit)
+/// Ensures the native UIKit navigation bar is fully hidden, even when the parent
+/// NavigationStack has `.searchable` which can prevent SwiftUI's `.toolbar(.hidden)` from working.
+private struct ForceHideNavigationBar: UIViewControllerRepresentable {
+  func makeUIViewController(context: Context) -> ForceHideNavBarController {
+    ForceHideNavBarController()
+  }
+
+  func updateUIViewController(_ controller: ForceHideNavBarController, context: Context) {}
+}
+
+private class ForceHideNavBarController: UIViewController {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: false)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.setNavigationBarHidden(false, animated: false)
   }
 }
 
