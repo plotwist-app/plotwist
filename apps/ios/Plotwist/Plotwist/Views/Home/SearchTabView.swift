@@ -23,7 +23,6 @@ struct SearchTabView: View {
   @State private var recentSearches: [String] = []
   @State private var hasSubmittedSearch = false
   @State private var autocompleteTask: Task<Void, Never>?
-  @FocusState private var isSearchFocused: Bool
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
   private let cache = SearchDataCache.shared
@@ -43,16 +42,294 @@ struct SearchTabView: View {
   }
 
   private var showRecentSearches: Bool {
-    isSearchFocused && searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
+    searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
   }
 
   private var showAutocomplete: Bool {
-    !searchText.isEmpty && isSearchFocused && !hasSubmittedSearch
+    !searchText.isEmpty && !hasSubmittedSearch
   }
 
   private var showResults: Bool {
     hasSubmittedSearch && !submittedSearchText.isEmpty
   }
+
+  // MARK: - Sub Views
+
+  private var skeletonView: some View {
+    ScrollView {
+      LazyVStack(alignment: .leading, spacing: 24) {
+        SearchSkeletonSection()
+        SearchSkeletonSection()
+      }
+      .padding(.horizontal, 24)
+      .padding(.vertical, 24)
+    }
+  }
+
+  private var autocompleteView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 16) {
+        Text(strings.youAreLookingFor)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
+
+        VStack(spacing: 0) {
+          Button {
+            submitSearch(query: searchText)
+          } label: {
+            HStack(spacing: 12) {
+              Image(systemName: "magnifyingglass")
+                .font(.system(size: 16))
+                .foregroundColor(.appMutedForegroundAdaptive)
+
+              Text(searchText)
+                .font(.body)
+                .foregroundColor(.appForegroundAdaptive)
+                .lineLimit(1)
+
+              Spacer()
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+          }
+          .buttonStyle(.plain)
+
+          if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+              .padding(.leading, 60)
+
+            HStack {
+              Spacer()
+              ProgressView()
+                .scaleEffect(0.8)
+              Spacer()
+            }
+            .padding(.vertical, 16)
+          } else if !autocompleteSuggestions.isEmpty {
+            ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
+
+              Button {
+                submitSearch(query: suggestion.displayTitle)
+              } label: {
+                HStack(spacing: 12) {
+                  Image(systemName: "sparkles")
+                    .font(.system(size: 16))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+
+                  Text(suggestion.displayTitle)
+                    .font(.body)
+                    .foregroundColor(.appForegroundAdaptive)
+                    .lineLimit(1)
+
+                  Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+              }
+              .buttonStyle(.plain)
+            }
+          }
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  @ViewBuilder
+  private var resultsView: some View {
+    if results.isEmpty {
+      Spacer()
+      Text(strings.noResults)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      Spacer()
+    } else {
+      ScrollView {
+        LazyVStack(alignment: .leading, spacing: 24) {
+          if preferencesManager.hasAnyPreference {
+            PreferencesBadge()
+          }
+
+          ForEach(orderedResultSections, id: \.title) { section in
+            SearchSection(title: section.title, results: section.results)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+      }
+    }
+  }
+
+  /// Orders result sections based on content type preferences.
+  private var orderedResultSections: [(title: String, results: [SearchResult])] {
+    let userContentTypes = preferencesManager.contentTypes
+    var sections: [(title: String, results: [SearchResult])] = []
+
+    if !userContentTypes.isEmpty {
+      // Add sections in preference order first
+      for type in userContentTypes {
+        switch type {
+        case .movies where !movies.isEmpty:
+          sections.append((title: strings.movies, results: movies))
+        case .series, .anime, .dorama:
+          if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
+            sections.append((title: strings.tvSeries, results: tvSeries))
+          }
+        default: break
+        }
+      }
+      // Append any missing sections
+      if !movies.isEmpty && !sections.contains(where: { $0.title == strings.movies }) {
+        sections.append((title: strings.movies, results: movies))
+      }
+      if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
+        sections.append((title: strings.tvSeries, results: tvSeries))
+      }
+    } else {
+      if !movies.isEmpty { sections.append((title: strings.movies, results: movies)) }
+      if !tvSeries.isEmpty { sections.append((title: strings.tvSeries, results: tvSeries)) }
+    }
+
+    // People always last
+    if !people.isEmpty { sections.append((title: strings.people, results: people)) }
+
+    return sections
+  }
+
+  private var recentSearchesView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 16) {
+        HStack {
+          Text(strings.recentSearches)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+
+          Spacer()
+
+          Button {
+            clearRecentSearches()
+          } label: {
+            Text(strings.clearAll)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+
+        VStack(spacing: 0) {
+          ForEach(recentSearches, id: \.self) { search in
+            Button {
+              submitSearch(query: search)
+            } label: {
+              HStack(spacing: 12) {
+                Image(systemName: "clock.arrow.circlepath")
+                  .font(.system(size: 16))
+                  .foregroundColor(.appMutedForegroundAdaptive)
+
+                Text(search)
+                  .font(.body)
+                  .foregroundColor(.appForegroundAdaptive)
+                  .lineLimit(1)
+
+                Spacer()
+
+                Button {
+                  removeRecentSearch(search)
+                } label: {
+                  Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                    .frame(width: 24, height: 24)
+                }
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 12)
+            }
+            .buttonStyle(.plain)
+
+            if search != recentSearches.last {
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
+            }
+          }
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  /// Returns popular content sections ordered by user's content type preferences.
+  /// If the user selected specific content types, those appear first.
+  private var popularContentView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(spacing: 24) {
+        if preferencesManager.hasAnyPreference {
+          PreferencesBadge()
+            .padding(.horizontal, 24)
+            .padding(.top, 16)
+        }
+
+        ForEach(orderedPopularSections, id: \.id) { section in
+          section.view
+        }
+      }
+      .padding(.bottom, 80)
+    }
+  }
+
+  /// Helper to build popular sections. Only shows categories the user selected
+  /// in content type preferences. If no preferences, shows all.
+  private var orderedPopularSections: [PopularSection] {
+    var sections: [PopularSection] = []
+
+    if !popularMovies.isEmpty {
+      sections.append(PopularSection(id: "movies") {
+        AnyView(HomeSectionView(
+          title: strings.movies, items: popularMovies,
+          mediaType: "movie", categoryType: .movies,
+          initialMovieSubcategory: .popular
+        ))
+      })
+    }
+    if !popularTVSeries.isEmpty {
+      sections.append(PopularSection(id: "tv") {
+        AnyView(HomeSectionView(
+          title: strings.tvSeries, items: popularTVSeries,
+          mediaType: "tv", categoryType: .tvSeries,
+          initialTVSeriesSubcategory: .popular
+        ))
+      })
+    }
+    if !popularAnimes.isEmpty {
+      sections.append(PopularSection(id: "anime") {
+        AnyView(HomeSectionView(
+          title: strings.animes, items: popularAnimes,
+          mediaType: "tv", categoryType: .animes
+        ))
+      })
+    }
+    if !popularDoramas.isEmpty {
+      sections.append(PopularSection(id: "dorama") {
+        AnyView(HomeSectionView(
+          title: strings.doramas, items: popularDoramas,
+          mediaType: "tv", categoryType: .doramas
+        ))
+      })
+    }
+    return sections
+  }
+
+  // MARK: - Body
 
   var body: some View {
     NavigationStack {
@@ -60,298 +337,29 @@ struct SearchTabView: View {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
         VStack(spacing: 0) {
-          // Search Header
-          VStack(spacing: 0) {
-            HStack(spacing: 12) {
-              HStack(spacing: 12) {
-                Image(systemName: "magnifyingglass")
-                  .foregroundColor(.appMutedForegroundAdaptive)
-
-                TextField(strings.searchPlaceholder, text: $searchText)
-                  .textInputAutocapitalization(.never)
-                  .autocorrectionDisabled()
-                  .focused($isSearchFocused)
-                  .submitLabel(.search)
-                  .onSubmit {
-                    submitSearch(query: searchText)
-                  }
-              }
-              .padding(12)
-              .background(Color.appInputFilled)
-              .clipShape(RoundedRectangle(cornerRadius: 12))
-
-              if !searchText.isEmpty || hasSubmittedSearch {
-                Button {
-                  withAnimation(.easeInOut(duration: 0.2)) {
-                    searchText = ""
-                    submittedSearchText = ""
-                    results = []
-                    hasSubmittedSearch = false
-                  }
-                } label: {
-                  Text(strings.cancel)
-                    .font(.subheadline)
-                    .foregroundColor(.appForegroundAdaptive)
-                }
-                .transition(.opacity.combined(with: .move(edge: .trailing)))
-              }
-            }
-            .animation(.easeInOut(duration: 0.2), value: searchText.isEmpty)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 16)
-
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(height: 1)
-          }
-
-          // Results
           if isLoadingPopular && isInitialLoad && cache.shouldShowSkeleton {
-            ScrollView {
-              LazyVStack(alignment: .leading, spacing: 24) {
-                SearchSkeletonSection()
-                SearchSkeletonSection()
-              }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
-            }
+            skeletonView
           } else if isLoading && hasSubmittedSearch {
-            // Show loading skeleton while fetching results
-            ScrollView {
-              LazyVStack(alignment: .leading, spacing: 24) {
-                SearchSkeletonSection()
-                SearchSkeletonSection()
-              }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
-            }
+            skeletonView
           } else if showAutocomplete {
-            // Show autocomplete suggestions while typing
-            ScrollView(showsIndicators: false) {
-              VStack(alignment: .leading, spacing: 16) {
-                Text(strings.youAreLookingFor)
-                  .font(.headline)
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 24)
-                  .padding(.top, 16)
-                
-                VStack(spacing: 0) {
-                  // Always show current search text as first option
-                  Button {
-                    submitSearch(query: searchText)
-                  } label: {
-                    HStack(spacing: 12) {
-                      Image(systemName: "magnifyingglass")
-                        .font(.system(size: 16))
-                        .foregroundColor(.appMutedForegroundAdaptive)
-                      
-                      Text(searchText)
-                        .font(.body)
-                        .foregroundColor(.appForegroundAdaptive)
-                        .lineLimit(1)
-                      
-                      Spacer()
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                  }
-                  .buttonStyle(.plain)
-                  
-                  // Show loading indicator or suggestions
-                  if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
-                    Rectangle()
-                      .fill(Color.appBorderAdaptive)
-                      .frame(height: 1)
-                      .padding(.leading, 60)
-                    
-                    HStack {
-                      Spacer()
-                      ProgressView()
-                        .scaleEffect(0.8)
-                      Spacer()
-                    }
-                    .padding(.vertical, 16)
-                  } else if !autocompleteSuggestions.isEmpty {
-                    // Show suggestions from API (only titles)
-                    ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                        .frame(height: 1)
-                        .padding(.leading, 60)
-                      
-                      Button {
-                        submitSearch(query: suggestion.displayTitle)
-                      } label: {
-                        HStack(spacing: 12) {
-                          Image(systemName: "sparkles")
-                            .font(.system(size: 16))
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                          
-                          Text(suggestion.displayTitle)
-                            .font(.body)
-                            .foregroundColor(.appForegroundAdaptive)
-                            .lineLimit(1)
-                          
-                          Spacer()
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 12)
-                      }
-                      .buttonStyle(.plain)
-                    }
-                  }
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            autocompleteView
           } else if showResults {
-            if results.isEmpty {
-              Spacer()
-              Text(strings.noResults)
-                .foregroundColor(.appMutedForegroundAdaptive)
-              Spacer()
-            } else {
-              ScrollView {
-                LazyVStack(alignment: .leading, spacing: 24) {
-                  // Preferences Badge
-                  PreferencesBadge()
-
-                  if !movies.isEmpty {
-                    SearchSection(title: strings.movies, results: movies)
-                  }
-
-                  if !tvSeries.isEmpty {
-                    SearchSection(title: strings.tvSeries, results: tvSeries)
-                  }
-
-                  if !people.isEmpty {
-                    SearchSection(title: strings.people, results: people)
-                  }
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 24)
-              }
-            }
+            resultsView
           } else if showRecentSearches {
-            // Show recent searches
-            ScrollView(showsIndicators: false) {
-              VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                  Text(strings.recentSearches)
-                    .font(.headline)
-                    .foregroundColor(.appForegroundAdaptive)
-                  
-                  Spacer()
-                  
-                  Button {
-                    clearRecentSearches()
-                  } label: {
-                    Text(strings.clearAll)
-                      .font(.subheadline)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                  }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-                
-                VStack(spacing: 0) {
-                  ForEach(recentSearches, id: \.self) { search in
-                    Button {
-                      submitSearch(query: search)
-                    } label: {
-                      HStack(spacing: 12) {
-                        Image(systemName: "clock.arrow.circlepath")
-                          .font(.system(size: 16))
-                          .foregroundColor(.appMutedForegroundAdaptive)
-                        
-                        Text(search)
-                          .font(.body)
-                          .foregroundColor(.appForegroundAdaptive)
-                          .lineLimit(1)
-                        
-                        Spacer()
-                        
-                        Button {
-                          removeRecentSearch(search)
-                        } label: {
-                          Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(.appMutedForegroundAdaptive)
-                            .frame(width: 24, height: 24)
-                        }
-                      }
-                      .padding(.horizontal, 24)
-                      .padding(.vertical, 12)
-                    }
-                    .buttonStyle(.plain)
-                    
-                    if search != recentSearches.last {
-                      Rectangle()
-                        .fill(Color.appBorderAdaptive)
-                        .frame(height: 1)
-                        .padding(.leading, 60)
-                    }
-                  }
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            recentSearchesView
           } else {
-            // Show popular content with horizontal scroll sections
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 24) {
-                // Preferences Badge
-                HStack {
-                  PreferencesBadge()
-                  Spacer()
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-
-                if !popularMovies.isEmpty {
-                  HomeSectionView(
-                    title: strings.movies,
-                    items: popularMovies,
-                    mediaType: "movie",
-                    categoryType: .movies,
-                    initialMovieSubcategory: .popular
-                  )
-                }
-
-                if !popularTVSeries.isEmpty {
-                  HomeSectionView(
-                    title: strings.tvSeries,
-                    items: popularTVSeries,
-                    mediaType: "tv",
-                    categoryType: .tvSeries,
-                    initialTVSeriesSubcategory: .popular
-                  )
-                }
-
-                if !popularAnimes.isEmpty {
-                  HomeSectionView(
-                    title: strings.animes,
-                    items: popularAnimes,
-                    mediaType: "tv",
-                    categoryType: .animes
-                  )
-                }
-
-                if !popularDoramas.isEmpty {
-                  HomeSectionView(
-                    title: strings.doramas,
-                    items: popularDoramas,
-                    mediaType: "tv",
-                    categoryType: .doramas
-                  )
-                }
-              }
-              .padding(.bottom, 80)
-            }
+            popularContentView
           }
         }
       }
-      .navigationBarHidden(true)
+      .searchable(
+        text: $searchText,
+        placement: .navigationBarDrawer(displayMode: .always),
+        prompt: strings.searchPlaceholder
+      )
+      .onSubmit(of: .search) {
+        submitSearch(query: searchText)
+      }
     }
     .onAppear {
       if !hasAppeared {
@@ -359,7 +367,6 @@ struct SearchTabView: View {
         restoreFromCache()
         loadRecentSearches()
       }
-      isSearchFocused = true
     }
     .task {
       await loadPopularContent()
@@ -386,12 +393,6 @@ struct SearchTabView: View {
         }
       }
     }
-    .onChange(of: isSearchFocused) { focused in
-      // When unfocusing with text, trigger search
-      if !focused && !searchText.isEmpty && !hasSubmittedSearch {
-        submitSearch(query: searchText)
-      }
-    }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
       Task {
@@ -400,6 +401,9 @@ struct SearchTabView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task {
+        // Wait for UserPreferencesManager to reload updated preferences
+        await preferencesManager.loadPreferences()
+        cache.clearCache()
         await loadPopularContent(forceRefresh: true)
       }
     }
@@ -427,7 +431,9 @@ struct SearchTabView: View {
 
   private func loadPopularContent(forceRefresh: Bool = false) async {
     // Check if preferences changed
-    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)"
+    let contentTypesStr = preferencesManager.contentTypes.map { $0.rawValue }.sorted().joined()
+    let genreIdsStr = preferencesManager.genreIds.sorted().map { String($0) }.joined()
+    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)-\(contentTypesStr)-\(genreIdsStr)"
     cache.setPreferencesHash(currentPreferencesHash)
 
     // Use cache if available and not forcing refresh
@@ -447,60 +453,90 @@ struct SearchTabView: View {
     let watchRegion = preferencesManager.watchRegion
     let watchProviders =
       preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
+    let userContentTypes = preferencesManager.contentTypes
+    let userGenreIds = preferencesManager.genreIds
+    let genresString = userGenreIds.isEmpty ? nil : userGenreIds.map { String($0) }.joined(separator: "|")
+    let hasFilters = preferencesManager.hasStreamingServices || !userGenreIds.isEmpty
+
+    // Determine which categories to load based on content type preferences
+    let shouldLoadMovies = userContentTypes.isEmpty || userContentTypes.contains(.movies)
+    let shouldLoadSeries = userContentTypes.isEmpty || userContentTypes.contains(.series)
+    let shouldLoadAnimes = userContentTypes.isEmpty || userContentTypes.contains(.anime)
+    let shouldLoadDoramas = userContentTypes.isEmpty || userContentTypes.contains(.dorama)
+
+    // Clear categories that are no longer relevant
+    if !shouldLoadMovies { popularMovies = []; cache.setPopularMovies([]) }
+    if !shouldLoadSeries { popularTVSeries = []; cache.setPopularTVSeries([]) }
+    if !shouldLoadAnimes { popularAnimes = []; cache.setPopularAnimes([]) }
+    if !shouldLoadDoramas { popularDoramas = []; cache.setPopularDoramas([]) }
 
     do {
-      if preferencesManager.hasStreamingServices {
-        // Use discover endpoints with watch providers
-        async let moviesTask = TMDBService.shared.discoverMovies(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let tvTask = TMDBService.shared.discoverTV(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let animesTask = TMDBService.shared.discoverAnimes(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
-        async let doramasTask = TMDBService.shared.discoverDoramas(
-          language: language,
-          watchRegion: watchRegion,
-          withWatchProviders: watchProviders
-        )
+      await withThrowingTaskGroup(of: Void.self) { group in
+        if shouldLoadMovies {
+          group.addTask {
+            let result = if hasFilters {
+              try await TMDBService.shared.discoverMovies(
+                language: language, watchRegion: watchRegion,
+                withWatchProviders: watchProviders, withGenres: genresString
+              )
+            } else {
+              try await TMDBService.shared.getPopularMovies(language: language)
+            }
+            await MainActor.run {
+              popularMovies = result.results
+              cache.setPopularMovies(result.results)
+            }
+          }
+        }
 
-        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-        popularMovies = movies.results
-        popularTVSeries = tv.results
-        popularAnimes = animes.results
-        popularDoramas = doramas.results
+        if shouldLoadSeries {
+          group.addTask {
+            let result = if hasFilters {
+              try await TMDBService.shared.discoverTV(
+                language: language, watchRegion: watchRegion,
+                withWatchProviders: watchProviders, withGenres: genresString
+              )
+            } else {
+              try await TMDBService.shared.getPopularTVSeries(language: language)
+            }
+            await MainActor.run {
+              popularTVSeries = result.results
+              cache.setPopularTVSeries(result.results)
+            }
+          }
+        }
 
-        // Save to cache
-        cache.setPopularMovies(movies.results)
-        cache.setPopularTVSeries(tv.results)
-        cache.setPopularAnimes(animes.results)
-        cache.setPopularDoramas(doramas.results)
-      } else {
-        // Use regular popular endpoints
-        async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
-        async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
-        async let animesTask = TMDBService.shared.getPopularAnimes(language: language)
-        async let doramasTask = TMDBService.shared.getPopularDoramas(language: language)
+        if shouldLoadAnimes {
+          group.addTask {
+            let result = if hasFilters {
+              try await TMDBService.shared.discoverAnimes(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularAnimes(language: language)
+            }
+            await MainActor.run {
+              popularAnimes = result.results
+              cache.setPopularAnimes(result.results)
+            }
+          }
+        }
 
-        let (movies, tv, animes, doramas) = try await (moviesTask, tvTask, animesTask, doramasTask)
-        popularMovies = movies.results
-        popularTVSeries = tv.results
-        popularAnimes = animes.results
-        popularDoramas = doramas.results
-
-        // Save to cache
-        cache.setPopularMovies(movies.results)
-        cache.setPopularTVSeries(tv.results)
-        cache.setPopularAnimes(animes.results)
-        cache.setPopularDoramas(doramas.results)
+        if shouldLoadDoramas {
+          group.addTask {
+            let result = if hasFilters {
+              try await TMDBService.shared.discoverDoramas(
+                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
+              )
+            } else {
+              try await TMDBService.shared.getPopularDoramas(language: language)
+            }
+            await MainActor.run {
+              popularDoramas = result.results
+              cache.setPopularDoramas(result.results)
+            }
+          }
+        }
       }
     } catch {
       popularMovies = []
@@ -516,7 +552,6 @@ struct SearchTabView: View {
     searchText = query
     submittedSearchText = query
     hasSubmittedSearch = true
-    isSearchFocused = false
     autocompleteTask?.cancel()
     autocompleteSuggestions = []
     
@@ -561,7 +596,7 @@ struct SearchTabView: View {
         query: query,
         language: Language.current.rawValue
       )
-      results = response.results
+      results = rankResultsByPreferences(response.results)
       
       // Track search event
       AnalyticsService.shared.track(.searchPerformed(query: query, resultsCount: response.results.count))
@@ -573,6 +608,51 @@ struct SearchTabView: View {
     } catch {
       results = []
     }
+  }
+
+  /// Ranks search results so items matching user preferences appear first.
+  /// Considers content type and genre preferences.
+  private func rankResultsByPreferences(_ items: [SearchResult]) -> [SearchResult] {
+    let userContentTypes = preferencesManager.contentTypes
+    let userGenreIds = Set(preferencesManager.genreIds)
+
+    // If no preferences, return as-is
+    guard !userContentTypes.isEmpty || !userGenreIds.isEmpty else { return items }
+
+    let preferredMediaTypes = Set(userContentTypes.map { type -> String in
+      switch type {
+      case .movies: return "movie"
+      case .series, .anime, .dorama: return "tv"
+      }
+    })
+
+    return items.sorted { a, b in
+      let scoreA = relevanceScore(for: a, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
+      let scoreB = relevanceScore(for: b, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
+      return scoreA > scoreB
+    }
+  }
+
+  /// Calculates a relevance score for a search result based on user preferences.
+  private func relevanceScore(
+    for item: SearchResult,
+    preferredMediaTypes: Set<String>,
+    userGenreIds: Set<Int>
+  ) -> Int {
+    var score = 0
+
+    // Boost for matching media type
+    if let mediaType = item.mediaType, preferredMediaTypes.contains(mediaType) {
+      score += 2
+    }
+
+    // Boost for matching genres
+    if let genreIds = item.genreIds {
+      let matchCount = Set(genreIds).intersection(userGenreIds).count
+      score += matchCount
+    }
+
+    return score
   }
 
   // MARK: - Recent Searches
@@ -611,6 +691,13 @@ struct SearchTabView: View {
       UserDefaults.standard.removeObject(forKey: recentSearchesKey)
     }
   }
+}
+
+// MARK: - Popular Section Helper
+struct PopularSection: Identifiable {
+  let id: String
+  let viewBuilder: () -> AnyView
+  var view: AnyView { viewBuilder() }
 }
 
 // MARK: - Search Section

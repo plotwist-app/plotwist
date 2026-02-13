@@ -6,6 +6,7 @@ export const createUserBodySchema = z.object({
   username: z.string().min(3, 'Username is required.'),
   email: z.string().email('Email is invalid.'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
+  displayName: z.string().optional(),
 })
 
 export const createUserResponseSchema = {
@@ -100,11 +101,16 @@ export const getMeResponseSchema = {
 
 export const updateUserResponseSchema = {
   200: z.object({
-    user: createSelectSchema(schema.users).omit({ password: true }),
+    user: createSelectSchema(schema.users)
+      .omit({ password: true })
+      .extend({
+        subscriptionType: z.enum(['MEMBER', 'PRO']),
+      }),
   }),
 }
 
 export const updateUserBodySchema = z.object({
+  displayName: z.string().optional(),
   bannerUrl: z.string().optional(),
   avatarUrl: z.string().optional(),
   username: z.string().optional(),
@@ -129,8 +135,10 @@ export const updateUserPasswordResponseSchema = {
 }
 
 export const updateUserPreferencesBodySchema = z.object({
-  watchProvidersIds: z.array(z.number()),
-  watchRegion: z.string(),
+  watchProvidersIds: z.array(z.number()).optional(),
+  watchRegion: z.string().optional(),
+  mediaTypes: z.array(z.string()).optional(),
+  genreIds: z.array(z.number()).optional(),
 })
 
 export const updateUserPreferencesResponseSchema = {

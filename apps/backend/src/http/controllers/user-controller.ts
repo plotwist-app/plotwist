@@ -27,9 +27,11 @@ export async function createUserController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { username, email, password } = createUserBodySchema.parse(request.body)
+  const { username, email, password, displayName } = createUserBodySchema.parse(
+    request.body
+  )
 
-  const result = await createUser({ username, email, password })
+  const result = await createUser({ username, email, password, displayName })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

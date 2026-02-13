@@ -11,21 +11,34 @@ struct PreferencesBadge: View {
   @State private var showPreferences = false
 
   var body: some View {
-    if preferencesManager.hasStreamingServices {
+    if preferencesManager.hasAnyPreference {
       Button {
         showPreferences = true
       } label: {
-        HStack(spacing: 6) {
-          Image(systemName: "sparkles")
-            .font(.caption)
-          Text(strings.resultsBasedOnPreferences)
-            .font(.caption)
+        HStack(spacing: 10) {
+          // Icon
+          Image(systemName: "slider.horizontal.3")
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+
+          // Summary text
+          Text(preferencesSummary)
+            .font(.system(size: 13))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(1)
+
+          Spacer()
+
+          Image(systemName: "chevron.right")
+            .font(.system(size: 11, weight: .semibold))
+            .foregroundColor(.appMutedForegroundAdaptive.opacity(0.5))
         }
-        .foregroundColor(.appForegroundAdaptive)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(Color.appInputFilled)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(Color.appInputFilled)
+        )
       }
       .sheet(isPresented: $showPreferences) {
         PreferencesQuickSheet()
@@ -34,6 +47,35 @@ struct PreferencesBadge: View {
         strings = L10n.current
       }
     }
+  }
+
+  /// Builds a compact, readable summary like "Movies, Series · Action, Comedy +2"
+  private var preferencesSummary: String {
+    var parts: [String] = []
+
+    // Content types
+    let types = preferencesManager.contentTypes
+    if !types.isEmpty {
+      let names = types.map { $0.displayName }
+      parts.append(names.joined(separator: ", "))
+    }
+
+    // Genres
+    let genres = preferencesManager.genreIds
+    if !genres.isEmpty {
+      let shown = genres.prefix(2).map { OnboardingGenre(id: $0, name: "").name }
+      var genreText = shown.joined(separator: ", ")
+      if genres.count > 2 {
+        genreText += " +\(genres.count - 2)"
+      }
+      parts.append(genreText)
+    }
+
+    if parts.isEmpty {
+      return strings.resultsBasedOnPreferences
+    }
+
+    return parts.joined(separator: " · ")
   }
 }
 
@@ -98,80 +140,32 @@ struct PreferencesQuickSheet: View {
           // Content
           ScrollView {
             VStack(alignment: .leading, spacing: 0) {
+              // Content Types
+              contentTypesRow
+
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+
+              // Genres
+              genresRow
+
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
+
               // Region
-              if let region = preferencesManager.watchRegion {
-                Button {
-                  showRegionPicker = true
-                } label: {
-                  PreferencesBadgeRow(label: strings.region) {
-                    PreferencesItemBadge(
-                      text: regionName(for: region),
-                      prefix: flagEmoji(for: region)
-                    )
-                  }
-                }
-                .sheet(isPresented: $showRegionPicker) {
-                  RegionPickerSheet(currentRegion: region)
-                }
+              regionRow
 
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.3))
-                  .frame(height: 1)
-                  .padding(.leading, 24)
+              Rectangle()
+                .fill(Color.appBorderAdaptive.opacity(0.3))
+                .frame(height: 1)
+                .padding(.leading, 24)
 
-                // Streaming Services
-                Button {
-                  showServicesPicker = true
-                } label: {
-                  PreferencesBadgeRow(label: strings.streamingServices) {
-                    if selectedProviders.isEmpty {
-                      Text(strings.notSet)
-                        .font(.caption)
-                        .foregroundColor(.appMutedForegroundAdaptive)
-                    } else {
-                      PreferencesFlowLayout(spacing: 8) {
-                        ForEach(selectedProviders) { provider in
-                          PreferencesItemBadge(
-                            text: provider.providerName,
-                            logoURL: provider.logoURL
-                          )
-                        }
-                      }
-                    }
-                  }
-                }
-                .sheet(isPresented: $showServicesPicker) {
-                  ServicesPickerSheet(
-                    watchRegion: region,
-                    selectedIds: preferencesManager.watchProvidersIds
-                  )
-                }
-              } else {
-                Button {
-                  showRegionPicker = true
-                } label: {
-                  PreferencesBadgeRow(label: strings.region) {
-                    Text(strings.notSet)
-                      .font(.caption)
-                      .foregroundColor(.appMutedForegroundAdaptive)
-                  }
-                }
-                .sheet(isPresented: $showRegionPicker) {
-                  RegionPickerSheet(currentRegion: nil)
-                }
-
-                Rectangle()
-                  .fill(Color.appBorderAdaptive.opacity(0.3))
-                  .frame(height: 1)
-                  .padding(.leading, 24)
-
-                PreferencesBadgeRow(label: strings.streamingServices) {
-                  Text(strings.selectRegionFirst)
-                    .font(.caption)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                }
-                .opacity(0.5)
-              }
+              // Streaming Services
+              streamingServicesRow
             }
           }
 
@@ -189,6 +183,130 @@ struct PreferencesQuickSheet: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task { await loadProviders() }
+    }
+  }
+
+  // MARK: - Content Types Row
+  @ViewBuilder
+  private var contentTypesRow: some View {
+    NavigationLink {
+      EditMediaTypesView(currentMediaTypes: preferencesManager.preferences?.mediaTypes)
+    } label: {
+      PreferencesBadgeRow(label: strings.content) {
+        let types = preferencesManager.contentTypes
+        if types.isEmpty {
+          Text("-")
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        } else {
+          PreferencesFlowLayout(spacing: 8) {
+            ForEach(types, id: \.self) { type in
+              PreferencesItemBadge(text: type.displayName)
+            }
+          }
+        }
+      }
+    }
+    .buttonStyle(.plain)
+  }
+
+  // MARK: - Genres Row
+  @ViewBuilder
+  private var genresRow: some View {
+    NavigationLink {
+      EditGenresView(currentGenreIds: preferencesManager.preferences?.genreIds)
+    } label: {
+      PreferencesBadgeRow(label: strings.genres) {
+        let genres = preferencesManager.genreIds
+        if genres.isEmpty {
+          Text("-")
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        } else {
+          PreferencesFlowLayout(spacing: 8) {
+            ForEach(genres.prefix(6), id: \.self) { id in
+              PreferencesItemBadge(text: OnboardingGenre(id: id, name: "").name)
+            }
+            if genres.count > 6 {
+              PreferencesItemBadge(text: "+\(genres.count - 6)")
+            }
+          }
+        }
+      }
+    }
+    .buttonStyle(.plain)
+  }
+
+  // MARK: - Region Row
+  @ViewBuilder
+  private var regionRow: some View {
+    if let region = preferencesManager.watchRegion {
+      Button {
+        showRegionPicker = true
+      } label: {
+        PreferencesBadgeRow(label: strings.region) {
+          PreferencesItemBadge(
+            text: regionName(for: region),
+            prefix: flagEmoji(for: region)
+          )
+        }
+      }
+      .sheet(isPresented: $showRegionPicker) {
+        RegionPickerSheet(currentRegion: region)
+      }
+    } else {
+      Button {
+        showRegionPicker = true
+      } label: {
+        PreferencesBadgeRow(label: strings.region) {
+          Text(strings.notSet)
+            .font(.caption)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+      .sheet(isPresented: $showRegionPicker) {
+        RegionPickerSheet(currentRegion: nil)
+      }
+    }
+  }
+
+  // MARK: - Streaming Services Row
+  @ViewBuilder
+  private var streamingServicesRow: some View {
+    if let region = preferencesManager.watchRegion {
+      Button {
+        showServicesPicker = true
+      } label: {
+        PreferencesBadgeRow(label: strings.streamingServices) {
+          if selectedProviders.isEmpty {
+            Text(strings.notSet)
+              .font(.caption)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          } else {
+            PreferencesFlowLayout(spacing: 8) {
+              ForEach(selectedProviders) { provider in
+                PreferencesItemBadge(
+                  text: provider.providerName,
+                  logoURL: provider.logoURL
+                )
+              }
+            }
+          }
+        }
+      }
+      .sheet(isPresented: $showServicesPicker) {
+        ServicesPickerSheet(
+          watchRegion: region,
+          selectedIds: preferencesManager.watchProvidersIds
+        )
+      }
+    } else {
+      PreferencesBadgeRow(label: strings.streamingServices) {
+        Text(strings.selectRegionFirst)
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .opacity(0.5)
     }
   }
 

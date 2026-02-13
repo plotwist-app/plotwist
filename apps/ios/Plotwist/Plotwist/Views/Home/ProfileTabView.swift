@@ -345,11 +345,12 @@ struct ProfileTabView: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)
+    .id(selectedMainTab)
+    .geometryGroup()
     .transition(.asymmetric(
       insertion: .move(edge: slideFromTrailing ? .trailing : .leading),
       removal: .move(edge: slideFromTrailing ? .leading : .trailing)
     ))
-    .animation(.spring(response: 0.4, dampingFraction: 0.88), value: selectedMainTab)
   }
 
   // MARK: - Collection Tab Content
@@ -671,9 +672,26 @@ struct ProfileStatusTabs: View {
 struct ProfileQuickStats: View {
   let userId: String
   let strings: Strings
-  @State private var moviesCount: Int = 0
-  @State private var seriesCount: Int = 0
-  @State private var isLoading = true
+  @State private var moviesCount: Int
+  @State private var seriesCount: Int
+  @State private var isLoading: Bool
+
+  private let cache = CollectionCache.shared
+
+  init(userId: String, strings: Strings) {
+    self.userId = userId
+    self.strings = strings
+    let cache = CollectionCache.shared
+    if let cached = cache.getQuickStats() {
+      _moviesCount = State(initialValue: cached.moviesCount)
+      _seriesCount = State(initialValue: cached.seriesCount)
+      _isLoading = State(initialValue: false)
+    } else {
+      _moviesCount = State(initialValue: 0)
+      _seriesCount = State(initialValue: 0)
+      _isLoading = State(initialValue: true)
+    }
+  }
 
   var body: some View {
     HStack(spacing: 0) {
@@ -715,10 +733,16 @@ struct ProfileQuickStats: View {
   }
 
   private func loadStats() async {
+    // Skip if already have cached data
+    if !isLoading && (moviesCount > 0 || seriesCount > 0) {
+      return
+    }
+
     do {
       let stats = try await UserStatsService.shared.getUserStats(userId: userId)
       moviesCount = stats.watchedMoviesCount
       seriesCount = stats.watchedSeriesCount
+      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
     } catch {
       print("Error loading quick stats: \(error)")
     }

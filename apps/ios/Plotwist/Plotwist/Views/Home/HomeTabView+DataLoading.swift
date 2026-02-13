@@ -64,7 +64,7 @@ extension HomeTabView {
   /// Loads content that matches the user's content type preferences.
   /// Used by both Featured Hero and Trending sections for consistent filtering.
   func loadContentForPreferences(language: String) async throws -> [SearchResult] {
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     // No preferences: show everything trending
     guard !contentTypes.isEmpty else {
@@ -77,9 +77,14 @@ extension HomeTabView {
 
     var allItems: [SearchResult] = []
 
+    let hasMovies = contentTypes.contains(ContentTypePreference.movies)
+    let hasSeries = contentTypes.contains(ContentTypePreference.series)
+    let hasAnime = contentTypes.contains(ContentTypePreference.anime)
+    let hasDorama = contentTypes.contains(ContentTypePreference.dorama)
+
     // Fetch content for each selected type in parallel
     try await withThrowingTaskGroup(of: [SearchResult].self) { group in
-      if contentTypes.contains(.movies) {
+      if hasMovies {
         group.addTask {
           try await TMDBService.shared.getTrending(
             mediaType: "movie",
@@ -89,7 +94,7 @@ extension HomeTabView {
         }
       }
 
-      if contentTypes.contains(.series) {
+      if hasSeries {
         group.addTask {
           try await TMDBService.shared.getTrending(
             mediaType: "tv",
@@ -99,14 +104,14 @@ extension HomeTabView {
         }
       }
 
-      if contentTypes.contains(.anime) {
+      if hasAnime {
         group.addTask {
           let result = try await TMDBService.shared.getPopularAnimes(language: language)
           return result.results
         }
       }
 
-      if contentTypes.contains(.dorama) {
+      if hasDorama {
         group.addTask {
           let result = try await TMDBService.shared.getPopularDoramas(language: language)
           return result.results
@@ -137,9 +142,14 @@ extension HomeTabView {
       return
     }
 
-    let genreIds = onboardingService.selectedGenres.map { $0.id }
+    let genreIds: [Int]
+    if AuthService.shared.isAuthenticated {
+      genreIds = UserPreferencesManager.shared.genreIds
+    } else {
+      genreIds = onboardingService.selectedGenres.map { $0.id }
+    }
     let language = Language.current.rawValue
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     // Need either genre preferences or content type preferences
     guard !genreIds.isEmpty || !contentTypes.isEmpty else { return }
@@ -382,7 +392,7 @@ extension HomeTabView {
     }
 
     let language = Language.current.rawValue
-    let contentTypes = onboardingService.contentTypes
+    let contentTypes = activeContentTypes
 
     do {
       let result: PaginatedResult
@@ -416,22 +426,43 @@ extension HomeTabView {
       return
     }
 
+    let language = Language.current.rawValue
+
+    // Build genre filter from preferences
+    let genreIds: [Int]
+    if AuthService.shared.isAuthenticated {
+      genreIds = UserPreferencesManager.shared.genreIds
+    } else {
+      genreIds = onboardingService.selectedGenres.map { $0.id }
+    }
+    let genresString = genreIds.isEmpty ? nil : genreIds.map { String($0) }.joined(separator: "|")
+    let hasGenres = !genreIds.isEmpty
+
     do {
-      async let moviesTask = TMDBService.shared.getPopularMovies(
-        language: Language.current.rawValue
-      )
-      async let tvTask = TMDBService.shared.getPopularTVSeries(
-        language: Language.current.rawValue
-      )
+      if hasGenres {
+        // Use discover endpoints with genre filtering
+        async let moviesTask = TMDBService.shared.discoverMovies(
+          language: language, withGenres: genresString
+        )
+        async let tvTask = TMDBService.shared.discoverTV(
+          language: language, withGenres: genresString
+        )
 
-      let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        popularMovies = moviesResult.results
+        popularTVSeries = tvResult.results
+        cache.setPopularMovies(moviesResult.results)
+        cache.setPopularTVSeries(tvResult.results)
+      } else {
+        async let moviesTask = TMDBService.shared.getPopularMovies(language: language)
+        async let tvTask = TMDBService.shared.getPopularTVSeries(language: language)
 
-      popularMovies = moviesResult.results
-      popularTVSeries = tvResult.results
-
-      // Cache the results
-      cache.setPopularMovies(moviesResult.results)
-      cache.setPopularTVSeries(tvResult.results)
+        let (moviesResult, tvResult) = try await (moviesTask, tvTask)
+        popularMovies = moviesResult.results
+        popularTVSeries = tvResult.results
+        cache.setPopularMovies(moviesResult.results)
+        cache.setPopularTVSeries(tvResult.results)
+      }
     } catch {
       print("Error loading discovery content: \(error)")
     }
@@ -503,7 +534,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           } else {
             let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -523,7 +555,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           }
         } catch {
@@ -587,7 +620,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           } else {
             let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -607,7 +641,8 @@ extension HomeTabView {
                 firstAirDate: details.firstAirDate,
                 overview: details.overview,
                 voteAverage: details.voteAverage,
-                knownForDepartment: nil
+                knownForDepartment: nil,
+                genreIds: nil
               ))
           }
         } catch {
@@ -653,7 +688,8 @@ extension HomeTabView {
               firstAirDate: details.firstAirDate,
               overview: details.overview,
               voteAverage: details.voteAverage,
-              knownForDepartment: nil
+              knownForDepartment: nil,
+              genreIds: nil
             ))
         } else {
           let details = try await TMDBService.shared.getTVSeriesDetails(
@@ -673,7 +709,8 @@ extension HomeTabView {
               firstAirDate: details.firstAirDate,
               overview: details.overview,
               voteAverage: details.voteAverage,
-              knownForDepartment: nil
+              knownForDepartment: nil,
+              genreIds: nil
             ))
         }
       } catch {

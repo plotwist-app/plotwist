@@ -138,7 +138,7 @@ struct LocalSavedTitle: Codable, Identifiable {
   let mediaType: String // "movie" or "tv"
   let title: String
   let posterPath: String?
-  let status: String // "WATCHLIST" or "WATCHED"
+  let status: String // "WATCHLIST", "WATCHED", or "WATCHING"
   let savedAt: Date
   
   var posterURL: URL? {
@@ -358,10 +358,38 @@ class OnboardingService: ObservableObject {
   func syncLocalDataToServer() async {
     guard AuthService.shared.isAuthenticated else { return }
     
+    // Sync display name from onboarding if available
+    if !userName.isEmpty {
+      do {
+        _ = try await AuthService.shared.updateUser(displayName: userName)
+      } catch {
+        print("Failed to sync display name: \(error)")
+      }
+    }
+    
+    // Sync content types and genres from onboarding
+    if !contentTypes.isEmpty || !selectedGenres.isEmpty {
+      do {
+        let mediaTypeStrings = contentTypes.isEmpty ? nil : contentTypes.map { $0.rawValue }
+        let genreIdInts = selectedGenres.isEmpty ? nil : selectedGenres.map { $0.id }
+        try await AuthService.shared.updateUserPreferences(
+          mediaTypes: mediaTypeStrings,
+          genreIds: genreIdInts
+        )
+      } catch {
+        print("Failed to sync content preferences: \(error)")
+      }
+    }
+    
     for title in localSavedTitles {
       do {
         let apiMediaType = title.mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-        let status: UserItemStatus = title.status == "WATCHED" ? .watched : .watchlist
+        let status: UserItemStatus
+        switch title.status {
+        case "WATCHED": status = .watched
+        case "WATCHING": status = .watching
+        default: status = .watchlist
+        }
         
         _ = try await UserItemService.shared.upsertUserItem(
           tmdbId: title.tmdbId,

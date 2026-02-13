@@ -582,6 +582,13 @@ struct MediaDetailView: View {
         sorted.insert(mainImage, at: 0)
       }
       
+      // Pre-warm the cache for the first carousel image so BackdropImage
+      // can resolve it synchronously in its init, preventing any flash.
+      if let firstURL = sorted.first?.backdropURL,
+         ImageCache.shared.image(for: firstURL) == nil {
+        _ = await ImageCache.shared.loadImage(from: firstURL, priority: .high)
+      }
+      
       backdropImages = sorted
       // Note: Prefetching is now handled automatically by CarouselBackdropView
     } catch {
@@ -609,33 +616,27 @@ struct MediaDetailView: View {
 struct TMDBRatingBadge: View {
   let rating: Double
 
-  private var formattedRating: String {
-    if rating == rating.rounded() {
-      return String(format: "%.0f", rating)
-    }
-    return String(format: "%.1f", rating)
+  private var ratingOutOfFive: Double {
+    rating / 2.0
   }
 
-  private var ratingColor: Color {
-    if rating >= 7.0 {
-      return Color.green
-    } else if rating >= 5.0 {
-      return Color.yellow
-    } else {
-      return Color.red
+  private var formattedRating: String {
+    if ratingOutOfFive == ratingOutOfFive.rounded() {
+      return String(format: "%.0f", ratingOutOfFive)
     }
+    return String(format: "%.1f", ratingOutOfFive)
   }
 
   var body: some View {
-    HStack(spacing: 6) {
+    HStack(spacing: 4) {
       Image("tmdb-logo")
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(height: 10)
 
       Text(formattedRating)
-        .font(.system(size: 13, weight: .bold, design: .rounded))
-        .foregroundColor(.white)
+        .font(.caption)
+        .foregroundColor(.appForegroundAdaptive)
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 6)

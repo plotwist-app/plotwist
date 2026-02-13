@@ -8,12 +8,14 @@ export type CreateUserInterface = {
   username: string
   email: string
   password: string
+  displayName?: string
 }
 
 export async function createUser({
   username,
   email,
   password,
+  displayName,
 }: CreateUserInterface) {
   let hashedPassword: string
 
@@ -28,6 +30,7 @@ export async function createUser({
       email,
       password: hashedPassword,
       username,
+      displayName,
     })
 
     const { password: removedPassword, ...formattedUser } = user

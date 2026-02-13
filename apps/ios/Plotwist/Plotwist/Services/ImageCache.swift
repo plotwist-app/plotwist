@@ -197,12 +197,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   var body: some View {
     Group {
       if let loadedImage {
-        if animated {
-          content(Image(uiImage: loadedImage))
-            .transition(.opacity.animation(.easeIn(duration: 0.2)))
-        } else {
-          content(Image(uiImage: loadedImage))
-        }
+        content(Image(uiImage: loadedImage))
       } else {
         placeholder()
           .task(id: url, priority: priority) {
@@ -217,7 +212,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     guard let url, !isLoading else { return }
     isLoading = true
 
-    // Check cache synchronously first for instant display
+    // Check cache synchronously first for instant display.
     if let cached = ImageCache.shared.image(for: url) {
       loadedImage = cached
       isLoading = false
@@ -244,7 +239,22 @@ struct BackdropImage: View {
   let height: CGFloat
 
   @State private var loadedImage: UIImage?
-  @State private var showImage = false
+  @State private var showImage: Bool
+
+  init(url: URL?, height: CGFloat) {
+    self.url = url
+    self.height = height
+    // Pre-populate from cache synchronously so the very first frame already
+    // shows the image, avoiding any gray placeholder flash during transitions
+    // (e.g. when the single backdrop switches to the carousel).
+    if let url, let cached = ImageCache.shared.image(for: url) {
+      _loadedImage = State(initialValue: cached)
+      _showImage = State(initialValue: true)
+    } else {
+      _loadedImage = State(initialValue: nil)
+      _showImage = State(initialValue: false)
+    }
+  }
 
   var body: some View {
     GeometryReader { proxy in
@@ -273,6 +283,8 @@ struct BackdropImage: View {
 
   @MainActor
   private func loadImage() async {
+    // Skip if already loaded (from cache in init)
+    guard !showImage else { return }
     guard let url else { return }
 
     // Check cache for instant display

@@ -12,8 +12,16 @@ export async function updateUserPreferences(
     .onConflictDoUpdate({
       target: [userPreferences.userId],
       set: {
-        watchProvidersIds: params.watchProvidersIds,
-        watchRegion: params.watchRegion,
+        ...(params.watchProvidersIds !== undefined && {
+          watchProvidersIds: params.watchProvidersIds,
+        }),
+        ...(params.watchRegion !== undefined && {
+          watchRegion: params.watchRegion,
+        }),
+        ...(params.mediaTypes !== undefined && {
+          mediaTypes: params.mediaTypes,
+        }),
+        ...(params.genreIds !== undefined && { genreIds: params.genreIds }),
       },
     })
     .returning()

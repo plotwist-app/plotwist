@@ -17,6 +17,7 @@ export async function getUserById(id: string) {
       id: schema.users.id,
       email: schema.users.email,
       username: schema.users.username,
+      displayName: schema.users.displayName,
       avatarUrl: schema.users.avatarUrl,
       biography: schema.users.biography,
       isLegacy: schema.users.isLegacy,
@@ -38,6 +39,7 @@ export async function getUserByUsername(username: string) {
       id: schema.users.id,
       email: schema.users.email,
       username: schema.users.username,
+      displayName: schema.users.displayName,
       avatarUrl: schema.users.avatarUrl,
       biography: schema.users.biography,
       isLegacy: schema.users.isLegacy,
@@ -57,6 +59,7 @@ export async function insertUser({
   email,
   password,
   username,
+  displayName,
 }: InsertUserModel) {
   return db
     .insert(schema.users)
@@ -64,6 +67,7 @@ export async function insertUser({
       username,
       email,
       password,
+      displayName,
     })
     .returning()
 }

@@ -193,6 +193,7 @@ struct UsernameSheetView: View {
   let password: String
   let onError: (String) -> Void
 
+  @State private var displayName = ""
   @State private var isLoading = false
   @State private var error: String?
   @State private var strings = L10n.current
@@ -219,15 +220,36 @@ struct UsernameSheetView: View {
           }
 
           VStack(spacing: 16) {
-            TextField(strings.usernamePlaceholder, text: $username)
-              .textInputAutocapitalization(.never)
-              .autocorrectionDisabled()
-              .padding(12)
-              .background(Color.clear)
-              .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                  .stroke(Color.appBorderAdaptive, lineWidth: 1)
-              )
+            // Name Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.name)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.onboardingNamePlaceholder, text: $displayName)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.clear)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                )
+            }
+
+            // Username Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.username)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.usernamePlaceholder, text: $username)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.clear)
+                .overlay(
+                  RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.appBorderAdaptive, lineWidth: 1)
+                )
+            }
 
             if let error {
               Text(error)
@@ -244,7 +266,12 @@ struct UsernameSheetView: View {
         .padding(.bottom, 24)
       }
     }
-    .floatingSheetPresentation(height: 320)
+    .floatingSheetPresentation(height: 420)
+    .onAppear {
+      if displayName.isEmpty {
+        displayName = OnboardingService.shared.userName
+      }
+    }
   }
 
   private func checkUsernameAndFinish() async {
@@ -261,7 +288,12 @@ struct UsernameSheetView: View {
     do {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
-        try await AuthService.shared.signUp(email: email, password: password, username: username)
+        try await AuthService.shared.signUp(
+          email: email,
+          password: password,
+          username: username,
+          displayName: displayName.isEmpty ? nil : displayName
+        )
         dismiss()
       } else {
         error = strings.usernameAlreadyTaken

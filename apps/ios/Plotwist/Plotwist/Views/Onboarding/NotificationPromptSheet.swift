@@ -74,11 +74,11 @@ struct NotificationPromptSheet: View {
               .foregroundColor(.appMutedForegroundAdaptive)
           }
         }
-        .padding(.bottom, 16)
+        .padding(.bottom, 4)
       }
       .padding(.horizontal, 24)
     }
-    .floatingSheetPresentation(height: 310)
+    .floatingSheetDynamicPresentation()
     .preferredColorScheme(themeManager.current.colorScheme)
   }
   

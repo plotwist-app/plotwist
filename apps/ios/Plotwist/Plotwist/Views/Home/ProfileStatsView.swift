@@ -5,14 +5,51 @@
 
 import SwiftUI
 
+// MARK: - Stats Cache
+class ProfileStatsCache {
+  static let shared = ProfileStatsCache()
+  private init() {}
+  
+  private var cache: [String: CachedStats] = [:]
+  private let cacheDuration: TimeInterval = 300 // 5 minutes
+  
+  private struct CachedStats {
+    let totalHours: Double
+    let watchedGenres: [WatchedGenre]
+    let itemsStatus: [ItemStatusStat]
+    let bestReviews: [BestReview]
+    let timestamp: Date
+  }
+  
+  func get(userId: String) -> (totalHours: Double, watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview])? {
+    guard let cached = cache[userId],
+          Date().timeIntervalSince(cached.timestamp) < cacheDuration else {
+      return nil
+    }
+    return (cached.totalHours, cached.watchedGenres, cached.itemsStatus, cached.bestReviews)
+  }
+  
+  func set(userId: String, totalHours: Double, watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview]) {
+    cache[userId] = CachedStats(totalHours: totalHours, watchedGenres: watchedGenres, itemsStatus: itemsStatus, bestReviews: bestReviews, timestamp: Date())
+  }
+  
+  func invalidate(userId: String) {
+    cache.removeValue(forKey: userId)
+  }
+  
+  func invalidateAll() {
+    cache.removeAll()
+  }
+}
+
 struct ProfileStatsView: View {
   let userId: String
   @State private var strings = L10n.current
-  @State private var isLoading = true
-  @State private var totalHours: Double = 0
-  @State private var watchedGenres: [WatchedGenre] = []
-  @State private var itemsStatus: [ItemStatusStat] = []
-  @State private var bestReviews: [BestReview] = []
+  @State private var isLoading: Bool
+  @State private var totalHours: Double
+  @State private var watchedGenres: [WatchedGenre]
+  @State private var itemsStatus: [ItemStatusStat]
+  @State private var bestReviews: [BestReview]
   @State private var error: String?
   @State private var showAllGenres = false
   @State private var showAllReviews = false
@@ -20,6 +57,25 @@ struct ProfileStatsView: View {
   @State private var animationTrigger = false
   
   private let countDuration: Double = 1.8
+  private let cache = ProfileStatsCache.shared
+  
+  init(userId: String) {
+    self.userId = userId
+    let cache = ProfileStatsCache.shared
+    if let cached = cache.get(userId: userId) {
+      _isLoading = State(initialValue: false)
+      _totalHours = State(initialValue: cached.totalHours)
+      _watchedGenres = State(initialValue: cached.watchedGenres)
+      _itemsStatus = State(initialValue: cached.itemsStatus)
+      _bestReviews = State(initialValue: cached.bestReviews)
+    } else {
+      _isLoading = State(initialValue: true)
+      _totalHours = State(initialValue: 0)
+      _watchedGenres = State(initialValue: [])
+      _itemsStatus = State(initialValue: [])
+      _bestReviews = State(initialValue: [])
+    }
+  }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -438,6 +494,18 @@ struct ProfileStatsView: View {
 
   // MARK: - Load Stats
   private func loadStats() async {
+    // Skip if already have cached data
+    if !isLoading && totalHours > 0 {
+      // Just trigger the animation for cached data
+      if countStartTime == nil {
+        countStartTime = .now
+        withAnimation(.linear(duration: countDuration)) {
+          animationTrigger.toggle()
+        }
+      }
+      return
+    }
+    
     isLoading = true
     error = nil
 
@@ -460,6 +528,8 @@ struct ProfileStatsView: View {
       itemsStatus = status
       bestReviews = reviews
       isLoading = false
+      
+      cache.set(userId: userId, totalHours: hours, watchedGenres: genres, itemsStatus: status, bestReviews: reviews)
       
       // Start the countdown animation and keep TimelineView active
       countStartTime = .now

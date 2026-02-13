@@ -153,8 +153,17 @@ struct ProfileReviewsListView: View {
   }
   
   private func loadReviews() async {
-    // Skip if already have cached data
+    // Skip if already have data in state
     if !reviews.isEmpty {
+      isLoading = false
+      return
+    }
+    
+    // Try to restore from cache (handles cases where @State init didn't persist cached values)
+    if let cached = cache.get(userId: userId) {
+      reviews = cached.reviews
+      hasMore = cached.hasMore
+      currentPage = cached.currentPage
       isLoading = false
       return
     }

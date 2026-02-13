@@ -60,7 +60,7 @@ class AuthService {
   }
 
   // MARK: - Sign Up
-  func signUp(email: String, password: String, username: String) async throws {
+  func signUp(email: String, password: String, username: String, displayName: String? = nil) async throws {
     guard let url = URL(string: "\(API.baseURL)/users/create") else {
       throw AuthError.invalidURL
     }
@@ -68,11 +68,16 @@ class AuthService {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.httpBody = try JSONEncoder().encode([
+
+    var body: [String: String] = [
       "email": email,
       "password": password,
       "username": username,
-    ])
+    ]
+    if let displayName, !displayName.isEmpty {
+      body["displayName"] = displayName
+    }
+    request.httpBody = try JSONEncoder().encode(body)
 
     let (_, response) = try await URLSession.shared.data(for: request)
 
@@ -150,8 +155,8 @@ class AuthService {
 
   // MARK: - Update User
   func updateUser(
-    username: String? = nil, avatarUrl: String? = nil, bannerUrl: String? = nil,
-    biography: String? = nil
+    displayName: String? = nil, username: String? = nil, avatarUrl: String? = nil,
+    bannerUrl: String? = nil, biography: String? = nil
   ) async throws -> User {
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user")
@@ -165,6 +170,7 @@ class AuthService {
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
     var body: [String: Any] = [:]
+    if let displayName { body["displayName"] = displayName }
     if let username { body["username"] = username }
     if let avatarUrl { body["avatarUrl"] = avatarUrl }
     if let bannerUrl { body["bannerUrl"] = bannerUrl }
@@ -251,7 +257,12 @@ class AuthService {
   }
 
   // MARK: - Update User Preferences
-  func updateUserPreferences(watchRegion: String, watchProvidersIds: [Int] = []) async throws {
+  func updateUserPreferences(
+    watchRegion: String? = nil,
+    watchProvidersIds: [Int]? = nil,
+    mediaTypes: [String]? = nil,
+    genreIds: [Int]? = nil
+  ) async throws {
     guard let token = UserDefaults.standard.string(forKey: "token"),
       let url = URL(string: "\(API.baseURL)/user/preferences")
     else {
@@ -263,10 +274,11 @@ class AuthService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    let body: [String: Any] = [
-      "watchRegion": watchRegion,
-      "watchProvidersIds": watchProvidersIds,
-    ]
+    var body: [String: Any] = [:]
+    if let watchRegion { body["watchRegion"] = watchRegion }
+    if let watchProvidersIds { body["watchProvidersIds"] = watchProvidersIds }
+    if let mediaTypes { body["mediaTypes"] = mediaTypes }
+    if let genreIds { body["genreIds"] = genreIds }
 
     request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
@@ -326,6 +338,7 @@ class AuthService {
 // MARK: - Models
 struct User: Codable {
   let id: String
+  let displayName: String?
   let username: String
   let email: String
   let avatarUrl: String?
@@ -372,6 +385,8 @@ struct UserPreferences: Codable {
   let userId: String
   let watchProvidersIds: [Int]?
   let watchRegion: String?
+  let mediaTypes: [String]?
+  let genreIds: [Int]?
 }
 
 struct UserStats: Codable {

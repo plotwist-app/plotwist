@@ -400,13 +400,17 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil
   ) async throws -> PaginatedResult {
     var urlString =
       "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -438,13 +442,17 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil
   ) async throws -> PaginatedResult {
     var urlString =
       "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -1105,6 +1113,7 @@ struct PopularItem: Codable {
   let firstAirDate: String?
   let overview: String?
   let voteAverage: Double?
+  let genreIds: [Int]?
 
   func toSearchResult(mediaType: String) -> SearchResult {
     SearchResult(
@@ -1119,7 +1128,8 @@ struct PopularItem: Codable {
       firstAirDate: firstAirDate,
       overview: overview,
       voteAverage: voteAverage,
-      knownForDepartment: nil
+      knownForDepartment: nil,
+      genreIds: genreIds
     )
   }
 }
@@ -1142,6 +1152,7 @@ struct SearchResult: Codable, Identifiable, Equatable {
   let overview: String?
   let voteAverage: Double?
   let knownForDepartment: String?
+  let genreIds: [Int]?
 
   var displayTitle: String {
     title ?? name ?? "Unknown"

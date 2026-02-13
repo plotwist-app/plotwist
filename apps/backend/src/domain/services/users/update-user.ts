@@ -1,4 +1,4 @@
-import { updateUser } from '@/db/repositories/user-repository'
+import { getUserById, updateUser } from '@/db/repositories/user-repository'
 import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
@@ -22,7 +22,14 @@ export async function updateUserService({
   }
 
   try {
-    const [user] = await updateUser(userId, validData)
+    const [updated] = await updateUser(userId, validData)
+
+    if (!updated) {
+      return new UserNotFoundError()
+    }
+
+    // Re-fetch user with joined data (subscriptionType, etc.) to match /me response shape
+    const [user] = await getUserById(userId)
 
     if (!user) {
       return new UserNotFoundError()

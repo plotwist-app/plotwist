@@ -243,6 +243,7 @@ export const users = pgTable(
     username: varchar('username').notNull().unique(),
     email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
+    displayName: varchar('display_name'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     bannerUrl: varchar('banner_url'),
     avatarUrl: varchar('avatar_url'),

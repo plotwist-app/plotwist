@@ -191,12 +191,12 @@ struct LoginView: View {
     .lightStatusBar()
     .sheet(isPresented: $showLoginSheet, onDismiss: notifyAuthIfNeeded) {
       LoginFormSheet()
-        .floatingSheetPresentation(height: 560)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .sheet(isPresented: $showSignUpSheet, onDismiss: notifyAuthIfNeeded) {
       SignUpFormSheet()
-        .floatingSheetPresentation(height: 620)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -420,7 +420,7 @@ struct LoginFormSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -493,6 +493,7 @@ struct SignUpFormSheet: View {
   @State private var email = ""
   @State private var password = ""
   @State private var username = ""
+  @State private var displayName = ""
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
@@ -523,14 +524,32 @@ struct SignUpFormSheet: View {
         }
         
         if showUsernameStep {
-          // Username Step
+          // Name & Username Step
           VStack(spacing: 16) {
-            TextField(strings.usernamePlaceholder, text: $username)
-              .textInputAutocapitalization(.never)
-              .autocorrectionDisabled()
-              .padding(12)
-              .background(Color.appInputFilled)
-              .cornerRadius(12)
+            // Name Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.name)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.onboardingNamePlaceholder, text: $displayName)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
+            
+            // Username Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.username)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.usernamePlaceholder, text: $username)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
             
             if let error {
               Text(error)
@@ -557,6 +576,11 @@ struct SignUpFormSheet: View {
             }
             .disabled(isLoading)
             .opacity(isLoading ? 0.5 : 1)
+          }
+          .onAppear {
+            if displayName.isEmpty {
+              displayName = OnboardingService.shared.userName
+            }
           }
         } else {
           // Email & Password Step
@@ -667,7 +691,7 @@ struct SignUpFormSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -721,7 +745,12 @@ struct SignUpFormSheet: View {
     do {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
-        try await AuthService.shared.signUp(email: email, password: password, username: username)
+        try await AuthService.shared.signUp(
+          email: email,
+          password: password,
+          username: username,
+          displayName: displayName.isEmpty ? nil : displayName
+        )
         AnalyticsService.shared.track(.signUp(method: "email"))
         dismiss()
       } else {

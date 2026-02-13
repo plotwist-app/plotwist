@@ -16,6 +16,8 @@ final class CollectionCache {
   private var totalCountCache: Int?
   // Cache for reviews count
   private var reviewsCountCache: Int?
+  // Cache for quick stats (movies/series counts)
+  private var quickStatsCache: (moviesCount: Int, seriesCount: Int)?
   // Cache for user profile
   private var userCache: User?
   // Cache timestamp
@@ -85,6 +87,20 @@ final class CollectionCache {
     lastUpdated = Date()
   }
 
+  // MARK: - Quick Stats Cache
+
+  func getQuickStats() -> (moviesCount: Int, seriesCount: Int)? {
+    guard !isCacheExpired else {
+      return nil
+    }
+    return quickStatsCache
+  }
+
+  func setQuickStats(moviesCount: Int, seriesCount: Int) {
+    quickStatsCache = (moviesCount: moviesCount, seriesCount: seriesCount)
+    lastUpdated = Date()
+  }
+
   // MARK: - Cache State
 
   var shouldShowSkeleton: Bool {
@@ -106,6 +122,7 @@ final class CollectionCache {
     itemsCache.removeAll()
     totalCountCache = nil
     reviewsCountCache = nil
+    quickStatsCache = nil
     userCache = nil
     lastUpdated = nil
     // Don't reset hasLoadedOnce to avoid showing skeleton again
