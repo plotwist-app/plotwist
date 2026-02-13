@@ -155,6 +155,7 @@ struct OnboardingAddTitlesContent: View {
         OnboardingCelebration(onDismiss: onComplete)
       }
     }
+    .geometryGroup()
     .task {
       await loadContent()
     }
