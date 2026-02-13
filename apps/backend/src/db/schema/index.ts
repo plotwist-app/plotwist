@@ -93,6 +93,8 @@ export const followers = pgTable(
       pk: primaryKey({
         columns: [table.followedId, table.followerId],
       }),
+      followerIdIdx: index('idx_followers_follower_id').on(table.followerId),
+      followedIdIdx: index('idx_followers_followed_id').on(table.followedId),
     }
   }
 )
@@ -198,23 +200,32 @@ export const reviewsRepliesRelations = relations(reviewReplies, ({ one }) => ({
   }),
 }))
 
-export const reviews = pgTable('reviews', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  userId: uuid('user_id')
-    .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
-  tmdbId: integer('tmdb_id').notNull(),
-  mediaType: mediaTypeEnum('media_type').notNull(),
-  review: varchar('review').notNull(),
-  rating: real('rating').notNull(),
-  hasSpoilers: boolean('has_spoilers').notNull().default(false),
-  language: languagesEnum('language'),
-  seasonNumber: integer('season_number'),
-  episodeNumber: integer('episode_number'),
-})
+export const reviews = pgTable(
+  'reviews',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    review: varchar('review').notNull(),
+    rating: real('rating').notNull(),
+    hasSpoilers: boolean('has_spoilers').notNull().default(false),
+    language: languagesEnum('language'),
+    seasonNumber: integer('season_number'),
+    episodeNumber: integer('episode_number'),
+  },
+  table => ({
+    userRatingIdx: index('idx_reviews_user_rating').on(
+      table.userId,
+      table.rating
+    ),
+  })
+)
 
 export const reviewsRelations = relations(reviews, ({ one }) => ({
   users: one(users, {
@@ -282,6 +293,15 @@ export const userItems = pgTable(
       userItems.userId,
       userItems.tmdbId,
       userItems.mediaType
+    ),
+    userStatusIdx: index('idx_user_items_user_status').on(
+      userItems.userId,
+      userItems.status
+    ),
+    userMediaStatusIdx: index('idx_user_items_user_media_status').on(
+      userItems.userId,
+      userItems.mediaType,
+      userItems.status
     ),
   })
 )
@@ -407,6 +427,11 @@ export const userEpisodes = pgTable(
         table.tmdbId,
         table.seasonNumber,
         table.episodeNumber
+      ),
+      userIdIdx: index('idx_user_episodes_user_id').on(table.userId),
+      userTmdbIdx: index('idx_user_episodes_user_tmdb').on(
+        table.userId,
+        table.tmdbId
       ),
     }
   }
