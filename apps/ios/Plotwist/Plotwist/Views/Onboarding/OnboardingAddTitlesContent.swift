@@ -22,6 +22,10 @@ struct OnboardingAddTitlesContent: View {
   @State private var currentSwipeDirection: Direction = .none
   @State private var swipeProgress: CGFloat = 0
   
+  // Ghost drag hint
+  @State private var hasInteracted = false
+  @State private var hintPhase = false
+  
   private var savedCount: Int {
     onboardingService.localSavedTitles.count
   }
@@ -78,6 +82,11 @@ struct OnboardingAddTitlesContent: View {
           .onGesture(
             DeckDragGesture()
               .onChange { state in
+                if !hasInteracted {
+                  withAnimation(.easeOut(duration: 0.3)) {
+                    hasInteracted = true
+                  }
+                }
                 currentSwipeDirection = state.direction
                 swipeProgress = state.progress
               }
@@ -97,6 +106,11 @@ struct OnboardingAddTitlesContent: View {
           .padding(.horizontal, 80)
           .padding(.top, 16)
           .frame(maxHeight: UIScreen.main.bounds.height * 0.42)
+          .overlay {
+            if !hasInteracted {
+              swipeHintOverlay
+            }
+          }
           
           // Action buttons
           actionButtons
@@ -267,6 +281,63 @@ struct OnboardingAddTitlesContent: View {
     .padding(.vertical, 8)
     .background(Color.black)
     .clipShape(Capsule())
+  }
+  
+  // MARK: - Swipe Hint
+  
+  private enum HintPhase: CaseIterable {
+    case idle
+    case pressing
+    case swiping
+    case returning
+  }
+  
+  @ViewBuilder
+  private var swipeHintOverlay: some View {
+    PhaseAnimator(HintPhase.allCases) { phase in
+      Circle()
+        .fill(.ultraThinMaterial)
+        .frame(width: 48, height: 48)
+        .overlay(
+          Image(systemName: "hand.draw.fill")
+            .font(.system(size: 20))
+            .foregroundStyle(
+              .white.opacity(phase == .pressing || phase == .swiping ? 0.9 : 0.6)
+            )
+        )
+        .shadow(
+          color: .black.opacity(phase == .swiping ? 0.3 : 0.15),
+          radius: phase == .swiping ? 10 : 5,
+          x: 0,
+          y: phase == .swiping ? 5 : 2
+        )
+        .scaleEffect(phase == .pressing ? 1.12 : (phase == .swiping ? 1.06 : 1.0))
+        .offset(
+          x: phase == .swiping ? 55 : 0,
+          y: phase == .pressing ? -3 : 0
+        )
+        .rotationEffect(.degrees(phase == .swiping ? -6 : 0))
+    } animation: { phase in
+      switch phase {
+      case .idle:
+        .easeOut(duration: 0.4).delay(1.2)
+      case .pressing:
+        .easeOut(duration: 0.25)
+      case .swiping:
+        .spring(response: 0.6, dampingFraction: 0.7)
+      case .returning:
+        .easeInOut(duration: 0.45).delay(0.15)
+      }
+    }
+    .allowsHitTesting(false)
+    .transition(.opacity.animation(.easeOut(duration: 0.3)))
+    .opacity(hintPhase ? 1 : 0)
+    .animation(.easeIn(duration: 0.4), value: hintPhase)
+    .onAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        hintPhase = true
+      }
+    }
   }
   
   // MARK: - Action Buttons
