@@ -44,19 +44,21 @@ struct MovieCollectionSection: View {
                 .lineSpacing(5)
             }
 
-            ForEach(Array(sortedParts.enumerated()), id: \.element.id) { index, movie in
-              NavigationLink {
-                MediaDetailView(mediaId: movie.id, mediaType: "movie")
-                  .navigationTransition(
-                    .zoom(sourceID: "col-movie-\(movie.id)", in: movieTransition)
-                  )
-              } label: {
-                CollectionMovieRow(movie: movie, position: index + 1)
+            LazyVStack(alignment: .leading, spacing: 40) {
+              ForEach(Array(sortedParts.enumerated()), id: \.element.id) { index, movie in
+                NavigationLink {
+                  MediaDetailView(mediaId: movie.id, mediaType: "movie")
+                    .navigationTransition(
+                      .zoom(sourceID: "col-movie-\(movie.id)", in: movieTransition)
+                    )
+                } label: {
+                  CollectionMovieRow(movie: movie, position: index + 1)
+                }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(
+                  id: "col-movie-\(movie.id)", in: movieTransition
+                )
               }
-              .buttonStyle(.plain)
-              .matchedTransitionSource(
-                id: "col-movie-\(movie.id)", in: movieTransition
-              )
             }
           }
           .padding(24)
@@ -64,17 +66,18 @@ struct MovieCollectionSection: View {
           Spacer().frame(height: 60)
         }
       }
-      .padding(.top, isExpanded ? -safeAreaTop : 0)
+      .offset(y: isExpanded ? -safeAreaTop : 0)
     }
     .scrollDisabled(!isExpanded)
-    .ignoresSafeArea(edges: isExpanded ? .top : [])
+    .contentMargins(.top, isExpanded ? 0 : nil, for: .scrollContent)
+    .ignoresSafeArea(edges: .top)
     .frame(height: isExpanded ? screen.height + safeAreaTop : 260)
     .clipped()
     .background(Color.appBackgroundAdaptive)
     .clipShape(RoundedRectangle(cornerRadius: isExpanded ? 0 : 24, style: .continuous))
     .shadow(color: .black.opacity(isExpanded ? 0 : 0.2), radius: 16, x: 0, y: 8)
     .padding(.horizontal, isExpanded ? 0 : 24)
-    // Close button — overlay outside the scroll, respects safe area
+    // Close button
     .overlay(alignment: .topTrailing) {
       if isExpanded {
         Button {
@@ -90,8 +93,7 @@ struct MovieCollectionSection: View {
             .clipShape(Circle())
         }
         .padding(.trailing, 24)
-        .padding(.top, 8)
-        .safeAreaPadding(.top)
+        .padding(.top, safeAreaTop + 8)
         .transition(.opacity)
       }
     }
@@ -102,7 +104,6 @@ struct MovieCollectionSection: View {
         isExpanded = true
       }
     }
-    .offset(y: isExpanded ? -(safeAreaTop * 0.6) : 0)
   }
 }
 
@@ -161,10 +162,27 @@ private struct CollectionMovieRow: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
+      // Backdrop first
+      CachedAsyncImage(url: movie.backdropURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(minWidth: 0, maxWidth: .infinity)
+          .aspectRatio(4 / 3, contentMode: .fit)
+      } placeholder: {
+        RoundedRectangle(cornerRadius: 20)
+          .fill(Color.appBorderAdaptive)
+          .aspectRatio(4 / 3, contentMode: .fit)
+      }
+      .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+      .posterBorder(cornerRadius: 20)
+
+      // Title
       Text("\(position). \(movie.title)")
         .font(.title3.bold())
         .foregroundColor(.appForegroundAdaptive)
 
+      // Overview / year
       if let overview = movie.overview, !overview.isEmpty {
         if let year = movie.year {
           Text("\(year). \(overview)")
@@ -184,20 +202,6 @@ private struct CollectionMovieRow: View {
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
       }
-
-      CachedAsyncImage(url: movie.backdropURL) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(minWidth: 0, maxWidth: .infinity)
-          .aspectRatio(4 / 3, contentMode: .fit)
-      } placeholder: {
-        RoundedRectangle(cornerRadius: 20)
-          .fill(Color.appBorderAdaptive)
-          .aspectRatio(4 / 3, contentMode: .fit)
-      }
-      .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-      .posterBorder(cornerRadius: 20)
     }
   }
 }

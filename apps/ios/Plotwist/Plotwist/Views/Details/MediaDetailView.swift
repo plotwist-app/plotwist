@@ -294,7 +294,7 @@ struct MediaDetailView: View {
       .id("collectionSection")
       .frame(height: 260, alignment: .top)
       .zIndex(1)
-      .padding(.top, 24)
+      .padding(.top, isCollectionExpanded ? 0 : 24)
     }
 
     // Divider before first content section
