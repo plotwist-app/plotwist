@@ -57,7 +57,6 @@ struct MediaDetailView: View {
           let backdropHeight = geometry.size.height * 0.45
 
           ZStack(alignment: .topLeading) {
-            ScrollViewReader { scrollProxy in
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
                 // MARK: Backdrop Section
@@ -129,10 +128,13 @@ struct MediaDetailView: View {
                       loadingContentSkeleton()
                     }
                   }
-                  .background(Color.appBackgroundAdaptive)
-                  .clipShape(
-                    RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                  .background(
+                    Color.appBackgroundAdaptive
+                      .clipShape(
+                        RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                      )
                   )
+                  .zIndex(isCollectionExpanded ? 2 : 0)
 
                   // Poster and Info
                   if let details {
@@ -145,15 +147,8 @@ struct MediaDetailView: View {
               }
             }
             .ignoresSafeArea(edges: .top)
+            .scrollClipDisabled(isCollectionExpanded)
             .scrollDisabled(isCollectionExpanded)
-            .onChange(of: isCollectionExpanded) { _, expanded in
-              if expanded {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.86)) {
-                  scrollProxy.scrollTo("collectionSection", anchor: .top)
-                }
-              }
-            }
-            } // ScrollViewReader
 
             // Sticky Back Button (hidden when collection is expanded)
             if !isCollectionExpanded {
@@ -291,10 +286,9 @@ struct MediaDetailView: View {
         collection: collection,
         isExpanded: $isCollectionExpanded
       )
-      .id("collectionSection")
       .frame(height: 260, alignment: .top)
       .zIndex(1)
-      .padding(.top, isCollectionExpanded ? 0 : 24)
+      .padding(.top, 24)
     }
 
     // Divider before first content section

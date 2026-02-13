@@ -11,6 +11,11 @@ struct MovieCollectionSection: View {
 
   @Namespace private var movieTransition
 
+  /// The card's Y position in global coordinates, captured on tap.
+  @State private var cardOriginY: CGFloat = 0
+  /// Live tracking of the card's Y position (only updated while collapsed).
+  @State private var liveCardY: CGFloat = 0
+
   private var strings: Strings { L10n.current }
   private let screen = UIScreen.main.bounds
   private var safeAreaTop: CGFloat {
@@ -77,7 +82,21 @@ struct MovieCollectionSection: View {
     .clipShape(RoundedRectangle(cornerRadius: isExpanded ? 0 : 24, style: .continuous))
     .shadow(color: .black.opacity(isExpanded ? 0 : 0.2), radius: 16, x: 0, y: 8)
     .padding(.horizontal, isExpanded ? 0 : 24)
-    // Close button
+    // Track the card's position on screen (only while collapsed)
+    .background(
+      GeometryReader { geo in
+        Color.clear
+          .onChange(of: geo.frame(in: .global).minY) { _, newY in
+            if !isExpanded {
+              liveCardY = newY
+            }
+          }
+          .onAppear {
+            liveCardY = geo.frame(in: .global).minY
+          }
+      }
+    )
+    // Close button (before offset so it moves with the card)
     .overlay(alignment: .topTrailing) {
       if isExpanded {
         Button {
@@ -100,10 +119,14 @@ struct MovieCollectionSection: View {
     .contentShape(Rectangle())
     .onTapGesture {
       guard !isExpanded else { return }
+      // Capture the card's current Y position before animating
+      cardOriginY = liveCardY
       withAnimation(spring) {
         isExpanded = true
       }
     }
+    // Offset the card to the screen top when expanded (after overlay so button moves with it)
+    .offset(y: isExpanded ? -cardOriginY : 0)
   }
 }
 
