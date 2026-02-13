@@ -85,6 +85,7 @@ enum L10n {
       reviewed: "Reviewed",
       shareYourOpinion: "Share your opinion here...",
       containSpoilers: "Contains spoilers",
+      tapToReveal: "Tap to reveal",
       submitReview: "Submit review",
       editReview: "Edit review",
       reviewRequired: "Please write your review.",
@@ -357,6 +358,7 @@ enum L10n {
       reviewed: "Avaliado",
       shareYourOpinion: "Compartilhe sua opinião aqui...",
       containSpoilers: "Contém spoilers",
+      tapToReveal: "Toque para revelar",
       submitReview: "Enviar avaliação",
       editReview: "Editar avaliação",
       reviewRequired: "Por favor, escreva sua avaliação.",
@@ -621,6 +623,7 @@ enum L10n {
       reviewed: "Reseñado",
       shareYourOpinion: "Comparte tu opinión aquí...",
       containSpoilers: "Contiene spoilers",
+      tapToReveal: "Toca para revelar",
       submitReview: "Enviar reseña",
       editReview: "Editar reseña",
       reviewRequired: "Por favor, escribe tu reseña.",
@@ -885,6 +888,7 @@ enum L10n {
       reviewed: "Évalué",
       shareYourOpinion: "Partagez votre opinion ici...",
       containSpoilers: "Contient des spoilers",
+      tapToReveal: "Appuyez pour révéler",
       submitReview: "Soumettre l'avis",
       editReview: "Modifier l'avis",
       reviewRequired: "Veuillez écrire votre avis.",
@@ -1149,6 +1153,7 @@ enum L10n {
       reviewed: "Bewertet",
       shareYourOpinion: "Teilen Sie Ihre Meinung hier...",
       containSpoilers: "Enthält Spoiler",
+      tapToReveal: "Zum Anzeigen tippen",
       submitReview: "Bewertung abschicken",
       editReview: "Bewertung bearbeiten",
       reviewRequired: "Bitte schreiben Sie Ihre Bewertung.",
@@ -1413,6 +1418,7 @@ enum L10n {
       reviewed: "Recensito",
       shareYourOpinion: "Condividi la tua opinione qui...",
       containSpoilers: "Contiene spoiler",
+      tapToReveal: "Tocca per rivelare",
       submitReview: "Invia recensione",
       editReview: "Modifica recensione",
       reviewRequired: "Scrivi la tua recensione.",
@@ -1676,6 +1682,7 @@ enum L10n {
       reviewed: "レビュー済み",
       shareYourOpinion: "ここにあなたの意見を共有してください...",
       containSpoilers: "ネタバレを含む",
+      tapToReveal: "タップして表示",
       submitReview: "レビューを送信",
       editReview: "レビューを編集",
       reviewRequired: "レビューを書いてください。",
@@ -1947,6 +1954,7 @@ struct Strings {
   let reviewed: String
   let shareYourOpinion: String
   let containSpoilers: String
+  let tapToReveal: String
   let submitReview: String
   let editReview: String
   let reviewRequired: String

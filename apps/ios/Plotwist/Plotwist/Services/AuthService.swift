@@ -312,6 +312,27 @@ class AuthService {
     return try decoder.decode(UserStats.self, from: data)
   }
 
+  // MARK: - Get User By ID
+  func getUserById(_ userId: String) async throws -> User {
+    guard let url = URL(string: "\(API.baseURL)/user/by/\(userId)") else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let wrapper = try decoder.decode(UserByIdResponse.self, from: data)
+    return wrapper.user
+  }
+
   // MARK: - Sign Out
   func signOut() {
     AnalyticsService.shared.track(.logout)
@@ -373,6 +394,10 @@ struct LoginResponse: Codable {
 }
 
 struct MeResponse: Codable {
+  let user: User
+}
+
+struct UserByIdResponse: Codable {
   let user: User
 }
 

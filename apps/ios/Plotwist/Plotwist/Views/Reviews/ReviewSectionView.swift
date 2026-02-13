@@ -281,6 +281,7 @@ struct ReviewSectionView: View {
 // MARK: - Review Card
 struct ReviewCardView: View {
   let review: ReviewListItem
+  @State private var spoilerRevealed = false
 
   private var usernameInitial: String {
     review.user.username.first?.uppercased() ?? "?"
@@ -354,23 +355,47 @@ struct ReviewCardView: View {
 
       // Review text
       if !review.review.isEmpty {
-        Text(review.review)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .lineLimit(3)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .blur(radius: review.hasSpoilers ? 6 : 0)
-          .overlay(
-            review.hasSpoilers
-              ? Text(L10n.current.containSpoilers)
+        if review.hasSpoilers && !spoilerRevealed {
+          Button {
+            withAnimation(.easeOut(duration: 0.25)) {
+              spoilerRevealed = true
+            }
+          } label: {
+            HStack(spacing: 8) {
+              Image(systemName: "eye.slash")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.appMutedForegroundAdaptive)
+
+              Text(L10n.current.containSpoilers)
                 .font(.caption.weight(.medium))
                 .foregroundColor(.appMutedForegroundAdaptive)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.appInputFilled)
-                .cornerRadius(6)
-              : nil
-          )
+
+              Spacer()
+
+              Text(L10n.current.tapToReveal)
+                .font(.caption2)
+                .foregroundColor(.appMutedForegroundAdaptive.opacity(0.6))
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(
+              RoundedRectangle(cornerRadius: 10)
+                .fill(Color.appBorderAdaptive.opacity(0.15))
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: 10)
+                .strokeBorder(Color.appBorderAdaptive.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
+            )
+          }
+          .buttonStyle(.plain)
+        } else {
+          Text(review.review)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(3)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .transition(.opacity.combined(with: .blurReplace))
+        }
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)

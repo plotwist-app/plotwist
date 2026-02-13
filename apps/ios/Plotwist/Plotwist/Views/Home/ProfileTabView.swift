@@ -81,7 +81,7 @@ struct ProfileTabView: View {
   @State private var selectedStatusTab: ProfileStatusTab = .watched
   @State private var userItems: [UserItemSummary] = []
   @State private var isLoadingItems = false
-  @State private var totalCollectionCount: Int = 0
+  @State private var statusCounts: [String: Int] = [:]
   @State private var totalReviewsCount: Int = 0
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
@@ -142,7 +142,7 @@ struct ProfileTabView: View {
       .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
         Task {
           await loadUserItems(forceRefresh: true)
-          await loadTotalCollectionCount(forceRefresh: true)
+          await loadStatusCounts(forceRefresh: true)
         }
       }
       .navigationBarHidden(true)
@@ -231,7 +231,6 @@ struct ProfileTabView: View {
             selectedTab: $selectedMainTab,
             slideFromTrailing: $slideFromTrailing,
             strings: strings,
-            collectionCount: totalCollectionCount,
             reviewsCount: totalReviewsCount
           )
           .padding(.top, 20)
@@ -291,20 +290,30 @@ struct ProfileTabView: View {
         ProfileAvatar(avatarURL: user.avatarImageURL, username: user.username, size: avatarSize)
 
         VStack(alignment: .leading, spacing: 2) {
-          HStack(spacing: 8) {
-            Text(user.username)
-              .font(.title3.bold())
-              .foregroundColor(.appForegroundAdaptive)
+          if let displayName = user.displayName, !displayName.isEmpty {
+            HStack(spacing: 8) {
+              Text(displayName)
+                .font(.title3.bold())
+                .foregroundColor(.appForegroundAdaptive)
 
-            if user.isPro {
-              ProBadge()
+              if user.isPro {
+                ProBadge()
+              }
             }
-          }
 
-          if let memberDate = user.memberSinceDate {
-            Text("\(strings.memberSince) \(formattedMemberDate(memberDate))")
-              .font(.caption)
+            Text("@\(user.username)")
+              .font(.subheadline)
               .foregroundColor(.appMutedForegroundAdaptive)
+          } else {
+            HStack(spacing: 8) {
+              Text(user.username)
+                .font(.title3.bold())
+                .foregroundColor(.appForegroundAdaptive)
+
+              if user.isPro {
+                ProBadge()
+              }
+            }
           }
         }
 
@@ -356,7 +365,11 @@ struct ProfileTabView: View {
   // MARK: - Collection Tab Content
   private var collectionTabContent: some View {
     VStack(spacing: 0) {
-      ProfileStatusTabs(selectedTab: $selectedStatusTab, strings: strings)
+      ProfileStatusTabs(
+        selectedTab: $selectedStatusTab,
+        strings: strings,
+        statusCounts: statusCounts
+      )
         .padding(.top, 8)
         .onChange(of: selectedStatusTab) {
           Task { await loadUserItems() }
@@ -446,8 +459,8 @@ struct ProfileTabView: View {
     if let cachedUser = cache.user {
       user = cachedUser
     }
-    if let cachedCount = cache.getTotalCount() {
-      totalCollectionCount = cachedCount
+    if let cachedCounts = cache.getStatusCounts() {
+      statusCounts = cachedCounts
     }
     if let cachedReviewsCount = cache.getReviewsCount() {
       totalReviewsCount = cachedReviewsCount
@@ -465,7 +478,7 @@ struct ProfileTabView: View {
 
     await loadUser()
     await loadUserItems()
-    await loadTotalCollectionCount()
+    await loadStatusCounts()
     await loadTotalReviewsCount()
 
     isInitialLoad = false
@@ -488,13 +501,6 @@ struct ProfileTabView: View {
       print("Error loading user: \(error)")
       user = nil
     }
-  }
-
-  private func formattedMemberDate(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "MMM/yyyy"
-    formatter.locale = Locale(identifier: Language.current.rawValue)
-    return formatter.string(from: date)
   }
 
   private func loadUserItems(forceRefresh: Bool = false) async {
@@ -522,21 +528,25 @@ struct ProfileTabView: View {
     }
   }
 
-  private func loadTotalCollectionCount(forceRefresh: Bool = false) async {
+  private func loadStatusCounts(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
 
-    if !forceRefresh, let cachedCount = cache.getTotalCount() {
-      totalCollectionCount = cachedCount
+    if !forceRefresh, let cachedCounts = cache.getStatusCounts() {
+      statusCounts = cachedCounts
       return
     }
 
     do {
-      let count = try await UserItemService.shared.getUserItemsCount(userId: userId)
-      totalCollectionCount = count
-      cache.setTotalCount(count)
+      let stats = try await UserStatsService.shared.getItemsStatus(userId: userId)
+      var counts: [String: Int] = [:]
+      for stat in stats {
+        counts[stat.status] = stat.count
+      }
+      statusCounts = counts
+      cache.setStatusCounts(counts)
     } catch {
-      print("Error loading collection count: \(error)")
-      totalCollectionCount = 0
+      print("Error loading status counts: \(error)")
+      statusCounts = [:]
     }
   }
 
@@ -564,13 +574,12 @@ struct ProfileMainTabs: View {
   @Binding var selectedTab: ProfileMainTab
   @Binding var slideFromTrailing: Bool
   let strings: Strings
-  var collectionCount: Int = 0
   var reviewsCount: Int = 0
   @Namespace private var tabNamespace
 
   private func badgeCount(for tab: ProfileMainTab) -> Int {
     switch tab {
-    case .collection: return collectionCount
+    case .collection: return 0
     case .reviews: return reviewsCount
     case .stats: return 0
     }
@@ -636,6 +645,11 @@ struct ProfileMainTabs: View {
 struct ProfileStatusTabs: View {
   @Binding var selectedTab: ProfileStatusTab
   let strings: Strings
+  var statusCounts: [String: Int] = [:]
+
+  private func count(for tab: ProfileStatusTab) -> Int {
+    statusCounts[tab.rawValue] ?? 0
+  }
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -654,13 +668,24 @@ struct ProfileStatusTabs: View {
               Text(tab.displayName(strings: strings))
                 .font(.footnote.weight(.medium))
                 .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+
+              if count(for: tab) > 0 && selectedTab == tab {
+                CollectionCountBadge(count: count(for: tab))
+                  .transition(
+                    .asymmetric(
+                      insertion: .move(edge: .leading).combined(with: .opacity),
+                      removal: .scale(scale: 0.8).combined(with: .opacity)
+                    )
+                  )
+              }
             }
             .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .frame(height: 34)
             .background(Color.appInputFilled)
             .clipShape(Capsule())
           }
           .buttonStyle(.plain)
+          .animation(.easeOut(duration: 0.15), value: selectedTab)
         }
       }
       .padding(.horizontal, 24)

@@ -39,6 +39,9 @@ struct HomeTabView: View {
 
   var displayUsername: String? {
     if AuthService.shared.isAuthenticated {
+      if let displayName = user?.displayName, !displayName.isEmpty {
+        return displayName
+      }
       return user?.username
     } else if !onboardingService.userName.isEmpty {
       return onboardingService.userName
