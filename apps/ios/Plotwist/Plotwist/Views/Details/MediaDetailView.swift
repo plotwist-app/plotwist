@@ -173,10 +173,12 @@ struct MediaDetailView: View {
     .preferredColorScheme(themeManager.current.colorScheme)
     .fullScreenCover(isPresented: $showCollectionDetail) {
       if let collection = collection {
-        MovieCollectionDetailView(collection: collection)
-          .navigationTransition(
-            .zoom(sourceID: "collection-\(collection.id)", in: collectionAnimation)
-          )
+        NavigationStack {
+          MovieCollectionDetailView(collection: collection)
+        }
+        .navigationTransition(
+          .zoom(sourceID: collection.id, in: collectionAnimation)
+        )
       }
     }
     .sheet(isPresented: $showReviewSheet) {
@@ -283,10 +285,8 @@ struct MediaDetailView: View {
 
     // Collection Section (zoom transition to full-screen detail)
     if let collection = collection {
-      MovieCollectionSection(collection: collection)
-        .matchedTransitionSource(
-          id: "collection-\(collection.id)", in: collectionAnimation
-        )
+      MovieCollectionSection(collection: collection, namespace: collectionAnimation)
+        .contentShape(Rectangle())
         .onTapGesture {
           showCollectionDetail = true
         }
