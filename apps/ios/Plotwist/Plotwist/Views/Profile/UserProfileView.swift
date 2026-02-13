@@ -22,9 +22,17 @@ struct UserProfileView: View {
   @State private var isLoadingItems = false
   @State private var statusCounts: [String: Int] = [:]
   @State private var totalReviewsCount: Int = 0
+  @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
   @ObservedObject private var themeManager = ThemeManager.shared
 
-  private let avatarSize: CGFloat = 72
+  private let avatarSize: CGFloat = 56
+  private let scrollThreshold: CGFloat = 80
+
+  private var isScrolled: Bool {
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
+  }
 
   var body: some View {
     ZStack {
@@ -91,25 +99,42 @@ struct UserProfileView: View {
           tabContentView(userId: user.id)
         }
         .padding(.bottom, 100)
+        .background(scrollOffsetReader)
       }
     }
   }
 
   // MARK: - Header View (with back button)
   private func headerView(user: User) -> some View {
-    HStack(spacing: 12) {
-      Button {
-        dismiss()
-      } label: {
-        Image(systemName: "chevron.left")
-          .font(.system(size: 16, weight: .semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .frame(width: 36, height: 36)
-          .background(Color.appInputFilled)
-          .clipShape(Circle())
+    ZStack {
+      // Centered avatar + username (visible when scrolled)
+      if isScrolled {
+        HStack(spacing: 10) {
+          ProfileAvatar(avatarURL: user.avatarImageURL, username: user.username, size: 32)
+            .transition(.opacity.combined(with: .move(edge: .bottom)))
+
+          Text(user.username)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+            .transition(.opacity.combined(with: .move(edge: .bottom)))
+        }
       }
 
-      Spacer()
+      // Back button (always on leading edge)
+      HStack(spacing: 12) {
+        Button {
+          dismiss()
+        } label: {
+          Image(systemName: "chevron.left")
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundColor(.appForegroundAdaptive)
+            .frame(width: 36, height: 36)
+            .background(Color.appInputFilled)
+            .clipShape(Circle())
+        }
+
+        Spacer()
+      }
     }
     .padding(.horizontal, 24)
     .padding(.vertical, 12)
@@ -117,18 +142,20 @@ struct UserProfileView: View {
     .overlay(
       Rectangle()
         .fill(Color.appBorderAdaptive)
-        .frame(height: 1),
+        .frame(height: 1)
+        .opacity(isScrolled ? 1 : 0),
       alignment: .bottom
     )
+    .animation(.easeInOut(duration: 0.2), value: isScrolled)
   }
 
-  // MARK: - Profile Info Section (centered avatar + username)
+  // MARK: - Profile Info Section (same layout as own profile)
   private func profileInfoSection(user: User) -> some View {
-    VStack(spacing: 0) {
-      VStack(spacing: 12) {
+    VStack(alignment: .leading, spacing: 0) {
+      HStack(alignment: .center, spacing: 12) {
         ProfileAvatar(avatarURL: user.avatarImageURL, username: user.username, size: avatarSize)
 
-        VStack(spacing: 4) {
+        VStack(alignment: .leading, spacing: 2) {
           HStack(spacing: 8) {
             Text(user.username)
               .font(.title3.bold())
@@ -139,14 +166,16 @@ struct UserProfileView: View {
             }
           }
 
-          if let memberDate = user.memberSinceDate {
-            Text("\(strings.memberSince) \(formattedMemberDate(memberDate))")
-              .font(.caption)
+          if let displayName = user.displayName, !displayName.isEmpty {
+            Text(displayName)
+              .font(.subheadline)
               .foregroundColor(.appMutedForegroundAdaptive)
           }
         }
+
+        Spacer()
       }
-      .frame(maxWidth: .infinity)
+      .padding(.horizontal, 24)
       .padding(.top, 16)
       .padding(.bottom, 12)
 
@@ -160,8 +189,8 @@ struct UserProfileView: View {
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
           .lineSpacing(4)
-          .multilineTextAlignment(.center)
-          .frame(maxWidth: .infinity)
+          .multilineTextAlignment(.leading)
+          .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
       }
     }
@@ -249,6 +278,20 @@ struct UserProfileView: View {
       }
       .padding(.horizontal, 24)
       .padding(.top, 16)
+    }
+  }
+
+  // MARK: - Scroll Offset Reader
+  private var scrollOffsetReader: some View {
+    GeometryReader { geo -> Color in
+      DispatchQueue.main.async {
+        let offset = geo.frame(in: .global).minY
+        if initialScrollOffset == nil {
+          initialScrollOffset = offset
+        }
+        scrollOffset = offset
+      }
+      return Color.clear
     }
   }
 

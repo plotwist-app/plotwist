@@ -23,6 +23,7 @@ struct SearchTabView: View {
   @State private var recentSearches: [String] = []
   @State private var hasSubmittedSearch = false
   @State private var autocompleteTask: Task<Void, Never>?
+  @State private var isSearchFieldFocused = false
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
   private let cache = SearchDataCache.shared
@@ -357,6 +358,7 @@ struct SearchTabView: View {
         placement: .navigationBarDrawer(displayMode: .always),
         prompt: strings.searchPlaceholder
       )
+      .searchFocused($isSearchFieldFocused)
       .onSubmit(of: .search) {
         submitSearch(query: searchText)
       }
@@ -366,6 +368,10 @@ struct SearchTabView: View {
         hasAppeared = true
         restoreFromCache()
         loadRecentSearches()
+      }
+      // Focus the search field whenever the tab appears
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        isSearchFieldFocused = true
       }
     }
     .task {

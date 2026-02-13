@@ -290,30 +290,20 @@ struct ProfileTabView: View {
         ProfileAvatar(avatarURL: user.avatarImageURL, username: user.username, size: avatarSize)
 
         VStack(alignment: .leading, spacing: 2) {
-          if let displayName = user.displayName, !displayName.isEmpty {
-            HStack(spacing: 8) {
-              Text(displayName)
-                .font(.title3.bold())
-                .foregroundColor(.appForegroundAdaptive)
+          HStack(spacing: 8) {
+            Text(user.username)
+              .font(.title3.bold())
+              .foregroundColor(.appForegroundAdaptive)
 
-              if user.isPro {
-                ProBadge()
-              }
+            if user.isPro {
+              ProBadge()
             }
+          }
 
-            Text("@\(user.username)")
+          if let displayName = user.displayName, !displayName.isEmpty {
+            Text(displayName)
               .font(.subheadline)
               .foregroundColor(.appMutedForegroundAdaptive)
-          } else {
-            HStack(spacing: 8) {
-              Text(user.username)
-                .font(.title3.bold())
-                .foregroundColor(.appForegroundAdaptive)
-
-              if user.isPro {
-                ProBadge()
-              }
-            }
           }
         }
 

@@ -308,35 +308,42 @@ struct ReviewCardView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      // Header: Avatar + Username + Rank
-      HStack(spacing: 12) {
-        // Avatar
-        if let avatarUrl = review.user.avatarUrl,
-          let url = URL(string: avatarUrl)
-        {
-          CachedAsyncImage(url: url) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
+      // Header: Avatar + Username + Rank (tappable to view profile)
+      NavigationLink(destination: UserProfileView(
+        userId: review.userId,
+        initialUsername: review.user.username,
+        initialAvatarUrl: review.user.avatarUrl
+      )) {
+        HStack(spacing: 12) {
+          // Avatar
+          if let avatarUrl = review.user.avatarUrl,
+            let url = URL(string: avatarUrl)
+          {
+            CachedAsyncImage(url: url) { image in
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            } placeholder: {
+              avatarFallback
+            }
+            .frame(width: 40, height: 40)
+            .clipShape(Circle())
+          } else {
             avatarFallback
           }
-          .frame(width: 40, height: 40)
-          .clipShape(Circle())
-        } else {
-          avatarFallback
-        }
 
-        VStack(alignment: .leading, spacing: 2) {
-          Text(review.user.username)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appForegroundAdaptive)
+          VStack(alignment: .leading, spacing: 2) {
+            Text(review.user.username)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
 
-          Text(userRank)
-            .font(.caption)
-            .foregroundColor(.appMutedForegroundAdaptive)
+            Text(userRank)
+              .font(.caption)
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
         }
       }
+      .buttonStyle(.plain)
 
       // Stars + Time
       HStack(spacing: 8) {
