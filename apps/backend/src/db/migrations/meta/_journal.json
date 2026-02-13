@@ -386,13 +386,6 @@
       "when": 1768684257805,
       "tag": "20260117211057_tearful_vertigo",
       "breakpoints": true
-    },
-    {
-      "idx": 55,
-      "version": "7",
-      "when": 1770746892454,
-      "tag": "20260210180812_create_indexes",
-      "breakpoints": true
     }
   ]
 }
