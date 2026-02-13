@@ -31,11 +31,8 @@ struct MediaDetailView: View {
 
   // Collection state
   @State private var collection: MovieCollection?
-  @State private var showCollectionDetail = false
+  @Namespace private var collectionTransition
   @State private var showLoginPrompt = false
-
-  // Namespace for collection zoom transition
-  @Namespace private var collectionAnimation
 
   // Layout constants
   private let cornerRadius: CGFloat = 24
@@ -168,19 +165,10 @@ struct MediaDetailView: View {
           }
         }
       }
+
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
-    .fullScreenCover(isPresented: $showCollectionDetail) {
-      if let collection = collection {
-        NavigationStack {
-          MovieCollectionDetailView(collection: collection)
-        }
-        .navigationTransition(
-          .zoom(sourceID: collection.id, in: collectionAnimation)
-        )
-      }
-    }
     .sheet(isPresented: $showReviewSheet) {
       ReviewSheet(
         mediaId: mediaId,
@@ -283,14 +271,21 @@ struct MediaDetailView: View {
     .scrollClipDisabled()
     .padding(.top, 16)
 
-    // Collection Section (zoom transition to full-screen detail)
+    // Collection Section
     if let collection = collection {
-      MovieCollectionSection(collection: collection, namespace: collectionAnimation)
-        .contentShape(Rectangle())
-        .onTapGesture {
-          showCollectionDetail = true
-        }
-        .padding(.top, 24)
+      NavigationLink {
+        CollectionDetailPage(collection: collection)
+          .navigationTransition(
+            .zoom(sourceID: "collectionCard", in: collectionTransition)
+          )
+      } label: {
+        MovieCollectionCard(collection: collection)
+          .matchedTransitionSource(
+            id: "collectionCard", in: collectionTransition
+          )
+      }
+      .buttonStyle(.plain)
+      .padding(.top, 24)
     }
 
     // Divider before first content section
