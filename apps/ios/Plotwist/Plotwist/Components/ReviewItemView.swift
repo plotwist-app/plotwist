@@ -29,33 +29,42 @@ struct ReviewItemView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      // Row 1: Avatar + Username
-      HStack(spacing: 10) {
-        // Avatar
-        Group {
-          if let avatarUrl = review.user.avatarUrl,
-            let url = URL(string: avatarUrl)
-          {
-            CachedAsyncImage(url: url) { image in
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            } placeholder: {
+      // Row 1: Avatar + Username (tappable to profile)
+      NavigationLink {
+        UserProfileView(
+          userId: review.userId,
+          initialUsername: review.user.username,
+          initialAvatarUrl: review.user.avatarUrl
+        )
+      } label: {
+        HStack(spacing: 10) {
+          // Avatar
+          Group {
+            if let avatarUrl = review.user.avatarUrl,
+              let url = URL(string: avatarUrl)
+            {
+              CachedAsyncImage(url: url) { image in
+                image
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+              } placeholder: {
+                avatarFallback
+              }
+            } else {
               avatarFallback
             }
-          } else {
-            avatarFallback
           }
+          .frame(width: 44, height: 44)
+          .clipShape(Circle())
+
+          Text(review.user.username)
+            .font(.subheadline.weight(.medium))
+            .foregroundColor(.appForegroundAdaptive)
+
+          Spacer()
         }
-        .frame(width: 44, height: 44)
-        .clipShape(Circle())
-
-        Text(review.user.username)
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
-
-        Spacer()
       }
+      .buttonStyle(.plain)
 
       // Row 2: Stars + dot + Date
       HStack(spacing: 8) {

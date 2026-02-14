@@ -41,19 +41,25 @@ struct HomeView: View {
       }
 
       Tab(value: 2) {
+        TrailsTabView()
+      } label: {
+        Image(systemName: "map")
+      }
+
+      Tab(value: 3) {
         ProfileTabView()
       } label: {
         Image(systemName: "person.fill")
       }
 
-      Tab(value: 3, role: .search) {
+      Tab(value: 4, role: .search) {
         SearchTabView()
       }
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
       // Intercept profile tab when in guest mode - show login prompt instead
-      if newTab == 2 && isGuestMode {
+      if newTab == 3 && isGuestMode {
         selectedTab = previousTab
         if !onboardingService.hasSeenLoginPrompt {
           showLoginPrompt = true
@@ -65,7 +71,7 @@ struct HomeView: View {
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
-      selectedTab = 3
+      selectedTab = 4
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
       if isGuestMode {
@@ -75,7 +81,7 @@ struct HomeView: View {
           exitGuestMode()
         }
       } else {
-        selectedTab = 2
+        selectedTab = 3
       }
     }
     .onAppear {

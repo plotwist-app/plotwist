@@ -161,47 +161,53 @@ extension ReviewListItem {
 // MARK: - Skeleton
 struct ReviewItemSkeleton: View {
   var body: some View {
-    HStack(alignment: .top, spacing: 12) {
-      // Avatar skeleton
-      Circle()
-        .fill(Color.appBorderAdaptive)
-        .frame(width: 40, height: 40)
+    VStack(alignment: .leading, spacing: 0) {
+      // Row 1: Avatar + Username
+      HStack(spacing: 10) {
+        Circle()
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 44, height: 44)
 
-      VStack(alignment: .leading, spacing: 0) {
-        // Header: username + time
-        HStack {
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appBorderAdaptive)
-            .frame(width: 100, height: 14)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 100, height: 14)
 
-          Spacer()
+        Spacer()
+      }
 
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appBorderAdaptive)
-            .frame(width: 40, height: 12)
-        }
-
-        // Stars skeleton
+      // Row 2: Stars + dot + date
+      HStack(spacing: 8) {
         HStack(spacing: 2) {
           ForEach(0..<5, id: \.self) { _ in
             RoundedRectangle(cornerRadius: 2)
               .fill(Color.appBorderAdaptive)
-              .frame(width: 14, height: 14)
+              .frame(width: 12, height: 12)
           }
         }
-        .padding(.top, 4)
 
-        // Review text skeleton
-        VStack(alignment: .leading, spacing: 4) {
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appBorderAdaptive)
-            .frame(height: 14)
-          RoundedRectangle(cornerRadius: 4)
-            .fill(Color.appBorderAdaptive)
-            .frame(width: 200, height: 14)
-        }
-        .padding(.top, 8)
+        Circle()
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 3, height: 3)
+
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 40, height: 12)
       }
+      .padding(.top, 10)
+
+      // Row 3: Review text
+      VStack(alignment: .leading, spacing: 6) {
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(height: 16)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(height: 16)
+        RoundedRectangle(cornerRadius: 4)
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 180, height: 16)
+      }
+      .padding(.top, 14)
     }
   }
 }

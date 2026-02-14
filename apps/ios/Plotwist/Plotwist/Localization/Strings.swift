@@ -288,7 +288,9 @@ enum L10n {
       topRatedSeries: "Top rated series",
       topRatedAnimes: "Top rated animes",
       topRatedDoramas: "Top rated doramas",
-      featured: "Featured"
+      featured: "Featured",
+      trails: "Trails",
+      comingSoon: "Coming soon"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -557,7 +559,9 @@ enum L10n {
       topRatedSeries: "Séries mais bem avaliadas",
       topRatedAnimes: "Animes mais bem avaliados",
       topRatedDoramas: "Doramas mais bem avaliados",
-      featured: "Destaque"
+      featured: "Destaque",
+      trails: "Trilhas",
+      comingSoon: "Em breve"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -826,7 +830,9 @@ enum L10n {
       topRatedSeries: "Series mejor valoradas",
       topRatedAnimes: "Animes mejor valorados",
       topRatedDoramas: "Doramas mejor valorados",
-      featured: "Destacado"
+      featured: "Destacado",
+      trails: "Senderos",
+      comingSoon: "Próximamente"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1095,7 +1101,9 @@ enum L10n {
       topRatedSeries: "Séries les mieux notées",
       topRatedAnimes: "Animes les mieux notés",
       topRatedDoramas: "Doramas les mieux notés",
-      featured: "À la une"
+      featured: "À la une",
+      trails: "Parcours",
+      comingSoon: "Bientôt disponible"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1364,7 +1372,9 @@ enum L10n {
       topRatedSeries: "Bestbewertete Serien",
       topRatedAnimes: "Bestbewertete Animes",
       topRatedDoramas: "Bestbewertete Doramas",
-      featured: "Empfohlen"
+      featured: "Empfohlen",
+      trails: "Pfade",
+      comingSoon: "Demnächst"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1633,7 +1643,9 @@ enum L10n {
       topRatedSeries: "Serie più votate",
       topRatedAnimes: "Anime più votati",
       topRatedDoramas: "Dorama più votati",
-      featured: "In evidenza"
+      featured: "In evidenza",
+      trails: "Percorsi",
+      comingSoon: "Prossimamente"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1901,7 +1913,9 @@ enum L10n {
       topRatedSeries: "高評価のシリーズ",
       topRatedAnimes: "高評価のアニメ",
       topRatedDoramas: "高評価のドラマ",
-      featured: "注目"
+      featured: "注目",
+      trails: "トレイル",
+      comingSoon: "近日公開"
     ),
   ]
 }
@@ -2192,4 +2206,7 @@ struct Strings {
   let topRatedAnimes: String
   let topRatedDoramas: String
   let featured: String
+  // Tabs
+  let trails: String
+  let comingSoon: String
 }
