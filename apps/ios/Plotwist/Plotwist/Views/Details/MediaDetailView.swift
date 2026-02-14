@@ -317,6 +317,9 @@ struct MediaDetailView: View {
       mediaId: mediaId,
       mediaType: mediaType,
       refreshId: reviewsRefreshId,
+      mediaTitle: details.displayTitle,
+      mediaPosterPath: details.posterPath,
+      mediaYear: details.year,
       onEmptyStateTapped: {
         if AuthService.shared.isAuthenticated {
           showReviewSheet = true

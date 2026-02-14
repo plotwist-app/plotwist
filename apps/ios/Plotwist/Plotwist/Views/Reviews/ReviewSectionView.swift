@@ -10,14 +10,15 @@ struct ReviewSectionView: View {
   let mediaId: Int
   let mediaType: String
   let refreshId: UUID
+  var mediaTitle: String? = nil
+  var mediaPosterPath: String? = nil
+  var mediaYear: String? = nil
   var onEmptyStateTapped: (() -> Void)?
   var onContentLoaded: ((Bool) -> Void)?
 
   @State private var reviews: [ReviewListItem] = []
   @State private var isLoading = true
   @State private var error: String?
-  @State private var currentUserId: String?
-  @State private var selectedReview: ReviewListItem?
   @State private var hasLoaded = false
 
   private var averageRating: Double {
@@ -30,9 +31,9 @@ struct ReviewSectionView: View {
     reviews.filter { !$0.review.isEmpty }
   }
 
-  // Show featured rating (with film strips) only for highly rated content with many reviews
-  private var isFeaturedRating: Bool {
-    reviews.count >= 10 && averageRating >= 4.5
+  /// Show at most 3 reviews in the preview
+  private var previewReviews: [ReviewListItem] {
+    Array(reviewsWithText.prefix(3))
   }
 
   var body: some View {
@@ -62,80 +63,29 @@ struct ReviewSectionView: View {
         EmptyView()
       } else {
         // Has reviews - show content
-        VStack(spacing: 16) {
-          // Rating Header
-          if isFeaturedRating {
-            // Featured rating display with film strips (10+ reviews AND rating >= 4.5)
-            HStack(spacing: 8) {
-              // Left film strip
-              Image("FilmStrip")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 140)
-                .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
-                .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
+        VStack(spacing: 0) {
+          // Rating header
+          HStack(spacing: 6) {
+            Image(systemName: "star.fill")
+              .font(.system(size: 16))
+              .foregroundColor(.appStarYellow)
 
-              // Rating content
-              VStack(spacing: 4) {
-                // Large rating number
-                Text(String(format: "%.1f", averageRating))
-                  .font(.system(size: 56, weight: .semibold, design: .rounded))
-                  .foregroundColor(.appForegroundAdaptive)
+            Text(String(format: "%.1f", averageRating))
+              .font(.system(size: 18, weight: .semibold))
+              .foregroundColor(.appForegroundAdaptive)
 
-                // Stars
-                HStack(spacing: 4) {
-                  ForEach(1...5, id: \.self) { index in
-                    Image(systemName: starIcon(for: index))
-                      .font(.system(size: 14))
-                      .foregroundColor(starColor(for: index))
-                  }
-                }
+            Circle()
+              .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
+              .frame(width: 4, height: 4)
 
-                // Reviews count
-                Text(
-                  "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
-                )
-                .font(.subheadline)
-                .foregroundColor(.appMutedForegroundAdaptive)
-                .padding(.top, 4)
-              }
-
-              // Right film strip (mirrored)
-              Image("FilmStrip")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 140)
-                .scaleEffect(x: -1, y: 1)
-                .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 3)
-                .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 6)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, 4)
-            .padding(.bottom, 16)
-          } else {
-            // Simple rating display (star + rating + dot + reviews count)
-            HStack(spacing: 6) {
-              Image(systemName: "star.fill")
-                .font(.system(size: 16))
-                .foregroundColor(.appStarYellow)
-
-              Text(String(format: "%.1f", averageRating))
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.appForegroundAdaptive)
-
-              Circle()
-                .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-                .frame(width: 4, height: 4)
-
-              Text(
-                "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
-              )
-              .font(.subheadline)
-              .foregroundColor(.appMutedForegroundAdaptive)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 24)
+            Text(
+              "\(reviews.count) \(reviews.count == 1 ? L10n.current.reviewSingular.lowercased() : L10n.current.tabReviews.lowercased())"
+            )
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
           }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, 24)
 
           // Horizontal scrolling reviews
           if !reviewsWithText.isEmpty {
@@ -143,17 +93,19 @@ struct ReviewSectionView: View {
               HStack(alignment: .top, spacing: 0) {
                 ForEach(Array(reviewsWithText.enumerated()), id: \.element.id) { index, review in
                   HStack(alignment: .top, spacing: 0) {
-                    Group {
-                      if review.userId == currentUserId {
-                        ReviewCardView(review: review)
-                          .contentShape(Rectangle())
-                          .onTapGesture {
-                            selectedReview = review
-                          }
-                      } else {
-                        ReviewCardView(review: review)
-                      }
+                    NavigationLink {
+                      AllReviewsView(
+                        mediaId: mediaId,
+                        mediaType: mediaType,
+                        mediaTitle: mediaTitle,
+                        mediaPosterPath: mediaPosterPath,
+                        mediaYear: mediaYear,
+                        highlightedReviewId: review.id
+                      )
+                    } label: {
+                      ReviewItemView(review: review, lineLimit: 3)
                     }
+                    .buttonStyle(.plain)
                     .frame(width: min(UIScreen.main.bounds.width * 0.75, 300))
                     .padding(.leading, index == 0 ? 24 : 0)
                     .padding(.trailing, 24)
@@ -170,64 +122,41 @@ struct ReviewSectionView: View {
                 }
               }
             }
+            .padding(.top, 16)
           }
 
-          // See all button (show if 3+ reviews)
+          // See all button
           if reviews.count >= 3 {
-            Button(action: {
-              // TODO: Navigate to all reviews
-            }) {
+            NavigationLink {
+              AllReviewsView(
+                mediaId: mediaId,
+                mediaType: mediaType,
+                mediaTitle: mediaTitle,
+                mediaPosterPath: mediaPosterPath,
+                mediaYear: mediaYear
+              )
+            } label: {
               Text(L10n.current.seeAll)
-                .font(.subheadline.weight(.medium))
-                .foregroundColor(.appMutedForegroundAdaptive)
+                .font(.footnote.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
+                .padding(.vertical, 10)
                 .background(Color.appInputFilled)
-                .cornerRadius(12)
+                .cornerRadius(10)
             }
-            .disabled(true)
-            .opacity(0.5)
+            .buttonStyle(.plain)
             .padding(.horizontal, 24)
           }
         }
       }
     }
     .task {
-      await loadCurrentUser()
       await loadReviews()
     }
     .onChange(of: refreshId) { _, _ in
       Task {
         await loadReviews(forceReload: true)
       }
-    }
-    .sheet(item: $selectedReview) { review in
-      ReviewSheet(
-        mediaId: mediaId,
-        mediaType: mediaType,
-        seasonNumber: review.seasonNumber,
-        episodeNumber: review.episodeNumber,
-        existingReview: review.toReview(),
-        onSaved: {
-          Task {
-            await loadReviews(forceReload: true)
-          }
-        },
-        onDeleted: {
-          Task {
-            await loadReviews(forceReload: true)
-          }
-        }
-      )
-    }
-  }
-
-  private func loadCurrentUser() async {
-    do {
-      let user = try await AuthService.shared.getCurrentUser()
-      currentUserId = user.id
-    } catch {
-      currentUserId = nil
     }
   }
 
@@ -256,186 +185,6 @@ struct ReviewSectionView: View {
       isLoading = false
       hasLoaded = true
       onContentLoaded?(false)
-    }
-  }
-
-  private func starIcon(for index: Int) -> String {
-    if Double(index) <= averageRating {
-      return "star.fill"
-    } else if Double(index) - 0.5 <= averageRating {
-      return "star.leadinghalf.filled"
-    } else {
-      return "star"
-    }
-  }
-
-  private func starColor(for index: Int) -> Color {
-    if Double(index) <= averageRating || Double(index) - 0.5 <= averageRating {
-      return .appStarYellow
-    } else {
-      return .gray.opacity(0.3)
-    }
-  }
-}
-
-// MARK: - Review Card
-struct ReviewCardView: View {
-  let review: ReviewListItem
-  @State private var spoilerRevealed = false
-
-  private var usernameInitial: String {
-    review.user.username.first?.uppercased() ?? "?"
-  }
-
-  private var timeAgo: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
-
-    let dateFormatter = ISO8601DateFormatter()
-    dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-    if let date = dateFormatter.date(from: review.createdAt) {
-      return formatter.localizedString(for: date, relativeTo: Date())
-    }
-    return ""
-  }
-
-  private var userRank: String {
-    let ranks = ["Cinéfilo", "Crítico", "Entusiasta", "Maratonista", "Expert"]
-    let index = abs(review.user.id.hashValue) % ranks.count
-    return ranks[index]
-  }
-
-  var body: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      // Header: Avatar + Username + Rank (tappable to view profile)
-      NavigationLink(destination: UserProfileView(
-        userId: review.userId,
-        initialUsername: review.user.username,
-        initialAvatarUrl: review.user.avatarUrl
-      )) {
-        HStack(spacing: 12) {
-          // Avatar
-          if let avatarUrl = review.user.avatarUrl,
-            let url = URL(string: avatarUrl)
-          {
-            CachedAsyncImage(url: url) { image in
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            } placeholder: {
-              avatarFallback
-            }
-            .frame(width: 40, height: 40)
-            .clipShape(Circle())
-          } else {
-            avatarFallback
-          }
-
-          VStack(alignment: .leading, spacing: 2) {
-            Text(review.user.username)
-              .font(.subheadline.weight(.medium))
-              .foregroundColor(.appForegroundAdaptive)
-
-            Text(userRank)
-              .font(.caption)
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-        }
-      }
-      .buttonStyle(.plain)
-
-      // Stars + Time
-      HStack(spacing: 8) {
-        HStack(spacing: 2) {
-          ForEach(1...5, id: \.self) { index in
-            Image(systemName: ratingIcon(for: index))
-              .font(.system(size: 14))
-              .foregroundColor(ratingColor(for: index))
-          }
-        }
-
-        Text(timeAgo)
-          .font(.caption)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
-
-      // Review text
-      if !review.review.isEmpty {
-        if review.hasSpoilers && !spoilerRevealed {
-          Button {
-            withAnimation(.easeOut(duration: 0.25)) {
-              spoilerRevealed = true
-            }
-          } label: {
-            HStack(spacing: 8) {
-              Image(systemName: "eye.slash")
-                .font(.system(size: 13, weight: .medium))
-                .foregroundColor(.appMutedForegroundAdaptive)
-
-              Text(L10n.current.containSpoilers)
-                .font(.caption.weight(.medium))
-                .foregroundColor(.appMutedForegroundAdaptive)
-
-              Spacer()
-
-              Text(L10n.current.tapToReveal)
-                .font(.caption2)
-                .foregroundColor(.appMutedForegroundAdaptive.opacity(0.6))
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .background(
-              RoundedRectangle(cornerRadius: 10)
-                .fill(Color.appBorderAdaptive.opacity(0.15))
-            )
-            .overlay(
-              RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(Color.appBorderAdaptive.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
-            )
-          }
-          .buttonStyle(.plain)
-        } else {
-          Text(review.review)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .lineLimit(3)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .transition(.opacity.combined(with: .blurReplace))
-        }
-      }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-  }
-
-  private var avatarFallback: some View {
-    Circle()
-      .fill(Color.appInputFilled)
-      .frame(width: 40, height: 40)
-      .overlay(
-        Text(usernameInitial)
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
-      )
-  }
-
-  private func ratingIcon(for index: Int) -> String {
-    let rating = review.rating
-    if Double(index) <= rating {
-      return "star.fill"
-    } else if Double(index) - 0.5 <= rating {
-      return "star.leadinghalf.filled"
-    } else {
-      return "star"
-    }
-  }
-
-  private func ratingColor(for index: Int) -> Color {
-    let rating = review.rating
-    if Double(index) <= rating || Double(index) - 0.5 <= rating {
-      return .appStarYellow
-    } else {
-      return .appMutedForegroundAdaptive.opacity(0.3)
     }
   }
 }

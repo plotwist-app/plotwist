@@ -112,9 +112,12 @@ struct ProfileReviewsListView: View {
         LazyVStack(spacing: 24) {
           ForEach(reviews) { review in
             NavigationLink {
-              MediaDetailView(
+              AllReviewsView(
                 mediaId: review.tmdbId,
-                mediaType: review.mediaType == "MOVIE" ? "movie" : "tv"
+                mediaType: review.mediaType == "MOVIE" ? "movie" : "tv",
+                mediaTitle: review.title,
+                mediaPosterPath: review.posterPath,
+                highlightedReviewId: review.id
               )
             } label: {
               ProfileReviewItem(review: review, posterWidth: posterWidth)

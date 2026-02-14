@@ -103,6 +103,10 @@ enum L10n {
       beFirstToReview: "Be the first to leave your opinion",
       seeAll: "See all reviews",
       showMore: "Show more",
+      viewTitle: "View title",
+      viewProfile: "View profile",
+      movieLabel: "Movie",
+      tvShowLabel: "TV Series",
       // Movie Categories
       nowPlaying: "Now playing",
       popular: "Popular",
@@ -376,6 +380,10 @@ enum L10n {
       beFirstToReview: "Seja o primeiro a deixar sua opinião",
       seeAll: "Ver todas as avaliações",
       showMore: "Ver mais",
+      viewTitle: "Ver título",
+      viewProfile: "Ver perfil",
+      movieLabel: "Filme",
+      tvShowLabel: "Série",
       nowPlaying: "Em cartaz",
       popular: "Popular",
       topRated: "Mais bem avaliados",
@@ -641,6 +649,10 @@ enum L10n {
       beFirstToReview: "Sé el primero en dejar tu opinión",
       seeAll: "Ver todas las reseñas",
       showMore: "Ver más",
+      viewTitle: "Ver título",
+      viewProfile: "Ver perfil",
+      movieLabel: "Película",
+      tvShowLabel: "Serie",
       nowPlaying: "En cartelera",
       popular: "Popular",
       topRated: "Mejor valoradas",
@@ -906,6 +918,10 @@ enum L10n {
       beFirstToReview: "Soyez le premier à donner votre avis",
       seeAll: "Voir tous les avis",
       showMore: "Voir plus",
+      viewTitle: "Voir le titre",
+      viewProfile: "Voir le profil",
+      movieLabel: "Film",
+      tvShowLabel: "Série",
       nowPlaying: "À l'affiche",
       popular: "Populaire",
       topRated: "Mieux notés",
@@ -1171,6 +1187,10 @@ enum L10n {
       beFirstToReview: "Sei der Erste, der seine Meinung teilt",
       seeAll: "Alle Bewertungen anzeigen",
       showMore: "Mehr anzeigen",
+      viewTitle: "Titel ansehen",
+      viewProfile: "Profil ansehen",
+      movieLabel: "Film",
+      tvShowLabel: "Serie",
       nowPlaying: "Jetzt im Kino",
       popular: "Beliebt",
       topRated: "Bestbewertet",
@@ -1436,6 +1456,10 @@ enum L10n {
       beFirstToReview: "Sii il primo a lasciare la tua opinione",
       seeAll: "Vedi tutte le recensioni",
       showMore: "Mostra di più",
+      viewTitle: "Vedi titolo",
+      viewProfile: "Vedi profilo",
+      movieLabel: "Film",
+      tvShowLabel: "Serie TV",
       nowPlaying: "In sala",
       popular: "Popolari",
       topRated: "Più votati",
@@ -1700,6 +1724,10 @@ enum L10n {
       beFirstToReview: "最初にレビューを書いてください",
       seeAll: "すべてのレビューを見る",
       showMore: "もっと見る",
+      viewTitle: "タイトルを見る",
+      viewProfile: "プロフィールを見る",
+      movieLabel: "映画",
+      tvShowLabel: "テレビシリーズ",
       nowPlaying: "上映中",
       popular: "人気",
       topRated: "高評価",
@@ -1974,6 +2002,10 @@ struct Strings {
   let beFirstToReview: String
   let seeAll: String
   let showMore: String
+  let viewTitle: String
+  let viewProfile: String
+  let movieLabel: String
+  let tvShowLabel: String
   // Movie Categories
   let nowPlaying: String
   let popular: String

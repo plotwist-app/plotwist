@@ -7,6 +7,7 @@ import SwiftUI
 
 struct ReviewItemView: View {
   let review: ReviewListItem
+  var lineLimit: Int? = nil
   @State private var spoilerRevealed = false
 
   private var usernameInitial: String {
@@ -27,93 +28,88 @@ struct ReviewItemView: View {
   }
 
   var body: some View {
-    HStack(alignment: .top, spacing: 12) {
-      // Avatar
-      if let avatarUrl = review.user.avatarUrl,
-        let url = URL(string: avatarUrl)
-      {
-        CachedAsyncImage(url: url) { image in
-          image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-        } placeholder: {
-          avatarFallback
+    VStack(alignment: .leading, spacing: 0) {
+      // Row 1: Avatar + Username
+      HStack(spacing: 10) {
+        // Avatar
+        Group {
+          if let avatarUrl = review.user.avatarUrl,
+            let url = URL(string: avatarUrl)
+          {
+            CachedAsyncImage(url: url) { image in
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            } placeholder: {
+              avatarFallback
+            }
+          } else {
+            avatarFallback
+          }
         }
-        .frame(width: 40, height: 40)
+        .frame(width: 44, height: 44)
         .clipShape(Circle())
-      } else {
-        avatarFallback
+
+        Text(review.user.username)
+          .font(.subheadline.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+
+        Spacer()
       }
 
-      // Content
-      VStack(alignment: .leading, spacing: 0) {
-        // Header: Username + Time (aligned to top)
-        HStack(alignment: .top) {
-          Text(review.user.username)
-            .font(.subheadline.weight(.medium))
-            .foregroundColor(.appForegroundAdaptive)
-
-          Spacer()
-
-          Text(timeAgo)
-            .font(.caption)
-            .foregroundColor(.appMutedForegroundAdaptive)
-        }
-
-        // Rating stars (below username)
+      // Row 2: Stars + dot + Date
+      HStack(spacing: 8) {
         HStack(spacing: 2) {
           ForEach(1...5, id: \.self) { index in
             Image(systemName: ratingIcon(for: index))
-              .font(.system(size: 14))
+              .font(.system(size: 12))
               .foregroundColor(ratingColor(for: index))
           }
         }
-        .padding(.top, 4)
 
-        // Review content (below stars)
-        if !review.review.isEmpty {
-          if review.hasSpoilers && !spoilerRevealed {
-            Button {
-              withAnimation(.easeOut(duration: 0.25)) {
-                spoilerRevealed = true
-              }
-            } label: {
-              HStack(spacing: 8) {
-                Image(systemName: "eye.slash")
-                  .font(.system(size: 13, weight: .medium))
-                  .foregroundColor(.appMutedForegroundAdaptive)
+        Circle()
+          .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
+          .frame(width: 3, height: 3)
 
-                Text(L10n.current.containSpoilers)
-                  .font(.caption.weight(.medium))
-                  .foregroundColor(.appMutedForegroundAdaptive)
+        Text(timeAgo)
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .padding(.top, 10)
 
-                Spacer()
-
-                Text(L10n.current.tapToReveal)
-                  .font(.caption2)
-                  .foregroundColor(.appMutedForegroundAdaptive.opacity(0.6))
-              }
-              .padding(.horizontal, 14)
-              .padding(.vertical, 12)
-              .background(
-                RoundedRectangle(cornerRadius: 10)
-                  .fill(Color.appBorderAdaptive.opacity(0.15))
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                  .strokeBorder(Color.appBorderAdaptive.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
-              )
+      // Row 3: Review text
+      if !review.review.isEmpty {
+        if review.hasSpoilers && !spoilerRevealed {
+          Text(review.review)
+            .font(.body)
+            .foregroundColor(.appForegroundAdaptive)
+            .lineSpacing(5)
+            .lineLimit(lineLimit ?? 4)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 14)
+            .blur(radius: 6)
+            .overlay(alignment: .leading) {
+              Label(L10n.current.containSpoilers, systemImage: "eye.slash.fill")
+                .font(.caption.weight(.medium))
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.ultraThinMaterial)
+                .clipShape(Capsule())
+                .padding(.top, 14)
             }
-            .buttonStyle(.plain)
-            .padding(.top, 8)
-          } else {
-            Text(review.review)
-              .font(.subheadline)
-              .foregroundColor(.appForegroundAdaptive)
-              .lineSpacing(4)
-              .padding(.top, 8)
-              .transition(.opacity.combined(with: .blurReplace))
-          }
+            .contentShape(Rectangle())
+            .onTapGesture {
+              withAnimation(.easeOut(duration: 0.2)) { spoilerRevealed = true }
+            }
+        } else {
+          Text(review.review)
+            .font(.body)
+            .foregroundColor(.appForegroundAdaptive)
+            .lineSpacing(5)
+            .lineLimit(lineLimit)
+            .padding(.top, 14)
+            .transition(.opacity)
         }
       }
     }
@@ -123,10 +119,10 @@ struct ReviewItemView: View {
   private var avatarFallback: some View {
     Circle()
       .fill(Color.appForegroundAdaptive)
-      .frame(width: 40, height: 40)
+      .frame(width: 44, height: 44)
       .overlay(
         Text(usernameInitial)
-          .font(.subheadline.weight(.medium))
+          .font(.subheadline.weight(.semibold))
           .foregroundColor(.appBackgroundAdaptive)
       )
   }
@@ -149,6 +145,124 @@ struct ReviewItemView: View {
     } else {
       return .gray.opacity(0.3)
     }
+  }
+}
+
+// MARK: - Review Card (compact horizontal scroll card for season/episode reviews)
+struct ReviewCardView: View {
+  let review: ReviewListItem
+  @State private var spoilerRevealed = false
+
+  private var usernameInitial: String {
+    review.user.username.first?.uppercased() ?? "?"
+  }
+
+  private var timeAgo: String {
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .abbreviated
+    let dateFormatter = ISO8601DateFormatter()
+    dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    if let date = dateFormatter.date(from: review.createdAt) {
+      return formatter.localizedString(for: date, relativeTo: Date())
+    }
+    return ""
+  }
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      // Author row: avatar + name + time
+      HStack(spacing: 10) {
+        Group {
+          if let avatarUrl = review.user.avatarUrl,
+             let url = URL(string: avatarUrl)
+          {
+            CachedAsyncImage(url: url) { image in
+              image.resizable().aspectRatio(contentMode: .fill)
+            } placeholder: {
+              cardAvatarFallback
+            }
+          } else {
+            cardAvatarFallback
+          }
+        }
+        .frame(width: 32, height: 32)
+        .clipShape(Circle())
+
+        Text(review.user.username)
+          .font(.subheadline.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+
+        Spacer()
+
+        Text(timeAgo)
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+
+      // Stars
+      HStack(spacing: 2) {
+        ForEach(1...5, id: \.self) { index in
+          Image(systemName: cardRatingIcon(for: index))
+            .font(.system(size: 12))
+            .foregroundColor(cardRatingColor(for: index))
+        }
+      }
+
+      // Review text
+      if !review.review.isEmpty {
+        if review.hasSpoilers && !spoilerRevealed {
+          Text(review.review)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(3)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .blur(radius: 6)
+            .overlay(
+              Label(L10n.current.containSpoilers, systemImage: "eye.slash.fill")
+                .font(.caption.weight(.medium))
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.ultraThinMaterial)
+                .clipShape(Capsule())
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+              withAnimation(.easeOut(duration: 0.2)) { spoilerRevealed = true }
+            }
+        } else {
+          Text(review.review)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineLimit(3)
+            .lineSpacing(2)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+
+  private var cardAvatarFallback: some View {
+    Circle()
+      .fill(Color.appBorderAdaptive)
+      .overlay(
+        Text(usernameInitial)
+          .font(.caption2.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+      )
+  }
+
+  private func cardRatingIcon(for index: Int) -> String {
+    let r = review.rating
+    if Double(index) <= r { return "star.fill" }
+    if Double(index) - 0.5 <= r { return "star.leadinghalf.filled" }
+    return "star"
+  }
+
+  private func cardRatingColor(for index: Int) -> Color {
+    let r = review.rating
+    return (Double(index) <= r || Double(index) - 0.5 <= r) ? .appStarYellow : .gray.opacity(0.3)
   }
 }
 
