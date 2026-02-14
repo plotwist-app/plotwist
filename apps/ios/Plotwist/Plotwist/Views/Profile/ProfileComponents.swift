@@ -180,6 +180,8 @@ struct ProfileBadge: View {
       Text(text)
         .font(.caption)
         .foregroundColor(.appForegroundAdaptive)
+        .lineLimit(1)
+        .truncationMode(.tail)
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 6)

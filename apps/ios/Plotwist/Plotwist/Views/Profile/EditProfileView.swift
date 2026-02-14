@@ -376,6 +376,7 @@ struct EditProfileView: View {
             FlowLayout(spacing: 6) {
               ForEach(selectedProviders) { provider in
                 ProfileBadge(text: provider.providerName, logoURL: provider.logoURL)
+                  .frame(maxWidth: 160)
               }
             }
           }
