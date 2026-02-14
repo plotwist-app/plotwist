@@ -10,23 +10,15 @@ struct SearchTabView: View {
   @State private var submittedSearchText = ""
   @State private var results: [SearchResult] = []
   @State private var autocompleteSuggestions: [SearchResult] = []
-  @State private var popularMovies: [SearchResult] = []
-  @State private var popularTVSeries: [SearchResult] = []
-  @State private var popularAnimes: [SearchResult] = []
-  @State private var popularDoramas: [SearchResult] = []
   @State private var isLoading = false
   @State private var isLoadingAutocomplete = false
-  @State private var isLoadingPopular = false
-  @State private var isInitialLoad = true
   @State private var hasAppeared = false
   @State private var strings = L10n.current
   @State private var recentSearches: [String] = []
   @State private var hasSubmittedSearch = false
   @State private var autocompleteTask: Task<Void, Never>?
   @FocusState private var isSearchFieldFocused: Bool
-  @ObservedObject private var preferencesManager = UserPreferencesManager.shared
 
-  private let cache = SearchDataCache.shared
   private let recentSearchesKey = "recentSearches"
   private let maxRecentSearches = 10
 
@@ -43,7 +35,7 @@ struct SearchTabView: View {
   }
 
   private var showRecentSearches: Bool {
-    searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
+    isSearchFieldFocused && searchText.isEmpty && !recentSearches.isEmpty && !hasSubmittedSearch
   }
 
   private var showAutocomplete: Bool {
@@ -154,54 +146,20 @@ struct SearchTabView: View {
     } else {
       ScrollView {
         LazyVStack(alignment: .leading, spacing: 24) {
-          if preferencesManager.hasAnyPreference {
-            PreferencesBadge()
+          if !movies.isEmpty {
+            SearchSection(title: strings.movies, results: movies)
           }
-
-          ForEach(orderedResultSections, id: \.title) { section in
-            SearchSection(title: section.title, results: section.results)
+          if !tvSeries.isEmpty {
+            SearchSection(title: strings.tvSeries, results: tvSeries)
+          }
+          if !people.isEmpty {
+            SearchSection(title: strings.people, results: people)
           }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 24)
       }
     }
-  }
-
-  /// Orders result sections based on content type preferences.
-  private var orderedResultSections: [(title: String, results: [SearchResult])] {
-    let userContentTypes = preferencesManager.contentTypes
-    var sections: [(title: String, results: [SearchResult])] = []
-
-    if !userContentTypes.isEmpty {
-      // Add sections in preference order first
-      for type in userContentTypes {
-        switch type {
-        case .movies where !movies.isEmpty:
-          sections.append((title: strings.movies, results: movies))
-        case .series, .anime, .dorama:
-          if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
-            sections.append((title: strings.tvSeries, results: tvSeries))
-          }
-        default: break
-        }
-      }
-      // Append any missing sections
-      if !movies.isEmpty && !sections.contains(where: { $0.title == strings.movies }) {
-        sections.append((title: strings.movies, results: movies))
-      }
-      if !tvSeries.isEmpty && !sections.contains(where: { $0.title == strings.tvSeries }) {
-        sections.append((title: strings.tvSeries, results: tvSeries))
-      }
-    } else {
-      if !movies.isEmpty { sections.append((title: strings.movies, results: movies)) }
-      if !tvSeries.isEmpty { sections.append((title: strings.tvSeries, results: tvSeries)) }
-    }
-
-    // People always last
-    if !people.isEmpty { sections.append((title: strings.people, results: people)) }
-
-    return sections
   }
 
   private var recentSearchesView: some View {
@@ -269,67 +227,6 @@ struct SearchTabView: View {
     }
   }
 
-  /// Returns popular content sections ordered by user's content type preferences.
-  /// If the user selected specific content types, those appear first.
-  private var popularContentView: some View {
-    ScrollView(showsIndicators: false) {
-      VStack(spacing: 24) {
-        if preferencesManager.hasAnyPreference {
-          PreferencesBadge()
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
-        }
-
-        ForEach(orderedPopularSections, id: \.id) { section in
-          section.view
-        }
-      }
-      .padding(.bottom, 80)
-    }
-  }
-
-  /// Helper to build popular sections. Only shows categories the user selected
-  /// in content type preferences. If no preferences, shows all.
-  private var orderedPopularSections: [PopularSection] {
-    var sections: [PopularSection] = []
-
-    if !popularMovies.isEmpty {
-      sections.append(PopularSection(id: "movies") {
-        AnyView(HomeSectionView(
-          title: strings.movies, items: popularMovies,
-          mediaType: "movie", categoryType: .movies,
-          initialMovieSubcategory: .popular
-        ))
-      })
-    }
-    if !popularTVSeries.isEmpty {
-      sections.append(PopularSection(id: "tv") {
-        AnyView(HomeSectionView(
-          title: strings.tvSeries, items: popularTVSeries,
-          mediaType: "tv", categoryType: .tvSeries,
-          initialTVSeriesSubcategory: .popular
-        ))
-      })
-    }
-    if !popularAnimes.isEmpty {
-      sections.append(PopularSection(id: "anime") {
-        AnyView(HomeSectionView(
-          title: strings.animes, items: popularAnimes,
-          mediaType: "tv", categoryType: .animes
-        ))
-      })
-    }
-    if !popularDoramas.isEmpty {
-      sections.append(PopularSection(id: "dorama") {
-        AnyView(HomeSectionView(
-          title: strings.doramas, items: popularDoramas,
-          mediaType: "tv", categoryType: .doramas
-        ))
-      })
-    }
-    return sections
-  }
-
   // MARK: - Body
 
   var body: some View {
@@ -338,9 +235,7 @@ struct SearchTabView: View {
         Color.appBackgroundAdaptive.ignoresSafeArea()
 
         VStack(spacing: 0) {
-          if isLoadingPopular && isInitialLoad && cache.shouldShowSkeleton {
-            skeletonView
-          } else if isLoading && hasSubmittedSearch {
+          if isLoading && hasSubmittedSearch {
             skeletonView
           } else if showAutocomplete {
             autocompleteView
@@ -349,7 +244,7 @@ struct SearchTabView: View {
           } else if showRecentSearches {
             recentSearchesView
           } else {
-            popularContentView
+            emptySearchView
           }
         }
       }
@@ -366,16 +261,12 @@ struct SearchTabView: View {
     .onAppear {
       if !hasAppeared {
         hasAppeared = true
-        restoreFromCache()
         loadRecentSearches()
       }
       // Focus the search field whenever the tab appears
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         isSearchFieldFocused = true
       }
-    }
-    .task {
-      await loadPopularContent()
     }
     .onChange(of: searchText) { newValue in
       // Reset submitted state when user changes the text
@@ -401,155 +292,22 @@ struct SearchTabView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
-      Task {
-        await loadPopularContent(forceRefresh: true)
-      }
-    }
-    .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
-      Task {
-        // Wait for UserPreferencesManager to reload updated preferences
-        await preferencesManager.loadPreferences()
-        cache.clearCache()
-        await loadPopularContent(forceRefresh: true)
-      }
-    }
-    .onReceive(NotificationCenter.default.publisher(for: .searchDataCacheInvalidated)) { _ in
-      Task {
-        await loadPopularContent(forceRefresh: true)
-      }
     }
   }
 
-  private func restoreFromCache() {
-    if let cachedMovies = cache.popularMovies {
-      popularMovies = cachedMovies
+  // MARK: - Empty Search View
+  private var emptySearchView: some View {
+    VStack(spacing: 12) {
+      Spacer()
+      Image(systemName: "magnifyingglass")
+        .font(.system(size: 36))
+        .foregroundColor(.appMutedForegroundAdaptive.opacity(0.5))
+      Text(strings.searchPlaceholder)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      Spacer()
     }
-    if let cachedTVSeries = cache.popularTVSeries {
-      popularTVSeries = cachedTVSeries
-    }
-    if let cachedAnimes = cache.popularAnimes {
-      popularAnimes = cachedAnimes
-    }
-    if let cachedDoramas = cache.popularDoramas {
-      popularDoramas = cachedDoramas
-    }
-  }
-
-  private func loadPopularContent(forceRefresh: Bool = false) async {
-    // Check if preferences changed
-    let contentTypesStr = preferencesManager.contentTypes.map { $0.rawValue }.sorted().joined()
-    let genreIdsStr = preferencesManager.genreIds.sorted().map { String($0) }.joined()
-    let currentPreferencesHash = "\(preferencesManager.watchRegion ?? "")-\(preferencesManager.watchProvidersString)-\(contentTypesStr)-\(genreIdsStr)"
-    cache.setPreferencesHash(currentPreferencesHash)
-
-    // Use cache if available and not forcing refresh
-    if !forceRefresh && cache.isDataAvailable {
-      restoreFromCache()
-      isInitialLoad = false
-      return
-    }
-
-    isLoadingPopular = true
-    defer {
-      isLoadingPopular = false
-      isInitialLoad = false
-    }
-
-    let language = Language.current.rawValue
-    let watchRegion = preferencesManager.watchRegion
-    let watchProviders =
-      preferencesManager.hasStreamingServices ? preferencesManager.watchProvidersString : nil
-    let userContentTypes = preferencesManager.contentTypes
-    let userGenreIds = preferencesManager.genreIds
-    let genresString = userGenreIds.isEmpty ? nil : userGenreIds.map { String($0) }.joined(separator: "|")
-    let hasFilters = preferencesManager.hasStreamingServices || !userGenreIds.isEmpty
-
-    // Determine which categories to load based on content type preferences
-    let shouldLoadMovies = userContentTypes.isEmpty || userContentTypes.contains(.movies)
-    let shouldLoadSeries = userContentTypes.isEmpty || userContentTypes.contains(.series)
-    let shouldLoadAnimes = userContentTypes.isEmpty || userContentTypes.contains(.anime)
-    let shouldLoadDoramas = userContentTypes.isEmpty || userContentTypes.contains(.dorama)
-
-    // Clear categories that are no longer relevant
-    if !shouldLoadMovies { popularMovies = []; cache.setPopularMovies([]) }
-    if !shouldLoadSeries { popularTVSeries = []; cache.setPopularTVSeries([]) }
-    if !shouldLoadAnimes { popularAnimes = []; cache.setPopularAnimes([]) }
-    if !shouldLoadDoramas { popularDoramas = []; cache.setPopularDoramas([]) }
-
-    do {
-      await withThrowingTaskGroup(of: Void.self) { group in
-        if shouldLoadMovies {
-          group.addTask {
-            let result = if hasFilters {
-              try await TMDBService.shared.discoverMovies(
-                language: language, watchRegion: watchRegion,
-                withWatchProviders: watchProviders, withGenres: genresString
-              )
-            } else {
-              try await TMDBService.shared.getPopularMovies(language: language)
-            }
-            await MainActor.run {
-              popularMovies = result.results
-              cache.setPopularMovies(result.results)
-            }
-          }
-        }
-
-        if shouldLoadSeries {
-          group.addTask {
-            let result = if hasFilters {
-              try await TMDBService.shared.discoverTV(
-                language: language, watchRegion: watchRegion,
-                withWatchProviders: watchProviders, withGenres: genresString
-              )
-            } else {
-              try await TMDBService.shared.getPopularTVSeries(language: language)
-            }
-            await MainActor.run {
-              popularTVSeries = result.results
-              cache.setPopularTVSeries(result.results)
-            }
-          }
-        }
-
-        if shouldLoadAnimes {
-          group.addTask {
-            let result = if hasFilters {
-              try await TMDBService.shared.discoverAnimes(
-                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
-              )
-            } else {
-              try await TMDBService.shared.getPopularAnimes(language: language)
-            }
-            await MainActor.run {
-              popularAnimes = result.results
-              cache.setPopularAnimes(result.results)
-            }
-          }
-        }
-
-        if shouldLoadDoramas {
-          group.addTask {
-            let result = if hasFilters {
-              try await TMDBService.shared.discoverDoramas(
-                language: language, watchRegion: watchRegion, withWatchProviders: watchProviders
-              )
-            } else {
-              try await TMDBService.shared.getPopularDoramas(language: language)
-            }
-            await MainActor.run {
-              popularDoramas = result.results
-              cache.setPopularDoramas(result.results)
-            }
-          }
-        }
-      }
-    } catch {
-      popularMovies = []
-      popularTVSeries = []
-      popularAnimes = []
-      popularDoramas = []
-    }
+    .frame(maxWidth: .infinity)
   }
 
   private func submitSearch(query: String) {
@@ -602,7 +360,7 @@ struct SearchTabView: View {
         query: query,
         language: Language.current.rawValue
       )
-      results = rankResultsByPreferences(response.results)
+      results = response.results
       
       // Track search event
       AnalyticsService.shared.track(.searchPerformed(query: query, resultsCount: response.results.count))
@@ -614,51 +372,6 @@ struct SearchTabView: View {
     } catch {
       results = []
     }
-  }
-
-  /// Ranks search results so items matching user preferences appear first.
-  /// Considers content type and genre preferences.
-  private func rankResultsByPreferences(_ items: [SearchResult]) -> [SearchResult] {
-    let userContentTypes = preferencesManager.contentTypes
-    let userGenreIds = Set(preferencesManager.genreIds)
-
-    // If no preferences, return as-is
-    guard !userContentTypes.isEmpty || !userGenreIds.isEmpty else { return items }
-
-    let preferredMediaTypes = Set(userContentTypes.map { type -> String in
-      switch type {
-      case .movies: return "movie"
-      case .series, .anime, .dorama: return "tv"
-      }
-    })
-
-    return items.sorted { a, b in
-      let scoreA = relevanceScore(for: a, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
-      let scoreB = relevanceScore(for: b, preferredMediaTypes: preferredMediaTypes, userGenreIds: userGenreIds)
-      return scoreA > scoreB
-    }
-  }
-
-  /// Calculates a relevance score for a search result based on user preferences.
-  private func relevanceScore(
-    for item: SearchResult,
-    preferredMediaTypes: Set<String>,
-    userGenreIds: Set<Int>
-  ) -> Int {
-    var score = 0
-
-    // Boost for matching media type
-    if let mediaType = item.mediaType, preferredMediaTypes.contains(mediaType) {
-      score += 2
-    }
-
-    // Boost for matching genres
-    if let genreIds = item.genreIds {
-      let matchCount = Set(genreIds).intersection(userGenreIds).count
-      score += matchCount
-    }
-
-    return score
   }
 
   // MARK: - Recent Searches
@@ -697,13 +410,6 @@ struct SearchTabView: View {
       UserDefaults.standard.removeObject(forKey: recentSearchesKey)
     }
   }
-}
-
-// MARK: - Popular Section Helper
-struct PopularSection: Identifiable {
-  let id: String
-  let viewBuilder: () -> AnyView
-  var view: AnyView { viewBuilder() }
 }
 
 // MARK: - Search Section

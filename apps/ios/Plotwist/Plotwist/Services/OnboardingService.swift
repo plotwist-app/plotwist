@@ -100,28 +100,28 @@ struct OnboardingGenre: Identifiable, Codable, Hashable {
     OnboardingGenre(id: 16, name: "Animation"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 80, name: "Crime"),
+    OnboardingGenre(id: 99, name: "Documentary"),
     OnboardingGenre(id: 18, name: "Drama"),
+    OnboardingGenre(id: 10751, name: "Family"),
+    OnboardingGenre(id: 9648, name: "Mystery"),
+    OnboardingGenre(id: 10764, name: "Reality"),
     OnboardingGenre(id: 10765, name: "Sci-Fi & Fantasy"),
     OnboardingGenre(id: 10768, name: "War & Politics"),
-    OnboardingGenre(id: 9648, name: "Mystery"),
-    OnboardingGenre(id: 10751, name: "Family"),
-    OnboardingGenre(id: 10764, name: "Reality"),
+    OnboardingGenre(id: 37, name: "Western"),
   ]
   
   static let animeGenres: [OnboardingGenre] = [
     OnboardingGenre(id: 16, name: "Animation"),
-    OnboardingGenre(id: 10759, name: "Action"),
+    OnboardingGenre(id: 10759, name: "Action & Adventure"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 18, name: "Drama"),
-    OnboardingGenre(id: 10765, name: "Fantasy"),
-    OnboardingGenre(id: 10749, name: "Romance"),
-    OnboardingGenre(id: 878, name: "Sci-Fi"),
+    OnboardingGenre(id: 10765, name: "Sci-Fi & Fantasy"),
     OnboardingGenre(id: 9648, name: "Mystery"),
+    OnboardingGenre(id: 10751, name: "Family"),
   ]
   
   static let doramaGenres: [OnboardingGenre] = [
     OnboardingGenre(id: 18, name: "Drama"),
-    OnboardingGenre(id: 10749, name: "Romance"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 10759, name: "Action & Adventure"),
     OnboardingGenre(id: 9648, name: "Mystery"),

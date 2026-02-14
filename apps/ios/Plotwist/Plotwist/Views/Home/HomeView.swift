@@ -34,13 +34,13 @@ struct HomeView: View {
         Image(systemName: "house.fill")
       }
 
-      #if DEBUG
       Tab(value: 1) {
         DiscoverTabView()
       } label: {
         Image(systemName: "sparkles")
       }
 
+      #if DEBUG
       Tab(value: 2) {
         TrailsTabView()
       } label: {

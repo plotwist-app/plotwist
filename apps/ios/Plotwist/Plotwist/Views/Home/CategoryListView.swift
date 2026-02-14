@@ -164,6 +164,8 @@ struct CategoryListView: View {
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var hasAppliedInitialSubcategory = false
+  @State private var showPreferences = false
+  @State private var streamingProviders: [StreamingProvider] = []
 
   private var title: String {
     switch categoryType {
@@ -208,14 +210,12 @@ struct CategoryListView: View {
           .padding(.horizontal, 24)
           .padding(.vertical, 24)
         } else {
-          // Preferences Badge
-          HStack {
-            PreferencesBadge()
-            Spacer()
+          // Filter pills
+          if preferencesManager.hasAnyPreference {
+            categoryFilterChips
+              .padding(.top, 12)
+              .padding(.bottom, 16)
           }
-          .padding(.horizontal, 24)
-          .padding(.top, 16)
-          .padding(.bottom, 16)
 
           LazyVGrid(columns: columns, spacing: 16) {
             ForEach(gridItems) { item in
@@ -251,6 +251,140 @@ struct CategoryListView: View {
     }
     .background(Color.appBackgroundAdaptive)
     .contentTransition(.identity)
+  }
+
+  // MARK: - Filter Chips (no content types, only genres + region/streaming)
+
+  private var categorySelectedProviders: [StreamingProvider] {
+    let ids = preferencesManager.watchProvidersIds
+    return streamingProviders.filter { ids.contains($0.providerId) }
+  }
+
+  private var categoryGenreSummary: String? {
+    let genres = preferencesManager.genreIds
+    guard !genres.isEmpty else { return nil }
+    let names = genres.prefix(3).map { OnboardingGenre(id: $0, name: "").name }
+    var text = names.joined(separator: ", ")
+    if genres.count > 3 { text += " +\(genres.count - 3)" }
+    return text
+  }
+
+  private var categoryFilterChips: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 8) {
+        // Edit button
+        Button { showPreferences = true } label: {
+          Image(systemName: "slider.horizontal.3")
+            .font(.system(size: 12))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .padding(.horizontal, 12)
+            .frame(height: 34)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
+        }
+
+        // Genres pill
+        if let genreText = categoryGenreSummary {
+          Button { showPreferences = true } label: {
+            Text(genreText)
+              .font(.footnote.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+              .padding(.horizontal, 12)
+              .frame(height: 34)
+              .background(Color.appInputFilled)
+              .clipShape(Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+
+        // Region + Streaming pill
+        if preferencesManager.watchRegion != nil || !categorySelectedProviders.isEmpty {
+          Button { showPreferences = true } label: {
+            HStack(spacing: 8) {
+              if let region = preferencesManager.watchRegion {
+                HStack(spacing: 4) {
+                  Text(flagEmoji(for: region))
+                    .font(.system(size: 14))
+                  Text(regionName(for: region))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+              }
+
+              if preferencesManager.watchRegion != nil && !categorySelectedProviders.isEmpty {
+                Rectangle()
+                  .fill(Color.appBackgroundAdaptive)
+                  .frame(width: 1.5)
+              }
+
+              if !categorySelectedProviders.isEmpty {
+                HStack(spacing: -8) {
+                  ForEach(Array(categorySelectedProviders.prefix(5).enumerated()), id: \.element.id) { index, provider in
+                    CachedAsyncImage(url: provider.logoURL) { image in
+                      image.resizable().aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                      RoundedRectangle(cornerRadius: 6).fill(Color.appBorderAdaptive)
+                    }
+                    .frame(width: 24, height: 24)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .overlay(
+                      RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.appInputFilled, lineWidth: 1.5)
+                    )
+                    .zIndex(Double(categorySelectedProviders.count - index))
+                  }
+                }
+
+                if categorySelectedProviders.count > 5 {
+                  Text("+\(categorySelectedProviders.count - 5)")
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                }
+              }
+            }
+            .padding(.horizontal, 12)
+            .frame(height: 34)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+      }
+      .padding(.horizontal, 24)
+    }
+    .scrollClipDisabled()
+    .sheet(isPresented: $showPreferences) {
+      PreferencesQuickSheet()
+    }
+  }
+
+  private func regionName(for code: String) -> String {
+    let locale = Locale(identifier: Language.current.rawValue)
+    return locale.localizedString(forRegionCode: code) ?? code
+  }
+
+  private func flagEmoji(for code: String) -> String {
+    let base: UInt32 = 127397
+    var emoji = ""
+    for scalar in code.uppercased().unicodeScalars {
+      if let unicode = UnicodeScalar(base + scalar.value) {
+        emoji.append(String(unicode))
+      }
+    }
+    return emoji
+  }
+
+  private func loadCategoryStreamingProviders() async {
+    guard let region = preferencesManager.watchRegion,
+          !preferencesManager.watchProvidersIds.isEmpty else { return }
+    do {
+      streamingProviders = try await TMDBService.shared.getStreamingProviders(
+        watchRegion: region,
+        language: Language.current.rawValue
+      )
+    } catch {
+      streamingProviders = []
+    }
   }
 
   var body: some View {
@@ -353,6 +487,13 @@ struct CategoryListView: View {
         hasAppliedInitialSubcategory = true
       }
       await loadItems()
+      await loadCategoryStreamingProviders()
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      Task {
+        await loadItems()
+        await loadCategoryStreamingProviders()
+      }
     }
   }
   

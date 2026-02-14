@@ -9,6 +9,7 @@ struct PreferencesBadge: View {
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var strings = L10n.current
   @State private var showPreferences = false
+  @State private var badgeLabel: String = ""
 
   var body: some View {
     if preferencesManager.hasAnyPreference {
@@ -17,15 +18,21 @@ struct PreferencesBadge: View {
       } label: {
         HStack(spacing: 10) {
           // Icon
-          Image(systemName: "slider.horizontal.3")
-            .font(.system(size: 13, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
+          Image(systemName: "sparkles")
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundColor(.appForegroundAdaptive)
 
-          // Summary text
-          Text(preferencesSummary)
-            .font(.system(size: 13))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .lineLimit(1)
+          // Label + summary
+          VStack(alignment: .leading, spacing: 2) {
+            Text(badgeLabel)
+              .font(.system(size: 12, weight: .semibold))
+              .foregroundColor(.appForegroundAdaptive)
+
+            Text(preferencesSummary)
+              .font(.system(size: 11))
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .lineLimit(1)
+          }
 
           Spacer()
 
@@ -43,10 +50,19 @@ struct PreferencesBadge: View {
       .sheet(isPresented: $showPreferences) {
         PreferencesQuickSheet()
       }
+      .onAppear {
+        pickRandomLabel()
+      }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
+        pickRandomLabel()
       }
     }
+  }
+
+  private func pickRandomLabel() {
+    let variations = strings.preferenceBadgeVariations
+    badgeLabel = variations.randomElement() ?? strings.resultsBasedOnPreferences
   }
 
   /// Builds a compact, readable summary like "Movies, Series · Action, Comedy +2"
@@ -735,6 +751,7 @@ struct ServicesPickerSheet: View {
         .background(Color.appInputFilled)
         .cornerRadius(12)
         .padding(.horizontal, 24)
+        .padding(.top, 16)
         .padding(.bottom, 16)
 
         // Hint message

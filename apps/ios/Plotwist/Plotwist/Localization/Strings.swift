@@ -161,6 +161,18 @@ enum L10n {
       servicesSelected: "%d selected",
       streamingServicesHint: "Showing services available in your selected region.",
       resultsBasedOnPreferences: "Results based on your preferences",
+      preferenceBadgeVariations: [
+        "Curated for you",
+        "Based on your taste",
+        "Personalized picks",
+        "Tailored to you",
+        "Your preferences",
+        "Picked for you",
+        "Matches your profile",
+        "For you",
+        "Based on what you like",
+        "Selected for you"
+      ],
       collection: "Collection",
       reviews: "Reviews",
       profileNoReviewsTitle: "No reviews yet",
@@ -440,6 +452,18 @@ enum L10n {
       servicesSelected: "%d selecionados",
       streamingServicesHint: "Exibindo serviços disponíveis na região selecionada.",
       resultsBasedOnPreferences: "Resultados baseados nas suas preferências",
+      preferenceBadgeVariations: [
+        "Curadoria pra você",
+        "Baseado no seu gosto",
+        "Picks personalizados",
+        "Feito sob medida",
+        "Suas preferências",
+        "Escolhidos pra você",
+        "Combina com seu perfil",
+        "Pra você",
+        "Baseado no que você curte",
+        "Selecionados pra você"
+      ],
       collection: "Coleção",
       reviews: "Reviews",
       profileNoReviewsTitle: "Nenhuma review ainda",
@@ -719,6 +743,18 @@ enum L10n {
       servicesSelected: "%d seleccionados",
       streamingServicesHint: "Mostrando servicios disponibles en la región seleccionada.",
       resultsBasedOnPreferences: "Resultados según tus preferencias",
+      preferenceBadgeVariations: [
+        "Selección para ti",
+        "Según tu gusto",
+        "Picks personalizados",
+        "A tu medida",
+        "Tus preferencias",
+        "Elegidos para ti",
+        "Coincide con tu perfil",
+        "Para ti",
+        "Según lo que te gusta",
+        "Seleccionados para ti"
+      ],
       collection: "Colección",
       reviews: "Reseñas",
       profileNoReviewsTitle: "Sin reseñas todavía",
@@ -998,6 +1034,18 @@ enum L10n {
       servicesSelected: "%d sélectionnés",
       streamingServicesHint: "Affichage des services disponibles dans la région sélectionnée.",
       resultsBasedOnPreferences: "Résultats basés sur vos préférences",
+      preferenceBadgeVariations: [
+        "Sélection pour vous",
+        "Selon vos goûts",
+        "Picks personnalisés",
+        "Sur mesure pour vous",
+        "Vos préférences",
+        "Choisis pour vous",
+        "Correspond à votre profil",
+        "Pour vous",
+        "Basé sur ce que vous aimez",
+        "Sélectionnés pour vous"
+      ],
       collection: "Collection",
       reviews: "Critiques",
       profileNoReviewsTitle: "Aucune critique pour l'instant",
@@ -1277,6 +1325,18 @@ enum L10n {
       servicesSelected: "%d ausgewählt",
       streamingServicesHint: "Zeigt Dienste an, die in der ausgewählten Region verfügbar sind.",
       resultsBasedOnPreferences: "Ergebnisse basierend auf Ihren Präferenzen",
+      preferenceBadgeVariations: [
+        "Für Sie kuratiert",
+        "Nach Ihrem Geschmack",
+        "Personalisierte Auswahl",
+        "Auf Sie zugeschnitten",
+        "Ihre Präferenzen",
+        "Für Sie ausgewählt",
+        "Passt zu Ihrem Profil",
+        "Für Sie",
+        "Basierend auf Ihrem Geschmack",
+        "Ausgewählt für Sie"
+      ],
       collection: "Sammlung",
       reviews: "Bewertungen",
       profileNoReviewsTitle: "Noch keine Bewertungen",
@@ -1556,6 +1616,18 @@ enum L10n {
       servicesSelected: "%d selezionati",
       streamingServicesHint: "Mostra i servizi disponibili nella regione selezionata.",
       resultsBasedOnPreferences: "Risultati basati sulle tue preferenze",
+      preferenceBadgeVariations: [
+        "Selezionati per te",
+        "In base ai tuoi gusti",
+        "Scelte personalizzate",
+        "Su misura per te",
+        "Le tue preferenze",
+        "Scelti per te",
+        "In linea con il tuo profilo",
+        "Per te",
+        "In base a ciò che ti piace",
+        "Selezionati apposta per te"
+      ],
       collection: "Collezione",
       reviews: "Recensioni",
       profileNoReviewsTitle: "Nessuna recensione ancora",
@@ -1834,6 +1906,18 @@ enum L10n {
       servicesSelected: "%d 件選択",
       streamingServicesHint: "選択した地域で利用可能なサービスを表示しています。",
       resultsBasedOnPreferences: "設定に基づいた結果",
+      preferenceBadgeVariations: [
+        "あなたのために厳選",
+        "好みに基づいて",
+        "パーソナライズされた選択",
+        "あなた向けにカスタマイズ",
+        "あなたの好み",
+        "あなたのために選択",
+        "プロフィールに合致",
+        "あなたへ",
+        "好きなものに基づいて",
+        "あなたのためにセレクト"
+      ],
       collection: "コレクション",
       reviews: "レビュー",
       profileNoReviewsTitle: "まだレビューがありません",
@@ -2131,6 +2215,7 @@ struct Strings {
   let servicesSelected: String
   let streamingServicesHint: String
   let resultsBasedOnPreferences: String
+  let preferenceBadgeVariations: [String]
   // Profile Tabs
   let collection: String
   let reviews: String
