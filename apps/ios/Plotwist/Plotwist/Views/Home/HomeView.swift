@@ -34,6 +34,7 @@ struct HomeView: View {
         Image(systemName: "house.fill")
       }
 
+      #if DEBUG
       Tab(value: 1) {
         DiscoverTabView()
       } label: {
@@ -45,6 +46,7 @@ struct HomeView: View {
       } label: {
         Image(systemName: "map")
       }
+      #endif
 
       Tab(value: 3) {
         ProfileTabView()

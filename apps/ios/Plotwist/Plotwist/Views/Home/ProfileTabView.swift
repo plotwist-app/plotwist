@@ -86,15 +86,12 @@ struct ProfileTabView: View {
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var hasAppeared = false
+  @State private var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
   private let scrollThreshold: CGFloat = 80
-  
-  private var isGuestMode: Bool {
-    !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
-  }
 
   private var isScrolled: Bool {
     guard let initial = initialScrollOffset else { return false }
@@ -128,7 +125,7 @@ struct ProfileTabView: View {
           }
         }
       }
-      .task {
+      .task(id: isGuestMode) {
         if !isGuestMode {
           await loadData()
         }
@@ -146,6 +143,9 @@ struct ProfileTabView: View {
         }
       }
       .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
+        // Update guest mode state reactively
+        isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+        
         if AuthService.shared.isAuthenticated {
           // User just logged in — reload profile data
           Task { await loadData() }
