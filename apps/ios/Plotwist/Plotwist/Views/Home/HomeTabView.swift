@@ -170,6 +170,7 @@ struct HomeTabView: View {
                 avatarURL: user?.avatarImageURL,
                 isLoading: showUserSkeleton && !isGuestMode,
                 isGuestMode: isGuestMode,
+                hasDisplayName: user?.displayName?.isEmpty == false,
                 onAvatarTapped: {
                   NotificationCenter.default.post(name: .navigateToProfile, object: nil)
                 },

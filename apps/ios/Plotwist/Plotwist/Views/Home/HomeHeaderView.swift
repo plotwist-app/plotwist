@@ -11,6 +11,7 @@ struct HomeHeaderView: View {
   let avatarURL: URL?
   let isLoading: Bool
   var isGuestMode: Bool = false
+  var hasDisplayName: Bool = false
   var onAvatarTapped: (() -> Void)?
   var onAvatarLongPressed: (() -> Void)?
 
@@ -21,20 +22,20 @@ struct HomeHeaderView: View {
           .fill(Color.appBorderAdaptive)
           .frame(width: 180, height: 24)
       } else if let username {
-        if isGuestMode {
-          // Guest mode: show name without @ prefix
+        if isGuestMode || hasDisplayName {
+          // Show name without @ prefix, same color
           (Text("\(greeting), ")
             .font(.title2.bold())
             .foregroundColor(.appForegroundAdaptive)
-            + Text(username)
+            + Text("\(username)!")
             .font(.title2.bold())
-            .foregroundColor(.appMutedForegroundAdaptive))
+            .foregroundColor(.appForegroundAdaptive))
         } else {
-          // Authenticated: show @username
+          // Fallback to @username with muted color
           (Text("\(greeting), ")
             .font(.title2.bold())
             .foregroundColor(.appForegroundAdaptive)
-            + Text("@\(username)")
+            + Text("@\(username)!")
             .font(.title2.bold())
             .foregroundColor(.appMutedForegroundAdaptive))
         }
