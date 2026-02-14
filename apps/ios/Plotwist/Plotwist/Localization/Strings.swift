@@ -103,10 +103,6 @@ enum L10n {
       beFirstToReview: "Be the first to leave your opinion",
       seeAll: "See all reviews",
       showMore: "Show more",
-      viewTitle: "View title",
-      viewProfile: "View profile",
-      movieLabel: "Movie",
-      tvShowLabel: "TV Series",
       // Movie Categories
       nowPlaying: "Now playing",
       popular: "Popular",
@@ -289,8 +285,20 @@ enum L10n {
       topRatedAnimes: "Top rated animes",
       topRatedDoramas: "Top rated doramas",
       featured: "Featured",
-      trails: "Trails",
-      comingSoon: "Coming soon"
+      // Feedback
+      feedbackTitle: "Help & Feedback",
+      feedbackReportProblem: "Report a problem",
+      feedbackSuggestImprovement: "Suggest improvement",
+      feedbackTypeLabel: "Type",
+      feedbackTypeBug: "Bug / Problem",
+      feedbackTypeIdea: "Idea / Suggestion",
+      feedbackDescriptionLabel: "Description",
+      feedbackDescriptionPlaceholder: "Describe what happened or what you'd like to see...",
+      feedbackScreenshotLabel: "Screenshot",
+      feedbackAddScreenshot: "Add screenshot",
+      feedbackSubmit: "Submit",
+      feedbackSubmitSuccess: "Thank you for your feedback!",
+      feedbackHelpTitle: "Help"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -382,10 +390,6 @@ enum L10n {
       beFirstToReview: "Seja o primeiro a deixar sua opinião",
       seeAll: "Ver todas as avaliações",
       showMore: "Ver mais",
-      viewTitle: "Ver título",
-      viewProfile: "Ver perfil",
-      movieLabel: "Filme",
-      tvShowLabel: "Série",
       nowPlaying: "Em cartaz",
       popular: "Popular",
       topRated: "Mais bem avaliados",
@@ -560,8 +564,20 @@ enum L10n {
       topRatedAnimes: "Animes mais bem avaliados",
       topRatedDoramas: "Doramas mais bem avaliados",
       featured: "Destaque",
-      trails: "Trilhas",
-      comingSoon: "Em breve"
+      // Feedback
+      feedbackTitle: "Ajuda e Feedback",
+      feedbackReportProblem: "Reportar um problema",
+      feedbackSuggestImprovement: "Sugerir melhoria",
+      feedbackTypeLabel: "Tipo",
+      feedbackTypeBug: "Bug / Problema",
+      feedbackTypeIdea: "Ideia / Sugestão",
+      feedbackDescriptionLabel: "Descrição",
+      feedbackDescriptionPlaceholder: "Descreva o que aconteceu ou o que gostaria de ver...",
+      feedbackScreenshotLabel: "Captura de tela",
+      feedbackAddScreenshot: "Adicionar captura",
+      feedbackSubmit: "Enviar",
+      feedbackSubmitSuccess: "Obrigado pelo seu feedback!",
+      feedbackHelpTitle: "Ajuda"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -653,10 +669,6 @@ enum L10n {
       beFirstToReview: "Sé el primero en dejar tu opinión",
       seeAll: "Ver todas las reseñas",
       showMore: "Ver más",
-      viewTitle: "Ver título",
-      viewProfile: "Ver perfil",
-      movieLabel: "Película",
-      tvShowLabel: "Serie",
       nowPlaying: "En cartelera",
       popular: "Popular",
       topRated: "Mejor valoradas",
@@ -831,8 +843,20 @@ enum L10n {
       topRatedAnimes: "Animes mejor valorados",
       topRatedDoramas: "Doramas mejor valorados",
       featured: "Destacado",
-      trails: "Senderos",
-      comingSoon: "Próximamente"
+      // Feedback
+      feedbackTitle: "Ayuda y Comentarios",
+      feedbackReportProblem: "Reportar un problema",
+      feedbackSuggestImprovement: "Sugerir mejora",
+      feedbackTypeLabel: "Tipo",
+      feedbackTypeBug: "Bug / Problema",
+      feedbackTypeIdea: "Idea / Sugerencia",
+      feedbackDescriptionLabel: "Descripción",
+      feedbackDescriptionPlaceholder: "Describe lo que pasó o lo que te gustaría ver...",
+      feedbackScreenshotLabel: "Captura de pantalla",
+      feedbackAddScreenshot: "Agregar captura",
+      feedbackSubmit: "Enviar",
+      feedbackSubmitSuccess: "¡Gracias por tu feedback!",
+      feedbackHelpTitle: "Ayuda"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -924,10 +948,6 @@ enum L10n {
       beFirstToReview: "Soyez le premier à donner votre avis",
       seeAll: "Voir tous les avis",
       showMore: "Voir plus",
-      viewTitle: "Voir le titre",
-      viewProfile: "Voir le profil",
-      movieLabel: "Film",
-      tvShowLabel: "Série",
       nowPlaying: "À l'affiche",
       popular: "Populaire",
       topRated: "Mieux notés",
@@ -1102,8 +1122,20 @@ enum L10n {
       topRatedAnimes: "Animes les mieux notés",
       topRatedDoramas: "Doramas les mieux notés",
       featured: "À la une",
-      trails: "Parcours",
-      comingSoon: "Bientôt disponible"
+      // Feedback
+      feedbackTitle: "Aide et Retours",
+      feedbackReportProblem: "Signaler un problème",
+      feedbackSuggestImprovement: "Suggérer une amélioration",
+      feedbackTypeLabel: "Type",
+      feedbackTypeBug: "Bug / Problème",
+      feedbackTypeIdea: "Idée / Suggestion",
+      feedbackDescriptionLabel: "Description",
+      feedbackDescriptionPlaceholder: "Décrivez ce qui s'est passé ou ce que vous aimeriez voir...",
+      feedbackScreenshotLabel: "Capture d'écran",
+      feedbackAddScreenshot: "Ajouter une capture",
+      feedbackSubmit: "Envoyer",
+      feedbackSubmitSuccess: "Merci pour vos retours !",
+      feedbackHelpTitle: "Aide"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1195,10 +1227,6 @@ enum L10n {
       beFirstToReview: "Sei der Erste, der seine Meinung teilt",
       seeAll: "Alle Bewertungen anzeigen",
       showMore: "Mehr anzeigen",
-      viewTitle: "Titel ansehen",
-      viewProfile: "Profil ansehen",
-      movieLabel: "Film",
-      tvShowLabel: "Serie",
       nowPlaying: "Jetzt im Kino",
       popular: "Beliebt",
       topRated: "Bestbewertet",
@@ -1373,8 +1401,20 @@ enum L10n {
       topRatedAnimes: "Bestbewertete Animes",
       topRatedDoramas: "Bestbewertete Doramas",
       featured: "Empfohlen",
-      trails: "Pfade",
-      comingSoon: "Demnächst"
+      // Feedback
+      feedbackTitle: "Hilfe & Feedback",
+      feedbackReportProblem: "Problem melden",
+      feedbackSuggestImprovement: "Verbesserung vorschlagen",
+      feedbackTypeLabel: "Typ",
+      feedbackTypeBug: "Bug / Problem",
+      feedbackTypeIdea: "Idee / Vorschlag",
+      feedbackDescriptionLabel: "Beschreibung",
+      feedbackDescriptionPlaceholder: "Beschreiben Sie, was passiert ist oder was Sie sehen möchten...",
+      feedbackScreenshotLabel: "Screenshot",
+      feedbackAddScreenshot: "Screenshot hinzufügen",
+      feedbackSubmit: "Absenden",
+      feedbackSubmitSuccess: "Vielen Dank für Ihr Feedback!",
+      feedbackHelpTitle: "Hilfe"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1466,10 +1506,6 @@ enum L10n {
       beFirstToReview: "Sii il primo a lasciare la tua opinione",
       seeAll: "Vedi tutte le recensioni",
       showMore: "Mostra di più",
-      viewTitle: "Vedi titolo",
-      viewProfile: "Vedi profilo",
-      movieLabel: "Film",
-      tvShowLabel: "Serie TV",
       nowPlaying: "In sala",
       popular: "Popolari",
       topRated: "Più votati",
@@ -1644,8 +1680,20 @@ enum L10n {
       topRatedAnimes: "Anime più votati",
       topRatedDoramas: "Dorama più votati",
       featured: "In evidenza",
-      trails: "Percorsi",
-      comingSoon: "Prossimamente"
+      // Feedback
+      feedbackTitle: "Aiuto e Feedback",
+      feedbackReportProblem: "Segnala un problema",
+      feedbackSuggestImprovement: "Suggerisci un miglioramento",
+      feedbackTypeLabel: "Tipo",
+      feedbackTypeBug: "Bug / Problema",
+      feedbackTypeIdea: "Idea / Suggerimento",
+      feedbackDescriptionLabel: "Descrizione",
+      feedbackDescriptionPlaceholder: "Descrivi cosa è successo o cosa vorresti vedere...",
+      feedbackScreenshotLabel: "Screenshot",
+      feedbackAddScreenshot: "Aggiungi screenshot",
+      feedbackSubmit: "Invia",
+      feedbackSubmitSuccess: "Grazie per il tuo feedback!",
+      feedbackHelpTitle: "Aiuto"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1736,10 +1784,6 @@ enum L10n {
       beFirstToReview: "最初にレビューを書いてください",
       seeAll: "すべてのレビューを見る",
       showMore: "もっと見る",
-      viewTitle: "タイトルを見る",
-      viewProfile: "プロフィールを見る",
-      movieLabel: "映画",
-      tvShowLabel: "テレビシリーズ",
       nowPlaying: "上映中",
       popular: "人気",
       topRated: "高評価",
@@ -1914,8 +1958,20 @@ enum L10n {
       topRatedAnimes: "高評価のアニメ",
       topRatedDoramas: "高評価のドラマ",
       featured: "注目",
-      trails: "トレイル",
-      comingSoon: "近日公開"
+      // Feedback
+      feedbackTitle: "ヘルプとフィードバック",
+      feedbackReportProblem: "問題を報告",
+      feedbackSuggestImprovement: "改善を提案",
+      feedbackTypeLabel: "タイプ",
+      feedbackTypeBug: "バグ / 問題",
+      feedbackTypeIdea: "アイデア / 提案",
+      feedbackDescriptionLabel: "説明",
+      feedbackDescriptionPlaceholder: "何が起きたか、または何を見たいかを説明してください...",
+      feedbackScreenshotLabel: "スクリーンショット",
+      feedbackAddScreenshot: "スクリーンショットを追加",
+      feedbackSubmit: "送信",
+      feedbackSubmitSuccess: "フィードバックありがとうございます！",
+      feedbackHelpTitle: "ヘルプ"
     ),
   ]
 }
@@ -2016,10 +2072,6 @@ struct Strings {
   let beFirstToReview: String
   let seeAll: String
   let showMore: String
-  let viewTitle: String
-  let viewProfile: String
-  let movieLabel: String
-  let tvShowLabel: String
   // Movie Categories
   let nowPlaying: String
   let popular: String
@@ -2206,7 +2258,18 @@ struct Strings {
   let topRatedAnimes: String
   let topRatedDoramas: String
   let featured: String
-  // Tabs
-  let trails: String
-  let comingSoon: String
+  // Feedback
+  let feedbackTitle: String
+  let feedbackReportProblem: String
+  let feedbackSuggestImprovement: String
+  let feedbackTypeLabel: String
+  let feedbackTypeBug: String
+  let feedbackTypeIdea: String
+  let feedbackDescriptionLabel: String
+  let feedbackDescriptionPlaceholder: String
+  let feedbackScreenshotLabel: String
+  let feedbackAddScreenshot: String
+  let feedbackSubmit: String
+  let feedbackSubmitSuccess: String
+  let feedbackHelpTitle: String
 }

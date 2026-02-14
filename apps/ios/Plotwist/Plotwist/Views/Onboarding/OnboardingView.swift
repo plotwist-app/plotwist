@@ -136,7 +136,7 @@ struct OnboardingView: View {
       }
     }
     .onAppear {
-      AnalyticsService.shared.track(.onboardingStarted)
+      AnalyticsService.shared.track(.onboardingStart)
     }
     .task {
       // Preload content type backdrops during welcome screen

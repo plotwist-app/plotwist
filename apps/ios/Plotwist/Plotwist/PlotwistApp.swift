@@ -17,7 +17,7 @@ struct PlotwistApp: App {
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                AnalyticsService.shared.track(.appOpened)
+                AnalyticsService.shared.track(.appOpen)
             }
         }
     }

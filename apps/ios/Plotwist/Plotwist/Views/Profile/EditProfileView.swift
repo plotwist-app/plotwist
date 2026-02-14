@@ -215,15 +215,6 @@ struct EditProfileView: View {
         username: user.username,
         size: 100
       )
-
-      Button {
-        // Disabled for now
-      } label: {
-        Text(strings.editPicture)
-          .font(.subheadline.weight(.medium))
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
-      .disabled(true)
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
@@ -360,8 +351,10 @@ struct EditProfileView: View {
           ProfileBadge(text: Language.current.displayName, prefix: Language.current.flag)
         }
       }
+      fieldDivider
 
-      signOutSection
+      // Action buttons
+      actionButtonsSection
     }
   }
 
@@ -405,48 +398,65 @@ struct EditProfileView: View {
       .padding(.leading, 24)
   }
 
-  // MARK: - Sign Out Section
-  private var signOutSection: some View {
-    VStack(spacing: 0) {
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1)
-        .padding(.top, 24)
-
+  // MARK: - Action Buttons
+  private var actionButtonsSection: some View {
+    VStack(spacing: 12) {
+      // Feedback button (gray)
+      NavigationLink(destination: FeedbackView()) {
+        HStack(spacing: 8) {
+          Image(systemName: "envelope.fill")
+            .font(.system(size: 14))
+          Text(strings.feedbackTitle)
+        }
+        .font(.subheadline.weight(.medium))
+        .foregroundColor(.appForegroundAdaptive)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .background(Color.appInputFilled)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+      }
+      .buttonStyle(.plain)
+      
+      // Sign out button (light red)
       Button {
         AuthService.shared.signOut()
       } label: {
         HStack(spacing: 8) {
           Image(systemName: "rectangle.portrait.and.arrow.right")
+            .font(.system(size: 14))
           Text(strings.signOut)
         }
         .font(.subheadline.weight(.medium))
         .foregroundColor(.appDestructive)
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
+        .background(Color.appDestructive.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
       }
+      .buttonStyle(.plain)
       
       #if DEBUG
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1)
-      
       Button {
         OnboardingService.shared.reset()
         AuthService.shared.signOut()
       } label: {
         HStack(spacing: 8) {
           Image(systemName: "arrow.counterclockwise")
+            .font(.system(size: 14))
           Text("Reset Onboarding (Debug)")
         }
         .font(.subheadline.weight(.medium))
         .foregroundColor(.orange)
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
+        .background(Color.orange.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
       }
+      .buttonStyle(.plain)
       #endif
     }
     .padding(.horizontal, 24)
+    .padding(.top, 16)
   }
 
   // MARK: - Helpers

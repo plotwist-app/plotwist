@@ -200,7 +200,8 @@ struct StatusSheet: View {
           AnalyticsService.shared.track(.mediaStatusChanged(
             tmdbId: mediaId,
             mediaType: mediaType,
-            status: status.rawValue
+            status: status.rawValue,
+            source: "status_sheet"
           ))
           
           // Invalidate collection cache

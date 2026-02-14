@@ -21,6 +21,8 @@ class UserStatsService {
     let (data, response) = try await URLSession.shared.data(for: request)
 
     guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/stats", statusCode: code)
       throw UserStatsError.invalidResponse
     }
 
@@ -41,6 +43,8 @@ class UserStatsService {
     let (data, response) = try await URLSession.shared.data(for: request)
 
     guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/total-hours", statusCode: code)
       throw UserStatsError.invalidResponse
     }
 

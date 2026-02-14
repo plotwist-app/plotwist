@@ -90,6 +90,9 @@ struct ProfileStatsView: View {
     .task {
       await loadStats()
     }
+    .onAppear {
+      AnalyticsService.shared.track(.statsView)
+    }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }

@@ -121,6 +121,7 @@ class UserEpisodeService {
     }
 
     guard http.statusCode == 201 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/episodes", statusCode: http.statusCode)
       print("Mark as watched failed with status: \(http.statusCode)")
       if let responseString = String(data: data, encoding: .utf8) {
         print("Response: \(responseString)")
@@ -136,8 +137,8 @@ class UserEpisodeService {
     }
 
     // Track episode watched
-    AnalyticsService.shared.track(.episodeWatched(
-      tmdbId: tmdbId,
+    AnalyticsService.shared.track(.episodeCheckin(
+      showId: tmdbId,
       season: seasonNumber,
       episode: episodeNumber
     ))
@@ -173,6 +174,7 @@ class UserEpisodeService {
     }
 
     guard http.statusCode == 204 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/episodes", statusCode: http.statusCode)
       print("Unmark as watched failed with status: \(http.statusCode)")
       if let responseString = String(data: data, encoding: .utf8) {
         print("Response: \(responseString)")

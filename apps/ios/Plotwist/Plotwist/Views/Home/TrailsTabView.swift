@@ -18,11 +18,11 @@ struct TrailsTabView: View {
           .font(.system(size: 40))
           .foregroundColor(.appMutedForegroundAdaptive)
 
-        Text(strings.trails)
+        Text("Trails")
           .font(.title2.bold())
           .foregroundColor(.appForegroundAdaptive)
 
-        Text(strings.comingSoon)
+        Text("Coming soon")
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
       }

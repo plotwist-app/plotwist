@@ -22,7 +22,7 @@ struct DiscoverTabView: View {
           .font(.title2.bold())
           .foregroundColor(.appForegroundAdaptive)
 
-        Text(strings.comingSoon)
+        Text("Coming soon")
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
       }

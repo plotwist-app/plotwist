@@ -338,8 +338,7 @@ class OnboardingService: ObservableObject {
     UserDefaults.standard.set(true, forKey: "isGuestMode")
     NotificationCenter.default.post(name: .continueAsGuest, object: nil)
     
-    // Track completion with metrics
-    AnalyticsService.shared.track(.onboardingCompleted(titlesAdded: localSavedTitles.count))
+    AnalyticsService.shared.track(.onboardingComplete(titlesAdded: localSavedTitles.count))
   }
   
   // MARK: - Login Prompt

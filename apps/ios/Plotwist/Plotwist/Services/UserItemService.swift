@@ -107,6 +107,7 @@ class UserItemService {
     }
 
     guard http.statusCode == 200 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/item", statusCode: http.statusCode)
       throw UserItemError.invalidResponse
     }
 
@@ -150,6 +151,7 @@ class UserItemService {
     }
 
     guard http.statusCode == 200 || http.statusCode == 201 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/item", statusCode: http.statusCode)
       throw UserItemError.invalidResponse
     }
 

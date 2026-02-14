@@ -8,19 +8,19 @@ import Foundation
 // MARK: - Analytics Events
 enum AnalyticsEvent {
   // Auth
-  case signUp(method: String)  // "apple", "email"
+  case signUp(method: String)
   case login(method: String)
   case logout
   
   // App Lifecycle
-  case appOpened
+  case appOpen
   
   // Onboarding
-  case onboardingStarted
+  case onboardingStart
   case onboardingContentTypeSelected(type: String)
   case onboardingGenresSelected(count: Int)
   case onboardingTitleAdded(tmdbId: Int, mediaType: String, status: String)
-  case onboardingCompleted(titlesAdded: Int)
+  case onboardingComplete(titlesAdded: Int)
   
   // Screens
   case screenView(name: String)
@@ -30,16 +30,26 @@ enum AnalyticsEvent {
   case mediaViewed(tmdbId: Int, mediaType: String, title: String)
   case categoryViewed(category: String, subcategory: String)
   
-  // Core Actions (Key Retention Events)
-  case mediaStatusChanged(tmdbId: Int, mediaType: String, status: String)
+  // Core Actions
+  case mediaStatusChanged(tmdbId: Int, mediaType: String, status: String, source: String)
   case mediaStatusRemoved(tmdbId: Int, mediaType: String)
   case rewatchAdded(tmdbId: Int, mediaType: String, count: Int)
-  case episodeWatched(tmdbId: Int, season: Int, episode: Int)
+  case episodeCheckin(showId: Int, season: Int, episode: Int)
   
   // Reviews
   case reviewStarted(tmdbId: Int, mediaType: String)
   case reviewSubmitted(tmdbId: Int, mediaType: String, rating: Double, hasText: Bool)
   case reviewDeleted(tmdbId: Int, mediaType: String)
+  
+  // Stats
+  case statsView
+  
+  // Feedback
+  case feedbackOpen(contextScreen: String)
+  case feedbackSubmit(type: String)
+  
+  // Error tracking
+  case errorAPI(endpoint: String, statusCode: Int)
   
   // Engagement
   case shareContent(tmdbId: Int, mediaType: String)
@@ -50,12 +60,12 @@ enum AnalyticsEvent {
     case .signUp: return "sign_up"
     case .login: return "login"
     case .logout: return "logout"
-    case .appOpened: return "app_opened"
-    case .onboardingStarted: return "onboarding_started"
+    case .appOpen: return "app_open"
+    case .onboardingStart: return "onboarding_start"
     case .onboardingContentTypeSelected: return "onboarding_content_type"
     case .onboardingGenresSelected: return "onboarding_genres"
     case .onboardingTitleAdded: return "onboarding_title_added"
-    case .onboardingCompleted: return "onboarding_completed"
+    case .onboardingComplete: return "onboarding_complete"
     case .screenView: return "screen_view"
     case .searchPerformed: return "search"
     case .mediaViewed: return "media_viewed"
@@ -63,10 +73,14 @@ enum AnalyticsEvent {
     case .mediaStatusChanged: return "status_changed"
     case .mediaStatusRemoved: return "status_removed"
     case .rewatchAdded: return "rewatch_added"
-    case .episodeWatched: return "episode_watched"
+    case .episodeCheckin: return "episode_checkin"
     case .reviewStarted: return "review_started"
     case .reviewSubmitted: return "review_submitted"
     case .reviewDeleted: return "review_deleted"
+    case .statsView: return "stats_view"
+    case .feedbackOpen: return "feedback_open"
+    case .feedbackSubmit: return "feedback_submit"
+    case .errorAPI: return "error_api"
     case .shareContent: return "share"
     case .profileViewed: return "profile_viewed"
     }
@@ -76,7 +90,7 @@ enum AnalyticsEvent {
     switch self {
     case .signUp(let method), .login(let method):
       return ["method": method]
-    case .logout, .appOpened, .onboardingStarted:
+    case .logout, .appOpen, .onboardingStart, .statsView:
       return [:]
     case .onboardingContentTypeSelected(let type):
       return ["content_type": type]
@@ -84,7 +98,7 @@ enum AnalyticsEvent {
       return ["genres_count": count]
     case .onboardingTitleAdded(let tmdbId, let mediaType, let status):
       return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status]
-    case .onboardingCompleted(let titlesAdded):
+    case .onboardingComplete(let titlesAdded):
       return ["titles_added": titlesAdded]
     case .screenView(let name):
       return ["screen_name": name]
@@ -94,20 +108,26 @@ enum AnalyticsEvent {
       return ["tmdb_id": tmdbId, "media_type": mediaType, "title": title]
     case .categoryViewed(let category, let subcategory):
       return ["category": category, "subcategory": subcategory]
-    case .mediaStatusChanged(let tmdbId, let mediaType, let status):
-      return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status]
+    case .mediaStatusChanged(let tmdbId, let mediaType, let status, let source):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status, "source": source]
     case .mediaStatusRemoved(let tmdbId, let mediaType):
       return ["tmdb_id": tmdbId, "media_type": mediaType]
     case .rewatchAdded(let tmdbId, let mediaType, let count):
       return ["tmdb_id": tmdbId, "media_type": mediaType, "rewatch_count": count]
-    case .episodeWatched(let tmdbId, let season, let episode):
-      return ["tmdb_id": tmdbId, "season": season, "episode": episode]
+    case .episodeCheckin(let showId, let season, let episode):
+      return ["show_id": showId, "season": season, "episode": episode]
     case .reviewStarted(let tmdbId, let mediaType):
       return ["tmdb_id": tmdbId, "media_type": mediaType]
     case .reviewSubmitted(let tmdbId, let mediaType, let rating, let hasText):
       return ["tmdb_id": tmdbId, "media_type": mediaType, "rating": rating, "has_text": hasText]
     case .reviewDeleted(let tmdbId, let mediaType):
       return ["tmdb_id": tmdbId, "media_type": mediaType]
+    case .feedbackOpen(let contextScreen):
+      return ["context_screen": contextScreen]
+    case .feedbackSubmit(let type):
+      return ["type": type]
+    case .errorAPI(let endpoint, let statusCode):
+      return ["endpoint": endpoint, "status_code": statusCode]
     case .shareContent(let tmdbId, let mediaType):
       return ["tmdb_id": tmdbId, "media_type": mediaType]
     case .profileViewed(let userId, let isOwnProfile):
@@ -121,19 +141,15 @@ class AnalyticsService {
   static let shared = AnalyticsService()
   
   private let apiKey: String? = "phc_jb6woqg2i2Xo5MYzSR14mDj6tsFoMQzjhLPvZ28iH1T"
-  private let host = "https://app.posthog.com"  // Or your self-hosted instance
+  private let host = "https://app.posthog.com"
   
   private var distinctId: String {
-    // Use user ID if logged in, otherwise device ID
     if let userId = UserDefaults.standard.string(forKey: "analyticsUserId") {
       return userId
     }
-    
-    // Generate or retrieve device ID
     if let deviceId = UserDefaults.standard.string(forKey: "analyticsDeviceId") {
       return deviceId
     }
-    
     let newDeviceId = UUID().uuidString
     UserDefaults.standard.set(newDeviceId, forKey: "analyticsDeviceId")
     return newDeviceId
@@ -141,45 +157,37 @@ class AnalyticsService {
   
   private init() {}
   
-  // MARK: - Public Methods
-  
-  /// Track an analytics event
   func track(_ event: AnalyticsEvent) {
     #if DEBUG
     print("📊 Analytics: \(event.name) - \(event.properties)")
     #endif
-    
     sendEvent(name: event.name, properties: event.properties)
   }
   
-  /// Identify user after login/signup
   func identify(userId: String, properties: [String: Any] = [:]) {
     UserDefaults.standard.set(userId, forKey: "analyticsUserId")
-    
     #if DEBUG
     print("📊 Analytics: Identified user \(userId)")
     #endif
-    
     sendIdentify(userId: userId, properties: properties)
   }
   
-  /// Reset user on logout
   func reset() {
     UserDefaults.standard.removeObject(forKey: "analyticsUserId")
-    
     #if DEBUG
     print("📊 Analytics: Reset user")
     #endif
   }
   
-  // MARK: - Private Methods
+  /// Convenience for tracking API errors
+  static func trackAPIError(endpoint: String, statusCode: Int) {
+    shared.track(.errorAPI(endpoint: endpoint, statusCode: statusCode))
+  }
+  
+  // MARK: - Private
   
   private func sendEvent(name: String, properties: [String: Any]) {
-    guard let apiKey = apiKey, !apiKey.isEmpty else {
-      // Analytics not configured, skip
-      return
-    }
-    
+    guard let apiKey = apiKey, !apiKey.isEmpty else { return }
     Task {
       await sendToPostHog(type: "capture", payload: [
         "event": name,
@@ -191,10 +199,7 @@ class AnalyticsService {
   }
   
   private func sendIdentify(userId: String, properties: [String: Any]) {
-    guard let apiKey = apiKey, !apiKey.isEmpty else {
-      return
-    }
-    
+    guard let apiKey = apiKey, !apiKey.isEmpty else { return }
     Task {
       await sendToPostHog(type: "identify", payload: [
         "distinct_id": userId,
@@ -231,7 +236,6 @@ class AnalyticsService {
 import SwiftUI
 
 extension View {
-  /// Track screen view when view appears
   func trackScreen(_ name: String) -> some View {
     self.onAppear {
       AnalyticsService.shared.track(.screenView(name: name))
