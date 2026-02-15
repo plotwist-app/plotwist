@@ -25,6 +25,7 @@ struct ProfileTabView: View {
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
   @State var draggingItem: UserItemSummary?
+  @State var selectedMediaItem: UserItemSummary?
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -99,6 +100,12 @@ struct ProfileTabView: View {
         }
       }
       .navigationBarHidden(true)
+      .navigationDestination(item: $selectedMediaItem) { item in
+        MediaDetailView(
+          mediaId: item.tmdbId,
+          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        )
+      }
     }
   }
 
@@ -172,28 +179,28 @@ struct ProfileTabView: View {
 
   // MARK: - Profile Content View
   private func profileContentView(user: User) -> some View {
-    VStack(spacing: 0) {
-      headerView(user: user)
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 0) {
+        profileInfoSection(user: user)
 
-      ScrollView(showsIndicators: false) {
-        VStack(alignment: .leading, spacing: 0) {
-          profileInfoSection(user: user)
+        ProfileMainTabs(
+          selectedTab: $selectedMainTab,
+          slideFromTrailing: $slideFromTrailing,
+          strings: strings,
+          reviewsCount: totalReviewsCount
+        )
+        .padding(.top, 20)
+        .padding(.bottom, 8)
 
-          ProfileMainTabs(
-            selectedTab: $selectedMainTab,
-            slideFromTrailing: $slideFromTrailing,
-            strings: strings,
-            reviewsCount: totalReviewsCount
-          )
-          .padding(.top, 20)
-          .padding(.bottom, 8)
-
-          tabContentView(userId: user.id)
-        }
-        .padding(.bottom, 100)
-        .background(scrollOffsetReader)
+        tabContentView(userId: user.id)
       }
+      .padding(.bottom, 100)
+      .background(scrollOffsetReader)
     }
+    .safeAreaInset(edge: .top, spacing: 0) {
+      headerView(user: user)
+    }
+    .ignoresSafeArea(.container, edges: .bottom)
   }
 
   // MARK: - Header View
@@ -330,7 +337,10 @@ struct ProfileTabView: View {
         strings: strings,
         onChangeStatus: changeItemStatus,
         onRemoveItem: removeItem,
-        onReorder: saveCollectionOrder
+        onReorder: saveCollectionOrder,
+        onTapItem: { item in
+          selectedMediaItem = item
+        }
       )
     }
   }

@@ -392,7 +392,7 @@ struct WatchEntriesResponse: Codable {
   let watchEntries: [WatchEntry]
 }
 
-struct UserItemSummary: Codable, Identifiable {
+struct UserItemSummary: Codable, Identifiable, Hashable {
   let id: String
   let mediaType: String
   let tmdbId: Int

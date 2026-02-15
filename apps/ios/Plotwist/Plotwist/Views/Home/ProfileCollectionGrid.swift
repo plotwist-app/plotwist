@@ -17,6 +17,7 @@ struct ProfileCollectionGrid: View {
   var onChangeStatus: (UserItemSummary, UserItemStatus) async -> Void
   var onRemoveItem: (UserItemSummary) async -> Void
   var onReorder: () -> Void
+  var onTapItem: (UserItemSummary) -> Void
 
   private let columns = [
     GridItem(.flexible(), spacing: 12),
@@ -78,36 +79,31 @@ struct ProfileCollectionGrid: View {
   private var itemsGrid: some View {
     LazyVGrid(columns: columns, spacing: 16) {
       ForEach(userItems) { item in
-        NavigationLink {
-          MediaDetailView(
-            mediaId: item.tmdbId,
-            mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+          .contentShape(
+            .dragPreview,
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           )
-        } label: {
-          ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
-            .contentShape(
-              .dragPreview,
-              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-            )
-            .onDrag {
-              draggingItem = item
-              return NSItemProvider(object: item.id as NSString)
-            }
-        }
-        .buttonStyle(.plain)
-        .opacity(removingItemIds.contains(item.id) ? 0 : 1)
-        .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
-        .onDrop(of: [.text], delegate: CollectionReorderDelegate(
-          item: item,
-          items: $userItems,
-          draggingItem: $draggingItem,
-          onReorder: onReorder
-        ))
-        .contextMenu {
-          contextMenuContent(for: item)
-        } preview: {
-          CachedPosterPreview(tmdbId: item.tmdbId, mediaType: item.mediaType, width: 200)
-        }
+          .onTapGesture {
+            onTapItem(item)
+          }
+          .onDrag {
+            draggingItem = item
+            return NSItemProvider(object: item.id as NSString)
+          }
+          .opacity(removingItemIds.contains(item.id) ? 0 : 1)
+          .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
+          .onDrop(of: [.text], delegate: CollectionReorderDelegate(
+            item: item,
+            items: $userItems,
+            draggingItem: $draggingItem,
+            onReorder: onReorder
+          ))
+          .contextMenu {
+            contextMenuContent(for: item)
+          } preview: {
+            CachedPosterPreview(tmdbId: item.tmdbId, mediaType: item.mediaType, width: 200)
+          }
       }
     }
     .padding(.horizontal, 24)
