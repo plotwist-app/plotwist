@@ -118,6 +118,7 @@ export async function upsertUserItemController(
         userItem.updatedAt instanceof Date
           ? userItem.updatedAt.toISOString()
           : userItem.updatedAt,
+      position: userItem.position ?? 0,
       watchEntries,
     },
   })
