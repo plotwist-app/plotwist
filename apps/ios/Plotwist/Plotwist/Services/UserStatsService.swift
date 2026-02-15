@@ -16,6 +16,7 @@ class UserStatsService {
     }
 
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -38,6 +39,7 @@ class UserStatsService {
     }
 
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -61,6 +63,7 @@ class UserStatsService {
     }
 
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -82,6 +85,7 @@ class UserStatsService {
     }
 
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -102,6 +106,7 @@ class UserStatsService {
     }
 
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)

@@ -1,39 +1,27 @@
 import { timingSafeEqual } from 'node:crypto'
-import type { FastifyInstance, FastifyReply } from 'fastify'
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { config } from '@/config'
 
 const SKIP_PATHS = ['/health', '/complete-stripe-subscription']
-
 const ALLOWED_ORIGINS = ['https://plotwist.app']
 
-function getPath(url: string): string {
-  return url.split('?')[0]
+function pathMatches(path: string) {
+  return SKIP_PATHS.some(s => path === s || path.endsWith(s))
 }
 
-function isPathSkipped(path: string): boolean {
-  return SKIP_PATHS.some(skip => path === skip || path.endsWith(skip))
+function timingSafeCompare(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  const bufA = Buffer.from(a, 'utf8')
+  const bufB = Buffer.from(b, 'utf8')
+  return bufA.length === bufB.length && timingSafeEqual(bufA, bufB)
 }
 
-function getAllowedOrigins(): string[] {
-  return [...new Set([config.app.CLIENT_URL, ...ALLOWED_ORIGINS])]
-}
-
-function isTokenValid(received: string, expected: string): boolean {
-  if (received.length !== expected.length) return false
-  const a = Buffer.from(received, 'utf8')
-  const b = Buffer.from(expected, 'utf8')
-  return a.length === b.length && timingSafeEqual(a, b)
-}
-
-function isOriginAllowed(
-  origin: string | undefined,
-  referer: string | undefined,
-  allowed: string[]
-): boolean {
-  if (typeof origin === 'string' && allowed.some(o => origin === o)) return true
-  if (typeof referer === 'string' && allowed.some(o => referer.startsWith(o)))
-    return true
-  return false
+function allowedOrigin(origin: string | undefined, referer: string | undefined): boolean {
+  const allowed = [...new Set([config.app.CLIENT_URL, ...ALLOWED_ORIGINS])]
+  return (
+    (typeof origin === 'string' && allowed.includes(origin)) ||
+    (typeof referer === 'string' && allowed.some(o => referer.startsWith(o)))
+  )
 }
 
 function forbidden(reply: FastifyReply) {
@@ -44,35 +32,41 @@ function forbidden(reply: FastifyReply) {
   })
 }
 
+function validIosToken(request: FastifyRequest, app: FastifyInstance): boolean {
+  const expected = config.app.IOS_TOKEN
+  if (!expected) {
+    app.log.warn('X-IOS-Token received but IOS_TOKEN is not set.')
+    return false
+  }
+  const received = request.headers['x-ios-token']
+  return typeof received === 'string' && timingSafeCompare(received, expected)
+}
+
 /**
  * Production-only guard:
- * - If X-Client-Token is present: validate against CLIENT_TOKEN; allow only if valid.
- * - If X-Client-Token is absent: allow only if Origin is in allowed list (e.g. plotwist.app).
+ * - X-IOS-Token present → must match IOS_TOKEN.
+ * - X-Android-Token present → not implemented (403).
+ * - Otherwise → allow only if Origin/Referer is in allowed list (e.g. plotwist.app).
  */
 export function registerClientGuard(app: FastifyInstance) {
   app.addHook('onRequest', async (request, reply) => {
     if (config.app.APP_ENV !== 'production') return
-    if (isPathSkipped(getPath(request.url))) return
+    const path = request.url.split('?')[0]
+    if (pathMatches(path)) return
 
-    const tokenHeader = request.headers['x-client-token']
-    const hasToken = typeof tokenHeader === 'string' && tokenHeader.length > 0
+    const iosToken = request.headers['x-ios-token']
+    if (typeof iosToken === 'string' && iosToken.length > 0) {
+      if (!validIosToken(request, app)) return forbidden(reply)
+      return
+    }
 
-    if (hasToken) {
-      const expectedToken = config.app.CLIENT_TOKEN
-      if (!expectedToken) {
-        app.log.warn('X-Client-Token received but CLIENT_TOKEN is not set.')
-        return forbidden(reply)
-      }
-      if (isTokenValid(tokenHeader, expectedToken)) return
+    const androidToken = request.headers['x-android-token']
+    if (typeof androidToken === 'string' && androidToken.length > 0) {
+      app.log.warn('X-Android-Token received but not implemented yet.')
       return forbidden(reply)
     }
 
-    const allowed = getAllowedOrigins()
-    if (
-      isOriginAllowed(request.headers.origin, request.headers.referer, allowed)
-    )
-      return
-
+    if (allowedOrigin(request.headers.origin, request.headers.referer)) return
     return forbidden(reply)
   })
 }

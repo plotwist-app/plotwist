@@ -215,6 +215,7 @@ class AnalyticsService {
     else { return }
     
     var request = URLRequest(url: url)
+    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
