@@ -34,7 +34,9 @@ async function getMovieRuntimes(
   watchedItems: Awaited<ReturnType<typeof getAllUserItemsService>>,
   redis: FastifyRedis
 ) {
-  const movies = watchedItems.userItems.filter(item => item.mediaType === 'MOVIE')
+  const movies = watchedItems.userItems.filter(
+    item => item.mediaType === 'MOVIE'
+  )
 
   return processInBatches(movies, async item => {
     const { runtime } = await getTMDBMovieService(redis, {

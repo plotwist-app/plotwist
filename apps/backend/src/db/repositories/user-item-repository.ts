@@ -182,10 +182,7 @@ export async function reorderUserItems(
       .update(schema.userItems)
       .set({ position: index })
       .where(
-        and(
-          eq(schema.userItems.id, id),
-          eq(schema.userItems.userId, userId)
-        )
+        and(eq(schema.userItems.id, id), eq(schema.userItems.userId, userId))
       )
   )
 

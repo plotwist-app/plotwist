@@ -9,7 +9,10 @@ export function registerRateLimit(app: FastifyInstance) {
       max: config.app.RATE_LIMIT_MAX,
       timeWindow: config.app.RATE_LIMIT_TIME_WINDOW_MS,
       skipOnError: true,
-      errorResponseBuilder: (_request: unknown, context: { after: string }) => ({
+      errorResponseBuilder: (
+        _request: unknown,
+        context: { after: string }
+      ) => ({
         statusCode: 429,
         error: 'Too Many Requests',
         message: `Rate limit exceeded, retry in ${Math.ceil(Number(context.after) / 1000)} seconds`,

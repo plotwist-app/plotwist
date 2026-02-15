@@ -16,7 +16,10 @@ function timingSafeCompare(a: string, b: string): boolean {
   return bufA.length === bufB.length && timingSafeEqual(bufA, bufB)
 }
 
-function allowedOrigin(origin: string | undefined, referer: string | undefined): boolean {
+function allowedOrigin(
+  origin: string | undefined,
+  referer: string | undefined
+): boolean {
   const allowed = [...new Set([config.app.CLIENT_URL, ...ALLOWED_ORIGINS])]
   return (
     (typeof origin === 'string' && allowed.includes(origin)) ||
