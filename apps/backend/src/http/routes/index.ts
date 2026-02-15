@@ -1,13 +1,13 @@
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyMultipart from '@fastify/multipart'
-import fastifyRateLimit from '@fastify/rate-limit'
 import fastifyRedis from '@fastify/redis'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 
 import type { FastifyInstance } from 'fastify'
 
 import { config } from '@/config'
+import { registerRateLimit } from '../rate-limit'
 import { followsRoutes } from './follow'
 import { healthCheck } from './healthcheck'
 import { imagesRoutes } from './images'
@@ -39,8 +39,9 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyCors, {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Token'],
     credentials: true,
+    strictPreflight: false,
   })
 
   app.register(fastifyJwt, {
@@ -53,19 +54,7 @@ export function routes(app: FastifyInstance) {
     url: config.redis.REDIS_URL,
   })
 
-  app.register(async instance => {
-    await instance.register(fastifyRateLimit, {
-      redis: instance.redis,
-      max: config.app.RATE_LIMIT_MAX,
-      timeWindow: config.app.RATE_LIMIT_TIME_WINDOW_MS,
-      skipOnError: true,
-      errorResponseBuilder: (_request, context) => ({
-        statusCode: 429,
-        error: 'Too Many Requests',
-        message: `Rate limit exceeded, retry in ${Math.ceil(context.after / 1000)} seconds`,
-      }),
-    })
-  })
+  registerRateLimit(app)
 
   app.register(usersRoute)
   app.register(listsRoute)
@@ -92,36 +81,16 @@ export function routes(app: FastifyInstance) {
   return
 }
 
-function getCorsOrigin() {
+function getCorsOrigin(): true | string[] {
   if (config.app.APP_ENV !== 'production') {
-    return true // Permite todas as origens em dev/test
+    return true
   }
 
-  // Em produção, permite múltiplas origens
   const allowedOrigins = [
     config.app.CLIENT_URL,
     'https://plotwist.app',
     'https://www.plotwist.app',
   ]
 
-  // Remove duplicatas caso CLIENT_URL já seja plotwist.app
-  const uniqueOrigins = [...new Set(allowedOrigins)]
-
-  return (
-    origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void
-  ) => {
-    // Apps nativos (iOS/Android) podem não enviar header Origin
-    // Nesse caso, permitimos a requisição
-    if (!origin) {
-      callback(null, true)
-      return
-    }
-
-    if (uniqueOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'), false)
-    }
-  }
+  return [...new Set(allowedOrigins)]
 }
