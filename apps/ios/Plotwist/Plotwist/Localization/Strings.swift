@@ -180,6 +180,8 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biography",
       biographyPlaceholder: "Tell us about yourself...",
+      reorderCollection: "Reorder",
+      save: "Save",
       // Home
       goodMorning: "Good morning",
       goodAfternoon: "Good afternoon",
@@ -471,6 +473,8 @@ enum L10n {
       soundtracks: "Trilhas",
       biography: "Biografia",
       biographyPlaceholder: "Conte um pouco sobre você...",
+      reorderCollection: "Reordenar",
+      save: "Salvar",
       // Home
       goodMorning: "Bom dia",
       goodAfternoon: "Boa tarde",
@@ -762,6 +766,8 @@ enum L10n {
       soundtracks: "Bandas Sonoras",
       biography: "Biografía",
       biographyPlaceholder: "Cuéntanos sobre ti...",
+      reorderCollection: "Reordenar",
+      save: "Guardar",
       // Home
       goodMorning: "Buenos días",
       goodAfternoon: "Buenas tardes",
@@ -1053,6 +1059,8 @@ enum L10n {
       soundtracks: "Bandes Sonores",
       biography: "Biographie",
       biographyPlaceholder: "Parlez-nous de vous...",
+      reorderCollection: "Réorganiser",
+      save: "Enregistrer",
       // Home
       goodMorning: "Bonjour",
       goodAfternoon: "Bon après-midi",
@@ -1344,6 +1352,8 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biografie",
       biographyPlaceholder: "Erzählen Sie uns von sich...",
+      reorderCollection: "Neu ordnen",
+      save: "Speichern",
       // Home
       goodMorning: "Guten Morgen",
       goodAfternoon: "Guten Tag",
@@ -1635,6 +1645,8 @@ enum L10n {
       soundtracks: "Colonne Sonore",
       biography: "Biografia",
       biographyPlaceholder: "Raccontaci di te...",
+      reorderCollection: "Riordina",
+      save: "Salva",
       // Home
       goodMorning: "Buongiorno",
       goodAfternoon: "Buon pomeriggio",
@@ -1925,6 +1937,8 @@ enum L10n {
       soundtracks: "サウンドトラック",
       biography: "自己紹介",
       biographyPlaceholder: "自己紹介を書いてください...",
+      reorderCollection: "並べ替え",
+      save: "保存",
       // Home
       goodMorning: "おはようございます",
       goodAfternoon: "こんにちは",
@@ -2226,6 +2240,9 @@ struct Strings {
   // Biography
   let biography: String
   let biographyPlaceholder: String
+  // Reorder
+  let reorderCollection: String
+  let save: String
   // Home
   let goodMorning: String
   let goodAfternoon: String

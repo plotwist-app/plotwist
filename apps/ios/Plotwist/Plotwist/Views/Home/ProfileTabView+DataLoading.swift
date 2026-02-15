@@ -259,20 +259,4 @@ extension ProfileTabView {
     }
   }
 
-  // MARK: - Save Collection Order
-  func saveCollectionOrder() {
-    guard let userId = user?.id else { return }
-    let orderedIds = userItems.map(\.id)
-    cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
-    Task {
-      do {
-        try await UserItemService.shared.reorderUserItems(
-          status: selectedStatusTab.rawValue,
-          orderedIds: orderedIds
-        )
-      } catch {
-        print("Error saving collection order: \(error)")
-      }
-    }
-  }
 }

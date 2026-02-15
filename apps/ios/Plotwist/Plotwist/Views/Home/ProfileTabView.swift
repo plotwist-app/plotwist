@@ -24,8 +24,8 @@ struct ProfileTabView: View {
   @State var initialScrollOffset: CGFloat? = nil
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
-  @State var draggingItem: UserItemSummary?
   @State var selectedMediaItem: UserItemSummary?
+  @State var showReorderCollection = false
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -106,8 +106,18 @@ struct ProfileTabView: View {
           mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
         )
       }
-      .toolbar(draggingItem != nil ? .hidden : .visible, for: .tabBar)
-      .animation(.easeInOut(duration: 0.2), value: draggingItem != nil)
+      .fullScreenCover(isPresented: $showReorderCollection) {
+        if let user {
+          ReorderCollectionView(
+            userId: user.id,
+            selectedStatusTab: selectedStatusTab,
+            strings: strings,
+            statusCounts: statusCounts,
+            cache: cache
+          )
+        }
+      }
+      .toolbar(.visible, for: .tabBar)
     }
   }
 
@@ -221,7 +231,17 @@ struct ProfileTabView: View {
 
       Spacer()
 
-      NavigationLink(destination: EditProfileView(user: user)) {
+      Menu {
+        NavigationLink(destination: EditProfileView(user: user)) {
+          Label(strings.editProfile, systemImage: "pencil")
+        }
+
+        Button {
+          showReorderCollection = true
+        } label: {
+          Label(strings.reorderCollection, systemImage: "arrow.up.arrow.down")
+        }
+      } label: {
         Image(systemName: "ellipsis")
           .font(.system(size: 14))
           .foregroundColor(.appForegroundAdaptive)
@@ -331,14 +351,12 @@ struct ProfileTabView: View {
 
       ProfileCollectionGrid(
         userItems: $userItems,
-        draggingItem: $draggingItem,
         isLoadingItems: isLoadingItems,
         removingItemIds: removingItemIds,
         selectedStatusTab: selectedStatusTab,
         strings: strings,
         onChangeStatus: changeItemStatus,
         onRemoveItem: removeItem,
-        onReorder: saveCollectionOrder,
         onTapItem: { item in
           selectedMediaItem = item
         }
