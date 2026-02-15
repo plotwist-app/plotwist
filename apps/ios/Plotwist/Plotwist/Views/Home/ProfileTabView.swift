@@ -5,96 +5,30 @@
 
 import SwiftUI
 
-// MARK: - Scroll Offset Preference Key
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-  static var defaultValue: CGFloat = 0
-  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-    value = nextValue()
-  }
-}
-
-// MARK: - Profile Status Tab
-enum ProfileStatusTab: String, CaseIterable {
-  case watched = "WATCHED"
-  case watching = "WATCHING"
-  case watchlist = "WATCHLIST"
-  case dropped = "DROPPED"
-
-  func displayName(strings: Strings) -> String {
-    switch self {
-    case .watched: return strings.watched
-    case .watching: return strings.watching
-    case .watchlist: return strings.watchlist
-    case .dropped: return strings.dropped
-    }
-  }
-
-  var icon: String {
-    switch self {
-    case .watched: return "eye.fill"
-    case .watching: return "play.circle.fill"
-    case .watchlist: return "clock.fill"
-    case .dropped: return "xmark.circle.fill"
-    }
-  }
-
-  var color: Color {
-    switch self {
-    case .watched: return .green
-    case .watching: return .blue
-    case .watchlist: return .orange
-    case .dropped: return .red
-    }
-  }
-}
-
-// MARK: - Profile Main Tab
-enum ProfileMainTab: CaseIterable {
-  case collection
-  case reviews
-  case stats
-
-  func displayName(strings: Strings) -> String {
-    switch self {
-    case .collection: return strings.collection
-    case .reviews: return strings.reviews
-    case .stats: return strings.stats
-    }
-  }
-
-  var index: Int {
-    switch self {
-    case .collection: return 0
-    case .reviews: return 1
-    case .stats: return 2
-    }
-  }
-}
-
 // MARK: - Profile Tab View
 struct ProfileTabView: View {
-  @State private var user: User?
-  @State private var isInitialLoad = true
-  @State private var strings = L10n.current
-  @State private var selectedMainTab: ProfileMainTab = .collection
-  @State private var slideFromTrailing: Bool = true
-  @State private var selectedStatusTab: ProfileStatusTab = .watched
-  @State private var userItems: [UserItemSummary] = []
-  @State private var isLoadingItems = false
-  @State private var statusCounts: [String: Int] = [:]
-  @State private var totalReviewsCount: Int = 0
-  @State private var moviesCount: Int = 0
-  @State private var seriesCount: Int = 0
-  @State private var isLoadingQuickStats: Bool = true
-  @State private var scrollOffset: CGFloat = 0
-  @State private var initialScrollOffset: CGFloat? = nil
-  @State private var hasAppeared = false
-  @State private var removingItemIds: Set<String> = []
-  @State private var draggingItem: UserItemSummary?
-  @State private var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+  @State var user: User?
+  @State var isInitialLoad = true
+  @State var strings = L10n.current
+  @State var selectedMainTab: ProfileMainTab = .collection
+  @State var slideFromTrailing: Bool = true
+  @State var selectedStatusTab: ProfileStatusTab = .watched
+  @State var userItems: [UserItemSummary] = []
+  @State var isLoadingItems = false
+  @State var statusCounts: [String: Int] = [:]
+  @State var totalReviewsCount: Int = 0
+  @State var moviesCount: Int = 0
+  @State var seriesCount: Int = 0
+  @State var isLoadingQuickStats: Bool = true
+  @State var scrollOffset: CGFloat = 0
+  @State var initialScrollOffset: CGFloat? = nil
+  @State var hasAppeared = false
+  @State var removingItemIds: Set<String> = []
+  @State var draggingItem: UserItemSummary?
+  @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
-  private let cache = CollectionCache.shared
+  let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
   private let scrollThreshold: CGFloat = 80
 
@@ -149,14 +83,11 @@ struct ProfileTabView: View {
         }
       }
       .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
-        // Update guest mode state reactively
         isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
-        
+
         if AuthService.shared.isAuthenticated {
-          // User just logged in — reload profile data
           Task { await loadData() }
         } else {
-          // User logged out — clear profile state
           user = nil
           userItems = []
           statusCounts = [:]
@@ -179,31 +110,30 @@ struct ProfileTabView: View {
       Spacer()
     }
   }
-  
+
   // MARK: - Guest Mode View
   private var guestModeView: some View {
     VStack(spacing: 24) {
       Spacer()
-      
+
       Image(systemName: "person.crop.circle")
         .font(.system(size: 64))
         .foregroundColor(.appMutedForegroundAdaptive)
-      
+
       VStack(spacing: 8) {
         Text(strings.signInToAccessProfile)
           .font(.title3.bold())
           .foregroundColor(.appForegroundAdaptive)
           .multilineTextAlignment(.center)
-        
+
         Text(strings.signInToAccessProfileDescription)
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
           .multilineTextAlignment(.center)
           .padding(.horizontal, 32)
       }
-      
+
       Button {
-        // Exit guest mode and go back to login screen
         UserDefaults.standard.set(false, forKey: "isGuestMode")
         NotificationCenter.default.post(name: .authChanged, object: nil)
       } label: {
@@ -217,7 +147,7 @@ struct ProfileTabView: View {
       }
       .padding(.horizontal, 24)
       .frame(maxWidth: 400)
-      
+
       Spacer()
     }
   }
@@ -248,7 +178,7 @@ struct ProfileTabView: View {
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading, spacing: 0) {
           profileInfoSection(user: user)
-          
+
           ProfileMainTabs(
             selectedTab: $selectedMainTab,
             slideFromTrailing: $slideFromTrailing,
@@ -334,15 +264,14 @@ struct ProfileTabView: View {
       .padding(.horizontal, 24)
       .padding(.bottom, 12)
 
-      // Quick stats (Movies & Series counts)
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
         isLoading: isLoadingQuickStats,
         strings: strings
       )
-        .padding(.horizontal, 24)
-        .padding(.bottom, 12)
+      .padding(.horizontal, 24)
+      .padding(.bottom, 12)
 
       if let biography = user.biography, !biography.isEmpty {
         Text(biography)
@@ -387,129 +316,22 @@ struct ProfileTabView: View {
         strings: strings,
         statusCounts: statusCounts
       )
-        .padding(.top, 8)
-        .onChange(of: selectedStatusTab) {
-          Task { await loadUserItems() }
-        }
-
-      collectionGrid
-    }
-  }
-
-  @ViewBuilder
-  private func dragPreview(tmdbId: Int, mediaType: String) -> some View {
-    if let uiImage = PosterURLCache.shared.dragPreviewImage(
-      tmdbId: tmdbId,
-      mediaType: mediaType,
-      size: CGSize(width: 160, height: 240),
-      cornerRadius: 16
-    ) {
-      Image(uiImage: uiImage)
-        .frame(width: 160, height: 240)
-    }
-  }
-
-  @ViewBuilder
-  private var collectionGrid: some View {
-    let columns = [
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
-    ]
-
-    if isLoadingItems {
-      LazyVGrid(columns: columns, spacing: 16) {
-        ForEach(0..<6, id: \.self) { _ in
-          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-            .fill(Color.appBorderAdaptive)
-            .aspectRatio(2 / 3, contentMode: .fit)
-        }
+      .padding(.top, 8)
+      .onChange(of: selectedStatusTab) {
+        Task { await loadUserItems() }
       }
-      .padding(.horizontal, 24)
-      .padding(.top, 16)
-    } else if userItems.isEmpty {
-      LazyVGrid(columns: columns, spacing: 16) {
-        Button {
-          NotificationCenter.default.post(name: .navigateToSearch, object: nil)
-        } label: {
-          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
-            .foregroundColor(.appBorderAdaptive)
-            .aspectRatio(2 / 3, contentMode: .fit)
-            .background(
-              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                .fill(Color.clear)
-            )
-            .contentShape(Rectangle())
-            .overlay(
-              Image(systemName: "plus")
-                .font(.system(size: 24, weight: .medium))
-                .foregroundColor(.appMutedForegroundAdaptive)
-            )
-        }
-        .buttonStyle(.plain)
-      }
-      .padding(.horizontal, 24)
-      .padding(.top, 16)
-    } else {
-      LazyVGrid(columns: columns, spacing: 16) {
-        ForEach(userItems) { item in
-          NavigationLink {
-            MediaDetailView(
-              mediaId: item.tmdbId,
-              mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-            )
-          } label: {
-            ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
-          }
-          .buttonStyle(.plain)
-          .opacity(removingItemIds.contains(item.id) ? 0 : 1)
-          .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
-          .onDrag {
-            draggingItem = item
-            return NSItemProvider(object: item.id as NSString)
-          } preview: {
-            dragPreview(tmdbId: item.tmdbId, mediaType: item.mediaType)
-          }
-          .onDrop(of: [.text], delegate: ReorderDropDelegate(
-            item: item,
-            items: $userItems,
-            draggingItem: $draggingItem,
-            onReorder: { saveCollectionOrder() }
-          ))
-          .contextMenu {
-            let currentStatus = UserItemStatus(rawValue: selectedStatusTab.rawValue)
 
-            ForEach(UserItemStatus.allCases, id: \.rawValue) { status in
-              Button {
-                if status != currentStatus {
-                  Task { await changeItemStatus(item: item, to: status) }
-                }
-              } label: {
-                Label {
-                  Text(status.displayName(strings: strings))
-                } icon: {
-                  Image(systemName: status == currentStatus ? "checkmark" : status.icon)
-                }
-              }
-              .disabled(status == currentStatus)
-            }
-
-            Divider()
-
-            Button(role: .destructive) {
-              Task { await removeItem(item: item) }
-            } label: {
-              Label(strings.delete, systemImage: "trash")
-            }
-          } preview: {
-            ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
-              .frame(width: 200, height: 300)
-          }
-        }
-      }
-      .padding(.horizontal, 24)
-      .padding(.top, 16)
+      ProfileCollectionGrid(
+        userItems: $userItems,
+        draggingItem: $draggingItem,
+        isLoadingItems: isLoadingItems,
+        removingItemIds: removingItemIds,
+        selectedStatusTab: selectedStatusTab,
+        strings: strings,
+        onChangeStatus: changeItemStatus,
+        onRemoveItem: removeItem,
+        onReorder: saveCollectionOrder
+      )
     }
   }
 
@@ -525,472 +347,6 @@ struct ProfileTabView: View {
       }
       return Color.clear
     }
-  }
-
-  // MARK: - Data Loading
-  private func restoreFromCache() {
-    if let cachedUser = cache.user {
-      user = cachedUser
-    }
-    if let cachedCounts = cache.getStatusCounts() {
-      statusCounts = cachedCounts
-    }
-    if let cachedReviewsCount = cache.getReviewsCount() {
-      totalReviewsCount = cachedReviewsCount
-    }
-    if let cached = cache.getQuickStats() {
-      moviesCount = cached.moviesCount
-      seriesCount = cached.seriesCount
-      isLoadingQuickStats = false
-    }
-    if let userId = user?.id ?? cache.user?.id,
-       let cachedItems = cache.getItems(userId: userId, status: selectedStatusTab.rawValue) {
-      userItems = cachedItems
-    }
-  }
-
-  private func loadData() async {
-    if cache.isDataAvailable {
-      isInitialLoad = false
-    }
-
-    await loadUser()
-
-    // Prefetch reviews and stats in the background while collection loads
-    if let userId = user?.id {
-      ProfilePrefetchService.shared.prefetchReviewsAndStats(userId: userId)
-    }
-
-    await loadUserItems()
-    await loadStatusCounts()
-    await loadQuickStats()
-    await loadTotalReviewsCount()
-
-    isInitialLoad = false
-  }
-
-  private func loadUser(forceRefresh: Bool = false) async {
-    if !forceRefresh, let cachedUser = cache.user {
-      user = cachedUser
-      return
-    }
-
-    do {
-      let fetchedUser = try await AuthService.shared.getCurrentUser()
-      user = fetchedUser
-      cache.setUser(fetchedUser)
-      
-      // Track profile viewed (own profile)
-      AnalyticsService.shared.track(.profileViewed(userId: fetchedUser.id, isOwnProfile: true))
-    } catch {
-      print("Error loading user: \(error)")
-      user = nil
-    }
-  }
-
-  private func loadUserItems(forceRefresh: Bool = false) async {
-    guard let userId = user?.id else { return }
-
-    if !forceRefresh,
-       let cachedItems = cache.getItems(userId: userId, status: selectedStatusTab.rawValue) {
-      userItems = cachedItems
-      return
-    }
-
-    isLoadingItems = true
-    defer { isLoadingItems = false }
-
-    do {
-      let items = try await UserItemService.shared.getAllUserItems(
-        userId: userId,
-        status: selectedStatusTab.rawValue
-      )
-      userItems = items
-      cache.setItems(items, userId: userId, status: selectedStatusTab.rawValue)
-    } catch {
-      print("Error loading user items: \(error)")
-      userItems = []
-    }
-  }
-
-  private func loadStatusCounts(forceRefresh: Bool = false) async {
-    guard let userId = user?.id else { return }
-
-    if !forceRefresh, let cachedCounts = cache.getStatusCounts() {
-      statusCounts = cachedCounts
-      return
-    }
-
-    do {
-      let stats = try await UserStatsService.shared.getItemsStatus(userId: userId)
-      var counts: [String: Int] = [:]
-      for stat in stats {
-        counts[stat.status] = stat.count
-      }
-      statusCounts = counts
-      cache.setStatusCounts(counts)
-    } catch {
-      print("Error loading status counts: \(error)")
-      statusCounts = [:]
-    }
-  }
-
-  // MARK: - Status Change Actions
-  private func changeItemStatus(item: UserItemSummary, to newStatus: UserItemStatus) async {
-    guard newStatus.rawValue != selectedStatusTab.rawValue else { return }
-
-    do {
-      _ = try await UserItemService.shared.upsertUserItem(
-        tmdbId: item.tmdbId,
-        mediaType: item.mediaType,
-        status: newStatus
-      )
-
-      AnalyticsService.shared.track(.mediaStatusChanged(
-        tmdbId: item.tmdbId,
-        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv",
-        status: newStatus.rawValue,
-        source: "collection_context_menu"
-      ))
-
-      // Optimistic quick stats update
-      let isMovie = item.mediaType == "MOVIE"
-      let wasWatched = selectedStatusTab == .watched
-      let willBeWatched = newStatus == .watched
-
-      if wasWatched || willBeWatched {
-        withAnimation(.snappy) {
-          if wasWatched && !willBeWatched {
-            if isMovie { moviesCount = max(0, moviesCount - 1) }
-            else { seriesCount = max(0, seriesCount - 1) }
-          } else if !wasWatched && willBeWatched {
-            if isMovie { moviesCount += 1 }
-            else { seriesCount += 1 }
-          }
-        }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
-      }
-
-      await animateItemRemoval(item: item)
-
-      cache.clearCache()
-      if let userId = user?.id {
-        cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
-      }
-      await loadStatusCounts(forceRefresh: true)
-    } catch {
-      print("Error changing item status: \(error)")
-    }
-  }
-
-  private func removeItem(item: UserItemSummary) async {
-    do {
-      try await UserItemService.shared.deleteUserItem(
-        id: item.id,
-        tmdbId: item.tmdbId,
-        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-      )
-
-      AnalyticsService.shared.track(.mediaStatusRemoved(
-        tmdbId: item.tmdbId,
-        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-      ))
-
-      // Optimistic quick stats update
-      if selectedStatusTab == .watched {
-        withAnimation(.snappy) {
-          if item.mediaType == "MOVIE" { moviesCount = max(0, moviesCount - 1) }
-          else { seriesCount = max(0, seriesCount - 1) }
-        }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
-      }
-
-      await animateItemRemoval(item: item)
-
-      cache.clearCache()
-      if let userId = user?.id {
-        cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
-      }
-      await loadStatusCounts(forceRefresh: true)
-    } catch {
-      print("Error removing item: \(error)")
-    }
-  }
-
-  /// Two-phase removal animation (Apple-style):
-  /// Phase 1 — item fades out and shrinks (fast easeOut)
-  /// Phase 2 — remaining items spring into new positions
-  private func animateItemRemoval(item: UserItemSummary) async {
-    // Phase 1: fade out + shrink
-    withAnimation(.easeOut(duration: 0.2)) {
-      removingItemIds.insert(item.id)
-    }
-
-    // Wait for fade-out to finish before reflowing
-    try? await Task.sleep(nanoseconds: 250_000_000)
-
-    // Phase 2: remove from data source, spring remaining items into place
-    withAnimation(.spring(response: 0.45, dampingFraction: 0.86)) {
-      userItems.removeAll { $0.id == item.id }
-      removingItemIds.remove(item.id)
-    }
-  }
-
-  private func loadQuickStats(forceRefresh: Bool = false) async {
-    guard let userId = user?.id else { return }
-
-    if !forceRefresh, let cached = cache.getQuickStats() {
-      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount {
-        withAnimation(.snappy) {
-          moviesCount = cached.moviesCount
-          seriesCount = cached.seriesCount
-        }
-      }
-      isLoadingQuickStats = false
-      return
-    }
-
-    do {
-      let stats = try await UserStatsService.shared.getUserStats(userId: userId)
-      withAnimation(.snappy) {
-        moviesCount = stats.watchedMoviesCount
-        seriesCount = stats.watchedSeriesCount
-      }
-      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
-    } catch {
-      print("Error loading quick stats: \(error)")
-    }
-    isLoadingQuickStats = false
-  }
-
-  // MARK: - Collection Order
-  private func saveCollectionOrder() {
-    guard let userId = user?.id else { return }
-    let orderedIds = userItems.map(\.id)
-    // Update cache immediately for instant feedback
-    cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
-    // Sync with backend
-    Task {
-      do {
-        try await UserItemService.shared.reorderUserItems(
-          status: selectedStatusTab.rawValue,
-          orderedIds: orderedIds
-        )
-      } catch {
-        print("Error saving collection order: \(error)")
-      }
-    }
-  }
-
-  private func loadTotalReviewsCount(forceRefresh: Bool = false) async {
-    guard let userId = user?.id else { return }
-
-    if !forceRefresh, let cachedCount = cache.getReviewsCount() {
-      totalReviewsCount = cachedCount
-      return
-    }
-
-    do {
-      let count = try await ReviewService.shared.getUserReviewsCount(userId: userId)
-      totalReviewsCount = count
-      cache.setReviewsCount(count)
-    } catch {
-      print("Error loading reviews count: \(error)")
-      totalReviewsCount = 0
-    }
-  }
-}
-
-// MARK: - Profile Main Tabs
-struct ProfileMainTabs: View {
-  @Binding var selectedTab: ProfileMainTab
-  @Binding var slideFromTrailing: Bool
-  let strings: Strings
-  var reviewsCount: Int = 0
-  @Namespace private var tabNamespace
-
-  private func badgeCount(for tab: ProfileMainTab) -> Int {
-    switch tab {
-    case .collection: return 0
-    case .reviews: return reviewsCount
-    case .stats: return 0
-    }
-  }
-
-  var body: some View {
-    HStack(spacing: 0) {
-      ForEach(ProfileMainTab.allCases, id: \.self) { tab in
-        Button {
-          guard selectedTab != tab else { return }
-          slideFromTrailing = tab.index > selectedTab.index
-          withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-            selectedTab = tab
-          }
-        } label: {
-          VStack(spacing: 8) {
-            HStack(spacing: 6) {
-              Text(tab.displayName(strings: strings))
-                .font(.subheadline.weight(.medium))
-                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-
-              if badgeCount(for: tab) > 0 && selectedTab == tab {
-                CollectionCountBadge(count: badgeCount(for: tab))
-                  .transition(.scale.combined(with: .opacity))
-              }
-            }
-
-            ZStack {
-              Rectangle()
-                .fill(Color.clear)
-                .frame(height: 3)
-
-              if selectedTab == tab {
-                Rectangle()
-                  .fill(Color.appForegroundAdaptive)
-                  .frame(height: 3)
-                  .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
-              }
-            }
-          }
-        }
-        .buttonStyle(.plain)
-        .frame(maxWidth: .infinity)
-      }
-    }
-    .padding(.horizontal, 24)
-    .overlay(
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .frame(height: 1),
-      alignment: .bottom
-    )
-  }
-}
-
-// MARK: - Profile Status Tabs
-struct ProfileStatusTabs: View {
-  @Binding var selectedTab: ProfileStatusTab
-  let strings: Strings
-  var statusCounts: [String: Int] = [:]
-
-  private func count(for tab: ProfileStatusTab) -> Int {
-    statusCounts[tab.rawValue] ?? 0
-  }
-
-  var body: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 8) {
-        ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
-          let isSelected = selectedTab == tab
-
-          Button {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-              selectedTab = tab
-            }
-          } label: {
-            HStack(spacing: 6) {
-              Image(systemName: tab.icon)
-                .font(.system(size: 12))
-                .foregroundColor(isSelected ? tab.color : .appMutedForegroundAdaptive)
-                .contentTransition(.interpolate)
-
-              Text(tab.displayName(strings: strings))
-                .font(.footnote.weight(.medium))
-                .foregroundColor(isSelected ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-                .contentTransition(.interpolate)
-
-              if count(for: tab) > 0 && isSelected {
-                CollectionCountBadge(count: count(for: tab))
-                  .transition(.scale.combined(with: .opacity))
-              }
-            }
-            .padding(.horizontal, 12)
-            .frame(height: 34)
-            .background(Color.appInputFilled)
-            .clipShape(Capsule())
-          }
-          .buttonStyle(.plain)
-        }
-      }
-      .padding(.horizontal, 24)
-    }
-  }
-}
-
-// MARK: - Profile Quick Stats
-struct ProfileQuickStats: View {
-  let moviesCount: Int
-  let seriesCount: Int
-  let isLoading: Bool
-  let strings: Strings
-
-  var body: some View {
-    HStack(spacing: 0) {
-      // Movies
-      HStack(spacing: 6) {
-        Text("\(moviesCount)")
-          .font(.subheadline.weight(.semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .contentTransition(.numericText())
-
-        Text(strings.movies)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
-      .redacted(reason: isLoading ? .placeholder : [])
-
-      // Divider
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .frame(width: 1, height: 14)
-        .padding(.horizontal, 12)
-
-      // Series
-      HStack(spacing: 6) {
-        Text("\(seriesCount)")
-          .font(.subheadline.weight(.semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .contentTransition(.numericText())
-
-        Text(strings.series)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
-      .redacted(reason: isLoading ? .placeholder : [])
-
-      Spacer()
-    }
-  }
-}
-
-// MARK: - Reorder Drop Delegate
-struct ReorderDropDelegate: DropDelegate {
-  let item: UserItemSummary
-  @Binding var items: [UserItemSummary]
-  @Binding var draggingItem: UserItemSummary?
-  var onReorder: () -> Void
-
-  func dropEntered(info: DropInfo) {
-    guard let draggingItem,
-          draggingItem.id != item.id,
-          let from = items.firstIndex(where: { $0.id == draggingItem.id }),
-          let to = items.firstIndex(where: { $0.id == item.id })
-    else { return }
-
-    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-      items.move(fromOffsets: IndexSet(integer: from),
-                 toOffset: to > from ? to + 1 : to)
-    }
-  }
-
-  func performDrop(info: DropInfo) -> Bool {
-    draggingItem = nil
-    onReorder()
-    return true
-  }
-
-  func dropUpdated(info: DropInfo) -> DropProposal? {
-    DropProposal(operation: .move)
   }
 }
 

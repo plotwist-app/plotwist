@@ -119,14 +119,28 @@ final class PosterURLCache {
     return ImageCache.shared.image(for: url)
   }
 
-  /// Returns a drag-ready UIImage with rounded corners baked in.
-  func dragPreviewImage(tmdbId: Int, mediaType: String, size: CGSize, cornerRadius: CGFloat) -> UIImage? {
-    guard let original = cachedImage(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
-    let rect = CGRect(origin: .zero, size: size)
-    let renderer = UIGraphicsImageRenderer(size: size)
-    return renderer.image { _ in
-      UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).addClip()
-      original.draw(in: rect)
+}
+
+// MARK: - Cached Poster Preview
+/// A poster view that renders instantly from cache, for use in drag/context menu previews.
+struct CachedPosterPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  var width: CGFloat = 160
+
+  private var height: CGFloat { width * 1.5 }
+
+  var body: some View {
+    if let uiImage = PosterURLCache.shared.cachedImage(tmdbId: tmdbId, mediaType: mediaType) {
+      Image(uiImage: uiImage)
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    } else {
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive)
+        .frame(width: width, height: height)
     }
   }
 }
