@@ -1,6 +1,7 @@
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyMultipart from '@fastify/multipart'
+import fastifyRateLimit from '@fastify/rate-limit'
 import fastifyRedis from '@fastify/redis'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 
@@ -50,6 +51,20 @@ export function routes(app: FastifyInstance) {
 
   app.register(fastifyRedis, {
     url: config.redis.REDIS_URL,
+  })
+
+  app.register(async instance => {
+    await instance.register(fastifyRateLimit, {
+      redis: instance.redis,
+      max: config.app.RATE_LIMIT_MAX,
+      timeWindow: config.app.RATE_LIMIT_TIME_WINDOW_MS,
+      skipOnError: true,
+      errorResponseBuilder: (_request, context) => ({
+        statusCode: 429,
+        error: 'Too Many Requests',
+        message: `Rate limit exceeded, retry in ${Math.ceil(context.after / 1000)} seconds`,
+      }),
+    })
   })
 
   app.register(usersRoute)

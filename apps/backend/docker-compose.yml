@@ -26,8 +26,6 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: plotwist_db
       POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -60,7 +58,6 @@ services:
       - plotwist_network
 
 volumes:
-  postgres_data:
   redis-data:
   localstack_data:
     driver: local

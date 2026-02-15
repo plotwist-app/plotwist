@@ -67,6 +67,20 @@ export function startServer() {
         .send({ message: 'You hit the rate limit! Slow down please!' })
     }
 
+    if (
+      typeof (error as { statusCode?: number }).statusCode === 'number' &&
+      (error as { statusCode: number }).statusCode === 429
+    ) {
+      if (!reply.sent) {
+        return reply
+          .code(429)
+          .send(
+            (error as { message?: string }).message ?? 'Rate limit exceeded.'
+          )
+      }
+      return
+    }
+
     console.error({ error })
     return reply.status(500).send({ message: 'Internal server error.' })
   })
