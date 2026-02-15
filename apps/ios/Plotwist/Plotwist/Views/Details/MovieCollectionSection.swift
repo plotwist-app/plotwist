@@ -28,6 +28,14 @@ struct MovieCollectionSection: View {
     collection.parts.sorted { ($0.releaseDate ?? "") < ($1.releaseDate ?? "") }
   }
 
+  /// Expanded hero height that maintains the same image crop proportion as the collapsed card.
+  /// The visible image area below the status bar keeps the same aspect ratio,
+  /// and safeAreaTop is added so the image extends behind the status bar.
+  private var expandedHeroHeight: CGFloat {
+    let proportionalHeight = screen.width * 260.0 / (screen.width - 48)
+    return proportionalHeight + safeAreaTop
+  }
+
   private var spring: Animation {
     .spring(response: 0.5, dampingFraction: 0.86)
   }
@@ -37,7 +45,7 @@ struct MovieCollectionSection: View {
       VStack(alignment: .leading, spacing: 0) {
         // Hero — same content in both states, just height changes
         CollectionHero(collection: collection, strings: strings)
-          .frame(height: isExpanded ? 340 + safeAreaTop : 260)
+          .frame(height: isExpanded ? expandedHeroHeight : 260)
 
         // Content — revealed when card grows to page size
         if isExpanded {
@@ -135,30 +143,46 @@ private struct CollectionHero: View {
   let collection: MovieCollection
   let strings: Strings
 
+  /// The collapsed card aspect ratio (width / height) used to keep the image crop
+  /// consistent between collapsed and expanded states.
+  private var collapsedAspectRatio: CGFloat {
+    (UIScreen.main.bounds.width - 48) / 260.0
+  }
+
   var body: some View {
     GeometryReader { geometry in
+      // Image height that preserves the same crop proportion as the collapsed card.
+      // When collapsed (width = screen-48): imageHeight = 260 (matches hero exactly).
+      // When expanded (width = screen):     imageHeight ≈ 296 (proportionally taller).
+      let imageHeight = geometry.size.width / collapsedAspectRatio
+
       ZStack(alignment: .bottomLeading) {
+        // Background for the area below the image when the hero is taller than imageHeight
+        Color.black
+
+        // Backdrop image at proportional height, anchored to the top of the hero
         CachedAsyncImage(url: collection.backdropURL) { image in
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .frame(width: geometry.size.width, height: imageHeight)
             .clipped()
         } placeholder: {
           Rectangle()
             .fill(Color.appBorderAdaptive)
         }
-        .overlay(
-          LinearGradient(
-            stops: [
-              .init(color: .clear, location: 0),
-              .init(color: .clear, location: 0.25),
-              .init(color: Color.black.opacity(0.45), location: 0.55),
-              .init(color: Color.black.opacity(0.88), location: 1),
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-          )
+        .frame(width: geometry.size.width, height: geometry.size.height, alignment: .bottom)
+
+        // Gradient overlay spanning the full hero area
+        LinearGradient(
+          stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.25),
+            .init(color: Color.black.opacity(0.45), location: 0.55),
+            .init(color: Color.black.opacity(0.88), location: 1),
+          ],
+          startPoint: .top,
+          endPoint: .bottom
         )
 
         VStack(alignment: .leading, spacing: 2) {
