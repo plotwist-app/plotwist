@@ -60,7 +60,9 @@ struct ProfileTabView: View {
       }
       .onDrop(of: [.text], isTargeted: nil) { _ in
         if draggingItem != nil {
-          draggingItem = nil
+          withAnimation(.easeInOut(duration: 0.2)) {
+            draggingItem = nil
+          }
           saveCollectionOrder()
         }
         return true
@@ -115,7 +117,6 @@ struct ProfileTabView: View {
         )
       }
       .toolbar(draggingItem != nil ? .hidden : .visible, for: .tabBar)
-      .animation(.easeInOut(duration: 0.2), value: draggingItem != nil)
     }
   }
 

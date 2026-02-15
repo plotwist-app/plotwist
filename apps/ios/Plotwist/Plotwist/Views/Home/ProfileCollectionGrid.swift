@@ -88,7 +88,9 @@ struct ProfileCollectionGrid: View {
             onTapItem(item)
           }
           .onDrag {
-            draggingItem = item
+            withAnimation(.easeInOut(duration: 0.2)) {
+              draggingItem = item
+            }
             return NSItemProvider(object: item.id as NSString)
           }
           .opacity(removingItemIds.contains(item.id) ? 0 : 1)
@@ -165,7 +167,9 @@ struct CollectionReorderDelegate: DropDelegate {
   }
 
   func performDrop(info: DropInfo) -> Bool {
-    draggingItem = nil
+    withAnimation(.easeInOut(duration: 0.2)) {
+      draggingItem = nil
+    }
     onReorder()
     return true
   }
@@ -182,7 +186,9 @@ struct GridFallbackDropDelegate: DropDelegate {
   var onReorder: () -> Void
 
   func performDrop(info: DropInfo) -> Bool {
-    draggingItem = nil
+    withAnimation(.easeInOut(duration: 0.2)) {
+      draggingItem = nil
+    }
     onReorder()
     return true
   }
