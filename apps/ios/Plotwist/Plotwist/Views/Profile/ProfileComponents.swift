@@ -97,6 +97,40 @@ struct CollectionCountBadge: View {
   }
 }
 
+// MARK: - Poster URL Cache
+/// Stores poster URLs so drag previews can access cached images synchronously.
+final class PosterURLCache {
+  static let shared = PosterURLCache()
+  private var urls: [String: URL] = [:]
+
+  private init() {}
+
+  func set(_ url: URL, tmdbId: Int, mediaType: String) {
+    urls["\(tmdbId)-\(mediaType)"] = url
+  }
+
+  func get(tmdbId: Int, mediaType: String) -> URL? {
+    urls["\(tmdbId)-\(mediaType)"]
+  }
+
+  /// Returns the cached UIImage for a poster, if available.
+  func cachedImage(tmdbId: Int, mediaType: String) -> UIImage? {
+    guard let url = get(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
+    return ImageCache.shared.image(for: url)
+  }
+
+  /// Returns a drag-ready UIImage with rounded corners baked in.
+  func dragPreviewImage(tmdbId: Int, mediaType: String, size: CGSize, cornerRadius: CGFloat) -> UIImage? {
+    guard let original = cachedImage(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
+    let rect = CGRect(origin: .zero, size: size)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { _ in
+      UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).addClip()
+      original.draw(in: rect)
+    }
+  }
+}
+
 // MARK: - Profile Item Card
 struct ProfileItemCard: View {
   let tmdbId: Int
@@ -137,6 +171,10 @@ struct ProfileItemCard: View {
           language: Language.current.rawValue
         )
         posterURL = details.posterURL
+      }
+      // Cache the poster URL so drag previews can access it synchronously
+      if let posterURL {
+        PosterURLCache.shared.set(posterURL, tmdbId: tmdbId, mediaType: mediaType)
       }
     } catch {
       print("Error loading poster: \(error)")

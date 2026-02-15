@@ -90,6 +90,7 @@ struct ProfileTabView: View {
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var hasAppeared = false
   @State private var removingItemIds: Set<String> = []
+  @State private var draggingItem: UserItemSummary?
   @State private var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -396,6 +397,19 @@ struct ProfileTabView: View {
   }
 
   @ViewBuilder
+  private func dragPreview(tmdbId: Int, mediaType: String) -> some View {
+    if let uiImage = PosterURLCache.shared.dragPreviewImage(
+      tmdbId: tmdbId,
+      mediaType: mediaType,
+      size: CGSize(width: 160, height: 240),
+      cornerRadius: 16
+    ) {
+      Image(uiImage: uiImage)
+        .frame(width: 160, height: 240)
+    }
+  }
+
+  @ViewBuilder
   private var collectionGrid: some View {
     let columns = [
       GridItem(.flexible(), spacing: 12),
@@ -451,6 +465,18 @@ struct ProfileTabView: View {
           .buttonStyle(.plain)
           .opacity(removingItemIds.contains(item.id) ? 0 : 1)
           .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
+          .onDrag {
+            draggingItem = item
+            return NSItemProvider(object: item.id as NSString)
+          } preview: {
+            dragPreview(tmdbId: item.tmdbId, mediaType: item.mediaType)
+          }
+          .onDrop(of: [.text], delegate: ReorderDropDelegate(
+            item: item,
+            items: $userItems,
+            draggingItem: $draggingItem,
+            onReorder: { saveCollectionOrder() }
+          ))
           .contextMenu {
             let currentStatus = UserItemStatus(rawValue: selectedStatusTab.rawValue)
 
@@ -737,6 +763,25 @@ struct ProfileTabView: View {
     isLoadingQuickStats = false
   }
 
+  // MARK: - Collection Order
+  private func saveCollectionOrder() {
+    guard let userId = user?.id else { return }
+    let orderedIds = userItems.map(\.id)
+    // Update cache immediately for instant feedback
+    cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
+    // Sync with backend
+    Task {
+      do {
+        try await UserItemService.shared.reorderUserItems(
+          status: selectedStatusTab.rawValue,
+          orderedIds: orderedIds
+        )
+      } catch {
+        print("Error saving collection order: \(error)")
+      }
+    }
+  }
+
   private func loadTotalReviewsCount(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
 
@@ -915,6 +960,37 @@ struct ProfileQuickStats: View {
 
       Spacer()
     }
+  }
+}
+
+// MARK: - Reorder Drop Delegate
+struct ReorderDropDelegate: DropDelegate {
+  let item: UserItemSummary
+  @Binding var items: [UserItemSummary]
+  @Binding var draggingItem: UserItemSummary?
+  var onReorder: () -> Void
+
+  func dropEntered(info: DropInfo) {
+    guard let draggingItem,
+          draggingItem.id != item.id,
+          let from = items.firstIndex(where: { $0.id == draggingItem.id }),
+          let to = items.firstIndex(where: { $0.id == item.id })
+    else { return }
+
+    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+      items.move(fromOffsets: IndexSet(integer: from),
+                 toOffset: to > from ? to + 1 : to)
+    }
+  }
+
+  func performDrop(info: DropInfo) -> Bool {
+    draggingItem = nil
+    onReorder()
+    return true
+  }
+
+  func dropUpdated(info: DropInfo) -> DropProposal? {
+    DropProposal(operation: .move)
   }
 }
 

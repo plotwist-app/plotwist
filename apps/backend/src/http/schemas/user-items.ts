@@ -95,10 +95,16 @@ export const getAllUserItemsResponseSchema = {
         id: true,
         mediaType: true,
         tmdbId: true,
+        position: true,
       })
     ),
   }),
 }
+
+export const reorderUserItemsBodySchema = z.object({
+  status: z.enum(['WATCHLIST', 'WATCHED', 'WATCHING', 'DROPPED']),
+  orderedIds: z.array(z.string()).min(1),
+})
 
 export const getUserItemsCountQuerySchema = z.object({
   userId: z.string(),
