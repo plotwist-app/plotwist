@@ -86,6 +86,7 @@ struct ProfileTabView: View {
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var hasAppeared = false
+  @State private var removingItemIds: Set<String> = []
   @State private var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -436,6 +437,37 @@ struct ProfileTabView: View {
             ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
           }
           .buttonStyle(.plain)
+          .opacity(removingItemIds.contains(item.id) ? 0 : 1)
+          .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
+          .contextMenu {
+            let currentStatus = UserItemStatus(rawValue: selectedStatusTab.rawValue)
+
+            ForEach(UserItemStatus.allCases, id: \.rawValue) { status in
+              Button {
+                if status != currentStatus {
+                  Task { await changeItemStatus(item: item, to: status) }
+                }
+              } label: {
+                Label {
+                  Text(status.displayName(strings: strings))
+                } icon: {
+                  Image(systemName: status == currentStatus ? "checkmark" : status.icon)
+                }
+              }
+              .disabled(status == currentStatus)
+            }
+
+            Divider()
+
+            Button(role: .destructive) {
+              Task { await removeItem(item: item) }
+            } label: {
+              Label(strings.delete, systemImage: "trash")
+            }
+          } preview: {
+            ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+              .frame(width: 200, height: 300)
+          }
         }
       }
       .padding(.horizontal, 24)
@@ -480,6 +512,12 @@ struct ProfileTabView: View {
     }
 
     await loadUser()
+
+    // Prefetch reviews and stats in the background while collection loads
+    if let userId = user?.id {
+      ProfilePrefetchService.shared.prefetchReviewsAndStats(userId: userId)
+    }
+
     await loadUserItems()
     await loadStatusCounts()
     await loadTotalReviewsCount()
@@ -553,6 +591,80 @@ struct ProfileTabView: View {
     }
   }
 
+  // MARK: - Status Change Actions
+  private func changeItemStatus(item: UserItemSummary, to newStatus: UserItemStatus) async {
+    guard newStatus.rawValue != selectedStatusTab.rawValue else { return }
+
+    do {
+      _ = try await UserItemService.shared.upsertUserItem(
+        tmdbId: item.tmdbId,
+        mediaType: item.mediaType,
+        status: newStatus
+      )
+
+      AnalyticsService.shared.track(.mediaStatusChanged(
+        tmdbId: item.tmdbId,
+        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv",
+        status: newStatus.rawValue,
+        source: "collection_context_menu"
+      ))
+
+      await animateItemRemoval(item: item)
+
+      cache.clearCache()
+      if let userId = user?.id {
+        cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
+      }
+      await loadStatusCounts(forceRefresh: true)
+    } catch {
+      print("Error changing item status: \(error)")
+    }
+  }
+
+  private func removeItem(item: UserItemSummary) async {
+    do {
+      try await UserItemService.shared.deleteUserItem(
+        id: item.id,
+        tmdbId: item.tmdbId,
+        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+      )
+
+      AnalyticsService.shared.track(.mediaStatusRemoved(
+        tmdbId: item.tmdbId,
+        mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+      ))
+
+      await animateItemRemoval(item: item)
+
+      cache.clearCache()
+      if let userId = user?.id {
+        cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
+      }
+      await loadStatusCounts(forceRefresh: true)
+    } catch {
+      print("Error removing item: \(error)")
+    }
+  }
+
+  /// Two-phase removal animation (Apple-style):
+  /// Phase 1 — item fades out and shrinks (fast easeOut)
+  /// Phase 2 — remaining items spring into new positions
+  private func animateItemRemoval(item: UserItemSummary) async {
+    // Phase 1: fade out + shrink
+    withAnimation(.easeOut(duration: 0.2)) {
+      removingItemIds.insert(item.id)
+    }
+
+    // Wait for fade-out to finish before reflowing
+    try? await Task.sleep(nanoseconds: 250_000_000)
+
+    // Phase 2: remove from data source, spring remaining items into place
+    withAnimation(.spring(response: 0.45, dampingFraction: 0.86)) {
+      userItems.removeAll { $0.id == item.id }
+      removingItemIds.remove(item.id)
+    }
+  }
+
   private func loadTotalReviewsCount(forceRefresh: Bool = false) async {
     guard let userId = user?.id else { return }
 
@@ -606,13 +718,7 @@ struct ProfileMainTabs: View {
 
               if badgeCount(for: tab) > 0 && selectedTab == tab {
                 CollectionCountBadge(count: badgeCount(for: tab))
-                  .transition(
-                    .asymmetric(
-                      insertion: .move(edge: .leading).combined(with: .opacity),
-                      removal: .scale(scale: 0.8).combined(with: .opacity)
-                    )
-                  )
-                  .animation(.easeOut(duration: 0.15), value: selectedTab)
+                  .transition(.scale.combined(with: .opacity))
               }
             }
 
@@ -658,28 +764,27 @@ struct ProfileStatusTabs: View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 8) {
         ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
+          let isSelected = selectedTab == tab
+
           Button {
-            withAnimation(.easeInOut(duration: 0.2)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
               selectedTab = tab
             }
           } label: {
             HStack(spacing: 6) {
               Image(systemName: tab.icon)
                 .font(.system(size: 12))
-                .foregroundColor(selectedTab == tab ? tab.color : .appMutedForegroundAdaptive)
+                .foregroundColor(isSelected ? tab.color : .appMutedForegroundAdaptive)
+                .contentTransition(.interpolate)
 
               Text(tab.displayName(strings: strings))
                 .font(.footnote.weight(.medium))
-                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+                .foregroundColor(isSelected ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+                .contentTransition(.interpolate)
 
-              if count(for: tab) > 0 && selectedTab == tab {
+              if count(for: tab) > 0 && isSelected {
                 CollectionCountBadge(count: count(for: tab))
-                  .transition(
-                    .asymmetric(
-                      insertion: .move(edge: .leading).combined(with: .opacity),
-                      removal: .scale(scale: 0.8).combined(with: .opacity)
-                    )
-                  )
+                  .transition(.scale.combined(with: .opacity))
               }
             }
             .padding(.horizontal, 12)
@@ -688,7 +793,6 @@ struct ProfileStatusTabs: View {
             .clipShape(Capsule())
           }
           .buttonStyle(.plain)
-          .animation(.easeOut(duration: 0.15), value: selectedTab)
         }
       }
       .padding(.horizontal, 24)

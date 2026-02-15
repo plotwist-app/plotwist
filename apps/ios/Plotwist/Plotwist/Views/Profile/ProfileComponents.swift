@@ -144,6 +144,69 @@ struct ProfileItemCard: View {
   }
 }
 
+// MARK: - Profile Item Preview (Context Menu)
+struct ProfileItemPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  @State private var posterURL: URL?
+  @State private var title: String = ""
+
+  var body: some View {
+    VStack(spacing: 0) {
+      CachedAsyncImage(url: posterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+      }
+      .aspectRatio(2 / 3, contentMode: .fit)
+      .frame(width: 220)
+      .clipped()
+
+      if !title.isEmpty {
+        Text(title)
+          .font(.footnote.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 12)
+          .padding(.vertical, 10)
+          .frame(width: 220)
+          .background(Color.appBackgroundAdaptive)
+      }
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 12))
+    .task {
+      await loadDetails()
+    }
+  }
+
+  private func loadDetails() async {
+    do {
+      let type = mediaType == "MOVIE" ? "movie" : "tv"
+      if type == "movie" {
+        let details = try await TMDBService.shared.getMovieDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.title ?? details.name ?? ""
+      } else {
+        let details = try await TMDBService.shared.getTVSeriesDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.name ?? details.title ?? ""
+      }
+    } catch {
+      print("Error loading preview: \(error)")
+    }
+  }
+}
+
 // MARK: - Profile Badge
 struct ProfileBadge: View {
   let text: String
