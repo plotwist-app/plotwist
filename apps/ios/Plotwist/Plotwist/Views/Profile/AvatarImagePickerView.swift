@@ -346,96 +346,69 @@ struct AvatarImagePickerView: View {
     VStack(spacing: 0) {
       if let cropImage {
         GeometryReader { geo in
-          let cropSize = min(geo.size.width - 48, geo.size.height - 48, 320)
-          let imageAspect = cropImage.size.width / cropImage.size.height
-          let fitsWidth = imageAspect > geo.size.width / geo.size.height
-          let displayedWidth: CGFloat = fitsWidth ? geo.size.width : geo.size.height * imageAspect
-          let displayedHeight: CGFloat = fitsWidth ? geo.size.width / imageAspect : geo.size.height
-          // Minimum scale so the image always covers the crop circle
-          let computedMinScale: CGFloat = max(cropSize / displayedWidth, cropSize / displayedHeight, 1.0)
+          let circleDiameter = min(geo.size.width - 48, geo.size.height - 48, 320)
+          let imgAspect = cropImage.size.width / cropImage.size.height
+          let fitW = imgAspect > geo.size.width / geo.size.height
+          let imgW: CGFloat = fitW ? geo.size.width : geo.size.height * imgAspect
+          let imgH: CGFloat = fitW ? geo.size.width / imgAspect : geo.size.height
+          let minScale: CGFloat = max(circleDiameter / imgW, circleDiameter / imgH, 1.0)
 
           ZStack {
-            // Background dimmed
             Color.black
 
-            // Background image (full, dimmed)
+            // Dimmed background image
             Image(uiImage: cropImage)
               .resizable()
               .aspectRatio(contentMode: .fit)
               .scaleEffect(cropScale)
               .offset(cropOffset)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .frame(width: geo.size.width, height: geo.size.height)
               .clipped()
               .opacity(0.3)
 
-            // Cropped preview in circle
+            // Visible crop circle
             Image(uiImage: cropImage)
               .resizable()
               .aspectRatio(contentMode: .fit)
               .scaleEffect(cropScale)
               .offset(cropOffset)
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-              .clipShape(Circle()
-                .size(CGSize(width: cropSize, height: cropSize))
-                .offset(x: (geo.size.width - cropSize) / 2, y: (geo.size.height - cropSize) / 2)
+              .frame(width: geo.size.width, height: geo.size.height)
+              .mask(
+                Circle()
+                  .frame(width: circleDiameter, height: circleDiameter)
               )
 
-            // Circle border overlay
+            // Circle border
             Circle()
               .stroke(Color.white, lineWidth: 2)
-              .frame(width: cropSize, height: cropSize)
+              .frame(width: circleDiameter, height: circleDiameter)
               .shadow(color: .black.opacity(0.3), radius: 4)
           }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .frame(width: geo.size.width, height: geo.size.height)
           .contentShape(Rectangle())
-          .onAppear {
-            // Store actual geometry values for the render function
-            geoDisplayedWidth = displayedWidth
-            geoDisplayedHeight = displayedHeight
-            geoCropSize = cropSize
-            // Set minimum scale and initial scale to cover crop circle
-            minCropScale = computedMinScale
-            if cropScale < computedMinScale {
-              cropScale = computedMinScale
-              lastScale = computedMinScale
-            }
-          }
-          .simultaneousGesture(
+          .gesture(
             DragGesture()
               .onChanged { value in
                 let raw = CGSize(
                   width: lastOffset.width + value.translation.width,
                   height: lastOffset.height + value.translation.height
                 )
-                cropOffset = clampOffset(raw, displayedWidth: displayedWidth, displayedHeight: displayedHeight, cropSize: cropSize)
+                cropOffset = clampOffset(raw, imgW: imgW, imgH: imgH, cropDiameter: circleDiameter)
               }
               .onEnded { _ in
                 lastOffset = cropOffset
               }
           )
-          .simultaneousGesture(
-            MagnificationGesture()
-              .onChanged { value in
-                let newScale = lastScale * value
-                cropScale = min(max(newScale, computedMinScale), 5.0)
-              }
-              .onEnded { _ in
-                lastScale = cropScale
-                cropOffset = clampOffset(cropOffset, displayedWidth: displayedWidth, displayedHeight: displayedHeight, cropSize: cropSize)
-                lastOffset = cropOffset
-              }
-          )
-          .simultaneousGesture(
-            TapGesture(count: 2)
-              .onEnded {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                  cropOffset = .zero
-                  cropScale = computedMinScale
-                  lastOffset = .zero
-                  lastScale = computedMinScale
-                }
-              }
-          )
+          .onAppear {
+            geoDisplayedWidth = imgW
+            geoDisplayedHeight = imgH
+            geoCropSize = circleDiameter
+            minCropScale = minScale
+            if cropScale < minScale {
+              cropScale = minScale
+              lastScale = minScale
+            }
+          }
         }
 
         // Zoom slider
@@ -444,10 +417,12 @@ struct AvatarImagePickerView: View {
             .font(.system(size: 12, weight: .medium))
             .foregroundColor(.appMutedForegroundAdaptive)
 
-          Slider(value: $cropScale, in: minCropScale...5.0, step: 0.1)
+          Slider(value: $cropScale, in: minCropScale...5.0, step: 0.05)
             .tint(.appForegroundAdaptive)
-            .onChange(of: cropScale) { _, newValue in
-              lastScale = newValue
+            .onChange(of: cropScale) { _, _ in
+              // Re-clamp offset when scale changes
+              cropOffset = clampOffset(cropOffset, imgW: geoDisplayedWidth, imgH: geoDisplayedHeight, cropDiameter: geoCropSize)
+              lastOffset = cropOffset
             }
 
           Image(systemName: "plus")
@@ -497,11 +472,11 @@ struct AvatarImagePickerView: View {
 
   // MARK: - Clamp Offset
   /// Prevents the crop circle from going outside the image bounds
-  private func clampOffset(_ offset: CGSize, displayedWidth: CGFloat, displayedHeight: CGFloat, cropSize: CGFloat) -> CGSize {
-    let scaledW = displayedWidth * cropScale
-    let scaledH = displayedHeight * cropScale
-    let maxX = max(0, (scaledW - cropSize) / 2)
-    let maxY = max(0, (scaledH - cropSize) / 2)
+  private func clampOffset(_ offset: CGSize, imgW: CGFloat, imgH: CGFloat, cropDiameter: CGFloat) -> CGSize {
+    let scaledW = imgW * cropScale
+    let scaledH = imgH * cropScale
+    let maxX = max(0, (scaledW - cropDiameter) / 2)
+    let maxY = max(0, (scaledH - cropDiameter) / 2)
     return CGSize(
       width: min(max(offset.width, -maxX), maxX),
       height: min(max(offset.height, -maxY), maxY)
@@ -635,49 +610,37 @@ struct AvatarImagePickerView: View {
   private func renderCroppedImage(source: UIImage) -> UIImage? {
     let outputSize: CGFloat = 500
 
-    // Use the exact geometry values stored from the crop view
-    let displayedWidth = geoDisplayedWidth
-    let displayedHeight = geoDisplayedHeight
-    let cropDiameter = geoCropSize
+    let imgW = geoDisplayedWidth   // image displayed width at scale 1
+    let imgH = geoDisplayedHeight  // image displayed height at scale 1
+    let circleDia = geoCropSize    // crop circle diameter in display pts
 
-    guard displayedWidth > 0, displayedHeight > 0, cropDiameter > 0 else {
-      return nil
-    }
+    guard imgW > 0, imgH > 0, circleDia > 0 else { return nil }
 
-    // How many source pixels per display point at current scale
-    let pixelsPerPointX = source.size.width / (displayedWidth * cropScale)
-    let pixelsPerPointY = source.size.height / (displayedHeight * cropScale)
+    // Single scale factor: source pixels per display point (aspect-fit → same for x and y)
+    let pxPerPt = source.size.width / (imgW * cropScale)
 
-    // Crop size in source pixels (use both axes for non-square crops)
-    let cropPixelsW = cropDiameter * pixelsPerPointX
-    let cropPixelsH = cropDiameter * pixelsPerPointY
+    // Crop square side in source pixels
+    let cropPx = circleDia * pxPerPt
 
-    // Center of crop in source pixels (offset moves image, so crop center moves opposite)
-    let centerX = source.size.width / 2 - cropOffset.width * pixelsPerPointX
-    let centerY = source.size.height / 2 - cropOffset.height * pixelsPerPointY
+    // The crop circle is centered on the view; offset shifts the image.
+    // So the crop center in source pixels is the image center minus the offset.
+    let cx = source.size.width  / 2.0 - cropOffset.width  * pxPerPt
+    let cy = source.size.height / 2.0 - cropOffset.height * pxPerPt
 
-    let sourceRect = CGRect(
-      x: centerX - cropPixelsW / 2,
-      y: centerY - cropPixelsH / 2,
-      width: cropPixelsW,
-      height: cropPixelsH
+    var rect = CGRect(
+      x: cx - cropPx / 2,
+      y: cy - cropPx / 2,
+      width: cropPx,
+      height: cropPx
     )
 
     // Clamp to image bounds
-    let clampedRect = sourceRect.intersection(
-      CGRect(origin: .zero, size: source.size)
-    )
+    rect = rect.intersection(CGRect(origin: .zero, size: source.size))
+    guard !rect.isEmpty, let cg = source.cgImage?.cropping(to: rect) else { return nil }
 
-    guard !clampedRect.isEmpty,
-          let cgImage = source.cgImage?.cropping(to: clampedRect) else {
-      return nil
-    }
-
-    // Render at output size
     let renderer = UIGraphicsImageRenderer(size: CGSize(width: outputSize, height: outputSize))
     return renderer.image { _ in
-      let rect = CGRect(x: 0, y: 0, width: outputSize, height: outputSize)
-      UIImage(cgImage: cgImage).draw(in: rect)
+      UIImage(cgImage: cg).draw(in: CGRect(x: 0, y: 0, width: outputSize, height: outputSize))
     }
   }
 
