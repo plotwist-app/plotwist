@@ -620,6 +620,30 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
   }),
 }))
 
+export const feedbackTypeEnum = pgEnum('feedback_type', ['bug', 'idea'])
+
+export const feedbacks = pgTable('feedbacks', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  type: feedbackTypeEnum('type').notNull(),
+  description: varchar('description').notNull(),
+  screenshotUrl: varchar('screenshot_url'),
+  appVersion: varchar('app_version'),
+  deviceInfo: varchar('device_info'),
+})
+
+export const feedbacksRelations = relations(feedbacks, ({ one }) => ({
+  user: one(users, {
+    fields: [feedbacks.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -640,6 +664,7 @@ export const schema = {
   userPreferences,
   subscriptions,
   subscriptionTypeEnum,
+  feedbacks,
 }
 
 export * from './user-preferences'
