@@ -106,6 +106,8 @@ struct ProfileTabView: View {
           mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
         )
       }
+      .toolbar(draggingItem != nil ? .hidden : .visible, for: .tabBar)
+      .animation(.easeInOut(duration: 0.2), value: draggingItem != nil)
     }
   }
 
@@ -200,7 +202,6 @@ struct ProfileTabView: View {
     .safeAreaInset(edge: .top, spacing: 0) {
       headerView(user: user)
     }
-    .ignoresSafeArea(.container, edges: .bottom)
   }
 
   // MARK: - Header View
