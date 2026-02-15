@@ -231,17 +231,7 @@ struct ProfileTabView: View {
 
       Spacer()
 
-      Menu {
-        NavigationLink(destination: EditProfileView(user: user)) {
-          Label(strings.editProfile, systemImage: "pencil")
-        }
-
-        Button {
-          showReorderCollection = true
-        } label: {
-          Label(strings.reorderCollection, systemImage: "arrow.up.arrow.down")
-        }
-      } label: {
+      NavigationLink(destination: EditProfileView(user: user)) {
         Image(systemName: "ellipsis")
           .font(.system(size: 14))
           .foregroundColor(.appForegroundAdaptive)
@@ -342,10 +332,11 @@ struct ProfileTabView: View {
       ProfileStatusTabs(
         selectedTab: $selectedStatusTab,
         strings: strings,
-        statusCounts: statusCounts
+        statusCounts: statusCounts,
+        onReorder: { showReorderCollection = true }
       )
       .padding(.top, 8)
-      .onChange(of: selectedStatusTab) {
+      .onChange(of: selectedStatusTab) { _, _ in
         Task { await loadUserItems() }
       }
 

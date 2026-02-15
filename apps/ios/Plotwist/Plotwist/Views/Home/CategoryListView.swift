@@ -469,7 +469,8 @@ struct CategoryListView: View {
         }
         .frame(width: screenWidth, alignment: .topLeading)
         .frame(maxHeight: .infinity, alignment: .top)
-        .clipShape(Rectangle())
+        .clipped()
+        .ignoresSafeArea(edges: .bottom)
         .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentOffset)
         .animation(.spring(response: 0.4, dampingFraction: 0.88), value: previousOffset)
       }

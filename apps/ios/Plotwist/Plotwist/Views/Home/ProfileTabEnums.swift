@@ -46,6 +46,15 @@ enum ProfileStatusTab: String, CaseIterable {
     case .dropped: return .red
     }
   }
+
+  var index: Int {
+    switch self {
+    case .watched: return 0
+    case .watching: return 1
+    case .watchlist: return 2
+    case .dropped: return 3
+    }
+  }
 }
 
 // MARK: - Profile Main Tab

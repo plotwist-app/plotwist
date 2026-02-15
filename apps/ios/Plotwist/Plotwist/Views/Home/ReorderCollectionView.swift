@@ -23,6 +23,7 @@ struct ReorderCollectionView: View {
   @State private var isSaving = false
   @State private var changedTabs: Set<String> = []
   @State private var editedItemsByTab: [String: [UserItemSummary]] = [:]
+  @State private var isWiggling = false
 
   private let columns = [
     GridItem(.flexible(), spacing: 12),
@@ -58,6 +59,7 @@ struct ReorderCollectionView: View {
     }
     .task {
       await loadItems()
+      withAnimation { isWiggling = true }
     }
   }
 
@@ -181,9 +183,13 @@ struct ReorderCollectionView: View {
     )
     .padding(.top, 8)
     .padding(.bottom, 8)
-    .onChange(of: currentTab) { oldTab, newTab in
+    .onChange(of: currentTab) { oldTab, _ in
       editedItemsByTab[oldTab.rawValue] = items
-      Task { await loadItems() }
+      isWiggling = false
+      Task {
+        await loadItems()
+        withAnimation { isWiggling = true }
+      }
     }
   }
 
@@ -207,10 +213,20 @@ struct ReorderCollectionView: View {
   }
 
   private func reorderItemCard(item: UserItemSummary) -> some View {
-    ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+    var rng = SeededGenerator(seed: item.id.hashValue)
+    let duration = Double.random(in: 0.14...0.22, using: &rng)
+    let angle: Double = isWiggling ? 0.6 : -0.6
+
+    return ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
       .contentShape(
         .dragPreview,
         RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+      )
+      .rotationEffect(.degrees(angle), anchor: .center)
+      .animation(
+        .easeInOut(duration: duration)
+          .repeatForever(autoreverses: true),
+        value: isWiggling
       )
       .onDrag {
         draggingItem = item
@@ -315,5 +331,22 @@ struct ReorderDropDelegate: DropDelegate {
 
   func dropUpdated(info: DropInfo) -> DropProposal? {
     DropProposal(operation: .move)
+  }
+}
+
+// MARK: - Seeded Random Generator
+private struct SeededGenerator: RandomNumberGenerator {
+  var state: UInt64
+
+  init(seed: Int) {
+    state = UInt64(bitPattern: Int64(seed))
+  }
+
+  mutating func next() -> UInt64 {
+    state &+= 0x9E3779B97F4A7C15
+    var z = state
+    z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+    z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+    return z ^ (z >> 31)
   }
 }
