@@ -108,6 +108,10 @@ struct ProfileCollectionGrid: View {
     }
     .padding(.horizontal, 24)
     .padding(.top, 16)
+    .onDrop(of: [.text], delegate: GridFallbackDropDelegate(
+      draggingItem: $draggingItem,
+      onReorder: onReorder
+    ))
   }
 
   // MARK: - Context Menu
@@ -159,6 +163,23 @@ struct CollectionReorderDelegate: DropDelegate {
                  toOffset: to > from ? to + 1 : to)
     }
   }
+
+  func performDrop(info: DropInfo) -> Bool {
+    draggingItem = nil
+    onReorder()
+    return true
+  }
+
+  func dropUpdated(info: DropInfo) -> DropProposal? {
+    DropProposal(operation: .move)
+  }
+}
+
+// MARK: - Grid Fallback Drop Delegate
+/// Catches drops that land between grid items (in the grid area but not on a specific item)
+struct GridFallbackDropDelegate: DropDelegate {
+  @Binding var draggingItem: UserItemSummary?
+  var onReorder: () -> Void
 
   func performDrop(info: DropInfo) -> Bool {
     draggingItem = nil

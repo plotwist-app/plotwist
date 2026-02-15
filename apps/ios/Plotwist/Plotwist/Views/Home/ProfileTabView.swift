@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 // MARK: - Profile Tab View
 struct ProfileTabView: View {
@@ -56,6 +57,13 @@ struct ProfileTabView: View {
         } else {
           errorView
         }
+      }
+      .onDrop(of: [.text], isTargeted: nil) { _ in
+        if draggingItem != nil {
+          draggingItem = nil
+          saveCollectionOrder()
+        }
+        return true
       }
       .onAppear {
         if !hasAppeared {
