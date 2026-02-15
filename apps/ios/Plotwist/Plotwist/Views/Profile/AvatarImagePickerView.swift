@@ -1,0 +1,747 @@
+//
+//  AvatarImagePickerView.swift
+//  Plotwist
+//
+
+import SwiftUI
+
+// MARK: - Avatar Image Picker Step
+private enum AvatarPickerStep {
+  case selectTitle
+  case selectImage
+  case cropImage
+}
+
+// MARK: - Selected Title
+private struct SelectedTitle: Equatable {
+  let id: Int
+  let type: String // "movie" or "tv"
+  let title: String
+}
+
+// MARK: - Avatar Image Picker View
+struct AvatarImagePickerView: View {
+  let user: User
+  let onSaved: () -> Void
+
+  @Environment(\.dismiss) private var dismiss
+  @State private var strings = L10n.current
+  @State private var step: AvatarPickerStep = .selectTitle
+  @State private var searchText = ""
+  @State private var searchResults: [SearchResult] = []
+  @State private var topRatedMovies: [SearchResult] = []
+  @State private var isLoadingList = true
+  @State private var isSearching = false
+  @State private var selectedTitle: SelectedTitle?
+  @State private var titleImages: [TMDBImage] = []
+  @State private var isLoadingImages = false
+  @State private var selectedImage: TMDBImage?
+  @State private var cropImage: UIImage?
+  @State private var isSaving = false
+  @State private var saveError: String?
+  // Crop state
+  @State private var cropOffset: CGSize = .zero
+  @State private var cropScale: CGFloat = 1.0
+  @State private var lastOffset: CGSize = .zero
+  @State private var lastScale: CGFloat = 1.0
+  @State private var minCropScale: CGFloat = 1.0
+  // Store actual geometry values for accurate cropping
+  @State private var geoDisplayedWidth: CGFloat = 0
+  @State private var geoDisplayedHeight: CGFloat = 0
+  @State private var geoCropSize: CGFloat = 0
+
+  private let searchDebouncer = Debouncer(delay: 0.5)
+
+  var body: some View {
+    ZStack {
+      Color.appBackgroundAdaptive.ignoresSafeArea()
+
+      VStack(spacing: 0) {
+        headerView
+        
+        switch step {
+        case .selectTitle:
+          selectTitleStep
+        case .selectImage:
+          selectImageStep
+        case .cropImage:
+          cropImageStep
+        }
+      }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+      strings = L10n.current
+    }
+  }
+
+  // MARK: - Header
+  private var headerView: some View {
+    VStack(spacing: 0) {
+      HStack {
+        Button {
+          switch step {
+          case .selectTitle:
+            dismiss()
+          case .selectImage:
+            withAnimation(.easeInOut(duration: 0.2)) {
+              step = .selectTitle
+              selectedTitle = nil
+              titleImages = []
+            }
+          case .cropImage:
+            withAnimation(.easeInOut(duration: 0.2)) {
+              step = .selectImage
+              selectedImage = nil
+              cropImage = nil
+              resetCropState()
+            }
+          }
+        } label: {
+          Image(systemName: step == .selectTitle ? "xmark" : "chevron.left")
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundColor(.appForegroundAdaptive)
+            .frame(width: 36, height: 36)
+            .background(Color.appInputFilled)
+            .clipShape(Circle())
+        }
+
+        Spacer()
+
+        Text(headerTitle)
+          .font(.headline)
+          .foregroundColor(.appForegroundAdaptive)
+
+        Spacer()
+
+        // Balance spacer
+        Color.clear.frame(width: 36, height: 36)
+      }
+      .padding(.horizontal, 20)
+      .padding(.vertical, 12)
+
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+    }
+  }
+
+  private var headerTitle: String {
+    switch step {
+    case .selectTitle:
+      return strings.editPicture
+    case .selectImage:
+      return selectedTitle?.title ?? strings.images
+    case .cropImage:
+      return strings.editPicture
+    }
+  }
+
+  // MARK: - Step 1: Select Title
+  private var selectTitleStep: some View {
+    VStack(spacing: 0) {
+      // Search bar
+      searchBar
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.3))
+        .frame(height: 1)
+
+      // Results
+      ScrollView(showsIndicators: false) {
+        if isLoadingList && searchText.isEmpty {
+          loadingGrid
+        } else if !searchText.isEmpty && isSearching {
+          loadingGrid
+        } else if !searchText.isEmpty && searchResults.isEmpty {
+          emptyState
+        } else {
+          titleGrid(items: searchText.isEmpty ? topRatedMovies : searchResults)
+        }
+      }
+    }
+    .task {
+      await loadTopRated()
+    }
+  }
+
+  private var searchBar: some View {
+    HStack(spacing: 10) {
+      Image(systemName: "magnifyingglass")
+        .font(.system(size: 16))
+        .foregroundColor(.appMutedForegroundAdaptive)
+
+      TextField(strings.searchPlaceholder, text: $searchText)
+        .font(.subheadline)
+        .foregroundColor(.appForegroundAdaptive)
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
+        .onChange(of: searchText) { _, newValue in
+          if newValue.isEmpty {
+            searchResults = []
+            isSearching = false
+          } else {
+            isSearching = true
+            searchDebouncer.debounce {
+              await performSearch(query: newValue)
+            }
+          }
+        }
+
+      if !searchText.isEmpty {
+        Button {
+          searchText = ""
+          searchResults = []
+          isSearching = false
+        } label: {
+          Image(systemName: "xmark.circle.fill")
+            .font(.system(size: 16))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+    }
+    .padding(.horizontal, 14)
+    .frame(height: 44)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 12))
+  }
+
+  private func titleGrid(items: [SearchResult]) -> some View {
+    LazyVStack(spacing: 12) {
+      ForEach(items) { item in
+        titleCard(item: item)
+      }
+    }
+    .padding(.horizontal, 20)
+    .padding(.vertical, 16)
+  }
+
+  private func titleCard(item: SearchResult) -> some View {
+    Button {
+      let type = item.mediaType ?? "movie"
+      selectedTitle = SelectedTitle(
+        id: item.id,
+        type: type == "tv" ? "tv" : "movie",
+        title: item.displayTitle
+      )
+      withAnimation(.easeInOut(duration: 0.2)) {
+        step = .selectImage
+      }
+    } label: {
+      ZStack {
+        // Backdrop image
+        if let backdropURL = item.hdBackdropURL ?? item.backdropURL {
+          CachedAsyncImage(url: backdropURL) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } placeholder: {
+            Rectangle()
+              .fill(Color.appInputFilled)
+          }
+        } else if let posterURL = item.hdPosterURL ?? item.imageURL {
+          CachedAsyncImage(url: posterURL) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } placeholder: {
+            Rectangle()
+              .fill(Color.appInputFilled)
+          }
+        } else {
+          Rectangle()
+            .fill(Color.appInputFilled)
+        }
+
+        // Dark overlay
+        Color.black.opacity(0.6)
+
+        // Title centered
+        Text(item.displayTitle)
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.white)
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 20)
+      }
+      .frame(height: 200)
+      .clipShape(RoundedRectangle(cornerRadius: 24))
+    }
+    .buttonStyle(.plain)
+  }
+
+  private var loadingGrid: some View {
+    LazyVStack(spacing: 12) {
+      ForEach(0..<5, id: \.self) { _ in
+        RoundedRectangle(cornerRadius: 24)
+          .fill(Color.appBorderAdaptive)
+          .frame(height: 200)
+      }
+    }
+    .padding(.horizontal, 20)
+    .padding(.vertical, 16)
+  }
+
+  private var emptyState: some View {
+    VStack(spacing: 12) {
+      Spacer()
+      Image(systemName: "film")
+        .font(.system(size: 40))
+        .foregroundColor(.appMutedForegroundAdaptive)
+      Text(strings.noResults)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+      Spacer()
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.top, 60)
+  }
+
+  // MARK: - Step 2: Select Image
+  private var selectImageStep: some View {
+    Group {
+      if isLoadingImages {
+        VStack {
+          Spacer()
+          ProgressView()
+          Spacer()
+        }
+      } else if titleImages.isEmpty {
+        VStack(spacing: 12) {
+          Spacer()
+          Image(systemName: "photo.on.rectangle.angled")
+            .font(.system(size: 40))
+            .foregroundColor(.appMutedForegroundAdaptive)
+          Text(strings.noImagesFound)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+          Spacer()
+        }
+        .frame(maxWidth: .infinity)
+      } else {
+        ScrollView(showsIndicators: false) {
+          ImageMasonryView(
+            images: titleImages,
+            onImageTap: { image in
+              selectedImage = image
+              loadCropImage(image: image)
+              withAnimation(.easeInOut(duration: 0.2)) {
+                step = .cropImage
+              }
+            }
+          )
+          .padding(.horizontal, 20)
+          .padding(.vertical, 16)
+        }
+      }
+    }
+    .task(id: selectedTitle) {
+      await loadImages()
+    }
+  }
+
+  // MARK: - Step 3: Crop Image
+  private var cropImageStep: some View {
+    VStack(spacing: 0) {
+      if let cropImage {
+        GeometryReader { geo in
+          let cropSize = min(geo.size.width - 48, geo.size.height - 48, 320)
+          let imageAspect = cropImage.size.width / cropImage.size.height
+          let fitsWidth = imageAspect > geo.size.width / geo.size.height
+          let displayedWidth: CGFloat = fitsWidth ? geo.size.width : geo.size.height * imageAspect
+          let displayedHeight: CGFloat = fitsWidth ? geo.size.width / imageAspect : geo.size.height
+          // Minimum scale so the image always covers the crop circle
+          let computedMinScale: CGFloat = max(cropSize / displayedWidth, cropSize / displayedHeight, 1.0)
+
+          ZStack {
+            // Background dimmed
+            Color.black
+
+            // Background image (full, dimmed)
+            Image(uiImage: cropImage)
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .scaleEffect(cropScale)
+              .offset(cropOffset)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .clipped()
+              .opacity(0.3)
+
+            // Cropped preview in circle
+            Image(uiImage: cropImage)
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .scaleEffect(cropScale)
+              .offset(cropOffset)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .clipShape(Circle()
+                .size(CGSize(width: cropSize, height: cropSize))
+                .offset(x: (geo.size.width - cropSize) / 2, y: (geo.size.height - cropSize) / 2)
+              )
+
+            // Circle border overlay
+            Circle()
+              .stroke(Color.white, lineWidth: 2)
+              .frame(width: cropSize, height: cropSize)
+              .shadow(color: .black.opacity(0.3), radius: 4)
+          }
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .contentShape(Rectangle())
+          .onAppear {
+            // Store actual geometry values for the render function
+            geoDisplayedWidth = displayedWidth
+            geoDisplayedHeight = displayedHeight
+            geoCropSize = cropSize
+            // Set minimum scale and initial scale to cover crop circle
+            minCropScale = computedMinScale
+            if cropScale < computedMinScale {
+              cropScale = computedMinScale
+              lastScale = computedMinScale
+            }
+          }
+          .simultaneousGesture(
+            DragGesture()
+              .onChanged { value in
+                let raw = CGSize(
+                  width: lastOffset.width + value.translation.width,
+                  height: lastOffset.height + value.translation.height
+                )
+                cropOffset = clampOffset(raw, displayedWidth: displayedWidth, displayedHeight: displayedHeight, cropSize: cropSize)
+              }
+              .onEnded { _ in
+                lastOffset = cropOffset
+              }
+          )
+          .simultaneousGesture(
+            MagnificationGesture()
+              .onChanged { value in
+                let newScale = lastScale * value
+                cropScale = min(max(newScale, computedMinScale), 5.0)
+              }
+              .onEnded { _ in
+                lastScale = cropScale
+                cropOffset = clampOffset(cropOffset, displayedWidth: displayedWidth, displayedHeight: displayedHeight, cropSize: cropSize)
+                lastOffset = cropOffset
+              }
+          )
+          .simultaneousGesture(
+            TapGesture(count: 2)
+              .onEnded {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                  cropOffset = .zero
+                  cropScale = computedMinScale
+                  lastOffset = .zero
+                  lastScale = computedMinScale
+                }
+              }
+          )
+        }
+
+        // Zoom slider
+        HStack(spacing: 12) {
+          Image(systemName: "minus")
+            .font(.system(size: 12, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+
+          Slider(value: $cropScale, in: minCropScale...5.0, step: 0.1)
+            .tint(.appForegroundAdaptive)
+            .onChange(of: cropScale) { _, newValue in
+              lastScale = newValue
+            }
+
+          Image(systemName: "plus")
+            .font(.system(size: 12, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+        .padding(.horizontal, 32)
+        .padding(.vertical, 12)
+      } else {
+        Spacer()
+        ProgressView()
+        Spacer()
+      }
+
+      // Error message
+      if let saveError {
+        Text(saveError)
+          .font(.caption)
+          .foregroundColor(.appDestructive)
+          .padding(.horizontal, 24)
+          .padding(.bottom, 8)
+      }
+
+      // Save button
+      Button {
+        Task { await saveCroppedAvatar() }
+      } label: {
+        HStack(spacing: 8) {
+          if isSaving {
+            ProgressView()
+              .tint(.appBackgroundAdaptive)
+          }
+          Text(strings.save)
+            .font(.system(size: 16, weight: .semibold))
+        }
+        .foregroundColor(.appBackgroundAdaptive)
+        .frame(maxWidth: .infinity)
+        .frame(height: 52)
+        .background(isSaving ? Color.appForegroundAdaptive.opacity(0.6) : Color.appForegroundAdaptive)
+        .cornerRadius(12)
+      }
+      .disabled(isSaving || cropImage == nil)
+      .padding(.horizontal, 24)
+      .padding(.bottom, 16)
+    }
+  }
+
+  // MARK: - Clamp Offset
+  /// Prevents the crop circle from going outside the image bounds
+  private func clampOffset(_ offset: CGSize, displayedWidth: CGFloat, displayedHeight: CGFloat, cropSize: CGFloat) -> CGSize {
+    let scaledW = displayedWidth * cropScale
+    let scaledH = displayedHeight * cropScale
+    let maxX = max(0, (scaledW - cropSize) / 2)
+    let maxY = max(0, (scaledH - cropSize) / 2)
+    return CGSize(
+      width: min(max(offset.width, -maxX), maxX),
+      height: min(max(offset.height, -maxY), maxY)
+    )
+  }
+
+  // MARK: - Reset Crop
+  private func resetCropState() {
+    cropOffset = .zero
+    cropScale = minCropScale
+    lastOffset = .zero
+    lastScale = minCropScale
+  }
+
+  // MARK: - Load Top Rated
+  private func loadTopRated() async {
+    guard topRatedMovies.isEmpty else {
+      isLoadingList = false
+      return
+    }
+    isLoadingList = true
+    do {
+      let result = try await TMDBService.shared.getTopRatedMovies(
+        language: Language.current.rawValue
+      )
+      // Filter to only items with backdrop
+      topRatedMovies = result.results.filter { $0.backdropPath != nil }
+      isLoadingList = false
+    } catch {
+      isLoadingList = false
+    }
+  }
+
+  // MARK: - Search
+  @MainActor
+  private func performSearch(query: String) async {
+    guard !query.isEmpty else {
+      searchResults = []
+      isSearching = false
+      return
+    }
+    isSearching = true
+    do {
+      let response = try await TMDBService.shared.searchMulti(
+        query: query,
+        language: Language.current.rawValue
+      )
+      // Filter to movie/tv with backdrops
+      searchResults = response.results.filter {
+        ($0.mediaType == "movie" || $0.mediaType == "tv") && $0.backdropPath != nil
+      }
+    } catch {
+      searchResults = []
+    }
+    isSearching = false
+  }
+
+  // MARK: - Load Images
+  private func loadImages() async {
+    guard let title = selectedTitle else { return }
+    isLoadingImages = true
+    do {
+      let images = try await TMDBService.shared.getImages(
+        id: title.id,
+        mediaType: title.type
+      )
+      // Combine backdrops and posters, sorted by vote count
+      var allImages = images.sortedBackdrops + images.sortedPosters
+      allImages.sort { $0.voteCount > $1.voteCount }
+      titleImages = allImages
+    } catch {
+      titleImages = []
+    }
+    isLoadingImages = false
+  }
+
+  // MARK: - Load Crop Image
+  private func loadCropImage(image: TMDBImage) {
+    cropImage = nil
+    resetCropState()
+    Task {
+      guard let url = image.fullURL else { return }
+      let loaded = await ImageCache.shared.loadImage(from: url, priority: .high)
+      await MainActor.run {
+        cropImage = loaded
+      }
+    }
+  }
+
+  // MARK: - Save Cropped Avatar
+  @MainActor
+  private func saveCroppedAvatar() async {
+    guard let cropImage else { return }
+    isSaving = true
+    saveError = nil
+
+    // 1. Render the cropped image
+    guard let croppedUIImage = renderCroppedImage(source: cropImage) else {
+      saveError = "Failed to crop image"
+      isSaving = false
+      return
+    }
+
+    // 2. Upload to backend
+    do {
+      let uploadedURL = try await uploadImage(image: croppedUIImage)
+
+      // 3. Invalidate old avatar and pre-cache the new one for instant display
+      if let oldAvatarURL = user.avatarImageURL {
+        ImageCache.shared.removeImage(for: oldAvatarURL)
+      }
+      if let newAvatarURL = URL(string: uploadedURL) {
+        ImageCache.shared.setImage(croppedUIImage, for: newAvatarURL)
+      }
+
+      // 4. Update user with new avatar URL
+      _ = try await AuthService.shared.updateUser(avatarUrl: uploadedURL)
+
+      // 5. Notify profile updated
+      NotificationCenter.default.post(name: .profileUpdated, object: nil)
+      onSaved()
+      dismiss()
+    } catch {
+      saveError = error.localizedDescription
+    }
+
+    isSaving = false
+  }
+
+  // MARK: - Render Cropped Image
+  private func renderCroppedImage(source: UIImage) -> UIImage? {
+    let outputSize: CGFloat = 500
+
+    // Use the exact geometry values stored from the crop view
+    let displayedWidth = geoDisplayedWidth
+    let displayedHeight = geoDisplayedHeight
+    let cropDiameter = geoCropSize
+
+    guard displayedWidth > 0, displayedHeight > 0, cropDiameter > 0 else {
+      return nil
+    }
+
+    // How many source pixels per display point at current scale
+    let pixelsPerPointX = source.size.width / (displayedWidth * cropScale)
+    let pixelsPerPointY = source.size.height / (displayedHeight * cropScale)
+
+    // Crop size in source pixels (use both axes for non-square crops)
+    let cropPixelsW = cropDiameter * pixelsPerPointX
+    let cropPixelsH = cropDiameter * pixelsPerPointY
+
+    // Center of crop in source pixels (offset moves image, so crop center moves opposite)
+    let centerX = source.size.width / 2 - cropOffset.width * pixelsPerPointX
+    let centerY = source.size.height / 2 - cropOffset.height * pixelsPerPointY
+
+    let sourceRect = CGRect(
+      x: centerX - cropPixelsW / 2,
+      y: centerY - cropPixelsH / 2,
+      width: cropPixelsW,
+      height: cropPixelsH
+    )
+
+    // Clamp to image bounds
+    let clampedRect = sourceRect.intersection(
+      CGRect(origin: .zero, size: source.size)
+    )
+
+    guard !clampedRect.isEmpty,
+          let cgImage = source.cgImage?.cropping(to: clampedRect) else {
+      return nil
+    }
+
+    // Render at output size
+    let renderer = UIGraphicsImageRenderer(size: CGSize(width: outputSize, height: outputSize))
+    return renderer.image { _ in
+      let rect = CGRect(x: 0, y: 0, width: outputSize, height: outputSize)
+      UIImage(cgImage: cgImage).draw(in: rect)
+    }
+  }
+
+  // MARK: - Upload Image
+  private func uploadImage(image: UIImage) async throws -> String {
+    guard let token = UserDefaults.standard.string(forKey: "token") else {
+      throw AuthError.invalidURL
+    }
+
+    let timestamp = Int(Date().timeIntervalSince1970)
+    guard let url = URL(string: "\(API.baseURL)/image?folder=avatar&fileName=\(user.id)-\(timestamp)") else {
+      throw AuthError.invalidURL
+    }
+
+    let boundary = UUID().uuidString
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+    guard let imageData = image.jpegData(compressionQuality: 0.85) else {
+      throw URLError(.cannotDecodeContentData)
+    }
+
+    var body = Data()
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("Content-Disposition: form-data; name=\"file\"; filename=\"avatar.jpg\"\r\n".data(using: .utf8)!)
+    body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+    body.append(imageData)
+    body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+    request.httpBody = body
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 201 else {
+      throw URLError(.badServerResponse)
+    }
+
+    struct ImageUploadResponse: Decodable {
+      let url: String
+    }
+
+    let result = try JSONDecoder().decode(ImageUploadResponse.self, from: data)
+    return result.url
+  }
+}
+
+// MARK: - Debouncer
+private class Debouncer: @unchecked Sendable {
+  private let delay: TimeInterval
+  private var task: Task<Void, Never>?
+
+  init(delay: TimeInterval) {
+    self.delay = delay
+  }
+
+  func debounce(_ action: @escaping @Sendable () async -> Void) {
+    task?.cancel()
+    task = Task {
+      try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+      guard !Task.isCancelled else { return }
+      await action()
+    }
+  }
+}
+

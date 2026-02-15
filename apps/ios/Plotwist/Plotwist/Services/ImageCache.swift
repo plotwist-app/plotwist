@@ -58,6 +58,16 @@ final class ImageCache: @unchecked Sendable {
     }
   }
 
+  /// Remove a specific image from both memory and disk cache
+  func removeImage(for url: URL) {
+    memoryCache.removeObject(forKey: url as NSURL)
+    ioQueue.async { [weak self] in
+      guard let self else { return }
+      let path = self.diskPath(for: url)
+      try? self.fileManager.removeItem(at: path)
+    }
+  }
+
   /// Load image with deduplication of concurrent requests
   func loadImage(from url: URL, priority: TaskPriority = .medium) async -> UIImage? {
     // Check caches first
@@ -200,9 +210,15 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
         content(Image(uiImage: loadedImage))
       } else {
         placeholder()
-          .task(id: url, priority: priority) {
-            await loadImage()
-          }
+      }
+    }
+    .task(id: url, priority: priority) {
+      await loadImage()
+    }
+    .onChange(of: url) { oldURL, newURL in
+      if oldURL != newURL {
+        loadedImage = nil
+        isLoading = false
       }
     }
   }

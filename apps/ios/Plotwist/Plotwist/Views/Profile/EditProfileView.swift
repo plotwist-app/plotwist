@@ -87,17 +87,24 @@ struct EditProfileTabs: View {
 }
 
 struct EditProfileView: View {
-  let user: User
+  let initialUser: User
 
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) private var systemColorScheme
   @ObservedObject private var themeManager = ThemeManager.shared
   @State private var strings = L10n.current
+  @State private var user: User
   @State private var userPreferences: UserPreferences?
   @State private var isLoadingPreferences = true
   @State private var streamingProviders: [StreamingProvider] = []
   @State private var selectedTab: EditProfileTab = .information
   @State private var slideFromTrailing: Bool = true
+  @State private var showAvatarPicker = false
+
+  init(user: User) {
+    self.initialUser = user
+    self._user = State(initialValue: user)
+  }
 
   private let labelWidth: CGFloat = 100
 
@@ -171,7 +178,10 @@ struct EditProfileView: View {
       strings = L10n.current
     }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
-      Task { await loadPreferences() }
+      Task {
+        await loadPreferences()
+        await reloadUser()
+      }
     }
   }
 
@@ -209,15 +219,37 @@ struct EditProfileView: View {
 
   // MARK: - Profile Picture Section
   private var profilePictureSection: some View {
-    VStack(spacing: 16) {
-      ProfileAvatar(
-        avatarURL: user.avatarImageURL,
-        username: user.username,
-        size: 100
-      )
+    VStack(spacing: 12) {
+      Button {
+        showAvatarPicker = true
+      } label: {
+        ZStack(alignment: .bottomTrailing) {
+          ProfileAvatar(
+            avatarURL: user.avatarImageURL,
+            username: user.username,
+            size: 100
+          )
+
+          Image(systemName: "pencil")
+            .font(.system(size: 12, weight: .bold))
+            .foregroundColor(.appForegroundAdaptive)
+            .frame(width: 30, height: 30)
+            .background(Color.appInputFilled)
+            .clipShape(Circle())
+            .overlay(
+              Circle()
+                .stroke(Color.appBackgroundAdaptive, lineWidth: 2)
+            )
+            .offset(x: 2, y: 2)
+        }
+      }
+      .buttonStyle(.plain)
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
+    .fullScreenCover(isPresented: $showAvatarPicker) {
+      AvatarImagePickerView(user: user) { }
+    }
   }
 
   // MARK: - Tab Content View
@@ -476,6 +508,15 @@ struct EditProfileView: View {
       }
     } catch {
       print("Error loading preferences: \(error)")
+    }
+  }
+
+  private func reloadUser() async {
+    do {
+      let freshUser = try await AuthService.shared.getCurrentUser()
+      user = freshUser
+    } catch {
+      print("Error reloading user: \(error)")
     }
   }
 
