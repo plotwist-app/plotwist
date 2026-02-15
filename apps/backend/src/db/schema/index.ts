@@ -283,6 +283,7 @@ export const userItems = pgTable(
     mediaType: mediaTypeEnum('media_type').notNull(),
     status: statusEnum('status').notNull(),
     addedAt: timestamp('added_at').defaultNow().notNull(),
+    position: integer('position').default(0).notNull(),
     updatedAt: timestamp('updated_at')
       .defaultNow()
       .notNull()

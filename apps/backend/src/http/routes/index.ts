@@ -21,6 +21,7 @@ import { reviewsRoute } from './reviews'
 import { socialAuthRoutes } from './social-auth'
 import { socialLinksRoute } from './social-links'
 import { subscriptionsRoutes } from './subscriptions'
+import { tmdbProxyRoutes } from './tmdb-proxy'
 import { userActivitiesRoutes } from './user-activities'
 import { userEpisodesRoutes } from './user-episodes'
 import { userItemsRoutes } from './user-items'
@@ -76,6 +77,7 @@ export function routes(app: FastifyInstance) {
   app.register(userActivitiesRoutes)
   app.register(subscriptionsRoutes)
   app.register(watchEntriesRoutes)
+  app.register(tmdbProxyRoutes)
   // app.register(userRecommendationsRoutes)
 
   return

@@ -152,7 +152,7 @@ export async function selectAllUserItemsByStatus({
   status,
   userId,
 }: SelectAllUserItems) {
-  const { id, tmdbId, mediaType } = getTableColumns(schema.userItems)
+  const { id, tmdbId, mediaType, position } = getTableColumns(schema.userItems)
 
   const whereConditions = [eq(schema.userItems.userId, userId)]
 
@@ -164,10 +164,32 @@ export async function selectAllUserItemsByStatus({
       id,
       tmdbId,
       mediaType,
+      position,
     })
     .from(schema.userItems)
     .where(and(...whereConditions))
-    .orderBy(desc(schema.userItems.updatedAt))
+    .orderBy(asc(schema.userItems.position), desc(schema.userItems.updatedAt))
+}
+
+export async function reorderUserItems(
+  userId: string,
+  _status: string,
+  orderedIds: string[]
+) {
+  // Update position for each item based on array order
+  const updates = orderedIds.map((id, index) =>
+    db
+      .update(schema.userItems)
+      .set({ position: index })
+      .where(
+        and(
+          eq(schema.userItems.id, id),
+          eq(schema.userItems.userId, userId)
+        )
+      )
+  )
+
+  await Promise.all(updates)
 }
 
 export async function selectAllUserItems(userId: string) {

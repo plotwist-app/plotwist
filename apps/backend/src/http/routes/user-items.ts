@@ -6,6 +6,7 @@ import {
   getUserItemController,
   getUserItemsController,
   getUserItemsCountController,
+  reorderUserItemsController,
   upsertUserItemController,
 } from '../controllers/user-items-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
@@ -19,6 +20,7 @@ import {
   getUserItemsCountQuerySchema,
   getUserItemsCountResponseSchema,
   getUserItemsResponseSchema,
+  reorderUserItemsBodySchema,
   upsertUserItemBodySchema,
   upsertUserItemResponseSchema,
 } from '../schemas/user-items'
@@ -115,6 +117,25 @@ export async function userItemsRoutes(app: FastifyInstance) {
         operationId: 'getAllUserItems',
       },
       handler: getAllUserItemsController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PUT',
+      url: '/user/items/reorder',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Reorder user items in a collection',
+        tags: USER_ITEMS_TAGS,
+        body: reorderUserItemsBodySchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: reorderUserItemsController,
     })
   )
 

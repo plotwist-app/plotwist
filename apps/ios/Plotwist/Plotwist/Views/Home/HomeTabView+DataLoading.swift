@@ -26,6 +26,9 @@ extension HomeTabView {
     }
 
     isInitialLoad = false
+
+    // Prefetch profile collection data in background
+    ProfilePrefetchService.shared.prefetchCollection()
   }
 
   // MARK: - Featured Item

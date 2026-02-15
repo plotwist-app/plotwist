@@ -17,12 +17,14 @@ import { getUserItemsService } from '@/domain/services/user-items/get-user-items
 import { getUserItemsCountService } from '@/domain/services/user-items/get-user-items-count'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
+import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,
   getUserItemQuerySchema,
   getUserItemsBodySchema,
   getUserItemsCountQuerySchema,
+  reorderUserItemsBodySchema,
   upsertUserItemBodySchema,
 } from '../schemas/user-items'
 
@@ -116,6 +118,7 @@ export async function upsertUserItemController(
         userItem.updatedAt instanceof Date
           ? userItem.updatedAt.toISOString()
           : userItem.updatedAt,
+      position: userItem.position ?? 0,
       watchEntries,
     },
   })
@@ -222,6 +225,21 @@ export async function getAllUserItemsController(
   const result = await getAllUserItemsService({ status, userId })
 
   return reply.status(200).send(result)
+}
+
+export async function reorderUserItemsController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { status, orderedIds } = reorderUserItemsBodySchema.parse(request.body)
+
+  await reorderUserItemsService({
+    userId: request.user.id,
+    status,
+    orderedIds,
+  })
+
+  return reply.status(204).send()
 }
 
 export async function getUserItemsCountController(

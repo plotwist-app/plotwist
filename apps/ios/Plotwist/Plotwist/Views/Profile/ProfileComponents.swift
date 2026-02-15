@@ -81,6 +81,7 @@ struct CollectionCountBadge: View {
     Text("\(count)")
       .font(.system(size: 10, weight: .semibold))
       .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
+      .contentTransition(.numericText())
       .padding(.horizontal, 8)
       .padding(.vertical, 3)
       .background(
@@ -96,21 +97,90 @@ struct CollectionCountBadge: View {
   }
 }
 
+// MARK: - Poster Image Store
+/// Stores poster UIImages directly in a regular Dictionary (no auto-eviction like NSCache).
+/// This guarantees images are available synchronously for drag/context menu previews.
+final class PosterImageStore {
+  static let shared = PosterImageStore()
+  private var images: [String: UIImage] = [:]
+
+  private init() {}
+
+  private func key(_ tmdbId: Int, _ mediaType: String) -> String {
+    "\(tmdbId)-\(mediaType)"
+  }
+
+  func setImage(_ image: UIImage, tmdbId: Int, mediaType: String) {
+    images[key(tmdbId, mediaType)] = image
+  }
+
+  func getImage(tmdbId: Int, mediaType: String) -> UIImage? {
+    images[key(tmdbId, mediaType)]
+  }
+
+  /// Returns a UIImage with rounded corners baked in (for drag previews with transparent bg).
+  func getRoundedImage(tmdbId: Int, mediaType: String, size: CGSize, cornerRadius: CGFloat) -> UIImage? {
+    guard let original = getImage(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
+    let format = UIGraphicsImageRendererFormat()
+    format.opaque = false // transparent background
+    let renderer = UIGraphicsImageRenderer(size: size, format: format)
+    return renderer.image { _ in
+      UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: cornerRadius).addClip()
+      original.draw(in: CGRect(origin: .zero, size: size))
+    }
+  }
+}
+
+// MARK: - Cached Poster Preview
+/// A poster view that renders instantly from the image store, for context menu previews.
+struct CachedPosterPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  var width: CGFloat = 160
+
+  private var height: CGFloat { width * 1.5 }
+
+  var body: some View {
+    if let uiImage = PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType) {
+      Image(uiImage: uiImage)
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    } else {
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive)
+        .frame(width: width, height: height)
+    }
+  }
+}
+
 // MARK: - Profile Item Card
 struct ProfileItemCard: View {
   let tmdbId: Int
   let mediaType: String
-  @State private var posterURL: URL?
-  @State private var isLoading = true
+  @State private var loadedImage: UIImage?
+
+  /// Initializes image synchronously from PosterImageStore so the view never
+  /// shows a blank frame — even when SwiftUI recreates the struct during drag.
+  init(tmdbId: Int, mediaType: String) {
+    self.tmdbId = tmdbId
+    self.mediaType = mediaType
+    _loadedImage = State(
+      initialValue: PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType)
+    )
+  }
 
   var body: some View {
-    CachedAsyncImage(url: posterURL) { image in
-      image
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-    } placeholder: {
-      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-        .fill(Color.appBorderAdaptive)
+    Group {
+      if let loadedImage {
+        Image(uiImage: loadedImage)
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } else {
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+          .fill(Color.appBorderAdaptive)
+      }
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
@@ -122,8 +192,12 @@ struct ProfileItemCard: View {
   }
 
   private func loadPoster() async {
+    // Already loaded synchronously from init
+    if loadedImage != nil { return }
+
     do {
       let type = mediaType == "MOVIE" ? "movie" : "tv"
+      let posterURL: URL?
       if type == "movie" {
         let details = try await TMDBService.shared.getMovieDetails(
           id: tmdbId,
@@ -137,10 +211,80 @@ struct ProfileItemCard: View {
         )
         posterURL = details.posterURL
       }
+
+      if let posterURL {
+        let image = await ImageCache.shared.loadImage(from: posterURL)
+        if let image {
+          loadedImage = image
+          PosterImageStore.shared.setImage(image, tmdbId: tmdbId, mediaType: mediaType)
+        }
+      }
     } catch {
       print("Error loading poster: \(error)")
     }
-    isLoading = false
+  }
+}
+
+// MARK: - Profile Item Preview (Context Menu)
+struct ProfileItemPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  @State private var posterURL: URL?
+  @State private var title: String = ""
+
+  var body: some View {
+    VStack(spacing: 0) {
+      CachedAsyncImage(url: posterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+      }
+      .aspectRatio(2 / 3, contentMode: .fit)
+      .frame(width: 220)
+      .clipped()
+
+      if !title.isEmpty {
+        Text(title)
+          .font(.footnote.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 12)
+          .padding(.vertical, 10)
+          .frame(width: 220)
+          .background(Color.appBackgroundAdaptive)
+      }
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 12))
+    .task {
+      await loadDetails()
+    }
+  }
+
+  private func loadDetails() async {
+    do {
+      let type = mediaType == "MOVIE" ? "movie" : "tv"
+      if type == "movie" {
+        let details = try await TMDBService.shared.getMovieDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.title ?? details.name ?? ""
+      } else {
+        let details = try await TMDBService.shared.getTVSeriesDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.name ?? details.title ?? ""
+      }
+    } catch {
+      print("Error loading preview: \(error)")
+    }
   }
 }
 
