@@ -9,9 +9,11 @@ class TMDBService {
   static let shared = TMDBService()
   private init() {}
 
-  private let baseURL = "https://api.themoviedb.org/3"
-  private let apiKey =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MGYyYjQyNWU1ZmYxYjgwMWVkOWRjY2Y0YmFmYWRkZSIsIm5iZiI6MTYyNjQ3OTE5Ny41MjYsInN1YiI6IjYwZjIxYTVkN2Q1ZGI1MDAyZmM5MTNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HblE_tHKIktjGrwEONxxZFgPGwxNkwKSZEwC24WIrzM"  // TODO: Replace with actual API key
+  /// All TMDB requests are proxied through our backend, which handles
+  /// the API key and caches responses in Redis (30-day TTL for details,
+  /// 6 hours for lists, etc.). This avoids exposing the TMDB API key
+  /// in the app and prevents rate-limit issues across all users.
+  private let baseURL = "\(API.baseURL)/tmdb"
 
   // MARK: - Search Multi
   func searchMulti(query: String, language: String = "en-US") async throws -> SearchMultiResponse {
@@ -26,7 +28,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -47,7 +48,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -76,7 +76,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -104,7 +103,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -132,7 +130,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -159,7 +156,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -188,7 +184,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -217,7 +212,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -246,7 +240,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -278,7 +271,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -310,7 +302,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -342,7 +333,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -376,7 +366,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -418,7 +407,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -460,7 +448,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -498,7 +485,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -536,7 +522,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -574,7 +559,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -607,7 +591,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -633,7 +616,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -654,7 +636,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -680,7 +661,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -702,7 +682,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -724,7 +703,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -745,7 +723,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -769,7 +746,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -791,7 +767,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -843,7 +818,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -865,7 +839,6 @@ class TMDBService {
     }
     
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
     
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -896,7 +869,6 @@ class TMDBService {
     }
     
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
     
     let (data, response) = try await URLSession.shared.data(for: request)
