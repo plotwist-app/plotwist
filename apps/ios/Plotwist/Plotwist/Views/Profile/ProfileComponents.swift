@@ -97,32 +97,42 @@ struct CollectionCountBadge: View {
   }
 }
 
-// MARK: - Poster URL Cache
-/// Stores poster URLs so drag previews can access cached images synchronously.
-final class PosterURLCache {
-  static let shared = PosterURLCache()
-  private var urls: [String: URL] = [:]
+// MARK: - Poster Image Store
+/// Stores poster UIImages directly in a regular Dictionary (no auto-eviction like NSCache).
+/// This guarantees images are available synchronously for drag/context menu previews.
+final class PosterImageStore {
+  static let shared = PosterImageStore()
+  private var images: [String: UIImage] = [:]
 
   private init() {}
 
-  func set(_ url: URL, tmdbId: Int, mediaType: String) {
-    urls["\(tmdbId)-\(mediaType)"] = url
+  private func key(_ tmdbId: Int, _ mediaType: String) -> String {
+    "\(tmdbId)-\(mediaType)"
   }
 
-  func get(tmdbId: Int, mediaType: String) -> URL? {
-    urls["\(tmdbId)-\(mediaType)"]
+  func setImage(_ image: UIImage, tmdbId: Int, mediaType: String) {
+    images[key(tmdbId, mediaType)] = image
   }
 
-  /// Returns the cached UIImage for a poster, if available.
-  func cachedImage(tmdbId: Int, mediaType: String) -> UIImage? {
-    guard let url = get(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
-    return ImageCache.shared.image(for: url)
+  func getImage(tmdbId: Int, mediaType: String) -> UIImage? {
+    images[key(tmdbId, mediaType)]
   }
 
+  /// Returns a UIImage with rounded corners baked in (for drag previews with transparent bg).
+  func getRoundedImage(tmdbId: Int, mediaType: String, size: CGSize, cornerRadius: CGFloat) -> UIImage? {
+    guard let original = getImage(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
+    let format = UIGraphicsImageRendererFormat()
+    format.opaque = false // transparent background
+    let renderer = UIGraphicsImageRenderer(size: size, format: format)
+    return renderer.image { _ in
+      UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: cornerRadius).addClip()
+      original.draw(in: CGRect(origin: .zero, size: size))
+    }
+  }
 }
 
 // MARK: - Cached Poster Preview
-/// A poster view that renders instantly from cache, for use in drag/context menu previews.
+/// A poster view that renders instantly from the image store, for context menu previews.
 struct CachedPosterPreview: View {
   let tmdbId: Int
   let mediaType: String
@@ -131,7 +141,7 @@ struct CachedPosterPreview: View {
   private var height: CGFloat { width * 1.5 }
 
   var body: some View {
-    if let uiImage = PosterURLCache.shared.cachedImage(tmdbId: tmdbId, mediaType: mediaType) {
+    if let uiImage = PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType) {
       Image(uiImage: uiImage)
         .resizable()
         .aspectRatio(contentMode: .fill)
@@ -149,17 +159,28 @@ struct CachedPosterPreview: View {
 struct ProfileItemCard: View {
   let tmdbId: Int
   let mediaType: String
-  @State private var posterURL: URL?
-  @State private var isLoading = true
+  @State private var loadedImage: UIImage?
+
+  /// Initializes image synchronously from PosterImageStore so the view never
+  /// shows a blank frame — even when SwiftUI recreates the struct during drag.
+  init(tmdbId: Int, mediaType: String) {
+    self.tmdbId = tmdbId
+    self.mediaType = mediaType
+    _loadedImage = State(
+      initialValue: PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType)
+    )
+  }
 
   var body: some View {
-    CachedAsyncImage(url: posterURL) { image in
-      image
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-    } placeholder: {
-      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-        .fill(Color.appBorderAdaptive)
+    Group {
+      if let loadedImage {
+        Image(uiImage: loadedImage)
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } else {
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+          .fill(Color.appBorderAdaptive)
+      }
     }
     .aspectRatio(2 / 3, contentMode: .fit)
     .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
@@ -171,8 +192,12 @@ struct ProfileItemCard: View {
   }
 
   private func loadPoster() async {
+    // Already loaded synchronously from init
+    if loadedImage != nil { return }
+
     do {
       let type = mediaType == "MOVIE" ? "movie" : "tv"
+      let posterURL: URL?
       if type == "movie" {
         let details = try await TMDBService.shared.getMovieDetails(
           id: tmdbId,
@@ -186,14 +211,17 @@ struct ProfileItemCard: View {
         )
         posterURL = details.posterURL
       }
-      // Cache the poster URL so drag previews can access it synchronously
+
       if let posterURL {
-        PosterURLCache.shared.set(posterURL, tmdbId: tmdbId, mediaType: mediaType)
+        let image = await ImageCache.shared.loadImage(from: posterURL)
+        if let image {
+          loadedImage = image
+          PosterImageStore.shared.setImage(image, tmdbId: tmdbId, mediaType: mediaType)
+        }
       }
     } catch {
       print("Error loading poster: \(error)")
     }
-    isLoading = false
   }
 }
 

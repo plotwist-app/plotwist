@@ -85,14 +85,18 @@ struct ProfileCollectionGrid: View {
           )
         } label: {
           ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
+            .contentShape(
+              .dragPreview,
+              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+            )
+            .onDrag {
+              draggingItem = item
+              return NSItemProvider(object: item.id as NSString)
+            }
         }
         .buttonStyle(.plain)
         .opacity(removingItemIds.contains(item.id) ? 0 : 1)
         .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
-        .onDrag {
-          draggingItem = item
-          return NSItemProvider(object: item.id as NSString)
-        }
         .onDrop(of: [.text], delegate: CollectionReorderDelegate(
           item: item,
           items: $userItems,
