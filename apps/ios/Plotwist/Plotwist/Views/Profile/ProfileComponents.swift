@@ -81,6 +81,7 @@ struct CollectionCountBadge: View {
     Text("\(count)")
       .font(.system(size: 10, weight: .semibold))
       .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
+      .contentTransition(.numericText())
       .padding(.horizontal, 8)
       .padding(.vertical, 3)
       .background(

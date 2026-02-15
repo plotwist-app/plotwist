@@ -22,6 +22,9 @@ struct UserProfileView: View {
   @State private var isLoadingItems = false
   @State private var statusCounts: [String: Int] = [:]
   @State private var totalReviewsCount: Int = 0
+  @State private var moviesCount: Int = 0
+  @State private var seriesCount: Int = 0
+  @State private var isLoadingQuickStats: Bool = true
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @ObservedObject private var themeManager = ThemeManager.shared
@@ -180,7 +183,12 @@ struct UserProfileView: View {
       .padding(.bottom, 12)
 
       // Quick stats
-      ProfileQuickStats(userId: user.id, strings: strings)
+      ProfileQuickStats(
+        moviesCount: moviesCount,
+        seriesCount: seriesCount,
+        isLoading: isLoadingQuickStats,
+        strings: strings
+      )
         .padding(.horizontal, 24)
         .padding(.bottom, 12)
 
@@ -300,6 +308,7 @@ struct UserProfileView: View {
     await loadUser()
     await loadUserItems()
     await loadStatusCounts()
+    await loadQuickStats()
     await loadTotalReviewsCount()
     isLoading = false
   }
@@ -349,6 +358,19 @@ struct UserProfileView: View {
       print("Error loading status counts: \(error)")
       statusCounts = [:]
     }
+  }
+
+  private func loadQuickStats() async {
+    do {
+      let stats = try await UserStatsService.shared.getUserStats(userId: userId)
+      withAnimation(.snappy) {
+        moviesCount = stats.watchedMoviesCount
+        seriesCount = stats.watchedSeriesCount
+      }
+    } catch {
+      print("Error loading quick stats: \(error)")
+    }
+    isLoadingQuickStats = false
   }
 
   private func loadTotalReviewsCount() async {

@@ -83,6 +83,9 @@ struct ProfileTabView: View {
   @State private var isLoadingItems = false
   @State private var statusCounts: [String: Int] = [:]
   @State private var totalReviewsCount: Int = 0
+  @State private var moviesCount: Int = 0
+  @State private var seriesCount: Int = 0
+  @State private var isLoadingQuickStats: Bool = true
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var hasAppeared = false
@@ -141,6 +144,7 @@ struct ProfileTabView: View {
         Task {
           await loadUserItems(forceRefresh: true)
           await loadStatusCounts(forceRefresh: true)
+          await loadQuickStats(forceRefresh: true)
         }
       }
       .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
@@ -156,6 +160,9 @@ struct ProfileTabView: View {
           userItems = []
           statusCounts = [:]
           totalReviewsCount = 0
+          moviesCount = 0
+          seriesCount = 0
+          isLoadingQuickStats = true
           isInitialLoad = true
         }
       }
@@ -327,7 +334,12 @@ struct ProfileTabView: View {
       .padding(.bottom, 12)
 
       // Quick stats (Movies & Series counts)
-      ProfileQuickStats(userId: user.id, strings: strings)
+      ProfileQuickStats(
+        moviesCount: moviesCount,
+        seriesCount: seriesCount,
+        isLoading: isLoadingQuickStats,
+        strings: strings
+      )
         .padding(.horizontal, 24)
         .padding(.bottom, 12)
 
@@ -500,6 +512,11 @@ struct ProfileTabView: View {
     if let cachedReviewsCount = cache.getReviewsCount() {
       totalReviewsCount = cachedReviewsCount
     }
+    if let cached = cache.getQuickStats() {
+      moviesCount = cached.moviesCount
+      seriesCount = cached.seriesCount
+      isLoadingQuickStats = false
+    }
     if let userId = user?.id ?? cache.user?.id,
        let cachedItems = cache.getItems(userId: userId, status: selectedStatusTab.rawValue) {
       userItems = cachedItems
@@ -520,6 +537,7 @@ struct ProfileTabView: View {
 
     await loadUserItems()
     await loadStatusCounts()
+    await loadQuickStats()
     await loadTotalReviewsCount()
 
     isInitialLoad = false
@@ -609,6 +627,24 @@ struct ProfileTabView: View {
         source: "collection_context_menu"
       ))
 
+      // Optimistic quick stats update
+      let isMovie = item.mediaType == "MOVIE"
+      let wasWatched = selectedStatusTab == .watched
+      let willBeWatched = newStatus == .watched
+
+      if wasWatched || willBeWatched {
+        withAnimation(.snappy) {
+          if wasWatched && !willBeWatched {
+            if isMovie { moviesCount = max(0, moviesCount - 1) }
+            else { seriesCount = max(0, seriesCount - 1) }
+          } else if !wasWatched && willBeWatched {
+            if isMovie { moviesCount += 1 }
+            else { seriesCount += 1 }
+          }
+        }
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+      }
+
       await animateItemRemoval(item: item)
 
       cache.clearCache()
@@ -633,6 +669,15 @@ struct ProfileTabView: View {
         tmdbId: item.tmdbId,
         mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
       ))
+
+      // Optimistic quick stats update
+      if selectedStatusTab == .watched {
+        withAnimation(.snappy) {
+          if item.mediaType == "MOVIE" { moviesCount = max(0, moviesCount - 1) }
+          else { seriesCount = max(0, seriesCount - 1) }
+        }
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+      }
 
       await animateItemRemoval(item: item)
 
@@ -663,6 +708,33 @@ struct ProfileTabView: View {
       userItems.removeAll { $0.id == item.id }
       removingItemIds.remove(item.id)
     }
+  }
+
+  private func loadQuickStats(forceRefresh: Bool = false) async {
+    guard let userId = user?.id else { return }
+
+    if !forceRefresh, let cached = cache.getQuickStats() {
+      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount {
+        withAnimation(.snappy) {
+          moviesCount = cached.moviesCount
+          seriesCount = cached.seriesCount
+        }
+      }
+      isLoadingQuickStats = false
+      return
+    }
+
+    do {
+      let stats = try await UserStatsService.shared.getUserStats(userId: userId)
+      withAnimation(.snappy) {
+        moviesCount = stats.watchedMoviesCount
+        seriesCount = stats.watchedSeriesCount
+      }
+      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
+    } catch {
+      print("Error loading quick stats: \(error)")
+    }
+    isLoadingQuickStats = false
   }
 
   private func loadTotalReviewsCount(forceRefresh: Bool = false) async {
@@ -802,28 +874,10 @@ struct ProfileStatusTabs: View {
 
 // MARK: - Profile Quick Stats
 struct ProfileQuickStats: View {
-  let userId: String
+  let moviesCount: Int
+  let seriesCount: Int
+  let isLoading: Bool
   let strings: Strings
-  @State private var moviesCount: Int
-  @State private var seriesCount: Int
-  @State private var isLoading: Bool
-
-  private let cache = CollectionCache.shared
-
-  init(userId: String, strings: Strings) {
-    self.userId = userId
-    self.strings = strings
-    let cache = CollectionCache.shared
-    if let cached = cache.getQuickStats() {
-      _moviesCount = State(initialValue: cached.moviesCount)
-      _seriesCount = State(initialValue: cached.seriesCount)
-      _isLoading = State(initialValue: false)
-    } else {
-      _moviesCount = State(initialValue: 0)
-      _seriesCount = State(initialValue: 0)
-      _isLoading = State(initialValue: true)
-    }
-  }
 
   var body: some View {
     HStack(spacing: 0) {
@@ -832,7 +886,8 @@ struct ProfileQuickStats: View {
         Text("\(moviesCount)")
           .font(.subheadline.weight(.semibold))
           .foregroundColor(.appForegroundAdaptive)
-        
+          .contentTransition(.numericText())
+
         Text(strings.movies)
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
@@ -850,7 +905,8 @@ struct ProfileQuickStats: View {
         Text("\(seriesCount)")
           .font(.subheadline.weight(.semibold))
           .foregroundColor(.appForegroundAdaptive)
-        
+          .contentTransition(.numericText())
+
         Text(strings.series)
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
@@ -859,26 +915,6 @@ struct ProfileQuickStats: View {
 
       Spacer()
     }
-    .task {
-      await loadStats()
-    }
-  }
-
-  private func loadStats() async {
-    // Skip if already have cached data
-    if !isLoading && (moviesCount > 0 || seriesCount > 0) {
-      return
-    }
-
-    do {
-      let stats = try await UserStatsService.shared.getUserStats(userId: userId)
-      moviesCount = stats.watchedMoviesCount
-      seriesCount = stats.watchedSeriesCount
-      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
-    } catch {
-      print("Error loading quick stats: \(error)")
-    }
-    isLoading = false
   }
 }
 
