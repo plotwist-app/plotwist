@@ -233,31 +233,34 @@ struct AvatarImagePickerView: View {
     } label: {
       ZStack {
         // Backdrop image
-        if let backdropURL = item.hdBackdropURL ?? item.backdropURL {
-          CachedAsyncImage(url: backdropURL) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
+        Group {
+          if let backdropURL = item.hdBackdropURL ?? item.backdropURL {
+            CachedAsyncImage(url: backdropURL) { image in
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            } placeholder: {
+              Rectangle()
+                .fill(Color.appInputFilled)
+            }
+          } else if let posterURL = item.hdPosterURL ?? item.imageURL {
+            CachedAsyncImage(url: posterURL) { image in
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            } placeholder: {
+              Rectangle()
+                .fill(Color.appInputFilled)
+            }
+          } else {
             Rectangle()
               .fill(Color.appInputFilled)
           }
-        } else if let posterURL = item.hdPosterURL ?? item.imageURL {
-          CachedAsyncImage(url: posterURL) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
-            Rectangle()
-              .fill(Color.appInputFilled)
-          }
-        } else {
-          Rectangle()
-            .fill(Color.appInputFilled)
         }
+        .blur(radius: 1)
 
         // Dark overlay
-        Color.black.opacity(0.6)
+        Color.black.opacity(0.55)
 
         // Title centered
         Text(item.displayTitle)
@@ -269,6 +272,7 @@ struct AvatarImagePickerView: View {
       }
       .frame(height: 200)
       .clipShape(RoundedRectangle(cornerRadius: 24))
+      .posterBorder(cornerRadius: 24)
     }
     .buttonStyle(.plain)
   }
