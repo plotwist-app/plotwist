@@ -83,6 +83,7 @@ export async function selectUserItems({
       tmdbId: schema.userItems.tmdbId,
       mediaType: schema.userItems.mediaType,
       status: schema.userItems.status,
+      position: schema.userItems.position,
       updatedAt: schema.userItems.updatedAt,
       addedAt: schema.userItems.addedAt,
       rating: schema.reviews.rating,
