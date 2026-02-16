@@ -37,7 +37,7 @@ struct PopularPoster: Identifiable {
   let category: String
   
   var posterURL: URL? {
-    URL(string: "https://image.tmdb.org/t/p/original\(posterPath)")
+    URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
   }
   
   // Popular titles across different categories
@@ -236,7 +236,7 @@ struct PosterMasonry: View {
           
           VStack(spacing: spacing) {
             ForEach(Array(columnPosters.enumerated()), id: \.offset) { _, poster in
-              CachedAsyncImage(url: poster.posterURL) { image in
+              CachedAsyncImage(url: poster.posterURL, priority: .high) { image in
                 image
                   .resizable()
                   .aspectRatio(contentMode: .fill)

@@ -76,6 +76,7 @@ struct ProfileStatusTabs: View {
   @Binding var selectedTab: ProfileStatusTab
   let strings: Strings
   var statusCounts: [String: Int] = [:]
+  var onReorder: (() -> Void)? = nil
 
   private func count(for tab: ProfileStatusTab) -> Int {
     statusCounts[tab.rawValue] ?? 0
@@ -84,6 +85,20 @@ struct ProfileStatusTabs: View {
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 8) {
+        if let onReorder {
+          Button {
+            onReorder()
+          } label: {
+            Image(systemName: "arrow.up.arrow.down")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .frame(width: 34, height: 34)
+              .background(Color.appInputFilled)
+              .clipShape(Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+
         ForEach(ProfileStatusTab.allCases, id: \.self) { tab in
           let isSelected = selectedTab == tab
 

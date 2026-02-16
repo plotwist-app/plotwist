@@ -362,7 +362,7 @@ struct User: Codable {
   let displayName: String?
   let username: String
   let email: String
-  let avatarUrl: String?
+  var avatarUrl: String?
   let bannerUrl: String?
   let biography: String?
   let createdAt: String

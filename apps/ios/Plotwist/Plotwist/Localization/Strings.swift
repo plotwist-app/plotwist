@@ -180,6 +180,8 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biography",
       biographyPlaceholder: "Tell us about yourself...",
+      reorderCollection: "Reorder",
+      save: "Save",
       // Home
       goodMorning: "Good morning",
       goodAfternoon: "Good afternoon",
@@ -310,7 +312,13 @@ enum L10n {
       feedbackAddScreenshot: "Add screenshot",
       feedbackSubmit: "Submit",
       feedbackSubmitSuccess: "Thank you for your feedback!",
-      feedbackHelpTitle: "Help"
+      feedbackHelpTitle: "Help",
+      selectAnImage: "Select an image",
+      searchTitle: "Search a title...",
+      selectImage: "Select image",
+      cropAndSave: "Crop & Save",
+      avatarSaving: "Saving...",
+      avatarSaved: "Avatar updated!"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -471,6 +479,8 @@ enum L10n {
       soundtracks: "Trilhas",
       biography: "Biografia",
       biographyPlaceholder: "Conte um pouco sobre você...",
+      reorderCollection: "Reordenar",
+      save: "Salvar",
       // Home
       goodMorning: "Bom dia",
       goodAfternoon: "Boa tarde",
@@ -601,7 +611,13 @@ enum L10n {
       feedbackAddScreenshot: "Adicionar captura",
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "Obrigado pelo seu feedback!",
-      feedbackHelpTitle: "Ajuda"
+      feedbackHelpTitle: "Ajuda",
+      selectAnImage: "Selecionar uma imagem",
+      searchTitle: "Buscar um título...",
+      selectImage: "Selecionar imagem",
+      cropAndSave: "Recortar e Salvar",
+      avatarSaving: "Salvando...",
+      avatarSaved: "Avatar atualizado!"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -762,6 +778,8 @@ enum L10n {
       soundtracks: "Bandas Sonoras",
       biography: "Biografía",
       biographyPlaceholder: "Cuéntanos sobre ti...",
+      reorderCollection: "Reordenar",
+      save: "Guardar",
       // Home
       goodMorning: "Buenos días",
       goodAfternoon: "Buenas tardes",
@@ -892,7 +910,13 @@ enum L10n {
       feedbackAddScreenshot: "Agregar captura",
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "¡Gracias por tu feedback!",
-      feedbackHelpTitle: "Ayuda"
+      feedbackHelpTitle: "Ayuda",
+      selectAnImage: "Seleccionar una imagen",
+      searchTitle: "Buscar un título...",
+      selectImage: "Seleccionar imagen",
+      cropAndSave: "Recortar y Guardar",
+      avatarSaving: "Guardando...",
+      avatarSaved: "¡Avatar actualizado!"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1053,6 +1077,8 @@ enum L10n {
       soundtracks: "Bandes Sonores",
       biography: "Biographie",
       biographyPlaceholder: "Parlez-nous de vous...",
+      reorderCollection: "Réorganiser",
+      save: "Enregistrer",
       // Home
       goodMorning: "Bonjour",
       goodAfternoon: "Bon après-midi",
@@ -1183,7 +1209,13 @@ enum L10n {
       feedbackAddScreenshot: "Ajouter une capture",
       feedbackSubmit: "Envoyer",
       feedbackSubmitSuccess: "Merci pour vos retours !",
-      feedbackHelpTitle: "Aide"
+      feedbackHelpTitle: "Aide",
+      selectAnImage: "Sélectionner une image",
+      searchTitle: "Rechercher un titre...",
+      selectImage: "Sélectionner l'image",
+      cropAndSave: "Recadrer et Enregistrer",
+      avatarSaving: "Enregistrement...",
+      avatarSaved: "Avatar mis à jour !"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1344,6 +1376,8 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biografie",
       biographyPlaceholder: "Erzählen Sie uns von sich...",
+      reorderCollection: "Neu ordnen",
+      save: "Speichern",
       // Home
       goodMorning: "Guten Morgen",
       goodAfternoon: "Guten Tag",
@@ -1474,7 +1508,13 @@ enum L10n {
       feedbackAddScreenshot: "Screenshot hinzufügen",
       feedbackSubmit: "Absenden",
       feedbackSubmitSuccess: "Vielen Dank für Ihr Feedback!",
-      feedbackHelpTitle: "Hilfe"
+      feedbackHelpTitle: "Hilfe",
+      selectAnImage: "Ein Bild auswählen",
+      searchTitle: "Einen Titel suchen...",
+      selectImage: "Bild auswählen",
+      cropAndSave: "Zuschneiden & Speichern",
+      avatarSaving: "Speichern...",
+      avatarSaved: "Avatar aktualisiert!"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1635,6 +1675,8 @@ enum L10n {
       soundtracks: "Colonne Sonore",
       biography: "Biografia",
       biographyPlaceholder: "Raccontaci di te...",
+      reorderCollection: "Riordina",
+      save: "Salva",
       // Home
       goodMorning: "Buongiorno",
       goodAfternoon: "Buon pomeriggio",
@@ -1765,7 +1807,13 @@ enum L10n {
       feedbackAddScreenshot: "Aggiungi screenshot",
       feedbackSubmit: "Invia",
       feedbackSubmitSuccess: "Grazie per il tuo feedback!",
-      feedbackHelpTitle: "Aiuto"
+      feedbackHelpTitle: "Aiuto",
+      selectAnImage: "Seleziona un'immagine",
+      searchTitle: "Cerca un titolo...",
+      selectImage: "Seleziona immagine",
+      cropAndSave: "Ritaglia e Salva",
+      avatarSaving: "Salvataggio...",
+      avatarSaved: "Avatar aggiornato!"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -1925,6 +1973,8 @@ enum L10n {
       soundtracks: "サウンドトラック",
       biography: "自己紹介",
       biographyPlaceholder: "自己紹介を書いてください...",
+      reorderCollection: "並べ替え",
+      save: "保存",
       // Home
       goodMorning: "おはようございます",
       goodAfternoon: "こんにちは",
@@ -2055,7 +2105,13 @@ enum L10n {
       feedbackAddScreenshot: "スクリーンショットを追加",
       feedbackSubmit: "送信",
       feedbackSubmitSuccess: "フィードバックありがとうございます！",
-      feedbackHelpTitle: "ヘルプ"
+      feedbackHelpTitle: "ヘルプ",
+      selectAnImage: "画像を選択",
+      searchTitle: "タイトルを検索...",
+      selectImage: "画像を選択",
+      cropAndSave: "切り抜いて保存",
+      avatarSaving: "保存中...",
+      avatarSaved: "アバターが更新されました！"
     ),
   ]
 }
@@ -2226,6 +2282,9 @@ struct Strings {
   // Biography
   let biography: String
   let biographyPlaceholder: String
+  // Reorder
+  let reorderCollection: String
+  let save: String
   // Home
   let goodMorning: String
   let goodAfternoon: String
@@ -2357,4 +2416,11 @@ struct Strings {
   let feedbackSubmit: String
   let feedbackSubmitSuccess: String
   let feedbackHelpTitle: String
+  // Avatar Picker
+  let selectAnImage: String
+  let searchTitle: String
+  let selectImage: String
+  let cropAndSave: String
+  let avatarSaving: String
+  let avatarSaved: String
 }

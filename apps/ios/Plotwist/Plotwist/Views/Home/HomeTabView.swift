@@ -362,7 +362,11 @@ struct HomeTabView: View {
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
       }
-      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { notification in
+        // If an avatar URL is provided, update locally for instant display
+        if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
+          user?.avatarUrl = avatarUrl
+        }
         Task {
           // Wait for updated preferences to be available before reloading
           await UserPreferencesManager.shared.loadPreferences()

@@ -331,8 +331,6 @@ struct ProfileStatsView: View {
             }
           }
         }
-        .frame(maxHeight: 400)
-        .padding(.bottom, 24)
       }
     }
     .floatingSheetPresentation(detents: [.medium])

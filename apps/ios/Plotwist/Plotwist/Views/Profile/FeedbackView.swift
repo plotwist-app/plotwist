@@ -45,6 +45,7 @@ struct FeedbackView: View {
   @State private var showImagePicker = false
   @State private var isSubmitting = false
   @State private var showSuccess = false
+  @State private var submitError: String?
   
   init(initialType: FeedbackType = .bug) {
     self.initialType = initialType
@@ -255,58 +256,134 @@ struct FeedbackView: View {
   
   // MARK: - Submit Button
   private var submitButton: some View {
-    Button {
-      submitFeedback()
-    } label: {
-      HStack(spacing: 8) {
-        if isSubmitting {
-          ProgressView()
-            .tint(.appBackgroundAdaptive)
-        }
-        Text(strings.feedbackSubmit)
-          .font(.system(size: 16, weight: .semibold))
+    VStack(spacing: 8) {
+      if let submitError {
+        Text(submitError)
+          .font(.caption)
+          .foregroundColor(.appDestructive)
       }
-      .foregroundColor(.appBackgroundAdaptive)
-      .frame(maxWidth: .infinity)
-      .frame(height: 52)
-      .background(
-        RoundedRectangle(cornerRadius: 12)
-          .fill(description.isEmpty ? Color.appMutedForegroundAdaptive : Color.appForegroundAdaptive)
-      )
-    }
-    .disabled(description.isEmpty || isSubmitting)
-    .buttonStyle(.plain)
-    .alert(strings.feedbackSubmitSuccess, isPresented: $showSuccess) {
-      Button("OK") {
-        dismiss()
+      
+      Button {
+        Task { await submitFeedback() }
+      } label: {
+        HStack(spacing: 8) {
+          if isSubmitting {
+            ProgressView()
+              .tint(.appBackgroundAdaptive)
+          }
+          Text(strings.feedbackSubmit)
+            .font(.system(size: 16, weight: .semibold))
+        }
+        .foregroundColor(.appBackgroundAdaptive)
+        .frame(maxWidth: .infinity)
+        .frame(height: 52)
+        .background(
+          RoundedRectangle(cornerRadius: 12)
+            .fill(description.isEmpty ? Color.appMutedForegroundAdaptive : Color.appForegroundAdaptive)
+        )
+      }
+      .disabled(description.isEmpty || isSubmitting)
+      .buttonStyle(.plain)
+      .alert(strings.feedbackSubmitSuccess, isPresented: $showSuccess) {
+        Button("OK") {
+          dismiss()
+        }
       }
     }
   }
   
   // MARK: - Submit
-  private func submitFeedback() {
+  private func submitFeedback() async {
+    submitError = nil
     isSubmitting = true
+    defer { isSubmitting = false }
     
     AnalyticsService.shared.track(.feedbackSubmit(type: selectedType.rawValue))
     
-    // For MVP: store feedback locally and show confirmation
-    // Later: send to backend or PostHog survey
-    let feedback: [String: Any] = [
-      "type": selectedType.rawValue,
-      "description": description,
-      "has_screenshot": selectedImage != nil,
-      "timestamp": ISO8601DateFormatter().string(from: Date()),
-      "app_version": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown",
-      "device": UIDevice.current.systemVersion
-    ]
+    guard let token = UserDefaults.standard.string(forKey: "token") else {
+      submitError = strings.invalidCredentials
+      return
+    }
     
-    // Save to UserDefaults as array of feedback items
-    var existingFeedback = UserDefaults.standard.array(forKey: "pendingFeedback") as? [[String: Any]] ?? []
-    existingFeedback.append(feedback)
-    UserDefaults.standard.set(existingFeedback, forKey: "pendingFeedback")
+    do {
+      // Upload screenshot first if present
+      var screenshotUrl: String?
+      if let image = selectedImage {
+        screenshotUrl = try await uploadScreenshot(image: image, token: token)
+      }
+      
+      // Submit feedback
+      guard let url = URL(string: "\(API.baseURL)/feedback") else {
+        submitError = strings.invalidCredentials
+        return
+      }
+      
+      var request = URLRequest(url: url)
+      request.httpMethod = "POST"
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      
+      var body: [String: Any] = [
+        "type": selectedType.rawValue,
+        "description": description,
+        "appVersion": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown",
+        "deviceInfo": "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)",
+      ]
+      
+      if let screenshotUrl {
+        body["screenshotUrl"] = screenshotUrl
+      }
+      
+      request.httpBody = try JSONSerialization.data(withJSONObject: body)
+      let (_, response) = try await URLSession.shared.data(for: request)
+      
+      guard let http = response as? HTTPURLResponse,
+            http.statusCode == 201
+      else {
+        submitError = strings.invalidCredentials
+        return
+      }
+      
+      showSuccess = true
+    } catch {
+      submitError = error.localizedDescription
+    }
+  }
+  
+  // MARK: - Upload Screenshot
+  private func uploadScreenshot(image: UIImage, token: String) async throws -> String {
+    let timestamp = Int(Date().timeIntervalSince1970)
+    guard let url = URL(string: "\(API.baseURL)/image?folder=feedback&fileName=screenshot-\(timestamp)") else {
+      throw URLError(.badURL)
+    }
     
-    isSubmitting = false
-    showSuccess = true
+    let boundary = UUID().uuidString
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    
+    guard let imageData = image.jpegData(compressionQuality: 0.7) else {
+      throw URLError(.cannotDecodeContentData)
+    }
+    
+    var body = Data()
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("Content-Disposition: form-data; name=\"file\"; filename=\"screenshot.jpg\"\r\n".data(using: .utf8)!)
+    body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+    body.append(imageData)
+    body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+    
+    request.httpBody = body
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 201 else {
+      throw URLError(.badServerResponse)
+    }
+    
+    let result = try JSONDecoder().decode(ImageUploadResponse.self, from: data)
+    return result.url
   }
 }
 
@@ -346,6 +423,11 @@ struct ImagePicker: UIViewControllerRepresentable {
       parent.dismiss()
     }
   }
+}
+
+// MARK: - Image Upload Response
+private struct ImageUploadResponse: Decodable {
+  let url: String
 }
 
 #Preview {

@@ -24,8 +24,8 @@ struct ProfileTabView: View {
   @State var initialScrollOffset: CGFloat? = nil
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
-  @State var draggingItem: UserItemSummary?
   @State var selectedMediaItem: UserItemSummary?
+  @State var showReorderCollection = false
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -73,7 +73,11 @@ struct ProfileTabView: View {
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
       }
-      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { notification in
+        // If an avatar URL is provided, update locally for instant display
+        if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
+          user?.avatarUrl = avatarUrl
+        }
         Task { await loadUser(forceRefresh: true) }
       }
       .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
@@ -106,8 +110,18 @@ struct ProfileTabView: View {
           mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
         )
       }
-      .toolbar(draggingItem != nil ? .hidden : .visible, for: .tabBar)
-      .animation(.easeInOut(duration: 0.2), value: draggingItem != nil)
+      .fullScreenCover(isPresented: $showReorderCollection) {
+        if let user {
+          ReorderCollectionView(
+            userId: user.id,
+            selectedStatusTab: selectedStatusTab,
+            strings: strings,
+            statusCounts: statusCounts,
+            cache: cache
+          )
+        }
+      }
+      .toolbar(.visible, for: .tabBar)
     }
   }
 
@@ -322,23 +336,22 @@ struct ProfileTabView: View {
       ProfileStatusTabs(
         selectedTab: $selectedStatusTab,
         strings: strings,
-        statusCounts: statusCounts
+        statusCounts: statusCounts,
+        onReorder: { showReorderCollection = true }
       )
       .padding(.top, 8)
-      .onChange(of: selectedStatusTab) {
+      .onChange(of: selectedStatusTab) { _, _ in
         Task { await loadUserItems() }
       }
 
       ProfileCollectionGrid(
         userItems: $userItems,
-        draggingItem: $draggingItem,
         isLoadingItems: isLoadingItems,
         removingItemIds: removingItemIds,
         selectedStatusTab: selectedStatusTab,
         strings: strings,
         onChangeStatus: changeItemStatus,
         onRemoveItem: removeItem,
-        onReorder: saveCollectionOrder,
         onTapItem: { item in
           selectedMediaItem = item
         }

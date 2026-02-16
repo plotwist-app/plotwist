@@ -57,7 +57,13 @@ extension ProfileTabView {
 
     do {
       let fetchedUser = try await AuthService.shared.getCurrentUser()
+      // Preserve local avatar if there's a pending upload (placeholder URL)
+      let localAvatar = user?.avatarUrl
+      let isPending = localAvatar?.contains("avatar-pending") == true
       user = fetchedUser
+      if isPending {
+        user?.avatarUrl = localAvatar
+      }
       cache.setUser(fetchedUser)
       AnalyticsService.shared.track(.profileViewed(userId: fetchedUser.id, isOwnProfile: true))
     } catch {
@@ -259,20 +265,4 @@ extension ProfileTabView {
     }
   }
 
-  // MARK: - Save Collection Order
-  func saveCollectionOrder() {
-    guard let userId = user?.id else { return }
-    let orderedIds = userItems.map(\.id)
-    cache.setItems(userItems, userId: userId, status: selectedStatusTab.rawValue)
-    Task {
-      do {
-        try await UserItemService.shared.reorderUserItems(
-          status: selectedStatusTab.rawValue,
-          orderedIds: orderedIds
-        )
-      } catch {
-        print("Error saving collection order: \(error)")
-      }
-    }
-  }
 }

@@ -4,19 +4,16 @@
 //
 
 import SwiftUI
-import UniformTypeIdentifiers
 
 // MARK: - Profile Collection Grid
 struct ProfileCollectionGrid: View {
   @Binding var userItems: [UserItemSummary]
-  @Binding var draggingItem: UserItemSummary?
   let isLoadingItems: Bool
   let removingItemIds: Set<String>
   let selectedStatusTab: ProfileStatusTab
   let strings: Strings
   var onChangeStatus: (UserItemSummary, UserItemStatus) async -> Void
   var onRemoveItem: (UserItemSummary) async -> Void
-  var onReorder: () -> Void
   var onTapItem: (UserItemSummary) -> Void
 
   private let columns = [
@@ -80,25 +77,11 @@ struct ProfileCollectionGrid: View {
     LazyVGrid(columns: columns, spacing: 16) {
       ForEach(userItems) { item in
         ProfileItemCard(tmdbId: item.tmdbId, mediaType: item.mediaType)
-          .contentShape(
-            .dragPreview,
-            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-          )
           .onTapGesture {
             onTapItem(item)
           }
-          .onDrag {
-            draggingItem = item
-            return NSItemProvider(object: item.id as NSString)
-          }
           .opacity(removingItemIds.contains(item.id) ? 0 : 1)
           .scaleEffect(removingItemIds.contains(item.id) ? 0.75 : 1)
-          .onDrop(of: [.text], delegate: CollectionReorderDelegate(
-            item: item,
-            items: $userItems,
-            draggingItem: $draggingItem,
-            onReorder: onReorder
-          ))
           .contextMenu {
             contextMenuContent(for: item)
           } preview: {
@@ -140,33 +123,3 @@ struct ProfileCollectionGrid: View {
   }
 }
 
-// MARK: - Collection Reorder Delegate
-struct CollectionReorderDelegate: DropDelegate {
-  let item: UserItemSummary
-  @Binding var items: [UserItemSummary]
-  @Binding var draggingItem: UserItemSummary?
-  var onReorder: () -> Void
-
-  func dropEntered(info: DropInfo) {
-    guard let draggingItem,
-          draggingItem.id != item.id,
-          let from = items.firstIndex(where: { $0.id == draggingItem.id }),
-          let to = items.firstIndex(where: { $0.id == item.id })
-    else { return }
-
-    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-      items.move(fromOffsets: IndexSet(integer: from),
-                 toOffset: to > from ? to + 1 : to)
-    }
-  }
-
-  func performDrop(info: DropInfo) -> Bool {
-    draggingItem = nil
-    onReorder()
-    return true
-  }
-
-  func dropUpdated(info: DropInfo) -> DropProposal? {
-    DropProposal(operation: .move)
-  }
-}
