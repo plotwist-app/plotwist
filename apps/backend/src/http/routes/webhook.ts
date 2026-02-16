@@ -21,6 +21,7 @@ export async function webhookRoutes(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
       url: '/complete-stripe-subscription',
+      config: { rateLimit: false },
       schema: {
         description: 'Webhook route',
         tags: ['Webhook'],

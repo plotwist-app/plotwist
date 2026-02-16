@@ -34,7 +34,7 @@ function loadServicesEnvs() {
 
 function loadDatabaseEnvs() {
   const schema = z.object({
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string(),
   })
 
   return schema.parse(process.env)
@@ -44,9 +44,12 @@ function loadAppEnvs() {
   const schema = z.object({
     APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
     CLIENT_URL: z.string(),
+    IOS_TOKEN: z.string().optional().default(''),
     PORT: z.coerce.number().default(3333),
     BASE_URL: z.string().default('http://localhost:3333'),
     JWT_SECRET: z.string(),
+    RATE_LIMIT_MAX: z.coerce.number().optional().default(100),
+    RATE_LIMIT_TIME_WINDOW_MS: z.coerce.number().optional().default(60_000),
   })
 
   return schema.parse(process.env)

@@ -7,6 +7,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui'
 import type { FastifyInstance } from 'fastify'
 
 import { config } from '@/config'
+import { registerRateLimit } from '../rate-limit'
 import { feedbackRoutes } from './feedback'
 import { followsRoutes } from './follow'
 import { healthCheck } from './healthcheck'
@@ -40,8 +41,9 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyCors, {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Token'],
     credentials: true,
+    strictPreflight: false,
   })
 
   app.register(fastifyJwt, {
@@ -53,6 +55,8 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyRedis, {
     url: config.redis.REDIS_URL,
   })
+
+  registerRateLimit(app)
 
   app.register(usersRoute)
   app.register(listsRoute)
@@ -81,36 +85,16 @@ export function routes(app: FastifyInstance) {
   return
 }
 
-function getCorsOrigin() {
+function getCorsOrigin(): true | string[] {
   if (config.app.APP_ENV !== 'production') {
-    return true // Permite todas as origens em dev/test
+    return true
   }
 
-  // Em produção, permite múltiplas origens
   const allowedOrigins = [
     config.app.CLIENT_URL,
     'https://plotwist.app',
     'https://www.plotwist.app',
   ]
 
-  // Remove duplicatas caso CLIENT_URL já seja plotwist.app
-  const uniqueOrigins = [...new Set(allowedOrigins)]
-
-  return (
-    origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void
-  ) => {
-    // Apps nativos (iOS/Android) podem não enviar header Origin
-    // Nesse caso, permitimos a requisição
-    if (!origin) {
-      callback(null, true)
-      return
-    }
-
-    if (uniqueOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'), false)
-    }
-  }
+  return [...new Set(allowedOrigins)]
 }

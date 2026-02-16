@@ -15,9 +15,9 @@ import { getAllUserItemsService } from '@/domain/services/user-items/get-all-use
 import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
 import { getUserItemsCountService } from '@/domain/services/user-items/get-user-items-count'
+import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
-import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,
@@ -91,18 +91,23 @@ export async function upsertUserItemController(
     },
   })
 
-  // Invalidate user stats cache since item status changed
   await invalidateUserStatsCache(redis, request.user.id)
 
-  // Fetch the user item via Drizzle ORM to ensure consistent format with getUserItem
   const result = await getUserItemService({
     mediaType,
     tmdbId,
     userId: request.user.id,
   })
 
-  // Ensure dates are serialized as ISO strings
-  const userItem = result.userItem!
+  const userItem = result.userItem
+  if (!userItem) {
+    return reply.status(500).send({
+      statusCode: 500,
+      error: 'Internal Server Error',
+      message: 'User item could not be retrieved after upsert.',
+    })
+  }
+
   return reply.status(201).send({
     userItem: {
       id: userItem.id,

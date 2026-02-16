@@ -299,11 +299,13 @@ export function WatchEpisodeActivity({
           </TooltipTrigger>
           <TooltipContent className="p-0 m-0">
             <ul className="p-2 text-xs">
-              {episodes.map((episode: { seasonNumber: number; episodeNumber: number }) => (
-                <li key={v4()} className="whitespace-nowrap">
-                  • S{episode.seasonNumber}, EP{episode.episodeNumber}
-                </li>
-              ))}
+              {episodes.map(
+                (episode: { seasonNumber: number; episodeNumber: number }) => (
+                  <li key={v4()} className="whitespace-nowrap">
+                    • S{episode.seasonNumber}, EP{episode.episodeNumber}
+                  </li>
+                )
+              )}
             </ul>
           </TooltipContent>
         </Tooltip>

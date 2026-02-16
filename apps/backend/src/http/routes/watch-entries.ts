@@ -1,12 +1,12 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createWatchEntryController,
   deleteWatchEntryController,
   getWatchEntriesController,
   updateWatchEntryController,
 } from '../controllers/watch-entries-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createWatchEntryBodySchema,
   createWatchEntryResponseSchema,
