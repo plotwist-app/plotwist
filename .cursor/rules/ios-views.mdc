@@ -1,50 +1,105 @@
 ---
-description: Regras para criar telas iOS no projeto Plotwist
+description: Regras para criar telas iOS no projeto Plotwist — estrutura, padrões UI/UX, componentes e convenções
 globs:
   - "apps/ios/**/*.swift"
 alwaysApply: false
 ---
 
-# Regras para Telas iOS - Plotwist
+# Regras para Telas iOS — Plotwist
 
 ## Estrutura de Arquivos
 
 ```
 apps/ios/Plotwist/Plotwist/
-├── App/                    # Entry point e RootView
-├── Components/             # Componentes reutilizáveis
-│   └── PrimaryButton.swift # Botões padrão
-├── Views/                  # Telas organizadas por feature
-│   ├── Auth/              # Login, SignUp, etc
-│   ├── Home/              # Dashboard
-│   ├── Movies/            # Catálogo de filmes
-│   └── ...
-├── Services/              # Serviços de API
-├── Theme/                 # Cores e estilos
-├── Localization/          # Multi-idioma
-│   ├── Language.swift     # Enum de idiomas
-│   └── Strings.swift      # Todas as strings traduzidas
-└── Utils/                 # Constantes
+├── App/
+│   └── RootView.swift              # Navegação raiz: Onboarding → Login → Home
+├── Components/                     # Componentes reutilizáveis (11 arquivos)
+│   ├── PrimaryButton.swift         # PrimaryButton (filled/outline), SocialButton, ActionButton
+│   ├── SocialLoginButton.swift     # Botão de login social (Apple, etc.)
+│   ├── StarRatingView.swift        # Rating interativo de 5 estrelas (suporta 0.5)
+│   ├── ReviewItemView.swift        # Card de review
+│   ├── ReviewButton.swift          # Botão de review
+│   ├── EpisodeRowView.swift        # Linha de episódio
+│   ├── StatusSheet.swift           # Sheet de seleção de status (watched/watching/watchlist/dropped)
+│   ├── MediaDetailViewActions.swift # Ações da tela de detalhes
+│   ├── PreferencesBadge.swift      # Badge de preferências
+│   ├── SegmentedTabBar.swift       # Tab bar segmentada (pills com background)
+│   └── UnderlineTabBar.swift       # Tab bar com underline animado
+├── Views/                          # Telas organizadas por feature
+│   ├── Auth/                       # LoginView (landing page), SignUpView
+│   ├── Home/                       # HomeView (TabView), HomeTabView, DiscoverTabView,
+│   │                               # SearchTabView, ProfileTabView, HomeCards, HomeSections
+│   ├── Details/                    # MediaDetailView, SeasonDetailView, EpisodeDetailView,
+│   │                               # ReviewSheet, MediaImagesView
+│   ├── Profile/                    # UserProfileView, EditProfileView
+│   ├── Onboarding/                 # OnboardingView (flow multi-step)
+│   └── Reviews/                    # Telas de reviews
+├── Services/                       # Singletons de API e lógica de negócio
+│   ├── AuthService.swift           # Autenticação e gerenciamento de usuário
+│   ├── TMDBService.swift           # Proxy TMDB (busca, detalhes, imagens, providers)
+│   ├── ReviewService.swift         # CRUD de reviews
+│   ├── UserItemService.swift       # Watchlist/watching status
+│   ├── ImageCache.swift            # Cache de imagens (memória + disco)
+│   ├── HomeDataCache.swift         # Cache da home screen
+│   ├── AnalyticsService.swift      # PostHog analytics
+│   └── OnboardingService.swift     # Estado do onboarding
+├── Theme/
+│   ├── ThemeManager.swift          # Gerencia tema: .system, .light, .dark
+│   └── Colors.swift                # Cores adaptivas, DesignTokens, ViewModifiers
+├── Extensions/
+│   └── View+Sheet.swift            # .floatingSheetPresentation(), .floatingSheetDynamicPresentation()
+├── Utils/
+│   ├── Constants.swift             # API.baseURL = Env.apiBaseURL
+│   └── Environment.swift           # Env: API_BASE_URL, POSTHOG_API_KEY (via Info.plist / xcconfig)
+├── Localization/
+│   └── Strings.swift               # L10n com todas as strings traduzidas
+└── Fonts/                          # Fontes customizadas
 ```
 
-## Regras de Criação de Views
+## Arquitetura
 
-1. **Mantenha tudo simples** - State local na View, sem ViewModel separado para telas simples
-2. **Use @State** para estados locais (loading, error, form fields)
-3. **API sempre em `localhost:3333`** - Configurado em `Utils/Constants.swift`
-4. **Use as cores do tema** - Definidas em `Theme/Colors.swift`
-5. **Use L10n.current para strings** - Todas as strings devem ser traduzidas
+### Service-Oriented (sem MVVM)
 
-## Localização (Multi-idioma)
+- **Sem ViewModels.** State local na View com `@State`.
+- **Services como singletons:** `AuthService.shared`, `TMDBService.shared`, `ReviewService.shared`, etc.
+- **Shared state** via `@ObservedObject` (ex: `ThemeManager.shared`, `OnboardingService.shared`).
+- **Extension pattern** para separar data loading: `HomeTabView+DataLoading.swift`.
 
-Use `L10n.current` para acessar strings traduzidas:
+### Fluxo de dados
+
+```
+View (@State) → Service.shared → API (async/await) → Response → View
+```
+
+### State Management
 
 ```swift
-@State private var strings = L10n.current
+@State private var isLoading = false          // Estado local
+@State private var strings = L10n.current     // Localização
+@StateObject private var service = SomeService.shared  // Singleton reativo (primeira referência)
+@ObservedObject private var themeManager = ThemeManager.shared  // Singleton reativo (subsequentes)
+@Environment(\.dismiss) private var dismiss   // Dismiss de sheets/navigation
+@Environment(\.colorScheme) private var colorScheme  // Tema do sistema
+```
 
-// Na view
-Text(strings.accessPlotwist)
-Text(strings.loginLabel)
+## Navegação
+
+### Estrutura principal
+
+- **RootView** → decide entre `OnboardingView`, `LoginView` ou `HomeView` baseado no auth state.
+- **HomeView** → `TabView` com 5 tabs: Home, Discover, Trails (DEBUG), Profile, Search.
+- **NavigationStack** (não NavigationView) dentro de cada tab.
+- **Sheets** para formulários e ações modais.
+
+### Navegação programática via NotificationCenter
+
+```swift
+// Navegar para uma tab
+NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+NotificationCenter.default.post(name: .navigateToProfile, object: nil)
+
+// Reagir a mudanças de auth
+NotificationCenter.default.post(name: .authChanged, object: nil)
 
 // Reagir a mudanças de idioma
 .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -52,27 +107,74 @@ Text(strings.loginLabel)
 }
 ```
 
-**Idiomas suportados:** en-US, pt-BR, es-ES, fr-FR, de-DE, it-IT, ja-JP
+### Guest Mode
 
-**Adicionar novas strings:** Edite `Localization/Strings.swift`
+O app suporta modo guest. Verificar antes de features que requerem auth:
 
-## Template de View Simples
+```swift
+private var isGuestMode: Bool {
+    !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+}
+```
+
+## Design System
+
+### Cores (SEMPRE usar estas — definidas em `Theme/Colors.swift`)
+
+| Cor | Uso |
+|-----|-----|
+| `Color.appBackgroundAdaptive` | Background principal de telas |
+| `Color.appSheetBackgroundAdaptive` | Background de sheets (ligeiramente elevado no dark) |
+| `Color.appForegroundAdaptive` | Texto principal |
+| `Color.appMutedForegroundAdaptive` | Texto secundário, ícones inativos |
+| `Color.appBorderAdaptive` | Bordas, separadores |
+| `Color.appInputFilled` | Background de inputs e badges |
+| `Color.appDestructive` | Erros e ações destrutivas |
+| `Color.appStarYellow` | Estrelas de rating |
+
+### Design Tokens
+
+```swift
+DesignTokens.CornerRadius.poster    // 16 — posters e cards
+DesignTokens.CornerRadius.thumbnail // 8  — thumbnails
+DesignTokens.CornerRadius.input     // 12 — inputs e botões
+DesignTokens.CornerRadius.badge     // 6  — badges
+```
+
+### Custom View Modifiers
+
+```swift
+.posterShadow()          // Sombra em 5 camadas (estilo app icon)
+.posterBorder()          // Borda sutil (dark mode only)
+.topRoundedBorder()      // Borda só no topo (dark mode only)
+.floatingSheetPresentation(height: 400)    // Sheet com altura fixa
+.floatingSheetDynamicPresentation()        // Sheet com altura dinâmica
+.lightStatusBar()        // Status bar clara (usado no LoginView)
+.trackScreen("Home")     // Analytics tracking
+```
+
+## Template de View
 
 ```swift
 import SwiftUI
 
 struct NomeDaTelaView: View {
     @State private var isLoading = false
-    @State private var error: String?
+    @State private var strings = L10n.current
 
     var body: some View {
         ZStack {
             Color.appBackgroundAdaptive.ignoresSafeArea()
 
-            VStack(spacing: 16) {
-                // Conteúdo
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 24) {
+                    // Conteúdo
+                }
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            strings = L10n.current
         }
     }
 }
@@ -82,49 +184,150 @@ struct NomeDaTelaView: View {
 }
 ```
 
-## Cores (use sempre estas)
+## Componentes UI
 
-- `Color.appBackgroundAdaptive` - Background principal
-- `Color.appForegroundAdaptive` - Texto principal
-- `Color.appBorderAdaptive` - Bordas (inputs e botões usam transparente + borda)
-- `Color.appMutedForegroundAdaptive` - Texto secundário
-- `Color.appDestructive` - Erros e ações destrutivas
-
-## Componentes Comuns
-
-### Input Field (transparente com borda)
+### Input Field (background preenchido)
 
 ```swift
-TextField("Placeholder", text: $value)
-    .textInputAutocapitalization(.never)
-    .autocorrectionDisabled()
-    .padding(12)
-    .background(Color.clear)
-    .overlay(
-        RoundedRectangle(cornerRadius: 12)
-            .stroke(Color.appBorderAdaptive, lineWidth: 1)
-    )
-```
-
-### Botão Primário (use o componente)
-
-```swift
-// Filled (preto)
-PrimaryButton("Access", variant: .filled, isLoading: isLoading) {
-    // ação
-}
-
-// Outline (transparente com borda)
-PrimaryButton("Cancel") {
-    // ação
+VStack(alignment: .leading, spacing: 6) {
+    Text(strings.label)
+        .font(.subheadline.weight(.medium))
+        .foregroundColor(.appForegroundAdaptive)
+    TextField(strings.placeholder, text: $value)
+        .textInputAutocapitalization(.never)
+        .autocorrectionDisabled()
+        .padding(12)
+        .background(Color.appInputFilled)
+        .cornerRadius(12)
 }
 ```
 
-### Botão Social (desabilitado)
+### Botões
 
 ```swift
-SocialButton("Continue with Google", icon: "globe", isDisabled: true) {}
-SocialButton("Continue with Apple", icon: "apple.logo", isDisabled: true) {}
+// Filled (PrimaryButton)
+PrimaryButton("Access", variant: .filled, isLoading: isLoading) { }
+
+// Outline (PrimaryButton — default)
+PrimaryButton("Cancel") { }
+
+// Action Button (pequeno, com ícone)
+ActionButton("Review", icon: "star") { }
+ActionButton("Reviewed", icon: "star.fill", iconColor: .appStarYellow) { }
+
+// Social Login
+SocialLoginButton(provider: .apple, title: strings.continueWithApple, isLoading: isLoading) { }
+
+// Botão CTA em sheets (Capsule shape)
+Button(action: { }) {
+    Text(strings.accessButton)
+        .fontWeight(.semibold)
+        .frame(maxWidth: .infinity)
+        .frame(height: 48)
+        .background(Color.appForegroundAdaptive)
+        .foregroundColor(.appBackgroundAdaptive)
+        .clipShape(Capsule())
+}
+```
+
+### Sheet com FloatingSheetContainer
+
+```swift
+.sheet(isPresented: $showSheet) {
+    FloatingSheetContainer {
+        VStack(spacing: 16) {
+            // Drag Indicator
+            RoundedRectangle(cornerRadius: 2.5)
+                .fill(Color.gray.opacity(0.4))
+                .frame(width: 36, height: 5)
+                .padding(.top, 12)
+
+            // Título
+            Text(strings.title)
+                .font(.title3.bold())
+                .foregroundColor(.appForegroundAdaptive)
+
+            // Conteúdo...
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 8)
+    }
+    .floatingSheetPresentation(height: 400)
+    .preferredColorScheme(themeManager.current.colorScheme)
+}
+```
+
+### Poster Card (com sombra e borda)
+
+```swift
+CachedAsyncImage(url: item.imageURL) { image in
+    image.resizable().aspectRatio(contentMode: .fill)
+} placeholder: {
+    RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive)
+}
+.frame(width: 120, height: 180)
+.clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+.posterBorder()
+.posterShadow()
+```
+
+### Seção horizontal (padrão Home)
+
+```swift
+VStack(alignment: .leading, spacing: 12) {
+    Text(strings.sectionTitle)
+        .font(.title3.bold())
+        .foregroundColor(.appForegroundAdaptive)
+        .padding(.horizontal, 24)
+
+    ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 12) {
+            ForEach(items) { item in
+                NavigationLink {
+                    MediaDetailView(mediaId: item.id, mediaType: item.mediaType ?? "movie")
+                } label: {
+                    HomePosterCard(item: item)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 4)
+    }
+    .scrollClipDisabled()
+}
+```
+
+### Skeleton Loading
+
+```swift
+// Mostrar skeleton apenas no primeiro load sem cache
+private var showSkeleton: Bool {
+    isInitialLoad && items.isEmpty
+}
+
+if showSkeleton {
+    HomeSectionSkeleton()
+} else if !items.isEmpty {
+    // Conteúdo real
+}
+```
+
+### Tab Bars
+
+```swift
+// Segmentada (pills)
+SegmentedTabBar(selectedTab: $selectedTab)
+
+// Com underline animado
+UnderlineTabBar(selectedTab: $selectedTab)
+
+// Ambas usam o protocol SegmentedTab:
+enum MyTab: SegmentedTab, CaseIterable {
+    case movies, series
+    var title: String { ... }
+}
 ```
 
 ### Mensagem de Erro
@@ -139,31 +342,78 @@ if let error {
 
 ## Chamadas de API
 
-Use `AuthService.shared` para autenticação ou crie services específicos:
-
 ```swift
 Task {
     isLoading = true
     defer { isLoading = false }
 
     do {
-        // chamada async
+        let result = try await SomeService.shared.fetchSomething()
+        self.data = result
     } catch {
         self.error = error.localizedDescription
     }
 }
 ```
 
-## Navegação
+### Analytics
 
-- Use `NavigationView` na view raiz
-- Use `NavigationLink` para navegação
-- `RootView` gerencia auth state via `NotificationCenter`
+```swift
+AnalyticsService.shared.track(.login(method: "email"))
+AnalyticsService.shared.track(.mediaStatusChanged(tmdbId: id, mediaType: type, status: "WATCHED", source: "status_sheet"))
+```
+
+### Cache
+
+```swift
+// Restaurar cache no onAppear, carregar dados fresh no .task
+.onAppear { restoreFromCache() }
+.task { await loadData() }
+```
+
+## Localização (Multi-idioma)
+
+```swift
+@State private var strings = L10n.current
+
+Text(strings.welcomeTitle)
+Text(strings.continueWatching)
+
+.onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+    strings = L10n.current
+}
+```
+
+**Idiomas:** en-US, pt-BR, es-ES, fr-FR, de-DE, it-IT, ja-JP
+
+## Convenções de Nomes
+
+- Views: `*View.swift` (ex: `HomeTabView.swift`, `MediaDetailView.swift`)
+- Components: `*View.swift` em `Components/` (ex: `StarRatingView.swift`)
+- Services: `*Service.swift` (ex: `AuthService.swift`)
+- Extensions: `View+*.swift` ou `*+DataLoading.swift`
+- Cards: `*Card.swift` (ex: `HomeSectionCard`, `HomePosterCard`)
+- Skeletons: `*Skeleton.swift` ou `*SkeletonView`
+- Cores: `Color.app*Adaptive`
+
+## Spacing e Layout
+
+- **Padding horizontal padrão:** 24
+- **Spacing entre seções:** 24–32
+- **Spacing interno de seções:** 12
+- **Spacing de form fields:** 16
+- **Altura de botões:** 48 (PrimaryButton), 52 (CTA na LoginView)
+- **Altura de poster cards:** 180 (largura: 120)
+- **Spacing entre cards horizontais:** 12
 
 ## NÃO FAZER
 
-- ❌ Criar ViewModels separados para telas simples
-- ❌ Criar arquivos de documentação (.md) desnecessários
-- ❌ Usar cores hardcoded (sempre use Theme/Colors.swift)
-- ❌ Criar abstrações desnecessárias
-- ❌ Usar URLs diferentes de localhost:3333
+- Criar ViewModels separados — use @State na View
+- Criar arquivos de documentação (.md) desnecessários
+- Usar cores hardcoded — sempre use Theme/Colors.swift
+- Usar NavigationView — use NavigationStack
+- Usar AsyncImage — use CachedAsyncImage
+- Criar abstrações desnecessárias
+- Ignorar o guest mode em features que requerem auth
+- Esquecer de adicionar `.onReceive(.languageChanged)` para strings
+- Usar valores de cornerRadius soltos — use DesignTokens.CornerRadius
