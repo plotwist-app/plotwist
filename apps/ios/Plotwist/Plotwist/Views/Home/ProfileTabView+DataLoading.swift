@@ -57,7 +57,13 @@ extension ProfileTabView {
 
     do {
       let fetchedUser = try await AuthService.shared.getCurrentUser()
+      // Preserve local avatar if there's a pending upload (placeholder URL)
+      let localAvatar = user?.avatarUrl
+      let isPending = localAvatar?.contains("avatar-pending") == true
       user = fetchedUser
+      if isPending {
+        user?.avatarUrl = localAvatar
+      }
       cache.setUser(fetchedUser)
       AnalyticsService.shared.track(.profileViewed(userId: fetchedUser.id, isOwnProfile: true))
     } catch {

@@ -248,7 +248,9 @@ struct EditProfileView: View {
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
     .fullScreenCover(isPresented: $showAvatarPicker) {
-      AvatarImagePickerView(user: user) { }
+      AvatarImagePickerView(user: user) { newAvatarURL in
+        user.avatarUrl = newAvatarURL
+      }
     }
   }
 
@@ -514,7 +516,13 @@ struct EditProfileView: View {
   private func reloadUser() async {
     do {
       let freshUser = try await AuthService.shared.getCurrentUser()
+      // Preserve local avatar if we have a pending upload (placeholder URL)
+      let localAvatar = user.avatarUrl
+      let isPending = localAvatar?.contains("avatar-pending") == true
       user = freshUser
+      if isPending {
+        user.avatarUrl = localAvatar
+      }
     } catch {
       print("Error reloading user: \(error)")
     }

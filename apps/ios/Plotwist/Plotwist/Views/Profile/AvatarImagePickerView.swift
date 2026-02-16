@@ -22,7 +22,7 @@ private struct SelectedTitle: Equatable {
 // MARK: - Avatar Image Picker View
 struct AvatarImagePickerView: View {
   let user: User
-  let onSaved: () -> Void
+  let onSaved: (String) -> Void
 
   @Environment(\.dismiss) private var dismiss
   @State private var strings = L10n.current
@@ -51,6 +51,8 @@ struct AvatarImagePickerView: View {
   @State private var geoCropSize: CGFloat = 0
 
   private let searchDebouncer = Debouncer(delay: 0.5)
+  /// Tracks the latest background upload so previous ones can be cancelled
+  private static var backgroundUploadTask: Task<Void, Never>?
 
   var body: some View {
     ZStack {
@@ -573,42 +575,69 @@ struct AvatarImagePickerView: View {
     isSaving = true
     saveError = nil
 
-    // 1. Render the cropped image
+    // 1. Render the cropped image (~19ms)
     guard let croppedUIImage = renderCroppedImage(source: cropImage) else {
       saveError = "Failed to crop image"
       isSaving = false
       return
     }
 
-    // 2. Upload to backend
-    do {
-      let uploadedURL = try await uploadImage(image: croppedUIImage)
+    // 2. Generate a placeholder URL for instant local display
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let placeholderURLString = "\(API.baseURL)/avatar-pending/\(user.id)-\(timestamp)"
 
-      // 3. Invalidate old avatar and pre-cache the new one for instant display
-      if let oldAvatarURL = user.avatarImageURL {
-        ImageCache.shared.removeImage(for: oldAvatarURL)
-      }
-      if let newAvatarURL = URL(string: uploadedURL) {
-        ImageCache.shared.setImage(croppedUIImage, for: newAvatarURL)
-      }
-
-      // 4. Update user with new avatar URL
-      _ = try await AuthService.shared.updateUser(avatarUrl: uploadedURL)
-
-      // 5. Notify profile updated
-      NotificationCenter.default.post(name: .profileUpdated, object: nil)
-      onSaved()
-      dismiss()
-    } catch {
-      saveError = error.localizedDescription
+    // 3. Pre-cache with placeholder URL so the avatar shows instantly
+    // Keep old avatar in cache so other views don't flash the initial letter
+    if let placeholderURL = URL(string: placeholderURLString) {
+      ImageCache.shared.setImage(croppedUIImage, for: placeholderURL)
     }
 
+    // 4. Notify all views with the new avatar URL so they update instantly
+    onSaved(placeholderURLString)
+    NotificationCenter.default.post(
+      name: .profileUpdated,
+      object: nil,
+      userInfo: ["avatarUrl": placeholderURLString]
+    )
+    dismiss()
     isSaving = false
+
+    // 5. Cancel any previous background upload — only the latest one matters
+    Self.backgroundUploadTask?.cancel()
+
+    let image = croppedUIImage
+    Self.backgroundUploadTask = Task.detached {
+      do {
+        // Upload image
+        let uploadedURL = try await self.uploadImage(image: image)
+        try Task.checkCancellation()
+
+        // Cache at the real URL
+        if let realURL = URL(string: uploadedURL) {
+          ImageCache.shared.setImage(image, for: realURL)
+        }
+
+        // Update backend with the real avatar URL
+        _ = try await AuthService.shared.updateUser(avatarUrl: uploadedURL)
+        try Task.checkCancellation()
+
+        // Only notify if this is still the latest upload (not cancelled)
+        await MainActor.run {
+          NotificationCenter.default.post(name: .profileUpdated, object: nil)
+        }
+      } catch is CancellationError {
+        print("ℹ️ [AvatarSave] upload cancelled (newer save started)")
+      } catch {
+        print("⚠️ [AvatarSave] background upload failed: \(error.localizedDescription)")
+      }
+    }
   }
 
   // MARK: - Render Cropped Image
   private func renderCroppedImage(source: UIImage) -> UIImage? {
     let outputSize: CGFloat = 500
+
+    guard let cgSource = source.cgImage else { return nil }
 
     let imgW = geoDisplayedWidth   // image displayed width at scale 1
     let imgH = geoDisplayedHeight  // image displayed height at scale 1
@@ -616,16 +645,19 @@ struct AvatarImagePickerView: View {
 
     guard imgW > 0, imgH > 0, circleDia > 0 else { return nil }
 
-    // Single scale factor: source pixels per display point (aspect-fit → same for x and y)
-    let pxPerPt = source.size.width / (imgW * cropScale)
+    // Use actual pixel dimensions (CGImage), not UIImage.size which is affected by scale
+    let srcW = CGFloat(cgSource.width)
+    let srcH = CGFloat(cgSource.height)
 
-    // Crop square side in source pixels
+    // Pixels per display point at current zoom (aspect-fit keeps ratio uniform)
+    let pxPerPt = srcW / (imgW * cropScale)
+
+    // Crop square side in pixels
     let cropPx = circleDia * pxPerPt
 
-    // The crop circle is centered on the view; offset shifts the image.
-    // So the crop center in source pixels is the image center minus the offset.
-    let cx = source.size.width  / 2.0 - cropOffset.width  * pxPerPt
-    let cy = source.size.height / 2.0 - cropOffset.height * pxPerPt
+    // Crop center in pixel coordinates
+    let cx = srcW / 2.0 - cropOffset.width  * pxPerPt
+    let cy = srcH / 2.0 - cropOffset.height * pxPerPt
 
     var rect = CGRect(
       x: cx - cropPx / 2,
@@ -634,13 +666,15 @@ struct AvatarImagePickerView: View {
       height: cropPx
     )
 
-    // Clamp to image bounds
-    rect = rect.intersection(CGRect(origin: .zero, size: source.size))
-    guard !rect.isEmpty, let cg = source.cgImage?.cropping(to: rect) else { return nil }
+    // Clamp to pixel bounds
+    rect = rect.intersection(CGRect(x: 0, y: 0, width: srcW, height: srcH))
+    guard !rect.isEmpty, let cropped = cgSource.cropping(to: rect) else { return nil }
 
-    let renderer = UIGraphicsImageRenderer(size: CGSize(width: outputSize, height: outputSize))
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = 1.0
+    let renderer = UIGraphicsImageRenderer(size: CGSize(width: outputSize, height: outputSize), format: format)
     return renderer.image { _ in
-      UIImage(cgImage: cg).draw(in: CGRect(x: 0, y: 0, width: outputSize, height: outputSize))
+      UIImage(cgImage: cropped).draw(in: CGRect(x: 0, y: 0, width: outputSize, height: outputSize))
     }
   }
 
@@ -661,9 +695,10 @@ struct AvatarImagePickerView: View {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
-    guard let imageData = image.jpegData(compressionQuality: 0.85) else {
+    guard let imageData = image.jpegData(compressionQuality: 0.7) else {
       throw URLError(.cannotDecodeContentData)
     }
+    print("⏱ [AvatarSave] jpeg size: \(imageData.count / 1024)KB")
 
     var body = Data()
     body.append("--\(boundary)\r\n".data(using: .utf8)!)
