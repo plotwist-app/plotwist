@@ -39,4 +39,8 @@ enum Env {
     static var posthogHost: String {
         value(for: "POSTHOG_HOST", fallback: "https://app.posthog.com")
     }
+
+    static var iosAPIToken: String {
+        value(for: "IOS_API_TOKEN")
+    }
 }
