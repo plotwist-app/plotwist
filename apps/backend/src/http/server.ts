@@ -9,7 +9,6 @@ import { ZodError } from 'zod'
 import { logger } from '@/adapters/logger'
 import { DomainError } from '@/domain/errors/domain-error'
 import { config } from '../config'
-import { registerClientGuard } from './client-guard'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
@@ -86,7 +85,8 @@ export function startServer() {
     return reply.status(500).send({ message: 'Internal server error.' })
   })
 
-  registerClientGuard(app)
+  // TODO: Uncomment this when we have a client guard
+  // registerClientGuard(app)
   routes(app)
 
   app
