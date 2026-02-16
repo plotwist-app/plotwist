@@ -39,7 +39,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -62,7 +61,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -94,7 +92,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -135,7 +132,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PUT"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -179,7 +175,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "DELETE"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
@@ -206,7 +201,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PUT"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -238,7 +232,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -278,7 +271,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "DELETE"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
@@ -302,7 +294,6 @@ class UserItemService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PUT"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")

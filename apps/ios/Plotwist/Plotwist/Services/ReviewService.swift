@@ -68,7 +68,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -106,7 +105,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -163,7 +161,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PUT"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -206,7 +203,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "DELETE"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
@@ -262,7 +258,6 @@ class ReviewService {
     }
     
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     if let token = UserDefaults.standard.string(forKey: "token") {
       request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
@@ -302,7 +297,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     // Add token if available (optional auth)
     if let token = UserDefaults.standard.string(forKey: "token") {
       request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

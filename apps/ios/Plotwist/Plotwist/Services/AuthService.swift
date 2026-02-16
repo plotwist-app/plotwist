@@ -29,7 +29,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.httpBody = try JSONEncoder().encode(["login": login, "password": password])
@@ -67,7 +66,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -141,7 +139,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -168,7 +165,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PATCH"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -214,7 +210,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "GET"
 
     let (_, response) = try await URLSession.shared.data(for: request)
@@ -242,7 +237,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "GET"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
@@ -276,7 +270,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "PATCH"
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -306,7 +299,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "GET"
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -327,7 +319,6 @@ class AuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "GET"
 
     let (data, response) = try await URLSession.shared.data(for: request)

@@ -185,7 +185,6 @@ class SocialAuthService {
     }
 
     var request = URLRequest(url: url)
-    API.addIOSTokenHeader(to: &request)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.httpBody = try JSONEncoder().encode(body)
