@@ -390,16 +390,29 @@ class TMDBService {
     page: Int = 1,
     watchRegion: String? = nil,
     withWatchProviders: String? = nil,
-    withGenres: String? = nil
+    withGenres: String? = nil,
+    sortBy: String = "popularity.desc",
+    releaseDateGte: String? = nil,
+    releaseDateLte: String? = nil,
+    voteCountGte: Int? = nil
   ) async throws -> PaginatedResult {
     var urlString =
-      "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&page=\(page)"
+      "\(baseURL)/discover/movie?language=\(language)&sort_by=\(sortBy)&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
     }
     if let genres = withGenres, !genres.isEmpty {
       urlString += "&with_genres=\(genres)"
+    }
+    if let gte = releaseDateGte {
+      urlString += "&primary_release_date.gte=\(gte)"
+    }
+    if let lte = releaseDateLte {
+      urlString += "&primary_release_date.lte=\(lte)"
+    }
+    if let minVotes = voteCountGte {
+      urlString += "&vote_count.gte=\(minVotes)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -431,16 +444,29 @@ class TMDBService {
     page: Int = 1,
     watchRegion: String? = nil,
     withWatchProviders: String? = nil,
-    withGenres: String? = nil
+    withGenres: String? = nil,
+    sortBy: String = "popularity.desc",
+    airDateGte: String? = nil,
+    airDateLte: String? = nil,
+    voteCountGte: Int? = nil
   ) async throws -> PaginatedResult {
     var urlString =
-      "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&page=\(page)"
+      "\(baseURL)/discover/tv?language=\(language)&sort_by=\(sortBy)&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
     }
     if let genres = withGenres, !genres.isEmpty {
       urlString += "&with_genres=\(genres)"
+    }
+    if let gte = airDateGte {
+      urlString += "&air_date.gte=\(gte)"
+    }
+    if let lte = airDateLte {
+      urlString += "&air_date.lte=\(lte)"
+    }
+    if let minVotes = voteCountGte {
+      urlString += "&vote_count.gte=\(minVotes)"
     }
 
     guard let url = URL(string: urlString) else {
