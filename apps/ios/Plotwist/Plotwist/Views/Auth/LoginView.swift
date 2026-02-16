@@ -296,7 +296,6 @@ struct LoginFormSheet: View {
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
-  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var strings = L10n.current
   
@@ -316,22 +315,13 @@ struct LoginFormSheet: View {
           .frame(maxWidth: .infinity, alignment: .center)
         
         VStack(spacing: 16) {
-          // Social Login Icons
-          HStack(spacing: 12) {
-            SocialLoginIconButton(
-              provider: .apple,
-              isLoading: isAppleLoading
-            ) {
-              Task { await signInWithApple() }
-            }
-            
-            SocialLoginIconButton(
-              provider: .google,
-              isLoading: isGoogleLoading,
-              isDisabled: true
-            ) {
-              // Google Sign-In disabled for now
-            }
+          // Apple Sign-In
+          SocialLoginButton(
+            provider: .apple,
+            title: strings.continueWithApple,
+            isLoading: isAppleLoading
+          ) {
+            Task { await signInWithApple() }
           }
           
           // Divider with "or"
@@ -415,7 +405,7 @@ struct LoginFormSheet: View {
             .foregroundColor(.appBackgroundAdaptive)
             .clipShape(Capsule())
           }
-          .disabled(isLoading || isAppleLoading || isGoogleLoading)
+          .disabled(isLoading || isAppleLoading)
           .opacity(isLoading ? 0.5 : 1)
         }
       }
@@ -477,14 +467,6 @@ struct LoginFormSheet: View {
     }
   }
   
-  private func signInWithGoogle() async {
-    error = nil
-    isGoogleLoading = true
-    defer { isGoogleLoading = false }
-    
-    // TODO: Implement Google Sign-In when SDK is configured
-    self.error = "Google Sign-In coming soon"
-  }
 }
 
 // MARK: - Sign Up Form Sheet
@@ -497,7 +479,6 @@ struct SignUpFormSheet: View {
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
-  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var showUsernameStep = false
   @State private var strings = L10n.current
@@ -585,22 +566,13 @@ struct SignUpFormSheet: View {
         } else {
           // Email & Password Step
           VStack(spacing: 16) {
-            // Social Login Icons
-            HStack(spacing: 12) {
-              SocialLoginIconButton(
-                provider: .apple,
-                isLoading: isAppleLoading
-              ) {
-                Task { await signInWithApple() }
-              }
-              
-              SocialLoginIconButton(
-                provider: .google,
-                isLoading: isGoogleLoading,
-                isDisabled: true
-              ) {
-                // Google Sign-In disabled for now
-              }
+            // Apple Sign-In
+            SocialLoginButton(
+              provider: .apple,
+              title: strings.continueWithApple,
+              isLoading: isAppleLoading
+            ) {
+              Task { await signInWithApple() }
             }
             
             // Divider with "or"
@@ -685,7 +657,7 @@ struct SignUpFormSheet: View {
               .foregroundColor(.appBackgroundAdaptive)
               .clipShape(Capsule())
             }
-            .disabled(isLoading || isAppleLoading || isGoogleLoading)
+            .disabled(isLoading || isAppleLoading)
             .opacity(isLoading ? 0.5 : 1)
           }
         }
@@ -789,14 +761,6 @@ struct SignUpFormSheet: View {
     }
   }
   
-  private func signInWithGoogle() async {
-    error = nil
-    isGoogleLoading = true
-    defer { isGoogleLoading = false }
-    
-    // TODO: Implement Google Sign-In when SDK is configured
-    self.error = "Google Sign-In coming soon"
-  }
 }
 
 // MARK: - Noise Overlay

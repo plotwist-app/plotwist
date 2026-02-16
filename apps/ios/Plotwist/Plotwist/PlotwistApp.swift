@@ -11,6 +11,10 @@ import SwiftUI
 struct PlotwistApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
+    init() {
+        Env.debugPrintAll()
+    }
+    
     var body: some Scene {
         WindowGroup {
             RootView()

@@ -7,17 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE67A2852F42A36800AE7C77 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BE67A2842F42A36800AE7C77 /* Debug.xcconfig */; };
+		BE67A2872F42A36F00AE7C77 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BE67A2862F42A36F00AE7C77 /* Release.xcconfig */; };
 		BEAA685E2F2FCE4300BFC6D9 /* Swiper in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA685D2F2FCE4300BFC6D9 /* Swiper */; };
 		BEAA68612F2FCFE000BFC6D9 /* Deck in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA68602F2FCFE000BFC6D9 /* Deck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BE1232732F129895003F1FBA /* Plotwist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plotwist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE67A2842F42A36800AE7C77 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		BE67A2862F42A36F00AE7C77 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BE67A2892F42A3ED00AE7C77 /* Exceptions for "Plotwist" folder in "Plotwist" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BE1232722F129895003F1FBA /* Plotwist */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BE1232752F129895003F1FBA /* Plotwist */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BE67A2892F42A3ED00AE7C77 /* Exceptions for "Plotwist" folder in "Plotwist" target */,
+			);
 			path = Plotwist;
 			sourceTree = "<group>";
 		};
@@ -41,6 +58,8 @@
 			children = (
 				BE1232752F129895003F1FBA /* Plotwist */,
 				BE1232742F129895003F1FBA /* Products */,
+				BE67A2842F42A36800AE7C77 /* Debug.xcconfig */,
+				BE67A2862F42A36F00AE7C77 /* Release.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +141,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE67A2852F42A36800AE7C77 /* Debug.xcconfig in Resources */,
+				BE67A2872F42A36F00AE7C77 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +161,7 @@
 /* Begin XCBuildConfiguration section */
 		BE12327C2F129897003F1FBA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE67A2842F42A36800AE7C77 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -205,6 +227,7 @@
 		};
 		BE12327D2F129897003F1FBA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE67A2862F42A36F00AE7C77 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -272,6 +295,7 @@
 				DEVELOPMENT_TEAM = 54XPVTP5PA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Plotwist/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -301,6 +325,7 @@
 				DEVELOPMENT_TEAM = 54XPVTP5PA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Plotwist/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
