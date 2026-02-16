@@ -6,5 +6,5 @@
 import Foundation
 
 enum API {
-  static let baseURL = "https://plotwist-api-production.up.railway.app"
+  static let baseURL = Env.apiBaseURL
 }

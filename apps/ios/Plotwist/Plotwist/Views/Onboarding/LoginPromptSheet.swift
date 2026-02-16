@@ -108,22 +108,13 @@ struct LoginPromptSheet: View {
           }
         } else {
           VStack(spacing: 16) {
-            // Social Login Icons
-            HStack(spacing: 12) {
-              SocialLoginIconButton(
-                provider: .apple,
-                isLoading: isAppleLoading
-              ) {
-                Task { await signInWithApple() }
-              }
-              
-              SocialLoginIconButton(
-                provider: .google,
-                isLoading: false,
-                isDisabled: true
-              ) {
-                // Google Sign-In disabled for now
-              }
+            // Apple Sign-In
+            SocialLoginButton(
+              provider: .apple,
+              title: strings.continueWithApple,
+              isLoading: isAppleLoading
+            ) {
+              Task { await signInWithApple() }
             }
             
             // Divider with "or"
@@ -257,8 +248,10 @@ struct LoginPromptSheet: View {
       await OnboardingService.shared.syncLocalDataToServer()
       
       OnboardingService.shared.hasSeenLoginPrompt = true
-      NotificationCenter.default.post(name: .authChanged, object: nil)
       onLogin()
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        NotificationCenter.default.post(name: .authChanged, object: nil)
+      }
     } catch {
       // If login looks like an email, check if it's a new account
       let isEmail = login.contains("@") && login.contains(".")
@@ -306,8 +299,10 @@ struct LoginPromptSheet: View {
         await OnboardingService.shared.syncLocalDataToServer()
         
         OnboardingService.shared.hasSeenLoginPrompt = true
-        NotificationCenter.default.post(name: .authChanged, object: nil)
         onLogin()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+          NotificationCenter.default.post(name: .authChanged, object: nil)
+        }
       } else {
         error = strings.usernameAlreadyTaken
       }
@@ -336,8 +331,10 @@ struct LoginPromptSheet: View {
       await OnboardingService.shared.syncLocalDataToServer()
       
       OnboardingService.shared.hasSeenLoginPrompt = true
-      NotificationCenter.default.post(name: .authChanged, object: nil)
       onLogin()
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        NotificationCenter.default.post(name: .authChanged, object: nil)
+      }
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
         // User cancelled, don't show error

@@ -149,7 +149,6 @@ struct CategoryListView: View {
 
   @Environment(\.dismiss) private var dismiss
   @State private var items: [SearchResult] = []
-  @State private var previousItems: [SearchResult] = []
   @State private var isLoading = true
   @State private var isLoadingMore = false
   @State private var currentPage = 1
@@ -158,8 +157,6 @@ struct CategoryListView: View {
   @State private var selectedMovieSubcategory: MovieSubcategory = .popular
   @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .popular
   @State private var selectedAnimeType: AnimeType = .tvSeries
-  @State private var currentOffset: CGFloat = 0
-  @State private var previousOffset: CGFloat = UIScreen.main.bounds.width * 2  // Start off-screen
   @State private var loadingTask: Task<Void, Never>?
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
@@ -422,26 +419,11 @@ struct CategoryListView: View {
 
           // Tabs in header
           if categoryType == .movies {
-            CategoryTabsView(
-              selectedTab: $selectedMovieSubcategory,
-              onTabChange: { fromTrailing in
-                animateContentChange(fromTrailing: fromTrailing)
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedMovieSubcategory)
           } else if categoryType == .tvSeries {
-            CategoryTabsView(
-              selectedTab: $selectedTVSeriesSubcategory,
-              onTabChange: { fromTrailing in
-                animateContentChange(fromTrailing: fromTrailing)
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedTVSeriesSubcategory)
           } else if categoryType == .animes {
-            CategoryTabsView(
-              selectedTab: $selectedAnimeType,
-              onTabChange: { fromTrailing in
-                animateContentChange(fromTrailing: fromTrailing)
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedAnimeType)
           } else {
             Rectangle()
               .fill(Color.appBorderAdaptive)
@@ -449,30 +431,8 @@ struct CategoryListView: View {
           }
         }
 
-        // Content with slide animation (exactly like ProfileTabView)
-        let screenWidth = UIScreen.main.bounds.width
-        
-        ZStack(alignment: .topLeading) {
-          // Previous content
-          contentGrid(items: previousItems)
-            .frame(width: screenWidth, alignment: .top)
-            .frame(maxHeight: .infinity, alignment: .top)
-            .background(Color.appBackgroundAdaptive)
-            .offset(x: previousOffset)
-          
-          // Current content
-          contentGrid(items: items)
-            .frame(width: screenWidth, alignment: .top)
-            .frame(maxHeight: .infinity, alignment: .top)
-            .background(Color.appBackgroundAdaptive)
-            .offset(x: currentOffset)
-        }
-        .frame(width: screenWidth, alignment: .topLeading)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .clipped()
-        .ignoresSafeArea(edges: .bottom)
-        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: currentOffset)
-        .animation(.spring(response: 0.4, dampingFraction: 0.88), value: previousOffset)
+        // Content
+        contentGrid(items: items)
       }
     }
     .navigationBarHidden(true)
@@ -490,6 +450,18 @@ struct CategoryListView: View {
       await loadItems()
       await loadCategoryStreamingProviders()
     }
+    .onChange(of: selectedMovieSubcategory) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
+    .onChange(of: selectedTVSeriesSubcategory) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
+    .onChange(of: selectedAnimeType) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task {
         await loadItems()
@@ -498,54 +470,6 @@ struct CategoryListView: View {
     }
   }
   
-  private func animateContentChange(fromTrailing: Bool) {
-    // Cancel any in-flight loading/animation to avoid race conditions
-    loadingTask?.cancel()
-    
-    let screenWidth = UIScreen.main.bounds.width
-    
-    // When navigating to a tab on the RIGHT (fromTrailing = true):
-    // - Previous content exits to the LEFT (negative offset)
-    // - New content enters from the RIGHT (starts positive, animates to 0)
-    let exitOffset = fromTrailing ? -screenWidth : screenWidth
-    let enterOffset = fromTrailing ? screenWidth : -screenWidth
-    
-    // Step 1: Save current items as previous
-    previousItems = items
-    
-    // Step 2: Set initial positions WITHOUT animation
-    var transaction = Transaction()
-    transaction.disablesAnimations = true
-    withTransaction(transaction) {
-      previousOffset = 0
-      currentOffset = enterOffset
-    }
-    
-    // Step 3: Load new items and trigger animation
-    loadingTask = Task {
-      await loadItems()
-      
-      // If this task was cancelled (user switched tab again), don't animate
-      guard !Task.isCancelled else { return }
-      
-      await MainActor.run {
-        // Just change the values - implicit animation will handle it
-        previousOffset = exitOffset
-        currentOffset = 0
-        
-        // Clean up after animation (0.5s for spring to settle)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-          var cleanupTransaction = Transaction()
-          cleanupTransaction.disablesAnimations = true
-          withTransaction(cleanupTransaction) {
-            previousOffset = screenWidth * 2
-            previousItems = []
-          }
-        }
-      }
-    }
-  }
-
   private func loadItems() async {
     isLoading = true
     currentPage = 1
