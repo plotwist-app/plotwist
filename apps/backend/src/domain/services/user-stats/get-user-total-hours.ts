@@ -17,8 +17,8 @@ export async function getUserTotalHoursService(
       status: 'WATCHED',
     })
 
-    const movieRuntimes = await getMovieRuntimes(watchedItems, redis)
-    const movieTotalHours = sumRuntimes(movieRuntimes)
+    const movieRuntimesWithDates = await getMovieRuntimesWithDates(watchedItems, redis)
+    const movieTotalHours = sumRuntimes(movieRuntimesWithDates.map(m => m.runtime))
 
     const watchedEpisodes = await getUserEpisodesService({ userId })
     const episodeTotalHours = sumRuntimes(
@@ -26,11 +26,22 @@ export async function getUserTotalHoursService(
     )
 
     const totalHours = movieTotalHours + episodeTotalHours
-    return { totalHours }
+
+    const monthlyHours = computeMonthlyHours(
+      movieRuntimesWithDates,
+      watchedEpisodes.userEpisodes
+    )
+
+    return {
+      totalHours,
+      movieHours: movieTotalHours,
+      seriesHours: episodeTotalHours,
+      monthlyHours,
+    }
   })
 }
 
-async function getMovieRuntimes(
+async function getMovieRuntimesWithDates(
   watchedItems: Awaited<ReturnType<typeof getAllUserItemsService>>,
   redis: FastifyRedis
 ) {
@@ -44,8 +55,43 @@ async function getMovieRuntimes(
       tmdbId: item.tmdbId,
       returnRuntime: true,
     })
-    return runtime || 0
+    return { runtime: runtime || 0, date: item.updatedAt }
   })
+}
+
+function computeMonthlyHours(
+  movieData: { runtime: number; date: Date | null }[],
+  episodes: { runtime: number; watchedAt: Date | null }[]
+) {
+  const monthMap = new Map<string, number>()
+
+  const now = new Date()
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+    monthMap.set(key, 0)
+  }
+
+  for (const movie of movieData) {
+    if (!movie.date) continue
+    const key = `${movie.date.getFullYear()}-${String(movie.date.getMonth() + 1).padStart(2, '0')}`
+    if (monthMap.has(key)) {
+      monthMap.set(key, (monthMap.get(key) || 0) + movie.runtime / 60)
+    }
+  }
+
+  for (const ep of episodes) {
+    if (!ep.watchedAt) continue
+    const key = `${ep.watchedAt.getFullYear()}-${String(ep.watchedAt.getMonth() + 1).padStart(2, '0')}`
+    if (monthMap.has(key)) {
+      monthMap.set(key, (monthMap.get(key) || 0) + ep.runtime / 60)
+    }
+  }
+
+  return Array.from(monthMap.entries()).map(([month, hours]) => ({
+    month,
+    hours: Math.round(hours * 10) / 10,
+  }))
 }
 
 function sumRuntimes(runtimes: number[]): number {
