@@ -32,7 +32,7 @@ class UserStatsService {
   }
 
   // MARK: - Get Total Hours Watched
-  func getTotalHours(userId: String) async throws -> Double {
+  func getTotalHours(userId: String) async throws -> TotalHoursResponse {
     guard let url = URL(string: "\(API.baseURL)/user/\(userId)/total-hours") else {
       throw UserStatsError.invalidURL
     }
@@ -50,8 +50,7 @@ class UserStatsService {
 
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try decoder.decode(TotalHoursResponse.self, from: data)
-    return result.totalHours
+    return try decoder.decode(TotalHoursResponse.self, from: data)
   }
 
   // MARK: - Get Watched Genres
@@ -115,13 +114,92 @@ class UserStatsService {
     let result = try decoder.decode(BestReviewsResponse.self, from: data)
     return result.bestReviews
   }
+
+  // MARK: - Get Watched Cast
+  func getWatchedCast(userId: String) async throws -> [WatchedCastMember] {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-cast") else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/watched-cast", statusCode: code)
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(WatchedCastResponse.self, from: data)
+    return result.watchedCast
+  }
+
+  // MARK: - Get Watched Countries
+  func getWatchedCountries(userId: String, language: String = "en-US") async throws -> [WatchedCountry] {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-countries?language=\(language)") else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/watched-countries", statusCode: code)
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(WatchedCountriesResponse.self, from: data)
+    return result.watchedCountries
+  }
+
+  // MARK: - Get Most Watched Series
+  func getMostWatchedSeries(userId: String, language: String = "en-US") async throws -> [MostWatchedSeries] {
+    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/most-watched-series?language=\(language)") else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/most-watched-series", statusCode: code)
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let result = try decoder.decode(MostWatchedSeriesResponse.self, from: data)
+    return result.mostWatchedSeries
+  }
 }
 
 // MARK: - Models
 // Note: UserStats is defined in AuthService.swift
 
+struct MonthlyHoursEntry: Codable, Identifiable {
+  let month: String
+  let hours: Double
+  
+  var id: String { month }
+}
+
 struct TotalHoursResponse: Codable {
   let totalHours: Double
+  let movieHours: Double
+  let seriesHours: Double
+  let monthlyHours: [MonthlyHoursEntry]
 }
 
 struct WatchedGenre: Codable, Identifiable {
@@ -172,6 +250,58 @@ struct BestReview: Codable, Identifiable {
 
 struct BestReviewsResponse: Codable {
   let bestReviews: [BestReview]
+}
+
+// MARK: - Watched Cast Models
+
+struct WatchedCastMember: Codable, Identifiable {
+  let id: String
+  let name: String
+  let count: Int
+  let percentage: Double
+  let profilePath: String?
+  
+  var profileURL: URL? {
+    guard let profilePath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w185\(profilePath)")
+  }
+}
+
+struct WatchedCastResponse: Codable {
+  let watchedCast: [WatchedCastMember]
+}
+
+// MARK: - Watched Countries Models
+
+struct WatchedCountry: Codable, Identifiable {
+  let name: String
+  let count: Int
+  let percentage: Double
+  
+  var id: String { name }
+}
+
+struct WatchedCountriesResponse: Codable {
+  let watchedCountries: [WatchedCountry]
+}
+
+// MARK: - Most Watched Series Models
+
+struct MostWatchedSeries: Codable, Identifiable {
+  let id: Int
+  let episodes: Int
+  let title: String
+  let posterPath: String?
+  let backdropPath: String?
+  
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct MostWatchedSeriesResponse: Codable {
+  let mostWatchedSeries: [MostWatchedSeries]
 }
 
 enum UserStatsError: LocalizedError {

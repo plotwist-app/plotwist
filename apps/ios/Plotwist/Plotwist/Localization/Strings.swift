@@ -103,6 +103,7 @@ enum L10n {
       beFirstToReview: "Be the first to leave your opinion",
       seeAll: "See all reviews",
       showMore: "Show more",
+      showLess: "Show less",
       // Movie Categories
       nowPlaying: "Now playing",
       popular: "Popular",
@@ -289,6 +290,11 @@ enum L10n {
       bestReviews: "Best Reviews",
       daysOfContent: "days of content",
       othersGenres: "Others",
+      mostWatchedCast: "Most Watched Cast",
+      watchedCountries: "Watched Countries",
+      mostWatchedSeries: "Most Watched Series",
+      inTitles: "in %d titles",
+      episodesWatched: "ep. watched",
       // Home Engagement
       forYou: "For you",
       basedOnYourTaste: "Because you like %@",
@@ -410,6 +416,7 @@ enum L10n {
       beFirstToReview: "Seja o primeiro a deixar sua opinião",
       seeAll: "Ver todas as avaliações",
       showMore: "Ver mais",
+      showLess: "Ver menos",
       nowPlaying: "Em cartaz",
       popular: "Popular",
       topRated: "Mais bem avaliados",
@@ -588,6 +595,11 @@ enum L10n {
       bestReviews: "Melhores Reviews",
       daysOfContent: "dias de conteúdo",
       othersGenres: "Outros",
+      mostWatchedCast: "Elenco Mais Assistido",
+      watchedCountries: "Países Assistidos",
+      mostWatchedSeries: "Séries Mais Assistidas",
+      inTitles: "em %d títulos",
+      episodesWatched: "ep. assistidos",
       // Home Engagement
       forYou: "Para você",
       basedOnYourTaste: "Porque você gosta de %@",
@@ -709,6 +721,7 @@ enum L10n {
       beFirstToReview: "Sé el primero en dejar tu opinión",
       seeAll: "Ver todas las reseñas",
       showMore: "Ver más",
+      showLess: "Ver menos",
       nowPlaying: "En cartelera",
       popular: "Popular",
       topRated: "Mejor valoradas",
@@ -887,6 +900,11 @@ enum L10n {
       bestReviews: "Mejores Reseñas",
       daysOfContent: "días de contenido",
       othersGenres: "Otros",
+      mostWatchedCast: "Elenco Más Visto",
+      watchedCountries: "Países Vistos",
+      mostWatchedSeries: "Series Más Vistas",
+      inTitles: "en %d títulos",
+      episodesWatched: "ep. vistos",
       // Home Engagement
       forYou: "Para ti",
       basedOnYourTaste: "Porque te gusta %@",
@@ -1008,6 +1026,7 @@ enum L10n {
       beFirstToReview: "Soyez le premier à donner votre avis",
       seeAll: "Voir tous les avis",
       showMore: "Voir plus",
+      showLess: "Voir moins",
       nowPlaying: "À l'affiche",
       popular: "Populaire",
       topRated: "Mieux notés",
@@ -1186,6 +1205,11 @@ enum L10n {
       bestReviews: "Meilleures Critiques",
       daysOfContent: "jours de contenu",
       othersGenres: "Autres",
+      mostWatchedCast: "Casting Le Plus Vu",
+      watchedCountries: "Pays Regardés",
+      mostWatchedSeries: "Séries Les Plus Vues",
+      inTitles: "dans %d titres",
+      episodesWatched: "ép. regardés",
       // Home Engagement
       forYou: "Pour vous",
       basedOnYourTaste: "Parce que vous aimez %@",
@@ -1307,6 +1331,7 @@ enum L10n {
       beFirstToReview: "Sei der Erste, der seine Meinung teilt",
       seeAll: "Alle Bewertungen anzeigen",
       showMore: "Mehr anzeigen",
+      showLess: "Weniger anzeigen",
       nowPlaying: "Jetzt im Kino",
       popular: "Beliebt",
       topRated: "Bestbewertet",
@@ -1485,6 +1510,11 @@ enum L10n {
       bestReviews: "Beste Bewertungen",
       daysOfContent: "Tage an Inhalten",
       othersGenres: "Andere",
+      mostWatchedCast: "Meistgesehene Besetzung",
+      watchedCountries: "Gesehene Länder",
+      mostWatchedSeries: "Meistgesehene Serien",
+      inTitles: "in %d Titeln",
+      episodesWatched: "Ep. gesehen",
       // Home Engagement
       forYou: "Für dich",
       basedOnYourTaste: "Weil du %@ magst",
@@ -1606,6 +1636,7 @@ enum L10n {
       beFirstToReview: "Sii il primo a lasciare la tua opinione",
       seeAll: "Vedi tutte le recensioni",
       showMore: "Mostra di più",
+      showLess: "Mostra meno",
       nowPlaying: "In sala",
       popular: "Popolari",
       topRated: "Più votati",
@@ -1784,6 +1815,11 @@ enum L10n {
       bestReviews: "Migliori Recensioni",
       daysOfContent: "giorni di contenuti",
       othersGenres: "Altri",
+      mostWatchedCast: "Cast Più Visto",
+      watchedCountries: "Paesi Guardati",
+      mostWatchedSeries: "Serie Più Viste",
+      inTitles: "in %d titoli",
+      episodesWatched: "ep. guardati",
       // Home Engagement
       forYou: "Per te",
       basedOnYourTaste: "Perché ti piace %@",
@@ -1904,6 +1940,7 @@ enum L10n {
       beFirstToReview: "最初にレビューを書いてください",
       seeAll: "すべてのレビューを見る",
       showMore: "もっと見る",
+      showLess: "折りたたむ",
       nowPlaying: "上映中",
       popular: "人気",
       topRated: "高評価",
@@ -2082,6 +2119,11 @@ enum L10n {
       bestReviews: "ベストレビュー",
       daysOfContent: "日分のコンテンツ",
       othersGenres: "その他",
+      mostWatchedCast: "よく見た俳優",
+      watchedCountries: "視聴した国",
+      mostWatchedSeries: "よく見たシリーズ",
+      inTitles: "%d作品に出演",
+      episodesWatched: "話視聴済み",
       // Home Engagement
       forYou: "あなたへ",
       basedOnYourTaste: "%@が好きだから",
@@ -2212,6 +2254,7 @@ struct Strings {
   let beFirstToReview: String
   let seeAll: String
   let showMore: String
+  let showLess: String
   // Movie Categories
   let nowPlaying: String
   let popular: String
@@ -2392,6 +2435,11 @@ struct Strings {
   let bestReviews: String
   let daysOfContent: String
   let othersGenres: String
+  let mostWatchedCast: String
+  let watchedCountries: String
+  let mostWatchedSeries: String
+  let inTitles: String
+  let episodesWatched: String
   // Home Engagement
   let forYou: String
   let basedOnYourTaste: String
