@@ -9,7 +9,7 @@ export async function getUserTotalHoursService(
   userId: string,
   redis: FastifyRedis
 ) {
-  const cacheKey = getUserStatsCacheKey(userId, 'total-hours')
+  const cacheKey = getUserStatsCacheKey(userId, 'total-hours-v2')
 
   return getCachedStats(redis, cacheKey, async () => {
     const watchedItems = await getAllUserItemsService({
@@ -17,8 +17,13 @@ export async function getUserTotalHoursService(
       status: 'WATCHED',
     })
 
-    const movieRuntimesWithDates = await getMovieRuntimesWithDates(watchedItems, redis)
-    const movieTotalHours = sumRuntimes(movieRuntimesWithDates.map(m => m.runtime))
+    const movieRuntimesWithDates = await getMovieRuntimesWithDates(
+      watchedItems,
+      redis
+    )
+    const movieTotalHours = sumRuntimes(
+      movieRuntimesWithDates.map(m => m.runtime)
+    )
 
     const watchedEpisodes = await getUserEpisodesService({ userId })
     const episodeTotalHours = sumRuntimes(
