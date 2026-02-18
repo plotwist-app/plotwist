@@ -319,6 +319,10 @@ enum L10n {
       feedbackSubmit: "Submit",
       feedbackSubmitSuccess: "Thank you for your feedback!",
       feedbackHelpTitle: "Help",
+      deleteAccount: "Delete Account",
+      deleteAccountTitle: "Delete Account",
+      deleteAccountMessage: "Are you sure you want to delete your account? This action is permanent and cannot be undone. All your data, reviews, and collections will be permanently removed.",
+      deleteAccountConfirm: "Delete My Account",
       selectAnImage: "Select an image",
       searchTitle: "Search a title...",
       selectImage: "Select image",
@@ -624,6 +628,10 @@ enum L10n {
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "Obrigado pelo seu feedback!",
       feedbackHelpTitle: "Ajuda",
+      deleteAccount: "Excluir Conta",
+      deleteAccountTitle: "Excluir Conta",
+      deleteAccountMessage: "Tem certeza que deseja excluir sua conta? Esta ação é permanente e não pode ser desfeita. Todos os seus dados, avaliações e coleções serão removidos permanentemente.",
+      deleteAccountConfirm: "Excluir Minha Conta",
       selectAnImage: "Selecionar uma imagem",
       searchTitle: "Buscar um título...",
       selectImage: "Selecionar imagem",
@@ -929,6 +937,10 @@ enum L10n {
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "¡Gracias por tu feedback!",
       feedbackHelpTitle: "Ayuda",
+      deleteAccount: "Eliminar Cuenta",
+      deleteAccountTitle: "Eliminar Cuenta",
+      deleteAccountMessage: "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es permanente y no se puede deshacer. Todos tus datos, reseñas y colecciones serán eliminados permanentemente.",
+      deleteAccountConfirm: "Eliminar Mi Cuenta",
       selectAnImage: "Seleccionar una imagen",
       searchTitle: "Buscar un título...",
       selectImage: "Seleccionar imagen",
@@ -1234,6 +1246,10 @@ enum L10n {
       feedbackSubmit: "Envoyer",
       feedbackSubmitSuccess: "Merci pour vos retours !",
       feedbackHelpTitle: "Aide",
+      deleteAccount: "Supprimer le compte",
+      deleteAccountTitle: "Supprimer le compte",
+      deleteAccountMessage: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive et irréversible. Toutes vos données, critiques et collections seront supprimées définitivement.",
+      deleteAccountConfirm: "Supprimer mon compte",
       selectAnImage: "Sélectionner une image",
       searchTitle: "Rechercher un titre...",
       selectImage: "Sélectionner l'image",
@@ -1539,6 +1555,10 @@ enum L10n {
       feedbackSubmit: "Absenden",
       feedbackSubmitSuccess: "Vielen Dank für Ihr Feedback!",
       feedbackHelpTitle: "Hilfe",
+      deleteAccount: "Konto löschen",
+      deleteAccountTitle: "Konto löschen",
+      deleteAccountMessage: "Möchten Sie Ihr Konto wirklich löschen? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden. Alle Ihre Daten, Bewertungen und Sammlungen werden unwiderruflich gelöscht.",
+      deleteAccountConfirm: "Mein Konto löschen",
       selectAnImage: "Ein Bild auswählen",
       searchTitle: "Einen Titel suchen...",
       selectImage: "Bild auswählen",
@@ -1844,6 +1864,10 @@ enum L10n {
       feedbackSubmit: "Invia",
       feedbackSubmitSuccess: "Grazie per il tuo feedback!",
       feedbackHelpTitle: "Aiuto",
+      deleteAccount: "Elimina account",
+      deleteAccountTitle: "Elimina account",
+      deleteAccountMessage: "Sei sicuro di voler eliminare il tuo account? Questa azione è permanente e non può essere annullata. Tutti i tuoi dati, recensioni e collezioni verranno eliminati definitivamente.",
+      deleteAccountConfirm: "Elimina il mio account",
       selectAnImage: "Seleziona un'immagine",
       searchTitle: "Cerca un titolo...",
       selectImage: "Seleziona immagine",
@@ -2148,6 +2172,10 @@ enum L10n {
       feedbackSubmit: "送信",
       feedbackSubmitSuccess: "フィードバックありがとうございます！",
       feedbackHelpTitle: "ヘルプ",
+      deleteAccount: "アカウントを削除",
+      deleteAccountTitle: "アカウントを削除",
+      deleteAccountMessage: "本当にアカウントを削除しますか？この操作は取り消せません。すべてのデータ、レビュー、コレクションが完全に削除されます。",
+      deleteAccountConfirm: "アカウントを削除する",
       selectAnImage: "画像を選択",
       searchTitle: "タイトルを検索...",
       selectImage: "画像を選択",
@@ -2464,6 +2492,11 @@ struct Strings {
   let feedbackSubmit: String
   let feedbackSubmitSuccess: String
   let feedbackHelpTitle: String
+  // Account Deletion
+  let deleteAccount: String
+  let deleteAccountTitle: String
+  let deleteAccountMessage: String
+  let deleteAccountConfirm: String
   // Avatar Picker
   let selectAnImage: String
   let searchTitle: String

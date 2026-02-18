@@ -100,6 +100,8 @@ struct EditProfileView: View {
   @State private var selectedTab: EditProfileTab = .information
   @State private var slideFromTrailing: Bool = true
   @State private var showAvatarPicker = false
+  @State private var showDeleteAccountAlert = false
+  @State private var isDeletingAccount = false
 
   init(user: User) {
     self.initialUser = user
@@ -470,6 +472,42 @@ struct EditProfileView: View {
       }
       .buttonStyle(.plain)
       
+      // Delete account button
+      Button {
+        showDeleteAccountAlert = true
+      } label: {
+        HStack(spacing: 8) {
+          Image(systemName: "trash.fill")
+            .font(.system(size: 14))
+          Text(strings.deleteAccount)
+        }
+        .font(.subheadline.weight(.medium))
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .background(Color.appDestructive)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+      }
+      .buttonStyle(.plain)
+      .disabled(isDeletingAccount)
+      .opacity(isDeletingAccount ? 0.6 : 1)
+      .alert(strings.deleteAccountTitle, isPresented: $showDeleteAccountAlert) {
+        Button(strings.cancel, role: .cancel) { }
+        Button(strings.deleteAccountConfirm, role: .destructive) {
+          Task {
+            isDeletingAccount = true
+            defer { isDeletingAccount = false }
+            do {
+              try await AuthService.shared.deleteAccount()
+            } catch {
+              print("Error deleting account: \(error)")
+            }
+          }
+        }
+      } message: {
+        Text(strings.deleteAccountMessage)
+      }
+
       #if DEBUG
       Button {
         OnboardingService.shared.reset()
