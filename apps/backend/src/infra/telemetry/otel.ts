@@ -25,4 +25,6 @@ const sdk = new NodeSDK({
   }),
 })
 
+console.log('Starting OTLP exporter')
+
 sdk.start()

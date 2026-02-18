@@ -1,3 +1,4 @@
+import '@/infra/telemetry/otel'
 import { startServer } from './http/server'
 import { startWorkers } from './worker'
 
