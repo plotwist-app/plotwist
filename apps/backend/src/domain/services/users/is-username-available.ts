@@ -1,13 +1,14 @@
 import { getUserByUsername } from '@/db/repositories/user-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { UsernameAlreadyRegisteredError } from '../../errors/username-already-registered'
 
 interface IsUsernameAvailableInterface {
   username: string
 }
 
-export async function checkAvailableUsername({
+const checkAvailableUsernameImpl = async ({
   username,
-}: IsUsernameAvailableInterface) {
+}: IsUsernameAvailableInterface) => {
   const [user] = await getUserByUsername(username)
 
   if (user) {
@@ -16,3 +17,8 @@ export async function checkAvailableUsername({
 
   return { available: true }
 }
+
+export const checkAvailableUsername = withServiceTracing(
+  'check-username-available',
+  checkAvailableUsernameImpl
+)

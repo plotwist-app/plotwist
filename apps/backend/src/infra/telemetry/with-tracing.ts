@@ -8,9 +8,12 @@ export function withTracing<T extends (...args: any[]) => any>(
   options?: { method?: string; url?: string }
 ): T {
   const tracer = trace.getTracer('plotwist-api', '0.1.0')
+  const fullSpanName = spanName.endsWith('-controller')
+    ? spanName
+    : `${spanName}-controller`
 
   return (async (...args: Parameters<T>) => {
-    return tracer.startActiveSpan(spanName, async span => {
+    return tracer.startActiveSpan(fullSpanName, async span => {
       try {
         const request = args[0] as FastifyRequest | undefined
         if (request) {

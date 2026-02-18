@@ -1,4 +1,5 @@
 import { insertUser } from '@/db/repositories/user-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
@@ -11,12 +12,12 @@ export type CreateUserInterface = {
   displayName?: string
 }
 
-export async function createUser({
+const createUserImpl = async ({
   username,
   email,
   password,
   displayName,
-}: CreateUserInterface) {
+}: CreateUserInterface) => {
   let hashedPassword: string
 
   try {
@@ -44,3 +45,5 @@ export async function createUser({
     throw error
   }
 }
+
+export const createUser = withServiceTracing('create-user', createUserImpl)

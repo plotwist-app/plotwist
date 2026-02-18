@@ -1,4 +1,5 @@
 import { insertReviewReply } from '@/db/repositories/review-replies-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import {
   getPostgresError,
   isForeignKeyViolation,
@@ -7,7 +8,9 @@ import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
-export async function createReviewReplyService(params: InsertReviewReplyModel) {
+const createReviewReplyServiceImpl = async (
+  params: InsertReviewReplyModel
+) => {
   try {
     const [reviewReply] = await insertReviewReply(params)
 
@@ -29,3 +32,8 @@ export async function createReviewReplyService(params: InsertReviewReplyModel) {
     throw error
   }
 }
+
+export const createReviewReplyService = withServiceTracing(
+  'create-review-reply',
+  createReviewReplyServiceImpl
+)

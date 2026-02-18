@@ -1,16 +1,17 @@
 import { insertFollow } from '@/db/repositories/followers-repository'
 import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { FollowAlreadyRegisteredError } from '@/domain/errors/follow-already-registered'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 
 export type CreateFollowServiceInput = {
   followerId: string
   followedId: string
 }
 
-export async function createFollowService({
+const createFollowServiceImpl = async ({
   followedId,
   followerId,
-}: CreateFollowServiceInput) {
+}: CreateFollowServiceInput) => {
   try {
     const [follow] = await insertFollow({ followedId, followerId })
 
@@ -23,3 +24,8 @@ export async function createFollowService({
     throw error
   }
 }
+
+export const createFollowService = withServiceTracing(
+  'create-follow',
+  createFollowServiceImpl
+)

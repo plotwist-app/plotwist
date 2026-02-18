@@ -1,4 +1,5 @@
 import { selectListItems } from '@/db/repositories/list-item-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 
 type GetListProgressServiceParams = {
@@ -6,10 +7,10 @@ type GetListProgressServiceParams = {
   authenticatedUserId: string
 }
 
-export async function getListProgressService({
+const getListProgressServiceImpl = async ({
   id,
   authenticatedUserId,
-}: GetListProgressServiceParams) {
+}: GetListProgressServiceParams) => {
   const listItems = await selectListItems(id)
   if (listItems.length === 0) {
     return {
@@ -40,3 +41,8 @@ export async function getListProgressService({
     percentage,
   }
 }
+
+export const getListProgressService = withServiceTracing(
+  'get-list-progress',
+  getListProgressServiceImpl
+)

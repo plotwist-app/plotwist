@@ -1,5 +1,6 @@
 import type { z } from 'zod'
 import { findUserByEmailOrUsername } from '@/db/repositories/login-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { InvalidPasswordError } from '@/domain/errors/invalid-password-error'
 import type { loginBodySchema } from '@/http/schemas/login'
 import { comparePassword } from '@/utils/password'
@@ -9,7 +10,7 @@ import { sendMagicLinkEmailService } from '../magic-link/send-magic-link-email'
 
 type LoginInput = z.infer<typeof loginBodySchema>
 
-export async function loginService({ login, password, url }: LoginInput) {
+const loginServiceImpl = async ({ login, password, url }: LoginInput) => {
   const user = await findUserByEmailOrUsername(login)
 
   if (!user) {
@@ -31,3 +32,5 @@ export async function loginService({ login, password, url }: LoginInput) {
   const { password: removedPassword, ...formattedUser } = user
   return { user: formattedUser }
 }
+
+export const loginService = withServiceTracing('login', loginServiceImpl)

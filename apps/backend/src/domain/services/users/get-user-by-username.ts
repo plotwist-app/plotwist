@@ -1,11 +1,14 @@
 import { getUserByUsername as getByUsername } from '@/db/repositories/user-repository'
+import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 type GetUserByUsernameInput = {
   username: string
 }
 
-export async function getUserByUsername({ username }: GetUserByUsernameInput) {
+const getUserByUsernameImpl = async ({
+  username,
+}: GetUserByUsernameInput) => {
   const [user] = await getByUsername(username)
 
   if (!user) {
@@ -14,3 +17,8 @@ export async function getUserByUsername({ username }: GetUserByUsernameInput) {
 
   return { user }
 }
+
+export const getUserByUsername = withServiceTracing(
+  'get-user-by-username',
+  getUserByUsernameImpl
+)
