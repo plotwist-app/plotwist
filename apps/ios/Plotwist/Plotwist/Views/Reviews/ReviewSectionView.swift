@@ -146,6 +146,7 @@ struct ReviewSectionView: View {
             }
             .buttonStyle(.plain)
             .padding(.horizontal, 24)
+            .padding(.top, 16)
           }
         }
       }

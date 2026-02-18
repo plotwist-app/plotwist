@@ -117,6 +117,7 @@ extension ProfileStatsView {
 extension ProfileStatsView {
   func topGenreCard(for section: MonthSection) -> some View {
     let topGenre = section.watchedGenres.first
+    let hasGenres = !section.watchedGenres.isEmpty
 
     return NavigationLink {
       PeriodGenresView(genres: section.watchedGenres, periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName, strings: strings)
@@ -128,9 +129,11 @@ extension ProfileStatsView {
             .tracking(1.5)
             .foregroundColor(.appMutedForegroundAdaptive)
           Spacer()
-          Image(systemName: "chevron.right")
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.appMutedForegroundAdaptive)
+          if hasGenres {
+            Image(systemName: "chevron.right")
+              .font(.system(size: 12, weight: .semibold))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
         }
         .padding(.bottom, 14)
 
@@ -144,14 +147,19 @@ extension ProfileStatsView {
           if let posterURL = genre.posterURL {
             statsPoster(url: posterURL)
           }
+        } else {
+          Text("–")
+            .font(.system(size: 18, weight: .bold))
+            .foregroundColor(.appMutedForegroundAdaptive)
         }
       }
       .padding(16)
-      .frame(maxWidth: .infinity, alignment: .leading)
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
       .background(Color.statsCardBackground)
       .clipShape(RoundedRectangle(cornerRadius: 22))
     }
     .buttonStyle(.plain)
+    .disabled(!hasGenres)
   }
 }
 
@@ -230,6 +238,10 @@ struct TimeWatchedDetailView: View {
         VStack(alignment: .leading, spacing: 24) {
           scrollOffsetReader
             .frame(height: 0)
+
+          Text(periodLabel)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
 
           Text(strings.timeWatched)
             .font(.system(size: 34, weight: .bold))
@@ -473,6 +485,10 @@ struct PeriodGenresView: View {
           scrollOffsetReader
             .frame(height: 0)
 
+          Text(periodLabel)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+
           Text(strings.favoriteGenres)
             .font(.system(size: 34, weight: .bold))
             .foregroundColor(.appForegroundAdaptive)
@@ -566,6 +582,10 @@ struct PeriodReviewsView: View {
         VStack(alignment: .leading, spacing: 0) {
           scrollOffsetReader
             .frame(height: 0)
+
+          Text(periodLabel)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
 
           Text(strings.bestReviews)
             .font(.system(size: 34, weight: .bold))

@@ -105,10 +105,7 @@ struct ProfileStatsView: View {
   // Timeline state
   @State var monthSections: [MonthSection] = []
   @State var isLoadingMore = false
-  @State var visibleYearMonth: String?
-  @State var isDraggingScrubber = false
-  @State var scrubberDragMonth: String?
-  @State var scrubberStartIndex: Int = 0
+
 
   // All-time state
   @State var allTimeSection = MonthSection(yearMonth: "all")
@@ -183,10 +180,10 @@ struct ProfileStatsView: View {
   // MARK: - Timeline Body
 
   var timelineBody: some View {
-    ScrollViewReader { proxy in
-      ScrollView {
-        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-          ForEach(Array(monthSections.enumerated()), id: \.element.id) { index, section in
+    ScrollView {
+      LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+        ForEach(Array(monthSections.enumerated()), id: \.element.id) { index, section in
+          if !section.isLoaded || section.hasMinimumData {
             Section {
               monthContentView(section)
                 .padding(.horizontal, 24)
@@ -194,41 +191,32 @@ struct ProfileStatsView: View {
             } header: {
               monthHeaderView(section)
             }
-            .id(section.yearMonth)
             .onAppear {
-              visibleYearMonth = section.yearMonth
               loadMoreIfNeeded(index: index)
             }
           }
+        }
 
-          if isLoadingMore {
-            VStack(spacing: 16) {
-              skeletonRect(height: 120)
-              HStack(spacing: 12) {
-                skeletonRect(height: 200)
-                skeletonRect(height: 200)
-              }
+        if isLoadingMore {
+          VStack(spacing: 16) {
+            skeletonRect(height: 120)
+            HStack(spacing: 12) {
+              skeletonRect(height: 200)
+              skeletonRect(height: 200)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 48)
           }
-        }
-        .padding(.top, 8)
-      }
-      .refreshable {
-        for section in monthSections {
-          cache.invalidate(userId: userId, period: section.yearMonth)
-        }
-        monthSections = []
-        await initTimeline()
-      }
-      .overlay(alignment: .trailing) {
-        if monthSections.count > 2 {
-          monthScrubber(proxy: proxy)
-            .frame(maxHeight: .infinity, alignment: .center)
-            .padding(.trailing, 4)
+          .padding(.horizontal, 24)
+          .padding(.bottom, 48)
         }
       }
+      .padding(.top, 8)
+    }
+    .refreshable {
+      for section in monthSections {
+        cache.invalidate(userId: userId, period: section.yearMonth)
+      }
+      monthSections = []
+      await initTimeline()
     }
   }
 
@@ -274,9 +262,7 @@ struct ProfileStatsView: View {
 
   @ViewBuilder
   func monthContentView(_ section: MonthSection) -> some View {
-    if section.isLoaded && !section.hasMinimumData {
-      emptyStateView(isAllTime: false)
-    } else if section.isLoaded {
+    if section.isLoaded {
       VStack(spacing: 16) {
         timeWatchedCard(for: section, period: section.yearMonth)
           .transition(.opacity.animation(.easeIn(duration: 0.25)))
@@ -298,24 +284,17 @@ struct ProfileStatsView: View {
 
   @ViewBuilder
   func highlightCards(for section: MonthSection) -> some View {
-    let hasGenre = !section.watchedGenres.isEmpty
     let hasReview = !section.bestReviews.isEmpty
 
-    if hasGenre || hasReview {
-      HStack(alignment: .top, spacing: 12) {
-        if hasGenre {
-          topGenreCard(for: section)
-            .transition(.opacity.animation(.easeIn(duration: 0.25)))
-        } else {
-          Color.clear
-        }
+    HStack(alignment: .top, spacing: 12) {
+      topGenreCard(for: section)
+        .transition(.opacity.animation(.easeIn(duration: 0.25)))
 
-        if hasReview {
-          topReviewCard(for: section)
-            .transition(.opacity.animation(.easeIn(duration: 0.25)))
-        } else {
-          Color.clear
-        }
+      if hasReview {
+        topReviewCard(for: section)
+          .transition(.opacity.animation(.easeIn(duration: 0.25)))
+      } else {
+        Color.clear
       }
     }
   }
@@ -334,11 +313,8 @@ struct ProfileStatsView: View {
         shareMonthStats(section)
       } label: {
         Image(systemName: "square.and.arrow.up")
-          .font(.system(size: 14, weight: .medium))
+          .font(.system(size: 16, weight: .medium))
           .foregroundColor(.appMutedForegroundAdaptive)
-          .frame(width: 32, height: 32)
-          .background(Color.appInputFilled)
-          .clipShape(Circle())
       }
     }
     .padding(.horizontal, 24)
@@ -346,76 +322,11 @@ struct ProfileStatsView: View {
     .background(Color.appBackgroundAdaptive)
   }
 
-  // MARK: - Month Scrubber (floating handle)
-
-  func monthScrubber(proxy: ScrollViewProxy) -> some View {
-    let displayYM = scrubberDragMonth ?? visibleYearMonth ?? monthSections.first?.yearMonth ?? ""
-    let displaySection = monthSections.first(where: { $0.yearMonth == displayYM })
-
-    return HStack(spacing: 8) {
-      // Month label (appears while dragging)
-      if isDraggingScrubber, let section = displaySection {
-        Text(section.shortLabel)
-          .font(.system(size: 12, weight: .bold, design: .rounded))
-          .foregroundColor(.white)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 6)
-          .background(Color.appForegroundAdaptive)
-          .clipShape(Capsule())
-          .transition(.opacity.combined(with: .move(edge: .trailing)))
-      }
-
-      // Handle pill
-      VStack(spacing: 1) {
-        Image(systemName: "chevron.up")
-          .font(.system(size: 8, weight: .bold))
-        Image(systemName: "chevron.down")
-          .font(.system(size: 8, weight: .bold))
-      }
-      .foregroundColor(isDraggingScrubber ? .white : .appMutedForegroundAdaptive)
-      .frame(width: 24, height: 32)
-      .background(isDraggingScrubber ? Color.appForegroundAdaptive : Color.statsCardBackground)
-      .clipShape(Capsule())
-      .shadow(color: Color.black.opacity(0.12), radius: 3, x: 0, y: 1)
-    }
-    .gesture(
-      DragGesture(minimumDistance: 2)
-        .onChanged { value in
-          if !isDraggingScrubber {
-            withAnimation(.easeOut(duration: 0.15)) {
-              isDraggingScrubber = true
-            }
-            scrubberStartIndex = monthSections.firstIndex(where: { $0.yearMonth == (visibleYearMonth ?? "") }) ?? 0
-            scrubberDragMonth = visibleYearMonth
-          }
-
-          let threshold: CGFloat = 50
-          let steps = Int(value.translation.height / threshold)
-          let targetIdx = max(0, min(scrubberStartIndex + steps, monthSections.count - 1))
-          let targetYM = monthSections[targetIdx].yearMonth
-
-          if scrubberDragMonth != targetYM {
-            scrubberDragMonth = targetYM
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
-            proxy.scrollTo(targetYM, anchor: .top)
-          }
-        }
-        .onEnded { _ in
-          withAnimation(.easeOut(duration: 0.2)) {
-            isDraggingScrubber = false
-          }
-          scrubberDragMonth = nil
-        }
-    )
-    .animation(.easeOut(duration: 0.15), value: isDraggingScrubber)
-  }
-
   // MARK: - Skeleton
 
   func skeletonRect(height: CGFloat) -> some View {
     RoundedRectangle(cornerRadius: 22)
-      .fill(Color.appBorderAdaptive.opacity(0.15))
+      .fill(Color.appBorderAdaptive.opacity(0.5))
       .frame(height: height)
       .modifier(ShimmerEffect())
   }
@@ -509,21 +420,52 @@ struct ProfileStatsView: View {
 
   // MARK: - Load More
 
+  private let batchSize = 3
+
   func loadMoreIfNeeded(index: Int) {
     guard !isLoadingMore else { return }
-    let threshold = monthSections.count - 2
-    if index >= threshold {
+    if index >= monthSections.count - 3 {
       isLoadingMore = true
       Task {
-        guard let last = monthSections.last else { return }
-        let prevYM = MonthSection.previousYearMonth(from: last.yearMonth)
-        if !monthSections.contains(where: { $0.yearMonth == prevYM }) {
-          let newSection = MonthSection(yearMonth: prevYM)
-          monthSections.append(newSection)
-          await loadMonthData(yearMonth: prevYM)
-        }
+        await loadNextBatch()
         isLoadingMore = false
+
+        let lastVisibleIndex = monthSections.enumerated()
+          .filter { !$0.element.isLoaded || $0.element.hasMinimumData }
+          .last?.offset ?? 0
+        loadMoreIfNeeded(index: lastVisibleIndex)
       }
+    }
+  }
+
+  private func loadNextBatch() async {
+    guard let last = monthSections.last else { return }
+
+    var newMonths: [String] = []
+    var ym = last.yearMonth
+    for _ in 0..<batchSize {
+      let prev = MonthSection.previousYearMonth(from: ym)
+      if !monthSections.contains(where: { $0.yearMonth == prev }) {
+        newMonths.append(prev)
+      }
+      ym = prev
+    }
+
+    for m in newMonths {
+      monthSections.append(MonthSection(yearMonth: m))
+    }
+
+    await withTaskGroup(of: Void.self) { group in
+      for m in newMonths {
+        group.addTask { await loadMonthData(yearMonth: m) }
+      }
+    }
+
+    let allNewEmpty = newMonths.allSatisfy { ym in
+      monthSections.first(where: { $0.yearMonth == ym })?.hasMinimumData == false
+    }
+    if allNewEmpty && !newMonths.isEmpty {
+      await loadNextBatch()
     }
   }
 
@@ -549,7 +491,10 @@ struct ProfileStatsView: View {
 
   @MainActor
   func loadMonthData(yearMonth: String) async {
+    let totalStart = CFAbsoluteTimeGetCurrent()
+
     if let cached = cache.get(userId: userId, period: yearMonth) {
+      print("[Stats \(yearMonth)] loaded from cache in \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - totalStart) * 1000))ms")
       updateSection(yearMonth: yearMonth, cached: cached)
       return
     }
@@ -558,8 +503,10 @@ struct ProfileStatsView: View {
 
     await withTaskGroup(of: Void.self) { group in
       group.addTask { @MainActor in
+        let start = CFAbsoluteTimeGetCurrent()
         do {
           let response = try await UserStatsService.shared.getTotalHours(userId: userId, period: yearMonth)
+          print("[Stats \(yearMonth)] getTotalHours: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms")
           if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
             withAnimation(.easeIn(duration: 0.25)) {
               monthSections[idx].totalHours = response.totalHours
@@ -569,37 +516,51 @@ struct ProfileStatsView: View {
             }
           }
 
+          let prevStart = CFAbsoluteTimeGetCurrent()
           let prevYM = MonthSection.previousYearMonth(from: yearMonth)
           if let prevResponse = try? await UserStatsService.shared.getTotalHours(userId: userId, period: prevYM) {
+            print("[Stats \(yearMonth)] comparison getTotalHours(\(prevYM)): \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - prevStart) * 1000))ms")
             if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
               monthSections[idx].comparisonHours = prevResponse.totalHours
             }
           }
-        } catch {}
+        } catch {
+          print("[Stats \(yearMonth)] getTotalHours ERROR: \(error)")
+        }
       }
 
       group.addTask { @MainActor in
+        let start = CFAbsoluteTimeGetCurrent()
         do {
           let genres = try await UserStatsService.shared.getWatchedGenres(userId: userId, language: language, period: yearMonth)
+          print("[Stats \(yearMonth)] getWatchedGenres: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms — \(genres.count) genres")
           if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
             withAnimation(.easeIn(duration: 0.25)) {
               monthSections[idx].watchedGenres = genres
             }
           }
-        } catch {}
+        } catch {
+          print("[Stats \(yearMonth)] getWatchedGenres ERROR: \(error)")
+        }
       }
 
       group.addTask { @MainActor in
+        let start = CFAbsoluteTimeGetCurrent()
         do {
           let reviews = try await UserStatsService.shared.getBestReviews(userId: userId, language: language, period: yearMonth)
+          print("[Stats \(yearMonth)] getBestReviews: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms — \(reviews.count) reviews")
           if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
             withAnimation(.easeIn(duration: 0.25)) {
               monthSections[idx].bestReviews = reviews
             }
           }
-        } catch {}
+        } catch {
+          print("[Stats \(yearMonth)] getBestReviews ERROR: \(error)")
+        }
       }
     }
+
+    print("[Stats \(yearMonth)] TOTAL: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - totalStart) * 1000))ms")
 
     if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
       withAnimation(.easeIn(duration: 0.25)) {
