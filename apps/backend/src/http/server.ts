@@ -8,6 +8,7 @@ import {
 import { ZodError } from 'zod'
 import { logger } from '@/adapters/logger'
 import { DomainError } from '@/domain/errors/domain-error'
+import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
@@ -84,6 +85,8 @@ export function startServer() {
     console.error({ error })
     return reply.status(500).send({ message: 'Internal server error.' })
   })
+
+  registerHttpRequestMetrics(app)
 
   // TODO: Uncomment this when we have a client guard
   // registerClientGuard(app)

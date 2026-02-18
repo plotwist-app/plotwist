@@ -1,4 +1,4 @@
-import { trace } from '@opentelemetry/api'
+import { SpanStatusCode, trace } from '@opentelemetry/api'
 import type { FastifyRequest } from 'fastify'
 
 // biome-ignore lint/suspicious/noExplicitAny: generic HOF must accept any handler signature
@@ -25,11 +25,18 @@ export function withTracing<T extends (...args: any[]) => any>(
         }
 
         const result = await handler(...args)
+        span.setStatus({ code: SpanStatusCode.OK })
         span.setAttribute('http.status_code', 200)
+        span.setAttribute('http.response.status', 'ok')
         return result
       } catch (err) {
         span.recordException(err as Error)
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+          message: (err as Error).message,
+        })
         span.setAttribute('http.status_code', 500)
+        span.setAttribute('http.response.status', 'error')
         throw err
       } finally {
         span.end()
