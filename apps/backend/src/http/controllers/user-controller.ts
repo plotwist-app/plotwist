@@ -9,6 +9,7 @@ import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
+import { deleteUserService } from '@/domain/services/users/delete-user'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 import {
@@ -167,6 +168,19 @@ export async function getUserPreferencesController(
   const result = await getUserPreferencesService({ userId: request.user.id })
 
   return reply.status(200).send(result)
+}
+
+export async function deleteUserController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await deleteUserService(request.user.id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ success: true })
 }
 
 export async function searchUsersByUsernameController(
