@@ -279,17 +279,44 @@ struct TotalHoursResponse: Codable {
   let monthlyHours: [MonthlyHoursEntry]
 }
 
+struct GenreItem: Codable, Identifiable, Hashable {
+  let tmdbId: Int
+  let mediaType: String
+  let posterPath: String?
+
+  var id: Int { tmdbId }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
 struct WatchedGenre: Codable, Identifiable {
   let name: String
   let count: Int
   let percentage: Double
   let posterPath: String?
+  let posterPaths: [String]?
+  let items: [GenreItem]?
 
   var id: String { name }
 
   var posterURL: URL? {
     guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+
+  var posterURLs: [URL] {
+    if let items, !items.isEmpty {
+      return items.compactMap { $0.posterURL }
+    }
+    return (posterPaths ?? (posterPath.map { [$0] } ?? []))
+      .compactMap { URL(string: "https://image.tmdb.org/t/p/w342\($0)") }
+  }
+
+  var genreItems: [GenreItem] {
+    items ?? []
   }
 }
 

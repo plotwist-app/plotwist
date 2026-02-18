@@ -25,7 +25,7 @@ export async function getUserWatchedGenresService({
 }: GetUserWatchedGenresServiceInput) {
   const cacheKey = getUserStatsCacheKey(
     userId,
-    'watched-genres-v2',
+    'watched-genres-v5',
     language,
     period
   )
@@ -66,8 +66,13 @@ export async function getUserWatchedGenresService({
       }
     }
 
+    type GenreItem = {
+      tmdbId: number
+      mediaType: string
+      posterPath: string | null
+    }
     const genreCount = new Map<string, number>()
-    const genrePoster = new Map<string, string>()
+    const genreItems = new Map<string, GenreItem[]>()
 
     await processInBatches(watchedItems, async item => {
       const { genres, posterPath } =
@@ -84,11 +89,19 @@ export async function getUserWatchedGenresService({
             })
 
       if (genres) {
+        const mediaType = item.mediaType === 'MOVIE' ? 'movie' : 'tv'
         for (const genre of genres) {
           const currentCount = genreCount.get(genre.name) || 0
           genreCount.set(genre.name, currentCount + 1)
-          if (posterPath && !genrePoster.has(genre.name)) {
-            genrePoster.set(genre.name, posterPath)
+
+          const items = genreItems.get(genre.name) || []
+          if (!items.some(i => i.tmdbId === item.tmdbId)) {
+            items.push({
+              tmdbId: item.tmdbId,
+              mediaType,
+              posterPath: posterPath ?? null,
+            })
+            genreItems.set(genre.name, items)
           }
         }
       }
@@ -96,12 +109,17 @@ export async function getUserWatchedGenresService({
 
     const totalItems = watchedItems.length
     const genres = Array.from(genreCount)
-      .map(([name, count]) => ({
-        name,
-        count,
-        percentage: totalItems > 0 ? (count / totalItems) * 100 : 0,
-        posterPath: genrePoster.get(name) ?? null,
-      }))
+      .map(([name, count]) => {
+        const items = genreItems.get(name) || []
+        return {
+          name,
+          count,
+          percentage: totalItems > 0 ? (count / totalItems) * 100 : 0,
+          posterPath: items[0]?.posterPath ?? null,
+          posterPaths: items.map(i => i.posterPath).filter(Boolean) as string[],
+          items,
+        }
+      })
       .sort((a, b) => b.count - a.count)
 
     return { genres }

@@ -284,6 +284,7 @@ enum L10n {
       tryAgain: "Try again",
       favoriteGenres: "Favorite Genres",
       favoriteGenre: "Favorite Genre",
+      nTitles: "%d titles",
       content: "Content",
       genres: "Genres",
       itemsInCollection: "items in collection",
@@ -637,6 +638,7 @@ enum L10n {
       tryAgain: "Tentar novamente",
       favoriteGenres: "Gêneros Favoritos",
       favoriteGenre: "Gênero Favorito",
+      nTitles: "%d títulos",
       content: "Conteúdo",
       genres: "Gêneros",
       itemsInCollection: "itens na coleção",
@@ -990,6 +992,7 @@ enum L10n {
       tryAgain: "Intentar de nuevo",
       favoriteGenres: "Géneros Favoritos",
       favoriteGenre: "Género Favorito",
+      nTitles: "%d títulos",
       content: "Contenido",
       genres: "Géneros",
       itemsInCollection: "ítems en la colección",
@@ -1343,6 +1346,7 @@ enum L10n {
       tryAgain: "Réessayer",
       favoriteGenres: "Genres Préférés",
       favoriteGenre: "Genre Préféré",
+      nTitles: "%d titres",
       content: "Contenu",
       genres: "Genres",
       itemsInCollection: "éléments dans la collection",
@@ -1696,6 +1700,7 @@ enum L10n {
       tryAgain: "Erneut versuchen",
       favoriteGenres: "Lieblingsgenres",
       favoriteGenre: "Lieblingsgenre",
+      nTitles: "%d Titel",
       content: "Inhalte",
       genres: "Genres",
       itemsInCollection: "Elemente in der Sammlung",
@@ -2049,6 +2054,7 @@ enum L10n {
       tryAgain: "Riprova",
       favoriteGenres: "Generi Preferiti",
       favoriteGenre: "Genere Preferito",
+      nTitles: "%d titoli",
       content: "Contenuti",
       genres: "Generi",
       itemsInCollection: "elementi nella collezione",
@@ -2401,6 +2407,7 @@ enum L10n {
       tryAgain: "再試行",
       favoriteGenres: "お気に入りジャンル",
       favoriteGenre: "お気に入りジャンル",
+      nTitles: "%d作品",
       content: "コンテンツ",
       genres: "ジャンル",
       itemsInCollection: "アイテム",
@@ -2765,6 +2772,7 @@ struct Strings {
   let tryAgain: String
   let favoriteGenres: String
   let favoriteGenre: String
+  let nTitles: String
   let content: String
   let genres: String
   let itemsInCollection: String

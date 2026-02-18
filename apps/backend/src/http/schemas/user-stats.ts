@@ -57,6 +57,16 @@ export const getUserWatchedGenresResponseSchema = {
         count: z.number(),
         percentage: z.number(),
         posterPath: z.string().nullable(),
+        posterPaths: z.array(z.string()).optional(),
+        items: z
+          .array(
+            z.object({
+              tmdbId: z.number(),
+              mediaType: z.string(),
+              posterPath: z.string().nullable(),
+            })
+          )
+          .optional(),
       })
     ),
   }),
