@@ -700,6 +700,8 @@ struct ShimmerEffect: ViewModifier {
 struct StatsShareCardView: View {
   let section: MonthSection
   let strings: Strings
+  let genrePosterImage: UIImage?
+  let reviewPosterImage: UIImage?
 
   private let cardWidth: CGFloat = 1080 / 3
   private let cardHeight: CGFloat = 1920 / 3
@@ -709,20 +711,18 @@ struct StatsShareCardView: View {
 
   var body: some View {
     ZStack {
-      // Background gradient
       LinearGradient(
         stops: [
           .init(color: Color(hex: "000000"), location: 0),
-          .init(color: Color(hex: "0A0A0A"), location: 0.3),
-          .init(color: Color(hex: "141414"), location: 0.6),
-          .init(color: Color(hex: "1A1A1A"), location: 1),
+          .init(color: Color(hex: "050505"), location: 0.4),
+          .init(color: Color(hex: "0C0C0C"), location: 0.7),
+          .init(color: Color(hex: "111111"), location: 1),
         ],
         startPoint: .top,
         endPoint: .bottom
       )
 
       VStack(spacing: 0) {
-        // Top section: month + time
         VStack(alignment: .leading, spacing: 16) {
           Text(section.displayName.uppercased())
             .font(.system(size: 11, weight: .bold))
@@ -768,18 +768,15 @@ struct StatsShareCardView: View {
 
         Spacer().frame(height: 24)
 
-        // Posters section
+        // Posters
         HStack(alignment: .top, spacing: 12) {
-          // Genre poster
           if let genre = section.watchedGenres.first {
             VStack(alignment: .leading, spacing: 8) {
-              sharePoster(url: genre.posterURL)
-
+              shareCardPoster(image: genrePosterImage)
               Text(strings.favoriteGenre.uppercased())
                 .font(.system(size: 9, weight: .bold))
                 .tracking(1)
                 .foregroundColor(.white.opacity(0.35))
-
               Text(genre.name)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
@@ -788,16 +785,13 @@ struct StatsShareCardView: View {
             .frame(maxWidth: .infinity)
           }
 
-          // Review poster
           if let review = section.bestReviews.first {
             VStack(alignment: .leading, spacing: 8) {
-              sharePoster(url: review.posterURL, rating: review.rating)
-
+              shareCardPoster(image: reviewPosterImage, rating: review.rating)
               Text(strings.bestReview.uppercased())
                 .font(.system(size: 9, weight: .bold))
                 .tracking(1)
                 .foregroundColor(.white.opacity(0.35))
-
               Text(review.title)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
@@ -810,11 +804,13 @@ struct StatsShareCardView: View {
 
         Spacer()
 
-        // Footer
+        // Footer with logo
         HStack {
-          Text("plotwist")
-            .font(.system(size: 14, weight: .bold, design: .rounded))
-            .foregroundColor(.white.opacity(0.25))
+          Image("PlotistLogo")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: 22)
+            .opacity(0.35)
 
           Spacer()
 
@@ -830,35 +826,40 @@ struct StatsShareCardView: View {
   }
 
   @ViewBuilder
-  func sharePoster(url: URL?, rating: Double? = nil) -> some View {
+  func shareCardPoster(image: UIImage?, rating: Double? = nil) -> some View {
     let cr: CGFloat = 12
 
-    CachedAsyncImage(url: url) { image in
-      image
+    if let uiImage = image {
+      Image(uiImage: uiImage)
         .resizable()
         .aspectRatio(2 / 3, contentMode: .fit)
-    } placeholder: {
+        .clipShape(RoundedRectangle(cornerRadius: cr))
+        .overlay(alignment: .bottomTrailing) {
+          ratingBadge(rating: rating, cornerRadius: cr)
+        }
+    } else {
       RoundedRectangle(cornerRadius: cr)
-        .fill(Color.white.opacity(0.08))
+        .fill(Color.white.opacity(0.06))
         .aspectRatio(2 / 3, contentMode: .fit)
     }
-    .clipShape(RoundedRectangle(cornerRadius: cr))
-    .overlay(alignment: .bottomTrailing) {
-      if let rating {
-        HStack(spacing: 3) {
-          Image(systemName: "star.fill")
-            .font(.system(size: 8))
-            .foregroundColor(Color(hex: "F59E0B"))
-          Text(String(format: "%.1f", rating))
-            .font(.system(size: 11, weight: .bold, design: .rounded))
-            .foregroundColor(.white)
-        }
-        .padding(.horizontal, 6)
-        .padding(.vertical, 4)
-        .background(.ultraThinMaterial.opacity(0.9))
-        .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
-        .padding(6)
+  }
+
+  @ViewBuilder
+  func ratingBadge(rating: Double?, cornerRadius cr: CGFloat) -> some View {
+    if let rating {
+      HStack(spacing: 3) {
+        Image(systemName: "star.fill")
+          .font(.system(size: 8))
+          .foregroundColor(Color(hex: "F59E0B"))
+        Text(String(format: "%.1f", rating))
+          .font(.system(size: 11, weight: .bold, design: .rounded))
+          .foregroundColor(.white)
       }
+      .padding(.horizontal, 6)
+      .padding(.vertical, 4)
+      .background(Color.black.opacity(0.6))
+      .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
+      .padding(6)
     }
   }
 }

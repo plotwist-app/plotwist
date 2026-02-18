@@ -20,8 +20,14 @@ struct MonthSection: Identifiable, Equatable {
 
   var id: String { yearMonth }
 
+  private static var appLocale: Locale {
+    let langId = Language.current.rawValue.replacingOccurrences(of: "-", with: "_")
+    return Locale(identifier: langId)
+  }
+
   var displayName: String {
     let formatter = DateFormatter()
+    formatter.locale = Self.appLocale
     formatter.dateFormat = "yyyy-MM"
     guard let date = formatter.date(from: yearMonth) else { return yearMonth }
     formatter.dateFormat = "MMMM yyyy"
@@ -31,6 +37,7 @@ struct MonthSection: Identifiable, Equatable {
 
   var shortLabel: String {
     let formatter = DateFormatter()
+    formatter.locale = Self.appLocale
     formatter.dateFormat = "yyyy-MM"
     guard let date = formatter.date(from: yearMonth) else { return yearMonth }
     formatter.dateFormat = "MMM"
@@ -101,6 +108,7 @@ struct ProfileStatsView: View {
   @State var visibleYearMonth: String?
   @State var isDraggingScrubber = false
   @State var scrubberDragMonth: String?
+  @State var scrubberStartIndex: Int = 0
 
   // All-time state
   @State var allTimeSection = MonthSection(yearMonth: "all")
@@ -217,6 +225,8 @@ struct ProfileStatsView: View {
       .overlay(alignment: .trailing) {
         if monthSections.count > 2 {
           monthScrubber(proxy: proxy)
+            .frame(maxHeight: .infinity, alignment: .center)
+            .padding(.trailing, 4)
         }
       }
     }
@@ -339,81 +349,66 @@ struct ProfileStatsView: View {
   // MARK: - Month Scrubber (floating handle)
 
   func monthScrubber(proxy: ScrollViewProxy) -> some View {
-    let activeYM = scrubberDragMonth ?? visibleYearMonth ?? monthSections.first?.yearMonth ?? ""
-    let activeIndex = monthSections.firstIndex(where: { $0.yearMonth == activeYM }) ?? 0
+    let displayYM = scrubberDragMonth ?? visibleYearMonth ?? monthSections.first?.yearMonth ?? ""
+    let displaySection = monthSections.first(where: { $0.yearMonth == displayYM })
 
-    return GeometryReader { geo in
-      let trackHeight = geo.size.height
-      let count = max(monthSections.count, 1)
-      let segmentHeight = trackHeight / CGFloat(count)
-      let handleY = CGFloat(activeIndex) * segmentHeight + segmentHeight / 2
-
-      HStack(spacing: 0) {
-        Spacer()
-
-        ZStack(alignment: .topTrailing) {
-          // Floating month label (appears while dragging)
-          if isDraggingScrubber, let dragYM = scrubberDragMonth,
-             let section = monthSections.first(where: { $0.yearMonth == dragYM }) {
-            HStack(spacing: 6) {
-              Text(section.displayName)
-                .font(.system(size: 14, weight: .bold))
-                .foregroundColor(.white)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Color.appForegroundAdaptive)
-            .clipShape(Capsule())
-            .offset(y: handleY - 18)
-            .padding(.trailing, 48)
-            .transition(.opacity.combined(with: .scale(scale: 0.8)))
-            .animation(.easeOut(duration: 0.15), value: dragYM)
-          }
-
-          // Handle
-          VStack(spacing: 1) {
-            Image(systemName: "chevron.up")
-              .font(.system(size: 8, weight: .bold))
-            Image(systemName: "chevron.down")
-              .font(.system(size: 8, weight: .bold))
-          }
-          .foregroundColor(isDraggingScrubber ? .white : .appMutedForegroundAdaptive)
-          .frame(width: 28, height: 36)
-          .background(isDraggingScrubber ? Color.appForegroundAdaptive : Color.statsCardBackground)
+    return HStack(spacing: 8) {
+      // Month label (appears while dragging)
+      if isDraggingScrubber, let section = displaySection {
+        Text(section.shortLabel)
+          .font(.system(size: 12, weight: .bold, design: .rounded))
+          .foregroundColor(.white)
+          .padding(.horizontal, 10)
+          .padding(.vertical, 6)
+          .background(Color.appForegroundAdaptive)
           .clipShape(Capsule())
-          .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
-          .offset(y: handleY - 18)
-          .animation(.interactiveSpring(response: 0.25, dampingFraction: 0.8), value: activeIndex)
-          .gesture(
-            DragGesture(minimumDistance: 0)
-              .onChanged { value in
-                if !isDraggingScrubber {
-                  isDraggingScrubber = true
-                }
-                let y = min(max(value.location.y + handleY - 18, 0), trackHeight)
-                let idx = max(0, min(Int(y / segmentHeight), count - 1))
-                let targetYM = monthSections[idx].yearMonth
-                if scrubberDragMonth != targetYM {
-                  scrubberDragMonth = targetYM
-                  let generator = UIImpactFeedbackGenerator(style: .light)
-                  generator.impactOccurred()
-                  proxy.scrollTo(targetYM, anchor: .top)
-                }
-              }
-              .onEnded { _ in
-                withAnimation(.easeOut(duration: 0.25)) {
-                  isDraggingScrubber = false
-                }
-                scrubberDragMonth = nil
-              }
-          )
-        }
-        .frame(width: 28)
+          .transition(.opacity.combined(with: .move(edge: .trailing)))
       }
+
+      // Handle pill
+      VStack(spacing: 1) {
+        Image(systemName: "chevron.up")
+          .font(.system(size: 8, weight: .bold))
+        Image(systemName: "chevron.down")
+          .font(.system(size: 8, weight: .bold))
+      }
+      .foregroundColor(isDraggingScrubber ? .white : .appMutedForegroundAdaptive)
+      .frame(width: 24, height: 32)
+      .background(isDraggingScrubber ? Color.appForegroundAdaptive : Color.statsCardBackground)
+      .clipShape(Capsule())
+      .shadow(color: Color.black.opacity(0.12), radius: 3, x: 0, y: 1)
     }
-    .padding(.vertical, 80)
-    .padding(.trailing, 6)
-    .allowsHitTesting(true)
+    .gesture(
+      DragGesture(minimumDistance: 2)
+        .onChanged { value in
+          if !isDraggingScrubber {
+            withAnimation(.easeOut(duration: 0.15)) {
+              isDraggingScrubber = true
+            }
+            scrubberStartIndex = monthSections.firstIndex(where: { $0.yearMonth == (visibleYearMonth ?? "") }) ?? 0
+            scrubberDragMonth = visibleYearMonth
+          }
+
+          let threshold: CGFloat = 50
+          let steps = Int(value.translation.height / threshold)
+          let targetIdx = max(0, min(scrubberStartIndex + steps, monthSections.count - 1))
+          let targetYM = monthSections[targetIdx].yearMonth
+
+          if scrubberDragMonth != targetYM {
+            scrubberDragMonth = targetYM
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
+            proxy.scrollTo(targetYM, anchor: .top)
+          }
+        }
+        .onEnded { _ in
+          withAnimation(.easeOut(duration: 0.2)) {
+            isDraggingScrubber = false
+          }
+          scrubberDragMonth = nil
+        }
+    )
+    .animation(.easeOut(duration: 0.15), value: isDraggingScrubber)
   }
 
   // MARK: - Skeleton
@@ -456,17 +451,42 @@ struct ProfileStatsView: View {
 
   func shareMonthStats(_ section: MonthSection) {
     guard section.isLoaded else { return }
-    let image = renderShareCard(section: section)
-    let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-    if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-       let root = scene.windows.first?.rootViewController {
-      root.present(activityVC, animated: true)
+    Task {
+      let genreImage = await downloadImage(url: section.watchedGenres.first?.posterURL)
+      let reviewImage = await downloadImage(url: section.bestReviews.first?.posterURL)
+
+      let cardImage = renderShareCard(
+        section: section,
+        genrePoster: genreImage,
+        reviewPoster: reviewImage
+      )
+
+      let activityVC = UIActivityViewController(activityItems: [cardImage], applicationActivities: nil)
+      if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+         let root = scene.windows.first?.rootViewController {
+        root.present(activityVC, animated: true)
+      }
+    }
+  }
+
+  func downloadImage(url: URL?) async -> UIImage? {
+    guard let url else { return nil }
+    do {
+      let (data, _) = try await URLSession.shared.data(from: url)
+      return UIImage(data: data)
+    } catch {
+      return nil
     }
   }
 
   @MainActor
-  func renderShareCard(section: MonthSection) -> UIImage {
-    let cardView = StatsShareCardView(section: section, strings: strings)
+  func renderShareCard(section: MonthSection, genrePoster: UIImage?, reviewPoster: UIImage?) -> UIImage {
+    let cardView = StatsShareCardView(
+      section: section,
+      strings: strings,
+      genrePosterImage: genrePoster,
+      reviewPosterImage: reviewPoster
+    )
     let controller = UIHostingController(rootView: cardView)
     let size = CGSize(width: 1080 / 3, height: 1920 / 3)
     controller.view.bounds = CGRect(origin: .zero, size: size)
