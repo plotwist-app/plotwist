@@ -462,6 +462,15 @@ struct CategoryListView: View {
       loadingTask?.cancel()
       loadingTask = Task { await loadItems() }
     }
+    .onChange(of: showPreferences) {
+      if !showPreferences {
+        loadingTask?.cancel()
+        loadingTask = Task {
+          await loadItems()
+          await loadCategoryStreamingProviders()
+        }
+      }
+    }
     .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
       Task {
         await loadItems()
@@ -504,16 +513,12 @@ struct CategoryListView: View {
           watchProviders: watchProviders
         )
       case .doramas:
-        if let region = watchRegion, let providers = watchProviders {
-          result = try await TMDBService.shared.discoverDoramas(
-            language: language,
-            page: 1,
-            watchRegion: region,
-            withWatchProviders: providers
-          )
-        } else {
-          result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
-        }
+        result = try await loadDoramasItems(
+          language: language,
+          page: 1,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       }
 
       // If task was cancelled (user switched tab), discard stale results
@@ -540,22 +545,62 @@ struct CategoryListView: View {
     isLoading = false
   }
 
+  private var hasPreferences: Bool {
+    preferencesManager.hasGenres || preferencesManager.hasStreamingServices
+  }
+
+  private var genresString: String? {
+    let ids = preferencesManager.genreIds
+    guard !ids.isEmpty else { return nil }
+    return ids.map { String($0) }.joined(separator: ",")
+  }
+
+  private static let dateFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM-dd"
+    return f
+  }()
+
   private func loadMoviesForSubcategory(
     language: String,
     page: Int,
     watchRegion: String? = nil,
     watchProviders: String? = nil
   ) async throws -> PaginatedResult {
-    // When streaming services are selected, use discover for popular
-    if let region = watchRegion, let providers = watchProviders,
-      selectedMovieSubcategory == .popular
-    {
-      return try await TMDBService.shared.discoverMovies(
-        language: language,
-        page: page,
-        watchRegion: region,
-        withWatchProviders: providers
-      )
+    if hasPreferences {
+      let today = Self.dateFormatter.string(from: Date())
+      let past45 = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -45, to: Date())!)
+      let future = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .month, value: 6, to: Date())!)
+
+      switch selectedMovieSubcategory {
+      case .popular, .discover:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString
+        )
+      case .nowPlaying:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          releaseDateGte: past45, releaseDateLte: today
+        )
+      case .topRated:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          sortBy: "vote_average.desc", voteCountGte: 200
+        )
+      case .upcoming:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          releaseDateGte: today, releaseDateLte: future
+        )
+      }
     }
 
     switch selectedMovieSubcategory {
@@ -568,7 +613,6 @@ struct CategoryListView: View {
     case .upcoming:
       return try await TMDBService.shared.getUpcomingMovies(language: language, page: page)
     case .discover:
-      // Discover is disabled, fallback to popular
       return try await TMDBService.shared.getPopularMovies(language: language, page: page)
     }
   }
@@ -579,16 +623,39 @@ struct CategoryListView: View {
     watchRegion: String? = nil,
     watchProviders: String? = nil
   ) async throws -> PaginatedResult {
-    // When streaming services are selected, use discover for popular
-    if let region = watchRegion, let providers = watchProviders,
-      selectedTVSeriesSubcategory == .popular
-    {
-      return try await TMDBService.shared.discoverTV(
-        language: language,
-        page: page,
-        watchRegion: region,
-        withWatchProviders: providers
-      )
+    if hasPreferences {
+      let today = Self.dateFormatter.string(from: Date())
+      let next7 = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
+
+      switch selectedTVSeriesSubcategory {
+      case .popular, .discover:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString
+        )
+      case .airingToday:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          airDateGte: today, airDateLte: today
+        )
+      case .onTheAir:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          airDateGte: today, airDateLte: next7
+        )
+      case .topRated:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          sortBy: "vote_average.desc", voteCountGte: 200
+        )
+      }
     }
 
     switch selectedTVSeriesSubcategory {
@@ -601,7 +668,6 @@ struct CategoryListView: View {
     case .topRated:
       return try await TMDBService.shared.getTopRatedTVSeries(language: language, page: page)
     case .discover:
-      // Discover is disabled, fallback to popular
       return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
     }
   }
@@ -636,6 +702,24 @@ struct CategoryListView: View {
       return try await TMDBService.shared.getPopularAnimes(language: language, page: page)
     case .movies:
       return try await TMDBService.shared.getPopularAnimeMovies(language: language, page: page)
+    }
+  }
+
+  private func loadDoramasItems(
+    language: String,
+    page: Int,
+    watchRegion: String? = nil,
+    watchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    if let region = watchRegion, let providers = watchProviders {
+      return try await TMDBService.shared.discoverDoramas(
+        language: language,
+        page: page,
+        watchRegion: region,
+        withWatchProviders: providers
+      )
+    } else {
+      return try await TMDBService.shared.getPopularDoramas(language: language, page: page)
     }
   }
 
@@ -674,19 +758,12 @@ struct CategoryListView: View {
           watchProviders: watchProviders
         )
       case .doramas:
-        if let region = watchRegion, let providers = watchProviders {
-          result = try await TMDBService.shared.discoverDoramas(
-            language: language,
-            page: nextPage,
-            watchRegion: region,
-            withWatchProviders: providers
-          )
-        } else {
-          result = try await TMDBService.shared.getPopularDoramas(
-            language: language,
-            page: nextPage
-          )
-        }
+        result = try await loadDoramasItems(
+          language: language,
+          page: nextPage,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       }
 
       let newItems = result.results.filter { newItem in

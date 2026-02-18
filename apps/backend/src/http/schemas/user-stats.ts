@@ -18,6 +18,14 @@ export const getUserStatsResponseSchema = {
 export const getUserTotalHoursResponseSchema = {
   200: z.object({
     totalHours: z.number(),
+    movieHours: z.number(),
+    seriesHours: z.number(),
+    monthlyHours: z.array(
+      z.object({
+        month: z.string(),
+        hours: z.number(),
+      })
+    ),
   }),
 }
 
