@@ -56,6 +56,7 @@ export const getUserWatchedGenresResponseSchema = {
         name: z.string(),
         count: z.number(),
         percentage: z.number(),
+        posterPath: z.string().nullable(),
       })
     ),
   }),

@@ -18,28 +18,37 @@ class ProfileStatsCache {
     let seriesHours: Double
     let monthlyHours: [MonthlyHoursEntry]
     let watchedGenres: [WatchedGenre]
-    let itemsStatus: [ItemStatusStat]
     let bestReviews: [BestReview]
-    let watchedCast: [WatchedCastMember]
-    let watchedCountries: [WatchedCountry]
-    let mostWatchedSeries: [MostWatchedSeries]
     let timestamp: Date
   }
+
+  private func cacheKey(userId: String, period: String) -> String {
+    "\(userId)_\(period)"
+  }
   
-  func get(userId: String) -> (totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry], watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview], watchedCast: [WatchedCastMember], watchedCountries: [WatchedCountry], mostWatchedSeries: [MostWatchedSeries])? {
-    guard let cached = cache[userId],
+  func get(userId: String, period: String = "all") -> (totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry], watchedGenres: [WatchedGenre], bestReviews: [BestReview])? {
+    let key = cacheKey(userId: userId, period: period)
+    guard let cached = cache[key],
           Date().timeIntervalSince(cached.timestamp) < cacheDuration else {
       return nil
     }
-    return (cached.totalHours, cached.movieHours, cached.seriesHours, cached.monthlyHours, cached.watchedGenres, cached.itemsStatus, cached.bestReviews, cached.watchedCast, cached.watchedCountries, cached.mostWatchedSeries)
+    return (cached.totalHours, cached.movieHours, cached.seriesHours, cached.monthlyHours, cached.watchedGenres, cached.bestReviews)
   }
   
-  func set(userId: String, totalHours: Double, movieHours: Double = 0, seriesHours: Double = 0, monthlyHours: [MonthlyHoursEntry] = [], watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview], watchedCast: [WatchedCastMember] = [], watchedCountries: [WatchedCountry] = [], mostWatchedSeries: [MostWatchedSeries] = []) {
-    cache[userId] = CachedStats(totalHours: totalHours, movieHours: movieHours, seriesHours: seriesHours, monthlyHours: monthlyHours, watchedGenres: watchedGenres, itemsStatus: itemsStatus, bestReviews: bestReviews, watchedCast: watchedCast, watchedCountries: watchedCountries, mostWatchedSeries: mostWatchedSeries, timestamp: Date())
+  func set(userId: String, period: String = "all", totalHours: Double, movieHours: Double = 0, seriesHours: Double = 0, monthlyHours: [MonthlyHoursEntry] = [], watchedGenres: [WatchedGenre], bestReviews: [BestReview]) {
+    let key = cacheKey(userId: userId, period: period)
+    cache[key] = CachedStats(totalHours: totalHours, movieHours: movieHours, seriesHours: seriesHours, monthlyHours: monthlyHours, watchedGenres: watchedGenres, bestReviews: bestReviews, timestamp: Date())
   }
   
-  func invalidate(userId: String) {
-    cache.removeValue(forKey: userId)
+  func invalidate(userId: String, period: String? = nil) {
+    if let period {
+      cache.removeValue(forKey: cacheKey(userId: userId, period: period))
+    } else {
+      let keysToRemove = cache.keys.filter { $0.hasPrefix("\(userId)_") }
+      for key in keysToRemove {
+        cache.removeValue(forKey: key)
+      }
+    }
   }
   
   func invalidateAll() {

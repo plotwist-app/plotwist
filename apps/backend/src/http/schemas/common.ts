@@ -19,3 +19,44 @@ export const languageWithLimitQuerySchema = z.object({
     .default('en-US'),
   limit: z.coerce.number().int().min(1).max(100).optional().default(10),
 })
+
+export const periodQuerySchema = z.object({
+  period: z
+    .enum(['month', 'last_month', 'year', 'all'])
+    .optional()
+    .default('all'),
+})
+
+export const languageWithPeriodQuerySchema = languageQuerySchema.merge(
+  periodQuerySchema
+)
+
+export const languageWithLimitAndPeriodQuerySchema =
+  languageWithLimitQuerySchema.merge(periodQuerySchema)
+
+export type StatsPeriod = z.infer<typeof periodQuerySchema>['period']
+
+export function periodToDateRange(period: StatsPeriod): {
+  startDate: Date | undefined
+  endDate: Date | undefined
+} {
+  const now = new Date()
+  switch (period) {
+    case 'month': {
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+      return { startDate, endDate: undefined }
+    }
+    case 'last_month': {
+      const startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      const endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)
+      return { startDate, endDate }
+    }
+    case 'year': {
+      const startDate = new Date(now.getFullYear(), 0, 1)
+      return { startDate, endDate: undefined }
+    }
+    case 'all':
+    default:
+      return { startDate: undefined, endDate: undefined }
+  }
+}

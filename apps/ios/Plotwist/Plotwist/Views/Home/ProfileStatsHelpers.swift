@@ -5,7 +5,62 @@
 
 import SwiftUI
 
-// MARK: - Helpers
+// MARK: - Free Utility Functions (shared across views)
+
+func formatTotalMinutes(_ hours: Double) -> String {
+  let totalMinutes = Int(hours * 60)
+  let formatter = NumberFormatter()
+  formatter.numberStyle = .decimal
+  return formatter.string(from: NSNumber(value: totalMinutes)) ?? "\(totalMinutes)"
+}
+
+func formatHoursMinutes(_ hours: Double) -> String {
+  let totalMinutes = Int(hours * 60)
+  let h = totalMinutes / 60
+  let m = totalMinutes % 60
+  if h == 0 { return "\(m)m" }
+  if m == 0 { return "\(h)h" }
+  return "\(h)h \(m)m"
+}
+
+func computeGridSteps(maxValue: Double) -> [Double] {
+  guard maxValue > 0 else { return [1] }
+  let nice = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000.0]
+  let target = maxValue / 3.0
+  let step = nice.first(where: { $0 >= target }) ?? maxValue
+  var steps: [Double] = []
+  var v = step
+  while v <= maxValue + step * 0.1 {
+    steps.append(v)
+    v += step
+  }
+  if steps.isEmpty { steps = [maxValue] }
+  return steps
+}
+
+func formatAxisLabel(_ value: Double) -> String {
+  if value >= 1000 { return String(format: "%.0fk", value / 1000) }
+  if value == floor(value) { return String(format: "%.0f", value) }
+  return String(format: "%.1f", value)
+}
+
+func shortMonthLabel(_ month: String) -> String {
+  let formatter = DateFormatter()
+  formatter.dateFormat = "yyyy-MM"
+  guard let date = formatter.date(from: month) else { return month }
+  formatter.dateFormat = "MMM"
+  return formatter.string(from: date).prefix(3).lowercased()
+}
+
+func fullMonthLabel(_ month: String) -> String {
+  let formatter = DateFormatter()
+  formatter.dateFormat = "yyyy-MM"
+  guard let date = formatter.date(from: month) else { return month }
+  formatter.dateFormat = "MMMM"
+  return formatter.string(from: date)
+}
+
+// MARK: - ProfileStatsView Helpers
 extension ProfileStatsView {
   func interpolatedHours(at date: Date) -> Double {
     guard let start = countStartTime else { return 0 }
@@ -14,77 +69,58 @@ extension ProfileStatsView {
     let eased = 1 - pow(2, -10 * progress)
     return totalHours * eased
   }
-  
+
   func formatHours(_ hours: Double) -> String {
     if totalHours >= 1000 {
       return String(format: "%.1fk", hours / 1000)
     }
     return String(format: "%.0f", hours)
   }
-  
+
   func formatDays(_ hours: Double) -> String {
     let days = hours / 24
     return String(format: "%.0f", days)
   }
-  
-  func getStatusInfo(_ status: String) -> (color: Color, name: String) {
-    switch status {
-    case "WATCHED":
-      return (Color(hex: "10B981"), strings.watched)
-    case "WATCHING":
-      return (Color(hex: "3B82F6"), strings.watching)
-    case "WATCHLIST":
-      return (Color(hex: "F59E0B"), strings.watchlist)
-    case "DROPPED":
-      return (Color(hex: "EF4444"), strings.dropped)
-    default:
-      return (Color(hex: "71717A"), status)
+
+  // MARK: - Trend Insight Computation
+
+  func computeTrendInsight() -> String? {
+    guard monthlyHours.count >= 3 else { return nil }
+
+    let recent = Array(monthlyHours.suffix(3))
+    let earlier = Array(monthlyHours.dropLast(3).suffix(3))
+
+    guard !recent.isEmpty else { return nil }
+
+    let recentAvg = recent.map(\.hours).reduce(0, +) / Double(recent.count)
+    let earlierAvg = earlier.isEmpty ? recentAvg : earlier.map(\.hours).reduce(0, +) / Double(earlier.count)
+
+    if !earlier.isEmpty {
+      let change = earlierAvg > 0 ? ((recentAvg - earlierAvg) / earlierAvg) * 100 : 0
+      if change > 20 {
+        return strings.consumptionUp
+      } else if change < -20 {
+        return strings.consumptionDown
+      }
     }
-  }
-  
-  func computeGridSteps(maxValue: Double) -> [Double] {
-    guard maxValue > 0 else { return [1] }
-    let nice = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000.0]
-    let target = maxValue / 3.0
-    let step = nice.first(where: { $0 >= target }) ?? maxValue
-    var steps: [Double] = []
-    var v = step
-    while v <= maxValue + step * 0.1 {
-      steps.append(v)
-      v += step
+
+    if totalHours > 0 {
+      let seriesRatio = seriesHours / totalHours
+      let movieRatio = movieHours / totalHours
+      if seriesRatio > 0.6 {
+        return strings.moreSeriesThanMovies
+      } else if movieRatio > 0.6 {
+        return strings.moreMoviesThanSeries
+      }
     }
-    if steps.isEmpty { steps = [maxValue] }
-    return steps
+
+    return nil
   }
-  
-  func formatAxisLabel(_ value: Double) -> String {
-    if value >= 1000 { return String(format: "%.0fk", value / 1000) }
-    if value == floor(value) { return String(format: "%.0f", value) }
-    return String(format: "%.1f", value)
-  }
-  
-  func formatHoursMinutes(_ hours: Double) -> String {
-    let totalMinutes = Int(hours * 60)
-    let h = totalMinutes / 60
-    let m = totalMinutes % 60
-    if h == 0 { return "\(m)m" }
-    if m == 0 { return "\(h)h" }
-    return "\(h)h \(m)m"
-  }
-  
-  func shortMonthLabel(_ month: String) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM"
-    guard let date = formatter.date(from: month) else { return month }
-    formatter.dateFormat = "MMM"
-    return formatter.string(from: date).prefix(3).lowercased()
-  }
-  
+
   // MARK: - Country Helpers
-  
+
   static var tmdbNameOverrides: [String: String] {
     [
-      // English
       "united states of america": "US",
       "united states": "US",
       "united kingdom of great britain and northern ireland": "GB",
@@ -97,7 +133,6 @@ extension ProfileStatsView {
       "hong kong sar china": "HK",
       "iran, islamic republic of": "IR",
       "viet nam": "VN",
-      // Portuguese
       "estados unidos da américa": "US",
       "estados unidos": "US",
       "reino unido": "GB",
@@ -105,40 +140,35 @@ extension ProfileStatsView {
       "coréia do sul": "KR",
       "república tcheca": "CZ",
       "república checa": "CZ",
-      // Spanish
       "estados unidos de américa": "US",
       "corea del sur": "KR",
-      // French
       "états-unis": "US",
       "états-unis d'amérique": "US",
       "corée du sud": "KR",
       "royaume-uni": "GB",
-      // German
       "vereinigte staaten von amerika": "US",
       "vereinigte staaten": "US",
       "südkorea": "KR",
       "großbritannien": "GB",
       "vereinigtes königreich": "GB",
       "tschechien": "CZ",
-      // Italian
       "stati uniti d'america": "US",
       "stati uniti": "US",
       "regno unito": "GB",
-      // Japanese
       "アメリカ合衆国": "US",
       "韓国": "KR",
       "イギリス": "GB",
     ]
   }
-  
+
   func isoCodeForCountry(_ name: String) -> String? {
     if let code = Self.tmdbNameOverrides[name.lowercased()] {
       return code
     }
-    
+
     let languageId = Language.current.rawValue.replacingOccurrences(of: "-", with: "_")
     let locale = Locale(identifier: languageId)
-    
+
     for code in Locale.Region.isoRegions.map(\.identifier) {
       guard code.count == 2 else { continue }
       if let localizedName = locale.localizedString(forRegionCode: code),
@@ -146,7 +176,7 @@ extension ProfileStatsView {
         return code
       }
     }
-    
+
     let enLocale = Locale(identifier: "en_US")
     for code in Locale.Region.isoRegions.map(\.identifier) {
       guard code.count == 2 else { continue }
@@ -155,7 +185,7 @@ extension ProfileStatsView {
         return code
       }
     }
-    
+
     for code in Locale.Region.isoRegions.map(\.identifier) {
       guard code.count == 2 else { continue }
       if let localizedName = enLocale.localizedString(forRegionCode: code),
@@ -163,15 +193,15 @@ extension ProfileStatsView {
         return code
       }
     }
-    
+
     return nil
   }
-  
+
   func flagForCountry(_ name: String) -> String {
     guard let code = isoCodeForCountry(name) else { return "🌍" }
     return emojiFlag(code)
   }
-  
+
   func emojiFlag(_ countryCode: String) -> String {
     let base: UInt32 = 127397
     var flag = ""
@@ -188,7 +218,7 @@ extension ProfileStatsView {
 struct StatsGenreChip: View {
   let genre: WatchedGenre
   let isFirst: Bool
-  
+
   var body: some View {
     HStack(spacing: 8) {
       Text(genre.name)
@@ -213,19 +243,19 @@ struct StatsGenreChip: View {
 struct BestReviewRow: View {
   let review: BestReview
   let rank: Int
-  
+
   private var posterWidth: CGFloat {
     (UIScreen.main.bounds.width - 48 - 24) / 3
   }
-  
+
   private var posterHeight: CGFloat {
     posterWidth * 1.5
   }
-  
+
   private var formattedDate: String {
     let inputFormatter = ISO8601DateFormatter()
     inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    
+
     guard let date = inputFormatter.date(from: review.createdAt) else {
       inputFormatter.formatOptions = [.withInternetDateTime]
       guard let date = inputFormatter.date(from: review.createdAt) else {
@@ -235,13 +265,13 @@ struct BestReviewRow: View {
     }
     return formatDate(date)
   }
-  
+
   private func formatDate(_ date: Date) -> String {
     let outputFormatter = DateFormatter()
     outputFormatter.dateFormat = "dd/MM/yyyy"
     return outputFormatter.string(from: date)
   }
-  
+
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
       CachedAsyncImage(url: review.posterURL) { image in
@@ -256,25 +286,25 @@ struct BestReviewRow: View {
       .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
       .posterBorder()
       .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text(review.title)
           .font(.headline)
           .foregroundColor(.appForegroundAdaptive)
           .lineLimit(2)
-        
+
         HStack(spacing: 8) {
           StarRatingView(rating: .constant(review.rating), size: 14, interactive: false)
-          
+
           Circle()
             .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
             .frame(width: 4, height: 4)
-          
+
           Text(formattedDate)
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
         }
-        
+
         if !review.review.isEmpty {
           Text(review.review)
             .font(.subheadline)
@@ -297,35 +327,5 @@ struct BestReviewRow: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-  }
-}
-
-// MARK: - Pie Slice Shape
-struct PieSliceShape: Shape {
-  let startAngle: Angle
-  let endAngle: Angle
-  
-  func path(in rect: CGRect) -> Path {
-    let center = CGPoint(x: rect.midX, y: rect.midY)
-    let radius = min(rect.width, rect.height) / 2
-    
-    var path = Path()
-    path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
-    return path
-  }
-}
-
-// MARK: - Shimmer Effect
-struct ShimmerEffect: ViewModifier {
-  @State private var phase: CGFloat = 0
-  
-  func body(content: Content) -> some View {
-    content
-      .opacity(0.4 + 0.3 * Foundation.sin(Double(phase)))
-      .onAppear {
-        withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
-          phase = .pi
-        }
-      }
   }
 }

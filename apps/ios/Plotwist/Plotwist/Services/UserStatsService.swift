@@ -9,6 +9,15 @@ class UserStatsService {
   static let shared = UserStatsService()
   private init() {}
 
+  private func buildURL(base: String, queryItems: [URLQueryItem]) -> URL? {
+    var components = URLComponents(string: base)
+    let filtered = queryItems.filter { $0.value != nil }
+    if !filtered.isEmpty {
+      components?.queryItems = filtered
+    }
+    return components?.url
+  }
+
   // MARK: - Get User Stats (followers, following, watched counts)
   func getUserStats(userId: String) async throws -> UserStats {
     guard let url = URL(string: "\(API.baseURL)/user/\(userId)/stats") else {
@@ -32,8 +41,11 @@ class UserStatsService {
   }
 
   // MARK: - Get Total Hours Watched
-  func getTotalHours(userId: String) async throws -> TotalHoursResponse {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/total-hours") else {
+  func getTotalHours(userId: String, period: String = "all") async throws -> TotalHoursResponse {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/total-hours",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -54,8 +66,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Watched Genres
-  func getWatchedGenres(userId: String, language: String = "en-US") async throws -> [WatchedGenre] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-genres?language=\(language)") else {
+  func getWatchedGenres(userId: String, language: String = "en-US", period: String = "all") async throws -> [WatchedGenre] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-genres",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -75,8 +93,11 @@ class UserStatsService {
   }
 
   // MARK: - Get Items Status Distribution
-  func getItemsStatus(userId: String) async throws -> [ItemStatusStat] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/items-status") else {
+  func getItemsStatus(userId: String, period: String = "all") async throws -> [ItemStatusStat] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/items-status",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -94,9 +115,17 @@ class UserStatsService {
     let result = try decoder.decode(ItemsStatusResponse.self, from: data)
     return result.userItems
   }
+
   // MARK: - Get Best Reviews
-  func getBestReviews(userId: String, language: String = "en-US", limit: Int = 50) async throws -> [BestReview] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/best-reviews?language=\(language)&limit=\(limit)") else {
+  func getBestReviews(userId: String, language: String = "en-US", limit: Int = 50, period: String = "all") async throws -> [BestReview] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/best-reviews",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "limit", value: "\(limit)"),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -116,8 +145,11 @@ class UserStatsService {
   }
 
   // MARK: - Get Watched Cast
-  func getWatchedCast(userId: String) async throws -> [WatchedCastMember] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-cast") else {
+  func getWatchedCast(userId: String, period: String = "all") async throws -> [WatchedCastMember] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-cast",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -139,8 +171,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Watched Countries
-  func getWatchedCountries(userId: String, language: String = "en-US") async throws -> [WatchedCountry] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-countries?language=\(language)") else {
+  func getWatchedCountries(userId: String, language: String = "en-US", period: String = "all") async throws -> [WatchedCountry] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-countries",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -162,8 +200,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Most Watched Series
-  func getMostWatchedSeries(userId: String, language: String = "en-US") async throws -> [MostWatchedSeries] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/most-watched-series?language=\(language)") else {
+  func getMostWatchedSeries(userId: String, language: String = "en-US", period: String = "all") async throws -> [MostWatchedSeries] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/most-watched-series",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -206,8 +250,14 @@ struct WatchedGenre: Codable, Identifiable {
   let name: String
   let count: Int
   let percentage: Double
+  let posterPath: String?
 
   var id: String { name }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
 }
 
 struct WatchedGenresResponse: Codable {

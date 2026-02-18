@@ -12,8 +12,9 @@ import {
   getUserWatchedGenresController,
 } from '../controllers/user-stats'
 import {
-  languageQuerySchema,
-  languageWithLimitQuerySchema,
+  languageWithLimitAndPeriodQuerySchema,
+  languageWithPeriodQuerySchema,
+  periodQuerySchema,
 } from '../schemas/common'
 import {
   getUserBestReviewsResponseSchema,
@@ -52,6 +53,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user total hours',
         params: getUserDefaultSchema,
+        query: periodQuerySchema,
         response: getUserTotalHoursResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -81,7 +83,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user most watched series',
         params: getUserDefaultSchema,
-        query: languageQuerySchema,
+        query: languageWithPeriodQuerySchema,
         response: getUserMostWatchedSeriesResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -97,7 +99,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user watched genres',
         params: getUserDefaultSchema,
-        query: languageQuerySchema,
+        query: languageWithPeriodQuerySchema,
         response: getUserWatchedGenresResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -113,7 +115,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user watched cast',
         params: getUserDefaultSchema,
-        query: languageQuerySchema,
+        query: periodQuerySchema,
         response: getUserWatchedCastResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -129,7 +131,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user watched countries',
         params: getUserDefaultSchema,
-        query: languageQuerySchema,
+        query: languageWithPeriodQuerySchema,
         response: getUserWatchedCountriesResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -145,7 +147,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user best reviews',
         params: getUserDefaultSchema,
-        query: languageWithLimitQuerySchema,
+        query: languageWithLimitAndPeriodQuerySchema,
         response: getUserBestReviewsResponseSchema,
         tags: USER_STATS_TAG,
       },
@@ -161,6 +163,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user items status',
         params: getUserDefaultSchema,
+        query: periodQuerySchema,
         response: getUserItemsStatusResponseSchema,
         tags: USER_STATS_TAG,
       },

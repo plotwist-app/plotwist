@@ -123,27 +123,13 @@ final class ProfilePrefetchService {
               userId: userId,
               language: language
             )
-            async let statusTask = UserStatsService.shared.getItemsStatus(userId: userId)
             async let reviewsTask = UserStatsService.shared.getBestReviews(
               userId: userId,
               language: language
             )
-            async let castTask = UserStatsService.shared.getWatchedCast(userId: userId)
-            async let countriesTask = UserStatsService.shared.getWatchedCountries(
-              userId: userId,
-              language: language
+            let (hoursResponse, genres, reviews) = try await (
+              hoursTask, genresTask, reviewsTask
             )
-            async let seriesTask = UserStatsService.shared.getMostWatchedSeries(
-              userId: userId,
-              language: language
-            )
-
-            let (hoursResponse, genres, status, reviews) = try await (
-              hoursTask, genresTask, statusTask, reviewsTask
-            )
-            let cast = (try? await castTask) ?? []
-            let countries = (try? await countriesTask) ?? []
-            let series = (try? await seriesTask) ?? []
 
             statsCache.set(
               userId: userId,
@@ -152,11 +138,7 @@ final class ProfilePrefetchService {
               seriesHours: hoursResponse.seriesHours,
               monthlyHours: hoursResponse.monthlyHours,
               watchedGenres: genres,
-              itemsStatus: status,
-              bestReviews: reviews,
-              watchedCast: cast,
-              watchedCountries: countries,
-              mostWatchedSeries: series
+              bestReviews: reviews
             )
           } catch {}
         }

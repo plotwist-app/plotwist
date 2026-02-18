@@ -111,6 +111,15 @@ extension Color {
 
   static let appDestructive = Color(hue: 0, saturation: 0.842, brightness: 0.602)
 
+  static var statsCardBackground: Color {
+    Color(
+      UIColor {
+        $0.userInterfaceStyle == .dark
+          ? UIColor(hue: 240 / 360, saturation: 0.037, brightness: 0.159, alpha: 0.4)
+          : UIColor(red: 242 / 255, green: 242 / 255, blue: 247 / 255, alpha: 1)
+      })
+  }
+
   // Star rating yellow - bright gold that works in both light and dark modes
   static let appStarYellow = Color(hex: "FBBF24")
 }
