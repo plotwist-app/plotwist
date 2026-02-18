@@ -341,6 +341,8 @@ enum L10n {
       perDayThisYear: "/day this year",
       noActivityThisPeriod: "No activity in this period",
       minutes: "minutes",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs last month",
       // Home Engagement
       forYou: "For you",
       basedOnYourTaste: "Because you like %@",
@@ -692,6 +694,8 @@ enum L10n {
       perDayThisYear: "/dia este ano",
       noActivityThisPeriod: "Sem atividade neste período",
       minutes: "minutos",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs mês passado",
       // Home Engagement
       forYou: "Para você",
       basedOnYourTaste: "Porque você gosta de %@",
@@ -1043,6 +1047,8 @@ enum L10n {
       perDayThisYear: "/día este año",
       noActivityThisPeriod: "Sin actividad en este período",
       minutes: "minutos",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs mes pasado",
       // Home Engagement
       forYou: "Para ti",
       basedOnYourTaste: "Porque te gusta %@",
@@ -1394,6 +1400,8 @@ enum L10n {
       perDayThisYear: "/jour cette année",
       noActivityThisPeriod: "Aucune activité pour cette période",
       minutes: "minutes",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs mois dernier",
       // Home Engagement
       forYou: "Pour vous",
       basedOnYourTaste: "Parce que vous aimez %@",
@@ -1745,6 +1753,8 @@ enum L10n {
       perDayThisYear: "/Tag dieses Jahr",
       noActivityThisPeriod: "Keine Aktivität in diesem Zeitraum",
       minutes: "Minuten",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs letzten Monat",
       // Home Engagement
       forYou: "Für dich",
       basedOnYourTaste: "Weil du %@ magst",
@@ -2096,6 +2106,8 @@ enum L10n {
       perDayThisYear: "/giorno quest'anno",
       noActivityThisPeriod: "Nessuna attività in questo periodo",
       minutes: "minuti",
+      timeline: "Timeline",
+      vsLastMonthShort: "vs mese scorso",
       // Home Engagement
       forYou: "Per te",
       basedOnYourTaste: "Perché ti piace %@",
@@ -2446,6 +2458,8 @@ enum L10n {
       perDayThisYear: "/日（今年）",
       noActivityThisPeriod: "この期間にアクティビティはありません",
       minutes: "分",
+      timeline: "タイムライン",
+      vsLastMonthShort: "vs 先月",
       // Home Engagement
       forYou: "あなたへ",
       basedOnYourTaste: "%@が好きだから",
@@ -2808,6 +2822,8 @@ struct Strings {
   let perDayThisYear: String
   let noActivityThisPeriod: String
   let minutes: String
+  let timeline: String
+  let vsLastMonthShort: String
   // Home Engagement
   let forYou: String
   let basedOnYourTaste: String

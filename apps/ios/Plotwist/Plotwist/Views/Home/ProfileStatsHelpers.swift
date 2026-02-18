@@ -62,16 +62,8 @@ func fullMonthLabel(_ month: String) -> String {
 
 // MARK: - ProfileStatsView Helpers
 extension ProfileStatsView {
-  func interpolatedHours(at date: Date) -> Double {
-    guard let start = countStartTime else { return 0 }
-    let elapsed = date.timeIntervalSince(start)
-    let progress = min(elapsed / countDuration, 1.0)
-    let eased = 1 - pow(2, -10 * progress)
-    return totalHours * eased
-  }
-
   func formatHours(_ hours: Double) -> String {
-    if totalHours >= 1000 {
+    if hours >= 1000 {
       return String(format: "%.1fk", hours / 1000)
     }
     return String(format: "%.0f", hours)
@@ -80,41 +72,6 @@ extension ProfileStatsView {
   func formatDays(_ hours: Double) -> String {
     let days = hours / 24
     return String(format: "%.0f", days)
-  }
-
-  // MARK: - Trend Insight Computation
-
-  func computeTrendInsight() -> String? {
-    guard monthlyHours.count >= 3 else { return nil }
-
-    let recent = Array(monthlyHours.suffix(3))
-    let earlier = Array(monthlyHours.dropLast(3).suffix(3))
-
-    guard !recent.isEmpty else { return nil }
-
-    let recentAvg = recent.map(\.hours).reduce(0, +) / Double(recent.count)
-    let earlierAvg = earlier.isEmpty ? recentAvg : earlier.map(\.hours).reduce(0, +) / Double(earlier.count)
-
-    if !earlier.isEmpty {
-      let change = earlierAvg > 0 ? ((recentAvg - earlierAvg) / earlierAvg) * 100 : 0
-      if change > 20 {
-        return strings.consumptionUp
-      } else if change < -20 {
-        return strings.consumptionDown
-      }
-    }
-
-    if totalHours > 0 {
-      let seriesRatio = seriesHours / totalHours
-      let movieRatio = movieHours / totalHours
-      if seriesRatio > 0.6 {
-        return strings.moreSeriesThanMovies
-      } else if movieRatio > 0.6 {
-        return strings.moreMoviesThanSeries
-      }
-    }
-
-    return nil
   }
 
   // MARK: - Country Helpers

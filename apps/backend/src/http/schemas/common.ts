@@ -20,16 +20,20 @@ export const languageWithLimitQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).optional().default(10),
 })
 
+const yearMonthRegex = /^\d{4}-(0[1-9]|1[0-2])$/
+
 export const periodQuerySchema = z.object({
   period: z
-    .enum(['month', 'last_month', 'year', 'all'])
+    .union([
+      z.enum(['month', 'last_month', 'year', 'all']),
+      z.string().regex(yearMonthRegex),
+    ])
     .optional()
     .default('all'),
 })
 
-export const languageWithPeriodQuerySchema = languageQuerySchema.merge(
-  periodQuerySchema
-)
+export const languageWithPeriodQuerySchema =
+  languageQuerySchema.merge(periodQuerySchema)
 
 export const languageWithLimitAndPeriodQuerySchema =
   languageWithLimitQuerySchema.merge(periodQuerySchema)
@@ -40,6 +44,13 @@ export function periodToDateRange(period: StatsPeriod): {
   startDate: Date | undefined
   endDate: Date | undefined
 } {
+  if (typeof period === 'string' && yearMonthRegex.test(period)) {
+    const [year, month] = period.split('-').map(Number)
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999)
+    return { startDate, endDate }
+  }
+
   const now = new Date()
   switch (period) {
     case 'month': {
@@ -48,7 +59,15 @@ export function periodToDateRange(period: StatsPeriod): {
     }
     case 'last_month': {
       const startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)
+      const endDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        0,
+        23,
+        59,
+        59,
+        999
+      )
       return { startDate, endDate }
     }
     case 'year': {

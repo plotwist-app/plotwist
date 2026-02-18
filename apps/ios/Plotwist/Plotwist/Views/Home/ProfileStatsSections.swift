@@ -8,17 +8,18 @@ import SwiftUI
 // MARK: - Time Watched Card
 
 extension ProfileStatsView {
-  var timeWatchedCard: some View {
+  func timeWatchedCard(for section: MonthSection, period: String) -> some View {
     NavigationLink {
       TimeWatchedDetailView(
-        totalHours: totalHours,
-        movieHours: movieHours,
-        seriesHours: seriesHours,
-        monthlyHours: monthlyHours,
-        dailyAverage: dailyAverage,
-        dailyAverageLabel: dailyAverageLabel,
-        comparisonHours: comparisonHours,
-        selectedPeriod: selectedPeriod,
+        totalHours: section.totalHours,
+        movieHours: section.movieHours,
+        seriesHours: section.seriesHours,
+        monthlyHours: section.monthlyHours,
+        dailyAverage: computeDailyAverage(section: section, period: period),
+        dailyAverageLabel: strings.perDayThisMonth,
+        comparisonHours: section.comparisonHours,
+        periodLabel: period == "all" ? strings.allTime : section.displayName,
+        showComparison: period != "all",
         strings: strings
       )
     } label: {
@@ -36,23 +37,20 @@ extension ProfileStatsView {
         .padding(.bottom, 14)
 
         HStack(alignment: .firstTextBaseline, spacing: 6) {
-          TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-            let currentHours = interpolatedHours(at: timeline.date)
-            Text(formatTotalMinutes(currentHours))
-              .font(.system(size: 48, weight: .bold, design: .rounded))
-              .foregroundColor(.appForegroundAdaptive)
-              .contentTransition(.numericText(countsDown: false))
-          }
+          Text(formatTotalMinutes(section.totalHours))
+            .font(.system(size: 48, weight: .bold, design: .rounded))
+            .foregroundColor(.appForegroundAdaptive)
+            .contentTransition(.numericText(countsDown: false))
 
           Text(strings.minutes)
             .font(.system(size: 16, weight: .medium))
             .foregroundColor(.appMutedForegroundAdaptive)
         }
 
-        HStack(spacing: 8) {
-          comparisonBadge
+        if period != "all", let comparison = section.comparisonHours {
+          comparisonBadgeView(totalHours: section.totalHours, comparison: comparison)
+            .padding(.top, 6)
         }
-        .padding(.top, 6)
       }
       .padding(16)
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -63,37 +61,65 @@ extension ProfileStatsView {
   }
 
   @ViewBuilder
-  var comparisonBadge: some View {
-    if let comparison = comparisonHours, selectedPeriod == .month || selectedPeriod == .year {
-      let delta = totalHours - comparison
-      let sign = delta >= 0 ? "+" : ""
-      let label = selectedPeriod == .month
-        ? String(format: strings.vsLastMonth, "\(sign)\(formatHoursMinutes(abs(delta)))")
-        : String(format: strings.vsLastYear, "\(sign)\(formatHoursMinutes(abs(delta)))")
+  func comparisonBadgeView(totalHours: Double, comparison: Double) -> some View {
+    let delta = totalHours - comparison
+    let sign = delta >= 0 ? "+" : ""
+    let label = "\(sign)\(formatHoursMinutes(abs(delta))) \(strings.vsLastMonthShort)"
 
-      HStack(spacing: 4) {
-        Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
-          .font(.system(size: 10, weight: .bold))
-        Text(label)
-          .font(.system(size: 12, weight: .semibold))
-      }
-      .foregroundColor(delta >= 0 ? Color(hex: "10B981") : Color(hex: "EF4444"))
-      .padding(.horizontal, 10)
-      .padding(.vertical, 6)
-      .background((delta >= 0 ? Color(hex: "10B981") : Color(hex: "EF4444")).opacity(0.08))
-      .clipShape(RoundedRectangle(cornerRadius: 10))
+    HStack(spacing: 4) {
+      Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
+        .font(.system(size: 10, weight: .bold))
+      Text(label)
+        .font(.system(size: 12, weight: .semibold))
     }
+    .foregroundColor(delta >= 0 ? Color(hex: "10B981") : Color(hex: "EF4444"))
+    .padding(.horizontal, 10)
+    .padding(.vertical, 6)
+    .background((delta >= 0 ? Color(hex: "10B981") : Color(hex: "EF4444")).opacity(0.08))
+    .clipShape(RoundedRectangle(cornerRadius: 10))
+  }
+
+  func computeDailyAverage(section: MonthSection, period: String) -> Double {
+    guard section.totalHours > 0 else { return 0 }
+    if period == "all" {
+      if let firstMonth = section.monthlyHours.first?.month {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM"
+        if let startDate = formatter.date(from: firstMonth) {
+          let days = max(Calendar.current.dateComponents([.day], from: startDate, to: Date()).day ?? 30, 1)
+          return section.totalHours / Double(days)
+        }
+      }
+      return section.totalHours / 30
+    }
+
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM"
+    if let date = formatter.date(from: period) {
+      let now = Date()
+      let cal = Calendar.current
+      let sameMonth = cal.isDate(date, equalTo: now, toGranularity: .month)
+      if sameMonth {
+        let day = max(cal.component(.day, from: now), 1)
+        return section.totalHours / Double(day)
+      } else {
+        let range = cal.range(of: .day, in: .month, for: date)
+        return section.totalHours / Double(range?.count ?? 30)
+      }
+    }
+
+    return section.totalHours / 30
   }
 }
 
-// MARK: - Top Genre Card (half-width, navigates to detail)
+// MARK: - Top Genre Card
 
 extension ProfileStatsView {
-  var topGenreCard: some View {
-    let topGenre = watchedGenres.first
+  func topGenreCard(for section: MonthSection) -> some View {
+    let topGenre = section.watchedGenres.first
 
     return NavigationLink {
-      PeriodGenresView(genres: watchedGenres, period: selectedPeriod, strings: strings)
+      PeriodGenresView(genres: section.watchedGenres, periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName, strings: strings)
     } label: {
       VStack(alignment: .leading, spacing: 0) {
         HStack(alignment: .top) {
@@ -129,14 +155,14 @@ extension ProfileStatsView {
   }
 }
 
-// MARK: - Top Review Card (half-width, navigates to detail)
+// MARK: - Top Review Card
 
 extension ProfileStatsView {
-  var topReviewCard: some View {
-    let topReview = bestReviews.first
+  func topReviewCard(for section: MonthSection) -> some View {
+    let topReview = section.bestReviews.first
 
     return NavigationLink {
-      PeriodReviewsView(reviews: bestReviews, period: selectedPeriod, strings: strings)
+      PeriodReviewsView(reviews: section.bestReviews, periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName, strings: strings)
     } label: {
       VStack(alignment: .leading, spacing: 0) {
         HStack(alignment: .top) {
@@ -183,7 +209,8 @@ struct TimeWatchedDetailView: View {
   let dailyAverage: Double
   let dailyAverageLabel: String
   let comparisonHours: Double?
-  let selectedPeriod: StatsPeriod
+  let periodLabel: String
+  let showComparison: Bool
   let strings: Strings
 
   @State private var scrollOffset: CGFloat = 0
@@ -295,12 +322,10 @@ struct TimeWatchedDetailView: View {
 
   @ViewBuilder
   var comparisonBadge: some View {
-    if let comparison = comparisonHours, selectedPeriod == .month || selectedPeriod == .year {
+    if showComparison, let comparison = comparisonHours {
       let delta = totalHours - comparison
       let sign = delta >= 0 ? "+" : ""
-      let label = selectedPeriod == .month
-        ? String(format: strings.vsLastMonth, "\(sign)\(formatHoursMinutes(abs(delta)))")
-        : String(format: strings.vsLastYear, "\(sign)\(formatHoursMinutes(abs(delta)))")
+      let label = String(format: strings.vsLastMonth, "\(sign)\(formatHoursMinutes(abs(delta)))")
 
       HStack(spacing: 4) {
         Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
@@ -425,7 +450,7 @@ struct PeriodGenresView: View {
   @Environment(\.dismiss) private var dismiss
 
   let genres: [WatchedGenre]
-  let period: StatsPeriod
+  let periodLabel: String
   let strings: Strings
 
   @State private var scrollOffset: CGFloat = 0
@@ -521,7 +546,7 @@ struct PeriodReviewsView: View {
   @Environment(\.dismiss) private var dismiss
 
   let reviews: [BestReview]
-  let period: StatsPeriod
+  let periodLabel: String
   let strings: Strings
 
   @State private var scrollOffset: CGFloat = 0
@@ -645,8 +670,8 @@ func statsPoster(url: URL?, rating: Double? = nil) -> some View {
         .padding(.horizontal, 6)
         .padding(.vertical, 4)
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
-        .padding(5)
+        .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
+        .padding(6)
       }
     }
     .posterBorder()
@@ -667,5 +692,146 @@ struct ShimmerEffect: ViewModifier {
           phase = .pi
         }
       }
+  }
+}
+
+// MARK: - Stats Share Card
+
+struct StatsShareCardView: View {
+  let section: MonthSection
+  let strings: Strings
+
+  private let gradientStart = Color(hex: "0F172A")
+  private let gradientEnd = Color(hex: "1E293B")
+  private let accentBlue = Color(hex: "3B82F6")
+  private let accentGreen = Color(hex: "10B981")
+
+  var body: some View {
+    VStack(spacing: 0) {
+      VStack(alignment: .leading, spacing: 24) {
+        // Header
+        HStack {
+          VStack(alignment: .leading, spacing: 4) {
+            Text(section.displayName.uppercased())
+              .font(.system(size: 13, weight: .bold))
+              .tracking(2)
+              .foregroundColor(accentBlue)
+
+            Text(strings.myMonthInReview)
+              .font(.system(size: 22, weight: .bold))
+              .foregroundColor(.white)
+          }
+
+          Spacer()
+        }
+
+        // Big number
+        VStack(alignment: .leading, spacing: 4) {
+          HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(formatTotalMinutes(section.totalHours))
+              .font(.system(size: 64, weight: .heavy, design: .rounded))
+              .foregroundColor(.white)
+
+            Text(strings.minutes)
+              .font(.system(size: 18, weight: .medium))
+              .foregroundColor(.white.opacity(0.6))
+          }
+
+          if section.movieHours > 0 || section.seriesHours > 0 {
+            HStack(spacing: 16) {
+              HStack(spacing: 6) {
+                Circle()
+                  .fill(accentBlue)
+                  .frame(width: 8, height: 8)
+                Text("\(strings.movies) \(formatTotalMinutes(section.movieHours))m")
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundColor(.white.opacity(0.7))
+              }
+
+              HStack(spacing: 6) {
+                Circle()
+                  .fill(accentGreen)
+                  .frame(width: 8, height: 8)
+                Text("\(strings.series) \(formatTotalMinutes(section.seriesHours))m")
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundColor(.white.opacity(0.7))
+              }
+            }
+          }
+        }
+
+        Divider()
+          .background(Color.white.opacity(0.1))
+
+        // Stats grid
+        HStack(spacing: 0) {
+          if let genre = section.watchedGenres.first {
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.favoriteGenre.uppercased())
+                .font(.system(size: 10, weight: .bold))
+                .tracking(1.2)
+                .foregroundColor(.white.opacity(0.4))
+
+              Text(genre.name)
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(.white)
+                .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+          }
+
+          if let review = section.bestReviews.first {
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.bestReview.uppercased())
+                .font(.system(size: 10, weight: .bold))
+                .tracking(1.2)
+                .foregroundColor(.white.opacity(0.4))
+
+              HStack(spacing: 4) {
+                Image(systemName: "star.fill")
+                  .font(.system(size: 12))
+                  .foregroundColor(Color(hex: "F59E0B"))
+                Text(String(format: "%.1f", review.rating))
+                  .font(.system(size: 17, weight: .bold))
+                  .foregroundColor(.white)
+              }
+
+              Text(review.title)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+                .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+          }
+        }
+      }
+      .padding(28)
+
+      Spacer()
+
+      // Footer branding
+      HStack {
+        Text("plotwist")
+          .font(.system(size: 15, weight: .bold, design: .rounded))
+          .foregroundColor(.white.opacity(0.3))
+
+        Spacer()
+
+        Text("plotwist.app")
+          .font(.system(size: 12, weight: .medium))
+          .foregroundColor(.white.opacity(0.25))
+      }
+      .padding(.horizontal, 28)
+      .padding(.bottom, 20)
+    }
+    .frame(width: 390, height: 520)
+    .background(
+      LinearGradient(
+        colors: [gradientStart, gradientEnd],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+      )
+    )
+    .clipShape(RoundedRectangle(cornerRadius: 24))
   }
 }
