@@ -2,12 +2,18 @@ import { and, desc, eq, or } from 'drizzle-orm'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertSubscriptionModel } from '@/domain/entities/subscription'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 
-export async function insertSubscription(params: InsertSubscriptionModel) {
+const insertSubscriptionImpl = async (params: InsertSubscriptionModel) => {
   return db.insert(schema.subscriptions).values(params).returning()
 }
 
-export async function getActiveSubscriptionByUserId(userId: string) {
+export const insertSubscription = withDbTracing(
+  'insert-subscription',
+  insertSubscriptionImpl
+)
+
+const getActiveSubscriptionByUserIdImpl = async (userId: string) => {
   return db.query.subscriptions.findFirst({
     where: and(
       eq(schema.subscriptions.userId, userId),
@@ -16,11 +22,21 @@ export async function getActiveSubscriptionByUserId(userId: string) {
   })
 }
 
-export async function getSubscriptionById(id: string) {
+export const getActiveSubscriptionByUserId = withDbTracing(
+  'get-active-subscription-by-user-id',
+  getActiveSubscriptionByUserIdImpl
+)
+
+const getSubscriptionByIdImpl = async (id: string) => {
   return db.query.subscriptions.findFirst({
     where: eq(schema.subscriptions.id, id),
   })
 }
+
+export const getSubscriptionById = withDbTracing(
+  'get-subscription-by-id',
+  getSubscriptionByIdImpl
+)
 
 export type CancelSubscriptionParams = {
   id: string
@@ -30,7 +46,9 @@ export type CancelSubscriptionParams = {
   cancellationReason: string | undefined
 }
 
-export async function cancelUserSubscription(params: CancelSubscriptionParams) {
+const cancelUserSubscriptionImpl = async (
+  params: CancelSubscriptionParams
+) => {
   const [subscription] = await db
     .update(schema.subscriptions)
     .set({
@@ -49,10 +67,15 @@ export async function cancelUserSubscription(params: CancelSubscriptionParams) {
   return subscription
 }
 
-export async function updateSubscription(
+export const cancelUserSubscription = withDbTracing(
+  'cancel-user-subscription',
+  cancelUserSubscriptionImpl
+)
+
+const updateSubscriptionImpl = async (
   userId: string,
   type: 'PRO' | 'MEMBER'
-) {
+) => {
   return db
     .update(schema.subscriptions)
     .set({ type })
@@ -60,7 +83,12 @@ export async function updateSubscription(
     .returning()
 }
 
-export async function getLastestActiveSubscription(userId: string) {
+export const updateSubscription = withDbTracing(
+  'update-subscription',
+  updateSubscriptionImpl
+)
+
+const getLastestActiveSubscriptionImpl = async (userId: string) => {
   const [subscription] = await db
     .select()
     .from(schema.subscriptions)
@@ -82,3 +110,8 @@ export async function getLastestActiveSubscription(userId: string) {
 
   return subscription
 }
+
+export const getLastestActiveSubscription = withDbTracing(
+  'get-lastest-active-subscription',
+  getLastestActiveSubscriptionImpl
+)

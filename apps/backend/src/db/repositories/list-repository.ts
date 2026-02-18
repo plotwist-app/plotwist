@@ -3,16 +3,17 @@ import type { InsertListModel } from '@/domain/entities/lists'
 import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
 import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-banner'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-export function selectLists({
+const selectListsImpl = ({
   userId,
   limit = 5,
   authenticatedUserId,
   visibility,
   hasBanner,
-}: GetListsInput) {
+}: GetListsInput) => {
   return db
     .select({
       ...getTableColumns(schema.lists),
@@ -59,22 +60,28 @@ export function selectLists({
     .limit(limit)
 }
 
-export async function insertList(input: InsertListModel) {
+export const selectLists = withDbTracing('select-lists', selectListsImpl)
+
+const insertListImpl = async (input: InsertListModel) => {
   return db
     .insert(schema.lists)
     .values({ ...input })
     .returning()
 }
 
-export async function deleteList(id: string) {
+export const insertList = withDbTracing('insert-list', insertListImpl)
+
+const deleteListImpl = async (id: string) => {
   return db.delete(schema.lists).where(eq(schema.lists.id, id)).returning()
 }
 
-export async function updateList(
+export const deleteList = withDbTracing('delete-list', deleteListImpl)
+
+const updateListImpl = async (
   id: string,
   userId: string,
   values: UpdateListValues
-) {
+) => {
   return db
     .update(schema.lists)
     .set(values)
@@ -82,7 +89,9 @@ export async function updateList(
     .returning()
 }
 
-export async function getListById(id: string, authenticatedUserId?: string) {
+export const updateList = withDbTracing('update-list', updateListImpl)
+
+const getListByIdImpl = async (id: string, authenticatedUserId?: string) => {
   return db
     .select({
       ...getTableColumns(schema.lists),
@@ -109,14 +118,21 @@ export async function getListById(id: string, authenticatedUserId?: string) {
     .where(eq(schema.lists.id, id))
 }
 
-export async function updateListBanner({
+export const getListById = withDbTracing('get-list-by-id', getListByIdImpl)
+
+const updateListBannerImpl = async ({
   listId,
   userId,
   bannerUrl,
-}: UpdateListBannerInput) {
+}: UpdateListBannerInput) => {
   return db
     .update(schema.lists)
     .set({ bannerUrl })
     .where(and(eq(schema.lists.id, listId), eq(schema.lists.userId, userId)))
     .returning()
 }
+
+export const updateListBanner = withDbTracing(
+  'update-list-banner',
+  updateListBannerImpl
+)

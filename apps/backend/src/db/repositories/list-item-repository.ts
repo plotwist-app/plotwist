@@ -1,14 +1,20 @@
 import { eq } from 'drizzle-orm'
 import type { InsertListItem } from '@/domain/entities/list-item'
 import type { UpdateListItemsServiceInput } from '@/domain/services/list-item/update-list-items'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-export async function insertListItem(input: InsertListItem) {
+const insertListItemImpl = async (input: InsertListItem) => {
   return db.insert(schema.listItems).values(input).returning()
 }
 
-export async function selectListItems(listId: string) {
+export const insertListItem = withDbTracing(
+  'insert-list-item',
+  insertListItemImpl
+)
+
+const selectListItemsImpl = async (listId: string) => {
   return db
     .select()
     .from(schema.listItems)
@@ -16,20 +22,32 @@ export async function selectListItems(listId: string) {
     .orderBy(schema.listItems.position)
 }
 
-export async function deleteListItem(id: string) {
+export const selectListItems = withDbTracing(
+  'select-list-items',
+  selectListItemsImpl
+)
+
+const deleteListItemImpl = async (id: string) => {
   return db
     .delete(schema.listItems)
     .where(eq(schema.listItems.id, id))
     .returning()
 }
 
-export async function getListItem(id: string) {
+export const deleteListItem = withDbTracing(
+  'delete-list-item',
+  deleteListItemImpl
+)
+
+const getListItemImpl = async (id: string) => {
   return db.select().from(schema.listItems).where(eq(schema.listItems.id, id))
 }
 
-export async function updateListItems({
+export const getListItem = withDbTracing('get-list-item', getListItemImpl)
+
+const updateListItemsImpl = async ({
   listItems,
-}: UpdateListItemsServiceInput) {
+}: UpdateListItemsServiceInput) => {
   return db.transaction(async tx => {
     const promises = listItems.map(({ id, position }) =>
       tx
@@ -42,3 +60,8 @@ export async function updateListItems({
     return await Promise.all(promises)
   })
 }
+
+export const updateListItems = withDbTracing(
+  'update-list-items',
+  updateListItemsImpl
+)

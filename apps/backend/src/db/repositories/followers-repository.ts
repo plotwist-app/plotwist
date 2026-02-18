@@ -3,13 +3,14 @@ import type { CreateFollowServiceInput } from '@/domain/services/follows/create-
 import type { DeleteFollowServiceInput } from '@/domain/services/follows/delete-follow'
 import type { GetFollowServiceInput } from '@/domain/services/follows/get-follow'
 import type { GetFollowersInput } from '@/domain/services/follows/get-followers'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-export async function insertFollow({
+const insertFollowImpl = async ({
   followedId,
   followerId,
-}: CreateFollowServiceInput) {
+}: CreateFollowServiceInput) => {
   return db
     .insert(schema.followers)
     .values({
@@ -19,10 +20,12 @@ export async function insertFollow({
     .returning()
 }
 
-export async function getFollow({
+export const insertFollow = withDbTracing('insert-follow', insertFollowImpl)
+
+const getFollowImpl = async ({
   followedId,
   followerId,
-}: GetFollowServiceInput) {
+}: GetFollowServiceInput) => {
   return db
     .select()
     .from(schema.followers)
@@ -34,10 +37,12 @@ export async function getFollow({
     )
 }
 
-export async function deleteFollow({
+export const getFollow = withDbTracing('get-follow', getFollowImpl)
+
+const deleteFollowImpl = async ({
   followedId,
   followerId,
-}: DeleteFollowServiceInput) {
+}: DeleteFollowServiceInput) => {
   return db
     .delete(schema.followers)
     .where(
@@ -49,12 +54,14 @@ export async function deleteFollow({
     .returning()
 }
 
-export async function selectFollowers({
+export const deleteFollow = withDbTracing('delete-follow', deleteFollowImpl)
+
+const selectFollowersImpl = async ({
   followedId,
   followerId,
   cursor,
   pageSize,
-}: GetFollowersInput) {
+}: GetFollowersInput) => {
   return db
     .select({
       ...getTableColumns(schema.followers),
@@ -89,3 +96,8 @@ export async function selectFollowers({
     )
     .limit(pageSize + 1)
 }
+
+export const selectFollowers = withDbTracing(
+  'select-followers',
+  selectFollowersImpl
+)

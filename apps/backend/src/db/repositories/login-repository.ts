@@ -1,8 +1,9 @@
 import { or, sql } from 'drizzle-orm'
 import { schema } from '@/db/schema'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 
-export async function findUserByEmailOrUsername(login?: string) {
+const findUserByEmailOrUsernameImpl = async (login?: string) => {
   const [user] = await db
     .select()
     .from(schema.users)
@@ -15,3 +16,8 @@ export async function findUserByEmailOrUsername(login?: string) {
 
   return user
 }
+
+export const findUserByEmailOrUsername = withDbTracing(
+  'find-user-by-email-or-username',
+  findUserByEmailOrUsernameImpl
+)

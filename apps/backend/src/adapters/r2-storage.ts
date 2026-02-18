@@ -6,6 +6,7 @@ import {
 import { Upload } from '@aws-sdk/lib-storage'
 import type { UploadImageInput } from '@/@types/r2-storage'
 import { config } from '@/config'
+import { withAdapterTracing } from '@/infra/telemetry/with-adapter-tracing'
 import type { CloudStorage } from '@/ports/cloud-storage'
 
 const r2Storage = new S3Client({
@@ -75,8 +76,8 @@ async function uploadImage({
 }
 
 const R2Storage: CloudStorage = {
-  deleteOldImages: prefix => deleteOldImages(prefix),
-  uploadImage: uploadImageInput => uploadImage(uploadImageInput),
+  deleteOldImages: withAdapterTracing('r2-delete-old-images', deleteOldImages),
+  uploadImage: withAdapterTracing('r2-upload-image', uploadImage),
 }
 
 export { R2Storage }

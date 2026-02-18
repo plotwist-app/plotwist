@@ -15,10 +15,13 @@ import type { InsertReviewModel } from '@/domain/entities/review'
 import type { GetReviewInput } from '@/domain/services/reviews/get-review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
+import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 
-export async function insertReview(params: InsertReviewModel) {
+const insertReviewImpl = async (params: InsertReviewModel) => {
   return db.insert(schema.reviews).values(params).returning()
 }
+
+export const insertReview = withDbTracing('insert-review', insertReviewImpl)
 
 function buildSeasonEpisodeFilter(
   seasonNumber?: number,
@@ -44,7 +47,7 @@ function buildSeasonEpisodeFilter(
   )
 }
 
-export async function selectReviews({
+const selectReviewsImpl = async ({
   mediaType,
   tmdbId,
   userId,
@@ -56,7 +59,7 @@ export async function selectReviews({
   endDate,
   seasonNumber,
   episodeNumber,
-}: GetReviewsServiceInput) {
+}: GetReviewsServiceInput) => {
   const orderCriteria = [
     orderBy === 'likeCount'
       ? desc(
@@ -122,16 +125,23 @@ export async function selectReviews({
     .offset(offset)
 }
 
-export async function deleteReview(id: string) {
+export const selectReviews = withDbTracing(
+  'select-reviews',
+  selectReviewsImpl
+)
+
+const deleteReviewImpl = async (id: string) => {
   return db.delete(schema.reviews).where(eq(schema.reviews.id, id)).returning()
 }
 
-export async function updateReview({
+export const deleteReview = withDbTracing('delete-review', deleteReviewImpl)
+
+const updateReviewImpl = async ({
   id,
   rating,
   review,
   hasSpoilers,
-}: UpdateReviewInput) {
+}: UpdateReviewInput) => {
   return db
     .update(schema.reviews)
     .set({ rating, review, hasSpoilers })
@@ -139,18 +149,30 @@ export async function updateReview({
     .returning()
 }
 
-export async function getReviewById(id: string) {
+export const updateReview = withDbTracing('update-review', updateReviewImpl)
+
+const getReviewByIdImpl = async (id: string) => {
   return db.select().from(schema.reviews).where(eq(schema.reviews.id, id))
 }
 
-export async function selectReviewsCount(userId?: string) {
+export const getReviewById = withDbTracing(
+  'get-review-by-id',
+  getReviewByIdImpl
+)
+
+const selectReviewsCountImpl = async (userId?: string) => {
   return db
     .select({ count: count() })
     .from(schema.reviews)
     .where(userId ? eq(schema.reviews.userId, userId) : undefined)
 }
 
-export async function selectBestReviews(userId: string, limit = 10) {
+export const selectReviewsCount = withDbTracing(
+  'select-reviews-count',
+  selectReviewsCountImpl
+)
+
+const selectBestReviewsImpl = async (userId: string, limit = 10) => {
   return db
     .select()
     .from(schema.reviews)
@@ -166,13 +188,18 @@ export async function selectBestReviews(userId: string, limit = 10) {
     .limit(limit)
 }
 
-export async function selectReview({
+export const selectBestReviews = withDbTracing(
+  'select-best-reviews',
+  selectBestReviewsImpl
+)
+
+const selectReviewImpl = async ({
   mediaType,
   tmdbId,
   userId,
   seasonNumber,
   episodeNumber,
-}: GetReviewInput) {
+}: GetReviewInput) => {
   return db
     .select()
     .from(schema.reviews)
@@ -187,3 +214,5 @@ export async function selectReview({
       )
     )
 }
+
+export const selectReview = withDbTracing('select-review', selectReviewImpl)
