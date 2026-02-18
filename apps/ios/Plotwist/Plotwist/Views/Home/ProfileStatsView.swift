@@ -232,6 +232,7 @@ struct ProfileStatsView: View {
       }
       .padding(.top, 8)
     }
+    .coordinateSpace(name: "statsTimeline")
     .refreshable {
       monthSections = []
       nextCursor = nil
@@ -361,6 +362,11 @@ struct ProfileStatsView: View {
     let size = CGSize(width: 1080 / 3, height: 1920 / 3)
     controller.view.bounds = CGRect(origin: .zero, size: size)
     controller.view.backgroundColor = .clear
+
+    let window = UIWindow(frame: CGRect(origin: .zero, size: size))
+    window.rootViewController = controller
+    window.makeKeyAndVisible()
+    controller.view.setNeedsLayout()
     controller.view.layoutIfNeeded()
 
     let scale: CGFloat = 3.0
@@ -372,9 +378,12 @@ struct ProfileStatsView: View {
         return f
       }()
     )
-    return renderer.image { ctx in
-      controller.view.layer.render(in: ctx.cgContext)
+    let image = renderer.image { _ in
+      controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
     }
+
+    window.isHidden = true
+    return image
   }
 
   // MARK: - Load Timeline (Paginated)

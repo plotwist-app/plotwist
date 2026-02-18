@@ -56,7 +56,17 @@ struct MonthSectionHeaderView: View, Equatable {
     }
     .padding(.horizontal, 24)
     .padding(.vertical, 10)
-    .background(Color.appBackgroundAdaptive)
+    .background(
+      GeometryReader { geo in
+        Color.appBackgroundAdaptive
+          .overlay(alignment: .bottom) {
+            Rectangle()
+              .fill(Color.appBorderAdaptive)
+              .frame(height: 1)
+              .opacity(geo.frame(in: .named("statsTimeline")).minY < 2 ? 1 : 0)
+          }
+      }
+    )
   }
 }
 
