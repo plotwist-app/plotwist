@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import { createFeedbackController } from '../controllers/feedback-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
@@ -23,7 +25,7 @@ export async function feedbackRoutes(app: FastifyInstance) {
         response: createFeedbackResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: createFeedbackController,
+      handler: withTracing('create-feedback', createFeedbackController),
     })
   )
 }

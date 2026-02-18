@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import https from 'https'
+
 import { config } from '@/config'
+import { withTracing } from '@/infra/telemetry/with-tracing'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
@@ -85,7 +87,7 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
         tags: TMDB_PROXY_TAGS,
         hide: config.app.APP_ENV === 'production',
       },
-      handler: async (request, reply) => {
+      handler: withTracing('tmdb-proxy', async (request, reply) => {
         const tmdbPath = (request.params as { '*': string })['*']
 
         if (!tmdbPath) {
@@ -152,7 +154,7 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
         reply.header('X-Cache', 'MISS')
         reply.header('Content-Type', 'application/json')
         return reply.send(JSON.parse(tmdbResponse.body))
-      },
+      }),
     })
   )
 }

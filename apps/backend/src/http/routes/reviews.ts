@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   createReviewController,
   deleteReviewController,
@@ -43,7 +45,7 @@ export async function reviewsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: createReviewController,
+      handler: withTracing('create-review', createReviewController),
     })
   )
 
@@ -63,7 +65,7 @@ export async function reviewsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: getReviewsController,
+      handler: withTracing('get-reviews', getReviewsController),
     })
   )
 
@@ -76,7 +78,7 @@ export async function reviewsRoute(app: FastifyInstance) {
         tags: [reviewsTag],
         params: reviewParamsSchema,
       },
-      handler: deleteReviewController,
+      handler: withTracing('delete-review', deleteReviewController),
     })
   )
 
@@ -91,7 +93,7 @@ export async function reviewsRoute(app: FastifyInstance) {
         body: updateReviewBodySchema,
         response: updateReviewResponse,
       },
-      handler: updateReviewController,
+      handler: withTracing('update-review', updateReviewController),
     })
   )
 
@@ -106,8 +108,9 @@ export async function reviewsRoute(app: FastifyInstance) {
         query: getReviewsQuerySchema,
         response: getDetailedReviewsResponseSchema,
       },
-      handler: (request, reply) =>
-        getDetailedReviewsController(request, reply, app.redis),
+      handler: withTracing('get-detailed-reviews', (request, reply) =>
+        getDetailedReviewsController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -127,7 +130,7 @@ export async function reviewsRoute(app: FastifyInstance) {
         ],
         response: getReviewResponseSchema,
       },
-      handler: getReviewController,
+      handler: withTracing('get-review', getReviewController),
     })
   )
 }

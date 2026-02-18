@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   createReviewReplyController,
   deleteReviewReplyController,
@@ -38,7 +40,7 @@ export async function reviewRepliesRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: createReviewReplyController,
+      handler: withTracing('create-review-reply', createReviewReplyController),
     })
   )
 
@@ -58,7 +60,7 @@ export async function reviewRepliesRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: getReviewRepliesController,
+      handler: withTracing('get-review-replies', getReviewRepliesController),
     })
   )
 
@@ -77,7 +79,7 @@ export async function reviewRepliesRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: deleteReviewReplyController,
+      handler: withTracing('delete-review-reply', deleteReviewReplyController),
     })
   )
 
@@ -98,7 +100,7 @@ export async function reviewRepliesRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: updateReviewReplyController,
+      handler: withTracing('update-review-reply', updateReviewReplyController),
     })
   )
 }

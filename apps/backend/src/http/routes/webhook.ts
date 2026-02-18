@@ -1,5 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import { stripeWebhookController } from '../controllers/stripe-webhook-controller'
 
 export async function webhookRoutes(app: FastifyInstance) {
@@ -26,7 +29,7 @@ export async function webhookRoutes(app: FastifyInstance) {
         description: 'Webhook route',
         tags: ['Webhook'],
       },
-      handler: stripeWebhookController,
+      handler: withTracing('stripe-webhook', stripeWebhookController),
     })
   )
 }

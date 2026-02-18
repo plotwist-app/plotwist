@@ -1,5 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   createUserController,
   getMeController,
@@ -50,7 +53,7 @@ export async function usersRoute(app: FastifyInstance) {
         body: createUserBodySchema,
         response: createUserResponseSchema,
       },
-      handler: createUserController,
+      handler: withTracing('create-user', createUserController),
     })
   )
 
@@ -64,7 +67,7 @@ export async function usersRoute(app: FastifyInstance) {
         querystring: checkAvailableUsernameQuerySchema,
         response: checkAvailableUsernameResponseSchema,
       },
-      handler: isUsernameAvailableController,
+      handler: withTracing('is-username-available', isUsernameAvailableController),
     })
   )
 
@@ -78,7 +81,7 @@ export async function usersRoute(app: FastifyInstance) {
         querystring: isEmailAvailableQuerySchema,
         response: isEmailAvailableResponseSchema,
       },
-      handler: isEmailAvailableController,
+      handler: withTracing('is-email-available', isEmailAvailableController),
     })
   )
 
@@ -92,7 +95,7 @@ export async function usersRoute(app: FastifyInstance) {
         params: getUserByUsernameParamsSchema,
         response: getUserByUsernameResponseSchema,
       },
-      handler: getUserByUsernameController,
+      handler: withTracing('get-user-by-username', getUserByUsernameController),
     })
   )
 
@@ -106,7 +109,7 @@ export async function usersRoute(app: FastifyInstance) {
         params: getUserByIdParamsSchema,
         response: getUserByIdResponseSchema,
       },
-      handler: getUserByIdController,
+      handler: withTracing('get-user-by-id', getUserByIdController),
     })
   )
 
@@ -125,7 +128,7 @@ export async function usersRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: getMeController,
+      handler: withTracing('get-me', getMeController),
     })
   )
 
@@ -141,7 +144,7 @@ export async function usersRoute(app: FastifyInstance) {
         response: updateUserResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: updateUserController,
+      handler: withTracing('update-user', updateUserController),
     })
   )
 
@@ -155,7 +158,7 @@ export async function usersRoute(app: FastifyInstance) {
         body: updateUserPasswordBodySchema,
         response: updateUserPasswordResponseSchema,
       },
-      handler: updateUserPasswordController,
+      handler: withTracing('update-user-password', updateUserPasswordController),
     })
   )
 
@@ -176,7 +179,7 @@ export async function usersRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: updateUserPreferencesController,
+      handler: withTracing('update-user-preferences', updateUserPreferencesController),
     })
   )
 
@@ -196,7 +199,7 @@ export async function usersRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: getUserPreferencesController,
+      handler: withTracing('get-user-preferences', getUserPreferencesController),
     })
   )
 
@@ -210,7 +213,7 @@ export async function usersRoute(app: FastifyInstance) {
         querystring: searchUsersByUsernameQuerySchema,
         response: searchUsersByUsernameResponseSchema,
       },
-      handler: searchUsersByUsernameController,
+      handler: withTracing('search-users-by-username', searchUsersByUsernameController),
     })
   )
 }

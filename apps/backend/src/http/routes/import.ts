@@ -1,5 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   createImportController,
   getDetailedImportController,
@@ -30,7 +33,7 @@ export async function importRoutes(app: FastifyInstance) {
         querystring: createImportRequestSchema,
         consumes: ['multipart/form-data'],
       },
-      handler: createImportController,
+      handler: withTracing('create-import', createImportController),
     })
   )
 
@@ -50,7 +53,7 @@ export async function importRoutes(app: FastifyInstance) {
         params: getDetailedImportRequestSchema,
         response: getDetailedImportResponseSchema,
       },
-      handler: getDetailedImportController,
+      handler: withTracing('get-detailed-import', getDetailedImportController),
     })
   )
 }

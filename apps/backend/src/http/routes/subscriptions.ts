@@ -1,4 +1,7 @@
 import type { FastifyInstance } from 'fastify'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import { deleteSubscriptionController } from '../controllers/subscriptions-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
@@ -24,5 +27,5 @@ export const subscriptionsRoutes = (app: FastifyInstance) =>
       ],
     },
 
-    handler: deleteSubscriptionController,
+    handler: withTracing('delete-subscription', deleteSubscriptionController),
   })

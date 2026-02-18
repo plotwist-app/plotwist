@@ -1,5 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   getUserBestReviewsController,
   getUserItemsStatusController,
@@ -41,7 +44,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserStatsResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: getUserStatsController,
+      handler: withTracing('get-user-stats', getUserStatsController),
     })
   )
 
@@ -55,8 +58,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserTotalHoursResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserTotalHoursController(request, reply, app.redis),
+      handler: withTracing('get-user-total-hours', (request, reply) =>
+        getUserTotalHoursController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -70,7 +74,7 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserReviewsCountResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: getUserReviewsCountController,
+      handler: withTracing('get-user-reviews-count', getUserReviewsCountController),
     })
   )
 
@@ -85,8 +89,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserMostWatchedSeriesResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserMostWatchedSeriesController(request, reply, app.redis),
+      handler: withTracing('get-user-most-watched-series', (request, reply) =>
+        getUserMostWatchedSeriesController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -101,8 +106,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserWatchedGenresResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserWatchedGenresController(request, reply, app.redis),
+      handler: withTracing('get-user-watched-genres', (request, reply) =>
+        getUserWatchedGenresController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -117,8 +123,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserWatchedCastResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserWatchedCastController(request, reply, app.redis),
+      handler: withTracing('get-user-watched-cast', (request, reply) =>
+        getUserWatchedCastController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -133,8 +140,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserWatchedCountriesResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserWatchedCountriesController(request, reply, app.redis),
+      handler: withTracing('get-user-watched-countries', (request, reply) =>
+        getUserWatchedCountriesController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -149,8 +157,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserBestReviewsResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserBestReviewsController(request, reply, app.redis),
+      handler: withTracing('get-user-best-reviews', (request, reply) =>
+        getUserBestReviewsController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -164,8 +173,9 @@ export async function userStatsRoutes(app: FastifyInstance) {
         response: getUserItemsStatusResponseSchema,
         tags: USER_STATS_TAG,
       },
-      handler: (request, reply) =>
-        getUserItemsStatusController(request, reply, app.redis),
+      handler: withTracing('get-user-items-status', (request, reply) =>
+        getUserItemsStatusController(request, reply, app.redis)
+      ),
     })
   )
 }

@@ -1,5 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
+import { withTracing } from '@/infra/telemetry/with-tracing'
+
 import {
   deleteUserActivityController,
   getUserActivitiesController,
@@ -28,8 +31,9 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         params: getUserActivitiesParamsSchema,
         response: getUserActivitiesResponseSchema,
       },
-      handler: (request, reply) =>
-        getUserActivitiesController(request, reply, app.redis),
+      handler: withTracing('get-user-activities', (request, reply) =>
+        getUserActivitiesController(request, reply, app.redis)
+      ),
     })
   )
 
@@ -43,7 +47,7 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         tags: TAGS,
         params: deleteUserActivityParamsSchema,
       },
-      handler: deleteUserActivityController,
+      handler: withTracing('delete-user-activity', deleteUserActivityController),
     })
   )
 
@@ -58,8 +62,9 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         querystring: getUserNetworkActivitiesQuerySchema,
         response: getUserActivitiesResponseSchema,
       },
-      handler: (request, reply) =>
-        getUserNetworkActivitiesController(request, reply, app.redis),
+      handler: withTracing('get-user-network-activities', (request, reply) =>
+        getUserNetworkActivitiesController(request, reply, app.redis)
+      ),
     })
   })
 }
