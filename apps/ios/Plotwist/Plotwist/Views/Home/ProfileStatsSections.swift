@@ -695,143 +695,170 @@ struct ShimmerEffect: ViewModifier {
   }
 }
 
-// MARK: - Stats Share Card
+// MARK: - Stats Share Card (Stories 9:16)
 
 struct StatsShareCardView: View {
   let section: MonthSection
   let strings: Strings
 
-  private let gradientStart = Color(hex: "0F172A")
-  private let gradientEnd = Color(hex: "1E293B")
+  private let cardWidth: CGFloat = 1080 / 3
+  private let cardHeight: CGFloat = 1920 / 3
+
   private let accentBlue = Color(hex: "3B82F6")
   private let accentGreen = Color(hex: "10B981")
 
   var body: some View {
-    VStack(spacing: 0) {
-      VStack(alignment: .leading, spacing: 24) {
-        // Header
-        HStack {
+    ZStack {
+      // Background gradient
+      LinearGradient(
+        stops: [
+          .init(color: Color(hex: "000000"), location: 0),
+          .init(color: Color(hex: "0A0A0A"), location: 0.3),
+          .init(color: Color(hex: "141414"), location: 0.6),
+          .init(color: Color(hex: "1A1A1A"), location: 1),
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+      )
+
+      VStack(spacing: 0) {
+        // Top section: month + time
+        VStack(alignment: .leading, spacing: 16) {
+          Text(section.displayName.uppercased())
+            .font(.system(size: 11, weight: .bold))
+            .tracking(2.5)
+            .foregroundColor(accentBlue)
+
+          Text(strings.myMonthInReview)
+            .font(.system(size: 20, weight: .bold))
+            .foregroundColor(.white)
+
           VStack(alignment: .leading, spacing: 4) {
-            Text(section.displayName.uppercased())
-              .font(.system(size: 13, weight: .bold))
-              .tracking(2)
-              .foregroundColor(accentBlue)
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+              Text(formatTotalMinutes(section.totalHours))
+                .font(.system(size: 52, weight: .heavy, design: .rounded))
+                .foregroundColor(.white)
 
-            Text(strings.myMonthInReview)
-              .font(.system(size: 22, weight: .bold))
-              .foregroundColor(.white)
-          }
+              Text(strings.minutes)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(.white.opacity(0.5))
+            }
 
-          Spacer()
-        }
-
-        // Big number
-        VStack(alignment: .leading, spacing: 4) {
-          HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(formatTotalMinutes(section.totalHours))
-              .font(.system(size: 64, weight: .heavy, design: .rounded))
-              .foregroundColor(.white)
-
-            Text(strings.minutes)
-              .font(.system(size: 18, weight: .medium))
-              .foregroundColor(.white.opacity(0.6))
-          }
-
-          if section.movieHours > 0 || section.seriesHours > 0 {
-            HStack(spacing: 16) {
-              HStack(spacing: 6) {
-                Circle()
-                  .fill(accentBlue)
-                  .frame(width: 8, height: 8)
-                Text("\(strings.movies) \(formatTotalMinutes(section.movieHours))m")
-                  .font(.system(size: 13, weight: .medium))
-                  .foregroundColor(.white.opacity(0.7))
-              }
-
-              HStack(spacing: 6) {
-                Circle()
-                  .fill(accentGreen)
-                  .frame(width: 8, height: 8)
-                Text("\(strings.series) \(formatTotalMinutes(section.seriesHours))m")
-                  .font(.system(size: 13, weight: .medium))
-                  .foregroundColor(.white.opacity(0.7))
+            if section.movieHours > 0 || section.seriesHours > 0 {
+              HStack(spacing: 14) {
+                HStack(spacing: 5) {
+                  Circle().fill(accentBlue).frame(width: 6, height: 6)
+                  Text("\(strings.movies) \(formatTotalMinutes(section.movieHours))m")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
+                }
+                HStack(spacing: 5) {
+                  Circle().fill(accentGreen).frame(width: 6, height: 6)
+                  Text("\(strings.series) \(formatTotalMinutes(section.seriesHours))m")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
+                }
               }
             }
           }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 24)
+        .padding(.top, 48)
 
-        Divider()
-          .background(Color.white.opacity(0.1))
+        Spacer().frame(height: 24)
 
-        // Stats grid
-        HStack(spacing: 0) {
+        // Posters section
+        HStack(alignment: .top, spacing: 12) {
+          // Genre poster
           if let genre = section.watchedGenres.first {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
+              sharePoster(url: genre.posterURL)
+
               Text(strings.favoriteGenre.uppercased())
-                .font(.system(size: 10, weight: .bold))
-                .tracking(1.2)
-                .foregroundColor(.white.opacity(0.4))
+                .font(.system(size: 9, weight: .bold))
+                .tracking(1)
+                .foregroundColor(.white.opacity(0.35))
 
               Text(genre.name)
-                .font(.system(size: 17, weight: .bold))
+                .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
                 .lineLimit(1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity)
           }
 
+          // Review poster
           if let review = section.bestReviews.first {
-            VStack(alignment: .leading, spacing: 6) {
-              Text(strings.bestReview.uppercased())
-                .font(.system(size: 10, weight: .bold))
-                .tracking(1.2)
-                .foregroundColor(.white.opacity(0.4))
+            VStack(alignment: .leading, spacing: 8) {
+              sharePoster(url: review.posterURL, rating: review.rating)
 
-              HStack(spacing: 4) {
-                Image(systemName: "star.fill")
-                  .font(.system(size: 12))
-                  .foregroundColor(Color(hex: "F59E0B"))
-                Text(String(format: "%.1f", review.rating))
-                  .font(.system(size: 17, weight: .bold))
-                  .foregroundColor(.white)
-              }
+              Text(strings.bestReview.uppercased())
+                .font(.system(size: 9, weight: .bold))
+                .tracking(1)
+                .foregroundColor(.white.opacity(0.35))
 
               Text(review.title)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundColor(.white.opacity(0.7))
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(.white)
                 .lineLimit(1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity)
           }
         }
-      }
-      .padding(28)
-
-      Spacer()
-
-      // Footer branding
-      HStack {
-        Text("plotwist")
-          .font(.system(size: 15, weight: .bold, design: .rounded))
-          .foregroundColor(.white.opacity(0.3))
+        .padding(.horizontal, 24)
 
         Spacer()
 
-        Text("plotwist.app")
-          .font(.system(size: 12, weight: .medium))
-          .foregroundColor(.white.opacity(0.25))
+        // Footer
+        HStack {
+          Text("plotwist")
+            .font(.system(size: 14, weight: .bold, design: .rounded))
+            .foregroundColor(.white.opacity(0.25))
+
+          Spacer()
+
+          Text("plotwist.app")
+            .font(.system(size: 11, weight: .medium))
+            .foregroundColor(.white.opacity(0.2))
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 32)
       }
-      .padding(.horizontal, 28)
-      .padding(.bottom, 20)
     }
-    .frame(width: 390, height: 520)
-    .background(
-      LinearGradient(
-        colors: [gradientStart, gradientEnd],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-      )
-    )
-    .clipShape(RoundedRectangle(cornerRadius: 24))
+    .frame(width: cardWidth, height: cardHeight)
+  }
+
+  @ViewBuilder
+  func sharePoster(url: URL?, rating: Double? = nil) -> some View {
+    let cr: CGFloat = 12
+
+    CachedAsyncImage(url: url) { image in
+      image
+        .resizable()
+        .aspectRatio(2 / 3, contentMode: .fit)
+    } placeholder: {
+      RoundedRectangle(cornerRadius: cr)
+        .fill(Color.white.opacity(0.08))
+        .aspectRatio(2 / 3, contentMode: .fit)
+    }
+    .clipShape(RoundedRectangle(cornerRadius: cr))
+    .overlay(alignment: .bottomTrailing) {
+      if let rating {
+        HStack(spacing: 3) {
+          Image(systemName: "star.fill")
+            .font(.system(size: 8))
+            .foregroundColor(Color(hex: "F59E0B"))
+          Text(String(format: "%.1f", rating))
+            .font(.system(size: 11, weight: .bold, design: .rounded))
+            .foregroundColor(.white)
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 4)
+        .background(.ultraThinMaterial.opacity(0.9))
+        .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
+        .padding(6)
+      }
+    }
   }
 }

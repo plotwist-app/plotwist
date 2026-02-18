@@ -468,12 +468,20 @@ struct ProfileStatsView: View {
   func renderShareCard(section: MonthSection) -> UIImage {
     let cardView = StatsShareCardView(section: section, strings: strings)
     let controller = UIHostingController(rootView: cardView)
-    let size = CGSize(width: 390, height: 520)
+    let size = CGSize(width: 1080 / 3, height: 1920 / 3)
     controller.view.bounds = CGRect(origin: .zero, size: size)
     controller.view.backgroundColor = .clear
     controller.view.layoutIfNeeded()
 
-    let renderer = UIGraphicsImageRenderer(size: size)
+    let scale: CGFloat = 3.0
+    let renderer = UIGraphicsImageRenderer(
+      size: size,
+      format: {
+        let f = UIGraphicsImageRendererFormat()
+        f.scale = scale
+        return f
+      }()
+    )
     return renderer.image { _ in
       controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
     }
