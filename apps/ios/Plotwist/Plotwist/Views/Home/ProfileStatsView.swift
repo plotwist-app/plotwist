@@ -309,12 +309,14 @@ struct ProfileStatsView: View {
 
       Spacer()
 
-      Button {
-        shareMonthStats(section)
-      } label: {
-        Image(systemName: "square.and.arrow.up")
-          .font(.system(size: 16, weight: .medium))
-          .foregroundColor(.appMutedForegroundAdaptive)
+      if isOwnProfile {
+        Button {
+          shareMonthStats(section)
+        } label: {
+          Image(systemName: "square.and.arrow.up")
+            .font(.system(size: 16, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
       }
     }
     .padding(.horizontal, 24)
