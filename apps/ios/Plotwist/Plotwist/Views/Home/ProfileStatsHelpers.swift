@@ -7,11 +7,15 @@ import SwiftUI
 
 // MARK: - Free Utility Functions (shared across views)
 
+private let decimalFormatter: NumberFormatter = {
+  let f = NumberFormatter()
+  f.numberStyle = .decimal
+  return f
+}()
+
 func formatTotalMinutes(_ hours: Double) -> String {
   let totalMinutes = Int(hours * 60)
-  let formatter = NumberFormatter()
-  formatter.numberStyle = .decimal
-  return formatter.string(from: NSNumber(value: totalMinutes)) ?? "\(totalMinutes)"
+  return decimalFormatter.string(from: NSNumber(value: totalMinutes)) ?? "\(totalMinutes)"
 }
 
 func formatHoursMinutes(_ hours: Double) -> String {
@@ -44,20 +48,32 @@ func formatAxisLabel(_ value: Double) -> String {
   return String(format: "%.1f", value)
 }
 
+private let ymParseFormatter: DateFormatter = {
+  let f = DateFormatter()
+  f.dateFormat = "yyyy-MM"
+  return f
+}()
+
+private let shortMonthFormatter: DateFormatter = {
+  let f = DateFormatter()
+  f.dateFormat = "MMM"
+  return f
+}()
+
+private let fullMonthFormatter: DateFormatter = {
+  let f = DateFormatter()
+  f.dateFormat = "MMMM"
+  return f
+}()
+
 func shortMonthLabel(_ month: String) -> String {
-  let formatter = DateFormatter()
-  formatter.dateFormat = "yyyy-MM"
-  guard let date = formatter.date(from: month) else { return month }
-  formatter.dateFormat = "MMM"
-  return formatter.string(from: date).prefix(3).lowercased()
+  guard let date = ymParseFormatter.date(from: month) else { return month }
+  return shortMonthFormatter.string(from: date).prefix(3).lowercased()
 }
 
 func fullMonthLabel(_ month: String) -> String {
-  let formatter = DateFormatter()
-  formatter.dateFormat = "yyyy-MM"
-  guard let date = formatter.date(from: month) else { return month }
-  formatter.dateFormat = "MMMM"
-  return formatter.string(from: date)
+  guard let date = ymParseFormatter.date(from: month) else { return month }
+  return fullMonthFormatter.string(from: date)
 }
 
 // MARK: - ProfileStatsView Helpers
@@ -209,24 +225,32 @@ struct BestReviewRow: View {
     posterWidth * 1.5
   }
 
+  private static let isoFormatterFractional: ISO8601DateFormatter = {
+    let f = ISO8601DateFormatter()
+    f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    return f
+  }()
+
+  private static let isoFormatter: ISO8601DateFormatter = {
+    let f = ISO8601DateFormatter()
+    f.formatOptions = [.withInternetDateTime]
+    return f
+  }()
+
+  private static let dateOutputFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "dd/MM/yyyy"
+    return f
+  }()
+
   private var formattedDate: String {
-    let inputFormatter = ISO8601DateFormatter()
-    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-    guard let date = inputFormatter.date(from: review.createdAt) else {
-      inputFormatter.formatOptions = [.withInternetDateTime]
-      guard let date = inputFormatter.date(from: review.createdAt) else {
-        return review.createdAt
-      }
-      return formatDate(date)
+    if let date = Self.isoFormatterFractional.date(from: review.createdAt) {
+      return Self.dateOutputFormatter.string(from: date)
     }
-    return formatDate(date)
-  }
-
-  private func formatDate(_ date: Date) -> String {
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "dd/MM/yyyy"
-    return outputFormatter.string(from: date)
+    if let date = Self.isoFormatter.date(from: review.createdAt) {
+      return Self.dateOutputFormatter.string(from: date)
+    }
+    return review.createdAt
   }
 
   var body: some View {

@@ -6,6 +6,7 @@ import {
   getUserMostWatchedSeriesController,
   getUserReviewsCountController,
   getUserStatsController,
+  getUserStatsTimelineController,
   getUserTotalHoursController,
   getUserWatchedCastController,
   getUserWatchedCountriesController,
@@ -15,6 +16,7 @@ import {
   languageWithLimitAndPeriodQuerySchema,
   languageWithPeriodQuerySchema,
   periodQuerySchema,
+  timelineQuerySchema,
 } from '../schemas/common'
 import {
   getUserBestReviewsResponseSchema,
@@ -23,6 +25,7 @@ import {
   getUserMostWatchedSeriesResponseSchema,
   getUserReviewsCountResponseSchema,
   getUserStatsResponseSchema,
+  getUserStatsTimelineResponseSchema,
   getUserTotalHoursResponseSchema,
   getUserWatchedCastResponseSchema,
   getUserWatchedCountriesResponseSchema,
@@ -43,6 +46,22 @@ export async function userStatsRoutes(app: FastifyInstance) {
         tags: USER_STATS_TAG,
       },
       handler: getUserStatsController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/stats-timeline',
+      schema: {
+        description: 'Get user stats timeline (paginated monthly sections)',
+        params: getUserDefaultSchema,
+        query: timelineQuerySchema,
+        response: getUserStatsTimelineResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserStatsTimelineController(request, reply, app.redis),
     })
   )
 

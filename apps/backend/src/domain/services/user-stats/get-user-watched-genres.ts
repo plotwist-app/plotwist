@@ -1,8 +1,8 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import type { StatsPeriod } from '@/http/schemas/common'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
 import { selectUserEpisodes } from '@/db/repositories/user-episode'
+import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import type { StatsPeriod } from '@/http/schemas/common'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { processInBatches } from './batch-utils'
@@ -23,27 +23,34 @@ export async function getUserWatchedGenresService({
   dateRange,
   period = 'all',
 }: GetUserWatchedGenresServiceInput) {
-  const cacheKey = getUserStatsCacheKey(userId, 'watched-genres-v2', language, period)
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'watched-genres-v2',
+    language,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
-    const watchedItems = await selectAllUserItemsByStatus({
-      userId,
-      status: 'WATCHED',
-      startDate: dateRange?.startDate,
-      endDate: dateRange?.endDate,
-    })
+    const hasDateRange = dateRange?.startDate || dateRange?.endDate
 
-    const seenTmdbIds = new Set(watchedItems.map(item => item.tmdbId))
-
-    // Also include series that had episodes watched in the date range,
-    // even if the series user_item.updatedAt is outside the range
-    if (dateRange?.startDate || dateRange?.endDate) {
-      const episodesInRange = await selectUserEpisodes({
+    const [watchedItems, episodesInRange] = await Promise.all([
+      selectAllUserItemsByStatus({
         userId,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-      })
+        status: 'WATCHED',
+        startDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+      }),
+      hasDateRange
+        ? selectUserEpisodes({
+            userId,
+            startDate: dateRange?.startDate,
+            endDate: dateRange?.endDate,
+          })
+        : Promise.resolve([]),
+    ])
 
+    if (hasDateRange && episodesInRange.length > 0) {
+      const seenTmdbIds = new Set(watchedItems.map(item => item.tmdbId))
       const seriesTmdbIds = new Set(episodesInRange.map(ep => ep.tmdbId))
       for (const tmdbId of seriesTmdbIds) {
         if (!seenTmdbIds.has(tmdbId)) {

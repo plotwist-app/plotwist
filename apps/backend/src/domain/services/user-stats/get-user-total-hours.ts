@@ -14,15 +14,27 @@ export async function getUserTotalHoursService(
   period: StatsPeriod = 'all',
   dateRange: DateRange = { startDate: undefined, endDate: undefined }
 ) {
-  const cacheKey = getUserStatsCacheKey(userId, 'total-hours-v2', undefined, period)
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'total-hours-v2',
+    undefined,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
-    const watchedItems = await getAllUserItemsService({
-      userId,
-      status: 'WATCHED',
-      startDate: dateRange.startDate,
-      endDate: dateRange.endDate,
-    })
+    const [watchedItems, watchedEpisodes] = await Promise.all([
+      getAllUserItemsService({
+        userId,
+        status: 'WATCHED',
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+      }),
+      getUserEpisodesService({
+        userId,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+      }),
+    ])
 
     const movieRuntimesWithDates = await getMovieRuntimesWithDates(
       watchedItems,
@@ -32,20 +44,15 @@ export async function getUserTotalHoursService(
       movieRuntimesWithDates.map(m => m.runtime)
     )
 
-    const watchedEpisodes = await getUserEpisodesService({ userId })
-    const filteredEpisodes = filterEpisodesByDateRange(
-      watchedEpisodes.userEpisodes,
-      dateRange
-    )
     const episodeTotalHours = sumRuntimes(
-      filteredEpisodes.map(ep => ep.runtime)
+      watchedEpisodes.userEpisodes.map(ep => ep.runtime)
     )
 
     const totalHours = movieTotalHours + episodeTotalHours
 
     const monthlyHours = computeMonthlyHours(
       movieRuntimesWithDates,
-      filteredEpisodes,
+      watchedEpisodes.userEpisodes,
       period
     )
 
@@ -55,19 +62,6 @@ export async function getUserTotalHoursService(
       seriesHours: episodeTotalHours,
       monthlyHours,
     }
-  })
-}
-
-function filterEpisodesByDateRange(
-  episodes: { runtime: number; watchedAt: Date | null }[],
-  dateRange: DateRange
-) {
-  if (!dateRange.startDate && !dateRange.endDate) return episodes
-  return episodes.filter(ep => {
-    if (!ep.watchedAt) return false
-    if (dateRange.startDate && ep.watchedAt < dateRange.startDate) return false
-    if (dateRange.endDate && ep.watchedAt > dateRange.endDate) return false
-    return true
   })
 }
 

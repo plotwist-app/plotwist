@@ -111,3 +111,31 @@ export const getUserItemsStatusResponseSchema = {
     ),
   }),
 }
+
+export const getUserStatsTimelineResponseSchema = {
+  200: z.object({
+    sections: z.array(
+      z.object({
+        yearMonth: z.string(),
+        totalHours: z.number(),
+        movieHours: z.number(),
+        seriesHours: z.number(),
+        topGenre: z
+          .object({
+            name: z.string(),
+            posterPath: z.string().nullable(),
+          })
+          .nullable(),
+        topReview: z
+          .object({
+            title: z.string(),
+            posterPath: z.string().nullable(),
+            rating: z.number(),
+          })
+          .nullable(),
+      })
+    ),
+    nextCursor: z.string().nullable(),
+    hasMore: z.boolean(),
+  }),
+}

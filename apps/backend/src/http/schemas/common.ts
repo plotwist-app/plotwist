@@ -38,6 +38,18 @@ export const languageWithPeriodQuerySchema =
 export const languageWithLimitAndPeriodQuerySchema =
   languageWithLimitQuerySchema.merge(periodQuerySchema)
 
+export const timelineQuerySchema = z.object({
+  language: z
+    .enum(['en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 'pt-BR', 'ja-JP'])
+    .optional()
+    .default('en-US'),
+  cursor: z
+    .string()
+    .regex(yearMonthRegex)
+    .optional(),
+  pageSize: z.coerce.number().int().min(1).max(10).optional().default(3),
+})
+
 export type StatsPeriod = z.infer<typeof periodQuerySchema>['period']
 
 export function periodToDateRange(period: StatsPeriod): {

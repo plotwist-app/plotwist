@@ -15,57 +15,88 @@ struct MonthSection: Identifiable, Equatable {
   var monthlyHours: [MonthlyHoursEntry] = []
   var watchedGenres: [WatchedGenre] = []
   var bestReviews: [BestReview] = []
+  var topGenre: TimelineGenreSummary?
+  var topReview: TimelineReviewSummary?
   var comparisonHours: Double?
   var isLoaded: Bool = false
 
   var id: String { yearMonth }
+
+  // Resolved accessors: prefer summary fields, fall back to full arrays (all-time mode)
+  var topGenreName: String? { topGenre?.name ?? watchedGenres.first?.name }
+  var topGenrePosterURL: URL? { topGenre?.posterURL ?? watchedGenres.first?.posterURL }
+  var hasGenreData: Bool { topGenre != nil || !watchedGenres.isEmpty }
+
+  var topReviewTitle: String? { topReview?.title ?? bestReviews.first?.title }
+  var topReviewPosterURL: URL? { topReview?.posterURL ?? bestReviews.first?.posterURL }
+  var topReviewRating: Double? { topReview?.rating ?? bestReviews.first?.rating }
+  var hasReviewData: Bool { topReview != nil || !bestReviews.isEmpty }
+
+  private static let parseFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM"
+    return f
+  }()
 
   private static var appLocale: Locale {
     let langId = Language.current.rawValue.replacingOccurrences(of: "-", with: "_")
     return Locale(identifier: langId)
   }
 
+  private static let displayFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMMM yyyy"
+    return f
+  }()
+
+  private static let shortFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMM"
+    return f
+  }()
+
   var displayName: String {
-    let formatter = DateFormatter()
-    formatter.locale = Self.appLocale
-    formatter.dateFormat = "yyyy-MM"
-    guard let date = formatter.date(from: yearMonth) else { return yearMonth }
-    formatter.dateFormat = "MMMM yyyy"
-    let result = formatter.string(from: date)
+    let locale = Self.appLocale
+    Self.parseFormatter.locale = locale
+    guard let date = Self.parseFormatter.date(from: yearMonth) else { return yearMonth }
+    Self.displayFormatter.locale = locale
+    let result = Self.displayFormatter.string(from: date)
     return result.prefix(1).uppercased() + result.dropFirst()
   }
 
   var shortLabel: String {
-    let formatter = DateFormatter()
-    formatter.locale = Self.appLocale
-    formatter.dateFormat = "yyyy-MM"
-    guard let date = formatter.date(from: yearMonth) else { return yearMonth }
-    formatter.dateFormat = "MMM"
-    return formatter.string(from: date).prefix(3).uppercased()
+    let locale = Self.appLocale
+    Self.parseFormatter.locale = locale
+    guard let date = Self.parseFormatter.date(from: yearMonth) else { return yearMonth }
+    Self.shortFormatter.locale = locale
+    return Self.shortFormatter.string(from: date).prefix(3).uppercased()
   }
 
   var hasMinimumData: Bool {
-    totalHours > 0 || !watchedGenres.isEmpty || !bestReviews.isEmpty
+    totalHours > 0 || hasGenreData || hasReviewData
   }
 
   static func == (lhs: MonthSection, rhs: MonthSection) -> Bool {
-    lhs.yearMonth == rhs.yearMonth
+    lhs.yearMonth == rhs.yearMonth &&
+    lhs.isLoaded == rhs.isLoaded &&
+    lhs.totalHours == rhs.totalHours &&
+    lhs.topGenre?.name == rhs.topGenre?.name &&
+    lhs.topReview?.title == rhs.topReview?.title &&
+    lhs.watchedGenres.count == rhs.watchedGenres.count &&
+    lhs.bestReviews.count == rhs.bestReviews.count &&
+    lhs.comparisonHours == rhs.comparisonHours
   }
 
   static func currentYearMonth() -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM"
-    return formatter.string(from: Date())
+    parseFormatter.string(from: Date())
   }
 
   static func previousYearMonth(from ym: String) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM"
-    guard let date = formatter.date(from: ym),
+    guard let date = parseFormatter.date(from: ym),
           let prev = Calendar.current.date(byAdding: .month, value: -1, to: date) else {
       return ym
     }
-    return formatter.string(from: prev)
+    return parseFormatter.string(from: prev)
   }
 }
 
@@ -83,15 +114,6 @@ enum StatsMode: String, CaseIterable {
   }
 }
 
-// MARK: - Visible Section Preference
-
-struct VisibleSectionPreferenceKey: PreferenceKey {
-  static var defaultValue: String? = nil
-  static func reduce(value: inout String?, nextValue: () -> String?) {
-    value = value ?? nextValue()
-  }
-}
-
 // MARK: - ProfileStatsView
 
 struct ProfileStatsView: View {
@@ -105,17 +127,14 @@ struct ProfileStatsView: View {
   // Timeline state
   @State var monthSections: [MonthSection] = []
   @State var isLoadingMore = false
-
+  @State var nextCursor: String? = nil
+  @State var hasMore = true
+  @State private var timelineLoadId = UUID()
 
   // All-time state
   @State var allTimeSection = MonthSection(yearMonth: "all")
-
-  @State var countStartTime: Date?
-  @State var animationTrigger = false
   @State var hasStartedLoading = false
-  @State var error: String?
 
-  let countDuration: Double = 1.8
   let cache = ProfileStatsCache.shared
 
   init(userId: String, isPro: Bool = false, isOwnProfile: Bool = true) {
@@ -139,7 +158,7 @@ struct ProfileStatsView: View {
     }
     .task {
       if mode == .timeline {
-        await initTimeline()
+        await loadTimeline()
       } else {
         await loadAllTime()
       }
@@ -148,7 +167,7 @@ struct ProfileStatsView: View {
       Task {
         if newMode == .timeline {
           if monthSections.isEmpty {
-            await initTimeline()
+            await loadTimeline()
           }
         } else {
           if !allTimeSection.isLoaded {
@@ -182,41 +201,44 @@ struct ProfileStatsView: View {
   var timelineBody: some View {
     ScrollView {
       LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-        ForEach(Array(monthSections.enumerated()), id: \.element.id) { index, section in
-          if !section.isLoaded || section.hasMinimumData {
-            Section {
-              monthContentView(section)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 48)
-            } header: {
-              monthHeaderView(section)
-            }
-            .onAppear {
-              loadMoreIfNeeded(index: index)
-            }
+        ForEach(monthSections) { section in
+          Section {
+            MonthSectionContentView(
+              section: section,
+              userId: userId,
+              strings: strings,
+              period: section.yearMonth
+            )
+            .equatable()
+            .padding(.horizontal, 24)
+            .padding(.bottom, 48)
+          } header: {
+            MonthSectionHeaderView(
+              section: section,
+              isOwnProfile: isOwnProfile,
+              onShare: { shareMonthStats(section) }
+            )
+            .equatable()
           }
         }
 
-        if isLoadingMore {
-          VStack(spacing: 16) {
-            skeletonRect(height: 120)
-            HStack(spacing: 12) {
-              skeletonRect(height: 200)
-              skeletonRect(height: 200)
-            }
-          }
-          .padding(.horizontal, 24)
-          .padding(.bottom, 48)
+        if hasMore {
+          ProgressView()
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 48)
+            .task { await loadTimeline() }
+            .id("load-more-\(monthSections.count)")
         }
       }
       .padding(.top, 8)
     }
     .refreshable {
-      for section in monthSections {
-        cache.invalidate(userId: userId, period: section.yearMonth)
-      }
       monthSections = []
-      await initTimeline()
+      nextCursor = nil
+      hasMore = true
+      isLoadingMore = false
+      timelineLoadId = UUID()
+      await loadTimeline()
     }
   }
 
@@ -245,83 +267,19 @@ struct ProfileStatsView: View {
   @ViewBuilder
   var allTimeSectionContent: some View {
     if allTimeSection.isLoaded {
-      timeWatchedCard(for: allTimeSection, period: "all")
-        .transition(.opacity.animation(.easeIn(duration: 0.25)))
-
-      highlightCards(for: allTimeSection)
+      MonthSectionContentView(
+        section: allTimeSection,
+        userId: userId,
+        strings: strings,
+        period: "all"
+      )
+      .equatable()
+      .transition(.opacity.animation(.easeIn(duration: 0.25)))
     } else if hasStartedLoading {
-      skeletonRect(height: 120)
-      HStack(spacing: 12) {
-        skeletonRect(height: 200)
-        skeletonRect(height: 200)
-      }
+      ProgressView()
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
     }
-  }
-
-  // MARK: - Month Content View
-
-  @ViewBuilder
-  func monthContentView(_ section: MonthSection) -> some View {
-    if section.isLoaded {
-      VStack(spacing: 16) {
-        timeWatchedCard(for: section, period: section.yearMonth)
-          .transition(.opacity.animation(.easeIn(duration: 0.25)))
-
-        highlightCards(for: section)
-      }
-    } else {
-      VStack(spacing: 16) {
-        skeletonRect(height: 120)
-        HStack(spacing: 12) {
-          skeletonRect(height: 200)
-          skeletonRect(height: 200)
-        }
-      }
-    }
-  }
-
-  // MARK: - Highlight Cards (Side by Side)
-
-  @ViewBuilder
-  func highlightCards(for section: MonthSection) -> some View {
-    let hasReview = !section.bestReviews.isEmpty
-
-    HStack(alignment: .top, spacing: 12) {
-      topGenreCard(for: section)
-        .transition(.opacity.animation(.easeIn(duration: 0.25)))
-
-      if hasReview {
-        topReviewCard(for: section)
-          .transition(.opacity.animation(.easeIn(duration: 0.25)))
-      } else {
-        Color.clear
-      }
-    }
-  }
-
-  // MARK: - Month Header
-
-  func monthHeaderView(_ section: MonthSection) -> some View {
-    HStack {
-      Text(section.displayName)
-        .font(.system(size: 20, weight: .bold))
-        .foregroundColor(.appForegroundAdaptive)
-
-      Spacer()
-
-      if isOwnProfile {
-        Button {
-          shareMonthStats(section)
-        } label: {
-          Image(systemName: "square.and.arrow.up")
-            .font(.system(size: 16, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
-        }
-      }
-    }
-    .padding(.horizontal, 24)
-    .padding(.vertical, 10)
-    .background(Color.appBackgroundAdaptive)
   }
 
   // MARK: - Skeleton
@@ -363,10 +321,9 @@ struct ProfileStatsView: View {
   // MARK: - Share
 
   func shareMonthStats(_ section: MonthSection) {
-    guard section.isLoaded else { return }
     Task {
-      let genreImage = await downloadImage(url: section.watchedGenres.first?.posterURL)
-      let reviewImage = await downloadImage(url: section.bestReviews.first?.posterURL)
+      let genreImage = await downloadImage(url: section.topGenrePosterURL)
+      let reviewImage = await downloadImage(url: section.topReviewPosterURL)
 
       let cardImage = renderShareCard(
         section: section,
@@ -415,176 +372,72 @@ struct ProfileStatsView: View {
         return f
       }()
     )
-    return renderer.image { _ in
-      controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+    return renderer.image { ctx in
+      controller.view.layer.render(in: ctx.cgContext)
     }
   }
 
-  // MARK: - Load More
-
-  private let batchSize = 3
-
-  func loadMoreIfNeeded(index: Int) {
-    guard !isLoadingMore else { return }
-    if index >= monthSections.count - 3 {
-      isLoadingMore = true
-      Task {
-        await loadNextBatch()
-        isLoadingMore = false
-
-        let lastVisibleIndex = monthSections.enumerated()
-          .filter { !$0.element.isLoaded || $0.element.hasMinimumData }
-          .last?.offset ?? 0
-        loadMoreIfNeeded(index: lastVisibleIndex)
-      }
-    }
-  }
-
-  private func loadNextBatch() async {
-    guard let last = monthSections.last else { return }
-
-    var newMonths: [String] = []
-    var ym = last.yearMonth
-    for _ in 0..<batchSize {
-      let prev = MonthSection.previousYearMonth(from: ym)
-      if !monthSections.contains(where: { $0.yearMonth == prev }) {
-        newMonths.append(prev)
-      }
-      ym = prev
-    }
-
-    for m in newMonths {
-      monthSections.append(MonthSection(yearMonth: m))
-    }
-
-    await withTaskGroup(of: Void.self) { group in
-      for m in newMonths {
-        group.addTask { await loadMonthData(yearMonth: m) }
-      }
-    }
-
-    let allNewEmpty = newMonths.allSatisfy { ym in
-      monthSections.first(where: { $0.yearMonth == ym })?.hasMinimumData == false
-    }
-    if allNewEmpty && !newMonths.isEmpty {
-      await loadNextBatch()
-    }
-  }
-
-  // MARK: - Init Timeline
-
-  func initTimeline() async {
-    hasStartedLoading = true
-    let current = MonthSection.currentYearMonth()
-    let prev = MonthSection.previousYearMonth(from: current)
-
-    monthSections = [
-      MonthSection(yearMonth: current),
-      MonthSection(yearMonth: prev),
-    ]
-
-    await withTaskGroup(of: Void.self) { group in
-      group.addTask { await loadMonthData(yearMonth: current) }
-      group.addTask { await loadMonthData(yearMonth: prev) }
-    }
-  }
-
-  // MARK: - Load Month Data
+  // MARK: - Load Timeline (Paginated)
 
   @MainActor
-  func loadMonthData(yearMonth: String) async {
-    let totalStart = CFAbsoluteTimeGetCurrent()
+  func loadTimeline() async {
+    guard !isLoadingMore, hasMore else { return }
+    let currentLoadId = timelineLoadId
+    isLoadingMore = true
+    defer { isLoadingMore = false }
 
-    if let cached = cache.get(userId: userId, period: yearMonth) {
-      print("[Stats \(yearMonth)] loaded from cache in \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - totalStart) * 1000))ms")
-      updateSection(yearMonth: yearMonth, cached: cached)
-      return
-    }
+    do {
+      let language = Language.current.rawValue
 
-    let language = Language.current.rawValue
-
-    await withTaskGroup(of: Void.self) { group in
-      group.addTask { @MainActor in
-        let start = CFAbsoluteTimeGetCurrent()
-        do {
-          let response = try await UserStatsService.shared.getTotalHours(userId: userId, period: yearMonth)
-          print("[Stats \(yearMonth)] getTotalHours: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms")
-          if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-            withAnimation(.easeIn(duration: 0.25)) {
-              monthSections[idx].totalHours = response.totalHours
-              monthSections[idx].movieHours = response.movieHours
-              monthSections[idx].seriesHours = response.seriesHours
-              monthSections[idx].monthlyHours = response.monthlyHours
-            }
-          }
-
-          let prevStart = CFAbsoluteTimeGetCurrent()
-          let prevYM = MonthSection.previousYearMonth(from: yearMonth)
-          if let prevResponse = try? await UserStatsService.shared.getTotalHours(userId: userId, period: prevYM) {
-            print("[Stats \(yearMonth)] comparison getTotalHours(\(prevYM)): \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - prevStart) * 1000))ms")
-            if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-              monthSections[idx].comparisonHours = prevResponse.totalHours
-            }
-          }
-        } catch {
-          print("[Stats \(yearMonth)] getTotalHours ERROR: \(error)")
-        }
-      }
-
-      group.addTask { @MainActor in
-        let start = CFAbsoluteTimeGetCurrent()
-        do {
-          let genres = try await UserStatsService.shared.getWatchedGenres(userId: userId, language: language, period: yearMonth)
-          print("[Stats \(yearMonth)] getWatchedGenres: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms — \(genres.count) genres")
-          if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-            withAnimation(.easeIn(duration: 0.25)) {
-              monthSections[idx].watchedGenres = genres
-            }
-          }
-        } catch {
-          print("[Stats \(yearMonth)] getWatchedGenres ERROR: \(error)")
-        }
-      }
-
-      group.addTask { @MainActor in
-        let start = CFAbsoluteTimeGetCurrent()
-        do {
-          let reviews = try await UserStatsService.shared.getBestReviews(userId: userId, language: language, period: yearMonth)
-          print("[Stats \(yearMonth)] getBestReviews: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - start) * 1000))ms — \(reviews.count) reviews")
-          if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-            withAnimation(.easeIn(duration: 0.25)) {
-              monthSections[idx].bestReviews = reviews
-            }
-          }
-        } catch {
-          print("[Stats \(yearMonth)] getBestReviews ERROR: \(error)")
-        }
-      }
-    }
-
-    print("[Stats \(yearMonth)] TOTAL: \(String(format: "%.0f", (CFAbsoluteTimeGetCurrent() - totalStart) * 1000))ms")
-
-    if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-      withAnimation(.easeIn(duration: 0.25)) {
-        monthSections[idx].isLoaded = true
-      }
-
-      let s = monthSections[idx]
-      cache.set(
+      let response = try await UserStatsService.shared.getStatsTimeline(
         userId: userId,
-        period: yearMonth,
-        totalHours: s.totalHours,
-        movieHours: s.movieHours,
-        seriesHours: s.seriesHours,
-        monthlyHours: s.monthlyHours,
-        watchedGenres: s.watchedGenres,
-        bestReviews: s.bestReviews
+        language: language,
+        cursor: nextCursor,
+        pageSize: 3
       )
+
+      guard currentLoadId == timelineLoadId else { return }
+
+      var newSections: [MonthSection] = response.sections.map { section in
+        MonthSection(
+          yearMonth: section.yearMonth,
+          totalHours: section.totalHours,
+          movieHours: section.movieHours,
+          seriesHours: section.seriesHours,
+          topGenre: section.topGenre,
+          topReview: section.topReview,
+          isLoaded: true
+        )
+      }
+
+      for i in 0..<newSections.count {
+        guard i + 1 < newSections.count else { continue }
+        let next = newSections[i + 1]
+        if MonthSection.previousYearMonth(from: newSections[i].yearMonth) == next.yearMonth {
+          newSections[i].comparisonHours = next.totalHours
+        }
+      }
+
+      if !monthSections.isEmpty, let firstNew = newSections.first {
+        let lastIdx = monthSections.count - 1
+        if MonthSection.previousYearMonth(from: monthSections[lastIdx].yearMonth) == firstNew.yearMonth,
+           monthSections[lastIdx].comparisonHours != firstNew.totalHours {
+          monthSections[lastIdx].comparisonHours = firstNew.totalHours
+        }
+      }
+
+      monthSections.append(contentsOf: newSections)
+
+      nextCursor = response.nextCursor
+      hasMore = response.hasMore
+    } catch {
+      print("[Stats] Timeline error: \(error)")
     }
   }
 
   // MARK: - Load All-Time
 
+  @MainActor
   func loadAllTime() async {
     hasStartedLoading = true
 
@@ -604,39 +457,25 @@ struct ProfileStatsView: View {
 
     let language = Language.current.rawValue
 
-    await withTaskGroup(of: Void.self) { group in
-      group.addTask { @MainActor in
-        do {
-          let response = try await UserStatsService.shared.getTotalHours(userId: userId, period: "all")
-          withAnimation(.easeIn(duration: 0.25)) {
-            allTimeSection.totalHours = response.totalHours
-            allTimeSection.movieHours = response.movieHours
-            allTimeSection.seriesHours = response.seriesHours
-            allTimeSection.monthlyHours = response.monthlyHours
-          }
-        } catch {}
-      }
+    async let hoursResult = try? UserStatsService.shared.getTotalHours(userId: userId, period: "all")
+    async let genresResult = try? UserStatsService.shared.getWatchedGenres(userId: userId, language: language, period: "all")
+    async let reviewsResult = try? UserStatsService.shared.getBestReviews(userId: userId, language: language, period: "all")
 
-      group.addTask { @MainActor in
-        do {
-          let genres = try await UserStatsService.shared.getWatchedGenres(userId: userId, language: language, period: "all")
-          withAnimation(.easeIn(duration: 0.25)) {
-            allTimeSection.watchedGenres = genres
-          }
-        } catch {}
-      }
-
-      group.addTask { @MainActor in
-        do {
-          let reviews = try await UserStatsService.shared.getBestReviews(userId: userId, language: language, period: "all")
-          withAnimation(.easeIn(duration: 0.25)) {
-            allTimeSection.bestReviews = reviews
-          }
-        } catch {}
-      }
-    }
+    let (hours, genres, reviews) = await (hoursResult, genresResult, reviewsResult)
 
     withAnimation(.easeIn(duration: 0.25)) {
+      if let hours {
+        allTimeSection.totalHours = hours.totalHours
+        allTimeSection.movieHours = hours.movieHours
+        allTimeSection.seriesHours = hours.seriesHours
+        allTimeSection.monthlyHours = hours.monthlyHours
+      }
+      if let genres {
+        allTimeSection.watchedGenres = genres
+      }
+      if let reviews {
+        allTimeSection.bestReviews = reviews
+      }
       allTimeSection.isLoaded = true
     }
 
@@ -650,24 +489,6 @@ struct ProfileStatsView: View {
       watchedGenres: allTimeSection.watchedGenres,
       bestReviews: allTimeSection.bestReviews
     )
-  }
-
-  // MARK: - Update Section from Cache
-
-  @MainActor
-  func updateSection(
-    yearMonth: String,
-    cached: (totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry], watchedGenres: [WatchedGenre], bestReviews: [BestReview])
-  ) {
-    if let idx = monthSections.firstIndex(where: { $0.yearMonth == yearMonth }) {
-      monthSections[idx].totalHours = cached.totalHours
-      monthSections[idx].movieHours = cached.movieHours
-      monthSections[idx].seriesHours = cached.seriesHours
-      monthSections[idx].monthlyHours = cached.monthlyHours
-      monthSections[idx].watchedGenres = cached.watchedGenres
-      monthSections[idx].bestReviews = cached.bestReviews
-      monthSections[idx].isLoaded = true
-    }
   }
 }
 

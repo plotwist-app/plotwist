@@ -1,26 +1,83 @@
 //
 //  ProfileStatsSections.swift
 //  Plotwist
-//
 
 import SwiftUI
 
+// MARK: - Month Section Content View (Equatable to prevent cascading re-renders)
+
+struct MonthSectionContentView: View, Equatable {
+  let section: MonthSection
+  let userId: String
+  let strings: Strings
+  let period: String
+
+  nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.section == rhs.section
+  }
+
+  var body: some View {
+    VStack(spacing: 16) {
+      timeWatchedCard
+      HStack(alignment: .top, spacing: 12) {
+        topGenreCard
+        topReviewCard
+      }
+    }
+  }
+}
+
+// MARK: - Month Section Header View (Equatable to prevent cascading re-renders)
+
+struct MonthSectionHeaderView: View, Equatable {
+  let section: MonthSection
+  let isOwnProfile: Bool
+  let onShare: () -> Void
+
+  nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.section == rhs.section && lhs.isOwnProfile == rhs.isOwnProfile
+  }
+
+  var body: some View {
+    HStack {
+      Text(section.displayName)
+        .font(.system(size: 20, weight: .bold))
+        .foregroundColor(.appForegroundAdaptive)
+
+      Spacer()
+
+      if isOwnProfile {
+        Button(action: onShare) {
+          Image(systemName: "square.and.arrow.up")
+            .font(.system(size: 16, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+    }
+    .padding(.horizontal, 24)
+    .padding(.vertical, 10)
+    .background(Color.appBackgroundAdaptive)
+  }
+}
+
 // MARK: - Time Watched Card
 
-extension ProfileStatsView {
-  func timeWatchedCard(for section: MonthSection, period: String) -> some View {
+extension MonthSectionContentView {
+  private var timeWatchedCard: some View {
     NavigationLink {
       TimeWatchedDetailView(
         totalHours: section.totalHours,
         movieHours: section.movieHours,
         seriesHours: section.seriesHours,
         monthlyHours: section.monthlyHours,
-        dailyAverage: computeDailyAverage(section: section, period: period),
+        dailyAverage: computeDailyAverage(),
         dailyAverageLabel: strings.perDayThisMonth,
         comparisonHours: section.comparisonHours,
         periodLabel: period == "all" ? strings.allTime : section.displayName,
         showComparison: period != "all",
-        strings: strings
+        strings: strings,
+        userId: userId,
+        period: section.yearMonth
       )
     } label: {
       VStack(alignment: .leading, spacing: 0) {
@@ -79,13 +136,17 @@ extension ProfileStatsView {
     .clipShape(RoundedRectangle(cornerRadius: 10))
   }
 
-  func computeDailyAverage(section: MonthSection, period: String) -> Double {
+  private static let ymFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM"
+    return f
+  }()
+
+  func computeDailyAverage() -> Double {
     guard section.totalHours > 0 else { return 0 }
     if period == "all" {
       if let firstMonth = section.monthlyHours.first?.month {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM"
-        if let startDate = formatter.date(from: firstMonth) {
+        if let startDate = Self.ymFormatter.date(from: firstMonth) {
           let days = max(Calendar.current.dateComponents([.day], from: startDate, to: Date()).day ?? 30, 1)
           return section.totalHours / Double(days)
         }
@@ -93,9 +154,7 @@ extension ProfileStatsView {
       return section.totalHours / 30
     }
 
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM"
-    if let date = formatter.date(from: period) {
+    if let date = Self.ymFormatter.date(from: period) {
       let now = Date()
       let cal = Calendar.current
       let sameMonth = cal.isDate(date, equalTo: now, toGranularity: .month)
@@ -114,13 +173,18 @@ extension ProfileStatsView {
 
 // MARK: - Top Genre Card
 
-extension ProfileStatsView {
-  func topGenreCard(for section: MonthSection) -> some View {
-    let topGenre = section.watchedGenres.first
-    let hasGenres = !section.watchedGenres.isEmpty
+extension MonthSectionContentView {
+  private var topGenreCard: some View {
+    let hasGenres = section.hasGenreData
 
     return NavigationLink {
-      PeriodGenresView(genres: section.watchedGenres, periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName, strings: strings)
+      PeriodGenresView(
+        genres: section.watchedGenres,
+        periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName,
+        strings: strings,
+        userId: userId,
+        period: section.yearMonth
+      )
     } label: {
       VStack(alignment: .leading, spacing: 0) {
         HStack(alignment: .top) {
@@ -137,14 +201,14 @@ extension ProfileStatsView {
         }
         .padding(.bottom, 14)
 
-        if let genre = topGenre {
-          Text(genre.name)
+        if let name = section.topGenreName {
+          Text(name)
             .font(.system(size: 18, weight: .bold))
             .foregroundColor(.appForegroundAdaptive)
             .lineLimit(1)
             .padding(.bottom, 10)
 
-          if let posterURL = genre.posterURL {
+          if let posterURL = section.topGenrePosterURL {
             statsPoster(url: posterURL)
           }
         } else {
@@ -165,12 +229,18 @@ extension ProfileStatsView {
 
 // MARK: - Top Review Card
 
-extension ProfileStatsView {
-  func topReviewCard(for section: MonthSection) -> some View {
-    let topReview = section.bestReviews.first
+extension MonthSectionContentView {
+  private var topReviewCard: some View {
+    let hasReviews = section.hasReviewData
 
     return NavigationLink {
-      PeriodReviewsView(reviews: section.bestReviews, periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName, strings: strings)
+      PeriodReviewsView(
+        reviews: section.bestReviews,
+        periodLabel: section.yearMonth == "all" ? strings.allTime : section.displayName,
+        strings: strings,
+        userId: userId,
+        period: section.yearMonth
+      )
     } label: {
       VStack(alignment: .leading, spacing: 0) {
         HStack(alignment: .top) {
@@ -179,28 +249,35 @@ extension ProfileStatsView {
             .tracking(1.5)
             .foregroundColor(.appMutedForegroundAdaptive)
           Spacer()
-          Image(systemName: "chevron.right")
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.appMutedForegroundAdaptive)
+          if hasReviews {
+            Image(systemName: "chevron.right")
+              .font(.system(size: 12, weight: .semibold))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
         }
         .padding(.bottom, 14)
 
-        if let review = topReview {
-          Text(review.title)
+        if let title = section.topReviewTitle {
+          Text(title)
             .font(.system(size: 18, weight: .bold))
             .foregroundColor(.appForegroundAdaptive)
             .lineLimit(1)
             .padding(.bottom, 10)
 
-          statsPoster(url: review.posterURL, rating: review.rating)
+          statsPoster(url: section.topReviewPosterURL, rating: section.topReviewRating)
+        } else {
+          Text("–")
+            .font(.system(size: 18, weight: .bold))
+            .foregroundColor(.appMutedForegroundAdaptive)
         }
       }
       .padding(16)
-      .frame(maxWidth: .infinity, alignment: .leading)
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
       .background(Color.statsCardBackground)
       .clipShape(RoundedRectangle(cornerRadius: 22))
     }
     .buttonStyle(.plain)
+    .disabled(!hasReviews)
   }
 }
 
@@ -213,21 +290,34 @@ struct TimeWatchedDetailView: View {
   let totalHours: Double
   let movieHours: Double
   let seriesHours: Double
-  let monthlyHours: [MonthlyHoursEntry]
+  @State var monthlyHours: [MonthlyHoursEntry]
   let dailyAverage: Double
   let dailyAverageLabel: String
   let comparisonHours: Double?
   let periodLabel: String
   let showComparison: Bool
   let strings: Strings
+  var userId: String? = nil
+  var period: String? = nil
 
-  @State private var scrollOffset: CGFloat = 0
-  @State private var initialScrollOffset: CGFloat?
-  private let scrollThreshold: CGFloat = 40
+  @State private var isScrolled = false
 
-  private var isScrolled: Bool {
-    guard let initial = initialScrollOffset else { return false }
-    return scrollOffset < initial - scrollThreshold
+  init(totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry],
+       dailyAverage: Double, dailyAverageLabel: String, comparisonHours: Double?,
+       periodLabel: String, showComparison: Bool, strings: Strings,
+       userId: String? = nil, period: String? = nil) {
+    self.totalHours = totalHours
+    self.movieHours = movieHours
+    self.seriesHours = seriesHours
+    _monthlyHours = State(initialValue: monthlyHours)
+    self.dailyAverage = dailyAverage
+    self.dailyAverageLabel = dailyAverageLabel
+    self.comparisonHours = comparisonHours
+    self.periodLabel = periodLabel
+    self.showComparison = showComparison
+    self.strings = strings
+    self.userId = userId
+    self.period = period
   }
 
   var body: some View {
@@ -236,8 +326,10 @@ struct TimeWatchedDetailView: View {
 
       ScrollView {
         VStack(alignment: .leading, spacing: 24) {
-          scrollOffsetReader
-            .frame(height: 0)
+          GeometryReader { geo in
+            Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
+          }
+          .frame(height: 0)
 
           Text(periodLabel)
             .font(.system(size: 14, weight: .medium))
@@ -315,20 +407,20 @@ struct TimeWatchedDetailView: View {
         .padding(.top, 16)
         .padding(.bottom, 24)
       }
+      .coordinateSpace(name: "scroll")
+      .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+        isScrolled = value < -40
+      }
     }
+    .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
+    .task { await loadMonthlyHoursIfNeeded() }
   }
 
-  private var scrollOffsetReader: some View {
-    GeometryReader { geo -> Color in
-      DispatchQueue.main.async {
-        let offset = geo.frame(in: .global).minY
-        if initialScrollOffset == nil {
-          initialScrollOffset = offset
-        }
-        scrollOffset = offset
-      }
-      return Color.clear
+  private func loadMonthlyHoursIfNeeded() async {
+    guard let userId, let period, monthlyHours.isEmpty, period != "all" else { return }
+    if let result = try? await UserStatsService.shared.getTotalHours(userId: userId, period: period) {
+      monthlyHours = result.monthlyHours
     }
   }
 
@@ -461,98 +553,114 @@ struct TimeWatchedDetailView: View {
 struct PeriodGenresView: View {
   @Environment(\.dismiss) private var dismiss
 
-  let genres: [WatchedGenre]
+  @State var genres: [WatchedGenre]
   let periodLabel: String
   let strings: Strings
+  var userId: String? = nil
+  var period: String? = nil
 
-  @State private var scrollOffset: CGFloat = 0
-  @State private var initialScrollOffset: CGFloat?
-  private let scrollThreshold: CGFloat = 40
+  @State private var isScrolled = false
+  @State private var isLoading = false
 
-  private var isScrolled: Bool {
-    guard let initial = initialScrollOffset else { return false }
-    return scrollOffset < initial - scrollThreshold
+  init(genres: [WatchedGenre], periodLabel: String, strings: Strings, userId: String? = nil, period: String? = nil) {
+    _genres = State(initialValue: genres)
+    self.periodLabel = periodLabel
+    self.strings = strings
+    self.userId = userId
+    self.period = period
   }
 
   var body: some View {
     VStack(spacing: 0) {
       detailHeaderView(title: strings.favoriteGenres, isScrolled: isScrolled) { dismiss() }
 
-      ScrollView {
-        let maxCount = genres.map(\.count).max() ?? 1
+      if isLoading && genres.isEmpty {
+        Spacer()
+        ProgressView()
+        Spacer()
+      } else {
+        ScrollView {
+          let maxCount = genres.map(\.count).max() ?? 1
 
-        VStack(alignment: .leading, spacing: 0) {
-          scrollOffsetReader
+          VStack(alignment: .leading, spacing: 0) {
+            GeometryReader { geo in
+              Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
+            }
             .frame(height: 0)
 
-          Text(periodLabel)
-            .font(.system(size: 14, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
+            Text(periodLabel)
+              .font(.system(size: 14, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
 
-          Text(strings.favoriteGenres)
-            .font(.system(size: 34, weight: .bold))
-            .foregroundColor(.appForegroundAdaptive)
-            .padding(.bottom, 16)
+            Text(strings.favoriteGenres)
+              .font(.system(size: 34, weight: .bold))
+              .foregroundColor(.appForegroundAdaptive)
+              .padding(.bottom, 16)
 
-          LazyVStack(spacing: 0) {
-            ForEach(Array(genres.enumerated()), id: \.element.id) { index, genre in
-              VStack(spacing: 0) {
-                HStack {
-                  Text("\(index + 1)")
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .frame(width: 24, alignment: .leading)
+            LazyVStack(spacing: 0) {
+              ForEach(Array(genres.enumerated()), id: \.element.id) { index, genre in
+                VStack(spacing: 0) {
+                  HStack {
+                    Text("\(index + 1)")
+                      .font(.system(size: 13, weight: .bold, design: .rounded))
+                      .foregroundColor(.appMutedForegroundAdaptive)
+                      .frame(width: 24, alignment: .leading)
 
-                  Text(genre.name)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(.appForegroundAdaptive)
+                    Text(genre.name)
+                      .font(.system(size: 15, weight: .medium))
+                      .foregroundColor(.appForegroundAdaptive)
 
-                  Spacer()
+                    Spacer()
 
-                  Text(String(format: "%.0f%%", genre.percentage))
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                }
-                .padding(.vertical, 14)
-
-                GeometryReader { geo in
-                  ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 3)
-                      .fill(Color.appBorderAdaptive.opacity(0.3))
-                      .frame(height: 5)
-                    RoundedRectangle(cornerRadius: 3)
-                      .fill(Color(hex: "3B82F6"))
-                      .frame(width: geo.size.width * CGFloat(genre.count) / CGFloat(max(maxCount, 1)), height: 5)
+                    Text(String(format: "%.0f%%", genre.percentage))
+                      .font(.system(size: 14, weight: .semibold, design: .rounded))
+                      .foregroundColor(.appMutedForegroundAdaptive)
                   }
-                }
-                .frame(height: 5)
+                  .padding(.vertical, 14)
 
-                if index < genres.count - 1 {
-                  Divider().padding(.top, 12)
+                  GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                      RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.appBorderAdaptive.opacity(0.3))
+                        .frame(height: 5)
+                      RoundedRectangle(cornerRadius: 3)
+                        .fill(Color(hex: "3B82F6"))
+                        .frame(width: geo.size.width * CGFloat(genre.count) / CGFloat(max(maxCount, 1)), height: 5)
+                    }
+                  }
+                  .frame(height: 5)
+
+                  if index < genres.count - 1 {
+                    Divider().padding(.top, 12)
+                  }
                 }
               }
             }
           }
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
+          .padding(.bottom, 24)
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-        .padding(.bottom, 24)
+        .coordinateSpace(name: "scroll")
+        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+          isScrolled = value < -40
+        }
       }
     }
+    .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
+    .task { await loadGenresIfNeeded() }
   }
 
-  private var scrollOffsetReader: some View {
-    GeometryReader { geo -> Color in
-      DispatchQueue.main.async {
-        let offset = geo.frame(in: .global).minY
-        if initialScrollOffset == nil {
-          initialScrollOffset = offset
-        }
-        scrollOffset = offset
-      }
-      return Color.clear
+  private func loadGenresIfNeeded() async {
+    guard let userId, let period, genres.count <= 1, period != "all" else { return }
+    isLoading = true
+    if let loaded = try? await UserStatsService.shared.getWatchedGenres(
+      userId: userId, language: Language.current.rawValue, period: period
+    ) {
+      genres = loaded
     }
+    isLoading = false
   }
 }
 
@@ -561,62 +669,78 @@ struct PeriodGenresView: View {
 struct PeriodReviewsView: View {
   @Environment(\.dismiss) private var dismiss
 
-  let reviews: [BestReview]
+  @State var reviews: [BestReview]
   let periodLabel: String
   let strings: Strings
+  var userId: String? = nil
+  var period: String? = nil
 
-  @State private var scrollOffset: CGFloat = 0
-  @State private var initialScrollOffset: CGFloat?
-  private let scrollThreshold: CGFloat = 40
+  @State private var isScrolled = false
+  @State private var isLoading = false
 
-  private var isScrolled: Bool {
-    guard let initial = initialScrollOffset else { return false }
-    return scrollOffset < initial - scrollThreshold
+  init(reviews: [BestReview], periodLabel: String, strings: Strings, userId: String? = nil, period: String? = nil) {
+    _reviews = State(initialValue: reviews)
+    self.periodLabel = periodLabel
+    self.strings = strings
+    self.userId = userId
+    self.period = period
   }
 
   var body: some View {
     VStack(spacing: 0) {
       detailHeaderView(title: strings.bestReviews, isScrolled: isScrolled) { dismiss() }
 
-      ScrollView {
-        VStack(alignment: .leading, spacing: 0) {
-          scrollOffsetReader
+      if isLoading && reviews.isEmpty {
+        Spacer()
+        ProgressView()
+        Spacer()
+      } else {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 0) {
+            GeometryReader { geo in
+              Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
+            }
             .frame(height: 0)
 
-          Text(periodLabel)
-            .font(.system(size: 14, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
+            Text(periodLabel)
+              .font(.system(size: 14, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
 
-          Text(strings.bestReviews)
-            .font(.system(size: 34, weight: .bold))
-            .foregroundColor(.appForegroundAdaptive)
-            .padding(.bottom, 16)
+            Text(strings.bestReviews)
+              .font(.system(size: 34, weight: .bold))
+              .foregroundColor(.appForegroundAdaptive)
+              .padding(.bottom, 16)
 
-          LazyVStack(spacing: 16) {
-            ForEach(Array(reviews.enumerated()), id: \.element.id) { index, review in
-              BestReviewRow(review: review, rank: index + 1)
+            LazyVStack(spacing: 16) {
+              ForEach(Array(reviews.enumerated()), id: \.element.id) { index, review in
+                BestReviewRow(review: review, rank: index + 1)
+              }
             }
           }
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
+          .padding(.bottom, 24)
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-        .padding(.bottom, 24)
+        .coordinateSpace(name: "scroll")
+        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+          isScrolled = value < -40
+        }
       }
     }
+    .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
+    .task { await loadReviewsIfNeeded() }
   }
 
-  private var scrollOffsetReader: some View {
-    GeometryReader { geo -> Color in
-      DispatchQueue.main.async {
-        let offset = geo.frame(in: .global).minY
-        if initialScrollOffset == nil {
-          initialScrollOffset = offset
-        }
-        scrollOffset = offset
-      }
-      return Color.clear
+  private func loadReviewsIfNeeded() async {
+    guard let userId, let period, reviews.isEmpty, period != "all" else { return }
+    isLoading = true
+    if let loaded = try? await UserStatsService.shared.getBestReviews(
+      userId: userId, language: Language.current.rawValue, period: period
+    ) {
+      reviews = loaded
     }
+    isLoading = false
   }
 }
 
@@ -663,40 +787,39 @@ func detailHeaderView(title: String, isScrolled: Bool, onBack: @escaping () -> V
 @ViewBuilder
 func statsPoster(url: URL?, rating: Double? = nil) -> some View {
   let cr = DesignTokens.CornerRadius.poster
+  let screenWidth = UIScreen.main.bounds.width
+  let cardContentWidth = (screenWidth - 60) / 2 - 32
+  let posterWidth = cardContentWidth * 0.7
+  let posterHeight = posterWidth * 1.5
 
-  GeometryReader { geo in
-    let posterWidth = geo.size.width * 0.7
-
-    CachedAsyncImage(url: url) { image in
-      image
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-    } placeholder: {
-      RoundedRectangle(cornerRadius: cr)
-        .fill(Color.appBorderAdaptive.opacity(0.3))
-    }
-    .frame(width: posterWidth, height: posterWidth * 3 / 2)
-    .clipShape(RoundedRectangle(cornerRadius: cr))
-    .overlay(alignment: .bottomTrailing) {
-      if let rating {
-        HStack(spacing: 2) {
-          Image(systemName: "star.fill")
-            .font(.system(size: 9))
-            .foregroundColor(Color(hex: "F59E0B"))
-          Text(String(format: "%.1f", rating))
-            .font(.system(size: 12, weight: .bold, design: .rounded))
-            .foregroundColor(.white)
-        }
-        .padding(.horizontal, 6)
-        .padding(.vertical, 4)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
-        .padding(6)
-      }
-    }
-    .posterBorder()
+  CachedAsyncImage(url: url) { image in
+    image
+      .resizable()
+      .aspectRatio(contentMode: .fill)
+  } placeholder: {
+    RoundedRectangle(cornerRadius: cr)
+      .fill(Color.appBorderAdaptive.opacity(0.3))
   }
-  .aspectRatio(1.0 / 1.05, contentMode: .fit)
+  .frame(width: posterWidth, height: posterHeight)
+  .clipShape(RoundedRectangle(cornerRadius: cr))
+  .overlay(alignment: .bottomTrailing) {
+    if let rating {
+      HStack(spacing: 2) {
+        Image(systemName: "star.fill")
+          .font(.system(size: 9))
+          .foregroundColor(Color(hex: "F59E0B"))
+        Text(String(format: "%.1f", rating))
+          .font(.system(size: 12, weight: .bold, design: .rounded))
+          .foregroundColor(.white)
+      }
+      .padding(.horizontal, 6)
+      .padding(.vertical, 4)
+      .background(.ultraThinMaterial)
+      .clipShape(RoundedRectangle(cornerRadius: cr * 0.5))
+      .padding(6)
+    }
+  }
+  .posterBorder()
 }
 
 // MARK: - Shimmer Effect
@@ -790,14 +913,14 @@ struct StatsShareCardView: View {
 
         // Posters
         HStack(alignment: .top, spacing: 12) {
-          if let genre = section.watchedGenres.first {
+          if let genreName = section.topGenreName {
             VStack(alignment: .leading, spacing: 8) {
               shareCardPoster(image: genrePosterImage)
               Text(strings.favoriteGenre.uppercased())
                 .font(.system(size: 9, weight: .bold))
                 .tracking(1)
                 .foregroundColor(.white.opacity(0.35))
-              Text(genre.name)
+              Text(genreName)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
                 .lineLimit(1)
@@ -805,14 +928,14 @@ struct StatsShareCardView: View {
             .frame(maxWidth: .infinity)
           }
 
-          if let review = section.bestReviews.first {
+          if let reviewTitle = section.topReviewTitle {
             VStack(alignment: .leading, spacing: 8) {
-              shareCardPoster(image: reviewPosterImage, rating: review.rating)
+              shareCardPoster(image: reviewPosterImage, rating: section.topReviewRating)
               Text(strings.bestReview.uppercased())
                 .font(.system(size: 9, weight: .bold))
                 .tracking(1)
                 .foregroundColor(.white.opacity(0.35))
-              Text(review.title)
+              Text(reviewTitle)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
                 .lineLimit(1)

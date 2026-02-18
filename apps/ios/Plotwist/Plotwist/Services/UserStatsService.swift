@@ -144,6 +144,39 @@ class UserStatsService {
     return result.bestReviews
   }
 
+  // MARK: - Get Stats Timeline (Paginated)
+  func getStatsTimeline(userId: String, language: String = "en-US", cursor: String? = nil, pageSize: Int = 3) async throws -> StatsTimelineResponse {
+    var queryItems = [
+      URLQueryItem(name: "language", value: language),
+      URLQueryItem(name: "pageSize", value: "\(pageSize)"),
+    ]
+    if let cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/stats-timeline",
+      queryItems: queryItems
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/stats-timeline", statusCode: code)
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(StatsTimelineResponse.self, from: data)
+  }
+
   // MARK: - Get Watched Cast
   func getWatchedCast(userId: String, period: String = "all") async throws -> [WatchedCastMember] {
     guard let url = buildURL(
@@ -352,6 +385,44 @@ struct MostWatchedSeries: Codable, Identifiable {
 
 struct MostWatchedSeriesResponse: Codable {
   let mostWatchedSeries: [MostWatchedSeries]
+}
+
+// MARK: - Stats Timeline Models
+
+struct TimelineGenreSummary: Codable {
+  let name: String
+  let posterPath: String?
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct TimelineReviewSummary: Codable {
+  let title: String
+  let posterPath: String?
+  let rating: Double
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct TimelineSection: Codable {
+  let yearMonth: String
+  let totalHours: Double
+  let movieHours: Double
+  let seriesHours: Double
+  let topGenre: TimelineGenreSummary?
+  let topReview: TimelineReviewSummary?
+}
+
+struct StatsTimelineResponse: Codable {
+  let sections: [TimelineSection]
+  let nextCursor: String?
+  let hasMore: Bool
 }
 
 enum UserStatsError: LocalizedError {

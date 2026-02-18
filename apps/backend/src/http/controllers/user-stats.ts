@@ -9,11 +9,13 @@ import { getUserTotalHoursService } from '@/domain/services/user-stats/get-user-
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
+import { getUserStatsTimelineService } from '@/domain/services/user-stats/get-user-stats-timeline'
 import {
   languageWithLimitAndPeriodQuerySchema,
   languageWithPeriodQuerySchema,
   periodQuerySchema,
   periodToDateRange,
+  timelineQuerySchema,
 } from '../schemas/common'
 import { getUserDefaultSchema } from '../schemas/user-stats'
 
@@ -152,6 +154,27 @@ export async function getUserBestReviewsController(
     limit,
     dateRange,
     period,
+  })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserStatsTimelineController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { id } = getUserDefaultSchema.parse(request.params)
+  const { language, cursor, pageSize } = timelineQuerySchema.parse(
+    request.query
+  )
+
+  const result = await getUserStatsTimelineService({
+    userId: id,
+    redis,
+    language,
+    cursor,
+    pageSize,
   })
 
   return reply.status(200).send(result)

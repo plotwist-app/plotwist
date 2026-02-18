@@ -20,8 +20,11 @@ export async function getCachedStats<T>(
 
   const result = await computeFn()
 
+  const yearMonthPattern = /:\d{4}-\d{2}$/
   const isPeriodScoped =
-    cacheKey.endsWith(':month') || cacheKey.endsWith(':last_month')
+    cacheKey.endsWith(':month') ||
+    cacheKey.endsWith(':last_month') ||
+    yearMonthPattern.test(cacheKey)
   const ttl = isPeriodScoped
     ? STATS_CACHE_SHORT_TTL_SECONDS
     : STATS_CACHE_TTL_SECONDS
