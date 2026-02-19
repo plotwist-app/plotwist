@@ -153,7 +153,9 @@ export async function selectAllUserItemsByStatus({
   status,
   userId,
 }: SelectAllUserItems) {
-  const { id, tmdbId, mediaType, position, updatedAt } = getTableColumns(schema.userItems)
+  const { id, tmdbId, mediaType, position, updatedAt } = getTableColumns(
+    schema.userItems
+  )
 
   const whereConditions = [eq(schema.userItems.userId, userId)]
 

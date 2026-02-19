@@ -4,12 +4,12 @@ import { createUserActivity } from '@/domain/services/user-activities/create-use
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
 import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
 import { createUser } from '@/domain/services/users/create-user'
+import { deleteUserService } from '@/domain/services/users/delete-user'
 import { getUserById } from '@/domain/services/users/get-by-id'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
-import { deleteUserService } from '@/domain/services/users/delete-user'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 import {

@@ -132,9 +132,11 @@ describe('get user total hours count', () => {
       seriesHours: CHERNOBYL.runtime,
     })
     expect(sut.monthlyHours).toHaveLength(6)
-    expect(sut.monthlyHours.every(
-      (m: { month: string; hours: number }) =>
-        typeof m.month === 'string' && typeof m.hours === 'number'
-    )).toBe(true)
+    expect(
+      sut.monthlyHours.every(
+        (m: { month: string; hours: number }) =>
+          typeof m.month === 'string' && typeof m.hours === 'number'
+      )
+    ).toBe(true)
   })
 })
