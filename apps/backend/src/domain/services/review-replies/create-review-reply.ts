@@ -7,9 +7,7 @@ import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
-export async function createReviewReplyService(
-  params: InsertReviewReplyModel
-) {
+export async function createReviewReplyService(params: InsertReviewReplyModel) {
   try {
     const [reviewReply] = await insertReviewReply(params)
 

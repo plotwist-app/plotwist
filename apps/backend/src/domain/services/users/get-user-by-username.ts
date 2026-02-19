@@ -5,9 +5,7 @@ type GetUserByUsernameInput = {
   username: string
 }
 
-export async function getUserByUsername({
-  username,
-}: GetUserByUsernameInput) {
+export async function getUserByUsername({ username }: GetUserByUsernameInput) {
   const [user] = await getByUsername(username)
 
   if (!user) {

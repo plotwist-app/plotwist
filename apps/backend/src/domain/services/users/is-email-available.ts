@@ -5,9 +5,7 @@ type IsEmailAvailableInterface = {
   email: string
 }
 
-export async function isEmailAvailable({
-  email,
-}: IsEmailAvailableInterface) {
+export async function isEmailAvailable({ email }: IsEmailAvailableInterface) {
   const [user] = await getUserByEmail(email)
 
   if (user) {

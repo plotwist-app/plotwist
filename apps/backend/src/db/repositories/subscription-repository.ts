@@ -30,9 +30,7 @@ export type CancelSubscriptionParams = {
   cancellationReason: string | undefined
 }
 
-export async function cancelUserSubscription(
-  params: CancelSubscriptionParams
-) {
+export async function cancelUserSubscription(params: CancelSubscriptionParams) {
   const [subscription] = await db
     .update(schema.subscriptions)
     .set({

@@ -121,7 +121,8 @@ const SQSAdapter: QueueService = {
   publish: queueMessage => publish(queueMessage),
   receiveMessage: queueUrl => receiveMessage(queueUrl),
   initialize: () => initializeSQS(createSqsClient()),
-  deleteMessage: (queueUrl, receiptHandle) => deleteMessage(queueUrl, receiptHandle),
+  deleteMessage: (queueUrl, receiptHandle) =>
+    deleteMessage(queueUrl, receiptHandle),
 }
 
 export { SQSAdapter }

@@ -1,5 +1,5 @@
-import { trace } from '@opentelemetry/api'
 import FastifyOtel from '@fastify/otel'
+import { trace } from '@opentelemetry/api'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 import { resourceFromAttributes } from '@opentelemetry/resources'
