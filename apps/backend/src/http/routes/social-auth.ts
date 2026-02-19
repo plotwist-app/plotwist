@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   appleAuthController,
   googleAuthController,
@@ -23,9 +21,7 @@ export async function socialAuthRoutes(app: FastifyInstance) {
       body: appleAuthBodySchema,
       response: socialAuthResponseSchema,
     },
-    handler: withTracing('apple-auth', (request, reply) =>
-    appleAuthController(request, reply, app)
-  ),
+    handler: (request, reply) => appleAuthController(request, reply, app),
   })
 
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -37,8 +33,6 @@ export async function socialAuthRoutes(app: FastifyInstance) {
       body: googleAuthBodySchema,
       response: socialAuthResponseSchema,
     },
-    handler: withTracing('google-auth', (request, reply) =>
-    googleAuthController(request, reply, app)
-  ),
+    handler: (request, reply) => googleAuthController(request, reply, app),
   })
 }

@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createFollowController,
   deleteFollowController,
@@ -37,7 +35,7 @@ export async function followsRoutes(app: FastifyInstance) {
         ],
         body: createFollowBodySchema,
       },
-      handler: withTracing('create-follow', createFollowController),
+      handler: createFollowController,
     })
   )
 
@@ -57,7 +55,7 @@ export async function followsRoutes(app: FastifyInstance) {
         querystring: getFollowQuerySchema,
         response: getFollowResponseSchema,
       },
-      handler: withTracing('get-follow', getFollowController),
+      handler: getFollowController,
     })
   )
 
@@ -76,7 +74,7 @@ export async function followsRoutes(app: FastifyInstance) {
         ],
         body: deleteFollowBodySchema,
       },
-      handler: withTracing('delete-follow', deleteFollowController),
+      handler: deleteFollowController,
     })
   )
 
@@ -91,7 +89,7 @@ export async function followsRoutes(app: FastifyInstance) {
         response: getFollowersResponseSchema,
         operationId: 'getFollowers',
       },
-      handler: withTracing('get-followers', getFollowersController),
+      handler: getFollowersController,
     })
   )
 }

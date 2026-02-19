@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import { loginController } from '../controllers/login-controller'
 import { loginBodySchema, loginResponseSchema } from '../schemas/login'
 
@@ -16,8 +14,6 @@ export async function loginRoute(app: FastifyInstance) {
       body: loginBodySchema,
       response: loginResponseSchema,
     },
-    handler: withTracing('login', (request, reply) =>
-      loginController(request, reply, app)
-    ),
+    handler: (request, reply) => loginController(request, reply, app),
   })
 }

@@ -8,6 +8,7 @@ import {
 import { ZodError } from 'zod'
 import { logger } from '@/adapters/logger'
 import { DomainError } from '@/domain/errors/domain-error'
+import { fastifyOtel } from '@/infra/telemetry/otel'
 import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
 import { config } from '../config'
 import { routes } from './routes'
@@ -15,7 +16,9 @@ import { transformSwaggerSchema } from './transform-schema'
 
 const app: FastifyInstance = fastify()
 
-export function startServer() {
+export async function startServer() {
+  await app.register(fastifyOtel.plugin())
+
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 
@@ -92,12 +95,9 @@ export function startServer() {
   // registerClientGuard(app)
   routes(app)
 
-  app
-    .listen({
-      port: config.app.PORT,
-      host: '0.0.0.0',
-    })
-    .then(() => {
-      logger.info(`HTTP server running at ${config.app.BASE_URL}`)
-    })
+  await app.listen({
+    port: config.app.PORT,
+    host: '0.0.0.0',
+  })
+  logger.info(`HTTP server running at ${config.app.BASE_URL}`)
 }

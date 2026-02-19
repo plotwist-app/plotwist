@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createLikeController,
   deleteLikeController,
@@ -34,7 +32,7 @@ export async function likesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('create-like', createLikeController),
+      handler: createLikeController,
     })
   )
 
@@ -53,7 +51,7 @@ export async function likesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('delete-like', deleteLikeController),
+      handler: deleteLikeController,
     })
   )
 
@@ -67,7 +65,7 @@ export async function likesRoutes(app: FastifyInstance) {
         params: getLikesParamsSchema,
         response: getLikesResponseSchema,
       },
-      handler: withTracing('get-likes', getLikesController),
+      handler: getLikesController,
     })
   )
 }

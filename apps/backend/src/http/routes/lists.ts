@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createListController,
   deleteListController,
@@ -48,7 +46,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('create-list', createListController),
+      handler: createListController,
     })
   )
 
@@ -68,7 +66,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('get-lists', getListsController),
+      handler: getListsController,
     })
   )
 
@@ -88,7 +86,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('delete-list', deleteListController),
+      handler: deleteListController,
     })
   )
 
@@ -109,7 +107,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('update-list', updateListController),
+      handler: updateListController,
     })
   )
 
@@ -129,7 +127,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('get-list', getListController),
+      handler: getListController,
     })
   )
 
@@ -149,7 +147,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('update-list-banner', updateListBannerController),
+      handler: updateListBannerController,
     })
   )
 
@@ -170,7 +168,7 @@ export async function listsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('get-list-progress', getListProgressController),
+      handler: getListProgressController,
     })
   )
 }

@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createWatchEntryController,
   deleteWatchEntryController,
@@ -36,7 +34,7 @@ export async function watchEntriesRoutes(app: FastifyInstance) {
         response: createWatchEntryResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: withTracing('create-watch-entry', createWatchEntryController),
+      handler: createWatchEntryController,
     })
   )
 
@@ -52,7 +50,7 @@ export async function watchEntriesRoutes(app: FastifyInstance) {
         response: getWatchEntriesResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: withTracing('get-watch-entries', getWatchEntriesController),
+      handler: getWatchEntriesController,
     })
   )
 
@@ -69,7 +67,7 @@ export async function watchEntriesRoutes(app: FastifyInstance) {
         response: updateWatchEntryResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: withTracing('update-watch-entry', updateWatchEntryController),
+      handler: updateWatchEntryController,
     })
   )
 
@@ -84,7 +82,7 @@ export async function watchEntriesRoutes(app: FastifyInstance) {
         params: deleteWatchEntryParamsSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: withTracing('delete-watch-entry', deleteWatchEntryController),
+      handler: deleteWatchEntryController,
     })
   )
 }

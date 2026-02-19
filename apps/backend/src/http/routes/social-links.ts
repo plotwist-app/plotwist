@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   getSocialLinksController,
   upsertSocialLinksController,
@@ -35,7 +33,7 @@ export async function socialLinksRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('upsert-social-links', upsertSocialLinksController),
+      handler: upsertSocialLinksController,
     })
   )
 
@@ -49,7 +47,7 @@ export async function socialLinksRoute(app: FastifyInstance) {
         querystring: getSocialLinksQuerySchema,
         response: getSocialLinksResponseSchema,
       },
-      handler: withTracing('get-social-links', getSocialLinksController),
+      handler: getSocialLinksController,
     })
   )
 }

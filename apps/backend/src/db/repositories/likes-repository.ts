@@ -1,22 +1,17 @@
 import { eq, getTableColumns, sql } from 'drizzle-orm'
 import type { InsertLike } from '@/domain/entities/likes'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const insertLikeImpl = async (values: InsertLike) => {
+export async function insertLike(values: InsertLike) {
   return db.insert(schema.likes).values(values).returning()
 }
 
-export const insertLike = withDbTracing('insert-like', insertLikeImpl)
-
-const deleteLikeImpl = async (id: string) => {
+export async function deleteLike(id: string) {
   return db.delete(schema.likes).where(eq(schema.likes.id, id)).returning()
 }
 
-export const deleteLike = withDbTracing('delete-like', deleteLikeImpl)
-
-const selectLikesImpl = async (entityId: string) => {
+export async function selectLikes(entityId: string) {
   return db
     .select({
       ...getTableColumns(schema.likes),
@@ -35,5 +30,3 @@ const selectLikesImpl = async (entityId: string) => {
       eq(schema.users.id, schema.subscriptions.userId)
     )
 }
-
-export const selectLikes = withDbTracing('select-likes', selectLikesImpl)

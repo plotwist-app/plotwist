@@ -1,14 +1,13 @@
 import { and, eq, sql } from 'drizzle-orm'
 import type { InsertSocialLink } from '@/domain/entities/social-link'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const insertSocialLinkImpl = async ({
+export async function insertSocialLink({
   platform,
   url,
   userId,
-}: InsertSocialLink) => {
+}: InsertSocialLink) {
   return db.execute(
     sql`
       INSERT INTO ${schema.socialLinks} (user_id, platform, url)
@@ -20,15 +19,10 @@ const insertSocialLinkImpl = async ({
   )
 }
 
-export const insertSocialLink = withDbTracing(
-  'insert-social-link',
-  insertSocialLinkImpl
-)
-
-const deleteSocialLinkImpl = async (
+export async function deleteSocialLink(
   userId: string,
   platform: InsertSocialLink['platform']
-) => {
+) {
   return db
     .delete(schema.socialLinks)
     .where(
@@ -39,19 +33,9 @@ const deleteSocialLinkImpl = async (
     )
 }
 
-export const deleteSocialLink = withDbTracing(
-  'delete-social-link',
-  deleteSocialLinkImpl
-)
-
-const selectSocialLinksImpl = async (userId: string) => {
+export async function selectSocialLinks(userId: string) {
   return db
     .select()
     .from(schema.socialLinks)
     .where(eq(schema.socialLinks.userId, userId))
 }
-
-export const selectSocialLinks = withDbTracing(
-  'select-social-links',
-  selectSocialLinksImpl
-)

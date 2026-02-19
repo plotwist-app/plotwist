@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createListItemController,
   deleteListItemController,
@@ -39,7 +37,7 @@ export async function listItemRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('create-list-item', createListItemController),
+      handler: createListItemController,
     })
   )
 
@@ -54,9 +52,7 @@ export async function listItemRoute(app: FastifyInstance) {
         querystring: languageQuerySchema,
         response: getListItemsResponseSchema,
       },
-      handler: withTracing('get-list-items', (req, reply) =>
-        getListItemsController(req, reply, app.redis)
-      ),
+      handler: (req, reply) => getListItemsController(req, reply, app.redis),
     })
   )
 
@@ -75,7 +71,7 @@ export async function listItemRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('delete-list-item', deleteListItemController),
+      handler: deleteListItemController,
     })
   )
 
@@ -95,7 +91,7 @@ export async function listItemRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('update-list-item', updateListItemController),
+      handler: updateListItemController,
     })
   )
 }

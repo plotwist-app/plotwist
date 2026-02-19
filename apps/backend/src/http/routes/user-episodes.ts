@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   createUserEpisodesController,
   deleteUserEpisodesController,
@@ -37,7 +35,7 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('create-user-episodes', createUserEpisodesController),
+      handler: createUserEpisodesController,
     })
   )
 
@@ -57,7 +55,7 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('get-user-episodes', getUserEpisodesController),
+      handler: getUserEpisodesController,
     })
   )
 
@@ -77,7 +75,7 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('delete-user-episodes', deleteUserEpisodesController),
+      handler: deleteUserEpisodesController,
     })
   )
 }

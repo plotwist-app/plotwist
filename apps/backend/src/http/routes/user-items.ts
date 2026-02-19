@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import {
   deleteUserItemController,
   getAllUserItemsController,
@@ -47,9 +45,8 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('upsert-user-item', (request, reply) =>
-        upsertUserItemController(request, reply, app.redis)
-      ),
+      handler: (request, reply) =>
+        upsertUserItemController(request, reply, app.redis),
     })
   )
 
@@ -64,9 +61,8 @@ export async function userItemsRoutes(app: FastifyInstance) {
         response: getUserItemsResponseSchema,
         operationId: 'getUserItems',
       },
-      handler: withTracing('get-user-items', (request, reply) =>
-        getUserItemsController(request, reply, app.redis)
-      ),
+      handler: (request, reply) =>
+        getUserItemsController(request, reply, app.redis),
     })
   )
 
@@ -85,9 +81,8 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('delete-user-item', (request, reply) =>
-        deleteUserItemController(request, reply, app.redis)
-      ),
+      handler: (request, reply) =>
+        deleteUserItemController(request, reply, app.redis),
     })
   )
 
@@ -107,7 +102,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('get-user-item', getUserItemController),
+      handler: getUserItemController,
     })
   )
 
@@ -122,7 +117,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
         response: getAllUserItemsResponseSchema,
         operationId: 'getAllUserItems',
       },
-      handler: withTracing('get-all-user-items', getAllUserItemsController),
+      handler: getAllUserItemsController,
     })
   )
 
@@ -141,7 +136,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: withTracing('reorder-user-items', reorderUserItemsController),
+      handler: reorderUserItemsController,
     })
   )
 
@@ -156,7 +151,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
         response: getUserItemsCountResponseSchema,
         operationId: 'getUserItemsCount',
       },
-      handler: withTracing('get-user-items-count', getUserItemsCountController),
+      handler: getUserItemsCountController,
     })
   )
 }

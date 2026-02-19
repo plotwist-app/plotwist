@@ -3,14 +3,13 @@ import type { CreateFollowServiceInput } from '@/domain/services/follows/create-
 import type { DeleteFollowServiceInput } from '@/domain/services/follows/delete-follow'
 import type { GetFollowServiceInput } from '@/domain/services/follows/get-follow'
 import type { GetFollowersInput } from '@/domain/services/follows/get-followers'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const insertFollowImpl = async ({
+export async function insertFollow({
   followedId,
   followerId,
-}: CreateFollowServiceInput) => {
+}: CreateFollowServiceInput) {
   return db
     .insert(schema.followers)
     .values({
@@ -20,12 +19,10 @@ const insertFollowImpl = async ({
     .returning()
 }
 
-export const insertFollow = withDbTracing('insert-follow', insertFollowImpl)
-
-const getFollowImpl = async ({
+export async function getFollow({
   followedId,
   followerId,
-}: GetFollowServiceInput) => {
+}: GetFollowServiceInput) {
   return db
     .select()
     .from(schema.followers)
@@ -37,12 +34,10 @@ const getFollowImpl = async ({
     )
 }
 
-export const getFollow = withDbTracing('get-follow', getFollowImpl)
-
-const deleteFollowImpl = async ({
+export async function deleteFollow({
   followedId,
   followerId,
-}: DeleteFollowServiceInput) => {
+}: DeleteFollowServiceInput) {
   return db
     .delete(schema.followers)
     .where(
@@ -54,14 +49,12 @@ const deleteFollowImpl = async ({
     .returning()
 }
 
-export const deleteFollow = withDbTracing('delete-follow', deleteFollowImpl)
-
-const selectFollowersImpl = async ({
+export async function selectFollowers({
   followedId,
   followerId,
   cursor,
   pageSize,
-}: GetFollowersInput) => {
+}: GetFollowersInput) {
   return db
     .select({
       ...getTableColumns(schema.followers),
@@ -96,8 +89,3 @@ const selectFollowersImpl = async ({
     )
     .limit(pageSize + 1)
 }
-
-export const selectFollowers = withDbTracing(
-  'select-followers',
-  selectFollowersImpl
-)

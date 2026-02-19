@@ -4,7 +4,7 @@ import { startWorkers } from './worker'
 
 async function main() {
   startWorkers()
-  startServer()
+  await startServer()
 }
 
 main().catch(err => {

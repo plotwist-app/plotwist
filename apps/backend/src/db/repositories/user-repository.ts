@@ -3,21 +3,14 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
-
-const getUserByEmailImpl = async (email: string) => {
+export async function getUserByEmail(email: string) {
   return db
     .select()
     .from(schema.users)
     .where(sql`LOWER(${schema.users.email}) = LOWER(${email})`)
 }
 
-export const getUserByEmail = withDbTracing(
-  'get-user-by-email',
-  getUserByEmailImpl
-)
-
-const getUserByIdImpl = async (id: string) => {
+export async function getUserById(id: string) {
   return db
     .select({
       id: schema.users.id,
@@ -39,9 +32,7 @@ const getUserByIdImpl = async (id: string) => {
     .where(eq(schema.users.id, id))
 }
 
-export const getUserById = withDbTracing('get-user-by-id', getUserByIdImpl)
-
-const getUserByUsernameImpl = async (username: string) => {
+export async function getUserByUsername(username: string) {
   return db
     .select({
       id: schema.users.id,
@@ -63,17 +54,12 @@ const getUserByUsernameImpl = async (username: string) => {
     )
 }
 
-export const getUserByUsername = withDbTracing(
-  'get-user-by-username',
-  getUserByUsernameImpl
-)
-
-const insertUserImpl = async ({
+export async function insertUser({
   email,
   password,
   username,
   displayName,
-}: InsertUserModel) => {
+}: InsertUserModel) {
   return db
     .insert(schema.users)
     .values({
@@ -85,9 +71,7 @@ const insertUserImpl = async ({
     .returning()
 }
 
-export const insertUser = withDbTracing('insert-user', insertUserImpl)
-
-const updateUserImpl = async (userId: string, data: UpdateUserInput) => {
+export async function updateUser(userId: string, data: UpdateUserInput) {
   return db
     .update(schema.users)
     .set(data)
@@ -95,9 +79,7 @@ const updateUserImpl = async (userId: string, data: UpdateUserInput) => {
     .returning()
 }
 
-export const updateUser = withDbTracing('update-user', updateUserImpl)
-
-const updateUserPasswordImpl = async (userId: string, password: string) => {
+export async function updateUserPassword(userId: string, password: string) {
   return db
     .update(schema.users)
     .set({
@@ -107,12 +89,7 @@ const updateUserPasswordImpl = async (userId: string, password: string) => {
     .where(eq(schema.users.id, userId))
 }
 
-export const updateUserPassword = withDbTracing(
-  'update-user-password',
-  updateUserPasswordImpl
-)
-
-const getProUsersDetailsImpl = async () => {
+export async function getProUsersDetails() {
   return db
     .select({
       id: schema.users.id,
@@ -145,12 +122,7 @@ const getProUsersDetailsImpl = async () => {
     .groupBy(schema.users.id, schema.userPreferences.id)
 }
 
-export const getProUsersDetails = withDbTracing(
-  'get-pro-users-details',
-  getProUsersDetailsImpl
-)
-
-const listUsersByUsernameLikeImpl = async (username: string) => {
+export async function listUsersByUsernameLike(username: string) {
   return db
     .select({
       id: schema.users.id,
@@ -173,8 +145,3 @@ const listUsersByUsernameLikeImpl = async (username: string) => {
     )
     .limit(10)
 }
-
-export const listUsersByUsernameLike = withDbTracing(
-  'list-users-by-username-like',
-  listUsersByUsernameLikeImpl
-)

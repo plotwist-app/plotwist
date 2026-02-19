@@ -1,3 +1,5 @@
+import { trace } from '@opentelemetry/api'
+import FastifyOtel from '@fastify/otel'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 import { resourceFromAttributes } from '@opentelemetry/resources'
@@ -28,3 +30,8 @@ const sdk = new NodeSDK({
 console.log('Starting OTLP exporter')
 
 sdk.start()
+
+const fastifyOtel = new FastifyOtel()
+fastifyOtel.setTracerProvider(trace.getTracerProvider())
+
+export { fastifyOtel }

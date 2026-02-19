@@ -1,8 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { withTracing } from '@/infra/telemetry/with-tracing'
-
 import { createImageController } from '../controllers/images-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
@@ -28,7 +26,7 @@ export async function imagesRoutes(app: FastifyInstance) {
         querystring: createImageQuerySchema,
         consumes: ['multipart/form-data'],
       },
-      handler: withTracing('create-image', createImageController),
+      handler: createImageController,
     })
   )
 }
