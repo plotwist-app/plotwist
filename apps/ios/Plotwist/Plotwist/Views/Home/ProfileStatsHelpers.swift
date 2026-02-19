@@ -18,6 +18,11 @@ func formatTotalMinutes(_ hours: Double) -> String {
   return decimalFormatter.string(from: NSNumber(value: totalMinutes)) ?? "\(totalMinutes)"
 }
 
+func formatTotalHours(_ hours: Double) -> String {
+  let rounded = Int(hours)
+  return decimalFormatter.string(from: NSNumber(value: rounded)) ?? "\(rounded)"
+}
+
 func formatHoursMinutes(_ hours: Double) -> String {
   let totalMinutes = Int(hours * 60)
   let h = totalMinutes / 60

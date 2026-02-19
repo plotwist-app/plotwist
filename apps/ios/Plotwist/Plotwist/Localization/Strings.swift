@@ -275,6 +275,8 @@ enum L10n {
       stats: "Stats",
       series: "Series",
       timeWatched: "Time Watched",
+      youSpentWatching: "You spent %@ hours watching",
+      distribution: "Distribution",
       hour: "hour",
       hours: "hours",
       days: "days",
@@ -296,6 +298,13 @@ enum L10n {
       perDay: "per day",
       yourTasteDNA: "Your Taste DNA",
       activity: "Activity",
+      less: "Less",
+      more: "More",
+      peakTime: "Peak time",
+      peakTimeMorning: "Mornings",
+      peakTimeAfternoon: "Afternoons",
+      peakTimeEvening: "Evenings",
+      peakTimeNight: "Nights",
       evolution: "Evolution",
       shareMyStats: "Share",
       unlockFullProfile: "Unlock your full profile",
@@ -332,7 +341,7 @@ enum L10n {
       thisMonth: "This Month",
       lastMonth: "Last Month",
       thisYear: "This Year",
-      allTime: "All Time",
+      allTime: "Lifetime",
       hoursThisMonth: "hours this month",
       hoursLastMonth: "hours last month",
       hoursThisYear: "hours this year",
@@ -344,6 +353,8 @@ enum L10n {
       minutes: "minutes",
       timeline: "Timeline",
       vsLastMonthShort: "vs last month",
+      comparisonPrevMonth: "%@ hours in %@",
+      topPercentile: "More than %d%% of users",
       // Home Engagement
       forYou: "For you",
       basedOnYourTaste: "Because you like %@",
@@ -629,6 +640,8 @@ enum L10n {
       stats: "Estatísticas",
       series: "Séries",
       timeWatched: "Tempo Assistido",
+      youSpentWatching: "Você passou %@ horas assistindo",
+      distribution: "Distribuição",
       hour: "hora",
       hours: "horas",
       days: "dias",
@@ -650,6 +663,13 @@ enum L10n {
       perDay: "por dia",
       yourTasteDNA: "Seu DNA de Gosto",
       activity: "Atividade",
+      less: "Menos",
+      more: "Mais",
+      peakTime: "Horário de pico",
+      peakTimeMorning: "Manhãs",
+      peakTimeAfternoon: "Tardes",
+      peakTimeEvening: "Noites",
+      peakTimeNight: "Madrugadas",
       evolution: "Evolução",
       shareMyStats: "Compartilhar",
       unlockFullProfile: "Desbloquear perfil completo",
@@ -686,7 +706,7 @@ enum L10n {
       thisMonth: "Este Mês",
       lastMonth: "Mês Passado",
       thisYear: "Este Ano",
-      allTime: "Tudo",
+      allTime: "Geral",
       hoursThisMonth: "horas este mês",
       hoursLastMonth: "horas mês passado",
       hoursThisYear: "horas este ano",
@@ -698,6 +718,8 @@ enum L10n {
       minutes: "minutos",
       timeline: "Timeline",
       vsLastMonthShort: "vs mês passado",
+      comparisonPrevMonth: "%@ horas em %@",
+      topPercentile: "Mais que %d%% dos usuários",
       // Home Engagement
       forYou: "Para você",
       basedOnYourTaste: "Porque você gosta de %@",
@@ -983,6 +1005,8 @@ enum L10n {
       stats: "Estadísticas",
       series: "Series",
       timeWatched: "Tiempo Visto",
+      youSpentWatching: "Pasaste %@ horas viendo",
+      distribution: "Distribución",
       hour: "hora",
       hours: "horas",
       days: "días",
@@ -1004,6 +1028,13 @@ enum L10n {
       perDay: "al día",
       yourTasteDNA: "Tu ADN de Gustos",
       activity: "Actividad",
+      less: "Menos",
+      more: "Más",
+      peakTime: "Hora pico",
+      peakTimeMorning: "Mañanas",
+      peakTimeAfternoon: "Tardes",
+      peakTimeEvening: "Noches",
+      peakTimeNight: "Madrugadas",
       evolution: "Evolución",
       shareMyStats: "Compartir",
       unlockFullProfile: "Desbloquear perfil completo",
@@ -1040,7 +1071,7 @@ enum L10n {
       thisMonth: "Este Mes",
       lastMonth: "Mes Pasado",
       thisYear: "Este Año",
-      allTime: "Todo",
+      allTime: "General",
       hoursThisMonth: "horas este mes",
       hoursLastMonth: "horas mes pasado",
       hoursThisYear: "horas este año",
@@ -1052,6 +1083,8 @@ enum L10n {
       minutes: "minutos",
       timeline: "Timeline",
       vsLastMonthShort: "vs mes pasado",
+      comparisonPrevMonth: "%@ horas en %@",
+      topPercentile: "Más que el %d%% de usuarios",
       // Home Engagement
       forYou: "Para ti",
       basedOnYourTaste: "Porque te gusta %@",
@@ -1337,6 +1370,8 @@ enum L10n {
       stats: "Statistiques",
       series: "Séries",
       timeWatched: "Temps Regardé",
+      youSpentWatching: "Vous avez passé %@ heures à regarder",
+      distribution: "Répartition",
       hour: "heure",
       hours: "heures",
       days: "jours",
@@ -1358,6 +1393,13 @@ enum L10n {
       perDay: "par jour",
       yourTasteDNA: "Votre ADN de Goût",
       activity: "Activité",
+      less: "Moins",
+      more: "Plus",
+      peakTime: "Heure de pointe",
+      peakTimeMorning: "Matins",
+      peakTimeAfternoon: "Après-midis",
+      peakTimeEvening: "Soirées",
+      peakTimeNight: "Nuits",
       evolution: "Évolution",
       shareMyStats: "Partager",
       unlockFullProfile: "Débloquer votre profil complet",
@@ -1394,7 +1436,7 @@ enum L10n {
       thisMonth: "Ce Mois",
       lastMonth: "Mois Dernier",
       thisYear: "Cette Année",
-      allTime: "Tout",
+      allTime: "Général",
       hoursThisMonth: "heures ce mois",
       hoursLastMonth: "heures mois dernier",
       hoursThisYear: "heures cette année",
@@ -1406,6 +1448,8 @@ enum L10n {
       minutes: "minutes",
       timeline: "Timeline",
       vsLastMonthShort: "vs mois dernier",
+      comparisonPrevMonth: "%@ heures en %@",
+      topPercentile: "Plus que %d%% des utilisateurs",
       // Home Engagement
       forYou: "Pour vous",
       basedOnYourTaste: "Parce que vous aimez %@",
@@ -1691,6 +1735,8 @@ enum L10n {
       stats: "Statistiken",
       series: "Serien",
       timeWatched: "Gesehene Zeit",
+      youSpentWatching: "Du hast %@ Stunden geschaut",
+      distribution: "Verteilung",
       hour: "Stunde",
       hours: "Stunden",
       days: "Tage",
@@ -1712,6 +1758,13 @@ enum L10n {
       perDay: "pro Tag",
       yourTasteDNA: "Dein Geschmacks-DNA",
       activity: "Aktivität",
+      less: "Weniger",
+      more: "Mehr",
+      peakTime: "Spitzenzeit",
+      peakTimeMorning: "Morgens",
+      peakTimeAfternoon: "Nachmittags",
+      peakTimeEvening: "Abends",
+      peakTimeNight: "Nachts",
       evolution: "Entwicklung",
       shareMyStats: "Teilen",
       unlockFullProfile: "Vollständiges Profil freischalten",
@@ -1760,6 +1813,8 @@ enum L10n {
       minutes: "Minuten",
       timeline: "Timeline",
       vsLastMonthShort: "vs letzten Monat",
+      comparisonPrevMonth: "%@ Stunden im %@",
+      topPercentile: "Mehr als %d%% der Nutzer",
       // Home Engagement
       forYou: "Für dich",
       basedOnYourTaste: "Weil du %@ magst",
@@ -2045,6 +2100,8 @@ enum L10n {
       stats: "Statistiche",
       series: "Serie",
       timeWatched: "Tempo Guardato",
+      youSpentWatching: "Hai passato %@ ore guardando",
+      distribution: "Distribuzione",
       hour: "ora",
       hours: "ore",
       days: "giorni",
@@ -2066,6 +2123,13 @@ enum L10n {
       perDay: "al giorno",
       yourTasteDNA: "Il Tuo DNA di Gusto",
       activity: "Attività",
+      less: "Meno",
+      more: "Di più",
+      peakTime: "Ora di punta",
+      peakTimeMorning: "Mattine",
+      peakTimeAfternoon: "Pomeriggi",
+      peakTimeEvening: "Sere",
+      peakTimeNight: "Notti",
       evolution: "Evoluzione",
       shareMyStats: "Condividi",
       unlockFullProfile: "Sblocca il profilo completo",
@@ -2102,7 +2166,7 @@ enum L10n {
       thisMonth: "Questo Mese",
       lastMonth: "Mese Scorso",
       thisYear: "Quest'Anno",
-      allTime: "Tutto",
+      allTime: "Generale",
       hoursThisMonth: "ore questo mese",
       hoursLastMonth: "ore mese scorso",
       hoursThisYear: "ore quest'anno",
@@ -2114,6 +2178,8 @@ enum L10n {
       minutes: "minuti",
       timeline: "Timeline",
       vsLastMonthShort: "vs mese scorso",
+      comparisonPrevMonth: "%@ ore a %@",
+      topPercentile: "Più del %d%% degli utenti",
       // Home Engagement
       forYou: "Per te",
       basedOnYourTaste: "Perché ti piace %@",
@@ -2398,6 +2464,8 @@ enum L10n {
       stats: "統計",
       series: "シリーズ",
       timeWatched: "視聴時間",
+      youSpentWatching: "%@時間視聴しました",
+      distribution: "内訳",
       hour: "時間",
       hours: "時間",
       days: "日",
@@ -2419,6 +2487,13 @@ enum L10n {
       perDay: "1日あたり",
       yourTasteDNA: "あなたの好みDNA",
       activity: "アクティビティ",
+      less: "少ない",
+      more: "多い",
+      peakTime: "ピーク時間",
+      peakTimeMorning: "朝",
+      peakTimeAfternoon: "午後",
+      peakTimeEvening: "夕方",
+      peakTimeNight: "夜",
       evolution: "推移",
       shareMyStats: "共有",
       unlockFullProfile: "フルプロフィールをアンロック",
@@ -2467,6 +2542,8 @@ enum L10n {
       minutes: "分",
       timeline: "タイムライン",
       vsLastMonthShort: "vs 先月",
+      comparisonPrevMonth: "%@の%@時間",
+      topPercentile: "ユーザーの%d%%以上",
       // Home Engagement
       forYou: "あなたへ",
       basedOnYourTaste: "%@が好きだから",
@@ -2763,6 +2840,8 @@ struct Strings {
   let stats: String
   let series: String
   let timeWatched: String
+  let youSpentWatching: String
+  let distribution: String
   let hour: String
   let hours: String
   let days: String
@@ -2784,6 +2863,13 @@ struct Strings {
   let perDay: String
   let yourTasteDNA: String
   let activity: String
+  let less: String
+  let more: String
+  let peakTime: String
+  let peakTimeMorning: String
+  let peakTimeAfternoon: String
+  let peakTimeEvening: String
+  let peakTimeNight: String
   let evolution: String
   let shareMyStats: String
   let unlockFullProfile: String
@@ -2832,6 +2918,8 @@ struct Strings {
   let minutes: String
   let timeline: String
   let vsLastMonthShort: String
+  let comparisonPrevMonth: String
+  let topPercentile: String
   // Home Engagement
   let forYou: String
   let basedOnYourTaste: String

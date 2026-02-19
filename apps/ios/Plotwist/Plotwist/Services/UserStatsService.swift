@@ -272,11 +272,35 @@ struct MonthlyHoursEntry: Codable, Identifiable {
   var id: String { month }
 }
 
+struct PeakTimeSlot: Codable {
+  let slot: String
+  let hour: Int
+  let count: Int
+}
+
+struct DailyActivityEntry: Codable, Identifiable {
+  let day: String
+  let hours: Double
+
+  var id: String { day }
+}
+
+struct HourlyEntry: Codable, Identifiable {
+  let hour: Int
+  let count: Int
+
+  var id: Int { hour }
+}
+
 struct TotalHoursResponse: Codable {
   let totalHours: Double
   let movieHours: Double
   let seriesHours: Double
   let monthlyHours: [MonthlyHoursEntry]
+  let peakTimeSlot: PeakTimeSlot?
+  let hourlyDistribution: [HourlyEntry]?
+  let dailyActivity: [DailyActivityEntry]?
+  let percentileRank: Int?
 }
 
 struct GenreItem: Codable, Identifiable, Hashable {

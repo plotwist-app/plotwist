@@ -26,6 +26,31 @@ export const getUserTotalHoursResponseSchema = {
         hours: z.number(),
       })
     ),
+    peakTimeSlot: z
+      .object({
+        slot: z.string(),
+        hour: z.number(),
+        count: z.number(),
+      })
+      .nullable()
+      .optional(),
+    hourlyDistribution: z
+      .array(
+        z.object({
+          hour: z.number(),
+          count: z.number(),
+        })
+      )
+      .optional(),
+    dailyActivity: z
+      .array(
+        z.object({
+          day: z.string(),
+          hours: z.number(),
+        })
+      )
+      .optional(),
+    percentileRank: z.number().nullable().optional(),
   }),
 }
 

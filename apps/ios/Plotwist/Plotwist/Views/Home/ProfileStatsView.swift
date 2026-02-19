@@ -18,6 +18,10 @@ struct MonthSection: Identifiable, Equatable {
   var topGenre: TimelineGenreSummary?
   var topReview: TimelineReviewSummary?
   var comparisonHours: Double?
+  var peakTimeSlot: PeakTimeSlot?
+  var hourlyDistribution: [HourlyEntry] = []
+  var dailyActivity: [DailyActivityEntry] = []
+  var percentileRank: Int?
   var isLoaded: Bool = false
 
   var id: String { yearMonth }
@@ -84,7 +88,9 @@ struct MonthSection: Identifiable, Equatable {
     lhs.topReview?.title == rhs.topReview?.title &&
     lhs.watchedGenres.count == rhs.watchedGenres.count &&
     lhs.bestReviews.count == rhs.bestReviews.count &&
-    lhs.comparisonHours == rhs.comparisonHours
+    lhs.comparisonHours == rhs.comparisonHours &&
+    lhs.peakTimeSlot?.slot == rhs.peakTimeSlot?.slot &&
+    lhs.hourlyDistribution.count == rhs.hourlyDistribution.count
   }
 
   static func currentYearMonth() -> String {
@@ -265,9 +271,42 @@ struct ProfileStatsView: View {
     }
   }
 
+  private var allTimeDateRange: String? {
+    guard let first = allTimeSection.monthlyHours.first?.month else { return nil }
+    let fmt = DateFormatter()
+    fmt.dateFormat = "yyyy-MM"
+    let locale = Locale(identifier: Language.current.rawValue.replacingOccurrences(of: "-", with: "_"))
+    fmt.locale = locale
+    guard let startDate = fmt.date(from: first) else { return nil }
+    let display = DateFormatter()
+    display.dateFormat = "MMM yyyy"
+    display.locale = locale
+    let start = display.string(from: startDate)
+    let end = display.string(from: Date())
+    return "\(start.prefix(1).uppercased())\(start.dropFirst()) – \(end.prefix(1).uppercased())\(end.dropFirst())"
+  }
+
   @ViewBuilder
   var allTimeSectionContent: some View {
     if allTimeSection.isLoaded {
+      HStack {
+        if let range = allTimeDateRange {
+          Text(range)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+
+        Spacer()
+
+        if isOwnProfile {
+          Button { shareMonthStats(allTimeSection) } label: {
+            Image(systemName: "square.and.arrow.up")
+              .font(.system(size: 16, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
+      }
+
       MonthSectionContentView(
         section: allTimeSection,
         userId: userId,
@@ -478,6 +517,10 @@ struct ProfileStatsView: View {
         allTimeSection.movieHours = hours.movieHours
         allTimeSection.seriesHours = hours.seriesHours
         allTimeSection.monthlyHours = hours.monthlyHours
+        allTimeSection.peakTimeSlot = hours.peakTimeSlot
+        allTimeSection.hourlyDistribution = hours.hourlyDistribution ?? []
+        allTimeSection.dailyActivity = hours.dailyActivity ?? []
+        allTimeSection.percentileRank = hours.percentileRank
       }
       if let genres {
         allTimeSection.watchedGenres = genres
