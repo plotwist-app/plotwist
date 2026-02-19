@@ -7,7 +7,6 @@ import {
   startOfWeek,
 } from 'date-fns'
 import { selectReviews } from '@/db/repositories/reviews-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
@@ -54,14 +53,9 @@ function getIntervalDate(interval: GetReviewsServiceInput['interval']) {
   }
 }
 
-const getReviewsServiceImpl = async (input: GetReviewsServiceInput) => {
+export async function getReviewsService(input: GetReviewsServiceInput) {
   const { startDate, endDate } = getIntervalDate(input.interval)
   const reviews = await selectReviews({ ...input, startDate, endDate })
 
   return { reviews }
 }
-
-export const getReviewsService = withServiceTracing(
-  'get-reviews',
-  getReviewsServiceImpl
-)

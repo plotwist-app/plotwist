@@ -1,12 +1,11 @@
 import { eq } from 'drizzle-orm'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { userWatchEntries } from '../schema'
 
-const createWatchEntryImpl = async (data: {
+export async function createWatchEntry(data: {
   userItemId: string
   watchedAt?: Date
-}) => {
+}) {
   const [entry] = await db
     .insert(userWatchEntries)
     .values({
@@ -18,12 +17,7 @@ const createWatchEntryImpl = async (data: {
   return entry
 }
 
-export const createWatchEntry = withDbTracing(
-  'create-watch-entry',
-  createWatchEntryImpl
-)
-
-const getWatchEntriesByUserItemIdImpl = async (userItemId: string) => {
+export async function getWatchEntriesByUserItemId(userItemId: string) {
   return db
     .select()
     .from(userWatchEntries)
@@ -31,12 +25,7 @@ const getWatchEntriesByUserItemIdImpl = async (userItemId: string) => {
     .orderBy(userWatchEntries.watchedAt)
 }
 
-export const getWatchEntriesByUserItemId = withDbTracing(
-  'get-watch-entries-by-user-item-id',
-  getWatchEntriesByUserItemIdImpl
-)
-
-const updateWatchEntryImpl = async (id: string, watchedAt: Date) => {
+export async function updateWatchEntry(id: string, watchedAt: Date) {
   const [entry] = await db
     .update(userWatchEntries)
     .set({ watchedAt })
@@ -46,12 +35,7 @@ const updateWatchEntryImpl = async (id: string, watchedAt: Date) => {
   return entry
 }
 
-export const updateWatchEntry = withDbTracing(
-  'update-watch-entry',
-  updateWatchEntryImpl
-)
-
-const deleteWatchEntryImpl = async (id: string) => {
+export async function deleteWatchEntry(id: string) {
   const [entry] = await db
     .delete(userWatchEntries)
     .where(eq(userWatchEntries.id, id))
@@ -60,18 +44,8 @@ const deleteWatchEntryImpl = async (id: string) => {
   return entry
 }
 
-export const deleteWatchEntry = withDbTracing(
-  'delete-watch-entry',
-  deleteWatchEntryImpl
-)
-
-const deleteWatchEntriesByUserItemIdImpl = async (userItemId: string) => {
+export async function deleteWatchEntriesByUserItemId(userItemId: string) {
   await db
     .delete(userWatchEntries)
     .where(eq(userWatchEntries.userItemId, userItemId))
 }
-
-export const deleteWatchEntriesByUserItemId = withDbTracing(
-  'delete-watch-entries-by-user-item-id',
-  deleteWatchEntriesByUserItemIdImpl
-)

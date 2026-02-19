@@ -1,5 +1,4 @@
 import { getListById } from '@/db/repositories/list-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 type GetListInput = {
@@ -7,10 +6,10 @@ type GetListInput = {
   authenticatedUserId?: string
 }
 
-const getListServiceImpl = async ({
+export async function getListService({
   id,
   authenticatedUserId,
-}: GetListInput) => {
+}: GetListInput) {
   const [list] = await getListById(id, authenticatedUserId)
 
   if (!list) {
@@ -19,5 +18,3 @@ const getListServiceImpl = async ({
 
   return { list }
 }
-
-export const getListService = withServiceTracing('get-list', getListServiceImpl)

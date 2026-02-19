@@ -1,18 +1,17 @@
 import type { InferInsertModel } from 'drizzle-orm'
 import { insertList } from '@/db/repositories/list-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import type { schema } from '@/db/schema'
 import { isForeignKeyViolation } from '@/db/utils/postgres-errors'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>
 
-const createListImpl = async ({
+export async function createList({
   title,
   description,
   visibility = 'PUBLIC',
   userId,
-}: CreateListInput) => {
+}: CreateListInput) {
   try {
     const [list] = await insertList({ title, description, visibility, userId })
 
@@ -25,5 +24,3 @@ const createListImpl = async ({
     throw error
   }
 }
-
-export const createList = withServiceTracing('create-list', createListImpl)

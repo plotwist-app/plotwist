@@ -1,14 +1,13 @@
 import { getUserByEmail } from '@/db/repositories/user-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { EmailAlreadyRegisteredError } from '../../errors/email-already-registered'
 
 type IsEmailAvailableInterface = {
   email: string
 }
 
-const isEmailAvailableImpl = async ({
+export async function isEmailAvailable({
   email,
-}: IsEmailAvailableInterface) => {
+}: IsEmailAvailableInterface) {
   const [user] = await getUserByEmail(email)
 
   if (user) {
@@ -17,8 +16,3 @@ const isEmailAvailableImpl = async ({
 
   return { available: true }
 }
-
-export const isEmailAvailable = withServiceTracing(
-  'is-email-available',
-  isEmailAvailableImpl
-)

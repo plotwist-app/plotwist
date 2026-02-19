@@ -1,11 +1,10 @@
 import { and, count, desc, eq, inArray } from 'drizzle-orm'
 import type { InsertUserEpisode } from '@/domain/entities/user-episode'
 import type { GetUserEpisodesInput } from '@/domain/services/user-episodes/get-user-episodes'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const insertUserEpisodesImpl = async (values: InsertUserEpisode[]) => {
+export async function insertUserEpisodes(values: InsertUserEpisode[]) {
   return db
     .insert(schema.userEpisodes)
     .values(values)
@@ -13,15 +12,10 @@ const insertUserEpisodesImpl = async (values: InsertUserEpisode[]) => {
     .onConflictDoNothing()
 }
 
-export const insertUserEpisodes = withDbTracing(
-  'insert-user-episodes',
-  insertUserEpisodesImpl
-)
-
-const selectUserEpisodesImpl = async ({
+export async function selectUserEpisodes({
   userId,
   tmdbId,
-}: GetUserEpisodesInput) => {
+}: GetUserEpisodesInput) {
   return db
     .select()
     .from(schema.userEpisodes)
@@ -34,23 +28,13 @@ const selectUserEpisodesImpl = async ({
     .orderBy(schema.userEpisodes.episodeNumber)
 }
 
-export const selectUserEpisodes = withDbTracing(
-  'select-user-episodes',
-  selectUserEpisodesImpl
-)
-
-const deleteUserEpisodesImpl = async (ids: string[]) => {
+export async function deleteUserEpisodes(ids: string[]) {
   return db
     .delete(schema.userEpisodes)
     .where(inArray(schema.userEpisodes.id, ids))
 }
 
-export const deleteUserEpisodes = withDbTracing(
-  'delete-user-episodes',
-  deleteUserEpisodesImpl
-)
-
-const selectMostWatchedImpl = async (userId: string) => {
+export async function selectMostWatched(userId: string) {
   return db
     .select({ count: count(), tmdbId: schema.userEpisodes.tmdbId })
     .from(schema.userEpisodes)
@@ -59,8 +43,3 @@ const selectMostWatchedImpl = async (userId: string) => {
     .orderBy(desc(count()))
     .limit(3)
 }
-
-export const selectMostWatched = withDbTracing(
-  'select-most-watched',
-  selectMostWatchedImpl
-)

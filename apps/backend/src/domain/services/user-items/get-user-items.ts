@@ -1,8 +1,7 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import type { SelectUserItems } from '@/domain/entities/user-item'
 
-const getUserItemsServiceImpl = async (input: SelectUserItems) => {
+export async function getUserItemsService(input: SelectUserItems) {
   try {
     const userItems = await selectUserItems({ ...input })
 
@@ -17,8 +16,3 @@ const getUserItemsServiceImpl = async (input: SelectUserItems) => {
     throw error
   }
 }
-
-export const getUserItemsService = withServiceTracing(
-  'get-user-items',
-  getUserItemsServiceImpl
-)

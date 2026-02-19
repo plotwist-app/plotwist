@@ -1,6 +1,5 @@
 import type { FastifyRedis } from '@fastify/redis'
 
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import type { Language } from '@plotwist_app/tmdb'
 import { tmdb } from '@/adapters/tmdb'
 
@@ -12,10 +11,10 @@ type GetTMDBDataServiceInput = {
 
 const THIRTY_DAYS_IN_SECONDS = 30 * 24 * 60 * 60
 
-const getTMDBDataServiceImpl = async (
+export async function getTMDBDataService(
   redis: FastifyRedis,
   input: GetTMDBDataServiceInput
-) => {
+) {
   const { mediaType, language, tmdbId } = input
 
   const cacheKey = `${mediaType}:${tmdbId}:${language}`
@@ -66,8 +65,3 @@ const getTMDBDataServiceImpl = async (
     backdropPath: data.backdrop_path,
   }
 }
-
-export const getTMDBDataService = withServiceTracing(
-  'get-tmdb-data',
-  getTMDBDataServiceImpl
-)

@@ -1,19 +1,19 @@
+import type { z } from 'zod'
 import { getUserById, updateUser } from '@/db/repositories/user-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
 import type { updateUserBodySchema } from '@/http/schemas/users'
 
-export type UpdateUserInput = typeof updateUserBodySchema._type
+export type UpdateUserInput = z.infer<typeof updateUserBodySchema>
 
-const updateUserServiceImpl = async ({
+export async function updateUserService({
   userId,
   ...data
 }: UpdateUserInput & {
   userId: string
-}) => {
+}) {
   const validData = Object.fromEntries(
     Object.entries(data).filter(([_, value]) => value !== undefined)
   )
@@ -45,8 +45,3 @@ const updateUserServiceImpl = async ({
     throw error
   }
 }
-
-export const updateUserService = withServiceTracing(
-  'update-user',
-  updateUserServiceImpl
-)

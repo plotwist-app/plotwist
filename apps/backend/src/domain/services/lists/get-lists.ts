@@ -1,5 +1,4 @@
 import { selectLists } from '@/db/repositories/list-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 
 export type GetListsInput = {
   userId?: string
@@ -9,13 +8,8 @@ export type GetListsInput = {
   hasBanner?: boolean
 }
 
-const getListsServicesImpl = async (input: GetListsInput) => {
+export async function getListsServices(input: GetListsInput) {
   const lists = await selectLists(input)
 
   return { lists }
 }
-
-export const getListsServices = withServiceTracing(
-  'get-lists',
-  getListsServicesImpl
-)

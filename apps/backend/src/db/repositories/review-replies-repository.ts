@@ -2,42 +2,26 @@ import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 
-const insertReviewReplyImpl = async (params: InsertReviewReplyModel) => {
+export async function insertReviewReply(params: InsertReviewReplyModel) {
   return db.insert(schema.reviewReplies).values(params).returning()
 }
 
-export const insertReviewReply = withDbTracing(
-  'insert-review-reply',
-  insertReviewReplyImpl
-)
-
-const deleteReviewReplyImpl = async (id: string) => {
+export async function deleteReviewReply(id: string) {
   return db
     .delete(schema.reviewReplies)
     .where(and(eq(schema.reviewReplies.id, id)))
     .returning()
 }
 
-export const deleteReviewReply = withDbTracing(
-  'delete-review-reply',
-  deleteReviewReplyImpl
-)
-
-const getReviewReplyByIdImpl = async (id: string) => {
+export async function getReviewReplyById(id: string) {
   return db
     .select()
     .from(schema.reviewReplies)
     .where(eq(schema.reviewReplies.id, id))
 }
 
-export const getReviewReplyById = withDbTracing(
-  'get-review-reply-by-id',
-  getReviewReplyByIdImpl
-)
-
-const updateReviewReplyImpl = async (id: string, reply: string) => {
+export async function updateReviewReply(id: string, reply: string) {
   return db
     .update(schema.reviewReplies)
     .set({ reply })
@@ -45,15 +29,10 @@ const updateReviewReplyImpl = async (id: string, reply: string) => {
     .returning()
 }
 
-export const updateReviewReply = withDbTracing(
-  'update-review-reply',
-  updateReviewReplyImpl
-)
-
-const selectReviewRepliesImpl = async (
+export async function selectReviewReplies(
   reviewId: string,
   authenticatedUserId?: string
-) => {
+) {
   return db
     .select({
       ...getTableColumns(schema.reviewReplies),
@@ -86,8 +65,3 @@ const selectReviewRepliesImpl = async (
     .leftJoin(schema.users, eq(schema.reviewReplies.userId, schema.users.id))
     .orderBy(asc(schema.reviewReplies.createdAt))
 }
-
-export const selectReviewReplies = withDbTracing(
-  'select-review-replies',
-  selectReviewRepliesImpl
-)

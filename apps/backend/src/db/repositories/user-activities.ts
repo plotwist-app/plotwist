@@ -6,24 +6,18 @@ import type {
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const insertUserActivityImpl = async (values: InsertUserActivity) => {
+export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)
 }
 
-export const insertUserActivity = withDbTracing(
-  'insert-user-activity',
-  insertUserActivityImpl
-)
-
-const selectUserActivitiesImpl = async ({
+export async function selectUserActivities({
   userIds,
   pageSize,
   cursor,
-}: SelectUserActivities) => {
+}: SelectUserActivities) {
   const additionalInfoCase = buildAdditionalInfoCase()
 
   const owner = alias(schema.users, 'owner')
@@ -48,11 +42,6 @@ const selectUserActivitiesImpl = async ({
     .leftJoin(schema.reviewReplies, buildRepliesJoinCondition())
     .leftJoin(owner, eq(schema.userActivities.userId, owner.id))
 }
-
-export const selectUserActivities = withDbTracing(
-  'select-user-activities',
-  selectUserActivitiesImpl
-)
 
 function buildAdditionalInfoCase() {
   return sql`
@@ -190,12 +179,12 @@ function buildRepliesJoinCondition() {
     AND ${schema.userActivities.entityId} = ${schema.reviewReplies.id}`
 }
 
-const deleteUserActivityImpl = async ({
+export async function deleteUserActivity({
   activityType,
   entityId,
   entityType,
   userId,
-}: DeleteUserActivity) => {
+}: DeleteUserActivity) {
   return db
     .delete(schema.userActivities)
     .where(
@@ -208,16 +197,11 @@ const deleteUserActivityImpl = async ({
     )
 }
 
-export const deleteUserActivity = withDbTracing(
-  'delete-user-activity',
-  deleteUserActivityImpl
-)
-
-const deleteFollowUserActivityImpl = async ({
+export async function deleteFollowUserActivity({
   followedId,
   followerId,
   userId,
-}: DeleteFollowUserActivity) => {
+}: DeleteFollowUserActivity) {
   return db
     .delete(schema.userActivities)
     .where(
@@ -230,18 +214,8 @@ const deleteFollowUserActivityImpl = async ({
     )
 }
 
-export const deleteFollowUserActivity = withDbTracing(
-  'delete-follow-user-activity',
-  deleteFollowUserActivityImpl
-)
-
-const deleteUserActivityByIdImpl = async (activityId: string) => {
+export async function deleteUserActivityById(activityId: string) {
   return db
     .delete(schema.userActivities)
     .where(eq(schema.userActivities.id, activityId))
 }
-
-export const deleteUserActivityById = withDbTracing(
-  'delete-user-activity-by-id',
-  deleteUserActivityByIdImpl
-)

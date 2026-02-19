@@ -1,11 +1,8 @@
 import { and, eq, sql } from 'drizzle-orm'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const selectUserStatsImpl = async (userId: string) => {
-  // Run all independent queries in parallel instead of sequential transaction
-  // This improves performance as these are all read-only operations
+export async function selectUserStats(userId: string) {
   const [
     [{ count: followersCount }],
     [{ count: followingCount }],
@@ -52,8 +49,3 @@ const selectUserStatsImpl = async (userId: string) => {
     watchedSeriesCount,
   }
 }
-
-export const selectUserStats = withDbTracing(
-  'select-user-stats',
-  selectUserStatsImpl
-)

@@ -17,16 +17,15 @@ import type {
   SelectUserItems,
 } from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
-import { withDbTracing } from '@/infra/telemetry/with-db-tracing'
 import { db } from '..'
 import { schema } from '../schema'
 
-const upsertUserItemImpl = async ({
+export async function upsertUserItem({
   mediaType,
   tmdbId,
   userId,
   status,
-}: InsertUserItem) => {
+}: InsertUserItem) {
   return db.execute(
     sql`
         INSERT INTO ${schema.userItems} (media_type, tmdb_id, user_id, status)
@@ -40,9 +39,7 @@ const upsertUserItemImpl = async ({
   )
 }
 
-export const upsertUserItem = withDbTracing('upsert-user-item', upsertUserItemImpl)
-
-const selectUserItemsImpl = async ({
+export async function selectUserItems({
   userId,
   status,
   pageSize,
@@ -52,7 +49,7 @@ const selectUserItemsImpl = async ({
   mediaType,
   rating,
   onlyItemsWithoutReview,
-}: SelectUserItems) => {
+}: SelectUserItems) {
   const whereConditions = [
     eq(schema.userItems.userId, userId),
     inArray(schema.userItems.mediaType, mediaType),
@@ -115,28 +112,18 @@ const selectUserItemsImpl = async ({
     .limit(pageSize + 1)
 }
 
-export const selectUserItems = withDbTracing(
-  'select-user-items',
-  selectUserItemsImpl
-)
-
-const deleteUserItemImpl = async (id: string) => {
+export async function deleteUserItem(id: string) {
   return db
     .delete(schema.userItems)
     .where(eq(schema.userItems.id, id))
     .returning()
 }
 
-export const deleteUserItem = withDbTracing(
-  'delete-user-item',
-  deleteUserItemImpl
-)
-
-const selectUserItemImpl = async ({
+export async function selectUserItem({
   userId,
   mediaType,
   tmdbId,
-}: GetUserItemInput) => {
+}: GetUserItemInput) {
   return db
     .select()
     .from(schema.userItems)
@@ -150,12 +137,7 @@ const selectUserItemImpl = async ({
     .limit(1)
 }
 
-export const selectUserItem = withDbTracing(
-  'select-user-item',
-  selectUserItemImpl
-)
-
-const selectUserItemStatusImpl = async (userId: string) => {
+export async function selectUserItemStatus(userId: string) {
   return db
     .select({
       status: schema.userItems.status,
@@ -167,15 +149,10 @@ const selectUserItemStatusImpl = async (userId: string) => {
     .groupBy(schema.userItems.status)
 }
 
-export const selectUserItemStatus = withDbTracing(
-  'select-user-item-status',
-  selectUserItemStatusImpl
-)
-
-const selectAllUserItemsByStatusImpl = async ({
+export async function selectAllUserItemsByStatus({
   status,
   userId,
-}: SelectAllUserItems) => {
+}: SelectAllUserItems) {
   const { id, tmdbId, mediaType, position, updatedAt } = getTableColumns(schema.userItems)
 
   const whereConditions = [eq(schema.userItems.userId, userId)]
@@ -196,17 +173,11 @@ const selectAllUserItemsByStatusImpl = async ({
     .orderBy(asc(schema.userItems.position), desc(schema.userItems.updatedAt))
 }
 
-export const selectAllUserItemsByStatus = withDbTracing(
-  'select-all-user-items-by-status',
-  selectAllUserItemsByStatusImpl
-)
-
-const reorderUserItemsImpl = async (
+export async function reorderUserItems(
   userId: string,
   _status: string,
   orderedIds: string[]
-) => {
-  // Update position for each item based on array order
+) {
   const updates = orderedIds.map((id, index) =>
     db
       .update(schema.userItems)
@@ -219,12 +190,7 @@ const reorderUserItemsImpl = async (
   await Promise.all(updates)
 }
 
-export const reorderUserItems = withDbTracing(
-  'reorder-user-items',
-  reorderUserItemsImpl
-)
-
-const selectAllUserItemsImpl = async (userId: string) => {
+export async function selectAllUserItems(userId: string) {
   return db
     .select({
       id: schema.userItems.id,
@@ -235,12 +201,7 @@ const selectAllUserItemsImpl = async (userId: string) => {
     .where(eq(schema.userItems.userId, userId))
 }
 
-export const selectAllUserItems = withDbTracing(
-  'select-all-user-items',
-  selectAllUserItemsImpl
-)
-
-const selectUserItemsCountImpl = async (userId: string) => {
+export async function selectUserItemsCount(userId: string) {
   const result = await db
     .select({
       count: sql<number>`COUNT(*)::int`,
@@ -250,11 +211,6 @@ const selectUserItemsCountImpl = async (userId: string) => {
 
   return result[0]?.count ?? 0
 }
-
-export const selectUserItemsCount = withDbTracing(
-  'select-user-items-count',
-  selectUserItemsCountImpl
-)
 
 function getOrderColumn(orderBy: string) {
   switch (orderBy) {

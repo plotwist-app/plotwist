@@ -1,5 +1,4 @@
 import { updateListBanner } from '@/db/repositories/list-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { ListNotFoundError } from '@/domain/errors/list-not-found-error'
 
 export type UpdateListBannerInput = {
@@ -8,7 +7,7 @@ export type UpdateListBannerInput = {
   userId: string
 }
 
-const updateListBannerServiceImpl = async (input: UpdateListBannerInput) => {
+export async function updateListBannerService(input: UpdateListBannerInput) {
   const [list] = await updateListBanner(input)
 
   if (!list) {
@@ -17,8 +16,3 @@ const updateListBannerServiceImpl = async (input: UpdateListBannerInput) => {
 
   return { list }
 }
-
-export const updateListBannerService = withServiceTracing(
-  'update-list-banner',
-  updateListBannerServiceImpl
-)

@@ -1,5 +1,4 @@
 import { selectFollowers } from '@/db/repositories/followers-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 
 export type GetFollowersInput = {
   followedId?: string
@@ -8,7 +7,7 @@ export type GetFollowersInput = {
   pageSize: number
 }
 
-const getFollowersServiceImpl = async (input: GetFollowersInput) => {
+export async function getFollowersService(input: GetFollowersInput) {
   const followers = await selectFollowers(input)
 
   return {
@@ -16,8 +15,3 @@ const getFollowersServiceImpl = async (input: GetFollowersInput) => {
     nextCursor: followers[input.pageSize]?.createdAt.toISOString() || null,
   }
 }
-
-export const getFollowersService = withServiceTracing(
-  'get-followers',
-  getFollowersServiceImpl
-)

@@ -1,13 +1,12 @@
 import { deleteListItem } from '@/db/repositories/list-item-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
 
 type DeleteListItemInput = { id: string; userId: string }
 
-const deleteListItemServiceImpl = async ({
+export async function deleteListItemService({
   id,
   userId: _userId,
-}: DeleteListItemInput) => {
+}: DeleteListItemInput) {
   const [deletedListItem] = await deleteListItem(id)
 
   if (!deletedListItem) {
@@ -16,8 +15,3 @@ const deleteListItemServiceImpl = async ({
 
   return { deletedListItem }
 }
-
-export const deleteListItemService = withServiceTracing(
-  'delete-list-item',
-  deleteListItemServiceImpl
-)

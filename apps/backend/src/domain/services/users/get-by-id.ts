@@ -1,8 +1,7 @@
 import { getUserById as getById } from '@/db/repositories/user-repository'
-import { withServiceTracing } from '@/infra/telemetry/with-service-tracing'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
-const getUserByIdImpl = async (id: string) => {
+export async function getUserById(id: string) {
   const [user] = await getById(id)
 
   if (!user) {
@@ -11,5 +10,3 @@ const getUserByIdImpl = async (id: string) => {
 
   return { user }
 }
-
-export const getUserById = withServiceTracing('get-user-by-id', getUserByIdImpl)
