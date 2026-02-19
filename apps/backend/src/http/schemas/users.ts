@@ -26,6 +26,7 @@ export const createUserResponseSchema = {
         .omit({ password: true })
         .extend({
           subscriptionType: z.enum(['MEMBER', 'PRO']),
+          deletedAt: z.date().nullable().optional(),
         }),
     })
     .describe('User created.'),
@@ -71,6 +72,7 @@ export const getUserByUsernameResponseSchema = {
       .omit({ password: true })
       .extend({
         subscriptionType: z.enum(['MEMBER', 'PRO']),
+        deletedAt: z.date().nullable().optional(),
       }),
   }),
 }
@@ -85,6 +87,7 @@ export const getUserByIdResponseSchema = {
       .omit({ password: true })
       .extend({
         subscriptionType: z.enum(['MEMBER', 'PRO']),
+        deletedAt: z.date().nullable().optional(),
       }),
   }),
 }
@@ -95,6 +98,7 @@ export const getMeResponseSchema = {
       .omit({ password: true })
       .extend({
         subscriptionType: z.enum(['MEMBER', 'PRO']),
+        deletedAt: z.date().nullable().optional(),
       }),
   }),
 }
@@ -105,6 +109,7 @@ export const updateUserResponseSchema = {
       .omit({ password: true })
       .extend({
         subscriptionType: z.enum(['MEMBER', 'PRO']),
+        deletedAt: z.date().nullable().optional(),
       }),
   }),
 }
