@@ -1,11 +1,10 @@
 import axios from 'axios'
 import type { AnimeDetails } from '@/@types/my-anime-list-request'
 import { config } from '@/config'
-import { withAdapterTracing } from '@/infra/telemetry/with-adapter-tracing'
 
 const BASE_URL = 'https://api.myanimelist.net/v2'
 
-async function searchAnimeImpl(query: string) {
+export async function searchAnime(query: string) {
   try {
     const response = await axios.get(`${BASE_URL}/anime`, {
       params: { q: query, limit: 5 },
@@ -19,7 +18,7 @@ async function searchAnimeImpl(query: string) {
   }
 }
 
-async function searchAnimeByIdImpl(animedbId: string) {
+export async function searchAnimeById(animedbId: string) {
   try {
     const response = await axios.get(`${BASE_URL}/anime/${animedbId}`, {
       params: {
@@ -37,9 +36,3 @@ async function searchAnimeByIdImpl(animedbId: string) {
     )
   }
 }
-
-export const searchAnime = withAdapterTracing('mal-search-anime', searchAnimeImpl)
-export const searchAnimeById = withAdapterTracing(
-  'mal-search-anime-by-id',
-  searchAnimeByIdImpl
-)

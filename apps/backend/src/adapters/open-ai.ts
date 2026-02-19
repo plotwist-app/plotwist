@@ -1,6 +1,5 @@
 import OpenAI from 'openai'
 import { config } from '@/config'
-import { withAdapterTracing } from '@/infra/telemetry/with-adapter-tracing'
 import type { AIService } from '@/ports/ai-service'
 
 const openai = new OpenAI({
@@ -28,7 +27,7 @@ async function generateMessage(prompt: string, content: string) {
 }
 
 const OpenAIService: AIService = {
-  generateMessage: withAdapterTracing('openai-generate-message', generateMessage),
+  generateMessage: (prefix, content) => generateMessage(prefix, content),
 }
 
 export { OpenAIService }

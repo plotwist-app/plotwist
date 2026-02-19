@@ -8,7 +8,6 @@ import {
 } from '@aws-sdk/client-sqs'
 import { config } from '@/config'
 import type { QueueMessage } from '@/domain/entities/queue-message'
-import { withAdapterTracing } from '@/infra/telemetry/with-adapter-tracing'
 import type { QueueService } from '@/ports/queue-service'
 import { logger } from './logger'
 
@@ -119,12 +118,10 @@ async function deleteMessage(queueUrl: string, receiptHandle: string) {
 }
 
 const SQSAdapter: QueueService = {
-  publish: withAdapterTracing('sqs-publish', publish),
-  receiveMessage: withAdapterTracing('sqs-receive-message', receiveMessage),
-  initialize: withAdapterTracing('sqs-initialize', () =>
-    initializeSQS(createSqsClient())
-  ),
-  deleteMessage: withAdapterTracing('sqs-delete-message', deleteMessage),
+  publish: queueMessage => publish(queueMessage),
+  receiveMessage: queueUrl => receiveMessage(queueUrl),
+  initialize: () => initializeSQS(createSqsClient()),
+  deleteMessage: (queueUrl, receiptHandle) => deleteMessage(queueUrl, receiptHandle),
 }
 
 export { SQSAdapter }
