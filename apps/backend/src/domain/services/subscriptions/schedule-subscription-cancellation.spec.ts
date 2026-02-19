@@ -1,5 +1,5 @@
-import { getSubscriptionById } from '@/db/repositories/subscription-repository'
 import { stripe } from '@/infra/adapters/stripe'
+import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { scheduleCancellation } from './schedule-subscription-cancellation'

@@ -1,5 +1,5 @@
 import type { FastifyRedis } from '@fastify/redis'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'

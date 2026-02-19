@@ -1,6 +1,6 @@
 import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { schema, statusEnum } from '@/db/schema'
+import { schema, statusEnum } from '@/infra/db/schema'
 
 export const getUserDefaultSchema = z.object({
   id: z.string(),

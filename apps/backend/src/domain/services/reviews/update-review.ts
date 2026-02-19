@@ -1,4 +1,4 @@
-import { updateReview } from '@/db/repositories/reviews-repository'
+import { updateReview } from '@/infra/db/repositories/reviews-repository'
 import type {
   reviewParamsSchema,
   updateReviewBodySchema,

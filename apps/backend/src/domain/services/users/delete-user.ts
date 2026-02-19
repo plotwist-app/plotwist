@@ -1,8 +1,8 @@
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import {
   deleteUser as deleteUserFromDb,
   getUserById,
-} from '@/db/repositories/user-repository'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
+} from '@/infra/db/repositories/user-repository'
 
 export async function deleteUserService(userId: string) {
   const [user] = await getUserById(userId)

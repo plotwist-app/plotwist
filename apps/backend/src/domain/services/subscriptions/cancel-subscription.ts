@@ -1,7 +1,7 @@
-import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
 import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
 import { stripe } from '@/infra/adapters/stripe'
+import { cancelUserSubscription } from '@/infra/db/repositories/subscription-repository'
 
 export async function cancelSubscription(
   { id, userId }: Subscription,

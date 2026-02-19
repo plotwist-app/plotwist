@@ -1,8 +1,8 @@
 import { and, desc, eq, isNull, like, sql } from 'drizzle-orm'
-import { db } from '@/db'
-import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
+import { db } from '@/infra/db'
+import { schema } from '@/infra/db/schema'
 
 export async function getUserByEmail(email: string) {
   return db

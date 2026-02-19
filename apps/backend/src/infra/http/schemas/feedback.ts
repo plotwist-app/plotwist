@@ -1,6 +1,6 @@
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { schema } from '@/db/schema'
+import { schema } from '@/infra/db/schema'
 
 export const createFeedbackBodySchema = createInsertSchema(
   schema.feedbacks

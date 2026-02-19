@@ -1,4 +1,4 @@
-import { selectReview } from '@/db/repositories/reviews-repository'
+import { selectReview } from '@/infra/db/repositories/reviews-repository'
 import type { getReviewQuerySchema } from '@/infra/http/schemas/reviews'
 
 export type GetReviewInput = {

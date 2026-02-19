@@ -8,7 +8,7 @@ import {
 } from '@aws-sdk/client-sqs'
 import { config } from '@/config'
 import type { QueueMessage } from '@/domain/entities/queue-message'
-import type { QueueService } from '@/ports/queue-service'
+import type { QueueService } from '@/infra/ports/queue-service'
 import { logger } from './logger'
 
 export const createSqsClient = () => {

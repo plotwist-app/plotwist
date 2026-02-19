@@ -1,5 +1,5 @@
-import { insertUser } from '@/db/repositories/user-repository'
-import { isUniqueViolation } from '@/db/utils/postgres-errors'
+import { insertUser } from '@/infra/db/repositories/user-repository'
+import { isUniqueViolation } from '@/infra/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../../errors/hash-password-error'

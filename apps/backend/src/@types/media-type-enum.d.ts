@@ -1,4 +1,4 @@
-import type { mediaTypeEnum, providersEnum } from '@/db/schema'
+import type { mediaTypeEnum, providersEnum } from '@/infra/db/schema'
 
 export type MediaTypeEnum = (typeof mediaTypeEnum)['enumValues'][number]
 

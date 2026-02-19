@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { schema } from '@/db/schema'
+import { schema } from '@/infra/db/schema'
 
 export const createUserBodySchema = z.object({
   username: z.string().min(3, 'Username is required.'),

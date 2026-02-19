@@ -1,6 +1,6 @@
 import type { z } from 'zod'
-import { findUserByEmailOrUsername } from '@/db/repositories/login-repository'
 import { InvalidPasswordError } from '@/domain/errors/invalid-password-error'
+import { findUserByEmailOrUsername } from '@/infra/db/repositories/login-repository'
 import type { loginBodySchema } from '@/infra/http/schemas/login'
 import { comparePassword } from '@/utils/password'
 import { InvalidCredentialsError } from '../../errors/invalid-credentials-error'

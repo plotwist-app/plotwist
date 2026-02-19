@@ -1,4 +1,4 @@
-import { selectUserEpisodes } from '@/db/repositories/user-episode'
+import { selectUserEpisodes } from '@/infra/db/repositories/user-episode'
 
 export type GetUserEpisodesInput = { userId: string; tmdbId?: number }
 

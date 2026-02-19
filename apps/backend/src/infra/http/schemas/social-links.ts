@@ -1,6 +1,6 @@
 import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { schema, socialPlatformsEnum } from '@/db/schema'
+import { schema, socialPlatformsEnum } from '@/infra/db/schema'
 
 export const socialLinksBodySchema = z.record(
   z.enum(socialPlatformsEnum.enumValues),

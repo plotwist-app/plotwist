@@ -4,7 +4,7 @@ import {
   deleteWatchEntry,
   getWatchEntriesByUserItemId,
   updateWatchEntry,
-} from '@/db/repositories/user-watch-entries-repository'
+} from '@/infra/db/repositories/user-watch-entries-repository'
 import {
   createWatchEntryBodySchema,
   deleteWatchEntryParamsSchema,

@@ -1,10 +1,5 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import {
-  createWatchEntry,
-  deleteWatchEntriesByUserItemId,
-  getWatchEntriesByUserItemId,
-} from '@/db/repositories/user-watch-entries-repository'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
@@ -18,6 +13,11 @@ import { getUserItemsCountService } from '@/domain/services/user-items/get-user-
 import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
+import {
+  createWatchEntry,
+  deleteWatchEntriesByUserItemId,
+  getWatchEntriesByUserItemId,
+} from '@/infra/db/repositories/user-watch-entries-repository'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,

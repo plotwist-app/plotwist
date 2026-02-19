@@ -1,4 +1,4 @@
-import { selectFollowers } from '@/db/repositories/followers-repository'
+import { selectFollowers } from '@/infra/db/repositories/followers-repository'
 
 export type GetFollowersInput = {
   followedId?: string
