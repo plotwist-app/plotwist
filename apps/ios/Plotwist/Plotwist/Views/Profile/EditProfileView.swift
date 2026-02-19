@@ -100,6 +100,8 @@ struct EditProfileView: View {
   @State private var selectedTab: EditProfileTab = .information
   @State private var slideFromTrailing: Bool = true
   @State private var showAvatarPicker = false
+  @State private var showDeleteAccountAlert = false
+  @State private var isDeletingAccount = false
 
   init(user: User) {
     self.initialUser = user
@@ -387,8 +389,85 @@ struct EditProfileView: View {
       }
       fieldDivider
 
-      // Action buttons
-      actionButtonsSection
+      // Feedback — mesma cor que Tema/Idioma, chevron à direita
+      NavigationLink(destination: FeedbackView()) {
+        HStack(alignment: .center, spacing: 16) {
+          Text(strings.feedbackTitle)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+          Spacer(minLength: 0)
+          Image(systemName: "chevron.right")
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .frame(width: 24, height: 24, alignment: .trailing)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(.plain)
+      fieldDivider
+
+      // Sair — linha da lista, ícone à direita
+      Button {
+        AuthService.shared.signOut()
+      } label: {
+        HStack(alignment: .center, spacing: 16) {
+          Text(strings.signOut)
+            .font(.subheadline)
+            .foregroundColor(.appDestructive)
+          Spacer(minLength: 0)
+          Image(systemName: "rectangle.portrait.and.arrow.right")
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appDestructive)
+            .frame(width: 24, height: 24, alignment: .trailing)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(.plain)
+      fieldDivider
+
+      // Excluir conta — linha da lista, ícone à direita
+      Button {
+        showDeleteAccountAlert = true
+      } label: {
+        HStack(alignment: .center, spacing: 16) {
+          Text(strings.deleteAccount)
+            .font(.subheadline)
+            .foregroundColor(.appDestructive)
+          Spacer(minLength: 0)
+          Image(systemName: "trash")
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appDestructive)
+            .frame(width: 24, height: 24, alignment: .trailing)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(.plain)
+      .disabled(isDeletingAccount)
+      .opacity(isDeletingAccount ? 0.5 : 1)
+      .alert(strings.deleteAccountTitle, isPresented: $showDeleteAccountAlert) {
+        Button(strings.cancel, role: .cancel) { }
+        Button(strings.deleteAccountConfirm, role: .destructive) {
+          Task {
+            isDeletingAccount = true
+            defer { isDeletingAccount = false }
+            do {
+              try await AuthService.shared.deleteAccount()
+            } catch {
+              print("Error deleting account: \(error)")
+            }
+          }
+        }
+      } message: {
+        Text(strings.deleteAccountMessage)
+      }
+
+      debugSection
     }
   }
 
@@ -433,65 +512,21 @@ struct EditProfileView: View {
       .padding(.leading, 24)
   }
 
-  // MARK: - Action Buttons
-  private var actionButtonsSection: some View {
-    VStack(spacing: 12) {
-      // Feedback button (gray)
-      NavigationLink(destination: FeedbackView()) {
-        HStack(spacing: 8) {
-          Image(systemName: "envelope.fill")
-            .font(.system(size: 14))
-          Text(strings.feedbackTitle)
-        }
-        .font(.subheadline.weight(.medium))
-        .foregroundColor(.appForegroundAdaptive)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .background(Color.appInputFilled)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-      }
-      .buttonStyle(.plain)
-      
-      // Sign out button (light red)
-      Button {
-        AuthService.shared.signOut()
-      } label: {
-        HStack(spacing: 8) {
-          Image(systemName: "rectangle.portrait.and.arrow.right")
-            .font(.system(size: 14))
-          Text(strings.signOut)
-        }
-        .font(.subheadline.weight(.medium))
-        .foregroundColor(.appDestructive)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .background(Color.appDestructive.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-      }
-      .buttonStyle(.plain)
-      
-      #if DEBUG
-      Button {
-        OnboardingService.shared.reset()
-        AuthService.shared.signOut()
-      } label: {
-        HStack(spacing: 8) {
-          Image(systemName: "arrow.counterclockwise")
-            .font(.system(size: 14))
-          Text("Reset Onboarding (Debug)")
-        }
-        .font(.subheadline.weight(.medium))
-        .foregroundColor(.orange)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .background(Color.orange.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-      }
-      .buttonStyle(.plain)
-      #endif
+  @ViewBuilder
+  private var debugSection: some View {
+    #if DEBUG
+    Spacer().frame(height: 24)
+    Button {
+      OnboardingService.shared.reset()
+      AuthService.shared.signOut()
+    } label: {
+      Text("Reset onboarding")
+        .font(.caption)
+        .foregroundColor(.appMutedForegroundAdaptive)
     }
-    .padding(.horizontal, 24)
-    .padding(.top, 16)
+    .buttonStyle(.plain)
+    .frame(maxWidth: .infinity, alignment: .center)
+    #endif
   }
 
   // MARK: - Helpers

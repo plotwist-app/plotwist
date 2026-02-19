@@ -333,6 +333,27 @@ class AuthService {
     return wrapper.user
   }
 
+  // MARK: - Delete Account
+  func deleteAccount() async throws {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+      let url = URL(string: "\(API.baseURL)/user")
+    else {
+      throw AuthError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    let (_, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw AuthError.invalidResponse
+    }
+
+    signOut()
+  }
+
   // MARK: - Sign Out
   func signOut() {
     AnalyticsService.shared.track(.logout)

@@ -122,6 +122,10 @@ export async function getProUsersDetails() {
     .groupBy(schema.users.id, schema.userPreferences.id)
 }
 
+export async function deleteUser(userId: string) {
+  return db.delete(schema.users).where(eq(schema.users.id, userId))
+}
+
 export async function listUsersByUsernameLike(username: string) {
   return db
     .select({

@@ -3,6 +3,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import {
   createUserController,
+  deleteUserController,
   getMeController,
   getUserByIdController,
   getUserByUsernameController,
@@ -20,6 +21,7 @@ import {
   checkAvailableUsernameResponseSchema,
   createUserBodySchema,
   createUserResponseSchema,
+  deleteUserResponseSchema,
   getMeResponseSchema,
   getUserByIdParamsSchema,
   getUserByIdResponseSchema,
@@ -198,6 +200,21 @@ export async function usersRoute(app: FastifyInstance) {
         ],
       },
       handler: getUserPreferencesController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'DELETE',
+      url: '/user',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Delete user account and all associated data',
+        tags: [usersTag],
+        response: deleteUserResponseSchema,
+        security: [{ bearerAuth: [] }],
+      },
+      handler: deleteUserController,
     })
   )
 

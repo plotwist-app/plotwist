@@ -112,7 +112,7 @@ final class ProfilePrefetchService {
           } catch {}
         }
 
-        // Prefetch stats (total hours, genres, status distribution, best reviews, cast, countries, series)
+        // Prefetch stats (total hours, genres, status distribution, best reviews)
         group.addTask {
           let statsCache = ProfileStatsCache.shared
           guard statsCache.get(userId: userId) == nil else { return }
@@ -128,35 +128,17 @@ final class ProfilePrefetchService {
               userId: userId,
               language: language
             )
-            async let castTask = UserStatsService.shared.getWatchedCast(userId: userId)
-            async let countriesTask = UserStatsService.shared.getWatchedCountries(
-              userId: userId,
-              language: language
-            )
-            async let seriesTask = UserStatsService.shared.getMostWatchedSeries(
-              userId: userId,
-              language: language
-            )
 
             let (hoursResponse, genres, status, reviews) = try await (
               hoursTask, genresTask, statusTask, reviewsTask
             )
-            let cast = (try? await castTask) ?? []
-            let countries = (try? await countriesTask) ?? []
-            let series = (try? await seriesTask) ?? []
 
             statsCache.set(
               userId: userId,
               totalHours: hoursResponse.totalHours,
-              movieHours: hoursResponse.movieHours,
-              seriesHours: hoursResponse.seriesHours,
-              monthlyHours: hoursResponse.monthlyHours,
               watchedGenres: genres,
               itemsStatus: status,
-              bestReviews: reviews,
-              watchedCast: cast,
-              watchedCountries: countries,
-              mostWatchedSeries: series
+              bestReviews: reviews
             )
           } catch {}
         }

@@ -377,11 +377,11 @@ struct EditProfileBadgeRow<Content: View>: View {
   @ViewBuilder let content: Content
 
   var body: some View {
-    HStack(alignment: .top, spacing: 16) {
+    HStack(alignment: .center, spacing: 16) {
       Text(label)
         .font(.subheadline)
         .foregroundColor(.appMutedForegroundAdaptive)
-        .frame(width: 100, alignment: .topLeading)
+        .frame(width: 100, alignment: .leading)
         .multilineTextAlignment(.leading)
 
       content
@@ -390,6 +390,7 @@ struct EditProfileBadgeRow<Content: View>: View {
       Image(systemName: "chevron.right")
         .font(.system(size: 14, weight: .medium))
         .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 24, height: 24, alignment: .trailing)
     }
     .padding(.horizontal, 24)
     .padding(.vertical, 16)
