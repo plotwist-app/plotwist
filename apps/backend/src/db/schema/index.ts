@@ -245,6 +245,7 @@ export const users = pgTable(
     password: varchar('password').notNull(),
     displayName: varchar('display_name'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
     bannerUrl: varchar('banner_url'),
     avatarUrl: varchar('avatar_url'),
     isLegacy: boolean('is_legacy').default(false),

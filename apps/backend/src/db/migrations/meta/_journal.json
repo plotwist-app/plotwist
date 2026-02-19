@@ -428,6 +428,13 @@
       "when": 1771194035608,
       "tag": "20260215222035_glorious_yellow_claw",
       "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1771520315168,
+      "tag": "20260219165835_alter_users_add_soft_delete",
+      "breakpoints": true
     }
   ]
 }
