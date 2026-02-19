@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker'
 import { describe, expect, it, type Mock } from 'vitest'
-import { stripe } from '@/adapters/stripe'
-import { getSubscriptionById } from '@/db/repositories/subscription-repository'
-import { getUserById } from '@/db/repositories/user-repository'
+import { stripe } from '@/infra/adapters/stripe'
+import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
+import { getUserById } from '@/infra/db/repositories/user-repository'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { cancelSubscription } from './cancel-subscription'
 
-vi.mock('@/adapters/stripe', () => ({
+vi.mock('@/infra/adapters/stripe', () => ({
   stripe: {
     subscriptions: {
       cancel: vi.fn(),

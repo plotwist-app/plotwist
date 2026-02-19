@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { selectMostWatched } from '@/db/repositories/user-episode'
+import { selectMostWatched } from '@/infra/db/repositories/user-episode'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { processInBatches } from './batch-utils'
 

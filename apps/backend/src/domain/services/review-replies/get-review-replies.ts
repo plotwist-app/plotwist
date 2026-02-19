@@ -1,4 +1,4 @@
-import { selectReviewReplies } from '@/db/repositories/review-replies-repository'
+import { selectReviewReplies } from '@/infra/db/repositories/review-replies-repository'
 
 export async function getReviewRepliesService(
   reviewId: string,

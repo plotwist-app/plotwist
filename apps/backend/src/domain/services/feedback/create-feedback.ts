@@ -1,7 +1,7 @@
-import { insertFeedback } from '@/db/repositories/feedback-repository'
-import { isForeignKeyViolation } from '@/db/utils/postgres-errors'
 import type { InsertFeedbackModel } from '@/domain/entities/feedback'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { insertFeedback } from '@/infra/db/repositories/feedback-repository'
+import { isForeignKeyViolation } from '@/infra/db/utils/postgres-errors'
 
 export async function createFeedbackService(params: InsertFeedbackModel) {
   try {

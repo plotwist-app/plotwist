@@ -1,5 +1,5 @@
-import { insertLike } from '@/db/repositories/likes-repository'
 import type { InsertLike, Like } from '@/domain/entities/likes'
+import { insertLike } from '@/infra/db/repositories/likes-repository'
 
 type Overrides = Partial<Like> &
   Pick<Like, 'userId' | 'entityType' | 'entityId'>
