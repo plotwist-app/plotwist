@@ -1,5 +1,4 @@
-import '@/infra/telemetry/otel'
-import { startServer } from './http/server'
+import { startServer } from './infra/http/server'
 import { startWorkers } from './worker'
 
 async function main() {

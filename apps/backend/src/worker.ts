@@ -1,7 +1,7 @@
-import { createSqsClient, initializeSQS } from './adapters/sqs'
 import { config } from './config'
-import { startMovieConsumer } from './consumers/movies-consumer'
-import { startSeriesConsumer } from './consumers/series-consumer'
+import { createSqsClient, initializeSQS } from './infra/adapters/sqs'
+import { startMovieConsumer } from './infra/consumers/movies-consumer'
+import { startSeriesConsumer } from './infra/consumers/series-consumer'
 
 export async function startWorkers() {
   startSQS()

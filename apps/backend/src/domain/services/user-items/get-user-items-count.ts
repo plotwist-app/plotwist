@@ -1,4 +1,4 @@
-import { selectUserItemsCount } from '@/db/repositories/user-item-repository'
+import { selectUserItemsCount } from '@/infra/db/repositories/user-item-repository'
 
 type GetUserItemsCountInput = {
   userId: string

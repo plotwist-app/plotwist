@@ -1,4 +1,4 @@
-import { getListById } from '@/db/repositories/list-repository'
+import { getListById } from '@/infra/db/repositories/list-repository'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 type GetListInput = {

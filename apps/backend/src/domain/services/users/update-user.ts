@@ -1,10 +1,13 @@
 import type { z } from 'zod'
-import { getUserById, updateUser } from '@/db/repositories/user-repository'
-import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
-import type { updateUserBodySchema } from '@/http/schemas/users'
+import {
+  getUserById,
+  updateUser,
+} from '@/infra/db/repositories/user-repository'
+import { isUniqueViolation } from '@/infra/db/utils/postgres-errors'
+import type { updateUserBodySchema } from '@/infra/http/schemas/users'
 
 export type UpdateUserInput = z.infer<typeof updateUserBodySchema>
 

@@ -1,6 +1,6 @@
 import { config } from '@/config'
 import type { EmailMessage } from '@/domain/entities/email-message'
-import { emailServiceFactory } from '@/factories/resend-factory'
+import { emailServiceFactory } from '@/infra/factories/resend-factory'
 
 type SendMagicLinkEmailServiceInput = {
   email: string

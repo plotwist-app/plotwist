@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import { describe, expect, it } from 'vitest'
-import { db } from '@/db'
-import { schema } from '@/db/schema'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { db } from '@/infra/db'
+import { schema } from '@/infra/db/schema'
 import { makeUser } from '@/test/factories/make-user'
 import { deleteUserService } from './delete-user'
 

@@ -1,5 +1,5 @@
-import { updateReviewReply as updateReviewReplyRepository } from '@/db/repositories/review-replies-repository'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
+import { updateReviewReply as updateReviewReplyRepository } from '@/infra/db/repositories/review-replies-repository'
 
 export async function updateReviewReply(id: string, reply: string) {
   try {

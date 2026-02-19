@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { processInBatches } from './batch-utils'

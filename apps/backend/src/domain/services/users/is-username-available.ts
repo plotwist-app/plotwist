@@ -1,4 +1,4 @@
-import { getUserByUsername } from '@/db/repositories/user-repository'
+import { getUserByUsername } from '@/infra/db/repositories/user-repository'
 import { UsernameAlreadyRegisteredError } from '../../errors/username-already-registered'
 
 interface IsUsernameAvailableInterface {
