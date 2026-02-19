@@ -6,5 +6,5 @@
 import Foundation
 
 enum API {
-  static let baseURL = Env.apiBaseURL
+  static var baseURL: String { Env.apiBaseURL }
 }

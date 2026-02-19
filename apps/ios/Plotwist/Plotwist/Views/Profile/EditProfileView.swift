@@ -389,7 +389,6 @@ struct EditProfileView: View {
       }
       fieldDivider
 
-      // Feedback — mesma cor que Tema/Idioma, chevron à direita
       NavigationLink(destination: FeedbackView()) {
         HStack(alignment: .center, spacing: 16) {
           Text(strings.feedbackTitle)
@@ -408,7 +407,26 @@ struct EditProfileView: View {
       .buttonStyle(.plain)
       fieldDivider
 
-      // Sair — linha da lista, ícone à direita
+      if let url = URL(string: "https://plotwist.app/\(Language.current.rawValue)/privacy") {
+        Link(destination: url) {
+          HStack(alignment: .center, spacing: 16) {
+            Text(strings.privacyPolicy)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+            Spacer(minLength: 0)
+            Image(systemName: "arrow.up.right")
+              .font(.system(size: 14, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
+              .frame(width: 24, height: 24, alignment: .trailing)
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+          .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        fieldDivider
+      }
+
       Button {
         AuthService.shared.signOut()
       } label: {
@@ -429,7 +447,6 @@ struct EditProfileView: View {
       .buttonStyle(.plain)
       fieldDivider
 
-      // Excluir conta — linha da lista, ícone à direita
       Button {
         showDeleteAccountAlert = true
       } label: {

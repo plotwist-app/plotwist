@@ -101,7 +101,7 @@ describe('get user total hours count', () => {
     })
   })
 
-  it('should be able to get reviews count', async () => {
+  it('should be able to get total hours with movie/series breakdown and monthly hours', async () => {
     const user = await makeUser()
 
     const userItem = await makeUserItem({
@@ -128,6 +128,15 @@ describe('get user total hours count', () => {
 
     expect(sut).toMatchObject({
       totalHours: CHERNOBYL.runtime + INCEPTION.runtime,
+      movieHours: INCEPTION.runtime,
+      seriesHours: CHERNOBYL.runtime,
     })
+    expect(sut.monthlyHours).toHaveLength(6)
+    expect(
+      sut.monthlyHours.every(
+        (m: { month: string; hours: number }) =>
+          typeof m.month === 'string' && typeof m.hours === 'number'
+      )
+    ).toBe(true)
   })
 })

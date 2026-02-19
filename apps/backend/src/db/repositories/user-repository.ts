@@ -1,4 +1,4 @@
-import { desc, eq, like, sql } from 'drizzle-orm'
+import { and, desc, eq, isNull, like, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
@@ -7,7 +7,12 @@ export async function getUserByEmail(email: string) {
   return db
     .select()
     .from(schema.users)
-    .where(sql`LOWER(${schema.users.email}) = LOWER(${email})`)
+    .where(
+      and(
+        sql`LOWER(${schema.users.email}) = LOWER(${email})`,
+        isNull(schema.users.deletedAt)
+      )
+    )
 }
 
 export async function getUserById(id: string) {
@@ -29,7 +34,7 @@ export async function getUserById(id: string) {
       schema.subscriptions,
       eq(schema.users.id, schema.subscriptions.userId)
     )
-    .where(eq(schema.users.id, id))
+    .where(and(eq(schema.users.id, id), isNull(schema.users.deletedAt)))
 }
 
 export async function getUserByUsername(username: string) {
@@ -47,7 +52,12 @@ export async function getUserByUsername(username: string) {
       bannerUrl: schema.users.bannerUrl,
     })
     .from(schema.users)
-    .where(sql`LOWER(${schema.users.username}) = LOWER(${username})`)
+    .where(
+      and(
+        sql`LOWER(${schema.users.username}) = LOWER(${username})`,
+        isNull(schema.users.deletedAt)
+      )
+    )
     .leftJoin(
       schema.subscriptions,
       eq(schema.users.id, schema.subscriptions.userId)
@@ -109,7 +119,9 @@ export async function getProUsersDetails() {
       )`,
     })
     .from(schema.users)
-    .where(eq(schema.subscriptions.type, 'PRO'))
+    .where(
+      and(eq(schema.subscriptions.type, 'PRO'), isNull(schema.users.deletedAt))
+    )
     .leftJoin(
       schema.userPreferences,
       eq(schema.users.id, schema.userPreferences.userId)
@@ -123,7 +135,23 @@ export async function getProUsersDetails() {
 }
 
 export async function deleteUser(userId: string) {
-  return db.delete(schema.users).where(eq(schema.users.id, userId))
+  const anonymizedEmail = `deleted-${userId}@deleted.local`
+  const anonymizedUsername = `deleted_${userId.replace(/-/g, '')}`
+
+  return db
+    .update(schema.users)
+    .set({
+      deletedAt: sql`NOW()`,
+      email: anonymizedEmail,
+      username: anonymizedUsername,
+      displayName: null,
+      avatarUrl: null,
+      bannerUrl: null,
+      biography: null,
+      password: 'DELETED',
+    })
+    .where(eq(schema.users.id, userId))
+    .returning()
 }
 
 export async function listUsersByUsernameLike(username: string) {
@@ -138,7 +166,12 @@ export async function listUsersByUsernameLike(username: string) {
       )`,
     })
     .from(schema.users)
-    .where(like(schema.users.username, `%${username}%`))
+    .where(
+      and(
+        like(schema.users.username, `%${username}%`),
+        isNull(schema.users.deletedAt)
+      )
+    )
     .orderBy(
       desc(
         sql`CASE WHEN EXISTS (

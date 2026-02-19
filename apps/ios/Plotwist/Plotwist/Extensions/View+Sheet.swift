@@ -29,7 +29,6 @@ private struct SheetHeightPreferenceKey: PreferenceKey {
 
 // MARK: - View Extension
 extension View {
-  /// Sheet com altura fixa e fundo sólido.
   func floatingSheetPresentation(height: CGFloat) -> some View {
     self
       .presentationDetents([.height(height)])
@@ -39,7 +38,6 @@ extension View {
       .presentationDragIndicator(.hidden)
   }
 
-  /// Sheet com detents customizados e fundo sólido.
   func floatingSheetPresentation(detents: Set<PresentationDetent>) -> some View {
     self
       .presentationDetents(detents)
@@ -49,7 +47,6 @@ extension View {
       .presentationDragIndicator(.hidden)
   }
 
-  /// Sheet com altura dinâmica baseada no conteúdo.
   func floatingSheetDynamicPresentation() -> some View {
     modifier(DynamicFloatingSheetModifier())
   }
