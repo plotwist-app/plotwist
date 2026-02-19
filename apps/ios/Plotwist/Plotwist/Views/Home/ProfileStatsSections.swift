@@ -404,13 +404,15 @@ struct TimeWatchedDetailView: View {
     }
     .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
-    .task { await loadDetailDataIfNeeded() }
+    .task(id: "\(period ?? "")-\(dailyActivity.count)-\(hourlyDistribution.count)") {
+      await loadDetailDataIfNeeded()
+    }
   }
 
   private func loadDetailDataIfNeeded() async {
     guard let userId, let period, period != "all" else { return }
-    let needsLoad = monthlyHours.isEmpty || dailyActivity.isEmpty || hourlyDistribution.isEmpty
-    guard needsLoad else { return }
+    let needsFetch = dailyActivity.isEmpty || hourlyDistribution.isEmpty || peakTimeSlot == nil
+    guard needsFetch else { return }
     if let result = try? await UserStatsService.shared.getTotalHours(userId: userId, period: period) {
       if monthlyHours.isEmpty { monthlyHours = result.monthlyHours }
       if dailyActivity.isEmpty { dailyActivity = result.dailyActivity ?? [] }
@@ -466,6 +468,7 @@ struct TimeWatchedDetailView: View {
   var hourlyDistributionChart: some View {
     let maxCount = max(hourlyDistribution.map(\.count).max() ?? 1, 1)
     let peakHourEntry = hourlyDistribution.max(by: { $0.count < $1.count })
+    let peakDayName = Self.peakDayOfWeek(from: dailyActivity)
 
     return VStack(alignment: .leading, spacing: 16) {
       Text(strings.peakTime)
@@ -473,109 +476,103 @@ struct TimeWatchedDetailView: View {
         .foregroundColor(.appMutedForegroundAdaptive)
 
       if let peak = peakHourEntry, peak.count > 0 {
-        peakSummaryRow(peak: peak)
+        peakWithBars(peak: peak, peakDay: peakDayName, maxCount: maxCount)
       }
-
-      radialClockChart(maxCount: maxCount, peakHour: peakHourEntry?.hour)
     }
   }
 
   @ViewBuilder
-  private func peakSummaryRow(peak: HourlyEntry) -> some View {
+  private func peakWithBars(peak: HourlyEntry, peakDay: String?, maxCount: Int) -> some View {
     let slotLabel = Self.slotLabel(for: peak.hour, strings: strings)
-    let icon = Self.slotIcon(for: peak.hour)
-    let hourLabel = String(format: "%02d:00 – %02d:00", peak.hour, (peak.hour + 1) % 24)
+    let hourLabel = String(format: "%02d:00", peak.hour)
+    let barHeight: CGFloat = 60
 
-    HStack(spacing: 14) {
-      ZStack {
-        Circle()
-          .fill(Color.appForegroundAdaptive.opacity(0.08))
-          .frame(width: 44, height: 44)
-        Image(systemName: icon)
-          .font(.system(size: 18))
-          .foregroundColor(.appForegroundAdaptive)
-      }
-
+    VStack(alignment: .leading, spacing: 14) {
       VStack(alignment: .leading, spacing: 2) {
-        Text(slotLabel)
-          .font(.system(size: 16, weight: .semibold))
-          .foregroundColor(.appForegroundAdaptive)
+        if let day = peakDay {
+          Text("\(day) à \(slotLabel.lowercased())")
+            .font(.system(size: 22, weight: .bold))
+            .foregroundColor(.appForegroundAdaptive)
+        } else {
+          Text(slotLabel)
+            .font(.system(size: 22, weight: .bold))
+            .foregroundColor(.appForegroundAdaptive)
+        }
+
         Text(hourLabel)
-          .font(.system(size: 13))
+          .font(.system(size: 14, weight: .medium, design: .rounded))
           .foregroundColor(.appMutedForegroundAdaptive)
       }
 
-      Spacer()
+      VStack(spacing: 4) {
+        ZStack(alignment: .bottom) {
+          VStack(spacing: 0) {
+            ForEach(0..<3, id: \.self) { _ in
+              Divider().opacity(0.2)
+              Spacer()
+            }
+            Divider().opacity(0.2)
+          }
+          .frame(height: barHeight)
 
-      Text("\(peak.count)")
-        .font(.system(size: 28, weight: .bold, design: .rounded))
-        .foregroundColor(.appForegroundAdaptive)
+          HStack(alignment: .bottom, spacing: 3) {
+            ForEach(hourlyDistribution.sorted(by: { $0.hour < $1.hour }), id: \.hour) { entry in
+              let ratio = CGFloat(entry.count) / CGFloat(maxCount)
+              let isPeak = entry.hour == peak.hour
+
+              RoundedRectangle(cornerRadius: 3)
+                .fill(isPeak
+                      ? Self.heatmapHigh
+                      : ratio > 0 ? Self.heatmapColor(hours: ratio, max: 1.0) : Self.heatmapEmpty)
+                .frame(maxWidth: .infinity, minHeight: 2)
+                .frame(height: max(barHeight * ratio, 2))
+            }
+          }
+        }
+        .frame(height: barHeight)
+
+        HStack {
+          Text("0h")
+          Spacer()
+          Text("6h")
+          Spacer()
+          Text("12h")
+          Spacer()
+          Text("18h")
+          Spacer()
+          Text("23h")
+        }
+        .font(.system(size: 9, weight: .medium, design: .rounded))
+        .foregroundColor(.appMutedForegroundAdaptive)
+      }
     }
     .padding(16)
     .background(Color.appForegroundAdaptive.opacity(0.04))
     .clipShape(RoundedRectangle(cornerRadius: 16))
   }
 
-  private func radialClockChart(maxCount: Int, peakHour: Int?) -> some View {
-    let size: CGFloat = 280
-    let ringWidth: CGFloat = 24
-    let outerRadius = size / 2
-    let innerRadius = outerRadius - ringWidth - 40
+  private static func peakDayOfWeek(from activity: [DailyActivityEntry]) -> String? {
+    guard !activity.isEmpty else { return nil }
 
-    return ZStack {
-      ForEach(0..<24, id: \.self) { hour in
-        let entry = hourlyDistribution.first(where: { $0.hour == hour })
-        let count = entry?.count ?? 0
-        let ratio = Double(count) / Double(maxCount)
-        let isPeak = hour == peakHour && count > 0
+    var dayCounts = [Int: Double]()
+    let fmt = DateFormatter()
+    fmt.dateFormat = "yyyy-MM-dd"
 
-        let startAngle = Angle.degrees(Double(hour) * 15 - 90)
-        let endAngle = Angle.degrees(Double(hour + 1) * 15 - 90)
-
-        Path { path in
-          let barInner = innerRadius + 4
-          let barOuter = barInner + (outerRadius - barInner - 2) * CGFloat(max(ratio, 0.04))
-          path.addArc(center: CGPoint(x: size / 2, y: size / 2),
-                      radius: barOuter,
-                      startAngle: startAngle + .degrees(0.8),
-                      endAngle: endAngle - .degrees(0.8),
-                      clockwise: false)
-          path.addArc(center: CGPoint(x: size / 2, y: size / 2),
-                      radius: barInner,
-                      startAngle: endAngle - .degrees(0.8),
-                      endAngle: startAngle + .degrees(0.8),
-                      clockwise: true)
-          path.closeSubpath()
-        }
-        .fill(isPeak
-              ? Color.appForegroundAdaptive
-              : Color.appForegroundAdaptive.opacity(ratio > 0 ? 0.12 + ratio * 0.4 : 0.06))
-      }
-
-      ForEach([0, 6, 12, 18], id: \.self) { hour in
-        let angle = Angle.degrees(Double(hour) * 15 - 90)
-        let labelRadius = innerRadius - 8
-        let x = size / 2 + labelRadius * CGFloat(cos(angle.radians))
-        let y = size / 2 + labelRadius * CGFloat(sin(angle.radians))
-        let label = String(format: "%02d", hour)
-
-        Text(label)
-          .font(.system(size: 10, weight: .semibold, design: .rounded))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .position(x: x, y: y)
-      }
-
-      VStack(spacing: 2) {
-        Image(systemName: "clock")
-          .font(.system(size: 16, weight: .light))
-          .foregroundColor(.appMutedForegroundAdaptive)
-        Text("24h")
-          .font(.system(size: 13, weight: .semibold, design: .rounded))
-          .foregroundColor(.appMutedForegroundAdaptive)
-      }
+    for entry in activity {
+      guard let date = fmt.date(from: entry.day) else { continue }
+      let weekday = Calendar.current.component(.weekday, from: date)
+      dayCounts[weekday, default: 0] += entry.hours
     }
-    .frame(width: size, height: size)
-    .frame(maxWidth: .infinity)
+
+    guard let peakWeekday = dayCounts.max(by: { $0.value < $1.value })?.key else { return nil }
+
+    let lang = Language.current.rawValue
+    let locale = Locale(identifier: lang.replacingOccurrences(of: "-", with: "_"))
+    let symbols = DateFormatter()
+    symbols.locale = locale
+    guard let weekdaySymbols = symbols.standaloneWeekdaySymbols else { return nil }
+    let name = weekdaySymbols[peakWeekday - 1]
+    return name.prefix(1).uppercased() + name.dropFirst()
   }
 
   private static func slotLabel(for hour: Int, strings: Strings) -> String {
@@ -598,6 +595,9 @@ struct TimeWatchedDetailView: View {
 
   // MARK: - Movie/Series Split Bar
 
+  private static let movieColor = Color(hex: "60A5FA")
+  private static let seriesColor = Color(hex: "A78BFA")
+
   var movieSeriesSplitBar: some View {
     let moviePct = totalHours > 0 ? movieHours / totalHours : 0
     let seriesPct = totalHours > 0 ? seriesHours / totalHours : 0
@@ -607,12 +607,12 @@ struct TimeWatchedDetailView: View {
         HStack(spacing: 2) {
           if moviePct > 0 {
             RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appForegroundAdaptive.opacity(0.8))
+              .fill(Self.movieColor)
               .frame(width: geo.size.width * moviePct)
           }
           if seriesPct > 0 {
             RoundedRectangle(cornerRadius: 4)
-              .fill(Color.appForegroundAdaptive.opacity(0.25))
+              .fill(Self.seriesColor)
               .frame(width: geo.size.width * seriesPct)
           }
         }
@@ -622,7 +622,7 @@ struct TimeWatchedDetailView: View {
       HStack(spacing: 0) {
         HStack(spacing: 6) {
           Circle()
-            .fill(Color.appForegroundAdaptive.opacity(0.8))
+            .fill(Self.movieColor)
             .frame(width: 8, height: 8)
           VStack(alignment: .leading, spacing: 1) {
             Text(strings.movies)
@@ -638,7 +638,7 @@ struct TimeWatchedDetailView: View {
 
         HStack(spacing: 6) {
           Circle()
-            .fill(Color.appForegroundAdaptive.opacity(0.25))
+            .fill(Self.seriesColor)
             .frame(width: 8, height: 8)
           VStack(alignment: .leading, spacing: 1) {
             Text(strings.series)
@@ -658,18 +658,23 @@ struct TimeWatchedDetailView: View {
   private static let cellSize: CGFloat = 13
   private static let cellSpacing: CGFloat = 3
 
+  private var isSingleMonthPeriod: Bool {
+    guard let period else { return false }
+    let pattern = /^\d{4}-\d{2}$/
+    return period.wholeMatch(of: pattern) != nil
+  }
+
   var activityHeatmap: some View {
     let maxHours = max(dailyActivity.map(\.hours).max() ?? 1, 1)
     let weeks = Self.buildWeekColumns(from: dailyActivity)
     let monthLabels = Self.extractMonthLabels(from: weeks)
-    let isSingleMonth = monthLabels.count <= 1
 
-    return VStack(alignment: .leading, spacing: 6) {
+    return VStack(alignment: .leading, spacing: 12) {
       Text(strings.activity)
         .font(.system(size: 13, weight: .medium))
         .foregroundColor(.appMutedForegroundAdaptive)
 
-      if isSingleMonth {
+      if isSingleMonthPeriod {
         calendarHeatmap(weeks: weeks, maxHours: maxHours)
       } else {
         githubHeatmap(weeks: weeks, monthLabels: monthLabels, maxHours: maxHours)
@@ -677,6 +682,7 @@ struct TimeWatchedDetailView: View {
       }
 
       heatmapLegend
+        .padding(.top, 4)
     }
   }
 
@@ -686,39 +692,34 @@ struct TimeWatchedDetailView: View {
     let dayLabels = Self.weekdayLabels()
     let calSpacing: CGFloat = 6
 
-    return GeometryReader { geo in
-      let cellSize = (geo.size.width - calSpacing * 6) / 7
+    let columns = Array(repeating: GridItem(.flexible(), spacing: calSpacing), count: 7)
 
-      VStack(spacing: calSpacing) {
-        HStack(spacing: calSpacing) {
-          ForEach(0..<7, id: \.self) { col in
-            Text(dayLabels[col])
-              .font(.system(size: 11, weight: .medium))
-              .foregroundColor(.appMutedForegroundAdaptive)
-              .frame(width: cellSize, height: 20)
-          }
-        }
+    return LazyVGrid(columns: columns, spacing: calSpacing) {
+      ForEach(0..<7, id: \.self) { col in
+        Text(dayLabels[col])
+          .font(.system(size: 11, weight: .medium))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(height: 16)
+      }
 
-        ForEach(Array(weeks.enumerated()), id: \.offset) { _, week in
-          HStack(spacing: calSpacing) {
-            ForEach(week, id: \.id) { cell in
-              if cell.isPadding {
-                Color.clear
-                  .frame(width: cellSize, height: cellSize)
-              } else {
+      ForEach(Array(weeks.enumerated()), id: \.offset) { _, week in
+        ForEach(week, id: \.id) { cell in
+          if cell.isPadding {
+            Color.clear
+              .aspectRatio(1, contentMode: .fit)
+          } else {
+            RoundedRectangle(cornerRadius: 8)
+              .fill(Self.heatmapColor(hours: cell.hours, max: maxHours))
+              .aspectRatio(1, contentMode: .fit)
+              .overlay(
                 Text("\(cell.dayNumber)")
                   .font(.system(size: 13, weight: .medium, design: .rounded))
                   .foregroundColor(cell.hours > 0 ? .white : .appMutedForegroundAdaptive)
-                  .frame(width: cellSize, height: cellSize)
-                  .background(Self.heatmapColor(hours: cell.hours, max: maxHours))
-                  .clipShape(RoundedRectangle(cornerRadius: 8))
-              }
-            }
+              )
           }
         }
       }
     }
-    .aspectRatio(7.0 / CGFloat(weeks.count + 1), contentMode: .fit)
   }
 
   // MARK: GitHub-style heatmap (multi-month)
@@ -780,11 +781,11 @@ struct TimeWatchedDetailView: View {
         .font(.system(size: 10))
         .foregroundColor(.appMutedForegroundAdaptive)
 
-      ForEach([0.0, 0.2, 0.4, 0.6, 0.8], id: \.self) { level in
+      ForEach([0.0, 0.25, 0.5, 0.75, 1.0], id: \.self) { level in
         RoundedRectangle(cornerRadius: 2)
           .fill(level > 0
-            ? Color.appForegroundAdaptive.opacity(level * 0.65 + 0.1)
-            : Color.appForegroundAdaptive.opacity(0.06))
+            ? Self.heatmapColor(hours: level, max: 1.0)
+            : Self.heatmapEmpty)
           .frame(width: 12, height: 12)
       }
 
@@ -794,12 +795,22 @@ struct TimeWatchedDetailView: View {
     }
   }
 
+  private static let heatmapLow = Color(hex: "9BE9A8")
+  private static let heatmapHigh = Color(hex: "216E39")
+  private static let heatmapEmpty = Color.appForegroundAdaptive.opacity(0.06)
+
   private static func heatmapColor(hours: Double, max: Double) -> Color {
-    if hours <= 0 {
-      return Color.appForegroundAdaptive.opacity(0.06)
-    }
-    let intensity = Swift.max(hours / max, 0.12)
-    return Color.appForegroundAdaptive.opacity(intensity * 0.65 + 0.1)
+    if hours <= 0 { return heatmapEmpty }
+    let t = Swift.max(hours / max, 0.15)
+    return Color(
+      red: lerp(0.608, 0.129, t),
+      green: lerp(0.914, 0.431, t),
+      blue: lerp(0.659, 0.224, t)
+    )
+  }
+
+  private static func lerp(_ a: Double, _ b: Double, _ t: Double) -> Double {
+    a + (b - a) * t
   }
 
   private struct HeatmapCell: Identifiable {
@@ -1366,8 +1377,8 @@ struct StatsShareCardView: View {
   private let cardWidth: CGFloat = 1080 / 3
   private let cardHeight: CGFloat = 1920 / 3
 
-  private let accentBlue = Color(hex: "3B82F6")
-  private let accentGreen = Color(hex: "10B981")
+  private let accentBlue = Color(hex: "60A5FA")
+  private let accentPurple = Color(hex: "A78BFA")
 
   var body: some View {
     ZStack {
@@ -1413,7 +1424,7 @@ struct StatsShareCardView: View {
                     .foregroundColor(.white.opacity(0.5))
                 }
                 HStack(spacing: 5) {
-                  Circle().fill(accentGreen).frame(width: 6, height: 6)
+                  Circle().fill(accentPurple).frame(width: 6, height: 6)
                   Text("\(strings.series) \(formatHoursMinutes(section.seriesHours))")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.white.opacity(0.5))
