@@ -1,5 +1,5 @@
 import { R2Storage } from '@/infra/adapters/r2-storage'
-import type { CloudStorage } from '@/ports/cloud-storage'
+import type { CloudStorage } from '@/infra/ports/cloud-storage'
 
 type CloudProvider = 'R2' | 'S3'
 

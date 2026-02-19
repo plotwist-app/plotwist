@@ -1,5 +1,5 @@
 import { ResendAdapter } from '@/infra/adapters/resend'
-import type { EmailService } from '@/ports/email-service'
+import type { EmailService } from '@/infra/ports/email-service'
 
 type EmailProvider = 'Resend'
 

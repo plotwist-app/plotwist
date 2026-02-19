@@ -6,7 +6,7 @@ import {
 import { Upload } from '@aws-sdk/lib-storage'
 import type { UploadImageInput } from '@/@types/r2-storage'
 import { config } from '@/config'
-import type { CloudStorage } from '@/ports/cloud-storage'
+import type { CloudStorage } from '@/infra/ports/cloud-storage'
 
 const r2Storage = new S3Client({
   region: 'auto',

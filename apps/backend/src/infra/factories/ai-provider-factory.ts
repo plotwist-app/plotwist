@@ -1,5 +1,5 @@
 import { OpenAIService } from '@/infra/adapters/open-ai'
-import type { AIService } from '@/ports/ai-service'
+import type { AIService } from '@/infra/ports/ai-service'
 
 type AIServiceProvider = 'openAI' | 'llama'
 

@@ -1,6 +1,6 @@
 import OpenAI from 'openai'
 import { config } from '@/config'
-import type { AIService } from '@/ports/ai-service'
+import type { AIService } from '@/infra/ports/ai-service'
 
 const openai = new OpenAI({
   apiKey: config.openai.OPENAI_API_KEY,
