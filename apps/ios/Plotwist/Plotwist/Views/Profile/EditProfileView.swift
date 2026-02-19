@@ -389,7 +389,6 @@ struct EditProfileView: View {
       }
       fieldDivider
 
-      // Feedback — mesma cor que Tema/Idioma, chevron à direita
       NavigationLink(destination: FeedbackView()) {
         HStack(alignment: .center, spacing: 16) {
           Text(strings.feedbackTitle)
@@ -408,7 +407,6 @@ struct EditProfileView: View {
       .buttonStyle(.plain)
       fieldDivider
 
-      // Sair — linha da lista, ícone à direita
       Button {
         AuthService.shared.signOut()
       } label: {
@@ -429,7 +427,6 @@ struct EditProfileView: View {
       .buttonStyle(.plain)
       fieldDivider
 
-      // Excluir conta — linha da lista, ícone à direita
       Button {
         showDeleteAccountAlert = true
       } label: {
