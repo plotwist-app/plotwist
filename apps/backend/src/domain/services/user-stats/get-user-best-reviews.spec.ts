@@ -5,7 +5,7 @@ import { makeUser } from '@/test/factories/make-user'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserBestReviewsService } from './get-user-best-reviews'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     tv: {
       details: vi.fn(),

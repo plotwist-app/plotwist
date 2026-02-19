@@ -6,7 +6,7 @@ import { redisClient } from '@/test/mocks/redis'
 import { createUserItemEpisodesService } from '../user-items/create-user-item-episodes'
 import { getUserMostWatchedSeriesService } from './get-user-most-watched-series'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     tv: {
       details: vi.fn(),

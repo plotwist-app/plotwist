@@ -135,7 +135,7 @@ async function setupDatabase() {
   }
 
   const db = drizzle(client)
-  await migrate(db, { migrationsFolder: './src/db/migrations' })
+  await migrate(db, { migrationsFolder: './src/infra/db/migrations' })
   await client.end()
 }
 

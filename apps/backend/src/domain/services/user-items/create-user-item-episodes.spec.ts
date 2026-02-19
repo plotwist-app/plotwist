@@ -15,7 +15,7 @@ import { makeUserItem } from '@/test/factories/make-user-item'
 import { redisClient } from '@/test/mocks/redis'
 import { createUserItemEpisodesService } from './create-user-item-episodes'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     tv: {
       details: vi.fn(),

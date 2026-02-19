@@ -7,7 +7,7 @@ import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { cancelSubscription } from './cancel-subscription'
 
-vi.mock('@/adapters/stripe', () => ({
+vi.mock('@/infra/adapters/stripe', () => ({
   stripe: {
     subscriptions: {
       cancel: vi.fn(),

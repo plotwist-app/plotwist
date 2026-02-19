@@ -5,7 +5,7 @@ import { makeUserItem } from '@/test/factories/make-user-item'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserWatchedCountriesService } from './get-user-watched-countries'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     movies: {
       details: vi.fn(),

@@ -4,7 +4,7 @@ import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { scheduleCancellation } from './schedule-subscription-cancellation'
 
-vi.mock('@/adapters/stripe', () => ({
+vi.mock('@/infra/adapters/stripe', () => ({
   stripe: {
     subscriptions: {
       update: vi.fn().mockResolvedValue({
