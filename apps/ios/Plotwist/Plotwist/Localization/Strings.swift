@@ -328,7 +328,8 @@ enum L10n {
       selectImage: "Select image",
       cropAndSave: "Crop & Save",
       avatarSaving: "Saving...",
-      avatarSaved: "Avatar updated!"
+      avatarSaved: "Avatar updated!",
+      privacyPolicy: "Privacy Policy"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -637,7 +638,8 @@ enum L10n {
       selectImage: "Selecionar imagem",
       cropAndSave: "Recortar e Salvar",
       avatarSaving: "Salvando...",
-      avatarSaved: "Avatar atualizado!"
+      avatarSaved: "Avatar atualizado!",
+      privacyPolicy: "Política de Privacidade"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -946,7 +948,8 @@ enum L10n {
       selectImage: "Seleccionar imagen",
       cropAndSave: "Recortar y Guardar",
       avatarSaving: "Guardando...",
-      avatarSaved: "¡Avatar actualizado!"
+      avatarSaved: "¡Avatar actualizado!",
+      privacyPolicy: "Política de Privacidad"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1255,7 +1258,8 @@ enum L10n {
       selectImage: "Sélectionner l'image",
       cropAndSave: "Recadrer et Enregistrer",
       avatarSaving: "Enregistrement...",
-      avatarSaved: "Avatar mis à jour !"
+      avatarSaved: "Avatar mis à jour !",
+      privacyPolicy: "Politique de confidentialité"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1564,7 +1568,8 @@ enum L10n {
       selectImage: "Bild auswählen",
       cropAndSave: "Zuschneiden & Speichern",
       avatarSaving: "Speichern...",
-      avatarSaved: "Avatar aktualisiert!"
+      avatarSaved: "Avatar aktualisiert!",
+      privacyPolicy: "Datenschutzrichtlinie"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -1873,7 +1878,8 @@ enum L10n {
       selectImage: "Seleziona immagine",
       cropAndSave: "Ritaglia e Salva",
       avatarSaving: "Salvataggio...",
-      avatarSaved: "Avatar aggiornato!"
+      avatarSaved: "Avatar aggiornato!",
+      privacyPolicy: "Informativa sulla privacy"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -2181,7 +2187,8 @@ enum L10n {
       selectImage: "画像を選択",
       cropAndSave: "切り抜いて保存",
       avatarSaving: "保存中...",
-      avatarSaved: "アバターが更新されました！"
+      avatarSaved: "アバターが更新されました！",
+      privacyPolicy: "プライバシーポリシー"
     ),
   ]
 }
@@ -2504,4 +2511,6 @@ struct Strings {
   let cropAndSave: String
   let avatarSaving: String
   let avatarSaved: String
+  // Legal
+  let privacyPolicy: String
 }

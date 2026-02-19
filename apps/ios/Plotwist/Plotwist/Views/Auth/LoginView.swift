@@ -141,7 +141,6 @@ struct LoginView: View {
             }
 
             #if DEBUG
-            // Debug: Reset and open onboarding
             Button {
               OnboardingService.shared.reset()
               UserDefaults.standard.set(false, forKey: "isGuestMode")
@@ -154,6 +153,16 @@ struct LoginView: View {
                 .frame(height: 36)
             }
             #endif
+          }
+          
+          if let url = URL(string: "https://plotwist.app/\(Language.current.rawValue)/privacy") {
+            Link(destination: url) {
+              Text(strings.privacyPolicy)
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.4))
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.top, 8)
           }
         }
         .padding(.horizontal, 24)
