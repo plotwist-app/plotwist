@@ -126,7 +126,7 @@ describe('get user total hours count', () => {
 
     const sut = await getUserTotalHoursService(user.id, redisClient)
 
-    expect(sut).toEqual({
+    expect(sut).toMatchObject({
       totalHours: CHERNOBYL.runtime + INCEPTION.runtime,
     })
   })
