@@ -153,6 +153,17 @@ export const getUserPreferencesResponseSchema = {
   }),
 }
 
+export const deleteUserResponseSchema = {
+  200: z.object({
+    success: z.boolean(),
+  }),
+  404: z
+    .object({
+      message: z.string(),
+    })
+    .describe('User not found.'),
+}
+
 export const searchUsersByUsernameQuerySchema = z.object({
   username: z.string(),
 })
