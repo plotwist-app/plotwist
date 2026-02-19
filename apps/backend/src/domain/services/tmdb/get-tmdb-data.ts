@@ -1,4 +1,5 @@
 import type { FastifyRedis } from '@fastify/redis'
+
 import type { Language } from '@plotwist_app/tmdb'
 import { tmdb } from '@/infra/adapters/tmdb'
 

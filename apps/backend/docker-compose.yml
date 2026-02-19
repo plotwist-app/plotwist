@@ -56,6 +56,16 @@ services:
       - localstack_data:/var/lib/localstack
     networks:
       - plotwist_network
+      
+  grafana:
+    image: grafana/otel-lgtm
+    container_name: plotwist_grafana
+    ports:
+      - 12345:3000
+      - 4317:4317
+      - 4318:4318
+    networks:
+      - plotwist_network
 
 volumes:
   redis-data:

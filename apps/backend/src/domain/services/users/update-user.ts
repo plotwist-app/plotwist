@@ -1,3 +1,4 @@
+import type { z } from 'zod'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
@@ -8,7 +9,7 @@ import {
 import { isUniqueViolation } from '@/infra/db/utils/postgres-errors'
 import type { updateUserBodySchema } from '@/infra/http/schemas/users'
 
-export type UpdateUserInput = typeof updateUserBodySchema._type
+export type UpdateUserInput = z.infer<typeof updateUserBodySchema>
 
 export async function updateUserService({
   userId,

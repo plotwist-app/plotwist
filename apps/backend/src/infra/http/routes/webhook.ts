@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
 import { stripeWebhookController } from '../controllers/stripe-webhook-controller'
 
 export async function webhookRoutes(app: FastifyInstance) {

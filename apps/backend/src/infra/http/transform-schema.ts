@@ -5,7 +5,7 @@ export function transformSwaggerSchema(
 ): ReturnType<typeof jsonSchemaTransform> {
   const { schema, url } = jsonSchemaTransform(data)
 
-  if (schema.consumes?.includes('multipart/form-data')) {
+  if (schema?.consumes?.includes('multipart/form-data')) {
     if (schema.body === undefined) {
       schema.body = {
         type: 'object',

@@ -118,7 +118,7 @@ export async function selectReviews({
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
     .orderBy(...orderCriteria)
-    .limit(limit + 1) // Fetch one extra to check if there are more
+    .limit(limit + 1)
     .offset(offset)
 }
 
