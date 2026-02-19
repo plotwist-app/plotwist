@@ -59,6 +59,9 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^5.2.4
         version: 5.2.5
+      '@kubiks/otel-drizzle':
+        specifier: ^2.1.0
+        version: 2.1.0(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(postgres@3.4.8))
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -2484,6 +2487,13 @@ packages:
     engines: {node: '>= 10.16.0'}
     peerDependencies:
       jsep: ^0.4.0||^1.0.0
+
+  '@kubiks/otel-drizzle@2.1.0':
+    resolution: {integrity: sha512-9UHb0od3jwa6zTWMyEYPIZcUq5PDaziCmQLMLakSK2zeqy12SFZ3SAGWXJTgEr8valn/Wa+DKVs+Z3aqKQUpvg==}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.9.0 <2.0.0'
+      drizzle-orm: '>=0.28.0'
 
   '@lukeed/ms@2.0.2':
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
@@ -11149,6 +11159,11 @@ snapshots:
   '@jsep-plugin/ternary@1.1.4(jsep@1.4.0)':
     dependencies:
       jsep: 1.4.0
+
+  '@kubiks/otel-drizzle@2.1.0(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(postgres@3.4.8))':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      drizzle-orm: 0.45.1(@opentelemetry/api@1.9.0)(postgres@3.4.8)
 
   '@lukeed/ms@2.0.2': {}
 

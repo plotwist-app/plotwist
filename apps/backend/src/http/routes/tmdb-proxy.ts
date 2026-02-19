@@ -153,7 +153,7 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
         reply.header('X-Cache', 'MISS')
         reply.header('Content-Type', 'application/json')
         return reply.send(JSON.parse(tmdbResponse.body))
-      }),
+      },
     })
   )
 }
