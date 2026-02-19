@@ -114,7 +114,7 @@ struct ProfileStatsView: View {
   let isOwnProfile: Bool
 
   @State var strings = L10n.current
-  @State var selectedPeriod: String = MonthSection.currentYearMonth()
+  @State var selectedPeriod: String = "all"
   @State private var availableMonths: [String] = []
 
   @State private var loadedSections: [String: MonthSection] = [:]
@@ -141,6 +141,7 @@ struct ProfileStatsView: View {
       periodHeader
         .padding(.horizontal, 24)
         .padding(.vertical, 12)
+        .transaction { $0.animation = nil }
 
       ScrollView {
         VStack(spacing: 16) {
@@ -198,7 +199,7 @@ struct ProfileStatsView: View {
     HStack {
       Menu {
         Button {
-          withAnimation(.easeInOut(duration: 0.2)) { selectedPeriod = "all" }
+          selectedPeriod = "all"
         } label: {
           HStack {
             Text(strings.allTime)
@@ -210,7 +211,7 @@ struct ProfileStatsView: View {
 
         ForEach(availableMonths.filter { $0 != "all" }, id: \.self) { period in
           Button {
-            withAnimation(.easeInOut(duration: 0.2)) { selectedPeriod = period }
+            selectedPeriod = period
           } label: {
             HStack {
               Text(periodDisplayLabel(for: period))
@@ -229,6 +230,7 @@ struct ProfileStatsView: View {
             .foregroundColor(.appMutedForegroundAdaptive)
         }
       }
+      .id(selectedPeriod)
 
       Spacer()
 

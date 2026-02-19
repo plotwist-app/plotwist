@@ -21,7 +21,14 @@ struct TimeWatchedDetailView: View {
   var userId: String? = nil
   var period: String? = nil
 
-  @State private var isScrolled = false
+  @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
+  private let scrollThreshold: CGFloat = 10
+
+  private var isScrolled: Bool {
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
+  }
 
   init(totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry],
        comparisonHours: Double? = nil,
@@ -51,79 +58,89 @@ struct TimeWatchedDetailView: View {
       detailHeaderView(title: strings.timeWatched, isScrolled: isScrolled) { dismiss() }
 
       ScrollView {
-        VStack(alignment: .leading, spacing: 24) {
-          GeometryReader { geo in
-            Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
-          }
-          .frame(height: 0)
-
-          VStack(alignment: .leading, spacing: 8) {
-            Text(periodLabel)
-              .font(.system(size: 13, weight: .medium))
-              .foregroundColor(.appMutedForegroundAdaptive)
-
-            Text(String(format: strings.youSpentWatching, formatTotalHours(totalHours)))
-              .font(.system(size: 28, weight: .bold))
-              .foregroundColor(.appForegroundAdaptive)
-
-            if period == "all", let pct = percentileRank, pct > 0 {
-              HStack(spacing: 6) {
-                Image(systemName: "flame.fill")
-                  .font(.system(size: 12))
-                Text(String(format: strings.topPercentile, pct))
-                  .font(.system(size: 14, weight: .medium))
-              }
-              .foregroundColor(Color(hex: "F59E0B"))
-            } else {
-              comparisonLine
-            }
-          }
-
-          if movieHours > 0 || seriesHours > 0 {
-            Divider()
-
-            VStack(alignment: .leading, spacing: 12) {
-              Text(strings.distribution)
+        VStack(spacing: 0) {
+          VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 8) {
+              Text(periodLabel)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(.appMutedForegroundAdaptive)
 
-              movieSeriesSplitBar
+              Text(String(format: strings.youSpentWatching, formatTotalHours(totalHours)))
+                .font(.system(size: 28, weight: .bold))
+                .foregroundColor(.appForegroundAdaptive)
+
+              if period == "all", let pct = percentileRank, pct > 0 {
+                HStack(spacing: 6) {
+                  Image(systemName: "flame.fill")
+                    .font(.system(size: 12))
+                  Text(String(format: strings.topPercentile, pct))
+                    .font(.system(size: 14, weight: .medium))
+                }
+                .foregroundColor(Color(hex: "F59E0B"))
+              } else {
+                comparisonLine
+              }
             }
-          }
 
-          if !dailyActivity.isEmpty {
-            Divider()
-          }
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
+            if movieHours > 0 || seriesHours > 0 {
+              Divider()
 
-        if !dailyActivity.isEmpty {
-          activityHeatmap
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
-        }
+              VStack(alignment: .leading, spacing: 12) {
+                Text(strings.distribution)
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundColor(.appMutedForegroundAdaptive)
 
-        if !hourlyDistribution.isEmpty {
-          VStack(alignment: .leading, spacing: 24) {
-            Divider()
-            hourlyDistributionChart
+                movieSeriesSplitBar
+              }
+            }
+
+            if !dailyActivity.isEmpty {
+              Divider()
+            }
           }
           .padding(.horizontal, 24)
           .padding(.top, 16)
-        }
 
-        Spacer().frame(height: 24)
-      }
-      .coordinateSpace(name: "scroll")
-      .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-        isScrolled = value < -10
+          if !dailyActivity.isEmpty {
+            activityHeatmap
+              .padding(.horizontal, 24)
+              .padding(.top, 8)
+          }
+
+          if !hourlyDistribution.isEmpty {
+            VStack(alignment: .leading, spacing: 24) {
+              Divider()
+              hourlyDistributionChart
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 16)
+          }
+
+          Spacer().frame(height: 24)
+        }
+        .background(scrollOffsetReader)
       }
     }
     .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
     .task(id: "\(period ?? "")-\(dailyActivity.count)-\(hourlyDistribution.count)") {
       await loadDetailDataIfNeeded()
+    }
+  }
+
+  private var scrollOffsetReader: some View {
+    GeometryReader { geo -> Color in
+      DispatchQueue.main.async {
+        let offset = geo.frame(in: .global).minY
+        if initialScrollOffset == nil {
+          initialScrollOffset = offset
+          print("[TimeWatchedDetail] initial offset set: \(offset)")
+        }
+        scrollOffset = offset
+        let scrolled = isScrolled
+        print("[TimeWatchedDetail] offset=\(offset) initial=\(String(describing: initialScrollOffset)) isScrolled=\(scrolled)")
+      }
+      return Color.clear
     }
   }
 

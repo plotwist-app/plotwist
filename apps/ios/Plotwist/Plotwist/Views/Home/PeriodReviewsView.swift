@@ -13,8 +13,15 @@ struct PeriodReviewsView: View {
   var userId: String? = nil
   var period: String? = nil
 
-  @State private var isScrolled = false
+  @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
+  private let scrollThreshold: CGFloat = 10
   @State private var isLoading = false
+
+  private var isScrolled: Bool {
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
+  }
 
   init(reviews: [BestReview], periodLabel: String, strings: Strings, userId: String? = nil, period: String? = nil) {
     _reviews = State(initialValue: reviews)
@@ -35,11 +42,6 @@ struct PeriodReviewsView: View {
       } else {
         ScrollView {
           VStack(alignment: .leading, spacing: 0) {
-            GeometryReader { geo in
-              Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
-            }
-            .frame(height: 0)
-
             Text(periodLabel)
               .font(.system(size: 13, weight: .medium))
               .foregroundColor(.appMutedForegroundAdaptive)
@@ -58,16 +60,26 @@ struct PeriodReviewsView: View {
           .padding(.horizontal, 24)
           .padding(.top, 16)
           .padding(.bottom, 24)
-        }
-        .coordinateSpace(name: "scroll")
-        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-          isScrolled = value < -10
+          .background(scrollOffsetReader)
         }
       }
     }
     .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
     .task { await loadReviewsIfNeeded() }
+  }
+
+  private var scrollOffsetReader: some View {
+    GeometryReader { geo -> Color in
+      DispatchQueue.main.async {
+        let offset = geo.frame(in: .global).minY
+        if initialScrollOffset == nil {
+          initialScrollOffset = offset
+        }
+        scrollOffset = offset
+      }
+      return Color.clear
+    }
   }
 
   private func loadReviewsIfNeeded() async {

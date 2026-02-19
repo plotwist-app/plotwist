@@ -13,8 +13,15 @@ struct PeriodGenresView: View {
   var userId: String? = nil
   var period: String? = nil
 
-  @State private var isScrolled = false
+  @State private var scrollOffset: CGFloat = 0
+  @State private var initialScrollOffset: CGFloat? = nil
+  private let scrollThreshold: CGFloat = 10
   @State private var isLoading = false
+
+  private var isScrolled: Bool {
+    guard let initial = initialScrollOffset else { return false }
+    return scrollOffset < initial - scrollThreshold
+  }
 
   init(genres: [WatchedGenre], periodLabel: String, strings: Strings, userId: String? = nil, period: String? = nil) {
     _genres = State(initialValue: genres)
@@ -35,16 +42,11 @@ struct PeriodGenresView: View {
       } else {
         ScrollView {
           VStack(alignment: .leading, spacing: 0) {
-            GeometryReader { geo in
-              Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: geo.frame(in: .named("scroll")).minY)
-            }
-            .frame(height: 0)
+            Text(periodLabel)
+              .font(.system(size: 13, weight: .medium))
+              .foregroundColor(.appMutedForegroundAdaptive)
 
-          Text(periodLabel)
-            .font(.system(size: 13, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
-
-          Text(strings.favoriteGenres)
+            Text(strings.favoriteGenres)
               .font(.system(size: 34, weight: .bold))
               .foregroundColor(.appForegroundAdaptive)
               .padding(.bottom, 20)
@@ -63,16 +65,26 @@ struct PeriodGenresView: View {
           .padding(.horizontal, 24)
           .padding(.top, 16)
           .padding(.bottom, 24)
-        }
-        .coordinateSpace(name: "scroll")
-        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-          isScrolled = value < -10
+          .background(scrollOffsetReader)
         }
       }
     }
     .background(Color.appBackgroundAdaptive.ignoresSafeArea())
     .navigationBarHidden(true)
     .task { await loadGenresIfNeeded() }
+  }
+
+  private var scrollOffsetReader: some View {
+    GeometryReader { geo -> Color in
+      DispatchQueue.main.async {
+        let offset = geo.frame(in: .global).minY
+        if initialScrollOffset == nil {
+          initialScrollOffset = offset
+        }
+        scrollOffset = offset
+      }
+      return Color.clear
+    }
   }
 
   private func genreRow(genre: WatchedGenre, rank: Int) -> some View {

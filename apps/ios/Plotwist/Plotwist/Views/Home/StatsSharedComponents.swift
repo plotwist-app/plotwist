@@ -8,6 +8,7 @@ import SwiftUI
 
 @ViewBuilder
 func detailHeaderView(title: String, isScrolled: Bool, onBack: @escaping () -> Void) -> some View {
+  let _ = print("[detailHeader] title=\(title) isScrolled=\(isScrolled)")
   ZStack {
     if isScrolled {
       Text(title)
