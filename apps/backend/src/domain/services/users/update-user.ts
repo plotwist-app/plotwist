@@ -3,7 +3,7 @@ import { isUniqueViolation } from '@/db/utils/postgres-errors'
 import { NoValidFieldsError } from '@/domain/errors/no-valid-fields'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { UsernameAlreadyRegisteredError } from '@/domain/errors/username-already-registered'
-import type { updateUserBodySchema } from '@/http/schemas/users'
+import type { updateUserBodySchema } from '@/infra/http/schemas/users'
 
 export type UpdateUserInput = typeof updateUserBodySchema._type
 

@@ -4,7 +4,7 @@ import {
 } from '@/db/repositories/magic-tokens'
 import { updateUserPassword } from '@/db/repositories/user-repository'
 import { InvalidTokenError } from '@/domain/errors/invalid-token-error'
-import type { updateUserPasswordBodySchema } from '@/http/schemas/users'
+import type { updateUserPasswordBodySchema } from '@/infra/http/schemas/users'
 import { hashPassword } from '@/utils/password'
 
 type UpdatePasswordInput = typeof updateUserPasswordBodySchema._type

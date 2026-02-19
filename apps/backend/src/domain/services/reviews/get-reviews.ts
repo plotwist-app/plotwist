@@ -7,7 +7,7 @@ import {
   startOfWeek,
 } from 'date-fns'
 import { selectReviews } from '@/db/repositories/reviews-repository'
-import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
+import type { getReviewsQuerySchema } from '@/infra/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
   typeof getReviewsQuerySchema._type,

@@ -1,4 +1,4 @@
-import { SQSAdapter } from '@/adapters/sqs'
+import { SQSAdapter } from '@/infra/adapters/sqs'
 import type { QueueService } from '@/ports/queue-service'
 
 type QueueProvider = 'SQS' | 'RABBITMQ'

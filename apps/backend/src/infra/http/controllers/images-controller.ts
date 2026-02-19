@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { createCloudStorage } from '@/factories/cloud-storage-factory'
+import { createCloudStorage } from '@/infra/factories/cloud-storage-factory'
 import { createImageQuerySchema } from '../schemas/images'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb

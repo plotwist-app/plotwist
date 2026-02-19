@@ -3,7 +3,7 @@ import {
   insertSocialLink,
 } from '@/db/repositories/social-links-repository'
 import type { InsertSocialLink } from '@/domain/entities/social-link'
-import type { socialLinksBodySchema } from '@/http/schemas/social-links'
+import type { socialLinksBodySchema } from '@/infra/http/schemas/social-links'
 
 type Input = {
   values: typeof socialLinksBodySchema._type

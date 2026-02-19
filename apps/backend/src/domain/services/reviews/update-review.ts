@@ -2,7 +2,7 @@ import { updateReview } from '@/db/repositories/reviews-repository'
 import type {
   reviewParamsSchema,
   updateReviewBodySchema,
-} from '@/http/schemas/reviews'
+} from '@/infra/http/schemas/reviews'
 
 export type UpdateReviewInput = typeof updateReviewBodySchema._type &
   typeof reviewParamsSchema._type

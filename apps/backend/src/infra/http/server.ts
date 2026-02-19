@@ -6,9 +6,9 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
-import { logger } from '@/adapters/logger'
 import { DomainError } from '@/domain/errors/domain-error'
-import { config } from '../config'
+import { logger } from '@/infra/adapters/logger'
+import { config } from '../../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
