@@ -8,4 +8,5 @@ export async function monitorTotalUsers() {
   ])
 
   console.log(`Total users: ${totalUsers}`)
+  return totalUsers
 }
