@@ -12,6 +12,7 @@ export const config = {
   myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
   google: loadGoogleEnvs(),
+  monitors: loadMonitorsEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -117,6 +118,16 @@ function loadOpenAIEnvs() {
 function loadGoogleEnvs() {
   const schema = z.object({
     GOOGLE_CLIENT_ID: z.string().optional(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadMonitorsEnvs() {
+  const schema = z.object({
+    ENABLE_MONITORS: z.string().default('false'),
+    MONITOR_CRON_TIME: z.string().default('0 0 * * *'),
+     
   })
 
   return schema.parse(process.env)
