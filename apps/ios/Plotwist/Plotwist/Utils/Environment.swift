@@ -7,7 +7,7 @@ import Foundation
 
 enum Env {
     static func value(for key: String, fallback: String? = nil) -> String {
-        if let value = Bundle.main.infoDictionary?[key] as? String, !value.isEmpty {
+        if let value = Bundle.main.infoDictionary?[key] as? String, !value.isEmpty, !value.contains("$(") {
             return value.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         print("⚠️ [Env] Missing key: '\(key)' in Info.plist")
