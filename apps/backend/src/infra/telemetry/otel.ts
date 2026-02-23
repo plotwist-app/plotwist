@@ -11,13 +11,15 @@ import {
   ATTR_SERVICE_VERSION,
 } from '@opentelemetry/semantic-conventions'
 import { config } from '@/config'
+import { logger } from '../adapters/logger'
 
 const otlpMetricsEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
 const otlpTracesEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
 
-const otlpHeaders = parseOtlpHeaders(
-  config.telemetry.OTEL_EXPORTER_OTLP_HEADERS
-)
+const otlpHeaders =
+  config.app.APP_ENV === 'production'
+    ? parseOtlpHeaders(config.telemetry.OTEL_EXPORTER_OTLP_HEADERS)
+    : {}
 
 function parseOtlpHeaders(raw: string | undefined): Record<string, string> {
   if (!raw?.trim()) return {}
@@ -49,7 +51,7 @@ const sdk = new NodeSDK({
   }),
 })
 
-console.log('Starting OTLP exporter')
+logger.info('Starting OTLP exporter')
 
 sdk.start()
 

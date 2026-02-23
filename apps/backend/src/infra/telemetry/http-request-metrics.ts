@@ -5,8 +5,6 @@ function getStatusClass(statusCode: number): 'ok' | 'error' {
   return statusCode >= 200 && statusCode < 400 ? 'ok' : 'error'
 }
 
-const DURATION_BOUNDARIES_MS = [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000]
-
 export function registerHttpRequestMetrics(app: FastifyInstance) {
   const meter = metrics.getMeter('plotwist-api', '0.1.0')
   const requestCounter = meter.createCounter('http.server.requests', {
@@ -18,8 +16,7 @@ export function registerHttpRequestMetrics(app: FastifyInstance) {
     {
       description: 'HTTP server request duration',
       unit: 's',
-    },
-    DURATION_BOUNDARIES_MS.map(ms => ms / 1000)
+    }
   )
 
   app.addHook('onRequest', (request, _reply, done) => {
