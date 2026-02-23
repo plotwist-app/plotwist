@@ -1,8 +1,8 @@
 import '@/infra/telemetry/otel'
 
 import { startServer } from '@/infra/http/server'
-import { startWorkers } from '@/workers/worker'
 import { startMonitors } from '@/monitors/monitor'
+import { startWorkers } from '@/workers/worker'
 
 async function main() {
   startWorkers()

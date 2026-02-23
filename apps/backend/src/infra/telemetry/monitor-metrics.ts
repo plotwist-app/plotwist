@@ -12,7 +12,9 @@ export const monitorMetricNames = {
   todayNewSubscriptions: 'today_new_subscriptions',
 } as const
 
-const store: Partial<Record<(typeof monitorMetricNames)[keyof typeof monitorMetricNames], number>> = {}
+const store: Partial<
+  Record<(typeof monitorMetricNames)[keyof typeof monitorMetricNames], number>
+> = {}
 
 function getMeter() {
   return metrics.getMeter(METER_NAME, METER_VERSION)

@@ -6,11 +6,11 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
+import { config } from '@/config'
 import { DomainError } from '@/domain/errors/domain-error'
+import { logger } from '@/infra/adapters/logger'
 import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
 import { fastifyOtel } from '@/infra/telemetry/otel'
-import { config } from '@/config'
-import { logger } from '@/infra/adapters/logger'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
