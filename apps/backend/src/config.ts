@@ -135,14 +135,7 @@ function loadMonitorsEnvs() {
 
 function loadTelemetryEnvs() {
   const schema = z.object({
-    OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: z
-      .url()
-      .optional()
-      .default('http://localhost:4318/v1/metrics'),
-    OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: z
-      .url()
-      .optional()
-      .default('http://localhost:4318/v1/traces'),
+    OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional(),
     OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
   })
   return schema.parse(process.env)

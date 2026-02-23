@@ -13,41 +13,60 @@ import {
 import { config } from '@/config'
 import { logger } from '../adapters/logger'
 
-const otlpMetricsEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
-const otlpTracesEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+const LOCALHOST_OTLP = 'http://localhost:4318'
 
-const otlpHeaders =
-  config.app.APP_ENV === 'production'
-    ? parseOtlpHeaders(config.telemetry.OTEL_EXPORTER_OTLP_HEADERS)
-    : {}
+function getOtlpConfig() {
+  const isProduction = config.app.APP_ENV === 'production'
+  const base =
+    isProduction && config.telemetry.OTEL_EXPORTER_OTLP_ENDPOINT?.trim()
+      ? resolveBaseUrl(config.telemetry.OTEL_EXPORTER_OTLP_ENDPOINT.trim())
+      : LOCALHOST_OTLP
+  const isRemote = base !== LOCALHOST_OTLP
+  const headers =
+    isRemote && config.telemetry.OTEL_EXPORTER_OTLP_HEADERS?.trim()
+      ? parseOtlpHeaders(config.telemetry.OTEL_EXPORTER_OTLP_HEADERS)
+      : {}
 
-function parseOtlpHeaders(raw: string | undefined): Record<string, string> {
-  if (!raw?.trim()) return {}
+  return {
+    metricsUrl: `${base}/v1/metrics`,
+    tracesUrl: `${base}/v1/traces`,
+    headers,
+  }
+}
+
+function resolveBaseUrl(endpoint: string): string {
+  if (endpoint === 'localhost' || endpoint === '127.0.0.1')
+    return LOCALHOST_OTLP
+  if (endpoint.startsWith('http://') || endpoint.startsWith('https://'))
+    return endpoint.replace(/\/$/, '')
+  return `http://${endpoint}:4318`
+}
+
+function parseOtlpHeaders(raw: string): Record<string, string> {
   const out: Record<string, string> = {}
   for (const part of raw.split(',')) {
     const eq = part.indexOf('=')
     if (eq === -1) continue
     const key = part.slice(0, eq).trim()
-    const value = part.slice(eq + 1).trim()
-    if (key && value) out[key] = value
+    const value = part
+      .slice(eq + 1)
+      .trim()
+      .replace(/%20/g, ' ')
+    if (key) out[key] = value
   }
   return out
 }
+
+const { metricsUrl, tracesUrl, headers } = getOtlpConfig()
 
 const sdk = new NodeSDK({
   resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: 'plotwist-api',
     [ATTR_SERVICE_VERSION]: '0.1.0',
   }),
-  traceExporter: new OTLPTraceExporter({
-    url: otlpTracesEndpoint,
-    headers: otlpHeaders,
-  }),
+  traceExporter: new OTLPTraceExporter({ url: tracesUrl, headers }),
   metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({
-      url: otlpMetricsEndpoint,
-      headers: otlpHeaders,
-    }),
+    exporter: new OTLPMetricExporter({ url: metricsUrl, headers }),
   }),
 })
 
