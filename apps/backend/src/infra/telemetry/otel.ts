@@ -1,7 +1,8 @@
 import FastifyOtel from '@fastify/otel'
-import { trace } from '@opentelemetry/api'
+import { metrics, trace } from '@opentelemetry/api'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
+import { HostMetrics } from '@opentelemetry/host-metrics'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'
 import { NodeSDK } from '@opentelemetry/sdk-node'
@@ -30,6 +31,19 @@ const sdk = new NodeSDK({
 console.log('Starting OTLP exporter')
 
 sdk.start()
+
+const meterProvider = metrics.getMeterProvider()
+const hostMetrics = new HostMetrics({
+  meterProvider,
+  metricGroups: [
+    'process.cpu',
+    'process.memory',
+    'system.cpu',
+    'system.memory',
+    'system.network',
+  ],
+})
+hostMetrics.start()
 
 const fastifyOtel = new FastifyOtel()
 fastifyOtel.setTracerProvider(trace.getTracerProvider())
