@@ -10,6 +10,27 @@ import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
 } from '@opentelemetry/semantic-conventions'
+import { config } from '@/config'
+
+const otlpMetricsEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+const otlpTracesEndpoint = config.telemetry.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+
+const otlpHeaders = parseOtlpHeaders(
+  config.telemetry.OTEL_EXPORTER_OTLP_HEADERS
+)
+
+function parseOtlpHeaders(raw: string | undefined): Record<string, string> {
+  if (!raw?.trim()) return {}
+  const out: Record<string, string> = {}
+  for (const part of raw.split(',')) {
+    const eq = part.indexOf('=')
+    if (eq === -1) continue
+    const key = part.slice(0, eq).trim()
+    const value = part.slice(eq + 1).trim()
+    if (key && value) out[key] = value
+  }
+  return out
+}
 
 const sdk = new NodeSDK({
   resource: resourceFromAttributes({
@@ -17,13 +38,13 @@ const sdk = new NodeSDK({
     [ATTR_SERVICE_VERSION]: '0.1.0',
   }),
   traceExporter: new OTLPTraceExporter({
-    url: 'http://localhost:4318/v1/traces',
-    headers: {},
+    url: otlpTracesEndpoint,
+    headers: otlpHeaders,
   }),
   metricReader: new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({
-      url: 'http://localhost:4318/v1/metrics',
-      headers: {},
+      url: otlpMetricsEndpoint,
+      headers: otlpHeaders,
     }),
   }),
 })

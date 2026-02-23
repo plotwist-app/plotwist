@@ -13,6 +13,7 @@ export const config = {
   openai: loadOpenAIEnvs(),
   google: loadGoogleEnvs(),
   monitors: loadMonitorsEnvs(),
+  telemetry: loadTelemetryEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -129,5 +130,20 @@ function loadMonitorsEnvs() {
     MONITOR_CRON_TIME: z.string().default('0 0 * * *'),
   })
 
+  return schema.parse(process.env)
+}
+
+function loadTelemetryEnvs() {
+  const schema = z.object({
+    OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: z
+      .url()
+      .optional()
+      .default('http://localhost:4318/v1/metrics'),
+    OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: z
+      .url()
+      .optional()
+      .default('http://localhost:4318/v1/traces'),
+    OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
+  })
   return schema.parse(process.env)
 }
