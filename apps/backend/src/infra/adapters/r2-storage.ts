@@ -76,7 +76,7 @@ async function uploadImage({
 
 const R2Storage: CloudStorage = {
   deleteOldImages: prefix => deleteOldImages(prefix),
-  uploadImage: uploadImageInput => uploadImage(uploadImageInput),
+  uploadImage: input => uploadImage(input),
 }
 
 export { R2Storage }

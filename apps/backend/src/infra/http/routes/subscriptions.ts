@@ -1,4 +1,5 @@
 import type { FastifyInstance } from 'fastify'
+
 import { deleteSubscriptionController } from '../controllers/subscriptions-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {

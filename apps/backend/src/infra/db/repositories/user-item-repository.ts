@@ -180,7 +180,6 @@ export async function reorderUserItems(
   _status: string,
   orderedIds: string[]
 ) {
-  // Update position for each item based on array order
   const updates = orderedIds.map((id, index) =>
     db
       .update(schema.userItems)

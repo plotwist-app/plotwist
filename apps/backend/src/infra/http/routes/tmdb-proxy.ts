@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import https from 'https'
+
 import { config } from '@/config'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'

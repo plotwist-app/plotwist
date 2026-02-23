@@ -3,8 +3,6 @@ import { db } from '..'
 import { schema } from '../schema'
 
 export async function selectUserStats(userId: string) {
-  // Run all independent queries in parallel instead of sequential transaction
-  // This improves performance as these are all read-only operations
   const [
     [{ count: followersCount }],
     [{ count: followingCount }],

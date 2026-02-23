@@ -6,15 +6,19 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
+import { config } from '@/config'
 import { DomainError } from '@/domain/errors/domain-error'
 import { logger } from '@/infra/adapters/logger'
-import { config } from '../../config'
+import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
+import { fastifyOtel } from '@/infra/telemetry/otel'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
 const app: FastifyInstance = fastify()
 
-export function startServer() {
+export async function startServer() {
+  await app.register(fastifyOtel.plugin())
+
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 
@@ -85,16 +89,15 @@ export function startServer() {
     return reply.status(500).send({ message: 'Internal server error.' })
   })
 
+  registerHttpRequestMetrics(app)
+
   // TODO: Uncomment this when we have a client guard
   // registerClientGuard(app)
   routes(app)
 
-  app
-    .listen({
-      port: config.app.PORT,
-      host: '0.0.0.0',
-    })
-    .then(() => {
-      logger.info(`HTTP server running at ${config.app.BASE_URL}`)
-    })
+  await app.listen({
+    port: config.app.PORT,
+    host: '0.0.0.0',
+  })
+  logger.info(`HTTP server running at ${config.app.BASE_URL}`)
 }

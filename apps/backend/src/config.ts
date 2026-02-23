@@ -12,6 +12,8 @@ export const config = {
   myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
   google: loadGoogleEnvs(),
+  monitors: loadMonitorsEnvs(),
+  telemetry: loadTelemetryEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -119,5 +121,22 @@ function loadGoogleEnvs() {
     GOOGLE_CLIENT_ID: z.string().optional(),
   })
 
+  return schema.parse(process.env)
+}
+
+function loadMonitorsEnvs() {
+  const schema = z.object({
+    ENABLE_MONITORS: z.string().default('false'),
+    MONITOR_CRON_TIME: z.string().default('0 0 * * *'),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadTelemetryEnvs() {
+  const schema = z.object({
+    OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional(),
+    OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
+  })
   return schema.parse(process.env)
 }
