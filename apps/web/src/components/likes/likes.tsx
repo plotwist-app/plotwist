@@ -12,6 +12,13 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@plotwist/ui/components/ui/dialog'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@plotwist/ui/components/ui/drawer'
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { Heart } from 'lucide-react'
@@ -23,10 +30,13 @@ import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { ProBadge } from '../pro-badge'
 
+type LikesMode = 'dialog' | 'drawer'
+
 type LikesProps = {
   className?: string
   likeCount: number
   entityId: string
+  mode?: LikesMode
 } & PropsWithChildren
 
 export function Likes({
@@ -34,6 +44,7 @@ export function Likes({
   likeCount,
   entityId,
   children,
+  mode,
 }: LikesProps) {
   const { dictionary, language } = useLanguage()
   const [open, setOpen] = useState(false)
@@ -43,84 +54,100 @@ export function Likes({
 
   if (likeCount === 0) return null
 
-  const Content = () => {
-    if (isLoading || !data) {
-      return (
-        <>
-          {Array.from({ length: 5 }).map(_ => (
+  const resolvedMode: LikesMode =
+    mode ??
+    (typeof window !== 'undefined' &&
+    window.matchMedia('(max-width: 768px)').matches
+      ? 'drawer'
+      : 'dialog')
+
+  const Trigger = children || (
+    <div
+      className={cn(
+        'rounded-md flex items-center bg-background border px-3 py-1 text-xs z-20 gap-1.5 cursor-pointer tabular-nums',
+        className
+      )}
+    >
+      <Heart size={12} className="fill-foreground" />
+      <NumberFlow value={likeCount} />
+    </div>
+  )
+
+  const Content = (
+    <>
+      {isLoading || !data
+        ? Array.from({ length: 5 }).map(() => (
             <div key={v4()} className="flex items-center">
               <div className="flex items-center gap-1">
                 <Skeleton className="size-10 rounded-full" />
-                <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2 " />
+                <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
               </div>
-
               <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
             </div>
+          ))
+        : data.likes.map(({ user, id }) => (
+            <div key={id} className="flex items-center">
+              <Link
+                href={`/${language}/${user.username}`}
+                className="flex items-center gap-1"
+              >
+                <Avatar className="size-10 border text-[10px]">
+                  {user.avatarUrl && (
+                    <AvatarImage
+                      src={user.avatarUrl}
+                      className="object-cover"
+                    />
+                  )}
+                  <AvatarFallback>
+                    {user.username[0].toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+
+                <span className="ml-2 mr-2 truncate text-sm">
+                  {user.username}
+                </span>
+              </Link>
+
+              {user.subscriptionType === 'PRO' && <ProBadge />}
+
+              <Link
+                href={`/${language}/${user.username}`}
+                className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
+              >
+                {dictionary.review_likes.view_profile}
+              </Link>
+            </div>
           ))}
-        </>
-      )
-    }
+    </>
+  )
 
+  if (resolvedMode === 'dialog') {
     return (
-      <>
-        {data.likes.map(({ user, id }) => (
-          <div key={id} className="flex items-center">
-            <Link
-              href={`/${language}/${user.username}`}
-              className="flex items-center gap-1"
-            >
-              <Avatar className="size-10 border text-[10px]">
-                {user.avatarUrl && (
-                  <AvatarImage src={user.avatarUrl} className="object-cover" />
-                )}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>{Trigger}</DialogTrigger>
 
-                <AvatarFallback>
-                  {user.username[0].toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+        <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
+          <DialogHeader className="mb-2">
+            <DialogTitle>{dictionary.likes}</DialogTitle>
+          </DialogHeader>
 
-              <span className="ml-2 mr-2 truncate text-sm">
-                {user.username}
-              </span>
-            </Link>
-
-            {user.subscriptionType === 'PRO' && <ProBadge />}
-
-            <Link
-              href={`/${language}/${user.username}`}
-              className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
-            >
-              {dictionary.review_likes.view_profile}
-            </Link>
-          </div>
-        ))}
-      </>
+          {Content}
+        </DialogContent>
+      </Dialog>
     )
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children || (
-          <div
-            className={cn(
-              'rounded-md flex items-center bg-background border px-3 py-1 text-xs z-20 gap-1.5 cursor-pointer tabular-nums',
-              className
-            )}
-          >
-            <Heart size={12} className="fill-foreground" />
-            <NumberFlow value={likeCount} />
-          </div>
-        )}
-      </DialogTrigger>
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
 
-      <DialogContent className="flex max-h-[642px] flex-col overflow-y-auto">
-        <DialogHeader className="mb-2">
-          <DialogTitle>{dictionary.likes}</DialogTitle>
-        </DialogHeader>
+      <DrawerContent className="px-4 pb-4">
+        <DrawerHeader>
+          <DrawerTitle>{dictionary.likes}</DrawerTitle>
+        </DrawerHeader>
 
-        <Content />
-      </DialogContent>
-    </Dialog>
+        {Content}
+      </DrawerContent>
+    </Drawer>
   )
 }
