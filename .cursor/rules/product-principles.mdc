@@ -1,0 +1,114 @@
+---
+description: Core product decision-making principles — consult these when making product, design, and engineering decisions
+alwaysApply: true
+---
+
+# Product Decision-Making Principles
+
+These principles guide every product, design, and engineering decision in this project. Always consider them when proposing features, UI changes, architecture choices, or prioritizing work.
+
+## I — Psychology: Engineer Behavior, Not Features
+
+- **Products win on feelings, not features.** Every decision should ask: "Does this make the user *feel* something?"
+- **Only change one behavior at a time.** Never ask the user to learn two new things simultaneously. Each new feature should fit seamlessly into existing workflows.
+- **Engineer around one psychological moment.** Identify the single moment of value and remove every friction point around it.
+- **Word of mouth is earned, not manufactured.** If the experience is seamless and delightful, organic growth follows.
+
+## II — Product: Solve Real Problems Through Obsessive User Understanding
+
+- **Talk to real users, not surveys.** Watch people struggle in real time. Design decisions should trace back to real conversations.
+- **Build a product that learns the user.** Personalization is not a nice-to-have — it's core. Examples:
+  - Remember user corrections and preferences.
+  - Adapt tone, style, and behavior to individual usage patterns.
+  - Handle self-corrections and natural language gracefully.
+- **Show care through details.** Treat user pain points as urgent priorities, not backlog items. If you show care for your users, users will care for your product.
+
+## III — Team & Engineering: Small Teams, High Ownership
+
+- **2-person pods.** Maximum ownership, minimum communication overhead. No ambiguity about who's responsible.
+- **Founder mentality.** See a bug? Fix it. Don't file a ticket and wait. Take initiative.
+- **Hire for taste.** Taste is noticing a 200ms animation is 50ms too slow. It's refactoring code nobody will see because it bothers you. Sweat the invisible details.
+- **Every additional person adds exponential communication overhead.** Keep teams small and accountable.
+
+## IV — B2C App Strategy: Validate, Ship Fast, Grow (Ernesto Lopez)
+
+Source: "I built 10 apps in 10 months and make $800,000/yr" — @ErnestoSOFTWARE
+
+### Validation Before Building
+
+- **Find a painful problem** people struggle with every single day.
+- **Check the App Store.** If competitors make $10k+/mo, the niche is validated.
+- **Download top competitors.** Screenshot their onboarding and core loop. Study every detail.
+- **Check TikTok/IG.** If creators are actively making content in that niche, there's demand.
+- Only start building after validation proves people already spend money on this.
+
+### Ship at the Speed of Sound
+
+- **MVP first, polish later.** MVP 1 is usually ugly — and that's fine.
+- **Build in 3–7 days.** Use AI tools (Cursor, ChatGPT) to move fast.
+- **"Decades happen in weeks."** With apps, compress time ruthlessly.
+- Get design inspiration from Pinterest, Dribbble, and competitors — then build.
+
+### Onboarding is 70% of the App
+
+- **Rip the onboarding structure of your best competitors** (not literally — the structure and flow).
+- The purpose of onboarding: remind users why they downloaded, make them realize they have a problem, and position your app as the solution.
+- **Hard paywall at the end of onboarding.** Force upfront payment or free trial. Don't be scared to ask for money.
+- Use the same pricing and offer structure as validated competitors.
+- If your onboarding sucks, nobody will pay. Proven onboarding > creative onboarding.
+
+### App Store Listing
+
+- **Name:** make it clear what the app does.
+- **Subtitle:** one strong, direct sentence. Say what it does, nothing else.
+- **Screenshots are part of the funnel.** Big text, one idea per screen, minimal UI.
+- Bad: "An AI-powered productivity experience." Good: "Block distractions and stay focused longer."
+- **Ugly screenshots that are clear win over pretty screenshots that confuse the user.**
+
+### Growth: 5 Channels
+
+1. **UGC creators** — hire creators to post 30–60 videos/month. Pay per video + viral bonuses. Volume wins.
+2. **Influencers** — 1 good influencer can kickstart an app. Negotiate $1 CPM deals (pay only for performance).
+3. **Faceless content (free)** — slideshows, screen recordings, app demos. Post 3–5x/day. If a format hits, double down with same hook, same structure, different words. Create a consistent brand even if faceless.
+4. **Founder-led content (free)** — find viral formats, replicate with your twist. Develops your "viral sense" which you relay to creators.
+5. **Paid ads (scalable)** — most predictable channel. Once you crack a good CPA with winning creatives, you can scale endlessly.
+
+### Mindset
+
+- **Apps = digital real estate.** Build once, sell forever, subscription-based.
+- **Treat apps like properties, users like tenants.** Recurring income is the only true business model.
+- Once you understand the formula, you can repeat it over and over again.
+
+## V — Design That Doesn't Look Vibecoded (Frederik Froessell)
+
+Source: "How I Build Apps That Don't Look Vibecoded" — @froessell
+
+### The Core Problem
+
+- You can spot a vibecoded app from a mile away. AI builds fast, but making it look like someone cared still takes taste, iteration, and knowing when to stop experimenting.
+- Browse popular apps in the App Store — none look like generic AI output. If you wouldn't use it yourself, don't ship it.
+
+### Design Process (7 Steps)
+
+1. **Idea to PRD** — talk to an LLM to narrow scope to a quick MVP. Describe what you want, let it poke holes, cut features until it's shippable. Output: a simple PRD, nothing fancy, just enough to stay focused.
+2. **First Prototype** — feed the PRD to your builder. Check functionality and flows only. Does it work? Does the navigation make sense? Don't look at design yet.
+3. **Screen Inventory** — once rough MVP works, generate a list of all screens and functionality. This becomes the checklist for the design phase.
+4. **Design Exploration** — feed that screen list to design tools (Variant AI, v0, Superdesign, etc.) and try random styles until something clicks. Get inspiration from Dribbble, Pinterest, competitors. Try different styles. Experiments that fail are fine — the point is to try.
+5. **Into Figma** — export designs to Figma. Adjust spacing, fix inconsistencies, make it feel like yours. Faster and cheaper than telling AI to "try another font" over and over.
+6. **Back to Code** — feed the refined design back to the builder or open in Cursor. Iterate.
+7. **Before Downloading** — integrate RevenueCat, onboarding flow, paywall, and backend before pulling code out. Don't want to mess with that later.
+
+### Design Principles
+
+- **Default to simple and minimalistic with a focus on typography.** When experiments fail, pivot back to what you know works.
+- **AI can make beautiful designs, but it needs proper guidance.** A blank canvas with "make something awesome" produces generic output. Be specific.
+- **The hard part is making it look like someone cared.** That takes taste, iteration, and knowing when to stop experimenting and just ship.
+- **If you won't use it yourself, don't publish it.**
+
+---
+
+## The One Principle
+
+> Don't build something people want — build something people can't live without.
+
+When in doubt, ask: "Would the user notice if this disappeared tomorrow? Would they fight to get it back?"

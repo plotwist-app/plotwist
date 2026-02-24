@@ -60,6 +60,9 @@ struct OnboardingCelebration: View {
         showContent = true
       }
       
+      // Prefetch home data in the background so it's ready when the user taps "Go to Home"
+      HomePrefetchService.shared.prefetchHomeData()
+      
       AnalyticsService.shared.track(.screenView(name: "Onboarding_Celebration"))
     }
   }

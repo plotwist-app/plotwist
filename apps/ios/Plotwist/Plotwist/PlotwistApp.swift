@@ -11,13 +11,17 @@ import SwiftUI
 struct PlotwistApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
+    init() {
+        Env.debugPrintAll()
+    }
+    
     var body: some Scene {
         WindowGroup {
             RootView()
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                AnalyticsService.shared.track(.appOpened)
+                AnalyticsService.shared.track(.appOpen)
             }
         }
     }

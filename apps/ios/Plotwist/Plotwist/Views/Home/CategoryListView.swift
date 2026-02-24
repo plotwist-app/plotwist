@@ -80,8 +80,12 @@ enum AnimeType: CaseIterable, CategoryTab {
 // MARK: - Category Tabs View (same style as Profile tabs)
 struct CategoryTabsView<Tab: CategoryTab>: View where Tab.AllCases: RandomAccessCollection {
   @Binding var selectedTab: Tab
-  var onTabChange: (() -> Void)?
+  var onTabChange: ((_ fromTrailing: Bool) -> Void)?
   @Namespace private var tabNamespace
+  
+  private func index(of tab: Tab) -> Int {
+    Array(Tab.allCases).firstIndex(of: tab) ?? 0
+  }
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -89,10 +93,11 @@ struct CategoryTabsView<Tab: CategoryTab>: View where Tab.AllCases: RandomAccess
         ForEach(Array(Tab.allCases), id: \.self) { tab in
           Button {
             if !tab.isDisabled {
+              let fromTrailing = index(of: tab) > index(of: selectedTab)
               withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 selectedTab = tab
               }
-              onTabChange?()
+              onTabChange?(fromTrailing)
             }
           } label: {
             VStack(spacing: 8) {
@@ -152,9 +157,12 @@ struct CategoryListView: View {
   @State private var selectedMovieSubcategory: MovieSubcategory = .popular
   @State private var selectedTVSeriesSubcategory: TVSeriesSubcategory = .popular
   @State private var selectedAnimeType: AnimeType = .tvSeries
+  @State private var loadingTask: Task<Void, Never>?
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var preferencesManager = UserPreferencesManager.shared
   @State private var hasAppliedInitialSubcategory = false
+  @State private var showPreferences = false
+  @State private var streamingProviders: [StreamingProvider] = []
 
   private var title: String {
     switch categoryType {
@@ -182,6 +190,199 @@ struct CategoryListView: View {
     GridItem(.flexible(), spacing: 12),
     GridItem(.flexible(), spacing: 12),
   ]
+  
+  @ViewBuilder
+  private func contentGrid(items gridItems: [SearchResult]) -> some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0) {
+        if isLoading && gridItems.isEmpty {
+          // Loading skeleton
+          LazyVGrid(columns: columns, spacing: 16) {
+            ForEach(0..<12, id: \.self) { _ in
+              RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                .fill(Color.appBorderAdaptive)
+                .aspectRatio(2 / 3, contentMode: .fit)
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 24)
+        } else {
+          // Filter pills
+          if preferencesManager.hasAnyPreference {
+            categoryFilterChips
+              .padding(.top, 12)
+              .padding(.bottom, 16)
+          }
+
+          LazyVGrid(columns: columns, spacing: 16) {
+            ForEach(gridItems) { item in
+              NavigationLink {
+                MediaDetailView(mediaId: item.id, mediaType: mediaType)
+              } label: {
+                CategoryPosterCard(item: item)
+              }
+              .buttonStyle(.plain)
+              .transition(.identity)
+              .onAppear {
+                if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
+                  Task {
+                    await loadMoreItems()
+                  }
+                }
+              }
+            }
+            .animation(nil, value: gridItems.map { $0.id })
+
+            if isLoadingMore {
+              ForEach(0..<3, id: \.self) { _ in
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                  .fill(Color.appBorderAdaptive)
+                  .aspectRatio(2 / 3, contentMode: .fit)
+              }
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.bottom, 24)
+        }
+      }
+    }
+    .background(Color.appBackgroundAdaptive)
+    .contentTransition(.identity)
+  }
+
+  // MARK: - Filter Chips (no content types, only genres + region/streaming)
+
+  private var categorySelectedProviders: [StreamingProvider] {
+    let ids = preferencesManager.watchProvidersIds
+    return streamingProviders.filter { ids.contains($0.providerId) }
+  }
+
+  private var categoryGenreSummary: String? {
+    let genres = preferencesManager.genreIds
+    guard !genres.isEmpty else { return nil }
+    let names = genres.prefix(3).map { OnboardingGenre(id: $0, name: "").name }
+    var text = names.joined(separator: ", ")
+    if genres.count > 3 { text += " +\(genres.count - 3)" }
+    return text
+  }
+
+  private var categoryFilterChips: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 8) {
+        // Edit button
+        Button { showPreferences = true } label: {
+          Image(systemName: "slider.horizontal.3")
+            .font(.system(size: 12))
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .padding(.horizontal, 12)
+            .frame(height: 34)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
+        }
+
+        // Genres pill
+        if let genreText = categoryGenreSummary {
+          Button { showPreferences = true } label: {
+            Text(genreText)
+              .font(.footnote.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+              .padding(.horizontal, 12)
+              .frame(height: 34)
+              .background(Color.appInputFilled)
+              .clipShape(Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+
+        // Region + Streaming pill
+        if preferencesManager.watchRegion != nil || !categorySelectedProviders.isEmpty {
+          Button { showPreferences = true } label: {
+            HStack(spacing: 8) {
+              if let region = preferencesManager.watchRegion {
+                HStack(spacing: 4) {
+                  Text(flagEmoji(for: region))
+                    .font(.system(size: 14))
+                  Text(regionName(for: region))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.appForegroundAdaptive)
+                }
+              }
+
+              if preferencesManager.watchRegion != nil && !categorySelectedProviders.isEmpty {
+                Rectangle()
+                  .fill(Color.appBackgroundAdaptive)
+                  .frame(width: 1.5)
+              }
+
+              if !categorySelectedProviders.isEmpty {
+                HStack(spacing: -8) {
+                  ForEach(Array(categorySelectedProviders.prefix(5).enumerated()), id: \.element.id) { index, provider in
+                    CachedAsyncImage(url: provider.logoURL) { image in
+                      image.resizable().aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                      RoundedRectangle(cornerRadius: 6).fill(Color.appBorderAdaptive)
+                    }
+                    .frame(width: 24, height: 24)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .overlay(
+                      RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.appInputFilled, lineWidth: 1.5)
+                    )
+                    .zIndex(Double(categorySelectedProviders.count - index))
+                  }
+                }
+
+                if categorySelectedProviders.count > 5 {
+                  Text("+\(categorySelectedProviders.count - 5)")
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                }
+              }
+            }
+            .padding(.horizontal, 12)
+            .frame(height: 34)
+            .background(Color.appInputFilled)
+            .clipShape(Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+      }
+      .padding(.horizontal, 24)
+    }
+    .scrollClipDisabled()
+    .sheet(isPresented: $showPreferences) {
+      PreferencesQuickSheet()
+    }
+  }
+
+  private func regionName(for code: String) -> String {
+    let locale = Locale(identifier: Language.current.rawValue)
+    return locale.localizedString(forRegionCode: code) ?? code
+  }
+
+  private func flagEmoji(for code: String) -> String {
+    let base: UInt32 = 127397
+    var emoji = ""
+    for scalar in code.uppercased().unicodeScalars {
+      if let unicode = UnicodeScalar(base + scalar.value) {
+        emoji.append(String(unicode))
+      }
+    }
+    return emoji
+  }
+
+  private func loadCategoryStreamingProviders() async {
+    guard let region = preferencesManager.watchRegion,
+          !preferencesManager.watchProvidersIds.isEmpty else { return }
+    do {
+      streamingProviders = try await TMDBService.shared.getStreamingProviders(
+        watchRegion: region,
+        language: Language.current.rawValue
+      )
+    } catch {
+      streamingProviders = []
+    }
+  }
 
   var body: some View {
     ZStack {
@@ -218,32 +419,11 @@ struct CategoryListView: View {
 
           // Tabs in header
           if categoryType == .movies {
-            CategoryTabsView(
-              selectedTab: $selectedMovieSubcategory,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedMovieSubcategory)
           } else if categoryType == .tvSeries {
-            CategoryTabsView(
-              selectedTab: $selectedTVSeriesSubcategory,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedTVSeriesSubcategory)
           } else if categoryType == .animes {
-            CategoryTabsView(
-              selectedTab: $selectedAnimeType,
-              onTabChange: {
-                Task {
-                  await loadItems()
-                }
-              }
-            )
+            CategoryTabsView(selectedTab: $selectedAnimeType)
           } else {
             Rectangle()
               .fill(Color.appBorderAdaptive)
@@ -252,60 +432,7 @@ struct CategoryListView: View {
         }
 
         // Content
-        if isLoading && items.isEmpty {
-          ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-              ForEach(0..<12, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                  .fill(Color.appBorderAdaptive)
-                  .aspectRatio(2 / 3, contentMode: .fit)
-              }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 24)
-          }
-        } else {
-          ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-              // Preferences Badge
-              HStack {
-                PreferencesBadge()
-                Spacer()
-              }
-              .padding(.horizontal, 24)
-              .padding(.top, 16)
-              .padding(.bottom, 16)
-
-              LazyVGrid(columns: columns, spacing: 16) {
-              ForEach(items) { item in
-                NavigationLink {
-                  MediaDetailView(mediaId: item.id, mediaType: mediaType)
-                } label: {
-                  CategoryPosterCard(item: item)
-                }
-                .buttonStyle(.plain)
-                .onAppear {
-                  if item.id == items.suffix(6).first?.id && hasMorePages && !isLoadingMore {
-                    Task {
-                      await loadMoreItems()
-                    }
-                  }
-                }
-              }
-
-              if isLoadingMore {
-                ForEach(0..<3, id: \.self) { _ in
-                  RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                    .fill(Color.appBorderAdaptive)
-                    .aspectRatio(2 / 3, contentMode: .fit)
-                }
-              }
-            }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
-            }
-          }
-        }
+        contentGrid(items: items)
       }
     }
     .navigationBarHidden(true)
@@ -321,9 +448,37 @@ struct CategoryListView: View {
         hasAppliedInitialSubcategory = true
       }
       await loadItems()
+      await loadCategoryStreamingProviders()
+    }
+    .onChange(of: selectedMovieSubcategory) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
+    .onChange(of: selectedTVSeriesSubcategory) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
+    .onChange(of: selectedAnimeType) {
+      loadingTask?.cancel()
+      loadingTask = Task { await loadItems() }
+    }
+    .onChange(of: showPreferences) {
+      if !showPreferences {
+        loadingTask?.cancel()
+        loadingTask = Task {
+          await loadItems()
+          await loadCategoryStreamingProviders()
+        }
+      }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { _ in
+      Task {
+        await loadItems()
+        await loadCategoryStreamingProviders()
+      }
     }
   }
-
+  
   private func loadItems() async {
     isLoading = true
     currentPage = 1
@@ -358,26 +513,53 @@ struct CategoryListView: View {
           watchProviders: watchProviders
         )
       case .doramas:
-        if let region = watchRegion, let providers = watchProviders {
-          result = try await TMDBService.shared.discoverDoramas(
-            language: language,
-            page: 1,
-            watchRegion: region,
-            withWatchProviders: providers
-          )
-        } else {
-          result = try await TMDBService.shared.getPopularDoramas(language: language, page: 1)
-        }
+        result = try await loadDoramasItems(
+          language: language,
+          page: 1,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       }
+
+      // If task was cancelled (user switched tab), discard stale results
+      guard !Task.isCancelled else { return }
+
       items = result.results
       currentPage = result.page
       totalPages = result.totalPages
+      
+      // Track category viewed
+      let subcategory: String
+      switch categoryType {
+      case .movies: subcategory = selectedMovieSubcategory.title
+      case .tvSeries: subcategory = selectedTVSeriesSubcategory.title
+      case .animes: subcategory = selectedAnimeType.title
+      case .doramas: subcategory = "popular"
+      }
+      AnalyticsService.shared.track(.categoryViewed(category: title, subcategory: subcategory))
     } catch {
+      guard !Task.isCancelled else { return }
       items = []
     }
 
     isLoading = false
   }
+
+  private var hasPreferences: Bool {
+    preferencesManager.hasGenres || preferencesManager.hasStreamingServices
+  }
+
+  private var genresString: String? {
+    let ids = preferencesManager.genreIds
+    guard !ids.isEmpty else { return nil }
+    return ids.map { String($0) }.joined(separator: ",")
+  }
+
+  private static let dateFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM-dd"
+    return f
+  }()
 
   private func loadMoviesForSubcategory(
     language: String,
@@ -385,16 +567,40 @@ struct CategoryListView: View {
     watchRegion: String? = nil,
     watchProviders: String? = nil
   ) async throws -> PaginatedResult {
-    // When streaming services are selected, use discover for popular
-    if let region = watchRegion, let providers = watchProviders,
-      selectedMovieSubcategory == .popular
-    {
-      return try await TMDBService.shared.discoverMovies(
-        language: language,
-        page: page,
-        watchRegion: region,
-        withWatchProviders: providers
-      )
+    if hasPreferences {
+      let today = Self.dateFormatter.string(from: Date())
+      let past45 = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -45, to: Date())!)
+      let future = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .month, value: 6, to: Date())!)
+
+      switch selectedMovieSubcategory {
+      case .popular, .discover:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString
+        )
+      case .nowPlaying:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          releaseDateGte: past45, releaseDateLte: today
+        )
+      case .topRated:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          sortBy: "vote_average.desc", voteCountGte: 200
+        )
+      case .upcoming:
+        return try await TMDBService.shared.discoverMovies(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          releaseDateGte: today, releaseDateLte: future
+        )
+      }
     }
 
     switch selectedMovieSubcategory {
@@ -407,7 +613,6 @@ struct CategoryListView: View {
     case .upcoming:
       return try await TMDBService.shared.getUpcomingMovies(language: language, page: page)
     case .discover:
-      // Discover is disabled, fallback to popular
       return try await TMDBService.shared.getPopularMovies(language: language, page: page)
     }
   }
@@ -418,16 +623,39 @@ struct CategoryListView: View {
     watchRegion: String? = nil,
     watchProviders: String? = nil
   ) async throws -> PaginatedResult {
-    // When streaming services are selected, use discover for popular
-    if let region = watchRegion, let providers = watchProviders,
-      selectedTVSeriesSubcategory == .popular
-    {
-      return try await TMDBService.shared.discoverTV(
-        language: language,
-        page: page,
-        watchRegion: region,
-        withWatchProviders: providers
-      )
+    if hasPreferences {
+      let today = Self.dateFormatter.string(from: Date())
+      let next7 = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
+
+      switch selectedTVSeriesSubcategory {
+      case .popular, .discover:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString
+        )
+      case .airingToday:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          airDateGte: today, airDateLte: today
+        )
+      case .onTheAir:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          airDateGte: today, airDateLte: next7
+        )
+      case .topRated:
+        return try await TMDBService.shared.discoverTV(
+          language: language, page: page,
+          watchRegion: watchRegion, withWatchProviders: watchProviders,
+          withGenres: genresString,
+          sortBy: "vote_average.desc", voteCountGte: 200
+        )
+      }
     }
 
     switch selectedTVSeriesSubcategory {
@@ -440,7 +668,6 @@ struct CategoryListView: View {
     case .topRated:
       return try await TMDBService.shared.getTopRatedTVSeries(language: language, page: page)
     case .discover:
-      // Discover is disabled, fallback to popular
       return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
     }
   }
@@ -475,6 +702,24 @@ struct CategoryListView: View {
       return try await TMDBService.shared.getPopularAnimes(language: language, page: page)
     case .movies:
       return try await TMDBService.shared.getPopularAnimeMovies(language: language, page: page)
+    }
+  }
+
+  private func loadDoramasItems(
+    language: String,
+    page: Int,
+    watchRegion: String? = nil,
+    watchProviders: String? = nil
+  ) async throws -> PaginatedResult {
+    if let region = watchRegion, let providers = watchProviders {
+      return try await TMDBService.shared.discoverDoramas(
+        language: language,
+        page: page,
+        watchRegion: region,
+        withWatchProviders: providers
+      )
+    } else {
+      return try await TMDBService.shared.getPopularDoramas(language: language, page: page)
     }
   }
 
@@ -513,19 +758,12 @@ struct CategoryListView: View {
           watchProviders: watchProviders
         )
       case .doramas:
-        if let region = watchRegion, let providers = watchProviders {
-          result = try await TMDBService.shared.discoverDoramas(
-            language: language,
-            page: nextPage,
-            watchRegion: region,
-            withWatchProviders: providers
-          )
-        } else {
-          result = try await TMDBService.shared.getPopularDoramas(
-            language: language,
-            page: nextPage
-          )
-        }
+        result = try await loadDoramasItems(
+          language: language,
+          page: nextPage,
+          watchRegion: watchRegion,
+          watchProviders: watchProviders
+        )
       }
 
       let newItems = result.results.filter { newItem in

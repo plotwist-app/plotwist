@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
-import { getSubscriptionById } from '@/db/repositories/subscription-repository'
-import type { SubscriptionProvider } from '@/ports/subscription-provider'
+import { describe, expect, it, vi } from 'vitest'
+import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { scheduleCancellation } from './schedule-subscription-cancellation'
@@ -10,14 +11,25 @@ function uniqueProviderSubId() {
 }
 
 function mockSubscriptionProvider(periodEnd?: Date): SubscriptionProvider {
+  const end = periodEnd ?? new Date()
   return {
-    getCurrentPeriodEnd: vi
-      .fn()
-      .mockResolvedValue(periodEnd ?? new Date(Date.now() + 86400 * 30 * 1000)),
+    getCurrentPeriodEnd: vi.fn().mockResolvedValue(end),
     scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(undefined),
     cancelImmediately: vi.fn(),
   }
 }
+
+vi.mock('@/infra/adapters/stripe', () => ({
+  stripe: {
+    subscriptions: {
+      update: vi.fn().mockResolvedValue({
+        id: 'sub_123',
+        cancel_at_period_end: true,
+        status: 'active',
+      }),
+    },
+  },
+}))
 
 describe('scheduleSubscriptionCancellation', () => {
   it('should schedule subscription cancellation at period end', async () => {
@@ -41,7 +53,6 @@ describe('scheduleSubscriptionCancellation', () => {
       providerSubId,
       expect.any(Date)
     )
-
     expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
 
     const subscriptionFromDb = await getSubscriptionById(subscription.id)

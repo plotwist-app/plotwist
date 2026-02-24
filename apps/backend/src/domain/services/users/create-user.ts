@@ -1,5 +1,5 @@
-import { insertUser } from '@/db/repositories/user-repository'
-import { isUniqueViolation } from '@/db/utils/postgres-errors'
+import { insertUser } from '@/infra/db/repositories/user-repository'
+import { isUniqueViolation } from '@/infra/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../../errors/hash-password-error'
@@ -8,12 +8,14 @@ export type CreateUserInterface = {
   username: string
   email: string
   password: string
+  displayName?: string
 }
 
 export async function createUser({
   username,
   email,
   password,
+  displayName,
 }: CreateUserInterface) {
   let hashedPassword: string
 
@@ -28,6 +30,7 @@ export async function createUser({
       email,
       password: hashedPassword,
       username,
+      displayName,
     })
 
     const { password: removedPassword, ...formattedUser } = user

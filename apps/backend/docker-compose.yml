@@ -26,8 +26,6 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: plotwist_db
       POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -58,9 +56,18 @@ services:
       - localstack_data:/var/lib/localstack
     networks:
       - plotwist_network
+      
+  grafana:
+    image: grafana/otel-lgtm
+    container_name: plotwist_grafana
+    ports:
+      - 12345:3000
+      - 4317:4317
+      - 4318:4318
+    networks:
+      - plotwist_network
 
 volumes:
-  postgres_data:
   redis-data:
   localstack_data:
     driver: local

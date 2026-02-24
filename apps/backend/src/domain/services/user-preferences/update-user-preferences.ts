@@ -1,5 +1,5 @@
-import { updateUserPreferences } from '@/db/repositories/user-preferences'
 import type { UpdateUserPreferencesParams } from '@/domain/entities/user-preferences'
+import { updateUserPreferences } from '@/infra/db/repositories/user-preferences'
 
 export async function updateUserPreferencesService(
   params: UpdateUserPreferencesParams

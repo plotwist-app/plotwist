@@ -1,4 +1,4 @@
-import { getUserByUsername as getByUsername } from '@/db/repositories/user-repository'
+import { getUserByUsername as getByUsername } from '@/infra/db/repositories/user-repository'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 type GetUserByUsernameInput = {

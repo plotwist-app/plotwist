@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language, TvSerie } from '@plotwist_app/tmdb'
-import { tmdb } from '@/adapters/tmdb'
+import { tmdb } from '@/infra/adapters/tmdb'
 import { SIX_MONTHS_IN_SECONDS } from './common'
 
 type GetTMDBTvRelatedParams = {

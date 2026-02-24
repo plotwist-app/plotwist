@@ -1,4 +1,4 @@
-import { updateListItems } from '@/db/repositories/list-item-repository'
+import { updateListItems } from '@/infra/db/repositories/list-item-repository'
 
 export type UpdateListItemsServiceInput = {
   listItems: Array<{ id: string; position: number }>

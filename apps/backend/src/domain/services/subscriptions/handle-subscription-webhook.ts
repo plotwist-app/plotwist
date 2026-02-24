@@ -2,7 +2,7 @@ import type Stripe from 'stripe'
 import {
   getSubscriptionByProviderSubscriptionId,
   updateSubscriptionStatusByProviderSubscriptionId,
-} from '@/db/repositories/subscription-repository'
+} from '@/infra/db/repositories/subscription-repository'
 
 /**
  * Handles customer.subscription.deleted webhook.

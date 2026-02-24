@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import type { GetUserActivitiesResponseType } from '@/http/schemas/user-activities'
+import type { GetUserActivitiesResponseType } from '@/infra/http/schemas/user-activities'
 import { getTMDBDataService } from '../tmdb/get-tmdb-data'
 
 export type FormatUserActivitiesInput = {

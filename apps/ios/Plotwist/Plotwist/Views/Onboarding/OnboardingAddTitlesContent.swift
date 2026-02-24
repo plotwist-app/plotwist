@@ -22,6 +22,10 @@ struct OnboardingAddTitlesContent: View {
   @State private var currentSwipeDirection: Direction = .none
   @State private var swipeProgress: CGFloat = 0
   
+  // Ghost drag hint
+  @State private var hasInteracted = false
+  @State private var hintPhase = false
+  
   private var savedCount: Int {
     onboardingService.localSavedTitles.count
   }
@@ -47,6 +51,7 @@ struct OnboardingAddTitlesContent: View {
           Text(strings.onboardingDiscoverTitle)
             .font(.system(size: 24, weight: .bold))
             .foregroundColor(.appForegroundAdaptive)
+            .multilineTextAlignment(.center)
           
           Text(strings.onboardingDiscoverSubtitle)
             .font(.subheadline)
@@ -65,7 +70,7 @@ struct OnboardingAddTitlesContent: View {
           DeckStack(
             deck,
             option: Option(
-              allowedDirections: [.left, .top, .right],
+              allowedDirections: [.left, .top, .right, .bottom],
               numberOfVisibleCards: 3,
               maximumRotationOfCard: 12,
               judgmentThreshold: 120
@@ -77,6 +82,11 @@ struct OnboardingAddTitlesContent: View {
           .onGesture(
             DeckDragGesture()
               .onChange { state in
+                if !hasInteracted {
+                  withAnimation(.easeOut(duration: 0.3)) {
+                    hasInteracted = true
+                  }
+                }
                 currentSwipeDirection = state.direction
                 swipeProgress = state.progress
               }
@@ -94,11 +104,17 @@ struct OnboardingAddTitlesContent: View {
             handleSwipe(id: id, direction: direction)
           }
           .padding(.horizontal, 80)
-          .frame(maxHeight: UIScreen.main.bounds.height * 0.52)
+          .padding(.top, 16)
+          .frame(maxHeight: UIScreen.main.bounds.height * 0.42)
+          .overlay {
+            if !hasInteracted {
+              swipeHintOverlay
+            }
+          }
           
-          // Action buttons (closer to deck)
+          // Action buttons
           actionButtons
-            .padding(.top, 12)
+            .padding(.top, 20)
         } else {
           Spacer()
           VStack(spacing: 12) {
@@ -139,6 +155,7 @@ struct OnboardingAddTitlesContent: View {
         OnboardingCelebration(onDismiss: onComplete)
       }
     }
+    .geometryGroup()
     .task {
       await loadContent()
     }
@@ -239,6 +256,13 @@ struct OnboardingAddTitlesContent: View {
           iconColor: .green,
           text: strings.onboardingAlreadyWatched
         )
+      case .bottom:
+        // Watching
+        swipeIndicatorPill(
+          icon: "play.circle.fill",
+          iconColor: .blue,
+          text: strings.onboardingWatching
+        )
       default:
         EmptyView()
       }
@@ -258,6 +282,63 @@ struct OnboardingAddTitlesContent: View {
     .padding(.vertical, 8)
     .background(Color.black)
     .clipShape(Capsule())
+  }
+  
+  // MARK: - Swipe Hint
+  
+  private enum HintPhase: CaseIterable {
+    case idle
+    case pressing
+    case swiping
+    case returning
+  }
+  
+  @ViewBuilder
+  private var swipeHintOverlay: some View {
+    PhaseAnimator(HintPhase.allCases) { phase in
+      Circle()
+        .fill(.ultraThinMaterial)
+        .frame(width: 48, height: 48)
+        .overlay(
+          Image(systemName: "hand.draw.fill")
+            .font(.system(size: 20))
+            .foregroundStyle(
+              .white.opacity(phase == .pressing || phase == .swiping ? 0.9 : 0.6)
+            )
+        )
+        .shadow(
+          color: .black.opacity(phase == .swiping ? 0.3 : 0.15),
+          radius: phase == .swiping ? 10 : 5,
+          x: 0,
+          y: phase == .swiping ? 5 : 2
+        )
+        .scaleEffect(phase == .pressing ? 1.12 : (phase == .swiping ? 1.06 : 1.0))
+        .offset(
+          x: phase == .swiping ? 55 : 0,
+          y: phase == .pressing ? -3 : 0
+        )
+        .rotationEffect(.degrees(phase == .swiping ? -6 : 0))
+    } animation: { phase in
+      switch phase {
+      case .idle:
+        .easeOut(duration: 0.4).delay(1.2)
+      case .pressing:
+        .easeOut(duration: 0.25)
+      case .swiping:
+        .spring(response: 0.6, dampingFraction: 0.7)
+      case .returning:
+        .easeInOut(duration: 0.45).delay(0.15)
+      }
+    }
+    .allowsHitTesting(false)
+    .transition(.opacity.animation(.easeOut(duration: 0.3)))
+    .opacity(hintPhase ? 1 : 0)
+    .animation(.easeIn(duration: 0.4), value: hintPhase)
+    .onAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        hintPhase = true
+      }
+    }
   }
   
   // MARK: - Action Buttons
@@ -298,6 +379,28 @@ struct OnboardingAddTitlesContent: View {
             .foregroundColor(.orange)
           
           Text(strings.onboardingWantToWatch)
+            .font(.footnote.weight(.medium))
+            .foregroundColor(.appForegroundAdaptive)
+            .lineLimit(1)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Color.appInputFilled)
+        .cornerRadius(10)
+      }
+      
+      // Watching (down) 
+      Button(action: {
+        if let targetID = deck.targetID {
+          deck.swipe(to: .bottom, id: targetID)
+        }
+      }) {
+        HStack(spacing: 6) {
+          Image(systemName: "play.circle.fill")
+            .font(.system(size: 13))
+            .foregroundColor(.blue)
+          
+          Text(strings.onboardingWatching)
             .font(.footnote.weight(.medium))
             .foregroundColor(.appForegroundAdaptive)
             .lineLimit(1)
@@ -350,6 +453,9 @@ struct OnboardingAddTitlesContent: View {
     case .top:
       // Already watched
       addTitle(item, status: "WATCHED")
+    case .bottom:
+      // Watching
+      addTitle(item, status: "WATCHING")
     case .left:
       // Not interested - just skip
       break
@@ -463,13 +569,39 @@ struct OnboardingAddTitlesContent: View {
         }
         
         if contentTypes.contains(.anime) {
-          let animes = try await TMDBService.shared.getPopularAnimes(language: language)
-          allItems.append(contentsOf: animes.results)
+          let animeGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+          if !animeGenres.isEmpty {
+            // Discover anime filtered by user's genre preferences
+            let animes = try await TMDBService.shared.discoverByGenres(
+              mediaType: "tv",
+              genreIds: animeGenres,
+              language: language,
+              page: 1,
+              originCountry: "JP"
+            )
+            allItems.append(contentsOf: animes)
+          } else {
+            let animes = try await TMDBService.shared.getPopularAnimes(language: language)
+            allItems.append(contentsOf: animes.results)
+          }
         }
         
         if contentTypes.contains(.dorama) {
-          let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
-          allItems.append(contentsOf: doramas.results)
+          let doramaGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+          if !doramaGenres.isEmpty {
+            // Discover dorama filtered by user's genre preferences
+            let doramas = try await TMDBService.shared.discoverByGenres(
+              mediaType: "tv",
+              genreIds: doramaGenres,
+              language: language,
+              page: 1,
+              originCountry: "KR"
+            )
+            allItems.append(contentsOf: doramas)
+          } else {
+            let doramas = try await TMDBService.shared.getPopularDoramas(language: language)
+            allItems.append(contentsOf: doramas.results)
+          }
         }
       }
       
@@ -530,13 +662,37 @@ struct OnboardingAddTitlesContent: View {
       }
       
       if contentTypes.contains(.anime) {
-        let animes = try await TMDBService.shared.getPopularAnimes(language: language, page: currentPage)
-        newItems.append(contentsOf: animes.results)
+        let animeGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+        if !animeGenres.isEmpty {
+          let animes = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: animeGenres,
+            language: language,
+            page: currentPage,
+            originCountry: "JP"
+          )
+          newItems.append(contentsOf: animes)
+        } else {
+          let animes = try await TMDBService.shared.getPopularAnimes(language: language, page: currentPage)
+          newItems.append(contentsOf: animes.results)
+        }
       }
       
       if contentTypes.contains(.dorama) {
-        let doramas = try await TMDBService.shared.getPopularDoramas(language: language, page: currentPage)
-        newItems.append(contentsOf: doramas.results)
+        let doramaGenres = getCompatibleGenreIds(for: "tv", from: allGenreIds)
+        if !doramaGenres.isEmpty {
+          let doramas = try await TMDBService.shared.discoverByGenres(
+            mediaType: "tv",
+            genreIds: doramaGenres,
+            language: language,
+            page: currentPage,
+            originCountry: "KR"
+          )
+          newItems.append(contentsOf: doramas)
+        } else {
+          let doramas = try await TMDBService.shared.getPopularDoramas(language: language, page: currentPage)
+          newItems.append(contentsOf: doramas.results)
+        }
       }
       
       // Filter out already seen/dismissed items

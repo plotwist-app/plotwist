@@ -100,28 +100,28 @@ struct OnboardingGenre: Identifiable, Codable, Hashable {
     OnboardingGenre(id: 16, name: "Animation"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 80, name: "Crime"),
+    OnboardingGenre(id: 99, name: "Documentary"),
     OnboardingGenre(id: 18, name: "Drama"),
+    OnboardingGenre(id: 10751, name: "Family"),
+    OnboardingGenre(id: 9648, name: "Mystery"),
+    OnboardingGenre(id: 10764, name: "Reality"),
     OnboardingGenre(id: 10765, name: "Sci-Fi & Fantasy"),
     OnboardingGenre(id: 10768, name: "War & Politics"),
-    OnboardingGenre(id: 9648, name: "Mystery"),
-    OnboardingGenre(id: 10751, name: "Family"),
-    OnboardingGenre(id: 10764, name: "Reality"),
+    OnboardingGenre(id: 37, name: "Western"),
   ]
   
   static let animeGenres: [OnboardingGenre] = [
     OnboardingGenre(id: 16, name: "Animation"),
-    OnboardingGenre(id: 10759, name: "Action"),
+    OnboardingGenre(id: 10759, name: "Action & Adventure"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 18, name: "Drama"),
-    OnboardingGenre(id: 10765, name: "Fantasy"),
-    OnboardingGenre(id: 10749, name: "Romance"),
-    OnboardingGenre(id: 878, name: "Sci-Fi"),
+    OnboardingGenre(id: 10765, name: "Sci-Fi & Fantasy"),
     OnboardingGenre(id: 9648, name: "Mystery"),
+    OnboardingGenre(id: 10751, name: "Family"),
   ]
   
   static let doramaGenres: [OnboardingGenre] = [
     OnboardingGenre(id: 18, name: "Drama"),
-    OnboardingGenre(id: 10749, name: "Romance"),
     OnboardingGenre(id: 35, name: "Comedy"),
     OnboardingGenre(id: 10759, name: "Action & Adventure"),
     OnboardingGenre(id: 9648, name: "Mystery"),
@@ -138,7 +138,7 @@ struct LocalSavedTitle: Codable, Identifiable {
   let mediaType: String // "movie" or "tv"
   let title: String
   let posterPath: String?
-  let status: String // "WATCHLIST" or "WATCHED"
+  let status: String // "WATCHLIST", "WATCHED", or "WATCHING"
   let savedAt: Date
   
   var posterURL: URL? {
@@ -338,8 +338,7 @@ class OnboardingService: ObservableObject {
     UserDefaults.standard.set(true, forKey: "isGuestMode")
     NotificationCenter.default.post(name: .continueAsGuest, object: nil)
     
-    // Track completion with metrics
-    AnalyticsService.shared.track(.onboardingCompleted(titlesAdded: localSavedTitles.count))
+    AnalyticsService.shared.track(.onboardingComplete(titlesAdded: localSavedTitles.count))
   }
   
   // MARK: - Login Prompt
@@ -358,10 +357,38 @@ class OnboardingService: ObservableObject {
   func syncLocalDataToServer() async {
     guard AuthService.shared.isAuthenticated else { return }
     
+    // Sync display name from onboarding if available
+    if !userName.isEmpty {
+      do {
+        _ = try await AuthService.shared.updateUser(displayName: userName)
+      } catch {
+        print("Failed to sync display name: \(error)")
+      }
+    }
+    
+    // Sync content types and genres from onboarding
+    if !contentTypes.isEmpty || !selectedGenres.isEmpty {
+      do {
+        let mediaTypeStrings = contentTypes.isEmpty ? nil : contentTypes.map { $0.rawValue }
+        let genreIdInts = selectedGenres.isEmpty ? nil : selectedGenres.map { $0.id }
+        try await AuthService.shared.updateUserPreferences(
+          mediaTypes: mediaTypeStrings,
+          genreIds: genreIdInts
+        )
+      } catch {
+        print("Failed to sync content preferences: \(error)")
+      }
+    }
+    
     for title in localSavedTitles {
       do {
         let apiMediaType = title.mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-        let status: UserItemStatus = title.status == "WATCHED" ? .watched : .watchlist
+        let status: UserItemStatus
+        switch title.status {
+        case "WATCHED": status = .watched
+        case "WATCHING": status = .watching
+        default: status = .watchlist
+        }
         
         _ = try await UserItemService.shared.upsertUserItem(
           tmdbId: title.tmdbId,

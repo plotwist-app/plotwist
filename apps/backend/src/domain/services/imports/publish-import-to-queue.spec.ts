@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { config } from '@/config'
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
@@ -8,7 +8,7 @@ import { publishToQueue } from './publish-import-to-queue'
 
 const mockPublish = vi.fn().mockResolvedValue(undefined)
 
-vi.mock('@/factories/queue-service-factory', () => ({
+vi.mock('@/infra/factories/queue-service-factory', () => ({
   queueServiceFactory: () => ({
     publish: mockPublish,
   }),

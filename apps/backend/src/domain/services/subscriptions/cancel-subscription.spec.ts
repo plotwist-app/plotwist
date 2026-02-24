@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
-import { getSubscriptionById } from '@/db/repositories/subscription-repository'
-import { getUserById } from '@/db/repositories/user-repository'
 import { SubscriptionAlreadyCanceledError } from '@/domain/errors/subscription-already-canceled-error'
-import type { SubscriptionProvider } from '@/ports/subscription-provider'
+import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
+import { getUserById } from '@/infra/db/repositories/user-repository'
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { cancelSubscription } from './cancel-subscription'
@@ -20,6 +20,13 @@ function mockSubscriptionProvider(): SubscriptionProvider {
     cancelImmediately: vi.fn().mockResolvedValue(undefined),
   }
 }
+vi.mock('@/infra/adapters/stripe', () => ({
+  stripe: {
+    subscriptions: {
+      cancel: vi.fn(),
+    },
+  },
+}))
 
 describe('Cancel subscription', () => {
   it('should cancel the subscription', async () => {

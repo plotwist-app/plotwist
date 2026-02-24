@@ -1,8 +1,8 @@
-import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
 import type { Subscription } from '@/domain/entities/subscription'
 import { DomainError } from '@/domain/errors/domain-error'
 import { SubscriptionAlreadyCanceledError } from '@/domain/errors/subscription-already-canceled-error'
-import type { SubscriptionProvider } from '@/ports/subscription-provider'
+import { cancelUserSubscription } from '@/infra/db/repositories/subscription-repository'
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 
 export async function cancelSubscription(
   { id, userId, providerSubscriptionId }: Subscription,

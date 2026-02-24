@@ -28,35 +28,40 @@ struct HomeView: View {
 
   var body: some View {
     TabView(selection: $selectedTab) {
-      HomeTabView()
-        .tabItem {
-          Image(systemName: "house.fill")
-        }
-        .tag(0)
+      Tab(value: 0) {
+        HomeTabView()
+      } label: {
+        Image(systemName: "house.fill")
+      }
 
-      SearchTabView()
-        .tabItem {
-          Image(systemName: "magnifyingglass")
-        }
-        .tag(1)
+      Tab(value: 1) {
+        DiscoverTabView()
+      } label: {
+        Image(systemName: "sparkles")
+      }
 
-      // TODO: Re-enable when Soundtracks feature is ready
-      // SoundtracksTabView()
-      //   .tabItem {
-      //     Image(systemName: "flame.fill")
-      //   }
-      //   .tag(2)
+      #if DEBUG
+      Tab(value: 2) {
+        TrailsTabView()
+      } label: {
+        Image(systemName: "map")
+      }
+      #endif
 
-      ProfileTabView()
-        .tabItem {
-          Image(systemName: "person.fill")
-        }
-        .tag(2)
+      Tab(value: 3) {
+        ProfileTabView()
+      } label: {
+        Image(systemName: "person.fill")
+      }
+
+      Tab(value: 4, role: .search) {
+        SearchTabView()
+      }
     }
     .tint(.appForegroundAdaptive)
     .onChange(of: selectedTab) { newTab in
       // Intercept profile tab when in guest mode - show login prompt instead
-      if newTab == 2 && isGuestMode {
+      if newTab == 3 && isGuestMode {
         selectedTab = previousTab
         if !onboardingService.hasSeenLoginPrompt {
           showLoginPrompt = true
@@ -68,7 +73,7 @@ struct HomeView: View {
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToSearch)) { _ in
-      selectedTab = 1
+      selectedTab = 4
     }
     .onReceive(NotificationCenter.default.publisher(for: .navigateToProfile)) { _ in
       if isGuestMode {
@@ -78,7 +83,7 @@ struct HomeView: View {
           exitGuestMode()
         }
       } else {
-        selectedTab = 2
+        selectedTab = 3
       }
     }
     .onAppear {

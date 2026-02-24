@@ -58,7 +58,9 @@ class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate,
   ASAuthorizationControllerPresentationContextProviding
 {
   private var continuation: CheckedContinuation<ASAuthorization, Error>?
+  private var currentController: ASAuthorizationController?
 
+  @MainActor
   func signIn() async throws -> ASAuthorization {
     return try await withCheckedThrowingContinuation { continuation in
       self.continuation = continuation
@@ -70,6 +72,7 @@ class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate,
       let controller = ASAuthorizationController(authorizationRequests: [request])
       controller.delegate = self
       controller.presentationContextProvider = self
+      self.currentController = controller
       controller.performRequests()
     }
   }
@@ -78,6 +81,7 @@ class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate,
     controller: ASAuthorizationController,
     didCompleteWithAuthorization authorization: ASAuthorization
   ) {
+    currentController = nil
     continuation?.resume(returning: authorization)
     continuation = nil
   }
@@ -86,13 +90,21 @@ class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate,
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    continuation?.resume(throwing: error)
+    currentController = nil
+    // Map Apple's cancellation error to our SocialAuthError.cancelled
+    if let authError = error as? ASAuthorizationError,
+      authError.code == .canceled
+    {
+      continuation?.resume(throwing: SocialAuthError.cancelled)
+    } else {
+      continuation?.resume(throwing: error)
+    }
     continuation = nil
   }
 
   func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
     guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-      let window = scene.windows.first
+      let window = scene.windows.first(where: { $0.isKeyWindow }) ?? scene.windows.first
     else {
       return UIWindow()
     }
@@ -108,7 +120,7 @@ class SocialAuthService {
   private let appleDelegate = AppleSignInDelegate()
 
   // MARK: - Sign in with Apple
-  func signInWithApple() async throws -> String {
+  func signInWithApple() async throws -> SocialAuthResponse {
     let authorization = try await appleDelegate.signIn()
 
     guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
@@ -154,7 +166,7 @@ class SocialAuthService {
   }
 
   // MARK: - Sign in with Google
-  func signInWithGoogle(idToken: String) async throws -> String {
+  func signInWithGoogle(idToken: String) async throws -> SocialAuthResponse {
     let requestBody = GoogleAuthRequest(idToken: idToken)
 
     return try await authenticateWithBackend(
@@ -167,7 +179,7 @@ class SocialAuthService {
   private func authenticateWithBackend<T: Encodable>(
     endpoint: String,
     body: T
-  ) async throws -> String {
+  ) async throws -> SocialAuthResponse {
     guard let url = URL(string: "\(API.baseURL)\(endpoint)") else {
       throw SocialAuthError.invalidURL
     }
@@ -196,7 +208,6 @@ class SocialAuthService {
 
     // Save token to UserDefaults
     UserDefaults.standard.set(authResponse.token, forKey: "token")
-    NotificationCenter.default.post(name: .authChanged, object: nil)
     
     // Identify user for analytics
     Task {
@@ -208,6 +219,6 @@ class SocialAuthService {
       }
     }
 
-    return authResponse.token
+    return authResponse
   }
 }

@@ -1,8 +1,10 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { processInBatches } from './batch-utils'
+import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 
 type GetUserWatchedCountriesServiceInput = {
   userId: string
@@ -15,14 +17,16 @@ export async function getUserWatchedCountriesService({
   redis,
   language,
 }: GetUserWatchedCountriesServiceInput) {
-  const watchedItems = await selectAllUserItemsByStatus({
-    status: 'WATCHED',
-    userId,
-  })
-  const countryCount = new Map()
+  const cacheKey = getUserStatsCacheKey(userId, 'watched-countries', language)
 
-  await Promise.all(
-    watchedItems.map(async ({ tmdbId, mediaType }) => {
+  return getCachedStats(redis, cacheKey, async () => {
+    const watchedItems = await selectAllUserItemsByStatus({
+      status: 'WATCHED',
+      userId,
+    })
+    const countryCount = new Map<string, number>()
+
+    await processInBatches(watchedItems, async ({ tmdbId, mediaType }) => {
       const { countries } =
         mediaType === 'MOVIE'
           ? await getTMDBMovieService(redis, {
@@ -43,15 +47,15 @@ export async function getUserWatchedCountriesService({
         }
       }
     })
-  )
 
-  const countries = Array.from(countryCount)
-    .map(([name, count]) => ({
-      name,
-      count,
-      percentage: (count / watchedItems.length) * 100,
-    }))
-    .sort((a, b) => b.count - a.count)
+    const countries = Array.from(countryCount)
+      .map(([name, count]) => ({
+        name,
+        count,
+        percentage: (count / watchedItems.length) * 100,
+      }))
+      .sort((a, b) => b.count - a.count)
 
-  return { watchedCountries: countries }
+    return { watchedCountries: countries }
+  })
 }

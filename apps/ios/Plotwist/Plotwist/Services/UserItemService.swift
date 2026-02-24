@@ -107,6 +107,7 @@ class UserItemService {
     }
 
     guard http.statusCode == 200 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/item", statusCode: http.statusCode)
       throw UserItemError.invalidResponse
     }
 
@@ -150,6 +151,7 @@ class UserItemService {
     }
 
     guard http.statusCode == 200 || http.statusCode == 201 else {
+      AnalyticsService.trackAPIError(endpoint: "/user/item", statusCode: http.statusCode)
       throw UserItemError.invalidResponse
     }
 
@@ -188,6 +190,37 @@ class UserItemService {
 
     // Invalidate cache
     invalidateCache(tmdbId: tmdbId, mediaType: mediaType)
+  }
+
+  // MARK: - Reorder User Items
+  func reorderUserItems(status: String, orderedIds: [String]) async throws {
+    guard let url = URL(string: "\(API.baseURL)/user/items/reorder"),
+      let token = UserDefaults.standard.string(forKey: "token")
+    else {
+      throw UserItemError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "PUT"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let body: [String: Any] = [
+      "status": status,
+      "orderedIds": orderedIds,
+    ]
+
+    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+    let (_, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse else {
+      throw UserItemError.invalidResponse
+    }
+
+    guard http.statusCode == 200 || http.statusCode == 204 else {
+      throw UserItemError.invalidResponse
+    }
   }
 
   // MARK: - Add Watch Entry (Rewatch)
@@ -359,7 +392,7 @@ struct WatchEntriesResponse: Codable {
   let watchEntries: [WatchEntry]
 }
 
-struct UserItemSummary: Codable, Identifiable {
+struct UserItemSummary: Codable, Identifiable, Hashable {
   let id: String
   let mediaType: String
   let tmdbId: Int

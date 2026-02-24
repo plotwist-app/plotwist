@@ -58,6 +58,16 @@ final class ImageCache: @unchecked Sendable {
     }
   }
 
+  /// Remove a specific image from both memory and disk cache
+  func removeImage(for url: URL) {
+    memoryCache.removeObject(forKey: url as NSURL)
+    ioQueue.async { [weak self] in
+      guard let self else { return }
+      let path = self.diskPath(for: url)
+      try? self.fileManager.removeItem(at: path)
+    }
+  }
+
   /// Load image with deduplication of concurrent requests
   func loadImage(from url: URL, priority: TaskPriority = .medium) async -> UIImage? {
     // Check caches first
@@ -197,17 +207,18 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
   var body: some View {
     Group {
       if let loadedImage {
-        if animated {
-          content(Image(uiImage: loadedImage))
-            .transition(.opacity.animation(.easeIn(duration: 0.2)))
-        } else {
-          content(Image(uiImage: loadedImage))
-        }
+        content(Image(uiImage: loadedImage))
       } else {
         placeholder()
-          .task(id: url, priority: priority) {
-            await loadImage()
-          }
+      }
+    }
+    .task(id: url, priority: priority) {
+      await loadImage()
+    }
+    .onChange(of: url) { oldURL, newURL in
+      if oldURL != newURL {
+        loadedImage = nil
+        isLoading = false
       }
     }
   }
@@ -217,7 +228,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     guard let url, !isLoading else { return }
     isLoading = true
 
-    // Check cache synchronously first for instant display
+    // Check cache synchronously first for instant display.
     if let cached = ImageCache.shared.image(for: url) {
       loadedImage = cached
       isLoading = false
@@ -244,26 +255,43 @@ struct BackdropImage: View {
   let height: CGFloat
 
   @State private var loadedImage: UIImage?
-  @State private var showImage = false
+  @State private var showImage: Bool
+
+  init(url: URL?, height: CGFloat) {
+    self.url = url
+    self.height = height
+    // Pre-populate from cache synchronously so the very first frame already
+    // shows the image, avoiding any gray placeholder flash during transitions
+    // (e.g. when the single backdrop switches to the carousel).
+    if let url, let cached = ImageCache.shared.image(for: url) {
+      _loadedImage = State(initialValue: cached)
+      _showImage = State(initialValue: true)
+    } else {
+      _loadedImage = State(initialValue: nil)
+      _showImage = State(initialValue: false)
+    }
+  }
 
   var body: some View {
-    ZStack {
-      // Solid color placeholder
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .opacity(showImage ? 0 : 1)
+    GeometryReader { proxy in
+      ZStack {
+        // Solid color placeholder
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+          .opacity(showImage ? 0 : 1)
 
-      // Actual image with fade-in
-      if let loadedImage {
-        Image(uiImage: loadedImage)
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .opacity(showImage ? 1 : 0)
+        // Actual image with fade-in
+        if let loadedImage {
+          Image(uiImage: loadedImage)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .clipped()
+            .opacity(showImage ? 1 : 0)
+        }
       }
     }
     .frame(height: height)
-    .frame(maxWidth: .infinity)
-    .clipped()
     .task(id: url) {
       await loadImage()
     }
@@ -271,6 +299,8 @@ struct BackdropImage: View {
 
   @MainActor
   private func loadImage() async {
+    // Skip if already loaded (from cache in init)
+    guard !showImage else { return }
     guard let url else { return }
 
     // Check cache for instant display

@@ -12,15 +12,10 @@ class UserPreferencesManager: ObservableObject {
   @Published var preferences: UserPreferences?
   @Published var isLoading = false
 
-  private init() {
-    // Listen for profile updates
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(handleProfileUpdated),
-      name: .profileUpdated,
-      object: nil
-    )
+  /// Serial task to prevent concurrent loadPreferences() calls
+  private var loadTask: Task<Void, Never>?
 
+  private init() {
     // Listen for auth changes
     NotificationCenter.default.addObserver(
       self,
@@ -35,10 +30,6 @@ class UserPreferencesManager: ObservableObject {
     }
   }
 
-  @objc private func handleProfileUpdated() {
-    Task { await loadPreferences() }
-  }
-
   @objc private func handleAuthChanged() {
     if AuthService.shared.isAuthenticated {
       Task { await loadPreferences() }
@@ -47,27 +38,62 @@ class UserPreferencesManager: ObservableObject {
     }
   }
 
+  /// Loads preferences from the server. Safe to call multiple times —
+  /// concurrent calls are serialized so only one network request runs at a time.
   func loadPreferences() async {
-    guard AuthService.shared.isAuthenticated else {
-      await MainActor.run { preferences = nil }
-      return
-    }
+    // Cancel any in-flight load and wait for it
+    loadTask?.cancel()
 
-    await MainActor.run { isLoading = true }
-    defer { Task { @MainActor in isLoading = false } }
+    let task = Task { @MainActor in
+      guard AuthService.shared.isAuthenticated else {
+        preferences = nil
+        return
+      }
 
-    do {
-      let prefs = try await AuthService.shared.getUserPreferences()
-      await MainActor.run { preferences = prefs }
-    } catch {
-      print("Error loading preferences: \(error)")
+      isLoading = true
+      defer { isLoading = false }
+
+      do {
+        let prefs = try await AuthService.shared.getUserPreferences()
+        preferences = prefs
+      } catch {
+        if !Task.isCancelled {
+          print("Error loading preferences: \(error)")
+        }
+      }
     }
+    loadTask = task
+    await task.value
   }
 
   // MARK: - Computed Properties
   var hasStreamingServices: Bool {
     guard let ids = preferences?.watchProvidersIds else { return false }
     return !ids.isEmpty
+  }
+
+  var hasContentTypes: Bool {
+    guard let types = preferences?.mediaTypes else { return false }
+    return !types.isEmpty
+  }
+
+  var hasGenres: Bool {
+    guard let ids = preferences?.genreIds else { return false }
+    return !ids.isEmpty
+  }
+
+  /// True if the user has any preference configured (streaming, content types, or genres)
+  var hasAnyPreference: Bool {
+    hasStreamingServices || hasContentTypes || hasGenres
+  }
+
+  var contentTypes: [ContentTypePreference] {
+    guard let types = preferences?.mediaTypes else { return [] }
+    return types.compactMap { ContentTypePreference(rawValue: $0) }
+  }
+
+  var genreIds: [Int] {
+    preferences?.genreIds ?? []
   }
 
   var watchRegion: String? {
