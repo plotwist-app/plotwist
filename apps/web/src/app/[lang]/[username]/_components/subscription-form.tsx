@@ -36,27 +36,6 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
   const isPro = user.subscriptionType === 'PRO'
   const isFree = user.subscriptionType === 'MEMBER'
 
-  const handleUpgrade = async () => {
-    try {
-      const locale = language.split('-')[0] ?? 'en'
-      const response = await fetch(
-        `/api/checkout_sessions?locale=${locale}&email=${user.email}&username=${user.username}&redirect=checkout`,
-        { method: 'POST' }
-      )
-
-      if (response.redirected) {
-        window.location.href = response.url
-      } else {
-        const data = await response.json()
-        if (data.url) {
-          window.location.href = data.url
-        }
-      }
-    } catch {
-      toast.error('Failed to start checkout')
-    }
-  }
-
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -116,10 +95,7 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
           )}
         >
           {!isPro && dictionary.home_prices.pro_plan.recommended && (
-            <Badge
-              variant="outline"
-              className="absolute -top-3 left-1/2 -translate-x-1/2"
-            >
+            <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
               {dictionary.home_prices.pro_plan.recommended}
             </Badge>
           )}
@@ -191,10 +167,16 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
               )}
             </div>
           ) : (
-            <Button onClick={handleUpgrade} className="w-full">
-              {dictionary.get_14_days_free_pro ||
-                dictionary.home_prices.pro_plan.subscribe}
-            </Button>
+            <form
+              action={`/api/checkout_sessions?locale=${language.split('-')[0]}&email=${user.email}&username=${user.username}&redirect=checkout`}
+              method="POST"
+              className="w-full"
+            >
+              <Button type="submit" className="w-full">
+                {dictionary.get_14_days_free_pro ||
+                  dictionary.home_prices.pro_plan.subscribe}
+              </Button>
+            </form>
           )}
         </div>
       </div>
