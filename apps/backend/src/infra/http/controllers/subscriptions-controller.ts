@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { StripeSubscriptionProvider } from '@/adapters/stripe-subscription-provider'
 import { DomainError } from '@/domain/errors/domain-error'
 import { cancelSubscription } from '@/domain/services/subscriptions/cancel-subscription'
 import { getSubscription } from '@/domain/services/subscriptions/get-subscription'
 import { scheduleCancellation } from '@/domain/services/subscriptions/schedule-subscription-cancellation'
+import { StripeSubscriptionProvider } from '@/infra/adapters/stripe-subscription-provider'
 import { deleteSubscriptionBodySchema } from '../schemas/subscriptions'
 
 const subscriptionProvider = StripeSubscriptionProvider

@@ -1,5 +1,5 @@
-import { stripe } from '@/adapters/stripe'
 import { SubscriptionAlreadyCanceledError } from '@/domain/errors/subscription-already-canceled-error'
+import { stripe } from '@/infra/adapters/stripe'
 import type { SubscriptionProvider } from '@/ports/subscription-provider'
 
 async function getCurrentPeriodEnd(providerSubscriptionId: string) {
