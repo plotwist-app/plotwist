@@ -1,7 +1,8 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { selectMostWatched } from '@/db/repositories/user-episode'
+import { selectMostWatched } from '@/infra/db/repositories/user-episode'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { processInBatches } from './batch-utils'
 
 type GetUserMostWatchedSeriesServiceInput = {
   userId: string
@@ -16,8 +17,9 @@ export async function getUserMostWatchedSeriesService({
 }: GetUserMostWatchedSeriesServiceInput) {
   const mostWatchedSeries = await selectMostWatched(userId)
 
-  const formattedMostWatchedSeries = await Promise.all(
-    mostWatchedSeries.map(async ({ count, tmdbId }) => {
+  const formattedMostWatchedSeries = await processInBatches(
+    mostWatchedSeries,
+    async ({ count, tmdbId }) => {
       const data = await getTMDBTvSeriesService(redis, {
         language: language,
         tmdbId: tmdbId,
@@ -28,7 +30,7 @@ export async function getUserMostWatchedSeriesService({
         id: tmdbId,
         ...data,
       }
-    })
+    }
   )
 
   return { mostWatchedSeries: formattedMostWatchedSeries }

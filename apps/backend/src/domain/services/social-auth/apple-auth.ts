@@ -1,8 +1,11 @@
 import { randomBytes, randomUUID } from 'node:crypto'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
-import { getUserByEmail, insertUser } from '@/db/repositories/user-repository'
 import { DomainError } from '@/domain/errors/domain-error'
+import {
+  getUserByEmail,
+  insertUser,
+} from '@/infra/db/repositories/user-repository'
 import { hashPassword } from '@/utils/password'
 
 const APPLE_JWKS_URI = 'https://appleid.apple.com/auth/keys'

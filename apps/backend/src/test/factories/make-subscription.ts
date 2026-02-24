@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { insertSubscription } from '@/db/repositories/subscription-repository'
 import type {
   InsertSubscriptionModel,
   Subscription,
 } from '@/domain/entities/subscription'
+import { insertSubscription } from '@/infra/db/repositories/subscription-repository'
 
 type Overrides = Partial<InsertSubscriptionModel>
 

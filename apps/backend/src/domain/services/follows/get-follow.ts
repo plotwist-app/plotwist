@@ -1,4 +1,4 @@
-import { getFollow } from '@/db/repositories/followers-repository'
+import { getFollow } from '@/infra/db/repositories/followers-repository'
 
 export type GetFollowServiceInput = {
   followerId: string

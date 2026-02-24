@@ -47,7 +47,9 @@ struct OnboardingGenresContent: View {
         Text(strings.onboardingGenresSubtitle)
           .font(.subheadline)
           .foregroundColor(.appMutedForegroundAdaptive)
+          .multilineTextAlignment(.center)
       }
+      .padding(.horizontal, 24)
       .padding(.bottom, 32)
       
       // Genre chips - centered
@@ -74,32 +76,21 @@ struct OnboardingGenresContent: View {
       
       Spacer()
       
-      // Buttons
-      VStack(spacing: 12) {
-        Button(action: {
-          let selected = genres.filter { selectedGenres.contains($0.id) }
-          onboardingService.setSelectedGenres(selected)
-          onContinue()
-        }) {
-          Text(buttonLabel)
-            .font(.system(size: 16, weight: .semibold))
-            .foregroundColor(canContinue ? .appBackgroundAdaptive : .appMutedForegroundAdaptive)
-            .frame(maxWidth: .infinity)
-            .frame(height: 52)
-            .background(canContinue ? Color.appForegroundAdaptive : Color.appInputFilled)
-            .clipShape(Capsule())
-        }
-        .disabled(!canContinue)
-        
-        Button(action: {
-          onboardingService.setSelectedGenres([])
-          onContinue()
-        }) {
-          Text(strings.onboardingSkip)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-        }
+      // Continue Button
+      Button(action: {
+        let selected = genres.filter { selectedGenres.contains($0.id) }
+        onboardingService.setSelectedGenres(selected)
+        onContinue()
+      }) {
+        Text(buttonLabel)
+          .font(.system(size: 16, weight: .semibold))
+          .foregroundColor(canContinue ? .appBackgroundAdaptive : .appMutedForegroundAdaptive)
+          .frame(maxWidth: .infinity)
+          .frame(height: 52)
+          .background(canContinue ? Color.appForegroundAdaptive : Color.appInputFilled)
+          .clipShape(Capsule())
       }
+      .disabled(!canContinue)
       .padding(.horizontal, 24)
       .padding(.bottom, 48)
     }

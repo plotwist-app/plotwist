@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/app/**/*.ts": {
+      "maxDuration": 30
+    },
+    "src/app/**/*.tsx": {
+      "maxDuration": 30
+    },
+    "src/app/api/proxy/route.ts": {
+      "maxDuration": 10
+    },
+    "src/app/**/sitemap.xml/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

@@ -113,6 +113,15 @@ struct WhereToWatchSection: View {
       return
     }
 
+    // Check cache first
+    if let cached = WatchProvidersCache.shared.providers(for: mediaId, mediaType: mediaType) {
+      providers = cached
+      isLoading = false
+      hasLoaded = true
+      onContentLoaded?(hasAnyProvider)
+      return
+    }
+
     isLoading = true
 
     do {
@@ -120,7 +129,9 @@ struct WhereToWatchSection: View {
         id: mediaId,
         mediaType: mediaType
       )
-      providers = response.results.forLanguage(Language.current) ?? response.results.US
+      let result = response.results.forLanguage(Language.current) ?? response.results.US
+      WatchProvidersCache.shared.setProviders(result, for: mediaId, mediaType: mediaType)
+      providers = result
       isLoading = false
       hasLoaded = true
       onContentLoaded?(hasAnyProvider)

@@ -1,5 +1,5 @@
-import { selectUserActivities } from '@/db/repositories/user-activities'
 import type { SelectUserActivities } from '@/domain/entities/user-activity'
+import { selectUserActivities } from '@/infra/db/repositories/user-activities'
 
 export async function getUserActivitiesService(values: SelectUserActivities) {
   const userActivities = await selectUserActivities(values)

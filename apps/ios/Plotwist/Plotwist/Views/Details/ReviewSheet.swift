@@ -48,7 +48,7 @@ struct ReviewSheet: View {
         RoundedRectangle(cornerRadius: 2.5)
           .fill(Color.gray.opacity(0.4))
           .frame(width: 36, height: 5)
-          .padding(.top, 12)
+          .padding(.top, 8)
 
         // Title
         Text(L10n.current.whatDidYouThink)
@@ -142,9 +142,9 @@ struct ReviewSheet: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 16)
     }
-    .floatingSheetPresentation(height: existingReview != nil ? 480 : 420)
+    .floatingSheetPresentation(height: existingReview != nil ? 435 : 370)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showErrorAlert) {
       Button("OK", role: .cancel) {}
@@ -158,6 +158,12 @@ struct ReviewSheet: View {
       }
     } message: {
       Text(L10n.current.deleteReviewConfirmation)
+    }
+    .onAppear {
+      // Track review started (only for new reviews)
+      if existingReview == nil {
+        AnalyticsService.shared.track(.reviewStarted(tmdbId: mediaId, mediaType: mediaType))
+      }
     }
   }
 
@@ -230,6 +236,9 @@ struct ReviewSheet: View {
           seasonNumber: existingReview.seasonNumber,
           episodeNumber: existingReview.episodeNumber
         )
+        
+        // Track review deleted
+        AnalyticsService.shared.track(.reviewDeleted(tmdbId: mediaId, mediaType: mediaType))
         
         await MainActor.run {
           isDeleting = false

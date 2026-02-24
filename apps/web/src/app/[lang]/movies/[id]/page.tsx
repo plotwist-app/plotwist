@@ -7,6 +7,10 @@ import { MovieDetails } from './_components/movie-details'
 
 type MoviePageProps = PageProps<{ id: string }>
 
+// ISR: revalidate pages every hour
+export const revalidate = 3600
+
+// Pre-generate only top movies, others are generated on-demand
 export async function generateStaticParams() {
   const moviesIds = await getMoviesIds()
   return moviesIds.map(id => ({ id: String(id) }))

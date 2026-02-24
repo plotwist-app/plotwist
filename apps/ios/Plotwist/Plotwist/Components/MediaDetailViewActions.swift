@@ -14,6 +14,7 @@ struct MediaDetailViewActions: View {
   let isLoadingStatus: Bool
   let onReviewTapped: () -> Void
   let onStatusChanged: (UserItem?) -> Void
+  var onLoginRequired: (() -> Void)?
 
   @State private var showStatusSheet = false
 
@@ -27,7 +28,13 @@ struct MediaDetailViewActions: View {
         currentStatus: userItem?.statusEnum,
         rewatchCount: userItem?.watchEntries?.count ?? 0,
         isLoading: isLoadingStatus,
-        action: { showStatusSheet = true }
+        action: {
+          if AuthService.shared.isAuthenticated {
+            showStatusSheet = true
+          } else {
+            onLoginRequired?()
+          }
+        }
       )
 
       Spacer()

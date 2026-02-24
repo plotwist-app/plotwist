@@ -258,11 +258,9 @@ class ReviewService {
     }
     
     var request = URLRequest(url: url)
-    
     if let token = UserDefaults.standard.string(forKey: "token") {
       request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
-    
     let (data, response) = try await URLSession.shared.data(for: request)
     
     guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
@@ -299,7 +297,6 @@ class ReviewService {
     }
 
     var request = URLRequest(url: url)
-
     // Add token if available (optional auth)
     if let token = UserDefaults.standard.string(forKey: "token") {
       request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

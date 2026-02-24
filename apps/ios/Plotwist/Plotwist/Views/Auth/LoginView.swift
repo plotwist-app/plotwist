@@ -37,170 +37,136 @@ struct PopularPoster: Identifiable {
   let category: String
   
   var posterURL: URL? {
-    URL(string: "https://image.tmdb.org/t/p/original\(posterPath)")
+    URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
   }
   
   // Popular titles across different categories
   static let featured: [PopularPoster] = [
-    // Movie - Interstellar
     PopularPoster(posterPath: "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", title: "Interstellar", category: "Movie"),
-    // TV Series - Breaking Bad
     PopularPoster(posterPath: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", title: "Breaking Bad", category: "TV"),
-    // Anime - Attack on Titan
     PopularPoster(posterPath: "/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg", title: "Attack on Titan", category: "Anime"),
-    // K-Drama - Squid Game
     PopularPoster(posterPath: "/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg", title: "Squid Game", category: "K-Drama"),
-    // Movie - Dune Part Two
     PopularPoster(posterPath: "/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg", title: "Dune: Part Two", category: "Movie"),
-    // TV Series - Stranger Things
     PopularPoster(posterPath: "/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg", title: "Stranger Things", category: "TV"),
-    // Anime - Demon Slayer
     PopularPoster(posterPath: "/xUfRZu2mi8jH6SzQEJGP6tjBuYj.jpg", title: "Demon Slayer", category: "Anime"),
-    // K-Drama - All of Us Are Dead
     PopularPoster(posterPath: "/pTEFqAjLd5YTsMD6NSUxV6Dq7A6.jpg", title: "All of Us Are Dead", category: "K-Drama"),
+    PopularPoster(posterPath: "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", title: "Oppenheimer", category: "Movie"),
+    PopularPoster(posterPath: "/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg", title: "The Last of Us", category: "TV"),
+    PopularPoster(posterPath: "/cMD9Ygz11zjJzAovURpO75Qg7rT.jpg", title: "One Piece", category: "Anime"),
+    PopularPoster(posterPath: "/74xTEgt7R36Fpooo50r9T25onhq.jpg", title: "The Batman", category: "Movie"),
   ]
 }
 
 // MARK: - Welcome View (Landing Page)
 struct LoginView: View {
   @State private var strings = L10n.current
-  @State private var currentPosterIndex = 0
   @State private var showLoginSheet = false
   @State private var showSignUpSheet = false
   @ObservedObject private var themeManager = ThemeManager.shared
   
-  private let autoScrollTimer = Timer.publish(every: 4, on: .main, in: .common).autoconnect()
-  
-  // Use a minimum corner radius to prevent layout issues when deviceCornerRadius returns 0
-  private var cornerRadius: CGFloat {
-    let deviceRadius = UIScreen.main.deviceCornerRadius
-    return deviceRadius > 0 ? deviceRadius : 44
-  }
-  
   var body: some View {
-    NavigationView {
-      GeometryReader { geometry in
-        let footerHeight: CGFloat = 320
-        let posterHeight = geometry.size.height - footerHeight + cornerRadius + 60 // Extra height to cover rounded corners
+    NavigationStack {
+      ZStack {
+        // Layer 1: Masonry background
+        VStack {
+          PosterMasonry(posters: PopularPoster.featured)
+          Spacer()
+        }
+        .background(Color.black)
+        .ignoresSafeArea()
         
-        ZStack(alignment: .bottom) {
-          // Background color
-          Color.appBackgroundAdaptive
-            .ignoresSafeArea()
+        // Layer 2: Gradient for readability
+        VStack {
+          Spacer()
+          LinearGradient(
+            stops: [
+              .init(color: .clear, location: 0),
+              .init(color: Color.black.opacity(0.6), location: 0.3),
+              .init(color: Color.black.opacity(0.95), location: 1),
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+          .frame(height: 380)
+        }
+        .ignoresSafeArea()
+        
+        // Layer 3: Content (floating, no background)
+        VStack(alignment: .leading, spacing: 0) {
+          Spacer()
           
-          // Poster Carousel (covers top area only)
-          VStack {
-            PosterCarousel(
-              posters: PopularPoster.featured,
-              currentIndex: $currentPosterIndex
-            )
-            .frame(height: posterHeight)
-            .clipped()
-            
-            Spacer()
-          }
-          .ignoresSafeArea(edges: .top)
-          
-          // Gradient Overlay on posters
-          VStack {
-            LinearGradient(
-              colors: [
-                Color.black.opacity(0.1),
-                Color.black.opacity(0.0),
-                Color.black.opacity(0.1),
-                Color.black.opacity(0.5),
-              ],
-              startPoint: .top,
-              endPoint: .bottom
-            )
-            .frame(height: posterHeight)
-            
-            Spacer()
-          }
-          .ignoresSafeArea(edges: .top)
-          
-          // Footer Content
-          VStack(spacing: 0) {
-            // Page Indicator (above the footer, on poster)
-            HStack(spacing: 8) {
-              ForEach(0..<PopularPoster.featured.count, id: \.self) { index in
-                Circle()
-                  .fill(index == currentPosterIndex ? Color.white : Color.white.opacity(0.4))
-                  .frame(width: 8, height: 8)
-                  .animation(.easeInOut(duration: 0.3), value: currentPosterIndex)
-              }
-            }
+          // App Icon
+          Image("PlotistLogo")
+            .resizable()
+            .frame(width: 48, height: 48)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .padding(.bottom, 16)
-            
-            // Footer Content Card (rounded with device corner radius)
-            VStack(spacing: 20) {
-              // Title & Description
-              VStack(spacing: 8) {
-                Text(strings.welcomeTitle)
-                  .font(.system(size: 26, weight: .bold))
-                  .foregroundColor(.appForegroundAdaptive)
-                  .multilineTextAlignment(.center)
-                
-                Text(strings.welcomeDescription)
-                  .font(.subheadline)
-                  .foregroundColor(.appMutedForegroundAdaptive)
-                  .multilineTextAlignment(.center)
-              }
-              
-              // Buttons
-              VStack(spacing: 12) {
-                // Login Button
-                Button {
-                  showLoginSheet = true
-                } label: {
-                  Text(strings.accessButton)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.appBackgroundAdaptive)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .background(Color.appForegroundAdaptive)
-                    .clipShape(Capsule())
-                }
-                
-                // Create Account Button
-                Button {
-                  showSignUpSheet = true
-                } label: {
-                  Text(strings.createAccount)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.appForegroundAdaptive)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .background(Color.appInputFilled)
-                    .clipShape(Capsule())
-                    .overlay(
-                      Capsule()
-                        .stroke(Color.appBorderAdaptive, lineWidth: 1)
-                    )
-                }
-                
-                // Continue as Guest Button
-                Button {
-                  NotificationCenter.default.post(name: .continueAsGuest, object: nil)
-                } label: {
-                  Text(strings.continueAsGuest)
-                    .font(.subheadline)
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .padding(.top, 4)
-                }
-              }
+          
+          // Title
+          Text(strings.welcomeTitle)
+            .font(.system(size: 28, weight: .bold))
+            .foregroundColor(.white)
+            .padding(.bottom, 8)
+          
+          // Description
+          Text(strings.welcomeDescription)
+            .font(.subheadline)
+            .foregroundColor(.white.opacity(0.7))
+            .padding(.bottom, 24)
+          
+          // Buttons
+          VStack(spacing: 12) {
+            // Login Button
+            Button {
+              showLoginSheet = true
+            } label: {
+              Text(strings.accessButton)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .background(Color.white)
+                .clipShape(Capsule())
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 28)
-            .padding(.bottom, 40)
-            .frame(maxWidth: 400)
-            .frame(maxWidth: .infinity)
-            .background(Color.appBackgroundAdaptive)
-            .clipShape(
-              RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-            )
+            
+            // Create Account Button
+            Button {
+              showSignUpSheet = true
+            } label: {
+              Text(strings.createAccount)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.white.opacity(0.7))
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+            }
+
+            #if DEBUG
+            Button {
+              OnboardingService.shared.reset()
+              UserDefaults.standard.set(false, forKey: "isGuestMode")
+              NotificationCenter.default.post(name: .authChanged, object: nil)
+            } label: {
+              Text("Debug: Open Onboarding")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.white.opacity(0.35))
+                .frame(maxWidth: .infinity)
+                .frame(height: 36)
+            }
+            #endif
+          }
+          
+          if let url = URL(string: "https://plotwist.app/\(Language.current.rawValue)/privacy") {
+            Link(destination: url) {
+              Text(strings.privacyPolicy)
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.4))
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.top, 8)
           }
         }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 0)
       }
       .navigationBarHidden(true)
     }
@@ -232,75 +198,102 @@ struct LoginView: View {
     }
     .preferredColorScheme(.dark)
     .lightStatusBar()
-    .sheet(isPresented: $showLoginSheet) {
+    .sheet(isPresented: $showLoginSheet, onDismiss: notifyAuthIfNeeded) {
       LoginFormSheet()
-        .floatingSheetPresentation(height: 620)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
-    .sheet(isPresented: $showSignUpSheet) {
+    .sheet(isPresented: $showSignUpSheet, onDismiss: notifyAuthIfNeeded) {
       SignUpFormSheet()
-        .floatingSheetPresentation(height: 680)
+        .floatingSheetDynamicPresentation()
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }
-    .onReceive(autoScrollTimer) { _ in
-      withAnimation(.easeInOut(duration: 0.5)) {
-        currentPosterIndex = (currentPosterIndex + 1) % PopularPoster.featured.count
-      }
+  }
+  
+  /// Posts .authChanged only if the user is now authenticated (login/signup succeeded before sheet dismiss)
+  private func notifyAuthIfNeeded() {
+    if AuthService.shared.isAuthenticated {
+      NotificationCenter.default.post(name: .authChanged, object: nil)
     }
   }
 }
 
-// MARK: - Poster Carousel
-struct PosterCarousel: View {
+// MARK: - Poster Masonry
+struct PosterMasonry: View {
   let posters: [PopularPoster]
-  @Binding var currentIndex: Int
-  
-  @State private var dragOffset: CGFloat = 0
-  private let swipeThreshold: CGFloat = 50
+  private let columnCount = 4
+  private let spacing: CGFloat = 12
   
   var body: some View {
     GeometryReader { geometry in
-      ZStack {
-        ForEach(Array(posters.enumerated()), id: \.element.id) { index, poster in
-          CachedAsyncImage(url: poster.posterURL) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .frame(width: geometry.size.width, height: geometry.size.height)
-              .clipped()
-          } placeholder: {
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
+      let totalSpacing = spacing * CGFloat(columnCount - 1)
+      let columnWidth = (geometry.size.width - totalSpacing) / CGFloat(columnCount)
+      let posterHeight = columnWidth * 1.5
+      let columnOffsets: [CGFloat] = [
+        -posterHeight * 0.1,
+        -posterHeight * 0.35,
+        posterHeight * 0.15,
+        -posterHeight * 0.2,
+      ]
+      
+      HStack(spacing: spacing) {
+        ForEach(0..<columnCount, id: \.self) { columnIndex in
+          let columnPosters = postersForColumn(columnIndex)
+          
+          VStack(spacing: spacing) {
+            ForEach(Array(columnPosters.enumerated()), id: \.offset) { _, poster in
+              CachedAsyncImage(url: poster.posterURL, priority: .high) { image in
+                image
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+                  .frame(width: columnWidth, height: posterHeight)
+                  .clipped()
+              } placeholder: {
+                PosterSkeleton()
+                  .frame(width: columnWidth, height: posterHeight)
+              }
+              .cornerRadius(12)
+            }
           }
-          .opacity(index == currentIndex ? 1 : 0)
-          .animation(.easeInOut(duration: 0.5), value: currentIndex)
+          .offset(y: columnOffsets[columnIndex])
         }
       }
-      .gesture(
-        DragGesture()
-          .onChanged { value in
-            dragOffset = value.translation.width
-          }
-          .onEnded { value in
-            let dragAmount = value.translation.width
-            
-            withAnimation(.easeInOut(duration: 0.3)) {
-              if dragAmount < -swipeThreshold {
-                // Swipe left - next poster
-                currentIndex = (currentIndex + 1) % posters.count
-              } else if dragAmount > swipeThreshold {
-                // Swipe right - previous poster
-                currentIndex = (currentIndex - 1 + posters.count) % posters.count
-              }
-            }
-            
-            dragOffset = 0
-          }
-      )
+      .padding(.top, 16)
     }
+    .clipped()
+    .onAppear {
+      let urls = posters.compactMap { $0.posterURL }
+      ImageCache.shared.prefetch(urls: urls, priority: .high)
+    }
+  }
+  
+  private func postersForColumn(_ columnIndex: Int) -> [PopularPoster] {
+    posters.enumerated()
+      .filter { $0.offset % columnCount == columnIndex }
+      .map { $0.element }
+  }
+}
+
+// MARK: - Poster Skeleton
+struct PosterSkeleton: View {
+  @State private var isAnimating = false
+  
+  var body: some View {
+    Rectangle()
+      .fill(Color.gray.opacity(0.15))
+      .overlay(
+        Rectangle()
+          .fill(Color.gray.opacity(0.1))
+          .opacity(isAnimating ? 0 : 1)
+      )
+      .onAppear {
+        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+          isAnimating = true
+        }
+      }
   }
 }
 
@@ -312,7 +305,6 @@ struct LoginFormSheet: View {
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
-  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var strings = L10n.current
   
@@ -332,24 +324,13 @@ struct LoginFormSheet: View {
           .frame(maxWidth: .infinity, alignment: .center)
         
         VStack(spacing: 16) {
-          // Social Login Buttons
-          VStack(spacing: 12) {
-            SocialLoginButton(
-              provider: .apple,
-              title: strings.continueWithApple,
-              isLoading: isAppleLoading
-            ) {
-              Task { await signInWithApple() }
-            }
-            
-            SocialLoginButton(
-              provider: .google,
-              title: strings.continueWithGoogle,
-              isLoading: isGoogleLoading,
-              isDisabled: true
-            ) {
-              // Google Sign-In disabled for now
-            }
+          // Apple Sign-In
+          SocialLoginButton(
+            provider: .apple,
+            title: strings.continueWithApple,
+            isLoading: isAppleLoading
+          ) {
+            Task { await signInWithApple() }
           }
           
           // Divider with "or"
@@ -433,12 +414,12 @@ struct LoginFormSheet: View {
             .foregroundColor(.appBackgroundAdaptive)
             .clipShape(Capsule())
           }
-          .disabled(isLoading || isAppleLoading || isGoogleLoading)
+          .disabled(isLoading || isAppleLoading)
           .opacity(isLoading ? 0.5 : 1)
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -475,8 +456,14 @@ struct LoginFormSheet: View {
     defer { isAppleLoading = false }
     
     do {
-      _ = try await SocialAuthService.shared.signInWithApple()
-      AnalyticsService.shared.track(.login(method: "apple"))
+      let response = try await SocialAuthService.shared.signInWithApple()
+      
+      // Track sign up or login based on backend response
+      if response.isNewUser {
+        AnalyticsService.shared.track(.signUp(method: "apple"))
+      } else {
+        AnalyticsService.shared.track(.login(method: "apple"))
+      }
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -489,14 +476,6 @@ struct LoginFormSheet: View {
     }
   }
   
-  private func signInWithGoogle() async {
-    error = nil
-    isGoogleLoading = true
-    defer { isGoogleLoading = false }
-    
-    // TODO: Implement Google Sign-In when SDK is configured
-    self.error = "Google Sign-In coming soon"
-  }
 }
 
 // MARK: - Sign Up Form Sheet
@@ -505,10 +484,10 @@ struct SignUpFormSheet: View {
   @State private var email = ""
   @State private var password = ""
   @State private var username = ""
+  @State private var displayName = ""
   @State private var showPassword = false
   @State private var isLoading = false
   @State private var isAppleLoading = false
-  @State private var isGoogleLoading = false
   @State private var error: String?
   @State private var showUsernameStep = false
   @State private var strings = L10n.current
@@ -535,14 +514,32 @@ struct SignUpFormSheet: View {
         }
         
         if showUsernameStep {
-          // Username Step
+          // Name & Username Step
           VStack(spacing: 16) {
-            TextField(strings.usernamePlaceholder, text: $username)
-              .textInputAutocapitalization(.never)
-              .autocorrectionDisabled()
-              .padding(12)
-              .background(Color.appInputFilled)
-              .cornerRadius(12)
+            // Name Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.name)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.onboardingNamePlaceholder, text: $displayName)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
+            
+            // Username Field
+            VStack(alignment: .leading, spacing: 6) {
+              Text(strings.username)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+              TextField(strings.usernamePlaceholder, text: $username)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color.appInputFilled)
+                .cornerRadius(12)
+            }
             
             if let error {
               Text(error)
@@ -570,27 +567,21 @@ struct SignUpFormSheet: View {
             .disabled(isLoading)
             .opacity(isLoading ? 0.5 : 1)
           }
+          .onAppear {
+            if displayName.isEmpty {
+              displayName = OnboardingService.shared.userName
+            }
+          }
         } else {
           // Email & Password Step
           VStack(spacing: 16) {
-            // Social Login Buttons
-            VStack(spacing: 12) {
-              SocialLoginButton(
-                provider: .apple,
-                title: strings.continueWithApple,
-                isLoading: isAppleLoading
-              ) {
-                Task { await signInWithApple() }
-              }
-              
-              SocialLoginButton(
-                provider: .google,
-                title: strings.continueWithGoogle,
-                isLoading: isGoogleLoading,
-                isDisabled: true
-              ) {
-                // Google Sign-In disabled for now
-              }
+            // Apple Sign-In
+            SocialLoginButton(
+              provider: .apple,
+              title: strings.continueWithApple,
+              isLoading: isAppleLoading
+            ) {
+              Task { await signInWithApple() }
             }
             
             // Divider with "or"
@@ -675,13 +666,13 @@ struct SignUpFormSheet: View {
               .foregroundColor(.appBackgroundAdaptive)
               .clipShape(Capsule())
             }
-            .disabled(isLoading || isAppleLoading || isGoogleLoading)
+            .disabled(isLoading || isAppleLoading)
             .opacity(isLoading ? 0.5 : 1)
           }
         }
       }
       .padding(.horizontal, 24)
-      .padding(.bottom, 24)
+      .padding(.bottom, 8)
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -735,7 +726,12 @@ struct SignUpFormSheet: View {
     do {
       let available = try await AuthService.shared.checkUsernameAvailable(username: username)
       if available {
-        try await AuthService.shared.signUp(email: email, password: password, username: username)
+        try await AuthService.shared.signUp(
+          email: email,
+          password: password,
+          username: username,
+          displayName: displayName.isEmpty ? nil : displayName
+        )
         AnalyticsService.shared.track(.signUp(method: "email"))
         dismiss()
       } else {
@@ -754,8 +750,14 @@ struct SignUpFormSheet: View {
     defer { isAppleLoading = false }
     
     do {
-      _ = try await SocialAuthService.shared.signInWithApple()
-      AnalyticsService.shared.track(.signUp(method: "apple"))
+      let response = try await SocialAuthService.shared.signInWithApple()
+      
+      // Track sign up or login based on backend response
+      if response.isNewUser {
+        AnalyticsService.shared.track(.signUp(method: "apple"))
+      } else {
+        AnalyticsService.shared.track(.login(method: "apple"))
+      }
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -768,14 +770,6 @@ struct SignUpFormSheet: View {
     }
   }
   
-  private func signInWithGoogle() async {
-    error = nil
-    isGoogleLoading = true
-    defer { isGoogleLoading = false }
-    
-    // TODO: Implement Google Sign-In when SDK is configured
-    self.error = "Google Sign-In coming soon"
-  }
 }
 
 // MARK: - Noise Overlay

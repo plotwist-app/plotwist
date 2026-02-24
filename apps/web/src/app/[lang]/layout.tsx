@@ -18,7 +18,8 @@ export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map(lang => ({ lang: lang.value }))
 }
 
-export const dynamic = 'force-dynamic'
+// Note: This layout is automatically dynamic due to cookies() usage in verifySession()
+// Removed explicit 'force-dynamic' to allow child pages to use ISR/static when possible
 
 type RootLayoutProps = {
   children: React.ReactNode

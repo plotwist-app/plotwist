@@ -36,8 +36,19 @@ struct EpisodeDetailView: View {
   @State private var previousSeasonDetails: SeasonDetails?
   @State private var isLoadingNextSeason = false
   @State private var isLoadingPreviousSeason = false
+  
+  @State private var showLoginPrompt = false
+
+  // Swipe navigation state
+  @State private var dragOffset: CGFloat = 0
+  @State private var showSwipeIndicator = false
+  @State private var navigateToPrevious = false
+  @State private var navigateToNext = false
+  @State private var navigateToPreviousSeason = false
+  @State private var navigateToNextSeason = false
 
   private let scrollThreshold: CGFloat = 20
+  private let swipeThreshold: CGFloat = 80
   
   // Check if we need season navigation
   private var needsPreviousSeasonNav: Bool {
@@ -64,6 +75,62 @@ struct EpisodeDetailView: View {
   
   private var nextSeason: Season? {
     allSeasons?.first { $0.seasonNumber == episode.seasonNumber + 1 }
+  }
+  
+  // Swipe action helpers
+  private var canSwipeToPrevious: Bool {
+    previousEpisode != nil || (needsPreviousSeasonNav && previousSeasonDetails != nil)
+  }
+  
+  private var canSwipeToNext: Bool {
+    nextEpisode != nil || (needsNextSeasonNav && nextSeasonDetails != nil)
+  }
+  
+  private var swipeAction: SwipeAction? {
+    if dragOffset > swipeThreshold && canSwipeToPrevious {
+      if previousEpisode != nil {
+        return .previousEpisode
+      } else if needsPreviousSeasonNav && previousSeasonDetails != nil {
+        return .previousSeason
+      }
+    } else if dragOffset < -swipeThreshold && canSwipeToNext {
+      if nextEpisode != nil {
+        return .nextEpisode
+      } else if needsNextSeasonNav && nextSeasonDetails != nil {
+        return .nextSeason
+      }
+    }
+    return nil
+  }
+  
+  private enum SwipeAction {
+    case previousEpisode
+    case nextEpisode
+    case previousSeason
+    case nextSeason
+    
+    var title: String {
+      switch self {
+      case .previousEpisode: return L10n.current.previousEpisode
+      case .nextEpisode: return L10n.current.nextEpisode
+      case .previousSeason: return L10n.current.previousSeason
+      case .nextSeason: return L10n.current.nextSeason
+      }
+    }
+    
+    var icon: String {
+      switch self {
+      case .previousEpisode, .previousSeason: return "chevron.left"
+      case .nextEpisode, .nextSeason: return "chevron.right"
+      }
+    }
+    
+    var isLeft: Bool {
+      switch self {
+      case .previousEpisode, .previousSeason: return true
+      case .nextEpisode, .nextSeason: return false
+      }
+    }
   }
 
   private var isScrolled: Bool {
@@ -92,50 +159,58 @@ struct EpisodeDetailView: View {
           )
 
           // Action Buttons Row (Watched + Review)
-          if AuthService.shared.isAuthenticated {
-            HStack(spacing: 8) {
-              // Mark as Watched Button
-              Button {
+          HStack(spacing: 8) {
+            // Mark as Watched Button
+            Button {
+              if AuthService.shared.isAuthenticated {
                 Task {
                   await toggleWatchedStatus()
                 }
-              } label: {
-                HStack(spacing: 6) {
-                  if isTogglingWatched || isLoadingWatchedStatus {
-                    ProgressView()
-                      .progressViewStyle(CircularProgressViewStyle())
-                      .scaleEffect(0.7)
-                      .frame(width: 13, height: 13)
-                  } else {
-                    Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
-                      .font(.system(size: 13))
-                      .foregroundColor(isWatched ? .green : .appForegroundAdaptive)
-                  }
-                  
-                  Text(isWatched ? strings.watched : strings.markAsWatched)
-                    .font(.footnote.weight(.medium))
-                    .foregroundColor(.appForegroundAdaptive)
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(Color.appInputFilled)
-                .cornerRadius(10)
-                .opacity(isTogglingWatched || isLoadingWatchedStatus ? 0.5 : 1)
+              } else {
+                showLoginPrompt = true
               }
-              .buttonStyle(.plain)
-              .disabled(isTogglingWatched || isLoadingWatchedStatus)
-              
-              // Review Button
-              ReviewButton(
-                hasReview: userReview != nil,
-                isLoading: isLoadingUserReview,
-                action: { showReviewSheet = true }
-              )
+            } label: {
+              HStack(spacing: 6) {
+                if isTogglingWatched || isLoadingWatchedStatus {
+                  ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(0.7)
+                    .frame(width: 13, height: 13)
+                } else {
+                  Image(systemName: isWatched ? "checkmark.circle.fill" : "circle")
+                    .font(.system(size: 13))
+                    .foregroundColor(isWatched ? .green : .appForegroundAdaptive)
+                }
+                
+                Text(isWatched ? strings.watched : strings.markAsWatched)
+                  .font(.footnote.weight(.medium))
+                  .foregroundColor(.appForegroundAdaptive)
+              }
+              .padding(.horizontal, 14)
+              .padding(.vertical, 10)
+              .background(Color.appInputFilled)
+              .cornerRadius(10)
+              .opacity(isTogglingWatched || isLoadingWatchedStatus ? 0.5 : 1)
             }
-            .animation(.easeInOut(duration: 0.2), value: isWatched)
-            .padding(.horizontal, 24)
-            .padding(.top, 24)
+            .buttonStyle(.plain)
+            .disabled(isTogglingWatched || isLoadingWatchedStatus)
+            
+            // Review Button
+            ReviewButton(
+              hasReview: userReview != nil,
+              isLoading: isLoadingUserReview,
+              action: {
+                if AuthService.shared.isAuthenticated {
+                  showReviewSheet = true
+                } else {
+                  showLoginPrompt = true
+                }
+              }
+            )
           }
+          .animation(.easeInOut(duration: 0.2), value: isWatched)
+          .padding(.horizontal, 24)
+          .padding(.top, 24)
 
           // Overview
           if let overview = episode.overview, !overview.isEmpty {
@@ -161,6 +236,8 @@ struct EpisodeDetailView: View {
             onEmptyStateTapped: {
               if AuthService.shared.isAuthenticated {
                 showReviewSheet = true
+              } else {
+                showLoginPrompt = true
               }
             },
             onContentLoaded: { hasContent in
@@ -169,195 +246,123 @@ struct EpisodeDetailView: View {
           )
 
           Spacer()
-            .frame(height: 80)
+            .frame(height: 40)
         }
       }
-      .safeAreaInset(edge: .bottom) {
-        if previousEpisode != nil || nextEpisode != nil || needsPreviousSeasonNav || needsNextSeasonNav {
-          HStack(spacing: 8) {
-            // Previous Episode Button
-            if let prev = previousEpisode {
-              NavigationLink {
-                EpisodeDetailView(
-                  seriesId: seriesId,
-                  seasonName: seasonName,
-                  seasonPosterPath: seasonPosterPath,
-                  episode: prev,
-                  nextEpisode: episode,
-                  previousEpisode: getPreviousEpisode(before: prev),
-                  allEpisodes: allEpisodes,
-                  allSeasons: allSeasons
-                )
-              } label: {
-                HStack(spacing: 6) {
-                  Image(systemName: "chevron.left")
-                    .font(.system(size: 12, weight: .medium))
-                  
-                  Text(strings.previousEpisode)
-                    .font(.footnote.weight(.medium))
-                }
-                .foregroundColor(.appForegroundAdaptive)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(Color.appInputFilled)
-                .cornerRadius(10)
-              }
-              .buttonStyle(.plain)
-            } else if needsPreviousSeasonNav, let prevSeason = previousSeason {
-              // Previous Season Button
-              if let seasonDetails = previousSeasonDetails, let lastEpisode = seasonDetails.episodes.last {
-                NavigationLink {
-                  EpisodeDetailView(
-                    seriesId: seriesId,
-                    seasonName: prevSeason.name,
-                    seasonPosterPath: prevSeason.posterPath,
-                    episode: lastEpisode,
-                    nextEpisode: nil,
-                    previousEpisode: getEpisodeBefore(lastEpisode, in: seasonDetails.episodes),
-                    allEpisodes: seasonDetails.episodes,
-                    allSeasons: allSeasons
-                  )
-                } label: {
-                  HStack(spacing: 6) {
-                    Image(systemName: "chevron.left")
-                      .font(.system(size: 12, weight: .medium))
-                    
-                    Text(strings.previousSeason)
-                      .font(.footnote.weight(.medium))
-                  }
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 14)
-                  .padding(.vertical, 10)
-                  .background(Color.appInputFilled)
-                  .cornerRadius(10)
-                }
-                .buttonStyle(.plain)
-              } else {
-                Button {
-                  Task {
-                    await loadPreviousSeasonDetails()
-                  }
-                } label: {
-                  HStack(spacing: 6) {
-                    if isLoadingPreviousSeason {
-                      ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(0.7)
-                        .frame(width: 12, height: 12)
-                    } else {
-                      Image(systemName: "chevron.left")
-                        .font(.system(size: 12, weight: .medium))
-                    }
-                    
-                    Text(strings.previousSeason)
-                      .font(.footnote.weight(.medium))
-                  }
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 14)
-                  .padding(.vertical, 10)
-                  .background(Color.appInputFilled)
-                  .cornerRadius(10)
-                }
-                .buttonStyle(.plain)
-                .disabled(isLoadingPreviousSeason)
-              }
+      .offset(x: dragOffset * 0.3)
+      .gesture(
+        DragGesture(minimumDistance: 20)
+          .onChanged { value in
+            let translation = value.translation.width
+            
+            // Only allow swipe in valid directions
+            if translation > 0 && canSwipeToPrevious {
+              dragOffset = translation
+              showSwipeIndicator = true
+            } else if translation < 0 && canSwipeToNext {
+              dragOffset = translation
+              showSwipeIndicator = true
+            } else {
+              dragOffset = translation * 0.2 // Resistance when can't swipe
+            }
+          }
+          .onEnded { value in
+            let translation = value.translation.width
+            
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+              showSwipeIndicator = false
+              dragOffset = 0
             }
             
-            Spacer()
-            
-            // Next Episode Button
-            if let next = nextEpisode {
-              NavigationLink {
-                EpisodeDetailView(
-                  seriesId: seriesId,
-                  seasonName: seasonName,
-                  seasonPosterPath: seasonPosterPath,
-                  episode: next,
-                  nextEpisode: getNextEpisode(after: next),
-                  previousEpisode: episode,
-                  allEpisodes: allEpisodes,
-                  allSeasons: allSeasons
-                )
-              } label: {
-                HStack(spacing: 6) {
-                  Text(strings.nextEpisode)
-                    .font(.footnote.weight(.medium))
-                  
-                  Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .medium))
-                }
-                .foregroundColor(.appForegroundAdaptive)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(Color.appInputFilled)
-                .cornerRadius(10)
+            // Execute navigation based on swipe direction
+            if translation > swipeThreshold && canSwipeToPrevious {
+              if previousEpisode != nil {
+                navigateToPrevious = true
+              } else if needsPreviousSeasonNav && previousSeasonDetails != nil {
+                navigateToPreviousSeason = true
               }
-              .buttonStyle(.plain)
-            } else if needsNextSeasonNav, let nextSeasonData = nextSeason {
-              // Next Season Button
-              if let seasonDetails = nextSeasonDetails, let firstEpisode = seasonDetails.episodes.first {
-                NavigationLink {
-                  EpisodeDetailView(
-                    seriesId: seriesId,
-                    seasonName: nextSeasonData.name,
-                    seasonPosterPath: nextSeasonData.posterPath,
-                    episode: firstEpisode,
-                    nextEpisode: getEpisodeAfter(firstEpisode, in: seasonDetails.episodes),
-                    previousEpisode: nil,
-                    allEpisodes: seasonDetails.episodes,
-                    allSeasons: allSeasons
-                  )
-                } label: {
-                  HStack(spacing: 6) {
-                    Text(strings.nextSeason)
-                      .font(.footnote.weight(.medium))
-                    
-                    Image(systemName: "chevron.right")
-                      .font(.system(size: 12, weight: .medium))
-                  }
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 14)
-                  .padding(.vertical, 10)
-                  .background(Color.appInputFilled)
-                  .cornerRadius(10)
-                }
-                .buttonStyle(.plain)
-              } else {
-                Button {
-                  Task {
-                    await loadNextSeasonDetails()
-                  }
-                } label: {
-                  HStack(spacing: 6) {
-                    Text(strings.nextSeason)
-                      .font(.footnote.weight(.medium))
-                    
-                    if isLoadingNextSeason {
-                      ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(0.7)
-                        .frame(width: 12, height: 12)
-                    } else {
-                      Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .medium))
-                    }
-                  }
-                  .foregroundColor(.appForegroundAdaptive)
-                  .padding(.horizontal, 14)
-                  .padding(.vertical, 10)
-                  .background(Color.appInputFilled)
-                  .cornerRadius(10)
-                }
-                .buttonStyle(.plain)
-                .disabled(isLoadingNextSeason)
+            } else if translation < -swipeThreshold && canSwipeToNext {
+              if nextEpisode != nil {
+                navigateToNext = true
+              } else if needsNextSeasonNav && nextSeasonDetails != nil {
+                navigateToNextSeason = true
               }
             }
           }
-          .padding(.horizontal, 24)
-          .padding(.top, 12)
-          .padding(.bottom, 8)
-          .background(Color.appBackgroundAdaptive)
-        }
+      )
+      
+      // Swipe Indicator Overlay
+      if showSwipeIndicator, let action = swipeAction {
+        swipeIndicatorView(action: action)
+      }
+      
+      // Hidden NavigationLinks for programmatic navigation
+      if let prev = previousEpisode {
+        NavigationLink(
+          destination: EpisodeDetailView(
+            seriesId: seriesId,
+            seasonName: seasonName,
+            seasonPosterPath: seasonPosterPath,
+            episode: prev,
+            nextEpisode: episode,
+            previousEpisode: getPreviousEpisode(before: prev),
+            allEpisodes: allEpisodes,
+            allSeasons: allSeasons
+          ),
+          isActive: $navigateToPrevious
+        ) { EmptyView() }
+      }
+      
+      if let next = nextEpisode {
+        NavigationLink(
+          destination: EpisodeDetailView(
+            seriesId: seriesId,
+            seasonName: seasonName,
+            seasonPosterPath: seasonPosterPath,
+            episode: next,
+            nextEpisode: getNextEpisode(after: next),
+            previousEpisode: episode,
+            allEpisodes: allEpisodes,
+            allSeasons: allSeasons
+          ),
+          isActive: $navigateToNext
+        ) { EmptyView() }
+      }
+      
+      if let prevSeason = previousSeason,
+         let seasonDetails = previousSeasonDetails,
+         let lastEpisode = seasonDetails.episodes.last {
+        NavigationLink(
+          destination: EpisodeDetailView(
+            seriesId: seriesId,
+            seasonName: prevSeason.name,
+            seasonPosterPath: prevSeason.posterPath,
+            episode: lastEpisode,
+            nextEpisode: nil,
+            previousEpisode: getEpisodeBefore(lastEpisode, in: seasonDetails.episodes),
+            allEpisodes: seasonDetails.episodes,
+            allSeasons: allSeasons
+          ),
+          isActive: $navigateToPreviousSeason
+        ) { EmptyView() }
+      }
+      
+      if let nextSeasonData = nextSeason,
+         let seasonDetails = nextSeasonDetails,
+         let firstEpisode = seasonDetails.episodes.first {
+        NavigationLink(
+          destination: EpisodeDetailView(
+            seriesId: seriesId,
+            seasonName: nextSeasonData.name,
+            seasonPosterPath: nextSeasonData.posterPath,
+            episode: firstEpisode,
+            nextEpisode: getEpisodeAfter(firstEpisode, in: seasonDetails.episodes),
+            previousEpisode: nil,
+            allEpisodes: seasonDetails.episodes,
+            allSeasons: allSeasons
+          ),
+          isActive: $navigateToNextSeason
+        ) { EmptyView() }
       }
 
       // Navigation Header
@@ -384,6 +389,14 @@ struct EpisodeDetailView: View {
         }
       )
     }
+    .loginPrompt(isPresented: $showLoginPrompt) {
+      Task {
+        isLoadingUserReview = true
+        async let reviewTask: () = loadUserReview()
+        async let watchedTask: () = loadWatchedStatus()
+        _ = await (reviewTask, watchedTask)
+      }
+    }
     .task {
       if AuthService.shared.isAuthenticated {
         isLoadingUserReview = true
@@ -402,6 +415,9 @@ struct EpisodeDetailView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .dismissEpisodeToSeason)) { _ in
+      dismiss()
     }
   }
 
@@ -552,6 +568,53 @@ struct EpisodeDetailView: View {
     }
   }
 
+  // MARK: - Swipe Indicator View
+  @ViewBuilder
+  private func swipeIndicatorView(action: SwipeAction) -> some View {
+    let progress = min(abs(dragOffset) / swipeThreshold, 1.0)
+    
+    VStack {
+      Spacer()
+      
+      HStack {
+        if !action.isLeft {
+          Spacer()
+        }
+        
+        HStack(spacing: 6) {
+          if action.isLeft {
+            Image(systemName: action.icon)
+              .font(.system(size: 13, weight: .medium))
+          }
+          
+          Text(action.title)
+            .font(.footnote.weight(.medium))
+          
+          if !action.isLeft {
+            Image(systemName: action.icon)
+              .font(.system(size: 13, weight: .medium))
+          }
+        }
+        .foregroundColor(.appForegroundAdaptive)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Color.appInputFilled)
+        .cornerRadius(10)
+        .scaleEffect(0.8 + (0.2 * progress))
+        .opacity(Double(progress))
+        
+        if action.isLeft {
+          Spacer()
+        }
+      }
+      .padding(.horizontal, 24)
+      
+      Spacer()
+    }
+    .frame(maxWidth: .infinity)
+    .allowsHitTesting(false)
+  }
+
   // MARK: - Section Divider
   private var sectionDivider: some View {
     Rectangle()
@@ -577,7 +640,8 @@ struct EpisodeDetailView: View {
         Spacer()
 
         Button {
-          dismiss()
+          // Post notification to dismiss all episode views back to season
+          NotificationCenter.default.post(name: .dismissEpisodeToSeason, object: nil)
         } label: {
           Text(seasonName)
             .font(.headline)
@@ -875,4 +939,9 @@ struct EpisodeReviewSectionView: View {
       onContentLoaded?(false)
     }
   }
+}
+
+// MARK: - Notification Names
+extension Notification.Name {
+  static let dismissEpisodeToSeason = Notification.Name("dismissEpisodeToSeason")
 }

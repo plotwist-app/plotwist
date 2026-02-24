@@ -1,6 +1,6 @@
 import type { InferInsertModel } from 'drizzle-orm'
-import { updateList } from '@/db/repositories/list-repository'
-import type { schema } from '@/db/schema'
+import { updateList } from '@/infra/db/repositories/list-repository'
+import type { schema } from '@/infra/db/schema'
 
 export type UpdateListValues = Omit<
   InferInsertModel<typeof schema.lists>,

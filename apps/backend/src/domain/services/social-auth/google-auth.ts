@@ -1,8 +1,11 @@
 import { randomBytes, randomUUID } from 'node:crypto'
 import { OAuth2Client } from 'google-auth-library'
 import { config } from '@/config'
-import { getUserByEmail, insertUser } from '@/db/repositories/user-repository'
 import { DomainError } from '@/domain/errors/domain-error'
+import {
+  getUserByEmail,
+  insertUser,
+} from '@/infra/db/repositories/user-repository'
 import { hashPassword } from '@/utils/password'
 
 // Google OAuth client - uses the iOS client ID for verification

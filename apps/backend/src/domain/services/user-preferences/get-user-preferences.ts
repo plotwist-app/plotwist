@@ -1,4 +1,4 @@
-import { selectUserPreferences } from '@/db/repositories/user-preferences'
+import { selectUserPreferences } from '@/infra/db/repositories/user-preferences'
 
 export type GetUserPreferencesParams = {
   userId: string

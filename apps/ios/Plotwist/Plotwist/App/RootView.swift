@@ -18,6 +18,7 @@ struct RootView: View {
         OnboardingView()
       } else if isAuthenticated || isGuestMode {
         HomeView()
+          .id("home") // Stable identity to prevent recreation on @StateObject changes
       } else {
         LoginView()
       }
@@ -33,9 +34,9 @@ struct RootView: View {
         isGuestMode = false
       }
       
-      // Sync local onboarding data to server after login
+      // Sync local onboarding data to server after login (detached to avoid view recreation)
       if isAuthenticated {
-        Task {
+        Task.detached {
           await onboardingService.syncLocalDataToServer()
         }
       }

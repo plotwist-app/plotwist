@@ -9,9 +9,11 @@ class TMDBService {
   static let shared = TMDBService()
   private init() {}
 
-  private let baseURL = "https://api.themoviedb.org/3"
-  private let apiKey =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MGYyYjQyNWU1ZmYxYjgwMWVkOWRjY2Y0YmFmYWRkZSIsIm5iZiI6MTYyNjQ3OTE5Ny41MjYsInN1YiI6IjYwZjIxYTVkN2Q1ZGI1MDAyZmM5MTNiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HblE_tHKIktjGrwEONxxZFgPGwxNkwKSZEwC24WIrzM"  // TODO: Replace with actual API key
+  /// All TMDB requests are proxied through our backend, which handles
+  /// the API key and caches responses in Redis (30-day TTL for details,
+  /// 6 hours for lists, etc.). This avoids exposing the TMDB API key
+  /// in the app and prevents rate-limit issues across all users.
+  private let baseURL = "\(API.baseURL)/tmdb"
 
   // MARK: - Search Multi
   func searchMulti(query: String, language: String = "en-US") async throws -> SearchMultiResponse {
@@ -26,7 +28,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -47,7 +48,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -76,7 +76,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -104,7 +103,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -132,7 +130,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -159,7 +156,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -188,7 +184,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -217,7 +212,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -246,7 +240,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -278,7 +271,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -310,7 +302,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -342,7 +333,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -376,7 +366,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -400,13 +389,30 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil,
+    sortBy: String = "popularity.desc",
+    releaseDateGte: String? = nil,
+    releaseDateLte: String? = nil,
+    voteCountGte: Int? = nil
   ) async throws -> PaginatedResult {
     var urlString =
-      "\(baseURL)/discover/movie?language=\(language)&sort_by=popularity.desc&page=\(page)"
+      "\(baseURL)/discover/movie?language=\(language)&sort_by=\(sortBy)&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
+    }
+    if let gte = releaseDateGte {
+      urlString += "&primary_release_date.gte=\(gte)"
+    }
+    if let lte = releaseDateLte {
+      urlString += "&primary_release_date.lte=\(lte)"
+    }
+    if let minVotes = voteCountGte {
+      urlString += "&vote_count.gte=\(minVotes)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -414,7 +420,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -438,13 +443,30 @@ class TMDBService {
     language: String = "en-US",
     page: Int = 1,
     watchRegion: String? = nil,
-    withWatchProviders: String? = nil
+    withWatchProviders: String? = nil,
+    withGenres: String? = nil,
+    sortBy: String = "popularity.desc",
+    airDateGte: String? = nil,
+    airDateLte: String? = nil,
+    voteCountGte: Int? = nil
   ) async throws -> PaginatedResult {
     var urlString =
-      "\(baseURL)/discover/tv?language=\(language)&sort_by=popularity.desc&page=\(page)"
+      "\(baseURL)/discover/tv?language=\(language)&sort_by=\(sortBy)&page=\(page)"
 
     if let region = watchRegion, let providers = withWatchProviders, !providers.isEmpty {
       urlString += "&watch_region=\(region)&with_watch_providers=\(providers)"
+    }
+    if let genres = withGenres, !genres.isEmpty {
+      urlString += "&with_genres=\(genres)"
+    }
+    if let gte = airDateGte {
+      urlString += "&air_date.gte=\(gte)"
+    }
+    if let lte = airDateLte {
+      urlString += "&air_date.lte=\(lte)"
+    }
+    if let minVotes = voteCountGte {
+      urlString += "&vote_count.gte=\(minVotes)"
     }
 
     guard let url = URL(string: urlString) else {
@@ -452,7 +474,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -490,7 +511,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -528,7 +548,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -566,7 +585,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -599,7 +617,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -625,7 +642,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -646,7 +662,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -672,7 +687,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -694,7 +708,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -716,7 +729,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -737,7 +749,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -761,7 +772,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -783,7 +793,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -835,7 +844,6 @@ class TMDBService {
     }
 
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -857,7 +865,6 @@ class TMDBService {
     }
     
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
     
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -872,19 +879,22 @@ class TMDBService {
   }
   
   // MARK: - Discover by Genre (for onboarding)
-  func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1) async throws -> [SearchResult] {
+  func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1, originCountry: String? = nil) async throws -> [SearchResult] {
     // Use | (pipe) for OR logic - matches ANY of the selected genres (more results)
     // Using , (comma) would be AND logic - matches ALL genres (fewer results)
     let genresString = genreIds.map { String($0) }.joined(separator: "|")
     let endpoint = mediaType == "movie" ? "discover/movie" : "discover/tv"
     
     // Sort by vote count to show most voted (well-known) content first
-    guard let url = URL(string: "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=vote_count.desc&page=\(page)") else {
+    var urlString = "\(baseURL)/\(endpoint)?language=\(language)&with_genres=\(genresString)&sort_by=vote_count.desc&page=\(page)"
+    if let country = originCountry {
+      urlString += "&with_origin_country=\(country)"
+    }
+    guard let url = URL(string: urlString) else {
       throw TMDBError.invalidURL
     }
     
     var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
     
     let (data, response) = try await URLSession.shared.data(for: request)
@@ -1054,12 +1064,19 @@ struct MovieCollection: Codable, Identifiable {
 struct CollectionPart: Codable, Identifiable {
   let id: Int
   let title: String
+  let overview: String?
   let posterPath: String?
+  let backdropPath: String?
   let releaseDate: String?
 
   var posterURL: URL? {
     guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+  }
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w780\(backdropPath)")
   }
 
   var year: String? {
@@ -1101,6 +1118,7 @@ struct PopularItem: Codable {
   let firstAirDate: String?
   let overview: String?
   let voteAverage: Double?
+  let genreIds: [Int]?
 
   func toSearchResult(mediaType: String) -> SearchResult {
     SearchResult(
@@ -1115,7 +1133,8 @@ struct PopularItem: Codable {
       firstAirDate: firstAirDate,
       overview: overview,
       voteAverage: voteAverage,
-      knownForDepartment: nil
+      knownForDepartment: nil,
+      genreIds: genreIds
     )
   }
 }
@@ -1138,6 +1157,7 @@ struct SearchResult: Codable, Identifiable, Equatable {
   let overview: String?
   let voteAverage: Double?
   let knownForDepartment: String?
+  let genreIds: [Int]?
 
   var displayTitle: String {
     title ?? name ?? "Unknown"
@@ -1166,6 +1186,11 @@ struct SearchResult: Codable, Identifiable, Equatable {
   var hdPosterURL: URL? {
     guard let posterPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w780\(posterPath)")
+  }
+  
+  var hdBackdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)")
   }
 }
 

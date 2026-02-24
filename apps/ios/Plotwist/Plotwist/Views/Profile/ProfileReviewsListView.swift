@@ -44,13 +44,13 @@ class ProfileReviewsCache {
 struct ProfileReviewsListView: View {
   let userId: String
   
-  @State private var reviews: [DetailedReview] = []
-  @State private var isLoading = true
+  @State private var reviews: [DetailedReview]
+  @State private var isLoading: Bool
   @State private var isLoadingMore = false
   @State private var error: String?
   @State private var strings = L10n.current
-  @State private var currentPage = 1
-  @State private var hasMore = true
+  @State private var currentPage: Int
+  @State private var hasMore: Bool
   
   private let pageSize = 20
   private let cache = ProfileReviewsCache.shared
@@ -58,6 +58,22 @@ struct ProfileReviewsListView: View {
   // Calculate poster width: (screenWidth - 48 padding - 24 grid spacing) / 3
   private var posterWidth: CGFloat {
     (UIScreen.main.bounds.width - 48 - 24) / 3
+  }
+  
+  init(userId: String) {
+    self.userId = userId
+    let cache = ProfileReviewsCache.shared
+    if let cached = cache.get(userId: userId) {
+      _reviews = State(initialValue: cached.reviews)
+      _isLoading = State(initialValue: false)
+      _hasMore = State(initialValue: cached.hasMore)
+      _currentPage = State(initialValue: cached.currentPage)
+    } else {
+      _reviews = State(initialValue: [])
+      _isLoading = State(initialValue: true)
+      _hasMore = State(initialValue: true)
+      _currentPage = State(initialValue: 1)
+    }
   }
   
   var body: some View {
@@ -73,13 +89,21 @@ struct ProfileReviewsListView: View {
         .padding(.top, 16)
       } else if reviews.isEmpty {
         // Empty state
-        VStack(spacing: 16) {
-          Image(systemName: "text.bubble")
+        VStack(spacing: 12) {
+          Image(systemName: "star.bubble")
             .font(.system(size: 48))
             .foregroundColor(.appMutedForegroundAdaptive)
-          Text(strings.beFirstToReview)
+            .padding(.bottom, 4)
+          
+          Text(strings.profileNoReviewsTitle)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+          
+          Text(strings.profileNoReviewsSubtitle)
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 32)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 60)
@@ -88,9 +112,12 @@ struct ProfileReviewsListView: View {
         LazyVStack(spacing: 24) {
           ForEach(reviews) { review in
             NavigationLink {
-              MediaDetailView(
+              AllReviewsView(
                 mediaId: review.tmdbId,
-                mediaType: review.mediaType == "MOVIE" ? "movie" : "tv"
+                mediaType: review.mediaType == "MOVIE" ? "movie" : "tv",
+                mediaTitle: review.title,
+                mediaPosterPath: review.posterPath,
+                highlightedReviewId: review.id
               )
             } label: {
               ProfileReviewItem(review: review, posterWidth: posterWidth)
@@ -120,9 +147,6 @@ struct ProfileReviewsListView: View {
         .padding(.top, 16)
       }
     }
-    .onAppear {
-      restoreFromCache()
-    }
     .task {
       await loadReviews()
     }
@@ -131,18 +155,18 @@ struct ProfileReviewsListView: View {
     }
   }
   
-  private func restoreFromCache() {
+  private func loadReviews() async {
+    // Skip if already have data in state
+    if !reviews.isEmpty {
+      isLoading = false
+      return
+    }
+    
+    // Try to restore from cache (handles cases where @State init didn't persist cached values)
     if let cached = cache.get(userId: userId) {
       reviews = cached.reviews
       hasMore = cached.hasMore
       currentPage = cached.currentPage
-      isLoading = false
-    }
-  }
-  
-  private func loadReviews() async {
-    // Skip if already have cached data
-    if !reviews.isEmpty {
       isLoading = false
       return
     }

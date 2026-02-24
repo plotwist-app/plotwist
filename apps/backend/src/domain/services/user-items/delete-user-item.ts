@@ -1,5 +1,5 @@
-import { deleteUserItem } from '@/db/repositories/user-item-repository'
 import { UserItemNotFoundError } from '@/domain/errors/user-item-not-found-error'
+import { deleteUserItem } from '@/infra/db/repositories/user-item-repository'
 import { deleteUserItemEpisodesService } from './delete-user-item-episodes'
 
 export async function deleteUserItemService(id: string) {

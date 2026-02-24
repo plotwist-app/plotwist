@@ -5,83 +5,74 @@
 
 import SwiftUI
 
-// MARK: - UIScreen Extension for Device Corner Radius
-extension UIScreen {
-  /// Returns the display corner radius of the device screen
-  var deviceCornerRadius: CGFloat {
-    guard let cornerRadius = value(forKey: "_displayCornerRadius") as? CGFloat else {
-      return 44 // Fallback for older devices or simulator
-    }
-    return cornerRadius
-  }
-}
-
-// MARK: - Sheet Style Configuration
-enum SheetStyle {
-  /// Margem horizontal do sheet flutuante
-  static let horizontalPadding: CGFloat = 8
-  /// Margem inferior do sheet flutuante
-  static let bottomPadding: CGFloat = 8
-  /// Raio de arredondamento do sheet - usa o raio do dispositivo
-  static var cornerRadius: CGFloat {
-    UIScreen.main.deviceCornerRadius
-  }
-  /// Altura extra para compensar o padding
-  static let heightOffset: CGFloat = 20
-}
-
 // MARK: - Floating Sheet Container
-/// Container que aplica o estilo flutuante com margem e arredondamento
+/// Container for sheet content — pass-through that preserves existing call sites.
 struct FloatingSheetContainer<Content: View>: View {
   let content: Content
-  @State private var keyboardVisible = false
 
   init(@ViewBuilder content: () -> Content) {
     self.content = content()
   }
 
   var body: some View {
-    VStack {
-      Spacer()
-      content
-        .background(Color.appSheetBackgroundAdaptive)
-        .clipShape(
-          UnevenRoundedRectangle(
-            topLeadingRadius: SheetStyle.cornerRadius,
-            bottomLeadingRadius: keyboardVisible ? 0 : SheetStyle.cornerRadius,
-            bottomTrailingRadius: keyboardVisible ? 0 : SheetStyle.cornerRadius,
-            topTrailingRadius: SheetStyle.cornerRadius
-          )
-        )
-        .padding(.horizontal, keyboardVisible ? 0 : SheetStyle.horizontalPadding)
-        .padding(.bottom, keyboardVisible ? 0 : SheetStyle.bottomPadding)
-        .animation(.easeInOut(duration: 0.25), value: keyboardVisible)
-    }
-    .ignoresSafeArea(.container, edges: .bottom)
-    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-      keyboardVisible = true
-    }
-    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-      keyboardVisible = false
-    }
+    content
+  }
+}
+
+// MARK: - Sheet Height Measurement
+private struct SheetHeightPreferenceKey: PreferenceKey {
+  static var defaultValue: CGFloat = 0
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    value = max(value, nextValue())
   }
 }
 
 // MARK: - View Extension
 extension View {
-  /// Aplica os modificadores de apresentação para sheet flutuante
   func floatingSheetPresentation(height: CGFloat) -> some View {
     self
-      .presentationDetents([.height(height + SheetStyle.heightOffset)])
-      .presentationBackground(.clear)
+      .presentationDetents([.height(height)])
+      .presentationBackground {
+        Color.appSheetBackgroundAdaptive.ignoresSafeArea()
+      }
       .presentationDragIndicator(.hidden)
   }
 
-  /// Aplica os modificadores de apresentação para sheet flutuante com detents customizados
   func floatingSheetPresentation(detents: Set<PresentationDetent>) -> some View {
     self
       .presentationDetents(detents)
-      .presentationBackground(.clear)
+      .presentationBackground {
+        Color.appSheetBackgroundAdaptive.ignoresSafeArea()
+      }
+      .presentationDragIndicator(.hidden)
+  }
+
+  func floatingSheetDynamicPresentation() -> some View {
+    modifier(DynamicFloatingSheetModifier())
+  }
+}
+
+// MARK: - Dynamic Height Sheet Modifier
+private struct DynamicFloatingSheetModifier: ViewModifier {
+  @State private var contentHeight: CGFloat = 0
+
+  func body(content: Content) -> some View {
+    content
+      .background(
+        GeometryReader { geometry in
+          Color.clear
+            .preference(key: SheetHeightPreferenceKey.self, value: geometry.size.height)
+        }
+      )
+      .onPreferenceChange(SheetHeightPreferenceKey.self) { height in
+        if height > 0 {
+          contentHeight = height
+        }
+      }
+      .presentationDetents(contentHeight > 0 ? [.height(contentHeight)] : [.medium])
+      .presentationBackground {
+        Color.appSheetBackgroundAdaptive.ignoresSafeArea()
+      }
       .presentationDragIndicator(.hidden)
   }
 }

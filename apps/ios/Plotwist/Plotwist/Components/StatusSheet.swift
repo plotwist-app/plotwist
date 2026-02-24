@@ -200,7 +200,8 @@ struct StatusSheet: View {
           AnalyticsService.shared.track(.mediaStatusChanged(
             tmdbId: mediaId,
             mediaType: mediaType,
-            status: status.rawValue
+            status: status.rawValue,
+            source: "status_sheet"
           ))
           
           // Invalidate collection cache
@@ -246,6 +247,13 @@ struct StatusSheet: View {
           isAddingRewatch = false
           watchEntries.append(newEntry)
           onStatusChanged(selectedStatus, watchEntries)
+          
+          // Track rewatch added
+          AnalyticsService.shared.track(.rewatchAdded(
+            tmdbId: mediaId,
+            mediaType: mediaType,
+            count: watchEntries.count
+          ))
         }
       } catch {
         await MainActor.run {
