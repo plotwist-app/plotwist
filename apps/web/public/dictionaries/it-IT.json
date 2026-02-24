@@ -719,6 +719,7 @@
   "cancel_subscription": "Annulla abbonamento",
   "cancel_subscription_confirm_title": "Confermare l'annullamento?",
   "keep_subscription": "Mantenere l'abbonamento",
+  "current_plan": "Piano attuale",
   "cancel_subscription_confirm_description": "Scegli quando annullare. Puoi mantenere PRO fino alla fine del periodo di fatturazione.",
   "cancel_now": "Annulla ora",
   "cancel_subscription_success": "Abbonamento annullato",
