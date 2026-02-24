@@ -1,9 +1,7 @@
-import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
-import type { Subscription, Subscription } from '@/domain/entities/subscription'
-import { DomainError, DomainError } from '@/domain/errors/domain-error'
-import { stripe } from '@/infra/adapters/stripe'
+import type { Subscription } from '@/domain/entities/subscription'
+import { DomainError } from '@/domain/errors/domain-error'
 import { cancelUserSubscription } from '@/infra/db/repositories/subscription-repository'
-import type { SubscriptionProvider } from '@/ports/subscription-provider'
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 
 export async function scheduleCancellation(
   { id: subscriptionId, userId, providerSubscriptionId }: Subscription,

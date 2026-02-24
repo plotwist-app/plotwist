@@ -3,65 +3,63 @@ import { getSubscriptionById } from '@/db/repositories/subscription-repository'
 import { stripe } from '@/infra/adapters/stripe'
 import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
 import type { SubscriptionProvider } from '@/ports/subscription-provider'
+
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { scheduleCancellation } from './schedule-subscription-cancellation'
 
 function uniqueProviderSubId() {
   return `sub_${randomUUID().replace(/-/g, '')}`
+}
 
-  function mockSubscriptionProvider(periodEnd?: Date): SubscriptionProvider {
-    return {
-      getCurrentPeriodEnd: vi
-        .fn()
-        .mockResolvedValue(
-          periodEnd ?? new Date(Date.now() + 86400 * 30 * 1000)
-        ),
-      scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(undefined),
-      cancelImmediately: vi.fn(),
-    }
+function mockSubscriptionProvider(periodEnd?: Date): SubscriptionProvider {
+  return {
+    getCurrentPeriodEnd: vi
+      .fn()
+    scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(undefined),
+    cancelImmediately: vi.fn(),
   }
-  vi.mock('@/infra/adapters/stripe', () => ({
-  stripe: {
-      update: vi.fn().mockResolvedValue({
+}
+vi.mock('@/infra/adapters/stripe', () => (
+{
+  update: vi.fn().mockResolvedValue({
         id: 'sub_123',
         cancel_at_period_end: true,
         status: 'active',
-      }),
-    },
-  },
+  ,
+  ,
 }
 ))
 
 describe('scheduleSubscriptionCancellation', () =>
 {
-  const providerSubId = uniqueProviderSubId()
-  const user = await makeUser()
-  const provider = mockSubscriptionProvider()
+  it('should schedule subscription cancellation at period end', async () => {
+    const providerSubId = uniqueProviderSubId()
+    const user = await makeUser()
+    const provider = mockSubscriptionProvider()
 
-  const subscription = await makeSubscription({
-    userId: user.id,
-    providerSubscriptionId: providerSubId,
-  })
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: providerSubId,
+    })
 
-  const scheduledCancellation = await scheduleCancellation(
-    subscription,
-    'test',
-    provider
-  )
+    const scheduledCancellation = await scheduleCancellation(
+      subscription,
+      'test',
+      provider
+    )
 
-  expect(provider.getCurrentPeriodEnd).toHaveBeenCalledWith(providerSubId)
-  expect(provider.scheduleCancelAtPeriodEnd).toHaveBeenCalledWith(
-    providerSubId,
-    expect.any(Date)
-  )
+    expect(provider.getCurrentPeriodEnd).toHaveBeenCalledWith(providerSubId)
+    expect(provider.scheduleCancelAtPeriodEnd).toHaveBeenCalledWith(
+      providerSubId,
+      expect.any(Date)
+    )
 
-  expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
+expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
 
-  const subscriptionFromDb = await getSubscriptionById(subscription.id)
-  expect(subscriptionFromDb?.status).toBe('PENDING_CANCELLATION')
-}
-)
+const subscriptionFromDb = await getSubscriptionById(subscription.id)
+expect(subscriptionFromDb?.status).toBe('PENDING_CANCELLATION')
+})
 
   it('should set canceledAt from provider getCurrentPeriodEnd', async () =>
 {
@@ -109,4 +107,5 @@ describe('scheduleSubscriptionCancellation', () =>
   expect(provider.scheduleCancelAtPeriodEnd).not.toHaveBeenCalled()
 }
 )
-})
+}
+)
