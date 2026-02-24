@@ -77,15 +77,11 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
             </ul>
           </div>
 
-          <Button
-            variant={isFree ? 'secondary' : 'outline'}
-            className="w-full"
-            disabled={isFree}
-          >
-            {isFree
-              ? dictionary.already_in_free
-              : dictionary.home_prices.free_plan.start_now}
-          </Button>
+          {isFree && (
+            <Button variant="secondary" className="w-full" disabled>
+              {dictionary.already_in_free}
+            </Button>
+          )}
         </div>
 
         <div
@@ -97,6 +93,12 @@ export function SubscriptionForm({ user }: SubscriptionFormProps) {
           {!isPro && dictionary.home_prices.pro_plan.recommended && (
             <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
               {dictionary.home_prices.pro_plan.recommended}
+            </Badge>
+          )}
+
+          {isPro && dictionary.home_prices.pro_plan.recommended && (
+            <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
+              {dictionary.current_plan}
             </Badge>
           )}
 
