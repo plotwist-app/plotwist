@@ -65,40 +65,45 @@ export function UserDialog({ user, socialLinks, children }: UserDialogProps) {
       onValueChange={setTab}
       className="flex h-full min-h-0 w-full flex-col overflow-hidden sm:flex-row"
     >
-      <aside className="shrink-0 border-b border-border/40 bg-muted/15 overflow-x-auto py-3 sm:w-48 sm:border-b-0 sm:border-r sm:overflow-x-visible sm:px-3 sm:py-4">
-        <TabsList className="flex h-auto min-w-max flex-row gap-1 bg-transparent p-2 sm:w-full sm:flex-col sm:p-0">
-          <TabsTrigger
-            value="account"
-            className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
-          >
-            <User className="size-4" />
-            {dictionary.account_data}
-          </TabsTrigger>
+      <aside className="relative shrink-0 border-border/40 sm:bg-muted/15 sm:w-48 sm:border-b-0 sm:border-r sm:px-3 sm:py-4">
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-6 bg-gradient-to-r from-muted/50 to-transparent sm:hidden" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-muted/50 to-transparent sm:hidden" />
 
-          <TabsTrigger
-            value="social-links"
-            className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
-          >
-            <Link className="size-4" />
-            {dictionary.social_links}
-          </TabsTrigger>
+        <div className="overflow-x-auto sm:overflow-x-visible">
+          <TabsList className="flex h-auto min-w-max flex-row gap-1 bg-transparent p-2 sm:w-full sm:flex-col sm:p-0">
+            <TabsTrigger
+              value="account"
+              className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
+            >
+              <User className="size-4" />
+              {dictionary.account_data}
+            </TabsTrigger>
 
-          <TabsTrigger
-            value="preferences"
-            className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
-          >
-            <Settings className="size-4" />
-            {dictionary.preferences}
-          </TabsTrigger>
+            <TabsTrigger
+              value="social-links"
+              className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
+            >
+              <Link className="size-4" />
+              {dictionary.social_links}
+            </TabsTrigger>
 
-          <TabsTrigger
-            value="subscription"
-            className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
-          >
-            <CreditCard className="size-4" />
-            {dictionary.subscription}
-          </TabsTrigger>
-        </TabsList>
+            <TabsTrigger
+              value="preferences"
+              className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
+            >
+              <Settings className="size-4" />
+              {dictionary.preferences}
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="subscription"
+              className="flex shrink-0 justify-start gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/40 hover:text-foreground data-[state=active]:bg-muted/40 data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:w-full"
+            >
+              <CreditCard className="size-4" />
+              {dictionary.subscription}
+            </TabsTrigger>
+          </TabsList>
+        </div>
       </aside>
 
       <div className="min-h-0 min-w-0 flex-1 overflow-auto p-4 sm:p-6">
