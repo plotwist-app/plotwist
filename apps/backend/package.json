@@ -64,7 +64,7 @@
     "drizzle-zod": "^0.8.3",
     "env-paths": "^3.0.0",
     "fast-xml-parser": "^5.3.3",
-    "fastify": "^5.6.2",
+    "fastify": "^5.7.4",
     "fastify-type-provider-zod": "^6.1.0",
     "google-auth-library": "^9.14.0",
     "https": "^1.0.0",
