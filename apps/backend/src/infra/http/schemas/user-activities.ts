@@ -47,7 +47,9 @@ const getUserActivity = createSelectSchema(schema.userActivities)
   })
   .extend({
     owner: userSchema,
-    metadata: z.record(z.string(), z.unknown()).nullable(),
+    metadata: z
+      .union([z.record(z.string(), z.unknown()), z.array(z.unknown())])
+      .nullable(),
   }).shape
 
 export const getUserActivitiesResponseSchema = {
