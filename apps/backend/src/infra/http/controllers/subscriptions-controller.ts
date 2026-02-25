@@ -3,7 +3,11 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { cancelSubscription } from '@/domain/services/subscriptions/cancel-subscription'
 import { getSubscription } from '@/domain/services/subscriptions/get-subscription'
 import { scheduleCancellation } from '@/domain/services/subscriptions/schedule-subscription-cancellation'
+import { StripeSubscriptionProvider } from '@/infra/adapters/stripe-subscription-provider'
 import { deleteSubscriptionBodySchema } from '../schemas/subscriptions'
+
+const subscriptionProvider = StripeSubscriptionProvider
+
 export async function deleteSubscriptionController(
   request: FastifyRequest,
   reply: FastifyReply
@@ -22,11 +26,10 @@ export async function deleteSubscriptionController(
 
   switch (when) {
     case 'now':
-      await cancelSubscription(subscription, reason)
+      await cancelSubscription(subscription, reason, subscriptionProvider)
       break
     case 'at_end_of_current_period':
-      // TODO: get the payment day from the subscription
-      await scheduleCancellation(subscription, 1, reason)
+      await scheduleCancellation(subscription, reason, subscriptionProvider)
       break
     default:
       return reply.status(400).send({ message: 'Invalid when parameter' })

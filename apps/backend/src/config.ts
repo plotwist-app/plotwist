@@ -28,6 +28,7 @@ function loadServicesEnvs() {
   const schema = z.object({
     RESEND_API_KEY: z.string().optional().default('re_123'),
     STRIPE_SECRET_KEY: z.string().optional().default(''),
+    STRIPE_WEBHOOK_SECRET: z.string().optional().default(''),
     TMDB_ACCESS_TOKEN: z.string(),
   })
 

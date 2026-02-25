@@ -592,6 +592,11 @@ export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
   }),
 }))
 
+export const subscriptionProviderEnum = pgEnum('subscription_provider', [
+  'STRIPE',
+  'APPLE',
+])
+
 export const subscriptions = pgTable(
   'subscriptions',
   {
@@ -602,10 +607,12 @@ export const subscriptions = pgTable(
       .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
     type: subscriptionTypeEnum('type').notNull(),
+    provider: subscriptionProviderEnum('subscription_provider').notNull(),
     status: subscriptionStatusEnum('status').default('ACTIVE').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     canceledAt: timestamp('canceled_at'),
     cancellationReason: varchar('cancellation_reason'),
+    providerSubscriptionId: varchar('provider_subscription_id').unique(),
   },
   table => ({
     activeSubscriptionIdx: uniqueIndex('active_subscription_idx')

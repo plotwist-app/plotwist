@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 import { AlreadyHaveActiveSubscriptionError } from '@/domain/errors/already-have-active-subscription'
@@ -9,7 +10,12 @@ import { createSubscription } from './create-subscription'
 describe('create subscription', () => {
   it('should be able to create subscription', async () => {
     const user = await makeUser()
-    const sut = await createSubscription({ type: 'PRO', userId: user.id })
+    const sut = await createSubscription({
+      type: 'PRO',
+      userId: user.id,
+      provider: 'STRIPE',
+      providerSubscriptionId: randomUUID(),
+    })
 
     expect(sut).toEqual({
       subscription: expect.objectContaining({
@@ -20,9 +26,18 @@ describe('create subscription', () => {
 
   it('should not be able to generate a new subscription if user already has one', async () => {
     const user = await makeUser()
-    await makeSubscription({ userId: user.id })
+    await makeSubscription({
+      userId: user.id,
+      provider: 'STRIPE',
+      providerSubscriptionId: randomUUID(),
+    })
 
-    const sut = await createSubscription({ type: 'PRO', userId: user.id })
+    const sut = await createSubscription({
+      type: 'PRO',
+      userId: user.id,
+      provider: 'STRIPE',
+      providerSubscriptionId: randomUUID(),
+    })
 
     expect(sut).toBeInstanceOf(AlreadyHaveActiveSubscriptionError)
   })
@@ -31,6 +46,8 @@ describe('create subscription', () => {
     const sut = await createSubscription({
       type: 'PRO',
       userId: faker.string.uuid(),
+      provider: 'STRIPE',
+      providerSubscriptionId: randomUUID(),
     })
 
     expect(sut).toBeInstanceOf(UserNotFoundError)

@@ -1,8 +1,23 @@
-import { stripe } from '@/infra/adapters/stripe'
+import { randomUUID } from 'node:crypto'
+import { describe, expect, it, vi } from 'vitest'
 import { getSubscriptionById } from '@/infra/db/repositories/subscription-repository'
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 import { makeSubscription } from '@/test/factories/make-subscription'
 import { makeUser } from '@/test/factories/make-user'
 import { scheduleCancellation } from './schedule-subscription-cancellation'
+
+function uniqueProviderSubId() {
+  return `sub_${randomUUID().replace(/-/g, '')}`
+}
+
+function mockSubscriptionProvider(periodEnd?: Date): SubscriptionProvider {
+  const end = periodEnd ?? new Date()
+  return {
+    getCurrentPeriodEnd: vi.fn().mockResolvedValue(end),
+    scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(undefined),
+    cancelImmediately: vi.fn(),
+  }
+}
 
 vi.mock('@/infra/adapters/stripe', () => ({
   stripe: {
@@ -17,86 +32,73 @@ vi.mock('@/infra/adapters/stripe', () => ({
 }))
 
 describe('scheduleSubscriptionCancellation', () => {
-  it('should schedule subscription cancellation', async () => {
+  it('should schedule subscription cancellation at period end', async () => {
+    const providerSubId = uniqueProviderSubId()
     const user = await makeUser()
-    const subscription = await makeSubscription({ userId: user.id })
+    const provider = mockSubscriptionProvider()
+
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: providerSubId,
+    })
 
     const scheduledCancellation = await scheduleCancellation(
       subscription,
-      10,
-      'test'
+      'test',
+      provider
     )
-    expect(stripe.subscriptions.update).toHaveBeenCalled()
-    expect(stripe.subscriptions.update).toHaveBeenCalledWith(subscription.id, {
-      cancel_at_period_end: true,
-      cancel_at: expect.any(Number),
-    })
 
+    expect(provider.getCurrentPeriodEnd).toHaveBeenCalledWith(providerSubId)
+    expect(provider.scheduleCancelAtPeriodEnd).toHaveBeenCalledWith(
+      providerSubId,
+      expect.any(Date)
+    )
     expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
 
     const subscriptionFromDb = await getSubscriptionById(subscription.id)
     expect(subscriptionFromDb?.status).toBe('PENDING_CANCELLATION')
   })
 
-  it('should be able cancel after the payment day', async () => {
-    const paymentDay = 10
+  it('should set canceledAt from provider getCurrentPeriodEnd', async () => {
+    const providerSubId = uniqueProviderSubId()
+    const periodEnd = new Date('2025-04-09T23:59:59.000Z')
+    const provider = mockSubscriptionProvider(periodEnd)
 
     const user = await makeUser()
-
-    const subscription = await makeSubscription({ userId: user.id })
-
-    const fakeToday = new Date('2025-04-07T00:00:00.000Z')
-
-    vi.setSystemTime(fakeToday)
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: providerSubId,
+    })
 
     const scheduledCancellation = await scheduleCancellation(
       subscription,
-      paymentDay,
-      'test'
+      'test',
+      provider
     )
 
-    expect(stripe.subscriptions.update).toHaveBeenCalled()
-    expect(stripe.subscriptions.update).toHaveBeenCalledWith(subscription.id, {
-      cancel_at_period_end: true,
-      cancel_at: expect.any(Number),
-    })
-
     expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
+    expect(scheduledCancellation.canceledAt).toEqual(periodEnd)
 
     const subscriptionFromDb = await getSubscriptionById(subscription.id)
-
-    expect(subscriptionFromDb?.status).toBe('PENDING_CANCELLATION')
-    expect(subscriptionFromDb?.canceledAt).toEqual(new Date(2025, 3, 9))
+    expect(subscriptionFromDb?.canceledAt).toEqual(periodEnd)
   })
 
-  it('should be able cancel before the payment day', async () => {
-    const paymentDay = 10
-
+  it('should throw when subscription has no provider subscription id', async () => {
     const user = await makeUser()
+    const provider = mockSubscriptionProvider()
 
-    const subscription = await makeSubscription({ userId: user.id })
-
-    const fakeToday = new Date('2025-04-11T00:00:00.000Z')
-
-    vi.setSystemTime(fakeToday)
-
-    const scheduledCancellation = await scheduleCancellation(
-      subscription,
-      paymentDay,
-      'test'
-    )
-
-    expect(stripe.subscriptions.update).toHaveBeenCalled()
-    expect(stripe.subscriptions.update).toHaveBeenCalledWith(subscription.id, {
-      cancel_at_period_end: true,
-      cancel_at: expect.any(Number),
+    const subscription = await makeSubscription({
+      userId: user.id,
+      providerSubscriptionId: null,
     })
 
-    expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
+    await expect(
+      scheduleCancellation(subscription, 'test', provider)
+    ).rejects.toThrow(
+      'Cannot schedule cancellation: subscription has no provider subscription id'
+    )
 
-    const subscriptionFromDb = await getSubscriptionById(subscription.id)
-
-    expect(subscriptionFromDb?.status).toBe('PENDING_CANCELLATION')
-    expect(subscriptionFromDb?.canceledAt).toEqual(new Date(2025, 4, 9))
+    expect(provider.getCurrentPeriodEnd).not.toHaveBeenCalled()
+    expect(provider.scheduleCancelAtPeriodEnd).not.toHaveBeenCalled()
   })
 })
