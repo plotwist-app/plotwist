@@ -12,10 +12,9 @@ async function getCurrentPeriodEnd(providerSubscriptionId: string) {
 
 async function scheduleCancelAtPeriodEnd(
   providerSubscriptionId: string,
-  periodEnd: Date
+  _periodEnd: Date
 ) {
   await stripe.subscriptions.update(providerSubscriptionId, {
-    cancel_at: Math.floor(periodEnd.getTime() / 1000),
     cancel_at_period_end: true,
   })
 }
