@@ -11,6 +11,7 @@ export type PostUsersCreateBody = {
   email: string;
   /** @minLength 8 */
   password: string;
+  displayName?: string;
 };
 
 export type PostUsersCreate201UserSubscriptionType = typeof PostUsersCreate201UserSubscriptionType[keyof typeof PostUsersCreate201UserSubscriptionType];
@@ -27,7 +28,11 @@ export type PostUsersCreate201User = {
   id?: string;
   username: string;
   email: string;
+  /** @nullable */
+  displayName?: string | null;
   createdAt?: string;
+  /** @nullable */
+  deletedAt?: string | null;
   /** @nullable */
   bannerUrl?: string | null;
   /** @nullable */
@@ -110,7 +115,11 @@ export type GetUsersUsername200User = {
   id: string;
   username: string;
   email: string;
+  /** @nullable */
+  displayName: string | null;
   createdAt: string;
+  /** @nullable */
+  deletedAt?: string | null;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -140,7 +149,11 @@ export type GetUserById200User = {
   id: string;
   username: string;
   email: string;
+  /** @nullable */
+  displayName: string | null;
   createdAt: string;
+  /** @nullable */
+  deletedAt?: string | null;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -170,7 +183,11 @@ export type GetMe200User = {
   id: string;
   username: string;
   email: string;
+  /** @nullable */
+  displayName: string | null;
   createdAt: string;
+  /** @nullable */
+  deletedAt?: string | null;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -187,18 +204,32 @@ export type GetMe200 = {
 };
 
 export type PatchUserBody = {
+  displayName?: string;
   bannerUrl?: string;
   avatarUrl?: string;
   username?: string;
   biography?: string;
 };
 
+export type PatchUser200UserSubscriptionType = typeof PatchUser200UserSubscriptionType[keyof typeof PatchUser200UserSubscriptionType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PatchUser200UserSubscriptionType = {
+  MEMBER: 'MEMBER',
+  PRO: 'PRO',
+} as const;
+
 export type PatchUser200User = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
   id: string;
   username: string;
   email: string;
+  /** @nullable */
+  displayName: string | null;
   createdAt: string;
+  /** @nullable */
+  deletedAt?: string | null;
   /** @nullable */
   bannerUrl: string | null;
   /** @nullable */
@@ -207,10 +238,22 @@ export type PatchUser200User = {
   isLegacy: boolean | null;
   /** @nullable */
   biography: string | null;
+  subscriptionType: PatchUser200UserSubscriptionType;
 };
 
 export type PatchUser200 = {
   user: PatchUser200User;
+};
+
+export type DeleteUser200 = {
+  success: boolean;
+};
+
+/**
+ * User not found.
+ */
+export type DeleteUser404 = {
+  message: string;
 };
 
 export type PatchUserPasswordBody = {
@@ -231,8 +274,10 @@ export type PatchUserPassword200 = {
 };
 
 export type UpdateUserPreferencesBody = {
-  watchProvidersIds: number[];
-  watchRegion: string;
+  watchProvidersIds?: number[];
+  watchRegion?: string;
+  mediaTypes?: string[];
+  genreIds?: number[];
 };
 
 export type UpdateUserPreferences200UserPreferences = {
@@ -244,6 +289,10 @@ export type UpdateUserPreferences200UserPreferences = {
   watchProvidersIds: number[] | null;
   /** @nullable */
   watchRegion: string | null;
+  /** @nullable */
+  mediaTypes: string[] | null;
+  /** @nullable */
+  genreIds: number[] | null;
 };
 
 export type UpdateUserPreferences200 = {
@@ -262,6 +311,10 @@ export type GetUserPreferences200UserPreferences = {
   watchProvidersIds: number[] | null;
   /** @nullable */
   watchRegion: string | null;
+  /** @nullable */
+  mediaTypes: string[] | null;
+  /** @nullable */
+  genreIds: number[] | null;
 } | null;
 
 export type GetUserPreferences200 = {
@@ -1404,6 +1457,11 @@ export const PutUserItem201UserItemStatus = {
   DROPPED: 'DROPPED',
 } as const;
 
+export type PutUserItem201UserItemWatchEntriesItem = {
+  id: string;
+  watchedAt: string;
+};
+
 export type PutUserItem201UserItem = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
   id: string;
@@ -1417,7 +1475,13 @@ export type PutUserItem201UserItem = {
   mediaType: PutUserItem201UserItemMediaType;
   status: PutUserItem201UserItemStatus;
   addedAt: string;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
   updatedAt: string;
+  watchEntries?: PutUserItem201UserItemWatchEntriesItem[];
 };
 
 export type PutUserItem201 = {
@@ -1476,6 +1540,11 @@ export type GetUserItem200UserItem = {
   mediaType: GetUserItem200UserItemMediaType;
   status: GetUserItem200UserItemStatus;
   addedAt: string;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
   updatedAt: string;
   watchEntries?: GetUserItem200UserItemWatchEntriesItem[];
 };
@@ -1577,6 +1646,11 @@ export type GetUserItems200UserItemsItem = {
   mediaType: GetUserItems200UserItemsItemMediaType;
   status: GetUserItems200UserItemsItemStatus;
   addedAt: string;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
   updatedAt: string;
   title: string;
   /** @nullable */
@@ -1626,10 +1700,32 @@ export type GetAllUserItems200UserItemsItem = {
    * @maximum 2147483647
    */
   tmdbId: number;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
 };
 
 export type GetAllUserItems200 = {
   userItems: GetAllUserItems200UserItemsItem[];
+};
+
+export type PutUserItemsReorderBodyStatus = typeof PutUserItemsReorderBodyStatus[keyof typeof PutUserItemsReorderBodyStatus];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUserItemsReorderBodyStatus = {
+  WATCHLIST: 'WATCHLIST',
+  WATCHED: 'WATCHED',
+  WATCHING: 'WATCHING',
+  DROPPED: 'DROPPED',
+} as const;
+
+export type PutUserItemsReorderBody = {
+  status: PutUserItemsReorderBodyStatus;
+  /** @minItems 1 */
+  orderedIds: string[];
 };
 
 export type GetUserItemsCountParams = {
@@ -1954,8 +2050,16 @@ export type GetUserIdStats200 = {
   watchedSeriesCount: number;
 };
 
+export type GetUserIdTotalHours200MonthlyHoursItem = {
+  month: string;
+  hours: number;
+};
+
 export type GetUserIdTotalHours200 = {
   totalHours: number;
+  movieHours: number;
+  seriesHours: number;
+  monthlyHours: GetUserIdTotalHours200MonthlyHoursItem[];
 };
 
 export type GetUserIdReviewsCount200 = {
@@ -2083,6 +2187,11 @@ export type GetUserIdWatchedCountries200 = {
 
 export type GetUserIdBestReviewsParams = {
 language?: GetUserIdBestReviewsLanguage;
+/**
+ * @minimum 1
+ * @maximum 100
+ */
+limit?: number;
 };
 
 export type GetUserIdBestReviewsLanguage = typeof GetUserIdBestReviewsLanguage[keyof typeof GetUserIdBestReviewsLanguage];
@@ -2203,6 +2312,7 @@ export const PostImageFolder = {
   banner: 'banner',
   avatar: 'avatar',
   list: 'list',
+  feedback: 'feedback',
 } as const;
 
 export type PostImageBody = {
@@ -3668,3 +3778,56 @@ export type PutWatchEntryId200WatchEntry = {
 export type PutWatchEntryId200 = {
   watchEntry: PutWatchEntryId200WatchEntry;
 };
+
+export type PostFeedbackBodyType = typeof PostFeedbackBodyType[keyof typeof PostFeedbackBodyType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostFeedbackBodyType = {
+  bug: 'bug',
+  idea: 'idea',
+} as const;
+
+export type PostFeedbackBody = {
+  type: PostFeedbackBodyType;
+  description: string;
+  /** @nullable */
+  screenshotUrl?: string | null;
+  /** @nullable */
+  appVersion?: string | null;
+  /** @nullable */
+  deviceInfo?: string | null;
+};
+
+export type PostFeedback201FeedbackType = typeof PostFeedback201FeedbackType[keyof typeof PostFeedback201FeedbackType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostFeedback201FeedbackType = {
+  bug: 'bug',
+  idea: 'idea',
+} as const;
+
+export type PostFeedback201Feedback = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id?: string;
+  createdAt?: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  userId: string;
+  type: PostFeedback201FeedbackType;
+  description: string;
+  /** @nullable */
+  screenshotUrl?: string | null;
+  /** @nullable */
+  appVersion?: string | null;
+  /** @nullable */
+  deviceInfo?: string | null;
+};
+
+/**
+ * Feedback created.
+ */
+export type PostFeedback201 = {
+  feedback: PostFeedback201Feedback;
+};
+
