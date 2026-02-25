@@ -15,8 +15,7 @@ function uniqueProviderSubId() {
 
 function mockSubscriptionProvider(): SubscriptionProvider {
   return {
-    getCurrentPeriodEnd: vi.fn(),
-    scheduleCancelAtPeriodEnd: vi.fn(),
+    scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(new Date()),
     cancelImmediately: vi.fn().mockResolvedValue(undefined),
   }
 }
