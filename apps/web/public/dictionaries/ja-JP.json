@@ -877,5 +877,21 @@
   "community_badge": "✨ 400人以上のユーザーコミュニティの一員になりましょう",
   "perfect_place_for_watching": "すべてを見る人のための完璧な場所",
   "everything": "すべて",
-  "manage_rate_discover": "お気に入りのコンテンツを管理、評価、発見、共有しましょう。リストを作成し、おすすめを受け取り、視聴したすべてを追跡できます。"
+  "manage_rate_discover": "お気に入りのコンテンツを管理、評価、発見、共有しましょう。リストを作成し、おすすめを受け取り、視聴したすべてを追跡できます。",
+  "hero_title_line1": "すべてを記録しよう",
+  "hero_title_line2": "あなたが見るものを。",
+  "hero_subtitle": "映画、ドラマ、アニメ、韓国ドラマ — すべてを一か所で。ウォッチリストを作成し、エピソードを追跡し、次のお気に入りを見つけましょう。",
+  "hero_cta_web": "無料で始める",
+  "hero_cta_app": "App Storeからダウンロード",
+  "features_title": "視聴体験をもっと楽しむためのすべて",
+  "feature_track_title": "進捗を追跡",
+  "feature_track_description": "タイトルを視聴済み、視聴中、視聴予定としてマーク。シーズンごとにエピソードを追跡。",
+  "feature_discover_title": "新しいタイトルを発見",
+  "feature_discover_description": "あなたの好みとトレンドに基づいたパーソナライズされたおすすめを受け取る。",
+  "feature_lists_title": "リストを作成・共有",
+  "feature_lists_description": "お気に入りをリストにまとめて友達と共有。",
+  "feature_stats_title": "統計を確認",
+  "feature_stats_description": "詳細な統計とインサイトで視聴習慣を可視化。",
+  "app_section_title": "Plotwistを持ち歩こう",
+  "app_section_subtitle": "Plotwist iOSアプリでどこでも追跡。スワイプで発見、エピソードを追跡、タイトルを見逃さない。"
 }

@@ -875,5 +875,21 @@
   "perfect_place_for_watching": "El lugar perfecto para quien ve",
   "everything": "todo",
   "manage_rate_discover": "Gestiona, califica, descubre y comparte tu contenido favorito. Crea listas, recibe recomendaciones y mantén un registro de todo lo que has visto.",
-  "start_now": "Empezar ahora"
+  "start_now": "Empezar ahora",
+  "hero_title_line1": "Registra todo",
+  "hero_title_line2": "lo que ves.",
+  "hero_subtitle": "Películas, series, anime y doramas — todo en un solo lugar. Crea tu watchlist, sigue episodios y descubre tu próxima obsesión.",
+  "hero_cta_web": "Empieza gratis",
+  "hero_cta_app": "Descargar en la App Store",
+  "features_title": "Todo lo que necesitas para disfrutar lo que ves",
+  "feature_track_title": "Sigue tu progreso",
+  "feature_track_description": "Marca títulos como visto, viendo o planeado. Sigue episodios temporada por temporada.",
+  "feature_discover_title": "Descubre nuevos títulos",
+  "feature_discover_description": "Recibe recomendaciones personalizadas basadas en tu gusto y en lo que es tendencia.",
+  "feature_lists_title": "Crea y comparte listas",
+  "feature_lists_description": "Organiza tus favoritos en listas y compártelas con amigos.",
+  "feature_stats_title": "Mira tus estadísticas",
+  "feature_stats_description": "Visualiza tus hábitos con estadísticas detalladas e insights.",
+  "app_section_title": "Lleva Plotwist contigo",
+  "app_section_subtitle": "Sigue desde cualquier lugar con la app de Plotwist para iOS. Desliza para descubrir, sigue episodios y nunca te pierdas un título."
 }
