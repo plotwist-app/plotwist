@@ -1,4 +1,5 @@
 import fastifySwagger from '@fastify/swagger'
+import { SpanStatusCode, trace } from '@opentelemetry/api'
 import fastify from 'fastify'
 import type { FastifyInstance } from 'fastify/types/instance'
 import {
@@ -87,6 +88,21 @@ export async function startServer() {
 
     console.error({ error })
     return reply.status(500).send({ message: 'Internal server error.' })
+  })
+
+  app.addHook('onResponse', (_request, reply, done) => {
+    const span = trace.getActiveSpan()
+    if (span) {
+      if (reply.statusCode >= 500) {
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+          message: `HTTP ${reply.statusCode}`,
+        })
+      } else {
+        span.setStatus({ code: SpanStatusCode.OK })
+      }
+    }
+    done()
   })
 
   registerHttpRequestMetrics(app)
