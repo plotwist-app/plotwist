@@ -3,6 +3,7 @@ import { metrics, trace } from '@opentelemetry/api'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 import { HostMetrics } from '@opentelemetry/host-metrics'
+import { HttpInstrumentation } from '@opentelemetry/instrumentation-http'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'
 import { NodeSDK } from '@opentelemetry/sdk-node'
@@ -59,6 +60,8 @@ function parseOtlpHeaders(raw: string): Record<string, string> {
 
 const { metricsUrl, tracesUrl, headers } = getOtlpConfig()
 
+const httpInstrumentation = new HttpInstrumentation()
+
 const sdk = new NodeSDK({
   resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: 'plotwist-api',
@@ -68,6 +71,7 @@ const sdk = new NodeSDK({
   metricReader: new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({ url: metricsUrl, headers }),
   }),
+  instrumentations: [httpInstrumentation],
 })
 
 logger.info('Starting OTLP exporter')
