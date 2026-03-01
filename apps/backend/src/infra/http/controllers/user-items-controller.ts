@@ -18,6 +18,7 @@ import {
   deleteWatchEntriesByUserItemId,
   getWatchEntriesByUserItemId,
 } from '@/infra/db/repositories/user-watch-entries-repository'
+import { logger } from '@/infra/adapters/logger'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,
@@ -101,6 +102,19 @@ export async function upsertUserItemController(
 
   const userItem = result.userItem
   if (!userItem) {
+    logger.error(
+      {
+        method: request.method,
+        url: request.url,
+        route: request.routeOptions?.url,
+        userId: request.user.id,
+        tmdbId,
+        mediaType,
+        status,
+        statusCode: 500,
+      },
+      'User item could not be retrieved after upsert'
+    )
     return reply.status(500).send({
       statusCode: 500,
       error: 'Internal Server Error',

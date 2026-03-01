@@ -12,6 +12,5 @@ export async function monitorTodayNewUsers() {
       ),
   ])
 
-  console.log(`Today new users: ${totalNewUsers}`)
   return totalNewUsers
 }

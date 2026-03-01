@@ -1,10 +1,13 @@
 import FastifyOtel from '@fastify/otel'
 import { metrics, trace } from '@opentelemetry/api'
+import { logs } from '@opentelemetry/api-logs'
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 import { HostMetrics } from '@opentelemetry/host-metrics'
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http'
 import { resourceFromAttributes } from '@opentelemetry/resources'
+import { BatchLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs'
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'
 import { NodeSDK } from '@opentelemetry/sdk-node'
 import {
@@ -12,7 +15,6 @@ import {
   ATTR_SERVICE_VERSION,
 } from '@opentelemetry/semantic-conventions'
 import { config } from '@/config'
-import { logger } from '../adapters/logger'
 
 const LOCALHOST_OTLP = 'http://localhost:4318'
 
@@ -31,6 +33,7 @@ function getOtlpConfig() {
   return {
     metricsUrl: `${base}/v1/metrics`,
     tracesUrl: `${base}/v1/traces`,
+    logsUrl: `${base}/v1/logs`,
     headers,
   }
 }
@@ -58,7 +61,7 @@ function parseOtlpHeaders(raw: string): Record<string, string> {
   return out
 }
 
-const { metricsUrl, tracesUrl, headers } = getOtlpConfig()
+const { metricsUrl, tracesUrl, logsUrl, headers } = getOtlpConfig()
 
 const httpInstrumentation = new HttpInstrumentation()
 
@@ -74,7 +77,22 @@ const sdk = new NodeSDK({
   instrumentations: [httpInstrumentation],
 })
 
-logger.info('Starting OTLP exporter')
+const logResource = resourceFromAttributes({
+  [ATTR_SERVICE_NAME]: 'plotwist-api',
+  [ATTR_SERVICE_VERSION]: '0.1.0',
+})
+const logExporter = new OTLPLogExporter({ url: logsUrl, headers })
+const loggerProvider = new LoggerProvider({
+  resource: logResource,
+  processors: [new BatchLogRecordProcessor(logExporter)],
+})
+logs.setGlobalLoggerProvider(loggerProvider)
+
+function getOtelLogger() {
+  return logs.getLogger('plotwist-api', '0.1.0')
+}
+
+console.log('Starting OTLP exporter (traces, metrics, logs)')
 
 sdk.start()
 
@@ -94,4 +112,4 @@ hostMetrics.start()
 const fastifyOtel = new FastifyOtel()
 fastifyOtel.setTracerProvider(trace.getTracerProvider())
 
-export { fastifyOtel }
+export { fastifyOtel, getOtelLogger }

@@ -3,6 +3,7 @@ import { providerDispatcher } from '@/domain/dispatchers/import-dispatcher'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getDetailedUserImportById } from '@/domain/services/imports/get-detailed-user-import-by-id'
 import { publishToQueue } from '@/domain/services/imports/publish-import-to-queue'
+import { logger } from '@/infra/adapters/logger'
 import {
   createImportRequestSchema,
   getDetailedImportRequestSchema,
@@ -23,6 +24,10 @@ export async function createImportController(
   const userId = request.user.id
 
   if (!uploadedFile) {
+    logger.warn(
+      { method: request.method, url: request.url, userId, statusCode: 400 },
+      'Import: invalid file provided'
+    )
     return reply.status(400).send({ message: 'Invalid file provided.' })
   }
 
@@ -37,6 +42,18 @@ export async function createImportController(
 
     return reply.status(200).send({ message: 'File processed successfully.' })
   } catch (error) {
+    logger.error(
+      {
+        err: error instanceof Error ? error : new Error(String(error)),
+        method: request.method,
+        url: request.url,
+        route: request.routeOptions?.url,
+        userId,
+        provider,
+        statusCode: 500,
+      },
+      'Import: file processing failed'
+    )
     return reply.status(500).send({
       message: `An error occurred while processing the file: ${error instanceof Error ? error.message : String(error)}`,
     })
