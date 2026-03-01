@@ -1,8 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
 
-// Cache duration for computed statistics (1 hour)
-// Short TTL ensures data freshness while still providing significant performance benefit
 const STATS_CACHE_TTL_SECONDS = 60 * 60
+const STATS_CACHE_SHORT_TTL_SECONDS = 10 * 60
 
 /**
  * Helper to cache computed statistics results
@@ -20,12 +19,17 @@ export async function getCachedStats<T>(
   }
 
   const result = await computeFn()
-  await redis.set(
-    cacheKey,
-    JSON.stringify(result),
-    'EX',
-    STATS_CACHE_TTL_SECONDS
-  )
+
+  const yearMonthPattern = /:\d{4}-\d{2}$/
+  const isPeriodScoped =
+    cacheKey.endsWith(':month') ||
+    cacheKey.endsWith(':last_month') ||
+    yearMonthPattern.test(cacheKey)
+  const ttl = isPeriodScoped
+    ? STATS_CACHE_SHORT_TTL_SECONDS
+    : STATS_CACHE_TTL_SECONDS
+
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', ttl)
 
   return result
 }
@@ -52,10 +56,11 @@ export async function invalidateUserStatsCache(
 export function getUserStatsCacheKey(
   userId: string,
   statType: string,
-  language?: string
+  language?: string,
+  period?: string
 ): string {
-  if (language) {
-    return `user-stats:${userId}:${statType}:${language}`
-  }
-  return `user-stats:${userId}:${statType}`
+  const parts = ['user-stats', userId, statType]
+  if (language) parts.push(language)
+  if (period && period !== 'all') parts.push(period)
+  return parts.join(':')
 }

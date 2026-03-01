@@ -3,6 +3,7 @@ import { Pattern } from '@/components/pattern'
 import { Pricing } from '@/components/pricing'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { buildLanguageAlternates } from '@/utils/seo'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
@@ -25,6 +26,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       title: `${title} • Plotwist`,
       description,
     },
+    alternates: buildLanguageAlternates(lang, '/pricing'),
   }
 }
 

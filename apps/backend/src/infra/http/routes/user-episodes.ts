@@ -35,7 +35,8 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: createUserEpisodesController,
+      handler: (request, reply) =>
+        createUserEpisodesController(request, reply, app.redis),
     })
   )
 
@@ -75,7 +76,8 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: deleteUserEpisodesController,
+      handler: (request, reply) =>
+        deleteUserEpisodesController(request, reply, app.redis),
     })
   )
 }

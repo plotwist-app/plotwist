@@ -26,6 +26,31 @@ export const getUserTotalHoursResponseSchema = {
         hours: z.number(),
       })
     ),
+    peakTimeSlot: z
+      .object({
+        slot: z.string(),
+        hour: z.number(),
+        count: z.number(),
+      })
+      .nullable()
+      .optional(),
+    hourlyDistribution: z
+      .array(
+        z.object({
+          hour: z.number(),
+          count: z.number(),
+        })
+      )
+      .optional(),
+    dailyActivity: z
+      .array(
+        z.object({
+          day: z.string(),
+          hours: z.number(),
+        })
+      )
+      .optional(),
+    percentileRank: z.number().nullable().optional(),
   }),
 }
 
@@ -56,6 +81,17 @@ export const getUserWatchedGenresResponseSchema = {
         name: z.string(),
         count: z.number(),
         percentage: z.number(),
+        posterPath: z.string().nullable(),
+        posterPaths: z.array(z.string()).optional(),
+        items: z
+          .array(
+            z.object({
+              tmdbId: z.number(),
+              mediaType: z.string(),
+              posterPath: z.string().nullable(),
+            })
+          )
+          .optional(),
       })
     ),
   }),
@@ -108,5 +144,33 @@ export const getUserItemsStatusResponseSchema = {
         percentage: z.number(),
       })
     ),
+  }),
+}
+
+export const getUserStatsTimelineResponseSchema = {
+  200: z.object({
+    sections: z.array(
+      z.object({
+        yearMonth: z.string(),
+        totalHours: z.number(),
+        movieHours: z.number(),
+        seriesHours: z.number(),
+        topGenre: z
+          .object({
+            name: z.string(),
+            posterPath: z.string().nullable(),
+          })
+          .nullable(),
+        topReview: z
+          .object({
+            title: z.string(),
+            posterPath: z.string().nullable(),
+            rating: z.number(),
+          })
+          .nullable(),
+      })
+    ),
+    nextCursor: z.string().nullable(),
+    hasMore: z.boolean(),
   }),
 }

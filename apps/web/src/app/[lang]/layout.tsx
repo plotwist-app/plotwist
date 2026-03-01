@@ -3,6 +3,7 @@ import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { HtmlLangSetter } from '@/components/html-lang-setter'
 import { ProBadge } from '@/components/pro-badge'
 import { SonnerProvider, ThemeProvider } from '@/components/providers'
 import { LanguageContextProvider } from '@/context/language'
@@ -50,6 +51,7 @@ export default async function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
+      <HtmlLangSetter lang={lang} />
       <SonnerProvider>
         <SessionContextProvider initialSession={session}>
           <LanguageContextProvider language={lang} dictionary={dictionary}>

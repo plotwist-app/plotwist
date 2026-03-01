@@ -150,18 +150,29 @@ export async function selectReviewsCount(userId?: string) {
     .where(userId ? eq(schema.reviews.userId, userId) : undefined)
 }
 
-export async function selectBestReviews(userId: string, limit = 10) {
+export async function selectBestReviews(
+  userId: string,
+  limit = 10,
+  startDate?: Date,
+  endDate?: Date
+) {
+  const whereConditions = [
+    eq(schema.reviews.userId, userId),
+    sql`${schema.reviews.seasonNumber} IS NULL`,
+    sql`${schema.reviews.episodeNumber} IS NULL`,
+  ]
+
+  if (startDate) {
+    whereConditions.push(gte(schema.reviews.createdAt, startDate))
+  }
+  if (endDate) {
+    whereConditions.push(lte(schema.reviews.createdAt, endDate))
+  }
+
   return db
     .select()
     .from(schema.reviews)
-    .where(
-      and(
-        eq(schema.reviews.userId, userId),
-        eq(schema.reviews.rating, 5),
-        sql`${schema.reviews.seasonNumber} IS NULL`,
-        sql`${schema.reviews.episodeNumber} IS NULL`
-      )
-    )
+    .where(and(...whereConditions))
     .orderBy(desc(schema.reviews.rating), desc(schema.reviews.createdAt))
     .limit(limit)
 }
