@@ -597,6 +597,66 @@ export type PostLogin400 = {
   message: string;
 };
 
+export type PostAuthAppleBodyFullName = {
+  givenName?: string;
+  familyName?: string;
+};
+
+export type PostAuthAppleBody = {
+  /** @minLength 1 */
+  identityToken: string;
+  /** @minLength 1 */
+  authorizationCode: string;
+  /** @pattern ^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$ */
+  email?: string;
+  fullName?: PostAuthAppleBodyFullName;
+};
+
+export type PostAuthApple200 = {
+  token: string;
+  isNewUser: boolean;
+  needsUsername: boolean;
+};
+
+/**
+ * Invalid token or authentication failed
+ */
+export type PostAuthApple400 = {
+  message: string;
+};
+
+/**
+ * Internal server error
+ */
+export type PostAuthApple500 = {
+  message: string;
+};
+
+export type PostAuthGoogleBody = {
+  /** @minLength 1 */
+  idToken: string;
+};
+
+export type PostAuthGoogle200 = {
+  token: string;
+  isNewUser: boolean;
+  needsUsername: boolean;
+};
+
+/**
+ * Invalid token or authentication failed
+ */
+export type PostAuthGoogle400 = {
+  message: string;
+};
+
+/**
+ * Internal server error
+ */
+export type PostAuthGoogle500 = {
+  message: string;
+};
+
 export type PostReviewBodyMediaType = typeof PostReviewBodyMediaType[keyof typeof PostReviewBodyMediaType];
 
 
@@ -3533,21 +3593,21 @@ export type GetNetworkActivities200 = {
   nextCursor: string | null;
 };
 
-export type DeleteUserSubscriptionBodyWhen = typeof DeleteUserSubscriptionBodyWhen[keyof typeof DeleteUserSubscriptionBodyWhen];
+export type DeleteSubscriptionBodyWhen = typeof DeleteSubscriptionBodyWhen[keyof typeof DeleteSubscriptionBodyWhen];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteUserSubscriptionBodyWhen = {
+export const DeleteSubscriptionBodyWhen = {
   now: 'now',
   at_end_of_current_period: 'at_end_of_current_period',
 } as const;
 
-export type DeleteUserSubscriptionBody = {
-  when: DeleteUserSubscriptionBodyWhen;
+export type DeleteSubscriptionBody = {
+  when: DeleteSubscriptionBodyWhen;
   reason?: string;
 };
 
-export type DeleteUserSubscription200 = {
+export type DeleteSubscription200 = {
   message: string;
 };
 

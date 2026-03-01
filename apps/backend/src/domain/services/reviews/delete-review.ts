@@ -1,5 +1,5 @@
-import { deleteReview } from '@/db/repositories/reviews-repository'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
+import { deleteReview } from '@/infra/db/repositories/reviews-repository'
 
 export async function deleteReviewService(id: string) {
   const [review] = await deleteReview(id)

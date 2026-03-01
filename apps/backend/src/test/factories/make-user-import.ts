@@ -1,5 +1,5 @@
-import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import { insertUserImport } from '@/infra/db/repositories/user-import-repository'
 
 import { makeManyRawImportMovies } from './make-import-movies'
 import { makeManyRawImportSeries } from './make-import-series'

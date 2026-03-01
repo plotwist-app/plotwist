@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
-import type { StatsPeriod } from '@/http/schemas/common'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
+import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'

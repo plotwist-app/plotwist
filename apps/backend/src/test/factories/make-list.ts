@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { db } from '@/db'
-import { schema } from '@/db/schema'
 import type { InsertListModel } from '@/domain/entities/lists'
+import { db } from '@/infra/db'
+import { schema } from '@/infra/db/schema'
 
 type Overrides = Partial<InsertListModel> & { userId: string }
 

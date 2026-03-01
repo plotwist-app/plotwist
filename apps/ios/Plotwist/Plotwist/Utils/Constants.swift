@@ -6,5 +6,5 @@
 import Foundation
 
 enum API {
-  static let baseURL = "http://localhost:3333"
+  static var baseURL: String { Env.apiBaseURL }
 }

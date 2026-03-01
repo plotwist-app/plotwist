@@ -217,8 +217,6 @@ struct ProfileStatsView: View {
               Text(periodDisplayLabel(for: period))
               if period == selectedPeriod { Image(systemName: "checkmark") }
             }
-          }
-        }
       } label: {
         HStack(spacing: 4) {
           Text(periodDisplayLabel(for: selectedPeriod))

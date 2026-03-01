@@ -1,4 +1,4 @@
-import { reorderUserItems } from '@/db/repositories/user-item-repository'
+import { reorderUserItems } from '@/infra/db/repositories/user-item-repository'
 
 interface ReorderUserItemsInput {
   userId: string

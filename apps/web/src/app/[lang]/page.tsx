@@ -6,6 +6,9 @@ import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { buildLanguageAlternates } from '@/utils/seo'
 import { APP_URL } from '../../../constants'
+import { SUPPORTED_LANGUAGES } from '../../../languages'
+import { AppDownload } from './_components/app-download'
+import { Features } from './_components/features'
 import { Hero } from './_components/hero'
 import { Images } from './_components/images'
 
@@ -59,7 +62,10 @@ export default async function Home(props: PageProps) {
       <main>
         <Hero dictionary={dictionary} />
         <Images />
-        <Separator className="mt-32" />
+        <Features dictionary={dictionary} />
+        <Separator />
+        <AppDownload dictionary={dictionary} />
+        <Separator />
         <Pricing />
       </main>
     </>

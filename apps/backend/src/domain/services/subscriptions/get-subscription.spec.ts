@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
-import { cancelUserSubscription } from '@/db/repositories/subscription-repository'
 import { DomainError } from '@/domain/errors/domain-error'
+import { cancelUserSubscription } from '@/infra/db/repositories/subscription-repository'
 import { makeUser } from '@/test/factories/make-user'
 import { createSubscription } from './create-subscription'
 import {
@@ -15,6 +15,7 @@ describe('get subscription', () => {
     const subscription = await createSubscription({
       type: 'PRO',
       userId: user.id,
+      provider: 'STRIPE',
     })
 
     expect(subscription).toEqual({
@@ -41,6 +42,7 @@ describe('get lastest active subscription', () => {
     await createSubscription({
       type: 'PRO',
       userId: user.id,
+      provider: 'STRIPE',
     })
 
     const lastestActiveSubscription = await getLastestActiveSubscription(
@@ -61,6 +63,7 @@ describe('get lastest active subscription', () => {
     await createSubscription({
       type: 'PRO',
       userId: user.id,
+      provider: 'STRIPE',
       status: 'PENDING_CANCELLATION',
       canceledAt: new Date(),
       cancellationReason: 'test',
@@ -89,6 +92,7 @@ describe('get lastest active subscription', () => {
     await createSubscription({
       type: 'PRO',
       userId: user.id,
+      provider: 'STRIPE',
     })
 
     const subscription = await getLastestActiveSubscription(user.id)

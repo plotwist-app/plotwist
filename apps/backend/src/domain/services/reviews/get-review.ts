@@ -1,5 +1,5 @@
-import { selectReview } from '@/db/repositories/reviews-repository'
-import type { getReviewQuerySchema } from '@/http/schemas/reviews'
+import { selectReview } from '@/infra/db/repositories/reviews-repository'
+import type { getReviewQuerySchema } from '@/infra/http/schemas/reviews'
 
 export type GetReviewInput = {
   mediaType: (typeof getReviewQuerySchema._type)['mediaType']

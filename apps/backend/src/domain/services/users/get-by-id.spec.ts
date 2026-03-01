@@ -33,7 +33,12 @@ describe('get user by id', () => {
 
     expect(user.user.subscriptionType).toBe('MEMBER')
 
-    await completeSubscription(email)
+    await completeSubscription({
+      email,
+      provider: 'STRIPE',
+      providerSubscriptionId: randomUUID(),
+      type: 'PRO',
+    })
 
     const sut = await getUserById(id)
 

@@ -1,4 +1,4 @@
-import { getUserById as getById } from '@/db/repositories/user-repository'
+import { getUserById as getById } from '@/infra/db/repositories/user-repository'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export async function getUserById(id: string) {

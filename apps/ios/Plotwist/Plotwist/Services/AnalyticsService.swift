@@ -139,10 +139,17 @@ enum AnalyticsEvent {
 // MARK: - Analytics Service
 class AnalyticsService {
   static let shared = AnalyticsService()
-  
-  private let apiKey: String? = "phc_jb6woqg2i2Xo5MYzSR14mDj6tsFoMQzjhLPvZ28iH1T"
-  private let host = "https://app.posthog.com"
-  
+
+  private var apiKey: String { Env.posthogAPIKey }
+  private var ingestionURL: String {
+    let host = Env.posthogHost
+    if host.contains("app.posthog.com") {
+      return "https://us.i.posthog.com/i/v0/e/"
+    }
+    let base = host.hasSuffix("/") ? String(host.dropLast()) : host
+    return "\(base)/i/v0/e/"
+  }
+
   private var distinctId: String {
     if let userId = UserDefaults.standard.string(forKey: "analyticsUserId") {
       return userId
@@ -187,43 +194,46 @@ class AnalyticsService {
   // MARK: - Private
   
   private func sendEvent(name: String, properties: [String: Any]) {
-    guard let apiKey = apiKey, !apiKey.isEmpty else { return }
+    guard !apiKey.isEmpty else { return }
     Task {
-      await sendToPostHog(type: "capture", payload: [
+      await sendToPostHog(payload: [
+        "api_key": apiKey,
         "event": name,
-        "properties": properties,
         "distinct_id": distinctId,
+        "properties": properties,
         "timestamp": ISO8601DateFormatter().string(from: Date()),
       ])
     }
   }
-  
+
   private func sendIdentify(userId: String, properties: [String: Any]) {
-    guard let apiKey = apiKey, !apiKey.isEmpty else { return }
+    guard !apiKey.isEmpty else { return }
     Task {
-      await sendToPostHog(type: "identify", payload: [
+      await sendToPostHog(payload: [
+        "api_key": apiKey,
+        "event": "$identify",
         "distinct_id": userId,
-        "$set": properties,
+        "properties": ["$set": properties],
         "timestamp": ISO8601DateFormatter().string(from: Date()),
       ])
     }
   }
-  
-  private func sendToPostHog(type: String, payload: [String: Any]) async {
-    guard let apiKey = apiKey,
-          let url = URL(string: "\(host)/\(type)/")
-    else { return }
-    
+
+  private func sendToPostHog(payload: [String: Any]) async {
+    guard let url = URL(string: ingestionURL) else { return }
+
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    var body = payload
-    body["api_key"] = apiKey
-    
+
     do {
-      request.httpBody = try JSONSerialization.data(withJSONObject: body)
-      _ = try await URLSession.shared.data(for: request)
+      request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+      let (_, response) = try await URLSession.shared.data(for: request)
+      #if DEBUG
+      if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+        print("📊 Analytics HTTP \(http.statusCode): \(ingestionURL)")
+      }
+      #endif
     } catch {
       #if DEBUG
       print("📊 Analytics error: \(error)")

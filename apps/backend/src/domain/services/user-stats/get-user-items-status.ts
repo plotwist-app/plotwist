@@ -1,4 +1,4 @@
-import { selectUserItemStatus } from '@/db/repositories/user-item-repository'
+import { selectUserItemStatus } from '@/infra/db/repositories/user-item-repository'
 
 type GetUserItemsStatusServiceInput = {
   userId: string

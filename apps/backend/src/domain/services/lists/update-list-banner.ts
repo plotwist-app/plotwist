@@ -1,5 +1,5 @@
-import { updateListBanner } from '@/db/repositories/list-repository'
 import { ListNotFoundError } from '@/domain/errors/list-not-found-error'
+import { updateListBanner } from '@/infra/db/repositories/list-repository'
 
 export type UpdateListBannerInput = {
   listId: string

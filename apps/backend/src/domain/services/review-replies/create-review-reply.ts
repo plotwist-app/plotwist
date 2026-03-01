@@ -1,11 +1,11 @@
-import { insertReviewReply } from '@/db/repositories/review-replies-repository'
-import {
-  getPostgresError,
-  isForeignKeyViolation,
-} from '@/db/utils/postgres-errors'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { insertReviewReply } from '@/infra/db/repositories/review-replies-repository'
+import {
+  getPostgresError,
+  isForeignKeyViolation,
+} from '@/infra/db/utils/postgres-errors'
 
 export async function createReviewReplyService(params: InsertReviewReplyModel) {
   try {

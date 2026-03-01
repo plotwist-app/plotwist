@@ -1,5 +1,5 @@
-import { selectUserItems } from '@/db/repositories/user-item-repository'
 import type { SelectUserItems } from '@/domain/entities/user-item'
+import { selectUserItems } from '@/infra/db/repositories/user-item-repository'
 
 export async function getUserItemsService(input: SelectUserItems) {
   try {

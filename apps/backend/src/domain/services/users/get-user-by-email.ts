@@ -1,4 +1,4 @@
-import { getUserByEmail } from '@/db/repositories/user-repository'
+import { getUserByEmail } from '@/infra/db/repositories/user-repository'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export async function getUserByEmailService(email: string) {

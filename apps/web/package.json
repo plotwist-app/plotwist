@@ -9,7 +9,7 @@
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
     "lint": "next lint",
-    "orval": "orval && sed -i '' 's/| *| null/| null/g' src/api/endpoints.schemas.ts"
+    "generate:api": "orval"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

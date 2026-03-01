@@ -138,9 +138,6 @@ final class ProfilePrefetchService {
               userId: userId,
               period: currentMonth,
               totalHours: hoursResponse.totalHours,
-              movieHours: hoursResponse.movieHours,
-              seriesHours: hoursResponse.seriesHours,
-              monthlyHours: hoursResponse.monthlyHours,
               watchedGenres: genres,
               bestReviews: reviews
             )

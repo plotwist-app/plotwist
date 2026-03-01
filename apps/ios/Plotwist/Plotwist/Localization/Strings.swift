@@ -366,12 +366,12 @@ enum L10n {
       topRatedDoramas: "Top rated doramas",
       featured: "Featured",
       // Feedback
-      feedbackTitle: "Help & Feedback",
+      feedbackTitle: "Feedback",
       feedbackReportProblem: "Report a problem",
       feedbackSuggestImprovement: "Suggest improvement",
       feedbackTypeLabel: "Type",
-      feedbackTypeBug: "Bug / Problem",
-      feedbackTypeIdea: "Idea / Suggestion",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Idea",
       feedbackDescriptionLabel: "Description",
       feedbackDescriptionPlaceholder: "Describe what happened or what you'd like to see...",
       feedbackScreenshotLabel: "Screenshot",
@@ -379,12 +379,17 @@ enum L10n {
       feedbackSubmit: "Submit",
       feedbackSubmitSuccess: "Thank you for your feedback!",
       feedbackHelpTitle: "Help",
+      deleteAccount: "Delete Account",
+      deleteAccountTitle: "Delete Account",
+      deleteAccountMessage: "Are you sure you want to delete your account? This action is permanent and cannot be undone. All your data, reviews, and collections will be permanently removed.",
+      deleteAccountConfirm: "Delete My Account",
       selectAnImage: "Select an image",
       searchTitle: "Search a title...",
       selectImage: "Select image",
       cropAndSave: "Crop & Save",
       avatarSaving: "Saving...",
-      avatarSaved: "Avatar updated!"
+      avatarSaved: "Avatar updated!",
+      privacyPolicy: "Privacy Policy"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -731,12 +736,12 @@ enum L10n {
       topRatedDoramas: "Doramas mais bem avaliados",
       featured: "Destaque",
       // Feedback
-      feedbackTitle: "Ajuda e Feedback",
+      feedbackTitle: "Feedback",
       feedbackReportProblem: "Reportar um problema",
       feedbackSuggestImprovement: "Sugerir melhoria",
       feedbackTypeLabel: "Tipo",
-      feedbackTypeBug: "Bug / Problema",
-      feedbackTypeIdea: "Ideia / Sugestão",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Ideia",
       feedbackDescriptionLabel: "Descrição",
       feedbackDescriptionPlaceholder: "Descreva o que aconteceu ou o que gostaria de ver...",
       feedbackScreenshotLabel: "Captura de tela",
@@ -744,12 +749,17 @@ enum L10n {
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "Obrigado pelo seu feedback!",
       feedbackHelpTitle: "Ajuda",
+      deleteAccount: "Excluir Conta",
+      deleteAccountTitle: "Excluir Conta",
+      deleteAccountMessage: "Tem certeza que deseja excluir sua conta? Esta ação é permanente e não pode ser desfeita. Todos os seus dados, avaliações e coleções serão removidos permanentemente.",
+      deleteAccountConfirm: "Excluir Minha Conta",
       selectAnImage: "Selecionar uma imagem",
       searchTitle: "Buscar um título...",
       selectImage: "Selecionar imagem",
       cropAndSave: "Recortar e Salvar",
       avatarSaving: "Salvando...",
-      avatarSaved: "Avatar atualizado!"
+      avatarSaved: "Avatar atualizado!",
+      privacyPolicy: "Política de Privacidade"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1096,12 +1106,12 @@ enum L10n {
       topRatedDoramas: "Doramas mejor valorados",
       featured: "Destacado",
       // Feedback
-      feedbackTitle: "Ayuda y Comentarios",
+      feedbackTitle: "Comentarios",
       feedbackReportProblem: "Reportar un problema",
       feedbackSuggestImprovement: "Sugerir mejora",
       feedbackTypeLabel: "Tipo",
-      feedbackTypeBug: "Bug / Problema",
-      feedbackTypeIdea: "Idea / Sugerencia",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Sugerencia",
       feedbackDescriptionLabel: "Descripción",
       feedbackDescriptionPlaceholder: "Describe lo que pasó o lo que te gustaría ver...",
       feedbackScreenshotLabel: "Captura de pantalla",
@@ -1109,12 +1119,17 @@ enum L10n {
       feedbackSubmit: "Enviar",
       feedbackSubmitSuccess: "¡Gracias por tu feedback!",
       feedbackHelpTitle: "Ayuda",
+      deleteAccount: "Eliminar Cuenta",
+      deleteAccountTitle: "Eliminar Cuenta",
+      deleteAccountMessage: "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es permanente y no se puede deshacer. Todos tus datos, reseñas y colecciones serán eliminados permanentemente.",
+      deleteAccountConfirm: "Eliminar Mi Cuenta",
       selectAnImage: "Seleccionar una imagen",
       searchTitle: "Buscar un título...",
       selectImage: "Seleccionar imagen",
       cropAndSave: "Recortar y Guardar",
       avatarSaving: "Guardando...",
-      avatarSaved: "¡Avatar actualizado!"
+      avatarSaved: "¡Avatar actualizado!",
+      privacyPolicy: "Política de Privacidad"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1461,12 +1476,12 @@ enum L10n {
       topRatedDoramas: "Doramas les mieux notés",
       featured: "À la une",
       // Feedback
-      feedbackTitle: "Aide et Retours",
+      feedbackTitle: "Retours",
       feedbackReportProblem: "Signaler un problème",
       feedbackSuggestImprovement: "Suggérer une amélioration",
       feedbackTypeLabel: "Type",
-      feedbackTypeBug: "Bug / Problème",
-      feedbackTypeIdea: "Idée / Suggestion",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Idée",
       feedbackDescriptionLabel: "Description",
       feedbackDescriptionPlaceholder: "Décrivez ce qui s'est passé ou ce que vous aimeriez voir...",
       feedbackScreenshotLabel: "Capture d'écran",
@@ -1474,12 +1489,17 @@ enum L10n {
       feedbackSubmit: "Envoyer",
       feedbackSubmitSuccess: "Merci pour vos retours !",
       feedbackHelpTitle: "Aide",
+      deleteAccount: "Supprimer le compte",
+      deleteAccountTitle: "Supprimer le compte",
+      deleteAccountMessage: "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive et irréversible. Toutes vos données, critiques et collections seront supprimées définitivement.",
+      deleteAccountConfirm: "Supprimer mon compte",
       selectAnImage: "Sélectionner une image",
       searchTitle: "Rechercher un titre...",
       selectImage: "Sélectionner l'image",
       cropAndSave: "Recadrer et Enregistrer",
       avatarSaving: "Enregistrement...",
-      avatarSaved: "Avatar mis à jour !"
+      avatarSaved: "Avatar mis à jour !",
+      privacyPolicy: "Politique de confidentialité"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1826,12 +1846,12 @@ enum L10n {
       topRatedDoramas: "Bestbewertete Doramas",
       featured: "Empfohlen",
       // Feedback
-      feedbackTitle: "Hilfe & Feedback",
+      feedbackTitle: "Feedback",
       feedbackReportProblem: "Problem melden",
       feedbackSuggestImprovement: "Verbesserung vorschlagen",
       feedbackTypeLabel: "Typ",
-      feedbackTypeBug: "Bug / Problem",
-      feedbackTypeIdea: "Idee / Vorschlag",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Idee",
       feedbackDescriptionLabel: "Beschreibung",
       feedbackDescriptionPlaceholder: "Beschreiben Sie, was passiert ist oder was Sie sehen möchten...",
       feedbackScreenshotLabel: "Screenshot",
@@ -1839,12 +1859,17 @@ enum L10n {
       feedbackSubmit: "Absenden",
       feedbackSubmitSuccess: "Vielen Dank für Ihr Feedback!",
       feedbackHelpTitle: "Hilfe",
+      deleteAccount: "Konto löschen",
+      deleteAccountTitle: "Konto löschen",
+      deleteAccountMessage: "Möchten Sie Ihr Konto wirklich löschen? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden. Alle Ihre Daten, Bewertungen und Sammlungen werden unwiderruflich gelöscht.",
+      deleteAccountConfirm: "Mein Konto löschen",
       selectAnImage: "Ein Bild auswählen",
       searchTitle: "Einen Titel suchen...",
       selectImage: "Bild auswählen",
       cropAndSave: "Zuschneiden & Speichern",
       avatarSaving: "Speichern...",
-      avatarSaved: "Avatar aktualisiert!"
+      avatarSaved: "Avatar aktualisiert!",
+      privacyPolicy: "Datenschutzrichtlinie"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -2191,12 +2216,12 @@ enum L10n {
       topRatedDoramas: "Dorama più votati",
       featured: "In evidenza",
       // Feedback
-      feedbackTitle: "Aiuto e Feedback",
+      feedbackTitle: "Feedback",
       feedbackReportProblem: "Segnala un problema",
       feedbackSuggestImprovement: "Suggerisci un miglioramento",
       feedbackTypeLabel: "Tipo",
-      feedbackTypeBug: "Bug / Problema",
-      feedbackTypeIdea: "Idea / Suggerimento",
+      feedbackTypeBug: "Bug",
+      feedbackTypeIdea: "Idea",
       feedbackDescriptionLabel: "Descrizione",
       feedbackDescriptionPlaceholder: "Descrivi cosa è successo o cosa vorresti vedere...",
       feedbackScreenshotLabel: "Screenshot",
@@ -2204,12 +2229,17 @@ enum L10n {
       feedbackSubmit: "Invia",
       feedbackSubmitSuccess: "Grazie per il tuo feedback!",
       feedbackHelpTitle: "Aiuto",
+      deleteAccount: "Elimina account",
+      deleteAccountTitle: "Elimina account",
+      deleteAccountMessage: "Sei sicuro di voler eliminare il tuo account? Questa azione è permanente e non può essere annullata. Tutti i tuoi dati, recensioni e collezioni verranno eliminati definitivamente.",
+      deleteAccountConfirm: "Elimina il mio account",
       selectAnImage: "Seleziona un'immagine",
       searchTitle: "Cerca un titolo...",
       selectImage: "Seleziona immagine",
       cropAndSave: "Ritaglia e Salva",
       avatarSaving: "Salvataggio...",
-      avatarSaved: "Avatar aggiornato!"
+      avatarSaved: "Avatar aggiornato!",
+      privacyPolicy: "Informativa sulla privacy"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -2555,12 +2585,12 @@ enum L10n {
       topRatedDoramas: "高評価のドラマ",
       featured: "注目",
       // Feedback
-      feedbackTitle: "ヘルプとフィードバック",
+      feedbackTitle: "フィードバック",
       feedbackReportProblem: "問題を報告",
       feedbackSuggestImprovement: "改善を提案",
       feedbackTypeLabel: "タイプ",
-      feedbackTypeBug: "バグ / 問題",
-      feedbackTypeIdea: "アイデア / 提案",
+      feedbackTypeBug: "バグ",
+      feedbackTypeIdea: "アイデア",
       feedbackDescriptionLabel: "説明",
       feedbackDescriptionPlaceholder: "何が起きたか、または何を見たいかを説明してください...",
       feedbackScreenshotLabel: "スクリーンショット",
@@ -2568,12 +2598,17 @@ enum L10n {
       feedbackSubmit: "送信",
       feedbackSubmitSuccess: "フィードバックありがとうございます！",
       feedbackHelpTitle: "ヘルプ",
+      deleteAccount: "アカウントを削除",
+      deleteAccountTitle: "アカウントを削除",
+      deleteAccountMessage: "本当にアカウントを削除しますか？この操作は取り消せません。すべてのデータ、レビュー、コレクションが完全に削除されます。",
+      deleteAccountConfirm: "アカウントを削除する",
       selectAnImage: "画像を選択",
       searchTitle: "タイトルを検索...",
       selectImage: "画像を選択",
       cropAndSave: "切り抜いて保存",
       avatarSaving: "保存中...",
-      avatarSaved: "アバターが更新されました！"
+      avatarSaved: "アバターが更新されました！",
+      privacyPolicy: "プライバシーポリシー"
     ),
   ]
 }
@@ -2944,6 +2979,11 @@ struct Strings {
   let feedbackSubmit: String
   let feedbackSubmitSuccess: String
   let feedbackHelpTitle: String
+  // Account Deletion
+  let deleteAccount: String
+  let deleteAccountTitle: String
+  let deleteAccountMessage: String
+  let deleteAccountConfirm: String
   // Avatar Picker
   let selectAnImage: String
   let searchTitle: String
@@ -2951,4 +2991,6 @@ struct Strings {
   let cropAndSave: String
   let avatarSaving: String
   let avatarSaved: String
+  // Legal
+  let privacyPolicy: String
 }
