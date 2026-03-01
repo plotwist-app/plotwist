@@ -21,10 +21,14 @@ export function registerHttpRequestMetrics(app: FastifyInstance) {
 
   app.addHook('onResponse', (request, reply, done) => {
     const statusCode = reply.statusCode
+    const clientPlatform =
+      (request as { clientPlatform?: string }).clientPlatform ?? 'ios'
+
     requestCounter.add(1, {
       'http.response.status_code': statusCode,
       'http.request.method': request.method,
       'http.route': request.routeOptions?.url ?? request.url,
+      'client.platform': clientPlatform,
     })
     done()
   })

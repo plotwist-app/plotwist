@@ -10,5 +10,8 @@ export async function setRequestClient(
   request: FastifyRequest,
   _reply: FastifyReply
 ) {
-  trace.getActiveSpan()?.setAttribute('client.platform', getClient(request))
+  const client = getClient(request)
+  ;(request as FastifyRequest & { clientPlatform: string }).clientPlatform =
+    client
+  trace.getActiveSpan()?.setAttribute('client.platform', client)
 }
