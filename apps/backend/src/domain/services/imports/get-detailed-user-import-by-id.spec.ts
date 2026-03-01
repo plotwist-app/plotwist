@@ -4,9 +4,9 @@ import { makeUser } from '@/test/factories/make-user'
 import { makeUserImport } from '@/test/factories/make-user-import'
 import { getDetailedUserImportById } from './get-detailed-user-import-by-id'
 
-function sortImportResult<T extends { series?: { id: string }[]; movies?: { id: string }[] }>(
-  r: T
-): T {
+function sortImportResult<
+  T extends { series?: { id: string }[]; movies?: { id: string }[] },
+>(r: T): T {
   return {
     ...r,
     ...(r.series && {
