@@ -37,6 +37,7 @@ function forbidden(request: FastifyRequest, reply: FastifyReply) {
       origin: request.headers.origin,
       referer: request.headers.referer,
       statusCode: 403,
+      userId: (request as { user?: { id: string } }).user?.id,
     },
     'HTTP 403: Request not allowed from this client'
   )

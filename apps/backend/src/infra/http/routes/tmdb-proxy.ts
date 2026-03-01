@@ -92,7 +92,12 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
 
         if (!tmdbPath) {
           logger.warn(
-            { method: request.method, url: request.url, statusCode: 400 },
+            {
+              method: request.method,
+              url: request.url,
+              statusCode: 400,
+              userId: (request as { user?: { id: string } }).user?.id,
+            },
             'TMDB proxy: missing path'
           )
           return reply.status(400).send({ error: 'Missing TMDB path' })
@@ -151,6 +156,7 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
               tmdbPath,
               tmdbStatusCode: tmdbResponse.statusCode,
               statusCode: tmdbResponse.statusCode,
+              userId: (request as { user?: { id: string } }).user?.id,
             },
             'TMDB proxy: upstream API error'
           )

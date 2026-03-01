@@ -1,9 +1,14 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { trace } from '@opentelemetry/api'
 import { logger } from '@/infra/adapters/logger'
 
 export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
   try {
     await request.jwtVerify()
+    const userId = (request as { user?: { id: string } }).user?.id
+    if (userId) {
+      trace.getActiveSpan()?.setAttribute('user.id', userId)
+    }
   } catch (err) {
     logger.warn(
       {

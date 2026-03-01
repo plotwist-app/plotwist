@@ -17,6 +17,10 @@ import { transformSwaggerSchema } from './transform-schema'
 
 const app: FastifyInstance = fastify()
 
+function getUserId(request: { user?: { id: string } }): string | undefined {
+  return request.user?.id
+}
+
 export async function startServer() {
   await app.register(fastifyOtel.plugin())
 
@@ -60,6 +64,7 @@ export async function startServer() {
   })
 
   app.setErrorHandler((error, request, reply) => {
+    const userId = getUserId(request as { user?: { id: string } })
     if (error instanceof ZodError) {
       logger.warn(
         {
@@ -68,6 +73,7 @@ export async function startServer() {
           url: request.url,
           route: request.routeOptions?.url,
           statusCode: 400,
+          userId,
         },
         'HTTP 400: Validation error'
       )
@@ -83,6 +89,7 @@ export async function startServer() {
           url: request.url,
           route: request.routeOptions?.url,
           statusCode: 429,
+          userId: getUserId(request as { user?: { id: string } }),
         },
         'HTTP 429: Rate limit'
       )
@@ -102,6 +109,7 @@ export async function startServer() {
             url: request.url,
             route: request.routeOptions?.url,
             statusCode: 429,
+            userId: getUserId(request as { user?: { id: string } }),
           },
           'HTTP 429: Rate limit'
         )
@@ -122,6 +130,7 @@ export async function startServer() {
         url: request.url,
         route: request.routeOptions?.url,
         statusCode: 500,
+        userId: getUserId(request as { user?: { id: string } }),
       },
       'HTTP 500: Internal server error'
     )
