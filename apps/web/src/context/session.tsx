@@ -27,6 +27,12 @@ export const SessionContextProvider = ({
 }: SessionContextProviderProps) => {
   const [user, setUser] = useState<User>(initialSession?.user)
 
+  if (initialSession) {
+    AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${initialSession.token}`
+  } else {
+    AXIOS_INSTANCE.defaults.headers.Authorization = ''
+  }
+
   useEffect(() => {
     if (!initialSession) {
       setUser(undefined)
