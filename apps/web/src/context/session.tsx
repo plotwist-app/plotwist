@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import type { verifySession } from '@/app/lib/dal'
-import { AXIOS_INSTANCE } from '@/services/axios-instance'
+import { setAuthToken } from '@/services/axios-instance'
 import type { User } from '@/types/user'
 
 type SessionContextProviderProps = PropsWithChildren & {
@@ -27,22 +27,17 @@ export const SessionContextProvider = ({
 }: SessionContextProviderProps) => {
   const [user, setUser] = useState<User>(initialSession?.user)
 
-  if (initialSession) {
-    AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${initialSession.token}`
-  } else {
-    AXIOS_INSTANCE.defaults.headers.Authorization = ''
-  }
+  setAuthToken(initialSession?.token ?? null)
 
   useEffect(() => {
     if (!initialSession) {
       setUser(undefined)
-      AXIOS_INSTANCE.defaults.headers.Authorization = ''
-
+      setAuthToken(null)
       return
     }
 
     setUser(initialSession.user)
-    AXIOS_INSTANCE.defaults.headers.Authorization = `Bearer ${initialSession.token}`
+    setAuthToken(initialSession.token ?? null)
   }, [initialSession])
 
   return (
