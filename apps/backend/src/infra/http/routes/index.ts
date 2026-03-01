@@ -41,7 +41,12 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyCors, {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Token'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Client-Token',
+      'X-Client',
+    ],
     credentials: true,
     strictPreflight: false,
   })

@@ -2,7 +2,7 @@ import { trace } from '@opentelemetry/api'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 function getClient(request: FastifyRequest): string {
-  const x = request.headers['x-client']?.toString().toLowerCase().trim()
+  const x = request.headers['X-Client']?.toString().toLowerCase().trim()
   return x === 'web' ? 'web' : 'ios'
 }
 
