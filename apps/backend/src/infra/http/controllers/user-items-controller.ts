@@ -13,12 +13,12 @@ import { getUserItemsCountService } from '@/domain/services/user-items/get-user-
 import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
+import { logger } from '@/infra/adapters/logger'
 import {
   createWatchEntry,
   deleteWatchEntriesByUserItemId,
   getWatchEntriesByUserItemId,
 } from '@/infra/db/repositories/user-watch-entries-repository'
-import { logger } from '@/infra/adapters/logger'
 import {
   deleteUserItemParamsSchema,
   getAllUserItemsQuerySchema,

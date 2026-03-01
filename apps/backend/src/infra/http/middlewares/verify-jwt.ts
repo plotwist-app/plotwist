@@ -1,5 +1,5 @@
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import { trace } from '@opentelemetry/api'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { logger } from '@/infra/adapters/logger'
 
 export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {

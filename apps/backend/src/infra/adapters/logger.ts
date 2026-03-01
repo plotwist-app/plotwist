@@ -15,7 +15,11 @@ type Level = keyof typeof SEVERITY
 
 function flattenValue(key: string, value: unknown, out: OtelAttrs) {
   if (value === undefined || value === null) return
-  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+  if (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  ) {
     out[key] = value
   } else if (value instanceof Error) {
     out[`${key}.type`] = value.name
@@ -52,7 +56,11 @@ function parseArgs(
   const attrs: Attrs = { ...bindings }
   let message: string
 
-  if (typeof first === 'object' && first !== null && !(first instanceof Error)) {
+  if (
+    typeof first === 'object' &&
+    first !== null &&
+    !(first instanceof Error)
+  ) {
     Object.assign(attrs, first)
     message = typeof second === 'string' ? second : ''
   } else {
@@ -79,7 +87,12 @@ function emit(level: Level, message: string, attributes: OtelAttrs) {
     attributes,
   })
 
-  const line = JSON.stringify({ level: severityText, msg: message, ...attributes, time: new Date().toISOString() })
+  const line = JSON.stringify({
+    level: severityText,
+    msg: message,
+    ...attributes,
+    time: new Date().toISOString(),
+  })
   process.stdout.write(`${line}\n`)
 }
 
@@ -110,7 +123,8 @@ function createLogger(bindings: Attrs = {}): Logger {
     info: log('info'),
     warn: log('warn'),
     error: log('error'),
-    child: (childBindings: Attrs) => createLogger({ ...bindings, ...childBindings }),
+    child: (childBindings: Attrs) =>
+      createLogger({ ...bindings, ...childBindings }),
   }
 }
 

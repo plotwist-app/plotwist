@@ -5,11 +5,11 @@ import { getUserItemsStatusService } from '@/domain/services/user-stats/get-user
 import { getUserMostWatchedSeriesService } from '@/domain/services/user-stats/get-user-most-watched-series'
 import { getUserReviewsCountService } from '@/domain/services/user-stats/get-user-reviews-count'
 import { getUserStatsService } from '@/domain/services/user-stats/get-user-stats'
+import { getUserStatsTimelineService } from '@/domain/services/user-stats/get-user-stats-timeline'
 import { getUserTotalHoursService } from '@/domain/services/user-stats/get-user-total-hours'
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
-import { getUserStatsTimelineService } from '@/domain/services/user-stats/get-user-stats-timeline'
 import {
   languageWithLimitAndPeriodQuerySchema,
   languageWithPeriodQuerySchema,

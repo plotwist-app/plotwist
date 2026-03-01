@@ -1,5 +1,5 @@
-import type { FastifyRequest } from 'fastify'
 import { trace } from '@opentelemetry/api'
+import type { FastifyRequest } from 'fastify'
 
 export async function verifyOptionalJwt(request: FastifyRequest) {
   try {
