@@ -7,17 +7,21 @@ const APP_ROUTES = [
   '/',
   '/home',
   '/lists',
-  '/sign-in',
-  '/sign-up',
   '/movies/discover',
   '/movies/now-playing',
   '/movies/popular',
   '/movies/top-rated',
+  '/movies/upcoming',
   '/tv-series/airing-today',
   '/tv-series/discover',
   '/tv-series/on-the-air',
   '/tv-series/popular',
   '/tv-series/top-rated',
+  '/animes',
+  '/doramas',
+  '/pricing',
+  '/privacy',
+  '/docs',
 ]
 
 export async function GET(request: Request) {

@@ -14,26 +14,41 @@ class ProfileStatsCache {
   
   private struct CachedStats {
     let totalHours: Double
+    let movieHours: Double
+    let seriesHours: Double
+    let monthlyHours: [MonthlyHoursEntry]
     let watchedGenres: [WatchedGenre]
-    let itemsStatus: [ItemStatusStat]
     let bestReviews: [BestReview]
     let timestamp: Date
   }
+
+  private func cacheKey(userId: String, period: String) -> String {
+    "\(userId)_\(period)"
+  }
   
-  func get(userId: String) -> (totalHours: Double, watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview])? {
-    guard let cached = cache[userId],
+  func get(userId: String, period: String = "all") -> (totalHours: Double, movieHours: Double, seriesHours: Double, monthlyHours: [MonthlyHoursEntry], watchedGenres: [WatchedGenre], bestReviews: [BestReview])? {
+    let key = cacheKey(userId: userId, period: period)
+    guard let cached = cache[key],
           Date().timeIntervalSince(cached.timestamp) < cacheDuration else {
       return nil
     }
-    return (cached.totalHours, cached.watchedGenres, cached.itemsStatus, cached.bestReviews)
+    return (cached.totalHours, cached.movieHours, cached.seriesHours, cached.monthlyHours, cached.watchedGenres, cached.bestReviews)
   }
   
-  func set(userId: String, totalHours: Double, watchedGenres: [WatchedGenre], itemsStatus: [ItemStatusStat], bestReviews: [BestReview]) {
-    cache[userId] = CachedStats(totalHours: totalHours, watchedGenres: watchedGenres, itemsStatus: itemsStatus, bestReviews: bestReviews, timestamp: Date())
+  func set(userId: String, period: String = "all", totalHours: Double, movieHours: Double = 0, seriesHours: Double = 0, monthlyHours: [MonthlyHoursEntry] = [], watchedGenres: [WatchedGenre], bestReviews: [BestReview]) {
+    let key = cacheKey(userId: userId, period: period)
+    cache[key] = CachedStats(totalHours: totalHours, movieHours: movieHours, seriesHours: seriesHours, monthlyHours: monthlyHours, watchedGenres: watchedGenres, bestReviews: bestReviews, timestamp: Date())
   }
   
-  func invalidate(userId: String) {
-    cache.removeValue(forKey: userId)
+  func invalidate(userId: String, period: String? = nil) {
+    if let period {
+      cache.removeValue(forKey: cacheKey(userId: userId, period: period))
+    } else {
+      let keysToRemove = cache.keys.filter { $0.hasPrefix("\(userId)_") }
+      for key in keysToRemove {
+        cache.removeValue(forKey: key)
+      }
+    }
   }
   
   func invalidateAll() {

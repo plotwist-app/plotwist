@@ -1,5 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { selectBestReviews } from '@/infra/db/repositories/reviews-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
@@ -10,6 +11,8 @@ type GetUserBestReviewsServiceInput = {
   redis: FastifyRedis
   language: Language
   limit?: number
+  dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
+  period?: StatsPeriod
 }
 
 export async function getUserBestReviewsService({
@@ -17,10 +20,14 @@ export async function getUserBestReviewsService({
   language,
   redis,
   limit,
+  dateRange,
 }: GetUserBestReviewsServiceInput) {
-  // Note: Not using cache here because createdAt Date serialization
-  // causes issues when retrieved from Redis (Date becomes string)
-  const bestReviews = await selectBestReviews(userId, limit)
+  const bestReviews = await selectBestReviews(
+    userId,
+    limit,
+    dateRange?.startDate,
+    dateRange?.endDate
+  )
 
   const formattedBestReviews = await processInBatches(
     bestReviews,

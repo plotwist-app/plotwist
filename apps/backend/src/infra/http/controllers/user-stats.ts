@@ -9,9 +9,13 @@ import { getUserTotalHoursService } from '@/domain/services/user-stats/get-user-
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
+import { getUserStatsTimelineService } from '@/domain/services/user-stats/get-user-stats-timeline'
 import {
-  languageQuerySchema,
-  languageWithLimitQuerySchema,
+  languageWithLimitAndPeriodQuerySchema,
+  languageWithPeriodQuerySchema,
+  periodQuerySchema,
+  periodToDateRange,
+  timelineQuerySchema,
 } from '../schemas/common'
 import { getUserDefaultSchema } from '../schemas/user-stats'
 
@@ -32,7 +36,9 @@ export async function getUserTotalHoursController(
   redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
-  const result = await getUserTotalHoursService(id, redis)
+  const { period } = periodQuerySchema.parse(request.query)
+  const dateRange = periodToDateRange(period)
+  const result = await getUserTotalHoursService(id, redis, period, dateRange)
 
   return reply.status(200).send(result)
 }
@@ -52,13 +58,18 @@ export async function getUserMostWatchedSeriesController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { language } = languageQuerySchema.parse(request.query)
+  const { language, period } = languageWithPeriodQuerySchema.parse(
+    request.query
+  )
   const { id } = getUserDefaultSchema.parse(request.params)
+  const dateRange = periodToDateRange(period)
 
   const result = await getUserMostWatchedSeriesService({
     userId: id,
     redis,
     language,
+    dateRange,
+    period,
   })
 
   return reply.status(200).send(result)
@@ -69,13 +80,18 @@ export async function getUserWatchedGenresController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { language } = languageQuerySchema.parse(request.query)
+  const { language, period } = languageWithPeriodQuerySchema.parse(
+    request.query
+  )
   const { id } = getUserDefaultSchema.parse(request.params)
+  const dateRange = periodToDateRange(period)
 
   const result = await getUserWatchedGenresService({
     userId: id,
     redis,
     language,
+    dateRange,
+    period,
   })
 
   return reply.status(200).send(result)
@@ -87,7 +103,14 @@ export async function getUserWatchedCastController(
   redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
-  const result = await getUserWatchedCastService({ userId: id, redis })
+  const { period } = periodQuerySchema.parse(request.query)
+  const dateRange = periodToDateRange(period)
+  const result = await getUserWatchedCastService({
+    userId: id,
+    redis,
+    dateRange,
+    period,
+  })
 
   return reply.status(200).send(result)
 }
@@ -98,12 +121,17 @@ export async function getUserWatchedCountriesController(
   redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
-  const { language } = languageQuerySchema.parse(request.query)
+  const { language, period } = languageWithPeriodQuerySchema.parse(
+    request.query
+  )
+  const dateRange = periodToDateRange(period)
 
   const result = await getUserWatchedCountriesService({
     userId: id,
     redis,
     language,
+    dateRange,
+    period,
   })
 
   return reply.status(200).send(result)
@@ -115,13 +143,38 @@ export async function getUserBestReviewsController(
   redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
-  const { language, limit } = languageWithLimitQuerySchema.parse(request.query)
+  const { language, limit, period } =
+    languageWithLimitAndPeriodQuerySchema.parse(request.query)
+  const dateRange = periodToDateRange(period)
 
   const result = await getUserBestReviewsService({
     userId: id,
     redis,
     language,
     limit,
+    dateRange,
+    period,
+  })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserStatsTimelineController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { id } = getUserDefaultSchema.parse(request.params)
+  const { language, cursor, pageSize } = timelineQuerySchema.parse(
+    request.query
+  )
+
+  const result = await getUserStatsTimelineService({
+    userId: id,
+    redis,
+    language,
+    cursor,
+    pageSize,
   })
 
   return reply.status(200).send(result)
@@ -133,9 +186,12 @@ export async function getUserItemsStatusController(
   _redis: FastifyRedis
 ) {
   const { id } = getUserDefaultSchema.parse(request.params)
+  const { period } = periodQuerySchema.parse(request.query)
+  const dateRange = periodToDateRange(period)
 
   const result = await getUserItemsStatusService({
     userId: id,
+    dateRange,
   })
 
   return reply.status(200).send(result)

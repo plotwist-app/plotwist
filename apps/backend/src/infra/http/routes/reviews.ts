@@ -43,7 +43,8 @@ export async function reviewsRoute(app: FastifyInstance) {
           },
         ],
       },
-      handler: createReviewController,
+      handler: (request, reply) =>
+        createReviewController(request, reply, app.redis),
     })
   )
 
@@ -76,7 +77,8 @@ export async function reviewsRoute(app: FastifyInstance) {
         tags: [reviewsTag],
         params: reviewParamsSchema,
       },
-      handler: deleteReviewController,
+      handler: (request, reply) =>
+        deleteReviewController(request, reply, app.redis),
     })
   )
 
@@ -91,7 +93,8 @@ export async function reviewsRoute(app: FastifyInstance) {
         body: updateReviewBodySchema,
         response: updateReviewResponse,
       },
-      handler: updateReviewController,
+      handler: (request, reply) =>
+        updateReviewController(request, reply, app.redis),
     })
   )
 

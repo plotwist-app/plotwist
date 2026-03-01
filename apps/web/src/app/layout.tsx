@@ -4,6 +4,10 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
 import { GTag } from '@/components/gtag'
+import {
+  OrganizationJsonLd,
+  WebsiteJsonLd,
+} from '@/components/structured-data'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 
@@ -15,9 +19,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'dark',
   themeColor: '#09090b',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -40,6 +41,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           />
 
           <GTag />
+          <WebsiteJsonLd />
+          <OrganizationJsonLd />
         </head>
 
         <body className="bg-background antialiased">{children}</body>
