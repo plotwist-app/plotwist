@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { periodToDateRange } from '@/http/schemas/common'
+import { periodToDateRange } from '@/infra/http/schemas/common'
 import { getUserBestReviewsService } from './get-user-best-reviews'
 import { getUserTotalHoursService } from './get-user-total-hours'
 import { getUserWatchedGenresService } from './get-user-watched-genres'

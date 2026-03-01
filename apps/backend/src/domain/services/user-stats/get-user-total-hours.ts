@@ -1,7 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
-import type { StatsPeriod } from '@/http/schemas/common'
-import { db } from '@/db'
 import { sql } from 'drizzle-orm'
+import { db } from '@/infra/db'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
 import { getAllUserItemsService } from '../user-items/get-all-user-items'
@@ -70,9 +70,7 @@ export async function getUserTotalHoursService(
     )
 
     const percentileRank =
-      period === 'all'
-        ? await computeUserPercentile(userId)
-        : null
+      period === 'all' ? await computeUserPercentile(userId) : null
 
     return {
       totalHours,
@@ -227,7 +225,11 @@ function computeAllDailyActivity(
     ]
     if (allDates.length === 0) return []
     startDate = new Date(Math.min(...allDates))
-    startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+    startDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    )
     endDate = now
   }
 
@@ -286,8 +288,7 @@ function computePeakAndHourly(
   }))
 
   const totalEntries = hourCounts.reduce((a: number, b: number) => a + b, 0)
-  if (totalEntries === 0)
-    return { peakTimeSlot: null, hourlyDistribution }
+  if (totalEntries === 0) return { peakTimeSlot: null, hourlyDistribution }
 
   const slots = [
     { slot: 'night', range: [0, 1, 2, 3, 4, 5], count: 0 },
