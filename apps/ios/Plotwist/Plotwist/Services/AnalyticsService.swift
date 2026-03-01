@@ -172,11 +172,12 @@ class AnalyticsService {
   }
   
   func identify(userId: String, properties: [String: Any] = [:]) {
+    let previousId = UserDefaults.standard.string(forKey: "analyticsDeviceId")
     UserDefaults.standard.set(userId, forKey: "analyticsUserId")
     #if DEBUG
     print("📊 Analytics: Identified user \(userId)")
     #endif
-    sendIdentify(userId: userId, properties: properties)
+    sendIdentify(userId: userId, previousAnonymousId: previousId, properties: properties)
   }
   
   func reset() {
@@ -194,26 +195,38 @@ class AnalyticsService {
   // MARK: - Private
   
   private func sendEvent(name: String, properties: [String: Any]) {
-    guard !apiKey.isEmpty else { return }
+    guard !apiKey.isEmpty, !apiKey.contains("$(") else { return }
+    var allProperties = properties
+    allProperties["$lib"] = "ios"
+    allProperties["$lib_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    allProperties["$platform"] = "iOS"
+    allProperties["$device_type"] = "Mobile"
     Task {
       await sendToPostHog(payload: [
         "api_key": apiKey,
         "event": name,
         "distinct_id": distinctId,
-        "properties": properties,
+        "properties": allProperties,
         "timestamp": ISO8601DateFormatter().string(from: Date()),
       ])
     }
   }
 
-  private func sendIdentify(userId: String, properties: [String: Any]) {
-    guard !apiKey.isEmpty else { return }
+  private func sendIdentify(userId: String, previousAnonymousId: String?, properties: [String: Any]) {
+    guard !apiKey.isEmpty, !apiKey.contains("$(") else { return }
+    var personProperties = properties
+    personProperties["$platform"] = "iOS"
+    personProperties["$lib"] = "ios"
+    var identifyProperties: [String: Any] = ["$set": personProperties]
+    if let previousId = previousAnonymousId, previousId != userId {
+      identifyProperties["$anon_distinct_id"] = previousId
+    }
     Task {
       await sendToPostHog(payload: [
         "api_key": apiKey,
         "event": "$identify",
         "distinct_id": userId,
-        "properties": ["$set": properties],
+        "properties": identifyProperties,
         "timestamp": ISO8601DateFormatter().string(from: Date()),
       ])
     }
