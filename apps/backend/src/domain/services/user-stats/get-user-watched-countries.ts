@@ -1,7 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { processInBatches } from './batch-utils'
@@ -22,7 +22,12 @@ export async function getUserWatchedCountriesService({
   dateRange,
   period = 'all',
 }: GetUserWatchedCountriesServiceInput) {
-  const cacheKey = getUserStatsCacheKey(userId, 'watched-countries', language, period)
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'watched-countries',
+    language,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
     const watchedItems = await selectAllUserItemsByStatus({

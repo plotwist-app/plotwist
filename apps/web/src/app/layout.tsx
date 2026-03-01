@@ -4,10 +4,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk as SpaceGrotesk } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
 import { GTag } from '@/components/gtag'
-import {
-  OrganizationJsonLd,
-  WebsiteJsonLd,
-} from '@/components/structured-data'
+import { OrganizationJsonLd, WebsiteJsonLd } from '@/components/structured-data'
 
 const spaceGrotesk = SpaceGrotesk({ subsets: ['latin'], preload: true })
 

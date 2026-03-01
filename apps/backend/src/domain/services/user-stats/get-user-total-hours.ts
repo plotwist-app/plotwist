@@ -200,39 +200,52 @@ function computeDailyBreakdown(
   }))
 }
 
+function getDateRangeForPeriod(
+  period: StatsPeriod,
+  now: Date,
+  movieData: { date: Date | null }[],
+  episodes: { watchedAt: Date | null }[]
+): { startDate: Date; endDate: Date } | null {
+  if (period === 'month') {
+    return {
+      startDate: new Date(now.getFullYear(), now.getMonth(), 1),
+      endDate: now,
+    }
+  }
+  if (period === 'last_month') {
+    return {
+      startDate: new Date(now.getFullYear(), now.getMonth() - 1, 1),
+      endDate: new Date(now.getFullYear(), now.getMonth(), 0),
+    }
+  }
+  if (period === 'year') {
+    return {
+      startDate: new Date(now.getFullYear(), 0, 1),
+      endDate: now,
+    }
+  }
+  const allTimestamps = [
+    ...movieData.flatMap(m => (m.date ? [m.date.getTime()] : [])),
+    ...episodes.flatMap(e => (e.watchedAt ? [e.watchedAt.getTime()] : [])),
+  ]
+  if (allTimestamps.length === 0) return null
+  const start = new Date(Math.min(...allTimestamps))
+  return {
+    startDate: new Date(start.getFullYear(), start.getMonth(), start.getDate()),
+    endDate: now,
+  }
+}
+
 function computeAllDailyActivity(
   movieData: { runtime: number; date: Date | null }[],
   episodes: { runtime: number; watchedAt: Date | null }[],
   period: StatsPeriod
 ) {
   const now = new Date()
-  let startDate: Date
-  let endDate: Date
+  const range = getDateRangeForPeriod(period, now, movieData, episodes)
+  if (!range) return []
 
-  if (period === 'month') {
-    startDate = new Date(now.getFullYear(), now.getMonth(), 1)
-    endDate = now
-  } else if (period === 'last_month') {
-    startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-    endDate = new Date(now.getFullYear(), now.getMonth(), 0)
-  } else if (period === 'year') {
-    startDate = new Date(now.getFullYear(), 0, 1)
-    endDate = now
-  } else {
-    const allDates = [
-      ...movieData.filter(m => m.date).map(m => m.date!.getTime()),
-      ...episodes.filter(e => e.watchedAt).map(e => e.watchedAt!.getTime()),
-    ]
-    if (allDates.length === 0) return []
-    startDate = new Date(Math.min(...allDates))
-    startDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate()
-    )
-    endDate = now
-  }
-
+  const { startDate, endDate } = range
   const dayMap = new Map<string, number>()
   const cursor = new Date(startDate)
   while (cursor <= endDate) {
