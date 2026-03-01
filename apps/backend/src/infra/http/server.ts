@@ -10,6 +10,7 @@ import { ZodError } from 'zod'
 import { config } from '@/config'
 import { DomainError } from '@/domain/errors/domain-error'
 import { logger } from '@/infra/adapters/logger'
+import { setRequestClient } from '@/infra/http/middlewares/set-request-client'
 import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
 import { fastifyOtel } from '@/infra/telemetry/otel'
 import { routes } from './routes'
@@ -23,6 +24,8 @@ function getUserId(request: { user?: { id: string } }): string | undefined {
 
 export async function startServer() {
   await app.register(fastifyOtel.plugin())
+
+  app.addHook('onRequest', setRequestClient)
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)

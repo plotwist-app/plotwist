@@ -19,6 +19,7 @@ AXIOS_INSTANCE.interceptors.request.use(config => {
   if (_authToken) {
     config.headers.Authorization = `Bearer ${_authToken}`
   }
+  config.headers['x-client'] = 'web'
   return config
 })
 
