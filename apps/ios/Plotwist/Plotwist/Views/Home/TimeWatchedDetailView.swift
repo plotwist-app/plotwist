@@ -93,27 +93,28 @@ struct TimeWatchedDetailView: View {
                 movieSeriesSplitBar
               }
             }
-
-            if !dailyActivity.isEmpty {
-              Divider()
-            }
           }
           .padding(.horizontal, 24)
           .padding(.top, 16)
 
           if !dailyActivity.isEmpty {
+            Divider()
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+
             activityHeatmap
               .padding(.horizontal, 24)
-              .padding(.top, 8)
+              .padding(.top, 12)
           }
 
           if !hourlyDistribution.isEmpty {
-            VStack(alignment: .leading, spacing: 24) {
-              Divider()
-              hourlyDistributionChart
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
+            Divider()
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+
+            hourlyDistributionChart
+              .padding(.horizontal, 24)
+              .padding(.top, 12)
           }
 
           Spacer().frame(height: 24)
@@ -563,36 +564,59 @@ struct TimeWatchedDetailView: View {
     let offset: Int
   }
 
-  static func buildWeekColumns(from entries: [DailyActivityEntry]) -> [[HeatmapCell]] {
+  static func buildWeekColumns(from entries: [DailyActivityEntry], minWeeks: Int = 15) -> [[HeatmapCell]] {
     guard !entries.isEmpty else { return [] }
     let cal = Calendar.current
     let fmt = DateFormatter()
     fmt.dateFormat = "yyyy-MM-dd"
 
+    guard let firstDate = fmt.date(from: entries.first!.day) else { return [] }
+
+    let lookup = Dictionary(uniqueKeysWithValues: entries.map { ($0.day, $0.hours) })
+
+    let lastDate: Date
+    if let last = entries.last, let d = fmt.date(from: last.day) {
+      lastDate = d
+    } else {
+      lastDate = firstDate
+    }
+
+    let dataWeeks = cal.dateComponents([.weekOfYear], from: firstDate, to: lastDate).weekOfYear ?? 0
+    let totalWeeksNeeded = max(dataWeeks + 1, minWeeks)
+
+    let adjustedFirst = cal.date(byAdding: .weekOfYear, value: -(totalWeeksNeeded - dataWeeks - 1), to: firstDate) ?? firstDate
+
+    let startOfWeek: Date
+    let adjustedWeekday = cal.component(.weekday, from: adjustedFirst)
+    if adjustedWeekday == 1 {
+      startOfWeek = adjustedFirst
+    } else {
+      startOfWeek = cal.date(byAdding: .day, value: -(adjustedWeekday - 1), to: adjustedFirst) ?? adjustedFirst
+    }
+
     var weeks: [[HeatmapCell]] = []
     var currentWeek: [HeatmapCell] = []
+    var cursor = startOfWeek
 
-    guard let firstDate = fmt.date(from: entries.first!.day) else { return [] }
-    let firstWeekday = cal.component(.weekday, from: firstDate)
-    if firstWeekday > 1 {
-      for wd in 1..<firstWeekday {
-        currentWeek.append(HeatmapCell(id: "pad-\(wd)", hours: 0, weekday: wd, month: 0, dayNumber: 0))
-      }
-    }
+    while cursor <= lastDate || currentWeek.count > 0 {
+      let weekday = cal.component(.weekday, from: cursor)
+      let month = cal.component(.month, from: cursor)
+      let day = cal.component(.day, from: cursor)
+      let key = fmt.string(from: cursor)
+      let hours = lookup[key] ?? 0
 
-    for entry in entries {
-      guard let date = fmt.date(from: entry.day) else { continue }
-      let weekday = cal.component(.weekday, from: date)
-      let month = cal.component(.month, from: date)
-      let day = cal.component(.day, from: date)
+      currentWeek.append(HeatmapCell(id: key, hours: hours, weekday: weekday, month: month, dayNumber: day))
 
-      if weekday == 1 && !currentWeek.isEmpty {
+      if weekday == 7 {
         weeks.append(currentWeek)
         currentWeek = []
+        if cursor > lastDate { break }
       }
 
-      currentWeek.append(HeatmapCell(id: entry.day, hours: entry.hours, weekday: weekday, month: month, dayNumber: day))
+      guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
+      cursor = next
     }
+
     if !currentWeek.isEmpty {
       while currentWeek.count < 7 {
         let wd = currentWeek.count + 1
@@ -600,6 +624,7 @@ struct TimeWatchedDetailView: View {
       }
       weeks.append(currentWeek)
     }
+
     return weeks
   }
 

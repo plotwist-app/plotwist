@@ -52,10 +52,11 @@ struct ProfileAvatar: View {
 // MARK: - Pro Badge
 struct ProBadge: View {
   enum Size {
-    case regular, large
+    case small, regular, large
 
     var fontSize: CGFloat {
       switch self {
+      case .small: return 8
       case .regular: return 10
       case .large: return 16
       }
@@ -63,6 +64,7 @@ struct ProBadge: View {
 
     var horizontalPadding: CGFloat {
       switch self {
+      case .small: return 6
       case .regular: return 8
       case .large: return 14
       }
@@ -70,6 +72,7 @@ struct ProBadge: View {
 
     var verticalPadding: CGFloat {
       switch self {
+      case .small: return 2
       case .regular: return 3
       case .large: return 6
       }
@@ -77,6 +80,7 @@ struct ProBadge: View {
 
     var cornerRadius: CGFloat {
       switch self {
+      case .small: return 4
       case .regular: return 6
       case .large: return 8
       }
