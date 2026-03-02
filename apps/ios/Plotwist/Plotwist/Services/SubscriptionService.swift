@@ -22,10 +22,7 @@ class SubscriptionService: ObservableObject {
   func setup() {
     guard !isConfigured else { return }
     let apiKey = Env.revenueCatAPIKey
-    guard !apiKey.isEmpty else {
-      print("⚠️ [SubscriptionService] Missing REVENUECAT_API_KEY")
-      return
-    }
+    guard !apiKey.isEmpty else { return }
     Purchases.logLevel = .warn
     Purchases.configure(withAPIKey: apiKey)
     isConfigured = true
@@ -59,9 +56,7 @@ class SubscriptionService: ObservableObject {
     do {
       let customerInfo = try await Purchases.shared.customerInfo()
       updateProStatus(from: customerInfo)
-    } catch {
-      print("⚠️ [SubscriptionService] Failed to refresh: \(error)")
-    }
+    } catch {}
   }
 
   func restorePurchases() async throws {
@@ -96,7 +91,8 @@ class SubscriptionService: ObservableObject {
   // MARK: - Private
 
   private func updateProStatus(from customerInfo: CustomerInfo?) {
-    let active = customerInfo?.entitlements["pro"]?.isActive == true
+    guard let info = customerInfo else { return }
+    let active = !info.entitlements.active.isEmpty || !info.activeSubscriptions.isEmpty
     if isPro != active {
       isPro = active
       NotificationCenter.default.post(name: .subscriptionChanged, object: nil)
