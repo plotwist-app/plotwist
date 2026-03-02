@@ -110,8 +110,8 @@ struct MonthSection: Identifiable, Equatable {
 
 struct ProfileStatsView: View {
   let userId: String
-  let isPro: Bool
   let isOwnProfile: Bool
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   @State var strings = L10n.current
   @State var selectedPeriod: String = "all"
@@ -123,9 +123,10 @@ struct ProfileStatsView: View {
 
   let cache = ProfileStatsCache.shared
 
+  private var isPro: Bool { subscriptionService.isPro }
+
   init(userId: String, isPro: Bool = false, isOwnProfile: Bool = true) {
     self.userId = userId
-    self.isPro = isPro
     self.isOwnProfile = isOwnProfile
   }
 

@@ -28,6 +28,7 @@ struct ProfileTabView: View {
   @State var showReorderCollection = false
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
@@ -272,7 +273,7 @@ struct ProfileTabView: View {
               .font(.title3.bold())
               .foregroundColor(.appForegroundAdaptive)
 
-            if user.isPro {
+            if user.isPro || subscriptionService.isPro {
               ProBadge()
             }
           }
@@ -320,7 +321,7 @@ struct ProfileTabView: View {
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
       case .stats:
-        ProfileStatsView(userId: userId, isPro: user?.isPro ?? false, isOwnProfile: true)
+        ProfileStatsView(userId: userId, isOwnProfile: true)
           .padding(.bottom, 24)
       }
     }

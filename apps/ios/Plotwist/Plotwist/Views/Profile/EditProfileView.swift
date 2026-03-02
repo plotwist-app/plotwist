@@ -92,6 +92,7 @@ struct EditProfileView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) private var systemColorScheme
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
   @State private var strings = L10n.current
   @State private var user: User
   @State private var userPreferences: UserPreferences?
@@ -321,7 +322,7 @@ struct EditProfileView: View {
           .foregroundColor(.appMutedForegroundAdaptive)
           .frame(width: labelWidth, alignment: .leading)
 
-        if user.isPro {
+        if user.isPro || subscriptionService.isPro {
           HStack(spacing: 6) {
             ProBadge()
             Text(strings.planActive)
