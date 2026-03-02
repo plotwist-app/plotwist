@@ -337,6 +337,33 @@ enum L10n {
       moreSeriesThanMovies: "You're watching more series than movies",
       moreMoviesThanSeries: "You're watching more movies than series",
       proUnlockDescription: "Complete taste DNA, yearly activity, trends, and premium share cards",
+      paywallSubtitle: "Dive deeper into your watching habits with advanced stats, taste DNA, premium sharing, and more.",
+      // Paywall
+      paywallFeatureStatsTitle: "Advanced Stats",
+      paywallFeatureStatsSubtitle: "See exactly how your taste evolves every month",
+      paywallFeatureDNATitle: "Taste DNA",
+      paywallFeatureDNASubtitle: "Find out what makes your taste unique",
+      paywallFeatureShareTitle: "Premium Share Cards",
+      paywallFeatureShareSubtitle: "Show off your stats with stunning visuals",
+      paywallFeatureBadgeTitle: "PRO Badge",
+      paywallFeatureBadgeSubtitle: "Let everyone know you're a true cinephile",
+      paywallSubscribe: "Continue",
+      paywallRestore: "Restore purchases",
+      paywallBestValue: "Best value",
+      paywallMonth: "month",
+      paywallYear: "year",
+      paywallStartTrial: "Start free trial",
+      paywallNoTrial: "No trial",
+      paywallFreeTrial: "free trial",
+      paywallThenPrice: "then",
+      paywallLegal: "Payment will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period.",
+      paywallTerms: "Terms of Use",
+      paywallUpgradeToPro: "Upgrade to PRO",
+      paywallUpgradeTo: "Upgrade to",
+      planLabel: "Plan",
+      planActive: "Active",
+      planFree: "Free",
+      planManage: "Manage subscription",
       // Period Selector
       thisMonth: "This Month",
       lastMonth: "Last Month",
@@ -707,6 +734,33 @@ enum L10n {
       moreSeriesThanMovies: "Você está assistindo mais séries do que filmes",
       moreMoviesThanSeries: "Você está assistindo mais filmes do que séries",
       proUnlockDescription: "DNA de gosto completo, atividade anual, tendências e cards premium",
+      paywallSubtitle: "Mergulhe mais fundo nos seus hábitos com stats avançadas, DNA de gosto, compartilhamento premium e mais.",
+      // Paywall
+      paywallFeatureStatsTitle: "Estatísticas Avançadas",
+      paywallFeatureStatsSubtitle: "Veja como seu gosto evolui a cada mês",
+      paywallFeatureDNATitle: "DNA de Gosto",
+      paywallFeatureDNASubtitle: "Descubra o que torna seu gosto único",
+      paywallFeatureShareTitle: "Cards Premium",
+      paywallFeatureShareSubtitle: "Mostre suas stats com visuais incríveis",
+      paywallFeatureBadgeTitle: "Badge PRO",
+      paywallFeatureBadgeSubtitle: "Mostre que você é um verdadeiro cinéfilo",
+      paywallSubscribe: "Continuar",
+      paywallRestore: "Restaurar compras",
+      paywallBestValue: "Melhor valor",
+      paywallMonth: "mês",
+      paywallYear: "ano",
+      paywallStartTrial: "Iniciar teste grátis",
+      paywallNoTrial: "Sem teste",
+      paywallFreeTrial: "teste grátis",
+      paywallThenPrice: "depois",
+      paywallLegal: "O pagamento será cobrado na sua conta Apple ID na confirmação da compra. A assinatura renova automaticamente a menos que seja cancelada pelo menos 24 horas antes do final do período atual.",
+      paywallTerms: "Termos de Uso",
+      paywallUpgradeToPro: "Assinar PRO",
+      paywallUpgradeTo: "Upgrade para",
+      planLabel: "Plano",
+      planActive: "Ativo",
+      planFree: "Gratuito",
+      planManage: "Gerenciar assinatura",
       // Period Selector
       thisMonth: "Este Mês",
       lastMonth: "Mês Passado",
@@ -1077,6 +1131,33 @@ enum L10n {
       moreSeriesThanMovies: "Estás viendo más series que películas",
       moreMoviesThanSeries: "Estás viendo más películas que series",
       proUnlockDescription: "ADN de gustos completo, actividad anual, tendencias y cards premium",
+      paywallSubtitle: "Profundiza en tus hábitos con estadísticas avanzadas, ADN de gustos, compartir premium y más.",
+      // Paywall
+      paywallFeatureStatsTitle: "Estadísticas Avanzadas",
+      paywallFeatureStatsSubtitle: "Mira cómo evoluciona tu gusto cada mes",
+      paywallFeatureDNATitle: "ADN de Gustos",
+      paywallFeatureDNASubtitle: "Descubre qué hace único tu gusto",
+      paywallFeatureShareTitle: "Cards Premium",
+      paywallFeatureShareSubtitle: "Presume tus stats con visuales increíbles",
+      paywallFeatureBadgeTitle: "Badge PRO",
+      paywallFeatureBadgeSubtitle: "Demuestra que eres un verdadero cinéfilo",
+      paywallSubscribe: "Continuar",
+      paywallRestore: "Restaurar compras",
+      paywallBestValue: "Mejor valor",
+      paywallMonth: "mes",
+      paywallYear: "año",
+      paywallStartTrial: "Iniciar prueba gratis",
+      paywallNoTrial: "Sin prueba",
+      paywallFreeTrial: "prueba gratis",
+      paywallThenPrice: "luego",
+      paywallLegal: "El pago se cargará a tu cuenta de Apple ID al confirmar la compra. La suscripción se renueva automáticamente a menos que se cancele al menos 24 horas antes del final del período actual.",
+      paywallTerms: "Términos de Uso",
+      paywallUpgradeToPro: "Suscribirse a PRO",
+      paywallUpgradeTo: "Mejora a",
+      planLabel: "Plan",
+      planActive: "Activo",
+      planFree: "Gratis",
+      planManage: "Gestionar suscripción",
       // Period Selector
       thisMonth: "Este Mes",
       lastMonth: "Mes Pasado",
@@ -1447,6 +1528,33 @@ enum L10n {
       moreSeriesThanMovies: "Vous regardez plus de séries que de films",
       moreMoviesThanSeries: "Vous regardez plus de films que de séries",
       proUnlockDescription: "ADN de goût complet, activité annuelle, tendances et cards premium",
+      paywallSubtitle: "Explorez vos habitudes avec des stats avancées, un ADN de goût, le partage premium et plus.",
+      // Paywall
+      paywallFeatureStatsTitle: "Statistiques Avancées",
+      paywallFeatureStatsSubtitle: "Voyez comment vos goûts évoluent chaque mois",
+      paywallFeatureDNATitle: "ADN de Goût",
+      paywallFeatureDNASubtitle: "Découvrez ce qui rend vos goûts uniques",
+      paywallFeatureShareTitle: "Cards Premium",
+      paywallFeatureShareSubtitle: "Affichez vos stats avec des visuels superbes",
+      paywallFeatureBadgeTitle: "Badge PRO",
+      paywallFeatureBadgeSubtitle: "Montrez que vous êtes un vrai cinéphile",
+      paywallSubscribe: "Continuer",
+      paywallRestore: "Restaurer les achats",
+      paywallBestValue: "Meilleur rapport",
+      paywallMonth: "mois",
+      paywallYear: "an",
+      paywallStartTrial: "Commencer l'essai gratuit",
+      paywallNoTrial: "Sans essai",
+      paywallFreeTrial: "essai gratuit",
+      paywallThenPrice: "puis",
+      paywallLegal: "Le paiement sera débité de votre compte Apple ID lors de la confirmation de l'achat. L'abonnement se renouvelle automatiquement sauf annulation au moins 24 heures avant la fin de la période en cours.",
+      paywallTerms: "Conditions d'utilisation",
+      paywallUpgradeToPro: "Passer à PRO",
+      paywallUpgradeTo: "Passer à",
+      planLabel: "Forfait",
+      planActive: "Actif",
+      planFree: "Gratuit",
+      planManage: "Gérer l'abonnement",
       // Period Selector
       thisMonth: "Ce Mois",
       lastMonth: "Mois Dernier",
@@ -1817,6 +1925,33 @@ enum L10n {
       moreSeriesThanMovies: "Du schaust mehr Serien als Filme",
       moreMoviesThanSeries: "Du schaust mehr Filme als Serien",
       proUnlockDescription: "Komplettes Geschmacks-DNA, Jahresaktivität, Trends und Premium-Karten",
+      paywallSubtitle: "Tauche tiefer in deine Gewohnheiten mit erweiterten Stats, Geschmacks-DNA, Premium-Sharing und mehr.",
+      // Paywall
+      paywallFeatureStatsTitle: "Erweiterte Statistiken",
+      paywallFeatureStatsSubtitle: "Sieh wie sich dein Geschmack jeden Monat entwickelt",
+      paywallFeatureDNATitle: "Geschmacks-DNA",
+      paywallFeatureDNASubtitle: "Finde heraus, was deinen Geschmack einzigartig macht",
+      paywallFeatureShareTitle: "Premium-Karten",
+      paywallFeatureShareSubtitle: "Zeig deine Stats mit beeindruckenden Grafiken",
+      paywallFeatureBadgeTitle: "PRO-Badge",
+      paywallFeatureBadgeSubtitle: "Zeig allen, dass du ein echter Cineast bist",
+      paywallSubscribe: "Weiter",
+      paywallRestore: "Käufe wiederherstellen",
+      paywallBestValue: "Bester Wert",
+      paywallMonth: "Monat",
+      paywallYear: "Jahr",
+      paywallStartTrial: "Kostenlos testen",
+      paywallNoTrial: "Kein Test",
+      paywallFreeTrial: "kostenloser Test",
+      paywallThenPrice: "dann",
+      paywallLegal: "Die Zahlung wird bei Kaufbestätigung Ihrem Apple ID-Konto belastet. Das Abonnement verlängert sich automatisch, es sei denn, es wird mindestens 24 Stunden vor Ende des aktuellen Zeitraums gekündigt.",
+      paywallTerms: "Nutzungsbedingungen",
+      paywallUpgradeToPro: "Auf PRO upgraden",
+      paywallUpgradeTo: "Upgrade auf",
+      planLabel: "Abo",
+      planActive: "Aktiv",
+      planFree: "Kostenlos",
+      planManage: "Abo verwalten",
       // Period Selector
       thisMonth: "Dieser Monat",
       lastMonth: "Letzter Monat",
@@ -2187,6 +2322,33 @@ enum L10n {
       moreSeriesThanMovies: "Stai guardando più serie che film",
       moreMoviesThanSeries: "Stai guardando più film che serie",
       proUnlockDescription: "DNA di gusto completo, attività annuale, tendenze e card premium",
+      paywallSubtitle: "Approfondisci le tue abitudini con statistiche avanzate, DNA di gusto, condivisione premium e altro.",
+      // Paywall
+      paywallFeatureStatsTitle: "Statistiche Avanzate",
+      paywallFeatureStatsSubtitle: "Scopri come evolve il tuo gusto ogni mese",
+      paywallFeatureDNATitle: "DNA di Gusto",
+      paywallFeatureDNASubtitle: "Scopri cosa rende unico il tuo gusto",
+      paywallFeatureShareTitle: "Card Premium",
+      paywallFeatureShareSubtitle: "Mostra le tue stats con grafiche incredibili",
+      paywallFeatureBadgeTitle: "Badge PRO",
+      paywallFeatureBadgeSubtitle: "Fai sapere a tutti che sei un vero cinefilo",
+      paywallSubscribe: "Continua",
+      paywallRestore: "Ripristina acquisti",
+      paywallBestValue: "Miglior valore",
+      paywallMonth: "mese",
+      paywallYear: "anno",
+      paywallStartTrial: "Inizia la prova gratuita",
+      paywallNoTrial: "Senza prova",
+      paywallFreeTrial: "prova gratuita",
+      paywallThenPrice: "poi",
+      paywallLegal: "Il pagamento verrà addebitato sul tuo account Apple ID alla conferma dell'acquisto. L'abbonamento si rinnova automaticamente a meno che non venga annullato almeno 24 ore prima della fine del periodo corrente.",
+      paywallTerms: "Termini di Utilizzo",
+      paywallUpgradeToPro: "Passa a PRO",
+      paywallUpgradeTo: "Passa a",
+      planLabel: "Piano",
+      planActive: "Attivo",
+      planFree: "Gratuito",
+      planManage: "Gestisci abbonamento",
       // Period Selector
       thisMonth: "Questo Mese",
       lastMonth: "Mese Scorso",
@@ -2556,6 +2718,33 @@ enum L10n {
       moreSeriesThanMovies: "映画よりシリーズを多く見ています",
       moreMoviesThanSeries: "シリーズより映画を多く見ています",
       proUnlockDescription: "完全な好みDNA、年間アクティビティ、トレンド、プレミアムカード",
+      paywallSubtitle: "高度な統計、好みDNA、プレミアム共有などで視聴習慣をもっと深く知ろう。",
+      // Paywall
+      paywallFeatureStatsTitle: "高度な統計",
+      paywallFeatureStatsSubtitle: "毎月あなたの好みがどう変わるか確認",
+      paywallFeatureDNATitle: "好みDNA",
+      paywallFeatureDNASubtitle: "あなたの好みを特別にしているものを発見",
+      paywallFeatureShareTitle: "プレミアムカード",
+      paywallFeatureShareSubtitle: "美しいビジュアルであなたの統計を自慢しよう",
+      paywallFeatureBadgeTitle: "PROバッジ",
+      paywallFeatureBadgeSubtitle: "本物の映画ファンであることを証明しよう",
+      paywallSubscribe: "続ける",
+      paywallRestore: "購入を復元",
+      paywallBestValue: "お得",
+      paywallMonth: "月",
+      paywallYear: "年",
+      paywallStartTrial: "無料トライアルを開始",
+      paywallNoTrial: "トライアルなし",
+      paywallFreeTrial: "無料トライアル",
+      paywallThenPrice: "その後",
+      paywallLegal: "お支払いは購入確認時にApple IDアカウントに請求されます。サブスクリプションは、現在の期間終了の少なくとも24時間前にキャンセルしない限り、自動更新されます。",
+      paywallTerms: "利用規約",
+      paywallUpgradeToPro: "PROにアップグレード",
+      paywallUpgradeTo: "アップグレード",
+      planLabel: "プラン",
+      planActive: "有効",
+      planFree: "無料",
+      planManage: "サブスクリプション管理",
       // Period Selector
       thisMonth: "今月",
       lastMonth: "先月",
@@ -2937,6 +3126,33 @@ struct Strings {
   let moreSeriesThanMovies: String
   let moreMoviesThanSeries: String
   let proUnlockDescription: String
+  let paywallSubtitle: String
+  // Paywall
+  let paywallFeatureStatsTitle: String
+  let paywallFeatureStatsSubtitle: String
+  let paywallFeatureDNATitle: String
+  let paywallFeatureDNASubtitle: String
+  let paywallFeatureShareTitle: String
+  let paywallFeatureShareSubtitle: String
+  let paywallFeatureBadgeTitle: String
+  let paywallFeatureBadgeSubtitle: String
+  let paywallSubscribe: String
+  let paywallRestore: String
+  let paywallBestValue: String
+  let paywallMonth: String
+  let paywallYear: String
+  let paywallStartTrial: String
+  let paywallNoTrial: String
+  let paywallFreeTrial: String
+  let paywallThenPrice: String
+  let paywallLegal: String
+  let paywallTerms: String
+  let paywallUpgradeToPro: String
+  let paywallUpgradeTo: String
+  let planLabel: String
+  let planActive: String
+  let planFree: String
+  let planManage: String
   // Period Selector
   let thisMonth: String
   let lastMonth: String

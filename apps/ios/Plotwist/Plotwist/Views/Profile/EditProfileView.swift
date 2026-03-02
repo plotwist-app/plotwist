@@ -102,6 +102,7 @@ struct EditProfileView: View {
   @State private var showAvatarPicker = false
   @State private var showDeleteAccountAlert = false
   @State private var isDeletingAccount = false
+  @State private var showPaywall = false
 
   init(user: User) {
     self.initialUser = user
@@ -304,6 +305,52 @@ struct EditProfileView: View {
           labelWidth: labelWidth
         )
       }
+      fieldDivider
+
+      // Plan
+      planRow
+    }
+  }
+
+  // MARK: - Plan Row
+  private var planRow: some View {
+    Button { showPaywall = true } label: {
+      HStack(alignment: .center, spacing: 16) {
+        Text(strings.planLabel)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(width: labelWidth, alignment: .leading)
+
+        if user.isPro {
+          HStack(spacing: 6) {
+            ProBadge()
+            Text(strings.planActive)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+          }
+        } else {
+          HStack(spacing: 6) {
+            Text(strings.planFree)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+
+            ProBadge(label: strings.paywallUpgradeToPro)
+          }
+        }
+
+        Spacer()
+
+        Image(systemName: "chevron.right")
+          .font(.system(size: 12, weight: .semibold))
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .padding(.horizontal, 24)
+      .padding(.vertical, 16)
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
+    .sheet(isPresented: $showPaywall) {
+      PaywallView(source: "profile_plan")
     }
   }
 
@@ -371,6 +418,7 @@ struct EditProfileView: View {
   }
 
   // MARK: - Settings Section
+
   private var settingsSection: some View {
     VStack(spacing: 0) {
       // Theme

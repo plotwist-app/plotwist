@@ -324,3 +324,167 @@ extension MonthSectionContentView {
     .disabled(!hasReviews)
   }
 }
+
+// MARK: - Skeleton Loading Cards
+
+struct StatsSkeletonView: View {
+  var body: some View {
+    VStack(spacing: 16) {
+      skeletonTimeWatched
+      HStack(alignment: .top, spacing: 12) {
+        skeletonGenre
+        skeletonReview
+      }
+    }
+  }
+
+  private var skeletonTimeWatched: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      shimmerRect(width: 100, height: 12)
+        .padding(.bottom, 20)
+
+      shimmerRect(width: 80, height: 32)
+        .padding(.bottom, 6)
+
+      shimmerRect(width: 50, height: 12)
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(Color.statsCardBackground)
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+  }
+
+  private var skeletonGenre: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      shimmerRect(width: 90, height: 12)
+        .padding(.bottom, 16)
+
+      VStack(spacing: 14) {
+        ForEach(0..<4, id: \.self) { i in
+          VStack(alignment: .leading, spacing: 4) {
+            shimmerRect(width: CGFloat(70 - i * 10), height: 11)
+            shimmerRect(height: 4)
+              .frame(width: CGFloat([1.0, 0.7, 0.5, 0.3][i]) * 100, alignment: .leading)
+          }
+        }
+      }
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .topLeading)
+    .background(Color.statsCardBackground)
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+  }
+
+  private var skeletonReview: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      shimmerRect(width: 80, height: 12)
+        .padding(.bottom, 20)
+
+      shimmerRect(width: 100, height: 14)
+        .padding(.bottom, 10)
+
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive.opacity(0.3))
+        .aspectRatio(2 / 3, contentMode: .fit)
+        .modifier(ShimmerEffect())
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .topLeading)
+    .background(Color.statsCardBackground)
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+  }
+
+  private func shimmerRect(width: CGFloat? = nil, height: CGFloat) -> some View {
+    RoundedRectangle(cornerRadius: height / 2)
+      .fill(Color.appBorderAdaptive.opacity(0.5))
+      .frame(width: width, height: height)
+      .modifier(ShimmerEffect())
+  }
+}
+
+// MARK: - Locked PRO Cards
+
+struct LockedStatsCardsView: View {
+  let strings: Strings
+  let onUpgrade: () -> Void
+
+  var body: some View {
+    VStack(spacing: 16) {
+      tasteDNACard
+      peakTimeCard
+
+      Button(action: onUpgrade) {
+        HStack(spacing: 8) {
+          ProBadge()
+          Text(strings.unlockFullProfile)
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(.appForegroundAdaptive)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 48)
+        .background(Color.appInputFilled)
+        .clipShape(Capsule())
+      }
+      .buttonStyle(.plain)
+    }
+  }
+
+  private var tasteDNACard: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      Text(strings.yourTasteDNA)
+        .font(.system(size: 13, weight: .medium))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .padding(.bottom, 20)
+
+      HStack(spacing: 0) {
+        ForEach(0..<5, id: \.self) { i in
+          let widths: [CGFloat] = [0.6, 0.9, 0.75, 0.45, 0.85]
+          VStack(spacing: 6) {
+            RoundedRectangle(cornerRadius: 3)
+              .fill(Color.appForegroundAdaptive.opacity(0.12))
+              .frame(height: 80 * widths[i])
+
+            RoundedRectangle(cornerRadius: 2)
+              .fill(Color.appBorderAdaptive.opacity(0.5))
+              .frame(width: 24, height: 6)
+          }
+          .frame(maxWidth: .infinity)
+        }
+      }
+      .frame(height: 100)
+      .blur(radius: 4)
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(Color.statsCardBackground)
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+  }
+
+  private var peakTimeCard: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      Text(strings.peakTime)
+        .font(.system(size: 13, weight: .medium))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .padding(.bottom, 16)
+
+      LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 7), spacing: 4) {
+        ForEach(0..<28, id: \.self) { i in
+          let fills: [Double] = [
+            0.05, 0.2, 0.0, 0.35, 0.1, 0.0, 0.25,
+            0.15, 0.0, 0.4, 0.2, 0.05, 0.3, 0.0,
+            0.0, 0.25, 0.1, 0.0, 0.45, 0.15, 0.05,
+            0.3, 0.0, 0.2, 0.35, 0.1, 0.0, 0.4
+          ]
+          RoundedRectangle(cornerRadius: 3)
+            .fill(Color.appForegroundAdaptive.opacity(fills[i]))
+            .aspectRatio(1, contentMode: .fit)
+        }
+      }
+      .blur(radius: 4)
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(Color.statsCardBackground)
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+  }
+}

@@ -43,4 +43,8 @@ enum Env {
     static var iosAPIToken: String {
         value(for: "IOS_API_TOKEN")
     }
+
+    static var revenueCatAPIKey: String {
+        value(for: "REVENUECAT_API_KEY", fallback: "test_xeYoMAcKDMesnYVyffjWsdYwZQU")
+    }
 }

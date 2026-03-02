@@ -103,6 +103,9 @@ struct ProfileTabView: View {
           isInitialLoad = true
         }
       }
+      .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in
+        Task { await loadUser(forceRefresh: true) }
+      }
       .navigationBarHidden(true)
       .navigationDestination(item: $selectedMediaItem) { item in
         MediaDetailView(

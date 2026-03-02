@@ -93,6 +93,7 @@
 			packageProductDependencies = (
 				BEAA685D2F2FCE4300BFC6D9 /* Swiper */,
 				BEAA68602F2FCFE000BFC6D9 /* Deck */,
+				BE58C9022F54CA670047BB5D /* RevenueCat */,
 			);
 			productName = Plotwist;
 			productReference = BE1232732F129895003F1FBA /* Plotwist.app */;
@@ -125,6 +126,7 @@
 			packageReferences = (
 				BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */,
 				BEAA685F2F2FCFE000BFC6D9 /* XCRemoteSwiftPackageReference "Deck" */,
+				BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BE1232742F129895003F1FBA /* Products */;
@@ -374,6 +376,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.60.0;
+			};
+		};
 		BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/smatado/Swiper.git";
@@ -402,6 +412,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BEAA685F2F2FCFE000BFC6D9 /* XCRemoteSwiftPackageReference "Deck" */;
 			productName = Deck;
+		};
+		BE58C9022F54CA670047BB5D /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

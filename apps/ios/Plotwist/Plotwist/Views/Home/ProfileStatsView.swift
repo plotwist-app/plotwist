@@ -119,6 +119,7 @@ struct ProfileStatsView: View {
 
   @State private var loadedSections: [String: MonthSection] = [:]
   @State private var loadingPeriods: Set<String> = []
+  @State private var showPaywall = false
 
   let cache = ProfileStatsCache.shared
 
@@ -157,15 +158,15 @@ struct ProfileStatsView: View {
               )
               .equatable()
               .transition(.opacity.animation(.easeIn(duration: 0.25)))
+
+              if !isPro && isOwnProfile {
+                LockedStatsCardsView(strings: strings) { showPaywall = true }
+              }
             } else {
-              ProgressView()
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 48)
+              StatsSkeletonView()
             }
           } else if loadingPeriods.contains(selectedPeriod) {
-            ProgressView()
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 48)
+            StatsSkeletonView()
           }
         }
         .padding(.horizontal, 24)
@@ -191,6 +192,17 @@ struct ProfileStatsView: View {
       loadedSections.removeValue(forKey: selectedPeriod)
       await loadPeriod(selectedPeriod)
     }
+    .sheet(isPresented: $showPaywall) {
+      PaywallView(source: "stats")
+    }
+  }
+
+  func presentPaywall() {
+    showPaywall = true
+  }
+
+  private var isFreePeriodLocked: Bool {
+    !isPro && selectedPeriod != "all" && selectedPeriod != MonthSection.currentYearMonth()
   }
 
   // MARK: - Period Header
@@ -210,13 +222,26 @@ struct ProfileStatsView: View {
         Divider()
 
         ForEach(availableMonths.filter { $0 != "all" }, id: \.self) { period in
+          let isCurrentMonth = period == MonthSection.currentYearMonth()
+          let isLocked = !isPro && !isCurrentMonth
+
           Button {
-            selectedPeriod = period
+            if isLocked {
+              showPaywall = true
+            } else {
+              selectedPeriod = period
+            }
           } label: {
             HStack {
               Text(periodDisplayLabel(for: period))
+              if isLocked {
+                Image(systemName: "lock.fill")
+                  .font(.system(size: 10))
+              }
               if period == selectedPeriod { Image(systemName: "checkmark") }
             }
+          }
+        }
       } label: {
         HStack(spacing: 4) {
           Text(periodDisplayLabel(for: selectedPeriod))

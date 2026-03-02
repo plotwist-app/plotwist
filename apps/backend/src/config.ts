@@ -29,6 +29,7 @@ function loadServicesEnvs() {
     RESEND_API_KEY: z.string().optional().default('re_123'),
     STRIPE_SECRET_KEY: z.string().optional().default(''),
     STRIPE_WEBHOOK_SECRET: z.string().optional().default(''),
+    REVENUECAT_WEBHOOK_SECRET: z.string().optional().default(''),
     TMDB_ACCESS_TOKEN: z.string(),
   })
 
