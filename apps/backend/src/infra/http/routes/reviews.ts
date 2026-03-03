@@ -72,10 +72,16 @@ export async function reviewsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'DELETE',
       url: '/review/by/:id',
+      onRequest: [verifyJwt],
       schema: {
         description: 'Delete review by id',
         tags: [reviewsTag],
         params: reviewParamsSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: (request, reply) =>
         deleteReviewController(request, reply, app.redis),
@@ -86,12 +92,18 @@ export async function reviewsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'PUT',
       url: '/review/by/:id',
+      onRequest: [verifyJwt],
       schema: {
         description: 'Update review by id',
         tags: [reviewsTag],
         params: reviewParamsSchema,
         body: updateReviewBodySchema,
         response: updateReviewResponse,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: (request, reply) =>
         updateReviewController(request, reply, app.redis),
