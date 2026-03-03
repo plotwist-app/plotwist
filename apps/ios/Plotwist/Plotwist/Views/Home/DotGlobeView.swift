@@ -19,6 +19,7 @@ struct CountryPin: Identifiable {
 
 struct GlobeMapView: View {
   let pins: [CountryPin]
+  var footerOverlayColor: Color = .statsCardBackground
 
   @State private var position: MapCameraPosition = .automatic
 
@@ -31,19 +32,23 @@ struct GlobeMapView: View {
       }
     }
     .mapStyle(.standard(pointsOfInterest: .excludingAll))
+    .overlay(alignment: .bottom) {
+      footerOverlayColor
+        .frame(height: 44)
+        .allowsHitTesting(false)
+    }
     .onAppear { fitPins() }
   }
 
   private func fitPins() {
     guard !pins.isEmpty else { return }
-    let lats = pins.map(\.lat)
-    let lons = pins.map(\.lon)
-    let center = CLLocationCoordinate2D(
-      latitude: (lats.min()! + lats.max()!) / 2,
-      longitude: (lons.min()! + lons.max()!) / 2
-    )
-    let latDelta = max((lats.max()! - lats.min()!) * 1.5, 40)
-    let lonDelta = max((lons.max()! - lons.min()!) * 1.5, 60)
+    let topPin = pins.max(by: { $0.count < $1.count }) ?? pins[0]
+    let center = CLLocationCoordinate2D(latitude: topPin.lat, longitude: topPin.lon)
+    let padding = 1.4
+    let latSpan = pins.map { abs($0.lat - topPin.lat) }.max() ?? 0
+    let lonSpan = pins.map { abs($0.lon - topPin.lon) }.max() ?? 0
+    let latDelta = min(120, max(18, (latSpan * 2) * padding))
+    let lonDelta = min(150, max(25, (lonSpan * 2) * padding))
     position = .region(MKCoordinateRegion(
       center: center,
       span: MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)

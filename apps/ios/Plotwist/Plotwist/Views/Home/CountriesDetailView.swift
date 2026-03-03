@@ -56,7 +56,7 @@ struct CountriesDetailView: View {
   // MARK: - Map Section
 
   private var mapSection: some View {
-    GlobeMapView(pins: globePins)
+    GlobeMapView(pins: globePins, footerOverlayColor: Color.appBackgroundAdaptive)
       .frame(height: 520)
   }
 
