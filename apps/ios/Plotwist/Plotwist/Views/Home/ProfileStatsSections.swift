@@ -233,27 +233,31 @@ extension MonthSectionContentView {
         .padding(.bottom, 16)
 
         if !genres.isEmpty {
-          VStack(spacing: 16) {
+          VStack(spacing: 14) {
             ForEach(Array(genres.enumerated()), id: \.element.id) { index, genre in
-              VStack(alignment: .leading, spacing: 4) {
+              VStack(alignment: .leading, spacing: 5) {
                 HStack {
                   Text(genre.name)
-                    .font(.system(size: index == 0 ? 15 : 13, weight: index == 0 ? .bold : .semibold))
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.appForegroundAdaptive)
                     .lineLimit(1)
                   Spacer()
                   Text("\(genre.count)")
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundColor(.appMutedForegroundAdaptive)
                 }
 
                 GeometryReader { geo in
                   let fraction = maxCount > 0 ? CGFloat(genre.count) / CGFloat(maxCount) : 0
-                  RoundedRectangle(cornerRadius: 3)
-                    .fill(Color.appForegroundAdaptive.opacity(index == 0 ? 0.25 : 0.12))
-                    .frame(width: geo.size.width * fraction)
+                  ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 3)
+                      .fill(Color.appForegroundAdaptive.opacity(0.08))
+                    RoundedRectangle(cornerRadius: 3)
+                      .fill(Color.appForegroundAdaptive.opacity(index == 0 ? 0.7 : 0.35))
+                      .frame(width: geo.size.width * fraction)
+                  }
                 }
-                .frame(height: 4)
+                .frame(height: 5)
               }
             }
           }
@@ -411,7 +415,6 @@ struct LockedStatsCardsView: View {
   var body: some View {
     VStack(spacing: 16) {
       tasteDNACard
-      viewerProfileCard
       ratingInsightsCard
       countriesCard
       aiRecommendationsCard
@@ -465,24 +468,6 @@ struct LockedStatsCardsView: View {
               .fill(Color.appBorderAdaptive.opacity(0.5))
               .frame(width: 60, height: 10)
           }
-        }
-      }
-      .blur(radius: 5)
-    }
-  }
-
-  // MARK: - AI Viewer Profile
-
-  private var viewerProfileCard: some View {
-    lockedCard(title: strings.viewerProfile, icon: "sparkles", onTap: onUpgrade) {
-      VStack(alignment: .leading, spacing: 8) {
-        ForEach(0..<3, id: \.self) { i in
-          let widths: [CGFloat] = [1.0, 0.85, 0.6]
-          RoundedRectangle(cornerRadius: 3)
-            .fill(Color.appForegroundAdaptive.opacity(0.12))
-            .frame(maxWidth: .infinity)
-            .frame(height: 10)
-            .scaleEffect(x: widths[i], anchor: .leading)
         }
       }
       .blur(radius: 5)

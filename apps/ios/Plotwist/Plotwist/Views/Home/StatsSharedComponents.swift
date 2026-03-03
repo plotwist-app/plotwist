@@ -106,6 +106,7 @@ struct StatsShareCardView: View {
   let strings: Strings
   let genrePosterImage: UIImage?
   let reviewPosterImage: UIImage?
+  var tasteDNA: TasteDNAResult?
 
   private let cardWidth: CGFloat = 1080 / 3
   private let cardHeight: CGFloat = 1920 / 3
@@ -205,6 +206,11 @@ struct StatsShareCardView: View {
         }
         .padding(.horizontal, 24)
 
+        if let dna = tasteDNA, !dna.archetype.isEmpty {
+          Spacer().frame(height: 20)
+          shareCardDNASection(dna)
+        }
+
         Spacer()
 
         HStack {
@@ -225,6 +231,35 @@ struct StatsShareCardView: View {
       }
     }
     .frame(width: cardWidth, height: cardHeight)
+  }
+
+  private func shareCardDNASection(_ dna: TasteDNAResult) -> some View {
+    VStack(alignment: .leading, spacing: 6) {
+      Text(strings.yourTasteDNA.uppercased())
+        .font(.system(size: 9, weight: .bold))
+        .tracking(1)
+        .foregroundColor(.white.opacity(0.35))
+
+      Text(dna.archetype)
+        .font(.system(size: 14, weight: .bold, design: .rounded))
+        .foregroundColor(.white.opacity(0.9))
+
+      if !dna.traits.isEmpty {
+        HStack(spacing: 4) {
+          ForEach(dna.traits, id: \.self) { trait in
+            Text(trait)
+              .font(.system(size: 10, weight: .semibold))
+              .foregroundColor(.white.opacity(0.7))
+              .padding(.horizontal, 8)
+              .padding(.vertical, 4)
+              .background(Color.white.opacity(0.08))
+              .clipShape(Capsule())
+          }
+        }
+      }
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.horizontal, 24)
   }
 
   @ViewBuilder

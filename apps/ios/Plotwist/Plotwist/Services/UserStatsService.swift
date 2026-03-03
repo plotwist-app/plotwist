@@ -232,6 +232,105 @@ class UserStatsService {
     return result.watchedCountries
   }
 
+  // MARK: - Get Rating Insights
+  func getRatingInsights(userId: String, period: String = "all") async throws -> RatingInsights {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/rating-insights",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(RatingInsightsResponse.self, from: data).ratingInsights
+  }
+
+  // MARK: - Get Viewer Profile (AI)
+  func getViewerProfile(userId: String, language: String = "en-US") async throws -> String {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/viewer-profile",
+      queryItems: [URLQueryItem(name: "language", value: language)]
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(ViewerProfileResponse.self, from: data).viewerProfile
+  }
+
+  // MARK: - Get AI Recommendations
+  func getAIRecommendations(userId: String, language: String = "en-US", period: String = "all") async throws -> [AIRecommendation] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/ai-recommendations",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(AIRecommendationsResponse.self, from: data).recommendations
+  }
+
+  // MARK: - Get Taste DNA (AI)
+  func getTasteDNA(userId: String, language: String = "en-US", period: String = "all") async throws -> TasteDNAResult {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/taste-dna",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(TasteDNAResponse.self, from: data).tasteDNA
+  }
+
+
   // MARK: - Get Most Watched Series
   func getMostWatchedSeries(userId: String, language: String = "en-US", period: String = "all") async throws -> [MostWatchedSeries] {
     guard let url = buildURL(
@@ -474,6 +573,59 @@ struct StatsTimelineResponse: Codable {
   let sections: [TimelineSection]
   let nextCursor: String?
   let hasMore: Bool
+}
+
+// MARK: - Rating Insights Models
+
+struct RatingBucket: Codable, Identifiable {
+  let rating: Double
+  let count: Int
+
+  var id: Double { rating }
+}
+
+struct RatingInsights: Codable {
+  let averageRating: Double
+  let totalReviews: Int
+  let mostFrequentRating: Double
+  let distribution: [RatingBucket]
+}
+
+struct RatingInsightsResponse: Codable {
+  let ratingInsights: RatingInsights
+}
+
+// MARK: - Viewer Profile Models
+
+struct ViewerProfileResponse: Codable {
+  let viewerProfile: String
+}
+
+// MARK: - AI Recommendations Models
+
+struct AIRecommendation: Codable, Identifiable {
+  let title: String
+  let reason: String
+  let mediaType: String
+  let year: Int?
+
+  var id: String { title }
+}
+
+struct AIRecommendationsResponse: Codable {
+  let recommendations: [AIRecommendation]
+}
+
+// MARK: - Taste DNA Models
+
+struct TasteDNAResult: Codable {
+  let archetype: String
+  let summary: String
+  let traits: [String]
+}
+
+struct TasteDNAResponse: Codable {
+  let tasteDNA: TasteDNAResult
 }
 
 enum UserStatsError: LocalizedError {

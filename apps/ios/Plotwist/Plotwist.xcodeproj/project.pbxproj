@@ -11,6 +11,7 @@
 		BE67A2872F42A36F00AE7C77 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BE67A2862F42A36F00AE7C77 /* Release.xcconfig */; };
 		BEAA685E2F2FCE4300BFC6D9 /* Swiper in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA685D2F2FCE4300BFC6D9 /* Swiper */; };
 		BEAA68612F2FCFE000BFC6D9 /* Deck in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA68602F2FCFE000BFC6D9 /* Deck */; };
+		BEBB6F0A2F57382D005343C1 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = BE58C9022F54CA670047BB5D /* RevenueCat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEBB6F0A2F57382D005343C1 /* RevenueCat in Frameworks */,
 				BEAA685E2F2FCE4300BFC6D9 /* Swiper in Frameworks */,
 				BEAA68612F2FCFE000BFC6D9 /* Deck in Frameworks */,
 			);
@@ -403,6 +405,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BE58C9022F54CA670047BB5D /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
 		BEAA685D2F2FCE4300BFC6D9 /* Swiper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */;
@@ -412,11 +419,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BEAA685F2F2FCFE000BFC6D9 /* XCRemoteSwiftPackageReference "Deck" */;
 			productName = Deck;
-		};
-		BE58C9022F54CA670047BB5D /* RevenueCat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
