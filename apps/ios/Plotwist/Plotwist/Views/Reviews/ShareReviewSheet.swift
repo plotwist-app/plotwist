@@ -8,7 +8,7 @@ import UIKit
 
 // MARK: - Dominant Color Extraction
 
-private func extractDominantColors(from image: UIImage, count: Int = 3) -> [Color] {
+func extractDominantColors(from image: UIImage, count: Int = 3) -> [Color] {
   guard let cgImage = image.cgImage else { return [] }
 
   let size = 16
@@ -116,11 +116,7 @@ struct ShareReviewSheet: View {
   private var previewHeight: CGFloat { cardHeight * previewScale }
 
   private var sheetHeight: CGFloat {
-    let handle: CGFloat = 28
-    let carousel = previewHeight
-    let controls: CGFloat = 56
-    let button: CGFloat = 84
-    return handle + carousel + controls + button
+    28 + previewHeight + 44 + 68
   }
 
   private var sideInset: CGFloat {
@@ -136,7 +132,6 @@ struct ShareReviewSheet: View {
           .padding(.top, 12)
           .padding(.bottom, 16)
 
-        // Card carousel
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 12) {
             ForEach(ShareReviewLayout.allCases) { layout in
@@ -152,7 +147,7 @@ struct ShareReviewSheet: View {
                 backdropImage: backdropImage
               )
               .frame(width: cardWidth, height: cardHeight)
-              .clipShape(RoundedRectangle(cornerRadius: 24))
+              .clipShape(RoundedRectangle(cornerRadius: 32))
               .scaleEffect(previewScale)
               .frame(width: previewWidth, height: previewHeight)
               .scrollTransition(.interactive) { content, phase in
@@ -170,35 +165,30 @@ struct ShareReviewSheet: View {
         .contentMargins(.horizontal, sideInset, for: .scrollContent)
         .frame(height: previewHeight)
 
-        // Background style switcher (poster layout only)
-        if selectedLayout == .poster {
-          HStack(spacing: 10) {
-            ForEach(PosterBackground.allCases) { bg in
-              Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                  posterBg = bg
-                }
-              } label: {
-                bgPreviewCircle(bg)
-                  .frame(width: 32, height: 32)
-                  .clipShape(Circle())
-                  .overlay(
-                    Circle()
-                      .strokeBorder(
-                        posterBg == bg
-                          ? Color.appForegroundAdaptive
-                          : Color.appMutedForegroundAdaptive.opacity(0.2),
-                        lineWidth: 2
-                      )
-                  )
-              }
+        HStack(spacing: 10) {
+          ForEach(PosterBackground.allCases) { bg in
+            Button {
+              posterBg = bg
+            } label: {
+              bgPreviewCircle(bg)
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .overlay(
+                  Circle()
+                    .strokeBorder(
+                      posterBg == bg
+                        ? Color.appForegroundAdaptive
+                        : Color.appMutedForegroundAdaptive.opacity(0.2),
+                      lineWidth: 2
+                    )
+                )
             }
           }
-          .padding(.top, 12)
-          .transition(.opacity.combined(with: .scale(scale: 0.8)))
         }
+        .padding(.top, 12)
+        .opacity(selectedLayout == .poster ? 1 : 0)
+        .animation(.easeInOut(duration: 0.2), value: selectedLayout)
 
-        // Share button
         Button {
           shareImage()
         } label: {
@@ -214,10 +204,9 @@ struct ShareReviewSheet: View {
           .clipShape(Capsule())
         }
         .padding(.horizontal, 24)
-        .padding(.top, 20)
-        .padding(.bottom, 16)
+        .padding(.top, 12)
+        .padding(.bottom, 4)
       }
-      .animation(.easeInOut(duration: 0.25), value: selectedLayout)
     }
     .floatingSheetPresentation(height: sheetHeight)
     .preferredColorScheme(themeManager.current.colorScheme)
@@ -371,461 +360,5 @@ struct ShareReviewSheet: View {
       return topViewController(selected)
     }
     return base
-  }
-}
-
-// MARK: - Share Review Card View
-
-struct ShareReviewCardView: View {
-  let layout: ShareReviewLayout
-  let review: ReviewListItem
-  let mediaTitle: String
-  let mediaYear: String?
-  let posterImage: UIImage?
-  var posterBg: PosterBackground = .blur
-  var posterColors: [Color] = []
-  var avatarImage: UIImage?
-  var backdropImage: UIImage?
-
-  private let cardWidth: CGFloat = 1080 / 3
-  private let cardHeight: CGFloat = 1920 / 3
-
-  var body: some View {
-    Group {
-      switch layout {
-      case .poster: posterLayout
-      case .quoteFirst: quoteFirstLayout
-      case .ticket: ticketLayout
-      }
-    }
-    .frame(width: cardWidth, height: cardHeight)
-    .clipped()
-  }
-
-  // MARK: - Layout 1: Poster (visual hero — poster dominates)
-
-  private var posterLayout: some View {
-    ZStack {
-      posterBackground
-
-      VStack(spacing: 0) {
-        Spacer()
-
-        // Poster
-        Group {
-          if let image = posterImage {
-            Image(uiImage: image)
-              .resizable()
-              .aspectRatio(2 / 3, contentMode: .fit)
-          } else {
-            RoundedRectangle(cornerRadius: 28)
-              .fill(Color.white.opacity(0.08))
-              .aspectRatio(2 / 3, contentMode: .fit)
-          }
-        }
-        .frame(height: cardHeight * 0.38)
-        .clipShape(RoundedRectangle(cornerRadius: 28))
-        .overlay(
-          RoundedRectangle(cornerRadius: 28)
-            .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.4), radius: 20, y: 8)
-
-        Spacer().frame(height: 16)
-
-        // Title
-        Text(mediaTitle)
-          .font(.system(size: 20, weight: .bold))
-          .foregroundColor(.white)
-          .lineLimit(1)
-          .padding(.horizontal, 24)
-
-        Spacer().frame(height: 6)
-
-        // Stars
-        starsRow(rating: review.rating, size: 16)
-          .padding(.horizontal, 24)
-
-        // Review text
-        if !review.review.isEmpty {
-          Text("\"\(review.review)\"")
-            .font(.system(size: 12))
-            .foregroundColor(.white.opacity(0.55))
-            .lineSpacing(4)
-            .multilineTextAlignment(.center)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.horizontal, 28)
-            .padding(.top, 10)
-        }
-
-        Spacer()
-
-        // Footer: username via Plotwist
-        HStack(spacing: 6) {
-          avatarCircle(size: 20)
-
-          Text(review.user.username)
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.white.opacity(0.6))
-
-          Text("via")
-            .font(.system(size: 11))
-            .foregroundColor(.white.opacity(0.25))
-
-          Image("PlotistLogoMark")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 13)
-            .opacity(0.5)
-
-          Text("Plotwist")
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.white.opacity(0.4))
-        }
-        .padding(.bottom, 32)
-      }
-    }
-  }
-
-  private func avatarCircle(size: CGFloat) -> some View {
-    Group {
-      if let avatar = avatarImage {
-        Image(uiImage: avatar)
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      } else {
-        Circle()
-          .fill(Color.white.opacity(0.15))
-          .overlay(
-            Text(String(review.user.username.prefix(1)).uppercased())
-              .font(.system(size: size * 0.45, weight: .bold))
-              .foregroundColor(.white.opacity(0.6))
-          )
-      }
-    }
-    .frame(width: size, height: size)
-    .clipShape(Circle())
-  }
-
-  // MARK: - Poster Dynamic Background
-
-  @ViewBuilder
-  private var posterBackground: some View {
-    switch posterBg {
-    case .blur:
-      if let image = posterImage {
-        Image(uiImage: image)
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(width: cardWidth, height: cardHeight)
-          .blur(radius: 50)
-          .clipped()
-        Color.black.opacity(0.45)
-      } else {
-        Color(hex: "0A0A0A")
-      }
-    case .solid:
-      Color(hex: "0A0A0A")
-    case .gradient:
-      if posterColors.count >= 2 {
-        LinearGradient(
-          stops: [
-            .init(color: posterColors[0].opacity(0.5), location: 0),
-            .init(color: posterColors[1].opacity(0.35), location: 0.5),
-            .init(color: posterColors.count > 2 ? posterColors[2].opacity(0.5) : posterColors[0].opacity(0.5), location: 1),
-          ],
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        )
-        .frame(width: cardWidth, height: cardHeight)
-        .overlay(Color.black.opacity(0.4))
-      } else {
-        LinearGradient(
-          stops: [
-            .init(color: Color(hex: "1a1a2e"), location: 0),
-            .init(color: Color(hex: "16213e"), location: 0.35),
-            .init(color: Color(hex: "0f3460"), location: 0.7),
-            .init(color: Color(hex: "1a1a2e"), location: 1),
-          ],
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        )
-        .frame(width: cardWidth, height: cardHeight)
-      }
-    }
-  }
-
-  // MARK: - Layout 2: Quote First (typography as protagonist)
-
-  private var quoteFirstLayout: some View {
-    ZStack {
-      Color(hex: "0C0C0C")
-
-      VStack(spacing: 0) {
-        // Header: avatar + username
-        HStack(spacing: 12) {
-          avatarCircle(size: 42)
-          VStack(alignment: .leading, spacing: 2) {
-            Text(review.user.username)
-              .font(.system(size: 16, weight: .semibold))
-              .foregroundColor(.white)
-            Text("assistiu e avaliou")
-              .font(.system(size: 11))
-              .foregroundColor(.white.opacity(0.4))
-          }
-          Spacer()
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 48)
-
-        // Big quote — top left
-        Spacer().frame(height: 24)
-        VStack(alignment: .leading, spacing: 0) {
-          ZStack(alignment: .topLeading) {
-            Text("\u{201C}")
-              .font(.system(size: 64, weight: .ultraLight, design: .serif))
-              .foregroundColor(.white.opacity(0.1))
-              .offset(x: -6, y: -16)
-
-            if !review.review.isEmpty {
-              Text(review.review)
-                .font(.system(size: 20, weight: .light))
-                .foregroundColor(.white.opacity(0.95))
-                .lineSpacing(8)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.leading, 14)
-            }
-          }
-
-          Text("\u{201D}")
-            .font(.system(size: 64, weight: .ultraLight, design: .serif))
-            .foregroundColor(.white.opacity(0.1))
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .offset(y: -12)
-        }
-        .padding(.horizontal, 24)
-        Spacer()
-
-        // Movie info footer
-        VStack(spacing: 0) {
-          Rectangle()
-            .fill(Color.white.opacity(0.08))
-            .frame(height: 1)
-            .padding(.horizontal, 24)
-
-          HStack(spacing: 14) {
-            if let image = posterImage {
-              Image(uiImage: image)
-                .resizable()
-                .aspectRatio(2 / 3, contentMode: .fill)
-                .frame(width: 60, height: 90)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-                .shadow(color: .black.opacity(0.5), radius: 8, y: 4)
-            }
-
-            VStack(alignment: .leading, spacing: 6) {
-              Text(mediaTitle)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.white)
-                .lineLimit(2)
-
-              starsRow(rating: review.rating, size: 12)
-
-              Text("PLOTWIST")
-                .font(.system(size: 9, weight: .medium))
-                .tracking(2)
-                .foregroundColor(.white.opacity(0.3))
-                .padding(.top, 4)
-            }
-            Spacer()
-          }
-          .padding(.horizontal, 24)
-          .padding(.top, 16)
-          .padding(.bottom, 32)
-        }
-      }
-    }
-  }
-
-  // MARK: - Layout 3: Ticket (modern card)
-
-  private var ticketLayout: some View {
-    ZStack {
-      Color(hex: "0A0A0A")
-
-      // Subtle glow
-      Circle()
-        .fill(Color.white.opacity(0.02))
-        .frame(width: 280, height: 280)
-        .blur(radius: 40)
-        .offset(y: -60)
-
-      VStack(spacing: 0) {
-        Spacer()
-
-        // Main card
-        VStack(spacing: 0) {
-          // Backdrop area
-          ZStack(alignment: .bottom) {
-            if let image = backdropImage ?? posterImage {
-              Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: cardWidth - 32, height: (cardWidth - 32) * 9 / 16)
-                .clipped()
-            } else {
-              Color.white.opacity(0.04)
-                .frame(height: (cardWidth - 32) * 9 / 16)
-            }
-          }
-          .frame(height: (cardWidth - 32) * 9 / 16)
-          .clipped()
-
-          // Poster + title + stars
-          HStack(alignment: .bottom, spacing: 16) {
-            if let image = posterImage {
-              Image(uiImage: image)
-                .resizable()
-                .aspectRatio(2 / 3, contentMode: .fill)
-                .frame(width: 100, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .shadow(color: .black.opacity(0.05), radius: 0.5, x: 0, y: 0)
-                .shadow(color: .black.opacity(0.05), radius: 0.5, x: 0, y: 1)
-                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 8)
-                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 16)
-                .overlay(
-                  RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(Color.white.opacity(0.08), lineWidth: 0.5)
-                )
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-              if let year = mediaYear, !year.isEmpty {
-                Text(year)
-                  .font(.caption)
-                  .foregroundColor(.white.opacity(0.4))
-              }
-
-              Text(mediaTitle)
-                .font(.headline)
-                .foregroundColor(.white)
-                .lineLimit(2)
-
-              starsRow(rating: review.rating, size: 13)
-                .padding(.top, 2)
-            }
-            .padding(.bottom, 8)
-
-            Spacer(minLength: 0)
-          }
-          .padding(.horizontal, 20)
-          .offset(y: -28)
-
-          // Review below poster block
-          if !review.review.isEmpty {
-            Text(review.review)
-              .font(.subheadline)
-              .foregroundColor(.white.opacity(0.6))
-              .lineSpacing(5)
-              .fixedSize(horizontal: false, vertical: true)
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(.horizontal, 20)
-              .offset(y: -16)
-          }
-
-          // Footer divider + user
-          VStack(spacing: 0) {
-            Rectangle()
-              .fill(Color.white.opacity(0.06))
-              .frame(height: 1)
-
-            HStack {
-              HStack(spacing: 8) {
-                avatarCircle(size: 24)
-                Text(review.user.username)
-                  .font(.caption)
-                  .foregroundColor(.white.opacity(0.5))
-              }
-              Spacer()
-              HStack(spacing: 5) {
-                Image("PlotistLogoMark")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(height: 13)
-                Text("Plotwist")
-                  .font(.caption.weight(.semibold))
-                  .foregroundColor(.white)
-              }
-              .opacity(0.3)
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
-          }
-        }
-        .background(
-          RoundedRectangle(cornerRadius: 24)
-            .fill(Color(hex: "141416"))
-            .shadow(color: .black.opacity(0.4), radius: 20, y: 10)
-            .overlay(
-              RoundedRectangle(cornerRadius: 24)
-                .strokeBorder(Color.white.opacity(0.06), lineWidth: 0.5)
-            )
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .padding(.horizontal, 16)
-
-        Spacer()
-      }
-    }
-  }
-
-  // MARK: - Shared Components
-
-  private func ratingPill(_ rating: Double) -> some View {
-    HStack(spacing: 4) {
-      Image(systemName: "star.fill")
-        .font(.system(size: 11))
-        .foregroundColor(Color(hex: "FBBF24"))
-      Text(String(format: "%.1f", rating))
-        .font(.system(size: 13, weight: .bold, design: .rounded))
-        .foregroundColor(.white)
-    }
-    .padding(.horizontal, 10)
-    .padding(.vertical, 6)
-    .background(Color.black.opacity(0.6))
-    .clipShape(Capsule())
-  }
-
-  private func starsRow(rating: Double, size: CGFloat) -> some View {
-    HStack(spacing: 3) {
-      ForEach(1...5, id: \.self) { index in
-        let filled = Double(index) <= rating || Double(index) - 0.5 <= rating
-        let iconName: String = {
-          if Double(index) <= rating { return "star.fill" }
-          if Double(index) - 0.5 <= rating { return "star.leadinghalf.filled" }
-          return "star"
-        }()
-        Image(systemName: iconName)
-          .font(.system(size: size))
-          .foregroundColor(filled ? Color(hex: "FBBF24") : Color.white.opacity(0.2))
-      }
-    }
-  }
-
-  private var plotwistBranding: some View {
-    HStack(spacing: 6) {
-      Image("PlotistLogoMark")
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(height: 16)
-
-      Text("Plotwist")
-        .font(.system(size: 14, weight: .semibold))
-        .foregroundColor(.white)
-    }
-    .opacity(0.4)
-    .frame(maxWidth: .infinity)
-    .padding(.bottom, 32)
   }
 }
