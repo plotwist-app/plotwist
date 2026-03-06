@@ -466,6 +466,26 @@ struct DetailedReview: Codable, Identifiable {
     }
     return "(S\(String(format: "%02d", season)))"
   }
+
+  func toReviewListItem() -> ReviewListItem {
+    ReviewListItem(
+      id: id,
+      userId: userId,
+      tmdbId: tmdbId,
+      mediaType: mediaType == "MOVIE" ? "movie" : "tv",
+      review: review,
+      rating: rating,
+      hasSpoilers: hasSpoilers,
+      seasonNumber: seasonNumber,
+      episodeNumber: episodeNumber,
+      language: language,
+      createdAt: createdAt,
+      user: user,
+      likeCount: likeCount,
+      replyCount: replyCount,
+      userLike: userLike
+    )
+  }
 }
 
 struct PaginationInfo: Codable {

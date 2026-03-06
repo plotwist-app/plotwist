@@ -317,6 +317,8 @@ enum L10n {
       peakTimeNight: "Nights",
       evolution: "Evolution",
       shareMyStats: "Share",
+      copyLink: "Copy link",
+      linkCopied: "Copied!",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
       trackMoreInsights: "Track more to unlock insights",
@@ -731,6 +733,8 @@ enum L10n {
       peakTimeNight: "Madrugadas",
       evolution: "Evolução",
       shareMyStats: "Compartilhar",
+      copyLink: "Copiar link",
+      linkCopied: "Copiado!",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
       trackMoreInsights: "Registre mais para desbloquear insights",
@@ -1145,6 +1149,8 @@ enum L10n {
       peakTimeNight: "Madrugadas",
       evolution: "Evolución",
       shareMyStats: "Compartir",
+      copyLink: "Copiar enlace",
+      linkCopied: "¡Copiado!",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
       trackMoreInsights: "Registra más para desbloquear datos",
@@ -1559,6 +1565,8 @@ enum L10n {
       peakTimeNight: "Nuits",
       evolution: "Évolution",
       shareMyStats: "Partager",
+      copyLink: "Copier le lien",
+      linkCopied: "Copié !",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
       trackMoreInsights: "Suivez plus pour débloquer des insights",
@@ -1973,6 +1981,8 @@ enum L10n {
       peakTimeNight: "Nachts",
       evolution: "Entwicklung",
       shareMyStats: "Teilen",
+      copyLink: "Link kopieren",
+      linkCopied: "Kopiert!",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
       trackMoreInsights: "Tracke mehr, um Einblicke freizuschalten",
@@ -2387,6 +2397,8 @@ enum L10n {
       peakTimeNight: "Notti",
       evolution: "Evoluzione",
       shareMyStats: "Condividi",
+      copyLink: "Copia link",
+      linkCopied: "Copiato!",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
       trackMoreInsights: "Traccia di più per sbloccare approfondimenti",
@@ -2800,6 +2812,8 @@ enum L10n {
       peakTimeNight: "夜",
       evolution: "推移",
       shareMyStats: "共有",
+      copyLink: "リンクをコピー",
+      linkCopied: "コピーしました！",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
       trackMoreInsights: "もっとトラッキングしてインサイトを解除",
@@ -3225,6 +3239,8 @@ struct Strings {
   let peakTimeNight: String
   let evolution: String
   let shareMyStats: String
+  let copyLink: String
+  let linkCopied: String
   let unlockFullProfile: String
   let startTrackingStats: String
   let trackMoreInsights: String

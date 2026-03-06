@@ -96,6 +96,7 @@ struct ShareReviewSheet: View {
 
   @State private var selectedLayout: ShareReviewLayout? = .poster
   @State private var posterBg: PosterBackground = .blur
+  @State private var linkCopied = false
   @State private var posterImage: UIImage?
   @State private var posterColors: [Color] = []
   @State private var avatarImage: UIImage?
@@ -116,7 +117,7 @@ struct ShareReviewSheet: View {
   private var previewHeight: CGFloat { cardHeight * previewScale }
 
   private var sheetHeight: CGFloat {
-    28 + previewHeight + 44 + 68
+    28 + previewHeight + 44 + 108
   }
 
   private var sideInset: CGFloat {
@@ -205,6 +206,20 @@ struct ShareReviewSheet: View {
         }
         .padding(.horizontal, 24)
         .padding(.top, 12)
+
+        Button {
+          copyLink()
+        } label: {
+          HStack(spacing: 6) {
+            Image(systemName: linkCopied ? "checkmark" : "link")
+            Text(linkCopied ? L10n.current.linkCopied : L10n.current.copyLink)
+          }
+          .fontWeight(.semibold)
+          .frame(maxWidth: .infinity)
+          .frame(height: 44)
+          .foregroundColor(.appForegroundAdaptive.opacity(0.6))
+        }
+        .padding(.horizontal, 24)
         .padding(.bottom, 4)
       }
     }
@@ -288,6 +303,25 @@ struct ShareReviewSheet: View {
             }
           }
         } catch {}
+      }
+    }
+  }
+
+  // MARK: - Copy Link
+
+  private func copyLink() {
+    let lang = review.language ?? "en-US"
+    let langPrefix = String(lang.prefix(2))
+    let mediaPath = review.mediaType == "tv" ? "tv-series" : "movies"
+    let url = "https://plotwist.app/\(langPrefix)/\(mediaPath)/\(review.tmdbId)"
+    UIPasteboard.general.string = url
+
+    withAnimation(.easeInOut(duration: 0.2)) {
+      linkCopied = true
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      withAnimation(.easeInOut(duration: 0.2)) {
+        linkCopied = false
       }
     }
   }
