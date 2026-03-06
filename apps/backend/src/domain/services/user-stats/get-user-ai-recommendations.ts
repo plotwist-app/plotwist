@@ -3,8 +3,8 @@ import type { Language } from '@plotwist_app/tmdb'
 import { sql } from 'drizzle-orm'
 import OpenAI from 'openai'
 import { config } from '@/config'
-import { db } from '@/infra/db'
 import { tmdb } from '@/infra/adapters/tmdb'
+import { db } from '@/infra/db'
 import type { StatsPeriod } from '@/infra/http/schemas/common'
 
 type Input = {
@@ -17,12 +17,27 @@ type Input = {
 
 const MIN_VOTE_COUNT = 3000
 
-type Rec = { title: string; reason: string; mediaType: 'movie' | 'tv'; year?: number }
+type Rec = {
+  title: string
+  reason: string
+  mediaType: 'movie' | 'tv'
+  year?: number
+}
 
 type SearchHit = {
   id: number
   media_type?: string
   vote_count?: number
+  title?: string
+  name?: string
+}
+
+function normalizeTitle(s: string): string {
+  return s.trim().toLowerCase()
+}
+
+function hitTitle(h: SearchHit): string {
+  return (h.title ?? h.name ?? '').trim()
 }
 
 async function filterOutWatched(
@@ -34,20 +49,52 @@ async function filterOutWatched(
   for (const rec of recs) {
     try {
       const search = await tmdb.search.multi(rec.title, language)
-      const results = ((search as { results?: SearchHit[] }).results ?? []) as SearchHit[]
+      const results = ((search as { results?: SearchHit[] }).results ??
+        []) as SearchHit[]
       const mediaType = rec.mediaType === 'tv' ? 'tv' : 'movie'
-      const match = results.find(
+      const candidates = results.filter(
         (r: SearchHit) =>
           (r.media_type === 'movie' || r.media_type === 'tv') &&
           r.media_type === mediaType
       )
-      if (!match) continue
-      if (watchedSet.has(`${match.id}-${mediaType}`)) continue
+      if (candidates.length === 0) {
+        console.log('[ai-recommendations] filterOutWatched: no TMDB match', {
+          title: rec.title,
+          mediaType,
+        })
+        continue
+      }
+      const recNorm = normalizeTitle(rec.title)
+      const byTitleMatch = candidates.filter(
+        (r) => normalizeTitle(hitTitle(r)) === recNorm
+      )
+      const pool = byTitleMatch.length > 0 ? byTitleMatch : candidates
+      const match = pool.reduce((best, r) =>
+        (r.vote_count ?? 0) > (best.vote_count ?? 0) ? r : best
+      )
+      if (watchedSet.has(`${match.id}-${mediaType}`)) {
+        console.log('[ai-recommendations] filterOutWatched: already watched', {
+          title: rec.title,
+          tmdbId: match.id,
+        })
+        continue
+      }
       const votes = match.vote_count ?? 0
-      if (votes < MIN_VOTE_COUNT) continue
+      if (votes < MIN_VOTE_COUNT) {
+        console.log('[ai-recommendations] filterOutWatched: low votes', {
+          title: rec.title,
+          votes,
+          min: MIN_VOTE_COUNT,
+        })
+        continue
+      }
       kept.push(rec)
-    } catch {
-      // On error (e.g. no match), skip this rec so we don't surface obscure/unvalidated titles
+    } catch (e) {
+      console.log(
+        '[ai-recommendations] filterOutWatched: error for',
+        rec.title,
+        e instanceof Error ? e.message : e
+      )
     }
   }
   return kept
@@ -156,6 +203,12 @@ Return ONLY valid JSON array with exactly 5 objects (popular titles only; obscur
 
     const raw = completion.choices[0]?.message?.content?.trim() || '[]'
     recommendations = JSON.parse(raw)
+    console.log(
+      '[ai-recommendations] OpenAI raw count',
+      recommendations.length,
+      'titles:',
+      recommendations.map(r => r.title)
+    )
   } catch (err) {
     console.error(
       '[ai-recommendations] OpenAI error:',
@@ -166,6 +219,14 @@ Return ONLY valid JSON array with exactly 5 objects (popular titles only; obscur
 
   const filtered = await filterOutWatched(recommendations, watchedSet, language)
   const result = { recommendations: filtered.slice(0, 3) }
+  console.log(
+    '[ai-recommendations] after filter',
+    filtered.length,
+    'returning',
+    result.recommendations.length,
+    'titles:',
+    result.recommendations.map(r => r.title)
+  )
 
   if (filtered.length > 0) {
     await redis.set(cacheKey, JSON.stringify(result), 'EX', 60 * 60 * 24 * 7)

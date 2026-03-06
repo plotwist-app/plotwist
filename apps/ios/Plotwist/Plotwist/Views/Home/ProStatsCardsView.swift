@@ -110,11 +110,19 @@ struct ProStatsCardsView: View {
   }
 
   private func loadRecommendations(language: String, period: String) async {
-    guard let recs = try? await UserStatsService.shared.getAIRecommendations(userId: userId, language: language, period: period),
-          !recs.isEmpty else {
+    let rawRecs: [AIRecommendation]?
+    do {
+      rawRecs = try await UserStatsService.shared.getAIRecommendations(userId: userId, language: language, period: period)
+    } catch {
+      print("[AI Recs] API error: \(error)")
+      rawRecs = nil
+    }
+    guard let recs = rawRecs, !recs.isEmpty else {
+      print("[AI Recs] API returned empty or error; count: \(rawRecs?.count ?? 0)")
       withAnimation(.easeIn(duration: 0.25)) { resolvedRecs = nil; recsLoadedPeriod = period; recsLoaded = true }
       return
     }
+    print("[AI Recs] API raw count: \(recs.count), titles: \(recs.map(\.title))")
 
     let resolved = await withTaskGroup(of: ResolvedRecommendation.self, returning: [ResolvedRecommendation].self) { group in
       for rec in recs {
@@ -155,6 +163,11 @@ struct ProStatsCardsView: View {
 
     let ordered = recs.compactMap { rec in resolved.first(where: { $0.rec.title == rec.title }) }
     let withPoster = ordered.filter { $0.posterURL != nil }
+    let withoutPoster = ordered.filter { $0.posterURL == nil }
+    print("[AI Recs] resolved: \(resolved.count), ordered: \(ordered.count), withPoster: \(withPoster.count), withoutPoster: \(withoutPoster.count)")
+    if !withoutPoster.isEmpty {
+      print("[AI Recs] no poster for: \(withoutPoster.map(\.rec.title))")
+    }
     withAnimation(.easeIn(duration: 0.25)) { resolvedRecs = withPoster; recsLoadedPeriod = period; recsLoaded = true }
   }
 }
