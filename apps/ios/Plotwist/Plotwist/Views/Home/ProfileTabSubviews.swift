@@ -140,44 +140,70 @@ struct ProfileStatusTabs: View {
 struct ProfileQuickStats: View {
   let moviesCount: Int
   let seriesCount: Int
+  @Binding var followersCount: Int
+  let followingCount: Int
+  let userId: String
   let isLoading: Bool
   let strings: Strings
+  var isOwnProfile: Bool = false
+  var onUserSelected: ((FollowerUser) -> Void)? = nil
+
+  @State private var showFollowersList = false
+  @State private var showFollowingList = false
+  @ObservedObject private var themeManager = ThemeManager.shared
 
   var body: some View {
     HStack(spacing: 0) {
-      // Movies
-      HStack(spacing: 6) {
-        Text("\(moviesCount)")
-          .font(.subheadline.weight(.semibold))
+      Button { showFollowersList = true } label: {
+        statCell(count: followersCount, label: strings.followersLabel, isFirst: true)
+      }
+      .buttonStyle(.plain)
+
+      Button { showFollowingList = true } label: {
+        statCell(count: followingCount, label: strings.followingLabel)
+      }
+      .buttonStyle(.plain)
+
+      statCell(count: moviesCount, label: strings.movies)
+
+      statCell(count: seriesCount, label: strings.series, isLast: true)
+    }
+    .frame(maxWidth: .infinity)
+    .redacted(reason: isLoading ? .placeholder : [])
+    .sheet(isPresented: $showFollowersList) {
+      FollowersListView(userId: userId, variant: .followers, count: followersCount, onUserSelected: onUserSelected)
+        .floatingSheetPresentation(detents: [.medium, .large])
+        .preferredColorScheme(themeManager.current.colorScheme)
+    }
+    .sheet(isPresented: $showFollowingList) {
+      FollowersListView(userId: userId, variant: .following, count: followingCount, onUserSelected: onUserSelected)
+        .floatingSheetPresentation(detents: [.medium, .large])
+        .preferredColorScheme(themeManager.current.colorScheme)
+    }
+  }
+
+  private func statCell(count: Int, label: String, isFirst: Bool = false, isLast: Bool = false) -> some View {
+    HStack(spacing: 0) {
+      VStack(alignment: .leading, spacing: 2) {
+        Text("\(count)")
+          .font(.body.weight(.semibold))
           .foregroundColor(.appForegroundAdaptive)
           .contentTransition(.numericText())
 
-        Text(strings.movies)
-          .font(.subheadline)
+        Text(label)
+          .font(.caption)
           .foregroundColor(.appMutedForegroundAdaptive)
+          .lineLimit(1)
       }
-      .redacted(reason: isLoading ? .placeholder : [])
+      .padding(.leading, isFirst ? 0 : 12)
+      .padding(.trailing, isLast ? 0 : 12)
+      .frame(maxWidth: .infinity, alignment: .leading)
 
-      // Divider
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .frame(width: 1, height: 14)
-        .padding(.horizontal, 12)
-
-      // Series
-      HStack(spacing: 6) {
-        Text("\(seriesCount)")
-          .font(.subheadline.weight(.semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .contentTransition(.numericText())
-
-        Text(strings.series)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
+      if !isLast {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 1, height: 32)
       }
-      .redacted(reason: isLoading ? .placeholder : [])
-
-      Spacer()
     }
   }
 }

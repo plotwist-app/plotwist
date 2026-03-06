@@ -141,6 +141,8 @@ extension ProfileTabView {
       withAnimation(.snappy) {
         moviesCount = stats.watchedMoviesCount
         seriesCount = stats.watchedSeriesCount
+        followersCount = stats.followersCount
+        followingCount = stats.followingCount
       }
       cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
     } catch {

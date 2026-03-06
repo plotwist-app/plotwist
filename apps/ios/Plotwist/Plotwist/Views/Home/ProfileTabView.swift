@@ -19,12 +19,15 @@ struct ProfileTabView: View {
   @State var totalReviewsCount: Int = 0
   @State var moviesCount: Int = 0
   @State var seriesCount: Int = 0
+  @State var followersCount: Int = 0
+  @State var followingCount: Int = 0
   @State var isLoadingQuickStats: Bool = true
   @State var scrollOffset: CGFloat = 0
   @State var initialScrollOffset: CGFloat? = nil
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
   @State var selectedMediaItem: UserItemSummary?
+  @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
@@ -100,6 +103,8 @@ struct ProfileTabView: View {
           totalReviewsCount = 0
           moviesCount = 0
           seriesCount = 0
+          followersCount = 0
+          followingCount = 0
           isLoadingQuickStats = true
           isInitialLoad = true
         }
@@ -112,6 +117,13 @@ struct ProfileTabView: View {
         MediaDetailView(
           mediaId: item.tmdbId,
           mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        )
+      }
+      .navigationDestination(item: $selectedFollowerUser) { follower in
+        UserProfileView(
+          userId: follower.id,
+          initialUsername: follower.username,
+          initialAvatarUrl: follower.avatarUrl
         )
       }
       .fullScreenCover(isPresented: $showReorderCollection) {
@@ -293,8 +305,15 @@ struct ProfileTabView: View {
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
+        followersCount: $followersCount,
+        followingCount: followingCount,
+        userId: user.id,
         isLoading: isLoadingQuickStats,
-        strings: strings
+        strings: strings,
+        isOwnProfile: true,
+        onUserSelected: { follower in
+          selectedFollowerUser = follower
+        }
       )
       .padding(.horizontal, 24)
       .padding(.bottom, 12)

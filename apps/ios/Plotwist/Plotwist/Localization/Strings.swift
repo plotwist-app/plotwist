@@ -426,7 +426,14 @@ enum L10n {
       cropAndSave: "Crop & Save",
       avatarSaving: "Saving...",
       avatarSaved: "Avatar updated!",
-      privacyPolicy: "Privacy Policy"
+      privacyPolicy: "Privacy Policy",
+      followAction: "Follow",
+      followBackAction: "Follow back",
+      unfollowAction: "Unfollow",
+      followersLabel: "Followers",
+      followingLabel: "Following",
+      noFollowers: "No followers yet",
+      noFollowing: "Not following anyone yet"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -833,7 +840,14 @@ enum L10n {
       cropAndSave: "Recortar e Salvar",
       avatarSaving: "Salvando...",
       avatarSaved: "Avatar atualizado!",
-      privacyPolicy: "Política de Privacidade"
+      privacyPolicy: "Política de Privacidade",
+      followAction: "Seguir",
+      followBackAction: "Seguir de volta",
+      unfollowAction: "Deixar de seguir",
+      followersLabel: "Seguidores",
+      followingLabel: "Seguindo",
+      noFollowers: "Nenhum seguidor ainda",
+      noFollowing: "Não segue ninguém ainda"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1240,7 +1254,14 @@ enum L10n {
       cropAndSave: "Recortar y Guardar",
       avatarSaving: "Guardando...",
       avatarSaved: "¡Avatar actualizado!",
-      privacyPolicy: "Política de Privacidad"
+      privacyPolicy: "Política de Privacidad",
+      followAction: "Seguir",
+      followBackAction: "Seguir de vuelta",
+      unfollowAction: "Dejar de seguir",
+      followersLabel: "Seguidores",
+      followingLabel: "Siguiendo",
+      noFollowers: "Aún no hay seguidores",
+      noFollowing: "Aún no sigue a nadie"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1647,7 +1668,14 @@ enum L10n {
       cropAndSave: "Recadrer et Enregistrer",
       avatarSaving: "Enregistrement...",
       avatarSaved: "Avatar mis à jour !",
-      privacyPolicy: "Politique de confidentialité"
+      privacyPolicy: "Politique de confidentialité",
+      followAction: "Suivre",
+      followBackAction: "Suivre en retour",
+      unfollowAction: "Ne plus suivre",
+      followersLabel: "Abonnés",
+      followingLabel: "Abonnements",
+      noFollowers: "Aucun abonné pour le moment",
+      noFollowing: "Ne suit personne pour le moment"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -2054,7 +2082,14 @@ enum L10n {
       cropAndSave: "Zuschneiden & Speichern",
       avatarSaving: "Speichern...",
       avatarSaved: "Avatar aktualisiert!",
-      privacyPolicy: "Datenschutzrichtlinie"
+      privacyPolicy: "Datenschutzrichtlinie",
+      followAction: "Folgen",
+      followBackAction: "Zurückfolgen",
+      unfollowAction: "Entfolgen",
+      followersLabel: "Follower",
+      followingLabel: "Folge ich",
+      noFollowers: "Noch keine Follower",
+      noFollowing: "Folgt noch niemandem"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -2461,7 +2496,14 @@ enum L10n {
       cropAndSave: "Ritaglia e Salva",
       avatarSaving: "Salvataggio...",
       avatarSaved: "Avatar aggiornato!",
-      privacyPolicy: "Informativa sulla privacy"
+      privacyPolicy: "Informativa sulla privacy",
+      followAction: "Segui",
+      followBackAction: "Segui anche tu",
+      unfollowAction: "Smetti di seguire",
+      followersLabel: "Follower",
+      followingLabel: "Seguiti",
+      noFollowers: "Ancora nessun follower",
+      noFollowing: "Non segue ancora nessuno"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -2867,7 +2909,14 @@ enum L10n {
       cropAndSave: "切り抜いて保存",
       avatarSaving: "保存中...",
       avatarSaved: "アバターが更新されました！",
-      privacyPolicy: "プライバシーポリシー"
+      privacyPolicy: "プライバシーポリシー",
+      followAction: "フォロー",
+      followBackAction: "フォローバック",
+      unfollowAction: "フォロー解除",
+      followersLabel: "フォロワー",
+      followingLabel: "フォロー中",
+      noFollowers: "まだフォロワーがいません",
+      noFollowing: "まだ誰もフォローしていません"
     ),
   ]
 }
@@ -3289,4 +3338,12 @@ struct Strings {
   let avatarSaved: String
   // Legal
   let privacyPolicy: String
+  // Follow
+  let followAction: String
+  let followBackAction: String
+  let unfollowAction: String
+  let followersLabel: String
+  let followingLabel: String
+  let noFollowers: String
+  let noFollowing: String
 }

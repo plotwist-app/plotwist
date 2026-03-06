@@ -24,13 +24,20 @@ struct UserProfileView: View {
   @State private var totalReviewsCount: Int = 0
   @State private var moviesCount: Int = 0
   @State private var seriesCount: Int = 0
+  @State private var followersCount: Int = 0
+  @State private var followingCount: Int = 0
   @State private var isLoadingQuickStats: Bool = true
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
+  @State private var selectedFollowerUser: FollowerUser?
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private let avatarSize: CGFloat = 56
   private let scrollThreshold: CGFloat = 80
+
+  private var isOwnProfile: Bool {
+    CollectionCache.shared.user?.id == userId
+  }
 
   private var isScrolled: Bool {
     guard let initial = initialScrollOffset else { return false }
@@ -55,6 +62,13 @@ struct UserProfileView: View {
     }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
+    .navigationDestination(item: $selectedFollowerUser) { follower in
+      UserProfileView(
+        userId: follower.id,
+        initialUsername: follower.username,
+        initialAvatarUrl: follower.avatarUrl
+      )
+    }
     .task {
       await loadData()
     }
@@ -182,15 +196,20 @@ struct UserProfileView: View {
       .padding(.top, 16)
       .padding(.bottom, 12)
 
-      // Quick stats
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
+        followersCount: $followersCount,
+        followingCount: followingCount,
+        userId: user.id,
         isLoading: isLoadingQuickStats,
-        strings: strings
+        strings: strings,
+        onUserSelected: { follower in
+          selectedFollowerUser = follower
+        }
       )
-        .padding(.horizontal, 24)
-        .padding(.bottom, 12)
+      .padding(.horizontal, 24)
+      .padding(.bottom, 12)
 
       if let biography = user.biography, !biography.isEmpty {
         Text(biography)
@@ -200,6 +219,12 @@ struct UserProfileView: View {
           .multilineTextAlignment(.leading)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
+      }
+
+      if AuthService.shared.isAuthenticated && !isOwnProfile {
+        FollowButton(userId: user.id, followersCount: $followersCount)
+          .padding(.horizontal, 24)
+          .padding(.top, 12)
       }
     }
   }
@@ -366,6 +391,8 @@ struct UserProfileView: View {
       withAnimation(.snappy) {
         moviesCount = stats.watchedMoviesCount
         seriesCount = stats.watchedSeriesCount
+        followersCount = stats.followersCount
+        followingCount = stats.followingCount
       }
     } catch {
       print("Error loading quick stats: \(error)")
