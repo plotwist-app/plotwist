@@ -68,6 +68,7 @@ struct EditLanguageView: View {
       ForEach(Language.allCases, id: \.self) { lang in
         Button {
           Language.current = lang
+          dismiss()
         } label: {
           HStack(spacing: 12) {
             Text(lang.flag)
