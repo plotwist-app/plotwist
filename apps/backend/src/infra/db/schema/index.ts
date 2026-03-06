@@ -652,6 +652,35 @@ export const feedbacksRelations = relations(feedbacks, ({ one }) => ({
   }),
 }))
 
+export const userFavorites = pgTable(
+  'user_favorites',
+  {
+    id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    position: integer('position').default(0).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  userFavorites => ({
+    uniqueFavorite: unique('user_favorites_userid_tmdbid_media_type_unique').on(
+      userFavorites.userId,
+      userFavorites.tmdbId,
+      userFavorites.mediaType
+    ),
+    userIdx: index('idx_user_favorites_user').on(userFavorites.userId),
+  })
+)
+
+export const userFavoritesRelations = relations(userFavorites, ({ one }) => ({
+  user: one(users, {
+    fields: [userFavorites.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -673,6 +702,7 @@ export const schema = {
   subscriptions,
   subscriptionTypeEnum,
   feedbacks,
+  userFavorites,
 }
 
 export * from './user-preferences'

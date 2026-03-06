@@ -44,6 +44,7 @@ extension ProfileTabView {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadFavoritesCount()
 
     isInitialLoad = false
   }
@@ -167,6 +168,19 @@ extension ProfileTabView {
     } catch {
       print("Error loading reviews count: \(error)")
       totalReviewsCount = 0
+    }
+  }
+
+  // MARK: - Load Favorites Count
+  func loadFavoritesCount() async {
+    guard let userId = user?.id else { return }
+    do {
+      let favorites = try await FavoritesService.shared.getFavorites(userId: userId)
+      withAnimation(.snappy) {
+        hasFavorites = !favorites.isEmpty
+      }
+    } catch {
+      hasFavorites = false
     }
   }
 

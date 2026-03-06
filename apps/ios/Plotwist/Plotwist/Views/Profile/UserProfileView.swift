@@ -30,9 +30,17 @@ struct UserProfileView: View {
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var selectedFollowerUser: FollowerUser?
+  @State private var hasFavorites = false
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private let avatarSize: CGFloat = 56
+
+  private var visibleMainTabs: [ProfileMainTab] {
+    ProfileMainTab.allCases.filter { tab in
+      if tab == .favorites { return hasFavorites }
+      return true
+    }
+  }
   private let scrollThreshold: CGFloat = 80
 
   private var isOwnProfile: Bool {
@@ -108,9 +116,10 @@ struct UserProfileView: View {
             selectedTab: $selectedMainTab,
             slideFromTrailing: $slideFromTrailing,
             strings: strings,
-            reviewsCount: totalReviewsCount
+            reviewsCount: totalReviewsCount,
+            visibleTabs: visibleMainTabs
           )
-          .padding(.top, 20)
+          .padding(.top, 28)
           .padding(.bottom, 8)
 
           tabContentView(userId: user.id)
@@ -226,6 +235,7 @@ struct UserProfileView: View {
           .padding(.horizontal, 24)
           .padding(.top, 12)
       }
+
     }
   }
 
@@ -235,6 +245,9 @@ struct UserProfileView: View {
       switch selectedMainTab {
       case .collection:
         collectionTabContent(userId: userId)
+      case .favorites:
+        FavoritesSection(isOwnProfile: isOwnProfile, userId: userId)
+          .padding(.bottom, 24)
       case .reviews:
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
@@ -335,6 +348,7 @@ struct UserProfileView: View {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadFavoritesCount()
     isLoading = false
   }
 
@@ -407,6 +421,17 @@ struct UserProfileView: View {
     } catch {
       print("Error loading reviews count: \(error)")
       totalReviewsCount = 0
+    }
+  }
+
+  private func loadFavoritesCount() async {
+    do {
+      let favorites = try await FavoritesService.shared.getFavorites(userId: userId)
+      withAnimation(.snappy) {
+        hasFavorites = !favorites.isEmpty
+      }
+    } catch {
+      hasFavorites = false
     }
   }
 }

@@ -29,12 +29,20 @@ struct ProfileTabView: View {
   @State var selectedMediaItem: UserItemSummary?
   @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
+  @State var hasFavorites = false
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
+
+  var visibleMainTabs: [ProfileMainTab] {
+    ProfileMainTab.allCases.filter { tab in
+      if tab == .favorites { return hasFavorites }
+      return true
+    }
+  }
   private let scrollThreshold: CGFloat = 80
 
   private var isScrolled: Bool {
@@ -219,9 +227,10 @@ struct ProfileTabView: View {
           selectedTab: $selectedMainTab,
           slideFromTrailing: $slideFromTrailing,
           strings: strings,
-          reviewsCount: totalReviewsCount
+          reviewsCount: totalReviewsCount,
+          visibleTabs: visibleMainTabs
         )
-        .padding(.top, 20)
+        .padding(.top, 28)
         .padding(.bottom, 8)
 
         tabContentView(userId: user.id)
@@ -327,6 +336,7 @@ struct ProfileTabView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
       }
+
     }
   }
 
@@ -336,6 +346,9 @@ struct ProfileTabView: View {
       switch selectedMainTab {
       case .collection:
         collectionTabContent
+      case .favorites:
+        FavoritesSection(isOwnProfile: true, userId: userId)
+          .padding(.bottom, 24)
       case .reviews:
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)

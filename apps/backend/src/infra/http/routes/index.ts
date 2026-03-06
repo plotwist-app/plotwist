@@ -9,6 +9,7 @@ import type { FastifyInstance } from 'fastify'
 import { config } from '@/config'
 import { registerRateLimit } from '../rate-limit'
 import { feedbackRoutes } from './feedback'
+import { userFavoritesRoutes } from './user-favorites'
 import { followsRoutes } from './follow'
 import { healthCheck } from './healthcheck'
 import { imagesRoutes } from './images'
@@ -80,6 +81,7 @@ export function routes(app: FastifyInstance) {
   app.register(watchEntriesRoutes)
   app.register(tmdbProxyRoutes)
   app.register(feedbackRoutes)
+  app.register(userFavoritesRoutes)
   // app.register(userRecommendationsRoutes)
 
   return

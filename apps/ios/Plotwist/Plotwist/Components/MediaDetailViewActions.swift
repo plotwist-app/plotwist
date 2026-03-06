@@ -17,27 +17,70 @@ struct MediaDetailViewActions: View {
   var onLoginRequired: (() -> Void)?
 
   @State private var showStatusSheet = false
+  @State private var isFavorite = false
+  @State private var isLoadingFavorite = false
+
+  private var apiMediaType: String {
+    mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+  }
 
   var body: some View {
-    HStack(spacing: 12) {
-      // Review Button
-      ReviewButton(hasReview: userReview != nil, isLoading: isLoadingReview, action: onReviewTapped)
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 10) {
+        ReviewButton(hasReview: userReview != nil, isLoading: isLoadingReview, action: onReviewTapped)
 
-      // Status Button
-      StatusButton(
-        currentStatus: userItem?.statusEnum,
-        rewatchCount: userItem?.watchEntries?.count ?? 0,
-        isLoading: isLoadingStatus,
-        action: {
+        StatusButton(
+          currentStatus: userItem?.statusEnum,
+          rewatchCount: userItem?.watchEntries?.count ?? 0,
+          isLoading: isLoadingStatus,
+          action: {
+            if AuthService.shared.isAuthenticated {
+              showStatusSheet = true
+            } else {
+              onLoginRequired?()
+            }
+          }
+        )
+
+        Button {
           if AuthService.shared.isAuthenticated {
-            showStatusSheet = true
+            Task { await toggleFavorite() }
           } else {
             onLoginRequired?()
           }
-        }
-      )
+        } label: {
+          HStack(spacing: 6) {
+            if isLoadingFavorite {
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+                .scaleEffect(0.7)
+                .frame(width: 13, height: 13)
+            } else {
+              Image(systemName: isFavorite ? "heart.fill" : "heart")
+                .font(.system(size: 13))
+                .foregroundColor(isFavorite ? .red : .appForegroundAdaptive)
+            }
 
-      Spacer()
+            Text(isFavorite ? L10n.current.favorited : L10n.current.favorite)
+              .font(.footnote.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+          }
+          .padding(.horizontal, 14)
+          .padding(.vertical, 10)
+          .background(Color.appInputFilled)
+          .cornerRadius(10)
+          .opacity(isLoadingFavorite ? 0.5 : 1)
+        }
+        .disabled(isLoadingFavorite)
+      }
+    }
+    .task {
+      guard AuthService.shared.isAuthenticated else { return }
+      do {
+        isFavorite = try await FavoritesService.shared.checkFavorite(
+          tmdbId: mediaId, mediaType: apiMediaType
+        )
+      } catch {}
     }
     .sheet(isPresented: $showStatusSheet) {
       StatusSheet(
@@ -58,6 +101,19 @@ struct MediaDetailViewActions: View {
         }
       )
     }
+  }
+
+  private func toggleFavorite() async {
+    isLoadingFavorite = true
+    defer { isLoadingFavorite = false }
+    do {
+      let result = try await FavoritesService.shared.toggleFavorite(
+        tmdbId: mediaId, mediaType: apiMediaType
+      )
+      withAnimation(.easeInOut(duration: 0.2)) {
+        isFavorite = result.action == "added"
+      }
+    } catch {}
   }
 
   private func reloadUserItem() async {

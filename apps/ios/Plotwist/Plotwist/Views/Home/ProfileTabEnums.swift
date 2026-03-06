@@ -60,12 +60,14 @@ enum ProfileStatusTab: String, CaseIterable {
 // MARK: - Profile Main Tab
 enum ProfileMainTab: CaseIterable {
   case collection
+  case favorites
   case reviews
   case stats
 
   func displayName(strings: Strings) -> String {
     switch self {
     case .collection: return strings.collection
+    case .favorites: return strings.favorites
     case .reviews: return strings.reviews
     case .stats: return strings.stats
     }
@@ -74,8 +76,9 @@ enum ProfileMainTab: CaseIterable {
   var index: Int {
     switch self {
     case .collection: return 0
-    case .reviews: return 1
-    case .stats: return 2
+    case .favorites: return 1
+    case .reviews: return 2
+    case .stats: return 3
     }
   }
 }

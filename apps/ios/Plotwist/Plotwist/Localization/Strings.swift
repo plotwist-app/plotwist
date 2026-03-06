@@ -319,6 +319,11 @@ enum L10n {
       shareMyStats: "Share",
       copyLink: "Copy link",
       linkCopied: "Copied!",
+      favorites: "Favorites",
+      favorite: "Favorite",
+      favorited: "Favorited",
+      favoritesEmptyOwn: "Tap ♥ on any title to add it here",
+      favoritesEmptyOther: "No favorites yet",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
       trackMoreInsights: "Track more to unlock insights",
@@ -735,6 +740,11 @@ enum L10n {
       shareMyStats: "Compartilhar",
       copyLink: "Copiar link",
       linkCopied: "Copiado!",
+      favorites: "Favoritos",
+      favorite: "Favoritar",
+      favorited: "Favoritado",
+      favoritesEmptyOwn: "Toque ♥ em qualquer título para adicioná-lo aqui",
+      favoritesEmptyOther: "Nenhum favorito ainda",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
       trackMoreInsights: "Registre mais para desbloquear insights",
@@ -1151,6 +1161,11 @@ enum L10n {
       shareMyStats: "Compartir",
       copyLink: "Copiar enlace",
       linkCopied: "¡Copiado!",
+      favorites: "Favoritos",
+      favorite: "Favorito",
+      favorited: "Favorito",
+      favoritesEmptyOwn: "Toca ♥ en cualquier título para añadirlo aquí",
+      favoritesEmptyOther: "Aún no hay favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
       trackMoreInsights: "Registra más para desbloquear datos",
@@ -1567,6 +1582,11 @@ enum L10n {
       shareMyStats: "Partager",
       copyLink: "Copier le lien",
       linkCopied: "Copié !",
+      favorites: "Favoris",
+      favorite: "Favori",
+      favorited: "Favori",
+      favoritesEmptyOwn: "Appuyez sur ♥ sur n'importe quel titre pour l'ajouter ici",
+      favoritesEmptyOther: "Pas encore de favoris",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
       trackMoreInsights: "Suivez plus pour débloquer des insights",
@@ -1983,6 +2003,11 @@ enum L10n {
       shareMyStats: "Teilen",
       copyLink: "Link kopieren",
       linkCopied: "Kopiert!",
+      favorites: "Favoriten",
+      favorite: "Favorit",
+      favorited: "Favorisiert",
+      favoritesEmptyOwn: "Tippe auf ♥ bei einem Titel, um ihn hier hinzuzufügen",
+      favoritesEmptyOther: "Noch keine Favoriten",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
       trackMoreInsights: "Tracke mehr, um Einblicke freizuschalten",
@@ -2399,6 +2424,11 @@ enum L10n {
       shareMyStats: "Condividi",
       copyLink: "Copia link",
       linkCopied: "Copiato!",
+      favorites: "Preferiti",
+      favorite: "Preferito",
+      favorited: "Preferito",
+      favoritesEmptyOwn: "Tocca ♥ su qualsiasi titolo per aggiungerlo qui",
+      favoritesEmptyOther: "Nessun preferito ancora",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
       trackMoreInsights: "Traccia di più per sbloccare approfondimenti",
@@ -2814,6 +2844,11 @@ enum L10n {
       shareMyStats: "共有",
       copyLink: "リンクをコピー",
       linkCopied: "コピーしました！",
+      favorites: "お気に入り",
+      favorite: "お気に入り",
+      favorited: "お気に入り済",
+      favoritesEmptyOwn: "♥をタップしてここに追加しましょう",
+      favoritesEmptyOther: "まだお気に入りがありません",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
       trackMoreInsights: "もっとトラッキングしてインサイトを解除",
@@ -3241,6 +3276,11 @@ struct Strings {
   let shareMyStats: String
   let copyLink: String
   let linkCopied: String
+  let favorites: String
+  let favorite: String
+  let favorited: String
+  let favoritesEmptyOwn: String
+  let favoritesEmptyOther: String
   let unlockFullProfile: String
   let startTrackingStats: String
   let trackMoreInsights: String

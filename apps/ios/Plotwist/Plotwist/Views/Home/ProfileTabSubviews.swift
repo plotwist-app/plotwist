@@ -11,57 +11,62 @@ struct ProfileMainTabs: View {
   @Binding var slideFromTrailing: Bool
   let strings: Strings
   var reviewsCount: Int = 0
+  var visibleTabs: [ProfileMainTab] = ProfileMainTab.allCases
   @Namespace private var tabNamespace
 
   private func badgeCount(for tab: ProfileMainTab) -> Int {
     switch tab {
     case .collection: return 0
+    case .favorites: return 0
     case .reviews: return reviewsCount
     case .stats: return 0
     }
   }
 
   var body: some View {
-    HStack(spacing: 0) {
-      ForEach(ProfileMainTab.allCases, id: \.self) { tab in
-        Button {
-          guard selectedTab != tab else { return }
-          slideFromTrailing = tab.index > selectedTab.index
-          withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-            selectedTab = tab
-          }
-        } label: {
-          VStack(spacing: 8) {
-            HStack(spacing: 6) {
-              Text(tab.displayName(strings: strings))
-                .font(.subheadline.weight(.medium))
-                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-
-              if badgeCount(for: tab) > 0 && selectedTab == tab {
-                CollectionCountBadge(count: badgeCount(for: tab))
-                  .transition(.scale.combined(with: .opacity))
-              }
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 0) {
+        ForEach(Array(visibleTabs.enumerated()), id: \.element) { index, tab in
+          Button {
+            guard selectedTab != tab else { return }
+            slideFromTrailing = tab.index > selectedTab.index
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+              selectedTab = tab
             }
+          } label: {
+            VStack(spacing: 8) {
+              HStack(spacing: 6) {
+                Text(tab.displayName(strings: strings))
+                  .font(.subheadline.weight(.medium))
+                  .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
 
-            ZStack {
-              Rectangle()
-                .fill(Color.clear)
-                .frame(height: 3)
+                if badgeCount(for: tab) > 0 && selectedTab == tab {
+                  CollectionCountBadge(count: badgeCount(for: tab))
+                    .transition(.scale.combined(with: .opacity))
+                }
+              }
 
-              if selectedTab == tab {
+              ZStack {
                 Rectangle()
-                  .fill(Color.appForegroundAdaptive)
+                  .fill(Color.clear)
                   .frame(height: 3)
-                  .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
+
+                if selectedTab == tab {
+                  Rectangle()
+                    .fill(Color.appForegroundAdaptive)
+                    .frame(height: 3)
+                    .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
+                }
               }
             }
+            .padding(.leading, index == 0 ? 0 : 16)
+            .padding(.trailing, index == visibleTabs.count - 1 ? 0 : 16)
           }
+          .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
-        .frame(maxWidth: .infinity)
       }
+      .padding(.horizontal, 24)
     }
-    .padding(.horizontal, 24)
     .overlay(
       Rectangle()
         .fill(Color.appBorderAdaptive)
