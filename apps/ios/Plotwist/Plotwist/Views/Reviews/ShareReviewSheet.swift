@@ -170,6 +170,7 @@ struct ShareReviewSheet: View {
           ForEach(PosterBackground.allCases) { bg in
             Button {
               posterBg = bg
+              Haptics.selection()
             } label: {
               bgPreviewCircle(bg)
                 .frame(width: 32, height: 32)
@@ -316,6 +317,7 @@ struct ShareReviewSheet: View {
     let url = "https://plotwist.app/\(langPrefix)/\(mediaPath)/\(review.tmdbId)"
     UIPasteboard.general.string = url
 
+    Haptics.notification(.success)
     withAnimation(.easeInOut(duration: 0.2)) {
       linkCopied = true
     }
@@ -375,6 +377,7 @@ struct ShareReviewSheet: View {
       let root = scene.windows.first?.rootViewController
     {
       let presenter = Self.topViewController(root)
+      Haptics.impact(.medium)
       presenter.present(activityVC, animated: true)
     }
   }

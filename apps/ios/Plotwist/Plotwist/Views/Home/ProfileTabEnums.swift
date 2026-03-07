@@ -63,6 +63,7 @@ enum ProfileMainTab: CaseIterable {
   case favorites
   case reviews
   case stats
+  case achievements
 
   func displayName(strings: Strings) -> String {
     switch self {
@@ -70,6 +71,7 @@ enum ProfileMainTab: CaseIterable {
     case .favorites: return strings.favorites
     case .reviews: return strings.reviews
     case .stats: return strings.stats
+    case .achievements: return strings.achievements
     }
   }
 
@@ -79,6 +81,7 @@ enum ProfileMainTab: CaseIterable {
     case .favorites: return 1
     case .reviews: return 2
     case .stats: return 3
+    case .achievements: return 4
     }
   }
 }

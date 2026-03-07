@@ -273,6 +273,7 @@ enum L10n {
       notificationAllow: "Allow notifications",
       // Stats
       stats: "Stats",
+      achievements: "Achievements",
       series: "Series",
       timeWatched: "Time Watched",
       youSpentWatching: "You spent %@ hours watching",
@@ -440,7 +441,60 @@ enum L10n {
       followersLabel: "Followers",
       followingLabel: "Following",
       noFollowers: "No followers yet",
-      noFollowing: "Not following anyone yet"
+      noFollowing: "Not following anyone yet",
+      // Achievements
+      badges: "Badges",
+      badgeUnlocked: "Badge Unlocked",
+      addedToProfile: "Added to your profile",
+      claimBadge: "Claim Badge",
+      achFirstSteps: "First Steps",
+      achFirstStepsDesc: "Add your first item to the collection",
+      achHorrorFan: "Horror Fan",
+      achHorrorFanDesc: "Watch 10 horror movies",
+      achBingeWatcher: "Binge Watcher",
+      achBingeWatcherDesc: "Finish 5 complete series",
+      achExplorer: "Explorer",
+      achExplorerDesc: "Watch titles from 10 different genres",
+      achCritic: "Critic",
+      achCriticDesc: "Write 10 reviews",
+      achMarathon: "Marathon",
+      achMarathonDesc: "Watch 3 movies in a single day",
+      achCinephile: "Cinephile",
+      achCinephileDesc: "Watch 100 movies",
+      achSocialButterfly: "Social Butterfly",
+      achSocialButterflyDesc: "Follow 10 people",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Add 50 items to your watchlist",
+      achLOTR: "One Ring to Rule Them All",
+      achLOTRDesc: "Watch the entire Lord of the Rings trilogy",
+      achStarWars: "May the Force Be With You",
+      achStarWarsDesc: "Watch all 9 Star Wars saga films",
+      achHarryPotter: "The Chosen One",
+      achHarryPotterDesc: "Watch all 8 Harry Potter films",
+      achMCU: "Avengers Assembled",
+      achMCUDesc: "Watch all Infinity Saga films (23 movies)",
+      achFastFurious: "Family First",
+      achFastFuriousDesc: "Watch all Fast & Furious films",
+      achGodfather: "An Offer You Can't Refuse",
+      achGodfatherDesc: "Watch The Godfather trilogy",
+      achDarkKnight: "The Dark Knight",
+      achDarkKnightDesc: "Watch Christopher Nolan's Batman trilogy",
+      achBackFuture: "Great Scott!",
+      achBackFutureDesc: "Watch the Back to the Future trilogy",
+      achIndianaJones: "Fortune and Glory",
+      achIndianaJonesDesc: "Watch all Indiana Jones films",
+      achMatrix: "Red Pill",
+      achMatrixDesc: "Watch The Matrix trilogy",
+      achAlien: "In Space No One Can Hear You",
+      achAlienDesc: "Watch the Alien quadrilogy",
+      achRocky: "Eye of the Tiger",
+      achRockyDesc: "Watch all Rocky & Creed films",
+      achMissionImpossible: "Your Mission, Should You Accept It",
+      achMissionImpossibleDesc: "Watch all Mission: Impossible films",
+      achToyStory: "To Infinity and Beyond",
+      achToyStoryDesc: "Watch all Toy Story films",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Watch all John Wick films"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -694,6 +748,7 @@ enum L10n {
       notificationAllow: "Permitir notificações",
       // Stats
       stats: "Estatísticas",
+      achievements: "Conquistas",
       series: "Séries",
       timeWatched: "Tempo Assistido",
       youSpentWatching: "Você passou %@ horas assistindo",
@@ -861,7 +916,60 @@ enum L10n {
       followersLabel: "Seguidores",
       followingLabel: "Seguindo",
       noFollowers: "Nenhum seguidor ainda",
-      noFollowing: "Não segue ninguém ainda"
+      noFollowing: "Não segue ninguém ainda",
+      // Achievements
+      badges: "Distintivos",
+      badgeUnlocked: "Distintivo Desbloqueado",
+      addedToProfile: "Adicionado ao seu perfil",
+      claimBadge: "Resgatar Distintivo",
+      achFirstSteps: "Primeiros Passos",
+      achFirstStepsDesc: "Adicione seu primeiro item à coleção",
+      achHorrorFan: "Fã de Terror",
+      achHorrorFanDesc: "Assista 10 filmes de terror",
+      achBingeWatcher: "Maratonista",
+      achBingeWatcherDesc: "Termine 5 séries completas",
+      achExplorer: "Explorador",
+      achExplorerDesc: "Assista títulos de 10 gêneros diferentes",
+      achCritic: "Crítico",
+      achCriticDesc: "Escreva 10 reviews",
+      achMarathon: "Maratona",
+      achMarathonDesc: "Assista 3 filmes em um único dia",
+      achCinephile: "Cinéfilo",
+      achCinephileDesc: "Assista 100 filmes",
+      achSocialButterfly: "Borboleta Social",
+      achSocialButterflyDesc: "Siga 10 pessoas",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Adicione 50 itens à sua watchlist",
+      achLOTR: "Um Anel Para Todos Governar",
+      achLOTRDesc: "Assista toda a trilogia Senhor dos Anéis",
+      achStarWars: "Que a Força Esteja Com Você",
+      achStarWarsDesc: "Assista todos os 9 filmes da saga Star Wars",
+      achHarryPotter: "O Escolhido",
+      achHarryPotterDesc: "Assista todos os 8 filmes de Harry Potter",
+      achMCU: "Vingadores Reunidos",
+      achMCUDesc: "Assista todos os filmes da Saga do Infinito (23 filmes)",
+      achFastFurious: "Família em Primeiro Lugar",
+      achFastFuriousDesc: "Assista todos os filmes de Velozes e Furiosos",
+      achGodfather: "Uma Oferta Irrecusável",
+      achGodfatherDesc: "Assista a trilogia O Poderoso Chefão",
+      achDarkKnight: "O Cavaleiro das Trevas",
+      achDarkKnightDesc: "Assista a trilogia Batman de Christopher Nolan",
+      achBackFuture: "Grande Scott!",
+      achBackFutureDesc: "Assista a trilogia De Volta Para o Futuro",
+      achIndianaJones: "Fortuna e Glória",
+      achIndianaJonesDesc: "Assista todos os filmes de Indiana Jones",
+      achMatrix: "Pílula Vermelha",
+      achMatrixDesc: "Assista a trilogia Matrix",
+      achAlien: "No Espaço Ninguém Pode Te Ouvir",
+      achAlienDesc: "Assista a quadrilogia Alien",
+      achRocky: "Olho do Tigre",
+      achRockyDesc: "Assista todos os filmes de Rocky e Creed",
+      achMissionImpossible: "Sua Missão, Se Decidir Aceitá-la",
+      achMissionImpossibleDesc: "Assista todos os filmes de Missão: Impossível",
+      achToyStory: "Ao Infinito e Além",
+      achToyStoryDesc: "Assista todos os filmes de Toy Story",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Assista todos os filmes de John Wick"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1115,6 +1223,7 @@ enum L10n {
       notificationAllow: "Permitir notificaciones",
       // Stats
       stats: "Estadísticas",
+      achievements: "Logros",
       series: "Series",
       timeWatched: "Tiempo Visto",
       youSpentWatching: "Pasaste %@ horas viendo",
@@ -1282,7 +1391,60 @@ enum L10n {
       followersLabel: "Seguidores",
       followingLabel: "Siguiendo",
       noFollowers: "Aún no hay seguidores",
-      noFollowing: "Aún no sigue a nadie"
+      noFollowing: "Aún no sigue a nadie",
+      // Achievements
+      badges: "Insignias",
+      badgeUnlocked: "Insignia Desbloqueada",
+      addedToProfile: "Añadida a tu perfil",
+      claimBadge: "Reclamar Insignia",
+      achFirstSteps: "Primeros Pasos",
+      achFirstStepsDesc: "Añade tu primer título a la colección",
+      achHorrorFan: "Fan del Terror",
+      achHorrorFanDesc: "Ve 10 películas de terror",
+      achBingeWatcher: "Maratonista",
+      achBingeWatcherDesc: "Termina 5 series completas",
+      achExplorer: "Explorador",
+      achExplorerDesc: "Ve títulos de 10 géneros diferentes",
+      achCritic: "Crítico",
+      achCriticDesc: "Escribe 10 reseñas",
+      achMarathon: "Maratón",
+      achMarathonDesc: "Ve 3 películas en un solo día",
+      achCinephile: "Cinéfilo",
+      achCinephileDesc: "Ve 100 películas",
+      achSocialButterfly: "Mariposa Social",
+      achSocialButterflyDesc: "Sigue a 10 personas",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Añade 50 títulos a tu watchlist",
+      achLOTR: "Un Anillo Para Gobernarlos a Todos",
+      achLOTRDesc: "Ve toda la trilogía de El Señor de los Anillos",
+      achStarWars: "Que la Fuerza Te Acompañe",
+      achStarWarsDesc: "Ve las 9 películas de la saga Star Wars",
+      achHarryPotter: "El Elegido",
+      achHarryPotterDesc: "Ve las 8 películas de Harry Potter",
+      achMCU: "Vengadores Unidos",
+      achMCUDesc: "Ve todas las películas de la Saga del Infinito (23 películas)",
+      achFastFurious: "La Familia Primero",
+      achFastFuriousDesc: "Ve todas las películas de Rápidos y Furiosos",
+      achGodfather: "Una Oferta Que No Podrás Rechazar",
+      achGodfatherDesc: "Ve la trilogía de El Padrino",
+      achDarkKnight: "El Caballero Oscuro",
+      achDarkKnightDesc: "Ve la trilogía de Batman de Christopher Nolan",
+      achBackFuture: "¡Gran Scott!",
+      achBackFutureDesc: "Ve la trilogía de Volver al Futuro",
+      achIndianaJones: "Fortuna y Gloria",
+      achIndianaJonesDesc: "Ve todas las películas de Indiana Jones",
+      achMatrix: "Píldora Roja",
+      achMatrixDesc: "Ve la trilogía de Matrix",
+      achAlien: "En el Espacio Nadie Puede Oírte",
+      achAlienDesc: "Ve la cuatrilogía de Alien",
+      achRocky: "Ojo del Tigre",
+      achRockyDesc: "Ve todas las películas de Rocky y Creed",
+      achMissionImpossible: "Tu Misión, Si Decides Aceptarla",
+      achMissionImpossibleDesc: "Ve todas las películas de Misión: Imposible",
+      achToyStory: "Hasta el Infinito y Más Allá",
+      achToyStoryDesc: "Ve todas las películas de Toy Story",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Ve todas las películas de John Wick"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1536,6 +1698,7 @@ enum L10n {
       notificationAllow: "Autoriser les notifications",
       // Stats
       stats: "Statistiques",
+      achievements: "Succès",
       series: "Séries",
       timeWatched: "Temps Regardé",
       youSpentWatching: "Vous avez passé %@ heures à regarder",
@@ -1703,7 +1866,60 @@ enum L10n {
       followersLabel: "Abonnés",
       followingLabel: "Abonnements",
       noFollowers: "Aucun abonné pour le moment",
-      noFollowing: "Ne suit personne pour le moment"
+      noFollowing: "Ne suit personne pour le moment",
+      // Achievements
+      badges: "Badges",
+      badgeUnlocked: "Badge Débloqué",
+      addedToProfile: "Ajouté à votre profil",
+      claimBadge: "Récupérer le Badge",
+      achFirstSteps: "Premiers Pas",
+      achFirstStepsDesc: "Ajoutez votre premier titre à la collection",
+      achHorrorFan: "Fan d'Horreur",
+      achHorrorFanDesc: "Regardez 10 films d'horreur",
+      achBingeWatcher: "Marathonien",
+      achBingeWatcherDesc: "Terminez 5 séries complètes",
+      achExplorer: "Explorateur",
+      achExplorerDesc: "Regardez des titres de 10 genres différents",
+      achCritic: "Critique",
+      achCriticDesc: "Rédigez 10 critiques",
+      achMarathon: "Marathon",
+      achMarathonDesc: "Regardez 3 films en une seule journée",
+      achCinephile: "Cinéphile",
+      achCinephileDesc: "Regardez 100 films",
+      achSocialButterfly: "Papillon Social",
+      achSocialButterflyDesc: "Suivez 10 personnes",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Ajoutez 50 titres à votre watchlist",
+      achLOTR: "Un Anneau Pour Les Gouverner Tous",
+      achLOTRDesc: "Regardez toute la trilogie du Seigneur des Anneaux",
+      achStarWars: "Que la Force Soit Avec Toi",
+      achStarWarsDesc: "Regardez les 9 films de la saga Star Wars",
+      achHarryPotter: "L'Élu",
+      achHarryPotterDesc: "Regardez les 8 films Harry Potter",
+      achMCU: "Avengers Rassemblement",
+      achMCUDesc: "Regardez tous les films de la Saga de l'Infini (23 films)",
+      achFastFurious: "La Famille d'Abord",
+      achFastFuriousDesc: "Regardez tous les films Fast & Furious",
+      achGodfather: "Une Offre Qu'on Ne Peut Refuser",
+      achGodfatherDesc: "Regardez la trilogie Le Parrain",
+      achDarkKnight: "Le Chevalier Noir",
+      achDarkKnightDesc: "Regardez la trilogie Batman de Christopher Nolan",
+      achBackFuture: "Nom de Zeus !",
+      achBackFutureDesc: "Regardez la trilogie Retour vers le Futur",
+      achIndianaJones: "Fortune et Gloire",
+      achIndianaJonesDesc: "Regardez tous les films Indiana Jones",
+      achMatrix: "Pilule Rouge",
+      achMatrixDesc: "Regardez la trilogie Matrix",
+      achAlien: "Dans l'Espace Personne Ne Vous Entend",
+      achAlienDesc: "Regardez la quadrilogie Alien",
+      achRocky: "L'Œil du Tigre",
+      achRockyDesc: "Regardez tous les films Rocky et Creed",
+      achMissionImpossible: "Votre Mission, Si Vous l'Acceptez",
+      achMissionImpossibleDesc: "Regardez tous les films Mission : Impossible",
+      achToyStory: "Vers l'Infini et Au-Delà",
+      achToyStoryDesc: "Regardez tous les films Toy Story",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Regardez tous les films John Wick"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -1957,6 +2173,7 @@ enum L10n {
       notificationAllow: "Benachrichtigungen erlauben",
       // Stats
       stats: "Statistiken",
+      achievements: "Erfolge",
       series: "Serien",
       timeWatched: "Gesehene Zeit",
       youSpentWatching: "Du hast %@ Stunden geschaut",
@@ -2124,7 +2341,60 @@ enum L10n {
       followersLabel: "Follower",
       followingLabel: "Folge ich",
       noFollowers: "Noch keine Follower",
-      noFollowing: "Folgt noch niemandem"
+      noFollowing: "Folgt noch niemandem",
+      // Achievements
+      badges: "Abzeichen",
+      badgeUnlocked: "Abzeichen Freigeschaltet",
+      addedToProfile: "Zu deinem Profil hinzugefügt",
+      claimBadge: "Abzeichen Einlösen",
+      achFirstSteps: "Erste Schritte",
+      achFirstStepsDesc: "Füge dein erstes Element zur Sammlung hinzu",
+      achHorrorFan: "Horrorfan",
+      achHorrorFanDesc: "Schau 10 Horrorfilme",
+      achBingeWatcher: "Serienjunkie",
+      achBingeWatcherDesc: "Beende 5 komplette Serien",
+      achExplorer: "Entdecker",
+      achExplorerDesc: "Schau Titel aus 10 verschiedenen Genres",
+      achCritic: "Kritiker",
+      achCriticDesc: "Schreibe 10 Bewertungen",
+      achMarathon: "Marathon",
+      achMarathonDesc: "Schau 3 Filme an einem Tag",
+      achCinephile: "Cineast",
+      achCinephileDesc: "Schau 100 Filme",
+      achSocialButterfly: "Sozialer Schmetterling",
+      achSocialButterflyDesc: "Folge 10 Personen",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Füge 50 Titel zu deiner Watchlist hinzu",
+      achLOTR: "Ein Ring Sie Zu Knechten",
+      achLOTRDesc: "Schau die gesamte Herr der Ringe-Trilogie",
+      achStarWars: "Möge die Macht Mit Dir Sein",
+      achStarWarsDesc: "Schau alle 9 Star Wars-Saga-Filme",
+      achHarryPotter: "Der Auserwählte",
+      achHarryPotterDesc: "Schau alle 8 Harry Potter-Filme",
+      achMCU: "Avengers Versammelt",
+      achMCUDesc: "Schau alle Infinity-Saga-Filme (23 Filme)",
+      achFastFurious: "Familie Zuerst",
+      achFastFuriousDesc: "Schau alle Fast & Furious-Filme",
+      achGodfather: "Ein Angebot, Das Du Nicht Ablehnen Kannst",
+      achGodfatherDesc: "Schau die Der Pate-Trilogie",
+      achDarkKnight: "Der Dunkle Ritter",
+      achDarkKnightDesc: "Schau Christopher Nolans Batman-Trilogie",
+      achBackFuture: "Großer Scott!",
+      achBackFutureDesc: "Schau die Zurück in die Zukunft-Trilogie",
+      achIndianaJones: "Reichtum und Ruhm",
+      achIndianaJonesDesc: "Schau alle Indiana Jones-Filme",
+      achMatrix: "Rote Pille",
+      achMatrixDesc: "Schau die Matrix-Trilogie",
+      achAlien: "Im Weltraum Hört Dich Niemand",
+      achAlienDesc: "Schau die Alien-Quadrilogie",
+      achRocky: "Auge des Tigers",
+      achRockyDesc: "Schau alle Rocky- und Creed-Filme",
+      achMissionImpossible: "Deine Mission, Solltest Du Sie Annehmen",
+      achMissionImpossibleDesc: "Schau alle Mission: Impossible-Filme",
+      achToyStory: "Bis zur Unendlichkeit und Noch Weiter",
+      achToyStoryDesc: "Schau alle Toy Story-Filme",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Schau alle John Wick-Filme"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -2378,6 +2648,7 @@ enum L10n {
       notificationAllow: "Consenti notifiche",
       // Stats
       stats: "Statistiche",
+      achievements: "Traguardi",
       series: "Serie",
       timeWatched: "Tempo Guardato",
       youSpentWatching: "Hai passato %@ ore guardando",
@@ -2545,7 +2816,60 @@ enum L10n {
       followersLabel: "Follower",
       followingLabel: "Seguiti",
       noFollowers: "Ancora nessun follower",
-      noFollowing: "Non segue ancora nessuno"
+      noFollowing: "Non segue ancora nessuno",
+      // Achievements
+      badges: "Distintivi",
+      badgeUnlocked: "Distintivo Sbloccato",
+      addedToProfile: "Aggiunto al tuo profilo",
+      claimBadge: "Riscatta Distintivo",
+      achFirstSteps: "Primi Passi",
+      achFirstStepsDesc: "Aggiungi il tuo primo titolo alla collezione",
+      achHorrorFan: "Fan dell'Horror",
+      achHorrorFanDesc: "Guarda 10 film horror",
+      achBingeWatcher: "Maratoneta",
+      achBingeWatcherDesc: "Finisci 5 serie complete",
+      achExplorer: "Esploratore",
+      achExplorerDesc: "Guarda titoli di 10 generi diversi",
+      achCritic: "Critico",
+      achCriticDesc: "Scrivi 10 recensioni",
+      achMarathon: "Maratona",
+      achMarathonDesc: "Guarda 3 film in un solo giorno",
+      achCinephile: "Cinefilo",
+      achCinephileDesc: "Guarda 100 film",
+      achSocialButterfly: "Farfalla Sociale",
+      achSocialButterflyDesc: "Segui 10 persone",
+      achWatchlistPro: "Watchlist Pro",
+      achWatchlistProDesc: "Aggiungi 50 titoli alla tua watchlist",
+      achLOTR: "Un Anello Per Domarli Tutti",
+      achLOTRDesc: "Guarda l'intera trilogia del Signore degli Anelli",
+      achStarWars: "Che la Forza Sia Con Te",
+      achStarWarsDesc: "Guarda tutti i 9 film della saga Star Wars",
+      achHarryPotter: "Il Prescelto",
+      achHarryPotterDesc: "Guarda tutti gli 8 film di Harry Potter",
+      achMCU: "Avengers Riuniti",
+      achMCUDesc: "Guarda tutti i film della Saga dell'Infinito (23 film)",
+      achFastFurious: "La Famiglia Prima di Tutto",
+      achFastFuriousDesc: "Guarda tutti i film di Fast & Furious",
+      achGodfather: "Un'Offerta Che Non Puoi Rifiutare",
+      achGodfatherDesc: "Guarda la trilogia de Il Padrino",
+      achDarkKnight: "Il Cavaliere Oscuro",
+      achDarkKnightDesc: "Guarda la trilogia di Batman di Christopher Nolan",
+      achBackFuture: "Grande Giove!",
+      achBackFutureDesc: "Guarda la trilogia di Ritorno al Futuro",
+      achIndianaJones: "Fortuna e Gloria",
+      achIndianaJonesDesc: "Guarda tutti i film di Indiana Jones",
+      achMatrix: "Pillola Rossa",
+      achMatrixDesc: "Guarda la trilogia di Matrix",
+      achAlien: "Nello Spazio Nessuno Può Sentirti",
+      achAlienDesc: "Guarda la quadrilogia di Alien",
+      achRocky: "L'Occhio della Tigre",
+      achRockyDesc: "Guarda tutti i film di Rocky e Creed",
+      achMissionImpossible: "La Tua Missione, Se Decidi di Accettarla",
+      achMissionImpossibleDesc: "Guarda tutti i film di Mission: Impossible",
+      achToyStory: "Verso l'Infinito e Oltre",
+      achToyStoryDesc: "Guarda tutti i film di Toy Story",
+      achJohnWick: "Baba Yaga",
+      achJohnWickDesc: "Guarda tutti i film di John Wick"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -2798,6 +3122,7 @@ enum L10n {
       notificationAllow: "通知を許可",
       // Stats
       stats: "統計",
+      achievements: "実績",
       series: "シリーズ",
       timeWatched: "視聴時間",
       youSpentWatching: "%@時間視聴しました",
@@ -2965,7 +3290,60 @@ enum L10n {
       followersLabel: "フォロワー",
       followingLabel: "フォロー中",
       noFollowers: "まだフォロワーがいません",
-      noFollowing: "まだ誰もフォローしていません"
+      noFollowing: "まだ誰もフォローしていません",
+      // Achievements
+      badges: "バッジ",
+      badgeUnlocked: "バッジ獲得",
+      addedToProfile: "プロフィールに追加されました",
+      claimBadge: "バッジを獲得",
+      achFirstSteps: "はじめの一歩",
+      achFirstStepsDesc: "最初のアイテムをコレクションに追加",
+      achHorrorFan: "ホラーファン",
+      achHorrorFanDesc: "ホラー映画を10本鑑賞",
+      achBingeWatcher: "イッキ見マスター",
+      achBingeWatcherDesc: "シリーズを5作品完走",
+      achExplorer: "エクスプローラー",
+      achExplorerDesc: "10種類のジャンルの作品を鑑賞",
+      achCritic: "批評家",
+      achCriticDesc: "レビューを10件書く",
+      achMarathon: "マラソン",
+      achMarathonDesc: "1日に映画を3本鑑賞",
+      achCinephile: "シネフィル",
+      achCinephileDesc: "映画を100本鑑賞",
+      achSocialButterfly: "社交家",
+      achSocialButterflyDesc: "10人をフォロー",
+      achWatchlistPro: "ウォッチリストプロ",
+      achWatchlistProDesc: "ウォッチリストに50作品追加",
+      achLOTR: "一つの指輪",
+      achLOTRDesc: "ロード・オブ・ザ・リング三部作を全て鑑賞",
+      achStarWars: "フォースと共にあれ",
+      achStarWarsDesc: "スター・ウォーズ・サーガ全9作品を鑑賞",
+      achHarryPotter: "選ばれし者",
+      achHarryPotterDesc: "ハリー・ポッター全8作品を鑑賞",
+      achMCU: "アベンジャーズ・アッセンブル",
+      achMCUDesc: "インフィニティ・サーガ全23作品を鑑賞",
+      achFastFurious: "ファミリーが一番",
+      achFastFuriousDesc: "ワイルド・スピード全作品を鑑賞",
+      achGodfather: "断れない申し出",
+      achGodfatherDesc: "ゴッドファーザー三部作を鑑賞",
+      achDarkKnight: "ダークナイト",
+      achDarkKnightDesc: "クリストファー・ノーランのバットマン三部作を鑑賞",
+      achBackFuture: "なんてこった！",
+      achBackFutureDesc: "バック・トゥ・ザ・フューチャー三部作を鑑賞",
+      achIndianaJones: "富と栄光",
+      achIndianaJonesDesc: "インディ・ジョーンズ全作品を鑑賞",
+      achMatrix: "レッドピル",
+      achMatrixDesc: "マトリックス三部作を鑑賞",
+      achAlien: "宇宙では誰にも聞こえない",
+      achAlienDesc: "エイリアン四部作を鑑賞",
+      achRocky: "アイ・オブ・ザ・タイガー",
+      achRockyDesc: "ロッキー＆クリード全作品を鑑賞",
+      achMissionImpossible: "君の任務、受けるなら",
+      achMissionImpossibleDesc: "ミッション：インポッシブル全作品を鑑賞",
+      achToyStory: "無限の彼方へ",
+      achToyStoryDesc: "トイ・ストーリー全作品を鑑賞",
+      achJohnWick: "ババ・ヤーガ",
+      achJohnWickDesc: "ジョン・ウィック全作品を鑑賞"
     ),
   ]
 }
@@ -3230,6 +3608,7 @@ struct Strings {
   let notificationAllow: String
   // Stats
   let stats: String
+  let achievements: String
   let series: String
   let timeWatched: String
   let youSpentWatching: String
@@ -3402,4 +3781,57 @@ struct Strings {
   let followingLabel: String
   let noFollowers: String
   let noFollowing: String
+  // Achievements
+  let badges: String
+  let badgeUnlocked: String
+  let addedToProfile: String
+  let claimBadge: String
+  let achFirstSteps: String
+  let achFirstStepsDesc: String
+  let achHorrorFan: String
+  let achHorrorFanDesc: String
+  let achBingeWatcher: String
+  let achBingeWatcherDesc: String
+  let achExplorer: String
+  let achExplorerDesc: String
+  let achCritic: String
+  let achCriticDesc: String
+  let achMarathon: String
+  let achMarathonDesc: String
+  let achCinephile: String
+  let achCinephileDesc: String
+  let achSocialButterfly: String
+  let achSocialButterflyDesc: String
+  let achWatchlistPro: String
+  let achWatchlistProDesc: String
+  let achLOTR: String
+  let achLOTRDesc: String
+  let achStarWars: String
+  let achStarWarsDesc: String
+  let achHarryPotter: String
+  let achHarryPotterDesc: String
+  let achMCU: String
+  let achMCUDesc: String
+  let achFastFurious: String
+  let achFastFuriousDesc: String
+  let achGodfather: String
+  let achGodfatherDesc: String
+  let achDarkKnight: String
+  let achDarkKnightDesc: String
+  let achBackFuture: String
+  let achBackFutureDesc: String
+  let achIndianaJones: String
+  let achIndianaJonesDesc: String
+  let achMatrix: String
+  let achMatrixDesc: String
+  let achAlien: String
+  let achAlienDesc: String
+  let achRocky: String
+  let achRockyDesc: String
+  let achMissionImpossible: String
+  let achMissionImpossibleDesc: String
+  let achToyStory: String
+  let achToyStoryDesc: String
+  let achJohnWick: String
+  let achJohnWickDesc: String
 }

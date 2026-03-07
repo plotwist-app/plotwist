@@ -20,6 +20,7 @@ struct ProfileMainTabs: View {
     case .favorites: return 0
     case .reviews: return reviewsCount
     case .stats: return 0
+    case .achievements: return 0
     }
   }
 
@@ -30,6 +31,7 @@ struct ProfileMainTabs: View {
           Button {
             guard selectedTab != tab else { return }
             slideFromTrailing = tab.index > selectedTab.index
+            Haptics.selection()
             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
               selectedTab = tab
             }
@@ -108,6 +110,7 @@ struct ProfileStatusTabs: View {
           let isSelected = selectedTab == tab
 
           Button {
+            Haptics.selection()
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
               selectedTab = tab
             }

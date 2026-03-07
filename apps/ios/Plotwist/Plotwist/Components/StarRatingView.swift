@@ -46,12 +46,12 @@ struct StarRatingView: View {
   private func handleTap(at location: CGPoint, in size: CGSize, for index: Int) {
     let tapPosition = location.x
     
-    // If tapped on left half, use .5, if right half use 1.0
     if tapPosition < size.width / 2 {
       rating = Double(index) - 0.5
     } else {
       rating = Double(index)
     }
+    Haptics.selection()
   }
 
   private func starImage(for index: Int) -> String {

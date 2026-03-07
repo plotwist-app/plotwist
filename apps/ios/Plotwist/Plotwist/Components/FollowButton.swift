@@ -85,6 +85,7 @@ struct FollowButton: View {
       isFollowing.toggle()
       followersCount += isFollowing ? 1 : -1
     }
+    Haptics.impact(isFollowing ? .medium : .light)
 
     do {
       if wasFollowing {

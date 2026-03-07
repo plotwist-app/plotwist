@@ -49,6 +49,7 @@ struct EditProfileTabs: View {
         Button {
           guard selectedTab != tab else { return }
           slideFromTrailing = tab.index > selectedTab.index
+          Haptics.selection()
           withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
             selectedTab = tab
           }
@@ -88,6 +89,7 @@ struct EditProfileTabs: View {
 
 struct EditProfileView: View {
   let initialUser: User
+  @Binding var achievements: [Achievement]
 
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) private var systemColorScheme
@@ -105,8 +107,13 @@ struct EditProfileView: View {
   @State private var isDeletingAccount = false
   @State private var showPaywall = false
 
-  init(user: User) {
+  private var claimedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed }
+  }
+
+  init(user: User, achievements: Binding<[Achievement]>) {
     self.initialUser = user
+    self._achievements = achievements
     self._user = State(initialValue: user)
   }
 
@@ -310,6 +317,27 @@ struct EditProfileView: View {
 
       // Plan
       planRow
+
+      if !claimedBadges.isEmpty {
+        fieldDivider
+
+        NavigationLink(destination: EditBadgesView(achievements: $achievements)) {
+          EditProfileBadgeRow(label: L10n.current.badges) {
+            let equipped = achievements.filter { $0.isClaimed && $0.isEquipped }
+            if equipped.isEmpty {
+              Text("-")
+                .font(.subheadline)
+                .foregroundColor(.appMutedForegroundAdaptive)
+            } else {
+              FlowLayout(spacing: 6) {
+                ForEach(equipped) { badge in
+                  ProfileBadge(text: badge.name, icon: badge.icon)
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -477,6 +505,7 @@ struct EditProfileView: View {
       }
 
       Button {
+        Haptics.notification(.warning)
         AuthService.shared.signOut()
       } label: {
         HStack(alignment: .center, spacing: 16) {

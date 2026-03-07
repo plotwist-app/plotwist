@@ -1,4 +1,4 @@
-import { and, eq, asc } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -22,7 +22,11 @@ export async function insertFavorite(values: {
     .returning()
 }
 
-export async function deleteFavorite(userId: string, tmdbId: number, mediaType: string) {
+export async function deleteFavorite(
+  userId: string,
+  tmdbId: number,
+  mediaType: string
+) {
   return db
     .delete(schema.userFavorites)
     .where(
@@ -40,10 +44,14 @@ export async function selectFavoritesByUser(userId: string) {
     .select()
     .from(schema.userFavorites)
     .where(eq(schema.userFavorites.userId, userId))
-    .orderBy(asc(schema.userFavorites.position))
+    .orderBy(desc(schema.userFavorites.createdAt))
 }
 
-export async function selectFavorite(userId: string, tmdbId: number, mediaType: string) {
+export async function selectFavorite(
+  userId: string,
+  tmdbId: number,
+  mediaType: string
+) {
   const [favorite] = await db
     .select()
     .from(schema.userFavorites)

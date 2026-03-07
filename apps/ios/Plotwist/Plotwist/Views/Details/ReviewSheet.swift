@@ -209,6 +209,7 @@ struct ReviewSheet: View {
 
         await MainActor.run {
           isLoading = false
+          Haptics.notification(.success)
           onSaved?()
           dismiss()
         }
@@ -242,6 +243,7 @@ struct ReviewSheet: View {
         
         await MainActor.run {
           isDeleting = false
+          Haptics.notification(.success)
           onDeleted?()
           dismiss()
         }

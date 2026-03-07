@@ -195,6 +195,8 @@ extension ProfileTabView {
         status: newStatus
       )
 
+      Haptics.notification(.success)
+
       AnalyticsService.shared.track(.mediaStatusChanged(
         tmdbId: item.tmdbId,
         mediaType: item.mediaType == "MOVIE" ? "movie" : "tv",
@@ -240,6 +242,8 @@ extension ProfileTabView {
         tmdbId: item.tmdbId,
         mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
       )
+
+      Haptics.notification(.success)
 
       AnalyticsService.shared.track(.mediaStatusRemoved(
         tmdbId: item.tmdbId,

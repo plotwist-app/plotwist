@@ -137,8 +137,7 @@ struct EditMediaTypesView: View {
         selectedTypes.remove(type)
       } else {
         selectedTypes.insert(type)
-        let impact = UIImpactFeedbackGenerator(style: .light)
-        impact.impactOccurred()
+        Haptics.impact(.light)
       }
     }
   }
@@ -216,8 +215,7 @@ struct EditGenresView: View {
                       selectedGenreIds.remove(genre.id)
                     } else {
                       selectedGenreIds.insert(genre.id)
-                      let impact = UIImpactFeedbackGenerator(style: .light)
-                      impact.impactOccurred()
+                      Haptics.impact(.light)
                     }
                   }
                 }

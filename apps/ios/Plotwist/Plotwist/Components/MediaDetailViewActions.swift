@@ -110,9 +110,11 @@ struct MediaDetailViewActions: View {
       let result = try await FavoritesService.shared.toggleFavorite(
         tmdbId: mediaId, mediaType: apiMediaType
       )
+      let added = result.action == "added"
       withAnimation(.easeInOut(duration: 0.2)) {
-        isFavorite = result.action == "added"
+        isFavorite = added
       }
+      added ? Haptics.notification(.success) : Haptics.impact(.light)
     } catch {}
   }
 

@@ -30,6 +30,12 @@ struct ProfileTabView: View {
   @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
   @State var hasFavorites = false
+  @State var claimedAchievement: Achievement?
+  @State var achievements: [Achievement] = initialMockAchievements
+
+  var equippedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed && $0.isEquipped }
+  }
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
   @ObservedObject private var subscriptionService = SubscriptionService.shared
@@ -40,6 +46,11 @@ struct ProfileTabView: View {
   var visibleMainTabs: [ProfileMainTab] {
     ProfileMainTab.allCases.filter { tab in
       if tab == .favorites { return hasFavorites }
+      #if DEBUG
+      if tab == .achievements { return true }
+      #else
+      if tab == .achievements { return false }
+      #endif
       return true
     }
   }
@@ -146,6 +157,14 @@ struct ProfileTabView: View {
         }
       }
       .toolbar(.visible, for: .tabBar)
+    }
+    .overlay {
+      if let achievement = claimedAchievement {
+        ClaimCelebrationOverlay(
+          achievement: achievement,
+          onDismiss: { claimedAchievement = nil }
+        )
+      }
     }
   }
 
@@ -260,7 +279,7 @@ struct ProfileTabView: View {
 
       Spacer()
 
-      NavigationLink(destination: EditProfileView(user: user)) {
+      NavigationLink(destination: EditProfileView(user: user, achievements: $achievements)) {
         Image(systemName: "ellipsis")
           .font(.system(size: 14))
           .foregroundColor(.appForegroundAdaptive)
@@ -337,6 +356,11 @@ struct ProfileTabView: View {
           .padding(.horizontal, 24)
       }
 
+      if !equippedBadges.isEmpty {
+        ProfileBadgesRow(badges: equippedBadges)
+          .padding(.top, 12)
+      }
+
     }
   }
 
@@ -355,6 +379,11 @@ struct ProfileTabView: View {
       case .stats:
         ProfileStatsView(userId: userId, isPro: user?.isPro ?? false, isOwnProfile: true)
           .padding(.bottom, 24)
+      case .achievements:
+        AchievementsSection(
+          achievements: $achievements,
+          claimedAchievement: $claimedAchievement
+        )
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)

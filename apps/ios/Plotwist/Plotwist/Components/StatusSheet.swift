@@ -172,6 +172,7 @@ struct StatusSheet: View {
             currentItemId = nil
             watchEntries = []
             onStatusChanged(nil, [])
+            Haptics.impact(.light)
             dismiss()
           }
         } catch {
@@ -213,10 +214,10 @@ struct StatusSheet: View {
             currentItemId = userItem.id
             
             // If status is WATCHED, fetch the watch entries and stay on sheet
+            Haptics.notification(.success)
             if status == .watched {
               watchEntries = userItem.watchEntries ?? []
               onStatusChanged(status, watchEntries)
-              // Don't dismiss - let user see/add rewatches
             } else {
               watchEntries = []
               onStatusChanged(status, [])
@@ -247,6 +248,7 @@ struct StatusSheet: View {
           isAddingRewatch = false
           watchEntries.append(newEntry)
           onStatusChanged(selectedStatus, watchEntries)
+          Haptics.impact(.medium)
           
           // Track rewatch added
           AnalyticsService.shared.track(.rewatchAdded(
@@ -273,6 +275,7 @@ struct StatusSheet: View {
         await MainActor.run {
           watchEntries.removeAll { $0.id == entry.id }
           onStatusChanged(selectedStatus, watchEntries)
+          Haptics.impact(.light)
         }
       } catch {
         await MainActor.run {

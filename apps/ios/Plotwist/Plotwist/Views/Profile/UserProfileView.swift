@@ -31,6 +31,12 @@ struct UserProfileView: View {
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var selectedFollowerUser: FollowerUser?
   @State private var hasFavorites = false
+  @State private var claimedAchievement: Achievement?
+  @State private var achievements: [Achievement] = initialMockAchievements
+
+  private var equippedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed && $0.isEquipped }
+  }
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private let avatarSize: CGFloat = 56
@@ -38,6 +44,11 @@ struct UserProfileView: View {
   private var visibleMainTabs: [ProfileMainTab] {
     ProfileMainTab.allCases.filter { tab in
       if tab == .favorites { return hasFavorites }
+      #if DEBUG
+      if tab == .achievements { return true }
+      #else
+      if tab == .achievements { return false }
+      #endif
       return true
     }
   }
@@ -66,6 +77,14 @@ struct UserProfileView: View {
         profileContentView(user: user)
       } else {
         errorView
+      }
+    }
+    .overlay {
+      if let achievement = claimedAchievement {
+        ClaimCelebrationOverlay(
+          achievement: achievement,
+          onDismiss: { claimedAchievement = nil }
+        )
       }
     }
     .navigationBarHidden(true)
@@ -230,6 +249,11 @@ struct UserProfileView: View {
           .padding(.horizontal, 24)
       }
 
+      if !equippedBadges.isEmpty {
+        ProfileBadgesRow(badges: equippedBadges)
+          .padding(.top, 12)
+      }
+
       if AuthService.shared.isAuthenticated && !isOwnProfile {
         FollowButton(userId: user.id, followersCount: $followersCount)
           .padding(.horizontal, 24)
@@ -254,6 +278,11 @@ struct UserProfileView: View {
       case .stats:
         ProfileStatsView(userId: userId, isOwnProfile: false)
           .padding(.bottom, 24)
+      case .achievements:
+        AchievementsSection(
+          achievements: $achievements,
+          claimedAchievement: $claimedAchievement
+        )
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)

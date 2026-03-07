@@ -441,8 +441,7 @@ struct OnboardingAddTitlesContent: View {
   private func handleSwipe(id: Int, direction: Direction) {
     guard let item = deck.data.first(where: { $0.id == id }) else { return }
     
-    let impact = UIImpactFeedbackGenerator(style: .medium)
-    impact.impactOccurred()
+    Haptics.impact(.medium)
     
     dismissedIds.insert(item.id)
     
