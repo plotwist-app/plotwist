@@ -95,7 +95,7 @@ struct EditBadgesView: View {
           .font(.system(size: 22))
           .foregroundColor(
             badge.isEquipped
-              ? badge.color
+              ? .appForegroundAdaptive
               : .appBorderAdaptive
           )
           .padding(.bottom, 16)

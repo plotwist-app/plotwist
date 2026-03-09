@@ -425,17 +425,13 @@ private struct ClaimableCard: View {
         .multilineTextAlignment(.center)
 
       Button(action: onClaim) {
-        HStack(spacing: 5) {
-          Image(systemName: "gift")
-            .font(.system(size: 11))
-          Text(L10n.current.claimBadge)
-            .font(.caption2.weight(.semibold))
-        }
-        .foregroundColor(.appForegroundAdaptive)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(Color.appBorderAdaptive.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        Text(L10n.current.claimBadge)
+          .font(.caption.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+          .padding(.horizontal, 16)
+          .padding(.vertical, 10)
+          .background(Color.appBorderAdaptive.opacity(0.5))
+          .clipShape(RoundedRectangle(cornerRadius: 10))
       }
       .buttonStyle(.plain)
     }
@@ -610,11 +606,11 @@ private struct AchievementCard: View {
       textSection
         .padding(.horizontal, 14)
 
-      Spacer(minLength: 8)
+      Spacer(minLength: 16)
 
       ctaSection
         .padding(.horizontal, 14)
-        .padding(.bottom, 16)
+        .padding(.bottom, 18)
     }
     .frame(maxWidth: .infinity)
     .background(Color.appInputFilled)
@@ -653,16 +649,16 @@ private struct AchievementCard: View {
   // MARK: Text
 
   private var textSection: some View {
-    VStack(spacing: 4) {
+    VStack(spacing: 5) {
       Text(achievement.name)
-        .font(.subheadline.weight(.semibold))
+        .font(.body.weight(.semibold))
         .foregroundColor(.appForegroundAdaptive)
         .multilineTextAlignment(.center)
         .lineLimit(2)
         .fixedSize(horizontal: false, vertical: true)
 
       Text(achievement.description)
-        .font(.caption2)
+        .font(.caption)
         .foregroundColor(.appMutedForegroundAdaptive)
         .multilineTextAlignment(.center)
         .lineLimit(2)
@@ -683,17 +679,13 @@ private struct AchievementCard: View {
       .foregroundColor(.appMutedForegroundAdaptive)
     } else if achievement.isClaimable, let onClaim {
       Button(action: onClaim) {
-        HStack(spacing: 5) {
-          Image(systemName: "gift")
-            .font(.system(size: 11))
-          Text(L10n.current.claimBadge)
-            .font(.caption2.weight(.semibold))
-        }
-        .foregroundColor(.appForegroundAdaptive)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .background(Color.appBorderAdaptive.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        Text(L10n.current.claimBadge)
+          .font(.footnote.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 12)
+          .background(Color.appBorderAdaptive.opacity(0.5))
+          .clipShape(RoundedRectangle(cornerRadius: 12))
       }
       .buttonStyle(.plain)
     } else if hasProgress {
@@ -703,7 +695,7 @@ private struct AchievementCard: View {
             .fill(Color.appBorderAdaptive)
             .overlay(alignment: .leading) {
               Capsule()
-                .fill(achievement.color)
+                .fill(Color.appForegroundAdaptive)
                 .frame(width: max(geo.size.width * (animateProgress ? achievement.progress : 0), 6))
             }
             .clipShape(Capsule())
