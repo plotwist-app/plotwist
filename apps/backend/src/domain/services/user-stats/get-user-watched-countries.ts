@@ -1,6 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
 import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { processInBatches } from './batch-utils'
@@ -10,19 +11,30 @@ type GetUserWatchedCountriesServiceInput = {
   userId: string
   redis: FastifyRedis
   language: Language
+  dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
+  period?: StatsPeriod
 }
 
 export async function getUserWatchedCountriesService({
   userId,
   redis,
   language,
+  dateRange,
+  period = 'all',
 }: GetUserWatchedCountriesServiceInput) {
-  const cacheKey = getUserStatsCacheKey(userId, 'watched-countries', language)
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'watched-countries',
+    language,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
     const watchedItems = await selectAllUserItemsByStatus({
       status: 'WATCHED',
       userId,
+      startDate: dateRange?.startDate,
+      endDate: dateRange?.endDate,
     })
     const countryCount = new Map<string, number>()
 

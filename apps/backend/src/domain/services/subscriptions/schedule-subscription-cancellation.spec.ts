@@ -13,8 +13,7 @@ function uniqueProviderSubId() {
 function mockSubscriptionProvider(periodEnd?: Date): SubscriptionProvider {
   const end = periodEnd ?? new Date()
   return {
-    getCurrentPeriodEnd: vi.fn().mockResolvedValue(end),
-    scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(undefined),
+    scheduleCancelAtPeriodEnd: vi.fn().mockResolvedValue(end),
     cancelImmediately: vi.fn(),
   }
 }
@@ -48,10 +47,8 @@ describe('scheduleSubscriptionCancellation', () => {
       provider
     )
 
-    expect(provider.getCurrentPeriodEnd).toHaveBeenCalledWith(providerSubId)
     expect(provider.scheduleCancelAtPeriodEnd).toHaveBeenCalledWith(
-      providerSubId,
-      expect.any(Date)
+      providerSubId
     )
     expect(scheduledCancellation.status).toBe('PENDING_CANCELLATION')
 
@@ -98,7 +95,6 @@ describe('scheduleSubscriptionCancellation', () => {
       'Cannot schedule cancellation: subscription has no provider subscription id'
     )
 
-    expect(provider.getCurrentPeriodEnd).not.toHaveBeenCalled()
     expect(provider.scheduleCancelAtPeriodEnd).not.toHaveBeenCalled()
   })
 })

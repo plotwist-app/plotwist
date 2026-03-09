@@ -1,23 +1,24 @@
 import { SubscriptionAlreadyCanceledError } from '@/domain/errors/subscription-already-canceled-error'
 import { stripe } from '@/infra/adapters/stripe'
-import type { SubscriptionProvider } from '@/ports/subscription-provider'
-
-async function getCurrentPeriodEnd(providerSubscriptionId: string) {
-  const retrieved = await stripe.subscriptions.retrieve(providerSubscriptionId)
-  const periodEndTimestamp = (
-    retrieved as unknown as { current_period_end: number }
-  ).current_period_end
-  return new Date(periodEndTimestamp * 1000)
-}
+import type { SubscriptionProvider } from '@/infra/ports/subscription-provider'
 
 async function scheduleCancelAtPeriodEnd(
-  providerSubscriptionId: string,
-  periodEnd: Date
-) {
-  await stripe.subscriptions.update(providerSubscriptionId, {
-    cancel_at: Math.floor(periodEnd.getTime() / 1000),
+  providerSubscriptionId: string
+): Promise<Date> {
+  const updated = await stripe.subscriptions.update(providerSubscriptionId, {
     cancel_at_period_end: true,
   })
+  const cancelAt = (updated as unknown as { cancel_at: number | null })
+    .cancel_at
+  if (!cancelAt) {
+    const items = (
+      updated as unknown as {
+        items: { data: { current_period_end: number }[] }
+      }
+    ).items.data
+    return new Date(items[0].current_period_end * 1000)
+  }
+  return new Date(cancelAt * 1000)
 }
 
 async function cancelImmediately(providerSubscriptionId: string) {
@@ -38,7 +39,6 @@ async function cancelImmediately(providerSubscriptionId: string) {
 }
 
 export const StripeSubscriptionProvider: SubscriptionProvider = {
-  getCurrentPeriodEnd,
   scheduleCancelAtPeriodEnd,
   cancelImmediately,
 }

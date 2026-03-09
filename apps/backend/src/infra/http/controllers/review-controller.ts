@@ -4,11 +4,14 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { createReviewService } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 import { getReviewService } from '@/domain/services/reviews/get-review'
+import { getReviewById } from '@/domain/services/reviews/get-review-by-id'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
+import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
 import {
   createReviewBodySchema,
   getReviewQuerySchema,
@@ -19,7 +22,8 @@ import {
 
 export async function createReviewController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const body = createReviewBodySchema.parse(request.body)
 
@@ -44,6 +48,8 @@ export async function createReviewController(
       episodeNumber: body.episodeNumber,
     },
   })
+
+  await invalidateUserStatsCache(redis, request.user.id)
 
   return reply.status(201).send({ review: result.review })
 }
@@ -78,7 +84,8 @@ export async function getReviewsController(
 
 export async function deleteReviewController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { id } = reviewParamsSchema.parse(request.params)
   const result = await deleteReviewService(id)
@@ -94,17 +101,27 @@ export async function deleteReviewController(
     userId: result.userId,
   })
 
+  await invalidateUserStatsCache(redis, result.userId)
+
   return reply.status(204).send()
 }
 
 export async function updateReviewController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { id } = reviewParamsSchema.parse(request.params)
   const body = updateReviewBodySchema.parse(request.body)
 
-  const result = await updateReviewService({ ...body, id })
+  const existing = await getReviewById(id)
+  if (existing instanceof DomainError) {
+    return reply.status(404).send({ message: 'Review not found.' })
+  }
+
+  const result = await updateReviewService({ ...body, id } as unknown as UpdateReviewInput)
+
+  await invalidateUserStatsCache(redis, request.user.id)
 
   return reply.status(200).send(result.review)
 }

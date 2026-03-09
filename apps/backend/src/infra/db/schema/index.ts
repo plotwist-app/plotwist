@@ -652,6 +652,25 @@ export const feedbacksRelations = relations(feedbacks, ({ one }) => ({
   }),
 }))
 
+export const sharedUrls = pgTable(
+  'shared_urls',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    url: varchar('url').notNull(),
+    hashedUrl: varchar('hashed_url').notNull(),
+    userId: uuid('user_id')
+      .references(() => users.id)
+      .notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => ({
+    urlIdx: index('url_idx').on(table.url),
+    userIdIdx: index('user_id_idx').on(table.userId),
+  })
+)
+
 export const schema = {
   users,
   userItems,
@@ -673,6 +692,7 @@ export const schema = {
   subscriptions,
   subscriptionTypeEnum,
   feedbacks,
+  sharedUrls,
 }
 
 export * from './user-preferences'

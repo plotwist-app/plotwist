@@ -1,9 +1,11 @@
+import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { DomainError } from '@/domain/errors/domain-error'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 import { createUserEpisodesService } from '@/domain/services/user-episodes/create-user-episodes'
 import { deleteUserEpisodesService } from '@/domain/services/user-episodes/delete-user-episodes'
 import { getUserEpisodesService } from '@/domain/services/user-episodes/get-user-episodes'
+import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
 import {
   createUserEpisodesBodySchema,
   deleteUserEpisodesBodySchema,
@@ -12,7 +14,8 @@ import {
 
 export async function createUserEpisodesController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const body = createUserEpisodesBodySchema.parse(request.body)
 
@@ -29,6 +32,8 @@ export async function createUserEpisodesController(
     activityType: 'WATCH_EPISODE',
     metadata: body,
   })
+
+  await invalidateUserStatsCache(redis, request.user.id)
 
   return reply.status(201).send(result.userEpisodes)
 }
@@ -49,10 +54,13 @@ export async function getUserEpisodesController(
 
 export async function deleteUserEpisodesController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { ids } = deleteUserEpisodesBodySchema.parse(request.body)
   await deleteUserEpisodesService(ids)
+
+  await invalidateUserStatsCache(redis, request.user.id)
 
   return reply.status(204).send()
 }

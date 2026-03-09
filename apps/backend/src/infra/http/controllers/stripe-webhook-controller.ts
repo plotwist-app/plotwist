@@ -19,6 +19,10 @@ export async function stripeWebhookController(
 ) {
   const stripeSignature = request.headers['stripe-signature']
   if (!stripeSignature) {
+    logger.warn(
+      { method: request.method, url: request.url, statusCode: 400 },
+      'Stripe webhook: missing signature'
+    )
     return reply.status(400).send('Missing Stripe signature.')
   }
 
@@ -31,6 +35,17 @@ export async function stripeWebhookController(
       webhookSecret
     )
   } catch (error) {
+    logger.error(
+      {
+        err: error instanceof Error ? error : new Error(String(error)),
+        method: request.method,
+        url: request.url,
+        route: request.routeOptions?.url,
+        userId: request.user?.id,
+        statusCode: 400,
+      },
+      'Stripe webhook: signature verification failed'
+    )
     return reply.status(400).send(`Webhook Error: ${error}`)
   }
 

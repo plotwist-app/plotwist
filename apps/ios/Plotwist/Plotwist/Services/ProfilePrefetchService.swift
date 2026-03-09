@@ -112,32 +112,33 @@ final class ProfilePrefetchService {
           } catch {}
         }
 
-        // Prefetch stats (total hours, genres, status distribution, best reviews)
+        // Prefetch stats for current month (timeline default view)
         group.addTask {
           let statsCache = ProfileStatsCache.shared
-          guard statsCache.get(userId: userId) == nil else { return }
+          let currentMonth = MonthSection.currentYearMonth()
+          guard statsCache.get(userId: userId, period: currentMonth) == nil else { return }
           let language = Language.current.rawValue
           do {
-            async let hoursTask = UserStatsService.shared.getTotalHours(userId: userId)
+            async let hoursTask = UserStatsService.shared.getTotalHours(userId: userId, period: currentMonth)
             async let genresTask = UserStatsService.shared.getWatchedGenres(
               userId: userId,
-              language: language
+              language: language,
+              period: currentMonth
             )
-            async let statusTask = UserStatsService.shared.getItemsStatus(userId: userId)
             async let reviewsTask = UserStatsService.shared.getBestReviews(
               userId: userId,
-              language: language
+              language: language,
+              period: currentMonth
             )
-
-            let (hoursResponse, genres, status, reviews) = try await (
-              hoursTask, genresTask, statusTask, reviewsTask
+            let (hoursResponse, genres, reviews) = try await (
+              hoursTask, genresTask, reviewsTask
             )
 
             statsCache.set(
               userId: userId,
+              period: currentMonth,
               totalHours: hoursResponse.totalHours,
               watchedGenres: genres,
-              itemsStatus: status,
               bestReviews: reviews
             )
           } catch {}

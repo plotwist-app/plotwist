@@ -1,5 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
 import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 import { processInBatches } from './batch-utils'
 import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
@@ -7,18 +8,29 @@ import { getCachedStats, getUserStatsCacheKey } from './cache-utils'
 type GetUserWatchedCastServiceInput = {
   userId: string
   redis: FastifyRedis
+  dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
+  period?: StatsPeriod
 }
 
 export async function getUserWatchedCastService({
   userId,
   redis,
+  dateRange,
+  period = 'all',
 }: GetUserWatchedCastServiceInput) {
-  const cacheKey = getUserStatsCacheKey(userId, 'watched-cast')
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'watched-cast',
+    undefined,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
     const watchedItems = await selectAllUserItemsByStatus({
       status: 'WATCHED',
       userId,
+      startDate: dateRange?.startDate,
+      endDate: dateRange?.endDate,
     })
 
     const watchedItemsCast = await processInBatches(
@@ -35,7 +47,6 @@ export async function getUserWatchedCastService({
     const filteredCast = flattedCast.filter(
       actor =>
         actor.known_for_department === 'Acting' &&
-        // Filter characters that are voiced
         ['(', ')'].every(char => !actor.character.includes(char))
     )
 

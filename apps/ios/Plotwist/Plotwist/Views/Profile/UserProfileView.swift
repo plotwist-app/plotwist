@@ -214,7 +214,7 @@ struct UserProfileView: View {
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
       case .stats:
-        ProfileStatsView(userId: userId)
+        ProfileStatsView(userId: userId, isPro: true, isOwnProfile: false)
           .padding(.bottom, 24)
       }
     }

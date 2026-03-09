@@ -23,4 +23,6 @@ export type SelectUserItems = {
 export type SelectAllUserItems = {
   status?: UserItemStatus | 'ALL'
   userId: string
+  startDate?: Date
+  endDate?: Date
 }

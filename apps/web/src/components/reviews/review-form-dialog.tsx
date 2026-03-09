@@ -94,6 +94,7 @@ export function ReviewFormDialog({
 
   const postReview = usePostReview()
   const putReview = usePutReviewById()
+  const isSaving = postReview.isPending || putReview.isPending
   const putUserItem = usePutUserItem()
 
   const { data: userItem } = useGetUserItem(
@@ -239,7 +240,7 @@ export function ReviewFormDialog({
                     <FormControl>
                       <Textarea
                         placeholder={dictionary.share_your_opinion_here}
-                        rows={5}
+                        rows={10}
                         {...field}
                       />
                     </FormControl>
@@ -272,7 +273,7 @@ export function ReviewFormDialog({
                   )}
                 />
 
-                <Button className="text" type="submit">
+                <Button className="text" type="submit" loading={isSaving}>
                   {review ? dictionary.edit_review : dictionary.submit_review}
                 </Button>
               </div>
@@ -317,7 +318,7 @@ export function ReviewFormDialog({
                   <FormControl>
                     <Textarea
                       placeholder={dictionary.share_your_opinion_here}
-                      rows={5}
+                      rows={8}
                       {...field}
                     />
                   </FormControl>
@@ -350,7 +351,7 @@ export function ReviewFormDialog({
             />
 
             <div className="flex flex-col w-full justify-between items-center gap-4">
-              <Button className="w-full">
+              <Button className="w-full" type="submit" loading={isSaving}>
                 {review ? dictionary.edit_review : dictionary.submit_review}
               </Button>
             </div>

@@ -3,10 +3,6 @@
  * Domain depends on this abstraction; infrastructure implements it.
  */
 export interface SubscriptionProvider {
-  getCurrentPeriodEnd(providerSubscriptionId: string): Promise<Date>
-  scheduleCancelAtPeriodEnd(
-    providerSubscriptionId: string,
-    periodEnd: Date
-  ): Promise<void>
+  scheduleCancelAtPeriodEnd(providerSubscriptionId: string): Promise<Date>
   cancelImmediately(providerSubscriptionId: string): Promise<void>
 }

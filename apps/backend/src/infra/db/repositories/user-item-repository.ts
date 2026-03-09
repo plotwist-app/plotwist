@@ -5,6 +5,7 @@ import {
   desc,
   eq,
   getTableColumns,
+  gte,
   inArray,
   isNull,
   lte,
@@ -137,7 +138,20 @@ export async function selectUserItem({
     .limit(1)
 }
 
-export async function selectUserItemStatus(userId: string) {
+export async function selectUserItemStatus(
+  userId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  const whereConditions = [eq(schema.userItems.userId, userId)]
+
+  if (startDate) {
+    whereConditions.push(gte(schema.userItems.updatedAt, startDate))
+  }
+  if (endDate) {
+    whereConditions.push(lte(schema.userItems.updatedAt, endDate))
+  }
+
   return db
     .select({
       status: schema.userItems.status,
@@ -145,13 +159,15 @@ export async function selectUserItemStatus(userId: string) {
       percentage: sql`(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ())::float`,
     })
     .from(schema.userItems)
-    .where(eq(schema.userItems.userId, userId))
+    .where(and(...whereConditions))
     .groupBy(schema.userItems.status)
 }
 
 export async function selectAllUserItemsByStatus({
   status,
   userId,
+  startDate,
+  endDate,
 }: SelectAllUserItems) {
   const { id, tmdbId, mediaType, position, updatedAt } = getTableColumns(
     schema.userItems
@@ -161,6 +177,12 @@ export async function selectAllUserItemsByStatus({
 
   if (status !== 'ALL') {
     whereConditions.push(eq(schema.userItems.status, status as UserItemStatus))
+  }
+  if (startDate) {
+    whereConditions.push(gte(schema.userItems.updatedAt, startDate))
+  }
+  if (endDate) {
+    whereConditions.push(lte(schema.userItems.updatedAt, endDate))
   }
   return db
     .select({

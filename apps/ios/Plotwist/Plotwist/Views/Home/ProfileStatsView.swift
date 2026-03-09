@@ -5,53 +5,180 @@
 
 import SwiftUI
 
+// MARK: - Month Section Model
+
+struct MonthSection: Identifiable, Equatable {
+  let yearMonth: String
+  var totalHours: Double = 0
+  var movieHours: Double = 0
+  var seriesHours: Double = 0
+  var monthlyHours: [MonthlyHoursEntry] = []
+  var watchedGenres: [WatchedGenre] = []
+  var bestReviews: [BestReview] = []
+  var topGenre: TimelineGenreSummary?
+  var topReview: TimelineReviewSummary?
+  var comparisonHours: Double?
+  var peakTimeSlot: PeakTimeSlot?
+  var hourlyDistribution: [HourlyEntry] = []
+  var dailyActivity: [DailyActivityEntry] = []
+  var percentileRank: Int?
+  var isLoaded: Bool = false
+
+  var id: String { yearMonth }
+
+  // Resolved accessors: prefer summary fields, fall back to full arrays (all-time mode)
+  var topGenreName: String? { topGenre?.name ?? watchedGenres.first?.name }
+  var topGenrePosterURL: URL? { topGenre?.posterURL ?? watchedGenres.first?.posterURL }
+  var hasGenreData: Bool { topGenre != nil || !watchedGenres.isEmpty }
+
+  var topReviewTitle: String? { topReview?.title ?? bestReviews.first?.title }
+  var topReviewPosterURL: URL? { topReview?.posterURL ?? bestReviews.first?.posterURL }
+  var topReviewRating: Double? { topReview?.rating ?? bestReviews.first?.rating }
+  var hasReviewData: Bool { topReview != nil || !bestReviews.isEmpty }
+
+  private static let parseFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM"
+    return f
+  }()
+
+  private static var appLocale: Locale {
+    let langId = Language.current.rawValue.replacingOccurrences(of: "-", with: "_")
+    return Locale(identifier: langId)
+  }
+
+  private static let displayFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMMM yyyy"
+    return f
+  }()
+
+  private static let shortFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMM"
+    return f
+  }()
+
+  var displayName: String {
+    let locale = Self.appLocale
+    Self.parseFormatter.locale = locale
+    guard let date = Self.parseFormatter.date(from: yearMonth) else { return yearMonth }
+    Self.displayFormatter.locale = locale
+    let result = Self.displayFormatter.string(from: date)
+    return result.prefix(1).uppercased() + result.dropFirst()
+  }
+
+  var shortLabel: String {
+    let locale = Self.appLocale
+    Self.parseFormatter.locale = locale
+    guard let date = Self.parseFormatter.date(from: yearMonth) else { return yearMonth }
+    Self.shortFormatter.locale = locale
+    return Self.shortFormatter.string(from: date).prefix(3).uppercased()
+  }
+
+  var hasMinimumData: Bool {
+    totalHours > 0 || hasGenreData || hasReviewData
+  }
+
+  static func == (lhs: MonthSection, rhs: MonthSection) -> Bool {
+    lhs.yearMonth == rhs.yearMonth &&
+    lhs.isLoaded == rhs.isLoaded &&
+    lhs.totalHours == rhs.totalHours &&
+    lhs.topGenre?.name == rhs.topGenre?.name &&
+    lhs.topReview?.title == rhs.topReview?.title &&
+    lhs.watchedGenres.count == rhs.watchedGenres.count &&
+    lhs.bestReviews.count == rhs.bestReviews.count &&
+    lhs.comparisonHours == rhs.comparisonHours &&
+    lhs.peakTimeSlot?.slot == rhs.peakTimeSlot?.slot &&
+    lhs.hourlyDistribution.count == rhs.hourlyDistribution.count
+  }
+
+  static func currentYearMonth() -> String {
+    parseFormatter.string(from: Date())
+  }
+
+  static func previousYearMonth(from ym: String) -> String {
+    guard let date = parseFormatter.date(from: ym),
+          let prev = Calendar.current.date(byAdding: .month, value: -1, to: date) else {
+      return ym
+    }
+    return parseFormatter.string(from: prev)
+  }
+}
+
+// MARK: - ProfileStatsView
+
 struct ProfileStatsView: View {
   let userId: String
-  @State private var strings = L10n.current
-  @State private var isLoading: Bool
-  @State private var totalHours: Double
-  @State private var watchedGenres: [WatchedGenre]
-  @State private var itemsStatus: [ItemStatusStat]
-  @State private var bestReviews: [BestReview]
-  @State private var error: String?
-  @State private var showAllGenres = false
-  @State private var showAllReviews = false
-  @State private var countStartTime: Date?
-  @State private var animationTrigger = false
-  
-  private let countDuration: Double = 1.8
-  private let cache = ProfileStatsCache.shared
-  
-  init(userId: String) {
+  let isPro: Bool
+  let isOwnProfile: Bool
+
+  @State var strings = L10n.current
+  @State var selectedPeriod: String = "all"
+  @State private var availableMonths: [String] = []
+
+  @State private var loadedSections: [String: MonthSection] = [:]
+  @State private var loadingPeriods: Set<String> = []
+
+  let cache = ProfileStatsCache.shared
+
+  init(userId: String, isPro: Bool = false, isOwnProfile: Bool = true) {
     self.userId = userId
-    let cache = ProfileStatsCache.shared
-    if let cached = cache.get(userId: userId) {
-      _isLoading = State(initialValue: false)
-      _totalHours = State(initialValue: cached.totalHours)
-      _watchedGenres = State(initialValue: cached.watchedGenres)
-      _itemsStatus = State(initialValue: cached.itemsStatus)
-      _bestReviews = State(initialValue: cached.bestReviews)
-    } else {
-      _isLoading = State(initialValue: true)
-      _totalHours = State(initialValue: 0)
-      _watchedGenres = State(initialValue: [])
-      _itemsStatus = State(initialValue: [])
-      _bestReviews = State(initialValue: [])
-    }
+    self.isPro = isPro
+    self.isOwnProfile = isOwnProfile
+  }
+
+  private var currentSection: MonthSection? {
+    loadedSections[selectedPeriod]
+  }
+
+  private var isAllTime: Bool {
+    selectedPeriod == "all"
   }
 
   var body: some View {
     VStack(spacing: 0) {
-      if isLoading {
-        loadingView
-      } else if let error {
-        errorView(error)
-      } else {
-        statsContent
+      periodHeader
+        .padding(.horizontal, 24)
+        .padding(.vertical, 12)
+        .transaction { $0.animation = nil }
+
+      ScrollView {
+        VStack(spacing: 16) {
+          if let section = currentSection {
+            if section.isLoaded && !section.hasMinimumData {
+              emptyStateView(isAllTime: isAllTime)
+            } else if section.isLoaded {
+              MonthSectionContentView(
+                section: section,
+                userId: userId,
+                strings: strings,
+                period: selectedPeriod
+              )
+              .equatable()
+              .transition(.opacity.animation(.easeIn(duration: 0.25)))
+            } else {
+              ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 48)
+            }
+          } else if loadingPeriods.contains(selectedPeriod) {
+            ProgressView()
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 48)
+          }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 8)
+        .padding(.bottom, 24)
       }
     }
     .task {
-      await loadStats()
+      buildAvailableMonths()
+      await loadPeriod(selectedPeriod)
+    }
+    .onChange(of: selectedPeriod) { _, newPeriod in
+      Task { await loadPeriod(newPeriod) }
     }
     .onAppear {
       AnalyticsService.shared.track(.statsView)
@@ -59,550 +186,282 @@ struct ProfileStatsView: View {
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }
+    .refreshable {
+      cache.invalidate(userId: userId, period: selectedPeriod)
+      loadedSections.removeValue(forKey: selectedPeriod)
+      await loadPeriod(selectedPeriod)
+    }
   }
 
-  // MARK: - Loading View
-  private var loadingView: some View {
-    VStack(spacing: 32) {
-      VStack(spacing: 8) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive)
-          .frame(width: 120, height: 12)
-        RoundedRectangle(cornerRadius: 8)
-          .fill(Color.appBorderAdaptive)
-          .frame(width: 180, height: 72)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive)
-          .frame(width: 100, height: 14)
-      }
-      .padding(.vertical, 32)
-      
-      Divider()
-      
-      VStack(alignment: .leading, spacing: 16) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive)
-          .frame(width: 100, height: 12)
-        HStack(spacing: 8) {
-          ForEach(0..<4, id: \.self) { _ in
-            RoundedRectangle(cornerRadius: 20)
-              .fill(Color.appBorderAdaptive)
-              .frame(width: 80, height: 36)
+  // MARK: - Period Header
+
+  private var periodHeader: some View {
+    HStack {
+      Menu {
+        Button {
+          selectedPeriod = "all"
+        } label: {
+          HStack {
+            Text(strings.allTime)
+            if selectedPeriod == "all" { Image(systemName: "checkmark") }
           }
         }
+
+        Divider()
+
+        ForEach(availableMonths.filter { $0 != "all" }, id: \.self) { period in
+          Button {
+            selectedPeriod = period
+          } label: {
+            HStack {
+              Text(periodDisplayLabel(for: period))
+              if period == selectedPeriod { Image(systemName: "checkmark") }
+            }
+      } label: {
+        HStack(spacing: 4) {
+          Text(periodDisplayLabel(for: selectedPeriod))
+            .font(.system(size: 15, weight: .semibold))
+            .foregroundColor(.appForegroundAdaptive)
+
+          Image(systemName: "chevron.down")
+            .font(.system(size: 11, weight: .semibold))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      
-      Divider()
-      
-      VStack(alignment: .leading, spacing: 16) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive)
-          .frame(width: 120, height: 12)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive)
-          .frame(height: 8)
+      .id(selectedPeriod)
+
+      Spacer()
+
+      if isOwnProfile, let section = currentSection, section.isLoaded {
+        Button { shareMonthStats(section) } label: {
+          Image(systemName: "square.and.arrow.up")
+            .font(.system(size: 16, weight: .medium))
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
     }
-    .padding(.horizontal, 24)
-    .padding(.top, 16)
   }
 
-  // MARK: - Error View
-  private func errorView(_ message: String) -> some View {
-    VStack(spacing: 12) {
-      Image(systemName: "chart.bar.xaxis")
-        .font(.system(size: 32))
-        .foregroundColor(.appMutedForegroundAdaptive)
+  // MARK: - Helpers
 
-      Text(strings.couldNotLoadStats)
-        .font(.subheadline)
-        .foregroundColor(.appMutedForegroundAdaptive)
+  private func periodDisplayLabel(for period: String) -> String {
+    if period == "all" { return strings.allTime }
+    let fmt = DateFormatter()
+    fmt.dateFormat = "yyyy-MM"
+    let locale = Locale(identifier: Language.current.rawValue.replacingOccurrences(of: "-", with: "_"))
+    fmt.locale = locale
+    guard let date = fmt.date(from: period) else { return period }
+    let display = DateFormatter()
+    display.dateFormat = "MMMM yyyy"
+    display.locale = locale
+    let result = display.string(from: date)
+    return result.prefix(1).uppercased() + result.dropFirst()
+  }
 
-      Button(strings.tryAgain) {
-        Task { await loadStats() }
+  private func buildAvailableMonths() {
+    let fmt = DateFormatter()
+    fmt.dateFormat = "yyyy-MM"
+    var months: [String] = []
+    let now = Date()
+    for i in 0..<12 {
+      if let date = Calendar.current.date(byAdding: .month, value: -i, to: now) {
+        months.append(fmt.string(from: date))
       }
-      .font(.footnote.weight(.medium))
-      .foregroundColor(.appForegroundAdaptive)
+    }
+    months.append("all")
+    availableMonths = months
+  }
+
+  // MARK: - Skeleton
+
+  func skeletonRect(height: CGFloat) -> some View {
+    RoundedRectangle(cornerRadius: 22)
+      .fill(Color.appBorderAdaptive.opacity(0.5))
+      .frame(height: height)
+      .modifier(ShimmerEffect())
+  }
+
+  // MARK: - Empty State
+
+  func emptyStateView(isAllTime: Bool) -> some View {
+    VStack(spacing: 20) {
+      Spacer().frame(height: 40)
+
+      Image(systemName: "chart.bar.doc.horizontal")
+        .font(.system(size: 48))
+        .foregroundColor(.appMutedForegroundAdaptive)
+
+      VStack(spacing: 8) {
+        Text(strings.stats)
+          .font(.title3.bold())
+          .foregroundColor(.appForegroundAdaptive)
+
+        Text(isAllTime ? strings.startTrackingStats : strings.noActivityThisPeriod)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 32)
+      }
+
+      Spacer().frame(height: 40)
     }
     .frame(maxWidth: .infinity)
-    .padding(.vertical, 48)
   }
 
-  // MARK: - Stats Content
-  private var statsContent: some View {
-    VStack(spacing: 32) {
-      heroStatsSection
-      
-      Divider()
-      
-      if !watchedGenres.isEmpty {
-        genresChipsSection
-      }
-      
-      Divider()
-      
-      if !itemsStatus.isEmpty {
-        statusBarSection
-      }
-      
-      Divider()
-      
-      if !bestReviews.isEmpty {
-        bestReviewsSection
-      }
-    }
-    .padding(.horizontal, 24)
-    .padding(.top, 16)
-    .padding(.bottom, 24)
-  }
-  
-  // MARK: - Hero Stats Section
-  private var heroStatsSection: some View {
-    TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-      let currentHours = interpolatedHours(at: timeline.date)
-      
-      VStack(spacing: 8) {
-        Text(strings.timeWatched.uppercased())
-          .font(.system(size: 11, weight: .medium))
-          .tracking(1.5)
-          .foregroundColor(.appMutedForegroundAdaptive)
-        
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-          Text(formatHours(currentHours))
-            .font(.system(size: 72, weight: .medium))
-            .tracking(-2)
-            .foregroundColor(.appForegroundAdaptive)
-            .contentTransition(.numericText(countsDown: false))
-            .animation(.snappy(duration: 0.2), value: formatHours(currentHours))
-          
-          Text(strings.hours.lowercased())
-            .font(.system(size: 18))
-            .foregroundColor(.appMutedForegroundAdaptive)
-        }
-        
-        let daysText = "\(formatDays(currentHours)) \(strings.daysOfContent)"
-        Text(daysText)
-          .font(.system(size: 14))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .contentTransition(.numericText(countsDown: false))
-          .animation(.snappy(duration: 0.2), value: daysText)
-      }
-      .frame(maxWidth: .infinity)
-      .padding(.vertical, 24)
-    }
-  }
-  
-  // MARK: - Genres Chips Section
-  private var genresChipsSection: some View {
-    VStack(alignment: .leading, spacing: 16) {
-      Text(strings.favoriteGenres.uppercased())
-        .font(.system(size: 11, weight: .medium))
-        .tracking(1.5)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      
-      FlowLayout(spacing: 8) {
-        ForEach(Array(watchedGenres.prefix(5).enumerated()), id: \.element.id) { index, genre in
-          StatsGenreChip(genre: genre, isFirst: index == 0)
-        }
-        
-        if watchedGenres.count > 5 {
-          Button {
-            showAllGenres = true
-          } label: {
-            HStack(spacing: 6) {
-              Text(strings.othersGenres)
-                .font(.system(size: 14, weight: .medium))
-              Image(systemName: "chevron.right")
-                .font(.system(size: 10, weight: .semibold))
-            }
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .overlay(
-              RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.appBorderAdaptive.opacity(0.5), lineWidth: 1, antialiased: true)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-          }
-        }
-      }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .sheet(isPresented: $showAllGenres) {
-      allGenresSheet
-    }
-  }
-  
-  // MARK: - All Genres Sheet
-  private var allGenresSheet: some View {
-    FloatingSheetContainer {
-      VStack(spacing: 0) {
-        HStack {
-          Text(strings.favoriteGenres.uppercased())
-            .font(.system(size: 11, weight: .medium))
-            .tracking(1.5)
-            .foregroundColor(.appMutedForegroundAdaptive)
-          Spacer()
-          Button {
-            showAllGenres = false
-          } label: {
-            Image(systemName: "xmark")
-              .font(.system(size: 14, weight: .medium))
-              .foregroundColor(.appMutedForegroundAdaptive)
-          }
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 24)
-        .padding(.bottom, 16)
-        
-        ScrollView {
-          VStack(spacing: 0) {
-            ForEach(watchedGenres) { genre in
-              HStack {
-                Text(genre.name)
-                  .font(.system(size: 16))
-                  .foregroundColor(.appForegroundAdaptive)
-                Spacer()
-                HStack(spacing: 8) {
-                  Text("\(genre.count)")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.appForegroundAdaptive)
-                  Text(String(format: "%.0f%%", genre.percentage))
-                    .font(.system(size: 12))
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                }
-              }
-              .padding(.horizontal, 24)
-              .padding(.vertical, 14)
-              
-              Divider()
-                .padding(.horizontal, 24)
-            }
-          }
-        }
-      }
-    }
-    .floatingSheetDynamicPresentation()
-  }
-  
-  // MARK: - Status Bar Section
-  private var statusBarSection: some View {
-    VStack(alignment: .leading, spacing: 16) {
-      Text(strings.collectionStatus.uppercased())
-        .font(.system(size: 11, weight: .medium))
-        .tracking(1.5)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      
-      GeometryReader { geo in
-        HStack(spacing: 0) {
-          ForEach(Array(itemsStatus.enumerated()), id: \.element.id) { index, item in
-            let statusInfo = getStatusInfo(item.status)
-            Rectangle()
-              .fill(statusInfo.color)
-              .frame(width: geo.size.width * CGFloat(item.percentage / 100))
-              .clipShape(
-                UnevenRoundedRectangle(
-                  topLeadingRadius: index == 0 ? 4 : 0,
-                  bottomLeadingRadius: index == 0 ? 4 : 0,
-                  bottomTrailingRadius: index == itemsStatus.count - 1 ? 4 : 0,
-                  topTrailingRadius: index == itemsStatus.count - 1 ? 4 : 0
-                )
-              )
-          }
-        }
-      }
-      .frame(height: 8)
-      .background(Color.appInputFilled)
-      .clipShape(RoundedRectangle(cornerRadius: 4))
-      
-      FlowLayout(spacing: 16) {
-        ForEach(itemsStatus) { item in
-          let statusInfo = getStatusInfo(item.status)
-          HStack(spacing: 6) {
-            Circle()
-              .fill(statusInfo.color)
-              .frame(width: 8, height: 8)
-            Text(statusInfo.name)
-              .font(.system(size: 12))
-              .foregroundColor(.appMutedForegroundAdaptive)
-            Text("\(item.count)")
-              .font(.system(size: 12, weight: .medium))
-              .foregroundColor(.appForegroundAdaptive)
-          }
-        }
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-  }
-  
-  // MARK: - Best Reviews Section
-  private var bestReviewsSection: some View {
-    VStack(alignment: .leading, spacing: 24) {
-      Text(strings.bestReviews.uppercased())
-        .font(.system(size: 11, weight: .medium))
-        .tracking(1.5)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      
-      VStack(alignment: .leading, spacing: 24) {
-        ForEach(Array(bestReviews.prefix(3).enumerated()), id: \.element.id) { index, review in
-          BestReviewRow(review: review, rank: index + 1)
-        }
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      
-      if bestReviews.count > 3 {
-        Button {
-          showAllReviews = true
-        } label: {
-          Text(strings.seeAll)
-            .font(.system(size: 14, weight: .medium))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 12)
-            .overlay(
-              RoundedRectangle(cornerRadius: 12)
-                .strokeBorder(Color.appBorderAdaptive.opacity(0.5), lineWidth: 1)
-            )
-        }
-      }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .fullScreenCover(isPresented: $showAllReviews) {
-      allReviewsSheet
-    }
-  }
-  
-  // MARK: - All Reviews Sheet
-  private var allReviewsSheet: some View {
-    NavigationStack {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 24) {
-          ForEach(Array(bestReviews.enumerated()), id: \.element.id) { index, review in
-            BestReviewRow(review: review, rank: index + 1)
-          }
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 8)
-        .padding(.bottom, 24)
-      }
-      .background(Color.appBackgroundAdaptive)
-      .navigationTitle(strings.bestReviews)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            showAllReviews = false
-          } label: {
-            Image(systemName: "xmark.circle.fill")
-              .font(.system(size: 20))
-              .foregroundStyle(.gray, Color(.systemGray5))
-          }
-        }
-      }
-    }
-  }
-  
-  // MARK: - Helpers
-  private func interpolatedHours(at date: Date) -> Double {
-    guard let start = countStartTime else { return 0 }
-    let elapsed = date.timeIntervalSince(start)
-    let progress = min(elapsed / countDuration, 1.0)
-    let eased = 1 - pow(2, -10 * progress)
-    return totalHours * eased
-  }
-  
-  private func formatHours(_ hours: Double) -> String {
-    if totalHours >= 1000 {
-      return String(format: "%.1fk", hours / 1000)
-    }
-    return String(format: "%.0f", hours)
-  }
+  // MARK: - Share
 
-  private func formatDays(_ hours: Double) -> String {
-    let days = hours / 24
-    return String(format: "%.0f", days)
-  }
-  
-  private func getStatusInfo(_ status: String) -> (color: Color, name: String) {
-    switch status {
-    case "WATCHED":
-      return (Color(hex: "10B981"), strings.watched)
-    case "WATCHING":
-      return (Color(hex: "3B82F6"), strings.watching)
-    case "WATCHLIST":
-      return (Color(hex: "F59E0B"), strings.watchlist)
-    case "DROPPED":
-      return (Color(hex: "EF4444"), strings.dropped)
-    default:
-      return (Color(hex: "71717A"), status)
+  func shareMonthStats(_ section: MonthSection) {
+    Task {
+      let genreImage = await downloadImage(url: section.topGenrePosterURL)
+      let reviewImage = await downloadImage(url: section.topReviewPosterURL)
+
+      let cardImage = renderShareCard(
+        section: section,
+        genrePoster: genreImage,
+        reviewPoster: reviewImage
+      )
+
+      let activityVC = UIActivityViewController(activityItems: [cardImage], applicationActivities: nil)
+      if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+         let root = scene.windows.first?.rootViewController {
+        root.present(activityVC, animated: true)
+      }
     }
   }
 
-  // MARK: - Load Stats
-  private func loadStats() async {
-    if !isLoading && totalHours > 0 {
-      if countStartTime == nil {
-        countStartTime = .now
-        withAnimation(.linear(duration: countDuration)) {
-          animationTrigger.toggle()
-        }
+  func downloadImage(url: URL?) async -> UIImage? {
+    guard let url else { return nil }
+    do {
+      let (data, _) = try await URLSession.shared.data(from: url)
+      return UIImage(data: data)
+    } catch {
+      return nil
+    }
+  }
+
+  @MainActor
+  func renderShareCard(section: MonthSection, genrePoster: UIImage?, reviewPoster: UIImage?) -> UIImage {
+    let cardView = StatsShareCardView(
+      section: section,
+      strings: strings,
+      genrePosterImage: genrePoster,
+      reviewPosterImage: reviewPoster
+    )
+    let controller = UIHostingController(rootView: cardView)
+    let size = CGSize(width: 1080 / 3, height: 1920 / 3)
+    controller.view.bounds = CGRect(origin: .zero, size: size)
+    controller.view.backgroundColor = .clear
+
+    let window = UIWindow(frame: CGRect(origin: .zero, size: size))
+    window.rootViewController = controller
+    window.makeKeyAndVisible()
+    controller.view.setNeedsLayout()
+    controller.view.layoutIfNeeded()
+
+    let scale: CGFloat = 3.0
+    let renderer = UIGraphicsImageRenderer(
+      size: size,
+      format: {
+        let f = UIGraphicsImageRendererFormat()
+        f.scale = scale
+        return f
+      }()
+    )
+    let image = renderer.image { _ in
+      controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+    }
+
+    window.isHidden = true
+    return image
+  }
+
+  // MARK: - Load Period Data
+
+  @MainActor
+  func loadPeriod(_ period: String) async {
+    guard loadedSections[period] == nil, !loadingPeriods.contains(period) else { return }
+    loadingPeriods.insert(period)
+    defer { loadingPeriods.remove(period) }
+
+    if let cached = cache.get(userId: userId, period: period) {
+      var section = MonthSection(
+        yearMonth: period,
+        totalHours: cached.totalHours,
+        movieHours: cached.movieHours,
+        seriesHours: cached.seriesHours,
+        monthlyHours: cached.monthlyHours,
+        watchedGenres: cached.watchedGenres,
+        bestReviews: cached.bestReviews,
+        isLoaded: true
+      )
+      if period != "all" {
+        let prev = MonthSection.previousYearMonth(from: period)
+        let prevHours = try? await UserStatsService.shared.getTotalHours(userId: userId, period: prev)
+        section.comparisonHours = prevHours?.totalHours
+      }
+      withAnimation(.easeIn(duration: 0.25)) {
+        loadedSections[period] = section
       }
       return
     }
-    
-    isLoading = true
-    error = nil
 
-    do {
-      async let hoursTask = UserStatsService.shared.getTotalHours(userId: userId)
-      async let genresTask = UserStatsService.shared.getWatchedGenres(
-        userId: userId,
-        language: Language.current.rawValue
-      )
-      async let statusTask = UserStatsService.shared.getItemsStatus(userId: userId)
-      async let reviewsTask = UserStatsService.shared.getBestReviews(
-        userId: userId,
-        language: Language.current.rawValue
-      )
+    let language = Language.current.rawValue
 
-      let (hoursResponse, genres, status, reviews) = try await (hoursTask, genresTask, statusTask, reviewsTask)
+    async let hoursResult = try? UserStatsService.shared.getTotalHours(userId: userId, period: period)
+    async let genresResult = try? UserStatsService.shared.getWatchedGenres(userId: userId, language: language, period: period)
+    async let reviewsResult = try? UserStatsService.shared.getBestReviews(userId: userId, language: language, period: period)
 
-      totalHours = hoursResponse.totalHours
-      watchedGenres = genres
-      itemsStatus = status
-      bestReviews = reviews
-      isLoading = false
-      
-      cache.set(userId: userId, totalHours: hoursResponse.totalHours, watchedGenres: genres, itemsStatus: status, bestReviews: reviews)
-      
-      countStartTime = .now
-      withAnimation(.linear(duration: countDuration)) {
-        animationTrigger.toggle()
-      }
-    } catch {
-      self.error = error.localizedDescription
-      isLoading = false
+    let (hours, genres, reviews) = await (hoursResult, genresResult, reviewsResult)
+
+    var section = MonthSection(yearMonth: period)
+
+    if let hours {
+      section.totalHours = hours.totalHours
+      section.movieHours = hours.movieHours
+      section.seriesHours = hours.seriesHours
+      section.monthlyHours = hours.monthlyHours
+      section.peakTimeSlot = hours.peakTimeSlot
+      section.hourlyDistribution = hours.hourlyDistribution ?? []
+      section.dailyActivity = hours.dailyActivity ?? []
+      section.percentileRank = hours.percentileRank
     }
-  }
-}
+    if let genres { section.watchedGenres = genres }
+    if let reviews { section.bestReviews = reviews }
+    section.isLoaded = true
 
-// MARK: - Stats Genre Chip
-private struct StatsGenreChip: View {
-  let genre: WatchedGenre
-  let isFirst: Bool
-  
-  var body: some View {
-    HStack(spacing: 8) {
-      Text(genre.name)
-        .font(.system(size: 14, weight: .medium))
-      Text("\(genre.count)")
-        .font(.system(size: 12))
-        .opacity(isFirst ? 0.6 : 1)
+    if period != "all" {
+      let prev = MonthSection.previousYearMonth(from: period)
+      let prevHours = try? await UserStatsService.shared.getTotalHours(userId: userId, period: prev)
+      section.comparisonHours = prevHours?.totalHours
     }
-    .foregroundColor(isFirst ? .appBackgroundAdaptive : .appForegroundAdaptive)
-    .padding(.horizontal, 16)
-    .padding(.vertical, 10)
-    .background(isFirst ? Color.appForegroundAdaptive : Color.clear)
-    .overlay(
-      RoundedRectangle(cornerRadius: 20)
-        .strokeBorder(Color.appBorderAdaptive, lineWidth: isFirst ? 0 : 1)
+
+    withAnimation(.easeIn(duration: 0.25)) {
+      loadedSections[period] = section
+    }
+
+    cache.set(
+      userId: userId,
+      period: period,
+      totalHours: section.totalHours,
+      movieHours: section.movieHours,
+      seriesHours: section.seriesHours,
+      monthlyHours: section.monthlyHours,
+      watchedGenres: section.watchedGenres,
+      bestReviews: section.bestReviews
     )
-    .clipShape(RoundedRectangle(cornerRadius: 20))
   }
 }
 
-// MARK: - Best Review Row
-private struct BestReviewRow: View {
-  let review: BestReview
-  let rank: Int
-  
-  private var posterWidth: CGFloat {
-    (UIScreen.main.bounds.width - 48 - 24) / 3
+// MARK: - Share Sheet
+
+struct ActivityViewController: UIViewControllerRepresentable {
+  let activityItems: [Any]
+
+  func makeUIViewController(context: Context) -> UIActivityViewController {
+    UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
   }
-  
-  private var posterHeight: CGFloat {
-    posterWidth * 1.5
-  }
-  
-  private var formattedDate: String {
-    let inputFormatter = ISO8601DateFormatter()
-    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    
-    guard let date = inputFormatter.date(from: review.createdAt) else {
-      inputFormatter.formatOptions = [.withInternetDateTime]
-      guard let date = inputFormatter.date(from: review.createdAt) else {
-        return review.createdAt
-      }
-      return formatDate(date)
-    }
-    return formatDate(date)
-  }
-  
-  private func formatDate(_ date: Date) -> String {
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "dd/MM/yyyy"
-    return outputFormatter.string(from: date)
-  }
-  
-  var body: some View {
-    HStack(alignment: .center, spacing: 12) {
-      CachedAsyncImage(url: review.posterURL) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-      } placeholder: {
-        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-          .fill(Color.appBorderAdaptive)
-      }
-      .frame(width: posterWidth, height: posterHeight)
-      .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
-      .posterBorder()
-      .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
-      
-      VStack(alignment: .leading, spacing: 8) {
-        Text(review.title)
-          .font(.headline)
-          .foregroundColor(.appForegroundAdaptive)
-          .lineLimit(2)
-        
-        HStack(spacing: 8) {
-          StarRatingView(rating: .constant(review.rating), size: 14, interactive: false)
-          
-          Circle()
-            .fill(Color.appMutedForegroundAdaptive.opacity(0.5))
-            .frame(width: 4, height: 4)
-          
-          Text(formattedDate)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-        }
-        
-        if !review.review.isEmpty {
-          Text(review.review)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .lineLimit(3)
-            .multilineTextAlignment(.leading)
-            .blur(radius: review.hasSpoilers ? 4 : 0)
-            .overlay(
-              review.hasSpoilers
-                ? Text(L10n.current.containSpoilers)
-                    .font(.caption.weight(.medium))
-                    .foregroundColor(.appMutedForegroundAdaptive)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.appInputFilled)
-                    .cornerRadius(4)
-                : nil
-            )
-        }
-      }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-  }
+
+  func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 #Preview {

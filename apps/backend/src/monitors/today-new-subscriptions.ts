@@ -12,6 +12,5 @@ export async function monitorTodayNewSubscriptions() {
       ),
   ])
 
-  console.log(`Today new subscriptions: ${totalNewSubscriptions}`)
   return totalNewSubscriptions
 }

@@ -9,6 +9,15 @@ class UserStatsService {
   static let shared = UserStatsService()
   private init() {}
 
+  private func buildURL(base: String, queryItems: [URLQueryItem]) -> URL? {
+    var components = URLComponents(string: base)
+    let filtered = queryItems.filter { $0.value != nil }
+    if !filtered.isEmpty {
+      components?.queryItems = filtered
+    }
+    return components?.url
+  }
+
   // MARK: - Get User Stats (followers, following, watched counts)
   func getUserStats(userId: String) async throws -> UserStats {
     guard let url = URL(string: "\(API.baseURL)/user/\(userId)/stats") else {
@@ -32,8 +41,11 @@ class UserStatsService {
   }
 
   // MARK: - Get Total Hours Watched
-  func getTotalHours(userId: String) async throws -> TotalHoursResponse {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/total-hours") else {
+  func getTotalHours(userId: String, period: String = "all") async throws -> TotalHoursResponse {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/total-hours",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -54,8 +66,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Watched Genres
-  func getWatchedGenres(userId: String, language: String = "en-US") async throws -> [WatchedGenre] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-genres?language=\(language)") else {
+  func getWatchedGenres(userId: String, language: String = "en-US", period: String = "all") async throws -> [WatchedGenre] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-genres",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -75,8 +93,11 @@ class UserStatsService {
   }
 
   // MARK: - Get Items Status Distribution
-  func getItemsStatus(userId: String) async throws -> [ItemStatusStat] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/items-status") else {
+  func getItemsStatus(userId: String, period: String = "all") async throws -> [ItemStatusStat] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/items-status",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -94,9 +115,17 @@ class UserStatsService {
     let result = try decoder.decode(ItemsStatusResponse.self, from: data)
     return result.userItems
   }
+
   // MARK: - Get Best Reviews
-  func getBestReviews(userId: String, language: String = "en-US", limit: Int = 50) async throws -> [BestReview] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/best-reviews?language=\(language)&limit=\(limit)") else {
+  func getBestReviews(userId: String, language: String = "en-US", limit: Int = 50, period: String = "all") async throws -> [BestReview] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/best-reviews",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "limit", value: "\(limit)"),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -115,9 +144,45 @@ class UserStatsService {
     return result.bestReviews
   }
 
+  // MARK: - Get Stats Timeline (Paginated)
+  func getStatsTimeline(userId: String, language: String = "en-US", cursor: String? = nil, pageSize: Int = 3) async throws -> StatsTimelineResponse {
+    var queryItems = [
+      URLQueryItem(name: "language", value: language),
+      URLQueryItem(name: "pageSize", value: "\(pageSize)"),
+    ]
+    if let cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/stats-timeline",
+      queryItems: queryItems
+    ) else {
+      throw UserStatsError.invalidURL
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+      AnalyticsService.trackAPIError(endpoint: "/user/stats-timeline", statusCode: code)
+      throw UserStatsError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(StatsTimelineResponse.self, from: data)
+  }
+
   // MARK: - Get Watched Cast
-  func getWatchedCast(userId: String) async throws -> [WatchedCastMember] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-cast") else {
+  func getWatchedCast(userId: String, period: String = "all") async throws -> [WatchedCastMember] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-cast",
+      queryItems: [URLQueryItem(name: "period", value: period)]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -139,8 +204,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Watched Countries
-  func getWatchedCountries(userId: String, language: String = "en-US") async throws -> [WatchedCountry] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/watched-countries?language=\(language)") else {
+  func getWatchedCountries(userId: String, language: String = "en-US", period: String = "all") async throws -> [WatchedCountry] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/watched-countries",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -162,8 +233,14 @@ class UserStatsService {
   }
 
   // MARK: - Get Most Watched Series
-  func getMostWatchedSeries(userId: String, language: String = "en-US") async throws -> [MostWatchedSeries] {
-    guard let url = URL(string: "\(API.baseURL)/user/\(userId)/most-watched-series?language=\(language)") else {
+  func getMostWatchedSeries(userId: String, language: String = "en-US", period: String = "all") async throws -> [MostWatchedSeries] {
+    guard let url = buildURL(
+      base: "\(API.baseURL)/user/\(userId)/most-watched-series",
+      queryItems: [
+        URLQueryItem(name: "language", value: language),
+        URLQueryItem(name: "period", value: period),
+      ]
+    ) else {
       throw UserStatsError.invalidURL
     }
 
@@ -195,19 +272,76 @@ struct MonthlyHoursEntry: Codable, Identifiable {
   var id: String { month }
 }
 
+struct PeakTimeSlot: Codable {
+  let slot: String
+  let hour: Int
+  let count: Int
+}
+
+struct DailyActivityEntry: Codable, Identifiable {
+  let day: String
+  let hours: Double
+
+  var id: String { day }
+}
+
+struct HourlyEntry: Codable, Identifiable {
+  let hour: Int
+  let count: Int
+
+  var id: Int { hour }
+}
+
 struct TotalHoursResponse: Codable {
   let totalHours: Double
   let movieHours: Double
   let seriesHours: Double
   let monthlyHours: [MonthlyHoursEntry]
+  let peakTimeSlot: PeakTimeSlot?
+  let hourlyDistribution: [HourlyEntry]?
+  let dailyActivity: [DailyActivityEntry]?
+  let percentileRank: Int?
+}
+
+struct GenreItem: Codable, Identifiable, Hashable {
+  let tmdbId: Int
+  let mediaType: String
+  let posterPath: String?
+
+  var id: Int { tmdbId }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
 }
 
 struct WatchedGenre: Codable, Identifiable {
   let name: String
   let count: Int
   let percentage: Double
+  let posterPath: String?
+  let posterPaths: [String]?
+  let items: [GenreItem]?
 
   var id: String { name }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+
+  var posterURLs: [URL] {
+    if let items, !items.isEmpty {
+      return items.compactMap { $0.posterURL }
+    }
+    return (posterPaths ?? (posterPath.map { [$0] } ?? []))
+      .compactMap { URL(string: "https://image.tmdb.org/t/p/w342\($0)") }
+  }
+
+  var genreItems: [GenreItem] {
+    items ?? []
+  }
 }
 
 struct WatchedGenresResponse: Codable {
@@ -302,6 +436,44 @@ struct MostWatchedSeries: Codable, Identifiable {
 
 struct MostWatchedSeriesResponse: Codable {
   let mostWatchedSeries: [MostWatchedSeries]
+}
+
+// MARK: - Stats Timeline Models
+
+struct TimelineGenreSummary: Codable {
+  let name: String
+  let posterPath: String?
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct TimelineReviewSummary: Codable {
+  let title: String
+  let posterPath: String?
+  let rating: Double
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w342\(posterPath)")
+  }
+}
+
+struct TimelineSection: Codable {
+  let yearMonth: String
+  let totalHours: Double
+  let movieHours: Double
+  let seriesHours: Double
+  let topGenre: TimelineGenreSummary?
+  let topReview: TimelineReviewSummary?
+}
+
+struct StatsTimelineResponse: Codable {
+  let sections: [TimelineSection]
+  let nextCursor: String?
+  let hasMore: Bool
 }
 
 enum UserStatsError: LocalizedError {

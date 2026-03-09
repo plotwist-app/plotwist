@@ -6,5 +6,7 @@ async function main() {
 }
 
 main()
-  .catch(err => console.error(err))
+  .catch(err => {
+    logger.error('Database seed failed', err)
+  })
   .finally(() => client.end())
