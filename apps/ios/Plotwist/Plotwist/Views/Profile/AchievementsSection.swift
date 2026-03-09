@@ -621,13 +621,9 @@ private struct AchievementCard: View {
     Group {
       if achievement.isComplete {
         AchievementIconView(achievement: achievement, size: 96, color: achievement.color)
-      } else if hasProgress {
-        AchievementIconView(achievement: achievement, size: 80, color: .appMutedForegroundAdaptive)
       } else {
-        Image(systemName: "lock.fill")
-          .font(.system(size: 30))
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .frame(width: 80, height: 80)
+        AchievementIconView(achievement: achievement, size: 80, color: .appMutedForegroundAdaptive)
+          .opacity(hasProgress ? 1 : 0.5)
       }
     }
   }
