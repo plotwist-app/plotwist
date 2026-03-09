@@ -20,6 +20,30 @@ struct Achievement: Identifiable {
   var isComplete: Bool { current >= target }
   var isClaimable: Bool { isComplete && !isClaimed }
   var progress: Double { min(Double(current) / Double(target), 1.0) }
+  var assetIcon: String { "ach.\(id)" }
+}
+
+struct AchievementIconView: View {
+  let achievement: Achievement
+  let size: CGFloat
+  let color: Color
+  var muted: Bool = false
+
+  var body: some View {
+    if UIImage(named: achievement.assetIcon) != nil {
+      Image(achievement.assetIcon)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: size, height: size)
+        .saturation(muted ? 0 : 1)
+        .opacity(muted ? 0.5 : 1)
+    } else {
+      Image(systemName: achievement.icon)
+        .font(.system(size: size * 0.75, weight: .medium))
+        .symbolRenderingMode(.hierarchical)
+        .foregroundStyle(color)
+    }
+  }
 }
 
 var initialMockAchievements: [Achievement] {
@@ -180,23 +204,103 @@ struct AchievementsSection: View {
   @Binding var achievements: [Achievement]
   @Binding var claimedAchievement: Achievement?
 
+  private var claimedCount: Int { achievements.filter(\.isClaimed).count }
+  private var claimable: [Achievement] { achievements.filter(\.isClaimable) }
+
+  private var inProgress: [Achievement] {
+    achievements
+      .filter { $0.current > 0 && !$0.isComplete && !$0.id.hasPrefix("saga_") }
+      .sorted { $0.progress > $1.progress }
+  }
+
+  private var sagas: [Achievement] {
+    achievements.filter { $0.id.hasPrefix("saga_") && !$0.isClaimed }
+  }
+
+  private var locked: [Achievement] {
+    achievements.filter { $0.current == 0 && !$0.id.hasPrefix("saga_") }
+  }
+
+  private var claimed: [Achievement] {
+    achievements.filter(\.isClaimed)
+  }
+
   var body: some View {
     VStack(spacing: 0) {
-      ForEach(Array(achievements.enumerated()), id: \.element.id) { index, achievement in
-        AchievementRow(
-          achievement: achievement,
-          onClaim: { claim(id: achievement.id) }
-        )
+      AchievementsProgressHeader(
+        claimedCount: claimedCount,
+        totalCount: achievements.count,
+        claimableCount: claimable.count
+      )
+      .padding(.horizontal, 24)
+      .padding(.top, 12)
+      .padding(.bottom, 20)
 
-        if index < achievements.count - 1 {
-          Divider()
-            .padding(.leading, 108)
-            .padding(.trailing, 24)
-        }
+      if !claimable.isEmpty {
+        ClaimableSpotlightSection(
+          achievements: claimable,
+          onClaim: { claim(id: $0) }
+        )
+        .padding(.bottom, 24)
+      }
+
+      if !inProgress.isEmpty {
+        achievementGroup(
+          title: L10n.current.achSectionInProgress,
+          items: inProgress
+        )
+      }
+
+      if !sagas.isEmpty {
+        achievementGroup(
+          title: L10n.current.achSectionSagas,
+          items: sagas
+        )
+      }
+
+      if !locked.isEmpty {
+        achievementGroup(
+          title: L10n.current.achSectionLocked,
+          items: locked
+        )
+      }
+
+      if !claimed.isEmpty {
+        achievementGroup(
+          title: L10n.current.achSectionClaimed,
+          items: claimed
+        )
       }
     }
-    .padding(.top, 8)
     .padding(.bottom, 24)
+  }
+
+  private static let gridColumns = [
+    GridItem(.flexible(), spacing: 12),
+    GridItem(.flexible(), spacing: 12)
+  ]
+
+  @ViewBuilder
+  private func achievementGroup(title: String, items: [Achievement]) -> some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text(title)
+        .font(.subheadline.weight(.semibold))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .textCase(.uppercase)
+        .tracking(0.5)
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+
+      LazyVGrid(columns: Self.gridColumns, spacing: 12) {
+        ForEach(items) { achievement in
+          AchievementCard(
+            achievement: achievement,
+            onClaim: achievement.isClaimable ? { claim(id: achievement.id) } : nil
+          )
+        }
+      }
+      .padding(.horizontal, 24)
+    }
   }
 
   private func claim(id: String) {
@@ -217,6 +321,132 @@ struct AchievementsSection: View {
   }
 }
 
+// MARK: - Progress Header
+
+private struct AchievementsProgressHeader: View {
+  let claimedCount: Int
+  let totalCount: Int
+  let claimableCount: Int
+  @Environment(\.colorScheme) private var colorScheme
+
+  private var progress: Double {
+    guard totalCount > 0 else { return 0 }
+    return Double(claimedCount) / Double(totalCount)
+  }
+
+  var body: some View {
+    HStack(spacing: 16) {
+      ZStack {
+        Circle()
+          .stroke(Color.appBorderAdaptive, lineWidth: 5)
+
+        Circle()
+          .trim(from: 0, to: progress)
+          .stroke(Color.appForegroundAdaptive, style: StrokeStyle(lineWidth: 5, lineCap: .round))
+          .rotationEffect(.degrees(-90))
+
+        Text("\(claimedCount)")
+          .font(.system(size: 18, weight: .bold, design: .rounded))
+          .foregroundColor(.appForegroundAdaptive)
+      }
+      .frame(width: 52, height: 52)
+
+      VStack(alignment: .leading, spacing: 4) {
+        Text("\(claimedCount) \(L10n.current.achOfTotal) \(totalCount)")
+          .font(.body.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+          .contentTransition(.numericText())
+
+        if claimableCount > 0 {
+          Text("\(claimableCount) \(L10n.current.achReadyToClaim)")
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .contentTransition(.numericText())
+        } else {
+          Text(L10n.current.achBadgesClaimed)
+            .font(.subheadline)
+            .foregroundColor(.appMutedForegroundAdaptive)
+        }
+      }
+
+      Spacer()
+    }
+    .padding(16)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+  }
+}
+
+// MARK: - Claimable Spotlight
+
+private struct ClaimableSpotlightSection: View {
+  let achievements: [Achievement]
+  let onClaim: (String) -> Void
+  @Environment(\.colorScheme) private var colorScheme
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text(L10n.current.achReadyToClaim)
+        .font(.subheadline.weight(.semibold))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .textCase(.uppercase)
+        .tracking(0.5)
+        .padding(.horizontal, 24)
+
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 12) {
+          ForEach(achievements) { achievement in
+            ClaimableCard(
+              achievement: achievement,
+              onClaim: { onClaim(achievement.id) }
+            )
+          }
+        }
+        .padding(.horizontal, 24)
+      }
+    }
+  }
+}
+
+private struct ClaimableCard: View {
+  let achievement: Achievement
+  let onClaim: () -> Void
+  @Environment(\.colorScheme) private var colorScheme
+
+  var body: some View {
+    VStack(spacing: 12) {
+      AchievementIconView(achievement: achievement, size: 64, color: achievement.color)
+        .padding(.top, 4)
+
+      Text(achievement.name)
+        .font(.caption.weight(.medium))
+        .foregroundColor(.appForegroundAdaptive)
+        .lineLimit(2)
+        .multilineTextAlignment(.center)
+
+      Button(action: onClaim) {
+        HStack(spacing: 5) {
+          Image(systemName: "gift")
+            .font(.system(size: 11))
+          Text(L10n.current.claimBadge)
+            .font(.caption2.weight(.semibold))
+        }
+        .foregroundColor(.appForegroundAdaptive)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(Color.appBorderAdaptive.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+      }
+      .buttonStyle(.plain)
+    }
+    .frame(width: 130)
+    .padding(.vertical, 16)
+    .padding(.horizontal, 8)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+  }
+}
+
 // MARK: - Profile Badges Row (displayed on profile)
 
 struct ProfileBadgesRow: View {
@@ -229,10 +459,7 @@ struct ProfileBadgesRow: View {
         HStack(spacing: 8) {
           ForEach(badges) { badge in
             HStack(spacing: 6) {
-              Image(systemName: badge.icon)
-                .font(.system(size: 11, weight: .medium))
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(badge.color)
+              AchievementIconView(achievement: badge, size: 14, color: badge.color)
 
               Text(badge.name)
                 .font(.caption2.weight(.medium))
@@ -296,10 +523,7 @@ struct ClaimCelebrationOverlay: View {
                 )
             )
             .overlay(
-              Image(systemName: achievement.icon)
-                .font(.system(size: 40, weight: .medium))
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(achievement.color)
+              AchievementIconView(achievement: achievement, size: 44, color: achievement.color)
             )
             .scaleEffect(showContent ? 1 : 0.5)
         }
@@ -367,129 +591,133 @@ struct ClaimCelebrationOverlay: View {
   }
 }
 
-// MARK: - Row
+// MARK: - Card
 
-private struct AchievementRow: View {
+private struct AchievementCard: View {
   let achievement: Achievement
-  let onClaim: () -> Void
+  let onClaim: (() -> Void)?
   @Environment(\.colorScheme) private var colorScheme
+  @State private var animateProgress = false
 
-  private let badgeWidth: CGFloat = 68
-  private let badgeHeight: CGFloat = 80
-  private let badgeRadius: CGFloat = 18
+  private var hasProgress: Bool { achievement.current > 0 }
 
   var body: some View {
-    HStack(spacing: 16) {
-      badgeIcon
-      details
-      Spacer(minLength: 0)
+    VStack(spacing: 0) {
+      iconSection
+        .padding(.top, 20)
+        .padding(.bottom, 14)
+
+      textSection
+        .padding(.horizontal, 14)
+
+      Spacer(minLength: 8)
+
+      ctaSection
+        .padding(.horizontal, 14)
+        .padding(.bottom, 16)
     }
-    .padding(.horizontal, 24)
-    .padding(.vertical, 20)
-    .opacity(achievement.isComplete ? 1 : 0.45)
+    .frame(maxWidth: .infinity)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+    .opacity(cardOpacity)
+    .onAppear {
+      withAnimation(.easeOut(duration: 0.6).delay(0.1)) {
+        animateProgress = true
+      }
+    }
   }
 
-  // MARK: Badge
+  private var cardOpacity: Double {
+    if achievement.isClaimed || achievement.isClaimable { return 1 }
+    if hasProgress { return 0.7 }
+    return 0.45
+  }
 
-  private var badgeIcon: some View {
-    ZStack {
-      RoundedRectangle(cornerRadius: badgeRadius, style: .continuous)
-        .fill(
-          achievement.isComplete
-            ? achievement.color.opacity(colorScheme == .dark ? 0.08 : 0.07)
-            : Color.appInputFilled
-        )
-        .frame(width: badgeWidth, height: badgeHeight)
-        .overlay(
-          RoundedRectangle(cornerRadius: badgeRadius, style: .continuous)
-            .strokeBorder(
-              achievement.isComplete
-                ? achievement.color.opacity(colorScheme == .dark ? 0.2 : 0.15)
-                : Color.appBorderAdaptive,
-              lineWidth: 1
-            )
-        )
+  // MARK: Icon
 
+  private var iconSection: some View {
+    Group {
       if achievement.isComplete {
-        Image(systemName: achievement.icon)
-          .font(.system(size: 30, weight: .medium))
-          .symbolRenderingMode(.hierarchical)
-          .foregroundStyle(achievement.color)
+        AchievementIconView(achievement: achievement, size: 80, color: achievement.color)
+      } else if hasProgress {
+        AchievementIconView(achievement: achievement, size: 68, color: .appMutedForegroundAdaptive, muted: true)
       } else {
         Image(systemName: "lock.fill")
-          .font(.system(size: 20))
+          .font(.system(size: 28))
           .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(width: 68, height: 68)
       }
     }
-    .frame(width: badgeWidth, height: badgeHeight)
   }
 
-  // MARK: Details
+  // MARK: Text
 
-  private var details: some View {
-    VStack(alignment: .leading, spacing: 6) {
+  private var textSection: some View {
+    VStack(spacing: 4) {
       Text(achievement.name)
-        .font(.body.weight(.semibold))
+        .font(.subheadline.weight(.semibold))
         .foregroundColor(.appForegroundAdaptive)
+        .multilineTextAlignment(.center)
+        .lineLimit(2)
+        .fixedSize(horizontal: false, vertical: true)
 
       Text(achievement.description)
-        .font(.caption)
+        .font(.caption2)
         .foregroundColor(.appMutedForegroundAdaptive)
+        .multilineTextAlignment(.center)
         .lineLimit(2)
-
-      if achievement.isClaimable {
-        claimButton
-          .padding(.top, 4)
-          .transition(.opacity.combined(with: .move(edge: .bottom)))
-      } else {
-        progressBar
-          .padding(.top, 4)
-          .transition(.opacity.combined(with: .move(edge: .bottom)))
-      }
     }
   }
 
-  private var progressBar: some View {
-    HStack(spacing: 10) {
-      GeometryReader { geo in
-        Capsule()
-          .fill(Color.appBorderAdaptive)
-          .overlay(alignment: .leading) {
-            Capsule()
-              .fill(achievement.color)
-              .frame(width: max(geo.size.width * achievement.progress, 10))
-          }
-          .clipShape(Capsule())
-      }
-      .frame(height: 10)
+  // MARK: CTA
 
+  @ViewBuilder
+  private var ctaSection: some View {
+    if achievement.isClaimed {
+      HStack(spacing: 4) {
+        Image(systemName: "checkmark.circle.fill")
+          .font(.system(size: 11))
+        Text(L10n.current.achSectionClaimed)
+          .font(.caption2.weight(.medium))
+      }
+      .foregroundColor(.appMutedForegroundAdaptive)
+    } else if achievement.isClaimable, let onClaim {
+      Button(action: onClaim) {
+        HStack(spacing: 5) {
+          Image(systemName: "gift")
+            .font(.system(size: 11))
+          Text(L10n.current.claimBadge)
+            .font(.caption2.weight(.semibold))
+        }
+        .foregroundColor(.appForegroundAdaptive)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(Color.appBorderAdaptive.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+      }
+      .buttonStyle(.plain)
+    } else if hasProgress {
+      VStack(spacing: 6) {
+        GeometryReader { geo in
+          Capsule()
+            .fill(Color.appBorderAdaptive)
+            .overlay(alignment: .leading) {
+              Capsule()
+                .fill(achievement.color)
+                .frame(width: max(geo.size.width * (animateProgress ? achievement.progress : 0), 6))
+            }
+            .clipShape(Capsule())
+        }
+        .frame(height: 8)
+
+        Text("\(achievement.current)/\(achievement.target)")
+          .font(.system(size: 11, weight: .semibold).monospacedDigit())
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+    } else {
       Text("\(achievement.current)/\(achievement.target)")
-        .font(.system(size: 13, weight: .semibold).monospacedDigit())
-        .foregroundColor(
-          achievement.isComplete
-            ? .appForegroundAdaptive
-            : .appMutedForegroundAdaptive
-        )
-        .frame(minWidth: 38, alignment: .trailing)
+        .font(.system(size: 11, weight: .semibold).monospacedDigit())
+        .foregroundColor(.appMutedForegroundAdaptive)
     }
-  }
-
-  private var claimButton: some View {
-    Button(action: onClaim) {
-      HStack(spacing: 6) {
-        Image(systemName: "gift")
-          .font(.system(size: 13))
-          .foregroundColor(.appForegroundAdaptive)
-
-        Text(L10n.current.claimBadge)
-          .font(.footnote.weight(.medium))
-          .foregroundColor(.appForegroundAdaptive)
-      }
-      .padding(.horizontal, 14)
-      .padding(.vertical, 10)
-      .background(Color.appInputFilled)
-      .cornerRadius(10)
-    }
-    .buttonStyle(.plain)
   }
 }

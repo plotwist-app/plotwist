@@ -22,18 +22,19 @@ struct EditBadgesView: View {
         header
 
         ScrollView(showsIndicators: false) {
-          VStack(spacing: 0) {
-            ForEach(Array(claimedBadges.enumerated()), id: \.element.id) { index, badge in
-              badgeRow(badge)
-
-              if index < claimedBadges.count - 1 {
-                Divider()
-                  .padding(.leading, 108)
-                  .padding(.trailing, 24)
-              }
+          LazyVGrid(
+            columns: [
+              GridItem(.flexible(), spacing: 12),
+              GridItem(.flexible(), spacing: 12)
+            ],
+            spacing: 12
+          ) {
+            ForEach(claimedBadges) { badge in
+              badgeCard(badge)
             }
           }
-          .padding(.top, 8)
+          .padding(.horizontal, 24)
+          .padding(.top, 16)
           .padding(.bottom, 40)
         }
       }
@@ -72,53 +73,37 @@ struct EditBadgesView: View {
     }
   }
 
-  private func badgeRow(_ badge: Achievement) -> some View {
+  private func badgeCard(_ badge: Achievement) -> some View {
     Button {
       toggleEquip(id: badge.id)
     } label: {
-      HStack(spacing: 16) {
-        ZStack {
-          RoundedRectangle(cornerRadius: 18, style: .continuous)
-            .fill(badge.color.opacity(colorScheme == .dark ? 0.08 : 0.07))
-            .frame(width: 68, height: 80)
-            .overlay(
-              RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .strokeBorder(
-                  badge.color.opacity(colorScheme == .dark ? 0.2 : 0.15),
-                  lineWidth: 1
-                )
-            )
+      VStack(spacing: 0) {
+        AchievementIconView(achievement: badge, size: 64, color: badge.color)
+          .padding(.top, 20)
+          .padding(.bottom, 12)
 
-          Image(systemName: badge.icon)
-            .font(.system(size: 30, weight: .medium))
-            .symbolRenderingMode(.hierarchical)
-            .foregroundStyle(badge.color)
-        }
-        .frame(width: 68, height: 80)
+        Text(badge.name)
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+          .multilineTextAlignment(.center)
+          .lineLimit(2)
+          .padding(.horizontal, 14)
 
-        VStack(alignment: .leading, spacing: 4) {
-          Text(badge.name)
-            .font(.body.weight(.semibold))
-            .foregroundColor(.appForegroundAdaptive)
-
-          Text(badge.description)
-            .font(.caption)
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .lineLimit(2)
-        }
-
-        Spacer(minLength: 0)
+        Spacer(minLength: 8)
 
         Image(systemName: badge.isEquipped ? "checkmark.circle.fill" : "circle")
-          .font(.system(size: 24))
+          .font(.system(size: 22))
           .foregroundColor(
             badge.isEquipped
               ? badge.color
               : .appBorderAdaptive
           )
+          .padding(.bottom, 16)
       }
-      .padding(.horizontal, 24)
-      .padding(.vertical, 20)
+      .frame(maxWidth: .infinity)
+      .frame(minHeight: 150)
+      .background(Color.appInputFilled)
+      .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
       .opacity(badge.isEquipped ? 1 : 0.45)
       .contentShape(Rectangle())
     }
