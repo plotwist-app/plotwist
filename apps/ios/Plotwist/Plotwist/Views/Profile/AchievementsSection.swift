@@ -498,7 +498,7 @@ struct ClaimCelebrationOverlay: View {
         ZStack {
           ForEach(0..<12, id: \.self) { i in
             Circle()
-              .fill(achievement.color.opacity(showParticles ? 0 : 0.7))
+              .fill(Color.appForegroundAdaptive.opacity(showParticles ? 0 : 0.5))
               .frame(width: i % 2 == 0 ? 8 : 5)
               .offset(
                 x: showParticles ? particleOffsets[i].x : 0,
@@ -506,21 +506,7 @@ struct ClaimCelebrationOverlay: View {
               )
           }
 
-          RoundedRectangle(cornerRadius: 24, style: .continuous)
-            .fill(
-              achievement.color.opacity(colorScheme == .dark ? 0.1 : 0.08)
-            )
-            .frame(width: 96, height: 96)
-            .overlay(
-              RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .strokeBorder(
-                  achievement.color.opacity(colorScheme == .dark ? 0.25 : 0.2),
-                  lineWidth: 1
-                )
-            )
-            .overlay(
-              AchievementIconView(achievement: achievement, size: 44, color: achievement.color)
-            )
+          AchievementIconView(achievement: achievement, size: 96, color: .appForegroundAdaptive)
             .scaleEffect(showContent ? 1 : 0.5)
         }
 
@@ -634,14 +620,14 @@ private struct AchievementCard: View {
   private var iconSection: some View {
     Group {
       if achievement.isComplete {
-        AchievementIconView(achievement: achievement, size: 80, color: achievement.color)
+        AchievementIconView(achievement: achievement, size: 96, color: achievement.color)
       } else if hasProgress {
-        AchievementIconView(achievement: achievement, size: 68, color: .appMutedForegroundAdaptive, muted: true)
+        AchievementIconView(achievement: achievement, size: 80, color: .appMutedForegroundAdaptive, muted: true)
       } else {
         Image(systemName: "lock.fill")
-          .font(.system(size: 28))
+          .font(.system(size: 30))
           .foregroundColor(.appMutedForegroundAdaptive)
-          .frame(width: 68, height: 68)
+          .frame(width: 80, height: 80)
       }
     }
   }
@@ -670,13 +656,7 @@ private struct AchievementCard: View {
   @ViewBuilder
   private var ctaSection: some View {
     if achievement.isClaimed {
-      HStack(spacing: 4) {
-        Image(systemName: "checkmark.circle.fill")
-          .font(.system(size: 11))
-        Text(L10n.current.achSectionClaimed)
-          .font(.caption2.weight(.medium))
-      }
-      .foregroundColor(.appMutedForegroundAdaptive)
+      EmptyView()
     } else if achievement.isClaimable, let onClaim {
       Button(action: onClaim) {
         Text(L10n.current.claimBadge)
