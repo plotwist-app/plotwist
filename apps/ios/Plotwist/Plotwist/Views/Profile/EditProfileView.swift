@@ -107,10 +107,6 @@ struct EditProfileView: View {
   @State private var isDeletingAccount = false
   @State private var showPaywall = false
 
-  private var claimedBadges: [Achievement] {
-    achievements.filter { $0.isClaimed }
-  }
-
   init(user: User, achievements: Binding<[Achievement]>) {
     self.initialUser = user
     self._achievements = achievements
@@ -317,27 +313,6 @@ struct EditProfileView: View {
 
       // Plan
       planRow
-
-      if !claimedBadges.isEmpty {
-        fieldDivider
-
-        NavigationLink(destination: EditBadgesView(achievements: $achievements)) {
-          EditProfileBadgeRow(label: L10n.current.badges) {
-            let equipped = achievements.filter { $0.isClaimed && $0.isEquipped }
-            if equipped.isEmpty {
-              Text("-")
-                .font(.subheadline)
-                .foregroundColor(.appMutedForegroundAdaptive)
-            } else {
-              FlowLayout(spacing: 6) {
-                ForEach(equipped) { badge in
-                  ProfileBadge(text: badge.name, icon: badge.icon)
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 

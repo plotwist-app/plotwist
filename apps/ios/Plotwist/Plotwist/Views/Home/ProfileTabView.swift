@@ -356,11 +356,6 @@ struct ProfileTabView: View {
           .padding(.horizontal, 24)
       }
 
-      if !equippedBadges.isEmpty {
-        ProfileBadgesRow(badges: equippedBadges)
-          .padding(.top, 12)
-      }
-
     }
   }
 

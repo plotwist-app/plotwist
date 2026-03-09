@@ -249,11 +249,6 @@ struct UserProfileView: View {
           .padding(.horizontal, 24)
       }
 
-      if !equippedBadges.isEmpty {
-        ProfileBadgesRow(badges: equippedBadges)
-          .padding(.top, 12)
-      }
-
       if AuthService.shared.isAuthenticated && !isOwnProfile {
         FollowButton(userId: user.id, followersCount: $followersCount)
           .padding(.horizontal, 24)

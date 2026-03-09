@@ -430,7 +430,7 @@ private struct ClaimableCard: View {
           .foregroundColor(.appForegroundAdaptive)
           .padding(.horizontal, 16)
           .padding(.vertical, 10)
-          .background(Color.appBorderAdaptive.opacity(0.5))
+          .background(Color.appForegroundAdaptive.opacity(0.12))
           .clipShape(RoundedRectangle(cornerRadius: 10))
       }
       .buttonStyle(.plain)
@@ -660,7 +660,7 @@ private struct AchievementCard: View {
           .foregroundColor(.appForegroundAdaptive)
           .frame(maxWidth: .infinity)
           .padding(.vertical, 12)
-          .background(Color.appBorderAdaptive.opacity(0.5))
+          .background(Color.appForegroundAdaptive.opacity(0.12))
           .clipShape(RoundedRectangle(cornerRadius: 12))
       }
       .buttonStyle(.plain)
@@ -668,7 +668,7 @@ private struct AchievementCard: View {
       VStack(spacing: 6) {
         GeometryReader { geo in
           Capsule()
-            .fill(Color.appBorderAdaptive)
+            .fill(Color.appForegroundAdaptive.opacity(0.12))
             .overlay(alignment: .leading) {
               Capsule()
                 .fill(Color.appForegroundAdaptive)
