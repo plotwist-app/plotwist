@@ -2,8 +2,5 @@ import { getSharedUrlByUrl } from '@/infra/db/repositories/shared-urls-repositor
 
 export async function getSharedUrl(url: string) {
   const [sharedUrl] = await getSharedUrlByUrl(url)
-  if (!sharedUrl) {
-    return null
-  }
-  return url
+  return sharedUrl ?? null
 }
