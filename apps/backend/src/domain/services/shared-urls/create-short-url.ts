@@ -1,9 +1,8 @@
-import { trace } from '@opentelemetry/api'
-import { metrics } from '@opentelemetry/api'
+import { createHash } from 'node:crypto'
 import type { FastifyRedis } from '@fastify/redis'
+import { metrics, trace } from '@opentelemetry/api'
 import { base62Encode } from '@/domain/helpers/base62'
 import { insertSharedUrl } from '@/infra/db/repositories/shared-urls-repository'
-import { createHash } from 'node:crypto'
 
 const tracer = trace.getTracer('shared-urls', '1.0.0')
 
@@ -34,7 +33,7 @@ export type CreateShortUrlInput = {
  * Create a short URL: Redis INCR → base62 encode (with salt) → persist.
  * Returns the short code (e.g. "Hrtbs").
  */
-export async function createShortUrl(input: CreateShortUrlInput): Promise<string> {
+export async function createShortUrl(input: CreateShortUrlInput) {
   const { redis, counterKey, salt, longUrl, userId } = input
   const span = tracer.startSpan('CreateShortUrl')
   let err: Error | undefined

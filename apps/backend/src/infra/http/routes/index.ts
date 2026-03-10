@@ -7,6 +7,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui'
 import type { FastifyInstance } from 'fastify'
 
 import { config } from '@/config'
+import { setInitialCounterValue } from '@/domain/services/shared-urls/set-initial-counter-value'
 import { registerRateLimit } from '../rate-limit'
 import { feedbackRoutes } from './feedback'
 import { followsRoutes } from './follow'
@@ -59,6 +60,14 @@ export function routes(app: FastifyInstance) {
 
   app.register(fastifyRedis, {
     url: config.redis.REDIS_URL,
+  })
+
+  app.addHook('onReady', async () => {
+    await setInitialCounterValue({
+      redis: app.redis,
+      counterKey: config.sharedUrls.SHARED_URLS_COUNTER_KEY,
+      initialValue: config.sharedUrls.SHARED_URLS_COUNTER_START_VAL - 1,
+    })
   })
 
   registerRateLimit(app)

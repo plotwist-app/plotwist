@@ -20,6 +20,8 @@ export async function setInitialCounterValue(
   const { redis, counterKey, initialValue } = input
   const result = await redis.set(counterKey, String(initialValue), 'NX')
 
+  logger.info({ result }, 'Set initial counter value')
+
   const set = result === 'OK'
   if (set) {
     logger.info(
