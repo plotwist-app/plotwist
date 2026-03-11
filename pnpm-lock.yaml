@@ -381,9 +381,6 @@ importers:
       '@uidotdev/usehooks':
         specifier: ^2.4.1
         version: 2.4.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.5
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
