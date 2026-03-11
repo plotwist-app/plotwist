@@ -19,6 +19,7 @@ struct ProStatsCardsView: View {
   @State private var countriesLoaded = false
   @State private var recsLoaded = false
   @State private var dnaLoadedPeriod: String?
+  @State private var insightsLoadedPeriod: String?
   @State private var countriesLoadedPeriod: String?
   @State private var recsLoadedPeriod: String?
 
@@ -51,13 +52,14 @@ struct ProStatsCardsView: View {
     .task {
       let language = Language.current.rawValue
       Task { await loadDNA(language: language, period: period) }
-      Task { await loadInsights() }
+      Task { await loadInsights(period: period) }
       Task { await loadCountries(language: language, period: period) }
       Task { await loadRecommendations(language: language, period: period) }
     }
     .onChange(of: period) { _, newPeriod in
       Task {
         await reloadDNA(period: newPeriod)
+        await reloadInsights(period: newPeriod)
         await reloadCountries(period: newPeriod)
         await reloadRecommendations(period: newPeriod)
       }
@@ -71,6 +73,12 @@ struct ProStatsCardsView: View {
     let language = Language.current.rawValue
     withAnimation(.easeIn(duration: 0.15)) { tasteDNA = nil; dnaLoaded = false }
     await loadDNA(language: language, period: period)
+  }
+
+  private func reloadInsights(period: String) async {
+    guard period != insightsLoadedPeriod else { return }
+    withAnimation(.easeIn(duration: 0.15)) { ratingInsights = nil; insightsLoaded = false }
+    await loadInsights(period: period)
   }
 
   private func reloadCountries(period: String) async {
@@ -94,9 +102,9 @@ struct ProStatsCardsView: View {
     withAnimation(.easeIn(duration: 0.25)) { countries = result; countriesLoadedPeriod = period; countriesLoaded = true }
   }
 
-  private func loadInsights() async {
-    let result = try? await UserStatsService.shared.getRatingInsights(userId: userId)
-    withAnimation(.easeIn(duration: 0.25)) { ratingInsights = result; insightsLoaded = true }
+  private func loadInsights(period: String) async {
+    let result = try? await UserStatsService.shared.getRatingInsights(userId: userId, period: period)
+    withAnimation(.easeIn(duration: 0.25)) { ratingInsights = result; insightsLoadedPeriod = period; insightsLoaded = true }
   }
 
   private func loadDNA(language: String, period: String) async {

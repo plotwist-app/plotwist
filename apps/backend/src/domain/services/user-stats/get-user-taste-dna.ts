@@ -64,12 +64,14 @@ export async function getUserTasteDNAService({
       redis,
       language,
       period,
+      dateRange,
     }),
     getUserWatchedCountriesService({
       userId,
       redis,
       language,
       period,
+      dateRange,
     }),
     db.execute<{ avg_rating: string; review_count: number }>(sql`
         SELECT COALESCE(AVG(rating), 0)::numeric(3,1) as avg_rating,

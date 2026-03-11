@@ -133,6 +133,7 @@ struct ShareReviewCardView: View {
       Color(hex: "0A0A0A")
     case .gradient:
       if posterColors.count >= 2 {
+        Color.black
         LinearGradient(
           stops: [
             .init(color: posterColors[0].opacity(0.5), location: 0),
