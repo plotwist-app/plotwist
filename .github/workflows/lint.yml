@@ -38,5 +38,18 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: 🔍 Run TypeScript typecheck
+        working-directory: apps/web
+        run: pnpm run typecheck
+        
+      - name: 🔍 Run TypeScript typecheck
+        working-directory: apps/backend
+        run: pnpm run typecheck
+
       - name: 🔍 Run Biome check
-        run: npx biome check .
+        working-directory: apps/web
+        run: pnpm run biome:check
+
+      - name: 🔍 Run Biome check
+        working-directory: apps/backend
+        run: pnpm run biome:check
