@@ -9,7 +9,7 @@ import {
   useDeleteFollow,
   useGetFollow,
   usePostFollow,
-} from '@/api/follow'
+} from '@/api/follows'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 

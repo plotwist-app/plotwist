@@ -24,7 +24,7 @@ import { Link } from 'next-view-transitions'
 import { type PropsWithChildren, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
-import { getFollowers, useGetFollowersInfinite } from '@/api/follow'
+import { getFollowers, useGetFollowersInfinite } from '@/api/follows'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 

@@ -9,6 +9,7 @@
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "generate:api": "orval"
   },
   "dependencies": {
