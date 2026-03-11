@@ -28,8 +28,7 @@ export async function sharedUrlRoute(app: FastifyInstance) {
         response: createSharedUrlResponseSchema,
         security: [{ bearerAuth: [] }],
       },
-      handler: (req, reply) =>
-        createSharedUrlController(req, reply, app.redis),
+      handler: (req, reply) => createSharedUrlController(req, reply, app.redis),
     })
   )
 

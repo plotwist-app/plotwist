@@ -3,7 +3,9 @@ import { z } from 'zod'
 const urlSchema = z.string().url().min(1)
 
 export const createSharedUrlBodySchema = z.object({
-  originalUrl: urlSchema.describe('Full URL to shorten (e.g. list or movie page)'),
+  originalUrl: urlSchema.describe(
+    'Full URL to shorten (e.g. list or movie page)'
+  ),
 })
 
 export const createSharedUrlResponseSchema = {
