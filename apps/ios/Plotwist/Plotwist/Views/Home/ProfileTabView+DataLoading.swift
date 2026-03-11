@@ -20,6 +20,8 @@ extension ProfileTabView {
     if let cached = cache.getQuickStats() {
       moviesCount = cached.moviesCount
       seriesCount = cached.seriesCount
+      followersCount = cached.followersCount
+      followingCount = cached.followingCount
       isLoadingQuickStats = false
     }
     if let userId = user?.id ?? cache.user?.id,
@@ -127,10 +129,13 @@ extension ProfileTabView {
     guard let userId = user?.id else { return }
 
     if !forceRefresh, let cached = cache.getQuickStats() {
-      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount {
+      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount
+          || followersCount != cached.followersCount || followingCount != cached.followingCount {
         withAnimation(.snappy) {
           moviesCount = cached.moviesCount
           seriesCount = cached.seriesCount
+          followersCount = cached.followersCount
+          followingCount = cached.followingCount
         }
       }
       isLoadingQuickStats = false
@@ -145,7 +150,7 @@ extension ProfileTabView {
         followersCount = stats.followersCount
         followingCount = stats.followingCount
       }
-      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
+      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount, followersCount: stats.followersCount, followingCount: stats.followingCount)
     } catch {
       print("Error loading quick stats: \(error)")
     }
@@ -219,7 +224,7 @@ extension ProfileTabView {
             else { seriesCount += 1 }
           }
         }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount, followersCount: followersCount, followingCount: followingCount)
       }
 
       await animateItemRemoval(item: item)
@@ -256,7 +261,7 @@ extension ProfileTabView {
           if item.mediaType == "MOVIE" { moviesCount = max(0, moviesCount - 1) }
           else { seriesCount = max(0, seriesCount - 1) }
         }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount, followersCount: followersCount, followingCount: followingCount)
       }
 
       await animateItemRemoval(item: item)

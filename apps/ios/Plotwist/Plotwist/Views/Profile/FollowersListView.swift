@@ -43,24 +43,12 @@ struct FollowersListView: View {
         .padding(.top, 12)
         .padding(.bottom, 16)
 
-      HStack {
-        Text(title)
-          .font(.title3.bold())
-          .foregroundColor(.appForegroundAdaptive)
-
-        Spacer()
-
-        Button { dismiss() } label: {
-          Image(systemName: "xmark")
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.appMutedForegroundAdaptive)
-            .frame(width: 28, height: 28)
-            .background(Color.appInputFilled)
-            .clipShape(Circle())
-        }
-      }
-      .padding(.horizontal, 24)
-      .padding(.bottom, 16)
+      Text(title)
+        .font(.title3.bold())
+        .foregroundColor(.appForegroundAdaptive)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 24)
+        .padding(.bottom, 16)
 
       if isLoading {
         Spacer()

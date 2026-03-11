@@ -21,6 +21,8 @@ struct ReviewSectionView: View {
   @State private var error: String?
   @State private var hasLoaded = false
 
+  private let reviewsCache = MediaReviewsCache.shared
+
   private var averageRating: Double {
     guard !reviews.isEmpty else { return 0 }
     let total = reviews.reduce(0) { $0 + $1.rating }
@@ -151,6 +153,7 @@ struct ReviewSectionView: View {
         }
       }
     }
+    .onAppear { restoreFromCache() }
     .task {
       await loadReviews()
     }
@@ -161,8 +164,17 @@ struct ReviewSectionView: View {
     }
   }
 
+  private func restoreFromCache() {
+    let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+    if let cached = reviewsCache.get(mediaId: mediaId, mediaType: apiMediaType) {
+      reviews = cached
+      isLoading = false
+      hasLoaded = true
+      onContentLoaded?(!cached.isEmpty)
+    }
+  }
+
   private func loadReviews(forceReload: Bool = false) async {
-    // Skip if already loaded (unless force reload)
     guard !hasLoaded || forceReload else {
       isLoading = false
       onContentLoaded?(!reviews.isEmpty)
@@ -172,15 +184,19 @@ struct ReviewSectionView: View {
     isLoading = true
     error = nil
 
+    let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
     do {
-      let apiMediaType = mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-      reviews = try await ReviewService.shared.getReviews(
+      let loaded = try await ReviewService.shared.getReviews(
         tmdbId: mediaId,
         mediaType: apiMediaType
       )
-      isLoading = false
+      withAnimation(.easeOut(duration: 0.3)) {
+        reviews = loaded
+        isLoading = false
+      }
       hasLoaded = true
-      onContentLoaded?(!reviews.isEmpty)
+      reviewsCache.set(mediaId: mediaId, mediaType: apiMediaType, reviews: loaded)
+      onContentLoaded?(!loaded.isEmpty)
     } catch {
       self.error = error.localizedDescription
       isLoading = false

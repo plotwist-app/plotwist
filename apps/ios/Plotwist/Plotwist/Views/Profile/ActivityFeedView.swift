@@ -5,6 +5,38 @@
 
 import SwiftUI
 
+// MARK: - Activity Feed Cache
+
+class ActivityFeedCache {
+  static let shared = ActivityFeedCache()
+  private init() {}
+
+  private var cache: [String: CachedEntry] = [:]
+  private let cacheDuration: TimeInterval = 300
+
+  private struct CachedEntry {
+    let activities: [UserActivity]
+    let nextCursor: String?
+    let timestamp: Date
+  }
+
+  func get(userId: String) -> (activities: [UserActivity], nextCursor: String?)? {
+    guard let entry = cache[userId],
+          Date().timeIntervalSince(entry.timestamp) < cacheDuration else {
+      return nil
+    }
+    return (entry.activities, entry.nextCursor)
+  }
+
+  func set(userId: String, activities: [UserActivity], nextCursor: String?) {
+    cache[userId] = CachedEntry(activities: activities, nextCursor: nextCursor, timestamp: Date())
+  }
+
+  func invalidate(userId: String) {
+    cache.removeValue(forKey: userId)
+  }
+}
+
 // MARK: - Activity Feed (profile tab with infinite scroll)
 
 struct ActivityFeedView: View {
@@ -15,11 +47,15 @@ struct ActivityFeedView: View {
   @State private var isLoadingMore = false
   @State private var strings = L10n.current
 
+  private let cache = ActivityFeedCache.shared
+
   var body: some View {
     LazyVStack(alignment: .leading, spacing: 0) {
       if isLoading && activities.isEmpty {
         ForEach(0..<8, id: \.self) { _ in
           ActivityItemSkeleton()
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
         }
       } else if activities.isEmpty {
         VStack(spacing: 8) {
@@ -52,15 +88,20 @@ struct ActivityFeedView: View {
       }
     }
     .padding(.top, 8)
-    .task {
-      if activities.isEmpty {
-        await loadActivities()
-      }
+    .onAppear { restoreFromCache() }
+    .task { await loadActivities() }
+  }
+
+  private func restoreFromCache() {
+    if activities.isEmpty, let cached = cache.get(userId: userId) {
+      activities = cached.activities
+      nextCursor = cached.nextCursor
+      isLoading = false
     }
   }
 
   private func loadActivities() async {
-    isLoading = true
+    if activities.isEmpty { isLoading = true }
     do {
       let response = try await ActivityService.shared.getUserActivities(
         userId: userId,
@@ -71,6 +112,7 @@ struct ActivityFeedView: View {
         nextCursor = response.nextCursor
         isLoading = false
       }
+      cache.set(userId: userId, activities: activities, nextCursor: nextCursor)
     } catch {
       isLoading = false
     }
@@ -90,6 +132,7 @@ struct ActivityFeedView: View {
         nextCursor = response.nextCursor
         isLoadingMore = false
       }
+      cache.set(userId: userId, activities: activities, nextCursor: nextCursor)
     } catch {
       isLoadingMore = false
     }
@@ -114,8 +157,8 @@ struct NetworkActivitySection: View {
       if isLoading {
         ForEach(0..<5, id: \.self) { _ in
           ActivityItemSkeleton()
-            .padding(.horizontal, 24)
         }
+        .padding(.horizontal, 24)
       } else if activities.isEmpty {
         HStack(spacing: 8) {
           Image(systemName: "person.2")
@@ -166,19 +209,11 @@ struct ActivityItemView: View {
     HStack(alignment: .center, spacing: 12) {
       avatarWithBadge
 
-      VStack(alignment: .leading, spacing: 4) {
-        HStack(alignment: .top) {
-          activityText
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
-
-          Spacer(minLength: 8)
-
-          Text(activity.relativeTime)
-            .font(.caption)
-            .foregroundColor(.appMutedForegroundAdaptive.opacity(0.6))
-            .layoutPriority(1)
-        }
+      VStack(alignment: .leading, spacing: 5) {
+        activityText
+          .font(.subheadline)
+          .lineSpacing(2)
+          .foregroundColor(.appMutedForegroundAdaptive)
 
         if activity.activityType == "CREATE_REVIEW", let rating = activity.additionalInfo?.rating {
           HStack(spacing: 2) {
@@ -199,7 +234,7 @@ struct ActivityItemView: View {
     ZStack(alignment: .bottomTrailing) {
       Group {
         if let url = activity.owner.avatarUrl, let imageURL = URL(string: url) {
-          AsyncImage(url: imageURL) { image in
+          CachedAsyncImage(url: imageURL) { image in
             image.resizable().aspectRatio(contentMode: .fill)
           } placeholder: {
             initialsView
@@ -252,89 +287,76 @@ struct ActivityItemView: View {
 
   @ViewBuilder
   private var activityText: some View {
-    let username = Text(activity.owner.username).fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
+    let name = Text(activity.owner.username).fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
+    let time = Text(" · \(activity.relativeTime)").foregroundColor(.appMutedForegroundAdaptive.opacity(0.6))
 
     switch activity.activityType {
     case "CHANGE_STATUS":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let statusText = localizedStatus(info.status)
-        username + Text(" \(strings.activityMarked) ") + title + Text(" \(strings.activityAs) ") + Text(statusText).fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
+        name + Text(" \(strings.activityMarked) \(info.title ?? "") \(strings.activityAs) \(localizedStatus(info.status))") + time
       }
 
     case "ADD_ITEM":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let list = Text(info.listTitle ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityAdded) ") + title + Text(" \(strings.activityTo) ") + list
+        name + Text(" \(strings.activityAdded) \(info.title ?? "") \(strings.activityTo) \(info.listTitle ?? "")") + time
       }
 
     case "DELETE_ITEM":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let list = Text(info.listTitle ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityRemoved) ") + title + Text(" \(strings.activityFrom) ") + list
+        name + Text(" \(strings.activityRemoved) \(info.title ?? "") \(strings.activityFrom) \(info.listTitle ?? "")") + time
       }
 
     case "CREATE_LIST":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityCreatedList) ") + title
+        name + Text(" \(strings.activityCreatedList) \(info.title ?? "")") + time
       }
 
     case "LIKE_LIST":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityLikedList) ") + title
+        name + Text(" \(strings.activityLikedList) \(info.title ?? "")") + time
       }
 
     case "CREATE_REVIEW":
       if let info = activity.additionalInfo {
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityReviewed) ") + title
+        name + Text(" \(strings.activityReviewed) \(info.title ?? "")") + time
       }
 
     case "LIKE_REVIEW":
       if let info = activity.additionalInfo {
         let author = Text(info.author?.username ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityLikedReview) ") + author + Text(" \(strings.activityAbout) ") + title
+        name + Text(" \(strings.activityLikedReview) ") + author + Text(" \(strings.activityAbout) \(info.title ?? "")") + time
       }
 
     case "FOLLOW_USER":
       if let info = activity.additionalInfo {
         let followed = Text(info.username ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityFollowed) ") + followed
+        name + Text(" \(strings.activityFollowed) ") + followed + time
       }
 
     case "CREATE_REPLY":
       if let info = activity.additionalInfo {
         let author = Text(info.author?.username ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityRepliedToReview) ") + author + Text(" \(strings.activityAbout) ") + title
+        name + Text(" \(strings.activityRepliedToReview) ") + author + Text(" \(strings.activityAbout) \(info.title ?? "")") + time
       }
 
     case "LIKE_REPLY":
       if let info = activity.additionalInfo {
         let author = Text(info.author?.username ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityLikedReply) ") + author + Text(" \(strings.activityAbout) ") + title
+        name + Text(" \(strings.activityLikedReply) ") + author + Text(" \(strings.activityAbout) \(info.title ?? "")") + time
       }
 
     case "WATCH_EPISODE":
       if let info = activity.additionalInfo {
         let count = info.episodes?.count ?? 0
         let episodeWord = count > 1 ? strings.activityWatchedEpisodes : strings.activityWatchedEpisode
-        let title = Text(info.title ?? "").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        let countText = Text("\(count)").fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
-        username + Text(" \(strings.activityMarked) ") + countText + Text(" \(episodeWord) \(strings.activityFrom) ") + title + Text(" \(strings.activityAs) ") + Text(strings.watched).fontWeight(.medium).foregroundColor(.appForegroundAdaptive)
+        name + Text(" \(strings.activityMarked) \(count) \(episodeWord) \(strings.activityFrom) \(info.title ?? "") \(strings.activityAs) \(strings.watched)") + time
       }
 
     case "CREATE_ACCOUNT":
-      username + Text(" \(strings.activityJoined)")
+      name + Text(" \(strings.activityJoined)") + time
 
     default:
-      username
+      name + time
     }
   }
 
@@ -353,24 +375,16 @@ struct ActivityItemView: View {
 
 private struct ActivityItemSkeleton: View {
   var body: some View {
-    HStack(spacing: 12) {
+    HStack(alignment: .center, spacing: 12) {
       Circle()
         .fill(Color.appForegroundAdaptive.opacity(0.08))
         .frame(width: 36, height: 36)
 
-      VStack(alignment: .leading, spacing: 6) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appForegroundAdaptive.opacity(0.08))
-          .frame(width: .random(in: 150...250), height: 12)
-
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appForegroundAdaptive.opacity(0.05))
-          .frame(width: 40, height: 10)
-      }
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appForegroundAdaptive.opacity(0.08))
+        .frame(width: .random(in: 160...260), height: 13)
 
       Spacer()
     }
-    .padding(.vertical, 10)
-    .padding(.horizontal, 24)
   }
 }

@@ -17,41 +17,45 @@ struct StarRatingView: View {
     self.interactive = interactive
   }
 
+  private let spacing: CGFloat = 4
+
   var body: some View {
-    HStack(spacing: 4) {
+    HStack(spacing: spacing) {
       ForEach(1...maxRating, id: \.self) { index in
-        GeometryReader { geometry in
-          ZStack {
-            Image(systemName: starImage(for: index))
-              .font(.system(size: size))
-              .foregroundColor(starColor(for: index))
-              .frame(width: geometry.size.width, height: geometry.size.height)
-          }
-          .contentShape(Rectangle())
-          .gesture(
-            DragGesture(minimumDistance: 0)
-              .onEnded { value in
-                if interactive {
-                  handleTap(at: value.location, in: geometry.size, for: index)
-                }
-              }
-          )
-        }
-        .frame(width: size, height: size)
+        Image(systemName: starImage(for: index))
+          .font(.system(size: size))
+          .foregroundColor(starColor(for: index))
+          .frame(width: size, height: size)
       }
     }
     .frame(height: size)
+    .contentShape(Rectangle())
+    .gesture(
+      interactive
+        ? DragGesture(minimumDistance: 0)
+            .onChanged { value in
+              updateRating(at: value.location.x)
+            }
+            .onEnded { value in
+              updateRating(at: value.location.x)
+            }
+        : nil
+    )
   }
 
-  private func handleTap(at location: CGPoint, in size: CGSize, for index: Int) {
-    let tapPosition = location.x
-    
-    if tapPosition < size.width / 2 {
-      rating = Double(index) - 0.5
-    } else {
-      rating = Double(index)
+  private func updateRating(at x: CGFloat) {
+    let starWidth = size + spacing
+    let clampedX = max(0, min(x, starWidth * CGFloat(maxRating) - spacing))
+    let starIndex = clampedX / starWidth
+    let fraction = starIndex - floor(starIndex)
+    let newRating = fraction < 0.5
+      ? floor(starIndex) + 0.5
+      : floor(starIndex) + 1.0
+    let clamped = max(0.5, min(Double(maxRating), newRating))
+    if clamped != rating {
+      rating = clamped
+      Haptics.selection()
     }
-    Haptics.selection()
   }
 
   private func starImage(for index: Int) -> String {

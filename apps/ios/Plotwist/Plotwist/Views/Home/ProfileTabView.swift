@@ -246,7 +246,6 @@ struct ProfileTabView: View {
           selectedTab: $selectedMainTab,
           slideFromTrailing: $slideFromTrailing,
           strings: strings,
-          reviewsCount: totalReviewsCount,
           visibleTabs: visibleMainTabs
         )
         .padding(.top, 28)

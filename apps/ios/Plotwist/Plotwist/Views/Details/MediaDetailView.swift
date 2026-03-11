@@ -5,6 +5,44 @@
 
 import SwiftUI
 
+// MARK: - Media Detail Cache
+class MediaDetailCache {
+  static let shared = MediaDetailCache()
+  private init() {}
+
+  private var cache: [String: CachedEntry] = [:]
+  private let cacheDuration: TimeInterval = 300
+
+  private struct CachedEntry {
+    let details: MovieDetails?
+    let images: [TMDBImage]
+    let collection: MovieCollection?
+    let timestamp: Date
+  }
+
+  private func key(_ mediaId: Int, _ mediaType: String) -> String {
+    "\(mediaType)_\(mediaId)"
+  }
+
+  func get(mediaId: Int, mediaType: String) -> (details: MovieDetails?, images: [TMDBImage], collection: MovieCollection?)? {
+    let k = key(mediaId, mediaType)
+    guard let entry = cache[k],
+          Date().timeIntervalSince(entry.timestamp) < cacheDuration else {
+      return nil
+    }
+    return (entry.details, entry.images, entry.collection)
+  }
+
+  func set(mediaId: Int, mediaType: String, details: MovieDetails?, images: [TMDBImage], collection: MovieCollection?) {
+    let k = key(mediaId, mediaType)
+    cache[k] = CachedEntry(details: details, images: images, collection: collection, timestamp: Date())
+  }
+
+  func invalidate(mediaId: Int, mediaType: String) {
+    cache.removeValue(forKey: key(mediaId, mediaType))
+  }
+}
+
 struct MediaDetailView: View {
   let mediaId: Int
   let mediaType: String
@@ -216,20 +254,25 @@ struct MediaDetailView: View {
         await loadUserItem()
       }
     }
+    .onAppear { restoreFromCache() }
     .task {
-      // Start loading user data states immediately if authenticated
       if AuthService.shared.isAuthenticated {
         isLoadingUserReview = true
         isLoadingUserItem = true
       }
 
       await loadDetails()
-      await loadImages()
-      await loadCollection()
-      if AuthService.shared.isAuthenticated {
-        await loadUserReview()
-        await loadUserItem()
+
+      await withTaskGroup(of: Void.self) { group in
+        group.addTask { await loadImages() }
+        group.addTask { await loadCollection() }
+        if AuthService.shared.isAuthenticated {
+          group.addTask { await loadUserReview() }
+          group.addTask { await loadUserItem() }
+        }
       }
+
+      saveToCache()
     }
   }
 
@@ -303,14 +346,11 @@ struct MediaDetailView: View {
       .padding(.top, 24)
     }
 
-    // Divider before first content section
-    if hasReviews || hasWhereToWatch || hasSeasons || hasRecommendations {
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1)
-        .padding(.horizontal, 24)
-        .padding(.vertical, 24)
-    }
+    Rectangle()
+      .fill(Color.appBorderAdaptive.opacity(0.5))
+      .frame(height: 1)
+      .padding(.horizontal, 24)
+      .padding(.vertical, 24)
 
     // Review Section
     ReviewSectionView(
@@ -499,6 +539,28 @@ struct MediaDetailView: View {
     .offset(y: -70)
   }
 
+  // MARK: - Cache
+
+  private let detailCache = MediaDetailCache.shared
+
+  private func restoreFromCache() {
+    if let cached = detailCache.get(mediaId: mediaId, mediaType: mediaType) {
+      if let d = cached.details { details = d; isLoading = false }
+      if !cached.images.isEmpty { backdropImages = cached.images }
+      if let c = cached.collection { collection = c }
+    }
+  }
+
+  private func saveToCache() {
+    detailCache.set(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      details: details,
+      images: backdropImages,
+      collection: collection
+    )
+  }
+
   // MARK: - Data Loading
 
   private func loadDetails() async {
@@ -509,23 +571,27 @@ struct MediaDetailView: View {
     }
 
     isLoading = true
-    defer { isLoading = false }
+    defer { withAnimation(.easeOut(duration: 0.3)) { isLoading = false } }
 
     do {
+      var loaded: MovieDetails?
       if mediaType == "movie" {
-        details = try await TMDBService.shared.getMovieDetails(
+        loaded = try await TMDBService.shared.getMovieDetails(
           id: mediaId,
           language: Language.current.rawValue
         )
       } else {
-        details = try await TMDBService.shared.getTVSeriesDetails(
+        loaded = try await TMDBService.shared.getTVSeriesDetails(
           id: mediaId,
           language: Language.current.rawValue
         )
       }
-      
-      // Track media view
-      if let details = details {
+
+      withAnimation(.easeOut(duration: 0.3)) {
+        details = loaded
+      }
+
+      if let details = loaded {
         AnalyticsService.shared.track(.mediaViewed(
           tmdbId: mediaId,
           mediaType: mediaType,
@@ -590,8 +656,9 @@ struct MediaDetailView: View {
         _ = await ImageCache.shared.loadImage(from: firstURL, priority: .high)
       }
       
-      backdropImages = sorted
-      // Note: Prefetching is now handled automatically by CarouselBackdropView
+      withAnimation(.easeOut(duration: 0.3)) {
+        backdropImages = sorted
+      }
     } catch {
       backdropImages = []
     }

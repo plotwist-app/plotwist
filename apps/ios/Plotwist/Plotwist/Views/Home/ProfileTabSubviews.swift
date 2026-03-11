@@ -10,20 +10,8 @@ struct ProfileMainTabs: View {
   @Binding var selectedTab: ProfileMainTab
   @Binding var slideFromTrailing: Bool
   let strings: Strings
-  var reviewsCount: Int = 0
   var visibleTabs: [ProfileMainTab] = ProfileMainTab.allCases
   @Namespace private var tabNamespace
-
-  private func badgeCount(for tab: ProfileMainTab) -> Int {
-    switch tab {
-    case .activity: return 0
-    case .collection: return 0
-    case .favorites: return 0
-    case .reviews: return reviewsCount
-    case .stats: return 0
-    case .achievements: return 0
-    }
-  }
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -38,16 +26,9 @@ struct ProfileMainTabs: View {
             }
           } label: {
             VStack(spacing: 8) {
-              HStack(spacing: 6) {
-                Text(tab.displayName(strings: strings))
-                  .font(.subheadline.weight(.medium))
-                  .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
-
-                if badgeCount(for: tab) > 0 && selectedTab == tab {
-                  CollectionCountBadge(count: badgeCount(for: tab))
-                    .transition(.scale.combined(with: .opacity))
-                }
-              }
+              Text(tab.displayName(strings: strings))
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
 
               ZStack {
                 Rectangle()

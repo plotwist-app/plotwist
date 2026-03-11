@@ -329,8 +329,8 @@ struct TimeWatchedDetailView: View {
 
   // MARK: - Movie/Series Split Bar
 
-  private static let movieColor = Color(hex: "60A5FA")
-  private static let seriesColor = Color(hex: "A78BFA")
+  private static let movieColor = Color.appForegroundAdaptive
+  private static let seriesColor = Color.appForegroundAdaptive.opacity(0.35)
 
   var movieSeriesSplitBar: some View {
     let moviePct = totalHours > 0 ? movieHours / totalHours : 0
