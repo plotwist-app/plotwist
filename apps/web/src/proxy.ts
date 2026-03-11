@@ -10,17 +10,14 @@ const DEFAULT_LOCALE = 'en-US'
 
 match(languages, appLanguages, DEFAULT_LOCALE)
 
-// Single-segment path with 4–10 alphanumeric chars (no hyphens → won't match lang codes like en-US)
-const SHORT_CODE_RE = /^\/[a-zA-Z0-9]{4,10}$/
-
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // Rewrite short code paths to the internal API resolver.
-  // No fetch in Edge — the Node.js API route handles backend communication.
-  if (SHORT_CODE_RE.test(pathname)) {
+  // Short URLs use the /s/ prefix (e.g. /s/1Tu4V) — unambiguous, no regex heuristics needed.
+  if (pathname.startsWith('/s/')) {
+    const shortCode = pathname.slice(3)
     const url = req.nextUrl.clone()
-    url.pathname = `/api/r${pathname}`
+    url.pathname = `/api/r/${shortCode}`
     return NextResponse.rewrite(url)
   }
 

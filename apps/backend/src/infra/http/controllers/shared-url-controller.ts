@@ -32,7 +32,7 @@ function isAllowedOriginalUrl(url: string): boolean {
 
 function buildShortUrl(shortCode: string): string {
   const base = config.app.CLIENT_URL.replace(/\/$/, '')
-  return `${base}/${shortCode}`
+  return `${base}/s/${shortCode}`
 }
 
 export async function createSharedUrlController(
