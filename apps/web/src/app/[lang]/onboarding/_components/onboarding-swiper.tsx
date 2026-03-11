@@ -2,13 +2,13 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
-import { Bookmark, Check, X as XIcon } from 'lucide-react'
+import { Bookmark, Check, X as XIcon, Eye } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useMemo, useState } from 'react'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
-type SwipeDirection = 'left' | 'right' | 'up' | null
+type SwipeDirection = 'left' | 'right' | 'up' | 'down' | null
 
 type Movie = {
   id: number
@@ -37,50 +37,58 @@ function getSwipeDirection(offsetX: number, offsetY: number): SwipeDirection {
 
   if (absX < 40 && absY < 40) return null
 
-  // Vertical takes priority if clearly vertical
+
   if (offsetY < -40 && absY > absX * 0.8) return 'up'
+  if (offsetY > 40 && absY > absX * 0.8) return 'down'
   if (offsetX > 40 && absX > absY * 0.6) return 'right'
   if (offsetX < -40 && absX > absY * 0.6) return 'left'
 
   return null
 }
 
-function getSwipeConfig(dir: SwipeDirection) {
+function getSwipeConfig(dir: SwipeDirection, dictionary?: Record<string, string>) {
   switch (dir) {
     case 'right':
       return {
         icon: Bookmark,
-        label: 'Quero assistir',
+        label: dictionary?.swiper_want_to_watch || 'Quero assistir',
         colorClass: 'text-blue-500',
         bgClass: 'border-blue-500/60',
       }
     case 'left':
       return {
         icon: XIcon,
-        label: 'Não interessado',
+        label: dictionary?.swiper_skip || 'Pular',
         colorClass: 'text-red-400',
         bgClass: 'border-red-400/60',
       }
     case 'up':
       return {
         icon: Check,
-        label: 'Já assisti',
+        label: dictionary?.swiper_watched || 'Já assisti',
         colorClass: 'text-green-500',
         bgClass: 'border-green-500/60',
+      }
+    case 'down':
+      return {
+        icon: Eye,
+        label: dictionary?.swiper_watching || 'Assistindo',
+        colorClass: 'text-yellow-500',
+        bgClass: 'border-yellow-500/60',
       }
     default:
       return null
   }
 }
 
-// ─── Swipeable Card ────────────────────────────────────────────────────
+
 function SwipeCard({
   movie,
   onSwipe,
   onDirectionChange,
 }: {
   movie: Movie
-  onSwipe: (dir: SwipeDirection) => void
+  onSwipe: (dir: SwipeDirection, velocityInfo?: { x: number; y: number }) => void
   onDirectionChange: (dir: SwipeDirection, progress: number) => void
 }) {
   const handleDrag = useCallback(
@@ -99,7 +107,7 @@ function SwipeCard({
       const dist = Math.sqrt(info.offset.x ** 2 + info.offset.y ** 2)
 
       if (dir && dist > SWIPE_THRESHOLD) {
-        onSwipe(dir)
+        onSwipe(dir, { x: info.offset.x, y: info.offset.y })
       } else {
         onDirectionChange(null, 0)
       }
@@ -139,25 +147,32 @@ function SwipeCard({
   )
 }
 
-// ─── Exit animation card ─────────────────────────────────────────────
+
 function ExitCard({
   movie,
   direction,
+  initialOffset,
   onComplete,
 }: {
   movie: Movie
   direction: SwipeDirection
+  initialOffset?: { x: number; y: number }
   onComplete: () => void
 }) {
   const exitX = direction === 'right' ? 500 : direction === 'left' ? -500 : 0
-  const exitY = direction === 'up' ? -600 : 0
+  const exitY = direction === 'up' ? -600 : direction === 'down' ? 600 : 0
   const exitRotation =
     direction === 'right' ? 25 : direction === 'left' ? -25 : 0
 
   return (
     <motion.div
-      className="absolute inset-0"
-      initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+      className="absolute inset-0 pointer-events-none"
+      initial={{ 
+        x: initialOffset?.x || 0, 
+        y: initialOffset?.y || 0, 
+        rotate: initialOffset ? (initialOffset.x / window.innerWidth) * 50 : 0, 
+        opacity: 1 
+      }}
       animate={{
         x: exitX,
         y: exitY,
@@ -183,15 +198,17 @@ function ExitCard({
   )
 }
 
-// ─── Pill Overlay ────────────────────────────────────────────────────
+
 function SwipePillOverlay({
   direction,
   progress,
+  dictionary,
 }: {
   direction: SwipeDirection
   progress: number
+  dictionary?: Record<string, string>
 }) {
-  const config = getSwipeConfig(direction)
+  const config = getSwipeConfig(direction, dictionary)
   if (!config || progress < 0.3) return null
 
   const Icon = config.icon
@@ -213,26 +230,118 @@ function SwipePillOverlay({
   )
 }
 
+import { useOnboarding } from './onboarding-context'
+
+// ... existing code ...
+import type { Language } from '@/types/languages'
+
+// ... existing code ...
 export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
-  const language = lang || 'en-US'
+  const language = (lang as Language) || 'en-US'
+  const { genres, contentTypes, incrementSavedTitles, savedTitlesCount, nextStep, dictionary } = useOnboarding()
+  
+  const title = dictionary?.swiper_title || 'Discover titles'
+  const subtitle = dictionary?.swiper_subtitle || 'Swipe sideways to add to your list'
+  const emptyText = dictionary?.swiper_empty || 'No titles found with these preferences.'
+  const fetchingText = dictionary?.swiper_fetching || 'Fetching titles...'
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [swipeDirection, setSwipeDirection] = useState<SwipeDirection>(null)
   const [swipeProgress, setSwipeProgress] = useState(0)
   const [exitingCard, setExitingCard] = useState<{
     movie: Movie
     direction: SwipeDirection
+    initialOffset?: { x: number; y: number }
   } | null>(null)
-  const [counts, setCounts] = useState({ watchlist: 0, watched: 0, skipped: 0 })
+  
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ['onboarding-swiper-movies', language, genres.join(','), contentTypes.join(',')],
+    queryFn: async ({ pageParam }) => {
+      const fetchMovies = contentTypes.includes('movie')
+      const fetchTV = contentTypes.includes('tv')
+      const fetchAnime = contentTypes.includes('anime')
+      const fetchDorama = contentTypes.includes('dorama')
 
-  const { data, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['onboarding-movies', language],
-    queryFn: ({ pageParam }) =>
-      tmdb.movies.discover({
-        filters: { sort_by: 'popularity.desc', 'vote_count.gte': '200' },
-        language,
+
+      const fetchDefault = !fetchMovies && !fetchTV && !fetchAnime && !fetchDorama
+
+      const promises: Promise<{ type: 'movie' | 'tv'; data: any }>[] = []
+      
+
+      const baseFilters = { 
+        sort_by: 'vote_count.desc', 
+        with_genres: genres.length > 0 ? genres.join('|') : undefined,
+      }
+
+      if (fetchMovies || fetchDefault) {
+        promises.push(
+          tmdb.movies.discover({ filters: baseFilters, language, page: pageParam as number })
+          .then(data => ({ type: 'movie', data }))
+        )
+      }
+
+      if (fetchTV) {
+        promises.push(
+          tmdb.tv.discover({ filters: baseFilters, language, page: pageParam as number })
+          .then(data => ({ type: 'tv', data }))
+        )
+      }
+
+      if (fetchAnime) {
+
+        const animeFilters = { ...baseFilters, with_original_language: 'ja', with_genres: genres.includes(16) ? genres.join('|') : (genres.length > 0 ? `${genres.join('|')}|16` : '16') }
+        promises.push(
+          tmdb.tv.discover({ filters: animeFilters as any, language, page: pageParam as number })
+          .then(data => ({ type: 'tv', data }))
+        )
+      }
+
+      if (fetchDorama) {
+
+        const doramaFilters = { ...baseFilters, with_original_language: 'ko' }
+        promises.push(
+          tmdb.tv.discover({ filters: doramaFilters as any, language, page: pageParam as number })
+          .then(data => ({ type: 'tv', data }))
+        )
+      }
+
+      const results = await Promise.all(promises)
+      const combinedResults: any[] = []
+
+      for (const res of results) {
+        if (!res.data || !res.data.results) continue
+        
+        if (res.type === 'movie') {
+          combinedResults.push(
+            ...res.data.results.map((item: any) => ({
+              ...item,
+              title: item.title,
+              release_date: item.release_date
+            }))
+          )
+        } else {
+          combinedResults.push(
+            ...res.data.results.map((item: any) => ({
+              ...item,
+              title: item.name || item.title,
+              release_date: item.first_air_date || item.release_date
+            }))
+          )
+        }
+      }
+
+
+      const uniqueResults = Array.from(new Map(combinedResults.map(item => [item.id, item])).values())
+
+
+      uniqueResults.sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))
+
+      return {
         page: pageParam,
-      }),
-    getNextPageParam: lastPage => lastPage.page + 1,
+        results: uniqueResults
+      }
+    },
+    getNextPageParam: lastPage => (lastPage.page as number) + 1,
     initialPageParam: 1,
   })
 
@@ -245,20 +354,19 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
   const currentMovie = visibleCards[0]
 
   const handleSwipe = useCallback(
-    (dir: SwipeDirection) => {
+    (dir: SwipeDirection, velocityInfo?: { x: number; y: number }) => {
       if (!currentMovie || exitingCard) return
 
       setSwipeDirection(null)
       setSwipeProgress(0)
-      setExitingCard({ movie: currentMovie, direction: dir })
+      setExitingCard({ movie: currentMovie, direction: dir, initialOffset: velocityInfo })
 
-      setCounts(prev => ({
-        watchlist: dir === 'right' ? prev.watchlist + 1 : prev.watchlist,
-        watched: dir === 'up' ? prev.watched + 1 : prev.watched,
-        skipped: dir === 'left' ? prev.skipped + 1 : prev.skipped,
-      }))
+
+      if (dir === 'right' || dir === 'up' || dir === 'down') {
+        incrementSavedTitles()
+      }
     },
-    [currentMovie, exitingCard]
+    [currentMovie, exitingCard, incrementSavedTitles]
   )
 
   const handleExitComplete = useCallback(() => {
@@ -280,33 +388,35 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
     []
   )
 
-  const total = counts.watchlist + counts.watched + counts.skipped
+  const canContinue = savedTitlesCount >= 5
 
   if (!currentMovie && !exitingCard) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-[40vh] flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          <p className="text-sm text-muted-foreground">Carregando filmes...</p>
+          <p className="text-sm text-muted-foreground">
+            {isFetching ? fetchingText : emptyText}
+          </p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center overflow-hidden bg-background px-4 pb-10 pt-8">
-      <div className="flex w-full max-w-sm flex-col items-center gap-2">
-        <h1 className="text-2xl font-bold tracking-tight">
-          Descubra seus filmes
+    <div className="relative flex flex-1 flex-col items-center overflow-hidden bg-background px-4 pb-6 pt-4">
+      <div className="flex w-full flex-col items-center gap-1">
+        <h1 className="text-2xl font-bold tracking-tight text-center md:text-3xl">
+          {title}
         </h1>
-        <p className="text-sm text-muted-foreground text-center">
-          Arraste para os lados para adicionar à sua lista
+        <p className="text-xs text-muted-foreground text-center md:text-sm">
+          {subtitle}
         </p>
       </div>
 
       <div
-        className="relative mx-auto mt-6 w-full select-none"
-        style={{ maxWidth: 280, aspectRatio: '2/3' }}
+        className="relative mx-auto mt-4 w-full select-none max-w-[240px] sm:max-w-[280px] md:max-w-[300px]"
+        style={{ aspectRatio: '2/3' }}
       >
         {visibleCards
           .slice(1, 3)
@@ -318,7 +428,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
             return (
               <div
                 key={movie.id}
-                className="absolute inset-0 overflow-hidden rounded-[32px] border border-border/20 shadow-lg"
+                className="absolute inset-0 overflow-hidden rounded-[32px] border border-border bg-muted shadow-lg"
                 style={{
                   transform: `scale(${style.scale}) rotate(${style.rotation}deg) translate(${style.offsetX}px, ${style.offsetY}px)`,
                   zIndex: 3 - stackIdx,
@@ -352,6 +462,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
               key={`exit-${exitingCard.movie.id}`}
               movie={exitingCard.movie}
               direction={exitingCard.direction}
+              initialOffset={exitingCard.initialOffset}
               onComplete={handleExitComplete}
             />
           )}
@@ -363,66 +474,69 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
               key="pill"
               direction={swipeDirection}
               progress={swipeProgress}
+              dictionary={dictionary}
             />
           )}
         </AnimatePresence>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+      <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center gap-2 md:gap-3 max-w-lg w-full">
         <button
           type="button"
           onClick={() => handleSwipe('up')}
-          className="flex items-center gap-1.5 rounded-xl bg-muted/80 px-4 py-2.5 text-sm font-medium transition-all hover:bg-muted active:scale-95"
+          className="flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium transition-transform hover:bg-green-500/20 active:scale-95"
+          title={`${dictionary?.swiper_watched || 'Já assisti'} (Cima)`}
         >
           <Check className="h-4 w-4 text-green-500" />
-          <span>Já assisti</span>
+          <span className="text-green-500 hidden sm:inline">{dictionary?.swiper_watched || 'Já assisti'}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleSwipe('down')}
+          className="flex items-center gap-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium transition-transform hover:bg-yellow-500/20 active:scale-95"
+          title={`${dictionary?.swiper_watching || 'Assistindo'} (Baixo)`}
+        >
+          <Eye className="h-4 w-4 text-yellow-500" />
+          <span className="text-yellow-500 hidden sm:inline">{dictionary?.swiper_watching || 'Assistindo'}</span>
         </button>
 
         <button
           type="button"
           onClick={() => handleSwipe('right')}
-          className="flex items-center gap-1.5 rounded-xl bg-muted/80 px-4 py-2.5 text-sm font-medium transition-all hover:bg-muted active:scale-95"
+          className="flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium transition-transform hover:bg-blue-500/20 active:scale-95"
+          title={`${dictionary?.swiper_want_to_watch || 'Quero assistir'} (Direita)`}
         >
           <Bookmark className="h-4 w-4 text-blue-500" />
-          <span>Quero assistir</span>
+          <span className="text-blue-500 hidden sm:inline">{dictionary?.swiper_want_to_watch || 'Quero assistir'}</span>
         </button>
 
         <button
           type="button"
           onClick={() => handleSwipe('left')}
-          className="flex items-center gap-1.5 rounded-xl bg-muted/80 px-4 py-2.5 text-sm font-medium transition-all hover:bg-muted active:scale-95"
+          className="flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm font-medium transition-transform hover:bg-red-500/20 active:scale-95"
+          title={`${dictionary?.swiper_skip || 'Pular'} (Esquerda)`}
         >
-          <XIcon className="h-4 w-4 text-red-400" />
-          <span>Não interessado</span>
+          <XIcon className="h-4 w-4 text-red-500" />
+          <span className="text-red-500 hidden sm:inline">{dictionary?.swiper_skip || 'Pular'}</span>
         </button>
       </div>
 
-      {total > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-4 flex items-center gap-4 text-xs text-muted-foreground"
+      <div className="mt-auto pt-4 pb-2 w-full max-w-sm">
+        <button
+          onClick={nextStep}
+          disabled={!canContinue}
+          className="w-full flex flex-col items-center justify-center rounded-full bg-foreground py-3 text-center font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
         >
-          {counts.watched > 0 && (
-            <span className="flex items-center gap-1">
-              <Check className="h-3 w-3 text-green-500" />
-              {counts.watched}
-            </span>
+          {canContinue ? (
+            <span>{dictionary?.swiper_finish_ready || "Let's go!"}</span>
+          ) : (
+            <div className="text-center text-sm md:text-base">
+              <span>{Math.max(0, 5 - savedTitlesCount)} {dictionary?.swiper_finish_remaining || "titles to go"}</span>
+            </div>
           )}
-          {counts.watchlist > 0 && (
-            <span className="flex items-center gap-1">
-              <Bookmark className="h-3 w-3 text-blue-500" />
-              {counts.watchlist}
-            </span>
-          )}
-          {counts.skipped > 0 && (
-            <span className="flex items-center gap-1">
-              <XIcon className="h-3 w-3 text-red-400" />
-              {counts.skipped}
-            </span>
-          )}
-        </motion.div>
-      )}
+        </button>
+      </div>
     </div>
   )
 }

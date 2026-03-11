@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import type { PageProps } from '@/types/languages'
-import { OnboardingSwiper } from './_components/onboarding-swiper'
+import { OnboardingProvider } from './_components/onboarding-context'
+import { OnboardingStepper } from './_components/onboarding-stepper'
+import { getDictionary } from '@/utils/dictionaries'
 
 export const metadata: Metadata = {
   title: 'Onboarding • Plotwist',
@@ -9,8 +11,13 @@ export const metadata: Metadata = {
 
 const OnboardingPage = async (props: PageProps) => {
   const { lang } = await props.params
+  const dictionary = await getDictionary(lang)
 
-  return <OnboardingSwiper lang={lang} />
+  return (
+    <OnboardingProvider dictionary={dictionary.onboarding}>
+      <OnboardingStepper lang={lang} />
+    </OnboardingProvider>
+  )
 }
 
 export default OnboardingPage
