@@ -40,11 +40,12 @@ export function UserItemsList({ filters }: UserItemsProps) {
         initialPageParam: undefined,
         getNextPageParam: lastPage => lastPage.nextCursor,
         queryFn: async ({ pageParam }) => {
-          return await getUserItems({
+          const res = await getUserItems({
             ...params,
             pageSize: '20',
             cursor: pageParam as string,
           })
+          return res.data!
         },
       },
     })

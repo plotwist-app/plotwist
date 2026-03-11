@@ -25,11 +25,12 @@ export default function ActivityPage() {
           initialPageParam: undefined,
           getNextPageParam: lastPage => lastPage.nextCursor,
           queryFn: async ({ pageParam }) => {
-            return await getUserActivities(userId, {
+            const res = await getUserActivities(userId, {
               pageSize: '20',
               cursor: pageParam as string,
               language,
             })
+            return res.data!
           },
         },
       }

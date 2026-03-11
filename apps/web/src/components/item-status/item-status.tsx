@@ -88,14 +88,14 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       },
       {
         onSettled: async response => {
-          if (response) {
+          if (response?.data) {
             await queryClient.invalidateQueries({
               queryKey: getGetUserEpisodesQueryKey({
                 tmdbId: String(tmdbId),
               }),
             })
 
-            queryClient.setQueryData(queryKey, response)
+            queryClient.setQueryData(queryKey, response.data)
           }
         },
       }

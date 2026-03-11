@@ -3,7 +3,7 @@ import 'server-only'
 import { cookies } from 'next/headers'
 import { getMe } from '@/api/users'
 import { decrypt } from '@/app/lib/session'
-import { setAuthToken } from '@/services/axios-instance'
+import { setAuthToken } from '@/services/api-client'
 
 export const verifySession = async () => {
   const cookie = (await cookies()).get('session')?.value
@@ -13,8 +13,8 @@ export const verifySession = async () => {
     setAuthToken(session.token ?? null)
 
     try {
-      const { user } = await getMe()
-      return { token: session.token, user }
+      const { data } = await getMe()
+      return { token: session.token, user: data?.user }
     } catch {
       return undefined
     }

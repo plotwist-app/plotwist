@@ -1,6 +1,7 @@
 import { Button } from '@plotwist/ui/components/ui/button'
 import { Pencil } from 'lucide-react'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { getListById } from '@/api/list'
 import { verifySession } from '@/app/lib/dal'
@@ -20,7 +21,9 @@ export async function generateMetadata(
   props: ListPageProps
 ): Promise<Metadata> {
   const params = await props.params
-  const { list } = await getListById(params.id)
+  const { data } = await getListById(params.id)
+  const list = data?.list
+  if (!list) notFound()
 
   const title = list.title
   const description = list.description || ''
@@ -49,7 +52,9 @@ export default async function ListPage({ params }: ListPageProps) {
   const { id } = await params
 
   const session = await verifySession()
-  const { list } = await getListById(id)
+  const { data } = await getListById(id)
+  const list = data?.list
+  if (!list) notFound()
 
   const mode = session?.user.id === list.userId ? 'EDIT' : 'SHOW'
 

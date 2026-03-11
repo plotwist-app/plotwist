@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { AxiosError } from 'axios'
+import { ApiError } from '@/services/api-client'
 import { Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -71,12 +71,10 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
       await getUsersAvailableEmail({ email })
       setShowUsernameDialog(true)
     } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.status === 409) {
-          credentialsForm.setError('email', {
-            message: dictionary.email_already_taken,
-          })
-        }
+      if (error instanceof ApiError && error.status === 409) {
+        credentialsForm.setError('email', {
+          message: dictionary.email_already_taken,
+        })
       }
     }
   }
@@ -104,12 +102,10 @@ export const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
         }
       }
 
-      if (error instanceof AxiosError) {
-        if (error.status === 409) {
-          return usernameForm.setError('username', {
-            message: dictionary.username_already_taken,
-          })
-        }
+      if (error instanceof ApiError && error.status === 409) {
+        return usernameForm.setError('username', {
+          message: dictionary.username_already_taken,
+        })
       }
 
       return toast.error(dictionary.sign_up_form.invalid_sign_up_credentials)

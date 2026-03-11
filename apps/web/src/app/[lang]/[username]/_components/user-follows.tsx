@@ -57,12 +57,13 @@ export function UserFollows({
           initialPageParam: undefined,
           getNextPageParam: lastPage => lastPage.nextCursor,
           queryFn: async ({ pageParam }) => {
-            return await getFollowers({
+            const res = await getFollowers({
               followerId: variant === 'following' ? userId : undefined,
               followedId: variant === 'followers' ? userId : undefined,
               pageSize: '10',
               cursor: pageParam as string,
             })
+            return res.data!
           },
           enabled: count > 0,
         },

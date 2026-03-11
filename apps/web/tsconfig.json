@@ -23,5 +23,5 @@
     ".eslintrc.js",
     "src/app/[lang]/about/content.mdx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/api"]
 }

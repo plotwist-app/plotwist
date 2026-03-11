@@ -47,8 +47,8 @@ const HomePage = async (props: PageProps) => {
   let userPreferences: GetUserPreferences200['userPreferences'] | null = null
 
   if (session) {
-    const { userPreferences: userPreferencesData } = await getUserPreferences()
-    userPreferences = userPreferencesData
+    const { data } = await getUserPreferences()
+    userPreferences = data?.userPreferences ?? null
   }
 
   const language = asLanguage(lang)

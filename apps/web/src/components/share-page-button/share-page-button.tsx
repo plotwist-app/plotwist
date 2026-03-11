@@ -21,10 +21,10 @@ export function SharePageButton({ language, path }: SharePageButtonProps) {
   const handleShare = async () => {
     const originalUrl = `${window.location.origin}/${language}/${path}`
     try {
-      const { shortUrl } = await postSharedUrl.mutateAsync({
+      const { data } = await postSharedUrl.mutateAsync({
         data: { originalUrl },
       })
-      await navigator.clipboard.writeText(shortUrl)
+      await navigator.clipboard.writeText(data.shortUrl)
       toast.success(dictionary.link_copied_to_clipboard)
     } catch {
       toast.error('Failed to create share link')

@@ -144,13 +144,15 @@ export function ReviewFormDialog({
             },
             {
               onSettled: async response => {
-                await queryClient.setQueryData(
-                  getGetUserItemQueryKey({
-                    mediaType,
-                    tmdbId: String(tmdbId),
-                  }),
-                  response
-                )
+                if (response?.data) {
+                  await queryClient.setQueryData(
+                    getGetUserItemQueryKey({
+                      mediaType,
+                      tmdbId: String(tmdbId),
+                    }),
+                    response.data
+                  )
+                }
 
                 if (mediaType === 'TV_SHOW') {
                   await queryClient.invalidateQueries({
