@@ -501,7 +501,28 @@ enum L10n {
       achToyStory: "To infinity and beyond",
       achToyStoryDesc: "Watch all Toy Story films",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Watch all John Wick films"
+      achJohnWickDesc: "Watch all John Wick films",
+      activityFeedTitle: "Activity",
+      activityMarked: "marked",
+      activityAs: "as",
+      activityAdded: "added",
+      activityRemoved: "removed",
+      activityTo: "to",
+      activityFrom: "from",
+      activityCreatedList: "created list",
+      activityLikedList: "liked list",
+      activityReviewed: "reviewed",
+      activityFollowed: "followed",
+      activityLikedReview: "liked review by",
+      activityLikedReply: "liked reply by",
+      activityRepliedToReview: "replied to review by",
+      activityAbout: "about",
+      activityWatchedEpisodes: "episodes",
+      activityWatchedEpisode: "episode",
+      activityJoined: "joined Plotwist",
+      activityFriendsActivity: "Friends activity",
+      activityNoActivity: "No activity yet",
+      activitySeeAll: "See all"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -983,7 +1004,28 @@ enum L10n {
       achToyStory: "Ao infinito e além",
       achToyStoryDesc: "Assista todos os filmes de Toy Story",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Assista todos os filmes de John Wick"
+      achJohnWickDesc: "Assista todos os filmes de John Wick",
+      activityFeedTitle: "Atividade",
+      activityMarked: "marcou",
+      activityAs: "como",
+      activityAdded: "adicionou",
+      activityRemoved: "removeu",
+      activityTo: "a",
+      activityFrom: "de",
+      activityCreatedList: "criou a lista",
+      activityLikedList: "curtiu a lista",
+      activityReviewed: "avaliou",
+      activityFollowed: "seguiu",
+      activityLikedReview: "curtiu review de",
+      activityLikedReply: "curtiu resposta de",
+      activityRepliedToReview: "respondeu review de",
+      activityAbout: "sobre",
+      activityWatchedEpisodes: "episódios",
+      activityWatchedEpisode: "episódio",
+      activityJoined: "entrou no Plotwist",
+      activityFriendsActivity: "Atividade dos amigos",
+      activityNoActivity: "Nenhuma atividade ainda",
+      activitySeeAll: "Ver tudo"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1465,7 +1507,28 @@ enum L10n {
       achToyStory: "Hasta el infinito y más allá",
       achToyStoryDesc: "Ve todas las películas de Toy Story",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Ve todas las películas de John Wick"
+      achJohnWickDesc: "Ve todas las películas de John Wick",
+      activityFeedTitle: "Actividad",
+      activityMarked: "marcó",
+      activityAs: "como",
+      activityAdded: "añadió",
+      activityRemoved: "eliminó",
+      activityTo: "a",
+      activityFrom: "de",
+      activityCreatedList: "creó la lista",
+      activityLikedList: "le gustó la lista",
+      activityReviewed: "reseñó",
+      activityFollowed: "siguió a",
+      activityLikedReview: "le gustó la reseña de",
+      activityLikedReply: "le gustó la respuesta de",
+      activityRepliedToReview: "respondió a reseña de",
+      activityAbout: "sobre",
+      activityWatchedEpisodes: "episodios",
+      activityWatchedEpisode: "episodio",
+      activityJoined: "se unió a Plotwist",
+      activityFriendsActivity: "Actividad de amigos",
+      activityNoActivity: "Sin actividad aún",
+      activitySeeAll: "Ver todo"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1947,7 +2010,28 @@ enum L10n {
       achToyStory: "Vers l'infini et au-delà",
       achToyStoryDesc: "Regardez tous les films Toy Story",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Regardez tous les films John Wick"
+      achJohnWickDesc: "Regardez tous les films John Wick",
+      activityFeedTitle: "Activité",
+      activityMarked: "a marqué",
+      activityAs: "comme",
+      activityAdded: "a ajouté",
+      activityRemoved: "a retiré",
+      activityTo: "à",
+      activityFrom: "de",
+      activityCreatedList: "a créé la liste",
+      activityLikedList: "a aimé la liste",
+      activityReviewed: "a critiqué",
+      activityFollowed: "a suivi",
+      activityLikedReview: "a aimé la critique de",
+      activityLikedReply: "a aimé la réponse de",
+      activityRepliedToReview: "a répondu à la critique de",
+      activityAbout: "sur",
+      activityWatchedEpisodes: "épisodes",
+      activityWatchedEpisode: "épisode",
+      activityJoined: "a rejoint Plotwist",
+      activityFriendsActivity: "Activité des amis",
+      activityNoActivity: "Aucune activité",
+      activitySeeAll: "Tout voir"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -2429,7 +2513,28 @@ enum L10n {
       achToyStory: "Bis zur Unendlichkeit und noch weiter",
       achToyStoryDesc: "Schau alle Toy Story-Filme",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Schau alle John Wick-Filme"
+      achJohnWickDesc: "Schau alle John Wick-Filme",
+      activityFeedTitle: "Aktivität",
+      activityMarked: "hat markiert",
+      activityAs: "als",
+      activityAdded: "hat hinzugefügt",
+      activityRemoved: "hat entfernt",
+      activityTo: "zu",
+      activityFrom: "von",
+      activityCreatedList: "hat Liste erstellt",
+      activityLikedList: "gefällt Liste",
+      activityReviewed: "hat bewertet",
+      activityFollowed: "folgt jetzt",
+      activityLikedReview: "gefällt Bewertung von",
+      activityLikedReply: "gefällt Antwort von",
+      activityRepliedToReview: "hat auf Bewertung geantwortet von",
+      activityAbout: "über",
+      activityWatchedEpisodes: "Episoden",
+      activityWatchedEpisode: "Episode",
+      activityJoined: "ist Plotwist beigetreten",
+      activityFriendsActivity: "Freunde-Aktivität",
+      activityNoActivity: "Noch keine Aktivität",
+      activitySeeAll: "Alle anzeigen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -2911,7 +3016,28 @@ enum L10n {
       achToyStory: "Verso l'infinito e oltre",
       achToyStoryDesc: "Guarda tutti i film di Toy Story",
       achJohnWick: "Baba Yaga",
-      achJohnWickDesc: "Guarda tutti i film di John Wick"
+      achJohnWickDesc: "Guarda tutti i film di John Wick",
+      activityFeedTitle: "Attività",
+      activityMarked: "ha segnato",
+      activityAs: "come",
+      activityAdded: "ha aggiunto",
+      activityRemoved: "ha rimosso",
+      activityTo: "a",
+      activityFrom: "da",
+      activityCreatedList: "ha creato la lista",
+      activityLikedList: "ha messo mi piace alla lista",
+      activityReviewed: "ha recensito",
+      activityFollowed: "ha seguito",
+      activityLikedReview: "ha messo mi piace alla recensione di",
+      activityLikedReply: "ha messo mi piace alla risposta di",
+      activityRepliedToReview: "ha risposto alla recensione di",
+      activityAbout: "su",
+      activityWatchedEpisodes: "episodi",
+      activityWatchedEpisode: "episodio",
+      activityJoined: "si è unito a Plotwist",
+      activityFriendsActivity: "Attività degli amici",
+      activityNoActivity: "Nessuna attività",
+      activitySeeAll: "Vedi tutto"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -3392,7 +3518,28 @@ enum L10n {
       achToyStory: "無限の彼方へ",
       achToyStoryDesc: "トイ・ストーリー全作品を鑑賞",
       achJohnWick: "ババ・ヤーガ",
-      achJohnWickDesc: "ジョン・ウィック全作品を鑑賞"
+      achJohnWickDesc: "ジョン・ウィック全作品を鑑賞",
+      activityFeedTitle: "アクティビティ",
+      activityMarked: "をマーク",
+      activityAs: "として",
+      activityAdded: "を追加",
+      activityRemoved: "を削除",
+      activityTo: "に",
+      activityFrom: "から",
+      activityCreatedList: "リストを作成",
+      activityLikedList: "リストにいいね",
+      activityReviewed: "をレビュー",
+      activityFollowed: "をフォロー",
+      activityLikedReview: "のレビューにいいね",
+      activityLikedReply: "の返信にいいね",
+      activityRepliedToReview: "のレビューに返信",
+      activityAbout: "について",
+      activityWatchedEpisodes: "エピソード",
+      activityWatchedEpisode: "エピソード",
+      activityJoined: "がPlotWistに参加",
+      activityFriendsActivity: "フレンドのアクティビティ",
+      activityNoActivity: "まだアクティビティはありません",
+      activitySeeAll: "すべて見る"
     ),
   ]
 }
@@ -3890,4 +4037,26 @@ struct Strings {
   let achToyStoryDesc: String
   let achJohnWick: String
   let achJohnWickDesc: String
+  // Activity Feed
+  let activityFeedTitle: String
+  let activityMarked: String
+  let activityAs: String
+  let activityAdded: String
+  let activityRemoved: String
+  let activityTo: String
+  let activityFrom: String
+  let activityCreatedList: String
+  let activityLikedList: String
+  let activityReviewed: String
+  let activityFollowed: String
+  let activityLikedReview: String
+  let activityLikedReply: String
+  let activityRepliedToReview: String
+  let activityAbout: String
+  let activityWatchedEpisodes: String
+  let activityWatchedEpisode: String
+  let activityJoined: String
+  let activityFriendsActivity: String
+  let activityNoActivity: String
+  let activitySeeAll: String
 }

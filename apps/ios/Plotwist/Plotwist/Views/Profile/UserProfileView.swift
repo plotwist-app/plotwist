@@ -15,7 +15,7 @@ struct UserProfileView: View {
   @State private var user: User?
   @State private var isLoading = true
   @State private var strings = L10n.current
-  @State private var selectedMainTab: ProfileMainTab = .collection
+  @State private var selectedMainTab: ProfileMainTab = .activity
   @State private var slideFromTrailing: Bool = true
   @State private var selectedStatusTab: ProfileStatusTab = .watched
   @State private var userItems: [UserItemSummary] = []
@@ -262,6 +262,9 @@ struct UserProfileView: View {
   private func tabContentView(userId: String) -> some View {
     Group {
       switch selectedMainTab {
+      case .activity:
+        ActivityFeedView(userId: userId)
+          .padding(.bottom, 24)
       case .collection:
         collectionTabContent(userId: userId)
       case .favorites:

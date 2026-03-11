@@ -24,6 +24,8 @@ struct ReviewSheet: View {
   @State private var showErrorAlert: Bool = false
   @State private var showDeleteConfirmation: Bool = false
   @State private var errorMessage: String = ""
+  @State private var selectedDetent: PresentationDetent = .medium
+  @FocusState private var isTextEditorFocused: Bool
 
   init(mediaId: Int, mediaType: String, seasonNumber: Int? = nil, episodeNumber: Int? = nil, existingReview: Review? = nil, onSaved: (() -> Void)? = nil, onDeleted: (() -> Void)? = nil) {
     self.mediaId = mediaId
@@ -64,7 +66,7 @@ struct ReviewSheet: View {
         ZStack(alignment: .bottomTrailing) {
           ZStack(alignment: .topLeading) {
             TextEditor(text: $reviewText)
-              .frame(height: 120)
+              .frame(minHeight: 120)
               .padding(.horizontal, 12)
               .padding(.top, 8)
               .padding(.bottom, 36)
@@ -72,6 +74,7 @@ struct ReviewSheet: View {
               .cornerRadius(12)
               .foregroundColor(.appForegroundAdaptive)
               .scrollContentBackground(.hidden)
+              .focused($isTextEditorFocused)
 
             if reviewText.isEmpty {
               Text(L10n.current.shareYourOpinion)
@@ -144,7 +147,10 @@ struct ReviewSheet: View {
       .padding(.horizontal, 24)
       .padding(.bottom, 16)
     }
-    .floatingSheetPresentation(height: existingReview != nil ? 435 : 370)
+    .presentationDetents([.medium, .large], selection: $selectedDetent)
+    .presentationBackground { Color.appSheetBackgroundAdaptive.ignoresSafeArea() }
+    .presentationDragIndicator(.hidden)
+    .presentationContentInteraction(.scrolls)
     .preferredColorScheme(themeManager.current.colorScheme)
     .alert("Error", isPresented: $showErrorAlert) {
       Button("OK", role: .cancel) {}
@@ -159,8 +165,12 @@ struct ReviewSheet: View {
     } message: {
       Text(L10n.current.deleteReviewConfirmation)
     }
+    .onChange(of: isTextEditorFocused) { _, focused in
+      if focused {
+        withAnimation { selectedDetent = .large }
+      }
+    }
     .onAppear {
-      // Track review started (only for new reviews)
       if existingReview == nil {
         AnalyticsService.shared.track(.reviewStarted(tmdbId: mediaId, mediaType: mediaType))
       }

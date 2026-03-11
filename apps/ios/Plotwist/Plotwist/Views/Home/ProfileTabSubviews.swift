@@ -16,6 +16,7 @@ struct ProfileMainTabs: View {
 
   private func badgeCount(for tab: ProfileMainTab) -> Int {
     switch tab {
+    case .activity: return 0
     case .collection: return 0
     case .favorites: return 0
     case .reviews: return reviewsCount

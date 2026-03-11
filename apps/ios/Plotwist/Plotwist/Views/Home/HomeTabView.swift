@@ -227,6 +227,11 @@ struct HomeTabView: View {
                 )
               }
 
+              // Friends Activity (authenticated only)
+              if AuthService.shared.isAuthenticated, let userId = user?.id {
+                NetworkActivitySection(userId: userId)
+              }
+
               // For You - Personalized by genre
               if !forYouItems.isEmpty {
                 ForYouSection(
