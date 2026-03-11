@@ -17,7 +17,12 @@ export async function getUserRatingInsightsService({
   dateRange,
   period = 'all',
 }: GetUserRatingInsightsInput) {
-  const cacheKey = getUserStatsCacheKey(userId, 'rating-insights', undefined, period)
+  const cacheKey = getUserStatsCacheKey(
+    userId,
+    'rating-insights-v2',
+    undefined,
+    period
+  )
 
   return getCachedStats(redis, cacheKey, async () => {
     const dateFilters = buildDateFilters(dateRange)
@@ -59,7 +64,9 @@ export async function getUserRatingInsightsService({
     }))
 
     const averageRating =
-      totalReviews > 0 ? Math.round((weightedSum / totalReviews) * 100) / 100 : 0
+      totalReviews > 0
+        ? Math.round((weightedSum / totalReviews) * 100) / 100
+        : 0
 
     let mostFrequentRating = 0
     let maxCount = 0
@@ -81,20 +88,21 @@ export async function getUserRatingInsightsService({
   })
 }
 
-function buildDateFilters(
-  dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
-) {
+function buildDateFilters(dateRange?: {
+  startDate: Date | undefined
+  endDate: Date | undefined
+}) {
   if (!dateRange?.startDate && !dateRange?.endDate) {
     return sql``
   }
 
   if (dateRange.startDate && dateRange.endDate) {
-    return sql`AND created_at >= ${dateRange.startDate} AND created_at <= ${dateRange.endDate}`
+    return sql`AND created_at >= ${dateRange.startDate.toISOString()} AND created_at <= ${dateRange.endDate.toISOString()}`
   }
 
   if (dateRange.startDate) {
-    return sql`AND created_at >= ${dateRange.startDate}`
+    return sql`AND created_at >= ${dateRange.startDate.toISOString()}`
   }
 
-  return sql`AND created_at <= ${dateRange.endDate as Date}`
+  return sql`AND created_at <= ${(dateRange.endDate as Date).toISOString()}`
 }

@@ -25,7 +25,7 @@ export async function getUserWatchedGenresService({
 }: GetUserWatchedGenresServiceInput) {
   const cacheKey = getUserStatsCacheKey(
     userId,
-    'watched-genres-v5',
+    'watched-genres-v6',
     language,
     period
   )

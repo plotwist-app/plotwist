@@ -365,9 +365,13 @@ struct StatsSkeletonView: View {
 
       VStack(spacing: 14) {
         ForEach(0..<4, id: \.self) { i in
-          VStack(alignment: .leading, spacing: 4) {
-            shimmerRect(width: CGFloat(70 - i * 10), height: 11)
-            shimmerRect(height: 4)
+          VStack(alignment: .leading, spacing: 5) {
+            HStack {
+              shimmerRect(width: CGFloat(70 - i * 10), height: 12)
+              Spacer()
+              shimmerRect(width: 16, height: 10)
+            }
+            shimmerRect(height: 5)
               .frame(width: CGFloat([1.0, 0.7, 0.5, 0.3][i]) * 100, alignment: .leading)
           }
         }

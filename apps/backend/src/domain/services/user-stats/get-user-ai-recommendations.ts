@@ -114,9 +114,9 @@ export async function getUserAIRecommendationsService({
 
   const itemDateFilter =
     dateRange?.startDate && dateRange?.endDate
-      ? sql` AND updated_at >= ${dateRange.startDate.toISOString()} AND updated_at <= ${dateRange.endDate.toISOString()}`
+      ? sql` AND added_at >= ${dateRange.startDate.toISOString()} AND added_at <= ${dateRange.endDate.toISOString()}`
       : dateRange?.startDate
-        ? sql` AND updated_at >= ${dateRange.startDate.toISOString()}`
+        ? sql` AND added_at >= ${dateRange.startDate.toISOString()}`
         : sql``
   const reviewDateFilter =
     dateRange?.startDate && dateRange?.endDate

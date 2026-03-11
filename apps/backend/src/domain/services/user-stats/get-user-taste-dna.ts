@@ -35,7 +35,7 @@ export async function getUserTasteDNAService({
   period,
   dateRange,
 }: Input) {
-  const cacheKey = `user-stats:${userId}:taste-dna:v7:${period}:${language}`
+  const cacheKey = `user-stats:${userId}:taste-dna:v8:${period}:${language}`
 
   const cached = await redis.get(cacheKey)
   if (cached) return JSON.parse(cached)
@@ -48,8 +48,8 @@ export async function getUserTasteDNAService({
 
   const itemDateFilter = dateRange.startDate
     ? dateRange.endDate
-      ? sql` AND updated_at >= ${dateRange.startDate.toISOString()} AND updated_at <= ${dateRange.endDate.toISOString()}`
-      : sql` AND updated_at >= ${dateRange.startDate.toISOString()}`
+      ? sql` AND added_at >= ${dateRange.startDate.toISOString()} AND added_at <= ${dateRange.endDate.toISOString()}`
+      : sql` AND added_at >= ${dateRange.startDate.toISOString()}`
     : sql``
 
   const [
