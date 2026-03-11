@@ -77,6 +77,17 @@ enum ProfileMainTab: CaseIterable {
     }
   }
 
+  var icon: String {
+    switch self {
+    case .activity: return "bolt.fill"
+    case .collection: return "square.stack.fill"
+    case .favorites: return "heart.fill"
+    case .reviews: return "star.fill"
+    case .stats: return "chart.bar.fill"
+    case .achievements: return "trophy.fill"
+    }
+  }
+
   var index: Int {
     switch self {
     case .activity: return 0
