@@ -13,12 +13,10 @@ match(languages, appLanguages, DEFAULT_LOCALE)
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // Short URLs use the /s/ prefix (e.g. /s/1Tu4V) — unambiguous, no regex heuristics needed.
+  // Short URLs (/s/1Tu4V) are handled by app/s/[shortCode]/page.tsx which serves
+  // OG metadata for social bots and a JS redirect for real users.
   if (pathname.startsWith('/s/')) {
-    const shortCode = pathname.slice(3)
-    const url = req.nextUrl.clone()
-    url.pathname = `/api/r/${shortCode}`
-    return NextResponse.rewrite(url)
+    return NextResponse.next()
   }
 
   const reqHeaders = new Headers(req.headers)
