@@ -13,6 +13,7 @@ import { verifySession } from '@/app/lib/dal'
 import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
+import { SharePageButton } from '@/components/share-page-button'
 import { Poster } from '@/components/poster'
 import { tmdb } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
@@ -54,6 +55,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
       )}
 
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
+      <SharePageButton language={language} path={`tv-series/${tvSerie.id}`} />
     </div>
   )
 

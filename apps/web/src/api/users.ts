@@ -27,6 +27,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  DeleteUser200,
+  DeleteUser404,
   GetMe200,
   GetUserById200,
   GetUserPreferences200,
@@ -882,6 +884,64 @@ const {mutation: mutationOptions} = options ?
       > => {
 
       const mutationOptions = getPatchUserMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Delete user account and all associated data
+ */
+export const deleteUser = (
+    
+ ) => {
+      
+      
+      return axiosInstance<DeleteUser200>(
+      {url: `/user`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteUserMutationOptions = <TError = DeleteUser404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext> => {
+
+const mutationKey = ['deleteUser'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUser>>, void> = () => {
+          
+
+          return  deleteUser()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUser>>>
+    
+    export type DeleteUserMutationError = DeleteUser404
+
+    export const useDeleteUser = <TError = DeleteUser404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUser>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteUserMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

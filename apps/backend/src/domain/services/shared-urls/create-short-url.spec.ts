@@ -44,4 +44,25 @@ describe('createShortUrl', () => {
 
     expect(code1).not.toBe(code2)
   })
+
+  it('should return existing short code when same user shares same URL again', async () => {
+    const counter = createInMemoryCounter()
+    const user = await makeUser()
+    const longUrl = 'https://plotwist.app/en-US/tv-series/95479'
+
+    const code1 = await createShortUrl({
+      counter,
+      salt: 0,
+      longUrl,
+      userId: user.id,
+    })
+    const code2 = await createShortUrl({
+      counter,
+      salt: 0,
+      longUrl,
+      userId: user.id,
+    })
+
+    expect(code1).toBe(code2)
+  })
 })

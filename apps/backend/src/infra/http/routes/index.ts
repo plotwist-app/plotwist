@@ -23,6 +23,7 @@ import { reviewRepliesRoute } from './review-replies'
 import { reviewsRoute } from './reviews'
 import { socialAuthRoutes } from './social-auth'
 import { socialLinksRoute } from './social-links'
+import { sharedUrlRoute } from './shared-url'
 import { subscriptionsRoutes } from './subscriptions'
 import { tmdbProxyRoutes } from './tmdb-proxy'
 import { userActivitiesRoutes } from './user-activities'
@@ -94,6 +95,7 @@ export function routes(app: FastifyInstance) {
   app.register(followsRoutes)
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
+  app.register(sharedUrlRoute)
   app.register(subscriptionsRoutes)
   app.register(watchEntriesRoutes)
   app.register(tmdbProxyRoutes)

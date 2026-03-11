@@ -41,7 +41,8 @@ import type {
   GetUserItemsCount200,
   GetUserItemsCountParams,
   PutUserItem201,
-  PutUserItemBody
+  PutUserItemBody,
+  PutUserItemsReorderBody
 } from './endpoints.schemas';
 
 import { axiosInstance } from '../services/axios-instance';
@@ -666,6 +667,66 @@ export function useGetAllUserItemsSuspense<TData = Awaited<ReturnType<typeof get
 
 
 /**
+ * Reorder user items in a collection
+ */
+export const putUserItemsReorder = (
+    putUserItemsReorderBody: PutUserItemsReorderBody,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/user/items/reorder`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: putUserItemsReorderBody
+    },
+      );
+    }
+  
+
+
+export const getPutUserItemsReorderMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserItemsReorder>>, TError,{data: PutUserItemsReorderBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putUserItemsReorder>>, TError,{data: PutUserItemsReorderBody}, TContext> => {
+
+const mutationKey = ['putUserItemsReorder'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putUserItemsReorder>>, {data: PutUserItemsReorderBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  putUserItemsReorder(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutUserItemsReorderMutationResult = NonNullable<Awaited<ReturnType<typeof putUserItemsReorder>>>
+    export type PutUserItemsReorderMutationBody = PutUserItemsReorderBody
+    export type PutUserItemsReorderMutationError = unknown
+
+    export const usePutUserItemsReorder = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserItemsReorder>>, TError,{data: PutUserItemsReorderBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof putUserItemsReorder>>,
+        TError,
+        {data: PutUserItemsReorderBody},
+        TContext
+      > => {
+
+      const mutationOptions = getPutUserItemsReorderMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
  * Get user items count
  */
 export const getUserItemsCount = (

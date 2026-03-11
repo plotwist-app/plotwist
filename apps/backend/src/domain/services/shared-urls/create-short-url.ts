@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto'
 import { base62Encode } from '@/domain/helpers/base62'
-import { insertSharedUrl } from '@/infra/db/repositories/shared-urls-repository'
+import {
+  getSharedUrlByUserAndOriginalUrl,
+  insertSharedUrl,
+} from '@/infra/db/repositories/shared-urls-repository'
 import type { Counter } from '@/infra/ports/counter'
 import { recordUrlShortened } from '@/infra/telemetry/shared-urls-metrics'
 
@@ -13,6 +16,11 @@ export type CreateShortUrlInput = {
 
 export async function createShortUrl(input: CreateShortUrlInput) {
   const { counter, salt, longUrl, userId } = input
+
+  const existing = await getSharedUrlByUserAndOriginalUrl(userId, longUrl)
+  if (existing) {
+    return existing.url
+  }
 
   const id = await counter.nextId()
   const shortCode = base62Encode(id, salt)
