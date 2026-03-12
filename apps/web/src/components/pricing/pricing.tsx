@@ -27,24 +27,24 @@ export const Pricing = () => {
   const initial = username ? username?.at(0)?.toUpperCase() : ''
 
   return (
-    <section className="py-32 relative" id="pricing">
-      <section className="mx-auto max-w-6xl space-y-8 px-4 lg:px-0">
+    <section className="py-24 lg:py-32 relative" id="pricing">
+      <section className="mx-auto max-w-6xl space-y-12 px-4 lg:px-0">
         <div className="mx-auto flex w-full flex-col items-center space-y-4 max-w-xl">
-          <h2 className="text-center text-2xl lg:text-5xl font-normal">
+          <h2 className="text-center text-3xl lg:text-5xl font-bold tracking-tight">
             {dictionary.choose_the}{' '}
-            <span className="relative font-bold">
+            <span className="font-extrabold">
               {dictionary.perfect_plan}
             </span>{' '}
             {dictionary.for_you}
           </h2>
 
-          <p className="text-center text-md text-muted-foreground">
+          <p className="text-center text-base text-muted-foreground leading-relaxed">
             {dictionary.explore_features}
           </p>
         </div>
 
         <div className="flex flex-col items-center gap-4 mx-auto">
-          <ol className="max-w-4xl grid-col-1 grid gap-8 lg:grid-cols-2 lg:gap-4">
+          <ol className="max-w-4xl grid-col-1 grid gap-6 lg:grid-cols-2 lg:gap-4 w-full">
             <Price.Root>
               <Price.Content>
                 <Price.Header>
@@ -68,7 +68,11 @@ export const Pricing = () => {
                 </Price.Benefits>
               </Price.Content>
 
-              <Button asChild={!user} disabled={Boolean(user)}>
+              <Button
+                className="rounded-full"
+                asChild={!user}
+                disabled={Boolean(user)}
+              >
                 {user?.subscriptionType === 'MEMBER' ? (
                   <div className="flex">
                     <TooltipProvider>
@@ -102,21 +106,20 @@ export const Pricing = () => {
               </Button>
             </Price.Root>
 
-            <Price.Root className="relative">
+            <Price.Root className="relative ring-foreground/[0.12]">
               <BorderBeam
                 duration={8}
                 delay={9}
                 colorFrom="#fff"
                 colorTo="#fff"
-                className="hidden dark:block"
+                className="hidden dark:block opacity-30"
               />
-
               <BorderBeam
                 duration={8}
                 delay={9}
                 colorFrom="#000"
                 colorTo="#000"
-                className="block dark:hidden"
+                className="block dark:hidden opacity-20"
               />
 
               <Price.Content>
@@ -127,7 +130,10 @@ export const Pricing = () => {
 
                   <Price.Value className="flex items-center gap-2">
                     {dictionary.home_prices.pro_plan.price}
-                    <Badge variant="outline">
+                    <Badge
+                      variant="outline"
+                      className="text-[10px]"
+                    >
                       {dictionary.home_prices.pro_plan.recommended}
                     </Badge>
                   </Price.Value>
@@ -151,9 +157,11 @@ export const Pricing = () => {
                   className="w-full"
                 >
                   <Button
-                    type={user.subscriptionType === 'PRO' ? 'button' : 'submit'}
+                    type={
+                      user.subscriptionType === 'PRO' ? 'button' : 'submit'
+                    }
                     disabled={user.subscriptionType !== 'MEMBER'}
-                    className="w-full"
+                    className="w-full rounded-full bg-foreground text-background hover:bg-foreground/90"
                   >
                     <TooltipProvider>
                       <Tooltip>
@@ -183,7 +191,11 @@ export const Pricing = () => {
                   </Button>
                 </form>
               ) : (
-                <Button asChild type="button">
+                <Button
+                  asChild
+                  type="button"
+                  className="rounded-full bg-foreground text-background hover:bg-foreground/90"
+                >
                   <Link href={`/${language}/sign-up?redirect=checkout`}>
                     {dictionary.get_14_days_free}
                   </Link>

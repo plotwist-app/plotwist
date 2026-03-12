@@ -12,6 +12,24 @@ import { Toaster } from 'sonner'
 const queryClient = new QueryClient()
 export const APP_QUERY_CLIENT = queryClient
 
+function ThemeToggleShortcut() {
+  const { setTheme, resolvedTheme } = useTheme()
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.code === 'KeyL') {
+        e.preventDefault()
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [setTheme, resolvedTheme])
+
+  return null
+}
+
 export function ThemeProvider({
   children,
   ...props
@@ -29,6 +47,7 @@ export function ThemeProvider({
       <QueryClientProvider client={queryClient}>
         <NuqsAdapter>
           <NextTopLoader color="#ccc" showSpinner={false} />
+          <ThemeToggleShortcut />
           {children}
         </NuqsAdapter>
       </QueryClientProvider>

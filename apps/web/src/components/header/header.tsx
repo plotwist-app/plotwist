@@ -12,9 +12,10 @@ export const Header = () => {
 
   return (
     <>
-      <header className="hidden justify-between lg:flex">
-        <div className="flex items-center gap-2 z-50">
+      <header className="hidden items-center justify-between lg:flex">
+        <div className="flex items-center gap-3 z-50">
           <Logo />
+          <div className="h-4 w-px bg-foreground/[0.1]" />
           <HeaderNavigationMenu />
         </div>
 
@@ -27,8 +28,9 @@ export const Header = () => {
       <header className="flex w-full items-center justify-between lg:hidden">
         <Logo />
 
-        <div className="flex space-x-2">
-          {!isDesktop && <CommandSearch />} <HeaderNavigationDrawer />
+        <div className="flex items-center gap-2">
+          {!isDesktop && <CommandSearch />}
+          <HeaderNavigationDrawer />
         </div>
       </header>
     </>

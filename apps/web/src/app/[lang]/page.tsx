@@ -1,15 +1,16 @@
-import { Separator } from '@plotwist/ui/components/ui/separator'
 import type { Metadata } from 'next'
-import { Pattern } from '@/components/pattern'
 import { Pricing } from '@/components/pricing'
-import type { PageProps } from '@/types/languages'
+import { tmdb } from '@/services/tmdb'
+import { asLanguage, type PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { buildLanguageAlternates } from '@/utils/seo'
+import { tmdbImage } from '@/utils/tmdb/image'
 import { APP_URL } from '../../../constants'
-import { AppDownload } from './_components/app-download'
 import { Features } from './_components/features'
+import { FinalCta } from './_components/final-cta'
 import { Hero } from './_components/hero'
-import { Images } from './_components/images'
+import { PosterWall } from './_components/poster-wall'
+import { SocialProof } from './_components/social-proof'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
@@ -53,20 +54,40 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 export default async function Home(props: PageProps) {
   const { lang } = await props.params
   const dictionary = await getDictionary(lang)
+  const language = asLanguage(lang)
+
+  const [movies, tvSeries] = await Promise.all([
+    tmdb.movies.discover({
+      language,
+      page: 1,
+      filters: { sort_by: 'popularity.desc' },
+    }),
+    tmdb.tv.discover({
+      language,
+      page: 1,
+      filters: { sort_by: 'popularity.desc' },
+    }),
+  ])
+
+  const posters = [
+    ...movies.results.map(m => ({
+      src: tmdbImage(m.poster_path, 'w500'),
+      alt: m.title,
+    })),
+    ...tvSeries.results.map(t => ({
+      src: tmdbImage(t.poster_path, 'w500'),
+      alt: t.name,
+    })),
+  ].filter(p => p.src && !p.src.includes('null'))
 
   return (
-    <>
-      <Pattern variant="checkered" />
-
-      <main>
-        <Hero dictionary={dictionary} />
-        <Images />
-        <Features dictionary={dictionary} />
-        <Separator />
-        <AppDownload dictionary={dictionary} />
-        <Separator />
-        <Pricing />
-      </main>
-    </>
+    <main>
+      <Hero dictionary={dictionary} />
+      <PosterWall posters={posters} />
+      <SocialProof dictionary={dictionary} />
+      <Features dictionary={dictionary} />
+      <Pricing />
+      <FinalCta dictionary={dictionary} language={lang} />
+    </main>
   )
 }

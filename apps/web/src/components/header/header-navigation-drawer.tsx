@@ -33,8 +33,12 @@ export const HeaderNavigationDrawer = () => {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button size="icon" variant="outline">
-          <Menu />
+        <Button
+          size="icon"
+          variant="ghost"
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <Menu className="size-5" />
         </Button>
       </DrawerTrigger>
 

@@ -7,7 +7,7 @@ const PriceRoot = ({ className, ...props }: PriceRootProps) => {
   return (
     <li
       className={cn(
-        'col-span-1 flex flex-col justify-between gap-8 rounded-md border bg-background bg-gradient-to-b from-transparent to-muted/30 px-4 py-6',
+        'col-span-1 flex flex-col justify-between gap-8 rounded-2xl bg-foreground/[0.02] dark:bg-foreground/[0.03] ring-1 ring-foreground/[0.06] px-6 py-8',
         className
       )}
       {...props}
@@ -39,7 +39,7 @@ const PriceValue = ({ className, ...props }: PriceValueProps) => {
 
 type PriceDescriptionProps = ComponentProps<'p'>
 const PriceDescription = (props: PriceDescriptionProps) => {
-  return <p className="text-sm text-muted-foreground" {...props} />
+  return <p className="text-sm text-muted-foreground leading-relaxed" {...props} />
 }
 
 type PriceBenefitsProps = ComponentProps<'ul'>
@@ -50,9 +50,9 @@ const PriceBenefits = (props: PriceBenefitsProps) => {
 type PriceBenefitProps = ComponentProps<'li'>
 const PriceBenefit = ({ className, children, ...props }: PriceBenefitProps) => {
   return (
-    <li className={cn('flex items-center gap-4', className)} {...props}>
-      <div className="flex h-5 w-5 items-center justify-center rounded-md bg-muted p-1 border">
-        <Check className="w-3" />
+    <li className={cn('flex items-center gap-3', className)} {...props}>
+      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] dark:bg-foreground/[0.08]">
+        <Check className="w-3 text-foreground/70" />
       </div>
 
       <span className="text-sm text-muted-foreground">{children}</span>

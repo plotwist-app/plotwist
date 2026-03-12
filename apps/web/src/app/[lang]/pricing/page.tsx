@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Pattern } from '@/components/pattern'
 import { Pricing } from '@/components/pricing'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
@@ -32,13 +31,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 const PricingPage = async () => {
   return (
-    <>
-      <Pattern variant="checkered" />
-
-      <div className="flex min-h-[100dvh] items-center justify-center">
-        <Pricing />
-      </div>
-    </>
+    <div className="flex min-h-[100dvh] items-center justify-center">
+      <Pricing />
+    </div>
   )
 }
 

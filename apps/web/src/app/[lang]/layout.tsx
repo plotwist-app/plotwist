@@ -58,8 +58,10 @@ export default async function RootLayout({
             <UserPreferencesContextProvider userPreferences={userPreferences}>
               <ListsContextProvider>
                 <div className="flex flex-col">
-                  <div className="mx-auto w-full max-w-6xl border-b bg-background px-4 py-2 lg:my-4 lg:rounded-full lg:border">
-                    <Header />
+                  <div className="sticky top-0 z-50 w-full lg:relative lg:top-auto">
+                    <div className="mx-auto w-full max-w-6xl bg-background/80 backdrop-blur-xl border-b border-foreground/[0.06] px-4 py-2.5 lg:mt-4 lg:mb-2 lg:rounded-2xl lg:border lg:ring-1 lg:ring-foreground/[0.06] lg:border-transparent lg:shadow-sm lg:shadow-black/[0.03]">
+                      <Header />
+                    </div>
                   </div>
 
                   <main className="w-full min-h-screen">{children}</main>
@@ -70,7 +72,7 @@ export default async function RootLayout({
                 {session?.user.subscriptionType !== 'PRO' && (
                   <Link
                     href={`/${lang}/pricing`}
-                    className="fixed bottom-4 right-4 border bg-background rounded-full py-2 px-4"
+                    className="fixed bottom-4 right-4 bg-foreground text-background rounded-full py-2 px-4 shadow-lg hover:bg-foreground/90 transition-colors"
                   >
                     <span className="flex gap-2 items-center text-center text-sm">
                       {dictionary.get_14_days_free_pro} <ProBadge />
