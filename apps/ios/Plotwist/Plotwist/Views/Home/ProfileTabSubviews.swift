@@ -26,14 +26,9 @@ struct ProfileMainTabs: View {
             }
           } label: {
             VStack(spacing: 8) {
-              HStack(spacing: 5) {
-                Image(systemName: tab.icon)
-                  .font(.system(size: 11, weight: .medium))
-
-                Text(tab.displayName(strings: strings))
-                  .font(.subheadline.weight(.medium))
-              }
-              .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
+              Text(tab.displayName(strings: strings))
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
 
               ZStack {
                 Rectangle()
