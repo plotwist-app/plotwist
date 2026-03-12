@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingName({ lang }: { lang: string }) {
@@ -9,7 +9,6 @@ export function OnboardingName({ lang }: { lang: string }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-
     const timer = setTimeout(() => {
       inputRef.current?.focus()
     }, 500)
@@ -31,7 +30,9 @@ export function OnboardingName({ lang }: { lang: string }) {
     }
   }
 
-  const title = dictionary?.name_title || 'Tell us your name so we can make Plotwist feel like yours'
+  const title =
+    dictionary?.name_title ||
+    'Tell us your name so we can make Plotwist feel like yours'
   const placeholderText = dictionary?.name_placeholder || 'Your name'
   const cta = dictionary?.continue || 'Continue'
 
@@ -47,7 +48,7 @@ export function OnboardingName({ lang }: { lang: string }) {
           type="text"
           placeholder={placeholderText}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           onKeyDown={handleKeyDown}
           autoCapitalize="words"
           autoCorrect="off"

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import type { PageProps } from '@/types/languages'
+import { getDictionary } from '@/utils/dictionaries'
 import { OnboardingProvider } from './_components/onboarding-context'
 import { OnboardingStepper } from './_components/onboarding-stepper'
-import { getDictionary } from '@/utils/dictionaries'
 
 export const metadata: Metadata = {
   title: 'Onboarding • Plotwist',

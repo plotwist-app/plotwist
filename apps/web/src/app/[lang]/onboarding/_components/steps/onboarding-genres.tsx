@@ -1,18 +1,18 @@
-import { useOnboarding } from '../onboarding-context'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-import { useMemo } from 'react'
+import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingGenres({ lang }: { lang: string }) {
-  const { genres, setGenres, contentTypes, nextStep, dictionary } = useOnboarding()
+  const { genres, setGenres, contentTypes, nextStep, dictionary } =
+    useOnboarding()
   const language = (lang as Language) || 'en-US'
 
   const title = dictionary?.genres_title || 'Pick your favorite genres'
   const subtitle = dictionary?.genres_subtitle || 'Select at least one genre'
   const cta = dictionary?.continue || 'Continue'
   const selectPrompt = dictionary?.genres_select_prompt || 'Select a genre'
-
 
   const { data: movieGenresData } = useQuery({
     queryKey: ['tmdb-genres-movie', language],
@@ -26,32 +26,27 @@ export function OnboardingGenres({ lang }: { lang: string }) {
     staleTime: Infinity,
   })
 
-
   const availableGenres = useMemo(() => {
     let combined: { id: number; name: string }[] = []
-    
 
     if (contentTypes.includes('movie')) {
       combined = [...combined, ...(movieGenresData?.genres || [])]
     }
-    
 
     if (contentTypes.includes('tv') || contentTypes.includes('dorama')) {
       combined = [...combined, ...(tvGenresData?.genres || [])]
     }
 
-
     if (contentTypes.includes('anime') && !contentTypes.includes('tv')) {
-
       const animationGenre = tvGenresData?.genres.find(g => g.id === 16)
       if (animationGenre) {
-         combined.push(animationGenre)
+        combined.push(animationGenre)
       }
     }
 
-
-    const unique = Array.from(new Map(combined.map(item => [item.id, item])).values())
-    
+    const unique = Array.from(
+      new Map(combined.map(item => [item.id, item])).values()
+    )
 
     return unique.sort((a, b) => a.name.localeCompare(b.name))
   }, [contentTypes, movieGenresData, tvGenresData])
@@ -72,9 +67,7 @@ export function OnboardingGenres({ lang }: { lang: string }) {
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
           {title}
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base">
-          {subtitle}
-        </p>
+        <p className="text-muted-foreground text-sm md:text-base">{subtitle}</p>
 
         <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 mt-4 max-w-3xl mx-auto w-full">
           {availableGenres.map(genre => {
@@ -84,8 +77,8 @@ export function OnboardingGenres({ lang }: { lang: string }) {
                 key={genre.id}
                 onClick={() => toggleGenre(genre.id)}
                 className={`px-5 py-2.5 rounded-full border transition-all active:scale-95 ${
-                  isSelected 
-                    ? 'bg-foreground text-background border-foreground font-medium scale-105' 
+                  isSelected
+                    ? 'bg-foreground text-background border-foreground font-medium scale-105'
                     : 'bg-muted border-border font-normal hover:bg-muted/80'
                 }`}
               >

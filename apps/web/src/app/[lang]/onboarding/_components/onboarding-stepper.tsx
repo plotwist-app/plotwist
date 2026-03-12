@@ -3,12 +3,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft } from 'lucide-react'
 import { useOnboarding } from './onboarding-context'
-import { OnboardingWelcome } from './steps/onboarding-welcome'
-import { OnboardingName } from './steps/onboarding-name'
-import { OnboardingContentTypes } from './steps/onboarding-content-types'
-import { OnboardingGenres } from './steps/onboarding-genres'
 import { OnboardingSwiper } from './onboarding-swiper'
 import { OnboardingCelebration } from './steps/onboarding-celebration'
+import { OnboardingContentTypes } from './steps/onboarding-content-types'
+import { OnboardingGenres } from './steps/onboarding-genres'
+import { OnboardingName } from './steps/onboarding-name'
+import { OnboardingWelcome } from './steps/onboarding-welcome'
 
 const TOTAL_STEPS = 4 // Steps 1-4 (Welcome is 0, Celebration is 5)
 
@@ -46,7 +46,9 @@ export function OnboardingStepper({ lang }: { lang: string }) {
         </header>
       )}
 
-      <main className={`flex flex-1 flex-col overflow-x-hidden relative z-20 ${!isWelcomeScreen ? 'pt-24 md:pt-32 pb-12 w-full max-w-6xl mx-auto' : ''}`}>
+      <main
+        className={`flex flex-1 flex-col overflow-x-hidden relative z-20 ${!isWelcomeScreen ? 'pt-24 md:pt-32 pb-12 w-full max-w-6xl mx-auto' : ''}`}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
