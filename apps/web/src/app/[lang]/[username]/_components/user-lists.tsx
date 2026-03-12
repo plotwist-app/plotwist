@@ -18,8 +18,7 @@ export const UserLists = () => {
   const { data } = useGetListsSuspense({ limit: 99, userId })
 
   const isOwner = user?.id === userId
-  const lists =
-    data.data && 'lists' in data.data ? data.data.lists : []
+  const lists = data.data && 'lists' in data.data ? data.data.lists : []
   const isVisitorAndListEmpty = lists.length === 0 && !isOwner
 
   if (isVisitorAndListEmpty) {

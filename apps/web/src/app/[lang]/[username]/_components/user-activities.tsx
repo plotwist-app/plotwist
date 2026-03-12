@@ -97,11 +97,7 @@ export function ChangeStatusActivity({
   )
 }
 
-export function ListItemActivity({
-  activity,
-}: {
-  activity: ListItemItem
-}) {
+export function ListItemActivity({ activity }: { activity: ListItemItem }) {
   const { language, dictionary } = useLanguage()
   const {
     activityType,
@@ -130,11 +126,7 @@ export function ListItemActivity({
   )
 }
 
-export function ListActivity({
-  activity,
-}: {
-  activity: ListActivityItem
-}) {
+export function ListActivity({ activity }: { activity: ListActivityItem }) {
   const { language, dictionary } = useLanguage()
   const {
     activityType,
@@ -158,11 +150,7 @@ export function ListActivity({
   )
 }
 
-export function ReviewActivity({
-  activity,
-}: {
-  activity: ReviewItem
-}) {
+export function ReviewActivity({ activity }: { activity: ReviewItem }) {
   const { language, dictionary } = useLanguage()
   const {
     owner: { username },
@@ -209,11 +197,7 @@ export function ReviewActivity({
   )
 }
 
-export function FollowActivity({
-  activity,
-}: {
-  activity: FollowItem
-}) {
+export function FollowActivity({ activity }: { activity: FollowItem }) {
   const { language, dictionary } = useLanguage()
   const {
     activityType,
@@ -247,11 +231,7 @@ export function FollowActivity({
   )
 }
 
-export function LikeReviewActivity({
-  activity,
-}: {
-  activity: ReviewItem
-}) {
+export function LikeReviewActivity({ activity }: { activity: ReviewItem }) {
   const { language, dictionary } = useLanguage()
   const {
     owner: { username },

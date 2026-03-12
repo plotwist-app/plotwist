@@ -24,7 +24,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
-import { ApiError } from '@/services/api-client'
 import { Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -33,6 +32,7 @@ import { toast } from 'sonner'
 import type { signUp } from '@/actions/auth/sign-up'
 import { getUsersAvailableEmail, getUsersAvailableUsername } from '@/api/users'
 import { useLanguage } from '@/context/language'
+import { ApiError } from '@/services/api-client'
 import {
   type CredentialsFormValues,
   credentialsFormSchema,

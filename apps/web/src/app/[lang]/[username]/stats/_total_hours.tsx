@@ -18,9 +18,7 @@ export function TotalHours() {
   const { dictionary } = useLanguage()
   const { data } = useGetUserIdTotalHoursSuspense(userId)
 
-  const totalHours = Number.parseFloat(
-    (data.data?.totalHours ?? 0).toFixed(1)
-  )
+  const totalHours = Number.parseFloat((data.data?.totalHours ?? 0).toFixed(1))
   const days = Math.floor(totalHours / 24)
   const hours = (totalHours % 24).toFixed(1)
 

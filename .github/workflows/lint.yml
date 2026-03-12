@@ -43,9 +43,4 @@ jobs:
         run: pnpm run typecheck
 
       - name: 🔍 Run Biome check
-        working-directory: apps/web
-        run: pnpm run biome:check
-
-      - name: 🔍 Run Biome check
-        working-directory: apps/backend
         run: pnpm run biome:check

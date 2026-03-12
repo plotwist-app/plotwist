@@ -37,8 +37,7 @@ export const Reviews = () => {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  const reviews =
-    data?.pages.flatMap(page => page.data?.reviews ?? []) ?? []
+  const reviews = data?.pages.flatMap(page => page.data?.reviews ?? []) ?? []
 
   if (!data) {
     return (

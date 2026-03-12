@@ -50,8 +50,7 @@ export function UserItemsList({ filters }: UserItemsProps) {
       },
     })
 
-  const flatData =
-    data?.pages.flatMap(page => page.data?.userItems ?? []) ?? []
+  const flatData = data?.pages.flatMap(page => page.data?.userItems ?? []) ?? []
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
