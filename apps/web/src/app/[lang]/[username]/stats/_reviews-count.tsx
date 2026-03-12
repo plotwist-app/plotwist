@@ -29,7 +29,10 @@ export function ReviewsCount() {
       </CardHeader>
 
       <CardContent>
-        <NumberFlow className="text-2xl font-bold" value={data.reviewsCount} />
+        <NumberFlow
+          className="text-2xl font-bold"
+          value={data.data?.reviewsCount ?? 0}
+        />
 
         <p className="text-xs text-muted-foreground lowercase">
           {dictionary.reviews_conducted}

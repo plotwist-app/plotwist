@@ -61,9 +61,11 @@ export function Likes({
       )
     }
 
+    const likes = data.data && 'likes' in data.data ? data.data.likes : []
+
     return (
       <>
-        {data.likes.map(({ user, id }) => (
+        {likes.map(({ user, id }) => (
           <div key={id} className="flex items-center">
             <Link
               href={`/${language}/${user.username}`}

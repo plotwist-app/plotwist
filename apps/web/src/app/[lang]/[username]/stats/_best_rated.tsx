@@ -40,14 +40,15 @@ export function BestRated() {
   const { language, dictionary } = useLanguage()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { data } = useGetUserIdBestReviewsSuspense(userId, { language })
+  const bestReviews = data.data?.bestReviews ?? []
 
-  if (!data.bestReviews.length) return null
+  if (!bestReviews.length) return null
 
   const trigger = (
     <p
       className={cn(
         'mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline',
-        data.bestReviews.length < 7 && 'hidden'
+        bestReviews.length < 7 && 'hidden'
       )}
     >
       {dictionary.more}
@@ -57,7 +58,7 @@ export function BestRated() {
   function renderContent(end: number) {
     return (
       <div className="space-y-4">
-        {data.bestReviews
+        {bestReviews
           .slice(0, end)
           .map(({ title, rating, mediaType, id, tmdbId, date }) => (
             <div

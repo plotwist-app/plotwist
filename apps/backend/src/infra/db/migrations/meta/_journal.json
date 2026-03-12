@@ -442,6 +442,13 @@
       "when": 1771900567551,
       "tag": "20260224023607_alter_subscriptions_table",
       "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "7",
+      "when": 1773023684454,
+      "tag": "20260309023444_add_shared_urls_table",
+      "breakpoints": true
     }
   ]
 }

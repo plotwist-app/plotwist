@@ -23,13 +23,14 @@ export default function ActivityPage() {
       {
         query: {
           initialPageParam: undefined,
-          getNextPageParam: lastPage => lastPage.nextCursor,
+          getNextPageParam: lastPage => lastPage.data?.nextCursor ?? undefined,
           queryFn: async ({ pageParam }) => {
-            return await getUserActivities(userId, {
+            const res = await getUserActivities(userId, {
               pageSize: '20',
               cursor: pageParam as string,
               language,
             })
+            return res
           },
         },
       }
@@ -45,7 +46,8 @@ export default function ActivityPage() {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  const flatData = data?.pages.flatMap(page => page.userActivities)
+  const flatData =
+    data?.pages.flatMap(page => page.data?.userActivities ?? []) ?? []
 
   return (
     <div className="space-y-4">

@@ -26,7 +26,8 @@ export function PopularReviewsContent({
     interval: interval,
   })
 
-  if (!data.reviews.length) {
+  const reviews = data.data?.reviews ?? []
+  if (!reviews.length) {
     return (
       <div className="lg:text-md flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
         <p>{dictionary.latest_reviews.no_reviews_found}</p>
@@ -43,7 +44,7 @@ export function PopularReviewsContent({
 
   return (
     <>
-      {data.reviews.map(review => (
+      {reviews.map(review => (
         <FullReview key={review.id} review={review} />
       ))}
     </>
