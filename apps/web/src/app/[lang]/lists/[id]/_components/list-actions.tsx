@@ -145,9 +145,9 @@ function ListProgress({ listId }: ListProgressProps) {
   const { dictionary } = useLanguage()
   const { data } = useGetListProgress(listId)
 
-  const completed = data?.completed ?? 0
-  const total = data?.total ?? 0
-  const percentage = data?.percentage ?? 0
+  const completed = data?.data?.completed ?? 0
+  const total = data?.data?.total ?? 0
+  const percentage = data?.data?.percentage ?? 0
 
   return (
     <Action.Root className="border-t py-3">

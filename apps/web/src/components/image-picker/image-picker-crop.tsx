@@ -22,6 +22,7 @@ const aspectRatio: Record<PostImageFolder, number> = {
   banner: 16 / 7,
   list: 16 / 7,
   avatar: 1 / 1,
+  feedback: 16 / 9,
 }
 
 export function ImagePickerCrop({

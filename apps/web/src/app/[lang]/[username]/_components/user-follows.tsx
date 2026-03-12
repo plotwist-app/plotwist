@@ -55,7 +55,7 @@ export function UserFollows({
       {
         query: {
           initialPageParam: undefined,
-          getNextPageParam: lastPage => lastPage.nextCursor,
+          getNextPageParam: lastPage => lastPage.data?.nextCursor ?? undefined,
           queryFn: async ({ pageParam }) => {
             const res = await getFollowers({
               followerId: variant === 'following' ? userId : undefined,
@@ -63,14 +63,14 @@ export function UserFollows({
               pageSize: '10',
               cursor: pageParam as string,
             })
-            return res.data!
+            return res
           },
           enabled: count > 0,
         },
       }
     )
 
-  const flatData = data?.pages.flatMap(page => page.followers)
+  const flatData = data?.pages.flatMap(page => page.data?.followers ?? [])
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

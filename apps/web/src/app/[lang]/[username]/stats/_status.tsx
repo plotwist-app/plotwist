@@ -48,7 +48,8 @@ export function Status() {
   const { data } = useGetUserIdItemsStatusSuspense(userId)
   const { dictionary } = useLanguage()
 
-  const chartData = data.userItems.map(item => {
+  const userItems = data.data?.userItems ?? []
+  const chartData = userItems.map(item => {
     return {
       ...item,
       fill: chartConfig[item.status].color,
@@ -98,7 +99,7 @@ export function Status() {
         </ChartContainer>
 
         <div className="mt-4 space-y-4">
-          {data.userItems.map(({ status, count, percentage }) => (
+          {userItems.map(({ status, count, percentage }) => (
             <div className="space-y-2" key={status}>
               <div className="flex justify-between items-center text-sm">
                 <span>{label[status]}</span>

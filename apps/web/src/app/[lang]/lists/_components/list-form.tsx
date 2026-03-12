@@ -84,8 +84,11 @@ export const ListForm = ({ trigger, list, mode = 'dialog' }: ListFormProps) => {
     return createList.mutateAsync(
       { data: values },
       {
-        onSuccess: async (result) => {
-          const id = result.data?.list?.id
+        onSuccess: async result => {
+          const id =
+            result.data && 'list' in result.data
+              ? result.data.list?.id
+              : undefined
           await queryClient.invalidateQueries({
             queryKey: getGetListsQueryKey(),
           })

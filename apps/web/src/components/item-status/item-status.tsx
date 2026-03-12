@@ -53,7 +53,8 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
     { query: { enabled: Boolean(user) } }
   )
 
-  const userItem = data?.userItem
+  const userItem =
+    data?.data && 'userItem' in data.data ? data.data.userItem : undefined
 
   const handleStatusChange = async (
     newStatus: GetUserItem200UserItemStatus
@@ -62,9 +63,9 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
       return push(`/${language}/sign-in`)
     }
 
-    if (newStatus === userItem?.status) {
+    if (userItem && newStatus === userItem.status) {
       await deleteUserItem.mutateAsync(
-        { id: userItem.id },
+        { id: userItem?.id },
         {
           onSettled: async () => {
             await queryClient.invalidateQueries({
@@ -95,7 +96,9 @@ export function ItemStatus({ mediaType, tmdbId }: ItemStatusProps) {
               }),
             })
 
-            queryClient.setQueryData(queryKey, response.data)
+            await queryClient.invalidateQueries({
+              queryKey,
+            })
           }
         },
       }

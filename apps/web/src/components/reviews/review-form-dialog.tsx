@@ -97,13 +97,16 @@ export function ReviewFormDialog({
   const isSaving = postReview.isPending || putReview.isPending
   const putUserItem = usePutUserItem()
 
-  const { data: userItem } = useGetUserItem(
+  const { data } = useGetUserItem(
     {
       mediaType,
       tmdbId: String(tmdbId),
     },
-    { query: { select: data => data.userItem } }
+    { query: { select: data => data } }
   )
+
+  const userItem =
+    data?.data && 'userItem' in data.data ? data.data.userItem : undefined
 
   const form = useForm({
     resolver: zodResolver(reviewFormDialogSchema(dictionary)),

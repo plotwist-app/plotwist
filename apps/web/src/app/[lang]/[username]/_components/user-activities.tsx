@@ -13,18 +13,42 @@ import {
 import { Link } from 'next-view-transitions'
 import type { PropsWithChildren } from 'react'
 import { v4 } from 'uuid'
-import type {
-  GetUserActivities200UserActivitiesItemOneOf,
-  GetUserActivities200UserActivitiesItemOneOfFiveeight,
-  GetUserActivities200UserActivitiesItemOneOfFoureight,
-  GetUserActivities200UserActivitiesItemOneOfOnenine,
-  GetUserActivities200UserActivitiesItemOneOfOnezero,
-  GetUserActivities200UserActivitiesItemOneOfSixeight,
-  GetUserActivities200UserActivitiesItemOneOfThreeseven,
-  GetUserActivities200UserActivitiesItemOneOfTwoseven,
-} from '@/api/endpoints.schemas'
+import type { GetUserActivities200UserActivitiesItem } from '@/api/endpoints.schemas'
 import { useLanguage } from '@/context/language'
 import { getEpisodeBadge, getReviewHref } from '@/utils/review'
+
+type ChangeStatusItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'CHANGE_STATUS' }
+>
+type ListItemItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'ADD_ITEM' | 'DELETE_ITEM' }
+>
+type ListActivityItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'CREATE_LIST' | 'LIKE_LIST' }
+>
+type ReviewItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'LIKE_REVIEW' | 'CREATE_REVIEW' }
+>
+type FollowItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'FOLLOW_USER' | 'UNFOLLOW_USER' }
+>
+type WatchEpisodeItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'WATCH_EPISODE' }
+>
+type ReplyItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'LIKE_REPLY' | 'CREATE_REPLY' }
+>
+type CreateAccountItem = Extract<
+  GetUserActivities200UserActivitiesItem,
+  { activityType: 'CREATE_ACCOUNT' }
+>
 
 export function Username({ children }: PropsWithChildren) {
   const { language } = useLanguage()
@@ -42,7 +66,7 @@ export function Username({ children }: PropsWithChildren) {
 export function ChangeStatusActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfFiveeight
+  activity: ChangeStatusItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -76,7 +100,7 @@ export function ChangeStatusActivity({
 export function ListItemActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOf
+  activity: ListItemItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -109,7 +133,7 @@ export function ListItemActivity({
 export function ListActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfOnenine
+  activity: ListActivityItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -137,7 +161,7 @@ export function ListActivity({
 export function ReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfTwoseven
+  activity: ReviewItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -188,7 +212,7 @@ export function ReviewActivity({
 export function FollowActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfOnezero
+  activity: FollowItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -226,7 +250,7 @@ export function FollowActivity({
 export function LikeReviewActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfTwoseven
+  activity: ReviewItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -279,7 +303,7 @@ export function LikeReviewActivity({
 export function WatchEpisodeActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfFoureight
+  activity: WatchEpisodeItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -331,7 +355,7 @@ export function WatchEpisodeActivity({
 export function CreateReviewReplyActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfThreeseven
+  activity: ReplyItem
 }) {
   const { language, dictionary } = useLanguage()
   const {
@@ -392,7 +416,7 @@ export function CreateReviewReplyActivity({
 export function CreateAccountActivity({
   activity,
 }: {
-  activity: GetUserActivities200UserActivitiesItemOneOfSixeight
+  activity: CreateAccountItem
 }) {
   const { dictionary } = useLanguage()
   const {

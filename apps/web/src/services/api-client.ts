@@ -32,16 +32,12 @@ export class ApiError extends Error {
   }
 }
 
-type RequestOptions = {
-  method?: string
-  headers?: Record<string, string> | Headers
-  body?: string | FormData
-  signal?: AbortSignal
-}
+/** Matches Orval-generated RequestInit for full type compatibility */
+export type CustomFetchOptions = RequestInit
 
 export const customFetch = async <T>(
   url: string,
-  options?: RequestOptions
+  options?: CustomFetchOptions
 ): Promise<T> => {
   const baseUrl = getBaseUrl()
   const targetUrl = url.startsWith('http') ? url : `${baseUrl}${url}`

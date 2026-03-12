@@ -30,19 +30,21 @@ function ItemReviewContent() {
 
   const { dictionary } = useLanguage()
 
+  const review =
+    data.data && 'review' in data.data ? data.data.review : undefined
   return (
     <ReviewFormDialog
       tmdbId={tmdbId}
       mediaType={mediaType}
-      review={data.review}
-      key={JSON.stringify(data.review)}
+      review={review}
+      key={JSON.stringify(review)}
     >
       <Button size="sm" variant="outline">
         <Star
           size={14}
-          className={cn('mr-2', data.review && 'fill-amber-400 text-amber-400')}
+          className={cn('mr-2', review && 'fill-amber-400 text-amber-400')}
         />
-        {data.review ? dictionary.reviewed : dictionary.review}
+        {review ? dictionary.reviewed : dictionary.review}
       </Button>
     </ReviewFormDialog>
   )

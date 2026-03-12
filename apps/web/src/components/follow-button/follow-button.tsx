@@ -30,7 +30,7 @@ export const FollowButton = ({ userId }: FollowButtonProps) => {
   const getMode = () => {
     if (!user) return 'REDIRECT'
     if (isOwner || getFollow.isLoading) return 'HIDDEN'
-    if (getFollow.data?.follow) return 'FOLLOWER'
+    if (getFollow.data?.data.follow) return 'FOLLOWER'
     if (user?.id !== userId) return 'MEMBER'
 
     return 'HIDDEN'

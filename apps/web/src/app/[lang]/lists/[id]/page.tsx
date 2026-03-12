@@ -22,7 +22,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const params = await props.params
   const { data } = await getListById(params.id)
-  const list = data?.list
+  const list = data && 'list' in data ? data.list : undefined
   if (!list) notFound()
 
   const title = list.title
@@ -53,7 +53,7 @@ export default async function ListPage({ params }: ListPageProps) {
 
   const session = await verifySession()
   const { data } = await getListById(id)
-  const list = data?.list
+  const list = data && 'list' in data ? data.list : undefined
   if (!list) notFound()
 
   const mode = session?.user.id === list.userId ? 'EDIT' : 'SHOW'

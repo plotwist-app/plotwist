@@ -18,7 +18,9 @@ export const UserLists = () => {
   const { data } = useGetListsSuspense({ limit: 99, userId })
 
   const isOwner = user?.id === userId
-  const isVisitorAndListEmpty = data.lists.length === 0 && !isOwner
+  const lists =
+    data.data && 'lists' in data.data ? data.data.lists : []
+  const isVisitorAndListEmpty = lists.length === 0 && !isOwner
 
   if (isVisitorAndListEmpty) {
     return (
@@ -49,7 +51,7 @@ export const UserLists = () => {
       )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {data.lists.map(list => (
+        {lists.map(list => (
           <ListCard list={list} key={list.id} />
         ))}
       </div>
