@@ -86,22 +86,22 @@ export function OnboardingWelcome({ lang }: { lang: string }) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col items-start md:items-center w-full"
         >
-          <div className="mb-6 md:mb-8 bg-app-foreground flex items-center justify-center rounded-2xl shadow-2xl p-4 md:p-6 opacity-90 transition-opacity hover:opacity-100">
-             <div className="brightness-0 invert"><Logo size={42} /></div>
+          <div className="mb-4 md:mb-6 bg-app-foreground flex items-center justify-center rounded-xl shadow-lg p-3 md:p-4 opacity-90 transition-opacity hover:opacity-100">
+             <div className="brightness-0 invert"><Logo size={32} /></div>
           </div>
           
-          <h1 className="mb-4 text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-3xl drop-shadow-xl text-balance">
+          <h1 className="mb-3 text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white max-w-2xl drop-shadow-xl text-balance">
             {title}
           </h1>
           
-          <p className="mb-10 text-lg md:text-xl text-neutral-300 max-w-xl drop-shadow-md">
+          <p className="mb-8 text-sm md:text-base text-neutral-400 max-w-md drop-shadow-md">
             {subtitle}
           </p>
           
-          <div className="w-full max-w-sm">
+          <div className="w-full max-w-xs">
             <button
               onClick={nextStep}
-              className="w-full rounded-full bg-white py-4 md:py-5 text-center text-lg font-bold text-black transition-transform active:scale-95 shadow-xl hover:bg-neutral-200"
+              className="w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black transition-transform active:scale-95 shadow-lg hover:bg-neutral-200"
             >
               {cta}
             </button>

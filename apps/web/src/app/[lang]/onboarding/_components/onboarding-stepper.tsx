@@ -66,11 +66,6 @@ export function OnboardingStepper({ lang }: { lang: string }) {
         </AnimatePresence>
       </main>
 
-      {isWelcomeScreen && (
-        <main className="flex flex-1 flex-col absolute inset-0 z-10">
-          <OnboardingWelcome lang={lang} />
-        </main>
-      )}
     </div>
   )
 }

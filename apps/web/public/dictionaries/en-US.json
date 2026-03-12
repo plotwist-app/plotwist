@@ -917,6 +917,7 @@
     "celebration_title": "You're all set!",
     "celebration_subtitle": "Your profile is ready. Let's start tracking.",
     "celebration_cta": "Go to Home",
-    "continue": "Continue"
+    "continue": "Continue",
+    "syncing": "Saving profile..."
   }
 }

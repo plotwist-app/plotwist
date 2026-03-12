@@ -919,6 +919,7 @@
     "celebration_title": "¡Todo listo!",
     "celebration_subtitle": "Tu perfil está listo. Empecemos.",
     "celebration_cta": "Ir a Inicio",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "syncing": "Guardando perfil..."
   }
 }

@@ -37,8 +37,8 @@ export function OnboardingName({ lang }: { lang: string }) {
 
   return (
     <div className="flex flex-1 flex-col justify-between px-6 pb-8 pt-4">
-      <div className="flex flex-col gap-6 text-center mt-12 md:mt-16 max-w-xl mx-auto w-full">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+      <div className="flex flex-col gap-4 text-center mt-12 md:mt-16 max-w-md mx-auto w-full">
+        <h1 className="text-xl md:text-2xl font-bold tracking-tight">
           {title}
         </h1>
 
@@ -51,15 +51,15 @@ export function OnboardingName({ lang }: { lang: string }) {
           onKeyDown={handleKeyDown}
           autoCapitalize="words"
           autoCorrect="off"
-          className="w-full rounded-xl bg-muted p-4 text-lg outline-none transition-colors border border-transparent focus:border-border mt-2 md:mt-4"
+          className="w-full rounded-xl bg-muted p-3 text-sm outline-none transition-colors border border-transparent focus:border-border mt-2 md:mt-4"
         />
       </div>
 
-      <div className="mt-8 mx-auto w-full max-w-sm">
+      <div className="mt-8 mx-auto w-full max-w-xs">
         <button
           onClick={handleContinue}
           disabled={!canContinue}
-          className="w-full rounded-full bg-foreground py-4 text-center font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+          className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
         >
           {cta}
         </button>

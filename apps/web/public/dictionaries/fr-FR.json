@@ -921,6 +921,7 @@
     "celebration_title": "Tout est prêt !",
     "celebration_subtitle": "Votre profil est prêt. Commençons.",
     "celebration_cta": "Aller à l'accueil",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "syncing": "Enregistrement du profil..."
   }
 }

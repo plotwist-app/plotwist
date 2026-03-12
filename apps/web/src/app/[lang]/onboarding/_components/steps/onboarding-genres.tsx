@@ -36,17 +36,8 @@ export function OnboardingGenres({ lang }: { lang: string }) {
     }
     
 
-    if (contentTypes.includes('tv') || contentTypes.includes('dorama')) {
+    if (contentTypes.includes('tv') || contentTypes.includes('dorama') || contentTypes.includes('anime')) {
       combined = [...combined, ...(tvGenresData?.genres || [])]
-    }
-
-
-    if (contentTypes.includes('anime') && !contentTypes.includes('tv')) {
-
-      const animationGenre = tvGenresData?.genres.find(g => g.id === 16)
-      if (animationGenre) {
-         combined.push(animationGenre)
-      }
     }
 
 
@@ -69,10 +60,10 @@ export function OnboardingGenres({ lang }: { lang: string }) {
   return (
     <div className="flex flex-1 flex-col justify-between px-6 pb-8 pt-4">
       <div className="flex flex-col gap-4 text-center mt-4 md:mt-2">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+        <h1 className="text-xl md:text-2xl font-bold tracking-tight">
           {title}
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base">
+        <p className="text-muted-foreground text-xs md:text-sm">
           {subtitle}
         </p>
 
@@ -83,7 +74,7 @@ export function OnboardingGenres({ lang }: { lang: string }) {
               <button
                 key={genre.id}
                 onClick={() => toggleGenre(genre.id)}
-                className={`px-5 py-2.5 rounded-full border transition-all active:scale-95 ${
+                className={`px-4 py-2 text-sm rounded-full border transition-all active:scale-95 ${
                   isSelected 
                     ? 'bg-foreground text-background border-foreground font-medium scale-105' 
                     : 'bg-muted border-border font-normal hover:bg-muted/80'
@@ -96,11 +87,11 @@ export function OnboardingGenres({ lang }: { lang: string }) {
         </div>
       </div>
 
-      <div className="mt-8 mx-auto w-full max-w-sm">
+      <div className="mt-8 mx-auto w-full max-w-xs">
         <button
           onClick={nextStep}
           disabled={!canContinue}
-          className="w-full rounded-full bg-foreground py-4 text-center font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+          className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
         >
           {canContinue ? cta : selectPrompt}
         </button>

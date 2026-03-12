@@ -18,6 +18,7 @@ type Movie = {
   release_date: string
   vote_average: number
   overview: string
+  mediaType?: 'MOVIE' | 'TV_SHOW'
 }
 
 type OnboardingSwiperProps = {
@@ -238,7 +239,7 @@ import type { Language } from '@/types/languages'
 // ... existing code ...
 export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
   const language = (lang as Language) || 'en-US'
-  const { genres, contentTypes, incrementSavedTitles, savedTitlesCount, nextStep, dictionary } = useOnboarding()
+  const { genres, contentTypes, incrementSavedTitles, savedTitlesCount, nextStep, dictionary, addSwipedItem } = useOnboarding()
   
   const title = dictionary?.swiper_title || 'Discover titles'
   const subtitle = dictionary?.swiper_subtitle || 'Swipe sideways to add to your list'
@@ -315,6 +316,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           combinedResults.push(
             ...res.data.results.map((item: any) => ({
               ...item,
+              mediaType: 'MOVIE',
               title: item.title,
               release_date: item.release_date
             }))
@@ -323,6 +325,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           combinedResults.push(
             ...res.data.results.map((item: any) => ({
               ...item,
+              mediaType: 'TV_SHOW',
               title: item.name || item.title,
               release_date: item.first_air_date || item.release_date
             }))
@@ -362,7 +365,33 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
       setExitingCard({ movie: currentMovie, direction: dir, initialOffset: velocityInfo })
 
 
-      if (dir === 'right' || dir === 'up' || dir === 'down') {
+      // Extract the direction and item info
+      const tmdbId = currentMovie.id
+      const mediaType = currentMovie.mediaType // We will add this mapping below
+      
+      let status: 'WATCHED' | 'WATCHING' | 'WATCHLIST' | 'DROPPED' | null = null
+      
+      switch (dir) {
+        case 'right':
+          status = 'WATCHLIST'
+          break
+        case 'up':
+          status = 'WATCHED'
+          break
+        case 'down':
+          status = 'WATCHING'
+          break
+        case 'left':
+          // Skip, do not save
+          break
+      }
+
+      if (status) {
+        addSwipedItem({
+          tmdbId,
+          mediaType: mediaType as 'MOVIE' | 'TV_SHOW',
+          status,
+        })
         incrementSavedTitles()
       }
     },

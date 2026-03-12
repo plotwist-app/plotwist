@@ -59,7 +59,7 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
   return (
     <div className="flex flex-1 flex-col justify-between px-6 pb-8 pt-4">
       <div className="flex flex-col gap-4 text-center mt-4 md:mt-2">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+        <h1 className="text-xl md:text-2xl font-bold tracking-tight">
           {title}
         </h1>
 
@@ -72,7 +72,7 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
               <button
                 key={type}
                 onClick={() => toggleType(type)}
-                className={`group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 text-left transition-all active:scale-95 ${
+                className={`group relative aspect-[4/3] w-full overflow-hidden rounded-xl border-2 text-left transition-all active:scale-95 ${
                   isSelected ? 'border-foreground shadow-lg shadow-foreground/20' : 'border-transparent'
                 }`}
               >
@@ -101,12 +101,12 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
                 <div className="absolute inset-0 flex flex-col p-3">
                   {isSelected && (
                     <div className="flex justify-end animate-in zoom-in duration-200">
-                      <CheckCircle className="h-6 w-6 text-white bg-foreground rounded-full" />
+                      <CheckCircle className="h-5 w-5 text-white bg-foreground rounded-full" />
                     </div>
                   )}
                   
                   <div className="mt-auto">
-                    <span className="font-semibold text-white drop-shadow-md">
+                    <span className="text-sm font-semibold text-white drop-shadow-md">
                       {CONTENT_TYPE_LABELS[type]}
                     </span>
                   </div>
@@ -117,11 +117,11 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
         </div>
       </div>
 
-      <div className="mt-8 mx-auto w-full max-w-sm">
+      <div className="mt-8 mx-auto w-full max-w-xs">
         <button
           onClick={nextStep}
           disabled={!canContinue}
-          className="w-full rounded-full bg-foreground py-4 text-center font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+          className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
         >
           {cta}
         </button>

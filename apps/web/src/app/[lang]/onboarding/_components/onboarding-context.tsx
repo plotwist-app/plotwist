@@ -5,12 +5,19 @@ import { useRouter } from 'next/navigation'
 
 export type ContentType = 'movie' | 'tv' | 'anime' | 'dorama'
 
+export interface SwipedItem {
+  tmdbId: number
+  mediaType: 'MOVIE' | 'TV_SHOW'
+  status: 'WATCHED' | 'WATCHING' | 'WATCHLIST' | 'DROPPED'
+}
+
 export interface OnboardingState {
   currentStep: number
   userName: string
   contentTypes: ContentType[]
   genres: number[]
   savedTitlesCount: number
+  swipedItems: SwipedItem[]
 }
 
 interface OnboardingContextType extends OnboardingState {
@@ -18,10 +25,11 @@ interface OnboardingContextType extends OnboardingState {
   setContentTypes: (types: ContentType[]) => void
   setGenres: (genres: number[]) => void
   incrementSavedTitles: () => void
+  addSwipedItem: (item: SwipedItem) => void
   nextStep: () => void
   prevStep: () => void
   goToStep: (step: number) => void
-  completeOnboarding: () => void
+  completeOnboarding: (lang?: string) => void
   isLoaded: boolean
   dictionary?: Record<string, string>
 }
@@ -32,6 +40,7 @@ const defaultState: OnboardingState = {
   contentTypes: [],
   genres: [],
   savedTitlesCount: 0,
+  swipedItems: [],
 }
 
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined)
@@ -91,6 +100,10 @@ export function OnboardingProvider({
     setState(s => ({ ...s, savedTitlesCount: s.savedTitlesCount + 1 }))
   }, [])
 
+  const addSwipedItem = useCallback((item: SwipedItem) => {
+    setState(s => ({ ...s, swipedItems: [...s.swipedItems, item] }))
+  }, [])
+
   const nextStep = useCallback(() => {
     setState(s => ({ ...s, currentStep: Math.min(s.currentStep + 1, 5) }))
   }, [])
@@ -103,9 +116,9 @@ export function OnboardingProvider({
     setState(s => ({ ...s, currentStep: step }))
   }, [])
 
-  const completeOnboarding = useCallback(() => {
+  const completeOnboarding = useCallback((lang: string = 'en-US') => {
     localStorage.setItem('plotwist-onboarding-complete', 'true')
-    router.push('/')
+    router.push(`/${lang}/home`)
   }, [router])
 
   return (
@@ -116,6 +129,7 @@ export function OnboardingProvider({
         setContentTypes,
         setGenres,
         incrementSavedTitles,
+        addSwipedItem,
         nextStep,
         prevStep,
         goToStep,
