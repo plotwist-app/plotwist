@@ -33,7 +33,11 @@ export function OnboardingGenres({ lang }: { lang: string }) {
       combined = [...combined, ...(movieGenresData?.genres || [])]
     }
 
-    if (contentTypes.includes('tv') || contentTypes.includes('dorama') || contentTypes.includes('anime')) {
+    if (
+      contentTypes.includes('tv') ||
+      contentTypes.includes('dorama') ||
+      contentTypes.includes('anime')
+    ) {
       combined = [...combined, ...(tvGenresData?.genres || [])]
     }
 
@@ -67,20 +71,19 @@ export function OnboardingGenres({ lang }: { lang: string }) {
         <h1 className="text-xl md:text-2xl font-bold tracking-tight">
           {title}
         </h1>
-        <p className="text-muted-foreground text-xs md:text-sm">
-          {subtitle}
-        </p>
+        <p className="text-muted-foreground text-xs md:text-sm">{subtitle}</p>
 
         <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 mt-4 max-w-3xl mx-auto w-full">
           {availableGenres.map(genre => {
             const isSelected = genres.includes(genre.id)
             return (
               <button
+                type="button"
                 key={genre.id}
                 onClick={() => toggleGenre(genre.id)}
                 className={`px-4 py-2 text-sm rounded-full border transition-all active:scale-95 ${
-                  isSelected 
-                    ? 'bg-foreground text-background border-foreground font-medium scale-105' 
+                  isSelected
+                    ? 'bg-foreground text-background border-foreground font-medium scale-105'
                     : 'bg-muted border-border font-normal hover:bg-muted/80'
                 }`}
               >
@@ -93,6 +96,7 @@ export function OnboardingGenres({ lang }: { lang: string }) {
 
       <div className="mt-8 mx-auto w-full max-w-xs">
         <button
+          type="button"
           onClick={nextStep}
           disabled={!canContinue}
           className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"

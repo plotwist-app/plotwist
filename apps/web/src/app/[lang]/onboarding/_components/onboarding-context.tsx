@@ -126,10 +126,13 @@ export function OnboardingProvider({
     setState(s => ({ ...s, currentStep: step }))
   }, [])
 
-  const completeOnboarding = useCallback((lang: string = 'en-US') => {
-    localStorage.setItem('plotwist-onboarding-complete', 'true')
-    router.push(`/${lang}/home`)
-  }, [router])
+  const completeOnboarding = useCallback(
+    (lang: string = 'en-US') => {
+      localStorage.setItem('plotwist-onboarding-complete', 'true')
+      router.push(`/${lang}/home`)
+    },
+    [router]
+  )
 
   return (
     <OnboardingContext.Provider

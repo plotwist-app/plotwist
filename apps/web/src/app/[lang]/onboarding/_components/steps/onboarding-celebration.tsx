@@ -1,9 +1,9 @@
 'use client'
 
-import { useOnboarding } from '../onboarding-context'
 import { CheckCircle, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { usePutUserItem } from '@/api/user-items'
+import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingCelebration({ lang }: { lang: string }) {
   const { completeOnboarding, dictionary, swipedItems } = useOnboarding()
@@ -13,13 +13,17 @@ export function OnboardingCelebration({ lang }: { lang: string }) {
   const handleComplete = async () => {
     try {
       setIsSubmitting(true)
-      
-      const promises = swipedItems.map(item => 
+
+      const promises = swipedItems.map(item =>
         putUserItem.mutateAsync({
-           data: { mediaType: item.mediaType, tmdbId: item.tmdbId, status: item.status }
+          data: {
+            mediaType: item.mediaType,
+            tmdbId: item.tmdbId,
+            status: item.status,
+          },
         })
       )
-      
+
       await Promise.allSettled(promises)
     } catch (e) {
       console.error('Failed to sync swiped items', e)
@@ -42,17 +46,18 @@ export function OnboardingCelebration({ lang }: { lang: string }) {
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
           {title}
         </h1>
-        <p className="text-sm text-muted-foreground max-w-sm">
-          {subtitle}
-        </p>
+        <p className="text-sm text-muted-foreground max-w-sm">{subtitle}</p>
 
         <button
+          type="button"
           onClick={handleComplete}
           disabled={isSubmitting}
           className="mt-6 w-full max-w-xs rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 flex items-center justify-center space-x-2"
         >
           {isSubmitting ? <Loader2 className="animate-spin h-4 w-4" /> : null}
-          <span>{isSubmitting ? (dictionary?.syncing || "Saving profile...") : cta}</span>
+          <span>
+            {isSubmitting ? dictionary?.syncing || 'Saving profile...' : cta}
+          </span>
         </button>
       </div>
     </div>

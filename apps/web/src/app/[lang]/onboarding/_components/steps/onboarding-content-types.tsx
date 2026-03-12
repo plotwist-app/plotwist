@@ -12,8 +12,6 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
   const language = (lang as Language) || 'en-US'
 
   const title = dictionary?.content_types_title || 'What do you like to watch?'
-  const subtitle =
-    dictionary?.content_types_subtitle || 'Select at least one to continue.'
   const cta = dictionary?.continue || 'Continue'
 
   const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
@@ -92,6 +90,7 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
 
             return (
               <button
+                type="button"
                 key={type}
                 onClick={() => toggleType(type)}
                 className={`group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 text-left transition-all active:scale-95 ${
@@ -145,6 +144,7 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
 
       <div className="mt-8 mx-auto w-full max-w-xs">
         <button
+          type="button"
           onClick={nextStep}
           disabled={!canContinue}
           className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"

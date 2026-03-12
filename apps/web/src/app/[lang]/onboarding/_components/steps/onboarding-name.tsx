@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useOnboarding } from '../onboarding-context'
 
-export function OnboardingName({ lang }: { lang: string }) {
+export function OnboardingName({ lang: _lang }: { lang: string }) {
   const { userName, setUserName, nextStep, dictionary } = useOnboarding()
   const [name, setName] = useState(userName)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -58,6 +58,7 @@ export function OnboardingName({ lang }: { lang: string }) {
 
       <div className="mt-8 mx-auto w-full max-w-xs">
         <button
+          type="button"
           onClick={handleContinue}
           disabled={!canContinue}
           className="w-full rounded-full bg-foreground py-3 text-center text-sm font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"

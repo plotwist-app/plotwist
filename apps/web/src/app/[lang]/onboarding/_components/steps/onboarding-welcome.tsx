@@ -53,7 +53,7 @@ export function OnboardingWelcome({ lang }: { lang: string }) {
     >
       {[...images, ...images].map((path, i) => (
         <div
-          key={`${i}`}
+          key={`${path}-${i}`}
           className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-neutral-800 shadow-xl"
         >
           <Image
@@ -136,19 +136,22 @@ export function OnboardingWelcome({ lang }: { lang: string }) {
           className="flex flex-col items-start md:items-center w-full"
         >
           <div className="mb-4 md:mb-6 bg-app-foreground flex items-center justify-center rounded-xl shadow-lg p-3 md:p-4 opacity-90 transition-opacity hover:opacity-100">
-             <div className="brightness-0 invert"><Logo size={32} /></div>
+            <div className="brightness-0 invert">
+              <Logo size={32} />
+            </div>
           </div>
-          
+
           <h1 className="mb-3 text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white max-w-2xl drop-shadow-xl text-balance">
             {title}
           </h1>
-          
+
           <p className="mb-8 text-sm md:text-base text-neutral-400 max-w-md drop-shadow-md">
             {subtitle}
           </p>
-          
+
           <div className="w-full max-w-xs">
             <button
+              type="button"
               onClick={nextStep}
               className="w-full rounded-full bg-white py-3 text-center text-sm font-semibold text-black transition-transform active:scale-95 shadow-lg hover:bg-neutral-200"
             >

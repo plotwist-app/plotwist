@@ -67,7 +67,6 @@ export function OnboardingStepper({ lang }: { lang: string }) {
           </motion.div>
         </AnimatePresence>
       </main>
-
     </div>
   )
 }

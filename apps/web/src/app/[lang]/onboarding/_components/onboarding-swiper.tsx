@@ -240,8 +240,16 @@ import { useOnboarding } from './onboarding-context'
 // ... existing code ...
 export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
   const language = (lang as Language) || 'en-US'
-  const { genres, contentTypes, incrementSavedTitles, savedTitlesCount, nextStep, dictionary, addSwipedItem } = useOnboarding()
-  
+  const {
+    genres,
+    contentTypes,
+    incrementSavedTitles,
+    savedTitlesCount,
+    nextStep,
+    dictionary,
+    addSwipedItem,
+  } = useOnboarding()
+
   const title = dictionary?.swiper_title || 'Discover titles'
   const subtitle =
     dictionary?.swiper_subtitle || 'Swipe sideways to add to your list'
@@ -395,15 +403,18 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
 
       setSwipeDirection(null)
       setSwipeProgress(0)
-      setExitingCard({ movie: currentMovie, direction: dir, initialOffset: velocityInfo })
-
+      setExitingCard({
+        movie: currentMovie,
+        direction: dir,
+        initialOffset: velocityInfo,
+      })
 
       // Extract the direction and item info
       const tmdbId = currentMovie.id
       const mediaType = currentMovie.mediaType // We will add this mapping below
-      
+
       let status: 'WATCHED' | 'WATCHING' | 'WATCHLIST' | 'DROPPED' | null = null
-      
+
       switch (dir) {
         case 'right':
           status = 'WATCHLIST'
@@ -428,7 +439,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
         incrementSavedTitles()
       }
     },
-    [currentMovie, exitingCard, incrementSavedTitles]
+    [currentMovie, exitingCard, incrementSavedTitles, addSwipedItem]
   )
 
   const handleExitComplete = useCallback(() => {
@@ -594,6 +605,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
 
       <div className="mt-auto pt-4 pb-2 w-full max-w-sm">
         <button
+          type="button"
           onClick={nextStep}
           disabled={!canContinue}
           className="w-full flex flex-col items-center justify-center rounded-full bg-foreground py-3 text-center font-semibold text-background transition-transform active:scale-95 disabled:opacity-50 disabled:active:scale-100"
