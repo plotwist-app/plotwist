@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import type { verifySession } from '@/app/lib/dal'
-import { setAuthToken } from '@/services/axios-instance'
+import { setAuthToken } from '@/services/api-client'
 import type { User } from '@/types/user'
 
 type SessionContextProviderProps = PropsWithChildren & {

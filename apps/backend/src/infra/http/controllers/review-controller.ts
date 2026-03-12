@@ -5,8 +5,8 @@ import { createReviewService } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 import { getReviewService } from '@/domain/services/reviews/get-review'
 import { getReviewById } from '@/domain/services/reviews/get-review-by-id'
-import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
@@ -119,7 +119,10 @@ export async function updateReviewController(
     return reply.status(404).send({ message: 'Review not found.' })
   }
 
-  const result = await updateReviewService({ ...body, id } as unknown as UpdateReviewInput)
+  const result = await updateReviewService({
+    ...body,
+    id,
+  } as unknown as UpdateReviewInput)
 
   await invalidateUserStatsCache(redis, request.user.id)
 

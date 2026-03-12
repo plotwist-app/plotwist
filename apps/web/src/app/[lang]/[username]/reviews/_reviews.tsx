@@ -22,8 +22,9 @@ export const Reviews = () => {
       {
         query: {
           getNextPageParam: lastPage => {
-            if (!lastPage.pagination?.hasMore) return undefined
-            return lastPage.pagination.page + 1
+            const pagination = lastPage.data?.pagination
+            if (!pagination?.hasMore) return undefined
+            return pagination.page + 1
           },
           initialPageParam: 1,
         },
@@ -36,7 +37,7 @@ export const Reviews = () => {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  const reviews = data?.pages.flatMap(page => page.reviews) ?? []
+  const reviews = data?.pages.flatMap(page => page.data?.reviews ?? []) ?? []
 
   if (!data) {
     return (

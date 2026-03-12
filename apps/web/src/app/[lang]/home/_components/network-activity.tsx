@@ -19,7 +19,7 @@ function NetworkActivityContent({ userId }: { userId: string }) {
       </div>
 
       <div className="space-y-4">
-        {data.userActivities.map(activity => (
+        {(data.data?.userActivities ?? []).map(activity => (
           <UserActivity key={activity.id} activity={activity} />
         ))}
       </div>
