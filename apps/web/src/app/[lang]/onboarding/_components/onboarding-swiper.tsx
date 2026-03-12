@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
-import { Bookmark, Check, X as XIcon, Eye } from 'lucide-react'
+import { Bookmark, Check, Eye, X as XIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useMemo, useState } from 'react'
 import { tmdb } from '@/services/tmdb'
@@ -38,7 +38,6 @@ function getSwipeDirection(offsetX: number, offsetY: number): SwipeDirection {
 
   if (absX < 40 && absY < 40) return null
 
-
   if (offsetY < -40 && absY > absX * 0.8) return 'up'
   if (offsetY > 40 && absY > absX * 0.8) return 'down'
   if (offsetX > 40 && absX > absY * 0.6) return 'right'
@@ -47,7 +46,10 @@ function getSwipeDirection(offsetX: number, offsetY: number): SwipeDirection {
   return null
 }
 
-function getSwipeConfig(dir: SwipeDirection, dictionary?: Record<string, string>) {
+function getSwipeConfig(
+  dir: SwipeDirection,
+  dictionary?: Record<string, string>
+) {
   switch (dir) {
     case 'right':
       return {
@@ -82,14 +84,16 @@ function getSwipeConfig(dir: SwipeDirection, dictionary?: Record<string, string>
   }
 }
 
-
 function SwipeCard({
   movie,
   onSwipe,
   onDirectionChange,
 }: {
   movie: Movie
-  onSwipe: (dir: SwipeDirection, velocityInfo?: { x: number; y: number }) => void
+  onSwipe: (
+    dir: SwipeDirection,
+    velocityInfo?: { x: number; y: number }
+  ) => void
   onDirectionChange: (dir: SwipeDirection, progress: number) => void
 }) {
   const handleDrag = useCallback(
@@ -148,7 +152,6 @@ function SwipeCard({
   )
 }
 
-
 function ExitCard({
   movie,
   direction,
@@ -168,11 +171,11 @@ function ExitCard({
   return (
     <motion.div
       className="absolute inset-0 pointer-events-none"
-      initial={{ 
-        x: initialOffset?.x || 0, 
-        y: initialOffset?.y || 0, 
-        rotate: initialOffset ? (initialOffset.x / window.innerWidth) * 50 : 0, 
-        opacity: 1 
+      initial={{
+        x: initialOffset?.x || 0,
+        y: initialOffset?.y || 0,
+        rotate: initialOffset ? (initialOffset.x / window.innerWidth) * 50 : 0,
+        opacity: 1,
       }}
       animate={{
         x: exitX,
@@ -198,7 +201,6 @@ function ExitCard({
     </motion.div>
   )
 }
-
 
 function SwipePillOverlay({
   direction,
@@ -231,10 +233,9 @@ function SwipePillOverlay({
   )
 }
 
-import { useOnboarding } from './onboarding-context'
-
 // ... existing code ...
 import type { Language } from '@/types/languages'
+import { useOnboarding } from './onboarding-context'
 
 // ... existing code ...
 export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
@@ -242,8 +243,10 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
   const { genres, contentTypes, incrementSavedTitles, savedTitlesCount, nextStep, dictionary, addSwipedItem } = useOnboarding()
   
   const title = dictionary?.swiper_title || 'Discover titles'
-  const subtitle = dictionary?.swiper_subtitle || 'Swipe sideways to add to your list'
-  const emptyText = dictionary?.swiper_empty || 'No titles found with these preferences.'
+  const subtitle =
+    dictionary?.swiper_subtitle || 'Swipe sideways to add to your list'
+  const emptyText =
+    dictionary?.swiper_empty || 'No titles found with these preferences.'
   const fetchingText = dictionary?.swiper_fetching || 'Fetching titles...'
 
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -254,55 +257,85 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
     direction: SwipeDirection
     initialOffset?: { x: number; y: number }
   } | null>(null)
-  
+
   const { data, fetchNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ['onboarding-swiper-movies', language, genres.join(','), contentTypes.join(',')],
+    queryKey: [
+      'onboarding-swiper-movies',
+      language,
+      genres.join(','),
+      contentTypes.join(','),
+    ],
     queryFn: async ({ pageParam }) => {
       const fetchMovies = contentTypes.includes('movie')
       const fetchTV = contentTypes.includes('tv')
       const fetchAnime = contentTypes.includes('anime')
       const fetchDorama = contentTypes.includes('dorama')
 
-
-      const fetchDefault = !fetchMovies && !fetchTV && !fetchAnime && !fetchDorama
+      const fetchDefault =
+        !fetchMovies && !fetchTV && !fetchAnime && !fetchDorama
 
       const promises: Promise<{ type: 'movie' | 'tv'; data: any }>[] = []
-      
 
-      const baseFilters = { 
-        sort_by: 'vote_count.desc', 
+      const baseFilters = {
+        sort_by: 'vote_count.desc',
         with_genres: genres.length > 0 ? genres.join('|') : undefined,
       }
 
       if (fetchMovies || fetchDefault) {
         promises.push(
-          tmdb.movies.discover({ filters: baseFilters, language, page: pageParam as number })
-          .then(data => ({ type: 'movie', data }))
+          tmdb.movies
+            .discover({
+              filters: baseFilters,
+              language,
+              page: pageParam as number,
+            })
+            .then(data => ({ type: 'movie', data }))
         )
       }
 
       if (fetchTV) {
         promises.push(
-          tmdb.tv.discover({ filters: baseFilters, language, page: pageParam as number })
-          .then(data => ({ type: 'tv', data }))
+          tmdb.tv
+            .discover({
+              filters: baseFilters,
+              language,
+              page: pageParam as number,
+            })
+            .then(data => ({ type: 'tv', data }))
         )
       }
 
       if (fetchAnime) {
-
-        const animeFilters = { ...baseFilters, with_original_language: 'ja', with_genres: genres.includes(16) ? genres.join('|') : (genres.length > 0 ? `${genres.join('|')}|16` : '16') }
+        const animeFilters = {
+          ...baseFilters,
+          with_original_language: 'ja',
+          with_genres: genres.includes(16)
+            ? genres.join('|')
+            : genres.length > 0
+              ? `${genres.join('|')}|16`
+              : '16',
+        }
         promises.push(
-          tmdb.tv.discover({ filters: animeFilters as any, language, page: pageParam as number })
-          .then(data => ({ type: 'tv', data }))
+          tmdb.tv
+            .discover({
+              filters: animeFilters as any,
+              language,
+              page: pageParam as number,
+            })
+            .then(data => ({ type: 'tv', data }))
         )
       }
 
       if (fetchDorama) {
-
         const doramaFilters = { ...baseFilters, with_original_language: 'ko' }
         promises.push(
-          tmdb.tv.discover({ filters: doramaFilters as any, language, page: pageParam as number })
-          .then(data => ({ type: 'tv', data }))
+          tmdb.tv
+            .discover({
+              filters: doramaFilters as any,
+              language,
+              page: pageParam as number,
+            })
+            .then(data => ({ type: 'tv', data }))
         )
       }
 
@@ -311,14 +344,14 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
 
       for (const res of results) {
         if (!res.data || !res.data.results) continue
-        
+
         if (res.type === 'movie') {
           combinedResults.push(
             ...res.data.results.map((item: any) => ({
               ...item,
               mediaType: 'MOVIE',
               title: item.title,
-              release_date: item.release_date
+              release_date: item.release_date,
             }))
           )
         } else {
@@ -327,21 +360,21 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
               ...item,
               mediaType: 'TV_SHOW',
               title: item.name || item.title,
-              release_date: item.first_air_date || item.release_date
+              release_date: item.first_air_date || item.release_date,
             }))
           )
         }
       }
 
-
-      const uniqueResults = Array.from(new Map(combinedResults.map(item => [item.id, item])).values())
-
+      const uniqueResults = Array.from(
+        new Map(combinedResults.map(item => [item.id, item])).values()
+      )
 
       uniqueResults.sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))
 
       return {
         page: pageParam,
-        results: uniqueResults
+        results: uniqueResults,
       }
     },
     getNextPageParam: lastPage => (lastPage.page as number) + 1,
@@ -517,7 +550,9 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_watched || 'Já assisti'} (Cima)`}
         >
           <Check className="h-4 w-4 text-green-500" />
-          <span className="text-green-500 hidden sm:inline">{dictionary?.swiper_watched || 'Já assisti'}</span>
+          <span className="text-green-500 hidden sm:inline">
+            {dictionary?.swiper_watched || 'Já assisti'}
+          </span>
         </button>
 
         <button
@@ -527,7 +562,9 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_watching || 'Assistindo'} (Baixo)`}
         >
           <Eye className="h-4 w-4 text-yellow-500" />
-          <span className="text-yellow-500 hidden sm:inline">{dictionary?.swiper_watching || 'Assistindo'}</span>
+          <span className="text-yellow-500 hidden sm:inline">
+            {dictionary?.swiper_watching || 'Assistindo'}
+          </span>
         </button>
 
         <button
@@ -537,7 +574,9 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_want_to_watch || 'Quero assistir'} (Direita)`}
         >
           <Bookmark className="h-4 w-4 text-blue-500" />
-          <span className="text-blue-500 hidden sm:inline">{dictionary?.swiper_want_to_watch || 'Quero assistir'}</span>
+          <span className="text-blue-500 hidden sm:inline">
+            {dictionary?.swiper_want_to_watch || 'Quero assistir'}
+          </span>
         </button>
 
         <button
@@ -547,7 +586,9 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_skip || 'Pular'} (Esquerda)`}
         >
           <XIcon className="h-4 w-4 text-red-500" />
-          <span className="text-red-500 hidden sm:inline">{dictionary?.swiper_skip || 'Pular'}</span>
+          <span className="text-red-500 hidden sm:inline">
+            {dictionary?.swiper_skip || 'Pular'}
+          </span>
         </button>
       </div>
 
@@ -561,7 +602,10 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
             <span>{dictionary?.swiper_finish_ready || "Let's go!"}</span>
           ) : (
             <div className="text-center text-sm md:text-base">
-              <span>{Math.max(0, 5 - savedTitlesCount)} {dictionary?.swiper_finish_remaining || "titles to go"}</span>
+              <span>
+                {Math.max(0, 5 - savedTitlesCount)}{' '}
+                {dictionary?.swiper_finish_remaining || 'titles to go'}
+              </span>
             </div>
           )}
         </button>

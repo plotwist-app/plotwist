@@ -1,7 +1,14 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
 export type ContentType = 'movie' | 'tv' | 'anime' | 'dorama'
 
@@ -43,21 +50,22 @@ const defaultState: OnboardingState = {
   swipedItems: [],
 }
 
-const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined)
+const OnboardingContext = createContext<OnboardingContextType | undefined>(
+  undefined
+)
 
 const STORAGE_KEY = 'plotwist-onboarding-state'
 
-export function OnboardingProvider({ 
+export function OnboardingProvider({
   children,
-  dictionary
-}: { 
+  dictionary,
+}: {
   children: ReactNode
   dictionary?: Record<string, string>
 }) {
   const router = useRouter()
   const [state, setState] = useState<OnboardingState>(defaultState)
   const [isLoaded, setIsLoaded] = useState(false)
-
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -73,14 +81,16 @@ export function OnboardingProvider({
     setIsLoaded(true)
   }, [])
 
-
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        ...state,
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          ...state,
 
-        currentStep: state.currentStep > 4 ? 4 : state.currentStep 
-      }))
+          currentStep: state.currentStep > 4 ? 4 : state.currentStep,
+        })
+      )
     }
   }, [state, isLoaded])
 

@@ -81,10 +81,13 @@ export const UserForm = ({ user, onClose }: UserFormProps) => {
         },
       },
       {
-        onSuccess: ({ user }) => {
-          push(`/${language}/${user.username}/`)
-          refresh()
-          onClose()
+        onSuccess: result => {
+          const user = result.data?.user
+          if (user) {
+            push(`/${language}/${user.username}/`)
+            refresh()
+            onClose()
+          }
         },
         onError: () => {
           form.setError('username', {

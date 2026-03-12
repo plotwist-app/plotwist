@@ -1,18 +1,18 @@
-import { useOnboarding } from '../onboarding-context'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-import { useMemo } from 'react'
+import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingGenres({ lang }: { lang: string }) {
-  const { genres, setGenres, contentTypes, nextStep, dictionary } = useOnboarding()
+  const { genres, setGenres, contentTypes, nextStep, dictionary } =
+    useOnboarding()
   const language = (lang as Language) || 'en-US'
 
   const title = dictionary?.genres_title || 'Pick your favorite genres'
   const subtitle = dictionary?.genres_subtitle || 'Select at least one genre'
   const cta = dictionary?.continue || 'Continue'
   const selectPrompt = dictionary?.genres_select_prompt || 'Select a genre'
-
 
   const { data: movieGenresData } = useQuery({
     queryKey: ['tmdb-genres-movie', language],
@@ -26,23 +26,27 @@ export function OnboardingGenres({ lang }: { lang: string }) {
     staleTime: Infinity,
   })
 
-
   const availableGenres = useMemo(() => {
     let combined: { id: number; name: string }[] = []
-    
 
     if (contentTypes.includes('movie')) {
       combined = [...combined, ...(movieGenresData?.genres || [])]
     }
-    
 
     if (contentTypes.includes('tv') || contentTypes.includes('dorama') || contentTypes.includes('anime')) {
       combined = [...combined, ...(tvGenresData?.genres || [])]
     }
 
+    if (contentTypes.includes('anime') && !contentTypes.includes('tv')) {
+      const animationGenre = tvGenresData?.genres.find(g => g.id === 16)
+      if (animationGenre) {
+        combined.push(animationGenre)
+      }
+    }
 
-    const unique = Array.from(new Map(combined.map(item => [item.id, item])).values())
-    
+    const unique = Array.from(
+      new Map(combined.map(item => [item.id, item])).values()
+    )
 
     return unique.sort((a, b) => a.name.localeCompare(b.name))
   }, [contentTypes, movieGenresData, tvGenresData])

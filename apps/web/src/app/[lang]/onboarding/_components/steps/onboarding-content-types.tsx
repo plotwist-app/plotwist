@@ -1,39 +1,61 @@
-import { useOnboarding, type ContentType } from '../onboarding-context'
 import { useQuery } from '@tanstack/react-query'
-import { tmdb } from '@/services/tmdb'
-import { tmdbImage } from '@/utils/tmdb/image'
-import Image from 'next/image'
 import { CheckCircle } from 'lucide-react'
+import Image from 'next/image'
+import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
-
-
+import { tmdbImage } from '@/utils/tmdb/image'
+import { type ContentType, useOnboarding } from '../onboarding-context'
 
 export function OnboardingContentTypes({ lang }: { lang: string }) {
-  const { contentTypes, setContentTypes, nextStep, dictionary } = useOnboarding()
+  const { contentTypes, setContentTypes, nextStep, dictionary } =
+    useOnboarding()
   const language = (lang as Language) || 'en-US'
 
   const title = dictionary?.content_types_title || 'What do you like to watch?'
-  const subtitle = dictionary?.content_types_subtitle || 'Select at least one to continue.'
+  const subtitle =
+    dictionary?.content_types_subtitle || 'Select at least one to continue.'
   const cta = dictionary?.continue || 'Continue'
 
   const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
     movie: dictionary?.content_types_movie || 'Movies',
     tv: dictionary?.content_types_tv || 'TV Series',
     anime: dictionary?.content_types_anime || 'Anime',
-    dorama: dictionary?.content_types_dorama || 'K-Drama'
+    dorama: dictionary?.content_types_dorama || 'K-Drama',
   }
-
 
   const { data: backdrops } = useQuery({
     queryKey: ['onboarding-content-type-backdrops', language],
     queryFn: async () => {
       const [movies, tvs, animes, doramas] = await Promise.all([
-        tmdb.movies.discover({ filters: { sort_by: 'vote_count.desc' }, language, page: 1 }),
-        tmdb.tv.discover({ filters: { sort_by: 'vote_count.desc' }, language, page: 1 }),
+        tmdb.movies.discover({
+          filters: { sort_by: 'vote_count.desc' },
+          language,
+          page: 1,
+        }),
+        tmdb.tv.discover({
+          filters: { sort_by: 'vote_count.desc' },
+          language,
+          page: 1,
+        }),
 
-        tmdb.tv.discover({ filters: { sort_by: 'vote_count.desc', with_original_language: 'ja', with_genres: '16' } as any, language, page: 1 }),
+        tmdb.tv.discover({
+          filters: {
+            sort_by: 'vote_count.desc',
+            with_original_language: 'ja',
+            with_genres: '16',
+          } as any,
+          language,
+          page: 1,
+        }),
 
-        tmdb.tv.discover({ filters: { sort_by: 'vote_count.desc', with_original_language: 'ko' } as any, language, page: 1 }),
+        tmdb.tv.discover({
+          filters: {
+            sort_by: 'vote_count.desc',
+            with_original_language: 'ko',
+          } as any,
+          language,
+          page: 1,
+        }),
       ])
 
       return {
@@ -72,8 +94,10 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
               <button
                 key={type}
                 onClick={() => toggleType(type)}
-                className={`group relative aspect-[4/3] w-full overflow-hidden rounded-xl border-2 text-left transition-all active:scale-95 ${
-                  isSelected ? 'border-foreground shadow-lg shadow-foreground/20' : 'border-transparent'
+                className={`group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 text-left transition-all active:scale-95 ${
+                  isSelected
+                    ? 'border-foreground shadow-lg shadow-foreground/20'
+                    : 'border-transparent'
                 }`}
               >
                 <div className="absolute inset-0 bg-muted">
@@ -88,10 +112,12 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
                   )}
                 </div>
 
-                <div 
+                <div
                   className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity ${
-                    isSelected ? 'opacity-100' : 'opacity-70 group-hover:opacity-90'
-                  }`} 
+                    isSelected
+                      ? 'opacity-100'
+                      : 'opacity-70 group-hover:opacity-90'
+                  }`}
                 />
 
                 {isSelected && (
@@ -104,7 +130,7 @@ export function OnboardingContentTypes({ lang }: { lang: string }) {
                       <CheckCircle className="h-5 w-5 text-white bg-foreground rounded-full" />
                     </div>
                   )}
-                  
+
                   <div className="mt-auto">
                     <span className="text-sm font-semibold text-white drop-shadow-md">
                       {CONTENT_TYPE_LABELS[type]}

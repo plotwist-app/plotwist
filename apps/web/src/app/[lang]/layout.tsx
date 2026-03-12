@@ -4,10 +4,10 @@ import { getUserPreferences } from '@/api/users'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { HtmlLangSetter } from '@/components/html-lang-setter'
+import { LayoutWrapper } from '@/components/layout-wrapper'
 import { ProBadge } from '@/components/pro-badge'
 import { SonnerProvider, ThemeProvider } from '@/components/providers'
 import { LanguageContextProvider } from '@/context/language'
-import { LayoutWrapper } from '@/components/layout-wrapper'
 import { ListsContextProvider } from '@/context/lists'
 import { SessionContextProvider } from '@/context/session'
 import { UserPreferencesContextProvider } from '@/context/user-preferences'
@@ -41,8 +41,8 @@ export default async function RootLayout({
   let userPreferences: GetUserPreferences200['userPreferences'] = null
 
   if (session) {
-    const { userPreferences: userPreferencesData } = await getUserPreferences()
-    userPreferences = userPreferencesData
+    const { data } = await getUserPreferences()
+    userPreferences = data?.userPreferences ?? null
   }
 
   return (

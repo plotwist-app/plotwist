@@ -10,12 +10,13 @@ export async function UserResumeStats({
   dictionary,
   userId,
 }: UserResumeStatsProps) {
+  const { data } = await getUserIdStats(userId)
   const {
-    followersCount,
-    followingCount,
-    watchedMoviesCount,
-    watchedSeriesCount,
-  } = await getUserIdStats(userId)
+    followersCount = 0,
+    followingCount = 0,
+    watchedMoviesCount = 0,
+    watchedSeriesCount = 0,
+  } = data ?? {}
 
   return (
     <div className="grid grid-cols-4 my-2 whitespace-nowrap">

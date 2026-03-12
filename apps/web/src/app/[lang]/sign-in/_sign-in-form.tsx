@@ -63,10 +63,10 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      const { status } = await onSignIn({
+      const { status } = (await onSignIn({
         ...values,
         redirectTo: `/${language}/home`,
-      })
+      })) as { status: string }
 
       if (status) {
         return setWarningDialogOpen(true)

@@ -13,6 +13,7 @@ import { logger } from '@/infra/adapters/logger'
 import { setRequestClient } from '@/infra/http/middlewares/set-request-client'
 import { registerHttpRequestMetrics } from '@/infra/telemetry/http-request-metrics'
 import { fastifyOtel } from '@/infra/telemetry/otel'
+import { registerSharedUrlsMetrics } from '@/infra/telemetry/shared-urls-metrics'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
@@ -168,8 +169,7 @@ export async function startServer() {
     done()
   })
 
-  registerHttpRequestMetrics(app)
-
+  initMetrics()
   // TODO: Uncomment this when we have a client guard
   // registerClientGuard(app)
   routes(app)
@@ -179,4 +179,9 @@ export async function startServer() {
     host: '0.0.0.0',
   })
   logger.info(`HTTP server running at ${config.app.BASE_URL}`)
+}
+
+export function initMetrics() {
+  registerHttpRequestMetrics(app)
+  registerSharedUrlsMetrics()
 }

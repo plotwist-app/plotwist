@@ -84,7 +84,11 @@ export const ListForm = ({ trigger, list, mode = 'dialog' }: ListFormProps) => {
     return createList.mutateAsync(
       { data: values },
       {
-        onSuccess: async ({ list: { id } }) => {
+        onSuccess: async result => {
+          const id =
+            result.data && 'list' in result.data
+              ? result.data.list?.id
+              : undefined
           await queryClient.invalidateQueries({
             queryKey: getGetListsQueryKey(),
           })
@@ -93,10 +97,12 @@ export const ListForm = ({ trigger, list, mode = 'dialog' }: ListFormProps) => {
           form.reset()
 
           toast.success(dictionary.list_created_success, {
-            action: {
-              label: dictionary.see_list,
-              onClick: () => push(`/${language}/lists/${id}`),
-            },
+            action: id
+              ? {
+                  label: dictionary.see_list,
+                  onClick: () => push(`/${language}/lists/${id}`),
+                }
+              : undefined,
           })
         },
 

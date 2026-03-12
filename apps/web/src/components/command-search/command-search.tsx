@@ -197,9 +197,8 @@ export const CommandSearch = () => {
 
 const getUsers = async (username: string) => {
   if (username.length >= 3) {
-    const { users } = await getUsersSearch({ username: username })
-
-    return users
+    const { data } = await getUsersSearch({ username: username })
+    return data?.users ?? []
   }
 
   return []
