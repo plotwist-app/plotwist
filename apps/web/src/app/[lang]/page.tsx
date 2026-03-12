@@ -6,11 +6,12 @@ import { getDictionary } from '@/utils/dictionaries'
 import { buildLanguageAlternates } from '@/utils/seo'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { APP_URL } from '../../../constants'
+import { AppDownload } from './_components/app-download'
+import { FadeIn } from './_components/fade-in'
 import { Features } from './_components/features'
 import { FinalCta } from './_components/final-cta'
 import { Hero } from './_components/hero'
 import { PosterWall } from './_components/poster-wall'
-import { SocialProof } from './_components/social-proof'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { lang } = await props.params
@@ -83,11 +84,24 @@ export default async function Home(props: PageProps) {
   return (
     <main>
       <Hero dictionary={dictionary} />
+
       <PosterWall posters={posters} />
-      <SocialProof dictionary={dictionary} />
-      <Features dictionary={dictionary} />
-      <Pricing />
-      <FinalCta dictionary={dictionary} language={lang} />
+
+      <FadeIn>
+        <Features dictionary={dictionary} />
+      </FadeIn>
+
+      <FadeIn delay={0.05}>
+        <AppDownload dictionary={dictionary} />
+      </FadeIn>
+
+      <FadeIn delay={0.05}>
+        <Pricing />
+      </FadeIn>
+
+      <FadeIn delay={0.05}>
+        <FinalCta dictionary={dictionary} language={lang} />
+      </FadeIn>
     </main>
   )
 }

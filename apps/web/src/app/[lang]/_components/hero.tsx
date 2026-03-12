@@ -13,20 +13,16 @@ type HeroProps = {
 export async function Hero({ dictionary }: HeroProps) {
   return (
     <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-[900px] rounded-full bg-foreground/[0.03] blur-[100px]" />
-      </div>
-
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-4 pt-16 pb-12 text-center md:px-6 md:pt-32 md:pb-20">
-        <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 px-4 pt-12 pb-6 text-center md:px-6 md:pt-24 md:pb-10">
+        <div className="inline-flex items-center gap-2 text-xs text-muted-foreground tracking-wide">
           <span>{dictionary.hero_badge_opensource}</span>
-          <span className="text-foreground/20">·</span>
+          <span className="text-foreground/15">·</span>
           <span>{dictionary.hero_badge_platforms}</span>
-          <span className="text-foreground/20">·</span>
+          <span className="text-foreground/15">·</span>
           <span>{dictionary.hero_badge_languages}</span>
         </div>
 
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-8xl md:leading-[0.95]">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-7xl md:leading-[1.05]">
           {dictionary.hero_title_line1}
           <br />
           <span className="text-muted-foreground">
@@ -34,14 +30,14 @@ export async function Hero({ dictionary }: HeroProps) {
           </span>
         </h1>
 
-        <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+        <p className="max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
           {dictionary.hero_subtitle}
         </p>
 
-        <div className="flex flex-col items-center gap-4 pt-2">
+        <div className="flex flex-col items-center gap-3 pt-1">
           <Button
             size="lg"
-            className="h-12 rounded-full px-8 bg-foreground text-background shadow-lg hover:bg-foreground/90"
+            className="h-11 rounded-full px-7 bg-foreground text-background hover:bg-foreground/90"
             asChild
           >
             <Link href="#pricing">
@@ -54,7 +50,7 @@ export async function Hero({ dictionary }: HeroProps) {
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-xs text-muted-foreground/60 transition-colors hover:text-foreground"
           >
             {dictionary.hero_cta_app_inline}
           </a>

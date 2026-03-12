@@ -72,6 +72,11 @@ export function PosterWall({ posters }: PosterWallProps) {
         className="relative overflow-hidden py-4 md:py-8"
         aria-hidden="true"
       >
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent md:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent md:w-32" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-background to-transparent" />
+
         <div className="space-y-3">
           <PosterRow posters={row1} direction="left" duration={60} />
           <PosterRow posters={row2} direction="right" duration={50} />

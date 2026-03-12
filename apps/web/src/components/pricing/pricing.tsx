@@ -27,10 +27,10 @@ export const Pricing = () => {
   const initial = username ? username?.at(0)?.toUpperCase() : ''
 
   return (
-    <section className="py-24 lg:py-32 relative" id="pricing">
-      <section className="mx-auto max-w-6xl space-y-12 px-4 lg:px-0">
-        <div className="mx-auto flex w-full flex-col items-center space-y-4 max-w-xl">
-          <h2 className="text-center text-3xl lg:text-5xl font-bold tracking-tight">
+    <section className="py-12 lg:py-16 relative" id="pricing">
+      <section className="mx-auto max-w-6xl space-y-8 px-4 lg:px-0">
+        <div className="mx-auto flex w-full flex-col items-center space-y-3 max-w-xl">
+          <h2 className="text-center text-2xl lg:text-4xl font-bold tracking-tight">
             {dictionary.choose_the}{' '}
             <span className="font-extrabold">
               {dictionary.perfect_plan}
@@ -38,7 +38,7 @@ export const Pricing = () => {
             {dictionary.for_you}
           </h2>
 
-          <p className="text-center text-base text-muted-foreground leading-relaxed">
+          <p className="text-center text-sm text-muted-foreground leading-relaxed">
             {dictionary.explore_features}
           </p>
         </div>
@@ -106,7 +106,7 @@ export const Pricing = () => {
               </Button>
             </Price.Root>
 
-            <Price.Root className="relative ring-foreground/[0.12]">
+            <Price.Root className="relative ring-2 ring-foreground/20 shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
               <BorderBeam
                 duration={8}
                 delay={9}
