@@ -81,14 +81,14 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
   app.after(() =>
     app.route({
       method: 'GET',
-      url: '/tmdb/:path+',
+      url: '/tmdb/*',
       schema: {
         description: 'Proxy TMDB API requests with Redis caching',
         tags: TMDB_PROXY_TAGS,
         hide: config.app.APP_ENV === 'production',
       },
       handler: async (request, reply) => {
-        const tmdbPath = (request.params as { path: string }).path
+        const tmdbPath = (request.params as { '*': string })['*']
 
         if (!tmdbPath) {
           logger.warn(
