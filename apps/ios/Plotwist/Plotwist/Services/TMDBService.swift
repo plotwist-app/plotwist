@@ -15,6 +15,22 @@ class TMDBService {
   /// in the app and prevents rate-limit issues across all users.
   private let baseURL = "\(API.baseURL)/tmdb"
 
+  private func performRequest<T: Decodable>(_ url: URL, as type: T.Type, label: String) async throws -> T {
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+    let http = response as? HTTPURLResponse
+
+    guard let http, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(T.self, from: data)
+  }
+
   // MARK: - Search Multi
   func searchMulti(query: String, language: String = "en-US") async throws -> SearchMultiResponse {
     guard !query.isEmpty else {
@@ -47,18 +63,7 @@ class TMDBService {
       throw TMDBError.invalidURL
     }
 
-    var request = URLRequest(url: url)
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-    let (data, response) = try await URLSession.shared.data(for: request)
-
-    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-      throw TMDBError.invalidResponse
-    }
-
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try decoder.decode(PopularResponse.self, from: data)
+    let result = try await performRequest(url, as: PopularResponse.self, label: "PopularMovies")
     return PaginatedResult(
       results: result.results.map { $0.toSearchResult(mediaType: "movie") },
       page: result.page,
@@ -75,18 +80,7 @@ class TMDBService {
       throw TMDBError.invalidURL
     }
 
-    var request = URLRequest(url: url)
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-    let (data, response) = try await URLSession.shared.data(for: request)
-
-    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-      throw TMDBError.invalidResponse
-    }
-
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try decoder.decode(PopularResponse.self, from: data)
+    let result = try await performRequest(url, as: PopularResponse.self, label: "NowPlaying")
     return PaginatedResult(
       results: result.results.map { $0.toSearchResult(mediaType: "movie") },
       page: result.page,
@@ -155,18 +149,7 @@ class TMDBService {
       throw TMDBError.invalidURL
     }
 
-    var request = URLRequest(url: url)
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-    let (data, response) = try await URLSession.shared.data(for: request)
-
-    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-      throw TMDBError.invalidResponse
-    }
-
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try decoder.decode(PopularResponse.self, from: data)
+    let result = try await performRequest(url, as: PopularResponse.self, label: "PopularTV")
     return PaginatedResult(
       results: result.results.map { $0.toSearchResult(mediaType: "tv") },
       page: result.page,
@@ -864,18 +847,8 @@ class TMDBService {
       throw TMDBError.invalidURL
     }
     
-    var request = URLRequest(url: url)
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-    
-    let (data, response) = try await URLSession.shared.data(for: request)
-    
-    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-      throw TMDBError.invalidResponse
-    }
-    
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    return try decoder.decode(SearchMultiResponse.self, from: data).results
+    let result = try await performRequest(url, as: SearchMultiResponse.self, label: "Trending/\(mediaType)")
+    return result.results
   }
   
   // MARK: - Discover by Genre (for onboarding)
