@@ -75,12 +75,6 @@ struct ProStatsRecommendationsCard: View {
       } else {
         poster
       }
-
-      Text(resolved.rec.reason)
-        .font(.system(size: 11, weight: .regular))
-        .foregroundColor(.appMutedForegroundAdaptive)
-        .lineLimit(4)
-        .multilineTextAlignment(.leading)
     }
   }
 }
@@ -95,20 +89,10 @@ struct ProStatsRecommendationsSkeleton: View {
       ]
       LazyVGrid(columns: columns, spacing: 14) {
         ForEach(0..<3, id: \.self) { _ in
-          VStack(alignment: .leading, spacing: 8) {
-            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-              .fill(Color.appBorderAdaptive.opacity(0.3))
-              .aspectRatio(2 / 3, contentMode: .fit)
-              .modifier(ShimmerEffect())
-            RoundedRectangle(cornerRadius: 3)
-              .fill(Color.appBorderAdaptive.opacity(0.25))
-              .frame(height: 10)
-              .modifier(ShimmerEffect())
-            RoundedRectangle(cornerRadius: 3)
-              .fill(Color.appBorderAdaptive.opacity(0.2))
-              .frame(height: 10)
-              .modifier(ShimmerEffect())
-          }
+          RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+            .fill(Color.appBorderAdaptive.opacity(0.3))
+            .aspectRatio(2 / 3, contentMode: .fit)
+            .modifier(ShimmerEffect())
         }
       }
     }
