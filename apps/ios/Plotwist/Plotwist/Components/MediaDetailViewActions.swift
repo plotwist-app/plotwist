@@ -18,7 +18,8 @@ struct MediaDetailViewActions: View {
 
   @State private var showStatusSheet = false
   @State private var isFavorite = false
-  @State private var isLoadingFavorite = false
+  @State private var isTogglingFavorite = false
+  @State private var heartScale: CGFloat = 1.0
 
   private var apiMediaType: String {
     mediaType == "movie" ? "MOVIE" : "TV_SHOW"
@@ -50,16 +51,11 @@ struct MediaDetailViewActions: View {
           }
         } label: {
           HStack(spacing: 6) {
-            if isLoadingFavorite {
-              ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
-                .scaleEffect(0.7)
-                .frame(width: 13, height: 13)
-            } else {
-              Image(systemName: isFavorite ? "heart.fill" : "heart")
-                .font(.system(size: 13))
-                .foregroundColor(isFavorite ? .red : .appForegroundAdaptive)
-            }
+            Image(systemName: isFavorite ? "heart.fill" : "heart")
+              .font(.system(size: 13))
+              .foregroundColor(isFavorite ? .red : .appForegroundAdaptive)
+              .scaleEffect(heartScale)
+              .contentTransition(.symbolEffect(.replace))
 
             Text(isFavorite ? L10n.current.favorited : L10n.current.favorite)
               .font(.footnote.weight(.medium))
@@ -69,11 +65,13 @@ struct MediaDetailViewActions: View {
           .padding(.vertical, 10)
           .background(Color.appInputFilled)
           .cornerRadius(10)
-          .opacity(isLoadingFavorite ? 0.5 : 1)
+          .animation(.easeInOut(duration: 0.2), value: isFavorite)
         }
-        .disabled(isLoadingFavorite)
+        .disabled(isTogglingFavorite)
       }
+      .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
     .task {
       guard AuthService.shared.isAuthenticated else { return }
       do {
@@ -104,18 +102,42 @@ struct MediaDetailViewActions: View {
   }
 
   private func toggleFavorite() async {
-    isLoadingFavorite = true
-    defer { isLoadingFavorite = false }
+    isTogglingFavorite = true
+    defer { isTogglingFavorite = false }
+
+    let previous = isFavorite
+    let willBeAdded = !previous
+
+    withAnimation(.easeInOut(duration: 0.2)) {
+      isFavorite = willBeAdded
+    }
+    willBeAdded ? Haptics.notification(.success) : Haptics.impact(.light)
+
+    if willBeAdded {
+      withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+        heartScale = 1.3
+      }
+      try? await Task.sleep(nanoseconds: 200_000_000)
+      withAnimation(.spring(response: 0.25, dampingFraction: 0.6)) {
+        heartScale = 1.0
+      }
+    }
+
     do {
       let result = try await FavoritesService.shared.toggleFavorite(
         tmdbId: mediaId, mediaType: apiMediaType
       )
       let added = result.action == "added"
-      withAnimation(.easeInOut(duration: 0.2)) {
-        isFavorite = added
+      if added != willBeAdded {
+        withAnimation(.easeInOut(duration: 0.2)) {
+          isFavorite = added
+        }
       }
-      added ? Haptics.notification(.success) : Haptics.impact(.light)
-    } catch {}
+    } catch {
+      withAnimation(.easeInOut(duration: 0.2)) {
+        isFavorite = previous
+      }
+    }
   }
 
   private func reloadUserItem() async {
@@ -203,7 +225,6 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
 
     MediaDetailViewActions(
       mediaId: 550,
@@ -215,7 +236,6 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
 
     MediaDetailViewActions(
       mediaId: 550,
@@ -248,6 +268,5 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
   }
 }

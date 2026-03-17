@@ -46,11 +46,6 @@ struct ProfileTabView: View {
   var visibleMainTabs: [ProfileMainTab] {
     ProfileMainTab.allCases.filter { tab in
       if tab == .favorites { return hasFavorites }
-      #if DEBUG
-      if tab == .achievements { return true }
-      #else
-      if tab == .achievements { return false }
-      #endif
       return true
     }
   }

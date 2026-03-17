@@ -325,6 +325,7 @@ enum L10n {
       favorited: "Favorited",
       favoritesEmptyOwn: "Tap ♥ on any title to add it here",
       favoritesEmptyOther: "No favorites yet",
+      removeFromFavorites: "Remove from Favorites",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
       trackMoreInsights: "Track more to unlock insights",
@@ -678,7 +679,7 @@ enum L10n {
         "Selecionados pra você"
       ],
       collection: "Coleção",
-      reviews: "Reviews",
+      reviews: "Avaliações",
       profileNoReviewsTitle: "Nenhuma review ainda",
       profileNoReviewsSubtitle: "Depois de assistir um filme ou série, compartilhe o que achou e suas reviews aparecerão aqui.",
       soundtracks: "Trilhas",
@@ -828,6 +829,7 @@ enum L10n {
       favorited: "Favoritado",
       favoritesEmptyOwn: "Toque ♥ em qualquer título para adicioná-lo aqui",
       favoritesEmptyOther: "Nenhum favorito ainda",
+      removeFromFavorites: "Remover dos Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
       trackMoreInsights: "Registre mais para desbloquear insights",
@@ -1331,6 +1333,7 @@ enum L10n {
       favorited: "Favorito",
       favoritesEmptyOwn: "Toca ♥ en cualquier título para añadirlo aquí",
       favoritesEmptyOther: "Aún no hay favoritos",
+      removeFromFavorites: "Eliminar de Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
       trackMoreInsights: "Registra más para desbloquear datos",
@@ -1834,6 +1837,7 @@ enum L10n {
       favorited: "Favori",
       favoritesEmptyOwn: "Appuyez sur ♥ sur n'importe quel titre pour l'ajouter ici",
       favoritesEmptyOther: "Pas encore de favoris",
+      removeFromFavorites: "Retirer des Favoris",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
       trackMoreInsights: "Suivez plus pour débloquer des insights",
@@ -2337,6 +2341,7 @@ enum L10n {
       favorited: "Favorisiert",
       favoritesEmptyOwn: "Tippe auf ♥ bei einem Titel, um ihn hier hinzuzufügen",
       favoritesEmptyOther: "Noch keine Favoriten",
+      removeFromFavorites: "Aus Favoriten entfernen",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
       trackMoreInsights: "Tracke mehr, um Einblicke freizuschalten",
@@ -2840,6 +2845,7 @@ enum L10n {
       favorited: "Preferito",
       favoritesEmptyOwn: "Tocca ♥ su qualsiasi titolo per aggiungerlo qui",
       favoritesEmptyOther: "Nessun preferito ancora",
+      removeFromFavorites: "Rimuovi dai Preferiti",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
       trackMoreInsights: "Traccia di più per sbloccare approfondimenti",
@@ -3342,6 +3348,7 @@ enum L10n {
       favorited: "お気に入り済",
       favoritesEmptyOwn: "♥をタップしてここに追加しましょう",
       favoritesEmptyOther: "まだお気に入りがありません",
+      removeFromFavorites: "お気に入りから削除",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
       trackMoreInsights: "もっとトラッキングしてインサイトを解除",
@@ -3856,6 +3863,7 @@ struct Strings {
   let favorited: String
   let favoritesEmptyOwn: String
   let favoritesEmptyOther: String
+  let removeFromFavorites: String
   let unlockFullProfile: String
   let startTrackingStats: String
   let trackMoreInsights: String

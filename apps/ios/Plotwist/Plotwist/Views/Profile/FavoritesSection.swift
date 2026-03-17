@@ -11,6 +11,7 @@ struct FavoritesSection: View {
 
   @State private var favorites: [UserFavorite] = []
   @State private var isLoading = true
+  @State private var removingIds: Set<String> = []
 
   private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 3)
 
@@ -23,13 +24,7 @@ struct FavoritesSection: View {
       } else {
         LazyVGrid(columns: columns, spacing: 12) {
           ForEach(favorites) { fav in
-            let type = fav.mediaType == "MOVIE" ? "movie" : "tv"
-            NavigationLink {
-              MediaDetailView(mediaId: fav.tmdbId, mediaType: type)
-            } label: {
-              ProfileItemCard(tmdbId: fav.tmdbId, mediaType: fav.mediaType)
-            }
-            .buttonStyle(.plain)
+            favoriteItem(fav)
           }
         }
         .padding(.horizontal, 24)
@@ -38,6 +33,34 @@ struct FavoritesSection: View {
     }
     .task {
       await loadFavorites()
+    }
+  }
+
+  @ViewBuilder
+  private func favoriteItem(_ fav: UserFavorite) -> some View {
+    let type = fav.mediaType == "MOVIE" ? "movie" : "tv"
+    let card = NavigationLink {
+      MediaDetailView(mediaId: fav.tmdbId, mediaType: type)
+    } label: {
+      ProfileItemCard(tmdbId: fav.tmdbId, mediaType: fav.mediaType)
+    }
+    .buttonStyle(.plain)
+    .opacity(removingIds.contains(fav.id) ? 0 : 1)
+    .scaleEffect(removingIds.contains(fav.id) ? 0.75 : 1)
+
+    if isOwnProfile {
+      card
+        .contextMenu {
+          Button(role: .destructive) {
+            Task { await removeFavorite(fav) }
+          } label: {
+            Label(L10n.current.removeFromFavorites, systemImage: "heart.slash")
+          }
+        } preview: {
+          CachedPosterPreview(tmdbId: fav.tmdbId, mediaType: fav.mediaType, width: 200)
+        }
+    } else {
+      card
     }
   }
 
@@ -50,6 +73,29 @@ struct FavoritesSection: View {
       favorites = try await FavoritesService.shared.getFavorites(userId: uid)
     } catch {}
     isLoading = false
+  }
+
+  private func removeFavorite(_ fav: UserFavorite) async {
+    withAnimation(.easeInOut(duration: 0.25)) {
+      removingIds.insert(fav.id)
+    }
+
+    do {
+      _ = try await FavoritesService.shared.toggleFavorite(
+        tmdbId: fav.tmdbId,
+        mediaType: fav.mediaType
+      )
+    } catch {
+      withAnimation { removingIds.remove(fav.id) }
+      return
+    }
+
+    try? await Task.sleep(nanoseconds: 200_000_000)
+
+    withAnimation(.easeInOut(duration: 0.3)) {
+      favorites.removeAll { $0.id == fav.id }
+      removingIds.remove(fav.id)
+    }
   }
 
   private var skeletonGrid: some View {

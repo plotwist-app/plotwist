@@ -280,40 +280,37 @@ struct MediaDetailView: View {
 
   @ViewBuilder
   private func detailsContent(_ details: MovieDetails) -> some View {
-    VStack(alignment: .leading, spacing: 20) {
-      // Action Buttons (Review + Status)
-      MediaDetailViewActions(
-        mediaId: mediaId,
-        mediaType: mediaType,
-        userReview: userReview,
-        userItem: userItem,
-        isLoadingReview: isLoadingUserReview,
-        isLoadingStatus: isLoadingUserItem,
-        onReviewTapped: {
-          if AuthService.shared.isAuthenticated {
-            showReviewSheet = true
-          } else {
-            showLoginPrompt = true
-          }
-        },
-        onStatusChanged: { newItem in
-          userItem = newItem
-        },
-        onLoginRequired: {
+    MediaDetailViewActions(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      userReview: userReview,
+      userItem: userItem,
+      isLoadingReview: isLoadingUserReview,
+      isLoadingStatus: isLoadingUserItem,
+      onReviewTapped: {
+        if AuthService.shared.isAuthenticated {
+          showReviewSheet = true
+        } else {
           showLoginPrompt = true
         }
-      )
-
-      // Overview
-      if let overview = details.overview, !overview.isEmpty {
-        Text(overview)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .lineSpacing(6)
+      },
+      onStatusChanged: { newItem in
+        userItem = newItem
+      },
+      onLoginRequired: {
+        showLoginPrompt = true
       }
-    }
-    .padding(.horizontal, 24)
+    )
     .padding(.top, 16)
+
+    if let overview = details.overview, !overview.isEmpty {
+      Text(overview)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .lineSpacing(6)
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+    }
 
     // Rating + Genres Badges
     ScrollView(.horizontal, showsIndicators: false) {
