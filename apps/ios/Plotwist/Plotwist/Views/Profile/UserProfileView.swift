@@ -30,7 +30,6 @@ struct UserProfileView: View {
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
   @State private var selectedFollowerUser: FollowerUser?
-  @State private var hasFavorites = false
   @State private var claimedAchievement: Achievement?
   @State private var achievements: [Achievement] = initialMockAchievements
 
@@ -42,15 +41,7 @@ struct UserProfileView: View {
   private let avatarSize: CGFloat = 56
 
   private var visibleMainTabs: [ProfileMainTab] {
-    ProfileMainTab.allCases.filter { tab in
-      if tab == .favorites { return hasFavorites }
-      #if DEBUG
-      if tab == .achievements { return true }
-      #else
-      if tab == .achievements { return false }
-      #endif
-      return true
-    }
+    ProfileMainTab.allCases
   }
   private let scrollThreshold: CGFloat = 80
 
@@ -374,7 +365,6 @@ struct UserProfileView: View {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
-    await loadFavoritesCount()
     isLoading = false
   }
 
@@ -450,14 +440,4 @@ struct UserProfileView: View {
     }
   }
 
-  private func loadFavoritesCount() async {
-    do {
-      let favorites = try await FavoritesService.shared.getFavorites(userId: userId)
-      withAnimation(.snappy) {
-        hasFavorites = !favorites.isEmpty
-      }
-    } catch {
-      hasFavorites = false
-    }
-  }
 }
