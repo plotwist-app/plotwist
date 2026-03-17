@@ -17,9 +17,9 @@ struct ProfileCollectionGrid: View {
   var onTapItem: (UserItemSummary) -> Void
 
   private let columns = [
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
+    GridItem(.flexible(), spacing: 16),
+    GridItem(.flexible(), spacing: 16),
+    GridItem(.flexible(), spacing: 16),
   ]
 
   var body: some View {

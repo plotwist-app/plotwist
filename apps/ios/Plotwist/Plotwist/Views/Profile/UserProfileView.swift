@@ -302,9 +302,9 @@ struct UserProfileView: View {
   @ViewBuilder
   private var collectionGrid: some View {
     let columns = [
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
+      GridItem(.flexible(), spacing: 16),
+      GridItem(.flexible(), spacing: 16),
+      GridItem(.flexible(), spacing: 16),
     ]
 
     if isLoadingItems {

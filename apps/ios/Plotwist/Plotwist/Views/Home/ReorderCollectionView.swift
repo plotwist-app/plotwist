@@ -26,9 +26,9 @@ struct ReorderCollectionView: View {
   @State private var isWiggling = false
 
   private let columns = [
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
-    GridItem(.flexible(), spacing: 12),
+    GridItem(.flexible(), spacing: 16),
+    GridItem(.flexible(), spacing: 16),
+    GridItem(.flexible(), spacing: 16),
   ]
 
   init(

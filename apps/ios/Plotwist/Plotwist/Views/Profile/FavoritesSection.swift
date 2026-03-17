@@ -13,7 +13,7 @@ struct FavoritesSection: View {
   @State private var isLoading = true
   @State private var removingIds: Set<String> = []
 
-  private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 3)
+  private let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
 
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
@@ -22,7 +22,7 @@ struct FavoritesSection: View {
       } else if favorites.isEmpty {
         emptyState
       } else {
-        LazyVGrid(columns: columns, spacing: 12) {
+        LazyVGrid(columns: columns, spacing: 16) {
           ForEach(favorites) { fav in
             favoriteItem(fav)
           }
@@ -99,7 +99,7 @@ struct FavoritesSection: View {
   }
 
   private var skeletonGrid: some View {
-    LazyVGrid(columns: columns, spacing: 12) {
+    LazyVGrid(columns: columns, spacing: 16) {
       ForEach(0..<3, id: \.self) { _ in
         RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
           .fill(Color.appBorderAdaptive)
