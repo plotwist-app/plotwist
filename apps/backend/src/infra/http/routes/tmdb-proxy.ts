@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import https from 'https'
 
 import { config } from '@/config'
+import { logger } from '@/infra/adapters/logger'
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
@@ -80,16 +81,25 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
   app.after(() =>
     app.route({
       method: 'GET',
-      url: '/tmdb/*',
+      url: '/tmdb/:path+',
       schema: {
         description: 'Proxy TMDB API requests with Redis caching',
         tags: TMDB_PROXY_TAGS,
         hide: config.app.APP_ENV === 'production',
       },
       handler: async (request, reply) => {
-        const tmdbPath = (request.params as { '*': string })['*']
+        const tmdbPath = (request.params as { path: string }).path
 
         if (!tmdbPath) {
+          logger.warn(
+            {
+              method: request.method,
+              url: request.url,
+              statusCode: 400,
+              userId: (request as { user?: { id: string } }).user?.id,
+            },
+            'TMDB proxy: missing path'
+          )
           return reply.status(400).send({ error: 'Missing TMDB path' })
         }
 
@@ -139,6 +149,17 @@ export async function tmdbProxyRoutes(app: FastifyInstance) {
 
         // 4. Handle TMDB errors
         if (tmdbResponse.statusCode !== 200) {
+          logger.error(
+            {
+              method: request.method,
+              url: request.url,
+              tmdbPath,
+              tmdbStatusCode: tmdbResponse.statusCode,
+              statusCode: tmdbResponse.statusCode,
+              userId: (request as { user?: { id: string } }).user?.id,
+            },
+            'TMDB proxy: upstream API error'
+          )
           return reply.status(tmdbResponse.statusCode).send({
             error: 'TMDB API error',
             statusCode: tmdbResponse.statusCode,

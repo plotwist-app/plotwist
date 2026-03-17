@@ -13,6 +13,7 @@ import { getUserItemsCountService } from '@/domain/services/user-items/get-user-
 import { reorderUserItemsService } from '@/domain/services/user-items/reorder-user-items'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { invalidateUserStatsCache } from '@/domain/services/user-stats/cache-utils'
+import { logger } from '@/infra/adapters/logger'
 import {
   createWatchEntry,
   deleteWatchEntriesByUserItemId,
@@ -101,6 +102,19 @@ export async function upsertUserItemController(
 
   const userItem = result.userItem
   if (!userItem) {
+    logger.error(
+      {
+        method: request.method,
+        url: request.url,
+        route: request.routeOptions?.url,
+        userId: request.user.id,
+        tmdbId,
+        mediaType,
+        status,
+        statusCode: 500,
+      },
+      'User item could not be retrieved after upsert'
+    )
     return reply.status(500).send({
       statusCode: 500,
       error: 'Internal Server Error',

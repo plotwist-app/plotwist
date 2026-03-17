@@ -131,11 +131,88 @@ describe('get user total hours count', () => {
       movieHours: INCEPTION.runtime,
       seriesHours: CHERNOBYL.runtime,
     })
-    expect(sut.monthlyHours).toHaveLength(6)
+    expect(sut.monthlyHours).toHaveLength(12)
     expect(
       sut.monthlyHours.every(
         (m: { month: string; hours: number }) =>
           typeof m.month === 'string' && typeof m.hours === 'number'
+      )
+    ).toBe(true)
+    expect(Array.isArray(sut.dailyActivity)).toBe(true)
+    expect(
+      sut.dailyActivity.every(
+        (d: { day: string; hours: number }) =>
+          typeof d.day === 'string' && typeof d.hours === 'number'
+      )
+    ).toBe(true)
+    expect(sut.dailyActivity.length).toBeGreaterThan(0)
+  })
+
+  it('should return empty dailyActivity for period "all" when user has no watched items', async () => {
+    const user = await makeUser()
+
+    const sut = await getUserTotalHoursService(user.id, redisClient, 'all')
+
+    expect(sut.dailyActivity).toEqual([])
+  })
+
+  it('should return dailyActivity array for period "month"', async () => {
+    const user = await makeUser()
+
+    await makeUserItem({
+      userId: user.id,
+      tmdbId: INCEPTION.tmdbId,
+      mediaType: INCEPTION.mediaType,
+      status: 'WATCHED',
+    })
+
+    const sut = await getUserTotalHoursService(user.id, redisClient, 'month')
+
+    expect(Array.isArray(sut.dailyActivity)).toBe(true)
+    expect(
+      sut.dailyActivity.every(
+        (d: { day: string; hours: number }) =>
+          typeof d.day === 'string' && typeof d.hours === 'number'
+      )
+    ).toBe(true)
+    expect(sut.movieHours).toBe(INCEPTION.runtime)
+  })
+
+  it('should return dailyActivity array for period "year"', async () => {
+    const user = await makeUser()
+
+    await makeUserItem({
+      userId: user.id,
+      tmdbId: INCEPTION.tmdbId,
+      mediaType: INCEPTION.mediaType,
+      status: 'WATCHED',
+    })
+
+    const sut = await getUserTotalHoursService(user.id, redisClient, 'year')
+
+    expect(Array.isArray(sut.dailyActivity)).toBe(true)
+    expect(
+      sut.dailyActivity.every(
+        (d: { day: string; hours: number }) =>
+          typeof d.day === 'string' && typeof d.hours === 'number'
+      )
+    ).toBe(true)
+  })
+
+  it('should return dailyActivity array for period "last_month"', async () => {
+    const user = await makeUser()
+
+    const sut = await getUserTotalHoursService(
+      user.id,
+      redisClient,
+      'last_month'
+    )
+
+    expect(Array.isArray(sut.dailyActivity)).toBe(true)
+    expect(
+      sut.dailyActivity.every(
+        (d: { day: string; hours: number }) =>
+          typeof d.day === 'string' && typeof d.hours === 'number'
       )
     ).toBe(true)
   })

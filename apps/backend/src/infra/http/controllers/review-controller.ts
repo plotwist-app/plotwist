@@ -4,7 +4,9 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { createReviewService } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 import { getReviewService } from '@/domain/services/reviews/get-review'
+import { getReviewById } from '@/domain/services/reviews/get-review-by-id'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
@@ -112,7 +114,15 @@ export async function updateReviewController(
   const { id } = reviewParamsSchema.parse(request.params)
   const body = updateReviewBodySchema.parse(request.body)
 
-  const result = await updateReviewService({ ...body, id })
+  const existing = await getReviewById(id)
+  if (existing instanceof DomainError) {
+    return reply.status(404).send({ message: 'Review not found.' })
+  }
+
+  const result = await updateReviewService({
+    ...body,
+    id,
+  } as unknown as UpdateReviewInput)
 
   await invalidateUserStatsCache(redis, request.user.id)
 

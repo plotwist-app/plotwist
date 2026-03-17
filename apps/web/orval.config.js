@@ -9,8 +9,8 @@ module.exports = {
       client: 'react-query',
       override: {
         mutator: {
-          path: './src/services/axios-instance.ts',
-          name: 'axiosInstance',
+          path: './src/services/api-client.ts',
+          name: 'customFetch',
         },
         query: {
           useQuery: true,

@@ -38,18 +38,19 @@ export function UserItemsList({ filters }: UserItemsProps) {
     useGetUserItemsInfinite(params, {
       query: {
         initialPageParam: undefined,
-        getNextPageParam: lastPage => lastPage.nextCursor,
+        getNextPageParam: lastPage => lastPage.data?.nextCursor ?? undefined,
         queryFn: async ({ pageParam }) => {
-          return await getUserItems({
+          const res = await getUserItems({
             ...params,
             pageSize: '20',
             cursor: pageParam as string,
           })
+          return res
         },
       },
     })
 
-  const flatData = data?.pages.flatMap(page => page.userItems) || []
+  const flatData = data?.pages.flatMap(page => page.data?.userItems ?? []) ?? []
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { NextResponse } from 'next/server'
 
 // Limit function execution time to 10 seconds
@@ -37,14 +36,18 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer',
-      timeout: 8000, // 8 seconds timeout (less than maxDuration)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 8000)
+    const response = await fetch(url, {
+      signal: controller.signal,
     })
-    const contentType =
-      response.headers['content-type'] || 'application/octet-stream'
+    clearTimeout(timeoutId)
 
-    return new Response(response.data, {
+    const contentType =
+      response.headers.get('content-type') || 'application/octet-stream'
+    const buffer = await response.arrayBuffer()
+
+    return new Response(buffer, {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=86400', // Cache for 24 hours

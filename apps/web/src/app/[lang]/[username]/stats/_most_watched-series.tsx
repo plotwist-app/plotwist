@@ -23,6 +23,7 @@ export function MostWatchedSeries() {
   const { data } = useGetUserIdMostWatchedSeriesSuspense(userId, {
     language,
   })
+  const mostWatchedSeries = data.data?.mostWatchedSeries ?? []
 
   return (
     <Card className="sm:col-span-1 col-span-2">
@@ -35,7 +36,7 @@ export function MostWatchedSeries() {
 
       <CardContent>
         <div className="grid grid-cols-3 gap-1.5">
-          {!data.mostWatchedSeries.length &&
+          {!mostWatchedSeries.length &&
             Array.from({ length: 3 }, () => (
               <div
                 className="border border-dashed aspect-poster rounded-md"
@@ -43,7 +44,7 @@ export function MostWatchedSeries() {
               />
             ))}
 
-          {data.mostWatchedSeries.map(({ id, title, posterPath, episodes }) => (
+          {mostWatchedSeries.map(({ id, title, posterPath, episodes }) => (
             <Link
               href={`/${language}/tv-series/${id}`}
               className="space-y-2"

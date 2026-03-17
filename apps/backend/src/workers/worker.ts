@@ -1,4 +1,5 @@
 import { config } from '@/config'
+import { logger } from '@/infra/adapters/logger'
 import { createSqsClient, initializeSQS } from '@/infra/adapters/sqs'
 import { startMovieConsumer } from '@/infra/consumers/movies-consumer'
 import { startSeriesConsumer } from '@/infra/consumers/series-consumer'
@@ -24,7 +25,7 @@ async function startSQS() {
     await initializeSQS(sqsClient)
 
     startConsumers().catch(error => {
-      console.error('Error starting consumers:', error)
+      logger.error('Error starting consumers', error)
       process.exit(1)
     })
   }

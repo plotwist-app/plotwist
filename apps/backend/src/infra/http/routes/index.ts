@@ -7,6 +7,8 @@ import fastifySwaggerUi from '@fastify/swagger-ui'
 import type { FastifyInstance } from 'fastify'
 
 import { config } from '@/config'
+import { setInitialCounterValue } from '@/domain/services/shared-urls/set-initial-counter-value'
+import { sharedUrlCounterFactory } from '@/infra/factories/shared-url-counter-factory'
 import { registerRateLimit } from '../rate-limit'
 import { feedbackRoutes } from './feedback'
 import { userFavoritesRoutes } from './user-favorites'
@@ -20,6 +22,7 @@ import { listsRoute } from './lists'
 import { loginRoute } from './login'
 import { reviewRepliesRoute } from './review-replies'
 import { reviewsRoute } from './reviews'
+import { sharedUrlRoute } from './shared-url'
 import { socialAuthRoutes } from './social-auth'
 import { socialLinksRoute } from './social-links'
 import { subscriptionsRoutes } from './subscriptions'
@@ -42,7 +45,12 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyCors, {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Token'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Client-Token',
+      'X-Client',
+    ],
     credentials: true,
     strictPreflight: false,
   })
@@ -55,6 +63,17 @@ export function routes(app: FastifyInstance) {
 
   app.register(fastifyRedis, {
     url: config.redis.REDIS_URL,
+  })
+
+  app.addHook('onReady', async () => {
+    const counter = sharedUrlCounterFactory(
+      app.redis,
+      config.sharedUrls.SHARED_URLS_COUNTER_KEY
+    )
+    await setInitialCounterValue(
+      counter,
+      config.sharedUrls.SHARED_URLS_COUNTER_START_VAL - 1
+    )
   })
 
   registerRateLimit(app)
@@ -77,6 +96,7 @@ export function routes(app: FastifyInstance) {
   app.register(followsRoutes)
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
+  app.register(sharedUrlRoute)
   app.register(subscriptionsRoutes)
   app.register(watchEntriesRoutes)
   app.register(tmdbProxyRoutes)

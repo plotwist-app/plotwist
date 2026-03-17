@@ -7,6 +7,5 @@ export async function monitorTotalSubscriptions() {
     db.select({ count: sql<number>`count(*)::int` }).from(schema.subscriptions),
   ])
 
-  console.log(`Total subscriptions: ${totalSubscriptions}`)
   return totalSubscriptions
 }

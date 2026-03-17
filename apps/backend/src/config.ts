@@ -6,6 +6,11 @@ export const config = {
   app: loadAppEnvs(),
   services: loadServicesEnvs(),
   redis: loadRedisEnvs(),
+  sharedUrls: {
+    SHARED_URLS_COUNTER_KEY: 'plotwist:shared_urls:counter',
+    SHARED_URLS_COUNTER_SALT: 14_000_000,
+    SHARED_URLS_COUNTER_START_VAL: 14_000_000,
+  },
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),

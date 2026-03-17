@@ -43,10 +43,7 @@ export const timelineQuerySchema = z.object({
     .enum(['en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 'pt-BR', 'ja-JP'])
     .optional()
     .default('en-US'),
-  cursor: z
-    .string()
-    .regex(yearMonthRegex)
-    .optional(),
+  cursor: z.string().regex(yearMonthRegex).optional(),
   pageSize: z.coerce.number().int().min(1).max(10).optional().default(3),
 })
 
@@ -86,7 +83,7 @@ export function periodToDateRange(period: StatsPeriod): {
       const startDate = new Date(now.getFullYear(), 0, 1)
       return { startDate, endDate: undefined }
     }
-    case 'all':
+
     default:
       return { startDate: undefined, endDate: undefined }
   }

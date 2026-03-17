@@ -19,7 +19,8 @@ export function buildLanguageAlternates(
     languages: SUPPORTED_LANGUAGES.reduce(
       (acc, language) => {
         if (language.enabled) {
-          acc[language.hreflang] = `${APP_URL}/${language.value}${normalizedPath}`
+          acc[language.hreflang] =
+            `${APP_URL}/${language.value}${normalizedPath}`
         }
         return acc
       },

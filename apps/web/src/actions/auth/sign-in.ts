@@ -11,15 +11,22 @@ type SignInInput = {
 }
 
 export async function signIn({ login, password, redirectTo }: SignInInput) {
-  const { token, status } = await postLogin({ login, password })
+  let token: string | undefined
 
-  if (token) {
-    await createSession({ token })
-
-    if (redirectTo) {
-      redirect(redirectTo)
-    }
+  try {
+    const { data, status } = await postLogin({ login, password })
+    token = status === 200 && data && 'token' in data ? data.token : undefined
+  } catch {
+    return { status: 'invalid_credentials' }
   }
 
-  return { status }
+  if (!token) {
+    return { status: 'invalid_credentials' }
+  }
+
+  await createSession({ token })
+
+  if (redirectTo) {
+    redirect(redirectTo)
+  }
 }

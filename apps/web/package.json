@@ -9,6 +9,7 @@
     "test": "vitest",
     "test:ui": "vitest --coverage.enabled=true --ui",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "generate:api": "orval"
   },
   "dependencies": {
@@ -51,7 +52,6 @@
     "@tanstack/react-virtual": "^3.13.16",
     "@types/mdx": "^2.0.13",
     "@uidotdev/usehooks": "^2.4.1",
-    "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -113,7 +113,7 @@
     "autoprefixer": "^10.4.23",
     "jsdom": "^27.4.0",
     "msw": "^2.12.7",
-    "orval": "^7.17.2",
+    "orval": "^8.5.3",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
   }
