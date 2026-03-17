@@ -227,6 +227,11 @@ struct HomeTabView: View {
                 )
               }
 
+              // Friends Activity (authenticated only)
+              if AuthService.shared.isAuthenticated, let userId = user?.id {
+                NetworkActivitySection(userId: userId)
+              }
+
               // For You - Personalized by genre
               if !forYouItems.isEmpty {
                 ForYouSection(
@@ -333,6 +338,15 @@ struct HomeTabView: View {
 
               Spacer(minLength: 100)
             }
+            .animation(.easeOut(duration: 0.3), value: featuredItem?.id)
+            .animation(.easeOut(duration: 0.3), value: watchingItems.count)
+            .animation(.easeOut(duration: 0.3), value: watchlistItems.count)
+            .animation(.easeOut(duration: 0.3), value: forYouItems.count)
+            .animation(.easeOut(duration: 0.3), value: trendingItems.count)
+            .animation(.easeOut(duration: 0.3), value: nowPlayingItems.count)
+            .animation(.easeOut(duration: 0.3), value: airingTodayItems.count)
+            .animation(.easeOut(duration: 0.3), value: topRatedItems.count)
+            .animation(.easeOut(duration: 0.3), value: isLoadingDiscovery)
           }
 
         }

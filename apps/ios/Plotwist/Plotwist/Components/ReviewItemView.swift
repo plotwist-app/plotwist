@@ -8,7 +8,11 @@ import SwiftUI
 struct ReviewItemView: View {
   let review: ReviewListItem
   var lineLimit: Int? = nil
+  var mediaTitle: String? = nil
+  var mediaPosterPath: String? = nil
+  var mediaYear: String? = nil
   @State private var spoilerRevealed = false
+  @State private var showShareSheet = false
 
   private var usernameInitial: String {
     review.user.username.first?.uppercased() ?? "?"
@@ -66,7 +70,7 @@ struct ReviewItemView: View {
       }
       .buttonStyle(.plain)
 
-      // Row 2: Stars + dot + Date
+      // Row 2: Stars + dot + Date + Share
       HStack(spacing: 8) {
         HStack(spacing: 2) {
           ForEach(1...5, id: \.self) { index in
@@ -83,6 +87,16 @@ struct ReviewItemView: View {
         Text(timeAgo)
           .font(.caption)
           .foregroundColor(.appMutedForegroundAdaptive)
+
+        if mediaTitle != nil {
+          Spacer()
+
+          Button { showShareSheet = true } label: {
+            Image(systemName: "square.and.arrow.up")
+              .font(.system(size: 13))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
       }
       .padding(.top, 10)
 
@@ -123,6 +137,16 @@ struct ReviewItemView: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
+    .sheet(isPresented: $showShareSheet) {
+      if let title = mediaTitle {
+        ShareReviewSheet(
+          review: review,
+          mediaTitle: title,
+          mediaPosterPath: mediaPosterPath,
+          mediaYear: mediaYear
+        )
+      }
+    }
   }
 
   private var avatarFallback: some View {

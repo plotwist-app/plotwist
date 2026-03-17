@@ -444,6 +444,7 @@ struct LoginFormSheet: View {
     do {
       _ = try await AuthService.shared.signIn(login: login, password: password)
       AnalyticsService.shared.track(.login(method: "email"))
+      Haptics.notification(.success)
       dismiss()
     } catch {
       self.error = strings.invalidCredentials
@@ -458,12 +459,12 @@ struct LoginFormSheet: View {
     do {
       let response = try await SocialAuthService.shared.signInWithApple()
       
-      // Track sign up or login based on backend response
       if response.isNewUser {
         AnalyticsService.shared.track(.signUp(method: "apple"))
       } else {
         AnalyticsService.shared.track(.login(method: "apple"))
       }
+      Haptics.notification(.success)
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
@@ -733,6 +734,7 @@ struct SignUpFormSheet: View {
           displayName: displayName.isEmpty ? nil : displayName
         )
         AnalyticsService.shared.track(.signUp(method: "email"))
+        Haptics.notification(.success)
         dismiss()
       } else {
         error = strings.usernameAlreadyTaken
@@ -752,16 +754,15 @@ struct SignUpFormSheet: View {
     do {
       let response = try await SocialAuthService.shared.signInWithApple()
       
-      // Track sign up or login based on backend response
       if response.isNewUser {
         AnalyticsService.shared.track(.signUp(method: "apple"))
       } else {
         AnalyticsService.shared.track(.login(method: "apple"))
       }
+      Haptics.notification(.success)
       dismiss()
     } catch let authError as SocialAuthError {
       if case .cancelled = authError {
-        // User cancelled, don't show error
         return
       }
       self.error = authError.localizedDescription

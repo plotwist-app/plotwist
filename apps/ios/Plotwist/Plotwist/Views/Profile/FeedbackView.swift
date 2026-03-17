@@ -129,6 +129,7 @@ struct FeedbackView: View {
       HStack(spacing: 12) {
         ForEach(FeedbackType.allCases, id: \.self) { type in
           Button {
+            Haptics.selection()
             withAnimation(.easeInOut(duration: 0.2)) {
               selectedType = type
             }
@@ -345,6 +346,7 @@ struct FeedbackView: View {
       }
       
       showSuccess = true
+      Haptics.notification(.success)
     } catch {
       submitError = error.localizedDescription
     }

@@ -24,7 +24,7 @@ export async function getUserWatchedCountriesService({
 }: GetUserWatchedCountriesServiceInput) {
   const cacheKey = getUserStatsCacheKey(
     userId,
-    'watched-countries',
+    'watched-countries-v2',
     language,
     period
   )

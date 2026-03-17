@@ -183,7 +183,10 @@ struct AllReviewsView: View {
 
                 ReviewItemView(
                   review: review,
-                  lineLimit: isExpanded || isHighlighted ? nil : 4
+                  lineLimit: isExpanded || isHighlighted ? nil : 4,
+                  mediaTitle: mediaTitle,
+                  mediaPosterPath: mediaPosterPath,
+                  mediaYear: mediaYear
                 )
                 .padding(.horizontal, 24)
                 .padding(.vertical, 20)

@@ -110,8 +110,9 @@ struct MonthSection: Identifiable, Equatable {
 
 struct ProfileStatsView: View {
   let userId: String
-  let isPro: Bool
   let isOwnProfile: Bool
+  let userIsPro: Bool
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   @State var strings = L10n.current
   @State var selectedPeriod: String = "all"
@@ -119,12 +120,15 @@ struct ProfileStatsView: View {
 
   @State private var loadedSections: [String: MonthSection] = [:]
   @State private var loadingPeriods: Set<String> = []
+  @State private var showPaywall = false
 
   let cache = ProfileStatsCache.shared
 
+  private var isPro: Bool { userIsPro || subscriptionService.isPro }
+
   init(userId: String, isPro: Bool = false, isOwnProfile: Bool = true) {
     self.userId = userId
-    self.isPro = isPro
+    self.userIsPro = isPro
     self.isOwnProfile = isOwnProfile
   }
 
@@ -157,15 +161,18 @@ struct ProfileStatsView: View {
               )
               .equatable()
               .transition(.opacity.animation(.easeIn(duration: 0.25)))
+
+              if isPro {
+                ProStatsCardsView(userId: userId, strings: strings, period: selectedPeriod)
+                  .id(selectedPeriod)
+              } else if isOwnProfile {
+                LockedStatsCardsView(strings: strings) { showPaywall = true }
+              }
             } else {
-              ProgressView()
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 48)
+              StatsSkeletonView()
             }
           } else if loadingPeriods.contains(selectedPeriod) {
-            ProgressView()
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 48)
+            StatsSkeletonView()
           }
         }
         .padding(.horizontal, 24)
@@ -191,6 +198,17 @@ struct ProfileStatsView: View {
       loadedSections.removeValue(forKey: selectedPeriod)
       await loadPeriod(selectedPeriod)
     }
+    .sheet(isPresented: $showPaywall) {
+      PaywallView(source: "stats")
+    }
+  }
+
+  func presentPaywall() {
+    showPaywall = true
+  }
+
+  private var isFreePeriodLocked: Bool {
+    !isPro && selectedPeriod != "all" && selectedPeriod != MonthSection.currentYearMonth()
   }
 
   // MARK: - Period Header
@@ -210,13 +228,26 @@ struct ProfileStatsView: View {
         Divider()
 
         ForEach(availableMonths.filter { $0 != "all" }, id: \.self) { period in
+          let isCurrentMonth = period == MonthSection.currentYearMonth()
+          let isLocked = !isPro && !isCurrentMonth
+
           Button {
-            selectedPeriod = period
+            if isLocked {
+              showPaywall = true
+            } else {
+              selectedPeriod = period
+            }
           } label: {
             HStack {
               Text(periodDisplayLabel(for: period))
+              if isLocked {
+                Image(systemName: "lock.fill")
+                  .font(.system(size: 10))
+              }
               if period == selectedPeriod { Image(systemName: "checkmark") }
             }
+          }
+        }
       } label: {
         HStack(spacing: 4) {
           Text(periodDisplayLabel(for: selectedPeriod))
@@ -315,10 +346,17 @@ struct ProfileStatsView: View {
       let genreImage = await downloadImage(url: section.topGenrePosterURL)
       let reviewImage = await downloadImage(url: section.topReviewPosterURL)
 
+      var dna: TasteDNAResult?
+      if isPro {
+        let lang = Language.current.rawValue
+        dna = try? await UserStatsService.shared.getTasteDNA(userId: userId, language: lang)
+      }
+
       let cardImage = renderShareCard(
         section: section,
         genrePoster: genreImage,
-        reviewPoster: reviewImage
+        reviewPoster: reviewImage,
+        tasteDNA: dna
       )
 
       let activityVC = UIActivityViewController(activityItems: [cardImage], applicationActivities: nil)
@@ -340,12 +378,13 @@ struct ProfileStatsView: View {
   }
 
   @MainActor
-  func renderShareCard(section: MonthSection, genrePoster: UIImage?, reviewPoster: UIImage?) -> UIImage {
+  func renderShareCard(section: MonthSection, genrePoster: UIImage?, reviewPoster: UIImage?, tasteDNA: TasteDNAResult? = nil) -> UIImage {
     let cardView = StatsShareCardView(
       section: section,
       strings: strings,
       genrePosterImage: genrePoster,
-      reviewPosterImage: reviewPoster
+      reviewPosterImage: reviewPoster,
+      tasteDNA: tasteDNA
     )
     let controller = UIHostingController(rootView: cardView)
     let size = CGSize(width: 1080 / 3, height: 1920 / 3)

@@ -49,6 +49,7 @@ struct EditProfileTabs: View {
         Button {
           guard selectedTab != tab else { return }
           slideFromTrailing = tab.index > selectedTab.index
+          Haptics.selection()
           withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
             selectedTab = tab
           }
@@ -88,10 +89,12 @@ struct EditProfileTabs: View {
 
 struct EditProfileView: View {
   let initialUser: User
+  @Binding var achievements: [Achievement]
 
   @Environment(\.dismiss) private var dismiss
   @Environment(\.colorScheme) private var systemColorScheme
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
   @State private var strings = L10n.current
   @State private var user: User
   @State private var userPreferences: UserPreferences?
@@ -102,9 +105,11 @@ struct EditProfileView: View {
   @State private var showAvatarPicker = false
   @State private var showDeleteAccountAlert = false
   @State private var isDeletingAccount = false
+  @State private var showPaywall = false
 
-  init(user: User) {
+  init(user: User, achievements: Binding<[Achievement]>) {
     self.initialUser = user
+    self._achievements = achievements
     self._user = State(initialValue: user)
   }
 
@@ -304,6 +309,52 @@ struct EditProfileView: View {
           labelWidth: labelWidth
         )
       }
+      fieldDivider
+
+      // Plan
+      planRow
+    }
+  }
+
+  // MARK: - Plan Row
+  private var planRow: some View {
+    Button { showPaywall = true } label: {
+      HStack(alignment: .center, spacing: 16) {
+        Text(strings.planLabel)
+          .font(.subheadline)
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(width: labelWidth, alignment: .leading)
+
+        if user.isPro || subscriptionService.isPro {
+          HStack(spacing: 6) {
+            ProBadge()
+            Text(strings.planActive)
+              .font(.subheadline.weight(.medium))
+              .foregroundColor(.appForegroundAdaptive)
+          }
+        } else {
+          HStack(spacing: 6) {
+            Text(strings.planFree)
+              .font(.subheadline)
+              .foregroundColor(.appMutedForegroundAdaptive)
+
+            ProBadge(label: strings.paywallUpgradeToPro)
+          }
+        }
+
+        Spacer()
+
+        Image(systemName: "chevron.right")
+          .font(.system(size: 12, weight: .semibold))
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      .padding(.horizontal, 24)
+      .padding(.vertical, 16)
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
+    .sheet(isPresented: $showPaywall) {
+      PaywallView(source: "profile_plan")
     }
   }
 
@@ -371,6 +422,7 @@ struct EditProfileView: View {
   }
 
   // MARK: - Settings Section
+
   private var settingsSection: some View {
     VStack(spacing: 0) {
       // Theme
@@ -428,6 +480,7 @@ struct EditProfileView: View {
       }
 
       Button {
+        Haptics.notification(.warning)
         AuthService.shared.signOut()
       } label: {
         HStack(alignment: .center, spacing: 16) {

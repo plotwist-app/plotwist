@@ -51,6 +51,7 @@ struct ProfileReviewsListView: View {
   @State private var strings = L10n.current
   @State private var currentPage: Int
   @State private var hasMore: Bool
+  @State private var reviewToShare: DetailedReview?
   
   private let pageSize = 20
   private let cache = ProfileReviewsCache.shared
@@ -123,8 +124,14 @@ struct ProfileReviewsListView: View {
               ProfileReviewItem(review: review, posterWidth: posterWidth)
             }
             .buttonStyle(.plain)
+            .contextMenu {
+              Button {
+                reviewToShare = review
+              } label: {
+                Label(strings.shareMyStats, systemImage: "square.and.arrow.up")
+              }
+            }
             .onAppear {
-              // Load more when reaching near the end
               if review.id == reviews.last?.id && hasMore && !isLoadingMore {
                 Task {
                   await loadMoreReviews()
@@ -152,6 +159,14 @@ struct ProfileReviewsListView: View {
     }
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
+    }
+    .sheet(item: $reviewToShare) { review in
+      ShareReviewSheet(
+        review: review.toReviewListItem(),
+        mediaTitle: review.title,
+        mediaPosterPath: review.posterPath,
+        mediaYear: nil
+      )
     }
   }
   

@@ -34,7 +34,7 @@ export async function getSubscriptionByProviderSubscriptionId(
 }
 
 export type UpdateSubscriptionStatusByProviderSubscriptionIdParams = {
-  status: 'ACTIVE' | 'CANCELED' | 'PENDING_CANCELLATION'
+  status: 'ACTIVE' | 'CANCELED' | 'EXPIRED' | 'PENDING_CANCELLATION'
   canceledAt: Date | null
   cancellationReason: string | null
 }

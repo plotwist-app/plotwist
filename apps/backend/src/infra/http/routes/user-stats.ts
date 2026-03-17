@@ -2,32 +2,41 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import {
+  getUserAIRecommendationsController,
   getUserBestReviewsController,
   getUserItemsStatusController,
   getUserMostWatchedSeriesController,
+  getUserRatingInsightsController,
   getUserReviewsCountController,
   getUserStatsController,
   getUserStatsTimelineController,
+  getUserTasteDNAController,
   getUserTotalHoursController,
+  getUserViewerProfileController,
   getUserWatchedCastController,
   getUserWatchedCountriesController,
   getUserWatchedGenresController,
 } from '../controllers/user-stats'
 import {
+  languageQuerySchema,
   languageWithLimitAndPeriodQuerySchema,
   languageWithPeriodQuerySchema,
   periodQuerySchema,
   timelineQuerySchema,
 } from '../schemas/common'
 import {
+  getUserAIRecommendationsResponseSchema,
   getUserBestReviewsResponseSchema,
   getUserDefaultSchema,
   getUserItemsStatusResponseSchema,
   getUserMostWatchedSeriesResponseSchema,
+  getUserRatingInsightsResponseSchema,
   getUserReviewsCountResponseSchema,
   getUserStatsResponseSchema,
   getUserStatsTimelineResponseSchema,
+  getUserTasteDNAResponseSchema,
   getUserTotalHoursResponseSchema,
+  getUserViewerProfileResponseSchema,
   getUserWatchedCastResponseSchema,
   getUserWatchedCountriesResponseSchema,
   getUserWatchedGenresResponseSchema,
@@ -189,6 +198,70 @@ export async function userStatsRoutes(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getUserItemsStatusController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/rating-insights',
+      schema: {
+        description: 'Get user rating insights',
+        params: getUserDefaultSchema,
+        query: periodQuerySchema,
+        response: getUserRatingInsightsResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserRatingInsightsController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/viewer-profile',
+      schema: {
+        description: 'Get AI-generated viewer profile',
+        params: getUserDefaultSchema,
+        query: languageQuerySchema,
+        response: getUserViewerProfileResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserViewerProfileController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/ai-recommendations',
+      schema: {
+        description: 'Get AI-powered recommendations',
+        params: getUserDefaultSchema,
+        query: languageWithPeriodQuerySchema,
+        response: getUserAIRecommendationsResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserAIRecommendationsController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/taste-dna',
+      schema: {
+        description: 'Get AI-powered taste DNA analysis',
+        params: getUserDefaultSchema,
+        query: languageWithPeriodQuerySchema,
+        response: getUserTasteDNAResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserTasteDNAController(request, reply, app.redis),
     })
   )
 }

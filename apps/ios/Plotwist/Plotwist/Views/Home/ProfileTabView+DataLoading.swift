@@ -20,6 +20,8 @@ extension ProfileTabView {
     if let cached = cache.getQuickStats() {
       moviesCount = cached.moviesCount
       seriesCount = cached.seriesCount
+      followersCount = cached.followersCount
+      followingCount = cached.followingCount
       isLoadingQuickStats = false
     }
     if let userId = user?.id ?? cache.user?.id,
@@ -44,6 +46,7 @@ extension ProfileTabView {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadFavoritesCount()
 
     isInitialLoad = false
   }
@@ -126,10 +129,13 @@ extension ProfileTabView {
     guard let userId = user?.id else { return }
 
     if !forceRefresh, let cached = cache.getQuickStats() {
-      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount {
+      if moviesCount != cached.moviesCount || seriesCount != cached.seriesCount
+          || followersCount != cached.followersCount || followingCount != cached.followingCount {
         withAnimation(.snappy) {
           moviesCount = cached.moviesCount
           seriesCount = cached.seriesCount
+          followersCount = cached.followersCount
+          followingCount = cached.followingCount
         }
       }
       isLoadingQuickStats = false
@@ -141,8 +147,10 @@ extension ProfileTabView {
       withAnimation(.snappy) {
         moviesCount = stats.watchedMoviesCount
         seriesCount = stats.watchedSeriesCount
+        followersCount = stats.followersCount
+        followingCount = stats.followingCount
       }
-      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount)
+      cache.setQuickStats(moviesCount: stats.watchedMoviesCount, seriesCount: stats.watchedSeriesCount, followersCount: stats.followersCount, followingCount: stats.followingCount)
     } catch {
       print("Error loading quick stats: \(error)")
     }
@@ -168,6 +176,19 @@ extension ProfileTabView {
     }
   }
 
+  // MARK: - Load Favorites Count
+  func loadFavoritesCount() async {
+    guard let userId = user?.id else { return }
+    do {
+      let favorites = try await FavoritesService.shared.getFavorites(userId: userId)
+      withAnimation(.snappy) {
+        hasFavorites = !favorites.isEmpty
+      }
+    } catch {
+      hasFavorites = false
+    }
+  }
+
   // MARK: - Change Item Status
   func changeItemStatus(item: UserItemSummary, to newStatus: UserItemStatus) async {
     guard newStatus.rawValue != selectedStatusTab.rawValue else { return }
@@ -178,6 +199,8 @@ extension ProfileTabView {
         mediaType: item.mediaType,
         status: newStatus
       )
+
+      Haptics.notification(.success)
 
       AnalyticsService.shared.track(.mediaStatusChanged(
         tmdbId: item.tmdbId,
@@ -201,7 +224,7 @@ extension ProfileTabView {
             else { seriesCount += 1 }
           }
         }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount, followersCount: followersCount, followingCount: followingCount)
       }
 
       await animateItemRemoval(item: item)
@@ -225,6 +248,8 @@ extension ProfileTabView {
         mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
       )
 
+      Haptics.notification(.success)
+
       AnalyticsService.shared.track(.mediaStatusRemoved(
         tmdbId: item.tmdbId,
         mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
@@ -236,7 +261,7 @@ extension ProfileTabView {
           if item.mediaType == "MOVIE" { moviesCount = max(0, moviesCount - 1) }
           else { seriesCount = max(0, seriesCount - 1) }
         }
-        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount)
+        cache.setQuickStats(moviesCount: moviesCount, seriesCount: seriesCount, followersCount: followersCount, followingCount: followingCount)
       }
 
       await animateItemRemoval(item: item)

@@ -18,7 +18,7 @@ export async function getUserTotalHoursService(
 ) {
   const cacheKey = getUserStatsCacheKey(
     userId,
-    'total-hours-v6',
+    'total-hours-v7',
     undefined,
     period
   )
@@ -99,7 +99,7 @@ async function getMovieRuntimesWithDates(
       tmdbId: item.tmdbId,
       returnRuntime: true,
     })
-    return { runtime: runtime || 0, date: item.updatedAt }
+    return { runtime: runtime || 0, date: item.addedAt }
   })
 }
 
@@ -206,6 +206,16 @@ function getDateRangeForPeriod(
   movieData: { date: Date | null }[],
   episodes: { watchedAt: Date | null }[]
 ): { startDate: Date; endDate: Date } | null {
+  const yearMonthMatch =
+    typeof period === 'string' ? period.match(/^(\d{4})-(\d{2})$/) : null
+  if (yearMonthMatch) {
+    const year = Number(yearMonthMatch[1])
+    const month = Number(yearMonthMatch[2]) - 1
+    return {
+      startDate: new Date(year, month, 1),
+      endDate: new Date(year, month + 1, 0),
+    }
+  }
   if (period === 'month') {
     return {
       startDate: new Date(now.getFullYear(), now.getMonth(), 1),

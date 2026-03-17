@@ -146,10 +146,10 @@ export async function selectUserItemStatus(
   const whereConditions = [eq(schema.userItems.userId, userId)]
 
   if (startDate) {
-    whereConditions.push(gte(schema.userItems.updatedAt, startDate))
+    whereConditions.push(gte(schema.userItems.addedAt, startDate))
   }
   if (endDate) {
-    whereConditions.push(lte(schema.userItems.updatedAt, endDate))
+    whereConditions.push(lte(schema.userItems.addedAt, endDate))
   }
 
   return db
@@ -169,9 +169,8 @@ export async function selectAllUserItemsByStatus({
   startDate,
   endDate,
 }: SelectAllUserItems) {
-  const { id, tmdbId, mediaType, position, updatedAt } = getTableColumns(
-    schema.userItems
-  )
+  const { id, tmdbId, mediaType, position, addedAt, updatedAt } =
+    getTableColumns(schema.userItems)
 
   const whereConditions = [eq(schema.userItems.userId, userId)]
 
@@ -179,10 +178,10 @@ export async function selectAllUserItemsByStatus({
     whereConditions.push(eq(schema.userItems.status, status as UserItemStatus))
   }
   if (startDate) {
-    whereConditions.push(gte(schema.userItems.updatedAt, startDate))
+    whereConditions.push(gte(schema.userItems.addedAt, startDate))
   }
   if (endDate) {
-    whereConditions.push(lte(schema.userItems.updatedAt, endDate))
+    whereConditions.push(lte(schema.userItems.addedAt, endDate))
   }
   return db
     .select({
@@ -190,11 +189,12 @@ export async function selectAllUserItemsByStatus({
       tmdbId,
       mediaType,
       position,
+      addedAt,
       updatedAt,
     })
     .from(schema.userItems)
     .where(and(...whereConditions))
-    .orderBy(asc(schema.userItems.position), desc(schema.userItems.updatedAt))
+    .orderBy(asc(schema.userItems.position), desc(schema.userItems.addedAt))
 }
 
 export async function reorderUserItems(

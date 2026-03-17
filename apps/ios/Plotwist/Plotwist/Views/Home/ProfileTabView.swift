@@ -10,7 +10,7 @@ struct ProfileTabView: View {
   @State var user: User?
   @State var isInitialLoad = true
   @State var strings = L10n.current
-  @State var selectedMainTab: ProfileMainTab = .collection
+  @State var selectedMainTab: ProfileMainTab = .activity
   @State var slideFromTrailing: Bool = true
   @State var selectedStatusTab: ProfileStatusTab = .watched
   @State var userItems: [UserItemSummary] = []
@@ -19,18 +19,41 @@ struct ProfileTabView: View {
   @State var totalReviewsCount: Int = 0
   @State var moviesCount: Int = 0
   @State var seriesCount: Int = 0
+  @State var followersCount: Int = 0
+  @State var followingCount: Int = 0
   @State var isLoadingQuickStats: Bool = true
   @State var scrollOffset: CGFloat = 0
   @State var initialScrollOffset: CGFloat? = nil
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
   @State var selectedMediaItem: UserItemSummary?
+  @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
+  @State var hasFavorites = false
+  @State var claimedAchievement: Achievement?
+  @State var achievements: [Achievement] = initialMockAchievements
+
+  var equippedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed && $0.isEquipped }
+  }
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
+
+  var visibleMainTabs: [ProfileMainTab] {
+    ProfileMainTab.allCases.filter { tab in
+      if tab == .favorites { return hasFavorites }
+      #if DEBUG
+      if tab == .achievements { return true }
+      #else
+      if tab == .achievements { return false }
+      #endif
+      return true
+    }
+  }
   private let scrollThreshold: CGFloat = 80
 
   private var isScrolled: Bool {
@@ -99,15 +122,27 @@ struct ProfileTabView: View {
           totalReviewsCount = 0
           moviesCount = 0
           seriesCount = 0
+          followersCount = 0
+          followingCount = 0
           isLoadingQuickStats = true
           isInitialLoad = true
         }
+      }
+      .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in
+        Task { await loadUser(forceRefresh: true) }
       }
       .navigationBarHidden(true)
       .navigationDestination(item: $selectedMediaItem) { item in
         MediaDetailView(
           mediaId: item.tmdbId,
           mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        )
+      }
+      .navigationDestination(item: $selectedFollowerUser) { follower in
+        UserProfileView(
+          userId: follower.id,
+          initialUsername: follower.username,
+          initialAvatarUrl: follower.avatarUrl
         )
       }
       .fullScreenCover(isPresented: $showReorderCollection) {
@@ -122,6 +157,14 @@ struct ProfileTabView: View {
         }
       }
       .toolbar(.visible, for: .tabBar)
+    }
+    .overlay {
+      if let achievement = claimedAchievement {
+        ClaimCelebrationOverlay(
+          achievement: achievement,
+          onDismiss: { claimedAchievement = nil }
+        )
+      }
     }
   }
 
@@ -203,9 +246,9 @@ struct ProfileTabView: View {
           selectedTab: $selectedMainTab,
           slideFromTrailing: $slideFromTrailing,
           strings: strings,
-          reviewsCount: totalReviewsCount
+          visibleTabs: visibleMainTabs
         )
-        .padding(.top, 20)
+        .padding(.top, 28)
         .padding(.bottom, 8)
 
         tabContentView(userId: user.id)
@@ -235,7 +278,7 @@ struct ProfileTabView: View {
 
       Spacer()
 
-      NavigationLink(destination: EditProfileView(user: user)) {
+      NavigationLink(destination: EditProfileView(user: user, achievements: $achievements)) {
         Image(systemName: "ellipsis")
           .font(.system(size: 14))
           .foregroundColor(.appForegroundAdaptive)
@@ -269,7 +312,7 @@ struct ProfileTabView: View {
               .font(.title3.bold())
               .foregroundColor(.appForegroundAdaptive)
 
-            if user.isPro {
+            if user.isPro || subscriptionService.isPro {
               ProBadge()
             }
           }
@@ -289,8 +332,15 @@ struct ProfileTabView: View {
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
+        followersCount: $followersCount,
+        followingCount: followingCount,
+        userId: user.id,
         isLoading: isLoadingQuickStats,
-        strings: strings
+        strings: strings,
+        isOwnProfile: true,
+        onUserSelected: { follower in
+          selectedFollowerUser = follower
+        }
       )
       .padding(.horizontal, 24)
       .padding(.bottom, 12)
@@ -304,6 +354,7 @@ struct ProfileTabView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
       }
+
     }
   }
 
@@ -311,14 +362,25 @@ struct ProfileTabView: View {
   private func tabContentView(userId: String) -> some View {
     Group {
       switch selectedMainTab {
+      case .activity:
+        ActivityFeedView(userId: userId)
+          .padding(.bottom, 24)
       case .collection:
         collectionTabContent
+      case .favorites:
+        FavoritesSection(isOwnProfile: true, userId: userId)
+          .padding(.bottom, 24)
       case .reviews:
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
       case .stats:
         ProfileStatsView(userId: userId, isPro: user?.isPro ?? false, isOwnProfile: true)
           .padding(.bottom, 24)
+      case .achievements:
+        AchievementsSection(
+          achievements: $achievements,
+          claimedAchievement: $claimedAchievement
+        )
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)

@@ -29,7 +29,7 @@ enum Env {
     }
 
     static var apiBaseURL: String {
-        value(for: "API_BASE_URL", fallback: "https://plotwist-api-production.up.railway.app")
+        value(for: "API_BASE_URL", fallback: "http://localhost:3333")
     }
 
     static var posthogAPIKey: String {
@@ -42,5 +42,9 @@ enum Env {
 
     static var iosAPIToken: String {
         value(for: "IOS_API_TOKEN")
+    }
+
+    static var revenueCatAPIKey: String {
+        value(for: "REVENUECAT_API_KEY", fallback: "test_xeYoMAcKDMesnYVyffjWsdYwZQU")
     }
 }

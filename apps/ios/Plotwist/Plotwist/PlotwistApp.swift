@@ -13,6 +13,7 @@ struct PlotwistApp: App {
     
     init() {
         Env.debugPrintAll()
+        SubscriptionService.shared.setup()
     }
     
     var body: some Scene {

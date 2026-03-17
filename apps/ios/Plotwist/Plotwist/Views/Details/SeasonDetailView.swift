@@ -146,8 +146,7 @@ struct SeasonDetailView: View {
             .onChange(of: watchedCount) { oldValue, newValue in
               // Haptic feedback when all episodes are watched
               if newValue == episodes.count && oldValue < episodes.count && episodes.count > 0 {
-                let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.success)
+                Haptics.notification(.success)
               }
             }
           } else {
@@ -464,6 +463,7 @@ struct EpisodesListView: View {
       do {
         try await UserEpisodeService.shared.unmarkAsWatched(id: watchedId, tmdbId: seriesId)
         watchedEpisodes.removeAll { $0.id == watchedId }
+        Haptics.impact(.light)
       } catch {
         print("Error unmarking episode: \(error)")
       }
@@ -476,6 +476,7 @@ struct EpisodesListView: View {
           runtime: episode.runtime
         )
         watchedEpisodes.append(userEpisode)
+        Haptics.impact(.medium)
       } catch {
         print("Error marking episode: \(error)")
       }

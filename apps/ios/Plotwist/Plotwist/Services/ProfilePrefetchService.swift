@@ -72,7 +72,9 @@ final class ProfilePrefetchService {
               let userStats = try await UserStatsService.shared.getUserStats(userId: user.id)
               collectionCache.setQuickStats(
                 moviesCount: userStats.watchedMoviesCount,
-                seriesCount: userStats.watchedSeriesCount
+                seriesCount: userStats.watchedSeriesCount,
+                followersCount: userStats.followersCount,
+                followingCount: userStats.followingCount
               )
             } catch {}
           }
