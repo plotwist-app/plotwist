@@ -325,6 +325,7 @@ enum L10n {
       favorited: "Favorited",
       favoritesEmptyOwn: "Tap ♥ on any title to add it here",
       favoritesEmptyOther: "No favorites yet",
+      removeFromFavorites: "Remove from Favorites",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
       trackMoreInsights: "Track more to unlock insights",
@@ -522,7 +523,17 @@ enum L10n {
       activityJoined: "joined Plotwist",
       activityFriendsActivity: "Friends activity",
       activityNoActivity: "No activity yet",
-      activitySeeAll: "See all"
+      activitySeeAll: "See all",
+      // Recommendations
+      recommend: "Recommend",
+      recommendToFriend: "Recommend to a friend",
+      addAMessage: "Add a message...",
+      recommendedYou: "recommended you",
+      sent: "Sent",
+      notifications: "Notifications",
+      noNotifications: "No notifications yet",
+      acceptAction: "Accept",
+      decline: "Decline"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -678,7 +689,7 @@ enum L10n {
         "Selecionados pra você"
       ],
       collection: "Coleção",
-      reviews: "Reviews",
+      reviews: "Avaliações",
       profileNoReviewsTitle: "Nenhuma review ainda",
       profileNoReviewsSubtitle: "Depois de assistir um filme ou série, compartilhe o que achou e suas reviews aparecerão aqui.",
       soundtracks: "Trilhas",
@@ -828,6 +839,7 @@ enum L10n {
       favorited: "Favoritado",
       favoritesEmptyOwn: "Toque ♥ em qualquer título para adicioná-lo aqui",
       favoritesEmptyOther: "Nenhum favorito ainda",
+      removeFromFavorites: "Remover dos Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
       trackMoreInsights: "Registre mais para desbloquear insights",
@@ -1025,7 +1037,17 @@ enum L10n {
       activityJoined: "entrou no Plotwist",
       activityFriendsActivity: "Atividade dos amigos",
       activityNoActivity: "Nenhuma atividade ainda",
-      activitySeeAll: "Ver tudo"
+      activitySeeAll: "Ver tudo",
+      // Recommendations
+      recommend: "Recomendar",
+      recommendToFriend: "Recomendar para um amigo",
+      addAMessage: "Adicionar uma mensagem...",
+      recommendedYou: "te recomendou",
+      sent: "Enviado",
+      notifications: "Notificações",
+      noNotifications: "Nenhuma notificação ainda",
+      acceptAction: "Aceitar",
+      decline: "Recusar"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1331,6 +1353,7 @@ enum L10n {
       favorited: "Favorito",
       favoritesEmptyOwn: "Toca ♥ en cualquier título para añadirlo aquí",
       favoritesEmptyOther: "Aún no hay favoritos",
+      removeFromFavorites: "Eliminar de Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
       trackMoreInsights: "Registra más para desbloquear datos",
@@ -1528,7 +1551,17 @@ enum L10n {
       activityJoined: "se unió a Plotwist",
       activityFriendsActivity: "Actividad de amigos",
       activityNoActivity: "Sin actividad aún",
-      activitySeeAll: "Ver todo"
+      activitySeeAll: "Ver todo",
+      // Recommendations
+      recommend: "Recomendar",
+      recommendToFriend: "Recomendar a un amigo",
+      addAMessage: "Añadir un mensaje...",
+      recommendedYou: "te recomendó",
+      sent: "Enviado",
+      notifications: "Notificaciones",
+      noNotifications: "Sin notificaciones aún",
+      acceptAction: "Aceptar",
+      decline: "Rechazar"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -1834,6 +1867,7 @@ enum L10n {
       favorited: "Favori",
       favoritesEmptyOwn: "Appuyez sur ♥ sur n'importe quel titre pour l'ajouter ici",
       favoritesEmptyOther: "Pas encore de favoris",
+      removeFromFavorites: "Retirer des Favoris",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
       trackMoreInsights: "Suivez plus pour débloquer des insights",
@@ -2031,7 +2065,17 @@ enum L10n {
       activityJoined: "a rejoint Plotwist",
       activityFriendsActivity: "Activité des amis",
       activityNoActivity: "Aucune activité",
-      activitySeeAll: "Tout voir"
+      activitySeeAll: "Tout voir",
+      // Recommendations
+      recommend: "Recommander",
+      recommendToFriend: "Recommander à un ami",
+      addAMessage: "Ajouter un message...",
+      recommendedYou: "t'a recommandé",
+      sent: "Envoyé",
+      notifications: "Notifications",
+      noNotifications: "Aucune notification",
+      acceptAction: "Accepter",
+      decline: "Refuser"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -2337,6 +2381,7 @@ enum L10n {
       favorited: "Favorisiert",
       favoritesEmptyOwn: "Tippe auf ♥ bei einem Titel, um ihn hier hinzuzufügen",
       favoritesEmptyOther: "Noch keine Favoriten",
+      removeFromFavorites: "Aus Favoriten entfernen",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
       trackMoreInsights: "Tracke mehr, um Einblicke freizuschalten",
@@ -2534,7 +2579,17 @@ enum L10n {
       activityJoined: "ist Plotwist beigetreten",
       activityFriendsActivity: "Freunde-Aktivität",
       activityNoActivity: "Noch keine Aktivität",
-      activitySeeAll: "Alle anzeigen"
+      activitySeeAll: "Alle anzeigen",
+      // Recommendations
+      recommend: "Empfehlen",
+      recommendToFriend: "Einem Freund empfehlen",
+      addAMessage: "Nachricht hinzufügen...",
+      recommendedYou: "hat dir empfohlen",
+      sent: "Gesendet",
+      notifications: "Benachrichtigungen",
+      noNotifications: "Noch keine Benachrichtigungen",
+      acceptAction: "Annehmen",
+      decline: "Ablehnen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -2840,6 +2895,7 @@ enum L10n {
       favorited: "Preferito",
       favoritesEmptyOwn: "Tocca ♥ su qualsiasi titolo per aggiungerlo qui",
       favoritesEmptyOther: "Nessun preferito ancora",
+      removeFromFavorites: "Rimuovi dai Preferiti",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
       trackMoreInsights: "Traccia di più per sbloccare approfondimenti",
@@ -3037,7 +3093,17 @@ enum L10n {
       activityJoined: "si è unito a Plotwist",
       activityFriendsActivity: "Attività degli amici",
       activityNoActivity: "Nessuna attività",
-      activitySeeAll: "Vedi tutto"
+      activitySeeAll: "Vedi tutto",
+      // Recommendations
+      recommend: "Consiglia",
+      recommendToFriend: "Consiglia a un amico",
+      addAMessage: "Aggiungi un messaggio...",
+      recommendedYou: "ti ha consigliato",
+      sent: "Inviato",
+      notifications: "Notifiche",
+      noNotifications: "Nessuna notifica",
+      acceptAction: "Accetta",
+      decline: "Rifiuta"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -3342,6 +3408,7 @@ enum L10n {
       favorited: "お気に入り済",
       favoritesEmptyOwn: "♥をタップしてここに追加しましょう",
       favoritesEmptyOther: "まだお気に入りがありません",
+      removeFromFavorites: "お気に入りから削除",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
       trackMoreInsights: "もっとトラッキングしてインサイトを解除",
@@ -3539,7 +3606,17 @@ enum L10n {
       activityJoined: "がPlotWistに参加",
       activityFriendsActivity: "フレンドのアクティビティ",
       activityNoActivity: "まだアクティビティはありません",
-      activitySeeAll: "すべて見る"
+      activitySeeAll: "すべて見る",
+      // Recommendations
+      recommend: "おすすめする",
+      recommendToFriend: "友達におすすめ",
+      addAMessage: "メッセージを追加...",
+      recommendedYou: "があなたにおすすめ",
+      sent: "送信済み",
+      notifications: "通知",
+      noNotifications: "通知はまだありません",
+      acceptAction: "承認",
+      decline: "拒否"
     ),
   ]
 }
@@ -3856,6 +3933,7 @@ struct Strings {
   let favorited: String
   let favoritesEmptyOwn: String
   let favoritesEmptyOther: String
+  let removeFromFavorites: String
   let unlockFullProfile: String
   let startTrackingStats: String
   let trackMoreInsights: String
@@ -4059,4 +4137,14 @@ struct Strings {
   let activityFriendsActivity: String
   let activityNoActivity: String
   let activitySeeAll: String
+  // Recommendations
+  let recommend: String
+  let recommendToFriend: String
+  let addAMessage: String
+  let recommendedYou: String
+  let sent: String
+  let notifications: String
+  let noNotifications: String
+  let acceptAction: String
+  let decline: String
 }

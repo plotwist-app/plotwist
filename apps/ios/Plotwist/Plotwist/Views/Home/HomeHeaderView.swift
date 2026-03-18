@@ -8,12 +8,12 @@ import SwiftUI
 struct HomeHeaderView: View {
   let greeting: String
   let username: String?
-  let avatarURL: URL?
   let isLoading: Bool
   var isGuestMode: Bool = false
   var hasDisplayName: Bool = false
-  var onAvatarTapped: (() -> Void)?
-  var onAvatarLongPressed: (() -> Void)?
+  var onNotificationsTapped: (() -> Void)?
+
+  @ObservedObject private var recommendationStore = RecommendationStore.shared
 
   var body: some View {
     HStack(spacing: 16) {
@@ -23,7 +23,6 @@ struct HomeHeaderView: View {
           .frame(width: 180, height: 24)
       } else if let username {
         if isGuestMode || hasDisplayName {
-          // Show name without @ prefix, same color
           (Text("\(greeting), ")
             .font(.title2.bold())
             .foregroundColor(.appForegroundAdaptive)
@@ -31,7 +30,6 @@ struct HomeHeaderView: View {
             .font(.title2.bold())
             .foregroundColor(.appForegroundAdaptive))
         } else {
-          // Fallback to @username with muted color
           (Text("\(greeting), ")
             .font(.title2.bold())
             .foregroundColor(.appForegroundAdaptive)
@@ -50,16 +48,25 @@ struct HomeHeaderView: View {
       if isLoading {
         Circle()
           .fill(Color.appBorderAdaptive)
-          .frame(width: 44, height: 44)
+          .frame(width: 32, height: 32)
       } else {
-        ProfileAvatar(avatarURL: avatarURL, username: username ?? "", size: 44)
-          .onTapGesture {
-            onAvatarTapped?()
+        Button {
+          onNotificationsTapped?()
+        } label: {
+          ZStack(alignment: .topTrailing) {
+            Image(systemName: "bell")
+              .font(.system(size: 20))
+              .foregroundColor(.appForegroundAdaptive)
+              .frame(width: 32, height: 32)
+
+            if recommendationStore.unreadCount > 0 {
+              Circle()
+                .fill(Color.appDestructive)
+                .frame(width: 8, height: 8)
+                .offset(x: 2, y: -1)
+            }
           }
-          .onLongPressGesture(minimumDuration: 3) {
-            // Secret debug gesture: long press 3s to reset onboarding
-            onAvatarLongPressed?()
-          }
+        }
       }
     }
   }

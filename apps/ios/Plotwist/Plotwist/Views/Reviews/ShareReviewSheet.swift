@@ -117,7 +117,7 @@ struct ShareReviewSheet: View {
   private var previewHeight: CGFloat { cardHeight * previewScale }
 
   private var sheetHeight: CGFloat {
-    28 + previewHeight + 44 + 108
+    28 + previewHeight + 44 + 120
   }
 
   private var sideInset: CGFloat {
@@ -147,6 +147,7 @@ struct ShareReviewSheet: View {
                 avatarImage: avatarImage,
                 backdropImage: backdropImage
               )
+              .environment(\.colorScheme, .dark)
               .frame(width: cardWidth, height: cardHeight)
               .clipShape(RoundedRectangle(cornerRadius: 32))
               .scaleEffect(previewScale)
@@ -187,7 +188,7 @@ struct ShareReviewSheet: View {
             }
           }
         }
-        .padding(.top, 12)
+        .padding(.top, 16)
         .opacity(selectedLayout == .poster ? 1 : 0)
         .animation(.easeInOut(duration: 0.2), value: selectedLayout)
 
@@ -206,7 +207,7 @@ struct ShareReviewSheet: View {
           .clipShape(Capsule())
         }
         .padding(.horizontal, 24)
-        .padding(.top, 12)
+        .padding(.top, 20)
 
         Button {
           copyLink()
@@ -328,10 +329,10 @@ struct ShareReviewSheet: View {
     }
   }
 
-  // MARK: - Share
+  // MARK: - Image Rendering
 
   @MainActor
-  private func shareImage() {
+  private func renderCardImage() -> UIImage {
     let layout = selectedLayout ?? .poster
     let cardView = ShareReviewCardView(
       layout: layout,
@@ -345,8 +346,9 @@ struct ShareReviewSheet: View {
       backdropImage: backdropImage
     )
 
-    let wrappedView = cardView.ignoresSafeArea()
+    let wrappedView = cardView.environment(\.colorScheme, .dark).ignoresSafeArea()
     let controller = UIHostingController(rootView: wrappedView)
+    controller.overrideUserInterfaceStyle = .dark
     controller.safeAreaRegions = []
     let size = CGSize(width: cardWidth, height: cardHeight)
     controller.view.bounds = CGRect(origin: .zero, size: size)
@@ -370,7 +372,14 @@ struct ShareReviewSheet: View {
       controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
     }
     window.isHidden = true
+    return image
+  }
 
+  // MARK: - Share
+
+  @MainActor
+  private func shareImage() {
+    let image = renderCardImage()
     let activityVC = UIActivityViewController(
       activityItems: [image], applicationActivities: nil)
     if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

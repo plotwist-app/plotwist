@@ -29,7 +29,6 @@ struct ProfileTabView: View {
   @State var selectedMediaItem: UserItemSummary?
   @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
-  @State var hasFavorites = false
   @State var claimedAchievement: Achievement?
   @State var achievements: [Achievement] = initialMockAchievements
 
@@ -44,15 +43,7 @@ struct ProfileTabView: View {
   private let avatarSize: CGFloat = 56
 
   var visibleMainTabs: [ProfileMainTab] {
-    ProfileMainTab.allCases.filter { tab in
-      if tab == .favorites { return hasFavorites }
-      #if DEBUG
-      if tab == .achievements { return true }
-      #else
-      if tab == .achievements { return false }
-      #endif
-      return true
-    }
+    ProfileMainTab.allCases
   }
   private let scrollThreshold: CGFloat = 80
 
