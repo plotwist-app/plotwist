@@ -28,6 +28,7 @@ export async function getTMDBDataService(
         title: data.name,
         posterPath: data.poster_path,
         backdropPath: data.backdrop_path,
+        overview: data.overview,
       }
     }
 
@@ -43,6 +44,7 @@ export async function getTMDBDataService(
       title: data.name,
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
+      overview: data.overview,
     }
   }
 
@@ -53,6 +55,7 @@ export async function getTMDBDataService(
       title: data.title,
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
+      overview: data.overview,
     }
   }
 
@@ -63,5 +66,6 @@ export async function getTMDBDataService(
     title: data.title,
     posterPath: data.poster_path,
     backdropPath: data.backdrop_path,
+    overview: data.overview,
   }
 }

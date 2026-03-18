@@ -33,6 +33,7 @@ import { userItemsRoutes } from './user-items'
 import { userStatsRoutes } from './user-stats'
 import { usersRoute } from './users'
 import { watchEntriesRoutes } from './watch-entries'
+import { userRecommendationsRoutes } from './recommendations'
 import { webhookRoutes } from './webhook'
 
 export function routes(app: FastifyInstance) {
@@ -102,7 +103,7 @@ export function routes(app: FastifyInstance) {
   app.register(tmdbProxyRoutes)
   app.register(feedbackRoutes)
   app.register(userFavoritesRoutes)
-  // app.register(userRecommendationsRoutes)
+  app.register(userRecommendationsRoutes)
 
   return
 }
