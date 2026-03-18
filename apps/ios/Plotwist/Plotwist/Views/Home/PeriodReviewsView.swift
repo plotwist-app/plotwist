@@ -53,7 +53,15 @@ struct PeriodReviewsView: View {
 
             LazyVStack(spacing: 16) {
               ForEach(Array(reviews.enumerated()), id: \.element.id) { index, review in
-                BestReviewRow(review: review, rank: index + 1)
+                NavigationLink {
+                  MediaDetailView(
+                    mediaId: review.tmdbId,
+                    mediaType: review.mediaType == "MOVIE" ? "movie" : "tv"
+                  )
+                } label: {
+                  BestReviewRow(review: review, rank: index + 1)
+                }
+                .buttonStyle(.plain)
               }
             }
           }

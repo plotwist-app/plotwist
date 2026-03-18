@@ -17,13 +17,6 @@ struct MediaDetailViewActions: View {
   var onLoginRequired: (() -> Void)?
 
   @State private var showStatusSheet = false
-  @State private var isFavorite = false
-  @State private var isTogglingFavorite = false
-  @State private var heartScale: CGFloat = 1.0
-
-  private var apiMediaType: String {
-    mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-  }
 
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
@@ -42,44 +35,10 @@ struct MediaDetailViewActions: View {
             }
           }
         )
-
-        Button {
-          if AuthService.shared.isAuthenticated {
-            Task { await toggleFavorite() }
-          } else {
-            onLoginRequired?()
-          }
-        } label: {
-          HStack(spacing: 6) {
-            Image(systemName: isFavorite ? "heart.fill" : "heart")
-              .font(.system(size: 13))
-              .foregroundColor(isFavorite ? .red : .appForegroundAdaptive)
-              .scaleEffect(heartScale)
-              .contentTransition(.symbolEffect(.replace))
-
-            Text(isFavorite ? L10n.current.favorited : L10n.current.favorite)
-              .font(.footnote.weight(.medium))
-              .foregroundColor(.appForegroundAdaptive)
-          }
-          .padding(.horizontal, 14)
-          .padding(.vertical, 10)
-          .background(Color.appInputFilled)
-          .cornerRadius(10)
-          .animation(.easeInOut(duration: 0.2), value: isFavorite)
-        }
-        .disabled(isTogglingFavorite)
       }
       .padding(.horizontal, 24)
     }
     .scrollClipDisabled()
-    .task {
-      guard AuthService.shared.isAuthenticated else { return }
-      do {
-        isFavorite = try await FavoritesService.shared.checkFavorite(
-          tmdbId: mediaId, mediaType: apiMediaType
-        )
-      } catch {}
-    }
     .sheet(isPresented: $showStatusSheet) {
       StatusSheet(
         mediaId: mediaId,
@@ -98,45 +57,6 @@ struct MediaDetailViewActions: View {
           }
         }
       )
-    }
-  }
-
-  private func toggleFavorite() async {
-    isTogglingFavorite = true
-    defer { isTogglingFavorite = false }
-
-    let previous = isFavorite
-    let willBeAdded = !previous
-
-    withAnimation(.easeInOut(duration: 0.2)) {
-      isFavorite = willBeAdded
-    }
-    willBeAdded ? Haptics.notification(.success) : Haptics.impact(.light)
-
-    if willBeAdded {
-      withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
-        heartScale = 1.3
-      }
-      try? await Task.sleep(nanoseconds: 200_000_000)
-      withAnimation(.spring(response: 0.25, dampingFraction: 0.6)) {
-        heartScale = 1.0
-      }
-    }
-
-    do {
-      let result = try await FavoritesService.shared.toggleFavorite(
-        tmdbId: mediaId, mediaType: apiMediaType
-      )
-      let added = result.action == "added"
-      if added != willBeAdded {
-        withAnimation(.easeInOut(duration: 0.2)) {
-          isFavorite = added
-        }
-      }
-    } catch {
-      withAnimation(.easeInOut(duration: 0.2)) {
-        isFavorite = previous
-      }
     }
   }
 

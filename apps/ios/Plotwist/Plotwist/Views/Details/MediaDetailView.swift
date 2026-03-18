@@ -61,6 +61,13 @@ struct MediaDetailView: View {
   @State private var currentBackdropIndex = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
+  // Favorite state (moved from actions bar to menu)
+  @State private var isFavorite = false
+  @State private var isTogglingFavorite = false
+
+  // Recommendation
+  @State private var showRecommendSheet = false
+
   // Section visibility state
   @State private var hasReviews = false
   @State private var hasWhereToWatch = false
@@ -200,20 +207,56 @@ struct MediaDetailView: View {
               }
             }
 
-            // Sticky Back Button (hidden when collection is expanded)
+            // Sticky Back + Menu Buttons (hidden when collection is expanded)
             if !isCollectionExpanded {
               VStack {
-                Button {
-                  dismiss()
-                } label: {
-                  Image(systemName: "chevron.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
-                    .background(.ultraThinMaterial)
-                    .clipShape(Circle())
+                HStack {
+                  Button {
+                    dismiss()
+                  } label: {
+                    Image(systemName: "chevron.left")
+                      .font(.system(size: 18, weight: .semibold))
+                      .foregroundColor(.white)
+                      .frame(width: 40, height: 40)
+                      .background(.ultraThinMaterial)
+                      .clipShape(Circle())
+                  }
+
+                  Spacer()
+
+                  Menu {
+                    Button {
+                      if AuthService.shared.isAuthenticated {
+                        Task { await toggleFavorite() }
+                      } else {
+                        showLoginPrompt = true
+                      }
+                    } label: {
+                      Label(
+                        isFavorite ? L10n.current.favorited : L10n.current.favorite,
+                        systemImage: isFavorite ? "heart.fill" : "heart"
+                      )
+                    }
+
+                    Button {
+                      if AuthService.shared.isAuthenticated {
+                        showRecommendSheet = true
+                      } else {
+                        showLoginPrompt = true
+                      }
+                    } label: {
+                      Label(L10n.current.recommend, systemImage: "paperplane")
+                    }
+                  } label: {
+                    Image(systemName: "ellipsis")
+                      .font(.system(size: 18, weight: .semibold))
+                      .foregroundColor(.white)
+                      .frame(width: 40, height: 40)
+                      .background(.ultraThinMaterial)
+                      .clipShape(Circle())
+                  }
                 }
-                .padding(.leading, 24)
+                .padding(.horizontal, 24)
                 Spacer()
               }
               .padding(.top, 16)
@@ -245,6 +288,17 @@ struct MediaDetailView: View {
         }
       )
     }
+    .sheet(isPresented: $showRecommendSheet) {
+      RecommendSheet(
+        mediaId: mediaId,
+        mediaType: mediaType,
+        mediaTitle: details?.displayTitle ?? "",
+        mediaPosterPath: details?.posterPath,
+        mediaOverview: details?.overview
+      )
+      .floatingSheetPresentation(height: 480)
+      .preferredColorScheme(themeManager.current.colorScheme)
+    }
     .loginPrompt(isPresented: $showLoginPrompt) {
       // User logged in - reload user-specific data
       Task {
@@ -269,6 +323,7 @@ struct MediaDetailView: View {
         if AuthService.shared.isAuthenticated {
           group.addTask { await loadUserReview() }
           group.addTask { await loadUserItem() }
+          group.addTask { await loadFavoriteStatus() }
         }
       }
 
@@ -534,6 +589,42 @@ struct MediaDetailView: View {
     }
     .padding(.horizontal, 24)
     .offset(y: -70)
+  }
+
+  // MARK: - Favorite
+
+  private var apiMediaType: String {
+    mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+  }
+
+  private func loadFavoriteStatus() async {
+    do {
+      let result = try await FavoritesService.shared.checkFavorite(
+        tmdbId: mediaId, mediaType: apiMediaType
+      )
+      await MainActor.run { isFavorite = result }
+    } catch {}
+  }
+
+  private func toggleFavorite() async {
+    isTogglingFavorite = true
+    defer { isTogglingFavorite = false }
+
+    let previous = isFavorite
+    withAnimation(.easeInOut(duration: 0.2)) { isFavorite = !previous }
+    isFavorite ? Haptics.notification(.success) : Haptics.impact(.light)
+
+    do {
+      let result = try await FavoritesService.shared.toggleFavorite(
+        tmdbId: mediaId, mediaType: apiMediaType
+      )
+      let added = result.action == "added"
+      if added != !previous {
+        withAnimation(.easeInOut(duration: 0.2)) { isFavorite = added }
+      }
+    } catch {
+      withAnimation(.easeInOut(duration: 0.2)) { isFavorite = previous }
+    }
   }
 
   // MARK: - Cache

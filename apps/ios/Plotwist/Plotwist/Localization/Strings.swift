@@ -523,7 +523,17 @@ enum L10n {
       activityJoined: "joined Plotwist",
       activityFriendsActivity: "Friends activity",
       activityNoActivity: "No activity yet",
-      activitySeeAll: "See all"
+      activitySeeAll: "See all",
+      // Recommendations
+      recommend: "Recommend",
+      recommendToFriend: "Recommend to a friend",
+      addAMessage: "Add a message...",
+      recommendedYou: "recommended you",
+      sent: "Sent",
+      notifications: "Notifications",
+      noNotifications: "No notifications yet",
+      acceptAction: "Accept",
+      decline: "Decline"
     ),
     .ptBR: Strings(
       loginLabel: "E-mail ou nome de usuário",
@@ -1027,7 +1037,17 @@ enum L10n {
       activityJoined: "entrou no Plotwist",
       activityFriendsActivity: "Atividade dos amigos",
       activityNoActivity: "Nenhuma atividade ainda",
-      activitySeeAll: "Ver tudo"
+      activitySeeAll: "Ver tudo",
+      // Recommendations
+      recommend: "Recomendar",
+      recommendToFriend: "Recomendar para um amigo",
+      addAMessage: "Adicionar uma mensagem...",
+      recommendedYou: "te recomendou",
+      sent: "Enviado",
+      notifications: "Notificações",
+      noNotifications: "Nenhuma notificação ainda",
+      acceptAction: "Aceitar",
+      decline: "Recusar"
     ),
     .esES: Strings(
       loginLabel: "Correo electrónico o nombre de usuario",
@@ -1531,7 +1551,17 @@ enum L10n {
       activityJoined: "se unió a Plotwist",
       activityFriendsActivity: "Actividad de amigos",
       activityNoActivity: "Sin actividad aún",
-      activitySeeAll: "Ver todo"
+      activitySeeAll: "Ver todo",
+      // Recommendations
+      recommend: "Recomendar",
+      recommendToFriend: "Recomendar a un amigo",
+      addAMessage: "Añadir un mensaje...",
+      recommendedYou: "te recomendó",
+      sent: "Enviado",
+      notifications: "Notificaciones",
+      noNotifications: "Sin notificaciones aún",
+      acceptAction: "Aceptar",
+      decline: "Rechazar"
     ),
     .frFR: Strings(
       loginLabel: "E-mail ou nom d'utilisateur",
@@ -2035,7 +2065,17 @@ enum L10n {
       activityJoined: "a rejoint Plotwist",
       activityFriendsActivity: "Activité des amis",
       activityNoActivity: "Aucune activité",
-      activitySeeAll: "Tout voir"
+      activitySeeAll: "Tout voir",
+      // Recommendations
+      recommend: "Recommander",
+      recommendToFriend: "Recommander à un ami",
+      addAMessage: "Ajouter un message...",
+      recommendedYou: "t'a recommandé",
+      sent: "Envoyé",
+      notifications: "Notifications",
+      noNotifications: "Aucune notification",
+      acceptAction: "Accepter",
+      decline: "Refuser"
     ),
     .deDE: Strings(
       loginLabel: "E-Mail oder Benutzername",
@@ -2539,7 +2579,17 @@ enum L10n {
       activityJoined: "ist Plotwist beigetreten",
       activityFriendsActivity: "Freunde-Aktivität",
       activityNoActivity: "Noch keine Aktivität",
-      activitySeeAll: "Alle anzeigen"
+      activitySeeAll: "Alle anzeigen",
+      // Recommendations
+      recommend: "Empfehlen",
+      recommendToFriend: "Einem Freund empfehlen",
+      addAMessage: "Nachricht hinzufügen...",
+      recommendedYou: "hat dir empfohlen",
+      sent: "Gesendet",
+      notifications: "Benachrichtigungen",
+      noNotifications: "Noch keine Benachrichtigungen",
+      acceptAction: "Annehmen",
+      decline: "Ablehnen"
     ),
     .itIT: Strings(
       loginLabel: "E-mail o nome utente",
@@ -3043,7 +3093,17 @@ enum L10n {
       activityJoined: "si è unito a Plotwist",
       activityFriendsActivity: "Attività degli amici",
       activityNoActivity: "Nessuna attività",
-      activitySeeAll: "Vedi tutto"
+      activitySeeAll: "Vedi tutto",
+      // Recommendations
+      recommend: "Consiglia",
+      recommendToFriend: "Consiglia a un amico",
+      addAMessage: "Aggiungi un messaggio...",
+      recommendedYou: "ti ha consigliato",
+      sent: "Inviato",
+      notifications: "Notifiche",
+      noNotifications: "Nessuna notifica",
+      acceptAction: "Accetta",
+      decline: "Rifiuta"
     ),
     .jaJP: Strings(
       loginLabel: "メールアドレスまたはユーザー名",
@@ -3546,7 +3606,17 @@ enum L10n {
       activityJoined: "がPlotWistに参加",
       activityFriendsActivity: "フレンドのアクティビティ",
       activityNoActivity: "まだアクティビティはありません",
-      activitySeeAll: "すべて見る"
+      activitySeeAll: "すべて見る",
+      // Recommendations
+      recommend: "おすすめする",
+      recommendToFriend: "友達におすすめ",
+      addAMessage: "メッセージを追加...",
+      recommendedYou: "があなたにおすすめ",
+      sent: "送信済み",
+      notifications: "通知",
+      noNotifications: "通知はまだありません",
+      acceptAction: "承認",
+      decline: "拒否"
     ),
   ]
 }
@@ -4067,4 +4137,14 @@ struct Strings {
   let activityFriendsActivity: String
   let activityNoActivity: String
   let activitySeeAll: String
+  // Recommendations
+  let recommend: String
+  let recommendToFriend: String
+  let addAMessage: String
+  let recommendedYou: String
+  let sent: String
+  let notifications: String
+  let noNotifications: String
+  let acceptAction: String
+  let decline: String
 }

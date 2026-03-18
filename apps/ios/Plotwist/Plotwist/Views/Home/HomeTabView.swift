@@ -14,6 +14,7 @@ struct HomeTabView: View {
   @State var watchingItems: [SearchResult] = []
   @State var watchlistItems: [SearchResult] = []
   @State var isInitialLoad = true
+  @State private var showNotifications = false
   @State var needsRefresh = false
   @State var hasAppeared = false
 
@@ -167,17 +168,11 @@ struct HomeTabView: View {
               HomeHeaderView(
                 greeting: greeting,
                 username: displayUsername,
-                avatarURL: user?.avatarImageURL,
                 isLoading: showUserSkeleton && !isGuestMode,
                 isGuestMode: isGuestMode,
                 hasDisplayName: user?.displayName?.isEmpty == false,
-                onAvatarTapped: {
-                  NotificationCenter.default.post(name: .navigateToProfile, object: nil)
-                },
-                onAvatarLongPressed: {
-                  OnboardingService.shared.reset()
-                  UserDefaults.standard.set(false, forKey: "isGuestMode")
-                  NotificationCenter.default.post(name: .authChanged, object: nil)
+                onNotificationsTapped: {
+                  showNotifications = true
                 }
               )
               .padding(.horizontal, 24)
@@ -351,6 +346,9 @@ struct HomeTabView: View {
 
         }
         .navigationBarHidden(true)
+        .navigationDestination(isPresented: $showNotifications) {
+          NotificationsView()
+        }
         .preferredColorScheme(effectiveColorScheme)
         .onAppear {
           // Restore from cache immediately on appear

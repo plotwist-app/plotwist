@@ -70,7 +70,7 @@ struct ActivityFeedView: View {
         .padding(.top, 48)
       } else {
         ForEach(activities) { activity in
-          ActivityItemView(activity: activity)
+          ActivityItemLink(activity: activity)
             .padding(.horizontal, 24)
             .padding(.vertical, 12)
             .onAppear {
@@ -171,7 +171,7 @@ struct NetworkActivitySection: View {
       } else {
         VStack(alignment: .leading, spacing: 0) {
           ForEach(activities) { activity in
-            ActivityItemView(activity: activity)
+            ActivityItemLink(activity: activity)
               .padding(.horizontal, 24)
               .padding(.vertical, 10)
           }
@@ -195,6 +195,27 @@ struct NetworkActivitySection: View {
       }
     } catch {
       isLoading = false
+    }
+  }
+}
+
+// MARK: - Activity Item Link (tappable → media detail)
+
+struct ActivityItemLink: View {
+  let activity: UserActivity
+
+  var body: some View {
+    if let tmdbId = activity.additionalInfo?.tmdbId,
+       let rawType = activity.additionalInfo?.mediaType {
+      let mediaType = rawType == "MOVIE" ? "movie" : "tv"
+      NavigationLink {
+        MediaDetailView(mediaId: tmdbId, mediaType: mediaType)
+      } label: {
+        ActivityItemView(activity: activity)
+      }
+      .buttonStyle(.plain)
+    } else {
+      ActivityItemView(activity: activity)
     }
   }
 }
@@ -231,30 +252,39 @@ struct ActivityItemView: View {
   // MARK: - Avatar with activity badge
 
   private var avatarWithBadge: some View {
-    ZStack(alignment: .bottomTrailing) {
-      Group {
-        if let url = activity.owner.avatarUrl, let imageURL = URL(string: url) {
-          CachedAsyncImage(url: imageURL) { image in
-            image.resizable().aspectRatio(contentMode: .fill)
-          } placeholder: {
+    NavigationLink {
+      UserProfileView(
+        userId: activity.owner.id,
+        initialUsername: activity.owner.username,
+        initialAvatarUrl: activity.owner.avatarUrl
+      )
+    } label: {
+      ZStack(alignment: .bottomTrailing) {
+        Group {
+          if let url = activity.owner.avatarUrl, let imageURL = URL(string: url) {
+            CachedAsyncImage(url: imageURL) { image in
+              image.resizable().aspectRatio(contentMode: .fill)
+            } placeholder: {
+              initialsView
+            }
+          } else {
             initialsView
           }
-        } else {
-          initialsView
         }
-      }
-      .frame(width: 36, height: 36)
-      .clipShape(Circle())
-
-      Image(systemName: activityIcon)
-        .font(.system(size: 7, weight: .bold))
-        .foregroundColor(.appMutedForegroundAdaptive)
-        .frame(width: 16, height: 16)
-        .background(Color.appInputFilled)
+        .frame(width: 36, height: 36)
         .clipShape(Circle())
-        .overlay(Circle().stroke(Color.appBackgroundAdaptive, lineWidth: 1.5))
-        .offset(x: 2, y: 2)
+
+        Image(systemName: activityIcon)
+          .font(.system(size: 7, weight: .bold))
+          .foregroundColor(.appMutedForegroundAdaptive)
+          .frame(width: 16, height: 16)
+          .background(Color.appInputFilled)
+          .clipShape(Circle())
+          .overlay(Circle().stroke(Color.appBackgroundAdaptive, lineWidth: 1.5))
+          .offset(x: 2, y: 2)
+      }
     }
+    .buttonStyle(.plain)
   }
 
   private var initialsView: some View {
