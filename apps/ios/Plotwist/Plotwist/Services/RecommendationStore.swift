@@ -67,23 +67,6 @@ class RecommendationStore: ObservableObject {
     )
 
     sent.append(rec)
-
-    let demo = Recommendation(
-      id: UUID().uuidString,
-      fromUserId: currentUser.id,
-      fromUsername: currentUser.displayName ?? currentUser.username,
-      fromAvatarUrl: currentUser.avatarUrl,
-      toUserId: currentUser.id,
-      mediaId: mediaId,
-      mediaType: mediaType,
-      mediaTitle: mediaTitle,
-      mediaPosterPath: mediaPosterPath,
-      mediaOverview: mediaOverview,
-      message: finalMessage,
-      createdAt: Date()
-    )
-    received.append(demo)
-
     save()
   }
 
