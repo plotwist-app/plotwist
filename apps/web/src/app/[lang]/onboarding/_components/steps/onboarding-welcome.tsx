@@ -51,13 +51,13 @@ export function OnboardingWelcome({ lang }: { lang: string }) {
         } as React.CSSProperties
       }
     >
-      {[...images, ...images].map((path, i) => (
+      {[...images.map((p: string) => ({ path: p, copy: 'a' })), ...images.map((p: string) => ({ path: p, copy: 'b' }))].map((item: { path: string; copy: string }) => (
         <div
-          key={`${path}-${i}`}
+          key={`${item.path}-${item.copy}`}
           className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-neutral-800 shadow-xl"
         >
           <Image
-            src={tmdbImage(path as string, 'w500')}
+            src={tmdbImage(item.path as string, 'w500')}
             alt=""
             fill
             className="object-cover"

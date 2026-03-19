@@ -54,21 +54,24 @@ const OnboardingContext = createContext<OnboardingContextType | undefined>(
   undefined
 )
 
-const STORAGE_KEY = 'plotwist-onboarding-state'
-
+const getStorageKey = (username?: string) => `plotwist-onboarding-state-${username || 'guest'}`
 export function OnboardingProvider({
   children,
   dictionary,
+  username,
 }: {
   children: ReactNode
   dictionary?: Record<string, string>
+  username?: string
 }) {
   const router = useRouter()
   const [state, setState] = useState<OnboardingState>(defaultState)
   const [isLoaded, setIsLoaded] = useState(false)
 
+  const storageKey = getStorageKey(username)
+
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
+    const saved = localStorage.getItem(storageKey)
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -79,12 +82,12 @@ export function OnboardingProvider({
       }
     }
     setIsLoaded(true)
-  }, [])
+  }, [storageKey])
 
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem(
-        STORAGE_KEY,
+        storageKey,
         JSON.stringify({
           ...state,
 
@@ -92,7 +95,7 @@ export function OnboardingProvider({
         })
       )
     }
-  }, [state, isLoaded])
+  }, [state, isLoaded, storageKey])
 
   const setUserName = useCallback((userName: string) => {
     setState(s => ({ ...s, userName }))
@@ -128,10 +131,10 @@ export function OnboardingProvider({
 
   const completeOnboarding = useCallback(
     (lang: string = 'en-US') => {
-      localStorage.setItem('plotwist-onboarding-complete', 'true')
-      router.push(`/${lang}/home`)
+      localStorage.setItem(`plotwist-onboarding-complete-${username || 'guest'}`, 'true')
+      router.push(`/${lang}/${username || 'home'}`)
     },
-    [router]
+    [router, username]
   )
 
   return (

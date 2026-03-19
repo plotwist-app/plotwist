@@ -26,7 +26,28 @@ export async function signIn({ login, password, redirectTo }: SignInInput) {
 
   await createSession({ token })
 
-  if (redirectTo) {
-    redirect(redirectTo)
+  let finalRedirectTo = redirectTo
+
+  try {
+    // Import dynamically or ensure 'setAuthToken' and 'getMe' are available
+    const { setAuthToken } = await import('@/services/api-client')
+    const { getMe } = await import('@/api/users')
+    
+    setAuthToken(token)
+    const { data } = await getMe()
+    
+    if (data?.user && !data.user.displayName) {
+      if (redirectTo) {
+        const parts = redirectTo.split('/')
+        const lang = parts[1] || 'en-US'
+        finalRedirectTo = `/${lang}/onboarding`
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch user during sign in for onboarding check', error)
+  }
+
+  if (finalRedirectTo) {
+    redirect(finalRedirectTo)
   }
 }

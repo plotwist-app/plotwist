@@ -2,9 +2,9 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
-import { Bookmark, Check, Eye, X as XIcon } from 'lucide-react'
+import { Bookmark, Check, Eye, Pointer, X as XIcon } from 'lucide-react'
 import Image from 'next/image'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { tmdb } from '@/services/tmdb'
 import { tmdbImage } from '@/utils/tmdb/image'
 
@@ -233,11 +233,50 @@ function SwipePillOverlay({
   )
 }
 
-// ... existing code ...
 import type { Language } from '@/types/languages'
 import { useOnboarding } from './onboarding-context'
 
-// ... existing code ...
+function SwipeHintOverlay() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+    >
+      <motion.div
+        animate={{
+          scale: [1, 1.12, 1.06, 1],
+          x: [0, 0, 55, 0],
+          y: [0, -3, 0, 0],
+          rotate: [0, 0, -6, 0],
+        }}
+        transition={{
+          duration: 1.5,
+          ease: 'easeInOut',
+          times: [0, 0.2, 0.6, 1],
+          repeat: Infinity,
+          repeatDelay: 1,
+        }}
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 border border-white/30 backdrop-blur-md shadow-lg"
+      >
+        <motion.div
+          animate={{ opacity: [0.6, 0.9, 0.9, 0.6] }}
+          transition={{
+            duration: 1.5,
+            ease: 'easeInOut',
+            times: [0, 0.2, 0.6, 1],
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+        >
+          <Pointer className="h-5 w-5 text-white" />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
   const language = (lang as Language) || 'en-US'
   const {
@@ -265,6 +304,26 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
     direction: SwipeDirection
     initialOffset?: { x: number; y: number }
   } | null>(null)
+
+  // Drag hint state
+  const [showHint, setShowHint] = useState(false)
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const startIdleTimer = useCallback(() => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+    idleTimerRef.current = setTimeout(() => setShowHint(true), 2000)
+  }, [])
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowHint(true), 1000)
+    return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+    }
+  }, [])
 
   const { data, fetchNextPage, isFetching } = useInfiniteQuery({
     queryKey: [
@@ -409,9 +468,8 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
         initialOffset: velocityInfo,
       })
 
-      // Extract the direction and item info
       const tmdbId = currentMovie.id
-      const mediaType = currentMovie.mediaType // We will add this mapping below
+      const mediaType = currentMovie.mediaType
 
       let status: 'WATCHED' | 'WATCHING' | 'WATCHLIST' | 'DROPPED' | null = null
 
@@ -524,10 +582,26 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           <SwipeCard
             key={currentMovie.id}
             movie={currentMovie}
-            onSwipe={handleSwipe}
-            onDirectionChange={handleDirectionChange}
+            onSwipe={(dir, vel) => {
+              setShowHint(false)
+              startIdleTimer()
+              handleSwipe(dir, vel)
+            }}
+            onDirectionChange={(dir, progress) => {
+              if (dir) {
+                setShowHint(false)
+                if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+              }
+              handleDirectionChange(dir, progress)
+            }}
           />
         )}
+
+        <AnimatePresence>
+          {showHint && !exitingCard && !swipeDirection && (
+            <SwipeHintOverlay key="swipe-hint" />
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
           {exitingCard && (
@@ -561,7 +635,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_watched || 'Já assisti'} (Cima)`}
         >
           <Check className="h-4 w-4 text-green-500" />
-          <span className="text-green-500 hidden sm:inline">
+          <span className="text-green-500">
             {dictionary?.swiper_watched || 'Já assisti'}
           </span>
         </button>
@@ -573,7 +647,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_watching || 'Assistindo'} (Baixo)`}
         >
           <Eye className="h-4 w-4 text-yellow-500" />
-          <span className="text-yellow-500 hidden sm:inline">
+          <span className="text-yellow-500">
             {dictionary?.swiper_watching || 'Assistindo'}
           </span>
         </button>
@@ -585,7 +659,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_want_to_watch || 'Quero assistir'} (Direita)`}
         >
           <Bookmark className="h-4 w-4 text-blue-500" />
-          <span className="text-blue-500 hidden sm:inline">
+          <span className="text-blue-500">
             {dictionary?.swiper_want_to_watch || 'Quero assistir'}
           </span>
         </button>
@@ -597,7 +671,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
           title={`${dictionary?.swiper_skip || 'Pular'} (Esquerda)`}
         >
           <XIcon className="h-4 w-4 text-red-500" />
-          <span className="text-red-500 hidden sm:inline">
+          <span className="text-red-500">
             {dictionary?.swiper_skip || 'Pular'}
           </span>
         </button>

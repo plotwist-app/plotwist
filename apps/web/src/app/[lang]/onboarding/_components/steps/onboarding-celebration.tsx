@@ -6,7 +6,7 @@ import { usePutUserItem } from '@/api/user-items'
 import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingCelebration({ lang }: { lang: string }) {
-  const { completeOnboarding, dictionary, swipedItems } = useOnboarding()
+  const { completeOnboarding, dictionary, swipedItems, userName } = useOnboarding()
   const putUserItem = usePutUserItem()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -14,7 +14,7 @@ export function OnboardingCelebration({ lang }: { lang: string }) {
     try {
       setIsSubmitting(true)
 
-      const promises = swipedItems.map(item =>
+      const promises: Promise<unknown>[] = swipedItems.map(item =>
         putUserItem.mutateAsync({
           data: {
             mediaType: item.mediaType,
@@ -24,9 +24,20 @@ export function OnboardingCelebration({ lang }: { lang: string }) {
         })
       )
 
+      if (userName) {
+        promises.push(
+          import('@/services/api-client').then(({ customFetch }) =>
+            customFetch('/user', {
+              method: 'PATCH',
+              body: JSON.stringify({ displayName: userName }),
+            })
+          )
+        )
+      }
+
       await Promise.allSettled(promises)
     } catch (e) {
-      console.error('Failed to sync swiped items', e)
+      console.error('Failed to sync onboarding data', e)
     } finally {
       setIsSubmitting(false)
       completeOnboarding(lang)
