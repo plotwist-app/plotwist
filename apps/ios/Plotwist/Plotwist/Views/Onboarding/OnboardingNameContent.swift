@@ -73,6 +73,10 @@ struct OnboardingNameContent: View {
       .padding(.bottom, 48)
     }
     .frame(maxWidth: .infinity)
+    .contentShape(Rectangle())
+    .onTapGesture {
+      isNameFocused = false
+    }
     .onAppear {
       // Load saved name if returning to this step
       if userName.isEmpty && !onboardingService.userName.isEmpty {

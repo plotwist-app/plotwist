@@ -69,6 +69,7 @@ struct MediaDetailView: View {
   @State private var showRecommendSheet = false
 
   // Section visibility state
+  @State private var hasCast = false
   @State private var hasReviews = false
   @State private var hasWhereToWatch = false
   @State private var hasSeasons = false
@@ -425,7 +426,7 @@ struct MediaDetailView: View {
     )
 
     // Divider after reviews
-    if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations) {
+    if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -443,7 +444,7 @@ struct MediaDetailView: View {
     )
 
     // Divider after where to watch
-    if hasWhereToWatch && (hasSeasons || hasRecommendations) {
+    if hasWhereToWatch && (hasSeasons || hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -464,7 +465,7 @@ struct MediaDetailView: View {
     }
 
     // Divider after seasons
-    if hasSeasons && hasRecommendations {
+    if hasSeasons && (hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -478,6 +479,24 @@ struct MediaDetailView: View {
       mediaType: mediaType,
       onContentLoaded: { hasContent in
         hasRecommendations = hasContent
+      }
+    )
+
+    // Divider after recommendations
+    if hasRecommendations && hasCast {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Cast Section
+    CastSection(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      onContentLoaded: { hasContent in
+        hasCast = hasContent
       }
     )
 
@@ -796,15 +815,11 @@ private class ForceHideNavBarController: UIViewController {
 struct TMDBRatingBadge: View {
   let rating: Double
 
-  private var ratingOutOfFive: Double {
-    rating / 2.0
-  }
-
   private var formattedRating: String {
-    if ratingOutOfFive == ratingOutOfFive.rounded() {
-      return String(format: "%.0f", ratingOutOfFive)
+    if rating == rating.rounded() {
+      return String(format: "%.0f", rating)
     }
-    return String(format: "%.1f", ratingOutOfFive)
+    return String(format: "%.1f", rating)
   }
 
   var body: some View {

@@ -638,6 +638,26 @@ class TMDBService {
     return try decoder.decode(MovieDetails.self, from: data)
   }
 
+  func getDetailsWithCredits(id: Int, mediaType: String, language: String = "en-US") async throws -> MovieDetailsWithCredits {
+    let type = mediaType == "movie" ? "movie" : "tv"
+    guard let url = URL(string: "\(baseURL)/\(type)/\(id)?language=\(language)&append_to_response=credits") else {
+      throw TMDBError.invalidURL
+    }
+    
+    var request = URLRequest(url: url)
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    
+    let (data, response) = try await URLSession.shared.data(for: request)
+    
+    guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+      throw TMDBError.invalidResponse
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return try decoder.decode(MovieDetailsWithCredits.self, from: data)
+  }
+  
   // MARK: - TV Series Details
   func getTVSeriesDetails(id: Int, language: String = "en-US") async throws -> MovieDetails {
     guard let url = URL(string: "\(baseURL)/tv/\(id)?language=\(language)") else {
@@ -851,6 +871,31 @@ class TMDBService {
     return result.results
   }
   
+  // MARK: - Get Credits
+  func getCredits(id: Int, mediaType: String, language: String = "en-US") async throws -> CreditsResponse {
+    let type = mediaType == "movie" ? "movie" : "tv"
+    guard let url = URL(string: "\(baseURL)/\(type)/\(id)/credits?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+    return try await performRequest(url, as: CreditsResponse.self, label: "Credits/\(type)")
+  }
+
+  // MARK: - Person Details
+  func getPersonDetails(id: Int, language: String = "en-US") async throws -> PersonDetails {
+    guard let url = URL(string: "\(baseURL)/person/\(id)?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+    return try await performRequest(url, as: PersonDetails.self, label: "Person/\(id)")
+  }
+
+  // MARK: - Person Combined Credits
+  func getPersonCombinedCredits(id: Int, language: String = "en-US") async throws -> PersonCombinedCredits {
+    guard let url = URL(string: "\(baseURL)/person/\(id)/combined_credits?language=\(language)") else {
+      throw TMDBError.invalidURL
+    }
+    return try await performRequest(url, as: PersonCombinedCredits.self, label: "PersonCredits/\(id)")
+  }
+
   // MARK: - Discover by Genre (for onboarding)
   func discoverByGenres(mediaType: String, genreIds: [Int], language: String = "en-US", page: Int = 1, originCountry: String? = nil) async throws -> [SearchResult] {
     // Use | (pipe) for OR logic - matches ANY of the selected genres (more results)
@@ -1061,6 +1106,84 @@ struct CollectionPart: Codable, Identifiable {
 struct Genre: Codable, Identifiable {
   let id: Int
   let name: String
+}
+
+// MARK: - Credits
+struct CreditsResponse: Codable {
+  let cast: [CastMember]
+  let crew: [CrewMember]?
+}
+
+struct CastMember: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let character: String?
+  let profilePath: String?
+  let order: Int?
+  
+  var profileURL: URL? {
+    guard let profilePath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w185\(profilePath)")
+  }
+}
+
+struct CrewMember: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let job: String?
+  let department: String?
+  let profilePath: String?
+
+  var profileURL: URL? {
+    guard let profilePath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w185\(profilePath)")
+  }
+}
+
+struct MovieDetailsWithCredits: Codable, Identifiable {
+  let id: Int
+  let title: String?
+  let name: String?
+  let overview: String?
+  let posterPath: String?
+  let backdropPath: String?
+  let releaseDate: String?
+  let firstAirDate: String?
+  let voteAverage: Double?
+  let runtime: Int?
+  let genres: [Genre]?
+  let credits: CreditsResponse?
+  let numberOfSeasons: Int?
+  let numberOfEpisodes: Int?
+  
+  var displayTitle: String {
+    title ?? name ?? "Unknown"
+  }
+  
+  var year: String? {
+    let date = releaseDate ?? firstAirDate
+    guard let date, date.count >= 4 else { return nil }
+    return String(date.prefix(4))
+  }
+  
+  var formattedRuntime: String? {
+    guard let runtime, runtime > 0 else { return nil }
+    if runtime >= 60 {
+      let hours = runtime / 60
+      let minutes = runtime % 60
+      return minutes > 0 ? "\(hours)h \(minutes)min" : "\(hours)h"
+    }
+    return "\(runtime)min"
+  }
+  
+  var topCast: [CastMember] {
+    let cast = credits?.cast ?? []
+    return Array(cast.sorted { ($0.order ?? 999) < ($1.order ?? 999) }.prefix(5))
+  }
+  
+  var director: String? {
+    credits?.crew?.first(where: { $0.job == "Director" })?.name
+  }
 }
 
 // MARK: - Paginated Result
@@ -1301,5 +1424,83 @@ struct WatchRegion: Codable, Identifiable {
       }
     }
     return emoji
+  }
+}
+
+// MARK: - Person Details
+struct PersonDetails: Codable, Identifiable {
+  let id: Int
+  let name: String
+  let biography: String?
+  let birthday: String?
+  let deathday: String?
+  let placeOfBirth: String?
+  let profilePath: String?
+  let knownForDepartment: String?
+
+  var profileURL: URL? {
+    guard let profilePath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w500\(profilePath)")
+  }
+
+  var formattedBirthday: String? {
+    guard let birthday else { return nil }
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    guard let date = formatter.date(from: birthday) else { return nil }
+    let output = DateFormatter()
+    output.dateStyle = .long
+    return output.string(from: date)
+  }
+
+  var age: Int? {
+    guard let birthday else { return nil }
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    guard let birthDate = formatter.date(from: birthday) else { return nil }
+    let endDate = deathday.flatMap { formatter.date(from: $0) } ?? Date()
+    return Calendar.current.dateComponents([.year], from: birthDate, to: endDate).year
+  }
+}
+
+// MARK: - Person Combined Credits
+struct PersonCombinedCredits: Codable {
+  let cast: [PersonCreditItem]?
+  let crew: [PersonCreditItem]?
+}
+
+struct PersonCreditItem: Codable, Identifiable {
+  let id: Int
+  let mediaType: String?
+  let title: String?
+  let name: String?
+  let character: String?
+  let job: String?
+  let posterPath: String?
+  let backdropPath: String?
+  let releaseDate: String?
+  let firstAirDate: String?
+  let voteAverage: Double?
+  let voteCount: Int?
+  let popularity: Double?
+
+  var displayTitle: String {
+    title ?? name ?? "Unknown"
+  }
+
+  var year: String? {
+    let date = releaseDate ?? firstAirDate
+    guard let date, date.count >= 4 else { return nil }
+    return String(date.prefix(4))
+  }
+
+  var posterURL: URL? {
+    guard let posterPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w200\(posterPath)")
+  }
+
+  var backdropURL: URL? {
+    guard let backdropPath else { return nil }
+    return URL(string: "https://image.tmdb.org/t/p/w780\(backdropPath)")
   }
 }

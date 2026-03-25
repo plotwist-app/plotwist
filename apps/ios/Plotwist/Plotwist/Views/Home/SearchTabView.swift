@@ -90,18 +90,28 @@ struct SearchTabView: View {
           .buttonStyle(.plain)
 
           if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(height: 1)
-              .padding(.leading, 60)
+            ForEach(0..<3, id: \.self) { _ in
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
 
-            HStack {
-              Spacer()
-              ProgressView()
-                .scaleEffect(0.8)
-              Spacer()
+              HStack(spacing: 12) {
+                RoundedRectangle(cornerRadius: 4)
+                  .fill(Color.appBorderAdaptive)
+                  .frame(width: 16, height: 16)
+                  .modifier(ShimmerEffect())
+
+                RoundedRectangle(cornerRadius: 4)
+                  .fill(Color.appBorderAdaptive)
+                  .frame(width: CGFloat.random(in: 100...180), height: 14)
+                  .modifier(ShimmerEffect())
+
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 12)
             }
-            .padding(.vertical, 16)
           } else if !autocompleteSuggestions.isEmpty {
             ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
               Rectangle()
@@ -483,6 +493,7 @@ struct SearchSkeletonSection: View {
       RoundedRectangle(cornerRadius: 4)
         .fill(Color.appBorderAdaptive)
         .frame(width: 80, height: 16)
+        .modifier(ShimmerEffect())
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(0..<6, id: \.self) { _ in
@@ -498,5 +509,6 @@ struct PosterSkeletonCard: View {
     RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
       .fill(Color.appBorderAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
+      .modifier(ShimmerEffect())
   }
 }

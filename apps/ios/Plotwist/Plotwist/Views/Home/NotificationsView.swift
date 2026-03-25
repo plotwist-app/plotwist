@@ -153,6 +153,11 @@ struct NotificationsView: View {
   }
 
   private func timeAgo(_ date: Date) -> String {
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
+    }
+
     let formatter = RelativeDateTimeFormatter()
     formatter.unitsStyle = .abbreviated
     return formatter.localizedString(for: date, relativeTo: Date())

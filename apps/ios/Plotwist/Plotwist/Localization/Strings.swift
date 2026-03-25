@@ -86,6 +86,7 @@ enum L10n {
       shareYourOpinion: "Share your opinion here...",
       containSpoilers: "Contains spoilers",
       tapToReveal: "Tap to reveal",
+      justNow: "now",
       submitReview: "Submit review",
       editReview: "Edit review",
       reviewRequired: "Please write your review.",
@@ -181,6 +182,15 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biography",
       biographyPlaceholder: "Tell us about yourself...",
+      filmography: "Filmography",
+      knownFor: "Known for",
+      actors: "Actors",
+      technicalCrew: "Technical Crew",
+      crewDirection: "Direction",
+      crewWriting: "Writing",
+      crewPhotography: "Photography",
+      crewMusic: "Music",
+      crewEditing: "Editing",
       reorderCollection: "Reorder",
       save: "Save",
       // Home
@@ -608,6 +618,7 @@ enum L10n {
       shareYourOpinion: "Compartilhe sua opinião aqui...",
       containSpoilers: "Contém spoilers",
       tapToReveal: "Toque para revelar",
+      justNow: "agora",
       submitReview: "Enviar avaliação",
       editReview: "Editar avaliação",
       reviewRequired: "Por favor, escreva sua avaliação.",
@@ -695,6 +706,15 @@ enum L10n {
       soundtracks: "Trilhas",
       biography: "Biografia",
       biographyPlaceholder: "Conte um pouco sobre você...",
+      filmography: "Filmografia",
+      knownFor: "Conhecido por",
+      actors: "Atores",
+      technicalCrew: "Equipe Técnica",
+      crewDirection: "Direção",
+      crewWriting: "Roteiro",
+      crewPhotography: "Fotografia",
+      crewMusic: "Música",
+      crewEditing: "Montagem",
       reorderCollection: "Reordenar",
       save: "Salvar",
       // Home
@@ -1122,6 +1142,7 @@ enum L10n {
       shareYourOpinion: "Comparte tu opinión aquí...",
       containSpoilers: "Contiene spoilers",
       tapToReveal: "Toca para revelar",
+      justNow: "ahora",
       submitReview: "Enviar reseña",
       editReview: "Editar reseña",
       reviewRequired: "Por favor, escribe tu reseña.",
@@ -1209,6 +1230,15 @@ enum L10n {
       soundtracks: "Bandas Sonoras",
       biography: "Biografía",
       biographyPlaceholder: "Cuéntanos sobre ti...",
+      filmography: "Filmografía",
+      knownFor: "Conocido por",
+      actors: "Actores",
+      technicalCrew: "Equipo Técnico",
+      crewDirection: "Dirección",
+      crewWriting: "Guión",
+      crewPhotography: "Fotografía",
+      crewMusic: "Música",
+      crewEditing: "Montaje",
       reorderCollection: "Reordenar",
       save: "Guardar",
       // Home
@@ -1636,6 +1666,7 @@ enum L10n {
       shareYourOpinion: "Partagez votre opinion ici...",
       containSpoilers: "Contient des spoilers",
       tapToReveal: "Appuyez pour révéler",
+      justNow: "maintenant",
       submitReview: "Soumettre l'avis",
       editReview: "Modifier l'avis",
       reviewRequired: "Veuillez écrire votre avis.",
@@ -1723,6 +1754,15 @@ enum L10n {
       soundtracks: "Bandes Sonores",
       biography: "Biographie",
       biographyPlaceholder: "Parlez-nous de vous...",
+      filmography: "Filmographie",
+      knownFor: "Connu pour",
+      actors: "Acteurs",
+      technicalCrew: "Équipe Technique",
+      crewDirection: "Réalisation",
+      crewWriting: "Scénario",
+      crewPhotography: "Photographie",
+      crewMusic: "Musique",
+      crewEditing: "Montage",
       reorderCollection: "Réorganiser",
       save: "Enregistrer",
       // Home
@@ -2150,6 +2190,7 @@ enum L10n {
       shareYourOpinion: "Teilen Sie Ihre Meinung hier...",
       containSpoilers: "Enthält Spoiler",
       tapToReveal: "Zum Anzeigen tippen",
+      justNow: "jetzt",
       submitReview: "Bewertung abschicken",
       editReview: "Bewertung bearbeiten",
       reviewRequired: "Bitte schreiben Sie Ihre Bewertung.",
@@ -2237,6 +2278,15 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biografie",
       biographyPlaceholder: "Erzählen Sie uns von sich...",
+      filmography: "Filmografie",
+      knownFor: "Bekannt für",
+      actors: "Schauspieler",
+      technicalCrew: "Filmteam",
+      crewDirection: "Regie",
+      crewWriting: "Drehbuch",
+      crewPhotography: "Kamera",
+      crewMusic: "Musik",
+      crewEditing: "Schnitt",
       reorderCollection: "Neu ordnen",
       save: "Speichern",
       // Home
@@ -2664,6 +2714,7 @@ enum L10n {
       shareYourOpinion: "Condividi la tua opinione qui...",
       containSpoilers: "Contiene spoiler",
       tapToReveal: "Tocca per rivelare",
+      justNow: "adesso",
       submitReview: "Invia recensione",
       editReview: "Modifica recensione",
       reviewRequired: "Scrivi la tua recensione.",
@@ -2751,6 +2802,15 @@ enum L10n {
       soundtracks: "Colonne Sonore",
       biography: "Biografia",
       biographyPlaceholder: "Raccontaci di te...",
+      filmography: "Filmografia",
+      knownFor: "Conosciuto per",
+      actors: "Attori",
+      technicalCrew: "Troupe Tecnica",
+      crewDirection: "Regia",
+      crewWriting: "Sceneggiatura",
+      crewPhotography: "Fotografia",
+      crewMusic: "Musica",
+      crewEditing: "Montaggio",
       reorderCollection: "Riordina",
       save: "Salva",
       // Home
@@ -3177,6 +3237,7 @@ enum L10n {
       shareYourOpinion: "ここにあなたの意見を共有してください...",
       containSpoilers: "ネタバレを含む",
       tapToReveal: "タップして表示",
+      justNow: "たった今",
       submitReview: "レビューを送信",
       editReview: "レビューを編集",
       reviewRequired: "レビューを書いてください。",
@@ -3264,6 +3325,15 @@ enum L10n {
       soundtracks: "サウンドトラック",
       biography: "自己紹介",
       biographyPlaceholder: "自己紹介を書いてください...",
+      filmography: "フィルモグラフィー",
+      knownFor: "活動分野",
+      actors: "俳優",
+      technicalCrew: "スタッフ",
+      crewDirection: "監督",
+      crewWriting: "脚本",
+      crewPhotography: "撮影",
+      crewMusic: "音楽",
+      crewEditing: "編集",
       reorderCollection: "並べ替え",
       save: "保存",
       // Home
@@ -3698,6 +3768,7 @@ struct Strings {
   let shareYourOpinion: String
   let containSpoilers: String
   let tapToReveal: String
+  let justNow: String
   let submitReview: String
   let editReview: String
   let reviewRequired: String
@@ -3788,6 +3859,17 @@ struct Strings {
   // Biography
   let biography: String
   let biographyPlaceholder: String
+  // Person
+  let filmography: String
+  let knownFor: String
+  // Credits
+  let actors: String
+  let technicalCrew: String
+  let crewDirection: String
+  let crewWriting: String
+  let crewPhotography: String
+  let crewMusic: String
+  let crewEditing: String
   // Reorder
   let reorderCollection: String
   let save: String

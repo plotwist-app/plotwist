@@ -51,6 +51,21 @@ function getCacheTTL(path: string): number {
     return SEVEN_DAYS
   }
 
+  // Credits: /movie/123/credits, /tv/456/credits
+  if (/\/credits$/.test(path)) {
+    return SEVEN_DAYS
+  }
+
+  // Person details: /person/123
+  if (/^person\/\d+$/.test(path)) {
+    return THIRTY_DAYS
+  }
+
+  // Person credits: /person/123/combined_credits, /person/123/movie_credits
+  if (/^person\/\d+\//.test(path)) {
+    return SEVEN_DAYS
+  }
+
   // Search endpoints
   if (path.startsWith('search/')) {
     return ONE_HOUR

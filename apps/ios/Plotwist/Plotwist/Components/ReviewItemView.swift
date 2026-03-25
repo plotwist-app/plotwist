@@ -19,16 +19,19 @@ struct ReviewItemView: View {
   }
 
   private var timeAgo: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
-
     let dateFormatter = ISO8601DateFormatter()
     dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
 
-    if let date = dateFormatter.date(from: review.createdAt) {
-      return formatter.localizedString(for: date, relativeTo: Date())
+    guard let date = dateFormatter.date(from: review.createdAt) else { return "" }
+
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
     }
-    return ""
+
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .abbreviated
+    return formatter.localizedString(for: date, relativeTo: Date())
   }
 
   var body: some View {
@@ -191,14 +194,19 @@ struct ReviewCardView: View {
   }
 
   private var timeAgo: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
     let dateFormatter = ISO8601DateFormatter()
     dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    if let date = dateFormatter.date(from: review.createdAt) {
-      return formatter.localizedString(for: date, relativeTo: Date())
+
+    guard let date = dateFormatter.date(from: review.createdAt) else { return "" }
+
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
     }
-    return ""
+
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .abbreviated
+    return formatter.localizedString(for: date, relativeTo: Date())
   }
 
   var body: some View {
