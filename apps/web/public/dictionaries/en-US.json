@@ -916,7 +916,7 @@
     "swiper_finish_remaining": "titles to go",
     "celebration_title": "You're all set!",
     "celebration_subtitle": "Your profile is ready. Let's start tracking.",
-    "celebration_cta": "Go to Profile",
+    "go_to_profile": "Go to Profile",
     "continue": "Continue",
     "syncing": "Saving profile..."
   }

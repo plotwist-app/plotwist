@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+import { verifySession } from '@/app/lib/dal'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
-import { verifySession } from '@/app/lib/dal'
 import { OnboardingProvider } from './_components/onboarding-context'
 import { OnboardingStepper } from './_components/onboarding-stepper'
 
@@ -27,20 +27,24 @@ const OnboardingPage = async (props: PageProps) => {
           {dictionary.onboarding.celebration_title || 'You’re all set!'}
         </h1>
         <p className="text-muted-foreground mb-8">
-          {dictionary.onboarding.celebration_subtitle || 'Your profile is ready. Let’s start tracking.'}
+          {dictionary.onboarding.celebration_subtitle ||
+            'Your profile is ready. Let’s start tracking.'}
         </p>
-        <a 
-          href={`/${lang}/${session.user.username}`} 
+        <a
+          href={`/${lang}/${session.user.username}`}
           className="px-8 py-3 bg-foreground text-background rounded-full font-semibold transition-transform active:scale-95"
         >
-          {dictionary.onboarding.celebration_cta || 'Go to Profile'}
+          {dictionary.onboarding.go_to_profile}
         </a>
       </div>
     )
   }
 
   return (
-    <OnboardingProvider dictionary={dictionary.onboarding} username={session.user.username}>
+    <OnboardingProvider
+      dictionary={dictionary.onboarding}
+      username={session.user.username}
+    >
       <OnboardingStepper lang={lang} />
     </OnboardingProvider>
   )
