@@ -153,7 +153,7 @@ When review snippets are provided above, use them to reflect how they talk about
   let traits: string[] = []
 
   try {
-    const openai = new OpenAI({ apiKey: config.openai.OPENAI_API_KEY })
+    const openai = new OpenAI({ apiKey: config.intelligence.OPENAI_API_KEY })
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [

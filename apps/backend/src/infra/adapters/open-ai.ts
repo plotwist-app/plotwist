@@ -3,7 +3,7 @@ import { config } from '@/config'
 import type { AIService } from '@/infra/ports/ai-service'
 
 const openai = new OpenAI({
-  apiKey: config.openai.OPENAI_API_KEY,
+  apiKey: config.intelligence.OPENAI_API_KEY,
 })
 
 async function generateMessage(prompt: string, content: string) {

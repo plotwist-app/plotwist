@@ -1,5 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
+import type { MediaTypeEnum } from '@/@types/media-type-enum'
+import { config } from '@/config'
 import { tmdb } from '@/infra/adapters/tmdb'
 import {
   selectAllUserItems,
@@ -17,17 +19,20 @@ type Input = {
   dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
 }
 
-const MIN_VOTE_COUNT = 3000
+const MOVIE_MIN_VOTE_COUNT = 2000
+const TV_MIN_VOTE_COUNT = 200
 const COLD_START_THRESHOLD = 5
+const ANIME_GENRE_ID = 16
 
 const SYSTEM_PROMPT =
-  'You are a personal film & TV curator. Given candidate titles and a user taste profile, select the best matches. Respond ONLY with valid JSON, no markdown.'
+  'You are a personal film, TV & anime curator. Given candidate titles and a user taste profile, select the best matches. Respond ONLY with valid JSON, no markdown.'
 
 type Candidate = {
   tmdbId: number
   title: string
   year?: number
   mediaType: 'movie' | 'tv'
+  genres: string[]
 }
 
 type Rec = {
@@ -40,7 +45,7 @@ type Rec = {
 
 type WatchedRow = {
   tmdbId: number
-  mediaType: string
+  mediaType: MediaTypeEnum
   avgRating: string | null
   addedAt: Date
 }
@@ -103,13 +108,17 @@ function hitTitle(h: SearchHit): string {
   return (h.title ?? h.name ?? '').trim()
 }
 
-function buildExclusionKey(tmdbId: number, mediaType: string): string {
+function buildExclusionKey(tmdbId: number, mediaType: MediaTypeEnum): string {
   return `${tmdbId}-${mediaType === 'TV_SHOW' ? 'tv' : 'movie'}`
 }
 
 function isGoodSeed(row: WatchedRow): boolean {
   const rating = toRating(row.avgRating)
   return rating === null || rating >= 3
+}
+
+function mapGenreIds(genreIds: number[]): string[] {
+  return genreIds.map(id => TMDB_GENRE_MAP[id]).filter(Boolean) as string[]
 }
 
 // --- TMDB helpers ---
@@ -119,14 +128,25 @@ async function fetchMovieCandidates(
   exclusionSet: Set<string>,
   language: Language
 ): Promise<Candidate[]> {
-  const related = await tmdb.movies.related(seed.tmdbId, 'recommendations', language)
+  const related = await tmdb.movies.related(
+    seed.tmdbId,
+    'recommendations',
+    language
+  )
   return (related.results ?? [])
-    .filter(r => !exclusionSet.has(`${r.id}-movie`) && (r.vote_count ?? 0) >= MIN_VOTE_COUNT)
+    .filter(
+      r =>
+        !exclusionSet.has(`${r.id}-movie`) &&
+        (r.vote_count ?? 0) >= MOVIE_MIN_VOTE_COUNT
+    )
     .map(r => ({
       tmdbId: r.id,
       title: r.title,
-      year: r.release_date ? Number.parseInt(r.release_date.split('-')[0], 10) : undefined,
+      year: r.release_date
+        ? Number.parseInt(r.release_date.split('-')[0], 10)
+        : undefined,
       mediaType: 'movie' as const,
+      genres: mapGenreIds(r.genre_ids ?? []),
     }))
 }
 
@@ -135,14 +155,25 @@ async function fetchTvCandidates(
   exclusionSet: Set<string>,
   language: Language
 ): Promise<Candidate[]> {
-  const related = await tmdb.tv.related(seed.tmdbId, 'recommendations', language)
+  const related = await tmdb.tv.related(
+    seed.tmdbId,
+    'recommendations',
+    language
+  )
   return (related.results ?? [])
-    .filter(r => !exclusionSet.has(`${r.id}-tv`) && (r.vote_count ?? 0) >= MIN_VOTE_COUNT)
+    .filter(
+      r =>
+        !exclusionSet.has(`${r.id}-tv`) &&
+        (r.vote_count ?? 0) >= TV_MIN_VOTE_COUNT
+    )
     .map(r => ({
       tmdbId: r.id,
       title: r.name,
-      year: r.first_air_date ? Number.parseInt(r.first_air_date.split('-')[0], 10) : undefined,
+      year: r.first_air_date
+        ? Number.parseInt(r.first_air_date.split('-')[0], 10)
+        : undefined,
       mediaType: 'tv' as const,
+      genres: mapGenreIds(r.genre_ids ?? []),
     }))
 }
 
@@ -174,11 +205,11 @@ async function buildCandidatePool(
 
 async function fetchItemTitle(
   tmdbId: number,
-  mediaType: string,
+  mediaType: MediaTypeEnum,
   language: Language
 ): Promise<string | null> {
   try {
-    if (mediaType === 'MOVIE' || mediaType === 'movie') {
+    if (mediaType === 'MOVIE') {
       const d = await tmdb.movies.details(tmdbId, language)
       return (d as { title?: string }).title ?? null
     }
@@ -217,12 +248,51 @@ async function resolveTmdbId(
     )
 
     if (exclusionSet.has(`${match.id}-${mediaType}`)) return null
-    if ((match.vote_count ?? 0) < MIN_VOTE_COUNT) return null
+    if ((match.vote_count ?? 0) < TV_MIN_VOTE_COUNT) return null
 
     return { ...rec, tmdbId: match.id }
   } catch {
     return null
   }
+}
+
+// --- Anime detection ---
+
+function detectIsAnimeFanFromCandidates(
+  candidates: Candidate[],
+  preferredGenres: string
+): boolean {
+  if (preferredGenres.includes('Animation')) return true
+  const animeCandidates = candidates.filter(c =>
+    c.genres.includes('Animation')
+  ).length
+  return candidates.length > 0 && animeCandidates / candidates.length >= 0.3
+}
+
+async function detectIsAnimeFanFromWatched(
+  watchedItems: WatchedRow[],
+  language: Language
+): Promise<boolean> {
+  const tvSeeds = watchedItems
+    .filter(r => r.mediaType === 'TV_SHOW')
+    .slice(0, 3)
+
+  if (tvSeeds.length === 0) return false
+
+  const checks = await Promise.all(
+    tvSeeds.map(async item => {
+      try {
+        const details = await tmdb.tv.details(item.tmdbId, language)
+        return (
+          (details as { genres?: { id: number }[] }).genres ?? []
+        ).some(g => g.id === ANIME_GENRE_ID)
+      } catch {
+        return false
+      }
+    })
+  )
+
+  return checks.some(Boolean)
 }
 
 // --- Prompt builders ---
@@ -233,6 +303,7 @@ function buildStandardPrompt(params: {
   lovedLine: string
   dislikedLine: string
   candidateList: string
+  isAnimeFan: boolean
   language: Language
 }): string {
   const {
@@ -241,12 +312,14 @@ function buildStandardPrompt(params: {
     lovedLine,
     dislikedLine,
     candidateList,
+    isAnimeFan,
     language,
   } = params
 
   return `User taste profile:
 - Watched: ${watchedCount} titles total
 ${preferredGenres ? `- Preferred genres: ${preferredGenres}` : ''}
+${isAnimeFan ? '- This user watches a lot of anime — prioritize anime recommendations.' : ''}
 ${lovedLine ? `- Loved: ${lovedLine}` : ''}
 ${dislikedLine ? `- Disliked (avoid similar): ${dislikedLine}` : ''}
 
@@ -264,9 +337,11 @@ function buildColdStartPrompt(params: {
   movieCount: number
   seriesCount: number
   preferredGenres: string
+  isAnimeFan: boolean
   language: Language
 }): string {
-  const { movieCount, seriesCount, preferredGenres, language } = params
+  const { movieCount, seriesCount, preferredGenres, isAnimeFan, language } =
+    params
   const preference =
     movieCount > seriesCount * 1.5
       ? 'Strong movie lover'
@@ -277,6 +352,7 @@ function buildColdStartPrompt(params: {
   return `Based on this viewer profile, recommend exactly 5 popular, well-known titles. ${LANGUAGE_INSTRUCTION[language] || LANGUAGE_INSTRUCTION['en-US']}
 
 CRITICAL: Only mainstream titles with thousands of TMDB votes. No hidden gems or obscure titles.
+${isAnimeFan ? 'IMPORTANT: This user watches a lot of anime — recommend anime titles.' : ''}
 
 Profile:
 - Watched: ${movieCount} movies, ${seriesCount} series
@@ -296,7 +372,7 @@ export async function getUserAIRecommendationsService({
   period = 'all',
   dateRange,
 }: Input) {
-  const cacheKey = `user-stats:${userId}:ai-recommendations:v5:${language}:${period}`
+  const cacheKey = `user-stats:${userId}:ai-recommendations:v7:${language}:${period}`
 
   const cached = await redis.get(cacheKey)
   if (cached) return JSON.parse(cached)
@@ -321,18 +397,26 @@ export async function getUserAIRecommendationsService({
     .join(', ')
 
   const watchedCount = watchedWithRatings.length
-  const aiService = createAIService('openAI')
+  const aiService = createAIService(
+    config.intelligence.RECOMMENDATION_AI_PROVIDER
+  )
   let recommendations: Rec[] = []
 
+  // isAnimeFan is determined once and shared between both paths
+  let isAnimeFan =
+    preferredGenres.includes('Animation') ||
+    prefs[0]?.genreIds?.includes(ANIME_GENRE_ID) === true
+
   if (watchedCount >= COLD_START_THRESHOLD) {
-    const seeds = [
-      ...watchedWithRatings
-        .filter(r => r.mediaType === 'MOVIE' && isGoodSeed(r))
-        .slice(0, 5),
-      ...watchedWithRatings
-        .filter(r => r.mediaType === 'TV_SHOW' && isGoodSeed(r))
-        .slice(0, 5),
-    ]
+    const movieSeeds = watchedWithRatings
+      .filter(r => r.mediaType === 'MOVIE' && isGoodSeed(r))
+      .slice(0, 5)
+
+    const tvSeeds = watchedWithRatings
+      .filter(r => r.mediaType === 'TV_SHOW' && isGoodSeed(r))
+      .slice(0, 5)
+
+    const seeds = [...movieSeeds, ...tvSeeds]
 
     const lovedItems = watchedWithRatings
       .filter(r => (toRating(r.avgRating) ?? 0) >= 4)
@@ -361,12 +445,18 @@ export async function getUserAIRecommendationsService({
       ),
     ])
 
+    // Update isAnimeFan from candidate pool (carries over to cold start fallback)
+    isAnimeFan =
+      isAnimeFan || detectIsAnimeFanFromCandidates(candidates, preferredGenres)
+
     if (candidates.length < 3) {
+      // Try to detect anime from watched TV items via TMDB details
+      if (!isAnimeFan) {
+        isAnimeFan = await detectIsAnimeFanFromWatched(tvSeeds, language)
+      }
       console.log(
         '[ai-recommendations] candidate pool too small, falling back to cold start',
-        {
-          candidates: candidates.length,
-        }
+        { candidates: candidates.length, isAnimeFan }
       )
     } else {
       const lovedLine = lovedTitles
@@ -386,6 +476,7 @@ export async function getUserAIRecommendationsService({
             title: c.title,
             year: c.year,
             mediaType: c.mediaType,
+            genres: c.genres.length > 0 ? c.genres.join(', ') : undefined,
             tmdbId: c.tmdbId,
           })
         )
@@ -400,6 +491,7 @@ export async function getUserAIRecommendationsService({
             lovedLine,
             dislikedLine,
             candidateList,
+            isAnimeFan,
             language,
           }),
           temperature: 0.5,
@@ -413,6 +505,7 @@ export async function getUserAIRecommendationsService({
           parsed.length,
           {
             candidates: candidates.length,
+            isAnimeFan,
             lovedCount: lovedTitles.filter(r => r.title).length,
             dislikedCount: dislikedTitles.filter(r => r.title).length,
           }
@@ -440,6 +533,9 @@ export async function getUserAIRecommendationsService({
         recommendations = []
       }
     }
+  } else if (!isAnimeFan && watchedWithRatings.length > 0) {
+    // Pure cold start: detect anime from watched TV items via TMDB details
+    isAnimeFan = await detectIsAnimeFanFromWatched(watchedWithRatings, language)
   }
 
   if (recommendations.length === 0) {
@@ -457,6 +553,7 @@ export async function getUserAIRecommendationsService({
           movieCount,
           seriesCount,
           preferredGenres,
+          isAnimeFan,
           language,
         }),
         temperature: 0.6,
