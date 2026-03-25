@@ -6,7 +6,8 @@ import { usePutUserItem } from '@/api/user-items'
 import { useOnboarding } from '../onboarding-context'
 
 export function OnboardingCelebration({ lang }: { lang: string }) {
-  const { completeOnboarding, dictionary, swipedItems, userName } = useOnboarding()
+  const { completeOnboarding, dictionary, swipedItems, userName } =
+    useOnboarding()
   const putUserItem = usePutUserItem()
   const [isSubmitting, setIsSubmitting] = useState(false)
 

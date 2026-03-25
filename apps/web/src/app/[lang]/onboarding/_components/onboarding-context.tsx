@@ -54,7 +54,8 @@ const OnboardingContext = createContext<OnboardingContextType | undefined>(
   undefined
 )
 
-const getStorageKey = (username?: string) => `plotwist-onboarding-state-${username || 'guest'}`
+const getStorageKey = (username?: string) =>
+  `plotwist-onboarding-state-${username || 'guest'}`
 export function OnboardingProvider({
   children,
   dictionary,
@@ -131,7 +132,10 @@ export function OnboardingProvider({
 
   const completeOnboarding = useCallback(
     (lang: string = 'en-US') => {
-      localStorage.setItem(`plotwist-onboarding-complete-${username || 'guest'}`, 'true')
+      localStorage.setItem(
+        `plotwist-onboarding-complete-${username || 'guest'}`,
+        'true'
+      )
       router.push(`/${lang}/${username || 'home'}`)
     },
     [router, username]
