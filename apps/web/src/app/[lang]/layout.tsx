@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import { Link } from 'next-view-transitions'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
@@ -19,9 +20,6 @@ import { verifySession } from '../lib/dal'
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map(lang => ({ lang: lang.value }))
 }
-
-// Note: This layout is automatically dynamic due to cookies() usage in verifySession()
-// Removed explicit 'force-dynamic' to allow child pages to use ISR/static when possible
 
 type RootLayoutProps = {
   children: React.ReactNode
@@ -45,6 +43,10 @@ export default async function RootLayout({
     userPreferences = data?.userPreferences ?? null
   }
 
+  const headersList = await headers()
+  const pathname = headersList.get('x-current-path') || ''
+  const isOnboarding = pathname.includes('/onboarding')
+
   return (
     <ThemeProvider
       attribute="class"
@@ -61,6 +63,7 @@ export default async function RootLayout({
                 <LayoutWrapper
                   header={<Header />}
                   footer={<Footer dictionary={dictionary} language={lang} />}
+                  isOnboarding={isOnboarding}
                   proBadge={
                     session?.user.subscriptionType !== 'PRO' ? (
                       <Link

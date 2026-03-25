@@ -1,20 +1,16 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-
 export function LayoutWrapper({
   header,
   footer,
   children,
   proBadge,
+  isOnboarding,
 }: {
   header: React.ReactNode
   footer: React.ReactNode
   children: React.ReactNode
   proBadge?: React.ReactNode
+  isOnboarding?: boolean
 }) {
-  const pathname = usePathname()
-  const isOnboarding = pathname?.includes('/onboarding')
 
   return (
     <>
