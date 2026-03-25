@@ -91,7 +91,7 @@ export function OnboardingProvider({
         JSON.stringify({
           ...state,
 
-          currentStep: state.currentStep > 4 ? 4 : state.currentStep,
+          currentStep: state.currentStep > 5 ? 5 : state.currentStep,
         })
       )
     }

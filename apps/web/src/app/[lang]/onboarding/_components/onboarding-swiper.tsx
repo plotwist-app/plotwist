@@ -6,7 +6,9 @@ import { Bookmark, Check, Eye, Pointer, X as XIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { tmdb } from '@/services/tmdb'
+import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
+import { useOnboarding } from './onboarding-context'
 
 type SwipeDirection = 'left' | 'right' | 'up' | 'down' | null
 
@@ -54,28 +56,28 @@ function getSwipeConfig(
     case 'right':
       return {
         icon: Bookmark,
-        label: dictionary?.swiper_want_to_watch || 'Quero assistir',
+        label: dictionary?.swiper_want_to_watch || 'Want to watch',
         colorClass: 'text-blue-500',
         bgClass: 'border-blue-500/60',
       }
     case 'left':
       return {
         icon: XIcon,
-        label: dictionary?.swiper_skip || 'Pular',
+        label: dictionary?.swiper_skip || 'Skip',
         colorClass: 'text-red-400',
         bgClass: 'border-red-400/60',
       }
     case 'up':
       return {
         icon: Check,
-        label: dictionary?.swiper_watched || 'Já assisti',
+        label: dictionary?.swiper_watched || 'Watched',
         colorClass: 'text-green-500',
         bgClass: 'border-green-500/60',
       }
     case 'down':
       return {
         icon: Eye,
-        label: dictionary?.swiper_watching || 'Assistindo',
+        label: dictionary?.swiper_watching || 'Watching',
         colorClass: 'text-yellow-500',
         bgClass: 'border-yellow-500/60',
       }
@@ -144,7 +146,7 @@ function SwipeCard({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-muted">
-            <span className="text-muted-foreground text-sm">Sem poster</span>
+            <span className="text-muted-foreground text-sm">No poster</span>
           </div>
         )}
       </div>
@@ -174,7 +176,11 @@ function ExitCard({
       initial={{
         x: initialOffset?.x || 0,
         y: initialOffset?.y || 0,
-        rotate: initialOffset ? (initialOffset.x / window.innerWidth) * 50 : 0,
+        rotate: initialOffset
+          ? (initialOffset.x /
+              (typeof window !== 'undefined' ? window.innerWidth : 375)) *
+            50
+          : 0,
         opacity: 1,
       }}
       animate={{
@@ -232,9 +238,6 @@ function SwipePillOverlay({
     </motion.div>
   )
 }
-
-import type { Language } from '@/types/languages'
-import { useOnboarding } from './onboarding-context'
 
 function SwipeHintOverlay() {
   return (

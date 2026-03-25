@@ -10,18 +10,20 @@ import { OnboardingGenres } from './steps/onboarding-genres'
 import { OnboardingName } from './steps/onboarding-name'
 import { OnboardingWelcome } from './steps/onboarding-welcome'
 
-const TOTAL_STEPS = 4 // Steps 1-4 (Welcome is 0, Celebration is 5)
+const TOTAL_STEPS = 4
 
 export function OnboardingStepper({ lang }: { lang: string }) {
   const { currentStep, prevStep, isLoaded } = useOnboarding()
 
-  if (!isLoaded) return null // Prevent hydration mismatch
+  if (!isLoaded) return null
 
   const isWelcomeScreen = currentStep === 0
   const isCelebrationScreen = currentStep === 5
 
   return (
-    <div className={`relative flex min-h-screen w-full flex-col ${isWelcomeScreen ? 'bg-black' : 'bg-background'}`}>
+    <div
+      className={`relative flex min-h-screen w-full flex-col ${isWelcomeScreen ? 'bg-black' : 'bg-background'}`}
+    >
       {!isWelcomeScreen && !isCelebrationScreen && (
         <header className="absolute inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 w-full max-w-6xl mx-auto">
           <button
