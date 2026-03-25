@@ -1,8 +1,11 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { postLogin } from '@/api/auth'
+import { getMe } from '@/api/users'
 import { createSession } from '@/app/lib/session'
+import { setAuthToken } from '@/services/api-client'
 
 type SignInInput = {
   login: string
@@ -29,22 +32,22 @@ export async function signIn({ login, password, redirectTo }: SignInInput) {
   let finalRedirectTo = redirectTo
 
   try {
-    // Import dynamically or ensure 'setAuthToken' and 'getMe' are available
-    const { setAuthToken } = await import('@/services/api-client')
-    const { getMe } = await import('@/api/users')
-    
     setAuthToken(token)
     const { data } = await getMe()
-    
+
     if (data?.user && !data.user.displayName) {
-      if (redirectTo) {
-        const parts = redirectTo.split('/')
-        const lang = parts[1] || 'en-US'
-        finalRedirectTo = `/${lang}/onboarding`
-      }
+      const cookieStore = await cookies()
+      const lang =
+        cookieStore.get('NEXT_LOCALE')?.value ||
+        cookieStore.get('i18next')?.value ||
+        'en-US'
+      finalRedirectTo = `/${lang}/onboarding`
     }
   } catch (error) {
-    console.error('Failed to fetch user during sign in for onboarding check', error)
+    console.error(
+      'Failed to fetch user during sign in for onboarding check',
+      error
+    )
   }
 
   if (finalRedirectTo) {
