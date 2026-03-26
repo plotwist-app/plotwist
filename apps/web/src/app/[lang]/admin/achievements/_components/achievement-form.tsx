@@ -76,6 +76,7 @@ const CRITERIA_TYPES = [
 const formSchema = z.object({
   slug: z.string().min(1, 'Required').max(100),
   icon: z.string().min(1, 'Required'),
+  color: z.string().max(10).optional(),
   target: z.number().int().positive('Must be positive'),
   category: z.enum(['general', 'saga']),
   level: z.number().int().positive('Must be positive'),
@@ -110,6 +111,7 @@ export function AchievementForm({ achievement }: Props) {
     ? {
         slug: achievement.slug,
         icon: achievement.icon,
+        color: (achievement as Record<string, unknown>).color as string ?? '',
         target: achievement.target,
         category: achievement.category as 'general' | 'saga',
         level: achievement.level,
@@ -128,6 +130,7 @@ export function AchievementForm({ achievement }: Props) {
     : {
         slug: '',
         icon: 'pending-upload',
+        color: '',
         target: 1,
         category: 'general' as const,
         level: 1,
@@ -226,6 +229,7 @@ export function AchievementForm({ achievement }: Props) {
       const payload = {
         slug: pendingValues.slug,
         icon: iconUrl,
+        color: pendingValues.color ?? '',
         target: pendingValues.target,
         category: pendingValues.category,
         level: pendingValues.level,
