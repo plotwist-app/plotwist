@@ -19,6 +19,10 @@ export default async function AdminLayout({
     redirect(`/${lang}/sign-in`)
   }
 
+  if (!session.user?.email?.endsWith('@plotwist.app')) {
+    redirect(`/${lang}`)
+  }
+
   return (
     <>
       <style>{`
