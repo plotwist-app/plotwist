@@ -21,7 +21,6 @@ export async function getUserAchievements(userId: string) {
         id: achievement.id,
         slug: achievement.slug,
         icon: achievement.icon,
-        color: achievement.color,
         target: achievement.target,
         category: achievement.category,
         level: achievement.level,

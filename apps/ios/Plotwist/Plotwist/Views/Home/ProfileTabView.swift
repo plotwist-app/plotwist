@@ -86,6 +86,8 @@ struct ProfileTabView: View {
       }
       .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
         strings = L10n.current
+        AchievementService.shared.invalidateCache()
+        Task { await loadAchievements(forceRefresh: true) }
       }
       .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { notification in
         // If an avatar URL is provided, update locally for instant display
@@ -99,6 +101,7 @@ struct ProfileTabView: View {
           await loadUserItems(forceRefresh: true)
           await loadStatusCounts(forceRefresh: true)
           await loadQuickStats(forceRefresh: true)
+          await loadAchievements(forceRefresh: true)
         }
       }
       .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
@@ -115,8 +118,10 @@ struct ProfileTabView: View {
           seriesCount = 0
           followersCount = 0
           followingCount = 0
+          achievements = []
           isLoadingQuickStats = true
           isInitialLoad = true
+          AchievementService.shared.invalidateCache()
         }
       }
       .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in
@@ -220,9 +225,21 @@ struct ProfileTabView: View {
         .font(.subheadline)
         .foregroundColor(.appMutedForegroundAdaptive)
       Button("Try again") {
-        Task { await loadUser() }
+        Task { await loadData() }
       }
       .foregroundColor(.appForegroundAdaptive)
+
+      #if DEBUG
+      Button {
+        AuthService.shared.signOut()
+      } label: {
+        Text("Logout")
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appDestructive)
+      }
+      .padding(.top, 8)
+      #endif
+
       Spacer()
     }
   }
