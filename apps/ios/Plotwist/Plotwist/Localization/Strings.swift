@@ -94,6 +94,10 @@ enum L10n {
       reviewSuccess: "Review submitted successfully!",
       reviewUpdateSuccess: "Review updated successfully!",
       reviewDeleteSuccess: "Review deleted successfully!",
+      reviewPublished: "Review published!",
+      reviewSharePrompt: "Share your review with your friends",
+      shareReview: "Share review",
+      maybeLater: "Maybe later",
       tabReviews: "Reviews",
       reviewSingular: "Review",
       tabWhereToWatch: "Where to Watch",
@@ -636,6 +640,10 @@ enum L10n {
       reviewSuccess: "Avaliação enviada com sucesso!",
       reviewUpdateSuccess: "Avaliação atualizada com sucesso!",
       reviewDeleteSuccess: "Avaliação excluída com sucesso!",
+      reviewPublished: "Avaliação publicada!",
+      reviewSharePrompt: "Compartilhe sua avaliação com seus amigos",
+      shareReview: "Compartilhar avaliação",
+      maybeLater: "Talvez depois",
       tabReviews: "Avaliações",
       reviewSingular: "Avaliação",
       tabWhereToWatch: "Onde Assistir",
@@ -1170,6 +1178,10 @@ enum L10n {
       reviewSuccess: "¡Reseña enviada con éxito!",
       reviewUpdateSuccess: "¡Reseña actualizada con éxito!",
       reviewDeleteSuccess: "¡Reseña eliminada con éxito!",
+      reviewPublished: "¡Reseña publicada!",
+      reviewSharePrompt: "Comparte tu reseña con tus amigos",
+      shareReview: "Compartir reseña",
+      maybeLater: "Quizás después",
       tabReviews: "Reseñas",
       reviewSingular: "Reseña",
       tabWhereToWatch: "Dónde Ver",
@@ -1704,6 +1716,10 @@ enum L10n {
       reviewSuccess: "Avis soumis avec succès!",
       reviewUpdateSuccess: "Avis mis à jour avec succès!",
       reviewDeleteSuccess: "Avis supprimé avec succès!",
+      reviewPublished: "Avis publié !",
+      reviewSharePrompt: "Partagez votre avis avec vos amis",
+      shareReview: "Partager l'avis",
+      maybeLater: "Peut-être plus tard",
       tabReviews: "Avis",
       reviewSingular: "Avis",
       tabWhereToWatch: "Où Regarder",
@@ -2238,6 +2254,10 @@ enum L10n {
       reviewSuccess: "Bewertung erfolgreich eingereicht!",
       reviewUpdateSuccess: "Bewertung erfolgreich aktualisiert!",
       reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!",
+      reviewPublished: "Bewertung veröffentlicht!",
+      reviewSharePrompt: "Teile deine Bewertung mit deinen Freunden",
+      shareReview: "Bewertung teilen",
+      maybeLater: "Vielleicht später",
       tabReviews: "Bewertungen",
       reviewSingular: "Bewertung",
       tabWhereToWatch: "Wo Ansehen",
@@ -2772,6 +2792,10 @@ enum L10n {
       reviewSuccess: "Recensione inviata con successo!",
       reviewUpdateSuccess: "Recensione aggiornata con successo!",
       reviewDeleteSuccess: "Recensione eliminata con successo!",
+      reviewPublished: "Recensione pubblicata!",
+      reviewSharePrompt: "Condividi la tua recensione con i tuoi amici",
+      shareReview: "Condividi recensione",
+      maybeLater: "Forse più tardi",
       tabReviews: "Recensioni",
       reviewSingular: "Recensione",
       tabWhereToWatch: "Dove Guardare",
@@ -3305,6 +3329,10 @@ enum L10n {
       reviewSuccess: "レビューが正常に送信されました！",
       reviewUpdateSuccess: "レビューが正常に更新されました！",
       reviewDeleteSuccess: "レビューが正常に削除されました！",
+      reviewPublished: "レビューが公開されました！",
+      reviewSharePrompt: "友達にレビューをシェアしよう",
+      shareReview: "レビューをシェア",
+      maybeLater: "あとで",
       tabReviews: "レビュー",
       reviewSingular: "レビュー",
       tabWhereToWatch: "視聴方法",
@@ -3846,6 +3874,10 @@ struct Strings {
   let reviewSuccess: String
   let reviewUpdateSuccess: String
   let reviewDeleteSuccess: String
+  let reviewPublished: String
+  let reviewSharePrompt: String
+  let shareReview: String
+  let maybeLater: String
   // Tabs
   let tabReviews: String
   let reviewSingular: String

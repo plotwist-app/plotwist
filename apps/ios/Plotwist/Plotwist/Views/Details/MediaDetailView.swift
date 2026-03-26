@@ -281,6 +281,9 @@ struct MediaDetailView: View {
         mediaId: mediaId,
         mediaType: mediaType,
         existingReview: userReview,
+        mediaTitle: details?.displayTitle,
+        mediaPosterPath: details?.posterPath,
+        mediaYear: details?.year,
         onSaved: {
           Task {
             await loadUserReview()
