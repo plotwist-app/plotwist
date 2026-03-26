@@ -23,18 +23,26 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  GetUserIdAiRecommendations200,
+  GetUserIdAiRecommendationsParams,
   GetUserIdBestReviews200,
   GetUserIdBestReviewsParams,
   GetUserIdItemsStatus200,
   GetUserIdItemsStatusParams,
   GetUserIdMostWatchedSeries200,
   GetUserIdMostWatchedSeriesParams,
+  GetUserIdRatingInsights200,
+  GetUserIdRatingInsightsParams,
   GetUserIdReviewsCount200,
   GetUserIdStats200,
   GetUserIdStatsTimeline200,
   GetUserIdStatsTimelineParams,
+  GetUserIdTasteDna200,
+  GetUserIdTasteDnaParams,
   GetUserIdTotalHours200,
   GetUserIdTotalHoursParams,
+  GetUserIdViewerProfile200,
+  GetUserIdViewerProfileParams,
   GetUserIdWatchedCast200,
   GetUserIdWatchedCastParams,
   GetUserIdWatchedCountries200,
@@ -1773,6 +1781,714 @@ export function useGetUserIdItemsStatusSuspense<TData = Awaited<ReturnType<typeo
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetUserIdItemsStatusSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Get user rating insights
+ */
+export type getUserIdRatingInsightsResponse200 = {
+  data: GetUserIdRatingInsights200
+  status: 200
+}
+
+export type getUserIdRatingInsightsResponseSuccess = (getUserIdRatingInsightsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getUserIdRatingInsightsResponse = (getUserIdRatingInsightsResponseSuccess)
+
+export const getGetUserIdRatingInsightsUrl = (id: string,
+    params?: GetUserIdRatingInsightsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/user/${id}/rating-insights?${stringifiedParams}` : `/user/${id}/rating-insights`
+}
+
+export const getUserIdRatingInsights = async (id: string,
+    params?: GetUserIdRatingInsightsParams, options?: RequestInit): Promise<getUserIdRatingInsightsResponse> => {
+  
+  return customFetch<getUserIdRatingInsightsResponse>(getGetUserIdRatingInsightsUrl(id,params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getGetUserIdRatingInsightsQueryKey = (id: string,
+    params?: GetUserIdRatingInsightsParams,) => {
+    return [
+    `/user/${id}/rating-insights`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetUserIdRatingInsightsQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdRatingInsightsQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdRatingInsights>>> = ({ signal }) => getUserIdRatingInsights(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdRatingInsightsQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdRatingInsights>>>
+export type GetUserIdRatingInsightsQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdRatingInsights<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdRatingInsightsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdRatingInsights>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdRatingInsights>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdRatingInsights<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdRatingInsights>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdRatingInsights>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdRatingInsights<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdRatingInsights<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdRatingInsightsQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getGetUserIdRatingInsightsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdRatingInsightsQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdRatingInsights>>> = ({ signal }) => getUserIdRatingInsights(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdRatingInsightsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdRatingInsights>>>
+export type GetUserIdRatingInsightsSuspenseQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdRatingInsightsSuspense<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdRatingInsightsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdRatingInsightsSuspense<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdRatingInsightsSuspense<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdRatingInsightsSuspense<TData = Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdRatingInsightsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdRatingInsights>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdRatingInsightsSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Get AI-generated viewer profile
+ */
+export type getUserIdViewerProfileResponse200 = {
+  data: GetUserIdViewerProfile200
+  status: 200
+}
+
+export type getUserIdViewerProfileResponseSuccess = (getUserIdViewerProfileResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getUserIdViewerProfileResponse = (getUserIdViewerProfileResponseSuccess)
+
+export const getGetUserIdViewerProfileUrl = (id: string,
+    params?: GetUserIdViewerProfileParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/user/${id}/viewer-profile?${stringifiedParams}` : `/user/${id}/viewer-profile`
+}
+
+export const getUserIdViewerProfile = async (id: string,
+    params?: GetUserIdViewerProfileParams, options?: RequestInit): Promise<getUserIdViewerProfileResponse> => {
+  
+  return customFetch<getUserIdViewerProfileResponse>(getGetUserIdViewerProfileUrl(id,params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getGetUserIdViewerProfileQueryKey = (id: string,
+    params?: GetUserIdViewerProfileParams,) => {
+    return [
+    `/user/${id}/viewer-profile`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetUserIdViewerProfileQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdViewerProfileQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdViewerProfile>>> = ({ signal }) => getUserIdViewerProfile(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdViewerProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdViewerProfile>>>
+export type GetUserIdViewerProfileQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdViewerProfile<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdViewerProfileParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdViewerProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdViewerProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdViewerProfile<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdViewerProfile>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdViewerProfile>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdViewerProfile<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdViewerProfile<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdViewerProfileQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getGetUserIdViewerProfileSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdViewerProfileQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdViewerProfile>>> = ({ signal }) => getUserIdViewerProfile(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdViewerProfileSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdViewerProfile>>>
+export type GetUserIdViewerProfileSuspenseQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdViewerProfileSuspense<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdViewerProfileParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdViewerProfileSuspense<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdViewerProfileSuspense<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdViewerProfileSuspense<TData = Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdViewerProfileParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdViewerProfile>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdViewerProfileSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Get AI-powered recommendations
+ */
+export type getUserIdAiRecommendationsResponse200 = {
+  data: GetUserIdAiRecommendations200
+  status: 200
+}
+
+export type getUserIdAiRecommendationsResponseSuccess = (getUserIdAiRecommendationsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getUserIdAiRecommendationsResponse = (getUserIdAiRecommendationsResponseSuccess)
+
+export const getGetUserIdAiRecommendationsUrl = (id: string,
+    params?: GetUserIdAiRecommendationsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/user/${id}/ai-recommendations?${stringifiedParams}` : `/user/${id}/ai-recommendations`
+}
+
+export const getUserIdAiRecommendations = async (id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: RequestInit): Promise<getUserIdAiRecommendationsResponse> => {
+  
+  return customFetch<getUserIdAiRecommendationsResponse>(getGetUserIdAiRecommendationsUrl(id,params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getGetUserIdAiRecommendationsQueryKey = (id: string,
+    params?: GetUserIdAiRecommendationsParams,) => {
+    return [
+    `/user/${id}/ai-recommendations`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetUserIdAiRecommendationsQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdAiRecommendationsQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdAiRecommendations>>> = ({ signal }) => getUserIdAiRecommendations(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdAiRecommendationsQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdAiRecommendations>>>
+export type GetUserIdAiRecommendationsQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdAiRecommendations<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdAiRecommendationsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdAiRecommendations>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdAiRecommendations>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdAiRecommendations<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdAiRecommendations>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdAiRecommendations>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdAiRecommendations<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdAiRecommendations<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdAiRecommendationsQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getGetUserIdAiRecommendationsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdAiRecommendationsQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdAiRecommendations>>> = ({ signal }) => getUserIdAiRecommendations(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdAiRecommendationsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdAiRecommendations>>>
+export type GetUserIdAiRecommendationsSuspenseQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdAiRecommendationsSuspense<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdAiRecommendationsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdAiRecommendationsSuspense<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdAiRecommendationsSuspense<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdAiRecommendationsSuspense<TData = Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdAiRecommendationsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdAiRecommendations>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdAiRecommendationsSuspenseQueryOptions(id,params,options)
+
+  const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Get AI-powered taste DNA analysis
+ */
+export type getUserIdTasteDnaResponse200 = {
+  data: GetUserIdTasteDna200
+  status: 200
+}
+
+export type getUserIdTasteDnaResponseSuccess = (getUserIdTasteDnaResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getUserIdTasteDnaResponse = (getUserIdTasteDnaResponseSuccess)
+
+export const getGetUserIdTasteDnaUrl = (id: string,
+    params?: GetUserIdTasteDnaParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/user/${id}/taste-dna?${stringifiedParams}` : `/user/${id}/taste-dna`
+}
+
+export const getUserIdTasteDna = async (id: string,
+    params?: GetUserIdTasteDnaParams, options?: RequestInit): Promise<getUserIdTasteDnaResponse> => {
+  
+  return customFetch<getUserIdTasteDnaResponse>(getGetUserIdTasteDnaUrl(id,params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+);}
+  
+
+
+
+
+export const getGetUserIdTasteDnaQueryKey = (id: string,
+    params?: GetUserIdTasteDnaParams,) => {
+    return [
+    `/user/${id}/taste-dna`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetUserIdTasteDnaQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdTasteDnaQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdTasteDna>>> = ({ signal }) => getUserIdTasteDna(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdTasteDnaQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdTasteDna>>>
+export type GetUserIdTasteDnaQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdTasteDna<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdTasteDnaParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdTasteDna>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdTasteDna>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdTasteDna<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUserIdTasteDna>>,
+          TError,
+          Awaited<ReturnType<typeof getUserIdTasteDna>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdTasteDna<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdTasteDna<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdTasteDnaQueryOptions(id,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getGetUserIdTasteDnaSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserIdTasteDnaQueryKey(id,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserIdTasteDna>>> = ({ signal }) => getUserIdTasteDna(id,params, { signal, ...requestOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetUserIdTasteDnaSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserIdTasteDna>>>
+export type GetUserIdTasteDnaSuspenseQueryError = ErrorType<unknown>
+
+
+export function useGetUserIdTasteDnaSuspense<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params: undefined |  GetUserIdTasteDnaParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdTasteDnaSuspense<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetUserIdTasteDnaSuspense<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetUserIdTasteDnaSuspense<TData = Awaited<ReturnType<typeof getUserIdTasteDna>>, TError = ErrorType<unknown>>(
+ id: string,
+    params?: GetUserIdTasteDnaParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getUserIdTasteDna>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient 
+ ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetUserIdTasteDnaSuspenseQueryOptions(id,params,options)
 
   const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

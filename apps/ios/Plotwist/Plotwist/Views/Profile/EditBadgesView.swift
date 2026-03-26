@@ -78,7 +78,7 @@ struct EditBadgesView: View {
       toggleEquip(id: badge.id)
     } label: {
       VStack(spacing: 0) {
-        AchievementIconView(achievement: badge, size: 64, color: badge.color)
+        AchievementIconView(achievement: badge, size: 64)
           .padding(.top, 20)
           .padding(.bottom, 12)
 

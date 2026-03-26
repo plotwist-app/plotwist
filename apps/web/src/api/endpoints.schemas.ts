@@ -2302,6 +2302,104 @@ export type GetUserIdItemsStatus200 = {
   userItems: GetUserIdItemsStatus200UserItemsItem[];
 };
 
+export type GetUserIdRatingInsightsParams = {
+period?: 'month' | 'last_month' | 'year' | 'all' | string;
+};
+
+export type GetUserIdRatingInsights200RatingInsightsDistributionItem = {
+  rating: number;
+  count: number;
+};
+
+export type GetUserIdRatingInsights200RatingInsights = {
+  averageRating: number;
+  totalReviews: number;
+  mostFrequentRating: number;
+  distribution: GetUserIdRatingInsights200RatingInsightsDistributionItem[];
+};
+
+export type GetUserIdRatingInsights200 = {
+  ratingInsights: GetUserIdRatingInsights200RatingInsights;
+};
+
+export type GetUserIdViewerProfileParams = {
+language?: GetUserIdViewerProfileLanguage;
+};
+
+export type GetUserIdViewerProfileLanguage = typeof GetUserIdViewerProfileLanguage[keyof typeof GetUserIdViewerProfileLanguage];
+
+
+export const GetUserIdViewerProfileLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdViewerProfile200 = {
+  viewerProfile: string;
+};
+
+export type GetUserIdAiRecommendationsParams = {
+language?: GetUserIdAiRecommendationsLanguage;
+period?: 'month' | 'last_month' | 'year' | 'all' | string;
+};
+
+export type GetUserIdAiRecommendationsLanguage = typeof GetUserIdAiRecommendationsLanguage[keyof typeof GetUserIdAiRecommendationsLanguage];
+
+
+export const GetUserIdAiRecommendationsLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdAiRecommendations200RecommendationsItem = {
+  title: string;
+  reason: string;
+  mediaType: string;
+  year?: number;
+};
+
+export type GetUserIdAiRecommendations200 = {
+  recommendations: GetUserIdAiRecommendations200RecommendationsItem[];
+};
+
+export type GetUserIdTasteDnaParams = {
+language?: GetUserIdTasteDnaLanguage;
+period?: 'month' | 'last_month' | 'year' | 'all' | string;
+};
+
+export type GetUserIdTasteDnaLanguage = typeof GetUserIdTasteDnaLanguage[keyof typeof GetUserIdTasteDnaLanguage];
+
+
+export const GetUserIdTasteDnaLanguage = {
+  'en-US': 'en-US',
+  'es-ES': 'es-ES',
+  'fr-FR': 'fr-FR',
+  'de-DE': 'de-DE',
+  'it-IT': 'it-IT',
+  'pt-BR': 'pt-BR',
+  'ja-JP': 'ja-JP',
+} as const;
+
+export type GetUserIdTasteDna200TasteDNA = {
+  archetype: string;
+  summary: string;
+  traits: string[];
+};
+
+export type GetUserIdTasteDna200 = {
+  tasteDNA: GetUserIdTasteDna200TasteDNA;
+};
+
 export type PostImageParams = {
 folder: PostImageFolder;
 fileName?: string;
@@ -2315,6 +2413,7 @@ export const PostImageFolder = {
   avatar: 'avatar',
   list: 'list',
   feedback: 'feedback',
+  achievement: 'achievement',
 } as const;
 
 export type PostImageBody = {
@@ -3151,5 +3250,664 @@ export type PostFeedback201Feedback = {
  */
 export type PostFeedback201 = {
   feedback: PostFeedback201Feedback;
+};
+
+export type PutUserFavoriteBodyMediaType = typeof PutUserFavoriteBodyMediaType[keyof typeof PutUserFavoriteBodyMediaType];
+
+
+export const PutUserFavoriteBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type PutUserFavoriteBody = {
+  tmdbId: number;
+  mediaType: PutUserFavoriteBodyMediaType;
+  /**
+   * @minimum 0
+   * @maximum 9007199254740991
+   */
+  position?: number;
+};
+
+/**
+ * @nullable
+ */
+export type PutUserFavorite200Favorite = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  userId: string;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  tmdbId: number;
+  mediaType: 'TV_SHOW' | 'MOVIE';
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
+  createdAt: string;
+} | null;
+
+export type PutUserFavorite200Action = typeof PutUserFavorite200Action[keyof typeof PutUserFavorite200Action];
+
+
+export const PutUserFavorite200Action = {
+  added: 'added',
+  removed: 'removed',
+} as const;
+
+export type PutUserFavorite200 = {
+  /** @nullable */
+  favorite: PutUserFavorite200Favorite;
+  action: PutUserFavorite200Action;
+};
+
+export type GetUserFavoritesParams = {
+userId: string;
+};
+
+export type GetUserFavorites200FavoritesItemMediaType = typeof GetUserFavorites200FavoritesItemMediaType[keyof typeof GetUserFavorites200FavoritesItemMediaType];
+
+
+export const GetUserFavorites200FavoritesItemMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type GetUserFavorites200FavoritesItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  userId: string;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  tmdbId: number;
+  mediaType: GetUserFavorites200FavoritesItemMediaType;
+  /**
+   * @minimum -2147483648
+   * @maximum 2147483647
+   */
+  position: number;
+  createdAt: string;
+};
+
+export type GetUserFavorites200 = {
+  favorites: GetUserFavorites200FavoritesItem[];
+};
+
+export type GetUserFavoriteCheckParams = {
+tmdbId: string;
+mediaType: GetUserFavoriteCheckMediaType;
+};
+
+export type GetUserFavoriteCheckMediaType = typeof GetUserFavoriteCheckMediaType[keyof typeof GetUserFavoriteCheckMediaType];
+
+
+export const GetUserFavoriteCheckMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type GetUserFavoriteCheck200 = {
+  isFavorite: boolean;
+};
+
+export type PostRecommendationsBodyMediaType = typeof PostRecommendationsBodyMediaType[keyof typeof PostRecommendationsBodyMediaType];
+
+
+export const PostRecommendationsBodyMediaType = {
+  TV_SHOW: 'TV_SHOW',
+  MOVIE: 'MOVIE',
+} as const;
+
+export type PostRecommendationsBody = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  toUserId: string;
+  /**
+   * @minimum -9007199254740991
+   * @maximum 9007199254740991
+   */
+  tmdbId: number;
+  mediaType: PostRecommendationsBodyMediaType;
+  /** @nullable */
+  message?: string | null;
+};
+
+export type GetRecommendationsParams = {
+language?: string;
+};
+
+export type PutRecommendationsIdBodyStatus = typeof PutRecommendationsIdBodyStatus[keyof typeof PutRecommendationsIdBodyStatus];
+
+
+export const PutRecommendationsIdBodyStatus = {
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+} as const;
+
+export type PutRecommendationsIdBody = {
+  status: PutRecommendationsIdBodyStatus;
+};
+
+export type GetAchievements200AchievementsItemCategory = typeof GetAchievements200AchievementsItemCategory[keyof typeof GetAchievements200AchievementsItemCategory];
+
+
+export const GetAchievements200AchievementsItemCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type GetAchievements200AchievementsItemName = {[key: string]: string};
+
+export type GetAchievements200AchievementsItemDescription = {[key: string]: string};
+
+export type GetAchievements200AchievementsItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: GetAchievements200AchievementsItemCategory;
+  level: number;
+  name: GetAchievements200AchievementsItemName;
+  description: GetAchievements200AchievementsItemDescription;
+  sortOrder: number;
+  current: number;
+  isClaimed: boolean;
+  isEquipped: boolean;
+  claimedAt: string | null;
+};
+
+/**
+ * User achievements with progress
+ */
+export type GetAchievements200 = {
+  achievements: GetAchievements200AchievementsItem[];
+};
+
+export type PostAchievementsIdClaim200UserAchievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  userId: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  achievementId: string;
+  isClaimed: boolean;
+  isEquipped: boolean;
+  claimedAt: string | null;
+  updatedAt: string;
+};
+
+/**
+ * Achievement claimed
+ */
+export type PostAchievementsIdClaim200 = {
+  userAchievement: PostAchievementsIdClaim200UserAchievement;
+};
+
+export type PutAchievementsIdEquipBody = {
+  isEquipped: boolean;
+};
+
+export type PutAchievementsIdEquip200UserAchievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  userId: string;
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  achievementId: string;
+  isClaimed: boolean;
+  isEquipped: boolean;
+  claimedAt: string | null;
+  updatedAt: string;
+};
+
+/**
+ * Equip status toggled
+ */
+export type PutAchievementsIdEquip200 = {
+  userAchievement: PutAchievementsIdEquip200UserAchievement;
+};
+
+export type GetAdminAchievements200AchievementsItemCategory = typeof GetAdminAchievements200AchievementsItemCategory[keyof typeof GetAdminAchievements200AchievementsItemCategory];
+
+
+export const GetAdminAchievements200AchievementsItemCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type GetAdminAchievements200AchievementsItemCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type GetAdminAchievements200AchievementsItemName = {[key: string]: string};
+
+export type GetAdminAchievements200AchievementsItemDescription = {[key: string]: string};
+
+export type GetAdminAchievements200AchievementsItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: GetAdminAchievements200AchievementsItemCategory;
+  level: number;
+  criteria: GetAdminAchievements200AchievementsItemCriteria;
+  name: GetAdminAchievements200AchievementsItemName;
+  description: GetAdminAchievements200AchievementsItemDescription;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/**
+ * List of all achievements
+ */
+export type GetAdminAchievements200 = {
+  achievements: GetAdminAchievements200AchievementsItem[];
+};
+
+export type PostAdminAchievementsBodyCategory = typeof PostAdminAchievementsBodyCategory[keyof typeof PostAdminAchievementsBodyCategory];
+
+
+export const PostAdminAchievementsBodyCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type PostAdminAchievementsBodyCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type PostAdminAchievementsBodyName = {[key: string]: string};
+
+export type PostAdminAchievementsBodyDescription = {[key: string]: string};
+
+export type PostAdminAchievementsBody = {
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  slug: string;
+  /** @minLength 1 */
+  icon: string;
+  /**
+   * @minLength 1
+   * @maxLength 10
+   */
+  color: string;
+  /** @maximum 9007199254740991 */
+  target: number;
+  category: PostAdminAchievementsBodyCategory;
+  /** @maximum 9007199254740991 */
+  level: number;
+  criteria: PostAdminAchievementsBodyCriteria;
+  name: PostAdminAchievementsBodyName;
+  description: PostAdminAchievementsBodyDescription;
+  /**
+   * @minimum -9007199254740991
+   * @maximum 9007199254740991
+   */
+  sortOrder?: number;
+  isActive?: boolean;
+};
+
+export type PostAdminAchievements201AchievementCategory = typeof PostAdminAchievements201AchievementCategory[keyof typeof PostAdminAchievements201AchievementCategory];
+
+
+export const PostAdminAchievements201AchievementCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type PostAdminAchievements201AchievementCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type PostAdminAchievements201AchievementName = {[key: string]: string};
+
+export type PostAdminAchievements201AchievementDescription = {[key: string]: string};
+
+export type PostAdminAchievements201Achievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: PostAdminAchievements201AchievementCategory;
+  level: number;
+  criteria: PostAdminAchievements201AchievementCriteria;
+  name: PostAdminAchievements201AchievementName;
+  description: PostAdminAchievements201AchievementDescription;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/**
+ * Achievement created
+ */
+export type PostAdminAchievements201 = {
+  achievement: PostAdminAchievements201Achievement;
+};
+
+export type GetAdminAchievementsId200AchievementCategory = typeof GetAdminAchievementsId200AchievementCategory[keyof typeof GetAdminAchievementsId200AchievementCategory];
+
+
+export const GetAdminAchievementsId200AchievementCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type GetAdminAchievementsId200AchievementCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type GetAdminAchievementsId200AchievementName = {[key: string]: string};
+
+export type GetAdminAchievementsId200AchievementDescription = {[key: string]: string};
+
+export type GetAdminAchievementsId200Achievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: GetAdminAchievementsId200AchievementCategory;
+  level: number;
+  criteria: GetAdminAchievementsId200AchievementCriteria;
+  name: GetAdminAchievementsId200AchievementName;
+  description: GetAdminAchievementsId200AchievementDescription;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/**
+ * Achievement details
+ */
+export type GetAdminAchievementsId200 = {
+  achievement: GetAdminAchievementsId200Achievement;
+};
+
+export type PutAdminAchievementsIdBodyCategory = typeof PutAdminAchievementsIdBodyCategory[keyof typeof PutAdminAchievementsIdBodyCategory];
+
+
+export const PutAdminAchievementsIdBodyCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type PutAdminAchievementsIdBodyCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type PutAdminAchievementsIdBodyName = {[key: string]: string};
+
+export type PutAdminAchievementsIdBodyDescription = {[key: string]: string};
+
+export type PutAdminAchievementsIdBody = {
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  slug?: string;
+  /** @minLength 1 */
+  icon?: string;
+  /**
+   * @minLength 1
+   * @maxLength 10
+   */
+  color?: string;
+  /** @maximum 9007199254740991 */
+  target?: number;
+  category?: PutAdminAchievementsIdBodyCategory;
+  /** @maximum 9007199254740991 */
+  level?: number;
+  criteria?: PutAdminAchievementsIdBodyCriteria;
+  name?: PutAdminAchievementsIdBodyName;
+  description?: PutAdminAchievementsIdBodyDescription;
+  /**
+   * @minimum -9007199254740991
+   * @maximum 9007199254740991
+   */
+  sortOrder?: number;
+  isActive?: boolean;
+};
+
+export type PutAdminAchievementsId200AchievementCategory = typeof PutAdminAchievementsId200AchievementCategory[keyof typeof PutAdminAchievementsId200AchievementCategory];
+
+
+export const PutAdminAchievementsId200AchievementCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type PutAdminAchievementsId200AchievementCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type PutAdminAchievementsId200AchievementName = {[key: string]: string};
+
+export type PutAdminAchievementsId200AchievementDescription = {[key: string]: string};
+
+export type PutAdminAchievementsId200Achievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: PutAdminAchievementsId200AchievementCategory;
+  level: number;
+  criteria: PutAdminAchievementsId200AchievementCriteria;
+  name: PutAdminAchievementsId200AchievementName;
+  description: PutAdminAchievementsId200AchievementDescription;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/**
+ * Achievement updated
+ */
+export type PutAdminAchievementsId200 = {
+  achievement: PutAdminAchievementsId200Achievement;
+};
+
+export type DeleteAdminAchievementsId200AchievementCategory = typeof DeleteAdminAchievementsId200AchievementCategory[keyof typeof DeleteAdminAchievementsId200AchievementCategory];
+
+
+export const DeleteAdminAchievementsId200AchievementCategory = {
+  general: 'general',
+  saga: 'saga',
+} as const;
+
+export type DeleteAdminAchievementsId200AchievementCriteria = {
+  type: 'ITEMS_WATCHED';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'ITEMS_IN_COLLECTION';
+  mediaType?: 'MOVIE' | 'TV_SHOW';
+} | {
+  type: 'REVIEWS_WRITTEN';
+} | {
+  type: 'FOLLOWERS_COUNT';
+} | {
+  type: 'FOLLOWING_COUNT';
+} | {
+  type: 'LISTS_CREATED';
+} | {
+  type: 'FAVORITES_COUNT';
+} | {
+  type: 'EPISODES_WATCHED';
+} | {
+  type: 'TMDB_SET';
+  tmdbIds: number[];
+  mediaType: 'MOVIE' | 'TV_SHOW';
+};
+
+export type DeleteAdminAchievementsId200AchievementName = {[key: string]: string};
+
+export type DeleteAdminAchievementsId200AchievementDescription = {[key: string]: string};
+
+export type DeleteAdminAchievementsId200Achievement = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  target: number;
+  category: DeleteAdminAchievementsId200AchievementCategory;
+  level: number;
+  criteria: DeleteAdminAchievementsId200AchievementCriteria;
+  name: DeleteAdminAchievementsId200AchievementName;
+  description: DeleteAdminAchievementsId200AchievementDescription;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/**
+ * Achievement deleted
+ */
+export type DeleteAdminAchievementsId200 = {
+  achievement: DeleteAdminAchievementsId200Achievement;
 };
 

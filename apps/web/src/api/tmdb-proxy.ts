@@ -34,29 +34,29 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 /**
  * Proxy TMDB API requests with Redis caching
  */
-export type getTmdbPathResponse200 = {
+export type getTmdbResponse200 = {
   data: void
   status: 200
 }
 
-export type getTmdbPathResponseSuccess = (getTmdbPathResponse200) & {
+export type getTmdbResponseSuccess = (getTmdbResponse200) & {
   headers: Headers;
 };
 ;
 
-export type getTmdbPathResponse = (getTmdbPathResponseSuccess)
+export type getTmdbResponse = (getTmdbResponseSuccess)
 
-export const getGetTmdbPathUrl = (path: string,) => {
+export const getGetTmdbUrl = (: string,) => {
 
 
   
 
-  return `/tmdb/${path}+`
+  return `/tmdb/${}`
 }
 
-export const getTmdbPath = async (path: string, options?: RequestInit): Promise<getTmdbPathResponse> => {
+export const getTmdb = async (: string, options?: RequestInit): Promise<getTmdbResponse> => {
   
-  return customFetch<getTmdbPathResponse>(getGetTmdbPathUrl(path),
+  return customFetch<getTmdbResponse>(getGetTmdbUrl(),
   {      
     ...options,
     method: 'GET'
@@ -69,66 +69,66 @@ export const getTmdbPath = async (path: string, options?: RequestInit): Promise<
 
 
 
-export const getGetTmdbPathQueryKey = (path: string,) => {
+export const getGetTmdbQueryKey = (: string,) => {
     return [
-    `/tmdb/${path}+`
+    `/tmdb/${}`
     ] as const;
     }
 
     
-export const getGetTmdbPathQueryOptions = <TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(path: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetTmdbQueryOptions = <TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTmdbPathQueryKey(path);
+  const queryKey =  queryOptions?.queryKey ?? getGetTmdbQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTmdbPath>>> = ({ signal }) => getTmdbPath(path, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTmdb>>> = ({ signal }) => getTmdb({ signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(path), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetTmdbPathQueryResult = NonNullable<Awaited<ReturnType<typeof getTmdbPath>>>
-export type GetTmdbPathQueryError = ErrorType<unknown>
+export type GetTmdbQueryResult = NonNullable<Awaited<ReturnType<typeof getTmdb>>>
+export type GetTmdbQueryError = ErrorType<unknown>
 
 
-export function useGetTmdbPath<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>> & Pick<
+export function useGetTmdb<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getTmdbPath>>,
+          Awaited<ReturnType<typeof getTmdb>>,
           TError,
-          Awaited<ReturnType<typeof getTmdbPath>>
+          Awaited<ReturnType<typeof getTmdb>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTmdbPath<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>> & Pick<
+export function useGetTmdb<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getTmdbPath>>,
+          Awaited<ReturnType<typeof getTmdb>>,
           TError,
-          Awaited<ReturnType<typeof getTmdbPath>>
+          Awaited<ReturnType<typeof getTmdb>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTmdbPath<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdb<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetTmdbPath<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdb<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetTmdbPathQueryOptions(path,options)
+  const queryOptions = getGetTmdbQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -138,47 +138,47 @@ export function useGetTmdbPath<TData = Awaited<ReturnType<typeof getTmdbPath>>, 
 
 
 
-export const getGetTmdbPathSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(path: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetTmdbSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTmdbPathQueryKey(path);
+  const queryKey =  queryOptions?.queryKey ?? getGetTmdbQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTmdbPath>>> = ({ signal }) => getTmdbPath(path, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTmdb>>> = ({ signal }) => getTmdb({ signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetTmdbPathSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getTmdbPath>>>
-export type GetTmdbPathSuspenseQueryError = ErrorType<unknown>
+export type GetTmdbSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getTmdb>>>
+export type GetTmdbSuspenseQueryError = ErrorType<unknown>
 
 
-export function useGetTmdbPathSuspense<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdbSuspense<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTmdbPathSuspense<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdbSuspense<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTmdbPathSuspense<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdbSuspense<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient
   ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetTmdbPathSuspense<TData = Awaited<ReturnType<typeof getTmdbPath>>, TError = ErrorType<unknown>>(
- path: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdbPath>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export function useGetTmdbSuspense<TData = Awaited<ReturnType<typeof getTmdb>>, TError = ErrorType<unknown>>(
+ : string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getTmdb>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient 
  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetTmdbPathSuspenseQueryOptions(path,options)
+  const queryOptions = getGetTmdbSuspenseQueryOptions(options)
 
   const query = useSuspenseQuery(queryOptions, queryClient) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
