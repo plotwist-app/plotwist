@@ -17,7 +17,7 @@ import {
 } from '@plotwist/ui/components/ui/popover'
 import { useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
-import { Plus, Search, X } from 'lucide-react'
+import { Loader2, Plus, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import {
@@ -62,11 +62,55 @@ function toTmdbItem(
   }
 }
 
+async function fetchItemDetails(
+  ids: number[],
+  type: 'movie' | 'tv'
+): Promise<TmdbItem[]> {
+  const items: TmdbItem[] = []
+  await Promise.allSettled(
+    ids.map(async id => {
+      if (type === 'movie') {
+        const detail = await tmdb.movies.details(id, 'en-US')
+        items.push({
+          id: detail.id,
+          title: detail.title,
+          posterPath: detail.poster_path ?? null,
+          year: detail.release_date?.slice(0, 4) ?? '',
+          mediaType: 'movie',
+        })
+      } else {
+        const detail = await tmdb.tv.details(id, 'en-US')
+        items.push({
+          id: detail.id,
+          title: detail.name,
+          posterPath: detail.poster_path ?? null,
+          year: detail.first_air_date?.slice(0, 4) ?? '',
+          mediaType: 'tv',
+        })
+      }
+    })
+  )
+  return items
+}
+
 export function TmdbItemPicker({ selectedIds, mediaType, onChange }: Props) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 400)
-  const [selectedItems, setSelectedItems] = useState<TmdbItem[]>([])
+  const [manualItems, setManualItems] = useState<TmdbItem[]>([])
+
+  const targetType = mediaType === 'MOVIE' ? 'movie' : 'tv'
+
+  const { data: initialItems, isLoading: isLoadingInitial } = useQuery({
+    queryKey: ['tmdb-initial-items', selectedIds.join(','), targetType],
+    queryFn: () => fetchItemDetails(selectedIds, targetType as 'movie' | 'tv'),
+    enabled: selectedIds.length > 0,
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+
+  const itemsMap = new Map<number, TmdbItem>()
+  for (const item of initialItems ?? []) itemsMap.set(item.id, item)
+  for (const item of manualItems) itemsMap.set(item.id, item)
 
   const { data, isLoading } = useQuery({
     queryKey: ['tmdb-search-admin', debouncedSearch],
@@ -74,8 +118,6 @@ export function TmdbItemPicker({ selectedIds, mediaType, onChange }: Props) {
     enabled: debouncedSearch.length >= 2,
     staleTime: 60_000,
   })
-
-  const targetType = mediaType === 'MOVIE' ? 'movie' : 'tv'
 
   const results =
     data?.results
@@ -85,52 +127,59 @@ export function TmdbItemPicker({ selectedIds, mediaType, onChange }: Props) {
 
   function handleSelect(item: TmdbItem) {
     const newIds = [...selectedIds, item.id]
-    setSelectedItems(prev => [...prev, item])
+    setManualItems(prev => [...prev, item])
     onChange(newIds)
   }
 
   function handleRemove(id: number) {
     onChange(selectedIds.filter(i => i !== id))
-    setSelectedItems(prev => prev.filter(i => i.id !== id))
+    setManualItems(prev => prev.filter(i => i.id !== id))
   }
 
   return (
     <div className="space-y-3">
       {selectedIds.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {selectedIds.map(id => {
-            const item = selectedItems.find(i => i.id === id)
-            return (
-              <Badge
-                key={id}
-                variant="secondary"
-                className="gap-1.5 py-1 pl-1 pr-2"
-              >
-                {item?.posterPath && (
-                  <Image
-                    src={tmdbImage(item.posterPath, 'w500')}
-                    alt=""
-                    width={20}
-                    height={30}
-                    className="rounded-sm"
-                  />
-                )}
-                <span className="max-w-32 truncate">
-                  {item?.title ?? `ID ${id}`}
-                </span>
-                {item?.year && (
-                  <span className="text-muted-foreground">({item.year})</span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => handleRemove(id)}
-                  className="ml-0.5 rounded-full hover:bg-muted-foreground/20 p-0.5"
+          {isLoadingInitial && manualItems.length === 0 ? (
+            <div className="flex items-center gap-2 py-1 text-sm text-muted-foreground">
+              <Loader2 className="size-3 animate-spin" />
+              Loading items...
+            </div>
+          ) : (
+            selectedIds.map(id => {
+              const item = itemsMap.get(id)
+              return (
+                <Badge
+                  key={id}
+                  variant="secondary"
+                  className="gap-1.5 py-1 pl-1 pr-2"
                 >
-                  <X className="size-3" />
-                </button>
-              </Badge>
-            )
-          })}
+                  {item?.posterPath && (
+                    <Image
+                      src={tmdbImage(item.posterPath, 'w500')}
+                      alt=""
+                      width={20}
+                      height={30}
+                      className="rounded-sm"
+                    />
+                  )}
+                  <span className="max-w-32 truncate">
+                    {item?.title ?? `ID ${id}`}
+                  </span>
+                  {item?.year && (
+                    <span className="text-muted-foreground">({item.year})</span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(id)}
+                    className="ml-0.5 rounded-full hover:bg-muted-foreground/20 p-0.5"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </Badge>
+              )
+            })
+          )}
         </div>
       )}
 

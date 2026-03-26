@@ -34,7 +34,7 @@ import {
   TabsTrigger,
 } from '@plotwist/ui/components/ui/tabs'
 import { Textarea } from '@plotwist/ui/components/ui/textarea'
-import { ChevronRight, ImagePlus, X } from 'lucide-react'
+import { ChevronRight, ImagePlus, Trophy, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -81,7 +81,7 @@ const formSchema = z.object({
   level: z.number().int().positive('Must be positive'),
   sortOrder: z.number().int(),
   isActive: z.boolean(),
-  criteriaType: z.string(),
+  criteriaType: z.string().min(1, 'Required'),
   criteriaMediaType: z.string().optional(),
   criteriaTmdbIds: z.array(z.number()).optional(),
 })
@@ -106,29 +106,12 @@ export function AchievementForm({ achievement }: Props) {
   const [pendingValues, setPendingValues] = useState<FormValues | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      slug: '',
-      icon: 'pending-upload',
-      target: 1,
-      category: 'general',
-      level: 1,
-      sortOrder: 0,
-      isActive: true,
-      criteriaType: 'ITEMS_WATCHED',
-      criteriaMediaType: '',
-      criteriaTmdbIds: [],
-    },
-  })
-
-  useEffect(() => {
-    if (achievement) {
-      form.reset({
+  const initialValues: FormValues = achievement
+    ? {
         slug: achievement.slug,
         icon: achievement.icon,
         target: achievement.target,
-        category: achievement.category,
+        category: achievement.category as 'general' | 'saga',
         level: achievement.level,
         sortOrder: achievement.sortOrder,
         isActive: achievement.isActive,
@@ -141,14 +124,34 @@ export function AchievementForm({ achievement }: Props) {
           achievement.criteria.type === 'TMDB_SET'
             ? achievement.criteria.tmdbIds
             : [],
-      })
+      }
+    : {
+        slug: '',
+        icon: 'pending-upload',
+        target: 1,
+        category: 'general' as const,
+        level: 1,
+        sortOrder: 0,
+        isActive: true,
+        criteriaType: 'ITEMS_WATCHED',
+        criteriaMediaType: '',
+        criteriaTmdbIds: [],
+      }
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialValues,
+  })
+
+  useEffect(() => {
+    if (achievement) {
       setNames(achievement.name)
       setDescriptions(achievement.description)
       if (achievement.icon) {
         setIconPreview(achievement.icon)
       }
     }
-  }, [achievement, form])
+  }, [achievement])
 
   function handleIconSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -264,6 +267,7 @@ export function AchievementForm({ achievement }: Props) {
     <Form {...form}>
       <div className="flex items-center justify-between border-b border-[var(--gray-4)] px-8 py-4">
         <nav className="flex items-center gap-1.5 text-sm">
+          <Trophy className="size-4 text-[var(--gray-9)]" />
           <Link
             href={`/${lang}/admin/achievements`}
             className="text-[var(--gray-11)] transition-colors hover:text-[var(--gray-12)]"
@@ -520,10 +524,14 @@ export function AchievementForm({ achievement }: Props) {
                 <FormItem className="grid grid-cols-[140px_1fr] items-center gap-x-4">
                   <FormLabel>Criteria Type</FormLabel>
                   <div className="relative">
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Select criteria" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
