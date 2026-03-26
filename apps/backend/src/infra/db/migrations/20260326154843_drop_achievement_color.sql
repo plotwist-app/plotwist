@@ -1,0 +1,1 @@
+ALTER TABLE "achievements" DROP COLUMN "color";

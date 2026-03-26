@@ -365,7 +365,21 @@ struct UserProfileView: View {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadAchievements()
     isLoading = false
+  }
+
+  private func loadAchievements() async {
+    guard AuthService.shared.isAuthenticated else { return }
+
+    do {
+      let fetched = try await AchievementService.shared.getAchievements()
+      withAnimation(.snappy) {
+        achievements = fetched
+      }
+    } catch {
+      print("Error loading achievements: \(error)")
+    }
   }
 
   private func loadUser() async {

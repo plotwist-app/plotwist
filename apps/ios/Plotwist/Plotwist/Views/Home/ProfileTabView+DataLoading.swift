@@ -46,8 +46,23 @@ extension ProfileTabView {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadAchievements()
 
     isInitialLoad = false
+  }
+
+  // MARK: - Load Achievements
+  func loadAchievements(forceRefresh: Bool = false) async {
+    guard AuthService.shared.isAuthenticated else { return }
+
+    do {
+      let fetched = try await AchievementService.shared.getAchievements(forceRefresh: forceRefresh)
+      withAnimation(.snappy) {
+        achievements = fetched
+      }
+    } catch {
+      print("Error loading achievements: \(error)")
+    }
   }
 
   // MARK: - Load User

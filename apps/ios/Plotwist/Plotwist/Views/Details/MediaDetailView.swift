@@ -176,8 +176,10 @@ struct MediaDetailView: View {
 
                     if let details {
                       detailsContent(details)
+                        .transition(.opacity.animation(.easeOut(duration: 0.2)))
                     } else {
                       loadingContentSkeleton()
+                        .transition(.opacity.animation(.easeOut(duration: 0.15)))
                     }
                   }
                   .zIndex(collectionAbovePoster ? 2 : 0)
@@ -186,8 +188,10 @@ struct MediaDetailView: View {
                   Group {
                     if let details {
                       posterAndInfo(details)
+                        .transition(.opacity.animation(.easeOut(duration: 0.2)))
                     } else {
                       posterAndInfoSkeleton()
+                        .transition(.opacity.animation(.easeOut(duration: 0.15)))
                     }
                   }
                   .zIndex(1)
@@ -277,6 +281,9 @@ struct MediaDetailView: View {
         mediaId: mediaId,
         mediaType: mediaType,
         existingReview: userReview,
+        mediaTitle: details?.displayTitle,
+        mediaPosterPath: details?.posterPath,
+        mediaYear: details?.year,
         onSaved: {
           Task {
             await loadUserReview()
@@ -506,31 +513,34 @@ struct MediaDetailView: View {
 
   @ViewBuilder
   private func loadingContentSkeleton() -> some View {
-    VStack(alignment: .leading, spacing: 20) {
-      HStack(spacing: 12) {
-        RoundedRectangle(cornerRadius: 12)
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 10) {
+        RoundedRectangle(cornerRadius: 10)
           .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 48)
-        RoundedRectangle(cornerRadius: 12)
+          .frame(width: 90, height: 34)
+        RoundedRectangle(cornerRadius: 10)
           .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 48)
+          .frame(width: 120, height: 34)
       }
-      VStack(alignment: .leading, spacing: 8) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 14)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 14)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(width: 200, height: 14)
-      }
+      .padding(.horizontal, 24)
     }
-    .padding(.horizontal, 24)
+    .scrollClipDisabled()
     .padding(.top, 16)
 
-    // Genres skeleton
+    VStack(alignment: .leading, spacing: 8) {
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 14)
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 14)
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(width: 200, height: 14)
+    }
+    .padding(.horizontal, 24)
+    .padding(.top, 20)
+
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 8) {
         ForEach(0..<4, id: \.self) { _ in
@@ -541,6 +551,7 @@ struct MediaDetailView: View {
       }
       .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
     .padding(.top, 16)
 
     Spacer()
@@ -678,7 +689,7 @@ struct MediaDetailView: View {
     }
 
     isLoading = true
-    defer { withAnimation(.easeOut(duration: 0.3)) { isLoading = false } }
+    defer { isLoading = false }
 
     do {
       var loaded: MovieDetails?
@@ -788,29 +799,6 @@ struct MediaDetailView: View {
 
 }
 
-// MARK: - Force Hide Navigation Bar (UIKit)
-/// Ensures the native UIKit navigation bar is fully hidden, even when the parent
-/// NavigationStack has `.searchable` which can prevent SwiftUI's `.toolbar(.hidden)` from working.
-private struct ForceHideNavigationBar: UIViewControllerRepresentable {
-  func makeUIViewController(context: Context) -> ForceHideNavBarController {
-    ForceHideNavBarController()
-  }
-
-  func updateUIViewController(_ controller: ForceHideNavBarController, context: Context) {}
-}
-
-private class ForceHideNavBarController: UIViewController {
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: false)
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    navigationController?.setNavigationBarHidden(false, animated: false)
-  }
-}
-
 // MARK: - TMDB Rating Badge
 struct TMDBRatingBadge: View {
   let rating: Double
@@ -893,36 +881,38 @@ struct MediaDetailSkeletonView: View {
                 Spacer()
                   .frame(height: 110)
                 
-                // Content Section Skeleton
-                VStack(alignment: .leading, spacing: 20) {
-                  // Action Buttons Skeleton
-                  HStack(spacing: 12) {
-                    RoundedRectangle(cornerRadius: 12)
+                // Action Buttons Skeleton
+                ScrollView(.horizontal, showsIndicators: false) {
+                  HStack(spacing: 10) {
+                    RoundedRectangle(cornerRadius: 10)
                       .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 48)
+                      .frame(width: 90, height: 34)
                     
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 10)
                       .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 48)
+                      .frame(width: 120, height: 34)
                   }
+                  .padding(.horizontal, 24)
+                }
+                .scrollClipDisabled()
+                .padding(.top, 16)
+                
+                // Overview Skeleton
+                VStack(alignment: .leading, spacing: 8) {
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(height: 14)
                   
-                  // Overview Skeleton
-                  VStack(alignment: .leading, spacing: 8) {
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 14)
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 14)
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(width: 200, height: 14)
-                  }
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(height: 14)
+                  
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(width: 200, height: 14)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.top, 20)
                 
                 // Genres Skeleton
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -935,6 +925,7 @@ struct MediaDetailSkeletonView: View {
                   }
                   .padding(.horizontal, 24)
                 }
+                .scrollClipDisabled()
                 .padding(.top, 16)
                 
                 Spacer()

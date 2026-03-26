@@ -101,4 +101,82 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
       return useMutation(getPostCompleteStripeSubscriptionMutationOptions(options), queryClient);
     }
+    /**
+ * RevenueCat webhook for Apple IAP subscriptions
+ */
+export type postWebhooksRevenuecatResponse200 = {
+  data: void
+  status: 200
+}
+
+export type postWebhooksRevenuecatResponseSuccess = (postWebhooksRevenuecatResponse200) & {
+  headers: Headers;
+};
+;
+
+export type postWebhooksRevenuecatResponse = (postWebhooksRevenuecatResponseSuccess)
+
+export const getPostWebhooksRevenuecatUrl = () => {
+
+
+  
+
+  return `/webhooks/revenuecat`
+}
+
+export const postWebhooksRevenuecat = async ( options?: RequestInit): Promise<postWebhooksRevenuecatResponse> => {
+  
+  return customFetch<postWebhooksRevenuecatResponse>(getPostWebhooksRevenuecatUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+);}
+  
+
+
+
+export const getPostWebhooksRevenuecatMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postWebhooksRevenuecat>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof postWebhooksRevenuecat>>, TError,void, TContext> => {
+
+const mutationKey = ['postWebhooksRevenuecat'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postWebhooksRevenuecat>>, void> = () => {
+          
+
+          return  postWebhooksRevenuecat(requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostWebhooksRevenuecatMutationResult = NonNullable<Awaited<ReturnType<typeof postWebhooksRevenuecat>>>
+    
+    export type PostWebhooksRevenuecatMutationError = ErrorType<unknown>
+
+    export const usePostWebhooksRevenuecat = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postWebhooksRevenuecat>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postWebhooksRevenuecat>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getPostWebhooksRevenuecatMutationOptions(options), queryClient);
+    }
     

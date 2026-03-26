@@ -78,7 +78,7 @@ struct EditBadgesView: View {
       toggleEquip(id: badge.id)
     } label: {
       VStack(spacing: 0) {
-        AchievementIconView(achievement: badge, size: 64, color: badge.color)
+        AchievementIconView(achievement: badge, size: 64)
           .padding(.top, 20)
           .padding(.bottom, 12)
 
@@ -111,10 +111,23 @@ struct EditBadgesView: View {
   }
 
   private func toggleEquip(id: String) {
-    guard let index = achievements.firstIndex(where: { $0.id == id }) else { return }
+    guard let index = achievements.firstIndex(where: { $0.id == id }),
+          let remoteId = achievements[index].remoteId else { return }
+    let newEquipped = !achievements[index].isEquipped
+
     Haptics.selection()
     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-      achievements[index].isEquipped.toggle()
+      achievements[index].isEquipped = newEquipped
+    }
+
+    Task {
+      do {
+        _ = try await AchievementService.shared.toggleEquip(id: remoteId, isEquipped: newEquipped)
+      } catch {
+        withAnimation {
+          achievements[index].isEquipped = !newEquipped
+        }
+      }
     }
   }
 }
