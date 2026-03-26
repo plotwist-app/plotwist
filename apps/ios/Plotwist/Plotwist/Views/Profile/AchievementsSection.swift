@@ -471,169 +471,33 @@ private struct AchievementCard: View {
   let onClaim: (() -> Void)?
   @Environment(\.colorScheme) private var colorScheme
   @State private var animateProgress = false
-  @State private var isExpanded = false
-  @State private var cardOriginY: CGFloat = 0
-  @State private var liveCardY: CGFloat = 0
 
   private var hasProgress: Bool { achievement.current > 0 }
-  private let screen = UIScreen.main.bounds
-
-  private var safeAreaTop: CGFloat {
-    UIApplication.shared.connectedScenes
-      .compactMap { $0 as? UIWindowScene }
-      .first?.windows.first?.safeAreaInsets.top ?? 0
-  }
-
-  private var spring: Animation {
-    .spring(response: 0.5, dampingFraction: 0.86)
-  }
 
   var body: some View {
-    ScrollView(showsIndicators: false) {
-      VStack(spacing: 0) {
-        collapsedContent
+    VStack(spacing: 0) {
+      iconSection
+        .padding(.top, 20)
+        .padding(.bottom, 14)
 
-        if isExpanded {
-          expandedContent
-            .transition(.opacity.combined(with: .move(edge: .bottom)))
-        }
-      }
+      textSection
+        .padding(.horizontal, 14)
+
+      Spacer(minLength: 16)
+
+      ctaSection
+        .padding(.horizontal, 14)
+        .padding(.bottom, 18)
     }
-    .scrollDisabled(!isExpanded)
-    .frame(height: isExpanded ? screen.height + safeAreaTop : nil)
-    .clipped()
+    .frame(maxWidth: .infinity)
     .background(Color.appInputFilled)
-    .clipShape(RoundedRectangle(cornerRadius: isExpanded ? 0 : 22, style: .continuous))
+    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
     .opacity(cardOpacity)
-    .shadow(color: .black.opacity(isExpanded ? 0.15 : 0), radius: 20, y: -4)
-    .background(
-      GeometryReader { geo in
-        Color.clear
-          .onChange(of: geo.frame(in: .global).minY) { _, newY in
-            if !isExpanded { liveCardY = newY }
-          }
-          .onAppear { liveCardY = geo.frame(in: .global).minY }
-      }
-    )
-    .overlay(alignment: .topTrailing) {
-      if isExpanded {
-        Button {
-          withAnimation(spring) { isExpanded = false }
-        } label: {
-          Image(systemName: "xmark")
-            .font(.system(size: 13, weight: .bold))
-            .foregroundColor(.appForegroundAdaptive)
-            .frame(width: 32, height: 32)
-            .background(Color.appForegroundAdaptive.opacity(0.1))
-            .clipShape(Circle())
-        }
-        .padding(.trailing, 16)
-        .padding(.top, safeAreaTop + 12)
-        .transition(.opacity)
-      }
-    }
-    .contentShape(Rectangle())
-    .onTapGesture {
-      guard !isExpanded, achievement.isClaimed else { return }
-      Haptics.impact(.light)
-      cardOriginY = liveCardY
-      withAnimation(spring) { isExpanded = true }
-    }
-    .offset(y: isExpanded ? -cardOriginY : 0)
-    .zIndex(isExpanded ? 100 : 0)
     .onAppear {
       withAnimation(.easeOut(duration: 0.6).delay(0.1)) {
         animateProgress = true
       }
     }
-  }
-
-  // MARK: Collapsed Content
-
-  private var collapsedContent: some View {
-    VStack(spacing: 0) {
-      AchievementIconView(achievement: achievement, size: isExpanded ? 120 : iconSize)
-        .opacity(iconOpacity)
-        .padding(.top, isExpanded ? safeAreaTop + 48 : 20)
-        .padding(.bottom, isExpanded ? 24 : 14)
-
-      VStack(spacing: 5) {
-        Text(achievement.name)
-          .font(isExpanded ? .title2.weight(.bold) : .body.weight(.semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .multilineTextAlignment(.center)
-          .lineLimit(isExpanded ? nil : 2)
-          .fixedSize(horizontal: false, vertical: true)
-
-        Text(achievement.description)
-          .font(isExpanded ? .subheadline : .caption)
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .multilineTextAlignment(.center)
-          .lineLimit(isExpanded ? nil : 2)
-      }
-      .padding(.horizontal, isExpanded ? 24 : 14)
-
-      if !isExpanded {
-        Spacer(minLength: 16)
-        ctaSection
-          .padding(.horizontal, 14)
-          .padding(.bottom, 18)
-      }
-    }
-  }
-
-  // MARK: Expanded Content
-
-  private var expandedContent: some View {
-    VStack(spacing: 20) {
-      Divider()
-        .padding(.horizontal, 24)
-        .padding(.top, 20)
-
-      VStack(spacing: 16) {
-        detailRow(label: "Level", value: "\(achievement.level)")
-        detailRow(label: L10n.current.achOfTotal, value: "\(achievement.current)/\(achievement.target)")
-
-        if achievement.isClaimed {
-          HStack {
-            Text(L10n.current.achBadgesClaimed)
-              .font(.subheadline)
-              .foregroundColor(.appMutedForegroundAdaptive)
-            Spacer()
-            Image(systemName: "checkmark.circle.fill")
-              .foregroundColor(.green)
-          }
-        }
-      }
-      .padding(.horizontal, 24)
-
-      Spacer().frame(height: 40)
-    }
-  }
-
-  private func detailRow(label: String, value: String) -> some View {
-    HStack {
-      Text(label)
-        .font(.subheadline)
-        .foregroundColor(.appMutedForegroundAdaptive)
-      Spacer()
-      Text(value)
-        .font(.subheadline.weight(.semibold))
-        .foregroundColor(.appForegroundAdaptive)
-    }
-  }
-
-  // MARK: Helpers
-
-  private var iconSize: CGFloat {
-    if achievement.isComplete { return 96 }
-    if hasProgress { return 88 }
-    return 80
-  }
-
-  private var iconOpacity: Double {
-    if achievement.isComplete || achievement.isClaimed || hasProgress { return 1 }
-    return 0.5
   }
 
   private var cardOpacity: Double {
@@ -642,7 +506,35 @@ private struct AchievementCard: View {
     return 0.45
   }
 
-  // MARK: CTA
+  private var iconSection: some View {
+    Group {
+      if achievement.isComplete {
+        AchievementIconView(achievement: achievement, size: 96)
+      } else if hasProgress {
+        AchievementIconView(achievement: achievement, size: 88)
+      } else {
+        AchievementIconView(achievement: achievement, size: 80)
+          .opacity(0.5)
+      }
+    }
+  }
+
+  private var textSection: some View {
+    VStack(spacing: 5) {
+      Text(achievement.name)
+        .font(.body.weight(.semibold))
+        .foregroundColor(.appForegroundAdaptive)
+        .multilineTextAlignment(.center)
+        .lineLimit(2)
+        .fixedSize(horizontal: false, vertical: true)
+
+      Text(achievement.description)
+        .font(.caption)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .multilineTextAlignment(.center)
+        .lineLimit(2)
+    }
+  }
 
   @ViewBuilder
   private var ctaSection: some View {

@@ -788,29 +788,6 @@ struct MediaDetailView: View {
 
 }
 
-// MARK: - Force Hide Navigation Bar (UIKit)
-/// Ensures the native UIKit navigation bar is fully hidden, even when the parent
-/// NavigationStack has `.searchable` which can prevent SwiftUI's `.toolbar(.hidden)` from working.
-private struct ForceHideNavigationBar: UIViewControllerRepresentable {
-  func makeUIViewController(context: Context) -> ForceHideNavBarController {
-    ForceHideNavBarController()
-  }
-
-  func updateUIViewController(_ controller: ForceHideNavBarController, context: Context) {}
-}
-
-private class ForceHideNavBarController: UIViewController {
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: false)
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    navigationController?.setNavigationBarHidden(false, animated: false)
-  }
-}
-
 // MARK: - TMDB Rating Badge
 struct TMDBRatingBadge: View {
   let rating: Double

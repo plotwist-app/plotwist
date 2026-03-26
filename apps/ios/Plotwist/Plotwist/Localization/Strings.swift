@@ -56,6 +56,7 @@ enum L10n {
       movies: "Movies",
       tvSeries: "TV Series",
       people: "People",
+      profiles: "Profiles",
       noResults: "No results found.",
       cancel: "Cancel",
       recentSearches: "Recent Searches",
@@ -333,8 +334,8 @@ enum L10n {
       favorites: "Favorites",
       favorite: "Favorite",
       favorited: "Favorited",
-      favoritesEmptyOwn: "Tap ♥ on any title to add it here",
-      favoritesEmptyOther: "No favorites yet",
+      favoritesEmptyOwn: "Save the movies and series you love by tapping ♥ to always find them here.",
+      favoritesEmptyOther: "This user hasn't added any favorites yet.",
       removeFromFavorites: "Remove from Favorites",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
@@ -453,6 +454,11 @@ enum L10n {
       followingLabel: "Following",
       noFollowers: "No followers yet",
       noFollowing: "Not following anyone yet",
+      followersEmptyOwnSubtitle: "Share Plotwist with friends so they can follow you and see what you're watching.",
+      followingEmptyOwnSubtitle: "Find people to follow and discover what they're watching and reviewing.",
+      followersEmptyOtherSubtitle: "This user doesn't have any followers yet.",
+      followingEmptyOtherSubtitle: "This user isn't following anyone yet.",
+      shareApp: "Share Plotwist",
       // Achievements
       badges: "Badges",
       badgeUnlocked: "Badge Unlocked",
@@ -533,6 +539,10 @@ enum L10n {
       activityJoined: "joined Plotwist",
       activityFriendsActivity: "Friends activity",
       activityNoActivity: "No activity yet",
+      activityEmptySubtitle: "Start adding movies and series to your collection to see your activity here.",
+      activityNoFriendsTitle: "No friends activity",
+      activityNoFriendsSubtitle: "Follow people to see what they're watching and reviewing.",
+      activityFindFriends: "Find friends",
       activitySeeAll: "See all",
       // Recommendations
       recommend: "Recommend",
@@ -589,6 +599,7 @@ enum L10n {
       movies: "Filmes",
       tvSeries: "Séries de TV",
       people: "Pessoas",
+      profiles: "Perfis",
       noResults: "Nenhum resultado encontrado.",
       cancel: "Cancelar",
       recentSearches: "Pesquisas Recentes",
@@ -857,8 +868,8 @@ enum L10n {
       favorites: "Favoritos",
       favorite: "Favoritar",
       favorited: "Favoritado",
-      favoritesEmptyOwn: "Toque ♥ em qualquer título para adicioná-lo aqui",
-      favoritesEmptyOther: "Nenhum favorito ainda",
+      favoritesEmptyOwn: "Salve os filmes e séries que você ama tocando em ♥ para encontrá-los sempre aqui.",
+      favoritesEmptyOther: "Este usuário ainda não adicionou favoritos.",
       removeFromFavorites: "Remover dos Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
@@ -977,6 +988,11 @@ enum L10n {
       followingLabel: "Seguindo",
       noFollowers: "Nenhum seguidor ainda",
       noFollowing: "Não segue ninguém ainda",
+      followersEmptyOwnSubtitle: "Compartilhe o Plotwist com amigos para que eles te sigam e vejam o que você está assistindo.",
+      followingEmptyOwnSubtitle: "Encontre pessoas para seguir e descubra o que elas estão assistindo e avaliando.",
+      followersEmptyOtherSubtitle: "Este usuário ainda não tem seguidores.",
+      followingEmptyOtherSubtitle: "Este usuário ainda não segue ninguém.",
+      shareApp: "Compartilhar Plotwist",
       // Achievements
       badges: "Distintivos",
       badgeUnlocked: "Distintivo Desbloqueado",
@@ -1057,6 +1073,10 @@ enum L10n {
       activityJoined: "entrou no Plotwist",
       activityFriendsActivity: "Atividade dos amigos",
       activityNoActivity: "Nenhuma atividade ainda",
+      activityEmptySubtitle: "Comece adicionando filmes e séries à sua coleção para ver sua atividade aqui.",
+      activityNoFriendsTitle: "Nenhuma atividade de amigos",
+      activityNoFriendsSubtitle: "Siga pessoas para ver o que estão assistindo e avaliando.",
+      activityFindFriends: "Encontrar amigos",
       activitySeeAll: "Ver tudo",
       // Recommendations
       recommend: "Recomendar",
@@ -1113,6 +1133,7 @@ enum L10n {
       movies: "Películas",
       tvSeries: "Series de TV",
       people: "Personas",
+      profiles: "Perfiles",
       noResults: "No se encontraron resultados.",
       cancel: "Cancelar",
       recentSearches: "Búsquedas Recientes",
@@ -1381,8 +1402,8 @@ enum L10n {
       favorites: "Favoritos",
       favorite: "Favorito",
       favorited: "Favorito",
-      favoritesEmptyOwn: "Toca ♥ en cualquier título para añadirlo aquí",
-      favoritesEmptyOther: "Aún no hay favoritos",
+      favoritesEmptyOwn: "Guarda las películas y series que amas tocando ♥ para encontrarlas siempre aquí.",
+      favoritesEmptyOther: "Este usuario aún no tiene favoritos.",
       removeFromFavorites: "Eliminar de Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
@@ -1501,6 +1522,11 @@ enum L10n {
       followingLabel: "Siguiendo",
       noFollowers: "Aún no hay seguidores",
       noFollowing: "Aún no sigue a nadie",
+      followersEmptyOwnSubtitle: "Comparte Plotwist con amigos para que te sigan y vean lo que estás viendo.",
+      followingEmptyOwnSubtitle: "Encuentra personas para seguir y descubre qué están viendo y reseñando.",
+      followersEmptyOtherSubtitle: "Este usuario aún no tiene seguidores.",
+      followingEmptyOtherSubtitle: "Este usuario aún no sigue a nadie.",
+      shareApp: "Compartir Plotwist",
       // Achievements
       badges: "Insignias",
       badgeUnlocked: "Insignia Desbloqueada",
@@ -1581,6 +1607,10 @@ enum L10n {
       activityJoined: "se unió a Plotwist",
       activityFriendsActivity: "Actividad de amigos",
       activityNoActivity: "Sin actividad aún",
+      activityEmptySubtitle: "Empieza a añadir películas y series a tu colección para ver tu actividad aquí.",
+      activityNoFriendsTitle: "Sin actividad de amigos",
+      activityNoFriendsSubtitle: "Sigue a personas para ver qué están viendo y reseñando.",
+      activityFindFriends: "Buscar amigos",
       activitySeeAll: "Ver todo",
       // Recommendations
       recommend: "Recomendar",
@@ -1637,6 +1667,7 @@ enum L10n {
       movies: "Films",
       tvSeries: "Séries TV",
       people: "Personnes",
+      profiles: "Profils",
       noResults: "Aucun résultat trouvé.",
       cancel: "Annuler",
       recentSearches: "Recherches Récentes",
@@ -1905,8 +1936,8 @@ enum L10n {
       favorites: "Favoris",
       favorite: "Favori",
       favorited: "Favori",
-      favoritesEmptyOwn: "Appuyez sur ♥ sur n'importe quel titre pour l'ajouter ici",
-      favoritesEmptyOther: "Pas encore de favoris",
+      favoritesEmptyOwn: "Sauvegardez les films et séries que vous aimez en appuyant sur ♥ pour les retrouver ici.",
+      favoritesEmptyOther: "Cet utilisateur n'a pas encore de favoris.",
       removeFromFavorites: "Retirer des Favoris",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
@@ -2025,6 +2056,11 @@ enum L10n {
       followingLabel: "Abonnements",
       noFollowers: "Aucun abonné pour le moment",
       noFollowing: "Ne suit personne pour le moment",
+      followersEmptyOwnSubtitle: "Partagez Plotwist avec vos amis pour qu'ils vous suivent et voient ce que vous regardez.",
+      followingEmptyOwnSubtitle: "Trouvez des personnes à suivre et découvrez ce qu'elles regardent et évaluent.",
+      followersEmptyOtherSubtitle: "Cet utilisateur n'a pas encore d'abonnés.",
+      followingEmptyOtherSubtitle: "Cet utilisateur ne suit encore personne.",
+      shareApp: "Partager Plotwist",
       // Achievements
       badges: "Badges",
       badgeUnlocked: "Badge Débloqué",
@@ -2105,6 +2141,10 @@ enum L10n {
       activityJoined: "a rejoint Plotwist",
       activityFriendsActivity: "Activité des amis",
       activityNoActivity: "Aucune activité",
+      activityEmptySubtitle: "Commencez à ajouter des films et séries à votre collection pour voir votre activité ici.",
+      activityNoFriendsTitle: "Aucune activité d'amis",
+      activityNoFriendsSubtitle: "Suivez des personnes pour voir ce qu'elles regardent et évaluent.",
+      activityFindFriends: "Trouver des amis",
       activitySeeAll: "Tout voir",
       // Recommendations
       recommend: "Recommander",
@@ -2161,6 +2201,7 @@ enum L10n {
       movies: "Filme",
       tvSeries: "TV-Serien",
       people: "Personen",
+      profiles: "Profile",
       noResults: "Keine Ergebnisse gefunden.",
       cancel: "Abbrechen",
       recentSearches: "Letzte Suchen",
@@ -2429,8 +2470,8 @@ enum L10n {
       favorites: "Favoriten",
       favorite: "Favorit",
       favorited: "Favorisiert",
-      favoritesEmptyOwn: "Tippe auf ♥ bei einem Titel, um ihn hier hinzuzufügen",
-      favoritesEmptyOther: "Noch keine Favoriten",
+      favoritesEmptyOwn: "Speichere Filme und Serien, die du liebst, mit ♥ um sie hier wiederzufinden.",
+      favoritesEmptyOther: "Dieser Nutzer hat noch keine Favoriten.",
       removeFromFavorites: "Aus Favoriten entfernen",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
@@ -2549,6 +2590,11 @@ enum L10n {
       followingLabel: "Folge ich",
       noFollowers: "Noch keine Follower",
       noFollowing: "Folgt noch niemandem",
+      followersEmptyOwnSubtitle: "Teile Plotwist mit Freunden, damit sie dir folgen und sehen, was du schaust.",
+      followingEmptyOwnSubtitle: "Finde Leute zum Folgen und entdecke, was sie schauen und bewerten.",
+      followersEmptyOtherSubtitle: "Dieser Nutzer hat noch keine Follower.",
+      followingEmptyOtherSubtitle: "Dieser Nutzer folgt noch niemandem.",
+      shareApp: "Plotwist teilen",
       // Achievements
       badges: "Abzeichen",
       badgeUnlocked: "Abzeichen Freigeschaltet",
@@ -2629,6 +2675,10 @@ enum L10n {
       activityJoined: "ist Plotwist beigetreten",
       activityFriendsActivity: "Freunde-Aktivität",
       activityNoActivity: "Noch keine Aktivität",
+      activityEmptySubtitle: "Füge Filme und Serien zu deiner Sammlung hinzu, um deine Aktivität hier zu sehen.",
+      activityNoFriendsTitle: "Keine Freunde-Aktivität",
+      activityNoFriendsSubtitle: "Folge Personen, um zu sehen, was sie schauen und bewerten.",
+      activityFindFriends: "Freunde finden",
       activitySeeAll: "Alle anzeigen",
       // Recommendations
       recommend: "Empfehlen",
@@ -2685,6 +2735,7 @@ enum L10n {
       movies: "Film",
       tvSeries: "Serie TV",
       people: "Persone",
+      profiles: "Profili",
       noResults: "Nessun risultato trovato.",
       cancel: "Annulla",
       recentSearches: "Ricerche Recenti",
@@ -2953,8 +3004,8 @@ enum L10n {
       favorites: "Preferiti",
       favorite: "Preferito",
       favorited: "Preferito",
-      favoritesEmptyOwn: "Tocca ♥ su qualsiasi titolo per aggiungerlo qui",
-      favoritesEmptyOther: "Nessun preferito ancora",
+      favoritesEmptyOwn: "Salva i film e le serie che ami toccando ♥ per ritrovarli sempre qui.",
+      favoritesEmptyOther: "Questo utente non ha ancora aggiunto preferiti.",
       removeFromFavorites: "Rimuovi dai Preferiti",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
@@ -3073,6 +3124,11 @@ enum L10n {
       followingLabel: "Seguiti",
       noFollowers: "Ancora nessun follower",
       noFollowing: "Non segue ancora nessuno",
+      followersEmptyOwnSubtitle: "Condividi Plotwist con gli amici per farti seguire e far vedere cosa stai guardando.",
+      followingEmptyOwnSubtitle: "Trova persone da seguire e scopri cosa stanno guardando e recensendo.",
+      followersEmptyOtherSubtitle: "Questo utente non ha ancora follower.",
+      followingEmptyOtherSubtitle: "Questo utente non segue ancora nessuno.",
+      shareApp: "Condividi Plotwist",
       // Achievements
       badges: "Distintivi",
       badgeUnlocked: "Distintivo Sbloccato",
@@ -3153,6 +3209,10 @@ enum L10n {
       activityJoined: "si è unito a Plotwist",
       activityFriendsActivity: "Attività degli amici",
       activityNoActivity: "Nessuna attività",
+      activityEmptySubtitle: "Inizia ad aggiungere film e serie alla tua collezione per vedere la tua attività qui.",
+      activityNoFriendsTitle: "Nessuna attività degli amici",
+      activityNoFriendsSubtitle: "Segui le persone per vedere cosa stanno guardando e recensendo.",
+      activityFindFriends: "Trova amici",
       activitySeeAll: "Vedi tutto",
       // Recommendations
       recommend: "Consiglia",
@@ -3208,6 +3268,7 @@ enum L10n {
       movies: "映画",
       tvSeries: "テレビシリーズ",
       people: "人物",
+      profiles: "プロフィール",
       noResults: "結果が見つかりません。",
       cancel: "キャンセル",
       recentSearches: "最近の検索",
@@ -3476,8 +3537,8 @@ enum L10n {
       favorites: "お気に入り",
       favorite: "お気に入り",
       favorited: "お気に入り済",
-      favoritesEmptyOwn: "♥をタップしてここに追加しましょう",
-      favoritesEmptyOther: "まだお気に入りがありません",
+      favoritesEmptyOwn: "♥をタップして、お気に入りの映画やドラマをここに保存しましょう。",
+      favoritesEmptyOther: "このユーザーはまだお気に入りを追加していません。",
       removeFromFavorites: "お気に入りから削除",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
@@ -3596,6 +3657,11 @@ enum L10n {
       followingLabel: "フォロー中",
       noFollowers: "まだフォロワーがいません",
       noFollowing: "まだ誰もフォローしていません",
+      followersEmptyOwnSubtitle: "Plotwistを友達にシェアして、フォローしてもらいましょう。",
+      followingEmptyOwnSubtitle: "フォローする人を見つけて、何を観ているか発見しましょう。",
+      followersEmptyOtherSubtitle: "このユーザーにはまだフォロワーがいません。",
+      followingEmptyOtherSubtitle: "このユーザーはまだ誰もフォローしていません。",
+      shareApp: "Plotwistをシェア",
       // Achievements
       badges: "バッジ",
       badgeUnlocked: "バッジ獲得",
@@ -3676,6 +3742,10 @@ enum L10n {
       activityJoined: "がPlotWistに参加",
       activityFriendsActivity: "フレンドのアクティビティ",
       activityNoActivity: "まだアクティビティはありません",
+      activityEmptySubtitle: "映画やシリーズをコレクションに追加して、ここでアクティビティを確認しましょう。",
+      activityNoFriendsTitle: "フレンドのアクティビティがありません",
+      activityNoFriendsSubtitle: "フォローして、何を観ているかレビューしているか見てみましょう。",
+      activityFindFriends: "フレンドを探す",
       activitySeeAll: "すべて見る",
       // Recommendations
       recommend: "おすすめする",
@@ -3737,6 +3807,7 @@ struct Strings {
   let movies: String
   let tvSeries: String
   let people: String
+  let profiles: String
   let noResults: String
   let cancel: String
   let recentSearches: String
@@ -4137,6 +4208,11 @@ struct Strings {
   let followingLabel: String
   let noFollowers: String
   let noFollowing: String
+  let followersEmptyOwnSubtitle: String
+  let followingEmptyOwnSubtitle: String
+  let followersEmptyOtherSubtitle: String
+  let followingEmptyOtherSubtitle: String
+  let shareApp: String
   // Achievements
   let badges: String
   let badgeUnlocked: String
@@ -4218,6 +4294,10 @@ struct Strings {
   let activityJoined: String
   let activityFriendsActivity: String
   let activityNoActivity: String
+  let activityEmptySubtitle: String
+  let activityNoFriendsTitle: String
+  let activityNoFriendsSubtitle: String
+  let activityFindFriends: String
   let activitySeeAll: String
   // Recommendations
   let recommend: String
