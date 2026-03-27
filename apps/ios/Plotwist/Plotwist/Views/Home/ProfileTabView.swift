@@ -84,49 +84,49 @@ struct ProfileTabView: View {
           await loadData()
         }
       }
-      .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
-        strings = L10n.current
-        AchievementService.shared.invalidateCache()
-        Task { await loadAchievements(forceRefresh: true) }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { notification in
-        // If an avatar URL is provided, update locally for instant display
-        if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
-          user?.avatarUrl = avatarUrl
-        }
-        Task { await loadUser(forceRefresh: true) }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
-        Task {
-          await loadUserItems(forceRefresh: true)
-          await loadStatusCounts(forceRefresh: true)
-          await loadQuickStats(forceRefresh: true)
-          await loadAchievements(forceRefresh: true)
-        }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
-        isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
-
-        if AuthService.shared.isAuthenticated {
-          Task { await loadData() }
-        } else {
-          user = nil
-          userItems = []
-          statusCounts = [:]
-          totalReviewsCount = 0
-          moviesCount = 0
-          seriesCount = 0
-          followersCount = 0
-          followingCount = 0
-          achievements = []
-          isLoadingQuickStats = true
-          isInitialLoad = true
+      .modifier(ProfileNotificationModifier(
+        onLanguageChanged: {
+          strings = L10n.current
           AchievementService.shared.invalidateCache()
+          Task { await loadAchievements(forceRefresh: true) }
+        },
+        onProfileUpdated: { notification in
+          if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
+            user?.avatarUrl = avatarUrl
+          }
+          Task { await loadUser(forceRefresh: true) }
+        },
+        onCollectionCacheInvalidated: {
+          Task {
+            await loadUserItems(forceRefresh: true)
+            await loadStatusCounts(forceRefresh: true)
+            await loadQuickStats(forceRefresh: true)
+            await loadAchievements(forceRefresh: true)
+          }
+        },
+        onAuthChanged: {
+          isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+          if AuthService.shared.isAuthenticated {
+            Task { await loadData() }
+          } else {
+            user = nil
+            userItems = []
+            statusCounts = [:]
+            totalReviewsCount = 0
+            moviesCount = 0
+            seriesCount = 0
+            followersCount = 0
+            followingCount = 0
+            achievements = []
+            isLoadingQuickStats = true
+            isInitialLoad = true
+            AchievementService.shared.invalidateCache()
+          }
+        },
+        onSubscriptionChanged: {
+          Task { await loadUser(forceRefresh: true) }
         }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in
-        Task { await loadUser(forceRefresh: true) }
-      }
+      ))
       .navigationBarHidden(true)
       .navigationDestination(item: $selectedMediaItem) { item in
         MediaDetailView(
@@ -441,6 +441,27 @@ struct ProfileTabView: View {
       }
       return Color.clear
     }
+  }
+}
+
+// MARK: - Notification Handler Modifier
+// Consolidates notification observers into a single ViewModifier to reduce
+// the generic type nesting depth of ProfileTabView.body, preventing a
+// stack overflow during Swift runtime type metadata resolution on device.
+private struct ProfileNotificationModifier: ViewModifier {
+  let onLanguageChanged: () -> Void
+  let onProfileUpdated: (Notification) -> Void
+  let onCollectionCacheInvalidated: () -> Void
+  let onAuthChanged: () -> Void
+  let onSubscriptionChanged: () -> Void
+
+  func body(content: Content) -> some View {
+    content
+      .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in onLanguageChanged() }
+      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { onProfileUpdated($0) }
+      .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in onCollectionCacheInvalidated() }
+      .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in onAuthChanged() }
+      .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in onSubscriptionChanged() }
   }
 }
 
