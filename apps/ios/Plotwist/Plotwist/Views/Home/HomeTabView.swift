@@ -196,7 +196,6 @@ struct HomeTabView: View {
                 .buttonStyle(.plain)
                 .matchedTransitionSource(id: "hero-\(featured.id)", in: heroAnimation)
                 .padding(.horizontal, 20)
-                .transition(.opacity)
               } else if showDiscoverySkeleton {
                 FeaturedHeroSkeleton()
                   .padding(.horizontal, 20)
@@ -246,7 +245,7 @@ struct HomeTabView: View {
                   namespace: heroAnimation
                 )
               } else if showDiscoverySkeleton {
-                HomeSectionSkeleton()
+                TrendingSectionSkeleton()
               }
 
               // Anime Section (conditional)
@@ -333,7 +332,7 @@ struct HomeTabView: View {
 
               Spacer(minLength: 100)
             }
-            .animation(nil, value: isLoadingDiscovery)
+            .transaction { $0.animation = nil }
           }
 
         }
