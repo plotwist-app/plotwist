@@ -60,16 +60,7 @@ struct ProfileTabView: View {
     NavigationStack {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
-
-        if isGuestMode {
-          guestModeView
-        } else if showLoading {
-          loadingView
-        } else if let user {
-          profileContentView(user: user)
-        } else {
-          errorView
-        }
+        mainContentView
       }
       .onAppear {
         if !hasAppeared {
@@ -127,32 +118,16 @@ struct ProfileTabView: View {
           Task { await loadUser(forceRefresh: true) }
         }
       ))
-      .navigationBarHidden(true)
-      .navigationDestination(item: $selectedMediaItem) { item in
-        MediaDetailView(
-          mediaId: item.tmdbId,
-          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
-        )
-      }
-      .navigationDestination(item: $selectedFollowerUser) { follower in
-        UserProfileView(
-          userId: follower.id,
-          initialUsername: follower.username,
-          initialAvatarUrl: follower.avatarUrl
-        )
-      }
-      .fullScreenCover(isPresented: $showReorderCollection) {
-        if let user {
-          ReorderCollectionView(
-            userId: user.id,
-            selectedStatusTab: selectedStatusTab,
-            strings: strings,
-            statusCounts: statusCounts,
-            cache: cache
-          )
-        }
-      }
-      .toolbar(.visible, for: .tabBar)
+      .modifier(ProfileNavigationModifier(
+        selectedMediaItem: $selectedMediaItem,
+        selectedFollowerUser: $selectedFollowerUser,
+        showReorderCollection: $showReorderCollection,
+        user: user,
+        selectedStatusTab: selectedStatusTab,
+        strings: strings,
+        statusCounts: statusCounts,
+        cache: cache
+      ))
     }
     .overlay {
       if let achievement = claimedAchievement {
@@ -161,6 +136,21 @@ struct ProfileTabView: View {
           onDismiss: { claimedAchievement = nil }
         )
       }
+    }
+  }
+
+  // Type-erased conditional content to reduce generic type nesting depth.
+  // Without AnyView, the body produces deeply nested _ConditionalContent types
+  // that cause a stack overflow in Swift runtime type metadata resolution on device.
+  private var mainContentView: AnyView {
+    if isGuestMode {
+      AnyView(guestModeView)
+    } else if showLoading {
+      AnyView(loadingView)
+    } else if let user {
+      AnyView(profileContentView(user: user))
+    } else {
+      AnyView(errorView)
     }
   }
 
@@ -445,9 +435,6 @@ struct ProfileTabView: View {
 }
 
 // MARK: - Notification Handler Modifier
-// Consolidates notification observers into a single ViewModifier to reduce
-// the generic type nesting depth of ProfileTabView.body, preventing a
-// stack overflow during Swift runtime type metadata resolution on device.
 private struct ProfileNotificationModifier: ViewModifier {
   let onLanguageChanged: () -> Void
   let onProfileUpdated: (Notification) -> Void
@@ -462,6 +449,48 @@ private struct ProfileNotificationModifier: ViewModifier {
       .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in onCollectionCacheInvalidated() }
       .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in onAuthChanged() }
       .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in onSubscriptionChanged() }
+  }
+}
+
+// MARK: - Navigation Modifier
+private struct ProfileNavigationModifier: ViewModifier {
+  @Binding var selectedMediaItem: UserItemSummary?
+  @Binding var selectedFollowerUser: FollowerUser?
+  @Binding var showReorderCollection: Bool
+  let user: User?
+  let selectedStatusTab: ProfileStatusTab
+  let strings: Strings
+  let statusCounts: [String: Int]
+  let cache: CollectionCache
+
+  func body(content: Content) -> some View {
+    content
+      .navigationBarHidden(true)
+      .navigationDestination(item: $selectedMediaItem) { item in
+        MediaDetailView(
+          mediaId: item.tmdbId,
+          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        )
+      }
+      .navigationDestination(item: $selectedFollowerUser) { follower in
+        UserProfileView(
+          userId: follower.id,
+          initialUsername: follower.username,
+          initialAvatarUrl: follower.avatarUrl
+        )
+      }
+      .fullScreenCover(isPresented: $showReorderCollection) {
+        if let user {
+          ReorderCollectionView(
+            userId: user.id,
+            selectedStatusTab: selectedStatusTab,
+            strings: strings,
+            statusCounts: statusCounts,
+            cache: cache
+          )
+        }
+      }
+      .toolbar(.visible, for: .tabBar)
   }
 }
 
