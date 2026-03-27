@@ -291,9 +291,11 @@ private struct ClaimableSpotlightSection: View {
               achievement: achievement,
               onClaim: { onClaim(achievement.id) }
             )
+            .transition(.scale.combined(with: .opacity))
           }
         }
         .padding(.horizontal, 24)
+        .geometryGroup()
       }
     }
   }
@@ -314,6 +316,7 @@ private struct ClaimableCard: View {
         .foregroundColor(.appForegroundAdaptive)
         .lineLimit(2)
         .multilineTextAlignment(.center)
+        .frame(minHeight: 34, alignment: .center)
 
       Button(action: onClaim) {
         Text(L10n.current.claimBadge)
