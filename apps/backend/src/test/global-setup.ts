@@ -78,6 +78,7 @@ export async function setup() {
 
   // OpenAI
   process.env.OPENAI_API_KEY = 'open_api_key'
+  process.env.RECOMMENDATION_AI_PROVIDER = 'openAI'
 
   await setupDatabase()
   await setupLocalStack()

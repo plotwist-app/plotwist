@@ -89,7 +89,7 @@ Write ONLY the profile text, no labels or headers.`
 
   let profile = ''
   try {
-    const openai = new OpenAI({ apiKey: config.openai.OPENAI_API_KEY })
+    const openai = new OpenAI({ apiKey: config.intelligence.OPENAI_API_KEY })
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -105,7 +105,10 @@ Write ONLY the profile text, no labels or headers.`
     })
     profile = completion.choices[0]?.message?.content?.trim() || ''
   } catch (err) {
-    console.error('[viewer-profile] OpenAI error:', err instanceof Error ? err.message : err)
+    console.error(
+      '[viewer-profile] OpenAI error:',
+      err instanceof Error ? err.message : err
+    )
   }
 
   const result = { viewerProfile: profile }

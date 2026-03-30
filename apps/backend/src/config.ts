@@ -15,7 +15,7 @@ export const config = {
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
-  openai: loadOpenAIEnvs(),
+  intelligence: loadAIEnvs(),
   google: loadGoogleEnvs(),
   monitors: loadMonitorsEnvs(),
   telemetry: loadTelemetryEnvs(),
@@ -115,9 +115,10 @@ function loadMALEnvs() {
   return schema.parse(process.env)
 }
 
-function loadOpenAIEnvs() {
+function loadAIEnvs() {
   const schema = z.object({
     OPENAI_API_KEY: z.string(),
+    RECOMMENDATION_AI_PROVIDER: z.enum(['openAI', 'llama']).default('openAI'),
   })
 
   return schema.parse(process.env)
