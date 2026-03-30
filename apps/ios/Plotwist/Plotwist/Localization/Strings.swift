@@ -56,6 +56,7 @@ enum L10n {
       movies: "Movies",
       tvSeries: "TV Series",
       people: "People",
+      profiles: "Profiles",
       noResults: "No results found.",
       cancel: "Cancel",
       recentSearches: "Recent Searches",
@@ -86,12 +87,17 @@ enum L10n {
       shareYourOpinion: "Share your opinion here...",
       containSpoilers: "Contains spoilers",
       tapToReveal: "Tap to reveal",
+      justNow: "now",
       submitReview: "Submit review",
       editReview: "Edit review",
       reviewRequired: "Please write your review.",
       reviewSuccess: "Review submitted successfully!",
       reviewUpdateSuccess: "Review updated successfully!",
       reviewDeleteSuccess: "Review deleted successfully!",
+      reviewPublished: "Review published!",
+      reviewSharePrompt: "Share your review with your friends",
+      shareReview: "Share review",
+      maybeLater: "Maybe later",
       tabReviews: "Reviews",
       reviewSingular: "Review",
       tabWhereToWatch: "Where to Watch",
@@ -181,6 +187,15 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biography",
       biographyPlaceholder: "Tell us about yourself...",
+      filmography: "Filmography",
+      knownFor: "Known for",
+      actors: "Actors",
+      technicalCrew: "Technical Crew",
+      crewDirection: "Direction",
+      crewWriting: "Writing",
+      crewPhotography: "Photography",
+      crewMusic: "Music",
+      crewEditing: "Editing",
       reorderCollection: "Reorder",
       save: "Save",
       // Home
@@ -323,8 +338,8 @@ enum L10n {
       favorites: "Favorites",
       favorite: "Favorite",
       favorited: "Favorited",
-      favoritesEmptyOwn: "Tap ♥ on any title to add it here",
-      favoritesEmptyOther: "No favorites yet",
+      favoritesEmptyOwn: "Save the movies and series you love by tapping ♥ to always find them here.",
+      favoritesEmptyOther: "This user hasn't added any favorites yet.",
       removeFromFavorites: "Remove from Favorites",
       unlockFullProfile: "Unlock your full profile",
       startTrackingStats: "Start tracking to see your stats",
@@ -443,6 +458,11 @@ enum L10n {
       followingLabel: "Following",
       noFollowers: "No followers yet",
       noFollowing: "Not following anyone yet",
+      followersEmptyOwnSubtitle: "Share Plotwist with friends so they can follow you and see what you're watching.",
+      followingEmptyOwnSubtitle: "Find people to follow and discover what they're watching and reviewing.",
+      followersEmptyOtherSubtitle: "This user doesn't have any followers yet.",
+      followingEmptyOtherSubtitle: "This user isn't following anyone yet.",
+      shareApp: "Share Plotwist",
       // Achievements
       badges: "Badges",
       badgeUnlocked: "Badge Unlocked",
@@ -523,6 +543,10 @@ enum L10n {
       activityJoined: "joined Plotwist",
       activityFriendsActivity: "Friends activity",
       activityNoActivity: "No activity yet",
+      activityEmptySubtitle: "Start adding movies and series to your collection to see your activity here.",
+      activityNoFriendsTitle: "No friends activity",
+      activityNoFriendsSubtitle: "Follow people to see what they're watching and reviewing.",
+      activityFindFriends: "Find friends",
       activitySeeAll: "See all",
       // Recommendations
       recommend: "Recommend",
@@ -579,6 +603,7 @@ enum L10n {
       movies: "Filmes",
       tvSeries: "Séries de TV",
       people: "Pessoas",
+      profiles: "Perfis",
       noResults: "Nenhum resultado encontrado.",
       cancel: "Cancelar",
       recentSearches: "Pesquisas Recentes",
@@ -608,12 +633,17 @@ enum L10n {
       shareYourOpinion: "Compartilhe sua opinião aqui...",
       containSpoilers: "Contém spoilers",
       tapToReveal: "Toque para revelar",
+      justNow: "agora",
       submitReview: "Enviar avaliação",
       editReview: "Editar avaliação",
       reviewRequired: "Por favor, escreva sua avaliação.",
       reviewSuccess: "Avaliação enviada com sucesso!",
       reviewUpdateSuccess: "Avaliação atualizada com sucesso!",
       reviewDeleteSuccess: "Avaliação excluída com sucesso!",
+      reviewPublished: "Avaliação publicada!",
+      reviewSharePrompt: "Compartilhe sua avaliação com seus amigos",
+      shareReview: "Compartilhar avaliação",
+      maybeLater: "Talvez depois",
       tabReviews: "Avaliações",
       reviewSingular: "Avaliação",
       tabWhereToWatch: "Onde Assistir",
@@ -695,6 +725,15 @@ enum L10n {
       soundtracks: "Trilhas",
       biography: "Biografia",
       biographyPlaceholder: "Conte um pouco sobre você...",
+      filmography: "Filmografia",
+      knownFor: "Conhecido por",
+      actors: "Atores",
+      technicalCrew: "Equipe Técnica",
+      crewDirection: "Direção",
+      crewWriting: "Roteiro",
+      crewPhotography: "Fotografia",
+      crewMusic: "Música",
+      crewEditing: "Montagem",
       reorderCollection: "Reordenar",
       save: "Salvar",
       // Home
@@ -837,8 +876,8 @@ enum L10n {
       favorites: "Favoritos",
       favorite: "Favoritar",
       favorited: "Favoritado",
-      favoritesEmptyOwn: "Toque ♥ em qualquer título para adicioná-lo aqui",
-      favoritesEmptyOther: "Nenhum favorito ainda",
+      favoritesEmptyOwn: "Salve os filmes e séries que você ama tocando em ♥ para encontrá-los sempre aqui.",
+      favoritesEmptyOther: "Este usuário ainda não adicionou favoritos.",
       removeFromFavorites: "Remover dos Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Comece a registrar para ver suas estatísticas",
@@ -957,6 +996,11 @@ enum L10n {
       followingLabel: "Seguindo",
       noFollowers: "Nenhum seguidor ainda",
       noFollowing: "Não segue ninguém ainda",
+      followersEmptyOwnSubtitle: "Compartilhe o Plotwist com amigos para que eles te sigam e vejam o que você está assistindo.",
+      followingEmptyOwnSubtitle: "Encontre pessoas para seguir e descubra o que elas estão assistindo e avaliando.",
+      followersEmptyOtherSubtitle: "Este usuário ainda não tem seguidores.",
+      followingEmptyOtherSubtitle: "Este usuário ainda não segue ninguém.",
+      shareApp: "Compartilhar Plotwist",
       // Achievements
       badges: "Distintivos",
       badgeUnlocked: "Distintivo Desbloqueado",
@@ -1037,6 +1081,10 @@ enum L10n {
       activityJoined: "entrou no Plotwist",
       activityFriendsActivity: "Atividade dos amigos",
       activityNoActivity: "Nenhuma atividade ainda",
+      activityEmptySubtitle: "Comece adicionando filmes e séries à sua coleção para ver sua atividade aqui.",
+      activityNoFriendsTitle: "Nenhuma atividade de amigos",
+      activityNoFriendsSubtitle: "Siga pessoas para ver o que estão assistindo e avaliando.",
+      activityFindFriends: "Encontrar amigos",
       activitySeeAll: "Ver tudo",
       // Recommendations
       recommend: "Recomendar",
@@ -1093,6 +1141,7 @@ enum L10n {
       movies: "Películas",
       tvSeries: "Series de TV",
       people: "Personas",
+      profiles: "Perfiles",
       noResults: "No se encontraron resultados.",
       cancel: "Cancelar",
       recentSearches: "Búsquedas Recientes",
@@ -1122,12 +1171,17 @@ enum L10n {
       shareYourOpinion: "Comparte tu opinión aquí...",
       containSpoilers: "Contiene spoilers",
       tapToReveal: "Toca para revelar",
+      justNow: "ahora",
       submitReview: "Enviar reseña",
       editReview: "Editar reseña",
       reviewRequired: "Por favor, escribe tu reseña.",
       reviewSuccess: "¡Reseña enviada con éxito!",
       reviewUpdateSuccess: "¡Reseña actualizada con éxito!",
       reviewDeleteSuccess: "¡Reseña eliminada con éxito!",
+      reviewPublished: "¡Reseña publicada!",
+      reviewSharePrompt: "Comparte tu reseña con tus amigos",
+      shareReview: "Compartir reseña",
+      maybeLater: "Quizás después",
       tabReviews: "Reseñas",
       reviewSingular: "Reseña",
       tabWhereToWatch: "Dónde Ver",
@@ -1209,6 +1263,15 @@ enum L10n {
       soundtracks: "Bandas Sonoras",
       biography: "Biografía",
       biographyPlaceholder: "Cuéntanos sobre ti...",
+      filmography: "Filmografía",
+      knownFor: "Conocido por",
+      actors: "Actores",
+      technicalCrew: "Equipo Técnico",
+      crewDirection: "Dirección",
+      crewWriting: "Guión",
+      crewPhotography: "Fotografía",
+      crewMusic: "Música",
+      crewEditing: "Montaje",
       reorderCollection: "Reordenar",
       save: "Guardar",
       // Home
@@ -1351,8 +1414,8 @@ enum L10n {
       favorites: "Favoritos",
       favorite: "Favorito",
       favorited: "Favorito",
-      favoritesEmptyOwn: "Toca ♥ en cualquier título para añadirlo aquí",
-      favoritesEmptyOther: "Aún no hay favoritos",
+      favoritesEmptyOwn: "Guarda las películas y series que amas tocando ♥ para encontrarlas siempre aquí.",
+      favoritesEmptyOther: "Este usuario aún no tiene favoritos.",
       removeFromFavorites: "Eliminar de Favoritos",
       unlockFullProfile: "Desbloquear perfil completo",
       startTrackingStats: "Empieza a registrar para ver tus estadísticas",
@@ -1471,6 +1534,11 @@ enum L10n {
       followingLabel: "Siguiendo",
       noFollowers: "Aún no hay seguidores",
       noFollowing: "Aún no sigue a nadie",
+      followersEmptyOwnSubtitle: "Comparte Plotwist con amigos para que te sigan y vean lo que estás viendo.",
+      followingEmptyOwnSubtitle: "Encuentra personas para seguir y descubre qué están viendo y reseñando.",
+      followersEmptyOtherSubtitle: "Este usuario aún no tiene seguidores.",
+      followingEmptyOtherSubtitle: "Este usuario aún no sigue a nadie.",
+      shareApp: "Compartir Plotwist",
       // Achievements
       badges: "Insignias",
       badgeUnlocked: "Insignia Desbloqueada",
@@ -1551,6 +1619,10 @@ enum L10n {
       activityJoined: "se unió a Plotwist",
       activityFriendsActivity: "Actividad de amigos",
       activityNoActivity: "Sin actividad aún",
+      activityEmptySubtitle: "Empieza a añadir películas y series a tu colección para ver tu actividad aquí.",
+      activityNoFriendsTitle: "Sin actividad de amigos",
+      activityNoFriendsSubtitle: "Sigue a personas para ver qué están viendo y reseñando.",
+      activityFindFriends: "Buscar amigos",
       activitySeeAll: "Ver todo",
       // Recommendations
       recommend: "Recomendar",
@@ -1607,6 +1679,7 @@ enum L10n {
       movies: "Films",
       tvSeries: "Séries TV",
       people: "Personnes",
+      profiles: "Profils",
       noResults: "Aucun résultat trouvé.",
       cancel: "Annuler",
       recentSearches: "Recherches Récentes",
@@ -1636,12 +1709,17 @@ enum L10n {
       shareYourOpinion: "Partagez votre opinion ici...",
       containSpoilers: "Contient des spoilers",
       tapToReveal: "Appuyez pour révéler",
+      justNow: "maintenant",
       submitReview: "Soumettre l'avis",
       editReview: "Modifier l'avis",
       reviewRequired: "Veuillez écrire votre avis.",
       reviewSuccess: "Avis soumis avec succès!",
       reviewUpdateSuccess: "Avis mis à jour avec succès!",
       reviewDeleteSuccess: "Avis supprimé avec succès!",
+      reviewPublished: "Avis publié !",
+      reviewSharePrompt: "Partagez votre avis avec vos amis",
+      shareReview: "Partager l'avis",
+      maybeLater: "Peut-être plus tard",
       tabReviews: "Avis",
       reviewSingular: "Avis",
       tabWhereToWatch: "Où Regarder",
@@ -1723,6 +1801,15 @@ enum L10n {
       soundtracks: "Bandes Sonores",
       biography: "Biographie",
       biographyPlaceholder: "Parlez-nous de vous...",
+      filmography: "Filmographie",
+      knownFor: "Connu pour",
+      actors: "Acteurs",
+      technicalCrew: "Équipe Technique",
+      crewDirection: "Réalisation",
+      crewWriting: "Scénario",
+      crewPhotography: "Photographie",
+      crewMusic: "Musique",
+      crewEditing: "Montage",
       reorderCollection: "Réorganiser",
       save: "Enregistrer",
       // Home
@@ -1865,8 +1952,8 @@ enum L10n {
       favorites: "Favoris",
       favorite: "Favori",
       favorited: "Favori",
-      favoritesEmptyOwn: "Appuyez sur ♥ sur n'importe quel titre pour l'ajouter ici",
-      favoritesEmptyOther: "Pas encore de favoris",
+      favoritesEmptyOwn: "Sauvegardez les films et séries que vous aimez en appuyant sur ♥ pour les retrouver ici.",
+      favoritesEmptyOther: "Cet utilisateur n'a pas encore de favoris.",
       removeFromFavorites: "Retirer des Favoris",
       unlockFullProfile: "Débloquer votre profil complet",
       startTrackingStats: "Commencez à suivre pour voir vos statistiques",
@@ -1985,6 +2072,11 @@ enum L10n {
       followingLabel: "Abonnements",
       noFollowers: "Aucun abonné pour le moment",
       noFollowing: "Ne suit personne pour le moment",
+      followersEmptyOwnSubtitle: "Partagez Plotwist avec vos amis pour qu'ils vous suivent et voient ce que vous regardez.",
+      followingEmptyOwnSubtitle: "Trouvez des personnes à suivre et découvrez ce qu'elles regardent et évaluent.",
+      followersEmptyOtherSubtitle: "Cet utilisateur n'a pas encore d'abonnés.",
+      followingEmptyOtherSubtitle: "Cet utilisateur ne suit encore personne.",
+      shareApp: "Partager Plotwist",
       // Achievements
       badges: "Badges",
       badgeUnlocked: "Badge Débloqué",
@@ -2065,6 +2157,10 @@ enum L10n {
       activityJoined: "a rejoint Plotwist",
       activityFriendsActivity: "Activité des amis",
       activityNoActivity: "Aucune activité",
+      activityEmptySubtitle: "Commencez à ajouter des films et séries à votre collection pour voir votre activité ici.",
+      activityNoFriendsTitle: "Aucune activité d'amis",
+      activityNoFriendsSubtitle: "Suivez des personnes pour voir ce qu'elles regardent et évaluent.",
+      activityFindFriends: "Trouver des amis",
       activitySeeAll: "Tout voir",
       // Recommendations
       recommend: "Recommander",
@@ -2121,6 +2217,7 @@ enum L10n {
       movies: "Filme",
       tvSeries: "TV-Serien",
       people: "Personen",
+      profiles: "Profile",
       noResults: "Keine Ergebnisse gefunden.",
       cancel: "Abbrechen",
       recentSearches: "Letzte Suchen",
@@ -2150,12 +2247,17 @@ enum L10n {
       shareYourOpinion: "Teilen Sie Ihre Meinung hier...",
       containSpoilers: "Enthält Spoiler",
       tapToReveal: "Zum Anzeigen tippen",
+      justNow: "jetzt",
       submitReview: "Bewertung abschicken",
       editReview: "Bewertung bearbeiten",
       reviewRequired: "Bitte schreiben Sie Ihre Bewertung.",
       reviewSuccess: "Bewertung erfolgreich eingereicht!",
       reviewUpdateSuccess: "Bewertung erfolgreich aktualisiert!",
       reviewDeleteSuccess: "Bewertung erfolgreich gelöscht!",
+      reviewPublished: "Bewertung veröffentlicht!",
+      reviewSharePrompt: "Teile deine Bewertung mit deinen Freunden",
+      shareReview: "Bewertung teilen",
+      maybeLater: "Vielleicht später",
       tabReviews: "Bewertungen",
       reviewSingular: "Bewertung",
       tabWhereToWatch: "Wo Ansehen",
@@ -2237,6 +2339,15 @@ enum L10n {
       soundtracks: "Soundtracks",
       biography: "Biografie",
       biographyPlaceholder: "Erzählen Sie uns von sich...",
+      filmography: "Filmografie",
+      knownFor: "Bekannt für",
+      actors: "Schauspieler",
+      technicalCrew: "Filmteam",
+      crewDirection: "Regie",
+      crewWriting: "Drehbuch",
+      crewPhotography: "Kamera",
+      crewMusic: "Musik",
+      crewEditing: "Schnitt",
       reorderCollection: "Neu ordnen",
       save: "Speichern",
       // Home
@@ -2379,8 +2490,8 @@ enum L10n {
       favorites: "Favoriten",
       favorite: "Favorit",
       favorited: "Favorisiert",
-      favoritesEmptyOwn: "Tippe auf ♥ bei einem Titel, um ihn hier hinzuzufügen",
-      favoritesEmptyOther: "Noch keine Favoriten",
+      favoritesEmptyOwn: "Speichere Filme und Serien, die du liebst, mit ♥ um sie hier wiederzufinden.",
+      favoritesEmptyOther: "Dieser Nutzer hat noch keine Favoriten.",
       removeFromFavorites: "Aus Favoriten entfernen",
       unlockFullProfile: "Vollständiges Profil freischalten",
       startTrackingStats: "Beginne mit dem Tracking, um deine Statistiken zu sehen",
@@ -2499,6 +2610,11 @@ enum L10n {
       followingLabel: "Folge ich",
       noFollowers: "Noch keine Follower",
       noFollowing: "Folgt noch niemandem",
+      followersEmptyOwnSubtitle: "Teile Plotwist mit Freunden, damit sie dir folgen und sehen, was du schaust.",
+      followingEmptyOwnSubtitle: "Finde Leute zum Folgen und entdecke, was sie schauen und bewerten.",
+      followersEmptyOtherSubtitle: "Dieser Nutzer hat noch keine Follower.",
+      followingEmptyOtherSubtitle: "Dieser Nutzer folgt noch niemandem.",
+      shareApp: "Plotwist teilen",
       // Achievements
       badges: "Abzeichen",
       badgeUnlocked: "Abzeichen Freigeschaltet",
@@ -2579,6 +2695,10 @@ enum L10n {
       activityJoined: "ist Plotwist beigetreten",
       activityFriendsActivity: "Freunde-Aktivität",
       activityNoActivity: "Noch keine Aktivität",
+      activityEmptySubtitle: "Füge Filme und Serien zu deiner Sammlung hinzu, um deine Aktivität hier zu sehen.",
+      activityNoFriendsTitle: "Keine Freunde-Aktivität",
+      activityNoFriendsSubtitle: "Folge Personen, um zu sehen, was sie schauen und bewerten.",
+      activityFindFriends: "Freunde finden",
       activitySeeAll: "Alle anzeigen",
       // Recommendations
       recommend: "Empfehlen",
@@ -2635,6 +2755,7 @@ enum L10n {
       movies: "Film",
       tvSeries: "Serie TV",
       people: "Persone",
+      profiles: "Profili",
       noResults: "Nessun risultato trovato.",
       cancel: "Annulla",
       recentSearches: "Ricerche Recenti",
@@ -2664,12 +2785,17 @@ enum L10n {
       shareYourOpinion: "Condividi la tua opinione qui...",
       containSpoilers: "Contiene spoiler",
       tapToReveal: "Tocca per rivelare",
+      justNow: "adesso",
       submitReview: "Invia recensione",
       editReview: "Modifica recensione",
       reviewRequired: "Scrivi la tua recensione.",
       reviewSuccess: "Recensione inviata con successo!",
       reviewUpdateSuccess: "Recensione aggiornata con successo!",
       reviewDeleteSuccess: "Recensione eliminata con successo!",
+      reviewPublished: "Recensione pubblicata!",
+      reviewSharePrompt: "Condividi la tua recensione con i tuoi amici",
+      shareReview: "Condividi recensione",
+      maybeLater: "Forse più tardi",
       tabReviews: "Recensioni",
       reviewSingular: "Recensione",
       tabWhereToWatch: "Dove Guardare",
@@ -2751,6 +2877,15 @@ enum L10n {
       soundtracks: "Colonne Sonore",
       biography: "Biografia",
       biographyPlaceholder: "Raccontaci di te...",
+      filmography: "Filmografia",
+      knownFor: "Conosciuto per",
+      actors: "Attori",
+      technicalCrew: "Troupe Tecnica",
+      crewDirection: "Regia",
+      crewWriting: "Sceneggiatura",
+      crewPhotography: "Fotografia",
+      crewMusic: "Musica",
+      crewEditing: "Montaggio",
       reorderCollection: "Riordina",
       save: "Salva",
       // Home
@@ -2893,8 +3028,8 @@ enum L10n {
       favorites: "Preferiti",
       favorite: "Preferito",
       favorited: "Preferito",
-      favoritesEmptyOwn: "Tocca ♥ su qualsiasi titolo per aggiungerlo qui",
-      favoritesEmptyOther: "Nessun preferito ancora",
+      favoritesEmptyOwn: "Salva i film e le serie che ami toccando ♥ per ritrovarli sempre qui.",
+      favoritesEmptyOther: "Questo utente non ha ancora aggiunto preferiti.",
       removeFromFavorites: "Rimuovi dai Preferiti",
       unlockFullProfile: "Sblocca il profilo completo",
       startTrackingStats: "Inizia a tracciare per vedere le tue statistiche",
@@ -3013,6 +3148,11 @@ enum L10n {
       followingLabel: "Seguiti",
       noFollowers: "Ancora nessun follower",
       noFollowing: "Non segue ancora nessuno",
+      followersEmptyOwnSubtitle: "Condividi Plotwist con gli amici per farti seguire e far vedere cosa stai guardando.",
+      followingEmptyOwnSubtitle: "Trova persone da seguire e scopri cosa stanno guardando e recensendo.",
+      followersEmptyOtherSubtitle: "Questo utente non ha ancora follower.",
+      followingEmptyOtherSubtitle: "Questo utente non segue ancora nessuno.",
+      shareApp: "Condividi Plotwist",
       // Achievements
       badges: "Distintivi",
       badgeUnlocked: "Distintivo Sbloccato",
@@ -3093,6 +3233,10 @@ enum L10n {
       activityJoined: "si è unito a Plotwist",
       activityFriendsActivity: "Attività degli amici",
       activityNoActivity: "Nessuna attività",
+      activityEmptySubtitle: "Inizia ad aggiungere film e serie alla tua collezione per vedere la tua attività qui.",
+      activityNoFriendsTitle: "Nessuna attività degli amici",
+      activityNoFriendsSubtitle: "Segui le persone per vedere cosa stanno guardando e recensendo.",
+      activityFindFriends: "Trova amici",
       activitySeeAll: "Vedi tutto",
       // Recommendations
       recommend: "Consiglia",
@@ -3148,6 +3292,7 @@ enum L10n {
       movies: "映画",
       tvSeries: "テレビシリーズ",
       people: "人物",
+      profiles: "プロフィール",
       noResults: "結果が見つかりません。",
       cancel: "キャンセル",
       recentSearches: "最近の検索",
@@ -3177,12 +3322,17 @@ enum L10n {
       shareYourOpinion: "ここにあなたの意見を共有してください...",
       containSpoilers: "ネタバレを含む",
       tapToReveal: "タップして表示",
+      justNow: "たった今",
       submitReview: "レビューを送信",
       editReview: "レビューを編集",
       reviewRequired: "レビューを書いてください。",
       reviewSuccess: "レビューが正常に送信されました！",
       reviewUpdateSuccess: "レビューが正常に更新されました！",
       reviewDeleteSuccess: "レビューが正常に削除されました！",
+      reviewPublished: "レビューが公開されました！",
+      reviewSharePrompt: "友達にレビューをシェアしよう",
+      shareReview: "レビューをシェア",
+      maybeLater: "あとで",
       tabReviews: "レビュー",
       reviewSingular: "レビュー",
       tabWhereToWatch: "視聴方法",
@@ -3264,6 +3414,15 @@ enum L10n {
       soundtracks: "サウンドトラック",
       biography: "自己紹介",
       biographyPlaceholder: "自己紹介を書いてください...",
+      filmography: "フィルモグラフィー",
+      knownFor: "活動分野",
+      actors: "俳優",
+      technicalCrew: "スタッフ",
+      crewDirection: "監督",
+      crewWriting: "脚本",
+      crewPhotography: "撮影",
+      crewMusic: "音楽",
+      crewEditing: "編集",
       reorderCollection: "並べ替え",
       save: "保存",
       // Home
@@ -3406,8 +3565,8 @@ enum L10n {
       favorites: "お気に入り",
       favorite: "お気に入り",
       favorited: "お気に入り済",
-      favoritesEmptyOwn: "♥をタップしてここに追加しましょう",
-      favoritesEmptyOther: "まだお気に入りがありません",
+      favoritesEmptyOwn: "♥をタップして、お気に入りの映画やドラマをここに保存しましょう。",
+      favoritesEmptyOther: "このユーザーはまだお気に入りを追加していません。",
       removeFromFavorites: "お気に入りから削除",
       unlockFullProfile: "フルプロフィールをアンロック",
       startTrackingStats: "トラッキングを始めて統計を見よう",
@@ -3526,6 +3685,11 @@ enum L10n {
       followingLabel: "フォロー中",
       noFollowers: "まだフォロワーがいません",
       noFollowing: "まだ誰もフォローしていません",
+      followersEmptyOwnSubtitle: "Plotwistを友達にシェアして、フォローしてもらいましょう。",
+      followingEmptyOwnSubtitle: "フォローする人を見つけて、何を観ているか発見しましょう。",
+      followersEmptyOtherSubtitle: "このユーザーにはまだフォロワーがいません。",
+      followingEmptyOtherSubtitle: "このユーザーはまだ誰もフォローしていません。",
+      shareApp: "Plotwistをシェア",
       // Achievements
       badges: "バッジ",
       badgeUnlocked: "バッジ獲得",
@@ -3606,6 +3770,10 @@ enum L10n {
       activityJoined: "がPlotWistに参加",
       activityFriendsActivity: "フレンドのアクティビティ",
       activityNoActivity: "まだアクティビティはありません",
+      activityEmptySubtitle: "映画やシリーズをコレクションに追加して、ここでアクティビティを確認しましょう。",
+      activityNoFriendsTitle: "フレンドのアクティビティがありません",
+      activityNoFriendsSubtitle: "フォローして、何を観ているかレビューしているか見てみましょう。",
+      activityFindFriends: "フレンドを探す",
       activitySeeAll: "すべて見る",
       // Recommendations
       recommend: "おすすめする",
@@ -3667,6 +3835,7 @@ struct Strings {
   let movies: String
   let tvSeries: String
   let people: String
+  let profiles: String
   let noResults: String
   let cancel: String
   let recentSearches: String
@@ -3698,12 +3867,17 @@ struct Strings {
   let shareYourOpinion: String
   let containSpoilers: String
   let tapToReveal: String
+  let justNow: String
   let submitReview: String
   let editReview: String
   let reviewRequired: String
   let reviewSuccess: String
   let reviewUpdateSuccess: String
   let reviewDeleteSuccess: String
+  let reviewPublished: String
+  let reviewSharePrompt: String
+  let shareReview: String
+  let maybeLater: String
   // Tabs
   let tabReviews: String
   let reviewSingular: String
@@ -3788,6 +3962,17 @@ struct Strings {
   // Biography
   let biography: String
   let biographyPlaceholder: String
+  // Person
+  let filmography: String
+  let knownFor: String
+  // Credits
+  let actors: String
+  let technicalCrew: String
+  let crewDirection: String
+  let crewWriting: String
+  let crewPhotography: String
+  let crewMusic: String
+  let crewEditing: String
   // Reorder
   let reorderCollection: String
   let save: String
@@ -4055,6 +4240,11 @@ struct Strings {
   let followingLabel: String
   let noFollowers: String
   let noFollowing: String
+  let followersEmptyOwnSubtitle: String
+  let followingEmptyOwnSubtitle: String
+  let followersEmptyOtherSubtitle: String
+  let followingEmptyOtherSubtitle: String
+  let shareApp: String
   // Achievements
   let badges: String
   let badgeUnlocked: String
@@ -4136,6 +4326,10 @@ struct Strings {
   let activityJoined: String
   let activityFriendsActivity: String
   let activityNoActivity: String
+  let activityEmptySubtitle: String
+  let activityNoFriendsTitle: String
+  let activityNoFriendsSubtitle: String
+  let activityFindFriends: String
   let activitySeeAll: String
   // Recommendations
   let recommend: String

@@ -12,25 +12,43 @@ struct Achievement: Identifiable {
   let description: String
   let current: Int
   let target: Int
-  let color: Color
   let level: Int
   var isClaimed: Bool
   var isEquipped: Bool
+  var remoteId: String?
+  var category: String
+  var sortOrder: Int
 
   var isComplete: Bool { current >= target }
   var isClaimable: Bool { isComplete && !isClaimed }
   var progress: Double { min(Double(current) / Double(target), 1.0) }
   var assetIcon: String { "ach.\(id)" }
+  var isSaga: Bool { category == "saga" }
+
+  var iconURL: URL? {
+    guard icon.hasPrefix("http") else { return nil }
+    return URL(string: icon)
+  }
 }
 
 struct AchievementIconView: View {
   let achievement: Achievement
   let size: CGFloat
-  let color: Color
   var muted: Bool = false
 
   var body: some View {
-    if UIImage(named: achievement.assetIcon) != nil {
+    if let url = achievement.iconURL {
+      CachedAsyncImage(url: url) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+      } placeholder: {
+        Color.appInputFilled
+      }
+      .frame(width: size, height: size)
+      .saturation(muted ? 0 : 1)
+      .opacity(muted ? 0.5 : 1)
+    } else if UIImage(named: achievement.assetIcon) != nil {
       Image(achievement.assetIcon)
         .resizable()
         .aspectRatio(contentMode: .fit)
@@ -41,161 +59,13 @@ struct AchievementIconView: View {
       Image(systemName: achievement.icon)
         .font(.system(size: size * 0.75, weight: .medium))
         .symbolRenderingMode(.hierarchical)
-        .foregroundStyle(color)
+        .foregroundStyle(Color.appForegroundAdaptive)
     }
   }
 }
 
 var initialMockAchievements: [Achievement] {
-  let s = L10n.current
-  return [
-    Achievement(
-      id: "first_steps", icon: "star", name: s.achFirstSteps,
-      description: s.achFirstStepsDesc,
-      current: 1, target: 1, color: Color(hex: "D4A843"), level: 1,
-      isClaimed: true, isEquipped: true
-    ),
-    Achievement(
-      id: "horror_fan", icon: "theatermasks", name: s.achHorrorFan,
-      description: s.achHorrorFanDesc,
-      current: 10, target: 10, color: Color(hex: "D46B6B"), level: 2,
-      isClaimed: true, isEquipped: false
-    ),
-    Achievement(
-      id: "binge_watcher", icon: "play.rectangle", name: s.achBingeWatcher,
-      description: s.achBingeWatcherDesc,
-      current: 5, target: 5, color: Color(hex: "9B6EBE"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "explorer", icon: "globe", name: s.achExplorer,
-      description: s.achExplorerDesc,
-      current: 7, target: 10, color: Color(hex: "5B8DB8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "critic", icon: "text.bubble", name: s.achCritic,
-      description: s.achCriticDesc,
-      current: 3, target: 10, color: Color(hex: "D49243"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "marathon", icon: "bolt", name: s.achMarathon,
-      description: s.achMarathonDesc,
-      current: 1, target: 3, color: Color(hex: "4BA8B8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "cinephile", icon: "film", name: s.achCinephile,
-      description: s.achCinephileDesc,
-      current: 42, target: 100, color: Color(hex: "6E6EB8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "social_butterfly", icon: "person.2", name: s.achSocialButterfly,
-      description: s.achSocialButterflyDesc,
-      current: 2, target: 10, color: Color(hex: "B86E92"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "watchlist_pro", icon: "list.bullet.rectangle", name: s.achWatchlistPro,
-      description: s.achWatchlistProDesc,
-      current: 12, target: 50, color: Color(hex: "5BB86E"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-
-    // Sagas
-    Achievement(
-      id: "saga_lotr", icon: "mountain.2", name: s.achLOTR,
-      description: s.achLOTRDesc,
-      current: 3, target: 3, color: Color(hex: "B89843"), level: 1,
-      isClaimed: true, isEquipped: true
-    ),
-    Achievement(
-      id: "saga_star_wars", icon: "sparkles", name: s.achStarWars,
-      description: s.achStarWarsDesc,
-      current: 6, target: 9, color: Color(hex: "6B85B8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_harry_potter", icon: "wand.and.stars", name: s.achHarryPotter,
-      description: s.achHarryPotterDesc,
-      current: 8, target: 8, color: Color(hex: "8B5E5E"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_mcu", icon: "shield", name: s.achMCU,
-      description: s.achMCUDesc,
-      current: 18, target: 23, color: Color(hex: "D4705B"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_fast", icon: "car", name: s.achFastFurious,
-      description: s.achFastFuriousDesc,
-      current: 4, target: 10, color: Color(hex: "787878"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_godfather", icon: "crown", name: s.achGodfather,
-      description: s.achGodfatherDesc,
-      current: 2, target: 3, color: Color(hex: "A08050"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_batman_nolan", icon: "moon.stars", name: s.achDarkKnight,
-      description: s.achDarkKnightDesc,
-      current: 3, target: 3, color: Color(hex: "555578"), level: 1,
-      isClaimed: true, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_back_future", icon: "clock.arrow.circlepath", name: s.achBackFuture,
-      description: s.achBackFutureDesc,
-      current: 1, target: 3, color: Color(hex: "4B9AB8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_indiana_jones", icon: "map", name: s.achIndianaJones,
-      description: s.achIndianaJonesDesc,
-      current: 2, target: 5, color: Color(hex: "B89050"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_matrix", icon: "circle.grid.cross", name: s.achMatrix,
-      description: s.achMatrixDesc,
-      current: 1, target: 3, color: Color(hex: "4BA04B"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_alien", icon: "allergens", name: s.achAlien,
-      description: s.achAlienDesc,
-      current: 0, target: 4, color: Color(hex: "4B784B"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_rocky", icon: "figure.boxing", name: s.achRocky,
-      description: s.achRockyDesc,
-      current: 3, target: 8, color: Color(hex: "B85B5B"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_mission_impossible", icon: "flame", name: s.achMissionImpossible,
-      description: s.achMissionImpossibleDesc,
-      current: 5, target: 8, color: Color(hex: "D47843"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_toy_story", icon: "teddybear", name: s.achToyStory,
-      description: s.achToyStoryDesc,
-      current: 4, target: 4, color: Color(hex: "43A8B8"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-    Achievement(
-      id: "saga_john_wick", icon: "dog", name: s.achJohnWick,
-      description: s.achJohnWickDesc,
-      current: 3, target: 4, color: Color(hex: "785878"), level: 1,
-      isClaimed: false, isEquipped: false
-    ),
-  ]
+  []
 }
 
 // MARK: - Achievements Section
@@ -209,16 +79,16 @@ struct AchievementsSection: View {
 
   private var inProgress: [Achievement] {
     achievements
-      .filter { $0.current > 0 && !$0.isComplete && !$0.id.hasPrefix("saga_") }
+      .filter { $0.current > 0 && !$0.isComplete && !$0.isSaga }
       .sorted { $0.progress > $1.progress }
   }
 
   private var sagas: [Achievement] {
-    achievements.filter { $0.id.hasPrefix("saga_") && !$0.isClaimed }
+    achievements.filter { $0.isSaga && !$0.isClaimed }
   }
 
   private var locked: [Achievement] {
-    achievements.filter { $0.current == 0 && !$0.id.hasPrefix("saga_") }
+    achievements.filter { $0.current == 0 && !$0.isSaga }
   }
 
   private var claimed: [Achievement] {
@@ -227,49 +97,58 @@ struct AchievementsSection: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      AchievementsProgressHeader(
-        claimedCount: claimedCount,
-        totalCount: achievements.count,
-        claimableCount: claimable.count
-      )
-      .padding(.horizontal, 24)
-      .padding(.top, 12)
-      .padding(.bottom, 20)
-
-      if !claimable.isEmpty {
-        ClaimableSpotlightSection(
-          achievements: claimable,
-          onClaim: { claim(id: $0) }
+      if achievements.isEmpty {
+        VStack(spacing: 12) {
+          Spacer()
+          ProgressView()
+          Spacer()
+        }
+        .frame(minHeight: 200)
+      } else {
+        AchievementsProgressHeader(
+          claimedCount: claimedCount,
+          totalCount: achievements.count,
+          claimableCount: claimable.count
         )
-        .padding(.bottom, 24)
-      }
+        .padding(.horizontal, 24)
+        .padding(.top, 12)
+        .padding(.bottom, 20)
 
-      if !inProgress.isEmpty {
-        achievementGroup(
-          title: L10n.current.achSectionInProgress,
-          items: inProgress
-        )
-      }
+        if !claimable.isEmpty {
+          ClaimableSpotlightSection(
+            achievements: claimable,
+            onClaim: { claim(id: $0) }
+          )
+          .padding(.bottom, 24)
+        }
 
-      if !sagas.isEmpty {
-        achievementGroup(
-          title: L10n.current.achSectionSagas,
-          items: sagas
-        )
-      }
+        if !inProgress.isEmpty {
+          achievementGroup(
+            title: L10n.current.achSectionInProgress,
+            items: inProgress
+          )
+        }
 
-      if !locked.isEmpty {
-        achievementGroup(
-          title: L10n.current.achSectionLocked,
-          items: locked
-        )
-      }
+        if !sagas.isEmpty {
+          achievementGroup(
+            title: L10n.current.achSectionSagas,
+            items: sagas
+          )
+        }
 
-      if !claimed.isEmpty {
-        achievementGroup(
-          title: L10n.current.achSectionClaimed,
-          items: claimed
-        )
+        if !locked.isEmpty {
+          achievementGroup(
+            title: L10n.current.achSectionLocked,
+            items: locked
+          )
+        }
+
+        if !claimed.isEmpty {
+          achievementGroup(
+            title: L10n.current.achSectionClaimed,
+            items: claimed
+          )
+        }
       }
     }
     .padding(.bottom, 24)
@@ -305,7 +184,8 @@ struct AchievementsSection: View {
 
   private func claim(id: String) {
     guard let index = achievements.firstIndex(where: { $0.id == id }),
-          achievements[index].isClaimable else { return }
+          achievements[index].isClaimable,
+          let remoteId = achievements[index].remoteId else { return }
 
     withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
       achievements[index].isClaimed = true
@@ -318,6 +198,17 @@ struct AchievementsSection: View {
     claimed.isClaimed = true
     claimed.isEquipped = true
     claimedAchievement = claimed
+
+    Task {
+      do {
+        _ = try await AchievementService.shared.claimAchievement(id: remoteId)
+      } catch {
+        withAnimation {
+          achievements[index].isClaimed = false
+          achievements[index].isEquipped = false
+        }
+      }
+    }
   }
 }
 
@@ -400,9 +291,11 @@ private struct ClaimableSpotlightSection: View {
               achievement: achievement,
               onClaim: { onClaim(achievement.id) }
             )
+            .transition(.scale.combined(with: .opacity))
           }
         }
         .padding(.horizontal, 24)
+        .geometryGroup()
       }
     }
   }
@@ -415,7 +308,7 @@ private struct ClaimableCard: View {
 
   var body: some View {
     VStack(spacing: 12) {
-      AchievementIconView(achievement: achievement, size: 64, color: achievement.color)
+      AchievementIconView(achievement: achievement, size: 64)
         .padding(.top, 4)
 
       Text(achievement.name)
@@ -423,6 +316,7 @@ private struct ClaimableCard: View {
         .foregroundColor(.appForegroundAdaptive)
         .lineLimit(2)
         .multilineTextAlignment(.center)
+        .frame(minHeight: 34, alignment: .center)
 
       Button(action: onClaim) {
         Text(L10n.current.claimBadge)
@@ -455,7 +349,7 @@ struct ProfileBadgesRow: View {
         HStack(spacing: 8) {
           ForEach(badges) { badge in
             HStack(spacing: 6) {
-              AchievementIconView(achievement: badge, size: 14, color: badge.color)
+              AchievementIconView(achievement: badge, size: 14)
 
               Text(badge.name)
                 .font(.caption2.weight(.medium))
@@ -506,7 +400,7 @@ struct ClaimCelebrationOverlay: View {
               )
           }
 
-          AchievementIconView(achievement: achievement, size: 96, color: .appForegroundAdaptive)
+          AchievementIconView(achievement: achievement, size: 96)
             .scaleEffect(showContent ? 1 : 0.5)
         }
 
@@ -611,24 +505,22 @@ private struct AchievementCard: View {
 
   private var cardOpacity: Double {
     if achievement.isClaimed || achievement.isClaimable { return 1 }
-    if hasProgress { return 0.7 }
+    if hasProgress { return 1 }
     return 0.45
   }
-
-  // MARK: Icon
 
   private var iconSection: some View {
     Group {
       if achievement.isComplete {
-        AchievementIconView(achievement: achievement, size: 96, color: achievement.color)
+        AchievementIconView(achievement: achievement, size: 96)
+      } else if hasProgress {
+        AchievementIconView(achievement: achievement, size: 88)
       } else {
-        AchievementIconView(achievement: achievement, size: 80, color: .appMutedForegroundAdaptive)
-          .opacity(hasProgress ? 1 : 0.5)
+        AchievementIconView(achievement: achievement, size: 80)
+          .opacity(0.5)
       }
     }
   }
-
-  // MARK: Text
 
   private var textSection: some View {
     VStack(spacing: 5) {
@@ -646,8 +538,6 @@ private struct AchievementCard: View {
         .lineLimit(2)
     }
   }
-
-  // MARK: CTA
 
   @ViewBuilder
   private var ctaSection: some View {

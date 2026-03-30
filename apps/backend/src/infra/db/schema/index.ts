@@ -17,6 +17,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import { userPreferences } from './user-preferences'
+import { achievements, userAchievements } from './achievements'
 
 export const subscriptionStatusEnum = pgEnum('subscription_status', [
   'ACTIVE',
@@ -701,6 +702,52 @@ export const sharedUrls = pgTable(
   })
 )
 
+export const recommendationStatusEnum = pgEnum('recommendation_status', [
+  'PENDING',
+  'ACCEPTED',
+  'DECLINED',
+])
+
+export const recommendations = pgTable(
+  'recommendations',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    fromUserId: uuid('from_user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    toUserId: uuid('to_user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    message: varchar('message'),
+    status: recommendationStatusEnum('status').default('PENDING').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => ({
+    toUserIdx: index('idx_recommendations_to_user').on(table.toUserId),
+    fromUserIdx: index('idx_recommendations_from_user').on(table.fromUserId),
+  })
+)
+
+export const recommendationsRelations = relations(
+  recommendations,
+  ({ one }) => ({
+    fromUser: one(users, {
+      fields: [recommendations.fromUserId],
+      references: [users.id],
+      relationName: 'recommendationFrom',
+    }),
+    toUser: one(users, {
+      fields: [recommendations.toUserId],
+      references: [users.id],
+      relationName: 'recommendationTo',
+    }),
+  })
+)
+
 export const schema = {
   users,
   userItems,
@@ -724,6 +771,10 @@ export const schema = {
   feedbacks,
   userFavorites,
   sharedUrls,
+  recommendations,
+  achievements,
+  userAchievements,
 }
 
 export * from './user-preferences'
+export * from './achievements'

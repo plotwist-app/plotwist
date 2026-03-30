@@ -69,5 +69,8 @@ struct HomeHeaderView: View {
         }
       }
     }
+    .task {
+      await recommendationStore.fetchReceived()
+    }
   }
 }

@@ -98,10 +98,13 @@ struct NotificationsView: View {
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
     }
+    .task {
+      await store.fetchReceived()
+    }
     .navigationDestination(item: $selectedItem) { rec in
       MediaDetailView(
         mediaId: rec.mediaId,
-        mediaType: rec.mediaType
+        mediaType: rec.mediaType == "MOVIE" ? "movie" : "tv"
       )
     }
   }
@@ -136,12 +139,10 @@ struct NotificationsView: View {
   }
 
   private func acceptCard(_ rec: Recommendation) {
-    let apiMediaType = rec.mediaType == "movie" ? "MOVIE" : "TV_SHOW"
-
     Task {
       _ = try? await UserItemService.shared.upsertUserItem(
         tmdbId: rec.mediaId,
-        mediaType: apiMediaType,
+        mediaType: rec.mediaType,
         status: .watchlist
       )
       NotificationCenter.default.post(name: .collectionCacheInvalidated, object: nil)
@@ -152,6 +153,11 @@ struct NotificationsView: View {
   }
 
   private func timeAgo(_ date: Date) -> String {
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
+    }
+
     let formatter = RelativeDateTimeFormatter()
     formatter.unitsStyle = .abbreviated
     return formatter.localizedString(for: date, relativeTo: Date())
@@ -163,12 +169,12 @@ struct NotificationsView: View {
         HStack(spacing: 10) {
           ProfileAvatar(
             avatarURL: rec.fromAvatarUrl.flatMap { URL(string: $0) },
-            username: rec.fromUsername,
+            username: rec.displayName,
             size: 40
           )
 
           VStack(alignment: .leading, spacing: 1) {
-            Text(rec.fromUsername)
+            Text(rec.displayName)
               .font(.subheadline.weight(.medium))
               .foregroundColor(.appForegroundAdaptive)
 
@@ -207,7 +213,7 @@ struct NotificationsView: View {
             selectedItem = rec
           } label: {
             VStack(alignment: .leading, spacing: 8) {
-              Text(rec.mediaTitle)
+              Text(rec.mediaTitle ?? "")
                 .font(.body.weight(.semibold))
                 .foregroundColor(.appForegroundAdaptive)
                 .lineLimit(2)

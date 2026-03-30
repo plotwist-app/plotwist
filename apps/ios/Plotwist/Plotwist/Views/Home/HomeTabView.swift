@@ -196,7 +196,6 @@ struct HomeTabView: View {
                 .buttonStyle(.plain)
                 .matchedTransitionSource(id: "hero-\(featured.id)", in: heroAnimation)
                 .padding(.horizontal, 20)
-                .transition(.opacity)
               } else if showDiscoverySkeleton {
                 FeaturedHeroSkeleton()
                   .padding(.horizontal, 20)
@@ -246,7 +245,7 @@ struct HomeTabView: View {
                   namespace: heroAnimation
                 )
               } else if showDiscoverySkeleton {
-                HomeSectionSkeleton()
+                TrendingSectionSkeleton()
               }
 
               // Anime Section (conditional)
@@ -333,15 +332,7 @@ struct HomeTabView: View {
 
               Spacer(minLength: 100)
             }
-            .animation(.easeOut(duration: 0.3), value: featuredItem?.id)
-            .animation(.easeOut(duration: 0.3), value: watchingItems.count)
-            .animation(.easeOut(duration: 0.3), value: watchlistItems.count)
-            .animation(.easeOut(duration: 0.3), value: forYouItems.count)
-            .animation(.easeOut(duration: 0.3), value: trendingItems.count)
-            .animation(.easeOut(duration: 0.3), value: nowPlayingItems.count)
-            .animation(.easeOut(duration: 0.3), value: airingTodayItems.count)
-            .animation(.easeOut(duration: 0.3), value: topRatedItems.count)
-            .animation(.easeOut(duration: 0.3), value: isLoadingDiscovery)
+            .transaction { $0.animation = nil }
           }
 
         }

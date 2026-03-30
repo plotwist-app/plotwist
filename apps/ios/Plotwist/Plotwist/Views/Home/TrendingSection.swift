@@ -52,6 +52,36 @@ struct TrendingSection: View {
   }
 }
 
+// MARK: - Trending Section Skeleton
+struct TrendingSectionSkeleton: View {
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive)
+        .frame(width: 180, height: 20)
+        .padding(.horizontal, 24)
+
+      GeometryReader { proxy in
+        let cardWidth = proxy.size.width * 0.80
+
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 12) {
+            ForEach(0..<3, id: \.self) { _ in
+              RoundedRectangle(cornerRadius: 20)
+                .fill(Color.appBorderAdaptive)
+                .frame(width: cardWidth, height: 230)
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 4)
+        }
+        .scrollClipDisabled()
+      }
+      .frame(height: 240)
+    }
+  }
+}
+
 // MARK: - Trending Card (backdrop hero with rank badge)
 struct TrendingCard: View {
   let item: SearchResult

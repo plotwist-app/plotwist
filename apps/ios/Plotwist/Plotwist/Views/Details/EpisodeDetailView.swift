@@ -377,6 +377,8 @@ struct EpisodeDetailView: View {
         seasonNumber: episode.seasonNumber,
         episodeNumber: episode.episodeNumber,
         existingReview: userReview,
+        mediaTitle: episode.name,
+        mediaPosterPath: seasonPosterPath,
         onSaved: {
           Task {
             await loadUserReview()

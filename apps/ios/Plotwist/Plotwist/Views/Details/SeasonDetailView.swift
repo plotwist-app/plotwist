@@ -173,6 +173,8 @@ struct SeasonDetailView: View {
         mediaType: "tv",
         seasonNumber: season.seasonNumber,
         existingReview: userReview,
+        mediaTitle: seriesName,
+        mediaPosterPath: season.posterPath,
         onSaved: {
           Task {
             await loadUserReview()
