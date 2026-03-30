@@ -10,7 +10,7 @@ struct ProfileTabView: View {
   @State var user: User?
   @State var isInitialLoad = true
   @State var strings = L10n.current
-  @State var selectedMainTab: ProfileMainTab = .collection
+  @State var selectedMainTab: ProfileMainTab = .activity
   @State var slideFromTrailing: Bool = true
   @State var selectedStatusTab: ProfileStatusTab = .watched
   @State var userItems: [UserItemSummary] = []
@@ -19,18 +19,32 @@ struct ProfileTabView: View {
   @State var totalReviewsCount: Int = 0
   @State var moviesCount: Int = 0
   @State var seriesCount: Int = 0
+  @State var followersCount: Int = 0
+  @State var followingCount: Int = 0
   @State var isLoadingQuickStats: Bool = true
   @State var scrollOffset: CGFloat = 0
   @State var initialScrollOffset: CGFloat? = nil
   @State var hasAppeared = false
   @State var removingItemIds: Set<String> = []
   @State var selectedMediaItem: UserItemSummary?
+  @State var selectedFollowerUser: FollowerUser?
   @State var showReorderCollection = false
+  @State var claimedAchievement: Achievement?
+  @State var achievements: [Achievement] = initialMockAchievements
+
+  var equippedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed && $0.isEquipped }
+  }
   @State var isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
   @ObservedObject private var themeManager = ThemeManager.shared
+  @ObservedObject private var subscriptionService = SubscriptionService.shared
 
   let cache = CollectionCache.shared
   private let avatarSize: CGFloat = 56
+
+  var visibleMainTabs: [ProfileMainTab] {
+    ProfileMainTab.allCases
+  }
   private let scrollThreshold: CGFloat = 80
 
   private var isScrolled: Bool {
@@ -46,16 +60,7 @@ struct ProfileTabView: View {
     NavigationStack {
       ZStack {
         Color.appBackgroundAdaptive.ignoresSafeArea()
-
-        if isGuestMode {
-          guestModeView
-        } else if showLoading {
-          loadingView
-        } else if let user {
-          profileContentView(user: user)
-        } else {
-          errorView
-        }
+        mainContentView
       }
       .onAppear {
         if !hasAppeared {
@@ -70,58 +75,82 @@ struct ProfileTabView: View {
           await loadData()
         }
       }
-      .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
-        strings = L10n.current
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { notification in
-        // If an avatar URL is provided, update locally for instant display
-        if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
-          user?.avatarUrl = avatarUrl
+      .modifier(ProfileNotificationModifier(
+        onLanguageChanged: {
+          strings = L10n.current
+          AchievementService.shared.invalidateCache()
+          Task { await loadAchievements(forceRefresh: true) }
+        },
+        onProfileUpdated: { notification in
+          if let avatarUrl = notification.userInfo?["avatarUrl"] as? String {
+            user?.avatarUrl = avatarUrl
+          }
+          Task { await loadUser(forceRefresh: true) }
+        },
+        onCollectionCacheInvalidated: {
+          Task {
+            await loadUserItems(forceRefresh: true)
+            await loadStatusCounts(forceRefresh: true)
+            await loadQuickStats(forceRefresh: true)
+            await loadAchievements(forceRefresh: true)
+          }
+        },
+        onAuthChanged: {
+          isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
+          if AuthService.shared.isAuthenticated {
+            Task { await loadData() }
+          } else {
+            user = nil
+            userItems = []
+            statusCounts = [:]
+            totalReviewsCount = 0
+            moviesCount = 0
+            seriesCount = 0
+            followersCount = 0
+            followingCount = 0
+            achievements = []
+            isLoadingQuickStats = true
+            isInitialLoad = true
+            AchievementService.shared.invalidateCache()
+          }
+        },
+        onSubscriptionChanged: {
+          Task { await loadUser(forceRefresh: true) }
         }
-        Task { await loadUser(forceRefresh: true) }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in
-        Task {
-          await loadUserItems(forceRefresh: true)
-          await loadStatusCounts(forceRefresh: true)
-          await loadQuickStats(forceRefresh: true)
-        }
-      }
-      .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in
-        isGuestMode = !AuthService.shared.isAuthenticated && UserDefaults.standard.bool(forKey: "isGuestMode")
-
-        if AuthService.shared.isAuthenticated {
-          Task { await loadData() }
-        } else {
-          user = nil
-          userItems = []
-          statusCounts = [:]
-          totalReviewsCount = 0
-          moviesCount = 0
-          seriesCount = 0
-          isLoadingQuickStats = true
-          isInitialLoad = true
-        }
-      }
-      .navigationBarHidden(true)
-      .navigationDestination(item: $selectedMediaItem) { item in
-        MediaDetailView(
-          mediaId: item.tmdbId,
-          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+      ))
+      .modifier(ProfileNavigationModifier(
+        selectedMediaItem: $selectedMediaItem,
+        selectedFollowerUser: $selectedFollowerUser,
+        showReorderCollection: $showReorderCollection,
+        user: user,
+        selectedStatusTab: selectedStatusTab,
+        strings: strings,
+        statusCounts: statusCounts,
+        cache: cache
+      ))
+    }
+    .overlay {
+      if let achievement = claimedAchievement {
+        ClaimCelebrationOverlay(
+          achievement: achievement,
+          onDismiss: { claimedAchievement = nil }
         )
       }
-      .fullScreenCover(isPresented: $showReorderCollection) {
-        if let user {
-          ReorderCollectionView(
-            userId: user.id,
-            selectedStatusTab: selectedStatusTab,
-            strings: strings,
-            statusCounts: statusCounts,
-            cache: cache
-          )
-        }
-      }
-      .toolbar(.visible, for: .tabBar)
+    }
+  }
+
+  // Type-erased conditional content to reduce generic type nesting depth.
+  // Without AnyView, the body produces deeply nested _ConditionalContent types
+  // that cause a stack overflow in Swift runtime type metadata resolution on device.
+  private var mainContentView: AnyView {
+    if isGuestMode {
+      AnyView(guestModeView)
+    } else if showLoading {
+      AnyView(loadingView)
+    } else if let user {
+      AnyView(profileContentView(user: user))
+    } else {
+      AnyView(errorView)
     }
   }
 
@@ -186,9 +215,21 @@ struct ProfileTabView: View {
         .font(.subheadline)
         .foregroundColor(.appMutedForegroundAdaptive)
       Button("Try again") {
-        Task { await loadUser() }
+        Task { await loadData() }
       }
       .foregroundColor(.appForegroundAdaptive)
+
+      #if DEBUG
+      Button {
+        AuthService.shared.signOut()
+      } label: {
+        Text("Logout")
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appDestructive)
+      }
+      .padding(.top, 8)
+      #endif
+
       Spacer()
     }
   }
@@ -203,9 +244,9 @@ struct ProfileTabView: View {
           selectedTab: $selectedMainTab,
           slideFromTrailing: $slideFromTrailing,
           strings: strings,
-          reviewsCount: totalReviewsCount
+          visibleTabs: visibleMainTabs
         )
-        .padding(.top, 20)
+        .padding(.top, 28)
         .padding(.bottom, 8)
 
         tabContentView(userId: user.id)
@@ -235,7 +276,7 @@ struct ProfileTabView: View {
 
       Spacer()
 
-      NavigationLink(destination: EditProfileView(user: user)) {
+      NavigationLink(destination: EditProfileView(user: user, achievements: $achievements)) {
         Image(systemName: "ellipsis")
           .font(.system(size: 14))
           .foregroundColor(.appForegroundAdaptive)
@@ -269,7 +310,7 @@ struct ProfileTabView: View {
               .font(.title3.bold())
               .foregroundColor(.appForegroundAdaptive)
 
-            if user.isPro {
+            if user.isPro || subscriptionService.isPro {
               ProBadge()
             }
           }
@@ -289,8 +330,15 @@ struct ProfileTabView: View {
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
+        followersCount: $followersCount,
+        followingCount: followingCount,
+        userId: user.id,
         isLoading: isLoadingQuickStats,
-        strings: strings
+        strings: strings,
+        isOwnProfile: true,
+        onUserSelected: { follower in
+          selectedFollowerUser = follower
+        }
       )
       .padding(.horizontal, 24)
       .padding(.bottom, 12)
@@ -304,6 +352,7 @@ struct ProfileTabView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
       }
+
     }
   }
 
@@ -311,14 +360,25 @@ struct ProfileTabView: View {
   private func tabContentView(userId: String) -> some View {
     Group {
       switch selectedMainTab {
+      case .activity:
+        ActivityFeedView(userId: userId)
+          .padding(.bottom, 24)
       case .collection:
         collectionTabContent
+      case .favorites:
+        FavoritesSection(isOwnProfile: true, userId: userId)
+          .padding(.bottom, 24)
       case .reviews:
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
       case .stats:
         ProfileStatsView(userId: userId, isPro: user?.isPro ?? false, isOwnProfile: true)
           .padding(.bottom, 24)
+      case .achievements:
+        AchievementsSection(
+          achievements: $achievements,
+          claimedAchievement: $claimedAchievement
+        )
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)
@@ -371,6 +431,66 @@ struct ProfileTabView: View {
       }
       return Color.clear
     }
+  }
+}
+
+// MARK: - Notification Handler Modifier
+private struct ProfileNotificationModifier: ViewModifier {
+  let onLanguageChanged: () -> Void
+  let onProfileUpdated: (Notification) -> Void
+  let onCollectionCacheInvalidated: () -> Void
+  let onAuthChanged: () -> Void
+  let onSubscriptionChanged: () -> Void
+
+  func body(content: Content) -> some View {
+    content
+      .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in onLanguageChanged() }
+      .onReceive(NotificationCenter.default.publisher(for: .profileUpdated)) { onProfileUpdated($0) }
+      .onReceive(NotificationCenter.default.publisher(for: .collectionCacheInvalidated)) { _ in onCollectionCacheInvalidated() }
+      .onReceive(NotificationCenter.default.publisher(for: .authChanged)) { _ in onAuthChanged() }
+      .onReceive(NotificationCenter.default.publisher(for: .subscriptionChanged)) { _ in onSubscriptionChanged() }
+  }
+}
+
+// MARK: - Navigation Modifier
+private struct ProfileNavigationModifier: ViewModifier {
+  @Binding var selectedMediaItem: UserItemSummary?
+  @Binding var selectedFollowerUser: FollowerUser?
+  @Binding var showReorderCollection: Bool
+  let user: User?
+  let selectedStatusTab: ProfileStatusTab
+  let strings: Strings
+  let statusCounts: [String: Int]
+  let cache: CollectionCache
+
+  func body(content: Content) -> some View {
+    content
+      .navigationBarHidden(true)
+      .navigationDestination(item: $selectedMediaItem) { item in
+        MediaDetailView(
+          mediaId: item.tmdbId,
+          mediaType: item.mediaType == "MOVIE" ? "movie" : "tv"
+        )
+      }
+      .navigationDestination(item: $selectedFollowerUser) { follower in
+        UserProfileView(
+          userId: follower.id,
+          initialUsername: follower.username,
+          initialAvatarUrl: follower.avatarUrl
+        )
+      }
+      .fullScreenCover(isPresented: $showReorderCollection) {
+        if let user {
+          ReorderCollectionView(
+            userId: user.id,
+            selectedStatusTab: selectedStatusTab,
+            strings: strings,
+            statusCounts: statusCounts,
+            cache: cache
+          )
+        }
+      }
+      .toolbar(.visible, for: .tabBar)
   }
 }
 

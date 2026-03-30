@@ -5,6 +5,44 @@
 
 import SwiftUI
 
+// MARK: - Media Detail Cache
+class MediaDetailCache {
+  static let shared = MediaDetailCache()
+  private init() {}
+
+  private var cache: [String: CachedEntry] = [:]
+  private let cacheDuration: TimeInterval = 300
+
+  private struct CachedEntry {
+    let details: MovieDetails?
+    let images: [TMDBImage]
+    let collection: MovieCollection?
+    let timestamp: Date
+  }
+
+  private func key(_ mediaId: Int, _ mediaType: String) -> String {
+    "\(mediaType)_\(mediaId)"
+  }
+
+  func get(mediaId: Int, mediaType: String) -> (details: MovieDetails?, images: [TMDBImage], collection: MovieCollection?)? {
+    let k = key(mediaId, mediaType)
+    guard let entry = cache[k],
+          Date().timeIntervalSince(entry.timestamp) < cacheDuration else {
+      return nil
+    }
+    return (entry.details, entry.images, entry.collection)
+  }
+
+  func set(mediaId: Int, mediaType: String, details: MovieDetails?, images: [TMDBImage], collection: MovieCollection?) {
+    let k = key(mediaId, mediaType)
+    cache[k] = CachedEntry(details: details, images: images, collection: collection, timestamp: Date())
+  }
+
+  func invalidate(mediaId: Int, mediaType: String) {
+    cache.removeValue(forKey: key(mediaId, mediaType))
+  }
+}
+
 struct MediaDetailView: View {
   let mediaId: Int
   let mediaType: String
@@ -23,7 +61,15 @@ struct MediaDetailView: View {
   @State private var currentBackdropIndex = 0
   @ObservedObject private var themeManager = ThemeManager.shared
 
+  // Favorite state (moved from actions bar to menu)
+  @State private var isFavorite = false
+  @State private var isTogglingFavorite = false
+
+  // Recommendation
+  @State private var showRecommendSheet = false
+
   // Section visibility state
+  @State private var hasCast = false
   @State private var hasReviews = false
   @State private var hasWhereToWatch = false
   @State private var hasSeasons = false
@@ -130,8 +176,10 @@ struct MediaDetailView: View {
 
                     if let details {
                       detailsContent(details)
+                        .transition(.opacity.animation(.easeOut(duration: 0.2)))
                     } else {
                       loadingContentSkeleton()
+                        .transition(.opacity.animation(.easeOut(duration: 0.15)))
                     }
                   }
                   .zIndex(collectionAbovePoster ? 2 : 0)
@@ -140,8 +188,10 @@ struct MediaDetailView: View {
                   Group {
                     if let details {
                       posterAndInfo(details)
+                        .transition(.opacity.animation(.easeOut(duration: 0.2)))
                     } else {
                       posterAndInfoSkeleton()
+                        .transition(.opacity.animation(.easeOut(duration: 0.15)))
                     }
                   }
                   .zIndex(1)
@@ -162,20 +212,56 @@ struct MediaDetailView: View {
               }
             }
 
-            // Sticky Back Button (hidden when collection is expanded)
+            // Sticky Back + Menu Buttons (hidden when collection is expanded)
             if !isCollectionExpanded {
               VStack {
-                Button {
-                  dismiss()
-                } label: {
-                  Image(systemName: "chevron.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white)
-                    .frame(width: 40, height: 40)
-                    .background(.ultraThinMaterial)
-                    .clipShape(Circle())
+                HStack {
+                  Button {
+                    dismiss()
+                  } label: {
+                    Image(systemName: "chevron.left")
+                      .font(.system(size: 18, weight: .semibold))
+                      .foregroundColor(.white)
+                      .frame(width: 40, height: 40)
+                      .background(.ultraThinMaterial)
+                      .clipShape(Circle())
+                  }
+
+                  Spacer()
+
+                  Menu {
+                    Button {
+                      if AuthService.shared.isAuthenticated {
+                        Task { await toggleFavorite() }
+                      } else {
+                        showLoginPrompt = true
+                      }
+                    } label: {
+                      Label(
+                        isFavorite ? L10n.current.favorited : L10n.current.favorite,
+                        systemImage: isFavorite ? "heart.fill" : "heart"
+                      )
+                    }
+
+                    Button {
+                      if AuthService.shared.isAuthenticated {
+                        showRecommendSheet = true
+                      } else {
+                        showLoginPrompt = true
+                      }
+                    } label: {
+                      Label(L10n.current.recommend, systemImage: "paperplane")
+                    }
+                  } label: {
+                    Image(systemName: "ellipsis")
+                      .font(.system(size: 18, weight: .semibold))
+                      .foregroundColor(.white)
+                      .frame(width: 40, height: 40)
+                      .background(.ultraThinMaterial)
+                      .clipShape(Circle())
+                  }
                 }
-                .padding(.leading, 24)
+                .padding(.horizontal, 24)
                 Spacer()
               }
               .padding(.top, 16)
@@ -195,6 +281,9 @@ struct MediaDetailView: View {
         mediaId: mediaId,
         mediaType: mediaType,
         existingReview: userReview,
+        mediaTitle: details?.displayTitle,
+        mediaPosterPath: details?.posterPath,
+        mediaYear: details?.year,
         onSaved: {
           Task {
             await loadUserReview()
@@ -207,6 +296,17 @@ struct MediaDetailView: View {
         }
       )
     }
+    .sheet(isPresented: $showRecommendSheet) {
+      RecommendSheet(
+        mediaId: mediaId,
+        mediaType: mediaType,
+        mediaTitle: details?.displayTitle ?? "",
+        mediaPosterPath: details?.posterPath,
+        mediaOverview: details?.overview
+      )
+      .floatingSheetPresentation(height: 480)
+      .preferredColorScheme(themeManager.current.colorScheme)
+    }
     .loginPrompt(isPresented: $showLoginPrompt) {
       // User logged in - reload user-specific data
       Task {
@@ -216,20 +316,26 @@ struct MediaDetailView: View {
         await loadUserItem()
       }
     }
+    .onAppear { restoreFromCache() }
     .task {
-      // Start loading user data states immediately if authenticated
       if AuthService.shared.isAuthenticated {
         isLoadingUserReview = true
         isLoadingUserItem = true
       }
 
       await loadDetails()
-      await loadImages()
-      await loadCollection()
-      if AuthService.shared.isAuthenticated {
-        await loadUserReview()
-        await loadUserItem()
+
+      await withTaskGroup(of: Void.self) { group in
+        group.addTask { await loadImages() }
+        group.addTask { await loadCollection() }
+        if AuthService.shared.isAuthenticated {
+          group.addTask { await loadUserReview() }
+          group.addTask { await loadUserItem() }
+          group.addTask { await loadFavoriteStatus() }
+        }
       }
+
+      saveToCache()
     }
   }
 
@@ -237,40 +343,37 @@ struct MediaDetailView: View {
 
   @ViewBuilder
   private func detailsContent(_ details: MovieDetails) -> some View {
-    VStack(alignment: .leading, spacing: 20) {
-      // Action Buttons (Review + Status)
-      MediaDetailViewActions(
-        mediaId: mediaId,
-        mediaType: mediaType,
-        userReview: userReview,
-        userItem: userItem,
-        isLoadingReview: isLoadingUserReview,
-        isLoadingStatus: isLoadingUserItem,
-        onReviewTapped: {
-          if AuthService.shared.isAuthenticated {
-            showReviewSheet = true
-          } else {
-            showLoginPrompt = true
-          }
-        },
-        onStatusChanged: { newItem in
-          userItem = newItem
-        },
-        onLoginRequired: {
+    MediaDetailViewActions(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      userReview: userReview,
+      userItem: userItem,
+      isLoadingReview: isLoadingUserReview,
+      isLoadingStatus: isLoadingUserItem,
+      onReviewTapped: {
+        if AuthService.shared.isAuthenticated {
+          showReviewSheet = true
+        } else {
           showLoginPrompt = true
         }
-      )
-
-      // Overview
-      if let overview = details.overview, !overview.isEmpty {
-        Text(overview)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
-          .lineSpacing(6)
+      },
+      onStatusChanged: { newItem in
+        userItem = newItem
+      },
+      onLoginRequired: {
+        showLoginPrompt = true
       }
-    }
-    .padding(.horizontal, 24)
+    )
     .padding(.top, 16)
+
+    if let overview = details.overview, !overview.isEmpty {
+      Text(overview)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .lineSpacing(6)
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+    }
 
     // Rating + Genres Badges
     ScrollView(.horizontal, showsIndicators: false) {
@@ -303,14 +406,11 @@ struct MediaDetailView: View {
       .padding(.top, 24)
     }
 
-    // Divider before first content section
-    if hasReviews || hasWhereToWatch || hasSeasons || hasRecommendations {
-      Rectangle()
-        .fill(Color.appBorderAdaptive.opacity(0.5))
-        .frame(height: 1)
-        .padding(.horizontal, 24)
-        .padding(.vertical, 24)
-    }
+    Rectangle()
+      .fill(Color.appBorderAdaptive.opacity(0.5))
+      .frame(height: 1)
+      .padding(.horizontal, 24)
+      .padding(.vertical, 24)
 
     // Review Section
     ReviewSectionView(
@@ -333,7 +433,7 @@ struct MediaDetailView: View {
     )
 
     // Divider after reviews
-    if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations) {
+    if hasReviews && (hasWhereToWatch || hasSeasons || hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -351,7 +451,7 @@ struct MediaDetailView: View {
     )
 
     // Divider after where to watch
-    if hasWhereToWatch && (hasSeasons || hasRecommendations) {
+    if hasWhereToWatch && (hasSeasons || hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -372,7 +472,7 @@ struct MediaDetailView: View {
     }
 
     // Divider after seasons
-    if hasSeasons && hasRecommendations {
+    if hasSeasons && (hasRecommendations || hasCast) {
       Rectangle()
         .fill(Color.appBorderAdaptive.opacity(0.5))
         .frame(height: 1)
@@ -389,37 +489,58 @@ struct MediaDetailView: View {
       }
     )
 
+    // Divider after recommendations
+    if hasRecommendations && hasCast {
+      Rectangle()
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 1)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
+    }
+
+    // Cast Section
+    CastSection(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      onContentLoaded: { hasContent in
+        hasCast = hasContent
+      }
+    )
+
     Spacer()
       .frame(height: 80)
   }
 
   @ViewBuilder
   private func loadingContentSkeleton() -> some View {
-    VStack(alignment: .leading, spacing: 20) {
-      HStack(spacing: 12) {
-        RoundedRectangle(cornerRadius: 12)
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 10) {
+        RoundedRectangle(cornerRadius: 10)
           .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 48)
-        RoundedRectangle(cornerRadius: 12)
+          .frame(width: 90, height: 34)
+        RoundedRectangle(cornerRadius: 10)
           .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 48)
+          .frame(width: 120, height: 34)
       }
-      VStack(alignment: .leading, spacing: 8) {
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 14)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: 14)
-        RoundedRectangle(cornerRadius: 4)
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(width: 200, height: 14)
-      }
+      .padding(.horizontal, 24)
     }
-    .padding(.horizontal, 24)
+    .scrollClipDisabled()
     .padding(.top, 16)
 
-    // Genres skeleton
+    VStack(alignment: .leading, spacing: 8) {
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 14)
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(height: 14)
+      RoundedRectangle(cornerRadius: 4)
+        .fill(Color.appBorderAdaptive.opacity(0.5))
+        .frame(width: 200, height: 14)
+    }
+    .padding(.horizontal, 24)
+    .padding(.top, 20)
+
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 8) {
         ForEach(0..<4, id: \.self) { _ in
@@ -430,6 +551,7 @@ struct MediaDetailView: View {
       }
       .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
     .padding(.top, 16)
 
     Spacer()
@@ -499,6 +621,64 @@ struct MediaDetailView: View {
     .offset(y: -70)
   }
 
+  // MARK: - Favorite
+
+  private var apiMediaType: String {
+    mediaType == "movie" ? "MOVIE" : "TV_SHOW"
+  }
+
+  private func loadFavoriteStatus() async {
+    do {
+      let result = try await FavoritesService.shared.checkFavorite(
+        tmdbId: mediaId, mediaType: apiMediaType
+      )
+      await MainActor.run { isFavorite = result }
+    } catch {}
+  }
+
+  private func toggleFavorite() async {
+    isTogglingFavorite = true
+    defer { isTogglingFavorite = false }
+
+    let previous = isFavorite
+    withAnimation(.easeInOut(duration: 0.2)) { isFavorite = !previous }
+    isFavorite ? Haptics.notification(.success) : Haptics.impact(.light)
+
+    do {
+      let result = try await FavoritesService.shared.toggleFavorite(
+        tmdbId: mediaId, mediaType: apiMediaType
+      )
+      let added = result.action == "added"
+      if added != !previous {
+        withAnimation(.easeInOut(duration: 0.2)) { isFavorite = added }
+      }
+    } catch {
+      withAnimation(.easeInOut(duration: 0.2)) { isFavorite = previous }
+    }
+  }
+
+  // MARK: - Cache
+
+  private let detailCache = MediaDetailCache.shared
+
+  private func restoreFromCache() {
+    if let cached = detailCache.get(mediaId: mediaId, mediaType: mediaType) {
+      if let d = cached.details { details = d; isLoading = false }
+      if !cached.images.isEmpty { backdropImages = cached.images }
+      if let c = cached.collection { collection = c }
+    }
+  }
+
+  private func saveToCache() {
+    detailCache.set(
+      mediaId: mediaId,
+      mediaType: mediaType,
+      details: details,
+      images: backdropImages,
+      collection: collection
+    )
+  }
+
   // MARK: - Data Loading
 
   private func loadDetails() async {
@@ -512,20 +692,24 @@ struct MediaDetailView: View {
     defer { isLoading = false }
 
     do {
+      var loaded: MovieDetails?
       if mediaType == "movie" {
-        details = try await TMDBService.shared.getMovieDetails(
+        loaded = try await TMDBService.shared.getMovieDetails(
           id: mediaId,
           language: Language.current.rawValue
         )
       } else {
-        details = try await TMDBService.shared.getTVSeriesDetails(
+        loaded = try await TMDBService.shared.getTVSeriesDetails(
           id: mediaId,
           language: Language.current.rawValue
         )
       }
-      
-      // Track media view
-      if let details = details {
+
+      withAnimation(.easeOut(duration: 0.3)) {
+        details = loaded
+      }
+
+      if let details = loaded {
         AnalyticsService.shared.track(.mediaViewed(
           tmdbId: mediaId,
           mediaType: mediaType,
@@ -590,8 +774,9 @@ struct MediaDetailView: View {
         _ = await ImageCache.shared.loadImage(from: firstURL, priority: .high)
       }
       
-      backdropImages = sorted
-      // Note: Prefetching is now handled automatically by CarouselBackdropView
+      withAnimation(.easeOut(duration: 0.3)) {
+        backdropImages = sorted
+      }
     } catch {
       backdropImages = []
     }
@@ -614,42 +799,15 @@ struct MediaDetailView: View {
 
 }
 
-// MARK: - Force Hide Navigation Bar (UIKit)
-/// Ensures the native UIKit navigation bar is fully hidden, even when the parent
-/// NavigationStack has `.searchable` which can prevent SwiftUI's `.toolbar(.hidden)` from working.
-private struct ForceHideNavigationBar: UIViewControllerRepresentable {
-  func makeUIViewController(context: Context) -> ForceHideNavBarController {
-    ForceHideNavBarController()
-  }
-
-  func updateUIViewController(_ controller: ForceHideNavBarController, context: Context) {}
-}
-
-private class ForceHideNavBarController: UIViewController {
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: false)
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    navigationController?.setNavigationBarHidden(false, animated: false)
-  }
-}
-
 // MARK: - TMDB Rating Badge
 struct TMDBRatingBadge: View {
   let rating: Double
 
-  private var ratingOutOfFive: Double {
-    rating / 2.0
-  }
-
   private var formattedRating: String {
-    if ratingOutOfFive == ratingOutOfFive.rounded() {
-      return String(format: "%.0f", ratingOutOfFive)
+    if rating == rating.rounded() {
+      return String(format: "%.0f", rating)
     }
-    return String(format: "%.1f", ratingOutOfFive)
+    return String(format: "%.1f", rating)
   }
 
   var body: some View {
@@ -723,36 +881,38 @@ struct MediaDetailSkeletonView: View {
                 Spacer()
                   .frame(height: 110)
                 
-                // Content Section Skeleton
-                VStack(alignment: .leading, spacing: 20) {
-                  // Action Buttons Skeleton
-                  HStack(spacing: 12) {
-                    RoundedRectangle(cornerRadius: 12)
+                // Action Buttons Skeleton
+                ScrollView(.horizontal, showsIndicators: false) {
+                  HStack(spacing: 10) {
+                    RoundedRectangle(cornerRadius: 10)
                       .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 48)
+                      .frame(width: 90, height: 34)
                     
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 10)
                       .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 48)
+                      .frame(width: 120, height: 34)
                   }
+                  .padding(.horizontal, 24)
+                }
+                .scrollClipDisabled()
+                .padding(.top, 16)
+                
+                // Overview Skeleton
+                VStack(alignment: .leading, spacing: 8) {
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(height: 14)
                   
-                  // Overview Skeleton
-                  VStack(alignment: .leading, spacing: 8) {
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 14)
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(height: 14)
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                      .fill(Color.appBorderAdaptive.opacity(0.5))
-                      .frame(width: 200, height: 14)
-                  }
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(height: 14)
+                  
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive.opacity(0.5))
+                    .frame(width: 200, height: 14)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.top, 20)
                 
                 // Genres Skeleton
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -765,6 +925,7 @@ struct MediaDetailSkeletonView: View {
                   }
                   .padding(.horizontal, 24)
                 }
+                .scrollClipDisabled()
                 .padding(.top, 16)
                 
                 Spacer()

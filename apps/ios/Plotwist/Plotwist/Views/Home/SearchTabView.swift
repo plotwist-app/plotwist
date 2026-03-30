@@ -5,10 +5,23 @@
 
 import SwiftUI
 
+// MARK: - User Search Result
+private struct UserSearchResult: Codable, Identifiable {
+  let id: String
+  let username: String
+  let avatarUrl: String?
+  let isFollowed: Bool
+}
+
+private struct UserSearchResponse: Codable {
+  let users: [UserSearchResult]
+}
+
 struct SearchTabView: View {
   @State private var searchText = ""
   @State private var submittedSearchText = ""
   @State private var results: [SearchResult] = []
+  @State private var userResults: [UserSearchResult] = []
   @State private var autocompleteSuggestions: [SearchResult] = []
   @State private var isLoading = false
   @State private var isLoadingAutocomplete = false
@@ -90,18 +103,28 @@ struct SearchTabView: View {
           .buttonStyle(.plain)
 
           if isLoadingAutocomplete && autocompleteSuggestions.isEmpty {
-            Rectangle()
-              .fill(Color.appBorderAdaptive)
-              .frame(height: 1)
-              .padding(.leading, 60)
+            ForEach(0..<3, id: \.self) { _ in
+              Rectangle()
+                .fill(Color.appBorderAdaptive)
+                .frame(height: 1)
+                .padding(.leading, 60)
 
-            HStack {
-              Spacer()
-              ProgressView()
-                .scaleEffect(0.8)
-              Spacer()
+              HStack(spacing: 12) {
+                RoundedRectangle(cornerRadius: 4)
+                  .fill(Color.appBorderAdaptive)
+                  .frame(width: 16, height: 16)
+                  .modifier(ShimmerEffect())
+
+                RoundedRectangle(cornerRadius: 4)
+                  .fill(Color.appBorderAdaptive)
+                  .frame(width: CGFloat.random(in: 100...180), height: 14)
+                  .modifier(ShimmerEffect())
+
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              .padding(.vertical, 12)
             }
-            .padding(.vertical, 16)
           } else if !autocompleteSuggestions.isEmpty {
             ForEach(autocompleteSuggestions.prefix(8)) { suggestion in
               Rectangle()
@@ -138,7 +161,7 @@ struct SearchTabView: View {
 
   @ViewBuilder
   private var resultsView: some View {
-    if results.isEmpty {
+    if results.isEmpty && userResults.isEmpty {
       Spacer()
       Text(strings.noResults)
         .foregroundColor(.appMutedForegroundAdaptive)
@@ -146,6 +169,9 @@ struct SearchTabView: View {
     } else {
       ScrollView {
         LazyVStack(alignment: .leading, spacing: 24) {
+          if !userResults.isEmpty {
+            profilesSection
+          }
           if !movies.isEmpty {
             SearchSection(title: strings.movies, results: movies)
           }
@@ -160,6 +186,77 @@ struct SearchTabView: View {
         .padding(.vertical, 24)
       }
     }
+  }
+
+  private var profilesSection: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text(strings.profiles)
+        .font(.headline)
+        .foregroundColor(.appForegroundAdaptive)
+
+      VStack(spacing: 0) {
+        ForEach(userResults) { user in
+          NavigationLink {
+            UserProfileView(
+              userId: user.id,
+              initialUsername: user.username,
+              initialAvatarUrl: user.avatarUrl
+            )
+          } label: {
+            HStack(spacing: 12) {
+              Group {
+                if let avatarUrl = user.avatarUrl, let url = URL(string: avatarUrl) {
+                  CachedAsyncImage(url: url) { image in
+                    image.resizable().aspectRatio(contentMode: .fill)
+                  } placeholder: {
+                    userInitial(for: user.username)
+                  }
+                } else {
+                  userInitial(for: user.username)
+                }
+              }
+              .frame(width: 40, height: 40)
+              .clipShape(Circle())
+
+              VStack(alignment: .leading, spacing: 2) {
+                Text(user.username)
+                  .font(.body.weight(.medium))
+                  .foregroundColor(.appForegroundAdaptive)
+                  .lineLimit(1)
+
+                if user.isFollowed {
+                  Text(strings.followingLabel)
+                    .font(.caption)
+                    .foregroundColor(.appMutedForegroundAdaptive)
+                }
+              }
+
+              Spacer()
+
+              Image(systemName: "chevron.right")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.appMutedForegroundAdaptive)
+            }
+            .padding(.vertical, 10)
+          }
+          .buttonStyle(.plain)
+
+          if user.id != userResults.last?.id {
+            Divider()
+          }
+        }
+      }
+    }
+  }
+
+  private func userInitial(for username: String) -> some View {
+    Circle()
+      .fill(Color.appForegroundAdaptive.opacity(0.1))
+      .overlay(
+        Text(String(username.prefix(1)).uppercased())
+          .font(.subheadline.weight(.semibold))
+          .foregroundColor(.appForegroundAdaptive)
+      )
   }
 
   private var recentSearchesView: some View {
@@ -276,6 +373,7 @@ struct SearchTabView: View {
       // Clear results when text is empty
       if newValue.isEmpty {
         results = []
+        userResults = []
         submittedSearchText = ""
         autocompleteSuggestions = []
         autocompleteTask?.cancel()
@@ -349,28 +447,53 @@ struct SearchTabView: View {
   private func performSearch(query: String) async {
     guard !query.isEmpty else {
       results = []
+      userResults = []
       return
     }
 
     isLoading = true
     defer { isLoading = false }
 
+    async let tmdbSearch = TMDBService.shared.searchMulti(
+      query: query,
+      language: Language.current.rawValue
+    )
+    async let usersSearch = searchUsers(query: query)
+
     do {
-      let response = try await TMDBService.shared.searchMulti(
-        query: query,
-        language: Language.current.rawValue
-      )
+      let response = try await tmdbSearch
       results = response.results
-      
-      // Track search event
+
       AnalyticsService.shared.track(.searchPerformed(query: query, resultsCount: response.results.count))
-      
-      // Save to recent searches if we have results
+
       if !response.results.isEmpty {
         saveRecentSearch(query)
       }
     } catch {
       results = []
+    }
+
+    userResults = await usersSearch
+  }
+
+  private func searchUsers(query: String) async -> [UserSearchResult] {
+    guard let token = UserDefaults.standard.string(forKey: "token"),
+          let url = URL(string: "\(API.baseURL)/users/search?username=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query)")
+    else { return [] }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+    do {
+      let (data, response) = try await URLSession.shared.data(for: request)
+      guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return [] }
+      let decoder = JSONDecoder()
+      decoder.keyDecodingStrategy = .convertFromSnakeCase
+      let result = try decoder.decode(UserSearchResponse.self, from: data)
+      return result.users
+    } catch {
+      return []
     }
   }
 
@@ -442,7 +565,12 @@ struct SearchSection: View {
             }
             .buttonStyle(.plain)
           } else {
-            PosterCard(result: result)
+            NavigationLink {
+              PersonDetailView(personId: result.id)
+            } label: {
+              PosterCard(result: result)
+            }
+            .buttonStyle(.plain)
           }
         }
       }
@@ -483,6 +611,7 @@ struct SearchSkeletonSection: View {
       RoundedRectangle(cornerRadius: 4)
         .fill(Color.appBorderAdaptive)
         .frame(width: 80, height: 16)
+        .modifier(ShimmerEffect())
 
       LazyVGrid(columns: columns, spacing: 12) {
         ForEach(0..<6, id: \.self) { _ in
@@ -498,5 +627,6 @@ struct PosterSkeletonCard: View {
     RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
       .fill(Color.appBorderAdaptive)
       .aspectRatio(2 / 3, contentMode: .fit)
+      .modifier(ShimmerEffect())
   }
 }

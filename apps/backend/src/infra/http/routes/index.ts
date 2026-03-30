@@ -11,6 +11,7 @@ import { setInitialCounterValue } from '@/domain/services/shared-urls/set-initia
 import { sharedUrlCounterFactory } from '@/infra/factories/shared-url-counter-factory'
 import { registerRateLimit } from '../rate-limit'
 import { feedbackRoutes } from './feedback'
+import { userFavoritesRoutes } from './user-favorites'
 import { followsRoutes } from './follow'
 import { healthCheck } from './healthcheck'
 import { imagesRoutes } from './images'
@@ -32,6 +33,8 @@ import { userItemsRoutes } from './user-items'
 import { userStatsRoutes } from './user-stats'
 import { usersRoute } from './users'
 import { watchEntriesRoutes } from './watch-entries'
+import { userRecommendationsRoutes } from './recommendations'
+import { achievementsRoutes } from './achievements'
 import { webhookRoutes } from './webhook'
 
 export function routes(app: FastifyInstance) {
@@ -100,7 +103,9 @@ export function routes(app: FastifyInstance) {
   app.register(watchEntriesRoutes)
   app.register(tmdbProxyRoutes)
   app.register(feedbackRoutes)
-  // app.register(userRecommendationsRoutes)
+  app.register(userFavoritesRoutes)
+  app.register(userRecommendationsRoutes)
+  app.register(achievementsRoutes)
 
   return
 }

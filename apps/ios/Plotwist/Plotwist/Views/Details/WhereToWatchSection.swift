@@ -23,6 +23,18 @@ struct WhereToWatchSection: View {
     return !flatrate.isEmpty || !rent.isEmpty || !buy.isEmpty
   }
 
+  private var categoryCount: Int {
+    var count = 0
+    if let f = providers?.flatrate, !f.isEmpty { count += 1 }
+    if let r = providers?.rent, !r.isEmpty { count += 1 }
+    if let b = providers?.buy, !b.isEmpty { count += 1 }
+    return count
+  }
+
+  private var effectiveExpanded: Bool {
+    categoryCount <= 1 || isExpanded
+  }
+
   var body: some View {
     Group {
       if isLoading {
@@ -42,54 +54,57 @@ struct WhereToWatchSection: View {
         }
       } else if hasAnyProvider {
         VStack(alignment: .leading, spacing: 16) {
-          // Header with title and expand arrow
-          Button(action: {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-              isExpanded.toggle()
+          if categoryCount <= 1 {
+            Text(L10n.current.tabWhereToWatch)
+              .font(.headline)
+              .foregroundColor(.appForegroundAdaptive)
+              .padding(.horizontal, 24)
+          } else {
+            Button(action: {
+              withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                isExpanded.toggle()
+              }
+            }) {
+              HStack(spacing: 8) {
+                Text(L10n.current.tabWhereToWatch)
+                  .font(.headline)
+                  .foregroundColor(.appForegroundAdaptive)
+
+                Image(systemName: "chevron.down")
+                  .font(.system(size: 12, weight: .semibold))
+                  .foregroundColor(.appMutedForegroundAdaptive)
+                  .rotationEffect(.degrees(isExpanded ? 180 : 0))
+
+                Spacer()
+              }
+              .padding(.horizontal, 24)
             }
-          }) {
-            HStack(spacing: 8) {
-              Text(L10n.current.tabWhereToWatch)
-                .font(.headline)
-                .foregroundColor(.appForegroundAdaptive)
-              
-              Image(systemName: "chevron.down")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(.appMutedForegroundAdaptive)
-                .rotationEffect(.degrees(isExpanded ? 180 : 0))
-              
-              Spacer()
-            }
-            .padding(.horizontal, 24)
+            .buttonStyle(.plain)
           }
-          .buttonStyle(.plain)
 
           // Categories
           VStack(alignment: .leading, spacing: 20) {
-            // Stream
             if let flatrate = providers?.flatrate, !flatrate.isEmpty {
               ProviderCategoryAnimated(
                 title: L10n.current.stream,
                 providers: flatrate,
-                isExpanded: isExpanded
+                isExpanded: effectiveExpanded
               )
             }
 
-            // Rent
             if let rent = providers?.rent, !rent.isEmpty {
               ProviderCategoryAnimated(
                 title: L10n.current.rent,
                 providers: rent,
-                isExpanded: isExpanded
+                isExpanded: effectiveExpanded
               )
             }
 
-            // Buy
             if let buy = providers?.buy, !buy.isEmpty {
               ProviderCategoryAnimated(
                 title: L10n.current.buy,
                 providers: buy,
-                isExpanded: isExpanded
+                isExpanded: effectiveExpanded
               )
             }
           }

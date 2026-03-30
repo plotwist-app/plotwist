@@ -11,6 +11,7 @@
 		BE67A2872F42A36F00AE7C77 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BE67A2862F42A36F00AE7C77 /* Release.xcconfig */; };
 		BEAA685E2F2FCE4300BFC6D9 /* Swiper in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA685D2F2FCE4300BFC6D9 /* Swiper */; };
 		BEAA68612F2FCFE000BFC6D9 /* Deck in Frameworks */ = {isa = PBXBuildFile; productRef = BEAA68602F2FCFE000BFC6D9 /* Deck */; };
+		BEBB6F0A2F57382D005343C1 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = BE58C9022F54CA670047BB5D /* RevenueCat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEBB6F0A2F57382D005343C1 /* RevenueCat in Frameworks */,
 				BEAA685E2F2FCE4300BFC6D9 /* Swiper in Frameworks */,
 				BEAA68612F2FCFE000BFC6D9 /* Deck in Frameworks */,
 			);
@@ -93,6 +95,7 @@
 			packageProductDependencies = (
 				BEAA685D2F2FCE4300BFC6D9 /* Swiper */,
 				BEAA68602F2FCFE000BFC6D9 /* Deck */,
+				BE58C9022F54CA670047BB5D /* RevenueCat */,
 			);
 			productName = Plotwist;
 			productReference = BE1232732F129895003F1FBA /* Plotwist.app */;
@@ -125,6 +128,7 @@
 			packageReferences = (
 				BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */,
 				BEAA685F2F2FCFE000BFC6D9 /* XCRemoteSwiftPackageReference "Deck" */,
+				BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BE1232742F129895003F1FBA /* Products */;
@@ -291,7 +295,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Plotwist/Plotwist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = 54XPVTP5PA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -305,7 +309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = henrique.Plotwist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -324,7 +328,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Plotwist/Plotwist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = 54XPVTP5PA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -338,7 +342,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = henrique.Plotwist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -374,6 +378,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.60.0;
+			};
+		};
 		BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/smatado/Swiper.git";
@@ -393,6 +405,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BE58C9022F54CA670047BB5D /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE58C9012F54CA670047BB5D /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
 		BEAA685D2F2FCE4300BFC6D9 /* Swiper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BEAA685C2F2FCE4300BFC6D9 /* XCRemoteSwiftPackageReference "Swiper" */;

@@ -44,6 +44,12 @@ enum AnalyticsEvent {
   // Stats
   case statsView
   
+  // Subscription
+  case subscribe(plan: String)
+  case paywallView(source: String)
+  case paywallDismiss
+  case restorePurchases
+  
   // Feedback
   case feedbackOpen(contextScreen: String)
   case feedbackSubmit(type: String)
@@ -78,6 +84,10 @@ enum AnalyticsEvent {
     case .reviewSubmitted: return "review_submitted"
     case .reviewDeleted: return "review_deleted"
     case .statsView: return "stats_view"
+    case .subscribe: return "subscribe"
+    case .paywallView: return "paywall_view"
+    case .paywallDismiss: return "paywall_dismiss"
+    case .restorePurchases: return "restore_purchases"
     case .feedbackOpen: return "feedback_open"
     case .feedbackSubmit: return "feedback_submit"
     case .errorAPI: return "error_api"
@@ -90,8 +100,12 @@ enum AnalyticsEvent {
     switch self {
     case .signUp(let method), .login(let method):
       return ["method": method]
-    case .logout, .appOpen, .onboardingStart, .statsView:
+    case .logout, .appOpen, .onboardingStart, .statsView, .paywallDismiss, .restorePurchases:
       return [:]
+    case .subscribe(let plan):
+      return ["plan": plan]
+    case .paywallView(let source):
+      return ["source": source]
     case .onboardingContentTypeSelected(let type):
       return ["content_type": type]
     case .onboardingGenresSelected(let count):

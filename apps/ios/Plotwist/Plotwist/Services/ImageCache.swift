@@ -18,15 +18,21 @@ final class ImageCache: @unchecked Sendable {
   // Actor for managing ongoing tasks safely
   private let taskManager = TaskManager()
 
+  private static let cacheVersion = 2
+
   private init() {
-    // Setup disk cache directory
     let cacheDir = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
     diskCacheURL = cacheDir.appendingPathComponent("ImageCache", isDirectory: true)
 
-    // Create directory if needed
+    let versionKey = "ImageCacheVersion"
+    let storedVersion = UserDefaults.standard.integer(forKey: versionKey)
+    if storedVersion < Self.cacheVersion {
+      try? fileManager.removeItem(at: diskCacheURL)
+      UserDefaults.standard.set(Self.cacheVersion, forKey: versionKey)
+    }
+
     try? fileManager.createDirectory(at: diskCacheURL, withIntermediateDirectories: true)
 
-    // Configure memory cache
     memoryCache.countLimit = 100
     memoryCache.totalCostLimit = 100 * 1024 * 1024 // 100MB
   }
@@ -133,7 +139,13 @@ final class ImageCache: @unchecked Sendable {
 
   private func saveToDisk(image: UIImage, url: URL) {
     let path = diskPath(for: url)
-    guard let data = image.jpegData(compressionQuality: 0.85) else { return }
+    let hasAlpha = image.cgImage.map {
+      let info = $0.alphaInfo
+      return info == .first || info == .last ||
+             info == .premultipliedFirst || info == .premultipliedLast
+    } ?? false
+    let data: Data? = hasAlpha ? image.pngData() : image.jpegData(compressionQuality: 0.85)
+    guard let data else { return }
     try? data.write(to: path)
   }
 

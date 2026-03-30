@@ -15,7 +15,7 @@ struct UserProfileView: View {
   @State private var user: User?
   @State private var isLoading = true
   @State private var strings = L10n.current
-  @State private var selectedMainTab: ProfileMainTab = .collection
+  @State private var selectedMainTab: ProfileMainTab = .activity
   @State private var slideFromTrailing: Bool = true
   @State private var selectedStatusTab: ProfileStatusTab = .watched
   @State private var userItems: [UserItemSummary] = []
@@ -24,13 +24,30 @@ struct UserProfileView: View {
   @State private var totalReviewsCount: Int = 0
   @State private var moviesCount: Int = 0
   @State private var seriesCount: Int = 0
+  @State private var followersCount: Int = 0
+  @State private var followingCount: Int = 0
   @State private var isLoadingQuickStats: Bool = true
   @State private var scrollOffset: CGFloat = 0
   @State private var initialScrollOffset: CGFloat? = nil
+  @State private var selectedFollowerUser: FollowerUser?
+  @State private var claimedAchievement: Achievement?
+  @State private var achievements: [Achievement] = initialMockAchievements
+
+  private var equippedBadges: [Achievement] {
+    achievements.filter { $0.isClaimed && $0.isEquipped }
+  }
   @ObservedObject private var themeManager = ThemeManager.shared
 
   private let avatarSize: CGFloat = 56
+
+  private var visibleMainTabs: [ProfileMainTab] {
+    ProfileMainTab.allCases
+  }
   private let scrollThreshold: CGFloat = 80
+
+  private var isOwnProfile: Bool {
+    CollectionCache.shared.user?.id == userId
+  }
 
   private var isScrolled: Bool {
     guard let initial = initialScrollOffset else { return false }
@@ -53,8 +70,23 @@ struct UserProfileView: View {
         errorView
       }
     }
+    .overlay {
+      if let achievement = claimedAchievement {
+        ClaimCelebrationOverlay(
+          achievement: achievement,
+          onDismiss: { claimedAchievement = nil }
+        )
+      }
+    }
     .navigationBarHidden(true)
     .preferredColorScheme(themeManager.current.colorScheme)
+    .navigationDestination(item: $selectedFollowerUser) { follower in
+      UserProfileView(
+        userId: follower.id,
+        initialUsername: follower.username,
+        initialAvatarUrl: follower.avatarUrl
+      )
+    }
     .task {
       await loadData()
     }
@@ -94,9 +126,9 @@ struct UserProfileView: View {
             selectedTab: $selectedMainTab,
             slideFromTrailing: $slideFromTrailing,
             strings: strings,
-            reviewsCount: totalReviewsCount
+            visibleTabs: visibleMainTabs
           )
-          .padding(.top, 20)
+          .padding(.top, 28)
           .padding(.bottom, 8)
 
           tabContentView(userId: user.id)
@@ -182,15 +214,20 @@ struct UserProfileView: View {
       .padding(.top, 16)
       .padding(.bottom, 12)
 
-      // Quick stats
       ProfileQuickStats(
         moviesCount: moviesCount,
         seriesCount: seriesCount,
+        followersCount: $followersCount,
+        followingCount: followingCount,
+        userId: user.id,
         isLoading: isLoadingQuickStats,
-        strings: strings
+        strings: strings,
+        onUserSelected: { follower in
+          selectedFollowerUser = follower
+        }
       )
-        .padding(.horizontal, 24)
-        .padding(.bottom, 12)
+      .padding(.horizontal, 24)
+      .padding(.bottom, 12)
 
       if let biography = user.biography, !biography.isEmpty {
         Text(biography)
@@ -201,6 +238,13 @@ struct UserProfileView: View {
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding(.horizontal, 24)
       }
+
+      if AuthService.shared.isAuthenticated && !isOwnProfile {
+        FollowButton(userId: user.id, followersCount: $followersCount)
+          .padding(.horizontal, 24)
+          .padding(.top, 12)
+      }
+
     }
   }
 
@@ -208,14 +252,25 @@ struct UserProfileView: View {
   private func tabContentView(userId: String) -> some View {
     Group {
       switch selectedMainTab {
+      case .activity:
+        ActivityFeedView(userId: userId)
+          .padding(.bottom, 24)
       case .collection:
         collectionTabContent(userId: userId)
+      case .favorites:
+        FavoritesSection(isOwnProfile: isOwnProfile, userId: userId)
+          .padding(.bottom, 24)
       case .reviews:
         ProfileReviewsListView(userId: userId)
           .padding(.bottom, 24)
       case .stats:
-        ProfileStatsView(userId: userId, isPro: true, isOwnProfile: false)
+        ProfileStatsView(userId: userId, isOwnProfile: false)
           .padding(.bottom, 24)
+      case .achievements:
+        AchievementsSection(
+          achievements: $achievements,
+          claimedAchievement: $claimedAchievement
+        )
       }
     }
     .frame(maxWidth: .infinity, alignment: .top)
@@ -247,9 +302,9 @@ struct UserProfileView: View {
   @ViewBuilder
   private var collectionGrid: some View {
     let columns = [
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
-      GridItem(.flexible(), spacing: 12),
+      GridItem(.flexible(), spacing: 16),
+      GridItem(.flexible(), spacing: 16),
+      GridItem(.flexible(), spacing: 16),
     ]
 
     if isLoadingItems {
@@ -310,7 +365,21 @@ struct UserProfileView: View {
     await loadStatusCounts()
     await loadQuickStats()
     await loadTotalReviewsCount()
+    await loadAchievements()
     isLoading = false
+  }
+
+  private func loadAchievements() async {
+    guard AuthService.shared.isAuthenticated else { return }
+
+    do {
+      let fetched = try await AchievementService.shared.getAchievements()
+      withAnimation(.snappy) {
+        achievements = fetched
+      }
+    } catch {
+      print("Error loading achievements: \(error)")
+    }
   }
 
   private func loadUser() async {
@@ -366,6 +435,8 @@ struct UserProfileView: View {
       withAnimation(.snappy) {
         moviesCount = stats.watchedMoviesCount
         seriesCount = stats.watchedSeriesCount
+        followersCount = stats.followersCount
+        followingCount = stats.followingCount
       }
     } catch {
       print("Error loading quick stats: \(error)")
@@ -382,4 +453,5 @@ struct UserProfileView: View {
       totalReviewsCount = 0
     }
   }
+
 }

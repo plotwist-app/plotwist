@@ -64,8 +64,7 @@ struct OnboardingGenresContent: View {
                   selectedGenres.remove(genre.id)
                 } else {
                   selectedGenres.insert(genre.id)
-                  let impact = UIImpactFeedbackGenerator(style: .light)
-                  impact.impactOccurred()
+                  Haptics.impact(.light)
                 }
               }
             }

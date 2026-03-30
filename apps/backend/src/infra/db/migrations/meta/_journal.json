@@ -446,8 +446,36 @@
     {
       "idx": 63,
       "version": "7",
+      "when": 1772831243388,
+      "tag": "20260306210723_rainy_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "7",
       "when": 1773023684454,
       "tag": "20260309023444_add_shared_urls_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "7",
+      "when": 1773798874356,
+      "tag": "20260318015434_keen_korath",
+      "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "7",
+      "when": 1774536307297,
+      "tag": "20260326144507_closed_bastion",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1774540123044,
+      "tag": "20260326154843_drop_achievement_color",
       "breakpoints": true
     }
   ]

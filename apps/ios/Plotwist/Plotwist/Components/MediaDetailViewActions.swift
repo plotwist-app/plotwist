@@ -19,26 +19,26 @@ struct MediaDetailViewActions: View {
   @State private var showStatusSheet = false
 
   var body: some View {
-    HStack(spacing: 12) {
-      // Review Button
-      ReviewButton(hasReview: userReview != nil, isLoading: isLoadingReview, action: onReviewTapped)
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 10) {
+        ReviewButton(hasReview: userReview != nil, isLoading: isLoadingReview, action: onReviewTapped)
 
-      // Status Button
-      StatusButton(
-        currentStatus: userItem?.statusEnum,
-        rewatchCount: userItem?.watchEntries?.count ?? 0,
-        isLoading: isLoadingStatus,
-        action: {
-          if AuthService.shared.isAuthenticated {
-            showStatusSheet = true
-          } else {
-            onLoginRequired?()
+        StatusButton(
+          currentStatus: userItem?.statusEnum,
+          rewatchCount: userItem?.watchEntries?.count ?? 0,
+          isLoading: isLoadingStatus,
+          action: {
+            if AuthService.shared.isAuthenticated {
+              showStatusSheet = true
+            } else {
+              onLoginRequired?()
+            }
           }
-        }
-      )
-
-      Spacer()
+        )
+      }
+      .padding(.horizontal, 24)
     }
+    .scrollClipDisabled()
     .sheet(isPresented: $showStatusSheet) {
       StatusSheet(
         mediaId: mediaId,
@@ -145,7 +145,6 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
 
     MediaDetailViewActions(
       mediaId: 550,
@@ -157,7 +156,6 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
 
     MediaDetailViewActions(
       mediaId: 550,
@@ -190,6 +188,5 @@ struct StatusButton: View {
       onReviewTapped: {},
       onStatusChanged: { _ in }
     )
-    .padding(.horizontal, 24)
   }
 }

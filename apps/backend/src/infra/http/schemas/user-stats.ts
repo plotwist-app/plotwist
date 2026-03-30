@@ -147,6 +147,51 @@ export const getUserItemsStatusResponseSchema = {
   }),
 }
 
+export const getUserRatingInsightsResponseSchema = {
+  200: z.object({
+    ratingInsights: z.object({
+      averageRating: z.number(),
+      totalReviews: z.number(),
+      mostFrequentRating: z.number(),
+      distribution: z.array(
+        z.object({
+          rating: z.number(),
+          count: z.number(),
+        })
+      ),
+    }),
+  }),
+}
+
+export const getUserViewerProfileResponseSchema = {
+  200: z.object({
+    viewerProfile: z.string(),
+  }),
+}
+
+export const getUserAIRecommendationsResponseSchema = {
+  200: z.object({
+    recommendations: z.array(
+      z.object({
+        title: z.string(),
+        reason: z.string(),
+        mediaType: z.string(),
+        year: z.number().optional(),
+      })
+    ),
+  }),
+}
+
+export const getUserTasteDNAResponseSchema = {
+  200: z.object({
+    tasteDNA: z.object({
+      archetype: z.string(),
+      summary: z.string(),
+      traits: z.array(z.string()),
+    }),
+  }),
+}
+
 export const getUserStatsTimelineResponseSchema = {
   200: z.object({
     sections: z.array(

@@ -151,8 +151,7 @@ struct OnboardingContentTypeContent: View {
         selectedTypes.remove(type)
       } else {
         selectedTypes.insert(type)
-        let impact = UIImpactFeedbackGenerator(style: .light)
-        impact.impactOccurred()
+        Haptics.impact(.light)
       }
     }
   }

@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
+import { revenueCatWebhookController } from '../controllers/revenuecat-webhook-controller'
 import { stripeWebhookController } from '../controllers/stripe-webhook-controller'
 
 export async function webhookRoutes(app: FastifyInstance) {
@@ -28,6 +29,19 @@ export async function webhookRoutes(app: FastifyInstance) {
         tags: ['Webhook'],
       },
       handler: stripeWebhookController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'POST',
+      url: '/webhooks/revenuecat',
+      config: { rateLimit: false },
+      schema: {
+        description: 'RevenueCat webhook for Apple IAP subscriptions',
+        tags: ['Webhook'],
+      },
+      handler: revenueCatWebhookController,
     })
   )
 }

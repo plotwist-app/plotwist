@@ -58,7 +58,7 @@ struct TimeWatchedDetailView: View {
       detailHeaderView(title: strings.timeWatched, isScrolled: isScrolled) { dismiss() }
 
       ScrollView {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
           VStack(alignment: .leading, spacing: 24) {
             VStack(alignment: .leading, spacing: 8) {
               Text(periodLabel)
@@ -93,27 +93,28 @@ struct TimeWatchedDetailView: View {
                 movieSeriesSplitBar
               }
             }
-
-            if !dailyActivity.isEmpty {
-              Divider()
-            }
           }
           .padding(.horizontal, 24)
           .padding(.top, 16)
 
           if !dailyActivity.isEmpty {
+            Divider()
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+
             activityHeatmap
               .padding(.horizontal, 24)
-              .padding(.top, 8)
+              .padding(.top, 12)
           }
 
           if !hourlyDistribution.isEmpty {
-            VStack(alignment: .leading, spacing: 24) {
-              Divider()
-              hourlyDistributionChart
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
+            Divider()
+              .padding(.horizontal, 24)
+              .padding(.top, 16)
+
+            hourlyDistributionChart
+              .padding(.horizontal, 24)
+              .padding(.top, 12)
           }
 
           Spacer().frame(height: 24)
@@ -328,8 +329,8 @@ struct TimeWatchedDetailView: View {
 
   // MARK: - Movie/Series Split Bar
 
-  private static let movieColor = Color(hex: "60A5FA")
-  private static let seriesColor = Color(hex: "A78BFA")
+  private static let movieColor = Color.appForegroundAdaptive
+  private static let seriesColor = Color.appForegroundAdaptive.opacity(0.35)
 
   var movieSeriesSplitBar: some View {
     let moviePct = totalHours > 0 ? movieHours / totalHours : 0
@@ -399,8 +400,6 @@ struct TimeWatchedDetailView: View {
 
   var activityHeatmap: some View {
     let maxHours = max(dailyActivity.map(\.hours).max() ?? 1, 1)
-    let weeks = Self.buildWeekColumns(from: dailyActivity)
-    let monthLabels = Self.extractMonthLabels(from: weeks)
 
     return VStack(alignment: .leading, spacing: 12) {
       Text(strings.activity)
@@ -408,8 +407,11 @@ struct TimeWatchedDetailView: View {
         .foregroundColor(.appMutedForegroundAdaptive)
 
       if isSingleMonthPeriod {
-        calendarHeatmap(weeks: weeks, maxHours: maxHours)
+        let calWeeks = Self.buildSingleMonthCalendar(from: dailyActivity, period: period!)
+        calendarHeatmap(weeks: calWeeks, maxHours: maxHours)
       } else {
+        let weeks = Self.buildWeekColumns(from: dailyActivity)
+        let monthLabels = Self.extractMonthLabels(from: weeks)
         githubHeatmap(weeks: weeks, monthLabels: monthLabels, maxHours: maxHours)
           .padding(.horizontal, -24)
       }
@@ -563,36 +565,99 @@ struct TimeWatchedDetailView: View {
     let offset: Int
   }
 
-  static func buildWeekColumns(from entries: [DailyActivityEntry]) -> [[HeatmapCell]] {
+  static func buildSingleMonthCalendar(from entries: [DailyActivityEntry], period: String) -> [[HeatmapCell]] {
+    let cal = Calendar.current
+    let fmt = DateFormatter()
+    fmt.dateFormat = "yyyy-MM"
+    guard let monthDate = fmt.date(from: period) else { return [] }
+
+    let year = cal.component(.year, from: monthDate)
+    let month = cal.component(.month, from: monthDate)
+    let daysInMonth = cal.range(of: .day, in: .month, for: monthDate)!.count
+
+    let lookup = Dictionary(uniqueKeysWithValues: entries.map { ($0.day, $0.hours) })
+    let dayFmt = DateFormatter()
+    dayFmt.dateFormat = "yyyy-MM-dd"
+
+    let firstOfMonth = cal.date(from: DateComponents(year: year, month: month, day: 1))!
+    let firstWeekday = cal.component(.weekday, from: firstOfMonth)
+    let leadingPadding = firstWeekday - 1
+
+    var cells: [HeatmapCell] = []
+
+    for _ in 0..<leadingPadding {
+      cells.append(HeatmapCell(id: "pad-lead-\(cells.count)", hours: 0, weekday: cells.count % 7 + 1, month: 0, dayNumber: 0))
+    }
+
+    for day in 1...daysInMonth {
+      let date = cal.date(from: DateComponents(year: year, month: month, day: day))!
+      let key = dayFmt.string(from: date)
+      let hours = lookup[key] ?? 0
+      let weekday = cal.component(.weekday, from: date)
+      cells.append(HeatmapCell(id: key, hours: hours, weekday: weekday, month: month, dayNumber: day))
+    }
+
+    let trailingPadding = (7 - cells.count % 7) % 7
+    for i in 0..<trailingPadding {
+      cells.append(HeatmapCell(id: "pad-trail-\(i)", hours: 0, weekday: 0, month: 0, dayNumber: 0))
+    }
+
+    return stride(from: 0, to: cells.count, by: 7).map { Array(cells[$0..<min($0 + 7, cells.count)]) }
+  }
+
+  static func buildWeekColumns(from entries: [DailyActivityEntry], minWeeks: Int = 15) -> [[HeatmapCell]] {
     guard !entries.isEmpty else { return [] }
     let cal = Calendar.current
     let fmt = DateFormatter()
     fmt.dateFormat = "yyyy-MM-dd"
 
+    guard let firstDate = fmt.date(from: entries.first!.day) else { return [] }
+
+    let lookup = Dictionary(uniqueKeysWithValues: entries.map { ($0.day, $0.hours) })
+
+    let lastDate: Date
+    if let last = entries.last, let d = fmt.date(from: last.day) {
+      lastDate = d
+    } else {
+      lastDate = firstDate
+    }
+
+    let dataWeeks = cal.dateComponents([.weekOfYear], from: firstDate, to: lastDate).weekOfYear ?? 0
+    let totalWeeksNeeded = max(dataWeeks + 1, minWeeks)
+
+    let adjustedFirst = cal.date(byAdding: .weekOfYear, value: -(totalWeeksNeeded - dataWeeks - 1), to: firstDate) ?? firstDate
+
+    let startOfWeek: Date
+    let adjustedWeekday = cal.component(.weekday, from: adjustedFirst)
+    if adjustedWeekday == 1 {
+      startOfWeek = adjustedFirst
+    } else {
+      startOfWeek = cal.date(byAdding: .day, value: -(adjustedWeekday - 1), to: adjustedFirst) ?? adjustedFirst
+    }
+
     var weeks: [[HeatmapCell]] = []
     var currentWeek: [HeatmapCell] = []
+    var cursor = startOfWeek
 
-    guard let firstDate = fmt.date(from: entries.first!.day) else { return [] }
-    let firstWeekday = cal.component(.weekday, from: firstDate)
-    if firstWeekday > 1 {
-      for wd in 1..<firstWeekday {
-        currentWeek.append(HeatmapCell(id: "pad-\(wd)", hours: 0, weekday: wd, month: 0, dayNumber: 0))
-      }
-    }
+    while cursor <= lastDate || currentWeek.count > 0 {
+      let weekday = cal.component(.weekday, from: cursor)
+      let month = cal.component(.month, from: cursor)
+      let day = cal.component(.day, from: cursor)
+      let key = fmt.string(from: cursor)
+      let hours = lookup[key] ?? 0
 
-    for entry in entries {
-      guard let date = fmt.date(from: entry.day) else { continue }
-      let weekday = cal.component(.weekday, from: date)
-      let month = cal.component(.month, from: date)
-      let day = cal.component(.day, from: date)
+      currentWeek.append(HeatmapCell(id: key, hours: hours, weekday: weekday, month: month, dayNumber: day))
 
-      if weekday == 1 && !currentWeek.isEmpty {
+      if weekday == 7 {
         weeks.append(currentWeek)
         currentWeek = []
+        if cursor > lastDate { break }
       }
 
-      currentWeek.append(HeatmapCell(id: entry.day, hours: entry.hours, weekday: weekday, month: month, dayNumber: day))
+      guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
+      cursor = next
     }
+
     if !currentWeek.isEmpty {
       while currentWeek.count < 7 {
         let wd = currentWeek.count + 1
@@ -600,6 +665,7 @@ struct TimeWatchedDetailView: View {
       }
       weeks.append(currentWeek)
     }
+
     return weeks
   }
 

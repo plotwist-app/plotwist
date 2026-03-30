@@ -40,14 +40,6 @@ struct HomeView: View {
         Image(systemName: "sparkles")
       }
 
-      #if DEBUG
-      Tab(value: 2) {
-        TrailsTabView()
-      } label: {
-        Image(systemName: "map")
-      }
-      #endif
-
       Tab(value: 3) {
         ProfileTabView()
       } label: {

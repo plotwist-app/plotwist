@@ -17,7 +17,6 @@ enum MovieSubcategory: CaseIterable, CategoryTab {
   case nowPlaying
   case topRated
   case upcoming
-  case discover
 
   var title: String {
     let strings = L10n.current
@@ -26,12 +25,11 @@ enum MovieSubcategory: CaseIterable, CategoryTab {
     case .nowPlaying: return strings.nowPlaying
     case .topRated: return strings.topRated
     case .upcoming: return strings.upcoming
-    case .discover: return strings.discover
     }
   }
 
   var isDisabled: Bool {
-    self == .discover
+    false
   }
 }
 
@@ -41,7 +39,6 @@ enum TVSeriesSubcategory: CaseIterable, CategoryTab {
   case airingToday
   case onTheAir
   case topRated
-  case discover
 
   var title: String {
     let strings = L10n.current
@@ -50,12 +47,11 @@ enum TVSeriesSubcategory: CaseIterable, CategoryTab {
     case .airingToday: return strings.airingToday
     case .onTheAir: return strings.onTheAir
     case .topRated: return strings.topRated
-    case .discover: return strings.discover
     }
   }
 
   var isDisabled: Bool {
-    self == .discover
+    false
   }
 }
 
@@ -552,7 +548,7 @@ struct CategoryListView: View {
   private var genresString: String? {
     let ids = preferencesManager.genreIds
     guard !ids.isEmpty else { return nil }
-    return ids.map { String($0) }.joined(separator: ",")
+    return ids.map { String($0) }.joined(separator: "|")
   }
 
   private static let dateFormatter: DateFormatter = {
@@ -573,7 +569,7 @@ struct CategoryListView: View {
       let future = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .month, value: 6, to: Date())!)
 
       switch selectedMovieSubcategory {
-      case .popular, .discover:
+      case .popular:
         return try await TMDBService.shared.discoverMovies(
           language: language, page: page,
           watchRegion: watchRegion, withWatchProviders: watchProviders,
@@ -612,8 +608,6 @@ struct CategoryListView: View {
       return try await TMDBService.shared.getTopRatedMovies(language: language, page: page)
     case .upcoming:
       return try await TMDBService.shared.getUpcomingMovies(language: language, page: page)
-    case .discover:
-      return try await TMDBService.shared.getPopularMovies(language: language, page: page)
     }
   }
 
@@ -628,7 +622,7 @@ struct CategoryListView: View {
       let next7 = Self.dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
 
       switch selectedTVSeriesSubcategory {
-      case .popular, .discover:
+      case .popular:
         return try await TMDBService.shared.discoverTV(
           language: language, page: page,
           watchRegion: watchRegion, withWatchProviders: watchProviders,
@@ -667,8 +661,6 @@ struct CategoryListView: View {
       return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
     case .topRated:
       return try await TMDBService.shared.getTopRatedTVSeries(language: language, page: page)
-    case .discover:
-      return try await TMDBService.shared.getPopularTVSeries(language: language, page: page)
     }
   }
 

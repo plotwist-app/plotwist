@@ -51,24 +51,86 @@ struct ProfileAvatar: View {
 
 // MARK: - Pro Badge
 struct ProBadge: View {
+  enum Size {
+    case small, regular, large
+
+    var fontSize: CGFloat {
+      switch self {
+      case .small: return 8
+      case .regular: return 10
+      case .large: return 16
+      }
+    }
+
+    var horizontalPadding: CGFloat {
+      switch self {
+      case .small: return 6
+      case .regular: return 8
+      case .large: return 14
+      }
+    }
+
+    var verticalPadding: CGFloat {
+      switch self {
+      case .small: return 2
+      case .regular: return 3
+      case .large: return 6
+      }
+    }
+
+    var cornerRadius: CGFloat {
+      switch self {
+      case .small: return 4
+      case .regular: return 6
+      case .large: return 8
+      }
+    }
+  }
+
   @Environment(\.colorScheme) private var colorScheme
+  @State private var shimmerPhase: CGFloat = 0
+  var label: String = "PRO"
+  var size: Size = .regular
 
   var body: some View {
-    Text("PRO")
-      .font(.system(size: 10, weight: .semibold))
+    Text(label)
+      .font(.system(size: size.fontSize, weight: .semibold))
       .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
-      .padding(.horizontal, 8)
-      .padding(.vertical, 3)
-      .background(
-        colorScheme == .dark
-          ? Color(hex: "0a0a0f")
-          : Color(hex: "f5f5f5")
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 6))
+      .padding(.horizontal, size.horizontalPadding)
+      .padding(.vertical, size.verticalPadding)
+      .background(shimmerBackground)
+      .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius))
       .overlay(
-        RoundedRectangle(cornerRadius: 6)
+        RoundedRectangle(cornerRadius: size.cornerRadius)
           .stroke(Color.appBorderAdaptive, lineWidth: 1)
       )
+      .onAppear {
+        withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
+          shimmerPhase = 1
+        }
+      }
+  }
+
+  private var shimmerBackground: some View {
+    GeometryReader { geo in
+      let base = colorScheme == .dark ? Color(hex: "000103") : Color(hex: "ffffff")
+      let highlight = colorScheme == .dark ? Color(hex: "1e2631") : Color(hex: "f1f1f1")
+
+      LinearGradient(
+        stops: [
+          .init(color: base, location: 0),
+          .init(color: base, location: 0.35),
+          .init(color: highlight, location: 0.5),
+          .init(color: base, location: 0.65),
+          .init(color: base, location: 1),
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+      )
+      .frame(width: geo.size.width * 3)
+      .offset(x: (shimmerPhase * 2 - 2) * geo.size.width)
+    }
+    .clipped()
   }
 }
 

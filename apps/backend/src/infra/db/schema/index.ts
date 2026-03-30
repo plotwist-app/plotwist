@@ -17,6 +17,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import { userPreferences } from './user-preferences'
+import { achievements, userAchievements } from './achievements'
 
 export const subscriptionStatusEnum = pgEnum('subscription_status', [
   'ACTIVE',
@@ -652,6 +653,35 @@ export const feedbacksRelations = relations(feedbacks, ({ one }) => ({
   }),
 }))
 
+export const userFavorites = pgTable(
+  'user_favorites',
+  {
+    id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    position: integer('position').default(0).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  userFavorites => ({
+    uniqueFavorite: unique('user_favorites_userid_tmdbid_media_type_unique').on(
+      userFavorites.userId,
+      userFavorites.tmdbId,
+      userFavorites.mediaType
+    ),
+    userIdx: index('idx_user_favorites_user').on(userFavorites.userId),
+  })
+)
+
+export const userFavoritesRelations = relations(userFavorites, ({ one }) => ({
+  user: one(users, {
+    fields: [userFavorites.userId],
+    references: [users.id],
+  }),
+}))
+
 export const sharedUrls = pgTable(
   'shared_urls',
   {
@@ -669,6 +699,52 @@ export const sharedUrls = pgTable(
   table => ({
     urlIdx: index('shared_urls_url_idx').on(table.url),
     userIdIdx: index('shared_urls_user_id_idx').on(table.userId),
+  })
+)
+
+export const recommendationStatusEnum = pgEnum('recommendation_status', [
+  'PENDING',
+  'ACCEPTED',
+  'DECLINED',
+])
+
+export const recommendations = pgTable(
+  'recommendations',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    fromUserId: uuid('from_user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    toUserId: uuid('to_user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    message: varchar('message'),
+    status: recommendationStatusEnum('status').default('PENDING').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => ({
+    toUserIdx: index('idx_recommendations_to_user').on(table.toUserId),
+    fromUserIdx: index('idx_recommendations_from_user').on(table.fromUserId),
+  })
+)
+
+export const recommendationsRelations = relations(
+  recommendations,
+  ({ one }) => ({
+    fromUser: one(users, {
+      fields: [recommendations.fromUserId],
+      references: [users.id],
+      relationName: 'recommendationFrom',
+    }),
+    toUser: one(users, {
+      fields: [recommendations.toUserId],
+      references: [users.id],
+      relationName: 'recommendationTo',
+    }),
   })
 )
 
@@ -693,7 +769,12 @@ export const schema = {
   subscriptions,
   subscriptionTypeEnum,
   feedbacks,
+  userFavorites,
   sharedUrls,
+  recommendations,
+  achievements,
+  userAchievements,
 }
 
 export * from './user-preferences'
+export * from './achievements'

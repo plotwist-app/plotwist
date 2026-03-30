@@ -46,13 +46,15 @@ class AuthService {
     let result = try JSONDecoder().decode(LoginResponse.self, from: data)
     UserDefaults.standard.set(result.token, forKey: "token")
     
-    // Identify user for analytics
     Task {
       if let user = try? await getCurrentUser() {
         AnalyticsService.shared.identify(userId: user.id, properties: [
           "username": user.username,
           "subscription_type": user.subscriptionType ?? "MEMBER"
         ])
+        await MainActor.run {
+          SubscriptionService.shared.configure(userId: user.id)
+        }
       }
     }
     
@@ -361,13 +363,16 @@ class AuthService {
     UserDefaults.standard.removeObject(forKey: "token")
     invalidatePreferencesCache()
     
-    // Clear all singleton caches to prevent stale data from previous account
     HomeDataCache.shared.fullReset()
     CollectionCache.shared.fullReset()
     SearchDataCache.shared.fullReset()
     ProfileReviewsCache.shared.invalidateAll()
     UserItemService.shared.invalidateAllCache()
     ReviewService.shared.invalidateAllCache()
+    
+    Task { @MainActor in
+      SubscriptionService.shared.logout()
+    }
     
     NotificationCenter.default.post(name: .authChanged, object: nil)
   }

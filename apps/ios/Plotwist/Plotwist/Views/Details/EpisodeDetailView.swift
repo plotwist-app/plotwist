@@ -377,6 +377,8 @@ struct EpisodeDetailView: View {
         seasonNumber: episode.seasonNumber,
         episodeNumber: episode.episodeNumber,
         existingReview: userReview,
+        mediaTitle: episode.name,
+        mediaPosterPath: seasonPosterPath,
         onSaved: {
           Task {
             await loadUserReview()
@@ -525,6 +527,7 @@ struct EpisodeDetailView: View {
         try await UserEpisodeService.shared.unmarkAsWatched(id: episodeId, tmdbId: seriesId)
         isWatched = false
         watchedEpisodeId = nil
+        Haptics.impact(.light)
       } else {
         // Mark as watched
         let userEpisode = try await UserEpisodeService.shared.markAsWatched(
@@ -535,6 +538,7 @@ struct EpisodeDetailView: View {
         )
         isWatched = true
         watchedEpisodeId = userEpisode.id
+        Haptics.notification(.success)
         
         // Also set the series status to "WATCHING" if not already set
         await ensureSeriesStatusIsWatching()

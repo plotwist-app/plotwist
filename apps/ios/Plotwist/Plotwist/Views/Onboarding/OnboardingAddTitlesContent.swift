@@ -26,6 +26,9 @@ struct OnboardingAddTitlesContent: View {
   @State private var hasInteracted = false
   @State private var hintPhase = false
   
+  // Pre-fetched details for context menu preview
+  @State private var preloadedDetails: [Int: MovieDetailsWithCredits] = [:]
+  
   private var savedCount: Int {
     onboardingService.localSavedTitles.count
   }
@@ -158,6 +161,10 @@ struct OnboardingAddTitlesContent: View {
     .geometryGroup()
     .task {
       await loadContent()
+      await preloadTopCardDetails()
+    }
+    .onChange(of: deck.targetID) { _, _ in
+      Task { await preloadTopCardDetails() }
     }
   }
   
@@ -201,7 +208,6 @@ struct OnboardingAddTitlesContent: View {
     let isTopCard = position == 0
     
     ZStack {
-      // Poster
       CachedAsyncImage(url: item.hdPosterURL ?? item.imageURL) { image in
         image
           .resizable()
@@ -219,16 +225,44 @@ struct OnboardingAddTitlesContent: View {
       )
       .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
       
-      // Swipe indicator overlay (only on top card)
       if isTopCard && swipeProgress > 0.3 {
         swipeOverlay(direction: currentSwipeDirection)
           .opacity(Double(swipeProgress))
       }
     }
-    // Apply stacked card transformations for background cards
+    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 32))
+    .contextMenu {
+      Button {
+        deck.swipe(to: .top, id: item.id)
+      } label: {
+        Label(strings.onboardingAlreadyWatched, systemImage: "checkmark.circle.fill")
+      }
+      Button {
+        deck.swipe(to: .right, id: item.id)
+      } label: {
+        Label(strings.onboardingWantToWatch, systemImage: "bookmark.fill")
+      }
+      Button {
+        deck.swipe(to: .bottom, id: item.id)
+      } label: {
+        Label(strings.onboardingWatching, systemImage: "play.circle.fill")
+      }
+      Button(role: .destructive) {
+        deck.swipe(to: .left, id: item.id)
+      } label: {
+        Label(strings.onboardingNotInterested, systemImage: "xmark")
+      }
+    } preview: {
+      cardPreview(item: item)
+    }
     .scaleEffect(isTopCard ? 1.0 : style.scale)
     .rotationEffect(.degrees(isTopCard ? 0 : style.rotation))
     .offset(x: isTopCard ? 0 : style.offsetX, y: isTopCard ? 0 : style.offsetY)
+  }
+  
+  @ViewBuilder
+  private func cardPreview(item: SearchResult) -> some View {
+    CardPreviewContent(item: item, details: preloadedDetails[item.id])
   }
   
   @ViewBuilder
@@ -441,8 +475,7 @@ struct OnboardingAddTitlesContent: View {
   private func handleSwipe(id: Int, direction: Direction) {
     guard let item = deck.data.first(where: { $0.id == id }) else { return }
     
-    let impact = UIImpactFeedbackGenerator(style: .medium)
-    impact.impactOccurred()
+    Haptics.impact(.medium)
     
     dismissedIds.insert(item.id)
     
@@ -521,6 +554,25 @@ struct OnboardingAddTitlesContent: View {
   }
   
   // MARK: - Data Loading
+  
+  private func preloadTopCardDetails() async {
+    guard let targetID = deck.targetID,
+          let item = deck.data.first(where: { $0.id == targetID }),
+          preloadedDetails[targetID] == nil else { return }
+    
+    let mediaType = item.mediaType ?? "movie"
+    let language = Language.current.rawValue
+    do {
+      let details = try await TMDBService.shared.getDetailsWithCredits(
+        id: targetID,
+        mediaType: mediaType,
+        language: language
+      )
+      preloadedDetails[targetID] = details
+    } catch {
+      // Silently fail
+    }
+  }
   
   private func loadContent() async {
     isLoading = true
@@ -735,4 +787,158 @@ struct OnboardingAddTitlesContent: View {
       )
     }
   }
+}
+
+// MARK: - Card Preview
+
+private struct CardPreviewContent: View {
+  let item: SearchResult
+  let details: MovieDetailsWithCredits?
+  
+  private let previewWidth: CGFloat = 340
+  private let backdropHeight: CGFloat = 200
+  private let posterWidth: CGFloat = 90
+  private let posterHeight: CGFloat = 135
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      // Backdrop
+      CachedAsyncImage(url: item.backdropURL ?? item.hdPosterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        Color.appInputFilled
+      }
+      .frame(width: previewWidth, height: backdropHeight)
+      .clipped()
+      .overlay(alignment: .bottom) {
+        Color.appBorderAdaptive.frame(height: 1)
+      }
+      
+      // Poster + Title (poster overlaps backdrop)
+      HStack(alignment: .bottom, spacing: 12) {
+        CachedAsyncImage(url: item.hdPosterURL ?? item.imageURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          RoundedRectangle(cornerRadius: 12)
+            .fill(Color.appBorderAdaptive)
+        }
+        .frame(width: posterWidth, height: posterHeight)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 3)
+        
+        VStack(alignment: .leading, spacing: 4) {
+          Text(item.displayTitle)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+            .lineLimit(2)
+          
+          metadataRow
+        }
+        
+        Spacer(minLength: 0)
+      }
+      .padding(.horizontal, 16)
+      .padding(.top, -(posterHeight / 2))
+      .padding(.bottom, 12)
+      
+      // Content
+      VStack(alignment: .leading, spacing: 12) {
+        // Genre badges + rating
+        if let genres = details?.genres, !genres.isEmpty {
+          FlowLayout(spacing: 6, alignment: .leading) {
+            ForEach(genres.prefix(3)) { genre in
+              BadgeView(text: genre.name)
+            }
+            if let rating = item.voteAverage, rating > 0 {
+              TMDBRatingBadge(rating: rating)
+            }
+          }
+        } else if let rating = item.voteAverage, rating > 0 {
+          TMDBRatingBadge(rating: rating)
+        }
+        
+        // Overview
+        if let overview = item.overview, !overview.isEmpty {
+          Text(overview)
+            .font(.footnote)
+            .foregroundColor(.appMutedForegroundAdaptive)
+            .lineSpacing(3)
+        }
+        
+        // Credits
+        if details?.director != nil || details?.topCast.isEmpty == false {
+          Divider()
+            .foregroundColor(.appBorderAdaptive)
+          creditsSection
+        }
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 14)
+    }
+    .frame(width: previewWidth)
+    .background(Color.appBackgroundAdaptive)
+  }
+  
+  // MARK: - Metadata
+  
+  private var metadataRow: some View {
+    HStack(spacing: 5) {
+      if let year = item.year {
+        Text(year)
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+      
+      if let runtime = details?.formattedRuntime {
+        Text("·")
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+        Text(runtime)
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      } else if let seasons = details?.numberOfSeasons, seasons > 0 {
+        Text("·")
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+        Text(seasons == 1 ? "1 season" : "\(seasons) seasons")
+          .font(.caption)
+          .foregroundColor(.appMutedForegroundAdaptive)
+      }
+    }
+  }
+  
+  // MARK: - Credits
+  
+  private var creditsSection: some View {
+    VStack(alignment: .leading, spacing: 4) {
+      if let director = details?.director {
+        creditLine(label: "Director", value: director)
+      }
+      
+      if let cast = details?.topCast, !cast.isEmpty {
+        creditLine(
+          label: "Cast",
+          value: cast.map(\.name).joined(separator: ", ")
+        )
+      }
+    }
+  }
+  
+  private func creditLine(label: String, value: String) -> some View {
+    HStack(alignment: .top, spacing: 6) {
+      Text(label)
+        .font(.caption2.weight(.semibold))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 50, alignment: .leading)
+      Text(value)
+        .font(.caption2)
+        .foregroundColor(.appMutedForegroundAdaptive.opacity(0.8))
+        .lineLimit(2)
+    }
+  }
+  
 }

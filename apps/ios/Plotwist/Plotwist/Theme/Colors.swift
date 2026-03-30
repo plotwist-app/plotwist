@@ -144,6 +144,12 @@ extension View {
       .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 16)
   }
 
+  /// Applies a sticker-like appearance: optional border + strong floating shadow.
+  /// Set `border: false` to keep only the shadow.
+  func stickerStyle(cornerRadius: CGFloat = DesignTokens.CornerRadius.poster, border: Bool = true) -> some View {
+    self.modifier(StickerStyleModifier(innerCornerRadius: cornerRadius, showBorder: border))
+  }
+
   /// Applies a subtle border to poster cards (dark mode only)
   func posterBorder(cornerRadius: CGFloat = DesignTokens.CornerRadius.poster) -> some View {
     self.modifier(PosterBorderModifier(cornerRadius: cornerRadius))
@@ -152,6 +158,25 @@ extension View {
   /// Applies a border with custom top corners only (dark mode only)
   func topRoundedBorder(cornerRadius: CGFloat) -> some View {
     self.modifier(TopRoundedBorderModifier(cornerRadius: cornerRadius))
+  }
+}
+
+// MARK: - Sticker Style Modifier
+struct StickerStyleModifier: ViewModifier {
+  let innerCornerRadius: CGFloat
+  var showBorder: Bool = true
+
+  func body(content: Content) -> some View {
+    content
+      .overlay(
+        showBorder
+          ? RoundedRectangle(cornerRadius: innerCornerRadius)
+              .strokeBorder(Color.white.opacity(0.25), lineWidth: 1.5)
+          : nil
+      )
+      .shadow(color: Color.black.opacity(0.18), radius: 4, x: 0, y: 2)
+      .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 6)
+      .shadow(color: Color.black.opacity(0.06), radius: 24, x: 0, y: 14)
   }
 }
 

@@ -8,23 +8,30 @@ import SwiftUI
 struct ReviewItemView: View {
   let review: ReviewListItem
   var lineLimit: Int? = nil
+  var mediaTitle: String? = nil
+  var mediaPosterPath: String? = nil
+  var mediaYear: String? = nil
   @State private var spoilerRevealed = false
+  @State private var showShareSheet = false
 
   private var usernameInitial: String {
     review.user.username.first?.uppercased() ?? "?"
   }
 
   private var timeAgo: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
-
     let dateFormatter = ISO8601DateFormatter()
     dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
 
-    if let date = dateFormatter.date(from: review.createdAt) {
-      return formatter.localizedString(for: date, relativeTo: Date())
+    guard let date = dateFormatter.date(from: review.createdAt) else { return "" }
+
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
     }
-    return ""
+
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .abbreviated
+    return formatter.localizedString(for: date, relativeTo: Date())
   }
 
   var body: some View {
@@ -66,7 +73,7 @@ struct ReviewItemView: View {
       }
       .buttonStyle(.plain)
 
-      // Row 2: Stars + dot + Date
+      // Row 2: Stars + dot + Date + Share
       HStack(spacing: 8) {
         HStack(spacing: 2) {
           ForEach(1...5, id: \.self) { index in
@@ -83,6 +90,16 @@ struct ReviewItemView: View {
         Text(timeAgo)
           .font(.caption)
           .foregroundColor(.appMutedForegroundAdaptive)
+
+        if mediaTitle != nil {
+          Spacer()
+
+          Button { showShareSheet = true } label: {
+            Image(systemName: "square.and.arrow.up")
+              .font(.system(size: 13))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+        }
       }
       .padding(.top, 10)
 
@@ -123,6 +140,16 @@ struct ReviewItemView: View {
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
+    .sheet(isPresented: $showShareSheet) {
+      if let title = mediaTitle {
+        ShareReviewSheet(
+          review: review,
+          mediaTitle: title,
+          mediaPosterPath: mediaPosterPath,
+          mediaYear: mediaYear
+        )
+      }
+    }
   }
 
   private var avatarFallback: some View {
@@ -167,14 +194,19 @@ struct ReviewCardView: View {
   }
 
   private var timeAgo: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
     let dateFormatter = ISO8601DateFormatter()
     dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    if let date = dateFormatter.date(from: review.createdAt) {
-      return formatter.localizedString(for: date, relativeTo: Date())
+
+    guard let date = dateFormatter.date(from: review.createdAt) else { return "" }
+
+    let seconds = Date().timeIntervalSince(date)
+    if seconds < 60 && seconds >= 0 {
+      return L10n.current.justNow
     }
-    return ""
+
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .abbreviated
+    return formatter.localizedString(for: date, relativeTo: Date())
   }
 
   var body: some View {

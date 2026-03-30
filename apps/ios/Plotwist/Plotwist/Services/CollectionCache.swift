@@ -16,8 +16,8 @@ final class CollectionCache {
   private var totalCountCache: Int?
   // Cache for reviews count
   private var reviewsCountCache: Int?
-  // Cache for quick stats (movies/series counts)
-  private var quickStatsCache: (moviesCount: Int, seriesCount: Int)?
+  // Cache for quick stats (movies/series/followers/following counts)
+  private var quickStatsCache: (moviesCount: Int, seriesCount: Int, followersCount: Int, followingCount: Int)?
   // Cache for status counts (WATCHED: 318, WATCHING: 12, etc.)
   private var statusCountsCache: [String: Int]?
   // Cache for user profile
@@ -91,15 +91,15 @@ final class CollectionCache {
 
   // MARK: - Quick Stats Cache
 
-  func getQuickStats() -> (moviesCount: Int, seriesCount: Int)? {
+  func getQuickStats() -> (moviesCount: Int, seriesCount: Int, followersCount: Int, followingCount: Int)? {
     guard !isCacheExpired else {
       return nil
     }
     return quickStatsCache
   }
 
-  func setQuickStats(moviesCount: Int, seriesCount: Int) {
-    quickStatsCache = (moviesCount: moviesCount, seriesCount: seriesCount)
+  func setQuickStats(moviesCount: Int, seriesCount: Int, followersCount: Int, followingCount: Int) {
+    quickStatsCache = (moviesCount: moviesCount, seriesCount: seriesCount, followersCount: followersCount, followingCount: followingCount)
     lastUpdated = Date()
   }
 

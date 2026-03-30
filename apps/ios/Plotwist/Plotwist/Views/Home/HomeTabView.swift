@@ -14,6 +14,7 @@ struct HomeTabView: View {
   @State var watchingItems: [SearchResult] = []
   @State var watchlistItems: [SearchResult] = []
   @State var isInitialLoad = true
+  @State private var showNotifications = false
   @State var needsRefresh = false
   @State var hasAppeared = false
 
@@ -167,17 +168,11 @@ struct HomeTabView: View {
               HomeHeaderView(
                 greeting: greeting,
                 username: displayUsername,
-                avatarURL: user?.avatarImageURL,
                 isLoading: showUserSkeleton && !isGuestMode,
                 isGuestMode: isGuestMode,
                 hasDisplayName: user?.displayName?.isEmpty == false,
-                onAvatarTapped: {
-                  NotificationCenter.default.post(name: .navigateToProfile, object: nil)
-                },
-                onAvatarLongPressed: {
-                  OnboardingService.shared.reset()
-                  UserDefaults.standard.set(false, forKey: "isGuestMode")
-                  NotificationCenter.default.post(name: .authChanged, object: nil)
+                onNotificationsTapped: {
+                  showNotifications = true
                 }
               )
               .padding(.horizontal, 24)
@@ -201,7 +196,6 @@ struct HomeTabView: View {
                 .buttonStyle(.plain)
                 .matchedTransitionSource(id: "hero-\(featured.id)", in: heroAnimation)
                 .padding(.horizontal, 20)
-                .transition(.opacity)
               } else if showDiscoverySkeleton {
                 FeaturedHeroSkeleton()
                   .padding(.horizontal, 20)
@@ -227,6 +221,11 @@ struct HomeTabView: View {
                 )
               }
 
+              // Friends Activity (authenticated only)
+              if AuthService.shared.isAuthenticated, let userId = user?.id {
+                NetworkActivitySection(userId: userId)
+              }
+
               // For You - Personalized by genre
               if !forYouItems.isEmpty {
                 ForYouSection(
@@ -246,7 +245,7 @@ struct HomeTabView: View {
                   namespace: heroAnimation
                 )
               } else if showDiscoverySkeleton {
-                HomeSectionSkeleton()
+                TrendingSectionSkeleton()
               }
 
               // Anime Section (conditional)
@@ -333,10 +332,14 @@ struct HomeTabView: View {
 
               Spacer(minLength: 100)
             }
+            .transaction { $0.animation = nil }
           }
 
         }
         .navigationBarHidden(true)
+        .navigationDestination(isPresented: $showNotifications) {
+          NotificationsView()
+        }
         .preferredColorScheme(effectiveColorScheme)
         .onAppear {
           // Restore from cache immediately on appear

@@ -10,58 +10,47 @@ struct ProfileMainTabs: View {
   @Binding var selectedTab: ProfileMainTab
   @Binding var slideFromTrailing: Bool
   let strings: Strings
-  var reviewsCount: Int = 0
+  var visibleTabs: [ProfileMainTab] = ProfileMainTab.allCases
   @Namespace private var tabNamespace
 
-  private func badgeCount(for tab: ProfileMainTab) -> Int {
-    switch tab {
-    case .collection: return 0
-    case .reviews: return reviewsCount
-    case .stats: return 0
-    }
-  }
-
   var body: some View {
-    HStack(spacing: 0) {
-      ForEach(ProfileMainTab.allCases, id: \.self) { tab in
-        Button {
-          guard selectedTab != tab else { return }
-          slideFromTrailing = tab.index > selectedTab.index
-          withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-            selectedTab = tab
-          }
-        } label: {
-          VStack(spacing: 8) {
-            HStack(spacing: 6) {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(spacing: 0) {
+        ForEach(Array(visibleTabs.enumerated()), id: \.element) { index, tab in
+          Button {
+            guard selectedTab != tab else { return }
+            slideFromTrailing = tab.index > selectedTab.index
+            Haptics.selection()
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+              selectedTab = tab
+            }
+          } label: {
+            VStack(spacing: 8) {
               Text(tab.displayName(strings: strings))
                 .font(.subheadline.weight(.medium))
                 .foregroundColor(selectedTab == tab ? .appForegroundAdaptive : .appMutedForegroundAdaptive)
 
-              if badgeCount(for: tab) > 0 && selectedTab == tab {
-                CollectionCountBadge(count: badgeCount(for: tab))
-                  .transition(.scale.combined(with: .opacity))
-              }
-            }
-
-            ZStack {
-              Rectangle()
-                .fill(Color.clear)
-                .frame(height: 3)
-
-              if selectedTab == tab {
+              ZStack {
                 Rectangle()
-                  .fill(Color.appForegroundAdaptive)
+                  .fill(Color.clear)
                   .frame(height: 3)
-                  .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
+
+                if selectedTab == tab {
+                  Rectangle()
+                    .fill(Color.appForegroundAdaptive)
+                    .frame(height: 3)
+                    .matchedGeometryEffect(id: "tabIndicator", in: tabNamespace)
+                }
               }
             }
+            .padding(.leading, index == 0 ? 0 : 16)
+            .padding(.trailing, index == visibleTabs.count - 1 ? 0 : 16)
           }
+          .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
-        .frame(maxWidth: .infinity)
       }
+      .padding(.horizontal, 24)
     }
-    .padding(.horizontal, 24)
     .overlay(
       Rectangle()
         .fill(Color.appBorderAdaptive)
@@ -103,6 +92,7 @@ struct ProfileStatusTabs: View {
           let isSelected = selectedTab == tab
 
           Button {
+            Haptics.selection()
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
               selectedTab = tab
             }
@@ -140,44 +130,70 @@ struct ProfileStatusTabs: View {
 struct ProfileQuickStats: View {
   let moviesCount: Int
   let seriesCount: Int
+  @Binding var followersCount: Int
+  let followingCount: Int
+  let userId: String
   let isLoading: Bool
   let strings: Strings
+  var isOwnProfile: Bool = false
+  var onUserSelected: ((FollowerUser) -> Void)? = nil
+
+  @State private var showFollowersList = false
+  @State private var showFollowingList = false
+  @ObservedObject private var themeManager = ThemeManager.shared
 
   var body: some View {
     HStack(spacing: 0) {
-      // Movies
-      HStack(spacing: 6) {
-        Text("\(moviesCount)")
-          .font(.subheadline.weight(.semibold))
+      Button { showFollowersList = true } label: {
+        statCell(count: followersCount, label: strings.followersLabel, isFirst: true)
+      }
+      .buttonStyle(.plain)
+
+      Button { showFollowingList = true } label: {
+        statCell(count: followingCount, label: strings.followingLabel)
+      }
+      .buttonStyle(.plain)
+
+      statCell(count: moviesCount, label: strings.movies)
+
+      statCell(count: seriesCount, label: strings.series, isLast: true)
+    }
+    .frame(maxWidth: .infinity)
+    .redacted(reason: isLoading ? .placeholder : [])
+    .sheet(isPresented: $showFollowersList) {
+      FollowersListView(userId: userId, variant: .followers, count: followersCount, isOwnProfile: isOwnProfile, onUserSelected: onUserSelected)
+        .floatingSheetPresentation(detents: [.medium, .large])
+        .preferredColorScheme(themeManager.current.colorScheme)
+    }
+    .sheet(isPresented: $showFollowingList) {
+      FollowersListView(userId: userId, variant: .following, count: followingCount, isOwnProfile: isOwnProfile, onUserSelected: onUserSelected)
+        .floatingSheetPresentation(detents: [.medium, .large])
+        .preferredColorScheme(themeManager.current.colorScheme)
+    }
+  }
+
+  private func statCell(count: Int, label: String, isFirst: Bool = false, isLast: Bool = false) -> some View {
+    HStack(spacing: 0) {
+      VStack(alignment: .leading, spacing: 2) {
+        Text("\(count)")
+          .font(.body.weight(.semibold))
           .foregroundColor(.appForegroundAdaptive)
           .contentTransition(.numericText())
 
-        Text(strings.movies)
-          .font(.subheadline)
+        Text(label)
+          .font(.caption)
           .foregroundColor(.appMutedForegroundAdaptive)
+          .lineLimit(1)
       }
-      .redacted(reason: isLoading ? .placeholder : [])
+      .padding(.leading, isFirst ? 0 : 12)
+      .padding(.trailing, isLast ? 0 : 12)
+      .frame(maxWidth: .infinity, alignment: .leading)
 
-      // Divider
-      Rectangle()
-        .fill(Color.appBorderAdaptive)
-        .frame(width: 1, height: 14)
-        .padding(.horizontal, 12)
-
-      // Series
-      HStack(spacing: 6) {
-        Text("\(seriesCount)")
-          .font(.subheadline.weight(.semibold))
-          .foregroundColor(.appForegroundAdaptive)
-          .contentTransition(.numericText())
-
-        Text(strings.series)
-          .font(.subheadline)
-          .foregroundColor(.appMutedForegroundAdaptive)
+      if !isLast {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+          .frame(width: 1, height: 32)
       }
-      .redacted(reason: isLoading ? .placeholder : [])
-
-      Spacer()
     }
   }
 }
