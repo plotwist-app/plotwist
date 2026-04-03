@@ -893,5 +893,41 @@
   "feature_stats_title": "Consultez vos statistiques",
   "feature_stats_description": "Visualisez vos habitudes avec des statistiques détaillées.",
   "app_section_title": "Emportez Plotwist avec vous",
-  "app_section_subtitle": "Suivez vos titres partout avec l'app Plotwist pour iOS. Glissez pour découvrir, suivez les épisodes et ne manquez jamais un titre."
+  "app_section_subtitle": "Suivez vos titres partout avec l'app Plotwist pour iOS. Glissez pour découvrir, suivez les épisodes et ne manquez jamais un titre.",
+  "onboarding": {
+    "welcome_title": "Suivez, découvrez et ne manquez jamais un titre",
+    "welcome_subtitle": "Rejoignez la communauté des amateurs de films et séries.",
+    "get_started": "Commencer",
+    "name_title": "Dites-nous votre nom pour personnaliser Plotwist",
+    "name_placeholder": "Votre nom",
+    "content_types_title": "Que préférez-vous regarder ?",
+    "content_types_movie": "Films",
+    "content_types_tv": "Séries",
+    "content_types_anime": "Anime",
+    "content_types_dorama": "Dramas",
+    "genres_title": "Choisissez vos genres préférés",
+    "genres_subtitle": "Sélectionnez au moins un genre",
+    "genres_select_prompt": "Sélectionnez un genre",
+    "swiper_title": "Découvrez des titres",
+    "swiper_subtitle": "De glisser sur les côtés pour ajouter à votre liste",
+    "swiper_watched": "Vu",
+    "swiper_watching": "En cours",
+    "swiper_want_to_watch": "À voir",
+    "swiper_skip": "Passer",
+    "swiper_empty": "Aucun titre trouvé avec ces préférences.",
+    "swiper_fetching": "Recherche de titres...",
+    "swiper_finish_ready": "Allons-y !",
+    "swiper_finish_remaining": "titres restants",
+    "celebration_title": "Tout est prêt !",
+    "celebration_subtitle": "Votre profil est prêt. Commençons.",
+    "go_to_profile": "Aller au profil",
+    "continue": "Continuer",
+    "syncing": "Enregistrement du profil..."
+  },
+  "error_page": {
+    "title": "Quelque chose s'est mal passé",
+    "description": "Une erreur inattendue s'est produite. Ne vous inquiétez pas, ce n'est pas de votre faute.",
+    "try_again": "Réessayer",
+    "go_home": "Retour à l'accueil"
+  }
 }
