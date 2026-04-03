@@ -111,26 +111,25 @@ struct FavoritesSection: View {
   }
 
   private var emptyState: some View {
-    VStack(spacing: 8) {
+    VStack(spacing: 12) {
       Image(systemName: "heart")
-        .font(.system(size: 36, weight: .light))
-        .foregroundStyle(.tertiary)
+        .font(.system(size: 48))
+        .foregroundColor(.appMutedForegroundAdaptive)
         .padding(.bottom, 4)
 
       Text(L10n.current.favorites)
-        .font(.body.weight(.semibold))
+        .font(.headline)
         .foregroundColor(.appForegroundAdaptive)
 
       Text(isOwnProfile
         ? L10n.current.favoritesEmptyOwn
         : L10n.current.favoritesEmptyOther)
         .font(.subheadline)
-        .foregroundStyle(.secondary)
+        .foregroundColor(.appMutedForegroundAdaptive)
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 40)
+        .padding(.horizontal, 32)
     }
     .frame(maxWidth: .infinity)
-    .padding(.top, 48)
-    .padding(.bottom, 24)
+    .padding(.top, 60)
   }
 }

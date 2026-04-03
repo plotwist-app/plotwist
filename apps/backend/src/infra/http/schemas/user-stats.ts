@@ -177,6 +177,7 @@ export const getUserAIRecommendationsResponseSchema = {
         reason: z.string(),
         mediaType: z.string(),
         year: z.number().optional(),
+        tmdbId: z.number().optional(),
       })
     ),
   }),

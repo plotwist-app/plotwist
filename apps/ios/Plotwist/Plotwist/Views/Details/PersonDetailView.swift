@@ -46,7 +46,6 @@ struct PersonDetailView: View {
           ZStack(alignment: .topLeading) {
             ScrollView(showsIndicators: false) {
               VStack(alignment: .leading, spacing: 0) {
-                // Backdrop
                 if let url = backdropURL {
                   CachedAsyncImage(url: url) { image in
                     image
@@ -64,7 +63,6 @@ struct PersonDetailView: View {
                     .frame(height: backdropHeight + cornerRadius)
                 }
 
-                // Content card
                 ZStack(alignment: .topLeading) {
                   Color.appBackgroundAdaptive
                     .clipShape(
@@ -92,12 +90,32 @@ struct PersonDetailView: View {
             }
             .ignoresSafeArea(edges: .top)
 
-            backButton
+            VStack {
+              HStack {
+                Button {
+                  dismiss()
+                } label: {
+                  Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 40, height: 40)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                }
+
+                Spacer()
+              }
+              .padding(.horizontal, 24)
+              Spacer()
+            }
+            .padding(.top, 16)
           }
         }
       }
     }
-    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .toolbar(.hidden, for: .navigationBar)
+    .background { ForceHideNavigationBar() }
     .preferredColorScheme(themeManager.current.colorScheme)
     .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
       strings = L10n.current
@@ -105,30 +123,6 @@ struct PersonDetailView: View {
     .task {
       await loadData()
     }
-  }
-
-  // MARK: - Back Button
-
-  private var backButton: some View {
-    VStack {
-      HStack {
-        Button {
-          dismiss()
-        } label: {
-          Image(systemName: "chevron.left")
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(.white)
-            .frame(width: 40, height: 40)
-            .background(.ultraThinMaterial)
-            .clipShape(Circle())
-        }
-
-        Spacer()
-      }
-      .padding(.horizontal, 24)
-      Spacer()
-    }
-    .padding(.top, 16)
   }
 
   // MARK: - Header
@@ -355,89 +349,110 @@ private struct PersonDetailSkeleton: View {
     GeometryReader { geometry in
       let backdropHeight = geometry.size.height * 0.35
 
-      VStack(alignment: .leading, spacing: 0) {
-        Rectangle()
-          .fill(Color.appBorderAdaptive.opacity(0.5))
-          .frame(height: backdropHeight + cornerRadius)
-
-        ZStack(alignment: .topLeading) {
-          Color.appBackgroundAdaptive
-            .clipShape(
-              RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
-            )
-
+      ZStack(alignment: .topLeading) {
+        ScrollView(showsIndicators: false) {
           VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 12) {
-              HStack(alignment: .bottom, spacing: 16) {
-                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
-                  .fill(Color.appBorderAdaptive)
-                  .frame(width: 120, height: 180)
-                  .offset(y: -70)
-                  .padding(.bottom, -70)
-
-                RoundedRectangle(cornerRadius: 4)
-                  .fill(Color.appBorderAdaptive)
-                  .frame(width: 150, height: 20)
-
-                Spacer()
-              }
-
-              HStack(spacing: 8) {
-                RoundedRectangle(cornerRadius: 8)
-                  .fill(Color.appBorderAdaptive)
-                  .frame(width: 130, height: 28)
-
-                RoundedRectangle(cornerRadius: 8)
-                  .fill(Color.appBorderAdaptive)
-                  .frame(width: 100, height: 28)
-              }
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 20)
-
-            VStack(alignment: .leading, spacing: 6) {
-              ForEach(0..<3, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: 4)
-                  .fill(Color.appBorderAdaptive)
-                  .frame(height: 14)
-              }
-              RoundedRectangle(cornerRadius: 4)
-                .fill(Color.appBorderAdaptive)
-                .frame(width: 200, height: 14)
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 24)
-
             Rectangle()
               .fill(Color.appBorderAdaptive.opacity(0.5))
-              .frame(height: 1)
-              .padding(.horizontal, 24)
-              .padding(.vertical, 24)
+              .frame(height: backdropHeight + cornerRadius)
 
-            VStack(alignment: .leading, spacing: 12) {
-              RoundedRectangle(cornerRadius: 4)
-                .fill(Color.appBorderAdaptive)
-                .frame(width: 120, height: 20)
-                .padding(.horizontal, 24)
+            ZStack(alignment: .topLeading) {
+              Color.appBackgroundAdaptive
+                .clipShape(
+                  RoundedCorner(radius: cornerRadius, corners: [.topLeft, .topRight])
+                )
 
-              ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                  ForEach(0..<4, id: \.self) { _ in
+              VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 12) {
+                  HStack(alignment: .bottom, spacing: 16) {
                     RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
                       .fill(Color.appBorderAdaptive)
                       .frame(width: 120, height: 180)
+                      .offset(y: -70)
+                      .padding(.bottom, -70)
+
+                    RoundedRectangle(cornerRadius: 4)
+                      .fill(Color.appBorderAdaptive)
+                      .frame(width: 150, height: 20)
+
+                    Spacer()
+                  }
+
+                  HStack(spacing: 8) {
+                    RoundedRectangle(cornerRadius: 8)
+                      .fill(Color.appBorderAdaptive)
+                      .frame(width: 130, height: 28)
+
+                    RoundedRectangle(cornerRadius: 8)
+                      .fill(Color.appBorderAdaptive)
+                      .frame(width: 100, height: 28)
                   }
                 }
                 .padding(.horizontal, 24)
-                .padding(.vertical, 4)
+                .padding(.top, 20)
+
+                VStack(alignment: .leading, spacing: 6) {
+                  ForEach(0..<3, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: 4)
+                      .fill(Color.appBorderAdaptive)
+                      .frame(height: 14)
+                  }
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive)
+                    .frame(width: 200, height: 14)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+
+                Rectangle()
+                  .fill(Color.appBorderAdaptive.opacity(0.5))
+                  .frame(height: 1)
+                  .padding(.horizontal, 24)
+                  .padding(.vertical, 24)
+
+                VStack(alignment: .leading, spacing: 12) {
+                  RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.appBorderAdaptive)
+                    .frame(width: 120, height: 20)
+                    .padding(.horizontal, 24)
+
+                  ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                      ForEach(0..<4, id: \.self) { _ in
+                        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+                          .fill(Color.appBorderAdaptive)
+                          .frame(width: 120, height: 180)
+                      }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 4)
+                  }
+                  .scrollClipDisabled()
+                }
               }
-              .scrollClipDisabled()
             }
+            .offset(y: -cornerRadius)
           }
         }
-        .offset(y: -cornerRadius)
+        .ignoresSafeArea(edges: .top)
+        .scrollDisabled(true)
 
-        Spacer()
+        VStack {
+          HStack {
+            Circle()
+              .fill(.ultraThinMaterial)
+              .frame(width: 40, height: 40)
+              .overlay(
+                Image(systemName: "chevron.left")
+                  .font(.system(size: 18, weight: .semibold))
+                  .foregroundColor(.white)
+              )
+            Spacer()
+          }
+          .padding(.horizontal, 24)
+          Spacer()
+        }
+        .padding(.top, 16)
       }
     }
   }

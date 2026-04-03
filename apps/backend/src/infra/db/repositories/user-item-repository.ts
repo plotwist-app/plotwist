@@ -225,6 +225,50 @@ export async function selectAllUserItems(userId: string) {
     .where(eq(schema.userItems.userId, userId))
 }
 
+export async function selectWatchedItemsWithAvgRating(
+  userId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  const whereConditions = [
+    eq(schema.userItems.userId, userId),
+    eq(schema.userItems.status, 'WATCHED'),
+  ]
+
+  if (startDate && endDate) {
+    whereConditions.push(between(schema.userItems.addedAt, startDate, endDate))
+  } else if (startDate) {
+    whereConditions.push(gte(schema.userItems.addedAt, startDate))
+  }
+
+  return db
+    .select({
+      tmdbId: schema.userItems.tmdbId,
+      mediaType: schema.userItems.mediaType,
+      addedAt: schema.userItems.addedAt,
+      avgRating: sql<string | null>`AVG(${schema.reviews.rating})::numeric(3,1)::text`,
+    })
+    .from(schema.userItems)
+    .leftJoin(
+      schema.reviews,
+      and(
+        eq(schema.reviews.tmdbId, schema.userItems.tmdbId),
+        eq(schema.reviews.userId, schema.userItems.userId),
+        eq(schema.reviews.mediaType, schema.userItems.mediaType)
+      )
+    )
+    .where(and(...whereConditions))
+    .groupBy(
+      schema.userItems.tmdbId,
+      schema.userItems.mediaType,
+      schema.userItems.addedAt
+    )
+    .orderBy(
+      sql`AVG(${schema.reviews.rating}) DESC NULLS LAST`,
+      desc(schema.userItems.addedAt)
+    )
+}
+
 export async function selectUserItemsCount(userId: string) {
   const result = await db
     .select({

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr:*)",
+      "Bash(gh api:*)",
+      "Bash(git add:*)",
+      "Bash(source ~/.zshrc)",
+      "Bash(npx @biomejs/biome check --changed)",
+      "Bash(npx @biomejs/biome check src/config.ts src/infra/adapters/open-ai.ts src/domain/services/user-stats/get-user-ai-recommendations.ts src/domain/services/user-stats/get-user-ai-recommendations.spec.ts)",
+      "Bash(pnpm run:*)"
+    ]
+  }
+}

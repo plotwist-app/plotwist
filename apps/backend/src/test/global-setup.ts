@@ -78,6 +78,7 @@ export async function setup() {
 
   // OpenAI
   process.env.OPENAI_API_KEY = 'open_api_key'
+  process.env.RECOMMENDATION_AI_PROVIDER = 'openAI'
 
   await setupDatabase()
   await setupLocalStack()
@@ -140,13 +141,13 @@ async function setupDatabase() {
 }
 
 async function setupLocalStack() {
-  const container = await new GenericContainer('localstack/localstack:latest')
+  const container = await new GenericContainer('localstack/localstack:3')
     .withEnvironment({
       SERVICES: 'sqs',
       DOCKER_HOST: 'unix:///var/run/docker.sock',
     })
     .withExposedPorts(4566)
-    .withWaitStrategy(Wait.forLogMessage(/.*Ready.*/))
+    .withWaitStrategy(Wait.forHttp('/_localstack/health', 4566))
     .start()
 
   localstackConfig = {

@@ -20,6 +20,7 @@ struct FollowersListView: View {
   let userId: String
   let variant: FollowListVariant
   let count: Int
+  var isOwnProfile: Bool = false
   var onUserSelected: ((FollowerUser) -> Void)? = nil
 
   @Environment(\.dismiss) private var dismiss
@@ -68,12 +69,66 @@ struct FollowersListView: View {
   private var emptyView: some View {
     VStack(spacing: 12) {
       Spacer()
-      Image(systemName: "person.2")
-        .font(.system(size: 36))
-        .foregroundColor(.appMutedForegroundAdaptive.opacity(0.5))
+
+      Image(systemName: variant == .followers ? "person.2" : "person.badge.plus")
+        .font(.system(size: 48))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .padding(.bottom, 4)
+
       Text(variant == .followers ? L10n.current.noFollowers : L10n.current.noFollowing)
+        .font(.headline)
+        .foregroundColor(.appForegroundAdaptive)
+
+      Text(isOwnProfile
+        ? (variant == .followers
+          ? L10n.current.followersEmptyOwnSubtitle
+          : L10n.current.followingEmptyOwnSubtitle)
+        : (variant == .followers
+          ? L10n.current.followersEmptyOtherSubtitle
+          : L10n.current.followingEmptyOtherSubtitle))
         .font(.subheadline)
         .foregroundColor(.appMutedForegroundAdaptive)
+        .multilineTextAlignment(.center)
+        .padding(.horizontal, 32)
+
+      if isOwnProfile {
+        VStack(spacing: 10) {
+          Button {
+            NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+            dismiss()
+          } label: {
+            HStack(spacing: 6) {
+              Image(systemName: "magnifyingglass")
+                .font(.system(size: 13))
+              Text(L10n.current.activityFindFriends)
+                .font(.footnote.weight(.medium))
+            }
+            .foregroundColor(.appForegroundAdaptive)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(Color.appInputFilled)
+            .cornerRadius(10)
+          }
+          .buttonStyle(.plain)
+
+          ShareLink(item: URL(string: "https://plotwist.app")!) {
+            HStack(spacing: 6) {
+              Image(systemName: "square.and.arrow.up")
+                .font(.system(size: 13))
+              Text(L10n.current.shareApp)
+                .font(.footnote.weight(.medium))
+            }
+            .foregroundColor(.appForegroundAdaptive)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(Color.appInputFilled)
+            .cornerRadius(10)
+          }
+          .buttonStyle(.plain)
+        }
+        .padding(.top, 4)
+      }
+
       Spacer()
     }
   }

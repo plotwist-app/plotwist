@@ -161,12 +161,12 @@ struct ProfileQuickStats: View {
     .frame(maxWidth: .infinity)
     .redacted(reason: isLoading ? .placeholder : [])
     .sheet(isPresented: $showFollowersList) {
-      FollowersListView(userId: userId, variant: .followers, count: followersCount, onUserSelected: onUserSelected)
+      FollowersListView(userId: userId, variant: .followers, count: followersCount, isOwnProfile: isOwnProfile, onUserSelected: onUserSelected)
         .floatingSheetPresentation(detents: [.medium, .large])
         .preferredColorScheme(themeManager.current.colorScheme)
     }
     .sheet(isPresented: $showFollowingList) {
-      FollowersListView(userId: userId, variant: .following, count: followingCount, onUserSelected: onUserSelected)
+      FollowersListView(userId: userId, variant: .following, count: followingCount, isOwnProfile: isOwnProfile, onUserSelected: onUserSelected)
         .floatingSheetPresentation(detents: [.medium, .large])
         .preferredColorScheme(themeManager.current.colorScheme)
     }

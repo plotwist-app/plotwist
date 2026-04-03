@@ -58,16 +58,24 @@ struct ActivityFeedView: View {
             .padding(.vertical, 12)
         }
       } else if activities.isEmpty {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
           Image(systemName: "clock.arrow.circlepath")
-            .font(.system(size: 32))
+            .font(.system(size: 48))
             .foregroundColor(.appMutedForegroundAdaptive)
+            .padding(.bottom, 4)
+
           Text(strings.activityNoActivity)
+            .font(.headline)
+            .foregroundColor(.appForegroundAdaptive)
+
+          Text(strings.activityEmptySubtitle)
             .font(.subheadline)
             .foregroundColor(.appMutedForegroundAdaptive)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 32)
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 48)
+        .padding(.top, 60)
       } else {
         ForEach(activities) { activity in
           ActivityItemLink(activity: activity)
@@ -160,13 +168,36 @@ struct NetworkActivitySection: View {
         }
         .padding(.horizontal, 24)
       } else if activities.isEmpty {
-        HStack(spacing: 8) {
-          Image(systemName: "person.2")
-            .foregroundColor(.appMutedForegroundAdaptive)
-          Text(strings.activityNoActivity)
-            .font(.subheadline)
-            .foregroundColor(.appMutedForegroundAdaptive)
+        Button {
+          NotificationCenter.default.post(name: .navigateToSearch, object: nil)
+        } label: {
+          HStack(spacing: 14) {
+            Image(systemName: "person.2")
+              .font(.system(size: 22))
+              .foregroundColor(.appMutedForegroundAdaptive)
+
+            VStack(alignment: .leading, spacing: 2) {
+              Text(strings.activityNoFriendsTitle)
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.appForegroundAdaptive)
+
+              Text(strings.activityNoFriendsSubtitle)
+                .font(.caption)
+                .foregroundColor(.appMutedForegroundAdaptive)
+                .lineLimit(2)
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+              .font(.system(size: 12, weight: .semibold))
+              .foregroundColor(.appMutedForegroundAdaptive)
+          }
+          .padding(16)
+          .background(Color.appInputFilled)
+          .clipShape(RoundedRectangle(cornerRadius: 14))
         }
+        .buttonStyle(.plain)
         .padding(.horizontal, 24)
       } else {
         VStack(alignment: .leading, spacing: 0) {
