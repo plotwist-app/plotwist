@@ -1,6 +1,6 @@
-import { Image as LucideImage } from 'lucide-react'
 import Image from 'next/image'
 import type { ComponentProps } from 'react'
+import { PosterFallback } from '@/components/poster-fallback'
 import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
 
@@ -28,7 +28,7 @@ export const Poster = ({ url, alt, className, ...props }: PosterProps) => {
           src={tmdbImage(url)}
         />
       ) : (
-        <LucideImage size={24} />
+        <PosterFallback title={alt} />
       )}
     </div>
   )
