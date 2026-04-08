@@ -1,10 +1,14 @@
 import { faker } from '@faker-js/faker'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
 import { requestPasswordResetService } from './request-password-reset'
 import * as sendPasswordResetEmail from './send-password-reset-email'
 
 describe('requestPasswordReset', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should return generic response and send email when user exists', async () => {
     const user = await makeUser()
     const sendEmailSpy = vi
