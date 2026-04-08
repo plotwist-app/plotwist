@@ -92,7 +92,7 @@ export async function setup() {
 }
 
 async function setupDatabase() {
-  const container = await new GenericContainer('bitnami/postgresql:latest')
+  const container = await new GenericContainer('postgres:latest')
     .withEnvironment({
       POSTGRES_PASSWORD: 'test',
       POSTGRES_DB: 'plotwist_db',

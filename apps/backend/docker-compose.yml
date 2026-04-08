@@ -20,7 +20,7 @@ services:
 
   db:
     container_name: plotwist_db
-    image: bitnami/postgresql:latest
+    image: postgres:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
