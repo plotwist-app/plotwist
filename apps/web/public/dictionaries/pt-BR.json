@@ -58,7 +58,8 @@
     "password_length": "Sua senha deve ter pelo menos 8 caracteres.",
     "login_success": "Login bem-sucedido. Bem-vindo! 🎉",
     "invalid_login_credentials": "Credenciais de login inválidas",
-    "try_again": "Tente novamente"
+    "try_again": "Tente novamente",
+    "forgot_password": "Esqueceu sua senha?"
   },
   "sign_up_form": {
     "email_label": "E-mail",

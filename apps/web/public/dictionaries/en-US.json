@@ -58,7 +58,8 @@
     "password_length": "Your password must be at least 8 characters long.",
     "login_success": "Login successful. Welcome! 🎉",
     "invalid_login_credentials": "Invalid login credentials.",
-    "try_again": "Try again"
+    "try_again": "Try again",
+    "forgot_password": "Forgot your password?"
   },
   "sign_up_form": {
     "email_label": "E-mail",

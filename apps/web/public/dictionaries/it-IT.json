@@ -58,7 +58,8 @@
     "password_length": "La tua password deve essere lunga almeno 8 caratteri.",
     "login_success": "Accesso effettuato con successo. Benvenuto! 🎉",
     "invalid_login_credentials": "Credenziali di accesso non valide",
-    "try_again": "Riprova"
+    "try_again": "Riprova",
+    "forgot_password": "Hai dimenticato la password?"
   },
   "sign_up_form": {
     "email_label": "E-mail",

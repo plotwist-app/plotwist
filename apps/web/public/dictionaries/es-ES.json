@@ -58,7 +58,8 @@
     "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
     "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
-    "try_again": "Intentar de nuevo"
+    "try_again": "Intentar de nuevo",
+    "forgot_password": "¿Olvidaste tu contraseña?"
   },
   "sign_up_form": {
     "email_label": "Correo electrónico",

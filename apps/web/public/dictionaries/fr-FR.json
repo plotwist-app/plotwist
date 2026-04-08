@@ -58,7 +58,8 @@
     "password_length": "Votre mot de passe doit comporter au moins 8 caractères.",
     "login_success": "Connexion réussie. Bienvenue ! 🎉",
     "invalid_login_credentials": "Identifiants de connexion invalides",
-    "try_again": "Réessayer"
+    "try_again": "Réessayer",
+    "forgot_password": "Mot de passe oublié ?"
   },
   "sign_up_form": {
     "email_label": "E-mail",
