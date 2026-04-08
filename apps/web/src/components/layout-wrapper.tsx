@@ -11,7 +11,6 @@ export function LayoutWrapper({
   proBadge?: React.ReactNode
   isOnboarding?: boolean
 }) {
-
   return (
     <>
       <div className="flex flex-col">

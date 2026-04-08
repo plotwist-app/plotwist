@@ -1,6 +1,6 @@
+import { randomBytes } from 'node:crypto'
 import type { InsertMagicTokenModel } from '@/domain/entities/magic-token'
 import { insertMagicToken } from '@/infra/db/repositories/magic-tokens'
-import { randomBytes } from 'node:crypto'
 
 type Overrides = Partial<Omit<InsertMagicTokenModel, 'userId'>>
 

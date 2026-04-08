@@ -10,7 +10,10 @@
     {
       "name": "backend",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "docker compose -f apps/backend/docker-compose.yml up -d && pnpm --filter plotwist-api run dev"],
+      "runtimeArgs": [
+        "-c",
+        "docker compose -f apps/backend/docker-compose.yml up -d && pnpm --filter plotwist-api run dev"
+      ],
       "port": 3333
     }
   ]

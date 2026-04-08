@@ -2,18 +2,18 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import {
-  toggleFavoriteController,
-  getUserFavoritesController,
   checkFavoriteController,
+  getUserFavoritesController,
+  toggleFavoriteController,
 } from '../controllers/user-favorites-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
-  toggleFavoriteBodySchema,
-  toggleFavoriteResponseSchema,
-  getUserFavoritesQuerySchema,
-  getUserFavoritesResponseSchema,
   checkFavoriteQuerySchema,
   checkFavoriteResponseSchema,
+  getUserFavoritesQuerySchema,
+  getUserFavoritesResponseSchema,
+  toggleFavoriteBodySchema,
+  toggleFavoriteResponseSchema,
 } from '../schemas/user-favorites'
 
 const TAGS = ['User Favorites']

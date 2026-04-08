@@ -2,16 +2,16 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import {
-  sendRecommendationController,
   getReceivedRecommendationsController,
   respondRecommendationController,
+  sendRecommendationController,
 } from '../controllers/recommendations-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
-  sendRecommendationBodySchema,
   getRecommendationsQuerySchema,
   respondRecommendationBodySchema,
   respondRecommendationParamsSchema,
+  sendRecommendationBodySchema,
 } from '../schemas/recommendations'
 
 const TAGS = ['Recommendations']

@@ -129,7 +129,7 @@ export const updateUserSchema = {
 }
 
 export const updateUserPasswordBodySchema = z.object({
-  password: z.string(),
+  password: z.string().min(8),
   token: z.string(),
 })
 

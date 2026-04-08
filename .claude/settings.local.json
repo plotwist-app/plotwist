@@ -9,11 +9,10 @@
       "Bash(npx @biomejs/biome check src/config.ts src/infra/adapters/open-ai.ts src/domain/services/user-stats/get-user-ai-recommendations.ts src/domain/services/user-stats/get-user-ai-recommendations.spec.ts)",
       "Bash(pnpm run:*)",
       "Bash(make run:*)",
-      "Bash(curl -s http://localhost:3333/healthcheck)"
+      "Bash(curl -s http://localhost:3333/healthcheck)",
+      "Bash(make test:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "grafana"
-  ]
+  "enabledMcpjsonServers": ["grafana"]
 }
