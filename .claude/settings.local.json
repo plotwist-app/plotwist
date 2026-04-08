@@ -7,11 +7,13 @@
       "Bash(source ~/.zshrc)",
       "Bash(npx @biomejs/biome check --changed)",
       "Bash(npx @biomejs/biome check src/config.ts src/infra/adapters/open-ai.ts src/domain/services/user-stats/get-user-ai-recommendations.ts src/domain/services/user-stats/get-user-ai-recommendations.spec.ts)",
-      "Bash(pnpm run:*)"
+      "Bash(pnpm run:*)",
+      "Bash(make run:*)",
+      "Bash(curl -s http://localhost:3333/healthcheck)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "grafana"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
