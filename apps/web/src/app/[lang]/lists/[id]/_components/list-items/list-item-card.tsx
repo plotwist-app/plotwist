@@ -5,6 +5,7 @@ import { CSS } from '@dnd-kit/utilities'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 import type { GetListItemsByListId200Item } from '@/api/endpoints.schemas'
+import { PosterFallback } from '@/components/poster-fallback'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -43,7 +44,7 @@ export const ListItemCard = ({
         {...props}
       >
         <div className="relative aspect-poster w-full overflow-hidden rounded-md border bg-background/50 shadow">
-          {posterPath && (
+          {posterPath ? (
             <Image
               fill
               className="z-10 object-fill"
@@ -51,6 +52,8 @@ export const ListItemCard = ({
               alt={title}
               sizes="100%"
             />
+          ) : (
+            <PosterFallback title={title} />
           )}
         </div>
       </div>
@@ -65,7 +68,7 @@ export const ListItemCard = ({
       {...props}
     >
       <div className="relative aspect-poster w-full overflow-hidden rounded-md border bg-background/50 shadow">
-        {posterPath && (
+        {posterPath ? (
           <Image
             fill
             className="z-10 object-fill"
@@ -73,6 +76,8 @@ export const ListItemCard = ({
             alt={title}
             sizes="100%"
           />
+        ) : (
+          <PosterFallback title={title} />
         )}
 
         <div

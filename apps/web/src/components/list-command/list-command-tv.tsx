@@ -8,6 +8,7 @@ import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
+import { PosterFallback } from '@/components/poster-fallback'
 import { Link } from 'next-view-transitions'
 import { v4 } from 'uuid'
 import { ItemHoverCard } from '@/components/item-hover-card'
@@ -94,13 +95,15 @@ export const ListCommandTv = ({
 
                   <ItemHoverCard.Information>
                     <ItemHoverCard.Poster>
-                      {tvSerie.poster_path && (
+                      {tvSerie.poster_path ? (
                         <Image
                           src={tmdbImage(tvSerie.poster_path, 'w500')}
                           alt={tvSerie.name}
                           fill
                           style={{ objectFit: 'cover' }}
                         />
+                      ) : (
+                        <PosterFallback title={tvSerie.name} />
                       )}
                     </ItemHoverCard.Poster>
 

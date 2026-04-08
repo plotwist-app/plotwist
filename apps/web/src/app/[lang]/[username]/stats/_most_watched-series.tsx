@@ -51,12 +51,10 @@ export function MostWatchedSeries() {
               key={id}
             >
               <PosterCard.Root>
-                {posterPath && (
-                  <PosterCard.Image
-                    src={tmdbImage(posterPath, 'w500')}
-                    alt={title}
-                  />
-                )}
+                <PosterCard.Image
+                  src={posterPath ? tmdbImage(posterPath, 'w500') : ''}
+                  alt={title}
+                />
 
                 <p className="text-xs text-muted-foreground text-center lowercase">
                   {episodes} {dictionary.episodes}
