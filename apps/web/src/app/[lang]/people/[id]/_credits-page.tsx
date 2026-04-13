@@ -79,12 +79,10 @@ export function CreditsPage({ roles, credits }: CreditsPageProps) {
                 <TooltipTrigger>
                   <PosterCard.Root>
                     <Link href={href}>
-                      {credit.poster_path && (
-                        <PosterCard.Image
-                          src={tmdbImage(credit.poster_path)}
-                          alt={credit.overview}
-                        />
-                      )}
+                      <PosterCard.Image
+                        src={credit.poster_path ? tmdbImage(credit.poster_path) : ''}
+                        alt={title || credit.overview}
+                      />
                     </Link>
                   </PosterCard.Root>
                 </TooltipTrigger>

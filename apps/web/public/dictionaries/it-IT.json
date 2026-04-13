@@ -922,5 +922,11 @@
     "go_to_profile": "Vai al Profilo",
     "continue": "Continua",
     "syncing": "Salvataggio profilo..."
+  },
+  "error_page": {
+    "title": "Qualcosa è andato storto",
+    "description": "Si è verificato un errore imprevisto. Non preoccuparti, non è colpa tua.",
+    "try_again": "Riprova",
+    "go_home": "Vai alla home"
   }
 }

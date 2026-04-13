@@ -919,5 +919,11 @@
     "go_to_profile": "Zum Profil",
     "continue": "Weiter",
     "syncing": "Profil wird gespeichert..."
+  },
+  "error_page": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Ein unerwarteter Fehler ist aufgetreten. Keine Sorge, es liegt nicht an dir.",
+    "try_again": "Erneut versuchen",
+    "go_home": "Zur Startseite"
   }
 }

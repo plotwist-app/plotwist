@@ -921,5 +921,11 @@
     "go_to_profile": "Go to Profile",
     "continue": "Continue",
     "syncing": "Saving profile..."
+  },
+  "error_page": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Don't worry, it's not your fault.",
+    "try_again": "Try again",
+    "go_home": "Go to home"
   }
 }

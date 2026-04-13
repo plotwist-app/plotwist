@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 import { useState } from 'react'
 import type { GetDetailedReviews200ReviewsItem } from '@/api/endpoints.schemas'
+import { PosterFallback } from '@/components/poster-fallback'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { locale } from '@/utils/date/locale'
@@ -58,8 +59,10 @@ export const FullReview = ({ review }: FullReviewProps) => {
       <div className="flex space-x-4">
         <Link href={href} className="w-2/6 md:w-1/6">
           <figure className="relative aspect-[2/3] overflow-hidden rounded-md border bg-muted">
-            {posterPath && (
+            {posterPath ? (
               <Image src={tmdbImage(posterPath)} fill alt={title} />
+            ) : (
+              <PosterFallback title={title} />
             )}
           </figure>
         </Link>

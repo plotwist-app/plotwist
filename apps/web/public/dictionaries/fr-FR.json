@@ -925,5 +925,11 @@
     "go_to_profile": "Aller au profil",
     "continue": "Continuer",
     "syncing": "Enregistrement du profil..."
+  },
+  "error_page": {
+    "title": "Quelque chose s'est mal passé",
+    "description": "Une erreur inattendue s'est produite. Ne vous inquiétez pas, ce n'est pas de votre faute.",
+    "try_again": "Réessayer",
+    "go_home": "Retour à l'accueil"
   }
 }

@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
 import { Bookmark, Check, Eye, Pointer, X as XIcon } from 'lucide-react'
 import Image from 'next/image'
+import { PosterFallback } from '@/components/poster-fallback'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
@@ -194,7 +195,7 @@ function ExitCard({
       style={{ zIndex: 20 }}
     >
       <div className="relative h-full w-full overflow-hidden rounded-[32px] border border-border/30 shadow-xl shadow-black/20">
-        {movie.poster_path && (
+        {movie.poster_path ? (
           <Image
             src={tmdbImage(movie.poster_path, 'w500')}
             alt={movie.title}
@@ -202,6 +203,8 @@ function ExitCard({
             className="object-cover"
             sizes="(max-width: 640px) 70vw, 280px"
           />
+        ) : (
+          <PosterFallback title={movie.title} />
         )}
       </div>
     </motion.div>
@@ -568,7 +571,7 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
                   zIndex: 3 - stackIdx,
                 }}
               >
-                {movie.poster_path && (
+                {movie.poster_path ? (
                   <Image
                     src={tmdbImage(movie.poster_path, 'w500')}
                     alt={movie.title}
@@ -576,6 +579,8 @@ export const OnboardingSwiper = ({ lang }: OnboardingSwiperProps) => {
                     className="object-cover"
                     sizes="280px"
                   />
+                ) : (
+                  <PosterFallback title={movie.title} />
                 )}
               </div>
             )
