@@ -111,7 +111,7 @@ export function AchievementForm({ achievement }: Props) {
     ? {
         slug: achievement.slug,
         icon: achievement.icon,
-        color: (achievement as Record<string, unknown>).color as string ?? '',
+        color: ((achievement as Record<string, unknown>).color as string) ?? '',
         target: achievement.target,
         category: achievement.category as 'general' | 'saga',
         level: achievement.level,

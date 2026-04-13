@@ -129,9 +129,19 @@ export const updateUserSchema = {
 }
 
 export const updateUserPasswordBodySchema = z.object({
-  password: z.string(),
+  password: z.string().min(8),
   token: z.string(),
 })
+
+export const requestPasswordResetBodySchema = z.object({
+  login: z.string().min(1),
+})
+
+export const requestPasswordResetResponseSchema = {
+  200: z.object({
+    status: z.enum(['password_reset_email_sent']),
+  }),
+}
 
 export const updateUserPasswordResponseSchema = {
   200: z.object({

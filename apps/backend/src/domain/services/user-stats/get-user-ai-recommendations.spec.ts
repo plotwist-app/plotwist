@@ -168,7 +168,6 @@ describe('get user ai recommendations', () => {
           mediaType: 'TV_SHOW',
         })
       }
-
       // Cold start path is triggered when candidate pool < 3 (1 movie + 1 TV = 2)
       // Mock search.multi to resolve both titles correctly
       ;(tmdb.search.multi as Mock).mockImplementation((title: string) => {

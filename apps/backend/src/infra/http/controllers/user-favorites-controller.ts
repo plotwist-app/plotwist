@@ -1,15 +1,15 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  toggleFavoriteBodySchema,
-  getUserFavoritesQuerySchema,
-  checkFavoriteQuerySchema,
-} from '../schemas/user-favorites'
-import {
-  insertFavorite,
   deleteFavorite,
-  selectFavoritesByUser,
+  insertFavorite,
   selectFavorite,
+  selectFavoritesByUser,
 } from '@/infra/db/repositories/user-favorites-repository'
+import {
+  checkFavoriteQuerySchema,
+  getUserFavoritesQuerySchema,
+  toggleFavoriteBodySchema,
+} from '../schemas/user-favorites'
 
 export async function toggleFavoriteController(
   request: FastifyRequest,

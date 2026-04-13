@@ -15,7 +15,15 @@ export async function updatePasswordService({
 }: UpdatePasswordInput) {
   const [tokenRecord] = await selectMagicToken(token)
 
-  if (!token) {
+  if (!tokenRecord) {
+    return new InvalidTokenError()
+  }
+
+  if (tokenRecord.used) {
+    return new InvalidTokenError()
+  }
+
+  if (tokenRecord.expiresAt < new Date()) {
     return new InvalidTokenError()
   }
 

@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import { Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -158,6 +159,15 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
               </FormItem>
             )}
           />
+
+          <div className="text-right">
+            <Link
+              href={`/${language}/forgot-password`}
+              className="text-sm text-muted-foreground hover:underline"
+            >
+              {dictionary.login_form.forgot_password}
+            </Link>
+          </div>
 
           <Button
             type="submit"

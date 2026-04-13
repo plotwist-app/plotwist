@@ -9,6 +9,7 @@ import { getUserById } from '@/domain/services/users/get-by-id'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
+import { requestPasswordResetService } from '@/domain/services/users/request-password-reset'
 import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
@@ -18,6 +19,7 @@ import {
   getUserByIdParamsSchema,
   getUserByUsernameParamsSchema,
   isEmailAvailableQuerySchema,
+  requestPasswordResetBodySchema,
   searchUsersByUsernameQuerySchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
@@ -138,9 +140,23 @@ export async function updateUserPasswordController(
   reply: FastifyReply
 ) {
   const { password, token } = updateUserPasswordBodySchema.parse(request.body)
-  const { status } = await updatePasswordService({ password, token })
+  const result = await updatePasswordService({ password, token })
 
-  return reply.status(200).send({ status: status })
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ status: result.status })
+}
+
+export async function requestPasswordResetController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { login } = requestPasswordResetBodySchema.parse(request.body)
+  const { status } = await requestPasswordResetService({ login })
+
+  return reply.status(200).send({ status })
 }
 
 export async function updateUserPreferencesController(

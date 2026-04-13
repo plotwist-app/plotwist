@@ -10,6 +10,7 @@ import {
   getUserPreferencesController,
   isEmailAvailableController,
   isUsernameAvailableController,
+  requestPasswordResetController,
   searchUsersByUsernameController,
   updateUserController,
   updateUserPasswordController,
@@ -30,6 +31,8 @@ import {
   getUserPreferencesResponseSchema,
   isEmailAvailableQuerySchema,
   isEmailAvailableResponseSchema,
+  requestPasswordResetBodySchema,
+  requestPasswordResetResponseSchema,
   searchUsersByUsernameQuerySchema,
   searchUsersByUsernameResponseSchema,
   updateUserBodySchema,
@@ -229,6 +232,21 @@ export async function usersRoute(app: FastifyInstance) {
         response: searchUsersByUsernameResponseSchema,
       },
       handler: searchUsersByUsernameController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'POST',
+      url: '/users/password-reset/request',
+      schema: {
+        description: 'Request a password reset email',
+        operationId: 'requestPasswordReset',
+        tags: [usersTag],
+        body: requestPasswordResetBodySchema,
+        response: requestPasswordResetResponseSchema,
+      },
+      handler: requestPasswordResetController,
     })
   )
 }

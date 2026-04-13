@@ -332,6 +332,22 @@ export type GetUsersSearch200 = {
   users: GetUsersSearch200UsersItem[];
 };
 
+export type RequestPasswordResetBody = {
+  /** @minLength 1 */
+  login: string;
+};
+
+export type RequestPasswordReset200Status = typeof RequestPasswordReset200Status[keyof typeof RequestPasswordReset200Status];
+
+
+export const RequestPasswordReset200Status = {
+  password_reset_email_sent: 'password_reset_email_sent',
+} as const;
+
+export type RequestPasswordReset200 = {
+  status: RequestPasswordReset200Status;
+};
+
 export type PostListBodyVisibility = typeof PostListBodyVisibility[keyof typeof PostListBodyVisibility];
 
 
@@ -2366,6 +2382,7 @@ export type GetUserIdAiRecommendations200RecommendationsItem = {
   reason: string;
   mediaType: string;
   year?: number;
+  tmdbId?: number;
 };
 
 export type GetUserIdAiRecommendations200 = {
@@ -3412,7 +3429,6 @@ export type GetAchievements200AchievementsItem = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: GetAchievements200AchievementsItemCategory;
   level: number;
@@ -3517,7 +3533,6 @@ export type GetAdminAchievements200AchievementsItem = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: GetAdminAchievements200AchievementsItemCategory;
   level: number;
@@ -3581,11 +3596,6 @@ export type PostAdminAchievementsBody = {
   slug: string;
   /** @minLength 1 */
   icon: string;
-  /**
-   * @minLength 1
-   * @maxLength 10
-   */
-  color: string;
   /** @maximum 9007199254740991 */
   target: number;
   category: PostAdminAchievementsBodyCategory;
@@ -3643,7 +3653,6 @@ export type PostAdminAchievements201Achievement = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: PostAdminAchievements201AchievementCategory;
   level: number;
@@ -3704,7 +3713,6 @@ export type GetAdminAchievementsId200Achievement = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: GetAdminAchievementsId200AchievementCategory;
   level: number;
@@ -3768,11 +3776,6 @@ export type PutAdminAchievementsIdBody = {
   slug?: string;
   /** @minLength 1 */
   icon?: string;
-  /**
-   * @minLength 1
-   * @maxLength 10
-   */
-  color?: string;
   /** @maximum 9007199254740991 */
   target?: number;
   category?: PutAdminAchievementsIdBodyCategory;
@@ -3830,7 +3833,6 @@ export type PutAdminAchievementsId200Achievement = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: PutAdminAchievementsId200AchievementCategory;
   level: number;
@@ -3891,7 +3893,6 @@ export type DeleteAdminAchievementsId200Achievement = {
   id: string;
   slug: string;
   icon: string;
-  color: string;
   target: number;
   category: DeleteAdminAchievementsId200AchievementCategory;
   level: number;
