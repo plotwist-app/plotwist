@@ -922,5 +922,11 @@
     "go_to_profile": "Ir para o Perfil",
     "continue": "Continuar",
     "syncing": "Salvando perfil..."
+  },
+  "error_page": {
+    "title": "Algo deu errado",
+    "description": "Um erro inesperado aconteceu. Não se preocupe, não é sua culpa.",
+    "try_again": "Tentar novamente",
+    "go_home": "Ir para o início"
   }
 }
