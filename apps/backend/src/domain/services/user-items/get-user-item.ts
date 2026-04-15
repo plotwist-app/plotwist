@@ -1,4 +1,4 @@
-import { selectUserItem } from '@/db/repositories/user-item-repository'
+import { selectUserItem } from '@/infra/db/repositories/user-item-repository'
 
 export type GetUserItemInput = {
   tmdbId: number

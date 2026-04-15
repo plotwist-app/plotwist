@@ -1,16 +1,31 @@
 import { Skeleton } from '@plotwist/ui/components/ui/skeleton'
 import NextImage, { type ImageProps } from 'next/image'
 import { type ComponentProps, forwardRef } from 'react'
+import { PosterFallback } from '@/components/poster-fallback'
 
 const Root = forwardRef<HTMLDivElement, ComponentProps<'div'>>((props, ref) => {
   return <div className="space-y-2" {...props} ref={ref} />
 })
 Root.displayName = 'Root'
 
+function hasValidPosterSrc(src: ImageProps['src']): boolean {
+  if (!src) return false
+  if (typeof src === 'string') {
+    return !src.endsWith('/null') && !src.endsWith('/undefined') && !src.endsWith('/')
+  }
+  return true
+}
+
 const Image = (props: ImageProps) => {
+  const valid = hasValidPosterSrc(props.src)
+
   return (
     <div className="relative aspect-poster w-full overflow-hidden rounded-lg border bg-muted shadow">
-      <NextImage {...props} fill />
+      {valid ? (
+        <NextImage {...props} fill />
+      ) : (
+        <PosterFallback title={typeof props.alt === 'string' ? props.alt : undefined} />
+      )}
     </div>
   )
 }

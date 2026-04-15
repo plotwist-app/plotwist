@@ -22,6 +22,8 @@ const aspectRatio: Record<PostImageFolder, number> = {
   banner: 16 / 7,
   list: 16 / 7,
   avatar: 1 / 1,
+  feedback: 16 / 9,
+  achievement: 1 / 1,
 }
 
 export function ImagePickerCrop({
@@ -54,7 +56,7 @@ export function ImagePickerCrop({
           croppedAreaPixels
         )) as Blob
 
-        const { url } = await createImage.mutateAsync({
+        const { data } = await createImage.mutateAsync({
           data: {
             file: croppedBlob,
           },
@@ -64,7 +66,7 @@ export function ImagePickerCrop({
           },
         })
 
-        await onSelect(url, onClose)
+        if (data?.url) await onSelect(data.url, onClose)
       } catch {
       } finally {
         setIsLoading(false)

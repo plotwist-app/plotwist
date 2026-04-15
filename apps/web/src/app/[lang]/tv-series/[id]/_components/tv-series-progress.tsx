@@ -77,7 +77,7 @@ export function TvSeriesProgress({
     0
   )
 
-  const watchedCount = userEpisodes?.length || 0
+  const watchedCount = userEpisodes?.data?.length || 0
   const progressPercentage = (watchedCount / totalEpisodes) * 100
   const isAllEpisodesWatched = watchedCount === totalEpisodes
 
@@ -87,7 +87,7 @@ export function TvSeriesProgress({
     const { data } = await refetchUserEpisodes()
     queryClient.setQueryData(userEpisodesQueryKey, data)
 
-    await updateUserItemStatus(data?.length || 0)
+    await updateUserItemStatus(data?.data?.length || 0)
   }
 
   async function invalidateUserItem() {
@@ -96,7 +96,7 @@ export function TvSeriesProgress({
   }
 
   function findUserEpisode(episode: Episode) {
-    return userEpisodes?.find(userEpisode => {
+    return userEpisodes?.data?.find(userEpisode => {
       return (
         userEpisode.seasonNumber === episode.season_number &&
         userEpisode.episodeNumber === episode.episode_number
@@ -169,7 +169,7 @@ export function TvSeriesProgress({
     const watchedAllEpisodes = watchedEpisodes === totalEpisodes
 
     if (watchedAllEpisodes) {
-      const statusIsWatched = userItemData?.userItem?.status !== 'WATCHED'
+      const statusIsWatched = userItemData?.data?.userItem?.status !== 'WATCHED'
 
       if (statusIsWatched) {
         await putUserItem.mutateAsync(
@@ -188,7 +188,7 @@ export function TvSeriesProgress({
     const isWatching =
       !watchedAllEpisodes &&
       watchedCount > 0 &&
-      userItemData?.userItem?.status !== 'WATCHING'
+      userItemData?.data?.userItem?.status !== 'WATCHING'
 
     if (isWatching) {
       await putUserItem.mutateAsync(
@@ -226,7 +226,7 @@ export function TvSeriesProgress({
           <Separator orientation="vertical" className="h-4" />
 
           <span className="text-sm text-muted-foreground ">
-            {userEpisodes?.length}/{totalEpisodes} {dictionary.episodes}
+            {userEpisodes?.data?.length}/{totalEpisodes} {dictionary.episodes}
           </span>
         </div>
 

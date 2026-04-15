@@ -1,5 +1,5 @@
-import { deleteListItem } from '@/db/repositories/list-item-repository'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
+import { deleteListItem } from '@/infra/db/repositories/list-item-repository'
 
 type DeleteListItemInput = { id: string; userId: string }
 

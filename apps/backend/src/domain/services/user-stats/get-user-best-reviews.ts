@@ -1,24 +1,37 @@
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
-import { selectBestReviews } from '@/db/repositories/reviews-repository'
+import { selectBestReviews } from '@/infra/db/repositories/reviews-repository'
+import type { StatsPeriod } from '@/infra/http/schemas/common'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { processInBatches } from './batch-utils'
 
 type GetUserBestReviewsServiceInput = {
   userId: string
   redis: FastifyRedis
   language: Language
+  limit?: number
+  dateRange?: { startDate: Date | undefined; endDate: Date | undefined }
+  period?: StatsPeriod
 }
 
 export async function getUserBestReviewsService({
   userId,
   language,
   redis,
+  limit,
+  dateRange,
 }: GetUserBestReviewsServiceInput) {
-  const bestReviews = await selectBestReviews(userId)
+  const bestReviews = await selectBestReviews(
+    userId,
+    limit,
+    dateRange?.startDate,
+    dateRange?.endDate
+  )
 
-  const formattedBestReviews = await Promise.all(
-    bestReviews.map(async review => {
+  const formattedBestReviews = await processInBatches(
+    bestReviews,
+    async review => {
       const { mediaType, tmdbId } = review
 
       const { title, posterPath, date } =
@@ -40,7 +53,7 @@ export async function getUserBestReviewsService({
         posterPath,
         date,
       }
-    })
+    }
   )
 
   return {

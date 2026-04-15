@@ -1,6 +1,7 @@
 import type { FastifyRedis } from '@fastify/redis'
+
 import type { Language } from '@plotwist_app/tmdb'
-import { tmdb } from '@/adapters/tmdb'
+import { tmdb } from '@/infra/adapters/tmdb'
 
 type GetTMDBDataServiceInput = {
   mediaType: 'TV_SHOW' | 'MOVIE'
@@ -27,6 +28,7 @@ export async function getTMDBDataService(
         title: data.name,
         posterPath: data.poster_path,
         backdropPath: data.backdrop_path,
+        overview: data.overview,
       }
     }
 
@@ -42,6 +44,7 @@ export async function getTMDBDataService(
       title: data.name,
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
+      overview: data.overview,
     }
   }
 
@@ -52,6 +55,7 @@ export async function getTMDBDataService(
       title: data.title,
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
+      overview: data.overview,
     }
   }
 
@@ -62,5 +66,6 @@ export async function getTMDBDataService(
     title: data.title,
     posterPath: data.poster_path,
     backdropPath: data.backdrop_path,
+    overview: data.overview,
   }
 }

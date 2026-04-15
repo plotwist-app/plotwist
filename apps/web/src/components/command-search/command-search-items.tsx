@@ -8,6 +8,7 @@ import { HoverCardPortal } from '@radix-ui/react-hover-card'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 import type { GetUsersSearch200UsersItem } from '@/api/endpoints.schemas'
+import { PosterFallback } from '@/components/poster-fallback'
 import type {
   MovieWithMediaType,
   PersonWithMediaType,
@@ -59,13 +60,15 @@ export const CommandSearchMovie = ({
 
           <ItemHoverCard.Information>
             <ItemHoverCard.Poster>
-              {item.poster_path && (
+              {item.poster_path ? (
                 <Image
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.title}
                   fill
                   style={{ objectFit: 'cover' }}
                 />
+              ) : (
+                <PosterFallback title={item.title} />
               )}
             </ItemHoverCard.Poster>
 
@@ -116,13 +119,15 @@ export const CommandSearchTvSerie = ({
 
           <ItemHoverCard.Information>
             <ItemHoverCard.Poster>
-              {item.poster_path && (
+              {item.poster_path ? (
                 <Image
                   src={tmdbImage(item.poster_path, 'w500')}
                   alt={item.name}
                   fill
                   style={{ objectFit: 'cover' }}
                 />
+              ) : (
+                <PosterFallback title={item.name} />
               )}
             </ItemHoverCard.Poster>
 

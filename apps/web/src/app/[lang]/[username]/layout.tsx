@@ -31,7 +31,9 @@ export async function generateMetadata(
   props: UserLayoutProps
 ): Promise<Metadata> {
   const params = await props.params
-  const { user } = await getUsersUsername(params.username)
+  const { data } = await getUsersUsername(params.username)
+  const user = data?.user
+  if (!user) return { title: 'Plotwist' }
 
   const title = user.username
   const description = user.biography || ''
@@ -60,7 +62,8 @@ export default async function Layout(props: UserLayoutProps) {
   const { params, children } = props
   const { lang, username } = await params
 
-  const { user } = await getUsersUsername(username)
+  const { data } = await getUsersUsername(username)
+  const user = data?.user
   const dictionary = await getDictionary(lang as Language)
 
   const headersList = await headers()
@@ -74,7 +77,8 @@ export default async function Layout(props: UserLayoutProps) {
     redirect(`/${lang}#pricing`)
   }
 
-  const { socialLinks } = await getSocialLinks({ userId: user.id })
+  const { data: socialLinksData } = await getSocialLinks({ userId: user.id })
+  const socialLinks = socialLinksData?.socialLinks ?? []
 
   return (
     <LayoutProvider

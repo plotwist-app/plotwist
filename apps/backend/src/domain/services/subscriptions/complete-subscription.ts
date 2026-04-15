@@ -3,23 +3,29 @@ import { createSubscription } from '../subscriptions/create-subscription'
 import { getUserByEmailService } from '../users/get-user-by-email'
 import { getLastestActiveSubscription } from './get-subscription'
 
-export async function completeSubscription(email: string | null) {
-  if (!email) return
+export type CompleteSubscriptionParams = {
+  email: string
+  provider: 'STRIPE' | 'APPLE'
+  providerSubscriptionId: string | null
+  type: 'PRO' | 'MEMBER'
+}
 
-  const result = await getUserByEmailService(email)
+export async function completeSubscription(params: CompleteSubscriptionParams) {
+  const result = await getUserByEmailService(params.email)
   if (result instanceof DomainError) {
     return result
   }
 
-  const subscription = await getLastestActiveSubscription(result.user.id)
-
-  if (subscription) {
-    return { subscription }
+  const existing = await getLastestActiveSubscription(result.user.id)
+  if (existing) {
+    return { subscription: existing }
   }
 
   const createSubscriptionResult = await createSubscription({
-    type: 'PRO',
+    type: params.type,
     userId: result.user.id,
+    provider: params.provider,
+    providerSubscriptionId: params.providerSubscriptionId,
   })
 
   if (createSubscriptionResult instanceof DomainError) {

@@ -1,4 +1,4 @@
-import { getUserImport } from '@/db/repositories/user-import-repository'
+import { getUserImport } from '@/infra/db/repositories/user-import-repository'
 
 export async function getUserImportById(id: string) {
   const result = await getUserImport(id)

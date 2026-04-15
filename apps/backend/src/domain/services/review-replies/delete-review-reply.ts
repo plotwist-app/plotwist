@@ -1,5 +1,5 @@
-import { deleteReviewReply as deleteReviewReplyRepository } from '@/db/repositories/review-replies-repository'
 import { ReviewReplyNotFoundError } from '@/domain/errors/review-reply-not-found-error'
+import { deleteReviewReply as deleteReviewReplyRepository } from '@/infra/db/repositories/review-replies-repository'
 
 export async function deleteReviewReply(id: string) {
   const [deletedReply] = await deleteReviewReplyRepository(id)

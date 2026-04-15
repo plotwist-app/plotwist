@@ -7,15 +7,15 @@ import {
   type Mock,
   vi,
 } from 'vitest'
-import { tmdb } from '@/adapters/tmdb'
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'
+import { tmdb } from '@/infra/adapters/tmdb'
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-user-item'
 import { redisClient } from '@/test/mocks/redis'
 import { createUserItemEpisodesService } from './create-user-item-episodes'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     tv: {
       details: vi.fn(),

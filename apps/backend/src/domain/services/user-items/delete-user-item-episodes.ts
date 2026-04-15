@@ -1,4 +1,4 @@
-import { deleteUserEpisodes } from '@/db/repositories/user-episode'
+import { deleteUserEpisodes } from '@/infra/db/repositories/user-episode'
 import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
 
 type DeleteUserItemEpisodesService = {

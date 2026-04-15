@@ -7,6 +7,10 @@ import { TvSerieDetails } from './_components/tv-serie-details'
 
 export type TvSeriePageProps = PageProps<{ id: string }>
 
+// ISR: revalidate pages every hour
+export const revalidate = 3600
+
+// Pre-generate only top series, others are generated on-demand
 export async function generateStaticParams() {
   const tvSeriesIds = await getTvSeriesIds()
   return tvSeriesIds.map(id => ({ id: String(id) }))

@@ -1,4 +1,8 @@
 import { TMDB } from '@plotwist_app/tmdb'
 
-export const tmdb = TMDB(process.env.NEXT_PUBLIC_TMDB_API_KEY || '')
+const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '')
+
+export const tmdb = TMDB('', {
+  baseURL: `${apiUrl}/tmdb`,
+})
 export * from '@plotwist_app/tmdb'

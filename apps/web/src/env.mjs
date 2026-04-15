@@ -9,7 +9,7 @@ export const env = createEnv({
   client: {
     // Client-side variables (accessible from the browser)
     NEXT_PUBLIC_API_URL: z.string(),
-    NEXT_PUBLIC_TMDB_API_KEY: z.string(),
+    NEXT_PUBLIC_TMDB_API_KEY: z.string().optional(),
     NEXT_PUBLIC_MEASUREMENT_ID: z.string().optional(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
   },

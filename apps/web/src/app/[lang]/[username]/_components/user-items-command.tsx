@@ -62,7 +62,7 @@ export function UserItemsCommand({ filters, userId }: UserItemsCommandProps) {
     },
   }
 
-  const items = data?.userItems || []
+  const items = data?.data?.userItems ?? []
 
   const invalidateQueries = async () => {
     await queryClient.invalidateQueries({

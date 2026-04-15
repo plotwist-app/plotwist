@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
 import { getUserItems, useGetUserItemsInfinite } from '@/api/user-items'
+import { PosterFallback } from '@/components/poster-fallback'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -38,18 +39,19 @@ export function UserItemsList({ filters }: UserItemsProps) {
     useGetUserItemsInfinite(params, {
       query: {
         initialPageParam: undefined,
-        getNextPageParam: lastPage => lastPage.nextCursor,
+        getNextPageParam: lastPage => lastPage.data?.nextCursor ?? undefined,
         queryFn: async ({ pageParam }) => {
-          return await getUserItems({
+          const res = await getUserItems({
             ...params,
             pageSize: '20',
             cursor: pageParam as string,
           })
+          return res
         },
       },
     })
 
-  const flatData = data?.pages.flatMap(page => page.userItems) || []
+  const flatData = data?.pages.flatMap(page => page.data?.userItems ?? []) ?? []
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -69,7 +71,7 @@ export function UserItemsList({ filters }: UserItemsProps) {
           key={id}
           href={`/${language}/${mediaType === 'MOVIE' ? 'movies' : 'tv-series'}/${tmdbId}`}
         >
-          {posterPath && (
+          {posterPath ? (
             <Image
               fill
               className="z-10 object-fill"
@@ -77,6 +79,8 @@ export function UserItemsList({ filters }: UserItemsProps) {
               alt={title}
               sizes="100%"
             />
+          ) : (
+            <PosterFallback title={title} />
           )}
         </Link>
       ))}

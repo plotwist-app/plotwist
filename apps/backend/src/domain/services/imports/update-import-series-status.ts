@@ -1,6 +1,6 @@
 import type { ImportStatusEnum } from '@/@types/import-item-status-enum'
-import { updateImportSeriesStatus as repository } from '@/db/repositories/import-series-repository'
-import { checkAndFinalizeImport } from '@/db/repositories/user-import-repository'
+import { updateImportSeriesStatus as repository } from '@/infra/db/repositories/import-series-repository'
+import { checkAndFinalizeImport } from '@/infra/db/repositories/user-import-repository'
 
 export type UpdateUserImportInterface = {
   id: string

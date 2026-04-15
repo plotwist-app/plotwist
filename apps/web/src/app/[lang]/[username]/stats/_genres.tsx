@@ -34,6 +34,7 @@ export function Genres() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const { data } = useGetUserIdWatchedGenresSuspense(userId, { language })
+  const genres = data.data?.genres ?? []
 
   const trigger = (
     <p className="mt-4 cursor-pointer text-end text-xs text-muted-foreground hover:underline">
@@ -52,7 +53,7 @@ export function Genres() {
 
       <CardContent className="">
         <div className="space-y-4">
-          {data.genres.slice(0, 3).map(({ count, name, percentage }) => (
+          {genres.slice(0, 3).map(({ count, name, percentage }) => (
             <div className="space-y-2" key={name}>
               <div className="flex justify-between text-xs">
                 <span>{name}</span>
@@ -76,7 +77,7 @@ export function Genres() {
 
               <ScrollArea className="h-[50vh] p-4">
                 <div className="space-y-4">
-                  {data.genres.map(({ count, name, percentage }) => (
+                  {genres.map(({ count, name, percentage }) => (
                     <div className="space-y-2" key={name}>
                       <div className="flex justify-between text-sm">
                         <span>{name}</span>
@@ -103,7 +104,7 @@ export function Genres() {
 
               <ScrollArea className="h-[50vh] p-4">
                 <div className="space-y-4">
-                  {data.genres.map(({ count, name, percentage }) => (
+                  {genres.map(({ count, name, percentage }) => (
                     <div className="space-y-2" key={name}>
                       <div className="flex justify-between text-sm">
                         <span>{name}</span>

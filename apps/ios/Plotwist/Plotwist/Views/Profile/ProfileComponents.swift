@@ -1,0 +1,541 @@
+//
+//  ProfileComponents.swift
+//  Plotwist
+//
+
+import SwiftUI
+
+// MARK: - Profile Avatar
+struct ProfileAvatar: View {
+  let avatarURL: URL?
+  let username: String
+  let size: CGFloat
+
+  @Environment(\.colorScheme) var colorScheme
+
+  var body: some View {
+    ZStack {
+      if let avatarURL {
+        CachedAsyncImage(url: avatarURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          avatarPlaceholder
+        }
+      } else {
+        avatarPlaceholder
+      }
+    }
+    .frame(width: size, height: size)
+    .clipShape(Circle())
+    .overlay(
+      Circle()
+        .stroke(
+          colorScheme == .dark ? Color.appBorderAdaptive : Color.clear,
+          lineWidth: 1
+        )
+    )
+  }
+
+  private var avatarPlaceholder: some View {
+    Circle()
+      .fill(Color.appInputFilled)
+      .overlay(
+        Text(String(username.prefix(1)).uppercased())
+          .font(.system(size: size * 0.4, weight: .bold))
+          .foregroundColor(.appForegroundAdaptive)
+      )
+  }
+}
+
+// MARK: - Pro Badge
+struct ProBadge: View {
+  enum Size {
+    case small, regular, large
+
+    var fontSize: CGFloat {
+      switch self {
+      case .small: return 8
+      case .regular: return 10
+      case .large: return 16
+      }
+    }
+
+    var horizontalPadding: CGFloat {
+      switch self {
+      case .small: return 6
+      case .regular: return 8
+      case .large: return 14
+      }
+    }
+
+    var verticalPadding: CGFloat {
+      switch self {
+      case .small: return 2
+      case .regular: return 3
+      case .large: return 6
+      }
+    }
+
+    var cornerRadius: CGFloat {
+      switch self {
+      case .small: return 4
+      case .regular: return 6
+      case .large: return 8
+      }
+    }
+  }
+
+  @Environment(\.colorScheme) private var colorScheme
+  @State private var shimmerPhase: CGFloat = 0
+  var label: String = "PRO"
+  var size: Size = .regular
+
+  var body: some View {
+    Text(label)
+      .font(.system(size: size.fontSize, weight: .semibold))
+      .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
+      .padding(.horizontal, size.horizontalPadding)
+      .padding(.vertical, size.verticalPadding)
+      .background(shimmerBackground)
+      .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius))
+      .overlay(
+        RoundedRectangle(cornerRadius: size.cornerRadius)
+          .stroke(Color.appBorderAdaptive, lineWidth: 1)
+      )
+      .onAppear {
+        withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
+          shimmerPhase = 1
+        }
+      }
+  }
+
+  private var shimmerBackground: some View {
+    GeometryReader { geo in
+      let base = colorScheme == .dark ? Color(hex: "000103") : Color(hex: "ffffff")
+      let highlight = colorScheme == .dark ? Color(hex: "1e2631") : Color(hex: "f1f1f1")
+
+      LinearGradient(
+        stops: [
+          .init(color: base, location: 0),
+          .init(color: base, location: 0.35),
+          .init(color: highlight, location: 0.5),
+          .init(color: base, location: 0.65),
+          .init(color: base, location: 1),
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+      )
+      .frame(width: geo.size.width * 3)
+      .offset(x: (shimmerPhase * 2 - 2) * geo.size.width)
+    }
+    .clipped()
+  }
+}
+
+// MARK: - Collection Count Badge
+struct CollectionCountBadge: View {
+  let count: Int
+  @Environment(\.colorScheme) var colorScheme
+
+  var body: some View {
+    Text("\(count)")
+      .font(.system(size: 10, weight: .semibold))
+      .foregroundColor(colorScheme == .dark ? .white : .appForegroundAdaptive)
+      .contentTransition(.numericText())
+      .padding(.horizontal, 8)
+      .padding(.vertical, 3)
+      .background(
+        colorScheme == .dark
+          ? Color(hex: "0a0a0f")
+          : Color(hex: "f5f5f5")
+      )
+      .clipShape(Capsule())
+      .overlay(
+        Capsule()
+          .stroke(Color.appBorderAdaptive, lineWidth: 1)
+      )
+  }
+}
+
+// MARK: - Poster Image Store
+/// Stores poster UIImages directly in a regular Dictionary (no auto-eviction like NSCache).
+/// This guarantees images are available synchronously for drag/context menu previews.
+final class PosterImageStore {
+  static let shared = PosterImageStore()
+  private var images: [String: UIImage] = [:]
+
+  private init() {}
+
+  private func key(_ tmdbId: Int, _ mediaType: String) -> String {
+    "\(tmdbId)-\(mediaType)"
+  }
+
+  func setImage(_ image: UIImage, tmdbId: Int, mediaType: String) {
+    images[key(tmdbId, mediaType)] = image
+  }
+
+  func getImage(tmdbId: Int, mediaType: String) -> UIImage? {
+    images[key(tmdbId, mediaType)]
+  }
+
+  /// Returns a UIImage with rounded corners baked in (for drag previews with transparent bg).
+  func getRoundedImage(tmdbId: Int, mediaType: String, size: CGSize, cornerRadius: CGFloat) -> UIImage? {
+    guard let original = getImage(tmdbId: tmdbId, mediaType: mediaType) else { return nil }
+    let format = UIGraphicsImageRendererFormat()
+    format.opaque = false // transparent background
+    let renderer = UIGraphicsImageRenderer(size: size, format: format)
+    return renderer.image { _ in
+      UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: cornerRadius).addClip()
+      original.draw(in: CGRect(origin: .zero, size: size))
+    }
+  }
+}
+
+// MARK: - Cached Poster Preview
+/// A poster view that renders instantly from the image store, for context menu previews.
+struct CachedPosterPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  var width: CGFloat = 160
+
+  private var height: CGFloat { width * 1.5 }
+
+  var body: some View {
+    if let uiImage = PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType) {
+      Image(uiImage: uiImage)
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    } else {
+      RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+        .fill(Color.appBorderAdaptive)
+        .frame(width: width, height: height)
+    }
+  }
+}
+
+// MARK: - Profile Item Card
+struct ProfileItemCard: View {
+  let tmdbId: Int
+  let mediaType: String
+  @State private var loadedImage: UIImage?
+
+  /// Initializes image synchronously from PosterImageStore so the view never
+  /// shows a blank frame — even when SwiftUI recreates the struct during drag.
+  init(tmdbId: Int, mediaType: String) {
+    self.tmdbId = tmdbId
+    self.mediaType = mediaType
+    _loadedImage = State(
+      initialValue: PosterImageStore.shared.getImage(tmdbId: tmdbId, mediaType: mediaType)
+    )
+  }
+
+  var body: some View {
+    Group {
+      if let loadedImage {
+        Image(uiImage: loadedImage)
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } else {
+        RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster)
+          .fill(Color.appBorderAdaptive)
+      }
+    }
+    .aspectRatio(2 / 3, contentMode: .fit)
+    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.poster))
+    .posterBorder()
+    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+    .task {
+      await loadPoster()
+    }
+  }
+
+  private func loadPoster() async {
+    // Already loaded synchronously from init
+    if loadedImage != nil { return }
+
+    do {
+      let type = mediaType == "MOVIE" ? "movie" : "tv"
+      let posterURL: URL?
+      if type == "movie" {
+        let details = try await TMDBService.shared.getMovieDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+      } else {
+        let details = try await TMDBService.shared.getTVSeriesDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+      }
+
+      if let posterURL {
+        let image = await ImageCache.shared.loadImage(from: posterURL)
+        if let image {
+          loadedImage = image
+          PosterImageStore.shared.setImage(image, tmdbId: tmdbId, mediaType: mediaType)
+        }
+      }
+    } catch {
+      print("Error loading poster: \(error)")
+    }
+  }
+}
+
+// MARK: - Profile Item Preview (Context Menu)
+struct ProfileItemPreview: View {
+  let tmdbId: Int
+  let mediaType: String
+  @State private var posterURL: URL?
+  @State private var title: String = ""
+
+  var body: some View {
+    VStack(spacing: 0) {
+      CachedAsyncImage(url: posterURL) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+      } placeholder: {
+        Rectangle()
+          .fill(Color.appBorderAdaptive)
+      }
+      .aspectRatio(2 / 3, contentMode: .fit)
+      .frame(width: 220)
+      .clipped()
+
+      if !title.isEmpty {
+        Text(title)
+          .font(.footnote.weight(.medium))
+          .foregroundColor(.appForegroundAdaptive)
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 12)
+          .padding(.vertical, 10)
+          .frame(width: 220)
+          .background(Color.appBackgroundAdaptive)
+      }
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 12))
+    .task {
+      await loadDetails()
+    }
+  }
+
+  private func loadDetails() async {
+    do {
+      let type = mediaType == "MOVIE" ? "movie" : "tv"
+      if type == "movie" {
+        let details = try await TMDBService.shared.getMovieDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.title ?? details.name ?? ""
+      } else {
+        let details = try await TMDBService.shared.getTVSeriesDetails(
+          id: tmdbId,
+          language: Language.current.rawValue
+        )
+        posterURL = details.posterURL
+        title = details.name ?? details.title ?? ""
+      }
+    } catch {
+      print("Error loading preview: \(error)")
+    }
+  }
+}
+
+// MARK: - Profile Badge
+struct ProfileBadge: View {
+  let text: String
+  var prefix: String? = nil
+  var icon: String? = nil
+  var logoURL: URL? = nil
+
+  var body: some View {
+    HStack(spacing: 6) {
+      if let prefix {
+        Text(prefix)
+          .font(.caption)
+      }
+
+      if let icon {
+        Image(systemName: icon)
+          .font(.system(size: 12))
+          .foregroundColor(.appForegroundAdaptive)
+      }
+
+      if let logoURL {
+        CachedAsyncImage(url: logoURL) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        } placeholder: {
+          Rectangle()
+            .fill(Color.appInputFilled)
+        }
+        .frame(width: 18, height: 18)
+        .cornerRadius(4)
+      }
+
+      Text(text)
+        .font(.caption)
+        .foregroundColor(.appForegroundAdaptive)
+        .lineLimit(1)
+        .truncationMode(.tail)
+    }
+    .padding(.horizontal, 10)
+    .padding(.vertical, 6)
+    .background(Color.appInputFilled)
+    .clipShape(RoundedRectangle(cornerRadius: 8))
+  }
+}
+
+// MARK: - Edit Profile Row
+struct EditProfileRow: View {
+  let label: String
+  let value: String
+  let labelWidth: CGFloat
+  var prefix: String? = nil
+
+  var body: some View {
+    HStack(alignment: .top, spacing: 16) {
+      Text(label)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: labelWidth, alignment: .topLeading)
+        .multilineTextAlignment(.leading)
+
+      HStack(spacing: 8) {
+        if let prefix {
+          Text(prefix)
+            .font(.title3)
+        }
+        Text(value)
+          .font(.subheadline)
+          .foregroundColor(.appForegroundAdaptive)
+          .multilineTextAlignment(.leading)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+
+      Image(systemName: "chevron.right")
+        .font(.system(size: 14, weight: .medium))
+        .foregroundColor(.appMutedForegroundAdaptive)
+    }
+    .padding(.horizontal, 24)
+    .padding(.vertical, 16)
+    .contentShape(Rectangle())
+  }
+}
+
+// MARK: - Edit Profile Badge Row
+struct EditProfileBadgeRow<Content: View>: View {
+  let label: String
+  @ViewBuilder let content: Content
+
+  var body: some View {
+    HStack(alignment: .center, spacing: 16) {
+      Text(label)
+        .font(.subheadline)
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 100, alignment: .leading)
+        .multilineTextAlignment(.leading)
+
+      content
+        .frame(maxWidth: .infinity, alignment: .leading)
+
+      Image(systemName: "chevron.right")
+        .font(.system(size: 14, weight: .medium))
+        .foregroundColor(.appMutedForegroundAdaptive)
+        .frame(width: 24, height: 24, alignment: .trailing)
+    }
+    .padding(.horizontal, 24)
+    .padding(.vertical, 16)
+    .contentShape(Rectangle())
+  }
+}
+
+// MARK: - Flow Layout
+struct FlowLayout: Layout {
+  var spacing: CGFloat = 8
+  var alignment: HorizontalAlignment = .leading
+
+  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+    let result = FlowResult(in: proposal.width ?? 0, subviews: subviews, spacing: spacing, alignment: alignment)
+    return result.size
+  }
+
+  func placeSubviews(
+    in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()
+  ) {
+    let result = FlowResult(in: bounds.width, subviews: subviews, spacing: spacing, alignment: alignment)
+    for (index, subview) in subviews.enumerated() {
+      subview.place(
+        at: CGPoint(
+          x: bounds.minX + result.positions[index].x,
+          y: bounds.minY + result.positions[index].y),
+        proposal: .unspecified)
+    }
+  }
+
+  struct FlowResult {
+    var size: CGSize = .zero
+    var positions: [CGPoint] = []
+
+    init(in maxWidth: CGFloat, subviews: Subviews, spacing: CGFloat, alignment: HorizontalAlignment = .leading) {
+      var x: CGFloat = 0
+      var y: CGFloat = 0
+      var rowHeight: CGFloat = 0
+      var rowStartIndex = 0
+      var rowWidth: CGFloat = 0
+      
+      // First pass: calculate positions without alignment offset
+      var tempPositions: [CGPoint] = []
+      var rowInfos: [(startIndex: Int, endIndex: Int, width: CGFloat, y: CGFloat)] = []
+      
+      for (index, subview) in subviews.enumerated() {
+        let size = subview.sizeThatFits(.unspecified)
+
+        if x + size.width > maxWidth && x > 0 {
+          // Save row info
+          rowInfos.append((rowStartIndex, index - 1, rowWidth - spacing, y))
+          rowStartIndex = index
+          x = 0
+          y += rowHeight + spacing
+          rowHeight = 0
+          rowWidth = 0
+        }
+
+        tempPositions.append(CGPoint(x: x, y: y))
+        rowHeight = max(rowHeight, size.height)
+        x += size.width + spacing
+        rowWidth = x
+        self.size.width = max(self.size.width, x - spacing)
+      }
+      
+      // Don't forget the last row
+      if !subviews.isEmpty {
+        rowInfos.append((rowStartIndex, subviews.count - 1, rowWidth - spacing, y))
+      }
+      
+      self.size.height = y + rowHeight
+      
+      // Second pass: apply alignment offset
+      if alignment == .center {
+        for rowInfo in rowInfos {
+          let offset = (maxWidth - rowInfo.width) / 2
+          for i in rowInfo.startIndex...rowInfo.endIndex {
+            tempPositions[i].x += offset
+          }
+        }
+      }
+      
+      positions = tempPositions
+    }
+  }
+}

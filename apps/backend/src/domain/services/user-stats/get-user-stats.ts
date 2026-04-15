@@ -1,4 +1,4 @@
-import { selectUserStats } from '@/db/repositories/user-stats'
+import { selectUserStats } from '@/infra/db/repositories/user-stats'
 
 export async function getUserStatsService(userId: string) {
   const result = await selectUserStats(userId)

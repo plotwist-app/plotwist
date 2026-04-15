@@ -44,7 +44,7 @@ export function Countries() {
         <div className="border-t h-full flex items-center justify-center">
           <MapChart
             setTooltipContent={setContent}
-            data={data.watchedCountries}
+            data={data.data?.watchedCountries ?? []}
           />
 
           <Tooltip

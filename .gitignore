@@ -8,9 +8,13 @@ node_modules
 # Local env files
 .env
 .env.local
+
+# MCP config (contains secrets)
+.mcp.json
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
 
 # Testing
 coverage

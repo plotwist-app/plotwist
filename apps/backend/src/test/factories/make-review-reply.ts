@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { insertReviewReply } from '@/db/repositories/review-replies-repository'
 import type {
   InsertReviewReplyModel,
   ReviewReply,
 } from '@/domain/entities/review-reply'
+import { insertReviewReply } from '@/infra/db/repositories/review-replies-repository'
 
 type Overrides = Partial<ReviewReply> & Pick<ReviewReply, 'userId' | 'reviewId'>
 

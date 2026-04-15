@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { MovieList } from '@/components/movie-list'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { buildLanguageAlternates } from '@/utils/seo'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
@@ -24,6 +25,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       title: `${title} • Plotwist`,
       description,
     },
+    alternates: buildLanguageAlternates(params.lang, '/movies/now-playing'),
   }
 }
 

@@ -75,49 +75,55 @@ export function Likes({
 
   const Content = (
     <>
-      {isLoading || !data
-        ? Array.from({ length: 5 }).map(() => (
-            <div key={v4()} className="flex items-center">
-              <div className="flex items-center gap-1">
-                <Skeleton className="size-10 rounded-full" />
-                <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
+      {/*
+        API response is wrapped as { data: { likes: [...] } } by Orval.
+      */}
+      {(() => {
+        const likes = data?.data.likes ?? []
+        return isLoading || !data
+          ? Array.from({ length: 5 }).map(() => (
+              <div key={v4()} className="flex items-center">
+                <div className="flex items-center gap-1">
+                  <Skeleton className="size-10 rounded-full" />
+                  <Skeleton className="w-[10ch] h-[2ex] ml-2 mr-2" />
+                </div>
+                <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
               </div>
-              <Skeleton className="w-[5ch] h-[2ex] ml-auto" />
-            </div>
-          ))
-        : data.likes.map(({ user, id }) => (
-            <div key={id} className="flex items-center">
-              <Link
-                href={`/${language}/${user.username}`}
-                className="flex items-center gap-1"
-              >
-                <Avatar className="size-10 border text-[10px]">
-                  {user.avatarUrl && (
-                    <AvatarImage
-                      src={user.avatarUrl}
-                      className="object-cover"
-                    />
-                  )}
-                  <AvatarFallback>
-                    {user.username[0].toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+            ))
+          : likes.map(({ user, id }) => (
+              <div key={id} className="flex items-center">
+                <Link
+                  href={`/${language}/${user.username}`}
+                  className="flex items-center gap-1"
+                >
+                  <Avatar className="size-10 border text-[10px]">
+                    {user.avatarUrl && (
+                      <AvatarImage
+                        src={user.avatarUrl}
+                        className="object-cover"
+                      />
+                    )}
+                    <AvatarFallback>
+                      {user.username[0].toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
 
-                <span className="ml-2 mr-2 truncate text-sm">
-                  {user.username}
-                </span>
-              </Link>
+                  <span className="ml-2 mr-2 truncate text-sm">
+                    {user.username}
+                  </span>
+                </Link>
 
-              {user.subscriptionType === 'PRO' && <ProBadge />}
+                {user.subscriptionType === 'PRO' && <ProBadge />}
 
-              <Link
-                href={`/${language}/${user.username}`}
-                className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
-              >
-                {dictionary.review_likes.view_profile}
-              </Link>
-            </div>
-          ))}
+                <Link
+                  href={`/${language}/${user.username}`}
+                  className="ml-auto whitespace-nowrap pl-8 text-xs text-muted-foreground hover:underline"
+                >
+                  {dictionary.review_likes.view_profile}
+                </Link>
+              </div>
+            ))
+      })()}
     </>
   )
 

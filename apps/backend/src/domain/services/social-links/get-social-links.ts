@@ -1,4 +1,4 @@
-import { selectSocialLinks } from '@/db/repositories/social-links-repository'
+import { selectSocialLinks } from '@/infra/db/repositories/social-links-repository'
 
 type Input = {
   userId: string

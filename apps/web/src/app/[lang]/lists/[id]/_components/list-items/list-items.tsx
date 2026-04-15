@@ -12,5 +12,5 @@ export const ListItems = ({ listId }: ListItemsProps) => {
   const { language } = useLanguage()
   const { data } = useGetListItemsByListIdSuspense(listId, { language })
 
-  return <ListItemsGrid listItems={data} />
+  return <ListItemsGrid listItems={data.data ?? []} />
 }

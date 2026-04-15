@@ -26,7 +26,8 @@ export const LatestLists = () => {
         </li>
       )
 
-    if (!data?.lists.length) {
+    const lists = data?.data && 'lists' in data.data ? data.data.lists : []
+    if (!lists.length) {
       return (
         <div className="w-full h-[300px] flex items-center justify-center border border-dashed rounded-sm">
           {dictionary.no_lists_found}
@@ -36,7 +37,7 @@ export const LatestLists = () => {
 
     return (
       <li className="flex flex-col gap-6">
-        {data.lists.map(list => (
+        {lists.map(list => (
           <PopularListCard list={list} key={list.id} />
         ))}
       </li>

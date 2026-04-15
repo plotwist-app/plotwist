@@ -20,7 +20,8 @@ import { useLayoutContext } from '../_context'
 export function TopActors() {
   const { userId } = useLayoutContext()
   const { language, dictionary } = useLanguage()
-  const { data } = useGetUserIdWatchedCastSuspense(userId, { language })
+  const { data } = useGetUserIdWatchedCastSuspense(userId)
+  const watchedCast = data.data?.watchedCast ?? []
 
   return (
     <Card className="sm:col-span-1 col-span-2">
@@ -40,7 +41,7 @@ export function TopActors() {
 
       <CardContent className="">
         <div className="space-y-4 mt-2">
-          {data.watchedCast.map(actor => {
+          {watchedCast.map(actor => {
             const href = `/${language}/people/${actor.id}`
 
             return (

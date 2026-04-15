@@ -1,5 +1,5 @@
-import { selectListItems } from '@/db/repositories/list-item-repository'
-import { selectAllUserItemsByStatus } from '@/db/repositories/user-item-repository'
+import { selectListItems } from '@/infra/db/repositories/list-item-repository'
+import { selectAllUserItemsByStatus } from '@/infra/db/repositories/user-item-repository'
 
 type GetListProgressServiceParams = {
   id: string

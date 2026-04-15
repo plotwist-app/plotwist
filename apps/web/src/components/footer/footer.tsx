@@ -29,6 +29,13 @@ export const Footer = ({ language, dictionary }: FooterProps) => {
             </Link>
 
             <Link
+              href={`/${language}/privacy`}
+              className="hover:text-foreground"
+            >
+              {dictionary.privacy_policy}
+            </Link>
+
+            <Link
               href="https://discord.gg/ZsBJm9Qk"
               className="hover:text-foreground"
             >

@@ -6,16 +6,17 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns'
-import { selectReviews } from '@/db/repositories/reviews-repository'
-import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
+import { selectReviews } from '@/infra/db/repositories/reviews-repository'
+import type { getReviewsQuerySchema } from '@/infra/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
   typeof getReviewsQuerySchema._type,
-  'tmdbId' | 'language' | 'limit' | 'seasonNumber' | 'episodeNumber'
+  'tmdbId' | 'language' | 'limit' | 'page' | 'seasonNumber' | 'episodeNumber'
 > & {
   tmdbId?: number
   authenticatedUserId?: string
   limit?: number
+  page?: number
 
   startDate?: Date
   endDate?: Date

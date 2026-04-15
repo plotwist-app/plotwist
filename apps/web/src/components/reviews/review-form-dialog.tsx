@@ -94,15 +94,19 @@ export function ReviewFormDialog({
 
   const postReview = usePostReview()
   const putReview = usePutReviewById()
+  const isSaving = postReview.isPending || putReview.isPending
   const putUserItem = usePutUserItem()
 
-  const { data: userItem } = useGetUserItem(
+  const { data } = useGetUserItem(
     {
       mediaType,
       tmdbId: String(tmdbId),
     },
-    { query: { select: data => data.userItem } }
+    { query: { select: data => data } }
   )
+
+  const userItem =
+    data?.data && 'userItem' in data.data ? data.data.userItem : undefined
 
   const form = useForm({
     resolver: zodResolver(reviewFormDialogSchema(dictionary)),
@@ -143,13 +147,15 @@ export function ReviewFormDialog({
             },
             {
               onSettled: async response => {
-                await queryClient.setQueryData(
-                  getGetUserItemQueryKey({
-                    mediaType,
-                    tmdbId: String(tmdbId),
-                  }),
-                  response
-                )
+                if (response?.data) {
+                  await queryClient.setQueryData(
+                    getGetUserItemQueryKey({
+                      mediaType,
+                      tmdbId: String(tmdbId),
+                    }),
+                    response.data
+                  )
+                }
 
                 if (mediaType === 'TV_SHOW') {
                   await queryClient.invalidateQueries({
@@ -239,7 +245,7 @@ export function ReviewFormDialog({
                     <FormControl>
                       <Textarea
                         placeholder={dictionary.share_your_opinion_here}
-                        rows={5}
+                        rows={10}
                         {...field}
                       />
                     </FormControl>
@@ -272,7 +278,7 @@ export function ReviewFormDialog({
                   )}
                 />
 
-                <Button className="text" type="submit">
+                <Button className="text" type="submit" loading={isSaving}>
                   {review ? dictionary.edit_review : dictionary.submit_review}
                 </Button>
               </div>
@@ -317,7 +323,7 @@ export function ReviewFormDialog({
                   <FormControl>
                     <Textarea
                       placeholder={dictionary.share_your_opinion_here}
-                      rows={5}
+                      rows={8}
                       {...field}
                     />
                   </FormControl>
@@ -350,7 +356,7 @@ export function ReviewFormDialog({
             />
 
             <div className="flex flex-col w-full justify-between items-center gap-4">
-              <Button className="w-full">
+              <Button className="w-full" type="submit" loading={isSaving}>
                 {review ? dictionary.edit_review : dictionary.submit_review}
               </Button>
             </div>

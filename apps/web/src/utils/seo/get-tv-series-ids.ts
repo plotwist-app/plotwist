@@ -1,6 +1,8 @@
 import { tmdb } from '@/services/tmdb'
 
-const DEFAULT_PAGES = 10
+// Only pre-generate 1 page per list type (~80 unique series)
+// Other pages are generated on-demand with ISR
+const DEFAULT_PAGES = 1
 
 export const getTvSeriesIds = async (pages: number = DEFAULT_PAGES) => {
   const types = ['airing_today', 'on_the_air', 'popular', 'top_rated'] as const

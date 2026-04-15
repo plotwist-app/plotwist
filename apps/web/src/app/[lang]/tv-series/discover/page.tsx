@@ -3,6 +3,7 @@ import { TvSeriesList } from '@/components/tv-series-list'
 import { TvSeriesListFilters } from '@/components/tv-series-list-filters'
 import type { PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { buildLanguageAlternates } from '@/utils/seo'
 import { Container } from '../../_components/container'
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
@@ -25,6 +26,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       title: `${title} • Plotwist`,
       description,
     },
+    alternates: buildLanguageAlternates(params.lang, '/tv-series/discover'),
   }
 }
 

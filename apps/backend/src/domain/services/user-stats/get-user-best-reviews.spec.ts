@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
-import { tmdb } from '@/adapters/tmdb'
+import { tmdb } from '@/infra/adapters/tmdb'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserBestReviewsService } from './get-user-best-reviews'
 
-vi.mock('@/adapters/tmdb', () => ({
+vi.mock('@/infra/adapters/tmdb', () => ({
   tmdb: {
     tv: {
       details: vi.fn(),

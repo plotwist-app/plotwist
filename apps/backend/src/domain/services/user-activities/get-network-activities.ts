@@ -1,5 +1,5 @@
-import { selectFollowers } from '@/db/repositories/followers-repository'
-import { selectUserActivities } from '@/db/repositories/user-activities'
+import { selectFollowers } from '@/infra/db/repositories/followers-repository'
+import { selectUserActivities } from '@/infra/db/repositories/user-activities'
 
 type GetUserNetworkActivitiesServiceInput = {
   userId: string

@@ -14,6 +14,7 @@ import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
+import { SharePageButton } from '@/components/share-page-button'
 import { tmdb } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
 import { TvSeriesGenres } from './tv-serie-genres'
@@ -54,6 +55,7 @@ export async function TvSerieInfos({ tvSerie, language }: TvSerieInfosProps) {
       )}
 
       <ItemStatus tmdbId={tvSerie.id} mediaType="TV_SHOW" />
+      <SharePageButton language={language} path={`tv-series/${tvSerie.id}`} />
     </div>
   )
 

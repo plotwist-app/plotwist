@@ -1,4 +1,4 @@
-import { selectLists } from '@/db/repositories/list-repository'
+import { selectLists } from '@/infra/db/repositories/list-repository'
 
 export type GetListsInput = {
   userId?: string

@@ -11,6 +11,7 @@ import { ItemReview } from '@/components/item-review'
 import { ItemStatus } from '@/components/item-status'
 import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
+import { SharePageButton } from '@/components/share-page-button'
 import type { Language, MovieDetails } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
 import { MovieGenres } from './movie-genres'
@@ -23,6 +24,7 @@ export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
       <ListsDropdown item={movie} />
       <ItemReview />
       <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
+      <SharePageButton language={language} path={`movies/${movie.id}`} />
     </div>
   )
 

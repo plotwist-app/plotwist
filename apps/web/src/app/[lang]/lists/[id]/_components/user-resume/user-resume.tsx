@@ -20,11 +20,10 @@ export const UserResume = ({ list }: UserResumeProps) => {
   const { language } = useLanguage()
   const { data, isLoading } = useGetUserById(list.userId)
 
-  if (isLoading || !data) {
+  const user = data?.data?.user
+  if (isLoading || !user) {
     return <UserResumeSkeleton />
   }
-
-  const { user } = data
 
   const username = user.username
   const profileHref = `/${language}/${username}`

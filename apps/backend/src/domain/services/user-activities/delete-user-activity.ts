@@ -6,7 +6,7 @@ import {
   deleteFollowUserActivity,
   deleteUserActivity,
   deleteUserActivityById,
-} from '@/db/repositories/user-activities'
+} from '@/infra/db/repositories/user-activities'
 
 type DeleteUserActivityParams = {
   activityType: UserActivityType

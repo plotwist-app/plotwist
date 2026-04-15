@@ -1,6 +1,8 @@
 import type { Buy, Language, Rent } from '@plotwist_app/tmdb'
 import { X } from 'lucide-react'
 import Image from 'next/image'
+import { getUserPreferences } from '@/api/users'
+import { verifySession } from '@/app/lib/dal'
 import { tmdb } from '@/services/tmdb'
 import { getDictionary } from '@/utils/dictionaries'
 import { tmdbImage } from '@/utils/tmdb/image'
@@ -19,18 +21,18 @@ export async function WhereToWatch({
   const { results } = await tmdb.watchProviders.item(variant, id)
   const dictionary = await getDictionary(language)
 
-  const resultsByLanguage = {
-    'de-DE': results.DE,
-    'en-US': results.US,
-    'es-ES': results.ES,
-    'fr-FR': results.FR,
-    'it-IT': results.IT,
-    'ja-JP': results.JP,
-    'pt-BR': results.BR,
+  const session = await verifySession()
+  let userWatchRegion: string | null = null
+
+  if (session) {
+    const { data } = await getUserPreferences()
+    userWatchRegion = data?.userPreferences?.watchRegion ?? null
   }
 
+  const region = userWatchRegion ?? language.split('-')[1]
   const watchProvider =
-    resultsByLanguage[language] ?? resultsByLanguage['en-US']
+    results[region as keyof typeof results] ??
+    results[language.split('-')[1] as keyof typeof results]
 
   return (
     <div className="space-y-8 md:space-y-0 md:grid-cols-3 md:grid md:gap-8">

@@ -8,6 +8,7 @@ import { PosterCard } from '@/components/poster-card'
 import { tmdb } from '@/services/tmdb'
 import { asLanguage, type PageProps } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
+import { buildLanguageAlternates } from '@/utils/seo'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { Container } from '../_components/container'
 import { NetworkActivity } from './_components/network-activity'
@@ -32,6 +33,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       title: `${title} • Plotwist`,
       description,
     },
+    alternates: buildLanguageAlternates(params.lang, '/home'),
   }
 }
 
@@ -45,8 +47,8 @@ const HomePage = async (props: PageProps) => {
   let userPreferences: GetUserPreferences200['userPreferences'] | null = null
 
   if (session) {
-    const { userPreferences: userPreferencesData } = await getUserPreferences()
-    userPreferences = userPreferencesData
+    const { data } = await getUserPreferences()
+    userPreferences = data?.userPreferences ?? null
   }
 
   const language = asLanguage(lang)

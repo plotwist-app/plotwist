@@ -1,4 +1,4 @@
-import { deleteList } from '@/db/repositories/list-repository'
+import { deleteList } from '@/infra/db/repositories/list-repository'
 
 type DeleteListInput = { id: string; userId: string }
 

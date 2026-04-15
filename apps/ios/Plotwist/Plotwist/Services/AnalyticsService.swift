@@ -1,0 +1,268 @@
+//
+//  AnalyticsService.swift
+//  Plotwist
+//
+
+import Foundation
+
+// MARK: - Analytics Events
+enum AnalyticsEvent {
+  // Auth
+  case signUp(method: String)
+  case login(method: String)
+  case logout
+  
+  // App Lifecycle
+  case appOpen
+  
+  // Onboarding
+  case onboardingStart
+  case onboardingContentTypeSelected(type: String)
+  case onboardingGenresSelected(count: Int)
+  case onboardingTitleAdded(tmdbId: Int, mediaType: String, status: String)
+  case onboardingComplete(titlesAdded: Int)
+  
+  // Screens
+  case screenView(name: String)
+  
+  // Content Discovery
+  case searchPerformed(query: String, resultsCount: Int)
+  case mediaViewed(tmdbId: Int, mediaType: String, title: String)
+  case categoryViewed(category: String, subcategory: String)
+  
+  // Core Actions
+  case mediaStatusChanged(tmdbId: Int, mediaType: String, status: String, source: String)
+  case mediaStatusRemoved(tmdbId: Int, mediaType: String)
+  case rewatchAdded(tmdbId: Int, mediaType: String, count: Int)
+  case episodeCheckin(showId: Int, season: Int, episode: Int)
+  
+  // Reviews
+  case reviewStarted(tmdbId: Int, mediaType: String)
+  case reviewSubmitted(tmdbId: Int, mediaType: String, rating: Double, hasText: Bool)
+  case reviewDeleted(tmdbId: Int, mediaType: String)
+  
+  // Stats
+  case statsView
+  
+  // Subscription
+  case subscribe(plan: String)
+  case paywallView(source: String)
+  case paywallDismiss
+  case restorePurchases
+  
+  // Feedback
+  case feedbackOpen(contextScreen: String)
+  case feedbackSubmit(type: String)
+  
+  // Error tracking
+  case errorAPI(endpoint: String, statusCode: Int)
+  
+  // Engagement
+  case shareContent(tmdbId: Int, mediaType: String)
+  case profileViewed(userId: String, isOwnProfile: Bool)
+  
+  var name: String {
+    switch self {
+    case .signUp: return "sign_up"
+    case .login: return "login"
+    case .logout: return "logout"
+    case .appOpen: return "app_open"
+    case .onboardingStart: return "onboarding_start"
+    case .onboardingContentTypeSelected: return "onboarding_content_type"
+    case .onboardingGenresSelected: return "onboarding_genres"
+    case .onboardingTitleAdded: return "onboarding_title_added"
+    case .onboardingComplete: return "onboarding_complete"
+    case .screenView: return "screen_view"
+    case .searchPerformed: return "search"
+    case .mediaViewed: return "media_viewed"
+    case .categoryViewed: return "category_viewed"
+    case .mediaStatusChanged: return "status_changed"
+    case .mediaStatusRemoved: return "status_removed"
+    case .rewatchAdded: return "rewatch_added"
+    case .episodeCheckin: return "episode_checkin"
+    case .reviewStarted: return "review_started"
+    case .reviewSubmitted: return "review_submitted"
+    case .reviewDeleted: return "review_deleted"
+    case .statsView: return "stats_view"
+    case .subscribe: return "subscribe"
+    case .paywallView: return "paywall_view"
+    case .paywallDismiss: return "paywall_dismiss"
+    case .restorePurchases: return "restore_purchases"
+    case .feedbackOpen: return "feedback_open"
+    case .feedbackSubmit: return "feedback_submit"
+    case .errorAPI: return "error_api"
+    case .shareContent: return "share"
+    case .profileViewed: return "profile_viewed"
+    }
+  }
+  
+  var properties: [String: Any] {
+    switch self {
+    case .signUp(let method), .login(let method):
+      return ["method": method]
+    case .logout, .appOpen, .onboardingStart, .statsView, .paywallDismiss, .restorePurchases:
+      return [:]
+    case .subscribe(let plan):
+      return ["plan": plan]
+    case .paywallView(let source):
+      return ["source": source]
+    case .onboardingContentTypeSelected(let type):
+      return ["content_type": type]
+    case .onboardingGenresSelected(let count):
+      return ["genres_count": count]
+    case .onboardingTitleAdded(let tmdbId, let mediaType, let status):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status]
+    case .onboardingComplete(let titlesAdded):
+      return ["titles_added": titlesAdded]
+    case .screenView(let name):
+      return ["screen_name": name]
+    case .searchPerformed(let query, let resultsCount):
+      return ["query": query, "results_count": resultsCount]
+    case .mediaViewed(let tmdbId, let mediaType, let title):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "title": title]
+    case .categoryViewed(let category, let subcategory):
+      return ["category": category, "subcategory": subcategory]
+    case .mediaStatusChanged(let tmdbId, let mediaType, let status, let source):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "status": status, "source": source]
+    case .mediaStatusRemoved(let tmdbId, let mediaType):
+      return ["tmdb_id": tmdbId, "media_type": mediaType]
+    case .rewatchAdded(let tmdbId, let mediaType, let count):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "rewatch_count": count]
+    case .episodeCheckin(let showId, let season, let episode):
+      return ["show_id": showId, "season": season, "episode": episode]
+    case .reviewStarted(let tmdbId, let mediaType):
+      return ["tmdb_id": tmdbId, "media_type": mediaType]
+    case .reviewSubmitted(let tmdbId, let mediaType, let rating, let hasText):
+      return ["tmdb_id": tmdbId, "media_type": mediaType, "rating": rating, "has_text": hasText]
+    case .reviewDeleted(let tmdbId, let mediaType):
+      return ["tmdb_id": tmdbId, "media_type": mediaType]
+    case .feedbackOpen(let contextScreen):
+      return ["context_screen": contextScreen]
+    case .feedbackSubmit(let type):
+      return ["type": type]
+    case .errorAPI(let endpoint, let statusCode):
+      return ["endpoint": endpoint, "status_code": statusCode]
+    case .shareContent(let tmdbId, let mediaType):
+      return ["tmdb_id": tmdbId, "media_type": mediaType]
+    case .profileViewed(let userId, let isOwnProfile):
+      return ["user_id": userId, "is_own_profile": isOwnProfile]
+    }
+  }
+}
+
+// MARK: - Analytics Service
+class AnalyticsService {
+  static let shared = AnalyticsService()
+
+  private var apiKey: String { Env.posthogAPIKey }
+  private var ingestionURL: String {
+    let host = Env.posthogHost
+    if host.contains("app.posthog.com") {
+      return "https://us.i.posthog.com/i/v0/e/"
+    }
+    let base = host.hasSuffix("/") ? String(host.dropLast()) : host
+    return "\(base)/i/v0/e/"
+  }
+
+  private var distinctId: String {
+    if let userId = UserDefaults.standard.string(forKey: "analyticsUserId") {
+      return userId
+    }
+    if let deviceId = UserDefaults.standard.string(forKey: "analyticsDeviceId") {
+      return deviceId
+    }
+    let newDeviceId = UUID().uuidString
+    UserDefaults.standard.set(newDeviceId, forKey: "analyticsDeviceId")
+    return newDeviceId
+  }
+  
+  private init() {}
+  
+  func track(_ event: AnalyticsEvent) {
+    #if DEBUG
+    print("📊 Analytics: \(event.name) - \(event.properties)")
+    #endif
+    sendEvent(name: event.name, properties: event.properties)
+  }
+  
+  func identify(userId: String, properties: [String: Any] = [:]) {
+    UserDefaults.standard.set(userId, forKey: "analyticsUserId")
+    #if DEBUG
+    print("📊 Analytics: Identified user \(userId)")
+    #endif
+    sendIdentify(userId: userId, properties: properties)
+  }
+  
+  func reset() {
+    UserDefaults.standard.removeObject(forKey: "analyticsUserId")
+    #if DEBUG
+    print("📊 Analytics: Reset user")
+    #endif
+  }
+  
+  /// Convenience for tracking API errors
+  static func trackAPIError(endpoint: String, statusCode: Int) {
+    shared.track(.errorAPI(endpoint: endpoint, statusCode: statusCode))
+  }
+  
+  // MARK: - Private
+  
+  private func sendEvent(name: String, properties: [String: Any]) {
+    guard !apiKey.isEmpty else { return }
+    Task {
+      await sendToPostHog(payload: [
+        "api_key": apiKey,
+        "event": name,
+        "distinct_id": distinctId,
+        "properties": properties,
+        "timestamp": ISO8601DateFormatter().string(from: Date()),
+      ])
+    }
+  }
+
+  private func sendIdentify(userId: String, properties: [String: Any]) {
+    guard !apiKey.isEmpty else { return }
+    Task {
+      await sendToPostHog(payload: [
+        "api_key": apiKey,
+        "event": "$identify",
+        "distinct_id": userId,
+        "properties": ["$set": properties],
+        "timestamp": ISO8601DateFormatter().string(from: Date()),
+      ])
+    }
+  }
+
+  private func sendToPostHog(payload: [String: Any]) async {
+    guard let url = URL(string: ingestionURL) else { return }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    do {
+      request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+      let (_, response) = try await URLSession.shared.data(for: request)
+      #if DEBUG
+      if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+        print("📊 Analytics HTTP \(http.statusCode): \(ingestionURL)")
+      }
+      #endif
+    } catch {
+      #if DEBUG
+      print("📊 Analytics error: \(error)")
+      #endif
+    }
+  }
+}
+
+// MARK: - SwiftUI View Extension
+import SwiftUI
+
+extension View {
+  func trackScreen(_ name: String) -> some View {
+    self.onAppear {
+      AnalyticsService.shared.track(.screenView(name: name))
+    }
+  }
+}

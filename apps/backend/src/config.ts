@@ -6,11 +6,19 @@ export const config = {
   app: loadAppEnvs(),
   services: loadServicesEnvs(),
   redis: loadRedisEnvs(),
+  sharedUrls: {
+    SHARED_URLS_COUNTER_KEY: 'plotwist:shared_urls:counter',
+    SHARED_URLS_COUNTER_SALT: 14_000_000,
+    SHARED_URLS_COUNTER_START_VAL: 14_000_000,
+  },
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
-  openai: loadOpenAIEnvs(),
+  intelligence: loadAIEnvs(),
+  google: loadGoogleEnvs(),
+  monitors: loadMonitorsEnvs(),
+  telemetry: loadTelemetryEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -25,6 +33,8 @@ function loadServicesEnvs() {
   const schema = z.object({
     RESEND_API_KEY: z.string().optional().default('re_123'),
     STRIPE_SECRET_KEY: z.string().optional().default(''),
+    STRIPE_WEBHOOK_SECRET: z.string().optional().default(''),
+    REVENUECAT_WEBHOOK_SECRET: z.string().optional().default(''),
     TMDB_ACCESS_TOKEN: z.string(),
   })
 
@@ -33,7 +43,7 @@ function loadServicesEnvs() {
 
 function loadDatabaseEnvs() {
   const schema = z.object({
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string(),
   })
 
   return schema.parse(process.env)
@@ -43,9 +53,12 @@ function loadAppEnvs() {
   const schema = z.object({
     APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
     CLIENT_URL: z.string(),
+    IOS_TOKEN: z.string().optional().default(''),
     PORT: z.coerce.number().default(3333),
     BASE_URL: z.string().default('http://localhost:3333'),
     JWT_SECRET: z.string(),
+    RATE_LIMIT_MAX: z.coerce.number().optional().default(100),
+    RATE_LIMIT_TIME_WINDOW_MS: z.coerce.number().optional().default(60_000),
   })
 
   return schema.parse(process.env)
@@ -102,10 +115,36 @@ function loadMALEnvs() {
   return schema.parse(process.env)
 }
 
-function loadOpenAIEnvs() {
+function loadAIEnvs() {
   const schema = z.object({
     OPENAI_API_KEY: z.string(),
+    RECOMMENDATION_AI_PROVIDER: z.enum(['openAI', 'llama']).default('openAI'),
   })
 
+  return schema.parse(process.env)
+}
+
+function loadGoogleEnvs() {
+  const schema = z.object({
+    GOOGLE_CLIENT_ID: z.string().optional(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadMonitorsEnvs() {
+  const schema = z.object({
+    ENABLE_MONITORS: z.string().default('false'),
+    MONITOR_CRON_TIME: z.string().default('0 0 * * *'),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadTelemetryEnvs() {
+  const schema = z.object({
+    OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional(),
+    OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
+  })
   return schema.parse(process.env)
 }

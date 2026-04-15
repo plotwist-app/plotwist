@@ -1,13 +1,12 @@
 'use client'
 
 import { v4 } from 'uuid'
-
+import type { GetReviews200Item } from '@/api/endpoints.schemas'
 import { useGetReviews } from '@/api/reviews'
 import {
   ReviewItem,
   ReviewItemSkeleton,
 } from '@/components/reviews/review-item'
-
 import { useLanguage } from '@/context/language'
 import type { MediaType } from '@/types/media-type'
 import { ReviewFormDialog } from './review-form-dialog'
@@ -44,7 +43,7 @@ export const Reviews = ({
     )
   }
 
-  if (!data || data.length === 0)
+  if (!data || !data.data || data.data.length === 0)
     return (
       <ReviewFormDialog tmdbId={tmdbId} mediaType={mediaType}>
         <section className="text-center border border-dashed rounded-lg py-8 cursor-pointer">
@@ -61,10 +60,10 @@ export const Reviews = ({
 
   return (
     <section className="space-y-6">
-      {data
+      {data?.data
         ?.filter(review => review.review)
         .map(review => (
-          <ReviewItem key={review.id} review={review} />
+          <ReviewItem key={review.id} review={review as GetReviews200Item} />
         ))}
     </section>
   )

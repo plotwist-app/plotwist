@@ -24,7 +24,7 @@ import { Link } from 'next-view-transitions'
 import { type PropsWithChildren, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { v4 } from 'uuid'
-import { getFollowers, useGetFollowersInfinite } from '@/api/follow'
+import { getFollowers, useGetFollowersInfinite } from '@/api/follows'
 import { ProBadge } from '@/components/pro-badge'
 import { useLanguage } from '@/context/language'
 
@@ -55,21 +55,22 @@ export function UserFollows({
       {
         query: {
           initialPageParam: undefined,
-          getNextPageParam: lastPage => lastPage.nextCursor,
+          getNextPageParam: lastPage => lastPage.data?.nextCursor ?? undefined,
           queryFn: async ({ pageParam }) => {
-            return await getFollowers({
+            const res = await getFollowers({
               followerId: variant === 'following' ? userId : undefined,
               followedId: variant === 'followers' ? userId : undefined,
               pageSize: '10',
               cursor: pageParam as string,
             })
+            return res
           },
           enabled: count > 0,
         },
       }
     )
 
-  const flatData = data?.pages.flatMap(page => page.followers)
+  const flatData = data?.pages.flatMap(page => page.data?.followers ?? [])
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

@@ -10,9 +10,17 @@ const DEFAULT_LOCALE = 'en-US'
 
 match(languages, appLanguages, DEFAULT_LOCALE)
 
-export async function proxy(req: NextRequest) {
-  const headers = new Headers(req.headers)
-  headers.set('x-current-path', req.nextUrl.pathname)
+export function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl
+
+  // Short URLs (/s/1Tu4V) are handled by app/s/[shortCode]/page.tsx which serves
+  // OG metadata for social bots and a JS redirect for real users.
+  if (pathname.startsWith('/s/')) {
+    return NextResponse.next()
+  }
+
+  const reqHeaders = new Headers(req.headers)
+  reqHeaders.set('x-current-path', pathname)
 
   const browserLanguage =
     req.headers.get('accept-language')?.split(',')[0] ?? 'en'
@@ -20,8 +28,6 @@ export async function proxy(req: NextRequest) {
   const language =
     appLanguages.find(language => language.startsWith(browserLanguage)) ??
     DEFAULT_LOCALE
-
-  const { pathname } = req.nextUrl
 
   const pathnameHasLocale = appLanguages.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -32,7 +38,7 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(req.nextUrl)
   }
 
-  return NextResponse.next({ headers })
+  return NextResponse.next({ headers: reqHeaders })
 }
 
 export const config = {

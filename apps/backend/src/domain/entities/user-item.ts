@@ -1,6 +1,6 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import type { UserItemStatus } from '@/@types/item-status-enum'
-import type { schema } from '@/db/schema'
+import type { schema } from '@/infra/db/schema'
 
 export type UserItem = InferSelectModel<typeof schema.userItems>
 export type InsertUserItem = Pick<
@@ -23,4 +23,6 @@ export type SelectUserItems = {
 export type SelectAllUserItems = {
   status?: UserItemStatus | 'ALL'
   userId: string
+  startDate?: Date
+  endDate?: Date
 }

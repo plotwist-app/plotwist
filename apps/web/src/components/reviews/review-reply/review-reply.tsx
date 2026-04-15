@@ -53,7 +53,7 @@ export const ReviewReply = ({
 
       {openReplies && (
         <ul className="mt-4 flex flex-col gap-4">
-          {data?.map(reply => {
+          {data?.data?.map(reply => {
             const { username, avatarUrl } = reply.user
             const usernameInitial = username?.at(0)?.toUpperCase()
 

@@ -78,6 +78,7 @@ export async function setup() {
 
   // OpenAI
   process.env.OPENAI_API_KEY = 'open_api_key'
+  process.env.RECOMMENDATION_AI_PROVIDER = 'openAI'
 
   await setupDatabase()
   await setupLocalStack()
@@ -91,7 +92,7 @@ export async function setup() {
 }
 
 async function setupDatabase() {
-  const container = await new GenericContainer('bitnami/postgresql:latest')
+  const container = await new GenericContainer('postgres:latest')
     .withEnvironment({
       POSTGRES_PASSWORD: 'test',
       POSTGRES_DB: 'plotwist_db',
@@ -135,18 +136,18 @@ async function setupDatabase() {
   }
 
   const db = drizzle(client)
-  await migrate(db, { migrationsFolder: './src/db/migrations' })
+  await migrate(db, { migrationsFolder: './src/infra/db/migrations' })
   await client.end()
 }
 
 async function setupLocalStack() {
-  const container = await new GenericContainer('localstack/localstack:latest')
+  const container = await new GenericContainer('localstack/localstack:3')
     .withEnvironment({
       SERVICES: 'sqs',
       DOCKER_HOST: 'unix:///var/run/docker.sock',
     })
     .withExposedPorts(4566)
-    .withWaitStrategy(Wait.forLogMessage(/.*Ready.*/))
+    .withWaitStrategy(Wait.forHttp('/_localstack/health', 4566))
     .start()
 
   localstackConfig = {

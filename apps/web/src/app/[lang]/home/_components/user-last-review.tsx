@@ -65,7 +65,8 @@ export const UserLastReview = () => {
     )
   }
 
-  if (!data?.reviews[0]) {
+  const reviews = data?.data?.reviews ?? []
+  if (!reviews[0]) {
     return (
       <div className="justify flex flex-col items-center justify-center space-y-1 rounded-md border border-dashed px-4 py-8 text-center">
         <p>{dictionary.user_last_review.no_review_message}</p>
@@ -86,7 +87,7 @@ export const UserLastReview = () => {
         {dictionary.user_last_review.title}
       </h3>
 
-      <FullReview review={data.reviews[0]} />
+      <FullReview review={reviews[0]} />
     </div>
   )
 }

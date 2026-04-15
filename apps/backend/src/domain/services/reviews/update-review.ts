@@ -1,11 +1,11 @@
-import { updateReview } from '@/db/repositories/reviews-repository'
+import { updateReview } from '@/infra/db/repositories/reviews-repository'
 import type {
   reviewParamsSchema,
   updateReviewBodySchema,
-} from '@/http/schemas/reviews'
+} from '@/infra/http/schemas/reviews'
 
-export type UpdateReviewInput = typeof updateReviewBodySchema._type &
-  typeof reviewParamsSchema._type
+export type UpdateReviewInput = typeof updateReviewBodySchema.type &
+  typeof reviewParamsSchema.type
 
 export async function updateReviewService(input: UpdateReviewInput) {
   const [review] = await updateReview(input)

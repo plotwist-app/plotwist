@@ -47,7 +47,8 @@
       "!apps/backend/dist",
       "!apps/web/src/api",
       "!packages/ui",
-      "!apps/backend/src/db/migrations"
+      "!apps/backend/src/infra/db/migrations",
+      "!apps/web/next-env.d.ts"
     ]
   }
 }

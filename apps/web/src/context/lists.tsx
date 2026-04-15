@@ -27,7 +27,7 @@ export const ListsContextProvider = ({
   return (
     <ListsContext.Provider
       value={{
-        lists: data?.lists ?? [],
+        lists: data?.data && 'lists' in data.data ? data.data.lists : [],
         isLoading,
       }}
     >

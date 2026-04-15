@@ -1,5 +1,5 @@
-import { selectListItems } from '@/db/repositories/list-item-repository'
-import { getListById } from '@/db/repositories/list-repository'
+import { selectListItems } from '@/infra/db/repositories/list-item-repository'
+import { getListById } from '@/infra/db/repositories/list-repository'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 type GetListItemsInput = { listId: string }
