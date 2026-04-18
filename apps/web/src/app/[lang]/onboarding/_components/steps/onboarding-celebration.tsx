@@ -49,7 +49,7 @@ export function OnboardingCelebration({ lang }: { lang: string }) {
   const subtitle =
     dictionary?.celebration_subtitle ||
     "Your profile is ready. Let's start tracking."
-  const cta = dictionary?.celebration_cta || 'Go to Home'
+  const cta = dictionary?.go_to_profile || 'Go to Profile'
 
   return (
     <div className="flex flex-1 h-full flex-col items-center justify-center px-6">

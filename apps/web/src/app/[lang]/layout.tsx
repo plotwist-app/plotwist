@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import { Link } from 'next-view-transitions'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
@@ -43,10 +42,6 @@ export default async function RootLayout({
     userPreferences = data?.userPreferences ?? null
   }
 
-  const headersList = await headers()
-  const pathname = headersList.get('x-current-path') || ''
-  const isOnboarding = pathname.includes('/onboarding')
-
   return (
     <ThemeProvider
       attribute="class"
@@ -63,7 +58,6 @@ export default async function RootLayout({
                 <LayoutWrapper
                   header={<Header />}
                   footer={<Footer dictionary={dictionary} language={lang} />}
-                  isOnboarding={isOnboarding}
                   proBadge={
                     session?.user.subscriptionType !== 'PRO' ? (
                       <Link
