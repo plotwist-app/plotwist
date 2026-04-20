@@ -1,4 +1,6 @@
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { shouldBlockTraffic } from '@/lib/traffic-guard'
 
 // Limit function execution time to 10 seconds
 export const maxDuration = 10
@@ -19,7 +21,21 @@ function isAllowedUrl(urlString: string): boolean {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const country =
+    request.headers.get('x-vercel-ip-country') ??
+    request.headers.get('cf-ipcountry')
+  const userAgent = request.headers.get('user-agent')
+
+  if (shouldBlockTraffic({ country, userAgent })) {
+    return new NextResponse(null, {
+      status: 403,
+      headers: {
+        'cache-control': 'public, max-age=300, s-maxage=300',
+      },
+    })
+  }
+
   const { searchParams } = new URL(request.url)
   const url = searchParams.get('url')
 
