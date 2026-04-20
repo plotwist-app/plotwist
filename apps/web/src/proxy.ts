@@ -1,6 +1,7 @@
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 import { type NextRequest, NextResponse } from 'next/server'
+import { shouldBlockTraffic } from '@/lib/traffic-guard'
 import { languages as appLanguages } from '../languages'
 
 const headers = { 'accept-language': 'en-US' }
@@ -12,6 +13,19 @@ match(languages, appLanguages, DEFAULT_LOCALE)
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
+
+  const country =
+    req.headers.get('x-vercel-ip-country') ?? req.headers.get('cf-ipcountry')
+  const userAgent = req.headers.get('user-agent')
+
+  if (shouldBlockTraffic({ country, userAgent, allowKnownCrawlers: true })) {
+    return new NextResponse(null, {
+      status: 403,
+      headers: {
+        'cache-control': 'public, max-age=300, s-maxage=300',
+      },
+    })
+  }
 
   // Short URLs (/s/1Tu4V) are handled by app/s/[shortCode]/page.tsx which serves
   // OG metadata for social bots and a JS redirect for real users.

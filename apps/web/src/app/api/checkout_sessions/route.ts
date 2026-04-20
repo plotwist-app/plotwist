@@ -1,8 +1,51 @@
 import type { NextRequest } from 'next/server'
 import type { Stripe } from 'stripe'
+import {
+  buildRateLimitKey,
+  checkRateLimit,
+  isSameOriginRequest,
+} from '@/lib/request-security'
+import { shouldBlockTraffic } from '@/lib/traffic-guard'
 import { stripe } from '@/services/stripe'
 
 export async function POST(req: NextRequest) {
+  const country = req.headers.get('x-vercel-ip-country') ?? req.headers.get('cf-ipcountry')
+  const userAgent = req.headers.get('user-agent')
+
+  if (shouldBlockTraffic({ country, userAgent })) {
+    return new Response(null, {
+      status: 403,
+      headers: {
+        'cache-control': 'public, max-age=300, s-maxage=300',
+      },
+    })
+  }
+
+  if (!isSameOriginRequest(req)) {
+    return new Response(null, {
+      status: 403,
+      headers: {
+        'cache-control': 'public, max-age=300, s-maxage=300',
+      },
+    })
+  }
+
+  const rateLimit = checkRateLimit({
+    key: buildRateLimitKey(req, 'checkout_sessions'),
+    limit: 12,
+    windowMs: 60_000,
+  })
+
+  if (!rateLimit.allowed) {
+    return new Response(null, {
+      status: 429,
+      headers: {
+        'retry-after': String(rateLimit.retryAfterSeconds),
+        'cache-control': 'public, max-age=60, s-maxage=60',
+      },
+    })
+  }
+
   if (!stripe) {
     return Response.json({ error: 'Stripe is not configured' }, { status: 503 })
   }
@@ -15,7 +58,6 @@ export async function POST(req: NextRequest) {
 
   const locale = (url.searchParams.get('locale') ??
     'en') as Stripe.Checkout.SessionCreateParams.Locale
-  const country = req.headers.get('x-vercel-ip-country')
 
   const prices = await stripe.prices.list({
     product: process.env.STRIPE_PRODUCT_ID,
