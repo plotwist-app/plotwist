@@ -1,5 +1,10 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import {
+  buildRateLimitKey,
+  checkRateLimit,
+  isSameOriginRequest,
+} from '@/lib/request-security'
 import { shouldBlockTraffic } from '@/lib/traffic-guard'
 
 // Limit function execution time to 10 seconds
@@ -32,6 +37,25 @@ export async function GET(request: NextRequest) {
       status: 403,
       headers: {
         'cache-control': 'public, max-age=300, s-maxage=300',
+      },
+    })
+  }
+
+  if (!isSameOriginRequest(request)) {
+    return new NextResponse(null, { status: 403 })
+  }
+
+  const rateLimit = checkRateLimit({
+    key: buildRateLimitKey(request, 'api-proxy'),
+    limit: 60,
+    windowMs: 60_000,
+  })
+
+  if (!rateLimit.allowed) {
+    return new NextResponse(null, {
+      status: 429,
+      headers: {
+        'retry-after': String(rateLimit.retryAfterSeconds),
       },
     })
   }
