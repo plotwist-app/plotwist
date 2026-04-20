@@ -8,7 +8,9 @@ export type SendRecommendationInput = {
   message: string | null
 }
 
-export async function sendRecommendationService(input: SendRecommendationInput) {
+export async function sendRecommendationService(
+  input: SendRecommendationInput
+) {
   const recommendation = await insertRecommendation(input)
   return { recommendation }
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { requestPasswordReset } from '@/actions/auth/request-password-reset'
 import { AnimatedLink } from '@/components/animated-link'
 import { Pattern } from '@/components/pattern'
 import type { PageProps } from '@/types/languages'
@@ -40,7 +41,7 @@ const ForgotPasswordPage = async (props: PageProps) => {
               {dictionary.forgot_your_password}
             </h1>
 
-            <ForgotPasswordForm />
+            <ForgotPasswordForm onRequest={requestPasswordReset} />
           </div>
         </div>
       </div>

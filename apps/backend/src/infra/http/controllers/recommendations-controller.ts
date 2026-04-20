@@ -1,14 +1,14 @@
 import type { FastifyRedis } from '@fastify/redis'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import type { Language } from '@plotwist_app/tmdb'
-import { sendRecommendationService } from '@/domain/services/recommendations/send-recommendation'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { getReceivedRecommendationsService } from '@/domain/services/recommendations/get-received-recommendations'
 import { respondRecommendationService } from '@/domain/services/recommendations/respond-recommendation'
+import { sendRecommendationService } from '@/domain/services/recommendations/send-recommendation'
 import {
-  sendRecommendationBodySchema,
   getRecommendationsQuerySchema,
   respondRecommendationBodySchema,
   respondRecommendationParamsSchema,
+  sendRecommendationBodySchema,
 } from '../schemas/recommendations'
 
 export async function sendRecommendationController(

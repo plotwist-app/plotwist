@@ -12,14 +12,20 @@ import {
 } from '@plotwist/ui/components/ui/form'
 import { Input } from '@plotwist/ui/components/ui/input'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
+import type { requestPasswordReset } from '@/actions/auth/request-password-reset'
 import { useLanguage } from '@/context/language'
 import {
   type ForgotPasswordFormValues,
   forgotPasswordFormSchema,
 } from './forgot-password-form.schema'
 
-export const ForgotPasswordForm = () => {
+type ForgotPasswordFormProps = {
+  onRequest: typeof requestPasswordReset
+}
+
+export const ForgotPasswordForm = ({ onRequest }: ForgotPasswordFormProps) => {
   const { dictionary } = useLanguage()
 
   const form = useForm<ForgotPasswordFormValues>({
@@ -30,7 +36,15 @@ export const ForgotPasswordForm = () => {
   })
 
   async function onSubmit(values: ForgotPasswordFormValues) {
-    console.log({ values })
+    const result = await onRequest({ login: values.login })
+
+    if (result?.error) {
+      toast.error(dictionary.request_password_reset_error)
+      return
+    }
+
+    toast.success(dictionary.request_password_reset_form_response)
+    form.reset()
   }
 
   return (

@@ -58,7 +58,8 @@
     "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
     "login_success": "Inicio de sesión exitoso. ¡Bienvenido! 🎉",
     "invalid_login_credentials": "Credenciales de inicio de sesión inválidas",
-    "try_again": "Intentar de nuevo"
+    "try_again": "Intentar de nuevo",
+    "forgot_password": "¿Olvidaste tu contraseña?"
   },
   "sign_up_form": {
     "email_label": "Correo electrónico",
@@ -659,6 +660,7 @@
   "password_required": "Por favor, introduce tu contraseña.",
   "password_length": "Tu contraseña debe tener al menos 8 caracteres.",
   "request_password_reset_form_response": "Si el correo electrónico que ingresaste está asociado a una cuenta, recibirás un correo con las instrucciones para restablecer tu contraseña.",
+  "request_password_reset_error": "Algo salió mal. Por favor, inténtalo de nuevo.",
   "invalid_reset_password_code": "Código de restablecimiento de contraseña no válido.",
   "unexpected_error": "Ocurrió un error inesperado.",
   "reset_password_success": "Contraseña restablecida con éxito.",

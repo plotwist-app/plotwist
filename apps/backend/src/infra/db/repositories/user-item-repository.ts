@@ -246,7 +246,9 @@ export async function selectWatchedItemsWithAvgRating(
       tmdbId: schema.userItems.tmdbId,
       mediaType: schema.userItems.mediaType,
       addedAt: schema.userItems.addedAt,
-      avgRating: sql<string | null>`AVG(${schema.reviews.rating})::numeric(3,1)::text`,
+      avgRating: sql<
+        string | null
+      >`AVG(${schema.reviews.rating})::numeric(3,1)::text`,
     })
     .from(schema.userItems)
     .leftJoin(

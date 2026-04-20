@@ -283,9 +283,9 @@ async function detectIsAnimeFanFromWatched(
     tvSeeds.map(async item => {
       try {
         const details = await tmdb.tv.details(item.tmdbId, language)
-        return (
-          (details as { genres?: { id: number }[] }).genres ?? []
-        ).some(g => g.id === ANIME_GENRE_ID)
+        return ((details as { genres?: { id: number }[] }).genres ?? []).some(
+          g => g.id === ANIME_GENRE_ID
+        )
       } catch {
         return false
       }
