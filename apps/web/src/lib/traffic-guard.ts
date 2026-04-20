@@ -1,12 +1,7 @@
 const KNOWN_CRAWLER_UA_PATTERN =
   /(googlebot|bingbot|duckduckbot|slurp|baiduspider|yandexbot|applebot|petalbot|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|discordbot|whatsapp|telegrambot)/i
 
-const BLOCKED_TRAFFIC_COUNTRIES = new Set(
-  (process.env.BLOCKED_TRAFFIC_COUNTRIES ?? 'SG')
-    .split(',')
-    .map(country => country.trim().toUpperCase())
-    .filter(Boolean)
-)
+const BLOCKED_TRAFFIC_COUNTRIES = new Set(['SG'])
 
 type TrafficGuardOptions = {
   country?: string | null
