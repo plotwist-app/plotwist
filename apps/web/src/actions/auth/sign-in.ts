@@ -13,6 +13,15 @@ type SignInInput = {
   redirectTo?: string
 }
 
+function getLocaleFromRedirectTo(redirectTo?: string) {
+  if (!redirectTo) return null
+
+  const locale = redirectTo.split('/').filter(Boolean)[0]
+  const isValidLocale = /^[a-z]{2}-[A-Z]{2}$/.test(locale ?? '')
+
+  return isValidLocale ? locale : null
+}
+
 export async function signIn({ login, password, redirectTo }: SignInInput) {
   let token: string | undefined
 
@@ -37,7 +46,9 @@ export async function signIn({ login, password, redirectTo }: SignInInput) {
 
     if (data?.user && !data.user.displayName) {
       const cookieStore = await cookies()
+      const localeFromRedirect = getLocaleFromRedirectTo(redirectTo)
       const lang =
+        localeFromRedirect ||
         cookieStore.get('NEXT_LOCALE')?.value ||
         cookieStore.get('i18next')?.value ||
         'en-US'
