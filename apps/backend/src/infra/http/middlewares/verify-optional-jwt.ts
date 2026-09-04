@@ -8,7 +8,7 @@ export async function verifyOptionalJwt(request: FastifyRequest) {
     if (userId) {
       trace.getActiveSpan()?.setAttribute('user.id', userId)
     }
-  } catch (err) {
-    return err instanceof Error ? err : new Error(String(err))
+  } catch {
+    // Guests are allowed — missing or invalid JWT is not an error.
   }
 }

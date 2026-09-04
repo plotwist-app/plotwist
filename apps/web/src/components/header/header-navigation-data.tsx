@@ -10,6 +10,7 @@ import {
   Sparkles,
   Star,
   Tv,
+  Users,
 } from 'lucide-react'
 
 import type { Dictionary } from '@/utils/dictionaries'
@@ -119,5 +120,11 @@ export const buildLanguageNavigation: buildLanguageNavigation = dictionary => [
     label: dictionary.navigation.lists,
     href: '/lists',
     icon: List,
+  },
+  {
+    label: dictionary.navigation.together,
+    href: '/together',
+    icon: Users,
+    description: dictionary.navigation.together_description,
   },
 ]

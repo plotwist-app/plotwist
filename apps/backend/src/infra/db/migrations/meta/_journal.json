@@ -477,6 +477,20 @@
       "when": 1774540123044,
       "tag": "20260326154843_drop_achievement_color",
       "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1777924800000,
+      "tag": "20260904120000_together_rooms",
+      "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1777928400000,
+      "tag": "20260904180000_together_maybe",
+      "breakpoints": true
     }
   ]
 }

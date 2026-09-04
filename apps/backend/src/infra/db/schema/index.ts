@@ -18,6 +18,11 @@ import {
 } from 'drizzle-orm/pg-core'
 import { userPreferences } from './user-preferences'
 import { achievements, userAchievements } from './achievements'
+import {
+  togetherParticipants,
+  togetherRooms,
+  togetherSwipes,
+} from './together'
 
 export const subscriptionStatusEnum = pgEnum('subscription_status', [
   'ACTIVE',
@@ -774,7 +779,11 @@ export const schema = {
   recommendations,
   achievements,
   userAchievements,
+  togetherRooms,
+  togetherParticipants,
+  togetherSwipes,
 }
 
 export * from './user-preferences'
 export * from './achievements'
+export * from './together'

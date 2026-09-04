@@ -35,6 +35,7 @@ import { usersRoute } from './users'
 import { watchEntriesRoutes } from './watch-entries'
 import { userRecommendationsRoutes } from './recommendations'
 import { achievementsRoutes } from './achievements'
+import { togetherRoutes } from './together'
 import { webhookRoutes } from './webhook'
 
 export function routes(app: FastifyInstance) {
@@ -52,6 +53,7 @@ export function routes(app: FastifyInstance) {
       'Authorization',
       'X-Client-Token',
       'X-Client',
+      'X-Together-Token',
     ],
     credentials: true,
     strictPreflight: false,
@@ -106,6 +108,7 @@ export function routes(app: FastifyInstance) {
   app.register(userFavoritesRoutes)
   app.register(userRecommendationsRoutes)
   app.register(achievementsRoutes)
+  app.register(togetherRoutes)
 
   return
 }

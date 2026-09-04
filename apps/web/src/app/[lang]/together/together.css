@@ -1,0 +1,304 @@
+.together-shell {
+  --tg-bg: #0b0b09;
+  --tg-text: #f7f3ea;
+  --tg-muted: rgba(247, 243, 234, 0.62);
+  --tg-subtle: rgba(247, 243, 234, 0.4);
+  --tg-surface: #161513;
+  --tg-border: rgba(247, 243, 234, 0.12);
+  --tg-ticket: #f7f3ea;
+  --tg-ticket-text: #0b0b09;
+  --tg-ticket-muted: rgba(11, 11, 9, 0.52);
+  --tg-accent: #f3d86b;
+  --tg-accent-hover: #e6c94a;
+  --tg-on-accent: #0b0b09;
+  --tg-wash: rgba(243, 216, 107, 0.12);
+  --tg-ticket-code: #0b0b09;
+
+  color-scheme: dark;
+  font-family: var(--font-together), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 450;
+  letter-spacing: -0.011em;
+  background:
+    radial-gradient(900px 480px at 50% -8%, var(--tg-wash), transparent 58%),
+    var(--tg-bg);
+  color: var(--tg-text);
+  min-height: 100vh;
+}
+
+.together-shell[data-together-theme="violet"] {
+  --tg-accent: #7c5cfc;
+  --tg-accent-hover: #6b4ce8;
+  --tg-on-accent: #ffffff;
+  --tg-wash: rgba(124, 92, 252, 0.2);
+  --tg-ticket-code: #7c5cfc;
+}
+
+.together-shell[data-together-theme="butter"] {
+  --tg-accent: #f3d86b;
+  --tg-accent-hover: #e6c94a;
+  --tg-on-accent: #0b0b09;
+  --tg-wash: rgba(243, 216, 107, 0.12);
+  --tg-ticket-code: #0b0b09;
+}
+
+.together-shell[data-together-theme="coral"] {
+  --tg-accent: #ff645a;
+  --tg-accent-hover: #ef5349;
+  --tg-on-accent: #ffffff;
+  --tg-wash: rgba(255, 100, 90, 0.18);
+  --tg-ticket-code: #ff645a;
+}
+
+.together-display {
+  font-size: 2.5rem;
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.together-heading {
+  font-size: 1.5rem;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.together-title {
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+}
+
+.together-body {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 450;
+}
+
+.together-meta {
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.together-label {
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.together-kicker {
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.together-code {
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--tg-ticket-code);
+}
+
+.together-fg-accent {
+  color: var(--tg-accent);
+}
+
+.together-fg-muted {
+  color: var(--tg-muted);
+}
+
+.together-fg-subtle {
+  color: var(--tg-subtle);
+}
+
+.together-surface {
+  background: var(--tg-surface);
+}
+
+.together-dashed {
+  border: 1px dashed var(--tg-border);
+}
+
+.together-btn-primary {
+  background: var(--tg-accent);
+  color: var(--tg-on-accent);
+}
+
+.together-btn-primary:hover {
+  background: var(--tg-accent-hover);
+}
+
+.together-btn-secondary {
+  background: var(--tg-surface);
+  color: var(--tg-text);
+  border: 1px solid var(--tg-border);
+}
+
+.together-btn-secondary:hover {
+  background: #1c1a16;
+}
+
+.together-btn-maybe {
+  background: color-mix(in srgb, var(--tg-accent) 18%, var(--tg-surface));
+  color: var(--tg-text);
+  border: 1px solid var(--tg-border);
+}
+
+.together-vote-bar {
+  background: linear-gradient(to top, var(--tg-bg) 70%, transparent);
+}
+
+.together-shell input {
+  background: var(--tg-surface);
+  border-color: var(--tg-border);
+  color: var(--tg-text);
+  border-radius: 0.9rem;
+  height: 3.15rem;
+  font-size: 1rem;
+  font-weight: 450;
+  letter-spacing: -0.011em;
+}
+
+.together-shell input::placeholder {
+  color: var(--tg-subtle);
+}
+
+.together-shell input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tg-accent) 28%, transparent);
+  border-color: var(--tg-accent);
+}
+
+.together-ticket {
+  position: relative;
+  overflow: visible;
+  background: var(--tg-ticket);
+  color: var(--tg-ticket-text);
+  border: 1px solid transparent;
+}
+
+.together-ticket .together-kicker,
+.together-ticket .together-meta {
+  color: var(--tg-ticket-muted);
+}
+
+.together-perforation {
+  position: relative;
+  margin-inline: -1.5rem;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(11, 11, 9, 0.22) 0 6px,
+    transparent 6px 12px
+  );
+  height: 1px;
+}
+
+.together-perforation::before,
+.together-perforation::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 1.15rem;
+  height: 1.15rem;
+  background: var(--tg-bg);
+  border: 1px solid rgba(247, 243, 234, 0.08);
+  border-radius: 999px;
+  transform: translateY(-50%);
+}
+
+.together-perforation::before {
+  left: -0.58rem;
+  border-left-color: transparent;
+}
+
+.together-perforation::after {
+  right: -0.58rem;
+  border-right-color: transparent;
+}
+
+.together-poster {
+  width: min(100%, calc((100dvh - 22rem) * 2 / 3));
+  aspect-ratio: 2 / 3;
+  margin-inline: auto;
+}
+
+@keyframes together-seat-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.together-empty-seat {
+  animation: together-seat-pulse 2.6s ease-in-out infinite;
+}
+
+.together-compare-root {
+  min-height: 100dvh;
+  background: #0b0b09;
+  color: #f7f3ea;
+  font-family: var(--font-together), ui-sans-serif, system-ui, sans-serif;
+}
+
+.together-compare {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100dvh;
+}
+
+@media (min-width: 900px) {
+  .together-compare {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.together-compare-pane {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(247, 243, 234, 0.08);
+}
+
+@media (min-width: 900px) {
+  .together-compare-pane {
+    border-bottom: 0;
+    border-right: 1px solid rgba(247, 243, 234, 0.08);
+  }
+}
+
+.together-compare-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem 0.7rem;
+  background: #0b0b09;
+}
+
+.together-compare-label strong {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.together-compare-label span {
+  font-size: 13px;
+  font-weight: 450;
+  color: rgba(247, 243, 234, 0.55);
+}
+
+.together-compare iframe {
+  width: 100%;
+  flex: 1;
+  min-height: 100dvh;
+  border: 0;
+  background: #0b0b09;
+}
