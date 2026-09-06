@@ -23,6 +23,10 @@ describe('ui version preference', () => {
     )
   })
 
+  it('rejects a preference with trailing cookie value data', () => {
+    expect(readUiVersionCookie('plotwist-ui=cinematic=invalid')).toBe('classic')
+  })
+
   it('serializes a persistent first-party cookie', () => {
     expect(serializeUiVersionCookie('cinematic')).toBe(
       'plotwist-ui=cinematic; Path=/; Max-Age=31536000; SameSite=Lax'

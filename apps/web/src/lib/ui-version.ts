@@ -6,11 +6,12 @@ export function parseUiVersion(value: string | null | undefined): UiVersion {
 }
 
 export function readUiVersionCookie(cookieHeader: string): UiVersion {
+  const prefix = `${UI_VERSION_COOKIE_NAME}=`
   const value = cookieHeader
     .split(';')
     .map(part => part.trim())
-    .find(part => part.startsWith(`${UI_VERSION_COOKIE_NAME}=`))
-    ?.split('=')[1]
+    .find(part => part.startsWith(prefix))
+    ?.slice(prefix.length)
 
   return parseUiVersion(value)
 }
