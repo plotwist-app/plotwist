@@ -40,23 +40,73 @@ vi.mock('@/components/structured-data', () => ({
 }))
 
 vi.mock('./movie-actions', () => ({
-  MovieActions: () => <div data-testid="movie-actions" />,
+  MovieActions: ({
+    language,
+    movie,
+  }: {
+    language: string
+    movie: MovieDetailsData
+  }) => (
+    <div
+      data-testid="movie-actions"
+      data-language={language}
+      data-movie-id={movie.id}
+    />
+  ),
 }))
 
 vi.mock('./movie-collection', () => ({
-  MovieCollection: () => <div data-testid="movie-collection" />,
+  MovieCollection: ({
+    collectionId,
+    language,
+  }: {
+    collectionId: number
+    language: string
+  }) => (
+    <div
+      data-testid="movie-collection"
+      data-collection-id={collectionId}
+      data-language={language}
+    />
+  ),
 }))
 
 vi.mock('./movie-genres', () => ({
-  MovieGenres: () => <div data-testid="movie-genres" />,
+  MovieGenres: ({
+    className,
+    genres,
+  }: {
+    className?: string
+    genres: MovieDetailsData['genres']
+  }) => (
+    <div
+      className={className}
+      data-testid="movie-genres"
+      data-genre-count={genres.length}
+    />
+  ),
 }))
 
 vi.mock('./movie-rating', () => ({
-  MovieRating: () => <div data-testid="movie-rating" />,
+  MovieRating: ({ movie }: { movie: MovieDetailsData }) => (
+    <div data-testid="movie-rating" data-vote-count={movie.vote_count} />
+  ),
 }))
 
 vi.mock('./movie-tabs', () => ({
-  MovieTabs: () => <div data-testid="movie-tabs" />,
+  MovieTabs: ({
+    language,
+    movie,
+  }: {
+    language: string
+    movie: MovieDetailsData
+  }) => (
+    <div
+      data-testid="movie-tabs"
+      data-language={language}
+      data-movie-id={movie.id}
+    />
+  ),
 }))
 
 const movie = {
@@ -71,6 +121,55 @@ const movie = {
   vote_average: 8.4,
   vote_count: 1200,
 } as MovieDetailsData
+
+const parseHsl = (value: string) => {
+  const match = value.match(
+    /^([\d.]+)\s+([\d.]+)%\s+([\d.]+)%$/
+  ) as RegExpMatchArray
+  const hue = Number(match[1])
+  const saturation = Number(match[2]) / 100
+  const lightness = Number(match[3]) / 100
+  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation
+  const segment = hue / 60
+  const secondary = chroma * (1 - Math.abs((segment % 2) - 1))
+  const [red, green, blue] =
+    segment < 1
+      ? [chroma, secondary, 0]
+      : segment < 2
+        ? [secondary, chroma, 0]
+        : segment < 3
+          ? [0, chroma, secondary]
+          : segment < 4
+            ? [0, secondary, chroma]
+            : segment < 5
+              ? [secondary, 0, chroma]
+              : [chroma, 0, secondary]
+  const offset = lightness - chroma / 2
+
+  return [red + offset, green + offset, blue + offset]
+}
+
+const relativeLuminance = (color: number[]) =>
+  color
+    .map(channel =>
+      channel <= 0.04045
+        ? channel / 12.92
+        : ((channel + 0.055) / 1.055) ** 2.4
+    )
+    .reduce(
+      (luminance, channel, index) =>
+        luminance + channel * [0.2126, 0.7152, 0.0722][index],
+      0
+    )
+
+const contrastRatio = (first: string, second: string) => {
+  const firstLuminance = relativeLuminance(parseHsl(first))
+  const secondLuminance = relativeLuminance(parseHsl(second))
+  const lighter = Math.max(firstLuminance, secondLuminance)
+  const darker = Math.min(firstLuminance, secondLuminance)
+
+  return (lighter + 0.05) / (darker + 0.05)
+}
 
 describe('MovieDetails renderer selection', () => {
   beforeEach(() => {
@@ -104,5 +203,75 @@ describe('MovieDetails renderer selection', () => {
     expect(mocks.details).toHaveBeenCalledWith(movie.id, 'en-US')
     expect(mocks.breadcrumbJsonLd).toHaveBeenCalledTimes(1)
     expect(mocks.movieJsonLd).toHaveBeenCalledTimes(1)
+    expect(screen.getByTestId('movie-actions').dataset).toMatchObject({
+      language: 'en-US',
+      movieId: '42',
+    })
+    expect(screen.getByTestId('movie-genres').dataset.genreCount).toBe('1')
+    expect(screen.getByTestId('movie-rating').dataset.voteCount).toBe('1200')
+    expect(screen.getByTestId('movie-collection').dataset).toMatchObject({
+      collectionId: '7',
+      language: 'en-US',
+    })
+    expect(screen.getByTestId('movie-tabs').dataset).toMatchObject({
+      language: 'en-US',
+      movieId: '42',
+    })
+  })
+
+  it('falls back to classic details for an invalid UI cookie', async () => {
+    mocks.cookieGet.mockReturnValue({ value: 'cinematic-preview' })
+
+    render(await MovieDetails({ id: movie.id, language: 'en-US' }))
+
+    expect(screen.getByTestId('classic-movie-details')).toBeTruthy()
+    expect(screen.queryByTestId('cinematic-movie-details')).toBeNull()
+  })
+
+  it('keeps cinematic primary text at WCAG AA contrast', async () => {
+    mocks.cookieGet.mockReturnValue({ value: 'cinematic' })
+
+    render(await MovieDetails({ id: movie.id, language: 'en-US' }))
+
+    const root = screen.getByTestId('cinematic-movie-details')
+    const primary = root.style.getPropertyValue('--primary')
+    const primaryForeground = root.style.getPropertyValue(
+      '--primary-foreground'
+    )
+
+    expect(contrastRatio(primary, primaryForeground)).toBeGreaterThanOrEqual(
+      4.5
+    )
+  })
+
+  it('stacks the cinematic hero and safely wraps its title below sm', async () => {
+    mocks.cookieGet.mockReturnValue({ value: 'cinematic' })
+
+    render(await MovieDetails({ id: movie.id, language: 'en-US' }))
+
+    const title = screen.getByRole('heading', { level: 1, name: movie.title })
+    const heroGrid = title.closest('article')?.parentElement
+
+    expect(heroGrid?.className.split(' ')).toContain('grid-cols-1')
+    expect(heroGrid?.className).toContain(
+      'sm:grid-cols-[180px_minmax(0,1fr)]'
+    )
+    expect(title.className).toContain('[overflow-wrap:anywhere]')
+    expect(screen.getByTestId('movie-genres').className).toContain(
+      'whitespace-normal'
+    )
+  })
+
+  it('renders existing banner and poster fallbacks when images are missing', async () => {
+    mocks.cookieGet.mockReturnValue({ value: 'cinematic' })
+    mocks.details.mockResolvedValue({
+      ...movie,
+      backdrop_path: null,
+      poster_path: null,
+    })
+
+    render(await MovieDetails({ id: movie.id, language: 'en-US' }))
+
+    expect(screen.getAllByText(movie.title)).toHaveLength(3)
   })
 })

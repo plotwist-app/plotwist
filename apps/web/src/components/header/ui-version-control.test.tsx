@@ -17,6 +17,7 @@ const labels = {
 describe('UiVersionControl', () => {
   afterEach(() => {
     cleanup()
+    vi.restoreAllMocks()
     refresh.mockClear()
     // biome-ignore lint/suspicious/noDocumentCookie: Reset the cookie changed by the control.
     document.cookie = 'plotwist-ui=; Path=/; Max-Age=0; SameSite=Lax'
@@ -29,6 +30,21 @@ describe('UiVersionControl', () => {
 
     expect(document.cookie).toContain('plotwist-ui=cinematic')
     expect(refresh).toHaveBeenCalledOnce()
+  })
+
+  it('reverts the switch and announces an error when cookies are silently rejected', () => {
+    vi.spyOn(Document.prototype, 'cookie', 'set').mockImplementation(() => {})
+    render(<UiVersionControl initialVersion="classic" {...labels} />)
+
+    fireEvent.click(screen.getByRole('switch', { name: labels.label }))
+
+    expect(
+      screen
+        .getByRole('switch', { name: labels.label })
+        .getAttribute('data-state')
+    ).toBe('unchecked')
+    expect(screen.getByRole('alert').textContent).toBe(labels.errorLabel)
+    expect(refresh).not.toHaveBeenCalled()
   })
 
   it('synchronizes the switch when the server preference changes', () => {

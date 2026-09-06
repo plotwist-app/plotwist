@@ -74,4 +74,14 @@ describe('shared movie presentation primitives', () => {
     expect(screen.getByText('7.3')).toBeTruthy()
     expect(screen.queryByText('7.26')).toBeNull()
   })
+
+  it('exposes the TMDB score and vote count through a focusable trigger', () => {
+    render(<MovieRating movie={movie} />)
+
+    const trigger = screen.getByRole('button', {
+      name: 'TMDB rating 7.3 out of 10, 321 votes',
+    })
+
+    expect(trigger.tabIndex).toBe(0)
+  })
 })
