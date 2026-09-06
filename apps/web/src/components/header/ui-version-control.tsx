@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
   parseUiVersion,
+  readUiVersionCookie,
   serializeUiVersionCookie,
   type UiVersion,
 } from '@/lib/ui-version'
@@ -40,6 +41,13 @@ export const UiVersionControl = ({
     try {
       // biome-ignore lint/suspicious/noDocumentCookie: The server reads this first-party preference cookie.
       document.cookie = serializeUiVersionCookie(nextVersion)
+
+      if (readUiVersionCookie(document.cookie) !== nextVersion) {
+        setVersion(previousVersion)
+        setError(errorLabel)
+        return
+      }
+
       setVersion(nextVersion)
       router.refresh()
     } catch {

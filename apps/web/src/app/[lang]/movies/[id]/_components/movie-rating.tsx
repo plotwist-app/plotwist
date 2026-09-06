@@ -1,4 +1,4 @@
-import { Badge } from '@plotwist/ui/components/ui/badge'
+import { badgeVariants } from '@plotwist/ui/components/ui/badge'
 import {
   Tooltip,
   TooltipContent,
@@ -6,6 +6,7 @@ import {
   TooltipTrigger,
 } from '@plotwist/ui/components/ui/tooltip'
 import Image from 'next/image'
+import { cn } from '@/lib/utils'
 import type { MovieDetails } from '@/services/tmdb'
 
 type MovieRatingProps = {
@@ -13,11 +14,18 @@ type MovieRatingProps = {
   className?: string
 }
 
-export const MovieRating = ({ movie, className }: MovieRatingProps) => (
-  <TooltipProvider>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Badge className={className}>
+export const MovieRating = ({ movie, className }: MovieRatingProps) => {
+  const score = movie.vote_average.toFixed(1)
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            aria-label={`TMDB rating ${score} out of 10, ${movie.vote_count} votes`}
+            className={cn(badgeVariants(), className)}
+          >
           <Image
             src="/assets/tmdb.svg"
             width={50}
@@ -26,13 +34,14 @@ export const MovieRating = ({ movie, className }: MovieRatingProps) => (
             className="mr-2"
           />
 
-          {movie.vote_average.toFixed(1)}
-        </Badge>
-      </TooltipTrigger>
+            {score}
+          </button>
+        </TooltipTrigger>
 
-      <TooltipContent>
-        <p>{movie.vote_count} votes</p>
-      </TooltipContent>
-    </Tooltip>
-  </TooltipProvider>
-)
+        <TooltipContent>
+          <p>{movie.vote_count} votes</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}

@@ -24,7 +24,7 @@ const cinematicTheme = {
   '--popover': '40 7% 8%',
   '--popover-foreground': '43 38% 94%',
   '--primary': '4 100% 68%',
-  '--primary-foreground': '0 0% 100%',
+  '--primary-foreground': '48 10% 4%',
   '--secondary': '40 7% 12%',
   '--secondary-foreground': '43 38% 94%',
   '--muted': '40 7% 12%',
@@ -71,8 +71,8 @@ export const CinematicMovieDetails = ({
     </div>
 
     <section className="relative z-10 mx-auto -mt-28 max-w-6xl px-5 pb-16 sm:-mt-36 sm:px-8 lg:-mt-44">
-      <div className="grid grid-cols-[minmax(112px,150px)_minmax(0,1fr)] items-end gap-x-5 gap-y-6 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-x-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-x-12">
-        <aside className="self-end lg:row-span-2">
+      <div className="grid grid-cols-1 items-end gap-x-5 gap-y-6 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-x-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-x-12">
+        <aside className="w-32 self-end sm:w-auto lg:row-span-2">
           <Poster
             url={movie.poster_path}
             alt={movie.title}
@@ -89,12 +89,15 @@ export const CinematicMovieDetails = ({
             </p>
           )}
 
-          <h1 className="text-balance text-2xl font-semibold leading-[0.98] tracking-[-0.04em] sm:text-4xl lg:text-6xl">
+          <h1 className="text-balance text-2xl font-semibold leading-[0.98] tracking-[-0.04em] [overflow-wrap:anywhere] sm:text-4xl lg:text-6xl">
             {movie.title}
           </h1>
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <MovieGenres genres={movie.genres} />
+            <MovieGenres
+              genres={movie.genres}
+              className="max-w-full whitespace-normal break-words text-left"
+            />
             <MovieRating
               movie={movie}
               className="border-white/15 bg-white/10 text-[var(--cinematic-foreground)] hover:bg-white/15"
@@ -102,7 +105,7 @@ export const CinematicMovieDetails = ({
           </div>
         </article>
 
-        <div className="col-span-2 space-y-5 lg:col-start-2">
+        <div className="col-span-1 space-y-5 sm:col-span-2 lg:col-start-2">
           <p className="max-w-3xl text-sm leading-7 text-[var(--cinematic-muted)] sm:text-base sm:leading-8">
             {movie.overview}
           </p>
