@@ -13,9 +13,17 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import ReactCountryFlag from 'react-country-flag'
 import { useLanguage } from '@/context/language'
+import type { UiVersion } from '@/lib/ui-version'
 import type { Language } from '@/services/tmdb'
+import { UiVersionControl } from './ui-version-control'
 
-export const HeaderNavigationDrawerConfigs = () => {
+type HeaderNavigationDrawerConfigsProps = {
+  uiVersion: UiVersion
+}
+
+export const HeaderNavigationDrawerConfigs = ({
+  uiVersion,
+}: HeaderNavigationDrawerConfigsProps) => {
   const { setTheme, theme, resolvedTheme } = useTheme()
   const { replace } = useRouter()
   const { language, dictionary } = useLanguage()
@@ -40,6 +48,10 @@ export const HeaderNavigationDrawerConfigs = () => {
 
   return (
     <div>
+      <p className="px-2 pt-2 text-xs font-medium text-muted-foreground">
+        {dictionary.appearance}
+      </p>
+
       <div className="flex h-9 items-center justify-between p-2 text-sm">
         <span className="">{dictionary.theme}</span>
 
@@ -79,6 +91,13 @@ export const HeaderNavigationDrawerConfigs = () => {
           })}
         </div>
       </div>
+
+      <UiVersionControl
+        initialVersion={uiVersion}
+        label={dictionary.new_interface}
+        experimentalLabel={dictionary.experimental}
+        errorLabel={dictionary.ui_preference_error}
+      />
 
       <div className="flex items-center justify-between p-2 text-sm">
         <span className="">{dictionary.language}</span>

@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { Link } from 'next-view-transitions'
 import type { GetUserPreferences200 } from '@/api/endpoints.schemas'
 import { getUserPreferences } from '@/api/users'
@@ -11,6 +12,10 @@ import { LanguageContextProvider } from '@/context/language'
 import { ListsContextProvider } from '@/context/lists'
 import { SessionContextProvider } from '@/context/session'
 import { UserPreferencesContextProvider } from '@/context/user-preferences'
+import {
+  parseUiVersion,
+  UI_VERSION_COOKIE_NAME,
+} from '@/lib/ui-version'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { SUPPORTED_LANGUAGES } from '../../../languages'
@@ -34,6 +39,10 @@ export default async function RootLayout({
 
   const dictionary = await getDictionary(lang)
   const session = await verifySession()
+  const cookieStore = await cookies()
+  const uiVersion = parseUiVersion(
+    cookieStore.get(UI_VERSION_COOKIE_NAME)?.value
+  )
 
   let userPreferences: GetUserPreferences200['userPreferences'] = null
 
@@ -56,7 +65,7 @@ export default async function RootLayout({
             <UserPreferencesContextProvider userPreferences={userPreferences}>
               <ListsContextProvider>
                 <LayoutWrapper
-                  header={<Header />}
+                  header={<Header uiVersion={uiVersion} />}
                   footer={<Footer dictionary={dictionary} language={lang} />}
                   proBadge={
                     session?.user.subscriptionType !== 'PRO' ? (

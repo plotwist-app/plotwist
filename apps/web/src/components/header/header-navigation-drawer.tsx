@@ -14,12 +14,19 @@ import { Link } from 'next-view-transitions'
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import type { UiVersion } from '@/lib/ui-version'
 import { buildLanguageNavigation } from './header-navigation-data'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 import { HeaderNavigationDrawerItem } from './header-navigation-drawer-item'
 import { HeaderNavigationDrawerUser } from './header-navigation-drawer-user'
 
-export const HeaderNavigationDrawer = () => {
+type HeaderNavigationDrawerProps = {
+  uiVersion: UiVersion
+}
+
+export const HeaderNavigationDrawer = ({
+  uiVersion,
+}: HeaderNavigationDrawerProps) => {
   const { user } = useSession()
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
@@ -58,7 +65,7 @@ export const HeaderNavigationDrawer = () => {
               </div>
             )}
 
-            <HeaderNavigationDrawerConfigs />
+            <HeaderNavigationDrawerConfigs uiVersion={uiVersion} />
           </div>
 
           <div className="space-y-4 border-t pt-4">
