@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { Instrument_Sans } from 'next/font/google'
-import { Suspense, type CSSProperties } from 'react'
+import { type CSSProperties, Suspense } from 'react'
 import { Banner } from '@/components/banner'
 import { Poster } from '@/components/poster'
 import type { Language, MovieDetails } from '@/services/tmdb'
