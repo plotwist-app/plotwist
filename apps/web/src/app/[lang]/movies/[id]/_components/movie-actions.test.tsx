@@ -31,13 +31,7 @@ vi.mock('@/components/item-status', () => ({
 }))
 
 vi.mock('@/components/share-page-button', () => ({
-  SharePageButton: ({
-    language,
-    path,
-  }: {
-    language: string
-    path: string
-  }) => (
+  SharePageButton: ({ language, path }: { language: string; path: string }) => (
     <div
       data-testid="share-page-button"
       data-language={language}
