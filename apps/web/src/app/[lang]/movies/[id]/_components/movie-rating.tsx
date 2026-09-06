@@ -23,7 +23,7 @@ export const MovieRating = ({ movie, className }: MovieRatingProps) => {
         <TooltipTrigger asChild>
           <button
             type="button"
-            aria-label={`TMDB rating ${score} out of 10, ${movie.vote_count} votes`}
+            aria-label={`TMDB ${score}/10 · ${movie.vote_count}`}
             className={cn(badgeVariants(), className)}
           >
             <Image

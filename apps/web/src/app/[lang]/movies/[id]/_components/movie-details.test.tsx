@@ -215,6 +215,7 @@ describe('MovieDetails renderer selection', () => {
       language: 'en-US',
       movieId: '42',
     })
+    expect(screen.getByText(movie.overview)).toBeTruthy()
   })
 
   it('falls back to classic details for an invalid UI cookie', async () => {
@@ -249,9 +250,18 @@ describe('MovieDetails renderer selection', () => {
 
     const title = screen.getByRole('heading', { level: 1, name: movie.title })
     const heroGrid = title.closest('article')?.parentElement
+    const contentRow = screen.getByText(movie.overview).parentElement
 
     expect(heroGrid?.className.split(' ')).toContain('grid-cols-1')
     expect(heroGrid?.className).toContain('sm:grid-cols-[180px_minmax(0,1fr)]')
+    expect(contentRow?.className.split(' ')).toEqual(
+      expect.arrayContaining([
+        'col-span-1',
+        'sm:col-span-2',
+        'lg:col-start-2',
+        'lg:col-end-3',
+      ])
+    )
     expect(title.className).toContain('[overflow-wrap:anywhere]')
     expect(screen.getByTestId('movie-genres').className).toContain(
       'whitespace-normal'

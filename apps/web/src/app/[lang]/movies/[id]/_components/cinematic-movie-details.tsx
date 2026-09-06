@@ -105,7 +105,7 @@ export const CinematicMovieDetails = ({
           </div>
         </article>
 
-        <div className="col-span-1 space-y-5 sm:col-span-2 lg:col-start-2">
+        <div className="col-span-1 space-y-5 sm:col-span-2 lg:col-start-2 lg:col-end-3">
           <p className="max-w-3xl text-sm leading-7 text-[var(--cinematic-muted)] sm:text-base sm:leading-8">
             {movie.overview}
           </p>

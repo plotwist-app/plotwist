@@ -79,7 +79,7 @@ describe('shared movie presentation primitives', () => {
     render(<MovieRating movie={movie} />)
 
     const trigger = screen.getByRole('button', {
-      name: 'TMDB rating 7.3 out of 10, 321 votes',
+      name: 'TMDB 7.3/10 · 321',
     })
 
     expect(trigger.tabIndex).toBe(0)
