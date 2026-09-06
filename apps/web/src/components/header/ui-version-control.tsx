@@ -3,7 +3,7 @@
 import { Badge } from '@plotwist/ui/components/ui/badge'
 import { Switch } from '@plotwist/ui/components/ui/switch'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   parseUiVersion,
   serializeUiVersionCookie,
@@ -26,6 +26,10 @@ export const UiVersionControl = ({
   const router = useRouter()
   const [version, setVersion] = useState(() => parseUiVersion(initialVersion))
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    setVersion(parseUiVersion(initialVersion))
+  }, [initialVersion])
 
   const handleCheckedChange = (checked: boolean) => {
     const previousVersion = version

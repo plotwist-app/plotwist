@@ -23,14 +23,24 @@ describe('UiVersionControl', () => {
   })
 
   it('persists the cinematic preference and refreshes the route', () => {
-    const { rerender } = render(
-      <UiVersionControl initialVersion="classic" {...labels} />
-    )
+    render(<UiVersionControl initialVersion="classic" {...labels} />)
 
     fireEvent.click(screen.getByRole('switch', { name: labels.label }))
 
     expect(document.cookie).toContain('plotwist-ui=cinematic')
     expect(refresh).toHaveBeenCalledOnce()
+  })
+
+  it('synchronizes the switch when the server preference changes', () => {
+    const { rerender } = render(
+      <UiVersionControl initialVersion="classic" {...labels} />
+    )
+
+    expect(
+      screen
+        .getByRole('switch', { name: labels.label })
+        .getAttribute('data-state')
+    ).toBe('unchecked')
 
     rerender(<UiVersionControl initialVersion="cinematic" {...labels} />)
 
