@@ -26,6 +26,7 @@
 **Files:**
 - Create: `apps/web/src/lib/ui-version.ts`
 - Create: `apps/web/src/lib/ui-version.test.ts`
+- Create: `apps/web/test/setup.ts`
 - Modify: `apps/web/vitest.preview.config.ts`
 
 **Interfaces:**
@@ -35,7 +36,13 @@
 - Produces: `readUiVersionCookie(cookieHeader: string): UiVersion`
 - Produces: `serializeUiVersionCookie(value: UiVersion): string`
 
-- [ ] **Step 1: Expand the focused Vitest config**
+- [ ] **Step 1: Restore the referenced Vitest setup and expand the focused config**
+
+Create the setup module already referenced by the main Vitest configuration:
+
+```ts
+export {}
+```
 
 Add the app alias so preference and component tests resolve production imports:
 
