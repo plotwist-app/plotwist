@@ -1,56 +1,17 @@
-import { Badge } from '@plotwist/ui/components/ui/badge'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@plotwist/ui/components/ui/tooltip'
 import { format } from 'date-fns'
-import Image from 'next/image'
-import { ItemReview } from '@/components/item-review'
-import { ItemStatus } from '@/components/item-status'
-import { ListsDropdown } from '@/components/lists'
 import { Poster } from '@/components/poster'
-import { SharePageButton } from '@/components/share-page-button'
 import type { Language, MovieDetails } from '@/services/tmdb'
 import { locale } from '@/utils/date/locale'
+import { MovieActions } from './movie-actions'
 import { MovieGenres } from './movie-genres'
+import { MovieRating } from './movie-rating'
 
 type MovieInfosProps = { movie: MovieDetails; language: Language }
 
 export const MovieInfos = ({ language, movie }: MovieInfosProps) => {
-  const actions = (
-    <div className="flex flex-wrap items-center gap-1">
-      <ListsDropdown item={movie} />
-      <ItemReview />
-      <ItemStatus mediaType="MOVIE" tmdbId={movie.id} />
-      <SharePageButton language={language} path={`movies/${movie.id}`} />
-    </div>
-  )
+  const actions = <MovieActions movie={movie} language={language} />
 
-  const votes = (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Badge>
-            <Image
-              src="/assets/tmdb.svg"
-              width={50}
-              height={1}
-              alt="TMDB"
-              className="mr-2"
-            />
-
-            {movie.vote_average.toFixed(1)}
-          </Badge>
-        </TooltipTrigger>
-
-        <TooltipContent>
-          <p>{movie.vote_count} votes</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
+  const votes = <MovieRating movie={movie} />
 
   return (
     <main className="space-y-4 p-4 lg:p-0">

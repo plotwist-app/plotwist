@@ -1,13 +1,18 @@
 'use client'
 
 import { useMediaQuery } from '@/hooks/use-media-query'
+import type { UiVersion } from '@/lib/ui-version'
 import { CommandSearch } from '../command-search'
 import { Logo } from '../logo'
 import { HeaderAccount } from './header-account'
 import { HeaderNavigationDrawer } from './header-navigation-drawer'
 import { HeaderNavigationMenu } from './header-navigation-menu'
 
-export const Header = () => {
+type HeaderProps = {
+  uiVersion: UiVersion
+}
+
+export const Header = ({ uiVersion }: HeaderProps) => {
   const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   return (
@@ -20,7 +25,7 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           {isDesktop && <CommandSearch />}
-          <HeaderAccount />
+          <HeaderAccount uiVersion={uiVersion} />
         </div>
       </header>
 
@@ -28,7 +33,8 @@ export const Header = () => {
         <Logo />
 
         <div className="flex space-x-2">
-          {!isDesktop && <CommandSearch />} <HeaderNavigationDrawer />
+          {!isDesktop && <CommandSearch />}{' '}
+          <HeaderNavigationDrawer uiVersion={uiVersion} />
         </div>
       </header>
     </>

@@ -1,14 +1,16 @@
-import { Suspense } from 'react'
-
-import { Banner } from '@/components/banner'
+import { cookies } from 'next/headers'
 import { BreadcrumbJsonLd, MovieJsonLd } from '@/components/structured-data'
+import {
+  parseUiVersion,
+  UI_VERSION_COOKIE_NAME,
+  type UiVersion,
+} from '@/lib/ui-version'
 import { tmdb } from '@/services/tmdb'
 import type { Language } from '@/types/languages'
 import { tmdbImage } from '@/utils/tmdb/image'
 import { APP_URL } from '../../../../../../constants'
-import { MovieCollection } from './movie-collection'
-import { MovieInfos } from './movie-infos'
-import { MovieTabs } from './movie-tabs'
+import { CinematicMovieDetails } from './cinematic-movie-details'
+import { ClassicMovieDetails } from './classic-movie-details'
 
 type MovieDetailsProps = {
   id: number
@@ -23,9 +25,14 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
   const posterUrl = movie.poster_path ? tmdbImage(movie.poster_path) : undefined
   const structuredDataImage =
     backdropUrl ?? posterUrl ?? `${APP_URL}/logo-black.png`
+  const cookieStore = await cookies()
+  const uiVersion: UiVersion = parseUiVersion(
+    cookieStore.get(UI_VERSION_COOKIE_NAME)?.value
+  )
+  const rendererProps = { movie, language, backdropUrl, posterUrl }
 
   return (
-    <div className="relative mx-auto max-w-6xl">
+    <>
       <BreadcrumbJsonLd
         items={[
           { name: 'Plotwist', url: `https://plotwist.app/${language}` },
@@ -47,24 +54,11 @@ export const MovieDetails = async ({ id, language }: MovieDetailsProps) => {
         rating={movie.vote_average}
         url={`https://plotwist.app/${language}/movies/${id}`}
       />
-      <Banner url={backdropUrl} posterUrl={posterUrl} title={movie.title} />
-
-      <section className="mx-auto my-8 max-w-4xl space-y-6">
-        <MovieInfos movie={movie} language={language} />
-
-        {movie.belongs_to_collection && (
-          <Suspense>
-            <MovieCollection
-              collectionId={movie.belongs_to_collection.id}
-              language={language}
-            />
-          </Suspense>
-        )}
-
-        <Suspense>
-          <MovieTabs movie={movie} language={language} />
-        </Suspense>
-      </section>
-    </div>
+      {uiVersion === 'cinematic' ? (
+        <CinematicMovieDetails {...rendererProps} />
+      ) : (
+        <ClassicMovieDetails {...rendererProps} />
+      )}
+    </>
   )
 }

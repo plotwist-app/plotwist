@@ -17,6 +17,7 @@ import { Link } from 'next-view-transitions'
 import { logout } from '@/actions/auth/logout'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
+import type { UiVersion } from '@/lib/ui-version'
 import type { User } from '@/types/user'
 import { HeaderNavigationDrawerConfigs } from './header-navigation-drawer-configs'
 
@@ -46,7 +47,11 @@ const AvatarContent = ({ user }: AvatarContentProps) => {
   return <AvatarFallback>{user.username?.at(0)}</AvatarFallback>
 }
 
-export const HeaderAccount = () => {
+type HeaderAccountProps = {
+  uiVersion: UiVersion
+}
+
+export const HeaderAccount = ({ uiVersion }: HeaderAccountProps) => {
   const { user } = useSession()
   const { language, dictionary } = useLanguage()
 
@@ -75,7 +80,7 @@ export const HeaderAccount = () => {
           </>
         )}
 
-        <HeaderNavigationDrawerConfigs />
+        <HeaderNavigationDrawerConfigs uiVersion={uiVersion} />
         <DropdownMenuSeparator />
 
         {user ? (
