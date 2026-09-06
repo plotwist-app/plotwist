@@ -142,9 +142,7 @@ export default function DesignPreviewPage() {
         >
           <div className="min-h-[390px] bg-gradient-to-b from-[#0b0b09] from-50% to-[#f7f3ea] to-50% p-5 text-[#f7f3ea]">
             <PreviewHeader />
-            <p className="together-kicker text-[#ff645a]">
-              Feito para você
-            </p>
+            <p className="together-kicker text-[#ff645a]">Feito para você</p>
             <p className="mt-2 text-[32px] font-semibold leading-[0.96] tracking-[-0.045em]">
               Histórias que
               <br />
