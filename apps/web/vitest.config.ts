@@ -13,7 +13,7 @@ export default defineConfig({
       include: ['src/**/'],
       reporter: ['html'],
     },
-    setupFiles: ['./test/mocks.ts'],
+    setupFiles: ['./test/setup.ts', './test/mocks.ts'],
   },
   resolve: {
     alias: {
