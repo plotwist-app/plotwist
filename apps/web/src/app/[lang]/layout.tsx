@@ -12,10 +12,7 @@ import { LanguageContextProvider } from '@/context/language'
 import { ListsContextProvider } from '@/context/lists'
 import { SessionContextProvider } from '@/context/session'
 import { UserPreferencesContextProvider } from '@/context/user-preferences'
-import {
-  parseUiVersion,
-  UI_VERSION_COOKIE_NAME,
-} from '@/lib/ui-version'
+import { parseUiVersion, UI_VERSION_COOKIE_NAME } from '@/lib/ui-version'
 import type { Language } from '@/types/languages'
 import { getDictionary } from '@/utils/dictionaries'
 import { SUPPORTED_LANGUAGES } from '../../../languages'

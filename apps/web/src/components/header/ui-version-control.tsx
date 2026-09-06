@@ -24,9 +24,7 @@ export const UiVersionControl = ({
   errorLabel,
 }: UiVersionControlProps) => {
   const router = useRouter()
-  const [version, setVersion] = useState(() =>
-    parseUiVersion(initialVersion)
-  )
+  const [version, setVersion] = useState(() => parseUiVersion(initialVersion))
   const [error, setError] = useState<string | null>(null)
 
   const handleCheckedChange = (checked: boolean) => {
@@ -36,6 +34,7 @@ export const UiVersionControl = ({
     setError(null)
 
     try {
+      // biome-ignore lint/suspicious/noDocumentCookie: The server reads this first-party preference cookie.
       document.cookie = serializeUiVersionCookie(nextVersion)
       setVersion(nextVersion)
       router.refresh()

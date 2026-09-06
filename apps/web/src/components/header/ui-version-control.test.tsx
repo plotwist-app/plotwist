@@ -18,8 +18,8 @@ describe('UiVersionControl', () => {
   afterEach(() => {
     cleanup()
     refresh.mockClear()
-    document.cookie =
-      'plotwist-ui=; Path=/; Max-Age=0; SameSite=Lax'
+    // biome-ignore lint/suspicious/noDocumentCookie: Reset the cookie changed by the control.
+    document.cookie = 'plotwist-ui=; Path=/; Max-Age=0; SameSite=Lax'
   })
 
   it('persists the cinematic preference and refreshes the route', () => {
