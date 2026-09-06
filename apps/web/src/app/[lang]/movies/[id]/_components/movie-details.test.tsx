@@ -152,9 +152,7 @@ const parseHsl = (value: string) => {
 const relativeLuminance = (color: number[]) =>
   color
     .map(channel =>
-      channel <= 0.04045
-        ? channel / 12.92
-        : ((channel + 0.055) / 1.055) ** 2.4
+      channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
     )
     .reduce(
       (luminance, channel, index) =>
@@ -253,9 +251,7 @@ describe('MovieDetails renderer selection', () => {
     const heroGrid = title.closest('article')?.parentElement
 
     expect(heroGrid?.className.split(' ')).toContain('grid-cols-1')
-    expect(heroGrid?.className).toContain(
-      'sm:grid-cols-[180px_minmax(0,1fr)]'
-    )
+    expect(heroGrid?.className).toContain('sm:grid-cols-[180px_minmax(0,1fr)]')
     expect(title.className).toContain('[overflow-wrap:anywhere]')
     expect(screen.getByTestId('movie-genres').className).toContain(
       'whitespace-normal'

@@ -26,13 +26,13 @@ export const MovieRating = ({ movie, className }: MovieRatingProps) => {
             aria-label={`TMDB rating ${score} out of 10, ${movie.vote_count} votes`}
             className={cn(badgeVariants(), className)}
           >
-          <Image
-            src="/assets/tmdb.svg"
-            width={50}
-            height={1}
-            alt="TMDB"
-            className="mr-2"
-          />
+            <Image
+              src="/assets/tmdb.svg"
+              width={50}
+              height={1}
+              alt="TMDB"
+              className="mr-2"
+            />
 
             {score}
           </button>
