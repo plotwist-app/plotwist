@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { TogetherMatch } from '@/services/together'
 import { MatchCelebration } from './match-celebration'
 
@@ -22,6 +22,8 @@ const copy = {
 }
 
 describe('MatchCelebration', () => {
+  afterEach(cleanup)
+
   it('renders an accessible dialog with the match summary', () => {
     render(
       <MatchCelebration
@@ -37,6 +39,21 @@ describe('MatchCelebration', () => {
     expect(screen.getByText(match.title)).toBeTruthy()
     expect(
       screen.getByText('2 people are interested · 100% match')
+    ).toBeTruthy()
+  })
+
+  it('includes maybe votes in a polled match interest summary', () => {
+    render(
+      <MatchCelebration
+        match={{ ...match, maybeCount: 1 }}
+        copy={copy}
+        onContinue={vi.fn()}
+        onViewMatches={vi.fn()}
+      />
+    )
+
+    expect(
+      screen.getByText('3 people are interested · 100% match')
     ).toBeTruthy()
   })
 

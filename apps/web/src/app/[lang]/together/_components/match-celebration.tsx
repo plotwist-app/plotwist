@@ -28,8 +28,9 @@ export function MatchCelebration({
   onViewMatches,
   copy,
 }: MatchCelebrationProps) {
+  const interestCount = match.likeCount + (match.maybeCount ?? 0)
   const interestSummary = copy.interestSummary
-    .replace('{count}', String(match.likeCount))
+    .replace('{count}', String(interestCount))
     .replace('{percent}', String(match.matchPercent))
 
   return (
