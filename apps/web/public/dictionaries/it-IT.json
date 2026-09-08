@@ -991,6 +991,10 @@
     "not_found": "Questo invito non esiste.",
     "someone": "Qualcuno",
     "back": "Indietro",
-    "swipe_error": "Impossibile salvare la scelta. Riprova."
+    "swipe_error": "Impossibile salvare la scelta. Riprova.",
+    "match_heading": "È un match.",
+    "match_interest_summary": "{count} persone sono interessate · {percent}% di compatibilità",
+    "continue_discovering": "Continua a scoprire",
+    "view_matches": "Vedi i match"
   }
 }

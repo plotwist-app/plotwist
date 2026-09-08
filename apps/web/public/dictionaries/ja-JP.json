@@ -994,6 +994,10 @@
     "not_found": "この招待は存在しません。",
     "someone": "だれか",
     "back": "戻る",
-    "swipe_error": "選択を保存できませんでした。もう一度試してください。"
+    "swipe_error": "選択を保存できませんでした。もう一度試してください。",
+    "match_heading": "マッチしました。",
+    "match_interest_summary": "{count}人が興味あり · マッチ度{percent}%",
+    "continue_discovering": "探し続ける",
+    "view_matches": "マッチを見る"
   }
 }

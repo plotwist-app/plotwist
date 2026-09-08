@@ -990,6 +990,10 @@
     "not_found": "This invite does not exist.",
     "someone": "Someone",
     "back": "Back",
-    "swipe_error": "Could not save that choice. Try again."
+    "swipe_error": "Could not save that choice. Try again.",
+    "match_heading": "It’s a match.",
+    "match_interest_summary": "{count} people are interested · {percent}% match",
+    "continue_discovering": "Continue discovering",
+    "view_matches": "View matches"
   }
 }

@@ -988,6 +988,10 @@
     "not_found": "Diese Einladung existiert nicht.",
     "someone": "Jemand",
     "back": "Zurück",
-    "swipe_error": "Die Wahl konnte nicht gespeichert werden. Versuch es nochmal."
+    "swipe_error": "Die Wahl konnte nicht gespeichert werden. Versuch es nochmal.",
+    "match_heading": "Ein Treffer.",
+    "match_interest_summary": "{count} Personen sind interessiert · {percent}% Übereinstimmung",
+    "continue_discovering": "Weiter entdecken",
+    "view_matches": "Treffer ansehen"
   }
 }

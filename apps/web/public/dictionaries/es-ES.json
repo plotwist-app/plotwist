@@ -992,6 +992,10 @@
     "not_found": "Esta invitación no existe.",
     "someone": "Alguien",
     "back": "Volver",
-    "swipe_error": "No se pudo guardar la elección. Inténtalo de nuevo."
+    "swipe_error": "No se pudo guardar la elección. Inténtalo de nuevo.",
+    "match_heading": "Hay match.",
+    "match_interest_summary": "{count} personas están interesadas · {percent}% de coincidencia",
+    "continue_discovering": "Seguir descubriendo",
+    "view_matches": "Ver matches"
   }
 }

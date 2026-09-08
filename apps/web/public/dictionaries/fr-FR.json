@@ -994,6 +994,10 @@
     "not_found": "Cette invitation n’existe pas.",
     "someone": "Quelqu’un",
     "back": "Retour",
-    "swipe_error": "Impossible d’enregistrer le choix. Réessayez."
+    "swipe_error": "Impossible d’enregistrer le choix. Réessayez.",
+    "match_heading": "Ça matche.",
+    "match_interest_summary": "{count} personnes sont intéressées · {percent}% de compatibilité",
+    "continue_discovering": "Continuer à découvrir",
+    "view_matches": "Voir les matchs"
   }
 }

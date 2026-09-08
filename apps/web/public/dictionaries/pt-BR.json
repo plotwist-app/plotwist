@@ -993,6 +993,10 @@
     "not_found": "Este convite não existe.",
     "someone": "Alguém",
     "back": "Voltar",
-    "swipe_error": "Não deu para salvar a escolha. Tente de novo."
+    "swipe_error": "Não deu para salvar a escolha. Tente de novo.",
+    "match_heading": "Deu match.",
+    "match_interest_summary": "{count} pessoas se interessaram · {percent}% de match",
+    "continue_discovering": "Continuar descobrindo",
+    "view_matches": "Ver matches"
   }
 }
