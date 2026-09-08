@@ -163,6 +163,7 @@ git commit -m "feat(together): share locale-neutral invite links"
 - Modify: `apps/web/src/app/[lang]/together/_components/together-vote.tsx`
 - Modify: `apps/web/src/app/[lang]/together/_components/together-vote.test.tsx`
 - Modify: `apps/web/src/services/together.ts`
+- Modify: all seven files under `apps/web/public/dictionaries/*.json`
 
 **Interfaces:**
 - Produces: `TogetherProviderStep({ region, providerIds, onRegionChange, onProviderIdsChange, onContinue })`
@@ -204,6 +205,8 @@ Run the three Together component tests. Expected: setup component and extended r
 Use `tmdb.watchProviders.regions` and `tmdb.watchProviders.list('movie', ...)`. Render provider names and logos as keyboard-operable toggle buttons. Include explicit “Any service”, loading, error/retry, and continue states. Prefill from `useUserPreferences().userPreferences`, falling back to region `BR` and no providers.
 
 Keep selection state in `CreateInviteForm` so an API error does not reset it. Step one advances to the existing name/create step.
+
+Add the provider-step heading, explanation, “Any service”, retry, back, and continue copy to all seven dictionaries in this task.
 
 - [ ] **Step 5: Apply room filters**
 
@@ -305,7 +308,7 @@ Render it before host provider setup. Keep dismissal in component state and neve
 
 Use `participants.length` and `room.maxParticipants` from room state. Replace exact “admit two” copy with “up to four”; show `current / max` in invite and waiting screens. When full and the visitor has no valid membership, show the localized room-full state instead of the join form.
 
-Add all provider setup, match celebration, guest prompt, and capacity strings to all seven dictionaries. Extend the existing dictionary contract test to require every new key.
+Add all remaining match celebration, guest prompt, and capacity strings to all seven dictionaries. Extend the existing dictionary contract test to require every new key, including the provider-step keys from Task 3.
 
 - [ ] **Step 5: Verify and commit**
 
