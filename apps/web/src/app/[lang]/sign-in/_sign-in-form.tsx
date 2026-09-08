@@ -46,10 +46,11 @@ type LoginFormValues = z.infer<ReturnType<typeof loginFormSchema>>
 
 type SignInFormProps = {
   onSignIn: typeof signIn
+  redirectTo: string
 }
 
-export const SignInForm = ({ onSignIn }: SignInFormProps) => {
-  const { dictionary, language } = useLanguage()
+export const SignInForm = ({ onSignIn, redirectTo }: SignInFormProps) => {
+  const { dictionary } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [warningDialogOpen, setWarningDialogOpen] = useState(false)
 
@@ -65,7 +66,7 @@ export const SignInForm = ({ onSignIn }: SignInFormProps) => {
     try {
       const { status } = (await onSignIn({
         ...values,
-        redirectTo: `/${language}/home`,
+        redirectTo,
       })) as { status: string }
 
       if (status) {
