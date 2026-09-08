@@ -104,4 +104,36 @@ describe('join together room', () => {
       })
     )
   })
+
+  it('should allow only one of two concurrent joins when one place remains', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'João',
+    })
+
+    const results = await Promise.all([
+      joinTogetherRoomService({
+        code: host.room.code,
+        displayName: 'Ana',
+      }),
+      joinTogetherRoomService({
+        code: host.room.code,
+        displayName: 'Lucas',
+      }),
+    ])
+
+    expect(
+      results.filter(result => result instanceof TogetherInvalidInputError)
+    ).toHaveLength(1)
+    expect(
+      results.filter(result => 'participantToken' in result)
+    ).toHaveLength(1)
+  })
 })
