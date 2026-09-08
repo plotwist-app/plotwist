@@ -67,4 +67,41 @@ describe('join together room', () => {
 
     expect(sut).toBeInstanceOf(TogetherInvalidInputError)
   })
+
+  it('should reject a fifth participant while allowing an existing participant to rejoin', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'João',
+    })
+    const fourth = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Ana',
+    })
+    if (!('participantToken' in fourth)) throw new Error('expected join')
+
+    const fifth = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Lucas',
+    })
+    const rejoined = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Ignored',
+      participantToken: fourth.participantToken,
+    })
+
+    expect(fifth).toBeInstanceOf(TogetherInvalidInputError)
+    expect(rejoined).toEqual(
+      expect.objectContaining({
+        participant: expect.objectContaining({ id: fourth.participant.id }),
+        participantToken: fourth.participantToken,
+      })
+    )
+  })
 })

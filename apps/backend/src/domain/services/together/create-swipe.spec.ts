@@ -150,4 +150,41 @@ describe('together matching', () => {
       })
     )
   })
+
+  it('should report a 50 percent match when two of four participants are interested', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const second = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    if (!('participantToken' in second)) throw new Error('expected join')
+
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'João',
+    })
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Ana',
+    })
+
+    await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+      decision: 'LIKE',
+      ...dune,
+    })
+    const result = await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: second.participantToken,
+      decision: 'LIKE',
+      ...dune,
+    })
+
+    expect(result.match).toEqual(
+      expect.objectContaining({ likeCount: 2, matchPercent: 50 })
+    )
+  })
 })
