@@ -108,11 +108,7 @@ describe('JoinInviteForm capacity errors', () => {
     )
 
     render(
-      <JoinInviteForm
-        code="ABC123"
-        hostName="Host"
-        participantCount={3}
-      />
+      <JoinInviteForm code="ABC123" hostName="Host" participantCount={3} />
     )
     submitJoin()
 
@@ -138,11 +134,7 @@ describe('JoinInviteForm capacity errors', () => {
 
   it('shows the current participant count without advertising a maximum', () => {
     render(
-      <JoinInviteForm
-        code="ABC123"
-        hostName="Host"
-        participantCount={19}
-      />
+      <JoinInviteForm code="ABC123" hostName="Host" participantCount={19} />
     )
 
     expect(screen.getByText('In the group: 19')).toBeTruthy()

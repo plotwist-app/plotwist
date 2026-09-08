@@ -46,9 +46,7 @@ export function WaitingRoom({
         {copy.group_kicker}
       </p>
       <h1 className="together-display mt-3">{heading}</h1>
-      <p className="together-meta together-fg-muted mt-3">
-        {participantCount}
-      </p>
+      <p className="together-meta together-fg-muted mt-3">{participantCount}</p>
       {!ready && (
         <p className="together-body together-fg-muted mt-3">
           {copy.waiting_body}

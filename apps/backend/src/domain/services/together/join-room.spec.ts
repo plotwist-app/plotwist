@@ -97,9 +97,7 @@ describe('join together room', () => {
     })
 
     expect(joins).toHaveLength(19)
-    expect(
-      joins.every(result => 'participantToken' in result)
-    ).toBe(true)
+    expect(joins.every(result => 'participantToken' in result)).toBe(true)
     expect(twentyFirst).toBeInstanceOf(TogetherInvalidInputError)
     expect(rejoined).toEqual(
       expect.objectContaining({

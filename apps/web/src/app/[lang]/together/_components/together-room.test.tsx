@@ -55,11 +55,9 @@ vi.mock('../../../../../constants', () => ({
 }))
 
 vi.mock('./invite-screen', () => ({
-  InviteScreen: ({
-    participantCount,
-  }: {
-    participantCount: number
-  }) => <div>{`Invite ${participantCount}`}</div>,
+  InviteScreen: ({ participantCount }: { participantCount: number }) => (
+    <div>{`Invite ${participantCount}`}</div>
+  ),
 }))
 
 vi.mock('./join-invite-form', () => ({
@@ -80,13 +78,9 @@ vi.mock('./join-invite-form', () => ({
 }))
 
 vi.mock('./waiting-room', () => ({
-  WaitingRoom: ({
-    names,
-    isFull,
-  }: {
-    names: string[]
-    isFull: boolean
-  }) => <div>{`Waiting ${names.length} ${isFull ? 'full' : 'open'}`}</div>,
+  WaitingRoom: ({ names, isFull }: { names: string[]; isFull: boolean }) => (
+    <div>{`Waiting ${names.length} ${isFull ? 'full' : 'open'}`}</div>
+  ),
 }))
 
 vi.mock('./primary-button', () => ({
@@ -118,9 +112,9 @@ describe('TogetherRoom capacity', () => {
     vi.clearAllMocks()
   })
 
-  it.each([2, 19])(
-    'keeps the join form available to a visitor when %i participants have joined',
-    count => {
+  it.each([
+    2, 19,
+  ])('keeps the join form available to a visitor when %i participants have joined', count => {
     mocks.roomState = {
       room: { maxParticipants: 20 },
       participants: participants(count),
@@ -131,8 +125,7 @@ describe('TogetherRoom capacity', () => {
 
     expect(screen.getByText(`Join form ${count}`)).toBeTruthy()
     expect(screen.queryByText('This room is full.')).toBeNull()
-    }
-  )
+  })
 
   it('shows a localized full-room state instead of the join form to a visitor', () => {
     mocks.roomState = {
