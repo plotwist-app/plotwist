@@ -24,15 +24,15 @@ describe('Together match notifications', () => {
   })
 
   it('builds a stable key from the media identity', () => {
+    const updatedMatch: TogetherMatch = {
+      ...match,
+      title: 'Matrix',
+      likeCount: 4,
+      matchPercent: 50,
+    }
+
     expect(togetherMatchKey(match)).toBe('MOVIE:603')
-    expect(
-      togetherMatchKey({
-        ...match,
-        title: 'Matrix',
-        likeCount: 4,
-        matchPercent: 50,
-      })
-    ).toBe('MOVIE:603')
+    expect(togetherMatchKey(updatedMatch)).toBe('MOVIE:603')
   })
 
   it('scopes acknowledged match keys to each room', () => {
