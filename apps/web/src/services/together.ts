@@ -1,4 +1,4 @@
-import { customFetch, getAuthToken } from '@/services/api-client'
+import { ApiError, customFetch, getAuthToken } from '@/services/api-client'
 
 export type TogetherMediaType = 'MOVIE' | 'TV_SHOW'
 export type TogetherDecision = 'LIKE' | 'PASS' | 'MAYBE'
@@ -48,6 +48,20 @@ export type TogetherMatch = {
 }
 
 type Envelope<T> = { data: T; status: number; headers: Headers }
+const TOGETHER_ROOM_FULL_MESSAGE = 'Room is full.'
+
+export function isTogetherRoomFullError(error: unknown) {
+  if (!(error instanceof ApiError) || error.status !== 400) return false
+  if (
+    typeof error.data !== 'object' ||
+    error.data === null ||
+    !('message' in error.data)
+  ) {
+    return false
+  }
+
+  return error.data.message === TOGETHER_ROOM_FULL_MESSAGE
+}
 
 const tokenKey = (code: string) => `plotwist.together.${code.toUpperCase()}`
 

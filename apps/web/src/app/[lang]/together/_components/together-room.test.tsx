@@ -1,9 +1,10 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { TogetherRoom } from './together-room'
 
 const mocks = vi.hoisted(() => ({
   push: vi.fn(),
+  refetch: vi.fn(),
   roomState: null as {
     room: { maxParticipants: number }
     participants: { id: string; displayName: string }[]
@@ -16,7 +17,7 @@ vi.mock('@tanstack/react-query', () => ({
     data: mocks.roomState,
     isLoading: false,
     isError: false,
-    refetch: vi.fn(),
+    refetch: mocks.refetch,
   }),
 }))
 
@@ -67,10 +68,19 @@ vi.mock('./join-invite-form', () => ({
   JoinInviteForm: ({
     participantCount,
     maxParticipants,
+    onRoomFull,
   }: {
     participantCount: number
     maxParticipants: number
-  }) => <div>{`Join form ${participantCount}/${maxParticipants}`}</div>,
+    onRoomFull?: () => void
+  }) => (
+    <div>
+      {`Join form ${participantCount}/${maxParticipants}`}
+      <button type="button" onClick={onRoomFull}>
+        Simulate full error
+      </button>
+    </div>
+  ),
 }))
 
 vi.mock('./waiting-room', () => ({
@@ -139,6 +149,19 @@ describe('TogetherRoom capacity', () => {
     expect(screen.getByText('This room is full.')).toBeTruthy()
     expect(screen.getByText('Ask the host to start a new room.')).toBeTruthy()
     expect(screen.queryByText(/Join form/)).toBeNull()
+  })
+
+  it('refetches room state when a concurrent join reports full capacity', () => {
+    mocks.roomState = {
+      room: { maxParticipants: 4 },
+      participants: participants(3),
+      me: null,
+    }
+
+    render(<TogetherRoom code="room" />)
+    fireEvent.click(screen.getByRole('button', { name: 'Simulate full error' }))
+
+    expect(mocks.refetch).toHaveBeenCalledOnce()
   })
 
   it('lets a valid member continue when the room is full', () => {

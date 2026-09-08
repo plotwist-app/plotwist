@@ -114,6 +114,9 @@ export function TogetherRoom({ code }: { code: string }) {
             setToken(getTogetherToken(roomCode))
             void roomQuery.refetch()
           }}
+          onRoomFull={() => {
+            void roomQuery.refetch()
+          }}
         />
       </TogetherShell>
     )
