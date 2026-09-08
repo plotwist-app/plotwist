@@ -147,6 +147,45 @@ describe('TogetherProviderStep', () => {
     expect(onProviderIdsChange).toHaveBeenCalledWith([])
   })
 
+  it('clears saved providers only after the host changes region', async () => {
+    mocks.regions.mockResolvedValue([
+      {
+        iso_3166_1: 'BR',
+        english_name: 'Brazil',
+        native_name: 'Brasil',
+      },
+      {
+        iso_3166_1: 'US',
+        english_name: 'United States',
+        native_name: 'United States',
+      },
+    ])
+    mocks.list.mockResolvedValue(providers)
+    const onRegionChange = vi.fn()
+    const onProviderIdsChange = vi.fn()
+
+    render(
+      <TogetherProviderStep
+        region="BR"
+        providerIds={[8]}
+        onRegionChange={onRegionChange}
+        onProviderIdsChange={onProviderIdsChange}
+        onContinue={vi.fn()}
+      />,
+      { wrapper: wrapper() }
+    )
+
+    await screen.findByRole('button', { name: 'Netflix' })
+    expect(onProviderIdsChange).not.toHaveBeenCalled()
+
+    fireEvent.change(screen.getByRole('combobox', { name: 'Region' }), {
+      target: { value: 'US' },
+    })
+
+    expect(onRegionChange).toHaveBeenCalledWith('US')
+    expect(onProviderIdsChange).toHaveBeenCalledWith([])
+  })
+
   it('shows an error and retries provider loading', async () => {
     mocks.regions.mockResolvedValue([])
     mocks.list
