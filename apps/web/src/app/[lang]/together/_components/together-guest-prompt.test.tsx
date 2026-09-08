@@ -55,7 +55,7 @@ describe('Together guest prompt', () => {
   })
 
   it('recommends signing in without blocking provider setup', () => {
-    render(<WelcomeScreen />)
+    const { container } = render(<WelcomeScreen />)
 
     expect(
       screen.getByText(
@@ -66,6 +66,12 @@ describe('Together guest prompt', () => {
     expect(
       screen.getByRole('link', { name: 'Sign in' }).getAttribute('href')
     ).toBe('/pt-BR/sign-in?redirect=%2Fpt-BR%2Ftogether')
+    expect(
+      Array.from(container.querySelectorAll('a[href], button')).slice(0, 2)
+    ).toEqual([
+      screen.getByRole('link', { name: 'Sign in' }),
+      screen.getByRole('button', { name: 'Continue as guest' }),
+    ])
   })
 
   it('lets the host dismiss the prompt and continue as a guest', () => {

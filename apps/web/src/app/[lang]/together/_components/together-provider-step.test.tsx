@@ -6,7 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react'
-import type { ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { TogetherProviderStep } from './together-provider-step'
 
@@ -76,6 +76,24 @@ const providers = [
   },
 ]
 
+function ControlledProviderHarness({
+  onContinue,
+}: {
+  onContinue: (providerIds: number[]) => void
+}) {
+  const [providerIds, setProviderIds] = useState([8])
+
+  return (
+    <TogetherProviderStep
+      region="BR"
+      providerIds={providerIds}
+      onRegionChange={vi.fn()}
+      onProviderIdsChange={setProviderIds}
+      onContinue={() => onContinue(providerIds)}
+    />
+  )
+}
+
 describe('TogetherProviderStep', () => {
   afterEach(() => {
     cleanup()
@@ -106,12 +124,6 @@ describe('TogetherProviderStep', () => {
     )
 
     expect(screen.getByText('Finding services...')).toBeTruthy()
-    await waitFor(() =>
-      expect(document.activeElement).toBe(
-        screen.getByRole('heading', { name: 'Where do you watch?' })
-      )
-    )
-
     const netflix = await screen.findByRole('button', { name: 'Netflix' })
     expect(netflix.tagName).toBe('BUTTON')
     expect(netflix.tabIndex).toBe(0)
@@ -123,6 +135,60 @@ describe('TogetherProviderStep', () => {
       language: 'en-US',
       watch_region: 'BR',
     })
+  })
+
+  it('does not steal initial focus from the preceding guest prompt', () => {
+    mocks.regions.mockReturnValue(new Promise(() => {}))
+    mocks.list.mockReturnValue(new Promise(() => {}))
+
+    const { container } = render(
+      <>
+        <button type="button">Continue as guest</button>
+        <TogetherProviderStep
+          region="BR"
+          providerIds={[]}
+          focusHeading={false}
+          onRegionChange={vi.fn()}
+          onProviderIdsChange={vi.fn()}
+          onContinue={vi.fn()}
+        />
+      </>,
+      { wrapper: wrapper() }
+    )
+
+    expect(document.activeElement).toBe(document.body)
+    expect(container.querySelector('button')).toBe(
+      screen.getByRole('button', { name: 'Continue as guest' })
+    )
+  })
+
+  it('focuses its heading when returning from the name step', async () => {
+    mocks.regions.mockResolvedValue([])
+    mocks.list.mockResolvedValue(providers)
+    const Wrapper = wrapper()
+    const props = {
+      region: 'BR',
+      providerIds: [] as number[],
+      onRegionChange: vi.fn(),
+      onProviderIdsChange: vi.fn(),
+      onContinue: vi.fn(),
+    }
+    const { rerender } = render(
+      <TogetherProviderStep {...props} focusHeading={false} />,
+      { wrapper: Wrapper }
+    )
+
+    const continueButton = await screen.findByRole('button', {
+      name: 'Continue',
+    })
+    continueButton.focus()
+    rerender(<TogetherProviderStep {...props} focusHeading />)
+
+    await waitFor(() =>
+      expect(document.activeElement).toBe(
+        screen.getByRole('heading', { name: 'Where do you watch?' })
+      )
+    )
   })
 
   it('marks saved providers selected and exposes Any service to clear them', async () => {
@@ -192,31 +258,34 @@ describe('TogetherProviderStep', () => {
     expect(onProviderIdsChange).toHaveBeenCalledWith([])
   })
 
-  it('keeps retry, Any service, and Continue available after loading fails', async () => {
+  it('recovers an outage, then continues with controlled Any service state', async () => {
     mocks.regions.mockResolvedValue([])
-    mocks.list.mockRejectedValue(new Error('offline'))
-    const onProviderIdsChange = vi.fn()
+    mocks.list
+      .mockRejectedValueOnce(new Error('offline'))
+      .mockResolvedValueOnce(providers)
     const onContinue = vi.fn()
 
-    render(
-      <TogetherProviderStep
-        region="BR"
-        providerIds={[8]}
-        onRegionChange={vi.fn()}
-        onProviderIdsChange={onProviderIdsChange}
-        onContinue={onContinue}
-      />,
-      { wrapper: wrapper() }
-    )
+    render(<ControlledProviderHarness onContinue={onContinue} />, {
+      wrapper: wrapper(),
+    })
 
     expect(await screen.findByText('Could not load services.')).toBeTruthy()
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
+
+    expect(
+      await screen.findByRole('button', { name: 'Netflix, Selected' })
+    ).toBeTruthy()
+    expect(mocks.list).toHaveBeenCalledTimes(2)
 
     fireEvent.click(screen.getByRole('button', { name: 'Any service' }))
-    expect(onProviderIdsChange).toHaveBeenCalledWith([])
+    expect(
+      screen
+        .getByRole('button', { name: 'Any service, Selected' })
+        .getAttribute('aria-pressed')
+    ).toBe('true')
 
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(onContinue).toHaveBeenCalledOnce()
+    expect(onContinue).toHaveBeenCalledWith([])
   })
 
   it('continues with no providers when Any service is selected', async () => {

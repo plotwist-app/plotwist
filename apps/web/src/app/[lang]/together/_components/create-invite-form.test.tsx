@@ -67,16 +67,21 @@ vi.mock('./together-provider-step', () => ({
     onRegionChange,
     onProviderIdsChange,
     onContinue,
+    focusHeading,
   }: {
     region: string
     providerIds: number[]
     onRegionChange: (region: string) => void
     onProviderIdsChange: (providerIds: number[]) => void
     onContinue: () => void
+    focusHeading?: boolean
   }) => (
     <div>
       <output aria-label="Selected region">{region}</output>
       <output aria-label="Selected providers">{providerIds.join('|')}</output>
+      <output aria-label="Focus provider heading">
+        {String(Boolean(focusHeading))}
+      </output>
       <button
         type="button"
         onClick={() => {
@@ -159,9 +164,12 @@ describe('CreateInviteForm provider flow', () => {
     expect(screen.getByLabelText('Selected providers').textContent).toBe('')
   })
 
-  it('focuses the name-step heading instead of the name input', async () => {
+  it('focuses the name heading, then requests provider focus on Back', async () => {
     render(<CreateInviteForm />)
 
+    expect(screen.getByLabelText('Focus provider heading').textContent).toBe(
+      'false'
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 
     const heading = screen.getByRole('heading', {
@@ -169,6 +177,11 @@ describe('CreateInviteForm provider flow', () => {
     })
     await waitFor(() => expect(document.activeElement).toBe(heading))
     expect(document.activeElement).not.toBe(screen.getByLabelText('Your name'))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
+    expect(screen.getByLabelText('Focus provider heading').textContent).toBe(
+      'true'
+    )
   })
 
   it('keeps provider form state after room creation fails', async () => {
