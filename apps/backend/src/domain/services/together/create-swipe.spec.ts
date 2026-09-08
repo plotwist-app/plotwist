@@ -105,8 +105,8 @@ describe('together matching', () => {
       participantToken: host.participantToken,
       decision: 'LIKE',
       ...dune,
-      title: 'Alpha title',
-      overview: 'Alpha overview',
+      title: 'Duna',
+      overview: 'Deserto, política e especiaria.',
     })
 
     const direct = await createTogetherSwipeService({
@@ -114,8 +114,8 @@ describe('together matching', () => {
       participantToken: guest.participantToken,
       decision: 'MAYBE',
       ...dune,
-      title: 'Zulu title',
-      overview: 'Zulu overview',
+      title: 'Dune',
+      overview: 'Sand, politics, and spice.',
     })
     if (!('match' in direct) || !direct.match) {
       throw new Error('expected direct match')
@@ -134,8 +134,8 @@ describe('together matching', () => {
     })
     expect(direct.match).toEqual(
       expect.objectContaining({
-        title: 'Alpha title',
-        overview: 'Alpha overview',
+        title: 'Duna',
+        overview: 'Deserto, política e especiaria.',
         likeCount: 1,
         maybeCount: 1,
         interestCount: 2,
