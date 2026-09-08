@@ -1,9 +1,5 @@
 import { TogetherInvalidInputError } from '@/domain/errors/together-invalid-input-error'
-import {
-  insertTogetherParticipant,
-  insertTogetherRoom,
-  selectTogetherRoomByCode,
-} from '@/infra/db/repositories/together-repository'
+import { insertTogetherRoomWithHost } from '@/infra/db/repositories/together-repository'
 import {
   createTogetherToken,
   generateRoomCode,
@@ -27,34 +23,28 @@ export async function createTogetherRoomService(
     return new TogetherInvalidInputError('Display name is required.')
   }
 
-  let room = null
+  const participantToken = createTogetherToken()
   for (let attempt = 0; attempt < 8; attempt++) {
     const code = generateRoomCode()
-    const existing = await selectTogetherRoomByCode(code)
-    if (existing) continue
-
-    room = await insertTogetherRoom({
-      code,
-      hostUserId: input.hostUserId ?? null,
-      watchProviderIds: input.watchProviderIds ?? [],
-      watchRegion: input.watchRegion ?? 'BR',
-      maxRuntime: input.maxRuntime ?? null,
-      mood: input.mood ?? 'ANY',
-    })
-    break
+    const created = await insertTogetherRoomWithHost(
+      {
+        code,
+        hostUserId: input.hostUserId ?? null,
+        watchProviderIds: input.watchProviderIds ?? [],
+        watchRegion: input.watchRegion ?? 'BR',
+        maxRuntime: input.maxRuntime ?? null,
+        mood: input.mood ?? 'ANY',
+      },
+      {
+        displayName,
+        tokenHash: hashTogetherToken(participantToken),
+        userId: input.hostUserId ?? null,
+      }
+    )
+    if (created) {
+      return { ...created, participantToken }
+    }
   }
 
-  if (!room) {
-    return new TogetherInvalidInputError('Could not create a unique room code.')
-  }
-
-  const participantToken = createTogetherToken()
-  const participant = await insertTogetherParticipant({
-    roomId: room.id,
-    displayName,
-    tokenHash: hashTogetherToken(participantToken),
-    userId: input.hostUserId ?? null,
-  })
-
-  return { room, participant, participantToken }
+  return new TogetherInvalidInputError('Could not create a unique room code.')
 }

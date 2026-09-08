@@ -6,16 +6,38 @@ import {
   togetherSwipes,
 } from '../schema/together'
 
-export async function insertTogetherRoom(values: {
-  code: string
-  hostUserId?: string | null
-  watchProviderIds?: number[]
-  watchRegion?: string
-  maxRuntime?: number | null
-  mood?: 'FUN' | 'SUSPENSE' | 'COMFORT' | 'ANY'
-}) {
-  const [room] = await db.insert(togetherRooms).values(values).returning()
-  return room
+export async function insertTogetherRoomWithHost(
+  roomValues: {
+    code: string
+    hostUserId?: string | null
+    watchProviderIds?: number[]
+    watchRegion?: string
+    maxRuntime?: number | null
+    mood?: 'FUN' | 'SUSPENSE' | 'COMFORT' | 'ANY'
+  },
+  hostValues: {
+    displayName: string
+    tokenHash: string
+    userId?: string | null
+  }
+) {
+  return db.transaction(async tx => {
+    const [room] = await tx
+      .insert(togetherRooms)
+      .values(roomValues)
+      .onConflictDoNothing({ target: togetherRooms.code })
+      .returning()
+    if (!room) {
+      return null
+    }
+
+    const [participant] = await tx
+      .insert(togetherParticipants)
+      .values({ ...hostValues, roomId: room.id })
+      .returning()
+
+    return { room, participant }
+  })
 }
 
 export async function selectTogetherRoomByCode(code: string) {
@@ -25,19 +47,6 @@ export async function selectTogetherRoomByCode(code: string) {
     .where(eq(togetherRooms.code, code.toUpperCase()))
     .limit(1)
   return room ?? null
-}
-
-export async function insertTogetherParticipant(values: {
-  roomId: string
-  displayName: string
-  tokenHash: string
-  userId?: string | null
-}) {
-  const [participant] = await db
-    .insert(togetherParticipants)
-    .values(values)
-    .returning()
-  return participant
 }
 
 export async function insertTogetherParticipantWithinCapacity(
