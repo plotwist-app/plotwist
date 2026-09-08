@@ -16,13 +16,16 @@ import { WaitingRoom } from './waiting-room'
 
 const HOST_CONTINUED_KEY = (code: string) =>
   `plotwist.together.continued.${code}`
+const TOKEN_UNINITIALIZED = Symbol('together-token-uninitialized')
 
 export function TogetherRoom({ code }: { code: string }) {
   const { dictionary, language } = useLanguage()
   const copy = dictionary.together
   const router = useRouter()
   const roomCode = code.toUpperCase()
-  const [token, setToken] = useState<string | null>(null)
+  const [token, setToken] = useState<
+    string | null | typeof TOKEN_UNINITIALIZED
+  >(TOKEN_UNINITIALIZED)
   const [continued, setContinued] = useState(false)
 
   useEffect(() => {
@@ -33,8 +36,17 @@ export function TogetherRoom({ code }: { code: string }) {
   const inviteUrl = buildTogetherInviteUrl(APP_URL, roomCode)
 
   const roomQuery = useQuery({
-    queryKey: ['together-room', roomCode, token],
-    queryFn: () => getTogetherRoom(roomCode, token),
+    queryKey: [
+      'together-room',
+      roomCode,
+      token === TOKEN_UNINITIALIZED ? 'uninitialized' : token,
+    ],
+    queryFn: () =>
+      getTogetherRoom(
+        roomCode,
+        token === TOKEN_UNINITIALIZED ? null : token
+      ),
+    enabled: token !== TOKEN_UNINITIALIZED,
     refetchInterval: 3000,
   })
 
@@ -51,7 +63,10 @@ export function TogetherRoom({ code }: { code: string }) {
     setContinued(true)
   }
 
-  if (roomQuery.isLoading && !room) {
+  if (
+    token === TOKEN_UNINITIALIZED ||
+    (roomQuery.isLoading && !room)
+  ) {
     return (
       <TogetherShell>
         <p className="together-body together-fg-muted py-20 text-center">
