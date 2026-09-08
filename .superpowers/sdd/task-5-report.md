@@ -277,3 +277,87 @@ Modified:
 
 - The existing Node 22.14.0 versus declared Node 23 warning remains; all requested commands exit successfully.
 - Capacity discrimination depends on the backend’s existing stable HTTP 400 and `{ message: "Room is full." }` contract. If that API contract changes, the client classifier and regression must change together.
+
+## Checkout onboarding blocker follow-up
+
+The implicit “missing redirect means do not navigate” convention was replaced by a required discriminated option:
+
+```ts
+type SignInNavigation =
+  | { mode: 'redirect'; target: string }
+  | { mode: 'none' }
+```
+
+- Interactive sign-in always uses `mode: 'redirect'`; safe-target validation and localized-home fallback are unchanged.
+- Non-checkout sign-up uses redirect mode and still sends a new user with `displayName: null` to localized onboarding.
+- Checkout sign-up uses `mode: 'none'`; the onboarding decision cannot replace that explicit choice, so Stripe checkout creation executes after session creation.
+
+### RED evidence
+
+Command:
+
+```bash
+pnpm --filter web test --run \
+  src/actions/auth/sign-in.test.ts \
+  src/actions/auth/sign-up.test.ts \
+  'src/app/[lang]/sign-in/_sign-in-form.test.tsx'
+```
+
+Result: exit 1, seven failures.
+
+- Checkout expected the Stripe redirect but received `/pt-BR/onboarding`.
+- Explicit no-navigation expected no redirect but received onboarding.
+- The old action ignored redirect-mode targets.
+- The form still submitted the ambiguous `redirectTo` field.
+- The existing non-checkout onboarding regression passed before implementation.
+
+### GREEN evidence
+
+The focused sign-in, sign-up, form, and page suite passed 4 files and 11 tests after implementing the discriminated option.
+
+### Final verification
+
+```text
+Focused auth, Together, and dictionary tests:
+  Test Files  16 passed (16)
+  Tests       81 passed (81)
+
+Web typecheck:
+  tsc --noEmit
+  exit 0
+
+Changed-file Biome:
+  Checked 6 files
+  No fixes applied
+```
+
+### Files
+
+Created:
+
+- `apps/web/src/actions/auth/sign-up.test.ts`
+
+Modified:
+
+- `apps/web/src/actions/auth/sign-in.ts`
+- `apps/web/src/actions/auth/sign-in.test.ts`
+- `apps/web/src/actions/auth/sign-up.ts`
+- `apps/web/src/app/[lang]/sign-in/_sign-in-form.tsx`
+- `apps/web/src/app/[lang]/sign-in/_sign-in-form.test.tsx`
+
+### Commit
+
+- `ccb56a62` — `fix(auth): preserve checkout through onboarding check`
+
+### Self-review
+
+- Confirmed no-navigation is explicit and required at every `signIn` call site.
+- Confirmed onboarding override is guarded by redirect mode.
+- Confirmed checkout reaches `api.post` when `getMe` returns `displayName: null`.
+- Confirmed normal sign-in and non-checkout sign-up still reach localized onboarding.
+- Confirmed redirect-mode targets continue through locale-bound server-side validation.
+- Confirmed no dependencies or unrelated flows changed.
+
+### Concerns
+
+- The existing Node 22.14.0 versus declared Node 23 warning remains; all requested commands exit successfully.
