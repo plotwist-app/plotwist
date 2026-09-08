@@ -37,6 +37,7 @@ vi.mock('@/context/language', () => ({
       together: {
         loading: 'Loading...',
         tonight_with: 'with {name}',
+        choosing_with: 'Choosing with {count} people',
         see_matches: 'The match',
         empty_deck: 'That is all.',
         vote_nope: 'No',
@@ -48,6 +49,7 @@ vi.mock('@/context/language', () => ({
           '{count} people are interested · {percent}% match',
         continue_discovering: 'Continue discovering',
         view_matches: 'View matches',
+        match_close: 'Close match',
       },
     },
   }),
@@ -189,6 +191,22 @@ describe('TogetherVote provider deck filters', () => {
     const filters = mocks.discover.mock.calls[0]?.[0].filters
     expect(filters).not.toHaveProperty('with_watch_providers')
     expect(filters).not.toHaveProperty('watch_region')
+  })
+
+  it('describes the full group by participant count while voting', async () => {
+    mocks.getRoom.mockResolvedValue({
+      ...room([], 'BR'),
+      participants: [
+        { id: 'host', displayName: 'Ana' },
+        { id: 'second', displayName: 'Ben' },
+        { id: 'third', displayName: 'Cleo' },
+      ],
+    })
+
+    render(<TogetherVote code="abc123" />, { wrapper: wrapper() })
+
+    expect(await screen.findByText('Choosing with 3 people')).toBeTruthy()
+    expect(screen.queryByText('with Ben')).toBeNull()
   })
 })
 

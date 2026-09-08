@@ -28,6 +28,7 @@ vi.mock('@/context/language', () => ({
         provider_error: 'Could not load services.',
         provider_retry: 'Try again',
         provider_continue: 'Continue',
+        provider_selected: 'Selected',
       },
     },
   }),
@@ -105,6 +106,11 @@ describe('TogetherProviderStep', () => {
     )
 
     expect(screen.getByText('Finding services...')).toBeTruthy()
+    await waitFor(() =>
+      expect(document.activeElement).toBe(
+        screen.getByRole('heading', { name: 'Where do you watch?' })
+      )
+    )
 
     const netflix = await screen.findByRole('button', { name: 'Netflix' })
     expect(netflix.tagName).toBe('BUTTON')
@@ -135,11 +141,11 @@ describe('TogetherProviderStep', () => {
       { wrapper: wrapper() }
     )
 
-    expect(
-      (await screen.findByRole('button', { name: 'Netflix' })).getAttribute(
-        'aria-pressed'
-      )
-    ).toBe('true')
+    const netflix = await screen.findByRole('button', {
+      name: 'Netflix Selected',
+    })
+    expect(netflix.getAttribute('aria-pressed')).toBe('true')
+    expect(netflix.querySelector('svg')).toBeTruthy()
     const anyService = screen.getByRole('button', { name: 'Any service' })
     expect(anyService.getAttribute('aria-pressed')).toBe('false')
 
@@ -186,28 +192,31 @@ describe('TogetherProviderStep', () => {
     expect(onProviderIdsChange).toHaveBeenCalledWith([])
   })
 
-  it('shows an error and retries provider loading', async () => {
+  it('keeps retry, Any service, and Continue available after loading fails', async () => {
     mocks.regions.mockResolvedValue([])
-    mocks.list
-      .mockRejectedValueOnce(new Error('offline'))
-      .mockResolvedValueOnce(providers)
+    mocks.list.mockRejectedValue(new Error('offline'))
+    const onProviderIdsChange = vi.fn()
+    const onContinue = vi.fn()
 
     render(
       <TogetherProviderStep
         region="BR"
-        providerIds={[]}
+        providerIds={[8]}
         onRegionChange={vi.fn()}
-        onProviderIdsChange={vi.fn()}
-        onContinue={vi.fn()}
+        onProviderIdsChange={onProviderIdsChange}
+        onContinue={onContinue}
       />,
       { wrapper: wrapper() }
     )
 
     expect(await screen.findByText('Could not load services.')).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy()
 
-    await waitFor(() => expect(mocks.list).toHaveBeenCalledTimes(2))
-    expect(await screen.findByRole('button', { name: 'Netflix' })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Any service' }))
+    expect(onProviderIdsChange).toHaveBeenCalledWith([])
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(onContinue).toHaveBeenCalledOnce()
   })
 
   it('continues with no providers when Any service is selected', async () => {
@@ -229,7 +238,7 @@ describe('TogetherProviderStep', () => {
     await screen.findByRole('button', { name: 'Netflix' })
     expect(
       screen
-        .getByRole('button', { name: 'Any service' })
+        .getByRole('button', { name: 'Any service Selected' })
         .getAttribute('aria-pressed')
     ).toBe('true')
 

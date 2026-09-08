@@ -15,6 +15,7 @@ const copy = {
   share_text: '{name} invited you.',
   waiting_title: 'Waiting for your group.',
   waiting_body: 'Invite more people or start choosing.',
+  ready_title: 'Your group is ready.',
   start_choosing: 'Start choosing',
   you: 'You',
   empty_seat: 'Empty',
@@ -73,5 +74,9 @@ describe('Together capacity UI', () => {
     expect(screen.getByText('Cleo')).toBeTruthy()
     expect(screen.getByText('Empty')).toBeTruthy()
     expect(screen.getByText('You')).toBeTruthy()
+    expect(
+      screen.getByRole('heading', { name: 'Your group is ready.' })
+    ).toBeTruthy()
+    expect(screen.queryByText('Ana & Ben')).toBeNull()
   })
 })

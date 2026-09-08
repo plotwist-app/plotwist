@@ -38,6 +38,7 @@ vi.mock('@/context/language', () => ({
         creating: 'Preparing...',
         create_error: 'Could not create.',
         back: 'Back',
+        create_heading: 'Create your invite',
       },
     },
   }),
@@ -156,6 +157,18 @@ describe('CreateInviteForm provider flow', () => {
 
     expect(screen.getByLabelText('Selected region').textContent).toBe('BR')
     expect(screen.getByLabelText('Selected providers').textContent).toBe('')
+  })
+
+  it('focuses the name-step heading instead of the name input', async () => {
+    render(<CreateInviteForm />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+
+    const heading = screen.getByRole('heading', {
+      name: 'Create your invite',
+    })
+    await waitFor(() => expect(document.activeElement).toBe(heading))
+    expect(document.activeElement).not.toBe(screen.getByLabelText('Your name'))
   })
 
   it('keeps provider form state after room creation fails', async () => {

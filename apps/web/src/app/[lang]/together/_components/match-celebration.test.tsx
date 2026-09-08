@@ -9,6 +9,18 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { TogetherMatch } from '@/services/together'
 import { MatchCelebration } from './match-celebration'
 
+vi.mock('next/image', () => ({
+  default: ({ alt, src }: { alt: string; src: string }) => (
+    <img alt={alt} src={src} />
+  ),
+}))
+
+vi.mock('@/components/poster-fallback', () => ({
+  PosterFallback: ({ title }: { title: string }) => (
+    <div role="img" aria-label={`No poster for ${title}`} />
+  ),
+}))
+
 const match: TogetherMatch = {
   tmdbId: 603,
   mediaType: 'MOVIE',
@@ -25,6 +37,7 @@ const copy = {
   interestSummary: '{count} people are interested · {percent}% match',
   continueDiscovering: 'Continue discovering',
   viewMatches: 'View matches',
+  close: 'Close match',
 }
 
 describe('MatchCelebration', () => {
@@ -47,6 +60,10 @@ describe('MatchCelebration', () => {
     expect(
       screen.getByText('2 people are interested · 100% match')
     ).toBeTruthy()
+    expect(
+      screen.getByRole('img', { name: match.title }).getAttribute('src')
+    ).toContain('/matrix.jpg')
+    expect(screen.getByRole('button', { name: copy.close })).toBeTruthy()
     expect(dialog.className).toContain('[&>button]:text-[#f7f3ea]')
     expect(dialog.className).toContain('[&>button]:focus:ring-[#ff8b84]')
     expect(dialog.className).toContain('[&>button]:focus:ring-offset-[#0b0b09]')
@@ -65,6 +82,22 @@ describe('MatchCelebration', () => {
     expect(
       screen.getByText('3 people are interested · 100% match')
     ).toBeTruthy()
+  })
+
+  it('renders the poster fallback when the match has no poster', () => {
+    render(
+      <MatchCelebration
+        match={{ ...match, posterPath: null }}
+        copy={copy}
+        onContinue={vi.fn()}
+        onViewMatches={vi.fn()}
+      />
+    )
+
+    expect(
+      screen.getByRole('img', { name: `No poster for ${match.title}` })
+    ).toBeTruthy()
+    expect(screen.queryByRole('img', { name: match.title })).toBeNull()
   })
 
   it('continues without viewing matches', () => {
@@ -120,7 +153,7 @@ describe('MatchCelebration', () => {
     const viewMatches = screen.getByRole('button', {
       name: copy.viewMatches,
     })
-    const close = screen.getByRole('button', { name: 'Close' })
+    const close = screen.getByRole('button', { name: copy.close })
 
     await waitFor(() =>
       expect(dialog.contains(document.activeElement)).toBe(true)

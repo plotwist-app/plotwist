@@ -90,6 +90,59 @@ describe('together matching', () => {
     })
   })
 
+  it('returns one identical direct and polled match for localized metadata', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const guest = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    if (!('participantToken' in guest)) throw new Error('expected join')
+
+    await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+      decision: 'LIKE',
+      ...dune,
+      title: 'Alpha title',
+      overview: 'Alpha overview',
+    })
+
+    const direct = await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: guest.participantToken,
+      decision: 'MAYBE',
+      ...dune,
+      title: 'Zulu title',
+      overview: 'Zulu overview',
+    })
+    if (!('match' in direct) || !direct.match) {
+      throw new Error('expected direct match')
+    }
+
+    const polled = await getTogetherMatchesService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+    })
+    if (!('matches' in polled)) throw new Error('expected polled matches')
+
+    expect(polled.matches).toHaveLength(1)
+    expect(polled.matches[0]).toEqual({
+      ...direct.match,
+      highlighted: true,
+    })
+    expect(direct.match).toEqual(
+      expect.objectContaining({
+        title: 'Alpha title',
+        overview: 'Alpha overview',
+        likeCount: 1,
+        maybeCount: 1,
+        interestCount: 2,
+      })
+    )
+  })
+
   it('should not match on a pass', async () => {
     const host = await createTogetherRoomService({ displayName: 'Henrique' })
     if (!('room' in host)) throw new Error('expected room')
@@ -145,7 +198,8 @@ describe('together matching', () => {
       expect.objectContaining({
         match: expect.objectContaining({
           tmdbId: 438631,
-          likeCount: 2,
+          likeCount: 1,
+          maybeCount: 1,
         }),
       })
     )
