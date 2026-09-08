@@ -2,7 +2,7 @@
 
 ## Goal
 
-Make Together produce more relevant choices, work naturally when shared across languages, celebrate matches without ending discovery, explain the benefit of signing in, and support groups of up to four people.
+Make Together produce more relevant choices, work naturally when shared across languages, celebrate matches without ending discovery, explain the benefit of signing in, and safely support larger groups without advertising a room-size limit.
 
 ## Product Decisions
 
@@ -11,10 +11,10 @@ Make Together produce more relevant choices, work naturally when shared across l
 - Provider selection is optional through an explicit “Any service” choice so provider API failure never blocks room creation.
 - Signed-in hosts start with their saved region and providers; guests retain the existing `BR` region default.
 - Shared links contain no locale. The existing proxy detects the recipient browser language and redirects into the localized route.
-- A room supports at most four participants.
-- Voting can begin with two participants; additional people can join until the room reaches four.
+- A room has an invisible technical limit of 20 participants.
+- Voting can begin with two participants; additional people can join until the technical limit is reached.
 - A title becomes a match when at least two distinct participants choose `LIKE` or `MAYBE`.
-- Match percentage continues to use the total participant count, e.g. two interested people in a four-person room is 50%.
+- Match percentage continues to use the current participant count.
 - Match celebration is non-blocking and offers “Continue discovering” and “View matches”.
 - Guests see a non-blocking sign-in prompt explaining that saved preferences improve recommendations. They can continue without an account.
 
@@ -74,11 +74,13 @@ The prompt does not block provider selection, joining an invite, or voting. The 
 
 Authenticated users do not see the prompt. Their saved watch-provider IDs and region prefill host setup but remain editable for this room.
 
-## Four-Person Rooms
+## Invisible Room Capacity
 
-The backend defines one shared `MAX_TOGETHER_PARTICIPANTS = 4` constant. Joining is rejected once four distinct participants exist; rejoining with an existing valid participant token remains allowed even when full.
+The backend defines one shared `MAX_TOGETHER_PARTICIPANTS = 20` constant. Joining is rejected once 20 distinct participants exist; rejoining with an existing valid participant token remains allowed even when full. The atomic room lock remains responsible for preventing concurrent joins from exceeding this limit.
 
-The room response exposes capacity information so the join screen and waiting room can show `current / 4`. The invitation ticket and copy no longer promise admission for exactly two.
+The room response may retain `maxParticipants` as an internal signal so the client can detect a full room, but no UI copy or component output advertises that value. Invite, join, and waiting screens may show only the current participant count through localized, group-neutral copy.
+
+The waiting room renders one card per current participant and at most one generic empty/waiting card while the room is not full. It never renders one placeholder per remaining technical slot.
 
 The host can start voting once at least two people are present. The room remains joinable until capacity is reached.
 
@@ -86,7 +88,7 @@ The host can start voting once at least two people are present. The room remains
 
 - Provider-list failure shows a retry action and allows “Any service”.
 - Room creation retains the selected setup values after an API failure.
-- A fifth new participant receives a localized “Room is full” state; valid rejoin tokens continue to work.
+- A twenty-first new participant receives a localized “Room is full” state that does not name the limit; valid rejoin tokens continue to work.
 - Invalid locale-less invite paths continue through existing not-found behavior after localization.
 - Match polling failure is silent while direct voting continues; the existing matches screen remains available.
 - Match overlay media uses the existing poster fallback.
@@ -104,9 +106,10 @@ The host can start voting once at least two people are present. The room remains
 Backend coverage:
 
 - host-selected providers and region persist;
-- first four distinct participants can join;
-- fifth distinct participant is rejected;
+- first 20 distinct participants, including the host, can join;
+- participant 21 is rejected;
 - valid token can rejoin a full room;
+- two concurrent joins competing for the twentieth place produce one success and one full-room error;
 - match threshold remains two interested participants in larger rooms;
 - percentage uses the current group size.
 
@@ -122,6 +125,9 @@ Web coverage:
 - direct and polled matches share one celebration path;
 - continuing dismisses without navigating;
 - acknowledged matches are not repeated;
-- four-person waiting/capacity copy and full-room state are localized.
+- invite, join, and waiting screens show current-only participant copy in all seven locales;
+- no Together UI renders “up to four”, `current / max`, or the technical limit;
+- a non-full waiting room renders at most one waiting card, while a full room renders none;
+- full-room state remains localized and does not name the technical limit.
 
 All new user-facing copy is added to the seven supported web dictionaries.

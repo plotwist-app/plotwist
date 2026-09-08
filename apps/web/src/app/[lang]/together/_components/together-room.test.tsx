@@ -57,25 +57,21 @@ vi.mock('../../../../../constants', () => ({
 vi.mock('./invite-screen', () => ({
   InviteScreen: ({
     participantCount,
-    maxParticipants,
   }: {
     participantCount: number
-    maxParticipants: number
-  }) => <div>{`Invite ${participantCount}/${maxParticipants}`}</div>,
+  }) => <div>{`Invite ${participantCount}`}</div>,
 }))
 
 vi.mock('./join-invite-form', () => ({
   JoinInviteForm: ({
     participantCount,
-    maxParticipants,
     onRoomFull,
   }: {
     participantCount: number
-    maxParticipants: number
     onRoomFull?: () => void
   }) => (
     <div>
-      {`Join form ${participantCount}/${maxParticipants}`}
+      {`Join form ${participantCount}`}
       <button type="button" onClick={onRoomFull}>
         Simulate full error
       </button>
@@ -86,11 +82,11 @@ vi.mock('./join-invite-form', () => ({
 vi.mock('./waiting-room', () => ({
   WaitingRoom: ({
     names,
-    maxParticipants,
+    isFull,
   }: {
     names: string[]
-    maxParticipants: number
-  }) => <div>{`Waiting ${names.length}/${maxParticipants}`}</div>,
+    isFull: boolean
+  }) => <div>{`Waiting ${names.length} ${isFull ? 'full' : 'open'}`}</div>,
 }))
 
 vi.mock('./primary-button', () => ({
@@ -122,25 +118,26 @@ describe('TogetherRoom capacity', () => {
     vi.clearAllMocks()
   })
 
-  it.each([
-    2, 3,
-  ])('keeps the join form available to a visitor when %i of 4 seats are filled', count => {
+  it.each([2, 19])(
+    'keeps the join form available to a visitor when %i participants have joined',
+    count => {
     mocks.roomState = {
-      room: { maxParticipants: 4 },
+      room: { maxParticipants: 20 },
       participants: participants(count),
       me: null,
     }
 
     render(<TogetherRoom code="room" />)
 
-    expect(screen.getByText(`Join form ${count}/4`)).toBeTruthy()
+    expect(screen.getByText(`Join form ${count}`)).toBeTruthy()
     expect(screen.queryByText('This room is full.')).toBeNull()
-  })
+    }
+  )
 
   it('shows a localized full-room state instead of the join form to a visitor', () => {
     mocks.roomState = {
-      room: { maxParticipants: 4 },
-      participants: participants(4),
+      room: { maxParticipants: 20 },
+      participants: participants(20),
       me: null,
     }
 
@@ -153,8 +150,8 @@ describe('TogetherRoom capacity', () => {
 
   it('refetches room state when a concurrent join reports full capacity', () => {
     mocks.roomState = {
-      room: { maxParticipants: 4 },
-      participants: participants(3),
+      room: { maxParticipants: 20 },
+      participants: participants(19),
       me: null,
     }
 
@@ -165,16 +162,16 @@ describe('TogetherRoom capacity', () => {
   })
 
   it('lets a valid member continue when the room is full', () => {
-    const roomParticipants = participants(4)
+    const roomParticipants = participants(20)
     mocks.roomState = {
-      room: { maxParticipants: 4 },
+      room: { maxParticipants: 20 },
       participants: roomParticipants,
       me: roomParticipants[3],
     }
 
     render(<TogetherRoom code="room" />)
 
-    expect(screen.getByText('Waiting 4/4')).toBeTruthy()
+    expect(screen.getByText('Waiting 20 full')).toBeTruthy()
     expect(screen.queryByText('This room is full.')).toBeNull()
   })
 })

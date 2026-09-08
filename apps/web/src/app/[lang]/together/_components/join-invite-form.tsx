@@ -17,7 +17,6 @@ type JoinInviteFormProps = {
   code?: string
   hostName?: string
   participantCount?: number
-  maxParticipants?: number
   onJoined?: () => void
   onRoomFull?: () => void
 }
@@ -26,7 +25,6 @@ export function JoinInviteForm({
   code,
   hostName,
   participantCount,
-  maxParticipants,
   onJoined,
   onRoomFull,
 }: JoinInviteFormProps) {
@@ -92,11 +90,12 @@ export function JoinInviteForm({
         <p className="together-body together-fg-muted mt-3">
           {copy.join_subtitle}
         </p>
-        {participantCount !== undefined && maxParticipants !== undefined && (
+        {participantCount !== undefined && (
           <p className="together-meta together-fg-muted mt-2">
-            {copy.room_capacity
-              .replace('{current}', String(participantCount))
-              .replace('{max}', String(maxParticipants))}
+            {copy.participant_count.replace(
+              '{current}',
+              String(participantCount)
+            )}
           </p>
         )}
       </div>

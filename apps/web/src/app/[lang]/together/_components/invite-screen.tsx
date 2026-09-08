@@ -10,15 +10,13 @@ type InviteScreenProps = {
   inviteCode: string
   inviteUrl: string
   participantCount: number
-  maxParticipants: number
   copy: {
     group_kicker: string
     host_invite_title: string
     invite_help: string
     continue_as_host: string
     invite_code_label: string
-    up_to_four: string
-    room_capacity: string
+    participant_count: string
     send_whatsapp: string
     share_text: string
   }
@@ -30,7 +28,6 @@ export function InviteScreen({
   inviteCode,
   inviteUrl,
   participantCount,
-  maxParticipants,
   copy,
   onContinue,
 }: InviteScreenProps) {
@@ -55,11 +52,11 @@ export function InviteScreen({
       <p className="together-body together-fg-muted mt-3">{copy.invite_help}</p>
 
       <div className="together-ticket mt-8 rounded-[1.4rem] px-6 py-6">
-        <p className="together-kicker">{copy.up_to_four}</p>
-        <p className="together-meta mt-2">
-          {copy.room_capacity
-            .replace('{current}', String(participantCount))
-            .replace('{max}', String(maxParticipants))}
+        <p className="together-meta">
+          {copy.participant_count.replace(
+            '{current}',
+            String(participantCount)
+          )}
         </p>
         <p className="together-code mt-4">{inviteCode}</p>
         <div className="together-perforation my-5" />

@@ -68,39 +68,43 @@ describe('join together room', () => {
     expect(sut).toBeInstanceOf(TogetherInvalidInputError)
   })
 
-  it('should reject a fifth participant while allowing an existing participant to rejoin', async () => {
+  it('should allow 20 distinct participants, reject participant 21, and allow rejoining when full', async () => {
     const host = await createTogetherRoomService({ displayName: 'Henrique' })
     if (!('room' in host)) throw new Error('expected room')
 
-    await joinTogetherRoomService({
-      code: host.room.code,
-      displayName: 'Maria',
-    })
-    await joinTogetherRoomService({
-      code: host.room.code,
-      displayName: 'João',
-    })
-    const fourth = await joinTogetherRoomService({
-      code: host.room.code,
-      displayName: 'Ana',
-    })
-    if (!('participantToken' in fourth)) throw new Error('expected join')
+    const joins = []
+    for (let index = 2; index <= 20; index += 1) {
+      joins.push(
+        await joinTogetherRoomService({
+          code: host.room.code,
+          displayName: `Participant ${index}`,
+        })
+      )
+    }
+    const twentieth = joins.at(-1)
+    if (!twentieth || !('participantToken' in twentieth)) {
+      throw new Error('expected twentieth participant to join')
+    }
 
-    const fifth = await joinTogetherRoomService({
+    const twentyFirst = await joinTogetherRoomService({
       code: host.room.code,
-      displayName: 'Lucas',
+      displayName: 'Participant 21',
     })
     const rejoined = await joinTogetherRoomService({
       code: host.room.code,
       displayName: 'Ignored',
-      participantToken: fourth.participantToken,
+      participantToken: twentieth.participantToken,
     })
 
-    expect(fifth).toBeInstanceOf(TogetherInvalidInputError)
+    expect(joins).toHaveLength(19)
+    expect(
+      joins.every(result => 'participantToken' in result)
+    ).toBe(true)
+    expect(twentyFirst).toBeInstanceOf(TogetherInvalidInputError)
     expect(rejoined).toEqual(
       expect.objectContaining({
-        participant: expect.objectContaining({ id: fourth.participant.id }),
-        participantToken: fourth.participantToken,
+        participant: expect.objectContaining({ id: twentieth.participant.id }),
+        participantToken: twentieth.participantToken,
       })
     )
   })
@@ -109,14 +113,12 @@ describe('join together room', () => {
     const host = await createTogetherRoomService({ displayName: 'Henrique' })
     if (!('room' in host)) throw new Error('expected room')
 
-    await joinTogetherRoomService({
-      code: host.room.code,
-      displayName: 'Maria',
-    })
-    await joinTogetherRoomService({
-      code: host.room.code,
-      displayName: 'João',
-    })
+    for (let index = 2; index <= 19; index += 1) {
+      await joinTogetherRoomService({
+        code: host.room.code,
+        displayName: `Participant ${index}`,
+      })
+    }
 
     const results = await Promise.all([
       joinTogetherRoomService({

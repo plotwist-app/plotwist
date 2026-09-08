@@ -108,8 +108,8 @@ describe('TogetherRoom token hydration', () => {
         if (token === 'member-token') return memberRoom.promise
 
         return Promise.resolve({
-          room: { maxParticipants: 4 },
-          participants: Array.from({ length: 4 }, (_, index) => ({
+          room: { maxParticipants: 20 },
+          participants: Array.from({ length: 20 }, (_, index) => ({
             id: `participant-${index + 1}`,
             displayName: `Person ${index + 1}`,
           })),
@@ -126,7 +126,7 @@ describe('TogetherRoom token hydration', () => {
     expect(screen.getByText('Loading...')).toBeTruthy()
     expect(screen.queryByText('This room is full.')).toBeNull()
 
-    const participants = Array.from({ length: 4 }, (_, index) => ({
+    const participants = Array.from({ length: 20 }, (_, index) => ({
       id: `participant-${index + 1}`,
       displayName: `Person ${index + 1}`,
     }))
@@ -138,11 +138,11 @@ describe('TogetherRoom token hydration', () => {
         watchRegion: 'BR',
         maxRuntime: null,
         mood: 'ANY',
-        maxParticipants: 4,
+        maxParticipants: 20,
         createdAt: '2026-09-08T00:00:00.000Z',
       },
       participants,
-      me: participants[3],
+      me: participants[19],
       swipedIds: [],
     })
 

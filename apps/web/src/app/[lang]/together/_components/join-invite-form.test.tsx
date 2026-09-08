@@ -33,7 +33,7 @@ vi.mock('@/context/language', () => ({
         join_title: '{name} invited you.',
         have_invite_title: 'Join the night',
         join_subtitle: 'Enter your name.',
-        room_capacity: '{current} / {max} people',
+        participant_count: 'In the group: {current}',
         invite_code_label: 'Invite code',
         invite_code_placeholder: 'ABC123',
         your_name: 'Your name',
@@ -86,7 +86,6 @@ describe('JoinInviteForm capacity errors', () => {
         code="ABC123"
         hostName="Host"
         participantCount={3}
-        maxParticipants={4}
         onRoomFull={onRoomFull}
       />
     )
@@ -113,7 +112,6 @@ describe('JoinInviteForm capacity errors', () => {
         code="ABC123"
         hostName="Host"
         participantCount={3}
-        maxParticipants={4}
       />
     )
     submitJoin()
@@ -136,6 +134,19 @@ describe('JoinInviteForm capacity errors', () => {
       expect(mocks.error).toHaveBeenCalledWith('Could not join this invite.')
     )
     expect(screen.queryByText('This room is full.')).toBeNull()
+  })
+
+  it('shows the current participant count without advertising a maximum', () => {
+    render(
+      <JoinInviteForm
+        code="ABC123"
+        hostName="Host"
+        participantCount={19}
+      />
+    )
+
+    expect(screen.getByText('In the group: 19')).toBeTruthy()
+    expect(screen.queryByText(/\/ 20|up to|maximum/i)).toBeNull()
   })
 
   it('requires the stable capacity status as well as its payload', async () => {

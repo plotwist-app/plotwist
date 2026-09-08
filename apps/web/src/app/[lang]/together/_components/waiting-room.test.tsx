@@ -9,8 +9,7 @@ const copy = {
   invite_help: 'Send this invite.',
   continue_as_host: 'Wait here',
   invite_code_label: 'Invite code',
-  up_to_four: 'Up to four people',
-  room_capacity: '{current} / {max} people',
+  participant_count: 'In the group: {current}',
   send_whatsapp: 'Send on WhatsApp',
   share_text: '{name} invited you.',
   waiting_title: 'Waiting for your group.',
@@ -35,48 +34,65 @@ vi.mock('./together-shell', () => ({
   ),
 }))
 
-describe('Together capacity UI', () => {
+describe('Together participant UI', () => {
   afterEach(cleanup)
 
-  it('shows current and maximum capacity on the invite ticket', () => {
+  it('shows only the current participant count on the invite ticket', () => {
     render(
       <InviteScreen
         hostName="Ana"
         inviteCode="ABC123"
         inviteUrl="https://plotwist.app/together/ABC123"
         participantCount={1}
-        maxParticipants={4}
         copy={copy}
         onContinue={vi.fn()}
       />
     )
 
-    expect(screen.getByText('Up to four people')).toBeTruthy()
-    expect(screen.getByText('1 / 4 people')).toBeTruthy()
+    expect(screen.getByText('In the group: 1')).toBeTruthy()
+    expect(screen.queryByText(/four|\/ 4/i)).toBeNull()
   })
 
-  it('renders every participant and open seat with current and maximum capacity', () => {
+  it('renders participants and one waiting card without exposing capacity', () => {
     render(
       <WaitingRoom
         names={['Ana', 'Ben', 'Cleo']}
         participantIds={['one', 'two', 'three']}
         meId="three"
         ready
-        maxParticipants={4}
+        isFull={false}
         copy={copy}
         onStart={vi.fn()}
       />
     )
 
-    expect(screen.getByText('3 / 4 people')).toBeTruthy()
+    expect(screen.getByText('In the group: 3')).toBeTruthy()
     expect(screen.getByText('Ana')).toBeTruthy()
     expect(screen.getByText('Ben')).toBeTruthy()
     expect(screen.getByText('Cleo')).toBeTruthy()
     expect(screen.getByText('Empty')).toBeTruthy()
+    expect(screen.getAllByText('Empty')).toHaveLength(1)
+    expect(screen.queryByText(/\/ 20/)).toBeNull()
     expect(screen.getByText('You')).toBeTruthy()
     expect(
       screen.getByRole('heading', { name: 'Your group is ready.' })
     ).toBeTruthy()
     expect(screen.queryByText('Ana & Ben')).toBeNull()
+  })
+
+  it('does not render a waiting card when the room is full', () => {
+    render(
+      <WaitingRoom
+        names={['Ana', 'Ben']}
+        participantIds={['one', 'two']}
+        ready
+        isFull
+        copy={copy}
+        onStart={vi.fn()}
+      />
+    )
+
+    expect(screen.queryByText('Empty')).toBeNull()
+    expect(screen.getByText('In the group: 2')).toBeTruthy()
   })
 })

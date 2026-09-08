@@ -7,7 +7,7 @@ import { TogetherShell } from './together-shell'
 type WaitingRoomProps = {
   names: string[]
   ready: boolean
-  maxParticipants: number
+  isFull: boolean
   copy: {
     group_kicker: string
     waiting_title: string
@@ -16,7 +16,7 @@ type WaitingRoomProps = {
     start_choosing: string
     you: string
     empty_seat: string
-    room_capacity: string
+    participant_count: string
   }
   meId?: string
   participantIds: string[]
@@ -26,20 +26,18 @@ type WaitingRoomProps = {
 export function WaitingRoom({
   names,
   ready,
-  maxParticipants,
+  isFull,
   copy,
   meId,
   participantIds,
   onStart,
 }: WaitingRoomProps) {
   const heading = ready ? copy.ready_title : copy.waiting_title
-  const capacity = copy.room_capacity
-    .replace('{current}', String(names.length))
-    .replace('{max}', String(maxParticipants))
-  const seats = Array.from(
-    { length: maxParticipants },
-    (_, index) => names[index]
+  const participantCount = copy.participant_count.replace(
+    '{current}',
+    String(names.length)
   )
+  const seats = isFull ? names : [...names, undefined]
 
   return (
     <TogetherShell>
@@ -48,7 +46,9 @@ export function WaitingRoom({
         {copy.group_kicker}
       </p>
       <h1 className="together-display mt-3">{heading}</h1>
-      <p className="together-meta together-fg-muted mt-3">{capacity}</p>
+      <p className="together-meta together-fg-muted mt-3">
+        {participantCount}
+      </p>
       {!ready && (
         <p className="together-body together-fg-muted mt-3">
           {copy.waiting_body}

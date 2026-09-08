@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Improve Together with host-selected streaming services, language-neutral invites, match celebrations, guest sign-in guidance, and rooms for up to four participants.
+**Goal:** Improve Together with host-selected streaming services, language-neutral invites, match celebrations, guest sign-in guidance, and an invisible technical room limit of 20 participants.
 
 **Architecture:** Keep room-level recommendation constraints in the existing room entity and apply them when the web client builds its TMDB deck. Enforce group capacity atomically in the backend, while locale detection, provider setup, guest guidance, and match notifications remain focused web components around the existing Together flow.
 
@@ -14,7 +14,7 @@
 - Provider selection is the first host step and includes an explicit unfiltered “Any service” option.
 - Signed-in host preferences prefill the room setup but remain editable.
 - Shared invite URLs contain no locale and rely on request language detection.
-- A room accepts at most four distinct participants.
+- A room accepts at most 20 distinct participants, but this technical limit is not advertised in the UI.
 - A valid participant token may rejoin a full room.
 - Voting may start at two participants.
 - Two distinct `LIKE` or `MAYBE` decisions create a match, including in larger rooms.
@@ -26,7 +26,7 @@
 
 ---
 
-### Task 1: Atomic four-person room capacity
+### Task 1: Atomic 20-person technical room capacity
 
 **Files:**
 - Create: `apps/backend/src/domain/services/together/constants.ts`
@@ -39,25 +39,27 @@
 - Modify: `apps/web/src/services/together.ts`
 
 **Interfaces:**
-- Produces: `MAX_TOGETHER_PARTICIPANTS = 4`
+- Produces: `MAX_TOGETHER_PARTICIPANTS = 20`
 - Produces: `insertTogetherParticipantWithinCapacity(values, capacity)` returning the participant or `null`
-- Adds: `maxParticipants: 4` to serialized room state
+- Adds: `maxParticipants: 20` to serialized room state for internal full-room detection
 
 - [ ] **Step 1: Write failing capacity tests**
 
-Extend `join-room.spec.ts` to create one host and join three distinct participants, then assert a fifth new participant returns `TogetherInvalidInputError`. Reuse one of the four valid tokens after capacity and assert the existing participant is returned:
+Extend `join-room.spec.ts` to create one host and join 19 distinct participants, then assert participant 21 returns `TogetherInvalidInputError`. Reuse one of the 20 valid tokens after capacity and assert the existing participant is returned:
 
 ```ts
-expect(fifth).toBeInstanceOf(TogetherInvalidInputError)
+expect(twentyFirst).toBeInstanceOf(TogetherInvalidInputError)
 expect(rejoined).toEqual(
   expect.objectContaining({
-    participant: expect.objectContaining({ id: fourth.participant.id }),
-    participantToken: fourth.participantToken,
+    participant: expect.objectContaining({ id: twentieth.participant.id }),
+    participantToken: twentieth.participantToken,
   })
 )
 ```
 
-Extend `create-swipe.spec.ts` with four participants. After two distinct interested swipes, assert:
+Prefill 19 participants, launch two joins concurrently for the final place, and assert exactly one succeeds while exactly one receives the full-room error.
+
+Preserve the larger-room match-percentage coverage. After two distinct interested swipes among four participants, assert:
 
 ```ts
 expect(result.match).toEqual(
@@ -73,7 +75,7 @@ pnpm --filter backend test --run \
   src/domain/services/together/create-swipe.spec.ts
 ```
 
-Expected: fifth participant currently succeeds and the four-person percentage case is absent or fails.
+Expected: participants 5 through 20 are rejected by the old limit, and the concurrent twentieth-seat case fails.
 
 - [ ] **Step 3: Implement atomic capacity**
 
@@ -94,7 +96,7 @@ if (count >= capacity) return null
 
 - [ ] **Step 4: Expose capacity**
 
-Add `maxParticipants` to `serializeRoom`, the Zod room schema, and `TogetherRoom`. Use the shared backend constant in serialization.
+Add `maxParticipants` to `serializeRoom`, the Zod room schema, and `TogetherRoom`. Use the shared backend constant in serialization. Treat this field as internal state for full-room detection; never render or advertise it.
 
 - [ ] **Step 5: Verify and commit**
 
@@ -102,7 +104,7 @@ Run the two focused backend specs, backend typecheck/build, and Biome on changed
 
 ```bash
 git add apps/backend apps/web/src/services/together.ts
-git commit -m "feat(together): support rooms of up to four"
+git commit -m "fix(together): keep room capacity private"
 ```
 
 ### Task 2: Locale-neutral invite URLs
@@ -273,7 +275,7 @@ git add apps/web/src/app/[lang]/together/_components
 git commit -m "feat(together): celebrate matches while discovering"
 ```
 
-### Task 5: Guest guidance and four-person UI
+### Task 5: Guest guidance and private-capacity UI
 
 **Files:**
 - Create: `apps/web/src/app/[lang]/together/_components/together-guest-prompt.tsx`
@@ -293,7 +295,7 @@ git commit -m "feat(together): celebrate matches while discovering"
 
 Assert signed-out welcome renders the recommendation-benefit prompt, sign-in link includes a localized encoded redirect to `/{lang}/together`, and a continue-as-guest action dismisses it. Assert authenticated users do not see it.
 
-Assert a room with four participants renders localized full-room state to a visitor, while two or three participants still render the join form. Assert waiting copy contains current and maximum capacity.
+Assert a room with 20 participants renders localized full-room state to a visitor, while fewer participants still render the join form. Assert invite, join, and waiting copy contains only the current participant count. Assert the waiting room renders current participant cards plus at most one generic waiting card while open, and no waiting card while full.
 
 - [ ] **Step 2: Verify RED**
 
@@ -309,9 +311,9 @@ Render it before host provider setup. Keep dismissal in component state and neve
 
 - [ ] **Step 4: Implement capacity UI and copy**
 
-Use `participants.length` and `room.maxParticipants` from room state. Replace exact “admit two” copy with “up to four”; show `current / max` in invite and waiting screens. When full and the visitor has no valid membership, show the localized room-full state instead of the join form.
+Use `participants.length` for localized, group-neutral current-count copy. Use `room.maxParticipants` only to derive whether the room is full. Do not pass the maximum to presentational invite or join components, and pass only `isFull` to the waiting room. Never render “up to four”, `current / max`, 20, or one empty card per available technical slot. When full and the visitor has no valid membership, show the localized room-full state without naming the limit.
 
-Add all remaining guest prompt and capacity strings to all seven dictionaries. Extend the existing dictionary contract test to require every new key, including the provider-step and match keys from Tasks 3 and 4.
+Replace `up_to_four` and `room_capacity` with `participant_count` in all seven dictionaries. Extend the dictionary contract test to require the replacement and reject the removed keys, including the provider-step and match keys from Tasks 3 and 4.
 
 - [ ] **Step 5: Verify and commit**
 
@@ -319,7 +321,7 @@ Run all focused Together web tests, dictionary contract tests, typecheck, and ch
 
 ```bash
 git add apps/web/src/app/[lang]/together apps/web/public/dictionaries
-git commit -m "feat(together): guide guests and show room capacity"
+git commit -m "fix(together): hide technical room capacity"
 ```
 
 ### Task 6: Final integration verification
@@ -356,10 +358,12 @@ Run root or app builds with available environment services. In the deployed prev
 1. guest prompt can be dismissed;
 2. host provider choices persist into room creation;
 3. invite URL is locale-neutral and redirects by browser language;
-4. participants two through four join, while a fifth is blocked;
-5. a match opens for direct and polling participants;
-6. continue discovering stays on the deck;
-7. the provider-filtered deck only shows titles available in the selected region/services.
+4. participants two through 20 join, participant 21 is blocked, and a valid participant can rejoin when full;
+5. invite, join, and waiting UI show only current participant count and never expose 20 or `current / max`;
+6. an open waiting room shows at most one generic waiting card, while a full room shows none;
+7. a match opens for direct and polling participants;
+8. continue discovering stays on the deck;
+9. the provider-filtered deck only shows titles available in the selected region/services.
 
 - [ ] **Step 5: Final review and PR update**
 

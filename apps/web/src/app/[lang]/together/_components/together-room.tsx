@@ -103,7 +103,6 @@ export function TogetherRoom({ code }: { code: string }) {
           code={roomCode}
           hostName={hostName}
           participantCount={room.participants.length}
-          maxParticipants={room.room.maxParticipants}
           onJoined={() => {
             setToken(getTogetherToken(roomCode))
             void roomQuery.refetch()
@@ -123,7 +122,6 @@ export function TogetherRoom({ code }: { code: string }) {
         inviteCode={roomCode}
         inviteUrl={inviteUrl}
         participantCount={room.participants.length}
-        maxParticipants={room.room.maxParticipants}
         copy={copy}
         onContinue={continueAsHost}
       />
@@ -136,7 +134,7 @@ export function TogetherRoom({ code }: { code: string }) {
       participantIds={room.participants.map(participant => participant.id)}
       meId={room.me?.id}
       ready={ready}
-      maxParticipants={room.room.maxParticipants}
+      isFull={isFull}
       copy={copy}
       onStart={() => router.push(`/${language}/together/${roomCode}/vote`)}
     />

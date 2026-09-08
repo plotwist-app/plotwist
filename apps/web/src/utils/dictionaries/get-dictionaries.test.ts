@@ -31,8 +31,7 @@ const REQUIRED_TOGETHER_KEYS = [
   'guest_prompt_body',
   'guest_prompt_sign_in',
   'continue_as_guest',
-  'up_to_four',
-  'room_capacity',
+  'participant_count',
   'room_full_title',
   'room_full_body',
   'subtitle',
@@ -42,7 +41,12 @@ const REQUIRED_TOGETHER_KEYS = [
   'matches_title',
 ] as const
 
-const DEPRECATED_PAIR_KEYS = ['night_for_two', 'tonight_with'] as const
+const DEPRECATED_TOGETHER_KEYS = [
+  'night_for_two',
+  'tonight_with',
+  'up_to_four',
+  'room_capacity',
+] as const
 
 describe('appearance dictionary contract', () => {
   it('covers all seven supported locales', () => {
@@ -71,7 +75,7 @@ describe('Together dictionary contract', () => {
       expect(value.trim(), `${language}.together.${key}`).not.toBe('')
     }
 
-    for (const key of DEPRECATED_PAIR_KEYS) {
+    for (const key of DEPRECATED_TOGETHER_KEYS) {
       expect(together[key], `${language}.together.${key}`).toBeUndefined()
     }
 
@@ -79,5 +83,9 @@ describe('Together dictionary contract', () => {
       together.choosing_with,
       `${language}.together.choosing_with`
     ).toContain('{count}')
+    expect(
+      together.participant_count,
+      `${language}.together.participant_count`
+    ).toContain('{current}')
   })
 })
