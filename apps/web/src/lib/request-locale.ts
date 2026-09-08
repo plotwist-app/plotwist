@@ -1,8 +1,8 @@
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
-import { languages } from '../../languages'
 import type { Language } from '@/types/languages'
 import { isLanguage } from '@/types/languages'
+import { languages } from '../../languages'
 
 const DEFAULT_LOCALE: Language = 'en-US'
 
@@ -19,9 +19,7 @@ function isValidLanguageRange(language: string): boolean {
   }
 }
 
-export function detectRequestLocale(
-  acceptLanguage: string | null
-): Language {
+export function detectRequestLocale(acceptLanguage: string | null): Language {
   if (!acceptLanguage) {
     return DEFAULT_LOCALE
   }
