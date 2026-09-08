@@ -1,15 +1,7 @@
-import { match } from '@formatjs/intl-localematcher'
-import Negotiator from 'negotiator'
 import { type NextRequest, NextResponse } from 'next/server'
+import { detectRequestLocale } from '@/lib/request-locale'
 import { shouldBlockTraffic } from '@/lib/traffic-guard'
 import { languages as appLanguages } from '../languages'
-
-const headers = { 'accept-language': 'en-US' }
-const languages = new Negotiator({ headers }).languages()
-
-const DEFAULT_LOCALE = 'en-US'
-
-match(languages, appLanguages, DEFAULT_LOCALE)
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
@@ -36,12 +28,7 @@ export function proxy(req: NextRequest) {
   const reqHeaders = new Headers(req.headers)
   reqHeaders.set('x-current-path', pathname)
 
-  const browserLanguage =
-    req.headers.get('accept-language')?.split(',')[0] ?? 'en'
-
-  const language =
-    appLanguages.find(language => language.startsWith(browserLanguage)) ??
-    DEFAULT_LOCALE
+  const language = detectRequestLocale(req.headers.get('accept-language'))
 
   const pathnameHasLocale = appLanguages.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/context/language'
 import { getTogetherRoom, getTogetherToken } from '@/services/together'
+import { buildTogetherInviteUrl } from '@/services/together-invite'
 import { APP_URL } from '../../../../../constants'
 import { InviteScreen } from './invite-screen'
 import { JoinInviteForm } from './join-invite-form'
@@ -28,7 +29,7 @@ export function TogetherRoom({ code }: { code: string }) {
     setContinued(sessionStorage.getItem(HOST_CONTINUED_KEY(roomCode)) === '1')
   }, [roomCode])
 
-  const inviteUrl = `${APP_URL}/${language}/together/${roomCode}`
+  const inviteUrl = buildTogetherInviteUrl(APP_URL, roomCode)
 
   const roomQuery = useQuery({
     queryKey: ['together-room', roomCode, token],
