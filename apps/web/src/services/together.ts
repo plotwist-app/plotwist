@@ -10,6 +10,7 @@ export type TogetherRoom = {
   watchRegion: string
   maxRuntime: number | null
   mood: string
+  maxParticipants: number
   createdAt: string
 }
 

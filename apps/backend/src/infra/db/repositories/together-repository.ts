@@ -40,6 +40,37 @@ export async function insertTogetherParticipant(values: {
   return participant
 }
 
+export async function insertTogetherParticipantWithinCapacity(
+  values: {
+    roomId: string
+    displayName: string
+    tokenHash: string
+    userId?: string | null
+  },
+  capacity: number
+) {
+  return db.transaction(async tx => {
+    await tx.execute(
+      sql`select id from ${togetherRooms} where ${togetherRooms.id} = ${values.roomId} for update`
+    )
+
+    const [row] = await tx
+      .select({ count: sql<number>`count(*)::int` })
+      .from(togetherParticipants)
+      .where(eq(togetherParticipants.roomId, values.roomId))
+
+    if ((row?.count ?? 0) >= capacity) {
+      return null
+    }
+
+    const [participant] = await tx
+      .insert(togetherParticipants)
+      .values(values)
+      .returning()
+    return participant
+  })
+}
+
 export async function selectTogetherParticipantByTokenHash(tokenHash: string) {
   const [participant] = await db
     .select()

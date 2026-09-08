@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { MAX_TOGETHER_PARTICIPANTS } from '@/domain/services/together/constants'
 
 export const togetherMoodSchema = z.enum(['FUN', 'SUSPENSE', 'COMFORT', 'ANY'])
 export const togetherMediaTypeSchema = z.enum(['MOVIE', 'TV_SHOW'])
@@ -38,6 +39,7 @@ const togetherRoomSchema = z.object({
   watchRegion: z.string(),
   maxRuntime: z.number().nullable(),
   mood: togetherMoodSchema,
+  maxParticipants: z.literal(MAX_TOGETHER_PARTICIPANTS),
   createdAt: z.string(),
 })
 

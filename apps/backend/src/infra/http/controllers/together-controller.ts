@@ -9,6 +9,7 @@ import { createTogetherSwipeService } from '@/domain/services/together/create-sw
 import { getTogetherMatchesService } from '@/domain/services/together/get-matches'
 import { getTogetherRoomService } from '@/domain/services/together/get-room'
 import { joinTogetherRoomService } from '@/domain/services/together/join-room'
+import { MAX_TOGETHER_PARTICIPANTS } from '@/domain/services/together/constants'
 import {
   createTogetherRoomBodySchema,
   createTogetherSwipeBodySchema,
@@ -35,6 +36,7 @@ function serializeRoom(room: TogetherRoom) {
     watchRegion: room.watchRegion,
     maxRuntime: room.maxRuntime,
     mood: room.mood,
+    maxParticipants: MAX_TOGETHER_PARTICIPANTS,
     createdAt: asIso(room.createdAt),
   }
 }
