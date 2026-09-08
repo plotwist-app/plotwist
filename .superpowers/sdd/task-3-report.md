@@ -165,3 +165,53 @@ Modified:
   requires Node `>=23`, while this environment runs Node `22.14.0`. All required
   focused tests, dictionary tests, typecheck, and Biome checks still exited 0.
 - No functional concern remains within Task 3 scope.
+
+## Review follow-up: clear stale providers on region change
+
+Review found that changing the region left provider IDs selected from the
+previous region. Those IDs could disappear from the visible provider list while
+remaining in the room request, and “Any service” would remain unselected.
+
+### RED
+
+The regression test was committed and pushed in `3f86a06d` before the
+production fix. It renders saved region `BR` and provider `8`, verifies that
+mounting does not invoke the provider callback, then explicitly selects `US`.
+
+```bash
+pnpm --filter web test --run \
+  'src/app/[lang]/together/_components/together-provider-step.test.tsx'
+```
+
+```text
+Test Files  1 failed (1)
+Tests       1 failed | 4 passed (5)
+
+expected onProviderIdsChange to be called with []
+Number of calls: 0
+```
+
+### Fix
+
+The region change handler now ignores same-region values and, for an explicit
+different-region selection, clears provider IDs before forwarding the new
+region. It is event-driven rather than effect-driven, so initial authenticated
+preference hydration remains untouched.
+
+Implemented in:
+
+- `39410255` `fix(together): clear providers when region changes`
+
+### GREEN and verification
+
+```text
+Focused tests + dictionary contract:
+Test Files  4 passed (4)
+Tests       20 passed (20)
+
+Web typecheck: exit 0
+Changed-file Biome: Checked 14 files; no fixes applied; exit 0
+```
+
+The existing Node 22 versus required Node `>=23` warning remains. No new
+functional concern was found.
