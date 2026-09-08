@@ -12,12 +12,16 @@ import { TogetherMark } from './together-mark'
 type JoinInviteFormProps = {
   code?: string
   hostName?: string
+  participantCount?: number
+  maxParticipants?: number
   onJoined?: () => void
 }
 
 export function JoinInviteForm({
   code,
   hostName,
+  participantCount,
+  maxParticipants,
   onJoined,
 }: JoinInviteFormProps) {
   const { dictionary, language } = useLanguage()
@@ -64,6 +68,13 @@ export function JoinInviteForm({
         <p className="together-body together-fg-muted mt-3">
           {copy.join_subtitle}
         </p>
+        {participantCount !== undefined && maxParticipants !== undefined && (
+          <p className="together-meta together-fg-muted mt-2">
+            {copy.room_capacity
+              .replace('{current}', String(participantCount))
+              .replace('{max}', String(maxParticipants))}
+          </p>
+        )}
       </div>
 
       {!code && (

@@ -2,13 +2,16 @@
 
 import { useState } from 'react'
 import { useLanguage } from '@/context/language'
+import { useSession } from '@/context/session'
 import { CreateInviteForm } from './create-invite-form'
 import { JoinInviteForm } from './join-invite-form'
+import { TogetherGuestPrompt } from './together-guest-prompt'
 import { TogetherMark } from './together-mark'
 import { TogetherShell } from './together-shell'
 
 export function WelcomeScreen() {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
+  const { user } = useSession()
   const copy = dictionary.together
   const [joining, setJoining] = useState(false)
 
@@ -35,6 +38,7 @@ export function WelcomeScreen() {
           <p className="together-body together-fg-muted mt-4 mb-9 max-w-[22rem]">
             {copy.subtitle}
           </p>
+          {!user && <TogetherGuestPrompt language={language} copy={copy} />}
           <CreateInviteForm />
           <button
             type="button"
