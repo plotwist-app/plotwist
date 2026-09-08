@@ -6,13 +6,17 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@plotwist/ui/components/ui/dialog'
+import Image from 'next/image'
+import { PosterFallback } from '@/components/poster-fallback'
 import type { TogetherMatch } from '@/services/together'
+import { tmdbImage } from '@/utils/tmdb/image'
 
 type MatchCelebrationCopy = {
   heading: string
   interestSummary: string
   continueDiscovering: string
   viewMatches: string
+  close: string
 }
 
 type MatchCelebrationProps = {
@@ -35,11 +39,29 @@ export function MatchCelebration({
 
   return (
     <Dialog open onOpenChange={open => !open && onContinue()}>
-      <DialogContent className="w-[calc(100%-2rem)] max-w-sm gap-0 overflow-hidden rounded-3xl border-[#2c2924] bg-[#0b0b09] p-0 font-sans text-[#f7f3ea] shadow-2xl [&>button]:text-[#f7f3ea] [&>button]:ring-offset-[#0b0b09] [&>button]:hover:bg-[#2c2924] [&>button]:focus:ring-[#ff8b84] [&>button]:focus:ring-offset-[#0b0b09] [&>button[data-state=open]]:bg-[#161513]">
+      <DialogContent
+        closeLabel={copy.close}
+        className="w-[calc(100%-2rem)] max-w-sm gap-0 overflow-hidden rounded-3xl border-[#2c2924] bg-[#0b0b09] p-0 font-sans text-[#f7f3ea] shadow-2xl [&>button]:text-[#f7f3ea] [&>button]:ring-offset-[#0b0b09] [&>button]:hover:bg-[#2c2924] [&>button]:focus:ring-[#ff8b84] [&>button]:focus:ring-offset-[#0b0b09] [&>button[data-state=open]]:bg-[#161513]"
+      >
         <div className="bg-[#ff645a] px-6 py-3 text-white">
           <DialogTitle className="text-xs font-semibold uppercase tracking-[0.12em] text-white">
             {copy.heading}
           </DialogTitle>
+        </div>
+        <div className="relative mx-auto mt-6 aspect-[2/3] w-28 overflow-hidden rounded-2xl bg-[#161513]">
+          {match.posterPath ? (
+            <Image
+              src={tmdbImage(match.posterPath, 'w500')}
+              alt={match.title}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <PosterFallback
+              title={match.title}
+              className="bg-[#161513] text-[#f7f3ea]"
+            />
+          )}
         </div>
         <div className="px-6 py-7">
           <h2 className="text-3xl font-semibold leading-none tracking-[-0.035em] text-[#f7f3ea]">

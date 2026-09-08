@@ -11,7 +11,7 @@ import { MatchCelebration } from './match-celebration'
 
 vi.mock('next/image', () => ({
   default: ({ alt, src }: { alt: string; src: string }) => (
-    <img alt={alt} src={src} />
+    <span role="img" aria-label={alt} data-src={src} />
   ),
 }))
 
@@ -61,7 +61,7 @@ describe('MatchCelebration', () => {
       screen.getByText('2 people are interested · 100% match')
     ).toBeTruthy()
     expect(
-      screen.getByRole('img', { name: match.title }).getAttribute('src')
+      screen.getByRole('img', { name: match.title }).getAttribute('data-src')
     ).toContain('/matrix.jpg')
     expect(screen.getByRole('button', { name: copy.close })).toBeTruthy()
     expect(dialog.className).toContain('[&>button]:text-[#f7f3ea]')
