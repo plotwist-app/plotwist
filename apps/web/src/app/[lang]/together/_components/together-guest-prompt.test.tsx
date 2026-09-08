@@ -71,9 +71,7 @@ describe('Together guest prompt', () => {
   it('lets the host dismiss the prompt and continue as a guest', () => {
     render(<WelcomeScreen />)
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Continue as guest' })
-    )
+    fireEvent.click(screen.getByRole('button', { name: 'Continue as guest' }))
 
     expect(screen.queryByText('Make every pick more personal')).toBeNull()
     expect(screen.getByText('Provider setup')).toBeTruthy()

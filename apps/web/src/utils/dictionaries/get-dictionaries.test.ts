@@ -47,7 +47,9 @@ describe('appearance dictionary contract', () => {
 })
 
 describe('Together dictionary contract', () => {
-  it.each(languages)('%s provides every native Together label', async language => {
+  it.each(
+    languages
+  )('%s provides every native Together label', async language => {
     const dictionary = await getDictionary(language)
 
     for (const key of REQUIRED_TOGETHER_KEYS) {

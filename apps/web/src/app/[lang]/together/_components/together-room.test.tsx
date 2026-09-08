@@ -112,21 +112,20 @@ describe('TogetherRoom capacity', () => {
     vi.clearAllMocks()
   })
 
-  it.each([2, 3])(
-    'keeps the join form available to a visitor when %i of 4 seats are filled',
-    count => {
-      mocks.roomState = {
-        room: { maxParticipants: 4 },
-        participants: participants(count),
-        me: null,
-      }
-
-      render(<TogetherRoom code="room" />)
-
-      expect(screen.getByText(`Join form ${count}/4`)).toBeTruthy()
-      expect(screen.queryByText('This room is full.')).toBeNull()
+  it.each([
+    2, 3,
+  ])('keeps the join form available to a visitor when %i of 4 seats are filled', count => {
+    mocks.roomState = {
+      room: { maxParticipants: 4 },
+      participants: participants(count),
+      me: null,
     }
-  )
+
+    render(<TogetherRoom code="room" />)
+
+    expect(screen.getByText(`Join form ${count}/4`)).toBeTruthy()
+    expect(screen.queryByText('This room is full.')).toBeNull()
+  })
 
   it('shows a localized full-room state instead of the join form to a visitor', () => {
     mocks.roomState = {

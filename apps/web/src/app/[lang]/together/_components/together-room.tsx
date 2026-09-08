@@ -42,8 +42,9 @@ export function TogetherRoom({ code }: { code: string }) {
   const hostName = room?.participants[0]?.displayName ?? copy.someone
   const isMember = Boolean(room?.me)
   const ready = (room?.participants.length ?? 0) >= 2
-  const isFull =
-    Boolean(room) && room.participants.length >= room.room.maxParticipants
+  const isFull = room
+    ? room.participants.length >= room.room.maxParticipants
+    : false
 
   function continueAsHost() {
     sessionStorage.setItem(HOST_CONTINUED_KEY(roomCode), '1')
