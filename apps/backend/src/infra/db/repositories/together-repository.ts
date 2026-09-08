@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, type SQL, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, type SQL, sql } from 'drizzle-orm'
 import { db } from '..'
 import {
   togetherParticipants,
@@ -153,11 +153,19 @@ function selectTogetherMatchesWhere(where: SQL | undefined) {
     .select({
       tmdbId: togetherSwipes.tmdbId,
       mediaType: togetherSwipes.mediaType,
-      title: sql<string>`min(${togetherSwipes.title})`,
-      posterPath: sql<string | null>`min(${togetherSwipes.posterPath})`,
-      voteAverage: sql<number | null>`min(${togetherSwipes.voteAverage})`,
-      releaseDate: sql<string | null>`min(${togetherSwipes.releaseDate})`,
-      overview: sql<string | null>`min(${togetherSwipes.overview})`,
+      title: sql<string>`(array_agg(${togetherSwipes.title} order by ${togetherSwipes.title}, ${togetherSwipes.id}))[1]`,
+      posterPath: sql<
+        string | null
+      >`(array_agg(${togetherSwipes.posterPath} order by ${togetherSwipes.title}, ${togetherSwipes.id}))[1]`,
+      voteAverage: sql<
+        number | null
+      >`(array_agg(${togetherSwipes.voteAverage} order by ${togetherSwipes.title}, ${togetherSwipes.id}))[1]`,
+      releaseDate: sql<
+        string | null
+      >`(array_agg(${togetherSwipes.releaseDate} order by ${togetherSwipes.title}, ${togetherSwipes.id}))[1]`,
+      overview: sql<
+        string | null
+      >`(array_agg(${togetherSwipes.overview} order by ${togetherSwipes.title}, ${togetherSwipes.id}))[1]`,
       likeCount: sql<number>`count(*) filter (where ${togetherSwipes.decision} = 'LIKE')::int`,
       maybeCount: sql<number>`count(*) filter (where ${togetherSwipes.decision} = 'MAYBE')::int`,
       interestCount: sql<number>`count(distinct ${togetherSwipes.participantId})::int`,
@@ -168,7 +176,9 @@ function selectTogetherMatchesWhere(where: SQL | undefined) {
     .having(sql`count(distinct ${togetherSwipes.participantId}) >= 2`)
     .orderBy(
       desc(sql`count(*) filter (where ${togetherSwipes.decision} = 'LIKE')`),
-      desc(sql`count(*) filter (where ${togetherSwipes.decision} = 'MAYBE')`)
+      desc(sql`count(*) filter (where ${togetherSwipes.decision} = 'MAYBE')`),
+      asc(togetherSwipes.mediaType),
+      asc(togetherSwipes.tmdbId)
     )
 }
 
