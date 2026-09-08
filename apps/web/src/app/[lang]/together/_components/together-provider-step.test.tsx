@@ -142,7 +142,7 @@ describe('TogetherProviderStep', () => {
     )
 
     const netflix = await screen.findByRole('button', {
-      name: 'Netflix Selected',
+      name: 'Netflix, Selected',
     })
     expect(netflix.getAttribute('aria-pressed')).toBe('true')
     expect(netflix.querySelector('svg')).toBeTruthy()
@@ -181,7 +181,7 @@ describe('TogetherProviderStep', () => {
       { wrapper: wrapper() }
     )
 
-    await screen.findByRole('button', { name: 'Netflix' })
+    await screen.findByRole('button', { name: 'Netflix, Selected' })
     expect(onProviderIdsChange).not.toHaveBeenCalled()
 
     fireEvent.change(screen.getByRole('combobox', { name: 'Region' }), {
@@ -238,7 +238,7 @@ describe('TogetherProviderStep', () => {
     await screen.findByRole('button', { name: 'Netflix' })
     expect(
       screen
-        .getByRole('button', { name: 'Any service Selected' })
+        .getByRole('button', { name: 'Any service, Selected' })
         .getAttribute('aria-pressed')
     ).toBe('true')
 

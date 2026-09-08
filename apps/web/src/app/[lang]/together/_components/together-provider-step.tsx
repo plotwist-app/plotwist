@@ -132,6 +132,11 @@ export function TogetherProviderStep({
             <button
               type="button"
               aria-pressed={providerIds.length === 0}
+              aria-label={
+                providerIds.length === 0
+                  ? `${copy.provider_any}, ${copy.provider_selected}`
+                  : copy.provider_any
+              }
               onClick={() => onProviderIdsChange([])}
               className={cn(
                 'together-label relative flex min-h-14 items-center justify-center gap-2 rounded-[1rem] border px-3 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
@@ -158,6 +163,11 @@ export function TogetherProviderStep({
                   key={provider.provider_id}
                   type="button"
                   aria-pressed={selected}
+                  aria-label={
+                    selected
+                      ? `${provider.provider_name}, ${copy.provider_selected}`
+                      : provider.provider_name
+                  }
                   onClick={() => toggleProvider(provider.provider_id)}
                   className={cn(
                     'together-label flex min-h-14 items-center gap-2.5 rounded-[1rem] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
