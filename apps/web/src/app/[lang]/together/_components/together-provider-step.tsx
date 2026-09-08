@@ -13,6 +13,7 @@ import { PrimaryButton } from './primary-button'
 type TogetherProviderStepProps = {
   region: string
   providerIds: number[]
+  focusHeading?: boolean
   onRegionChange: (region: string) => void
   onProviderIdsChange: (providerIds: number[]) => void
   onContinue: () => void
@@ -21,6 +22,7 @@ type TogetherProviderStepProps = {
 export function TogetherProviderStep({
   region,
   providerIds,
+  focusHeading = false,
   onRegionChange,
   onProviderIdsChange,
   onContinue,
@@ -30,8 +32,10 @@ export function TogetherProviderStep({
   const headingRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
-    headingRef.current?.focus()
-  }, [])
+    if (focusHeading) {
+      headingRef.current?.focus()
+    }
+  }, [focusHeading])
 
   const regionsQuery = useQuery({
     queryKey: ['together-watch-provider-regions', language],

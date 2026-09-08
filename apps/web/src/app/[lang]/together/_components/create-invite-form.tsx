@@ -18,6 +18,7 @@ export function CreateInviteForm() {
   const router = useRouter()
   const copy = dictionary.together
   const [step, setStep] = useState<'providers' | 'name'>('providers')
+  const [focusProviderHeading, setFocusProviderHeading] = useState(false)
   const [watchRegion, setWatchRegion] = useState(
     (user && userPreferences?.watchRegion) || 'BR'
   )
@@ -62,9 +63,13 @@ export function CreateInviteForm() {
       <TogetherProviderStep
         region={watchRegion}
         providerIds={watchProviderIds}
+        focusHeading={focusProviderHeading}
         onRegionChange={setWatchRegion}
         onProviderIdsChange={setWatchProviderIds}
-        onContinue={() => setStep('name')}
+        onContinue={() => {
+          setFocusProviderHeading(true)
+          setStep('name')
+        }}
       />
     )
   }
