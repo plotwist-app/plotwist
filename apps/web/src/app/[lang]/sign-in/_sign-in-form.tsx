@@ -67,7 +67,7 @@ export const SignInForm = ({ onSignIn, redirectTo }: SignInFormProps) => {
       const { status } = (await onSignIn({
         ...values,
         language,
-        redirectTo,
+        navigation: { mode: 'redirect', target: redirectTo },
       })) as { status: string }
 
       if (status) {

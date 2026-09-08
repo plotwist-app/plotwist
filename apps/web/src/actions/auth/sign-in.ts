@@ -8,18 +8,20 @@ import { setAuthToken } from '@/services/api-client'
 import { asLanguage, type Language } from '@/types/languages'
 import { getSafeLocalizedRedirectPath } from '@/utils/auth-redirect'
 
+type SignInNavigation = { mode: 'redirect'; target: string } | { mode: 'none' }
+
 type SignInInput = {
   login: string
   password: string
   language: Language
-  redirectTo?: string
+  navigation: SignInNavigation
 }
 
 export async function signIn({
   login,
   password,
   language,
-  redirectTo,
+  navigation,
 }: SignInInput) {
   const safeLanguage = asLanguage(language)
   let token: string | undefined
@@ -38,16 +40,20 @@ export async function signIn({
   await createSession({ token })
 
   let finalRedirectTo =
-    redirectTo === undefined
+    navigation.mode === 'none'
       ? undefined
-      : (getSafeLocalizedRedirectPath(redirectTo, safeLanguage) ??
+      : (getSafeLocalizedRedirectPath(navigation.target, safeLanguage) ??
         `/${safeLanguage}/home`)
 
   try {
     setAuthToken(token)
     const { data } = await getMe()
 
-    if (data?.user && !data.user.displayName) {
+    if (
+      navigation.mode === 'redirect' &&
+      data?.user &&
+      !data.user.displayName
+    ) {
       finalRedirectTo = `/${safeLanguage}/onboarding`
     }
   } catch (error) {

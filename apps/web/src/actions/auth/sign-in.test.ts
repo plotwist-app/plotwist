@@ -51,7 +51,7 @@ describe('signIn redirect enforcement', () => {
       login: 'ana@example.com',
       password: 'password123',
       language: 'pt-BR',
-      redirectTo: '/pt-BR/together',
+      navigation: { mode: 'redirect', target: '/pt-BR/together' },
     })
 
     expect(mocks.redirect).toHaveBeenCalledWith('/pt-BR/together')
@@ -66,19 +66,39 @@ describe('signIn redirect enforcement', () => {
       login: 'ana@example.com',
       password: 'password123',
       language: 'pt-BR',
-      redirectTo,
+      navigation: { mode: 'redirect', target: redirectTo },
     })
 
     expect(mocks.redirect).toHaveBeenCalledWith('/pt-BR/home')
   })
 
-  it('does not redirect when an internal caller deliberately omits a target', async () => {
+  it('preserves explicit no-navigation mode through onboarding checks', async () => {
+    mocks.getMe.mockResolvedValue({
+      data: { user: { displayName: null } },
+    })
+
     await signIn({
       login: 'ana@example.com',
       password: 'password123',
       language: 'pt-BR',
+      navigation: { mode: 'none' },
     })
 
     expect(mocks.redirect).not.toHaveBeenCalled()
+  })
+
+  it('keeps normal interactive sign-in onboarding behavior', async () => {
+    mocks.getMe.mockResolvedValue({
+      data: { user: { displayName: null } },
+    })
+
+    await signIn({
+      login: 'ana@example.com',
+      password: 'password123',
+      language: 'pt-BR',
+      navigation: { mode: 'redirect', target: '/pt-BR/together' },
+    })
+
+    expect(mocks.redirect).toHaveBeenCalledWith('/pt-BR/onboarding')
   })
 })

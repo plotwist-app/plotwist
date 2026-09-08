@@ -70,7 +70,10 @@ describe('SignInForm redirect behavior', () => {
         login: 'ana@example.com',
         password: 'password123',
         language: 'pt-BR',
-        redirectTo: '/pt-BR/together',
+        navigation: {
+          mode: 'redirect',
+          target: '/pt-BR/together',
+        },
       })
     )
   })

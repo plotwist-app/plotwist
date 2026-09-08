@@ -27,7 +27,9 @@ export async function signUp({
     login: email,
     password,
     language,
-    redirectTo: redirectToCheckout ? undefined : `/${language}/${username}`,
+    navigation: redirectToCheckout
+      ? { mode: 'none' }
+      : { mode: 'redirect', target: `/${language}/${username}` },
   })
 
   if (redirectToCheckout) {
