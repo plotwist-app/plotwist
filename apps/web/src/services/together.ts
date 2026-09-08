@@ -41,8 +41,10 @@ export type TogetherMatch = {
   posterPath: string | null
   voteAverage: number | null
   releaseDate: string | null
+  overview?: string | null
   likeCount: number
   maybeCount?: number
+  interestCount?: number
   matchPercent: number
   highlighted?: boolean
 }

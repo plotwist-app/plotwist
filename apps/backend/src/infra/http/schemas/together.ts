@@ -103,8 +103,10 @@ export const createTogetherSwipeResponseSchema = {
         posterPath: z.string().nullable(),
         voteAverage: z.number().nullable(),
         releaseDate: z.string().nullable(),
+        overview: z.string().nullable(),
         likeCount: z.number(),
-        maybeCount: z.number().optional(),
+        maybeCount: z.number(),
+        interestCount: z.number(),
         matchPercent: z.number(),
       })
       .nullable(),
@@ -123,8 +125,10 @@ export const getTogetherMatchesResponseSchema = {
         posterPath: z.string().nullable(),
         voteAverage: z.number().nullable(),
         releaseDate: z.string().nullable(),
+        overview: z.string().nullable(),
         likeCount: z.number(),
-        maybeCount: z.number().optional(),
+        maybeCount: z.number(),
+        interestCount: z.number(),
         matchPercent: z.number(),
         highlighted: z.boolean().optional(),
       })
