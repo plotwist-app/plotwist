@@ -1,4 +1,4 @@
-import { and, desc, eq } from 'drizzle-orm'
+import { and, desc, eq, isNull } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -38,9 +38,12 @@ export async function selectReceivedRecommendations(userId: string) {
         eq(schema.recommendations.status, 'PENDING')
       )
     )
-    .leftJoin(
+    .innerJoin(
       schema.users,
-      eq(schema.recommendations.fromUserId, schema.users.id)
+      and(
+        eq(schema.recommendations.fromUserId, schema.users.id),
+        isNull(schema.users.deletedAt)
+      )
     )
     .orderBy(desc(schema.recommendations.createdAt))
 }

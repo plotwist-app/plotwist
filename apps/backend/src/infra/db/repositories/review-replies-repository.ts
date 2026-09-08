@@ -1,4 +1,4 @@
-import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm'
+import { and, asc, eq, getTableColumns, isNull, sql } from 'drizzle-orm'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { db } from '@/infra/db'
 import { schema } from '@/infra/db/schema'
@@ -62,6 +62,12 @@ export async function selectReviewReplies(
     })
     .from(schema.reviewReplies)
     .where(eq(schema.reviewReplies.reviewId, reviewId))
-    .leftJoin(schema.users, eq(schema.reviewReplies.userId, schema.users.id))
+    .innerJoin(
+      schema.users,
+      and(
+        eq(schema.reviewReplies.userId, schema.users.id),
+        isNull(schema.users.deletedAt)
+      )
+    )
     .orderBy(asc(schema.reviewReplies.createdAt))
 }

@@ -1,4 +1,4 @@
-import { eq, getTableColumns, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, isNull, sql } from 'drizzle-orm'
 import type { InsertLike } from '@/domain/entities/likes'
 import { db } from '..'
 import { schema } from '../schema'
@@ -24,7 +24,13 @@ export async function selectLikes(entityId: string) {
     })
     .from(schema.likes)
     .where(eq(schema.likes.entityId, entityId))
-    .leftJoin(schema.users, eq(schema.likes.userId, schema.users.id))
+    .innerJoin(
+      schema.users,
+      and(
+        eq(schema.likes.userId, schema.users.id),
+        isNull(schema.users.deletedAt)
+      )
+    )
     .leftJoin(
       schema.subscriptions,
       eq(schema.users.id, schema.subscriptions.userId)
