@@ -58,9 +58,7 @@ function wrapper() {
 
   return function QueryWrapper({ children }: { children: ReactNode }) {
     return (
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     )
   }
 }
@@ -114,17 +112,17 @@ describe('TogetherVote provider deck filters', () => {
     )
   })
 
-  it.each([[], null])(
-    'omits availability filters when room providers are %s',
-    async watchProviderIds => {
-      mocks.getRoom.mockResolvedValue(room(watchProviderIds))
+  it.each([
+    [],
+    null,
+  ])('omits availability filters when room providers are %s', async watchProviderIds => {
+    mocks.getRoom.mockResolvedValue(room(watchProviderIds))
 
-      render(<TogetherVote code="abc123" />, { wrapper: wrapper() })
+    render(<TogetherVote code="abc123" />, { wrapper: wrapper() })
 
-      await waitFor(() => expect(mocks.discover).toHaveBeenCalledOnce())
-      const filters = mocks.discover.mock.calls[0]?.[0].filters
-      expect(filters).not.toHaveProperty('with_watch_providers')
-      expect(filters).not.toHaveProperty('watch_region')
-    }
-  )
+    await waitFor(() => expect(mocks.discover).toHaveBeenCalledOnce())
+    const filters = mocks.discover.mock.calls[0]?.[0].filters
+    expect(filters).not.toHaveProperty('with_watch_providers')
+    expect(filters).not.toHaveProperty('watch_region')
+  })
 })
