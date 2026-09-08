@@ -276,10 +276,7 @@ export function TogetherVote({ code }: { code: string }) {
           <TogetherMark />
           {participantCount > 1 ? (
             <p className="together-heading together-fg-accent mt-3">
-              {copy.choosing_with.replace(
-                '{count}',
-                String(participantCount)
-              )}
+              {copy.choosing_with.replace('{count}', String(participantCount))}
             </p>
           ) : null}
         </div>

@@ -156,45 +156,47 @@ export function TogetherProviderStep({
 
             {!isError &&
               providersQuery.data?.map(provider => {
-              const selected = providerIds.includes(provider.provider_id)
+                const selected = providerIds.includes(provider.provider_id)
 
-              return (
-                <button
-                  key={provider.provider_id}
-                  type="button"
-                  aria-pressed={selected}
-                  aria-label={
-                    selected
-                      ? `${provider.provider_name}, ${copy.provider_selected}`
-                      : provider.provider_name
-                  }
-                  onClick={() => toggleProvider(provider.provider_id)}
-                  className={cn(
-                    'together-label flex min-h-14 items-center gap-2.5 rounded-[1rem] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
-                    selected
-                      ? 'border-[var(--tg-accent)] bg-[var(--tg-wash)] text-[var(--tg-accent)]'
-                      : 'together-surface border-[var(--tg-border)] text-[var(--tg-text)]'
-                  )}
-                >
-                  <Image
-                    src={tmdbImage(provider.logo_path, 'w500')}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="size-8 shrink-0 rounded-lg"
-                  />
-                  <span>{provider.provider_name}</span>
-                  {selected && (
-                    <>
-                      <Check
-                        className="ml-auto size-4 shrink-0"
-                        aria-hidden="true"
-                      />
-                      <span className="sr-only">{copy.provider_selected}</span>
-                    </>
-                  )}
-                </button>
-              )
+                return (
+                  <button
+                    key={provider.provider_id}
+                    type="button"
+                    aria-pressed={selected}
+                    aria-label={
+                      selected
+                        ? `${provider.provider_name}, ${copy.provider_selected}`
+                        : provider.provider_name
+                    }
+                    onClick={() => toggleProvider(provider.provider_id)}
+                    className={cn(
+                      'together-label flex min-h-14 items-center gap-2.5 rounded-[1rem] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
+                      selected
+                        ? 'border-[var(--tg-accent)] bg-[var(--tg-wash)] text-[var(--tg-accent)]'
+                        : 'together-surface border-[var(--tg-border)] text-[var(--tg-text)]'
+                    )}
+                  >
+                    <Image
+                      src={tmdbImage(provider.logo_path, 'w500')}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="size-8 shrink-0 rounded-lg"
+                    />
+                    <span>{provider.provider_name}</span>
+                    {selected && (
+                      <>
+                        <Check
+                          className="ml-auto size-4 shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span className="sr-only">
+                          {copy.provider_selected}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                )
               })}
           </div>
 
