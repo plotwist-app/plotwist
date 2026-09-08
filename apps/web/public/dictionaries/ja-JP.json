@@ -979,7 +979,7 @@
     "room_full_body": "ホストに新しいルームの作成を依頼してください。",
     "waiting_title": "グループを待っています。",
     "waiting_body": "誰かが参加したら、一緒に選び始められます。",
-    "participant_count": "{current}人が参加中",
+    "participant_count": "グループ内：{current}",
     "ready_title": "グループの準備ができました。",
     "start_choosing": "いまから",
     "vote_nope": "いいえ",

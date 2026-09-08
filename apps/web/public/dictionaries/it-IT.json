@@ -976,7 +976,7 @@
     "room_full_body": "Chiedi all’host di creare una nuova stanza.",
     "waiting_title": "In attesa del tuo gruppo.",
     "waiting_body": "Quando arriva qualcuno, potete iniziare a scegliere insieme.",
-    "participant_count": "{current} persone nel gruppo",
+    "participant_count": "Nel gruppo: {current}",
     "ready_title": "Il tuo gruppo è pronto.",
     "start_choosing": "È adesso",
     "vote_nope": "No",

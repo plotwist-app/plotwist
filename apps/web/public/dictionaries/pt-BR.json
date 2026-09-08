@@ -978,7 +978,7 @@
     "room_full_body": "Peça para o anfitrião criar uma nova sala.",
     "waiting_title": "Aguardando seu grupo.",
     "waiting_body": "Quando mais alguém entrar, vocês podem começar a escolher.",
-    "participant_count": "{current} pessoas no grupo",
+    "participant_count": "No grupo: {current}",
     "ready_title": "Seu grupo está pronto.",
     "start_choosing": "É agora",
     "vote_nope": "Não",

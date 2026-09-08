@@ -48,6 +48,19 @@ const DEPRECATED_TOGETHER_KEYS = [
   'room_capacity',
 ] as const
 
+const PRIVATE_CAPACITY_COPY_KEYS = [
+  'participant_count',
+  'room_full_title',
+  'room_full_body',
+] as const
+
+const PUBLIC_CAPACITY_PATTERNS = [
+  /\{max\}/i,
+  /(^|\D)20(\D|$)/,
+  /\{current\}\s*\/|\/\s*\{(?:current|max)\}/i,
+  /\b(?:four|quatre|cuatro|quattro|vier|quatro)\b|4\s*(?:人|people|persons|personen|personas|pessoas|persone)?/i,
+] as const
+
 describe('appearance dictionary contract', () => {
   it('covers all seven supported locales', () => {
     expect(languages).toHaveLength(7)
@@ -87,5 +100,17 @@ describe('Together dictionary contract', () => {
       together.participant_count,
       `${language}.together.participant_count`
     ).toContain('{current}')
+    expect(
+      together.participant_count,
+      `${language}.together.participant_count`
+    ).toMatch(/[:：]\s*\{current\}$/)
+
+    for (const key of PRIVATE_CAPACITY_COPY_KEYS) {
+      for (const pattern of PUBLIC_CAPACITY_PATTERNS) {
+        expect(together[key], `${language}.together.${key}`).not.toMatch(
+          pattern
+        )
+      }
+    }
   })
 })

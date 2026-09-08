@@ -973,7 +973,7 @@
     "room_full_body": "Bitte den Gastgeber, einen neuen Raum zu erstellen.",
     "waiting_title": "Warten auf deine Gruppe.",
     "waiting_body": "Sobald jemand dazukommt, könnt ihr gemeinsam auswählen.",
-    "participant_count": "{current} Personen in der Gruppe",
+    "participant_count": "In der Gruppe: {current}",
     "ready_title": "Deine Gruppe ist bereit.",
     "start_choosing": "Jetzt",
     "vote_nope": "Nein",
