@@ -5,8 +5,7 @@ import { isLanguage } from '@/types/languages'
 import { languages } from '../../languages'
 
 const DEFAULT_LOCALE: Language = 'en-US'
-const QUALITY_PARAMETER =
-  /^\s*q=(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)\s*$/i
+const QUALITY_PARAMETER = /^\s*q=(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)\s*$/i
 
 function hasValidQualityParameter(languageEntry: string): boolean {
   const [, ...parameters] = languageEntry.split(';')

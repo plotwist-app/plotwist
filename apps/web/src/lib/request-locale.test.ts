@@ -14,12 +14,12 @@ describe('detectRequestLocale', () => {
     expect(detectRequestLocale('es;q=0.4,de;q=0.9')).toBe('de-DE')
   })
 
-  it.each(['fr;q=2,de;q=1', 'fr;q=0.9junk,de;q=0.8'])(
-    'ignores an entry with an invalid quality value in %s',
-    acceptLanguage => {
-      expect(detectRequestLocale(acceptLanguage)).toBe('de-DE')
-    }
-  )
+  it.each([
+    'fr;q=2,de;q=1',
+    'fr;q=0.9junk,de;q=0.8',
+  ])('ignores an entry with an invalid quality value in %s', acceptLanguage => {
+    expect(detectRequestLocale(acceptLanguage)).toBe('de-DE')
+  })
 
   it('ignores malformed and wildcard language ranges', () => {
     expect(detectRequestLocale('not_a_locale,*;q=0.9,ja;q=0.8')).toBe('ja-JP')
