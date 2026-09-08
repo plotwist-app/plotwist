@@ -267,18 +267,19 @@ export function TogetherVote({ code }: { code: string }) {
     ?.slice(0, 2)
     .map(item => item.name)
     .join(', ')
-  const partnerName = roomQuery.data?.participants.find(
-    participant => participant.id !== roomQuery.data.me?.id
-  )?.displayName
+  const participantCount = roomQuery.data?.participants.length ?? 0
 
   return (
     <TogetherShell className="pb-0">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <TogetherMark />
-          {partnerName ? (
+          {participantCount > 1 ? (
             <p className="together-heading together-fg-accent mt-3">
-              {copy.tonight_with.replace('{name}', partnerName)}
+              {copy.choosing_with.replace(
+                '{count}',
+                String(participantCount)
+              )}
             </p>
           ) : null}
         </div>
@@ -362,6 +363,7 @@ export function TogetherVote({ code }: { code: string }) {
             interestSummary: copy.match_interest_summary,
             continueDiscovering: copy.continue_discovering,
             viewMatches: copy.view_matches,
+            close: copy.match_close,
           }}
           onContinue={acknowledgeCelebration}
           onViewMatches={viewMatches}

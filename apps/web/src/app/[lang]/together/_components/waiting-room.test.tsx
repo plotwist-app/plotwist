@@ -4,7 +4,7 @@ import { InviteScreen } from './invite-screen'
 import { WaitingRoom } from './waiting-room'
 
 const copy = {
-  night_for_two: 'A night together',
+  group_kicker: 'A night together',
   host_invite_title: '{name}, this is the invite.',
   invite_help: 'Send this invite.',
   continue_as_host: 'Wait here',

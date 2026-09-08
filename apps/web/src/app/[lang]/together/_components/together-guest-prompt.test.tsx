@@ -11,7 +11,7 @@ vi.mock('@/context/language', () => ({
     language: 'pt-BR',
     dictionary: {
       together: {
-        night_for_two: 'A night together',
+        group_kicker: 'A night together',
         title: 'Tonight’s movie',
         subtitle: 'Choose together.',
         have_invite: 'I have an invite',

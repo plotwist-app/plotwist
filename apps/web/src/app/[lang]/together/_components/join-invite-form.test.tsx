@@ -29,7 +29,7 @@ vi.mock('@/context/language', () => ({
     language: 'en-US',
     dictionary: {
       together: {
-        night_for_two: 'A night together',
+        group_kicker: 'A night together',
         join_title: '{name} invited you.',
         have_invite_title: 'Join the night',
         join_subtitle: 'Enter your name.',

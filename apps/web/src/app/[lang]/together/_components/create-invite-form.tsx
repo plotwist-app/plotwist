@@ -2,7 +2,7 @@
 
 import { Input } from '@plotwist/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
 import { useSession } from '@/context/session'
@@ -30,6 +30,13 @@ export function CreateInviteForm() {
     user?.displayName || user?.username || ''
   )
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const nameHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    if (step === 'name') {
+      nameHeadingRef.current?.focus()
+    }
+  }, [step])
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -64,6 +71,13 @@ export function CreateInviteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <h2
+        ref={nameHeadingRef}
+        className="together-title outline-none"
+        tabIndex={-1}
+      >
+        {copy.create_heading}
+      </h2>
       <label htmlFor="together-name" className="flex flex-col gap-2">
         <span className="together-label together-fg-muted">
           {copy.your_name}
@@ -74,7 +88,6 @@ export function CreateInviteForm() {
           onChange={event => setDisplayName(event.target.value)}
           placeholder={copy.your_name_placeholder}
           maxLength={40}
-          autoFocus
         />
       </label>
       <PrimaryButton

@@ -32,7 +32,7 @@ export function WelcomeScreen() {
         <>
           <TogetherMark />
           <p className="together-kicker together-fg-accent mt-6">
-            {copy.night_for_two}
+            {copy.group_kicker}
           </p>
           <h1 className="together-display mt-3">{copy.title}</h1>
           <p className="together-body together-fg-muted mt-4 mb-9 max-w-[22rem]">

@@ -9,9 +9,10 @@ type WaitingRoomProps = {
   ready: boolean
   maxParticipants: number
   copy: {
-    night_for_two: string
+    group_kicker: string
     waiting_title: string
     waiting_body: string
+    ready_title: string
     start_choosing: string
     you: string
     empty_seat: string
@@ -31,10 +32,7 @@ export function WaitingRoom({
   participantIds,
   onStart,
 }: WaitingRoomProps) {
-  const first = names[0]
-  const second = names[1]
-  const pairTitle =
-    ready && first && second ? `${first} & ${second}` : copy.waiting_title
+  const heading = ready ? copy.ready_title : copy.waiting_title
   const capacity = copy.room_capacity
     .replace('{current}', String(names.length))
     .replace('{max}', String(maxParticipants))
@@ -47,9 +45,9 @@ export function WaitingRoom({
     <TogetherShell>
       <TogetherMark />
       <p className="together-kicker together-fg-accent mt-6">
-        {copy.night_for_two}
+        {copy.group_kicker}
       </p>
-      <h1 className="together-display mt-3">{pairTitle}</h1>
+      <h1 className="together-display mt-3">{heading}</h1>
       <p className="together-meta together-fg-muted mt-3">{capacity}</p>
       {!ready && (
         <p className="together-body together-fg-muted mt-3">

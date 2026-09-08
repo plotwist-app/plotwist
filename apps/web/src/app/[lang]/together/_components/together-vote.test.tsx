@@ -36,7 +36,6 @@ vi.mock('@/context/language', () => ({
     dictionary: {
       together: {
         loading: 'Loading...',
-        tonight_with: 'with {name}',
         choosing_with: 'Choosing with {count} people',
         see_matches: 'The match',
         empty_deck: 'That is all.',

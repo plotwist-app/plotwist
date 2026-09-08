@@ -82,7 +82,7 @@ export function JoinInviteForm({
       <TogetherMark />
       <div>
         <p className="together-kicker together-fg-accent mt-6">
-          {copy.night_for_two}
+          {copy.group_kicker}
         </p>
         <h1 className="together-display mt-3">
           {hostName

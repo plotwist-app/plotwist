@@ -1,7 +1,9 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { Check } from 'lucide-react'
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 import { useLanguage } from '@/context/language'
 import { cn } from '@/lib/utils'
 import { tmdb } from '@/services/tmdb'
@@ -25,6 +27,11 @@ export function TogetherProviderStep({
 }: TogetherProviderStepProps) {
   const { dictionary, language } = useLanguage()
   const copy = dictionary.together
+  const headingRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    headingRef.current?.focus()
+  }, [])
 
   const regionsQuery = useQuery({
     queryKey: ['together-watch-provider-regions', language],
@@ -65,7 +72,12 @@ export function TogetherProviderStep({
 
   return (
     <section aria-labelledby="together-provider-heading">
-      <h2 id="together-provider-heading" className="together-title">
+      <h2
+        ref={headingRef}
+        id="together-provider-heading"
+        className="together-title outline-none"
+        tabIndex={-1}
+      >
         {copy.provider_heading}
       </h2>
       <p className="together-body together-fg-muted mt-2">
@@ -79,40 +91,42 @@ export function TogetherProviderStep({
         >
           {copy.provider_loading}
         </p>
-      ) : isError ? (
-        <div
-          className="together-dashed mt-6 rounded-[1.25rem] p-6 text-center"
-          role="alert"
-        >
-          <p className="together-body together-fg-muted">
-            {copy.provider_error}
-          </p>
-          <button
-            type="button"
-            onClick={retry}
-            className="together-label together-fg-accent mt-4 underline-offset-4 hover:underline"
-          >
-            {copy.provider_retry}
-          </button>
-        </div>
       ) : (
         <>
-          <label className="mt-6 flex flex-col gap-2">
-            <span className="together-label together-fg-muted">
-              {copy.provider_region}
-            </span>
-            <select
-              value={region}
-              onChange={event => changeRegion(event.target.value)}
-              className="together-surface together-body h-[3.15rem] w-full rounded-[0.9rem] border border-[var(--tg-border)] px-3 text-[var(--tg-text)] outline-none focus-visible:border-[var(--tg-accent)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tg-accent)_28%,transparent)]"
+          {isError ? (
+            <div
+              className="together-dashed mt-6 rounded-[1.25rem] p-6 text-center"
+              role="alert"
             >
-              {regionsQuery.data?.map(item => (
-                <option key={item.iso_3166_1} value={item.iso_3166_1}>
-                  {item.native_name || item.english_name}
-                </option>
-              ))}
-            </select>
-          </label>
+              <p className="together-body together-fg-muted">
+                {copy.provider_error}
+              </p>
+              <button
+                type="button"
+                onClick={retry}
+                className="together-label together-fg-accent mt-4 underline-offset-4 hover:underline"
+              >
+                {copy.provider_retry}
+              </button>
+            </div>
+          ) : (
+            <label className="mt-6 flex flex-col gap-2">
+              <span className="together-label together-fg-muted">
+                {copy.provider_region}
+              </span>
+              <select
+                value={region}
+                onChange={event => changeRegion(event.target.value)}
+                className="together-surface together-body h-[3.15rem] w-full rounded-[0.9rem] border border-[var(--tg-border)] px-3 text-[var(--tg-text)] outline-none focus-visible:border-[var(--tg-accent)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tg-accent)_28%,transparent)]"
+              >
+                {regionsQuery.data?.map(item => (
+                  <option key={item.iso_3166_1} value={item.iso_3166_1}>
+                    {item.native_name || item.english_name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
 
           <div className="mt-5 grid grid-cols-2 gap-2.5">
             <button
@@ -120,16 +134,23 @@ export function TogetherProviderStep({
               aria-pressed={providerIds.length === 0}
               onClick={() => onProviderIdsChange([])}
               className={cn(
-                'together-label flex min-h-14 items-center justify-center rounded-[1rem] border px-3 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
+                'together-label relative flex min-h-14 items-center justify-center gap-2 rounded-[1rem] border px-3 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tg-accent)]',
                 providerIds.length === 0
                   ? 'border-[var(--tg-accent)] bg-[var(--tg-wash)] text-[var(--tg-accent)]'
                   : 'together-surface border-[var(--tg-border)] text-[var(--tg-text)]'
               )}
             >
               {copy.provider_any}
+              {providerIds.length === 0 && (
+                <>
+                  <Check className="size-4 shrink-0" aria-hidden="true" />
+                  <span className="sr-only">{copy.provider_selected}</span>
+                </>
+              )}
             </button>
 
-            {providersQuery.data?.map(provider => {
+            {!isError &&
+              providersQuery.data?.map(provider => {
               const selected = providerIds.includes(provider.provider_id)
 
               return (
@@ -153,9 +174,18 @@ export function TogetherProviderStep({
                     className="size-8 shrink-0 rounded-lg"
                   />
                   <span>{provider.provider_name}</span>
+                  {selected && (
+                    <>
+                      <Check
+                        className="ml-auto size-4 shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only">{copy.provider_selected}</span>
+                    </>
+                  )}
                 </button>
               )
-            })}
+              })}
           </div>
 
           <PrimaryButton className="mt-6" onClick={onContinue}>

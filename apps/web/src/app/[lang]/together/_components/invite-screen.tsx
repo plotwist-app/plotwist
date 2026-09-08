@@ -12,7 +12,7 @@ type InviteScreenProps = {
   participantCount: number
   maxParticipants: number
   copy: {
-    night_for_two: string
+    group_kicker: string
     host_invite_title: string
     invite_help: string
     continue_as_host: string
@@ -47,7 +47,7 @@ export function InviteScreen({
     <TogetherShell>
       <TogetherMark />
       <p className="together-kicker together-fg-accent mt-6">
-        {copy.night_for_two}
+        {copy.group_kicker}
       </p>
       <h1 className="together-display mt-3">
         {copy.host_invite_title.replace('{name}', hostName)}
