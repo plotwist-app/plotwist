@@ -230,6 +230,7 @@ git commit -m "feat(together): filter choices by host providers"
 - Create: `apps/web/src/app/[lang]/together/_components/together-match-notifications.test.ts`
 - Modify: `apps/web/src/app/[lang]/together/_components/together-vote.tsx`
 - Modify: `apps/web/src/app/[lang]/together/_components/together-vote.test.tsx`
+- Modify: all seven files under `apps/web/public/dictionaries/*.json`
 
 **Interfaces:**
 - Produces: `togetherMatchKey(match): string`
@@ -260,6 +261,8 @@ Add a `getTogetherMatches` query while voting with a 3-second interval. Feed dir
 - View matches navigates to `/{language}/together/{code}/matches`.
 
 Use explicit Together colors on portaled dialog content so CSS variables scoped to `.together-shell` are not lost.
+
+Add the match heading, interest summary, “Continue discovering”, and “View matches” copy to all seven dictionaries in this task.
 
 - [ ] **Step 4: Verify and commit**
 
@@ -308,7 +311,7 @@ Render it before host provider setup. Keep dismissal in component state and neve
 
 Use `participants.length` and `room.maxParticipants` from room state. Replace exact “admit two” copy with “up to four”; show `current / max` in invite and waiting screens. When full and the visitor has no valid membership, show the localized room-full state instead of the join form.
 
-Add all remaining match celebration, guest prompt, and capacity strings to all seven dictionaries. Extend the existing dictionary contract test to require every new key, including the provider-step keys from Task 3.
+Add all remaining guest prompt and capacity strings to all seven dictionaries. Extend the existing dictionary contract test to require every new key, including the provider-step and match keys from Tasks 3 and 4.
 
 - [ ] **Step 5: Verify and commit**
 
