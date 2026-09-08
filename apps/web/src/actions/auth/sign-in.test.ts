@@ -71,4 +71,14 @@ describe('signIn redirect enforcement', () => {
 
     expect(mocks.redirect).toHaveBeenCalledWith('/pt-BR/home')
   })
+
+  it('does not redirect when an internal caller deliberately omits a target', async () => {
+    await signIn({
+      login: 'ana@example.com',
+      password: 'password123',
+      language: 'pt-BR',
+    })
+
+    expect(mocks.redirect).not.toHaveBeenCalled()
+  })
 })

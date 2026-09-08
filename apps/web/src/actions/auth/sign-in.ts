@@ -38,8 +38,10 @@ export async function signIn({
   await createSession({ token })
 
   let finalRedirectTo =
-    getSafeLocalizedRedirectPath(redirectTo, safeLanguage) ??
-    `/${safeLanguage}/home`
+    redirectTo === undefined
+      ? undefined
+      : (getSafeLocalizedRedirectPath(redirectTo, safeLanguage) ??
+        `/${safeLanguage}/home`)
 
   try {
     setAuthToken(token)
@@ -55,5 +57,7 @@ export async function signIn({
     )
   }
 
-  redirect(finalRedirectTo)
+  if (finalRedirectTo) {
+    redirect(finalRedirectTo)
+  }
 }
