@@ -99,3 +99,91 @@ Changed-file Biome:
 - All seven locale dictionaries satisfy the structural contract and no
   pair-specific Together terms remain in the audited copy. Native-speaker
   review is still advisable for editorial nuance.
+
+---
+
+## Hardening follow-up (three desired fixes)
+
+Inspected `HEAD` `4b53f169` on `cursor/together-flow-improvements-08b6`.
+The three requested hardening items were already implemented and pushed
+by earlier commits on this branch (`949ca969`, `6880d95b`, `4b53f169`).
+This pass re-verified those commits against the review text, ran the
+requested suites, and recorded evidence. No additional production change
+was required.
+
+### 1) Match metadata from one representative swipe
+
+`selectTogetherMatchesWhere` no longer uses independent `min()` on each
+display field. Every metadata column is taken from
+`(array_agg(column ORDER BY title, id))[1]`, so title, poster, vote,
+release date, and overview come from the same swipe row. Match list
+order is LIKE count, then MAYBE count, then `mediaType`, then `tmdbId`.
+
+Real Postgres fixtures in `create-swipe.spec.ts`:
+
+- Mixed-locale Dune/Duna swipes assert every metadata field stays on
+  the title-ordered representative row (`Duna` / `/zulu.jpg` / `9.1` /
+  `2030-01-01` / Portuguese overview), not a mix of `min()` values.
+- Three equal LIKE matches assert stable order
+  `MOVIE/10`, `MOVIE/20`, `TV_SHOW/1`.
+
+### 2) Provider heading focus
+
+`TogetherProviderStep` focuses its heading only when `focusHeading` is
+true. `CreateInviteForm` keeps that flag false on first paint so the
+guest prompt stays first in tab order, focuses the name heading on the
+name step, and sets the flag only when leaving providers so Back
+returns focus to the provider heading.
+
+Regression tests:
+
+- Initial render: `document.activeElement` stays `document.body`.
+- Name step focuses `Create your invite`, not the name input.
+- Back sets `focusHeading` true; provider heading receives focus.
+
+### 3) Provider outage harness
+
+`ControlledProviderHarness` owns `providerIds` in React state. The
+outage test rejects the first provider list, clicks Retry, asserts the
+query refetches (`list` called twice) and Netflix is selected again,
+then clicks Any service and Continue and asserts `onContinue([])`.
+
+### Hardening verification
+
+```text
+Backend Together services:
+  pnpm --filter plotwist-api test --run src/domain/services/together
+  4 files passed, 21 tests passed
+
+Web Together components:
+  pnpm --filter web test --run 'src/app/[lang]/together/_components'
+  10 files passed, 47 tests passed
+
+Backend build:
+  pnpm --filter plotwist-api run build
+  ESM, CJS, and DTS builds passed
+
+Web typecheck:
+  pnpm --filter web run typecheck
+  passed
+
+Changed-file Biome:
+  7 files checked, no fixes applied
+```
+
+`apps/web/tsconfig.tsbuildinfo` was restored after typechecking.
+
+### Hardening commits
+
+- `949ca969` — `test(together): cover final hardening cases`
+- `6880d95b` — `fix(together): select metadata from one swipe`
+- `4b53f169` — `fix(together): focus provider heading only on return`
+
+### Hardening concerns
+
+- Representative metadata still uses five `array_agg(...)[1]` expressions
+  that share one `ORDER BY title, id`. That is a consistent ordered
+  aggregate and the mixed-field fixture fails under independent `min()`,
+  but a single subquery/`json` row pick would be harder to drift.
+- The repository still declares Node 23+; this environment is Node
+  22.14.0. Requested commands passed with the existing engine warning.
