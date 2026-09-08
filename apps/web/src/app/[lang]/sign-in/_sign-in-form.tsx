@@ -50,7 +50,7 @@ type SignInFormProps = {
 }
 
 export const SignInForm = ({ onSignIn, redirectTo }: SignInFormProps) => {
-  const { dictionary } = useLanguage()
+  const { dictionary, language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
   const [warningDialogOpen, setWarningDialogOpen] = useState(false)
 
@@ -66,6 +66,7 @@ export const SignInForm = ({ onSignIn, redirectTo }: SignInFormProps) => {
     try {
       const { status } = (await onSignIn({
         ...values,
+        language,
         redirectTo,
       })) as { status: string }
 

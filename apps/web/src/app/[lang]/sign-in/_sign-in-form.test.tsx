@@ -74,6 +74,7 @@ describe('SignInForm redirect behavior', () => {
       expect(onSignIn).toHaveBeenCalledWith({
         login: 'ana@example.com',
         password: 'password123',
+        language: 'pt-BR',
         redirectTo: '/pt-BR/together',
       })
     )
