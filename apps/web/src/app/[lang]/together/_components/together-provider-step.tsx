@@ -52,6 +52,12 @@ export function TogetherProviderStep({
     )
   }
 
+  function changeRegion(nextRegion: string) {
+    if (nextRegion === region) return
+    onProviderIdsChange([])
+    onRegionChange(nextRegion)
+  }
+
   function retry() {
     void regionsQuery.refetch()
     void providersQuery.refetch()
@@ -97,7 +103,7 @@ export function TogetherProviderStep({
             </span>
             <select
               value={region}
-              onChange={event => onRegionChange(event.target.value)}
+              onChange={event => changeRegion(event.target.value)}
               className="together-surface together-body h-[3.15rem] w-full rounded-[0.9rem] border border-[var(--tg-border)] px-3 text-[var(--tg-text)] outline-none focus-visible:border-[var(--tg-accent)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--tg-accent)_28%,transparent)]"
             >
               {regionsQuery.data?.map(item => (
