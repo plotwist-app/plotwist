@@ -182,6 +182,7 @@ describe('together matching', () => {
       decision: 'LIKE',
       ...dune,
     })
+    if (!('match' in result)) throw new Error('expected swipe')
 
     expect(result.match).toEqual(
       expect.objectContaining({ likeCount: 2, matchPercent: 50 })

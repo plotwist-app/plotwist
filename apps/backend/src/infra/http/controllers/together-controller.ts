@@ -4,12 +4,12 @@ import type {
   TogetherRoom,
 } from '@/domain/entities/together'
 import { DomainError } from '@/domain/errors/domain-error'
+import { MAX_TOGETHER_PARTICIPANTS } from '@/domain/services/together/constants'
 import { createTogetherRoomService } from '@/domain/services/together/create-room'
 import { createTogetherSwipeService } from '@/domain/services/together/create-swipe'
 import { getTogetherMatchesService } from '@/domain/services/together/get-matches'
 import { getTogetherRoomService } from '@/domain/services/together/get-room'
 import { joinTogetherRoomService } from '@/domain/services/together/join-room'
-import { MAX_TOGETHER_PARTICIPANTS } from '@/domain/services/together/constants'
 import {
   createTogetherRoomBodySchema,
   createTogetherSwipeBodySchema,

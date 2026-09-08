@@ -132,8 +132,8 @@ describe('join together room', () => {
     expect(
       results.filter(result => result instanceof TogetherInvalidInputError)
     ).toHaveLength(1)
-    expect(
-      results.filter(result => 'participantToken' in result)
-    ).toHaveLength(1)
+    expect(results.filter(result => 'participantToken' in result)).toHaveLength(
+      1
+    )
   })
 })
