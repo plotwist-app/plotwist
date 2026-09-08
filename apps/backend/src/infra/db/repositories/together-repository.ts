@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, sql } from 'drizzle-orm'
+import { and, desc, eq, inArray, type SQL, sql } from 'drizzle-orm'
 import { db } from '..'
 import {
   togetherParticipants,
@@ -148,60 +148,51 @@ export async function selectTogetherSwipeIdsByParticipant(
     .where(eq(togetherSwipes.participantId, participantId))
 }
 
-export async function countTitleInterest(input: {
-  roomId: string
-  tmdbId: number
-  mediaType: string
-}) {
-  const [row] = await db
-    .select({
-      count: sql<number>`count(distinct ${togetherSwipes.participantId})::int`,
-    })
-    .from(togetherSwipes)
-    .where(
-      and(
-        eq(togetherSwipes.roomId, input.roomId),
-        eq(togetherSwipes.tmdbId, input.tmdbId),
-        eq(togetherSwipes.mediaType, input.mediaType),
-        inArray(togetherSwipes.decision, ['LIKE', 'MAYBE'])
-      )
-    )
-  return row?.count ?? 0
-}
-
-export async function selectTogetherMatches(roomId: string) {
+function selectTogetherMatchesWhere(where: SQL | undefined) {
   return db
     .select({
       tmdbId: togetherSwipes.tmdbId,
       mediaType: togetherSwipes.mediaType,
-      title: togetherSwipes.title,
-      posterPath: togetherSwipes.posterPath,
-      voteAverage: togetherSwipes.voteAverage,
-      releaseDate: togetherSwipes.releaseDate,
-      overview: togetherSwipes.overview,
+      title: sql<string>`min(${togetherSwipes.title})`,
+      posterPath: sql<string | null>`min(${togetherSwipes.posterPath})`,
+      voteAverage: sql<number | null>`min(${togetherSwipes.voteAverage})`,
+      releaseDate: sql<string | null>`min(${togetherSwipes.releaseDate})`,
+      overview: sql<string | null>`min(${togetherSwipes.overview})`,
       likeCount: sql<number>`count(*) filter (where ${togetherSwipes.decision} = 'LIKE')::int`,
       maybeCount: sql<number>`count(*) filter (where ${togetherSwipes.decision} = 'MAYBE')::int`,
       interestCount: sql<number>`count(distinct ${togetherSwipes.participantId})::int`,
     })
     .from(togetherSwipes)
-    .where(
-      and(
-        eq(togetherSwipes.roomId, roomId),
-        inArray(togetherSwipes.decision, ['LIKE', 'MAYBE'])
-      )
-    )
-    .groupBy(
-      togetherSwipes.tmdbId,
-      togetherSwipes.mediaType,
-      togetherSwipes.title,
-      togetherSwipes.posterPath,
-      togetherSwipes.voteAverage,
-      togetherSwipes.releaseDate,
-      togetherSwipes.overview
-    )
+    .where(where)
+    .groupBy(togetherSwipes.tmdbId, togetherSwipes.mediaType)
     .having(sql`count(distinct ${togetherSwipes.participantId}) >= 2`)
     .orderBy(
       desc(sql`count(*) filter (where ${togetherSwipes.decision} = 'LIKE')`),
       desc(sql`count(*) filter (where ${togetherSwipes.decision} = 'MAYBE')`)
     )
+}
+
+export function selectTogetherMatches(roomId: string) {
+  return selectTogetherMatchesWhere(
+    and(
+      eq(togetherSwipes.roomId, roomId),
+      inArray(togetherSwipes.decision, ['LIKE', 'MAYBE'])
+    )
+  )
+}
+
+export async function selectTogetherMatch(input: {
+  roomId: string
+  tmdbId: number
+  mediaType: string
+}) {
+  const [match] = await selectTogetherMatchesWhere(
+    and(
+      eq(togetherSwipes.roomId, input.roomId),
+      eq(togetherSwipes.tmdbId, input.tmdbId),
+      eq(togetherSwipes.mediaType, input.mediaType),
+      inArray(togetherSwipes.decision, ['LIKE', 'MAYBE'])
+    )
+  )
+  return match ?? null
 }
