@@ -89,7 +89,11 @@ async function togetherFetch<T>(
   return data
 }
 
-export function createTogetherRoom(body: { displayName: string }) {
+export function createTogetherRoom(body: {
+  displayName: string
+  watchProviderIds: number[]
+  watchRegion: string
+}) {
   return togetherFetch<TogetherSession>('/together/rooms', {
     method: 'POST',
     body,

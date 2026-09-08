@@ -82,8 +82,16 @@ export function TogetherVote({ code }: { code: string }) {
     return ids
   }, [localSwiped, roomQuery.data?.swipedIds])
 
+  const watchProviderIds = roomQuery.data?.room.watchProviderIds ?? []
+  const watchRegion = roomQuery.data?.room.watchRegion ?? 'BR'
+
   const deckQuery = useInfiniteQuery({
-    queryKey: ['together-vote-deck', language],
+    queryKey: [
+      'together-vote-deck',
+      language,
+      watchProviderIds.join('|'),
+      watchRegion,
+    ],
     enabled: Boolean(roomQuery.data),
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
@@ -93,6 +101,10 @@ export function TogetherVote({ code }: { code: string }) {
         filters: {
           sort_by: 'popularity.desc',
           'vote_count.gte': '80',
+          ...(watchProviderIds.length > 0 && {
+            with_watch_providers: watchProviderIds.join('|'),
+            watch_region: watchRegion,
+          }),
         },
       })
       return {
