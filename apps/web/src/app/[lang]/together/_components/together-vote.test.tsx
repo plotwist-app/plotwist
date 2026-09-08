@@ -9,6 +9,8 @@ import {
 } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import type { TogetherMatch } from '@/services/together'
+import { acknowledgeTogetherMatch } from './together-match-notifications'
 import { TogetherVote } from './together-vote'
 
 const mocks = vi.hoisted(() => ({
@@ -68,11 +70,13 @@ vi.mock('@/services/together', () => ({
   getTogetherToken: () => 'participant-token',
 }))
 
-function wrapper() {
-  const queryClient = new QueryClient({
+function createQueryClient() {
+  return new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
+}
 
+function wrapper(queryClient = createQueryClient()) {
   return function QueryWrapper({ children }: { children: ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -98,7 +102,7 @@ function room(watchProviderIds: number[] | null, watchRegion = 'BR') {
   }
 }
 
-const match = {
+const match: TogetherMatch = {
   tmdbId: 603,
   mediaType: 'MOVIE',
   title: 'The Matrix',
@@ -109,6 +113,12 @@ const match = {
   matchPercent: 100,
 }
 
+const nextMatch = {
+  ...match,
+  tmdbId: 604,
+  title: 'The Matrix Reloaded',
+}
+
 const movie = {
   id: 603,
   title: 'The Matrix',
@@ -116,6 +126,21 @@ const movie = {
   release_date: '1999-03-30',
   overview: 'A hacker discovers the truth.',
   vote_average: 8.2,
+}
+
+const nextMovie = {
+  ...movie,
+  id: 604,
+  title: 'The Matrix Reloaded',
+  release_date: '2003-05-15',
+}
+
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>(resolvePromise => {
+    resolve = resolvePromise
+  })
+  return { promise, resolve }
 }
 
 describe('TogetherVote provider deck filters', () => {
@@ -207,6 +232,79 @@ describe('TogetherVote match notifications', () => {
     expect(mocks.push).not.toHaveBeenCalled()
   })
 
+  it('cancels a stale poll and replaces the matching cache entry from the swipe', async () => {
+    const queryClient = createQueryClient()
+    const queryKey = [
+      'together-matches',
+      'ABC123',
+      'participant-token',
+    ] as const
+    const staleMatch = { ...match, likeCount: 1, matchPercent: 50 }
+    const directMatch = { ...match, likeCount: 3, matchPercent: 75 }
+    const stalePoll = deferred<{ matches: TogetherMatch[] }>()
+
+    acknowledgeTogetherMatch('ABC123', staleMatch)
+    acknowledgeTogetherMatch('ABC123', nextMatch)
+    queryClient.setQueryData(queryKey, {
+      matches: [staleMatch, nextMatch],
+    })
+    mocks.getMatches.mockReturnValueOnce(stalePoll.promise)
+    mocks.createSwipe.mockResolvedValue({
+      swipe: { id: 'swipe-id', tmdbId: 603, decision: 'LIKE' },
+      match: directMatch,
+    })
+
+    render(<TogetherVote code="abc123" />, {
+      wrapper: wrapper(queryClient),
+    })
+
+    await waitFor(() => expect(mocks.getMatches).toHaveBeenCalledOnce())
+    fireEvent.click(await screen.findByRole('button', { name: 'Yes' }))
+
+    await waitFor(() =>
+      expect(queryClient.getQueryData(queryKey)).toEqual({
+        matches: [directMatch, nextMatch],
+      })
+    )
+
+    await act(async () => {
+      stalePoll.resolve({ matches: [staleMatch] })
+      await stalePoll.promise
+    })
+
+    expect(queryClient.getQueryData(queryKey)).toEqual({
+      matches: [directMatch, nextMatch],
+    })
+  })
+
+  it('keeps the next card and route unchanged when continuing', async () => {
+    mocks.discover.mockResolvedValue({
+      results: [movie, nextMovie],
+      page: 1,
+      total_pages: 1,
+    })
+    mocks.movieDetails.mockImplementation((id: number) =>
+      Promise.resolve(id === nextMovie.id ? nextMovie : movie)
+    )
+    mocks.createSwipe.mockResolvedValue({
+      swipe: { id: 'swipe-id', tmdbId: 603, decision: 'LIKE' },
+      match,
+    })
+
+    render(<TogetherVote code="abc123" />, { wrapper: wrapper() })
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Yes' }))
+    await screen.findByRole('heading', { name: 'It’s a match' })
+    await waitFor(() => expect(screen.getByText(nextMovie.title)).toBeTruthy())
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Continue discovering' })
+    )
+
+    expect(screen.getByRole('heading', { name: nextMovie.title })).toBeTruthy()
+    expect(mocks.push).not.toHaveBeenCalled()
+  })
+
   it('navigates to the room matches from the celebration', async () => {
     mocks.createSwipe.mockResolvedValue({
       swipe: { id: 'swipe-id', tmdbId: 603, decision: 'LIKE' },
@@ -246,5 +344,32 @@ describe('TogetherVote match notifications', () => {
     })
 
     expect(screen.queryByRole('heading', { name: 'It’s a match' })).toBeNull()
+  })
+
+  it('recovers polling after an error while voting remains usable', async () => {
+    vi.useFakeTimers()
+    mocks.getMatches
+      .mockRejectedValueOnce(new Error('temporary polling failure'))
+      .mockResolvedValue({ matches: [] })
+
+    render(<TogetherVote code="abc123" />, { wrapper: wrapper() })
+
+    await vi.waitFor(() => expect(mocks.getMatches).toHaveBeenCalledOnce())
+    const maybeButton = await vi.waitFor(() =>
+      screen.getByRole('button', { name: 'Maybe' })
+    )
+    fireEvent.click(maybeButton)
+    await vi.waitFor(() => expect(mocks.createSwipe).toHaveBeenCalledOnce())
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(3000)
+    })
+
+    expect(mocks.getMatches).toHaveBeenCalledTimes(2)
+    expect(mocks.createSwipe).toHaveBeenCalledWith(
+      'ABC123',
+      'participant-token',
+      expect.objectContaining({ decision: 'MAYBE', tmdbId: movie.id })
+    )
   })
 })

@@ -195,15 +195,26 @@ export function TogetherVote({ code }: { code: string }) {
         })
         const swipeMatch = result.match
         if (swipeMatch) {
+          await queryClient.cancelQueries({
+            queryKey: matchesQueryKey,
+            exact: true,
+          })
           queryClient.setQueryData<{ matches: TogetherMatch[] }>(
             matchesQueryKey,
             currentMatches => {
               const matches = currentMatches?.matches ?? []
               const matchKey = togetherMatchKey(swipeMatch)
-              if (matches.some(match => togetherMatchKey(match) === matchKey)) {
-                return currentMatches
+              const matchingIndex = matches.findIndex(
+                match => togetherMatchKey(match) === matchKey
+              )
+              if (matchingIndex === -1) {
+                return { matches: [swipeMatch, ...matches] }
               }
-              return { matches: [swipeMatch, ...matches] }
+              return {
+                matches: matches.map((match, index) =>
+                  index === matchingIndex ? swipeMatch : match
+                ),
+              }
             }
           )
         }

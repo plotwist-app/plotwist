@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { TogetherMatch } from '@/services/together'
 import { MatchCelebration } from './match-celebration'
@@ -34,12 +40,16 @@ describe('MatchCelebration', () => {
       />
     )
 
-    expect(screen.getByRole('dialog')).toBeTruthy()
+    const dialog = screen.getByRole('dialog')
+    expect(dialog).toBeTruthy()
     expect(screen.getByRole('heading', { name: copy.heading })).toBeTruthy()
     expect(screen.getByText(match.title)).toBeTruthy()
     expect(
       screen.getByText('2 people are interested · 100% match')
     ).toBeTruthy()
+    expect(dialog.className).toContain('[&>button]:text-[#f7f3ea]')
+    expect(dialog.className).toContain('[&>button]:focus:ring-[#ff8b84]')
+    expect(dialog.className).toContain('[&>button]:focus:ring-offset-[#0b0b09]')
   })
 
   it('includes maybe votes in a polled match interest summary', () => {
@@ -93,5 +103,37 @@ describe('MatchCelebration', () => {
 
     expect(onViewMatches).toHaveBeenCalledOnce()
     expect(onContinue).not.toHaveBeenCalled()
+  })
+
+  it('traps keyboard focus and dismisses on Escape', async () => {
+    const onContinue = vi.fn()
+    render(
+      <MatchCelebration
+        match={match}
+        copy={copy}
+        onContinue={onContinue}
+        onViewMatches={vi.fn()}
+      />
+    )
+
+    const dialog = screen.getByRole('dialog')
+    const viewMatches = screen.getByRole('button', {
+      name: copy.viewMatches,
+    })
+    const close = screen.getByRole('button', { name: 'Close' })
+
+    await waitFor(() =>
+      expect(dialog.contains(document.activeElement)).toBe(true)
+    )
+
+    close.focus()
+    fireEvent.keyDown(close, { key: 'Tab', code: 'Tab' })
+    expect(document.activeElement).toBe(viewMatches)
+
+    fireEvent.keyDown(document.activeElement ?? document, {
+      key: 'Escape',
+      code: 'Escape',
+    })
+    expect(onContinue).toHaveBeenCalledOnce()
   })
 })
