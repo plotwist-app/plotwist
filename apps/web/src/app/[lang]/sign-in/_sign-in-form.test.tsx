@@ -55,12 +55,7 @@ describe('SignInForm redirect behavior', () => {
   it('submits the safe redirect supplied by the sign-in page', async () => {
     const onSignIn = vi.fn().mockResolvedValue({ status: '' })
 
-    render(
-      <SignInForm
-        onSignIn={onSignIn}
-        redirectTo="/pt-BR/together"
-      />
-    )
+    render(<SignInForm onSignIn={onSignIn} redirectTo="/pt-BR/together" />)
 
     fireEvent.change(screen.getByLabelText('Login'), {
       target: { value: 'ana@example.com' },

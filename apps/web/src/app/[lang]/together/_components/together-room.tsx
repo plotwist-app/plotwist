@@ -42,10 +42,7 @@ export function TogetherRoom({ code }: { code: string }) {
       token === TOKEN_UNINITIALIZED ? 'uninitialized' : token,
     ],
     queryFn: () =>
-      getTogetherRoom(
-        roomCode,
-        token === TOKEN_UNINITIALIZED ? null : token
-      ),
+      getTogetherRoom(roomCode, token === TOKEN_UNINITIALIZED ? null : token),
     enabled: token !== TOKEN_UNINITIALIZED,
     refetchInterval: 3000,
   })
@@ -63,10 +60,7 @@ export function TogetherRoom({ code }: { code: string }) {
     setContinued(true)
   }
 
-  if (
-    token === TOKEN_UNINITIALIZED ||
-    (roomQuery.isLoading && !room)
-  ) {
+  if (token === TOKEN_UNINITIALIZED || (roomQuery.isLoading && !room)) {
     return (
       <TogetherShell>
         <p className="together-body together-fg-muted py-20 text-center">

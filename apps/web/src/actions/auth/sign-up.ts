@@ -26,6 +26,7 @@ export async function signUp({
   await signIn({
     login: email,
     password,
+    language,
     redirectTo: redirectToCheckout ? undefined : `/${language}/${username}`,
   })
 

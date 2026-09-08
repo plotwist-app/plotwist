@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { signIn } from './sign-in'
 
 const mocks = vi.hoisted(() => ({
   cookies: vi.fn(),
@@ -32,8 +33,6 @@ vi.mock('@/app/lib/session', () => ({
 vi.mock('@/services/api-client', () => ({
   setAuthToken: mocks.setAuthToken,
 }))
-
-const { signIn } = await import('./sign-in')
 
 describe('signIn redirect enforcement', () => {
   beforeEach(() => {

@@ -20,13 +20,9 @@ vi.mock('@/components/pattern', () => ({
 }))
 
 vi.mock('next-view-transitions', () => ({
-  Link: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode
-    href: string
-  }) => <a href={href}>{children}</a>,
+  Link: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }))
 
 vi.mock('./_sign-in-form', () => ({

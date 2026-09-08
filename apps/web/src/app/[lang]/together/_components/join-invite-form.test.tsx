@@ -49,8 +49,7 @@ vi.mock('@/context/language', () => ({
 }))
 
 vi.mock('@/services/together', async importOriginal => {
-  const original =
-    await importOriginal<typeof import('@/services/together')>()
+  const original = await importOriginal<typeof import('@/services/together')>()
   return {
     ...original,
     joinTogetherRoom: mocks.joinRoom,

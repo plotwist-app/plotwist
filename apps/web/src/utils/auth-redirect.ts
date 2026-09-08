@@ -2,7 +2,13 @@ import type { Language } from '@/types/languages'
 
 const INTERNAL_ORIGIN = 'https://plotwist.internal'
 const ENCODED_PATH_SEPARATOR = /%(?:25)*(?:2f|5c)/i
-const CONTROL_CHARACTER = /[\u0000-\u001f\u007f]/
+
+function hasControlCharacter(value: string) {
+  return Array.from(value).some(character => {
+    const code = character.charCodeAt(0)
+    return code <= 31 || code === 127
+  })
+}
 
 export function getSafeLocalizedRedirectPath(
   target: string | string[] | undefined,
@@ -13,7 +19,7 @@ export function getSafeLocalizedRedirectPath(
     !target.startsWith('/') ||
     target.startsWith('//') ||
     target.includes('\\') ||
-    CONTROL_CHARACTER.test(target) ||
+    hasControlCharacter(target) ||
     ENCODED_PATH_SEPARATOR.test(target)
   ) {
     return null
