@@ -5,20 +5,28 @@ import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
-import { joinTogetherRoom, setTogetherToken } from '@/services/together'
+import {
+  isTogetherRoomFullError,
+  joinTogetherRoom,
+  setTogetherToken,
+} from '@/services/together'
 import { PrimaryButton } from './primary-button'
 import { TogetherMark } from './together-mark'
 
 type JoinInviteFormProps = {
   code?: string
   hostName?: string
+  participantCount?: number
   onJoined?: () => void
+  onRoomFull?: () => void
 }
 
 export function JoinInviteForm({
   code,
   hostName,
+  participantCount,
   onJoined,
+  onRoomFull,
 }: JoinInviteFormProps) {
   const { dictionary, language } = useLanguage()
   const router = useRouter()
@@ -26,6 +34,7 @@ export function JoinInviteForm({
   const [inviteCode, setInviteCode] = useState(code ?? '')
   const [displayName, setDisplayName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [roomFull, setRoomFull] = useState(false)
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -42,11 +51,28 @@ export function JoinInviteForm({
         return
       }
       router.push(`/${language}/together/${session.room.code}`)
-    } catch {
+    } catch (error) {
+      if (isTogetherRoomFullError(error)) {
+        setRoomFull(true)
+        onRoomFull?.()
+        return
+      }
       toast.error(copy.join_error)
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (roomFull) {
+    return (
+      <>
+        <TogetherMark />
+        <h1 className="together-display mt-8">{copy.room_full_title}</h1>
+        <p className="together-body together-fg-muted mt-3">
+          {copy.room_full_body}
+        </p>
+      </>
+    )
   }
 
   return (
@@ -54,7 +80,7 @@ export function JoinInviteForm({
       <TogetherMark />
       <div>
         <p className="together-kicker together-fg-accent mt-6">
-          {copy.night_for_two}
+          {copy.group_kicker}
         </p>
         <h1 className="together-display mt-3">
           {hostName
@@ -64,6 +90,14 @@ export function JoinInviteForm({
         <p className="together-body together-fg-muted mt-3">
           {copy.join_subtitle}
         </p>
+        {participantCount !== undefined && (
+          <p className="together-meta together-fg-muted mt-2">
+            {copy.participant_count.replace(
+              '{current}',
+              String(participantCount)
+            )}
+          </p>
+        )}
       </div>
 
       {!code && (

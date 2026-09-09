@@ -1,0 +1,1 @@
+export const MAX_TOGETHER_PARTICIPANTS = 20

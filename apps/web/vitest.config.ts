@@ -17,6 +17,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      'server-only': r('./test/server-only.ts'),
       '@/': r('./src'),
       '@': r('./src'),
     },

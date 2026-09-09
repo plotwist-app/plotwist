@@ -1,10 +1,11 @@
 import { TogetherInvalidInputError } from '@/domain/errors/together-invalid-input-error'
 import { TogetherRoomNotFoundError } from '@/domain/errors/together-room-not-found-error'
 import {
-  insertTogetherParticipant,
+  insertTogetherParticipantWithinCapacity,
   selectTogetherParticipantByTokenHash,
   selectTogetherRoomByCode,
 } from '@/infra/db/repositories/together-repository'
+import { MAX_TOGETHER_PARTICIPANTS } from './constants'
 import { createTogetherToken, hashTogetherToken } from './together-token'
 
 export type JoinTogetherRoomInput = {
@@ -39,12 +40,18 @@ export async function joinTogetherRoomService(input: JoinTogetherRoomInput) {
   }
 
   const participantToken = createTogetherToken()
-  const participant = await insertTogetherParticipant({
-    roomId: room.id,
-    displayName,
-    tokenHash: hashTogetherToken(participantToken),
-    userId: input.userId ?? null,
-  })
+  const participant = await insertTogetherParticipantWithinCapacity(
+    {
+      roomId: room.id,
+      displayName,
+      tokenHash: hashTogetherToken(participantToken),
+      userId: input.userId ?? null,
+    },
+    MAX_TOGETHER_PARTICIPANTS
+  )
+  if (!participant) {
+    return new TogetherInvalidInputError('Room is full.')
+  }
 
   return { room, participant, participantToken }
 }

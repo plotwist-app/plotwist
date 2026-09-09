@@ -4,6 +4,7 @@ import type {
   TogetherRoom,
 } from '@/domain/entities/together'
 import { DomainError } from '@/domain/errors/domain-error'
+import { MAX_TOGETHER_PARTICIPANTS } from '@/domain/services/together/constants'
 import { createTogetherRoomService } from '@/domain/services/together/create-room'
 import { createTogetherSwipeService } from '@/domain/services/together/create-swipe'
 import { getTogetherMatchesService } from '@/domain/services/together/get-matches'
@@ -35,6 +36,7 @@ function serializeRoom(room: TogetherRoom) {
     watchRegion: room.watchRegion,
     maxRuntime: room.maxRuntime,
     mood: room.mood,
+    maxParticipants: MAX_TOGETHER_PARTICIPANTS,
     createdAt: asIso(room.createdAt),
   }
 }

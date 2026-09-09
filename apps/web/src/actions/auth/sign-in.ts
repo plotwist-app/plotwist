@@ -1,28 +1,29 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { postLogin } from '@/api/auth'
 import { getMe } from '@/api/users'
 import { createSession } from '@/app/lib/session'
 import { setAuthToken } from '@/services/api-client'
+import { asLanguage, type Language } from '@/types/languages'
+import { getSafeLocalizedRedirectPath } from '@/utils/auth-redirect'
+
+type SignInNavigation = { mode: 'redirect'; target: string } | { mode: 'none' }
 
 type SignInInput = {
   login: string
   password: string
-  redirectTo?: string
+  language: Language
+  navigation: SignInNavigation
 }
 
-function getLocaleFromRedirectTo(redirectTo?: string) {
-  if (!redirectTo) return null
-
-  const locale = redirectTo.split('/').filter(Boolean)[0]
-  const isValidLocale = /^[a-z]{2}-[A-Z]{2}$/.test(locale ?? '')
-
-  return isValidLocale ? locale : null
-}
-
-export async function signIn({ login, password, redirectTo }: SignInInput) {
+export async function signIn({
+  login,
+  password,
+  language,
+  navigation,
+}: SignInInput) {
+  const safeLanguage = asLanguage(language)
   let token: string | undefined
 
   try {
@@ -38,21 +39,22 @@ export async function signIn({ login, password, redirectTo }: SignInInput) {
 
   await createSession({ token })
 
-  let finalRedirectTo = redirectTo
+  let finalRedirectTo =
+    navigation.mode === 'none'
+      ? undefined
+      : (getSafeLocalizedRedirectPath(navigation.target, safeLanguage) ??
+        `/${safeLanguage}/home`)
 
   try {
     setAuthToken(token)
     const { data } = await getMe()
 
-    if (data?.user && !data.user.displayName) {
-      const cookieStore = await cookies()
-      const localeFromRedirect = getLocaleFromRedirectTo(redirectTo)
-      const lang =
-        localeFromRedirect ||
-        cookieStore.get('NEXT_LOCALE')?.value ||
-        cookieStore.get('i18next')?.value ||
-        'en-US'
-      finalRedirectTo = `/${lang}/onboarding`
+    if (
+      navigation.mode === 'redirect' &&
+      data?.user &&
+      !data.user.displayName
+    ) {
+      finalRedirectTo = `/${safeLanguage}/onboarding`
     }
   } catch (error) {
     console.error(

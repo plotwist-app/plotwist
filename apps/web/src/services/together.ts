@@ -1,4 +1,4 @@
-import { customFetch, getAuthToken } from '@/services/api-client'
+import { ApiError, customFetch, getAuthToken } from '@/services/api-client'
 
 export type TogetherMediaType = 'MOVIE' | 'TV_SHOW'
 export type TogetherDecision = 'LIKE' | 'PASS' | 'MAYBE'
@@ -10,6 +10,7 @@ export type TogetherRoom = {
   watchRegion: string
   maxRuntime: number | null
   mood: string
+  maxParticipants: number
   createdAt: string
 }
 
@@ -40,13 +41,29 @@ export type TogetherMatch = {
   posterPath: string | null
   voteAverage: number | null
   releaseDate: string | null
+  overview?: string | null
   likeCount: number
   maybeCount?: number
+  interestCount?: number
   matchPercent: number
   highlighted?: boolean
 }
 
 type Envelope<T> = { data: T; status: number; headers: Headers }
+const TOGETHER_ROOM_FULL_MESSAGE = 'Room is full.'
+
+export function isTogetherRoomFullError(error: unknown) {
+  if (!(error instanceof ApiError) || error.status !== 400) return false
+  if (
+    typeof error.data !== 'object' ||
+    error.data === null ||
+    !('message' in error.data)
+  ) {
+    return false
+  }
+
+  return error.data.message === TOGETHER_ROOM_FULL_MESSAGE
+}
 
 const tokenKey = (code: string) => `plotwist.together.${code.toUpperCase()}`
 
@@ -88,7 +105,11 @@ async function togetherFetch<T>(
   return data
 }
 
-export function createTogetherRoom(body: { displayName: string }) {
+export function createTogetherRoom(body: {
+  displayName: string
+  watchProviderIds: number[]
+  watchRegion: string
+}) {
   return togetherFetch<TogetherSession>('/together/rooms', {
     method: 'POST',
     body,

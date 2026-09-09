@@ -90,6 +90,114 @@ describe('together matching', () => {
     })
   })
 
+  it('returns one identical direct and polled match for localized metadata', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const guest = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    if (!('participantToken' in guest)) throw new Error('expected join')
+
+    await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+      decision: 'LIKE',
+      ...dune,
+      title: 'Duna',
+      posterPath: '/zulu.jpg',
+      voteAverage: 9.1,
+      releaseDate: '2030-01-01',
+      overview: 'Visão geral em português.',
+    })
+
+    const direct = await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: guest.participantToken,
+      decision: 'MAYBE',
+      ...dune,
+      title: 'Dune',
+      posterPath: '/alpha.jpg',
+      voteAverage: 1.2,
+      releaseDate: '2000-01-01',
+      overview: 'English overview.',
+    })
+    if (!('match' in direct) || !direct.match) {
+      throw new Error('expected direct match')
+    }
+
+    const polled = await getTogetherMatchesService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+    })
+    if (!('matches' in polled)) throw new Error('expected polled matches')
+
+    expect(polled.matches).toHaveLength(1)
+    expect(polled.matches[0]).toEqual({
+      ...direct.match,
+      highlighted: true,
+    })
+    expect(direct.match).toEqual(
+      expect.objectContaining({
+        title: 'Duna',
+        posterPath: '/zulu.jpg',
+        voteAverage: 9.1,
+        releaseDate: '2030-01-01',
+        overview: 'Visão geral em português.',
+        likeCount: 1,
+        maybeCount: 1,
+        interestCount: 2,
+      })
+    )
+  })
+
+  it('orders equal-ranked matches by media type and TMDB ID', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const guest = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    if (!('participantToken' in guest)) throw new Error('expected join')
+
+    const titles = [
+      { tmdbId: 1, mediaType: 'TV_SHOW' as const, title: 'TV title' },
+      { tmdbId: 20, mediaType: 'MOVIE' as const, title: 'Movie twenty' },
+      { tmdbId: 10, mediaType: 'MOVIE' as const, title: 'Movie ten' },
+    ]
+
+    for (const title of titles) {
+      await createTogetherSwipeService({
+        code: host.room.code,
+        participantToken: host.participantToken,
+        decision: 'LIKE',
+        ...title,
+      })
+      await createTogetherSwipeService({
+        code: host.room.code,
+        participantToken: guest.participantToken,
+        decision: 'LIKE',
+        ...title,
+      })
+    }
+
+    const polled = await getTogetherMatchesService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+    })
+    if (!('matches' in polled)) throw new Error('expected polled matches')
+
+    expect(
+      polled.matches.map(match => [match.mediaType, match.tmdbId])
+    ).toEqual([
+      ['MOVIE', 10],
+      ['MOVIE', 20],
+      ['TV_SHOW', 1],
+    ])
+  })
+
   it('should not match on a pass', async () => {
     const host = await createTogetherRoomService({ displayName: 'Henrique' })
     if (!('room' in host)) throw new Error('expected room')
@@ -145,9 +253,48 @@ describe('together matching', () => {
       expect.objectContaining({
         match: expect.objectContaining({
           tmdbId: 438631,
-          likeCount: 2,
+          likeCount: 1,
+          maybeCount: 1,
         }),
       })
+    )
+  })
+
+  it('should report a 50 percent match when two of four participants are interested', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const second = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Maria',
+    })
+    if (!('participantToken' in second)) throw new Error('expected join')
+
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'João',
+    })
+    await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Ana',
+    })
+
+    await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: host.participantToken,
+      decision: 'LIKE',
+      ...dune,
+    })
+    const result = await createTogetherSwipeService({
+      code: host.room.code,
+      participantToken: second.participantToken,
+      decision: 'LIKE',
+      ...dune,
+    })
+    if (!('match' in result)) throw new Error('expected swipe')
+
+    expect(result.match).toEqual(
+      expect.objectContaining({ likeCount: 2, matchPercent: 50 })
     )
   })
 })

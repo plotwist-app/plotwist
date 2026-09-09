@@ -67,4 +67,73 @@ describe('join together room', () => {
 
     expect(sut).toBeInstanceOf(TogetherInvalidInputError)
   })
+
+  it('should allow 20 distinct participants, reject participant 21, and allow rejoining when full', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    const joins = []
+    for (let index = 2; index <= 20; index += 1) {
+      joins.push(
+        await joinTogetherRoomService({
+          code: host.room.code,
+          displayName: `Participant ${index}`,
+        })
+      )
+    }
+    const twentieth = joins.at(-1)
+    if (!twentieth || !('participantToken' in twentieth)) {
+      throw new Error('expected twentieth participant to join')
+    }
+
+    const twentyFirst = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Participant 21',
+    })
+    const rejoined = await joinTogetherRoomService({
+      code: host.room.code,
+      displayName: 'Ignored',
+      participantToken: twentieth.participantToken,
+    })
+
+    expect(joins).toHaveLength(19)
+    expect(joins.every(result => 'participantToken' in result)).toBe(true)
+    expect(twentyFirst).toBeInstanceOf(TogetherInvalidInputError)
+    expect(rejoined).toEqual(
+      expect.objectContaining({
+        participant: expect.objectContaining({ id: twentieth.participant.id }),
+        participantToken: twentieth.participantToken,
+      })
+    )
+  })
+
+  it('should allow only one of two concurrent joins when one place remains', async () => {
+    const host = await createTogetherRoomService({ displayName: 'Henrique' })
+    if (!('room' in host)) throw new Error('expected room')
+
+    for (let index = 2; index <= 19; index += 1) {
+      await joinTogetherRoomService({
+        code: host.room.code,
+        displayName: `Participant ${index}`,
+      })
+    }
+
+    const results = await Promise.all([
+      joinTogetherRoomService({
+        code: host.room.code,
+        displayName: 'Ana',
+      }),
+      joinTogetherRoomService({
+        code: host.room.code,
+        displayName: 'Lucas',
+      }),
+    ])
+
+    expect(
+      results.filter(result => result instanceof TogetherInvalidInputError)
+    ).toHaveLength(1)
+    expect(results.filter(result => 'participantToken' in result)).toHaveLength(
+      1
+    )
+  })
 })

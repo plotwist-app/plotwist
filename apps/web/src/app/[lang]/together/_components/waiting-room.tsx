@@ -7,13 +7,16 @@ import { TogetherShell } from './together-shell'
 type WaitingRoomProps = {
   names: string[]
   ready: boolean
+  isFull: boolean
   copy: {
-    night_for_two: string
+    group_kicker: string
     waiting_title: string
     waiting_body: string
+    ready_title: string
     start_choosing: string
     you: string
     empty_seat: string
+    participant_count: string
   }
   meId?: string
   participantIds: string[]
@@ -23,23 +26,27 @@ type WaitingRoomProps = {
 export function WaitingRoom({
   names,
   ready,
+  isFull,
   copy,
   meId,
   participantIds,
   onStart,
 }: WaitingRoomProps) {
-  const first = names[0]
-  const second = names[1]
-  const pairTitle =
-    ready && first && second ? `${first} & ${second}` : copy.waiting_title
+  const heading = ready ? copy.ready_title : copy.waiting_title
+  const participantCount = copy.participant_count.replace(
+    '{current}',
+    String(names.length)
+  )
+  const seats = isFull ? names : [...names, undefined]
 
   return (
     <TogetherShell>
       <TogetherMark />
       <p className="together-kicker together-fg-accent mt-6">
-        {copy.night_for_two}
+        {copy.group_kicker}
       </p>
-      <h1 className="together-display mt-3">{pairTitle}</h1>
+      <h1 className="together-display mt-3">{heading}</h1>
+      <p className="together-meta together-fg-muted mt-3">{participantCount}</p>
       {!ready && (
         <p className="together-body together-fg-muted mt-3">
           {copy.waiting_body}
@@ -47,7 +54,7 @@ export function WaitingRoom({
       )}
 
       <div className="mt-10 grid grid-cols-2 gap-3">
-        {[first, second].map((name, index) => {
+        {seats.map((name, index) => {
           const filled = Boolean(name)
           return (
             <div

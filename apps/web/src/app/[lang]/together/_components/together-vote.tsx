@@ -1,6 +1,10 @@
 'use client'
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -10,13 +14,21 @@ import { tmdb } from '@/services/tmdb'
 import {
   clearTogetherToken,
   createTogetherSwipe,
+  getTogetherMatches,
   getTogetherRoom,
   getTogetherToken,
   type TogetherDecision,
+  type TogetherMatch,
 } from '@/services/together'
+import { MatchCelebration } from './match-celebration'
 import { MovieDecisionButtons } from './movie-decision-buttons'
 import { MovieVotingCard } from './movie-voting-card'
 import { TogetherMark } from './together-mark'
+import {
+  acknowledgeTogetherMatch,
+  firstUnacknowledgedTogetherMatch,
+  togetherMatchKey,
+} from './together-match-notifications'
 import { TogetherShell } from './together-shell'
 
 type DeckMovie = {
@@ -46,10 +58,14 @@ export function TogetherVote({ code }: { code: string }) {
   const { dictionary, language } = useLanguage()
   const copy = dictionary.together
   const router = useRouter()
+  const queryClient = useQueryClient()
   const roomCode = code.toUpperCase()
   const [token, setToken] = useState<string | null>(null)
   const [localSwiped, setLocalSwiped] = useState<Set<number>>(new Set())
   const [isVoting, setIsVoting] = useState(false)
+  const [celebratedMatch, setCelebratedMatch] = useState<TogetherMatch | null>(
+    null
+  )
   const votingRef = useRef(false)
 
   useEffect(() => {
@@ -65,6 +81,26 @@ export function TogetherVote({ code }: { code: string }) {
     queryFn: () => getTogetherRoom(roomCode, token),
     enabled: Boolean(token),
   })
+
+  const matchesQueryKey = useMemo(
+    () => ['together-matches', roomCode, token] as const,
+    [roomCode, token]
+  )
+  const matchesQuery = useQuery({
+    queryKey: matchesQueryKey,
+    queryFn: () => getTogetherMatches(roomCode, token ?? ''),
+    enabled: Boolean(token),
+    refetchInterval: 3000,
+  })
+
+  useEffect(() => {
+    if (celebratedMatch) return
+    const nextMatch = firstUnacknowledgedTogetherMatch(
+      roomCode,
+      matchesQuery.data?.matches ?? []
+    )
+    if (nextMatch) setCelebratedMatch(nextMatch)
+  }, [celebratedMatch, matchesQuery.data?.matches, roomCode])
 
   useEffect(() => {
     if (!token || !roomQuery.data || roomQuery.data.me) return
@@ -82,8 +118,16 @@ export function TogetherVote({ code }: { code: string }) {
     return ids
   }, [localSwiped, roomQuery.data?.swipedIds])
 
+  const watchProviderIds = roomQuery.data?.room.watchProviderIds ?? []
+  const watchRegion = roomQuery.data?.room.watchRegion ?? 'BR'
+
   const deckQuery = useInfiniteQuery({
-    queryKey: ['together-vote-deck', language],
+    queryKey: [
+      'together-vote-deck',
+      language,
+      watchProviderIds.join('|'),
+      watchRegion,
+    ],
     enabled: Boolean(roomQuery.data),
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
@@ -93,6 +137,10 @@ export function TogetherVote({ code }: { code: string }) {
         filters: {
           sort_by: 'popularity.desc',
           'vote_count.gte': '80',
+          ...(watchProviderIds.length > 0 && {
+            with_watch_providers: watchProviderIds.join('|'),
+            watch_region: watchRegion,
+          }),
         },
       })
       return {
@@ -135,7 +183,7 @@ export function TogetherVote({ code }: { code: string }) {
       setIsVoting(true)
       try {
         navigator.vibrate?.(10)
-        await createTogetherSwipe(roomCode, token, {
+        const result = await createTogetherSwipe(roomCode, token, {
           tmdbId: current.id,
           mediaType: 'MOVIE',
           decision: DECISION_MAP[choice],
@@ -145,6 +193,31 @@ export function TogetherVote({ code }: { code: string }) {
           releaseDate: current.release_date ?? null,
           overview: current.overview,
         })
+        const swipeMatch = result.match
+        if (swipeMatch) {
+          await queryClient.cancelQueries({
+            queryKey: matchesQueryKey,
+            exact: true,
+          })
+          queryClient.setQueryData<{ matches: TogetherMatch[] }>(
+            matchesQueryKey,
+            currentMatches => {
+              const matches = currentMatches?.matches ?? []
+              const matchKey = togetherMatchKey(swipeMatch)
+              const matchingIndex = matches.findIndex(
+                match => togetherMatchKey(match) === matchKey
+              )
+              if (matchingIndex === -1) {
+                return { matches: [swipeMatch, ...matches] }
+              }
+              return {
+                matches: matches.map((match, index) =>
+                  index === matchingIndex ? swipeMatch : match
+                ),
+              }
+            }
+          )
+        }
         setLocalSwiped(value => new Set(value).add(current.id))
         void roomQuery.refetch()
       } catch {
@@ -154,8 +227,29 @@ export function TogetherVote({ code }: { code: string }) {
         setIsVoting(false)
       }
     },
-    [copy.swipe_error, current, roomCode, roomQuery, token]
+    [
+      copy.swipe_error,
+      current,
+      matchesQueryKey,
+      queryClient,
+      roomCode,
+      roomQuery,
+      token,
+    ]
   )
+
+  const acknowledgeCelebration = useCallback(() => {
+    if (!celebratedMatch) return
+    acknowledgeTogetherMatch(roomCode, celebratedMatch)
+    setCelebratedMatch(null)
+  }, [celebratedMatch, roomCode])
+
+  const viewMatches = useCallback(() => {
+    if (!celebratedMatch) return
+    acknowledgeTogetherMatch(roomCode, celebratedMatch)
+    setCelebratedMatch(null)
+    router.push(`/${language}/together/${roomCode}/matches`)
+  }, [celebratedMatch, language, roomCode, router])
 
   if (!token || roomQuery.isLoading) {
     return (
@@ -173,18 +267,16 @@ export function TogetherVote({ code }: { code: string }) {
     ?.slice(0, 2)
     .map(item => item.name)
     .join(', ')
-  const partnerName = roomQuery.data?.participants.find(
-    participant => participant.id !== roomQuery.data.me?.id
-  )?.displayName
+  const participantCount = roomQuery.data?.participants.length ?? 0
 
   return (
     <TogetherShell className="pb-0">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <TogetherMark />
-          {partnerName ? (
+          {participantCount > 1 ? (
             <p className="together-heading together-fg-accent mt-3">
-              {copy.tonight_with.replace('{name}', partnerName)}
+              {copy.choosing_with.replace('{count}', String(participantCount))}
             </p>
           ) : null}
         </div>
@@ -259,6 +351,21 @@ export function TogetherVote({ code }: { code: string }) {
           </button>
         )}
       </div>
+
+      {celebratedMatch ? (
+        <MatchCelebration
+          match={celebratedMatch}
+          copy={{
+            heading: copy.match_heading,
+            interestSummary: copy.match_interest_summary,
+            continueDiscovering: copy.continue_discovering,
+            viewMatches: copy.view_matches,
+            close: copy.match_close,
+          }}
+          onContinue={acknowledgeCelebration}
+          onViewMatches={viewMatches}
+        />
+      ) : null}
     </TogetherShell>
   )
 }

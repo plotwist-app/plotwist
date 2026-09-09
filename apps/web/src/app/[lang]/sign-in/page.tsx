@@ -1,14 +1,24 @@
 import { Link } from 'next-view-transitions'
 import { signIn } from '@/actions/auth/sign-in'
 import { Pattern } from '@/components/pattern'
-import type { PageProps } from '@/types/languages'
+import { asLanguage, type PageProps } from '@/types/languages'
+import { getSafeLocalizedRedirectPath } from '@/utils/auth-redirect'
 import { getDictionary } from '@/utils/dictionaries'
 import { SignInForm } from './_sign-in-form'
 
-export default async function SignInPage(props: PageProps) {
-  const params = await props.params
+type SignInPageProps = PageProps & {
+  searchParams?: Promise<{ redirect?: string | string[] }>
+}
 
-  const { lang } = params
+export default async function SignInPage(props: SignInPageProps) {
+  const [params, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams,
+  ])
+  const lang = asLanguage(params.lang)
+  const redirectTo =
+    getSafeLocalizedRedirectPath(searchParams?.redirect, lang) ??
+    `/${lang}/home`
 
   const dictionary = await getDictionary(lang)
 
@@ -23,7 +33,7 @@ export default async function SignInPage(props: PageProps) {
               {dictionary.access_plotwist}
             </h1>
 
-            <SignInForm onSignIn={signIn} />
+            <SignInForm onSignIn={signIn} redirectTo={redirectTo} />
 
             <div className="flex justify-center">
               <Link
