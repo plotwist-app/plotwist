@@ -3,6 +3,26 @@ import { detectRequestLocale } from '@/lib/request-locale'
 import { shouldBlockTraffic } from '@/lib/traffic-guard'
 import { languages as appLanguages } from '../languages'
 
+const TOGETHER_URL = (
+  process.env.NEXT_PUBLIC_TOGETHER_URL || 'https://together.plotwist.app'
+).replace(/\/+$/, '')
+
+const LEGACY_TOGETHER_PATH = new RegExp(
+  `^(?:/(${appLanguages.join('|')}))?/together(?:/(.*))?$`
+)
+
+function legacyTogetherRedirect(req: NextRequest) {
+  const match = LEGACY_TOGETHER_PATH.exec(req.nextUrl.pathname)
+  if (!match) return null
+
+  const [, locale, rest] = match
+  const segments = [locale, rest?.replace(/\/+$/, '')].filter(Boolean)
+  const target = new URL(`${TOGETHER_URL}/${segments.join('/')}`)
+  target.search = req.nextUrl.search
+
+  return NextResponse.redirect(target, 308)
+}
+
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
@@ -23,6 +43,11 @@ export function proxy(req: NextRequest) {
   // OG metadata for social bots and a JS redirect for real users.
   if (pathname.startsWith('/s/')) {
     return NextResponse.next()
+  }
+
+  const togetherRedirect = legacyTogetherRedirect(req)
+  if (togetherRedirect) {
+    return togetherRedirect
   }
 
   const reqHeaders = new Headers(req.headers)
