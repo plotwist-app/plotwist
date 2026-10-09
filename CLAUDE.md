@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Plotwist is a media management app (movies, series, anime) with three main apps in a pnpm/Turbo monorepo:
+Plotwist is a media management app (movies, series, anime) with three main apps (plus the `apps/together` sandbox) in a pnpm/Turbo monorepo:
 - `apps/web` — Next.js 16 web app
 - `apps/backend` — Fastify 5 REST API
 - `apps/ios` — Native SwiftUI iOS app
+- `apps/together` — Standalone Next.js MVP sandbox for Together (group movie picking), uses the backend API; run with `pnpm --filter together dev` (port 3001)
 
 ## Commands
 

@@ -8,9 +8,15 @@
       "dependsOn": ["^build"],
       "env": [
         "NEXT_PUBLIC_MEASUREMENT_ID",
+        "NEXT_PUBLIC_TOGETHER_URL",
         "SESSION_SECRET",
         "STRIPE_PRODUCT_ID"
       ],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "together#build": {
+      "dependsOn": ["^build"],
+      "env": ["NEXT_PUBLIC_*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "backend#build": {
