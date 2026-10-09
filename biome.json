@@ -42,13 +42,15 @@
       "!node_modules",
       "!.turbo",
       "!apps/web/.next",
+      "!apps/together/.next",
       "!.next",
       "!apps/backend/coverage",
       "!apps/backend/dist",
       "!apps/web/src/api",
       "!packages/ui",
       "!apps/backend/src/infra/db/migrations",
-      "!apps/web/next-env.d.ts"
+      "!apps/web/next-env.d.ts",
+      "!apps/together/next-env.d.ts"
     ]
   }
 }

@@ -7,7 +7,6 @@ const APP_ROUTES = [
   '/',
   '/home',
   '/lists',
-  '/together',
   '/movies/discover',
   '/movies/now-playing',
   '/movies/popular',

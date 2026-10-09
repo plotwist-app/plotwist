@@ -53,6 +53,11 @@ function loadAppEnvs() {
   const schema = z.object({
     APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
     CLIENT_URL: z.string(),
+    TOGETHER_CLIENT_URL: z
+      .string()
+      .url()
+      .transform(url => url.replace(/\/+$/, ''))
+      .optional(),
     IOS_TOKEN: z.string().optional().default(''),
     PORT: z.coerce.number().default(3333),
     BASE_URL: z.string().default('http://localhost:3333'),

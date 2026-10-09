@@ -15,9 +15,8 @@ export function LayoutWrapper({
 }) {
   const pathname = usePathname()
   const isOnboarding = pathname?.includes('/onboarding') ?? false
-  const isTogether = pathname?.includes('/together') ?? false
 
-  const hideChrome = isOnboarding || isTogether
+  const hideChrome = isOnboarding
 
   return (
     <>

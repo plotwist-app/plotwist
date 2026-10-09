@@ -137,6 +137,12 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
       cpu: 256,
       memory: 512,
       portMappings: [httpListener],
+      environment: [
+        {
+          name: 'TOGETHER_CLIENT_URL',
+          value: 'https://together.plotwist.app',
+        },
+      ],
       secrets: [
         { name: 'APP_ENV', valueFrom: '/plotwist/prod/APP_ENV' },
         { name: 'BASE_URL', valueFrom: '/plotwist/prod/BASE_URL' },
