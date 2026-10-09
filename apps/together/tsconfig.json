@@ -1,0 +1,25 @@
+{
+  "extends": "@plotwist/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.mjs",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mjs"
+  ],
+  "exclude": ["node_modules"]
+}
