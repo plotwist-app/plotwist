@@ -21,7 +21,13 @@ function allowedOrigin(
   origin: string | undefined,
   referer: string | undefined
 ): boolean {
-  const allowed = [...new Set([config.app.CLIENT_URL, ...ALLOWED_ORIGINS])]
+  const allowed = [
+    ...new Set([
+      config.app.CLIENT_URL,
+      config.app.TOGETHER_CLIENT_URL,
+      ...ALLOWED_ORIGINS,
+    ]),
+  ].filter((o): o is string => Boolean(o))
   return (
     (typeof origin === 'string' && allowed.includes(origin)) ||
     (typeof referer === 'string' && allowed.some(o => referer.startsWith(o)))
