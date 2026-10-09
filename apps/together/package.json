@@ -9,6 +9,9 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
+  "engines": {
+    "node": "24.x"
+  },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.7.4",
     "@plotwist/ui": "workspace:*",
