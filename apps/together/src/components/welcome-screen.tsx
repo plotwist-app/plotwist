@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useLanguage } from '@/context/language'
 import { CreateInviteForm } from './create-invite-form'
 import { JoinInviteForm } from './join-invite-form'
-import { TogetherGuestPrompt } from './together-guest-prompt'
+import { PlotwistCta } from './plotwist-cta'
 import { TogetherMark } from './together-mark'
 import { TogetherShell } from './together-shell'
 
@@ -36,7 +36,7 @@ export function WelcomeScreen() {
           <p className="together-body together-fg-muted mt-4 mb-9 max-w-[22rem]">
             {copy.subtitle}
           </p>
-          <TogetherGuestPrompt language={language} copy={copy} />
+          <PlotwistCta language={language} copy={copy} />
           <CreateInviteForm />
           <button
             type="button"

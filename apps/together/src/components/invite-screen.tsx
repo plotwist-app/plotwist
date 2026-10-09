@@ -1,5 +1,6 @@
 'use client'
 
+import { track } from '@/lib/analytics'
 import { CopyInviteButton } from './copy-invite-button'
 import { PrimaryButton } from './primary-button'
 import { TogetherMark } from './together-mark'
@@ -32,6 +33,7 @@ export function InviteScreen({
   onContinue,
 }: InviteScreenProps) {
   function handleWhatsApp() {
+    track('invite_shared', { channel: 'whatsapp' })
     const text = `${copy.share_text.replace('{name}', hostName)} ${inviteUrl}`
     window.open(
       `https://wa.me/?text=${encodeURIComponent(text)}`,

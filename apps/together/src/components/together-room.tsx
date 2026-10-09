@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/context/language'
+import { track } from '@/lib/analytics'
 import { APP_URL } from '@/lib/constants'
 import { getTogetherRoom, getTogetherToken } from '@/services/together'
 import { buildTogetherInviteUrl } from '@/services/together-invite'
@@ -136,7 +137,10 @@ export function TogetherRoom({ code }: { code: string }) {
       ready={ready}
       isFull={isFull}
       copy={copy}
-      onStart={() => router.push(`/${language}/${roomCode}/vote`)}
+      onStart={() => {
+        track('voting_started')
+        router.push(`/${language}/${roomCode}/vote`)
+      }}
     />
   )
 }

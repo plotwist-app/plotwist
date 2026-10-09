@@ -4,6 +4,7 @@ import { Check } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
+import { track } from '@/lib/analytics'
 
 type CopyInviteButtonProps = {
   value: string
@@ -18,6 +19,7 @@ export function CopyInviteButton({ value }: CopyInviteButtonProps) {
     try {
       await navigator.clipboard.writeText(value)
       setCopied(true)
+      track('invite_shared', { channel: 'copy' })
       toast.success(copy.copied)
       setTimeout(() => setCopied(false), 2000)
     } catch {

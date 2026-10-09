@@ -20,10 +20,10 @@ const REQUIRED_TOGETHER_KEYS = [
   'continue_discovering',
   'view_matches',
   'match_close',
-  'guest_prompt_title',
-  'guest_prompt_body',
-  'guest_prompt_sign_in',
-  'continue_as_guest',
+  'plotwist_cta_title',
+  'plotwist_cta_body',
+  'plotwist_cta_button',
+  'plotwist_cta_dismiss',
   'participant_count',
   'room_full_title',
   'room_full_body',
@@ -35,6 +35,10 @@ const REQUIRED_TOGETHER_KEYS = [
 ] as const
 
 const DEPRECATED_TOGETHER_KEYS = [
+  'guest_prompt_title',
+  'guest_prompt_body',
+  'guest_prompt_sign_in',
+  'continue_as_guest',
   'night_for_two',
   'tonight_with',
   'up_to_four',

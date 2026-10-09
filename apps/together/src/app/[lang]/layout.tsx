@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next'
 import { Instrument_Sans } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import { Providers } from '@/components/providers'
 import { TogetherThemeRoot } from '@/components/together-theme-root'
 import { LanguageProvider } from '@/context/language'
@@ -12,6 +13,8 @@ import { getDictionary } from '@/dictionaries'
 import { APP_URL } from '@/lib/constants'
 import { buildTitle } from '@/lib/metadata'
 import { isLanguage, LANGUAGES } from '@/types/languages'
+
+const MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
 const sans = Instrument_Sans({
   subsets: ['latin'],
@@ -58,6 +61,9 @@ export default async function RootLayout({ children, params }: LayoutProps) {
             <TogetherThemeRoot>{children}</TogetherThemeRoot>
           </LanguageProvider>
         </Providers>
+        {MEASUREMENT_ID ? (
+          <GoogleAnalytics measurementId={MEASUREMENT_ID} />
+        ) : null}
       </body>
     </html>
   )

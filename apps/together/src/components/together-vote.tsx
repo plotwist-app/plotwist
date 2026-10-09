@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
+import { track } from '@/lib/analytics'
 import { tmdb } from '@/services/tmdb'
 import {
   clearTogetherToken,
@@ -99,7 +100,9 @@ export function TogetherVote({ code }: { code: string }) {
       roomCode,
       matchesQuery.data?.matches ?? []
     )
-    if (nextMatch) setCelebratedMatch(nextMatch)
+    if (!nextMatch) return
+    setCelebratedMatch(nextMatch)
+    track('match_shown')
   }, [celebratedMatch, matchesQuery.data?.matches, roomCode])
 
   useEffect(() => {
@@ -183,16 +186,18 @@ export function TogetherVote({ code }: { code: string }) {
       setIsVoting(true)
       try {
         navigator.vibrate?.(10)
+        const decision = DECISION_MAP[choice]
         const result = await createTogetherSwipe(roomCode, token, {
           tmdbId: current.id,
           mediaType: 'MOVIE',
-          decision: DECISION_MAP[choice],
+          decision,
           title: current.title,
           posterPath: current.poster_path,
           voteAverage: current.vote_average,
           releaseDate: current.release_date ?? null,
           overview: current.overview,
         })
+        track('swipe', { decision })
         const swipeMatch = result.match
         if (swipeMatch) {
           await queryClient.cancelQueries({

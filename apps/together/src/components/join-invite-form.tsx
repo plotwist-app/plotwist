@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
+import { track } from '@/lib/analytics'
 import {
   isTogetherRoomFullError,
   joinTogetherRoom,
@@ -46,6 +47,7 @@ export function JoinInviteForm({
         displayName: displayName.trim(),
       })
       setTogetherToken(session.room.code, session.participantToken)
+      track('room_joined')
       if (onJoined) {
         onJoined()
         return

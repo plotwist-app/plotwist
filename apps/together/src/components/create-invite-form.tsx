@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useLanguage } from '@/context/language'
+import { track } from '@/lib/analytics'
 import { createTogetherRoom, setTogetherToken } from '@/services/together'
 import type { Language } from '@/types/languages'
 import { PrimaryButton } from './primary-button'
@@ -45,6 +46,10 @@ export function CreateInviteForm() {
         watchRegion,
       })
       setTogetherToken(session.room.code, session.participantToken)
+      track('room_created', {
+        providerCount: watchProviderIds.length,
+        region: watchRegion,
+      })
       router.push(`/${language}/${session.room.code}`)
     } catch {
       toast.error(copy.create_error)

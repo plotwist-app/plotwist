@@ -12,6 +12,7 @@ const mocks = vi.hoisted(() => ({
   createTogetherRoom: vi.fn(),
   push: vi.fn(),
   setTogetherToken: vi.fn(),
+  track: vi.fn(),
   language: 'pt-BR',
 }))
 
@@ -38,6 +39,10 @@ vi.mock('@/context/language', () => ({
       },
     },
   }),
+}))
+
+vi.mock('@/lib/analytics', () => ({
+  track: mocks.track,
 }))
 
 vi.mock('@/services/together', () => ({
@@ -119,6 +124,10 @@ describe('CreateInviteForm provider flow', () => {
     )
     expect(mocks.setTogetherToken).toHaveBeenCalledWith('ABC123', 'host-token')
     expect(mocks.push).toHaveBeenCalledWith('/pt-BR/ABC123')
+    expect(mocks.track).toHaveBeenCalledWith('room_created', {
+      providerCount: 2,
+      region: 'BR',
+    })
   })
 
   it('starts with the region of a Brazilian host and Any service', () => {
