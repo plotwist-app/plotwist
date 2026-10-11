@@ -5,6 +5,7 @@ import {
   eq,
   getTableColumns,
   gte,
+  isNull,
   lte,
   type SQL,
   sql,
@@ -116,7 +117,13 @@ export async function selectReviews({
           : undefined
       )
     )
-    .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
+    .innerJoin(
+      schema.users,
+      and(
+        eq(schema.reviews.userId, schema.users.id),
+        isNull(schema.users.deletedAt)
+      )
+    )
     .orderBy(...orderCriteria)
     .limit(limit + 1)
     .offset(offset)

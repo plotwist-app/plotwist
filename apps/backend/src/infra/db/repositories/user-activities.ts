@@ -1,4 +1,13 @@
-import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
+import {
+  and,
+  desc,
+  eq,
+  getTableColumns,
+  inArray,
+  isNull,
+  lte,
+  sql,
+} from 'drizzle-orm'
 import { alias } from 'drizzle-orm/pg-core'
 import type {
   DeleteFollowUserActivity,
@@ -40,7 +49,10 @@ export async function selectUserActivities({
     .leftJoin(schema.lists, buildListsJoinCondition())
     .leftJoin(schema.reviews, buildReviewsJoinCondition())
     .leftJoin(schema.reviewReplies, buildRepliesJoinCondition())
-    .leftJoin(owner, eq(schema.userActivities.userId, owner.id))
+    .innerJoin(
+      owner,
+      and(eq(schema.userActivities.userId, owner.id), isNull(owner.deletedAt))
+    )
 }
 
 function buildAdditionalInfoCase() {
@@ -142,6 +154,9 @@ function buildWhereClause(
 ) {
   return and(
     userIds ? inArray(schema.userActivities.userId, userIds) : undefined,
+    // hide follow activities whose target user was deleted (join above misses)
+    sql`NOT (${schema.userActivities.activityType} IN ('FOLLOW_USER', 'UNFOLLOW_USER')
+      AND ${schema.users.id} IS NULL)`,
     cursor
       ? lte(
           sql`DATE_TRUNC('milliseconds', ${schema.userActivities.createdAt})`,
@@ -153,7 +168,8 @@ function buildWhereClause(
 
 function buildUsersJoinCondition() {
   return sql`(${schema.userActivities.activityType} = 'FOLLOW_USER' OR ${schema.userActivities.activityType} = 'UNFOLLOW_USER') 
-    AND ${sql`(metadata::jsonb->>'followedId')`} = ${schema.users.id}::text`
+    AND ${sql`(metadata::jsonb->>'followedId')`} = ${schema.users.id}::text
+    AND ${schema.users.deletedAt} IS NULL`
 }
 
 function buildListsJoinCondition() {

@@ -1,4 +1,4 @@
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, isNull, lte, sql } from 'drizzle-orm'
 import type { CreateFollowServiceInput } from '@/domain/services/follows/create-follow'
 import type { DeleteFollowServiceInput } from '@/domain/services/follows/delete-follow'
 import type { GetFollowServiceInput } from '@/domain/services/follows/get-follow'
@@ -76,11 +76,16 @@ export async function selectFollowers({
         followerId ? eq(schema.followers.followerId, followerId) : undefined
       )
     )
-    .leftJoin(
+    .innerJoin(
       schema.users,
-      eq(
-        followedId ? schema.followers.followerId : schema.followers.followedId,
-        schema.users.id
+      and(
+        eq(
+          followedId
+            ? schema.followers.followerId
+            : schema.followers.followedId,
+          schema.users.id
+        ),
+        isNull(schema.users.deletedAt)
       )
     )
     .leftJoin(

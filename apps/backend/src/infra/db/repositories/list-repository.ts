@@ -1,4 +1,12 @@
-import { and, desc, eq, getTableColumns, isNotNull, sql } from 'drizzle-orm'
+import {
+  and,
+  desc,
+  eq,
+  getTableColumns,
+  isNotNull,
+  isNull,
+  sql,
+} from 'drizzle-orm'
 import type { InsertListModel } from '@/domain/entities/lists'
 import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
@@ -52,7 +60,13 @@ export function selectLists({
         hasBanner ? isNotNull(schema.lists.bannerUrl) : undefined
       )
     )
-    .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
+    .innerJoin(
+      schema.users,
+      and(
+        eq(schema.lists.userId, schema.users.id),
+        isNull(schema.users.deletedAt)
+      )
+    )
     .leftJoin(schema.listItems, eq(schema.listItems.listId, schema.lists.id))
     .groupBy(schema.lists.id, schema.users.id)
     .orderBy(desc(schema.lists.createdAt))
